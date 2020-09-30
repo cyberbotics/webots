@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,7 +195,6 @@ int main(int argc, char *argv[]) {
   wb_robot_init();
 
   // print user instructions
-  printf("\f");
   printf("You can drive this robot:\n");
   printf("Select the 3D window and use cursor keys:\n");
   printf("Press 'A' to return to the autopilot mode\n");

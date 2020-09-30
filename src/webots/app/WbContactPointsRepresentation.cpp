@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ WbContactPointsRepresentation::WbContactPointsRepresentation(WbWrenRenderingCont
   if (mRenderingContext->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_CONTACT_POINTS))
     connect(WbSimulationWorld::instance(), &WbSimulationWorld::physicsStepEnded, this,
             &WbContactPointsRepresentation::updateRendering, Qt::UniqueConnection);
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbContactPointsRepresentation::updateRendering);
 
   mContactMesh = wr_dynamic_mesh_new(false, false, false);
   mImmersionMesh = wr_dynamic_mesh_new(false, false, false);

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #include <webots/camera.h>
 #include <webots/device.h>
 #include <webots/distance_sensor.h>
+#include <webots/gyro.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
@@ -36,7 +37,7 @@
 
 #include "../../remote_controls/e-puck_bluetooth/UploaderData.hpp"
 
-static WbDeviceTag ps[8], ls[8], accelerometer, camera, gs[3], motors[2], position_sensors[2];
+static WbDeviceTag ps[8], ls[8], tof, accelerometer, gyro, camera, gs[3], motors[2], position_sensors[2];
 static const int N_SENSORS = sizeof(ps) / sizeof(WbDeviceTag);
 static int gs_sensors_count = 0;
 static bool configured = false;
@@ -102,7 +103,14 @@ void wb_robot_window_init() {
     snprintf(device, 32, "ls%d", i);
     ls[i] = wb_robot_get_device(device);
   }
+
+  if (strcmp(wb_robot_get_model(), "GCtronic e-puck2") == 0)
+    tof = wb_robot_get_device("tof");
+  else
+    tof = 0;
+
   accelerometer = wb_robot_get_device("accelerometer");
+  gyro = wb_robot_get_device("gyro");
   camera = wb_robot_get_device("camera");
   motors[0] = wb_robot_get_device("left wheel motor");
   motors[1] = wb_robot_get_device("right wheel motor");
@@ -161,12 +169,15 @@ void wb_robot_window_step(int time_step) {
     } else if (strcmp(message, "enable") == 0) {
       wb_camera_enable(camera, time_step);
       wb_accelerometer_enable(accelerometer, time_step);
+      wb_gyro_enable(gyro, time_step);
       wb_position_sensor_enable(position_sensors[0], time_step);
       wb_position_sensor_enable(position_sensors[1], time_step);
       for (i = 0; i < N_SENSORS; i++) {
         wb_distance_sensor_enable(ps[i], time_step);
         wb_light_sensor_enable(ls[i], time_step);
       }
+      if (tof != 0)
+        wb_distance_sensor_enable(tof, time_step);
       // optional ground sensors
       for (i = 0; i < gs_sensors_count; i++)
         wb_distance_sensor_enable(gs[i], time_step);
@@ -175,7 +186,7 @@ void wb_robot_window_step(int time_step) {
     else if (strcmp(message, "simulation") == 0)
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
     else if (strncmp(message, "remote control ", 15) == 0)
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[15]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[15]);
     else if (strncmp(message, "upload ", 7) == 0) {
       char *port;
       const char *p = &message[7];
@@ -209,7 +220,7 @@ void wb_robot_window_step(int time_step) {
       }
       free(full_path);
     } else if (strncmp(message, "connect ", 8) == 0) {
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[8]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[8]);
       fprintf(stderr, "Connected to %s\n", &message[8]);
     } else if (strncmp(message, "disconnect", 10) == 0) {
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
@@ -250,6 +261,18 @@ void wb_robot_window_step(int time_step) {
     if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
   }
+
+  if (tof == 0 || wb_distance_sensor_get_sampling_period(tof) == 0)
+    snprintf(update, UPDATE_SIZE, "tof ");
+  else {
+    double tof_distance = wb_distance_sensor_get_value(tof);
+    if (isnan(tof_distance))
+      snprintf(update, UPDATE_SIZE, "tof ");
+    else
+      snprintf(update, UPDATE_SIZE, "%.0lf ", tof_distance);
+  }
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
+    strcat(update_message, update);
 
   bool areDevicesReady = true;
   double left_speed = wb_motor_get_velocity(motors[0]);
@@ -306,6 +329,23 @@ void wb_robot_window_step(int time_step) {
     }
   } else
     snprintf(update, UPDATE_SIZE, "X Y Z ");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
+    strcat(update_message, update);
+
+  if (wb_gyro_get_sampling_period(gyro)) {
+    const double *values = wb_gyro_get_values(gyro);
+    const char name[4] = "Gyro";
+    update[0] = '\0';
+    for (i = 0; i < 3; ++i) {
+      char s[12];  // "[+-]\d\d\.\d\d\d \0"
+      if (isnan(values[i]))
+        sprintf(s, "%c ", name[i]);
+      else
+        sprintf(s, "%.3f ", values[i]);
+      strcat(update, s);
+    }
+  } else
+    snprintf(update, UPDATE_SIZE, "gX gY gZ ");
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 

@@ -26,6 +26,13 @@ int main(int argc, char **argv) {
     {0, 0, 0}, {0, 0, -1.5708}, {0, 0, 1.5708}, {1.5708, 0, 0}, {-1.5708, 0, 0}, {0, 0.7854, 0}, {0, -0.7854, 0},
   };
 
+  int lookup_table_size = wb_inertial_unit_get_lookup_table_size(inertial_unit);
+  ts_assert_double_equal(lookup_table_size, 2, "Lookup table size returned is wrong (%d instead of 2)", lookup_table_size);
+  const double *lookup_table = wb_inertial_unit_get_lookup_table(inertial_unit);
+  ts_assert_double_equal(lookup_table[3], 1000, "Lookup table (index 3) returned is wrong (%lf instead of 1000)",
+                         lookup_table[3]);
+  ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0)", lookup_table[5]);
+
   int i;
   for (i = 0; i < N; i++) {
     wb_supervisor_field_set_sf_rotation(rotation, problems[i]);

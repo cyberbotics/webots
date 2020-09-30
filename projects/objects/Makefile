@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CONTROLLERS=factory/conveyor_belt/controllers.Makefile create_wall/controllers.Makefile computers/controllers.Makefile television/controllers.Makefile mirror/controllers.Makefile traffic/controllers.Makefile
+CONTROLLERS=factory/conveyors/controllers.Makefile create_wall/controllers.Makefile computers/controllers.Makefile television/controllers.Makefile mirror/controllers.Makefile traffic/controllers.Makefile
 
 .PHONY: release debug profile clean
 

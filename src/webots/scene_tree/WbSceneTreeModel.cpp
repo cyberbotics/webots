@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,7 +134,7 @@ QVariant WbSceneTreeModel::data(const QModelIndex &index, int role) const {
 
 Qt::ItemFlags WbSceneTreeModel::flags(const QModelIndex &index) const {
   if (!index.isValid())
-    return 0;
+    return Qt::ItemFlags();
 
   return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QRegExp>
 
-WbVersion::WbVersion(int major, int minor, int revision) :
+WbVersion::WbVersion(int major, int minor, int revision, bool webots) :
   mMajor(major),
   mMinor(minor),
   mRevision(revision),
   mCommit(""),
   mDate(""),
-  mIsWebots(false) {
+  mIsWebots(webots) {
 }
 
 WbVersion::WbVersion(const WbVersion &other) :
@@ -32,7 +32,7 @@ WbVersion::WbVersion(const WbVersion &other) :
   mRevision(other.mRevision),
   mCommit(other.mCommit),
   mDate(other.mDate),
-  mIsWebots(false) {
+  mIsWebots(other.mIsWebots) {
 }
 
 bool WbVersion::fromString(const QString &text, const QString &prefix, const QString &suffix, int expressionCountInPrefix) {

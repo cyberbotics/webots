@@ -1,26 +1,26 @@
 {
-  "robotID": "n11", 
-  "name": "yamor", 
+  "robotID": "n10",
+  "name": "yamor",
   "devices": [
     {
-      "transformID": "n29", 
-      "initialPosition": 0, 
-      "name": "motor", 
-      "maxPosition": 1.5708, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.5708, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "minPosition": -1.5708,
+      "position": 0,
+      "maxPosition": 1.5708,
+      "type": "RotationalMotor",
+      "name": "motor",
+      "anchor": "0 0 -0.03",
+      "transformID": "n28"
+    },
     {
-      "transformID": "n34", 
-      "type": "Connector", 
-      "name": "front_connector"
-    }, 
+      "name": "front_connector",
+      "type": "Connector",
+      "transformID": "n33"
+    },
     {
-      "transformID": "n21", 
-      "type": "Connector", 
-      "name": "rear_connector"
+      "name": "rear_connector",
+      "type": "Connector",
+      "transformID": "n20"
     }
   ]
 }

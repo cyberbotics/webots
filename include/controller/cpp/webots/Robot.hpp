@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,14 +68,13 @@ namespace webots {
     virtual int step(int duration);
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
-    std::string getControllerName() const;
-    std::string getControllerArguments() const;
+    std::string getUrdf(std::string prefix = "") const;
     double getTime() const;
     std::string getModel() const;
     std::string getCustomData() const;
     void setCustomData(const std::string &data);
     Mode getMode() const;
-    void setMode(Mode, void *);
+    void setMode(Mode, const char *);
     bool getSupervisor() const;
     bool getSynchronization() const;
     std::string getProjectPath() const;

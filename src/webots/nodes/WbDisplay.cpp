@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,8 @@
 
 #include <climits>
 #include <cmath>
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
+#include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
 
@@ -137,17 +138,19 @@ void WbDisplay::preFinalize() {
   findImageTextures();
 }
 
-int WbDisplay::channelNumberFromPixelFormat(ImageFormat pixelFormat) {
+int WbDisplay::channelNumberFromPixelFormat(int pixelFormat) {
   switch (pixelFormat) {
     case WB_IMAGE_RGB:
       return 3;
-    default:
-      assert(0);
     case WB_IMAGE_RGBA:
     case WB_IMAGE_ARGB:
     case WB_IMAGE_BGRA:
+    case WB_IMAGE_ABGR:
       return 4;
+    default:
+      assert(0);
   }
+  return 0;
 }
 
 void WbDisplay::findImageTextures() {
@@ -181,9 +184,16 @@ void WbDisplay::findImageTextures() {
       findImageTextures(group);
   }
 
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    connect(mImageTextures.at(i), &QObject::destroyed, this, &WbDisplay::removeImageTexture);
+
   // debug code - print the found materials
   // foreach (WbImageTexture *texture, mImageTextures)
-  //   warn(QString("found image texture %1").arg(texture->usefulName()));
+  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
+}
+
+void WbDisplay::removeImageTexture(QObject *object) {
+  mImageTextures.removeAll(static_cast<WbImageTexture *>(object));
 }
 
 void WbDisplay::clearImageTextures() {
@@ -220,9 +230,7 @@ void WbDisplay::findImageTextures(WbGroup *group) {
 }
 
 QString WbDisplay::pixelInfo(int x, int y) const {
-  QString info;
-  info.sprintf("pixel(%d,%d)=#%02X%02X%02X%02X", x, y, red(x, y), green(x, y), blue(x, y), alpha(x, y));
-  return info;
+  return QString::asprintf("pixel(%d,%d)=#%02X%02X%02X%02X", x, y, red(x, y), green(x, y), blue(x, y), alpha(x, y));
 }
 
 void WbDisplay::handleMessage(QDataStream &stream) {
@@ -341,10 +349,10 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       stream >> w;
       stream >> h;
       stream >> format;
-      channel = channelNumberFromPixelFormat((ImageFormat)format);
+      channel = channelNumberFromPixelFormat(format);
       img = new char[channel * w * h];
       stream.readRawData(img, channel * w * h);
-      imageLoad(id, w, h, img, (ImageFormat)format);
+      imageLoad(id, w, h, img, format);
       delete[] img;
       break;
     case C_DISPLAY_IMAGE_SAVE: {
@@ -708,6 +716,7 @@ void WbDisplay::drawText(const char *txt, int x, int y) {
 #ifdef _WIN32  // mbstowcs doesn't work properly on Windows
   l = MultiByteToWideChar(CP_UTF8, 0, txt, -1, text, l + 1) - 1;
 #else
+  // cppcheck-suppress uninitdata
   l = mbstowcs(text, txt, l + 1);
 #endif
   int fontSize = mDisplayFont->fontSize();
@@ -983,42 +992,43 @@ void WbDisplay::imagePaste(int id, int x, int y, bool blend) {
   }
 }
 
-void WbDisplay::imageLoad(int id, int w, int h, void *data, ImageFormat format) {
+void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
   const int nbPixel = w * h;
   unsigned int *clippedImage = new unsigned int[nbPixel];
   bool isTransparent = false;
 
-  if (format == WB_IMAGE_ARGB)
+  // convert to BGRA
+  if (format == WB_IMAGE_BGRA)
     memcpy(clippedImage, data, nbPixel * 4);
-  else if (format == WB_IMAGE_BGRA) {
-    unsigned char *dataUC = (unsigned char *)data;
-    unsigned char *clippedImageUC = (unsigned char *)clippedImage;
+  else if (format == WB_IMAGE_ARGB) {
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 3] != 0xFF)
+      if (dataUC[offset] != 0xFF)
         isTransparent = true;
-      clippedImageUC[offset] = dataUC[offset + 3];
-      clippedImageUC[offset + 1] = dataUC[offset + 2];
-      clippedImageUC[offset + 2] = dataUC[offset + 1];
-      clippedImageUC[offset + 3] = dataUC[offset];
+      clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 1] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 3];
     }
   } else if (format == WB_IMAGE_RGB) {
-    unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 3 * i;
       clippedImage[i] = 0xFF000000 | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_RGBA) {
-    unsigned char *dataUC = (unsigned char *)data;
-    unsigned char *clippedImageUC = (unsigned char *)clippedImage;
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 1] != 0xFF)
+      if (dataUC[offset + 3] != 0xFF)
         isTransparent = true;
-      clippedImageUC[offset] = dataUC[offset + 1];
-      clippedImageUC[offset + 1] = dataUC[offset + 2];
-      clippedImageUC[offset + 2] = dataUC[offset + 3];
-      clippedImageUC[offset + 3] = dataUC[offset];
+      clippedImage[i] = (dataUC[offset + 3] << 24) | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
+    }
+  } else if (format == WB_IMAGE_ABGR) {
+    const unsigned char *dataUC = (unsigned char *)data;
+    for (int i = 0; i < nbPixel; i++) {
+      const int offset = 4 * i;
+      if (dataUC[offset] != 0xFF)
+        isTransparent = true;
+      clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 3] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 1];
     }
   } else
     assert(0);
@@ -1075,8 +1085,13 @@ void WbDisplay::createWrenOverlay() {
 }
 
 void WbDisplay::removeExternalTextures() {
+  // first remove all the references to deleted external textures
   for (int i = 0; i < mImageTextures.size(); ++i)
     mImageTextures.at(i)->removeExternalTexture();
+  // then, trigger the appearance update
+  // two steps needed for PBRAppearance nodes if both baseColorMap and emissiveColorMap are defined
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    emit mImageTextures.at(i)->changed();
 }
 
 void WbDisplay::setTransparentTextureIfNeeded() {

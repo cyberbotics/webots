@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("OpenGL/disableAntiAliasing", false);
   setDefault("OpenGL/GTAO", 2);
   setDefault("OpenGL/textureQuality", 2);
+  setDefault("OpenGL/textureFiltering", 4);
   setDefault("VirtualRealityHeadset/enable", false);
   setDefault("VirtualRealityHeadset/trackPosition", true);
   setDefault("VirtualRealityHeadset/trackOrientation", true);

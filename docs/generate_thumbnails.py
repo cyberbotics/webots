@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ fileDirectory = os.path.dirname(os.path.abspath(__file__))
 paths = [
     os.path.join(fileDirectory, 'automobile', 'images'),
     os.path.join(fileDirectory, 'blog', 'images'),
+    os.path.join(fileDirectory, 'discord', 'images'),
     os.path.join(fileDirectory, 'guide', 'images'),
     os.path.join(fileDirectory, 'reference', 'images')
 ]

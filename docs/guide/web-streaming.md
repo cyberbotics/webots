@@ -6,7 +6,20 @@ Webots can be used as a Web streaming server, i.e., to stream a simulation to se
 In this mode the user can watch an already running simulation and navigate into the scene but cannot interact with the simulation, i.e. controlling the execution of the simulation and modifying the robot controller program.
 Please refer to the [Web simulation](web-simulation.md) documentation to setup a platform where users can run individual simulations.
 
-The mechanism is similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the Web browser clients.
+Two different streaming modes are available:
+- `x3d` (default): the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the web browser clients.
+- `mjpeg`: the Webots scene rendered on the server is directly sent as an `MJPEG` image to the web browser client.
+You should choose between the `x3d` and `mjpeg` depending on the type of application you are developing.
+The following table summarizes the advantages (`+`) and disadvantages (`-`) of the the two modes:
+
+| feature / mode          | `x3d` | `mjpeg` |
+|:-----------------------:|:-----:|:-------:|
+| high resolution images  | +     | -       |
+| 3D navigation latency   | +     | -       |
+| bandwidth requirements  | +     | -       |
+| simulation server load  | +     | -       |
+| page loading time       | -     | +       |
+| high fidelity to Webots | -     | +       |
 
 %figure "Screenshot of Webots streaming server"
 
@@ -23,7 +36,7 @@ The second line is not used with this streaming solution.
 - ![](images/web_interface_fullscreen.png =26x26) **Fullscreen**: enter full screen mode.
 - ![](images/web_interface_exit_fullscreen.png =26x26) **Exit fullscreen**: exit full screen mode.
 
-The sample Javascript we provide to communicate with Webots supports advanced features that are not available during the basic broadcast streaming.
+The sample JavaScript we provide to communicate with Webots supports advanced features that are not available during the basic broadcast streaming.
 This includes controlling the execution of the simulation, modifying the Python robot controller program and displaying the robot windows.
 All these functionalities are enabled when starting the streaming using the `simulation_server.py` and `session_server.py` as documented in the [Web simulation](web-simulation.md) section.
 
@@ -64,7 +77,7 @@ The same fields than for the [web animation](web-animation.md#limitations) are u
 
 ### Limitations
 
-The streaming server has the same limitations as the [Web animation](web-animation.md#limitations).
+If using the `x3d` streaming mode (default), the streaming server has the same limitations as the [Web animation](web-animation.md#limitations).
 Except that adding and deleting objects from Webots is propagated to the clients.
 
 ### Technologies and Limitations
@@ -72,4 +85,4 @@ Except that adding and deleting objects from Webots is propagated to the clients
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
 In case of related issues, make sure that `WebSockets` are enabled in your Web browser settings.
 
-Please refer to the limitations described in [this section](web-animation.md#remarks-on-the-used-technologies-and-their-limitations).
+If using the `x3d` streaming mode (default), please also refer to the limitations described in [this section](web-animation.md#remarks-on-the-used-technologies-and-their-limitations).

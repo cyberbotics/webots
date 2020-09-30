@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This is a model of a Kondo KHR-2HV robot executing movement files."
@@ -10,6 +10,7 @@ WorldInfo {
   ERP 0.5
   physicsDisableLinearThreshold 0.05
   physicsDisableAngularThreshold 0.05
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"

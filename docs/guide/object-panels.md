@@ -33,7 +33,7 @@ Panel {
 
 ### Panel Field Summary
 
-- `size`: Defines the size of the panel
+- `size`: Defines the size of the panel.
 
 - `borderHeight`: Defines the height of the border.
 
@@ -45,20 +45,20 @@ Panel {
 
 - `borderAppearance`: Defines the appearance of the panel border(s).
 
-## PannelWithTubes
+## PanelWithTubes
 
 A gray panel with tubes.
 
 %figure
 
-![PannelWithTubes](images/objects/panels/PannelWithTubes/model.thumbnail.png)
+![PanelWithTubes](images/objects/panels/PanelWithTubes/model.thumbnail.png)
 
 %end
 
 Derived from [Solid](../reference/solid.md).
 
 ```
-PannelWithTubes {
+PanelWithTubes {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "panel with tubes"
@@ -66,12 +66,12 @@ PannelWithTubes {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PannelWithTubes.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PanelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PanelWithTubes.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
-### PannelWithTubes Field Summary
+### PanelWithTubes Field Summary
 
 - `appearance`: Defines the appearance of the panel.
 

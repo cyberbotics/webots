@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ void WbViewpoint::init() {
   mFinalOrbitQuaternion = WbQuaternion();
   mLookAtInitialQuaternion = WbQuaternion();
   mLookAtFinalQuaternion = WbQuaternion();
-  mGravitySpaceQuaternion = WbQuaternion();
+  mSpaceQuaternion = WbQuaternion();
   mWrenCamera = NULL;
 
   mFieldOfView = findSFDouble("fieldOfView");
@@ -126,7 +126,7 @@ void WbViewpoint::init() {
   // backward compatibility
   WbSFBool *followOrientation = findSFBool("followOrientation");
   if (followOrientation->value()) {
-    warn("Deprecated 'followOrientation' field, please use the 'followType' field instead.");
+    parsingWarn("Deprecated 'followOrientation' field, please use the 'followType' field instead.");
     if (mFollowType->value() == "Tracking Shot") {
       mFollowType->setValue("Mounted Shot");
       followOrientation->setValue(false);
@@ -598,7 +598,7 @@ void WbViewpoint::updateNear() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mNear->setValue(mFar->value());
-    warn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
+    parsingWarn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
   }
 
   if (areWrenObjectsInitialized())
@@ -611,7 +611,7 @@ void WbViewpoint::updateFar() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mFar->setValue(mNear->value() + 1.0);
-    warn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
+    parsingWarn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
     return;
   }
 
@@ -713,7 +713,7 @@ void WbViewpoint::updateFollow() {
       emit followInvalidated(true);  // checks the follow object action at the WbView3D level
       return;
     }
-    WbLog::warning(tr("Viewpoint's follow field is filled with an invalid Solid name."));
+    parsingWarn(tr("'follow' field is filled with an invalid Solid name."));
   }
   mFollowedSolid = NULL;
   emit followInvalidated(false);  // unchecks the follow object action at the WbView3D level
@@ -739,7 +739,7 @@ void WbViewpoint::updateFollowUp() {
   if (!mIsLocked) {
     int type = followStringToType(mFollowType->value());
     if (type == FOLLOW_PAN_AND_TILT)
-      lookAt(mFollowedSolid->position(), -WbWorld::instance()->worldInfo()->gravity().normalized());
+      lookAt(mFollowedSolid->position(), WbWorld::instance()->worldInfo()->upVector());
     else if (type == FOLLOW_MOUNTED) {
       // Update Orientation
       WbMatrix3 solidRotation = mFollowedSolid->rotationMatrix() * mFollowedSolidReferenceRotation.transposed();
@@ -1288,20 +1288,18 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   WbWorld::instance()->setModified();
 
   // first, we need to calculate the orientation of the world as this will be applied to all orbits
-  WbVector3 gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
-  WbVector3 defaultUpVector = WbVector3(0, 1, 0);
-
-  // In the case of the gravity vector being the default create the identity quaternion
+  const WbVector3 &defaultUpVector = WbVector3(0, 1, 0);
+  const WbVector3 &gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
   if (gravityUpVector.dot(defaultUpVector) > 0.9999)
-    mGravitySpaceQuaternion = WbQuaternion();
-  // The gravity vector is the opposite of the default, so our transform is a vertical flip
+    // In the case of the gravity vector being the default create the identity quaternion
+    mSpaceQuaternion = WbQuaternion();
   else if (gravityUpVector.dot(defaultUpVector) < -0.9999)
-    mGravitySpaceQuaternion = WbQuaternion(WbVector3(0, 0, 1), M_PI);
-  // otherwise we can safely get a rotation axis using the cross product of both vectors
-  else
-    mGravitySpaceQuaternion = WbQuaternion(defaultUpVector.cross(gravityUpVector), gravityUpVector.angle(defaultUpVector));
-
-  mGravitySpaceQuaternion.normalize();
+    // The gravity vector is the opposite of the default, so our transform is a vertical flip
+    mSpaceQuaternion = WbQuaternion(WbVector3(0, 0, 1), M_PI);
+  else {  // otherwise we can safely get a rotation axis using the cross product of both vectors
+    mSpaceQuaternion = WbQuaternion(defaultUpVector.cross(gravityUpVector), gravityUpVector.angle(defaultUpVector));
+    mSpaceQuaternion.normalize();
+  }
 
   const WbNode *selectedNode = reinterpret_cast<WbNode *>(WbSelection::instance()->selectedNode());
   // for UX reasons, we want the default rotation height just above the floor,
@@ -1327,10 +1325,9 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
     mOrbitRadius = newOrbitRadius;
 
   mCenterToViewpointUnitVector = centerToViewpoint / mOrbitRadius;
-  mOrbitTargetUnitVector = mGravitySpaceQuaternion * targetUnitVector;
-  mInitialOrientationQuaternion =
-    mGravitySpaceQuaternion * WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
-  mFinalOrientationQuaternion = mGravitySpaceQuaternion * WbQuaternion(targetRotation.axis(), targetRotation.angle());
+  mOrbitTargetUnitVector = mSpaceQuaternion * targetUnitVector;
+  mInitialOrientationQuaternion = mSpaceQuaternion * WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
+  mFinalOrientationQuaternion = mSpaceQuaternion * WbQuaternion(targetRotation.axis(), targetRotation.angle());
   mInitialOrientationQuaternion.normalize();
   mFinalOrientationQuaternion.normalize();
 
@@ -1372,10 +1369,10 @@ void WbViewpoint::firstOrbitStep() {
   WbVector3 orbitAxis;
   // choose prefereable axes for axis-to-axis rotations
   if (mCenterToViewpointUnitVector.dot(mOrbitTargetUnitVector) < -0.99) {
-    if ((mGravitySpaceQuaternion.conjugated() * mOrbitTargetUnitVector).y() == 0.0)
-      orbitAxis = mGravitySpaceQuaternion * WbVector3(0, 1, 0);
+    if ((mSpaceQuaternion.conjugated() * mOrbitTargetUnitVector).y() == 0.0)
+      orbitAxis = mSpaceQuaternion * WbVector3(0, 1, 0);
     else
-      orbitAxis = mGravitySpaceQuaternion * WbVector3(0, 0, 1);
+      orbitAxis = mSpaceQuaternion * WbVector3(0, 0, 1);
   } else {
     orbitAxis = mOrbitTargetUnitVector.cross(mCenterToViewpointUnitVector).normalized();
   }

@@ -1,11 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
-  info [
-  ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-}
-Background {
 }
 Robot {
   controller "test_suite_supervisor"

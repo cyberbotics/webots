@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@
 #include <QtCore/QProcessEnvironment>
 #include <QtNetwork/QLocalSocket>
 #include <cassert>
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -172,7 +172,10 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
-  mPrefix = QString("[%1] ").arg(mName);
+}
+
+void WbController::resetRequestTime() {
+  mRequestTime = WbSimulationState::instance()->time();
 }
 
 bool WbController::isRunning() const {
@@ -223,50 +226,59 @@ void WbController::start() {
       startVoidExecutable();
       mType = WbFileUtil::EXECUTABLE;
   }
-  if (mCommandLine.isEmpty())  // python has wrong version or Matlab 64 not available
+  if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommandLine));
+  info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
-    QString firejailPrefix = "firejail --net=none --nosound --shell=none --quiet ";
+    mArguments.prepend(mCommand);
+    mCommand = "firejail";
+    QStringList firejailArguments;
+    firejailArguments << "--net=none"
+                      << "--nosound"
+                      << "--shell=none"
+                      << "--quiet";
     // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
     // with /tmp/ (including the local socket used by Webots which would prevent the
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
-      firejailPrefix += "--whitelist=\"" + mControllerPath + "\" ";
-    firejailPrefix += "--whitelist=\"" + WbStandardPaths::webotsLibPath() + "\" ";
-    firejailPrefix += "--read-only=\"" + WbStandardPaths::webotsLibPath() + "\" ";
+      firejailArguments << "--whitelist=" + mControllerPath;
+    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
+    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
 
-    QString ldEnvironmentVariable = WbStandardPaths::webotsLibPath();
+    QString ldLibraryPath = WbStandardPaths::controllerLibPath();
+    ldLibraryPath.chop(1);
 
     // extract the controller resources from runtime.ini and add them in the firejail whitelist
     // the runtime.ini itself has to be put in the blacklist of firejail
-    QStringList env = QProcessEnvironment::systemEnvironment().toStringList();
     const QString &runtimeFilePath = mControllerPath + "runtime.ini";
     if (QFile::exists(runtimeFilePath)) {
       WbIniParser iniParser(runtimeFilePath);
       if (!iniParser.isValid())
         warn(tr("Environment variables from runtime.ini could not be loaded: the file contains illegal definitions."));
       else {
+        QProcessEnvironment env = mProcess->processEnvironment();
         for (int i = 0; i < iniParser.size(); ++i) {
-          if (iniParser.sectionAt(i).compare("environment variables with relative paths") != 0 &&
-              iniParser.sectionAt(i).compare("environment variables for Linux") != 0 &&
-              iniParser.sectionAt(i).compare("environment variables for Linux 64") != 0)
+          if (iniParser.sectionAt(i) != "environment variables with relative paths" &&
+              iniParser.sectionAt(i) != "environment variables with paths" &&
+              iniParser.sectionAt(i) != "environment variables for linux" &&
+              iniParser.sectionAt(i) != "environment variables for linux 64")
             continue;
 
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
             const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
             foreach (QString path, pathsList) {
-              firejailPrefix += "--whitelist=\"" + path + "\" ";
-              firejailPrefix += "--read-only=\"" + path + "\" ";
-              ldEnvironmentVariable += ":" + path;
+              firejailArguments << "--whitelist=" + path;
+              firejailArguments << "--read-only=" + path;
+              ldLibraryPath += ":" + path;
             }
           } else
             // the variable could be used to define WEBOTS_LIBRARY_PATH or FIREJAIL_PATH
-            addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.resolvedValueAt(i, env), true);
+            addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.resolvedValueAt(i, env), true);
         }
+        mProcess->setProcessEnvironment(env);
       }
     } else {
       // create runtime.ini file so that it is included it in the blacklist
@@ -274,94 +286,99 @@ void WbController::start() {
       QFile file(runtimeFilePath);
       if (file.open(QIODevice::WriteOnly)) {
         QTextStream stream(&file);
-        stream << endl;
+        stream << '\n';
       } else {
         warn(tr("Could not create the runtime.ini file."));
         return;
       }
     }
-    firejailPrefix += "--blacklist=\"" + runtimeFilePath +
-                      "\" "
-                      "--env=LD_LIBRARY_PATH=\"" +
-                      ldEnvironmentVariable + "\" ";
-    mCommandLine = firejailPrefix + mCommandLine;
+    firejailArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
+    mArguments = firejailArguments + mArguments;
   }
 #endif
 
   // for matlab controllers we must change to the lib/matlab directory
   // other controller types are executed in the controller dir
   if (mType == WbFileUtil::MATLAB)
-    mProcess->setWorkingDirectory(WbStandardPaths::webotsLibPath() + "matlab");
+    mProcess->setWorkingDirectory(WbStandardPaths::controllerLibPath() + "matlab");
   else
     mProcess->setWorkingDirectory(mControllerPath);
 
-  mProcess->start(mCommandLine);
+  mProcess->start(mCommand, mArguments);
 }
 
-void WbController::addPathEnvironmentVariable(QStringList &env, QString key, QString value, bool override, bool shouldPrepend) {
-  int keyIndex = env.indexOf(QRegExp(QString("^%1=.*").arg(key), Qt::CaseInsensitive));
-  bool keyExists = keyIndex != -1;
-
-  if (override && keyExists) {  // remove the key (key = environment variable name)
-    env.removeAt(keyIndex);
-    keyIndex = -1;
-    keyExists = false;
-  }
-
+void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value,
+                                                bool override, bool shouldPrepend) {
   const QString nativeValue(QDir::toNativeSeparators(value));
-  if (keyExists) {
-    QString previousValue = env.at(keyIndex);
-    // test that the value is not already present
-    if (!previousValue.split(QDir::listSeparator()).contains(nativeValue)) {
-      previousValue = previousValue.remove(QRegExp(QString("^%1=").arg(key)));
-      if (shouldPrepend)
-        env.replace(keyIndex, key + "=" + nativeValue + QDir::listSeparator() + previousValue);
-      else
-        env.replace(keyIndex, key + "=" + previousValue + QDir::listSeparator() + nativeValue);
-    }
-  } else  // add a new key=value
-    env << QString("%1=%2").arg(key).arg(nativeValue);
+  if (!env.contains(key) || override) {  // key is the name of the environment variable
+    env.insert(key, nativeValue);
+    return;
+  }
+  const QString &previousValue = env.value(key);
+  if (!previousValue.split(QDir::listSeparator()).contains(nativeValue)) {
+    if (shouldPrepend)
+      env.insert(key, nativeValue + QDir::listSeparator() + previousValue);
+    else
+      env.insert(key, previousValue + QDir::listSeparator() + nativeValue);
+  }
 }
 
-void WbController::addEnvironmentVariable(QStringList &env, QString key, QString value) {
-  int keyIndex = env.indexOf(QRegExp(QString("^%1=.*").arg(key), Qt::CaseInsensitive));
-  bool keyExists = keyIndex != -1;
-
-  if (keyExists)
-    env.replace(keyIndex, key + "=" + value);
-  else  // add a new key=value
-    env << QString("%1=%2").arg(key).arg(value);
+bool WbController::removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value) {
+  const QString path = env.value(key);
+  QStringList paths = path.split(QDir::listSeparator());
+#ifdef _WIN32
+  Qt::CaseSensitivity cs = Qt::CaseInsensitive;
+#else
+  Qt::CaseSensitivity cs = Qt::CaseSensitive;
+#endif
+  if (!paths.contains(value, cs))
+    return false;
+  env.remove(key);
+  paths.removeAll(QString(""));
+  paths.removeDuplicates();
+  QMutableStringListIterator i(paths);
+  while (i.hasNext()) {
+    if (i.next().compare(value, cs) == 0)
+      i.remove();
+  }
+  env.insert(key, paths.join(';'));
+  return true;
 }
 
 void WbController::setProcessEnvironment() {
 #ifdef __linux__
-  static QString ldEnvironmentVariable("LD_LIBRARY_PATH");
+  static const QString ldEnvironmentVariable("LD_LIBRARY_PATH");
 #elif defined(__APPLE__)
-  static QString ldEnvironmentVariable("DYLD_LIBRARY_PATH");
+  static const QString ldEnvironmentVariable("DYLD_LIBRARY_PATH");
 #else  // _WIN32
-  static QString ldEnvironmentVariable("PATH");
+  static const QString ldEnvironmentVariable("PATH");
 #endif
 
-  // starts from the OS environment
-  QStringList env = QProcessEnvironment::systemEnvironment().toStringList();
+  // starts from the parent process environment
+  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+
   // store a unique robot ID for the controller
-  addPathEnvironmentVariable(env, "WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()), true);
+  env.insert("WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()));
 
-#ifdef __APPLE__
   // Add the Webots lib path to be able to load (at least) libController
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsHomePath() + "lib", false);
-#endif
-
-#ifndef _WIN32
+  QString ldLibraryPath = WbStandardPaths::controllerLibPath();
+  ldLibraryPath.chop(1);
+  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false);
+  // Remove paths needed by Webots only
+#ifdef _WIN32
+  const QString msys64 = QDir::toNativeSeparators(WbStandardPaths::webotsMsys64Path());
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "mingw64\\bin");
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "usr\\bin");
+#else
+  ldLibraryPath = WbStandardPaths::webotsLibPath();
+  ldLibraryPath.chop(1);
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath);
   // add the controller path in the PATH-like environment variable
   // in order to be able to add easily dynamic libraries there
   // Note: on windows, this is the default behavior
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, mControllerPath, false, true);
-#else
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "usr/bin", false, true);
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "mingw64/bin", false, true);
-  addPathEnvironmentVariable(env, "QT_QPA_PLATFORM_PLUGIN_PATH",
-                             WbStandardPaths::webotsMsys64Path() + "mingw64/share/qt5/plugins", true);
+  ldLibraryPath = mControllerPath;
+  ldLibraryPath.chop(1);
+  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false, true);
 #endif
 
   if (QFile::exists(mControllerPath + "runtime.ini")) {
@@ -372,11 +389,15 @@ void WbController::setProcessEnvironment() {
       for (int i = 0; i < iniParser.size(); ++i) {
         const QString &value = iniParser.resolvedValueAt(i, env);
         iniParser.setValue(i, value);
-        if (!iniParser.sectionAt(i).compare("environment variables with relative paths", Qt::CaseInsensitive))
-          addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
-        if (!iniParser.sectionAt(i).compare("environment variables", Qt::CaseInsensitive))
-          addEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i));
-        if (!iniParser.sectionAt(i).compare("java", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "environment variables with relative paths")
+          warn(
+            "[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
+        if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
+            iniParser.sectionAt(i) == "environment variables with paths")
+          addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+        if (iniParser.sectionAt(i) == "environment variables")
+          env.insert(iniParser.keyAt(i), iniParser.valueAt(i));
+        if (iniParser.sectionAt(i) == "java") {
           if (iniParser.keyAt(i) == "COMMAND")
             mJavaCommand = iniParser.valueAt(i);
           else if (iniParser.keyAt(i) == "OPTIONS")
@@ -384,15 +405,15 @@ void WbController::setProcessEnvironment() {
           else
             WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)));
         }
-        if (!iniParser.sectionAt(i).compare("python", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
-            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i));
+            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i), env);
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
             WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)));
         }
-        if (!iniParser.sectionAt(i).compare("matlab", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "matlab") {
           if (iniParser.keyAt(i) == "COMMAND")
             mMatlabCommand = iniParser.valueAt(i);
           else if (iniParser.keyAt(i) == "OPTIONS")
@@ -401,21 +422,21 @@ void WbController::setProcessEnvironment() {
             WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)));
         }
 #ifdef _WIN32
-        if (!iniParser.sectionAt(i).compare("environment variables for Windows", Qt::CaseInsensitive))
-          addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+        if (iniParser.sectionAt(i) == "environment variables for windows")
+          addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
 #elif defined(__APPLE__)
-        if (!iniParser.sectionAt(i).compare("environment variables for Mac OS X", Qt::CaseInsensitive) ||
-            !iniParser.sectionAt(i).compare("environment variables for macOS", Qt::CaseInsensitive))
-          addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+        if (iniParser.sectionAt(i) == "environment variables for mac os x" ||
+            iniParser.sectionAt(i) == "environment variables for macos")
+          addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
 #else
-        if (!iniParser.sectionAt(i).compare("environment variables for Linux", Qt::CaseInsensitive))
-          addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+        if (iniParser.sectionAt(i) == "environment variables for linux")
+          addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         if (!WbSysInfo::isPointerSize64bits()) {
-          if (!iniParser.sectionAt(i).compare("environment variables for Linux 32", Qt::CaseInsensitive))
-            addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+          if (iniParser.sectionAt(i) == "environment variables for linux 32")
+            addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         } else {
-          if (!iniParser.sectionAt(i).compare("environment variables for Linux 64", Qt::CaseInsensitive))
-            addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
+          if (iniParser.sectionAt(i) == "environment variables for linux 64")
+            addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         }
 #endif
       }
@@ -423,12 +444,8 @@ void WbController::setProcessEnvironment() {
   }
   // WEBOTS_LIBRARY_PATH is an environment variable of Webots that users can edit to
   // prepend paths to the library path
-  int webotsLibraryPathIndex = env.indexOf(QRegExp(QString("^%1=.*").arg("WEBOTS_LIBRARY_PATH"), Qt::CaseInsensitive));
-  if (webotsLibraryPathIndex != -1) {
-    QString newLibraryPath(env[webotsLibraryPathIndex]);
-    newLibraryPath.remove(0, strlen("WEBOTS_LIBRARY_PATH="));
-    addPathEnvironmentVariable(env, ldEnvironmentVariable, newLibraryPath, false, true);
-  }
+  if (env.contains("WEBOTS_LIBRARY_PATH"))
+    addToPathEnvironmentVariable(env, ldEnvironmentVariable, env.value("WEBOTS_LIBRARY_PATH"), false, true);
 
   // Add all the libraries subdirectories to the environment
   QStringList librariesSearchPaths;
@@ -458,33 +475,16 @@ void WbController::setProcessEnvironment() {
     }
   }
 
-  static bool searchDefaultLibraries = true;
-  static QStringList defaultLibrariesPaths;
-  if (searchDefaultLibraries) {
-    // this search is cached because it takes significant time
-    WbFileUtil::searchDirectoryNameRecursively(defaultLibrariesPaths, "libraries", WbStandardPaths::resourcesProjectsPath());
-    if (WbProject::extraDefaultProject()) {
-      const QString extraDefaultLibrariesPath = WbProject::extraDefaultProject()->librariesPath();
-      if (QDir(extraDefaultLibrariesPath).exists())
-        defaultLibrariesPaths << extraDefaultLibrariesPath;
-    }
-    const QString defaultLibrariesPath = WbProject::defaultProject()->librariesPath();
-    if (QDir(defaultLibrariesPath).exists())
-      defaultLibrariesPaths << defaultLibrariesPath;
-    searchDefaultLibraries = false;
-  }
-  librariesSearchPaths << defaultLibrariesPaths;
-
   foreach (const QString &librariesSearchPath, librariesSearchPaths) {
     const QDir dir(librariesSearchPath);
     const QStringList subDirectories = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     foreach (const QString &subDirectory, subDirectories)
-      addPathEnvironmentVariable(env, ldEnvironmentVariable, librariesSearchPath + subDirectory, false, true);
+      addToPathEnvironmentVariable(env, ldEnvironmentVariable, librariesSearchPath + subDirectory, false, true);
   }
   if (mType == WbFileUtil::PYTHON) {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
-        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString(), env);
     // read the python shebang (first line starting with #!) to possibly override the python command
     QFile pythonSourceFile(mControllerPath + name() + ".py");
     if (pythonSourceFile.open(QIODevice::ReadOnly)) {
@@ -493,9 +493,9 @@ void WbController::setProcessEnvironment() {
       if (line.startsWith("#!")) {
 #ifndef _WIN32
         if (line.startsWith("#!/usr/bin/env "))
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed(), env);
         else
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed(), env);
 #else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
         const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
         bool mismatch = false;
@@ -511,20 +511,35 @@ void WbController::setProcessEnvironment() {
       }
       pythonSourceFile.close();
     }
-    addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::webotsLibPath() + "python" + mPythonShortVersion, false,
-                               true);
-    addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
+#ifdef __APPLE__
+    QProcess process;
+    process.setProcessEnvironment(env);
+    process.start(mPythonCommand, QStringList() << "-c"
+                                                << "import sys; print(sys.exec_prefix);");
+    process.waitForFinished();
+    const QString output = process.readAll();
+    if (output.startsWith("/usr/local/Cellar"))
+      addToPathEnvironmentVariable(
+        env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
+    else
+      addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
+                                   false, true);
+#else
+    addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
+                                 false, true);
+#endif
+    env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
     // these variables are read by lib/matlab/launcher.m
-    addEnvironmentVariable(env, "WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
-    addEnvironmentVariable(env, "WEBOTS_CONTROLLER_NAME", name().toUtf8());
-    addEnvironmentVariable(env, "WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
+    env.insert("WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
+    env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
+    env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
-  addEnvironmentVariable(env, "WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
+  env.insert("WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
   // qDebug() << "Environment:";
   // foreach (const QString &element, env)
   //  qDebug() << element;
-  mProcess->setEnvironment(env);
+  mProcess->setProcessEnvironment(env);
 }
 
 void WbController::info(const QString &message) {
@@ -559,12 +574,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 #else
   const QString &text = message;
 #endif
-  // '\f' to clean the console
-  const int lastFCharIndex = text.lastIndexOf('\f');
-  if (lastFCharIndex < 0)  // no '\f'
-    buffer->append(text);
-  else
-    *buffer = text.mid(lastFCharIndex);
+  buffer->append(text);
   if (buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
@@ -574,18 +584,13 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 void WbController::flushBuffer(QString *buffer) {
   // Split string into lines by detecting '\n', then send lines one by one to WbLog.
   // When several streams or several controllers are used, this prevents to mix unrelated lines
-  if ((*buffer)[0] == '\f') {
-    WbLog::clear();
-    buffer->remove(0, 1);
-  }
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    // extract line and prepend "[controller_name] "
-    QString line = mPrefix + buffer->mid(0, index + 1);
+    const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, mPrefix);
+      WbLog::appendStdout(line, robot()->name());
     else
-      WbLog::appendStderr(line, mPrefix);
+      WbLog::appendStderr(line, robot()->name());
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
@@ -639,7 +644,7 @@ void WbController::reportMissingCommand(const QString &command) {
 }
 
 void WbController::reportFailedStart() {
-  warn(tr("failed to start: %1").arg(mCommandLine));
+  warn(tr("failed to start: %1").arg(commandLine()));
 
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
@@ -722,9 +727,8 @@ void WbController::startVoidExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
-  if (!args().isEmpty())
-    mCommandLine += " " + args();
+  mCommand = QDir::toNativeSeparators(mCommand);
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startExecutable() {
@@ -732,9 +736,8 @@ void WbController::startExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
-  if (!args().isEmpty())
-    mCommandLine += " " + args();
+  mCommand = QDir::toNativeSeparators(mCommand);
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startJava(bool jar) {
@@ -743,7 +746,7 @@ void WbController::startJava(bool jar) {
   else
     mCommand = mJavaCommand;
 
-  QString options;
+  mArguments = WbLanguageTools::javaArguments();
   const QProcessEnvironment &env = mProcess->processEnvironment();
 
   // add -classpath option (which is necessary for load find Controller.jar).
@@ -756,30 +759,30 @@ void WbController::startJava(bool jar) {
   else
     extraClassPath = mControllerPath;
   WbLanguageTools::prependToPath(WbSysInfo::shortPath(extraClassPath), classPath);
-  WbLanguageTools::prependToPath(WbStandardPaths::webotsLibPath() + "java" + QDir::separator() + "Controller.jar", classPath);
-  options += "-classpath \"" + classPath + "\"";
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java/Controller.jar", classPath);
+  mArguments << "-classpath" << classPath;
 
   // add the java.library.path variable based on the custom JAVA_LIBRARY_PATH
   // environment variable (typically defined in runtime.ini)
   // in order to find the JNI libraries
   QString javaLibraryPath = env.value("JAVA_LIBRARY_PATH");
-  WbLanguageTools::prependToPath(WbStandardPaths::webotsLibPath() + "java", javaLibraryPath);
-  options += QString(" -Djava.library.path=\"%1\"").arg(javaLibraryPath);
-
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java", javaLibraryPath);
+  mArguments << QString("-Djava.library.path=%1").arg(javaLibraryPath);
   if (!mJavaOptions.isEmpty())
-    options += " " + mJavaOptions;
-
-  mCommandLine = mCommand + " " + options + " " + name() + " " + args();
+    mArguments << mJavaOptions.split(" ");
+  mArguments << name();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startPython() {
   if (mPythonCommand == "!")  // wrong python version
     return;
   mCommand = mPythonCommand;
-  mCommandLine = mCommand;
+  mArguments = WbLanguageTools::pythonArguments();
   if (!mPythonOptions.isEmpty())
-    mCommandLine += " " + mPythonOptions;
-  mCommandLine += " \"" + name() + ".py\" " + args();
+    mArguments << mPythonOptions.split(" ");
+  mArguments << name() + ".py";
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startMatlab() {
@@ -794,9 +797,10 @@ void WbController::startMatlab() {
   } else
     mCommand = mMatlabCommand;
 
-  mCommandLine = mCommand + " -r launcher";
-  if (!mMatlabOptions.isEmpty())
-    mCommandLine += " " + mMatlabOptions;
+  mArguments = WbLanguageTools::matlabArguments();
+  mArguments << "-r"
+             << "launcher";
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -808,10 +812,8 @@ void WbController::startBotstudio() {
   // start simply the void controller, but without modifying the controller path
   QString voidContollerPath = WbStandardPaths::resourcesControllersPath() + "void/";
   mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
-
   copyBinaryAndDependencies(mCommand);
-
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
+  mCommand = QDir::toNativeSeparators(mCommand);
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
@@ -875,14 +877,18 @@ const QString &WbController::name() const {
   return mName;
 }
 
-const QString &WbController::args() const {
-  return mRobot->controllerArgs();
+QString WbController::commandLine() const {  // returns the command line with double quotes if needed
+  QString commandLine = mCommand.contains(' ') ? '"' + mCommand + '"' : mCommand;
+  foreach (QString argument, mArguments)
+    commandLine +=
+      ' ' + (argument.contains(' ') || (argument.contains('"')) ? '\"' + argument.replace('"', "\\\"") + '"' : argument);
+  return commandLine;
 }
 
 void WbController::handleControllerExit() {
   if (mRobot->controllerName() == "<extern>") {
     processFinished(0, QProcess::NormalExit);
-    mRobot->setControllerStarted(false);
+    mRobot->setControllerNeedRestart();
   }
 }
 

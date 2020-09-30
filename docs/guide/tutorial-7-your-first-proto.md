@@ -35,7 +35,7 @@ Finally, save the PROTO file.
   ]
   {
     Robot {
-      ...
+      # list of fields
     }
   }
 ```
@@ -90,14 +90,14 @@ PROTO FourWheelsRobot [
     translation IS translation
     rotation IS rotation
     children [
-      ...
+      # list of children nodes
     ]
     boundingObject USE BODY
     physics Physics {
       density -1
       mass IS bodyMass
     }
-    controller "4_wheels_collision_avoidance"
+    controller "four_wheels_collision_avoidance"
   }
 }
 ```

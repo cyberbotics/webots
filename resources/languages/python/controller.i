@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,21 @@
 
 %begin %{
 #define SWIG_PYTHON_2_UNICODE
+%}
+
+%pythonbegin %{
+import sys
+import os
+if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list the folders containing the DLLs
+    webots_home = os.environ['WEBOTS_HOME']
+    os.add_dll_directory(os.path.join(webots_home, 'lib', 'controller'))
+    # MSYS2_HOME should be set by Webots or ~/.bash_profile
+    # if not set, we are in the case of an extern controller and a regularly installed version of Webots
+    msys64_root = os.environ['MSYS2_HOME'] if 'MSYS2_HOME' in os.environ else os.path.join(webots_home, 'msys64')
+    cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin', 'cpp')
+    if not os.path.isdir(cpp_folder):  # development environment
+        cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin')
+    os.add_dll_directory(cpp_folder)
 %}
 
 %{
@@ -47,7 +62,6 @@
 #include <webots/LightSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Mouse.hpp>
-#include <webots/utils/Motion.hpp>
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
@@ -60,6 +74,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/utils/Motion.hpp>
 
 using namespace std;
 %}
@@ -70,6 +85,8 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 // manage double arrays
 %typemap(out) const double * {
@@ -83,6 +100,12 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  $result = PyList_New(len);
+  for (int i = 0; i < len; ++i)
+    PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+}
+%typemap(out) const double *getLookupTable {
+  int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -113,6 +136,38 @@ using namespace std;
 %typemap(freearg) const int * {
   free($1);
 }
+//----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+
+%pythoncode %{
+class AnsiCodes(object):
+    RESET = u'\u001b[0m'
+
+    BOLD = u'\u001b[1m'
+    UNDERLINE = u'\u001b[4m'
+
+    BLACK_BACKGROUND = u'\u001b[40m'
+    RED_BACKGROUND = u'\u001b[41m'
+    GREEN_BACKGROUND = u'\u001b[42m'
+    YELLOW_BACKGROUND = u'\u001b[43m'
+    BLUE_BACKGROUND = u'\u001b[44m'
+    MAGENTA_BACKGROUND = u'\u001b[45m'
+    CYAN_BACKGROUND = u'\u001b[46m'
+    WHITE_BACKGROUND = u'\u001b[47m'
+
+    BLACK_FOREGROUND = u'\u001b[30m'
+    RED_FOREGROUND = u'\u001b[31m'
+    GREEN_FOREGROUND = u'\u001b[32m'
+    YELLOW_FOREGROUND = u'\u001b[33m'
+    BLUE_FOREGROUND = u'\u001b[34m'
+    MAGENTA_FOREGROUND = u'\u001b[35m'
+    CYAN_FOREGROUND = u'\u001b[36m'
+    WHITE_FOREGROUND = u'\u001b[37m'
+
+    CLEAR_SCREEN = u'\u001b[2J'
+%}
+
 //----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------
@@ -685,28 +740,34 @@ using namespace std;
 
   static PyObject *rangeImageGetValue(PyObject *im, double minRange, double maxRange, int width, int x, int y) {
     if (!PyList_Check(im)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList'\n");
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
       return NULL;
     }
-    fprintf(stderr, "Warning: Camera.rangeImageGetValue is deprecated, please use Camera.rangeImageGetDepth instead\n");
+    fprintf(stderr, "Warning: RangeFinder.rangeImageGetValue is deprecated, please use RangeFinder.rangeImageGetDepth instead\n");
+    // inform Python runtime that the object is used somewhere else
+    // this prevents crashes when updating the range image internal list
+    Py_INCREF(value);
     return value;
   }
 
   static PyObject *rangeImageGetDepth(PyObject *im, int width, int x, int y) {
     if (!PyList_Check(im)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList'\n");
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList' of 'PyFloat'\n");
       return NULL;
     }
+    // inform Python runtime that the object is used somewhere else
+    // this prevents crashes when updating the range image internal list
+    Py_INCREF(value);
     return value;
   }
 };
@@ -1048,5 +1109,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 //  Supervisor
 //----------------------------------------------------------------------------------------------
+
+%rename ("__internalGetFromDeviceTag") getFromDeviceTag;
 
 %include <webots/Supervisor.hpp>

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbRgb.hpp"
 
-class WbCubemap;
 class WbImageTexture;
 
 struct WrMaterial;
@@ -70,6 +69,7 @@ public:
   QStringList fieldsToSynchronizeWithX3D() const override;
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
   const QString &vrmlName() const override {
@@ -80,7 +80,6 @@ protected:
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
-  void clearCubemap(WrMaterial *wrenMaterial);
   double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();

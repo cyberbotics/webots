@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,6 +56,7 @@ void wb_display_fill_polygon(WbDeviceTag tag, const int *x, const int *y, int si
 #define WB_IMAGE_RGBA 4
 #define WB_IMAGE_ARGB 5
 #define WB_IMAGE_BGRA 6
+#define WB_IMAGE_ABGR 7
 
 WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const void *data, int format);
 WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int height);

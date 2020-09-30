@@ -12,7 +12,7 @@ The `ROBOTIQ 3F Gripper` is a 3-fingers adaptive robot gripper.
 | Motor Name                | Position Sensor Name               |
 | ------------------------- | -------------------------------    |
 | palm\_finger\_1\_joint    |  palm\_finger\_1\_joint\_sensor    |
-| finger\_1\_joint\_1       |  palm\_finger\_1\_joint\_sensor    |
+| finger\_1\_joint\_1       |  finger\_1\_joint\_1_sensor        |
 | finger\_1\_joint\_2       |  finger\_1\_joint\_2\_sensor       |
 | finger\_1\_joint\_3       |  finger\_1\_joint\_3\_sensor       |
 | palm\_finger\_2\_joint    |  palm\_finger\_2\_joint\_sensor    |

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.551234 -0.804225 -0.222179 5.36895
+  orientation 0.5512339224353291 -0.80422488683672 -0.22217896873697734 5.36895
   position 8.06917 6.72391 6.61093
 }
 Background {
@@ -11,7 +12,7 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 DEF INCLINED_PLANE Transform {

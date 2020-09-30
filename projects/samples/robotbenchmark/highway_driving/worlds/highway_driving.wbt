@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -9,6 +9,7 @@ WorldInfo {
   window "highway_driving"
   ERP 0.6
   basicTimeStep 10
+  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {

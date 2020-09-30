@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ if len(sys.argv) > 1:
 testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
-testsFolderPath = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep
+testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
 outputFilename = testsFolderPath + 'output.txt'
 defaultProjectPath = testsFolderPath + 'default' + os.sep
 supervisorControllerName = 'test_suite_supervisor'
@@ -84,10 +84,7 @@ def setupWebots():
         else:
             webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
         if not os.path.isfile(webotsFullPath):
-            print('Error: ' + webotsBinary + ' binary not found')
-            if sys.platform == 'win32':
-                sys.stdout.flush()
-            sys.exit(1)
+            sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
     command = Command(webotsFullPath + ' --version')
@@ -156,7 +153,7 @@ def appendToOutputFile(txt):
 def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
-    os.chdir(os.path.join(os.environ['WEBOTS_HOME'], 'tests'))
+    os.chdir(testsFolderPath)
     command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
     os.chdir(curdir)
@@ -189,8 +186,9 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
-            # speaker test not working on travis because of missing sound drivers
-            if not filename.endswith('_temp.wbt') and not ('TRAVIS' in os.environ and filename.endswith('speaker.wbt')):
+            # speaker test not working on travis/github action because of missing sound drivers
+            if (not filename.endswith('_temp.wbt') and
+                    not (('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
                 worldsCount += 1
 

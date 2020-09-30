@@ -1,7 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   title "Auto lock static connectors"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.10833828102060336 0.9839846395851807 0.1415522727684823 4.121503424005624
@@ -13,6 +14,7 @@ Background {
   ]
 }
 PointLight {
+  attenuation 0 0 4
   location 0 0.3 0
 }
 DEF ACTIVE_ROBOT Robot {

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,6 +7,7 @@ WorldInfo {
   title "Viewpoint Control"
   window "viewpoint_control"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -32,7 +33,7 @@ Thymio2 {
   translation 0 0 0.333
   rotation 1 0 0 0
   controller "void"
-  controllerArgs ""
+  controllerArgs []
 }
 ViewpointControlBenchmark {
 }

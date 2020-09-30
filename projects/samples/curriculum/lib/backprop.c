@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -249,8 +249,10 @@ void SaveNetworkWeights(network_t *n, const char *filename) {
   FILE *fp;
   int i;
 
-  if ((fp = fopen(filename, "w+b")) == NULL)
-    printf("Cannot open %s\n", filename);
+  if ((fp = fopen(filename, "w+b")) == NULL) {
+    fprintf(stderr, "Cannot open %s\n", filename);
+    return;
+  }
 
   for (i = 0; i < n->size; i++)
     SaveLayerWeights(&n->layers[i], fp);
@@ -262,9 +264,10 @@ void LoadNetworkWeights(network_t *n, const char *filename) {
   FILE *fp;
   int i;
 
-  if ((fp = fopen(filename, "rb")) == NULL)
-    printf("Cannot open %s\n", filename);
-
+  if ((fp = fopen(filename, "rb")) == NULL) {
+    fprintf(stderr, "Cannot open %s\n", filename);
+    return;
+  }
   for (i = 0; i < n->size; i++)
     LoadLayerWeights(&n->layers[i], fp);
 

@@ -1,3 +1,4 @@
+/* global webots */
 $('#robottabs').tabs();
 
 webots.window('pan_tilt_camera_view').receive = function(message, robot) {
@@ -8,7 +9,7 @@ webots.window('pan_tilt_camera_view').receive = function(message, robot) {
     if (imageElement != null)
       imageElement.setAttribute('src', message.substring(message.indexOf(':') + 1));
 
-    if (label == 'camera') {
+    if (label === 'camera') {
       // remove warning if needed
       var element = document.getElementById('robottab-camera-warning');
       if (element != null)
@@ -19,4 +20,4 @@ webots.window('pan_tilt_camera_view').receive = function(message, robot) {
       message = message.substr(0, 200);
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
   }
-}
+};

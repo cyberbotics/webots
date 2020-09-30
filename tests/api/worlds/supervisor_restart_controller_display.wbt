@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   title "Camera Restart Controller Test"
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.55428436 0.81866738 0.15017515 5.574129
-  position -1.2649792 1.0837943 2.0590679
+  orientation 0.8841788126877563 0.45665457075971344 0.09846029757385279 5.706682493837526
+  position -0.10939443176085184 0.42862400583618987 0.6622877553910751
 }
 Background {
   skyColor [
@@ -28,61 +29,9 @@ Robot {
   controller "supervisor_restart_controller_display"
   supervisor TRUE
 }
-DEF MYBOT DifferentialWheels {
+DEF MYBOT Robot {
   rotation 0 1 0 3.1415926
   children [
-    Transform {
-      translation 0 0.0415 0
-      children [
-        Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.0820075 0.364731 0.8
-            }
-          }
-          geometry DEF BODY Cylinder {
-            height 0.08
-            radius 0.045
-          }
-        }
-      ]
-    }
-    Solid {
-      translation -0.045 0.025 0
-      children [
-        DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 1 0 0
-                }
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.025
-              }
-            }
-          ]
-        }
-      ]
-      name "left wheel"
-      boundingObject USE WHEEL
-      physics DEF PHYSICS_WHEEL Physics {
-        density -1
-        mass 0.05
-      }
-    }
-    Solid {
-      translation 0.045 0.025 0
-      children [
-        USE WHEEL
-      ]
-      name "right wheel"
-      boundingObject USE WHEEL
-      physics USE PHYSICS_WHEEL
-    }
     DEF EMOTICONS Display {
       translation 0 0.13 0
       children [
@@ -134,6 +83,89 @@ DEF MYBOT DifferentialWheels {
       width 14
       height 14
     }
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation -1 0 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation -1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
   ]
   name "MyBot"
   boundingObject Transform {
@@ -147,7 +179,4 @@ DEF MYBOT DifferentialWheels {
     mass 0.5
   }
   controller "display_test"
-  axleLength 0.09
-  wheelRadius 0.025
-  speedUnit 0.1
 }

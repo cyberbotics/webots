@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ private:
   static WbPerformanceLog *cInstance;
   WbPerformanceLog(const QString &fileName, int stepsCount);
   WbPerformanceLog(const WbPerformanceLog &);  // non constructor-copyable
-  virtual ~WbPerformanceLog();
+  ~WbPerformanceLog();
 
   bool openFile();
   void closeFile();

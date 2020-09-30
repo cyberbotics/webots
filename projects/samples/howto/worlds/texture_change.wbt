@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example of change of a texture by the Supervisor"
   ]
   title "Texture Change"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9882217061414686 0.14323795740662693 -0.05385858398456106 5.75439

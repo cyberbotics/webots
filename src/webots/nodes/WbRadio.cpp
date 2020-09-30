@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include <QtCore/QDataStream>
 #include <cassert>
 #include "../../../include/plugins/radio.h"
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 static QList<WbRadio *> radioList;  // list of radio nodes
 static bool pluginLoadFailed = false;

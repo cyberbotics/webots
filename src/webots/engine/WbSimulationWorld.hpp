@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@
 // Description: world with physics/kinematic simulation
 //
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QList>
 #include <QtCore/QMutex>
-#include <QtCore/QTime>
+
 #include "WbWorld.hpp"
 
 class WbSimulationCluster;
@@ -47,7 +48,7 @@ public:
   bool simulationHasRunAfterSave();
 
   bool saveAs(const QString &fileName) override;
-  void reset() override;
+  void reset(bool restartControllers) override;
 
   virtual void step();
 
@@ -72,7 +73,7 @@ private:
   WbOdeContext *mOdeContext;
   WbPhysicsPlugin *mPhysicsPlugin;
   QTimer *mTimer;
-  QTime mLastRealTime;
+  QElapsedTimer mRealTimeTimer;
   double mSleepRealTime;
   QList<int> mElapsedTimeHistory;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started

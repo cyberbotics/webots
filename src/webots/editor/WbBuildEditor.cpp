@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -207,7 +207,7 @@ void WbBuildEditor::readStdout() {
   out.replace("\r\n", "\n");
 #endif
 
-  WbLog::appendStdout(out);
+  WbLog::appendStdout(out, WbLog::COMPILATION);
 }
 
 void WbBuildEditor::readStderr() {
@@ -219,7 +219,7 @@ void WbBuildEditor::readStderr() {
   err.replace("\r\n", "\n");
 #endif
 
-  WbLog::appendStderr(err);
+  WbLog::appendStderr(err, WbLog::COMPILATION);
 }
 
 void WbBuildEditor::cleanupProcess() {
@@ -232,14 +232,14 @@ void WbBuildEditor::processFinished(int exitCode, QProcess::ExitStatus exitStatu
   switch (exitStatus) {
     case QProcess::NormalExit: {
       if (mIsCleaning)
-        WbLog::appendStdout("Clean finished.\n");
+        WbLog::appendStdout("Clean finished.\n", WbLog::COMPILATION);
       else
         reloadMessageBoxIfNeeded();
       break;
     }
     case QProcess::CrashExit:
       // should not happen, but just in case
-      WbLog::appendStderr("external make process crashed!\n");
+      WbLog::appendStderr("external make process crashed!\n", WbLog::COMPILATION);
       break;
   }
 
@@ -264,7 +264,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
   if (targetFileInfo.exists() && targetFile.startsWith(WbProject::current()->path())) {
     QDateTime targetModificationTimeAfterMake = targetFileInfo.lastModified();
     if (!mTargetModificationTimeBeforeMake.isValid() || targetModificationTimeAfterMake > mTargetModificationTimeBeforeMake) {
-      WbLog::appendStdout("Build finished.\n");
+      WbLog::appendStdout("Build finished.\n", WbLog::COMPILATION);
       if (WbMessageBox::enabled()) {
         QMessageBox messageBox(QMessageBox::Question, tr("Compilation successful"),
                                tr("Do you want to reset or reload the world?"), QMessageBox::Cancel, this);
@@ -274,10 +274,10 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
         if (ret == 0)
           emit reloadRequested();
         else if (ret == 1)
-          emit resetRequested();
+          emit resetRequested(true);
       }
     } else
-      WbLog::appendStdout("Nothing to be done for build targets.\n");
+      WbLog::appendStdout("Nothing to be done for build targets.\n", WbLog::COMPILATION);
   }
 }
 
@@ -336,29 +336,31 @@ void WbBuildEditor::make(const QString &target) {
   // store the target modification date
   updateTargetModificationTime();
 
-  QString commandLine = "";
-  if (isJavaProgram && !makefileExists(compilePath))
-    commandLine = getJavaCommandLine(target);
-  else {
-    commandLine = "make";
+  QString command;
+  QStringList arguments;
+
+  if (isJavaProgram && !makefileExists(compilePath)) {
+    QStringList list = getJavaCommandLine(target);
+    command = list[0];
+    list.removeFirst();
+    arguments = list;
+  } else {
+    command = "make";
 
     addMakefileIfNecessary(compilePath);
 
     int numberOfThreads = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
-    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused())
-      commandLine += " -j " + QString::number(numberOfThreads);
-
+    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused()) {
+      arguments << "-j";
+      arguments << QString::number(numberOfThreads);
+    }
     if (!target.isEmpty())
-      commandLine += " " + target;
+      arguments << target;
   }
 
-  // clear console before build
-  WbLog::clear();
-  if (commandLine.isEmpty()) {
-    // unknown target
+  if (command.isEmpty())
     return;
-  } else
-    WbLog::appendStdout(commandLine + "\n");
+  WbLog::appendStdout(command + " " + arguments.join(" ") + "\n", WbLog::COMPILATION);
 
   // create mProcess
   mProcess = new QProcess(this);
@@ -376,7 +378,6 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("C_SOURCES");
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
-  env.remove("QT");
   mProcess->setProcessEnvironment(env);
 
   // disable buttons
@@ -384,58 +385,49 @@ void WbBuildEditor::make(const QString &target) {
 
   // launch external make and wait at most 5 sec
   mProcess->setWorkingDirectory(compilePath);
-  mProcess->start(commandLine);
+  mProcess->start(command, arguments);
   bool started = mProcess->waitForStarted(5000);
 
   // check that program is available
   if (!started) {
-    QString program = commandLine.split(" ")[0];
 #ifdef _WIN32
-    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program));
+    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command), WbLog::COMPILATION);
 #else
-    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program));
+    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(command), WbLog::COMPILATION);
 #endif
     cleanupProcess();
   }
 }
 
-QString WbBuildEditor::getJavaCommandLine(const QString &target) const {
+QStringList WbBuildEditor::getJavaCommandLine(const QString &target) const {
   QDir controllerDir = compileDir();
   QString controllerPath = controllerDir.absolutePath();
   QString controllerName = QFileInfo(controllerPath).baseName();
-  QString command;
+  QStringList commandLine;
 
-  if (target == "clean") {
-    QStringList classFiles = controllerDir.entryList(QStringList() << "*.class", QDir::Files);
-    command = "rm -fr " + classFiles.join(" ") + " " + controllerName + ".jar";
-
-  } else if (target == "jar") {
-    // create JAR with .class files and all the subfolders in the controller folder
-    QStringList classFiles = controllerDir.entryList(QStringList() << "*.class", QDir::Files);
-    command = "jar cf " + controllerName + ".jar " + classFiles.join(" ");
-
-  } else if (target == "") {  // build, compile all .java files in the controller folder
+  if (target == "clean")
+    commandLine << "rm"
+                << "-fr" << controllerDir.entryList(QStringList("*.class"), QDir::Files) << controllerName + ".jar";
+  else if (target == "jar")  // create JAR with .class files and all the subfolders in the controller folder
+    commandLine << "jar"
+                << "cf " << controllerName + ".jar " << controllerDir.entryList(QStringList("*.class"), QDir::Files);
+  else if (target == "") {  // build, compile all .java files in the controller folder
 #ifdef _WIN32
-    QString separator = ";";
+    const QString separator = ";";
 #else
-    QString separator = ":";
+    const QString separator = ":";
 #endif
-    QString CLASSPATH = qgetenv("CLASSPATH");
-    QString javaOptions = "-Xlint -classpath \"" + QDir::toNativeSeparators(WbStandardPaths::webotsLibPath() + "java/") +
-                          "Controller.jar" + separator;
+    QString classpath = QDir::toNativeSeparators(WbStandardPaths::controllerLibPath() + "java/Controller.jar") + separator;
+    const QString CLASSPATH = qgetenv("CLASSPATH");
     if (!CLASSPATH.isEmpty())
-      javaOptions += CLASSPATH + separator;
-    javaOptions += ".\"";
+      classpath += CLASSPATH + separator;
+    classpath += ".";
 
-    QStringList javaFiles = controllerDir.entryList(QStringList() << "*.java", QDir::Files);
-    command = "javac " + javaOptions + " " + javaFiles.join(" ");
-
-  } else {
-    // unknown target
-    return QString();
+    commandLine << "javac"
+                << "-Xlint"
+                << "-classpath" << classpath << controllerDir.entryList(QStringList("*.java"), QDir::Files);
   }
-
-  return command;
+  return commandLine;
 }
 
 void WbBuildEditor::computeTargetFile() {

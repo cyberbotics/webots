@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -78,8 +78,22 @@ Node *Node::getParentNode() const {
   return findNode(parentRef);
 }
 
+Node *Node::getFromProtoDef(const std::string &name) const {
+  WbNodeRef internalNodeRef = wb_supervisor_node_get_from_proto_def(nodeRef, name.c_str());
+  return findNode(internalNodeRef);
+}
+
+bool Node::isProto() const {
+  return wb_supervisor_node_is_proto(nodeRef);
+}
+
 Field *Node::getField(const std::string &fieldName) const {
   WbFieldRef fieldRef = wb_supervisor_node_get_field(nodeRef, fieldName.c_str());
+  return Field::findField(fieldRef);
+}
+
+Field *Node::getProtoField(const std::string &fieldName) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field(nodeRef, fieldName.c_str());
   return Field::findField(fieldRef);
 }
 
@@ -129,4 +143,16 @@ void Node::setVisibility(Node *from, bool visible) {
 
 void Node::moveViewpoint() const {
   wb_supervisor_node_move_viewpoint(nodeRef);
+}
+
+void Node::addForce(const double force[3], bool relative) {
+  wb_supervisor_node_add_force(nodeRef, force, relative);
+}
+
+void Node::addForceWithOffset(const double force[3], const double offset[3], bool relative) {
+  wb_supervisor_node_add_force_with_offset(nodeRef, force, offset, relative);
+}
+
+void Node::addTorque(const double torque[3], bool relative) {
+  wb_supervisor_node_add_torque(nodeRef, torque, relative);
 }

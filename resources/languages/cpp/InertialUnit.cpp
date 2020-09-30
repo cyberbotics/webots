@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,4 +32,12 @@ int InertialUnit::getSamplingPeriod() const {
 
 const double *InertialUnit::getRollPitchYaw() const {
   return wb_inertial_unit_get_roll_pitch_yaw(getTag());
+}
+
+int InertialUnit::getLookupTableSize() const {
+  return wb_inertial_unit_get_lookup_table_size(getTag());
+}
+
+const double *InertialUnit::getLookupTable() const {
+  return wb_inertial_unit_get_lookup_table(getTag());
 }

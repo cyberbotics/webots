@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a spherical Camera device."
   ]
   title "Spherical Camera"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.008893302370377151 0.8521192271196752 0.523272139470387 3.12414
@@ -217,10 +218,10 @@ Robot {
           }
         }
         DEF STRUCTURE_AXES Shape {
-          appearance PBRAppearance {
-            baseColor 0 0 0
-            roughness 1
-            metalness 0
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.02 0.02 0.02
+            }
           }
           geometry IndexedLineSet {
             coord Coordinate {

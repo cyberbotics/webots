@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,16 +16,24 @@
 
 """Create a web component scene foreach component of the components.json file."""
 
-import json
-import os
-from shutil import copyfile
+import sys
+assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
-# Paths.
-WORLD = 'worlds/web_component_studio.wbt'
-TEMPLATE = 'worlds/web_component_studio_template.wbt'
-ROBOTS = 'components.json'
+import json  # noqa
+import os  # noqa
+
+from shutil import copyfile  # noqa
+from inspect import currentframe, getframeinfo  # noqa
+from pathlib import Path  # noqa
+
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
+
+# Paths.
+scriptdir = Path(getframeinfo(currentframe()).filename).resolve().parent
+WORLD = str(scriptdir / 'worlds' / 'web_component_studio.wbt')
+TEMPLATE = str(scriptdir / 'worlds' / 'web_component_studio_template.wbt')
+ROBOTS = str(scriptdir / 'components.json')
 
 
 def search_and_replace(filename, fromString, toString):
@@ -39,7 +47,7 @@ def search_and_replace(filename, fromString, toString):
 
 def run_webots():
     """Run Webots on WORLD with right flags."""
-    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --minimize ' + WORLD)
+    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --minimize %s' % WORLD)
 
 
 # Script logics.

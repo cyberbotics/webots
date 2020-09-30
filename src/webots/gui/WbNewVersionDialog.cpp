@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   QVBoxLayout *newsletterLayout = new QVBoxLayout();
   label =
     new QLabel(tr("Stay informed about the latest developments of Webots by subscribing to the <a style='color: #5DADE2;' "
-                  "href='https://cyberbotics.com/news/subscribe.php'>Webots newsletter</a>."));
+                  "href='https://cyberbotics.com/newsletter'>Webots newsletter</a>."));
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   newsletterLayout->addWidget(label);
   newsletterBox->setLayout(newsletterLayout);
@@ -117,7 +117,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   QGroupBox *telemetryBox = new QGroupBox(tr("Telemetry:"));
   QVBoxLayout *telemetryLayout = new QVBoxLayout();
   label = new QLabel(tr("We need your help to continue to improve Webots: more information <a style='color: #5DADE2;' "
-                        "href='https://www.cyberbotics.com/doc/guide/telemetry'>here</a>."));
+                        "href='https://cyberbotics.com/doc/guide/telemetry'>here</a>."));
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   telemetryLayout->addWidget(label);
   telemetryLayout->addStretch();

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.201209 -0.920791 -0.334153 4.30915
+  orientation 0.20120906491297233 -0.9207912970606719 -0.33415310780265517 4.30915
   position 1.55071 1.36157 -0.641403
 }
 Background {
@@ -23,12 +24,14 @@ Robot {
       }
     }
     SliderJoint {
-      device LinearMotor {
-        name "m1"
-        minPosition -0.1
-        maxPosition 0.1
-        maxForce 20
-      }
+      device [
+        LinearMotor {
+          name "m1"
+          minPosition -0.1
+          maxPosition 0.1
+          maxForce 20
+        }
+      ]
       endPoint DEF S1 Solid {
         translation 0.15 0.15 0
         children [
@@ -43,11 +46,13 @@ Robot {
             }
           }
           SliderJoint {
-            device LinearMotor {
-              name "m2"
-              minPosition -0.1
-              maxPosition 0.1
-            }
+            device [
+              LinearMotor {
+                name "m2"
+                minPosition -0.1
+                maxPosition 0.1
+              }
+            ]
             endPoint DEF S2 Solid {
               translation 0.15 0.15 0
               children [
@@ -104,10 +109,11 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   boundingObject USE JOINT_SHAPE
   controller "supervisor_set_hinge_position"
-  controllerArgs "supervisor_set_hinge_position_kinematic"
+  controllerArgs [
+    "supervisor_set_hinge_position_kinematic"
+  ]
   supervisor TRUE
   selfCollision TRUE
 }

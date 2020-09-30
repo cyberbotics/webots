@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -310,7 +310,7 @@ void TransferWidget::finishStartRemoteCompilation() {
   mRemoteControlButton->setEnabled(false);
   mUninstallButton->setEnabled(false);
   mMakeDefaultControllerCheckBox->setEnabled(false);
-  wb_robot_set_mode(WB_MODE_SIMULATION, (void *)(mIPAddressLineEdit->text().toStdString().c_str()));
+  wb_robot_set_mode(WB_MODE_SIMULATION, mIPAddressLineEdit->text().toStdString().c_str());
   mStatus = RUN_REMOTE_COMPILATION;
   mStatusLabel->setText(tr("Status: Running remote controller"));
 }
@@ -324,7 +324,7 @@ void TransferWidget::finishStartRemoteControl() {
   mUninstallButton->setEnabled(false);
   mSendControllerButton->setEnabled(false);
   mMakeDefaultControllerCheckBox->setEnabled(false);
-  wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (void *)(mIPAddressLineEdit->text().toStdString().c_str()));
+  wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, mIPAddressLineEdit->text().toStdString().c_str());
   mStatus = RUN_REMOTE_CONTROL;
   mStatusLabel->setText(tr("Status: Running remote control"));
 }

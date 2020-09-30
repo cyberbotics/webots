@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5136141607774364 0.7885542468423574 0.33820510586886815 4.89166
@@ -723,12 +724,12 @@ DEF LANDMARK24 Solid {
 }
 Robot {
   controller "advanced_pattern_recognition_supervisor"
+  supervisor TRUE
 }
 DEF EPUCK E-puck {
   translation 0 0.01 0
   rotation 0 1 0 -1.57
   controller "advanced_pattern_recognition"
-  supervisor TRUE
   camera_antiAliasing TRUE
   camera_noise 0.024
   turretSlot [

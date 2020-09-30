@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,10 @@
 
 #include <QtCore/QTextStream>
 
+#include "WbVector3.hpp"
+
 class QIODevice;
+class WbNode;
 
 class WbVrmlWriter : public QTextStream {
 public:
@@ -32,6 +35,7 @@ public:
   bool isVrml() const { return mVrmlType == VRML; }
   bool isX3d() const { return mVrmlType == X3D; }
   bool isProto() const { return mVrmlType == PROTO; }
+  bool isUrdf() const { return mVrmlType == URDF; }
   bool isWebots() const { return mVrmlType == VRML_SIM || mVrmlType == VRML_OBJ || mVrmlType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString path() const;
@@ -46,6 +50,9 @@ public:
   void writeFieldStart(const QString &name, bool x3dQuote);
   void writeFieldEnd(bool x3dQuote);
 
+  WbVector3 jointOffset() const { return mJointOffset; }
+  void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
+
   // change current indentation
   void increaseIndent() { mIndent++; }
   void decreaseIndent() { mIndent--; }
@@ -53,9 +60,12 @@ public:
   // write current indentation
   void indent();
 
-  // write .wrl, .wbt, .wbo or .x3d header and footer based on VrmlType
+  // write .wrl, .wbt, .wbo, .x3d or .urdf header and footer based on VrmlType
   void writeHeader(const QString &title);
   void writeFooter(const QStringList *info = NULL);
+
+  void setRootNode(WbNode *node) { mRootNode = node; }
+  WbNode *rootNode() const { return mRootNode; }
 
   void setX3DFrustumCullingValue(const QString &value) { mFrustumCullingValue = value; }
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
@@ -63,14 +73,16 @@ public:
 private:
   void setVrmlType();
 
-  enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO };
+  enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
   QString mFileName;
   VrmlType mVrmlType;
   int mIndent;
   QString mFrustumCullingValue;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
   QHash<QString, QString> mTexturesList;  // this hash represents the list of textures used and their associated filepath
+  WbNode *mRootNode;
   bool mIsWritingToFile;
+  WbVector3 mJointOffset;
 };
 
 #endif

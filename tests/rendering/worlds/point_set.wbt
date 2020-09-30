@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.19393711365218194 -0.8126839052262745 -0.5494845458558705 0.2745182355942707
@@ -40,6 +41,10 @@ Shape {
     }
   }
 }
+Shape {
+  geometry PointSet {
+  }
+}
 Robot {
   translation 0 0 4.8
   children [
@@ -50,8 +55,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "point_set"
   supervisor TRUE
-  cpuConsumption 10
 }

@@ -1,9 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 DEF WORLDINFO WorldInfo {
-  northDirection 1 0 1
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.99135756 -0.068406269 -0.11194095 5.71846
+  orientation 0.9913575571773292 -0.06840626880522833 -0.11194094968127297 5.71846
   position -0.0502385 0.471237 0.824517
 }
 Background {
@@ -30,10 +30,12 @@ Robot {
   children [
     DistanceSensor {
       name "ds0"
+      type "infra-red"
     }
     DistanceSensor {
       rotation 0 1 0 3.14159
       name "ds1"
+      type "infra-red"
     }
     TestSuiteEmitter {
     }
@@ -48,6 +50,11 @@ Robot {
     }
   ]
   controller "supervisor_import_remove"
+  supervisor TRUE
+}
+Robot {
+  name "robot(1)"
+  controller "supervisor_remove_self"
   supervisor TRUE
 }
 TestSuiteSupervisor {

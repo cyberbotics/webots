@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -194,16 +194,24 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 #else
     "\n";
 #endif
+#ifdef __APPLE__
   QStringList stderrSplitted = stderrContent.split(newLine, QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList stderrSplitted = stderrContent.split(newLine, Qt::SkipEmptyParts);
+#endif
   foreach (const QString &line, stderrSplitted)
-    WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line));
+    WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line), false, WbLog::PARSING);
 
   // Get stdout and display it to the console
   lua_getglobal(state, "stdoutString");
   QString stdoutContent = lua_tostring(state, -1);
+#ifdef __APPLE__
   QStringList stdoutSplitted = stdoutContent.split(newLine, QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList stdoutSplitted = stdoutContent.split(newLine, Qt::SkipEmptyParts);
+#endif
   foreach (const QString &line, stdoutSplitted)
-    WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line));
+    WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line), false, WbLog::PARSING);
 
   // Get the result
   lua_getglobal(state, "content");

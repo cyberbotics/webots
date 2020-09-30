@@ -1,37 +1,37 @@
 {
-  "robotID": "n11", 
-  "name": "blimp", 
+  "robotID": "n10",
+  "name": "blimp",
   "devices": [
     {
-      "transformID": "n71", 
-      "type": "Camera", 
+      "type": "Camera",
+      "transformID": "n70",
       "name": "camera"
-    }, 
+    },
     {
-      "transformID": "n11", 
-      "transformOffset": "0.54 0 0", 
-      "type": "DistanceSensor", 
+      "transformOffset": "0.54 0 0",
+      "type": "DistanceSensor",
+      "transformID": "n10",
       "name": "ds0"
-    }, 
+    },
     {
-      "transformID": "n11", 
-      "transformOffset": "0 0 -0.26", 
-      "type": "DistanceSensor", 
+      "transformOffset": "0 0 -0.26",
+      "type": "DistanceSensor",
+      "transformID": "n10",
       "name": "ds6"
-    }, 
+    },
     {
-      "transformID": "n11", 
-      "type": "Emitter", 
+      "type": "Emitter",
+      "transformID": "n10",
       "name": "emitter"
-    }, 
+    },
     {
-      "transformID": "n11", 
-      "type": "GPS", 
+      "type": "GPS",
+      "transformID": "n10",
       "name": "gps"
-    }, 
+    },
     {
-      "transformID": "n11", 
-      "type": "Receiver", 
+      "type": "Receiver",
+      "transformID": "n10",
       "name": "receiver"
     }
   ]

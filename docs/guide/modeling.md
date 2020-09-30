@@ -25,25 +25,28 @@ For example, an affected body might fly around as though it has life on its own,
 
 In order for Webots simulation results to be reproducible, the following conditions must be fulfilled:
 
-1. Each simulation must be restarted either by pushing the `Reload` button, or by using the `wb_supervisor_world_reload` function, or by restarting Webots.
+1. Each simulation must be executed with the same version of the Webots software, on the same machine.
+Running the same simulation on different machines or different Webots versions may result in small numerical differences.
+However, it is possible to run fully reproducible results on different machines if these machines have the same operating system (same version, same updates), same graphics card and same graphics driver.
+It turns out that different OpenGL drivers or different graphics cards produce slightly different 3D rendering results.
+So, if your simulation doesn't rely on OpenGL rendering (no camera, lidar or range-finder), it should be reproducible on machines with a different graphics configuration.
+2. Each simulation must be restarted either by pushing the `Reload` button, or by using the `wb_supervisor_world_reload` function, or by restarting Webots.
 The random seeds used by Webots internally are reset for each simulation restarted with one of the above methods.
-2. The `synchronization` flag of every robot and supervisor must be TRUE.
-Otherwise the number of physics steps per control step may vary with the current CPU load and hence the robot's behavior may also vary.
-3. The controllers (and physics plugin) code must also be deterministic.
-In particular that code must not use a pseudo random generator initialized with an non-deterministic seed such as the system time.
+3. The `synchronization` flag of every robot and supervisor must be TRUE.
+Otherwise, the number of physics steps per control step may vary with the current CPU load and hence the robot's behavior may also vary.
+4. The controllers (and physics plugin) code must also be deterministic.
+In particular, that code must not use a pseudo random generator initialized with a non-deterministic seed such as the system time.
 For example this is not suitable for replicable experiments: `srand(time(NULL))`.
 Note that uninitialized variables may also be a source of undeterministc behavior.
-4. Each simulation must be executed with the same version of the Webots software and on the same OS platform.
-Different OS platforms and different Webots versions may result small numerical differences.
 5. Webots physics must run in single thread mode.
-The number of threads used by the physics engine (ODE) can be changed either globally in the [preferences](preferences.md) or using the `WorldInfo.basicTimeStep` field.
+The number of threads used by the physics engine (ODE) can be changed either globally in the [preferences](preferences.md) or using the `WorldInfo.optimalThreadCount` field.
 It should be set to 1.
 6. The Webots random number generator should have a fixed seed.
 The seed is defined in the `WorldInfo.randomSeed` field, it should be non-negative to avoid non-replicable time based seed.
 
 If the six above conditions are met, Webots simulations become replicable.
 This means that after the same number of steps two simulations will have exactly the same internal state.
-Hence if both simulation are saved using the `Save as...` button, the resulting files will be identical.
+Hence if both simulations are saved using the `Save as...` button, the resulting files will be identical.
 This is true independently of the simulation mode used to execute the simulation: `Step`, `Real-Time`, `Run` or `Fast`.
 This is also true whether or not sensor noise is used (see below).
 

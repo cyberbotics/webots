@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,6 +60,9 @@ public:
 
   // returns file version found in file header
   const WbVersion &fileVersion() const { return mFileVersion; }
+
+  // static method returning the current world file version
+  static const WbVersion &worldFileVersion();
 
   // returns true if peekToken() or nextToken() would be valid
   bool hasMoreTokens() const { return mIndex < mVector.size(); }

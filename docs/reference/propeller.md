@@ -23,27 +23,29 @@ Propeller {
 
 The [Propeller](#propeller) node can be used to model a marine or an aircraft propeller.
 When its `device` field is set with a [RotationalMotor](rotationalmotor.md), the propeller turns the motor angular velocity into a thrust and a (resistant) torque.
-The resultant thrust is the product of a real number T by the unit length shaft axis vector defined in the `shaftAxis` field, with T given by the formula:
+The resultant thrust is the product of a real number *T* by the unit length shaft axis vector defined in the `shaftAxis` field, with *T* given by the formula:
 
 ```
 T = t1 * |omega| * omega - t2 * |omega| * V
 ```
 
-Where t1 and t2 are the constants specified in the `thrustConstants` field, omega is the motor angular velocity and V is the component of the linear velocity of the center of thrust along the shaft axis.
+Where *t1* and *t2* are the constants specified in the `thrustConstants` field, *omega* is the motor angular velocity and *V* is the component of the linear velocity of the center of thrust along the shaft axis.
+- *t1* somehow represents the volume of fluid moved by the propeller: large helices will have a large *t1* value.
+- *t2* roughly represents the friction on the fluid opposing the motion of the propeller: aerodynamic robots evolving in a low viscosity fluid (like air) should have a low *t2* value.
+
 The thrust is applied at the point specified within the `centerOfThrust` field.
-The resultant torque is the product of a real number Q by the unit length shaft axis vector, with Q given by the formula:
+The resultant torque is the product of a real number *Q* by the unit length shaft axis vector, with *Q* given by the formula:
 
 ```
 Q = q1 * |omega| * omega - q2 * |omega| * V
 ```
 
-Where q1 and q2 are the constants specified in the `torqueConstants` field.
+Where *q1* and *q2* are the constants specified in the `torqueConstants` field.
+The meaning of *q1* and *q2* is pretty similar to the one of *t1* and *t2*.
 
-The above formulae are based on "Guidance and Control of Ocean Vehicles" from Thor I.
-Fossen and "Helicopter Performance, Stability, and Control" from Raymond W.
-Prouty.
+More details about the above formulae can be found in "Guidance and Control of Ocean Vehicles" from Thor I. Fossen ([ISBN: 9780471941132](https://en.wikipedia.org/wiki/Special:BookSources?isbn=9780471941132)) and "Helicopter Performance, Stability, and Control" from Raymond W. Prouty ([ISBN: 9781575242095](https://en.wikipedia.org/wiki/Special:BookSources?isbn=9781575242095)).
 
-The example "propeller.wbt" located in the "projects/samples/devices/worlds" directory of Webots shows three different helicopters modeled with [Propeller](#propeller) nodes.
+The [propeller.wbt](https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/worlds/propeller.wbt) example shows three different helicopters modeled with [Propeller](#propeller) nodes.
 
 ### Field Summary
 

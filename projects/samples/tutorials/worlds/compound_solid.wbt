@@ -1,6 +1,7 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "dumbbell"
@@ -19,7 +20,7 @@ Floor {
   size 1 1
 }
 E-puck {
-  controller "e-puck_avoid_collision"
+  controller "epuck_avoid_collision"
 }
 DEF BALL Solid {
   translation 0 0.1 -0.2

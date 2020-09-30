@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ public:
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
+  void publishAuxiliaryValue() override;
   bool getInfoCallback(webots_ros::camera_get_info::Request &req, webots_ros::camera_get_info::Response &res);
   bool getFocusInfoCallback(webots_ros::camera_get_focus_info::Request &req, webots_ros::camera_get_focus_info::Response &res);
   bool getZoomInfoCallback(webots_ros::camera_get_zoom_info::Request &req, webots_ros::camera_get_zoom_info::Response &res);

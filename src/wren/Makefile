@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 
 WEBOTS_HOME ?= ../..
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
@@ -26,9 +26,9 @@ CFLAGS = -std=c++11 -DGLM_ENABLE_EXPERIMENTAL
 INCLUDE = -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/glad -I../glm -I../webots/external/siphash/
 
 ifeq ($(OSTYPE),darwin)
-INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include -I$(WEBOTS_DEPENDENCY_PATH)/assimp/build/include
+INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 else ifeq ($(OSTYPE),linux)
-INCLUDE += -I/usr/include/freetype2
+INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
 else ifeq ($(OSTYPE),windows)
 INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include
 endif

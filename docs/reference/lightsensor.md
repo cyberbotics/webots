@@ -14,7 +14,7 @@ LightSensor {
 ### Description
 
 [LightSensor](#lightsensor) nodes are used to model photo-transistors, photo-diodes or any type of device that measures the irradiance of light in a given direction.
-*Irradiance* represents the radiant power incident on a surface in Watts per square meter (W/m^2), and is sometimes called *intensity*.
+*Irradiance* represents the radiant power incident on a surface in *watts per square meter* [W/m²], and is sometimes called *intensity*.
 The simulated irradiance is computed by adding the irradiance contributed by every light source ([DirectionalLight](directionallight.md), [SpotLight](spotlight.md) and [PointLight](pointlight.md)) in the world.
 Then the total irradiance is multiplied by a color filter and fed into a lookup table that returns the corresponding user-defined value.
 
@@ -30,7 +30,7 @@ Note that the Webots lighting model does not take reflected light nor object col
 ### Field Summary
 
 - `lookupTable`: this table allows Webots to map simulated irradiance values to user-defined sensor output values and to specify a noise level.
-The first column contains the input irradiance values in W/m^2.
+The first column contains the input irradiance values [W/m²].
 The second column represents the corresponding sensor output values in user-defined units.
 The third column specifies the level of noise in percent of the corresponding output value.
 See the section on the [DistanceSensor](distancesensor.md#lookup-table) node for more explanation on how a `lookupTable` works.
@@ -50,7 +50,7 @@ For example, in a setup where it is obvious that there will never be an obstacle
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
 This field accepts any value in the interval (0.0, inf).
 
-Before being interpolated by the `lookupTable`, the total irradiance *E* [W/m^2] seen by a sensor is computed according to the equation shown in [this figure](#light-sensor-irradiance-formula):
+Before being interpolated by the `lookupTable`, the total irradiance *E* [W/m²] seen by a sensor is computed according to the equation shown in [this figure](#light-sensor-irradiance-formula):
 
 %figure "Light sensor irradiance formula"
 
@@ -85,7 +85,7 @@ Finally, *spot[i]* is a factor used only in case of a [SpotLight](spotlight.md),
 
 %end
 
-The value *I[i]* corresponds to the *intensity* field of light *i*, and *N* is the normal axis (*x*-axis) of the sensor (see [this figure](#the-irradiance-depends-on-the-angle-between-the-n-and-l-vectors)).
+The value *I[i]* corresponds to the *intensity* field of light *i*, and *N* is the normal axis (x-axis) of the sensor (see [this figure](#the-irradiance-depends-on-the-angle-between-the-n-and-l-vectors)).
 In the case of a [PointLight](pointlight.md), *L* is the sensor-to-light-source vector.
 In the case of a [DirectionalLight](directionallight.md), *L* corresponds to the negative of the light's `direction` field.
 The * operation is a modified dot product: if dot < 0, then 0, otherwise, dot product.
@@ -111,12 +111,12 @@ Therefore, even if it has a visible geometric structure, a [Solid](solid.md) nod
 These values correspond to the VRML97 default, and are not appropriate for modeling the attenuation of a real lights.
 If a point or spot light radiates uniformly in all directions and there is no absorption, then the irradiance drops off in proportion to the square of the distance from the object.
 Therefore, for realistic modeling, the `attenuation` field of a light source should be changed to *0 0 4*&pi;*.
-If, in addition, the `intensity` field of the light is set to the radiant power [W] of a real point source (e.g., a light bulb), then the computed sensor irradiance *E* will approximate real world values in [W/m^2].
+If, in addition, the `intensity` field of the light is set to the radiant power [W] of a real point source (e.g., a light bulb), then the computed sensor irradiance *E* will approximate real world values [W/m²].
 Finally, if the sensor's `lookupTable` is filled with correct calibration data, a fairly good approximation of the real world should be achieved.
 
 <!-- -->
 
-> **Note**: If the calibration data for the `lookupTable` was obtained in lux (lx) or lumens per square meter (lm/m^2) instead of W/m^2, it makes sense to substitute the radiometry terms and units in this document with their photometry equivalents: *irradiance* becomes *illuminance*, *radiant power* becomes *luminous power* and *W* becomes *lm (lumen)*, etc.
+> **Note**: If the calibration data for the `lookupTable` was obtained in lux (lx) or *lumens per square meter* [lm/m²] instead of W/m², it makes sense to substitute the radiometry terms and units in this document with their photometry equivalents: *irradiance* becomes *illuminance*, *radiant power* becomes *luminous power* and *W* becomes *lm (lumen)*, etc.
 
 ### LightSensor Functions
 
@@ -124,6 +124,8 @@ Finally, if the sensor's `lookupTable` is filled with correct calibration data, 
 #### `wb_light_sensor_disable`
 #### `wb_light_sensor_get_sampling_period`
 #### `wb_light_sensor_get_value`
+#### `wb_light_sensor_get_lookup_table_size`
+#### `wb_light_sensor_get_lookup_table`
 
 %tab-component "language"
 
@@ -136,6 +138,8 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period);
 void wb_light_sensor_disable(WbDeviceTag tag);
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag);
 double wb_light_sensor_get_value(WbDeviceTag tag);
+int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_light_sensor_get_lookup_table(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -151,6 +155,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     double getValue() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
   }
 }
 ```
@@ -167,6 +173,7 @@ class LightSensor (Device):
   def disable(self):
   def getSamplingPeriod(self):
   def getValue(self):
+  def getLookupTable(self):
 ```
 
 %tab-end
@@ -181,6 +188,7 @@ public class LightSensor extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double getValue();
+  public double[] getLookupTable();
 }
 ```
 
@@ -193,6 +201,7 @@ wb_light_sensor_enable(tag, sampling_period)
 wb_light_sensor_disable(tag)
 period = wb_light_sensor_get_sampling_period(tag)
 value = wb_light_sensor_get_value(tag)
+lookup_table_array = wb_light_sensor_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -204,6 +213,7 @@ value = wb_light_sensor_get_value(tag)
 | `/<device_name>/value` | `topic` | [`sensor_msgs::Illuminance`](http://docs.ros.org/api/sensor_msgs/html/msg/Illuminance.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 illuminance`<br/>`float64 variance` |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -223,3 +233,8 @@ The `wb_light_sensor_get_sampling_period` function returns the period given into
 
 The `wb_light_sensor_get_value` function returns the most recent value measured by the specified light sensor.
 The returned value is the result of interpolating the irradiance *E* as described above with the sensor's `lookupTable`.
+
+The `wb_light_sensor_get_lookup_table_size` function returns the number of rows in the lookup table.
+
+The `wb_light_sensor_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_light_sensor_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 #include "WbSolid.hpp"
 
 #include "../../../include/controller/c/webots/position_sensor.h"  // position sensor types
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_CONFIGURE
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_CONFIGURE
 
 #include <QtCore/QDataStream>
 

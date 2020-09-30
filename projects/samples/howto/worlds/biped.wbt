@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "An example of how to build your own Robot and the result of the motor_set_motor_force() command"
   ]
   title "Biped"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.053568198562683564 0.9979409732237222 0.035274099053542146 4.72798
@@ -14,7 +15,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
-  translation -0.5 0 -0.5
   children [
     Shape {
       appearance PBRAppearance {
@@ -22,21 +22,11 @@ DEF FLOOR Solid {
         roughness 1
         metalness 0
       }
-      geometry ElevationGrid {
-        xDimension 11
-        xSpacing 0.1
-        zDimension 11
-        zSpacing 0.1
+      geometry DEF PLANE Plane {
       }
     }
   ]
-  boundingObject Transform {
-    translation 0.5 0 0.5
-    children [
-      Plane {
-      }
-    ]
-  }
+  boundingObject USE PLANE
 }
 DEF BIPED Robot {
   translation 0.1 0.18 -0.2

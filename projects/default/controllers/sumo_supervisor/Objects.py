@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ CAR_MODEL = [
     'ToyotaPriusSimple',
     'LincolnMKZSimple',
     'RangeRoverSportSVRSimple',
-    'TeslaModel3Simple'
+    'TeslaModel3Simple',
+    'MercedesBenzSprinterSimple'
 ]
 
 BUS_MODEL = ['BusSimple']
@@ -49,6 +50,7 @@ WHEEL_RADIUS = {
     'LincolnMKZSimple': 0.358,
     'RangeRoverSportSVRSimple': 0.358,
     'TeslaModel3Simple': 0.36,
+    'MercedesBenzSprinterSimple': 0.4,
     'BusSimple': 0.56,
     'TruckSimple': 0.5,
     'ScooterSimple': 0.23,
@@ -193,7 +195,8 @@ class Vehicle:
                 trailerModel = random.choice(TRAILER_MODEL)
                 vehicleString += "  trailer " + trailerModel + "{\n"
                 if trailerModel == 'TruckTrailerSimple':
-                    vehicleString += "    texture " + '"textures/' + random.choice(TRAILER_TEXTURES) + '"\n'
+                    vehicleString += "    appearance PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { "
+                    vehicleString += "url [ \"textures/" + random.choice(TRAILER_TEXTURES) + "\" ] } }"
                 else:
                     vehicleString += "    color " + random.choice(TRAILER_COLORS) + "\n"
                 vehicleString += "  }\n"

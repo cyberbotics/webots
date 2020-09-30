@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -215,16 +215,16 @@ namespace wren {
     // debug::printCacheContents();
     // debug::printSceneTree();
 
-    DEBUG("Notify frame listeners...");
-
-    for (auto listener : mListeners)
-      listener();
-
     renderToViewports({mMainViewport}, culling);
   }
 
   void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
     assert(glstate::isInitialized());
+
+    DEBUG("Notify frame listeners...");
+
+    for (auto listener : mListeners)
+      listener();
 
     DEBUG("\nScene::renderToViewports: viewports.size()=" << viewports.size());
 

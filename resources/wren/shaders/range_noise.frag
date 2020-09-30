@@ -9,10 +9,15 @@ uniform float intensity;
 
 uniform sampler2D inputTextures[1];
 
-// http://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-// http://www.wolframalpha.com/input/?i=plot%28%20mod%28%20sin%28x%2a12.9898%20%2b%20y%2a78.233%29%20%2a%2043758.5453,1%29x=0..2,%20y=0..2%29
-float rand(vec2 seed) {
-  return fract(sin(dot(seed.xy, vec2(12.9898, 78.233))) * 43758.5453);
+// http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+// https://www.wolframalpha.com/input/?i=plot%28+mod%28+sin%28mod%28x*12.9898+%2B+y*78.233%2C+3.14%29%29+*+43758.5453%2C1%29x%3D0..2%2C+y%3D0..2%29
+highp float rand(vec2 seed) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt = dot(seed.xy, vec2(a, b));
+  highp float sn = mod(dt, 3.14);
+  return fract(sin(sn) * c);
 }
 
 // Box-Muller method

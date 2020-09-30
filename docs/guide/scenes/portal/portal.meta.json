@@ -1,83 +1,83 @@
 {
-  "robotID": "n11", 
-  "name": "portal", 
+  "name": "portal",
+  "robotID": "n10",
   "devices": [
     {
-      "transformID": "n106", 
-      "initialPosition": 0, 
-      "name": "gear", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "anchor": "-0.0058 0.057 0.012",
+      "minPosition": 0,
+      "name": "gear",
+      "transformID": "n105",
+      "axis": "0 0 1",
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "position": 0
+    },
     {
-      "transformID": "n94", 
-      "initialPosition": 1.5708, 
-      "name": "gate", 
-      "maxPosition": 0.3, 
-      "position": 0.03, 
-      "type": "LinearMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "anchor": "0 0 0",
+      "minPosition": 0,
+      "name": "gate",
+      "transformID": "n93",
+      "axis": "1 0 0",
+      "type": "LinearMotor",
+      "maxPosition": 0.3,
+      "position": 0.03
+    },
     {
-      "transformID": "n89", 
-      "initialPosition": 0, 
-      "name": "rail", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "LinearMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "anchor": "0 0 0",
+      "minPosition": 0,
+      "name": "rail",
+      "transformID": "n88",
+      "axis": "0 1 0",
+      "type": "LinearMotor",
+      "maxPosition": 0,
+      "position": 0
+    },
     {
-      "transformID": "n80", 
-      "name": "lamp", 
-      "ledPBRAppearanceIDs": [
-        "n84"
-      ], 
       "ledColors": [
         "1 0.878431 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "ledGradual": false,
+      "name": "lamp",
+      "transformID": "n79",
+      "type": "LED",
+      "ledPBRAppearanceIDs": [
+        "n83"
+      ]
+    },
     {
-      "transformID": "n165", 
-      "type": "TouchSensor", 
-      "name": "closed"
-    }, 
+      "name": "closed",
+      "transformID": "n164",
+      "type": "TouchSensor"
+    },
     {
-      "transformID": "n94", 
-      "type": "PositionSensor", 
-      "name": "gate_sensor"
-    }, 
+      "name": "gate_sensor",
+      "transformID": "n93",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n106", 
-      "type": "PositionSensor", 
-      "name": "gear_sensor"
-    }, 
+      "name": "gear_sensor",
+      "transformID": "n105",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n264", 
-      "type": "TouchSensor", 
-      "name": "inside button"
-    }, 
+      "name": "inside button",
+      "transformID": "n263",
+      "type": "TouchSensor"
+    },
     {
-      "transformID": "n137", 
-      "type": "TouchSensor", 
-      "name": "open"
-    }, 
+      "name": "open",
+      "transformID": "n136",
+      "type": "TouchSensor"
+    },
     {
-      "transformID": "n291", 
-      "type": "DistanceSensor", 
-      "name": "optical barrier"
-    }, 
+      "name": "optical barrier",
+      "transformID": "n290",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n237", 
-      "type": "TouchSensor", 
-      "name": "outside button"
+      "name": "outside button",
+      "transformID": "n236",
+      "type": "TouchSensor"
     }
   ]
 }

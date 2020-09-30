@@ -1,22 +1,26 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   title "Dynamic receiver rays"
 }
 Viewpoint {
-  orientation -0.0636607 0.994194 0.0867518 1.46997
-  position 0.398982 0.121893 0.0363673
+  orientation 0.33177529915665754 -0.5783889584940578 -0.7452458410227256 2.333640937761726
+  position -0.4290128025486586 0.252091923056615 0.21307187292207724
 }
 Background {
   skyColor [
     0.4 0.7 1
   ]
 }
+PointLight {
+  attenuation 0 0 1
+  location 0 0 0.3
+}
 Solid {
+  rotation 1 0 0 1.5707996938995747
   children [
     Shape {
-      appearance Appearance {
-        material Material {
-        }
+      appearance PBRAppearance {
+        metalness 0
       }
       geometry DEF PLANE Plane {
       }
@@ -24,23 +28,18 @@ Solid {
   ]
   boundingObject USE PLANE
 }
-PointLight {
-  location 0 0.3 0
-}
 DEF DYNAMIC_EMITTER Robot {
-  translation 0 0.15 -0.1
+  translation 0 -0.1 0.15
+  rotation 1 0 0 -1.5707996938995747
   children [
     Emitter {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
-                }
+              appearance BrushedSteel {
               }
               geometry Cone {
                 bottomRadius 0.025
@@ -59,13 +58,10 @@ DEF DYNAMIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
-                }
+              appearance BrushedSteel {
               }
               geometry Cone {
                 bottomRadius 0.025
@@ -92,20 +88,17 @@ DEF DYNAMIC_EMITTER Robot {
   controller "emitter_rays"
 }
 DEF STATIC_EMITTER Robot {
-  translation 0 0.06 0.1
-  rotation 0 1 0 3.14159
+  translation 0 0.1 0.06
+  rotation 1 0 0 1.5708
   children [
     Emitter {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
-                }
+              appearance BrushedSteel {
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -124,13 +117,10 @@ DEF STATIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
-                }
+              appearance BrushedSteel {
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -156,61 +146,107 @@ DEF STATIC_EMITTER Robot {
   controller "emitter_rays"
   customData "static"
 }
-DEF DYNAMIC_ROBOT DifferentialWheels {
-  translation 0 0.06 0
-  rotation 0 1 0 1.5708
+DEF DYNAMIC_ROBOT Robot {
+  translation 0 0 0.06
+  rotation 0 -1 0 0
   children [
-    Solid {
-      translation -0.045 -0.03 0
-      rotation 1 0 0 4.98467
-      children [
-        DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 0 1
-                }
-              }
-              geometry Cylinder {
-                height 0.03
-                radius 0.025
-              }
-            }
-          ]
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.045 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "left motor"
+          maxVelocity 1000
         }
       ]
-      name "left wheel"
-      boundingObject USE WHEEL
-      physics DEF PHYSICS_WHEEL Physics {
-        density -1
-        mass 0.05
+      endPoint Solid {
+        translation 0 0.045 -0.03
+        rotation 0 0 1 -1.5708
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.212802 0.869993
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
-    Solid {
-      translation 0.045 -0.03 0
-      rotation 1 0 0 4.58735
-      children [
-        USE WHEEL
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 -0.045 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "right motor"
+          maxVelocity 1000
+        }
       ]
-      name "right wheel"
-      boundingObject USE WHEEL
-      physics USE PHYSICS_WHEEL
+      endPoint Solid {
+        translation 0 -0.045 -0.03
+        rotation 0 0 1 -1.5708
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.212802 0.869993
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
     }
     DEF STATIC Receiver {
-      translation -0.02 0 0
-      rotation 0 1 0 -1.5708
+      translation 0 0.02 0
+      rotation 0 0.70710528118436 0.707108281185553 3.14159
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
-                }
+              appearance GlossyPaint {
+                baseColor 0.960784 0.47451 0
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -225,18 +261,16 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       aperture 0.4
     }
     DEF DYNAMIC Receiver {
-      translation 0.02 0 0
-      rotation 0 1 0 1.5708
+      translation 0 -0.02 0
+      rotation 1 0 0 1.5708
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
-                }
+              appearance GlossyPaint {
+                baseColor 0.960784 0.47451 0
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -251,18 +285,16 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       aperture 0.4
     }
     DEF STATIC Receiver {
-      translation -0.02 0 0
-      rotation 0 1 0 -1.5708
+      translation 0 0.02 0
+      rotation -1.1001696595529861e-06 0.7071067811861197 0.7071067811861197 3.14159
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
-                }
+              appearance GlossyPaint {
+                baseColor 0.960784 0.47451 0
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -278,18 +310,16 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       aperture 0.4
     }
     DEF DYNAMIC Receiver {
-      translation 0.02 0 0
-      rotation 0 1 0 1.5708
+      translation 0 -0.02 0
+      rotation 1 0 0 1.57079
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
-                }
+              appearance GlossyPaint {
+                baseColor 0.960784 0.47451 0
               }
               geometry Cone {
                 bottomRadius 0.02
@@ -309,7 +339,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
   ]
   name "dynamic robot"
   boundingObject Transform {
-    translation 0 -0.03 0
+    translation 0 0 -0.03
     children [
       Sphere {
         radius 0.02
@@ -321,11 +351,9 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
     mass 0.5
   }
   controller "receiver_rays"
-  controllerArgs "dynamic_receiver_rays"
-  axleLength 0.09
-  wheelRadius 0.025
-  maxSpeed 1000
-  maxAcceleration 1000
+  controllerArgs [
+    "dynamic_receiver_rays"
+  ]
 }
 TestSuiteSupervisor {
 }

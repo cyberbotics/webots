@@ -37,16 +37,26 @@ int main(int argc, char **argv) {
   ts_assert_double_equal(min_range, 0.0, "Minumum range returned is wrong (%lf instead of 0.0)", min_range);
   ts_assert_double_equal(max_range, 0.2, "Maximum range returned is wrong (%lf instead of 0.2)", max_range);
 
+  // check ds0 lookup table
+  int lookup_table_size = wb_distance_sensor_get_lookup_table_size(ds0);
+  ts_assert_double_equal(lookup_table_size, 2, "Lookup table size returned is wrong (%d instead of 2)", lookup_table_size);
+  const double *lookup_table = wb_distance_sensor_get_lookup_table(ds0);
+  ts_assert_double_equal(lookup_table[3], 0.2, "Lookup table (index 3) returned is wrong (%lf instead of 0.2)",
+                         lookup_table[3]);
+  ts_assert_double_equal(lookup_table[4], 2000, "Lookup table (index 4) returned is wrong (%lf instead of 2000)",
+                         lookup_table[4]);
+  ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0)", lookup_table[5]);
+
   // FIRST STEP - distance to texture
   wb_robot_step(TIME_STEP);
   wb_robot_step(TIME_STEP);
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);  // no texture
-  ts_assert_double_in_delta(value, 812.5, 0.001,
-                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object with white texture "
+  ts_assert_double_in_delta(value, 1019.3725, 0.001,
+                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object without texture "
                             "(expected = %f, received = %f)",
-                            812.5, value);
+                            1019.3725, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);  // green texture
@@ -63,10 +73,10 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 1046.401497, 0.001,
-                            "Distance sensor 'ds0' doesn't return the right distance when hitting a object with white texture "
+  ts_assert_double_in_delta(value, 1281.5175, 0.001,
+                            "Distance sensor 'ds0' doesn't return the right distance when hitting a object without texture "
                             "painted green (expected = %f, received = %f)",
-                            1046.401497, value);
+                            1281.5175, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);
@@ -83,10 +93,10 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 1017.679087, 0.001,
-                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object with white texture "
+  ts_assert_double_in_delta(value, 1250.002, 0.001,
+                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object without texture "
                             "painted in violet (expected = %f, received = %f)",
-                            1017.679087, value);
+                            1250.002, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);
@@ -103,10 +113,10 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 865.171422, 0.001,
-                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object with white texture "
+  ts_assert_double_in_delta(value, 1079.5153, 0.001,
+                            "Distance sensor 'ds0' doesn't return the right distance when hitting an object without texture "
                             "painted in red (expected = %f, received = %f)",
-                            865.171422, value);
+                            1079.5153, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);

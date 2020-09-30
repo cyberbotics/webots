@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ Driver::Driver() {
   x = 0.1f;
   z = 0.3f;
   translation[0] = x;
+  translation[1] = 0;
   translation[2] = z;
   emitter = getEmitter("emitter");
   Node *robot = getFromDef("ROBOT1");

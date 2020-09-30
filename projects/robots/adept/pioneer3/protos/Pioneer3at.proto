@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3at
@@ -9,7 +9,7 @@ PROTO Pioneer3at [
   field SFRotation rotation        0 1 0 0        # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-AT" # Is `Solid.name`.
   field SFString   controller      "void"         # Is `Robot.controller`.
-  field SFString   controllerArgs  ""             # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
@@ -46,7 +46,7 @@ PROTO Pioneer3at [
             url [
               "textures/body_3at_occlusion.jpg"
             ]
-          }                             
+          }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -142,7 +142,7 @@ PROTO Pioneer3at [
                       url [
                         "textures/cross_tire_occlusion.jpg"
                       ]
-                    }  
+                    }
                   }
                   geometry IndexedFaceSet {
                     coord Coordinate {

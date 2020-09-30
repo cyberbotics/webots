@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,9 +29,8 @@ bool WbMacAddress::check(const QString &macAddress) const {
 }
 
 QString WbMacAddress::address() const {
-  QString a;
-  a.sprintf("%02X%02X%02X%02X%02X%02X", mAddress[0], mAddress[1], mAddress[2], mAddress[3], mAddress[4], mAddress[5]);
-  return a;
+  return QString::asprintf("%02X%02X%02X%02X%02X%02X", mAddress[0], mAddress[1], mAddress[2], mAddress[3], mAddress[4],
+                           mAddress[5]);
 }
 
 #ifdef _WIN32

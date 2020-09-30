@@ -1,204 +1,204 @@
 {
-  "robotID": "n14", 
-  "name": "altino", 
+  "robotID": "n13",
+  "name": "altino",
   "devices": [
     {
-      "transformID": "n516", 
-      "initialPosition": 0, 
-      "name": "left_front_wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "transformID": "n515",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "left_front_wheel",
+      "minPosition": 0,
+      "maxPosition": 0
+    },
     {
-      "transformID": "n562", 
-      "initialPosition": 0, 
-      "name": "left_rear_wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "transformID": "n561",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "left_rear_wheel",
+      "minPosition": 0,
+      "maxPosition": 0
+    },
     {
-      "transformID": "n516", 
-      "initialPosition": 0, 
-      "name": "left_steer", 
-      "maxPosition": 1.34, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.34, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "transformID": "n515",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "left_steer",
+      "minPosition": -1.34,
+      "maxPosition": 1.34
+    },
     {
-      "transformID": "n493", 
-      "initialPosition": 0, 
-      "name": "right_front_wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "transformID": "n492",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "right_front_wheel",
+      "minPosition": 0,
+      "maxPosition": 0
+    },
     {
-      "transformID": "n539", 
-      "initialPosition": 0, 
-      "name": "right_rear_wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "transformID": "n538",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "right_rear_wheel",
+      "minPosition": 0,
+      "maxPosition": 0
+    },
     {
-      "transformID": "n493", 
-      "initialPosition": 0, 
-      "name": "right_steer", 
-      "maxPosition": 1.34, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.34, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "transformID": "n492",
+      "anchor": "0 0 0",
+      "type": "RotationalMotor",
+      "position": 0,
+      "name": "right_steer",
+      "minPosition": -1.34,
+      "maxPosition": 1.34
+    },
     {
-      "transformID": "n468", 
-      "name": "backlights", 
-      "ledPBRAppearanceIDs": [
-        "n472", 
-        "n476"
-      ], 
+      "ledGradual": false,
+      "name": "backlights",
       "ledColors": [
         "1 0.2 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n459", 
-      "name": "headlights", 
+      ],
+      "type": "LED",
       "ledPBRAppearanceIDs": [
-        "n465"
-      ], 
+        "n471",
+        "n475"
+      ],
+      "transformID": "n467"
+    },
+    {
+      "ledGradual": false,
+      "name": "headlights",
       "ledColors": [
         "1 1 0.66667"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "type": "LED",
+      "ledPBRAppearanceIDs": [
+        "n464"
+      ],
+      "transformID": "n458"
+    },
     {
-      "transformID": "n143", 
-      "type": "Accelerometer", 
-      "name": "accelerometer"
-    }, 
+      "type": "Accelerometer",
+      "name": "accelerometer",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "0 -0.005 -0.037", 
-      "type": "DistanceSensor", 
-      "name": "back_sensor"
-    }, 
+      "transformOffset": "0 -0.005 -0.037",
+      "name": "back_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "type": "Emitter", 
-      "name": "emitter"
-    }, 
+      "type": "Emitter",
+      "name": "emitter",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n14", 
-      "transformOffset": "0 0 0.1", 
-      "type": "Speaker", 
-      "name": "engine_speaker"
-    }, 
+      "transformOffset": "0 0 0.1",
+      "name": "engine_speaker",
+      "type": "Speaker",
+      "transformID": "n13"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "0 0 0.14", 
-      "type": "DistanceSensor", 
-      "name": "front_center_sensor"
-    }, 
+      "transformOffset": "0 0 0.14",
+      "name": "front_center_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "0.03 0 0.14", 
-      "type": "DistanceSensor", 
-      "name": "front_left_sensor"
-    }, 
+      "transformOffset": "0.03 0 0.14",
+      "name": "front_left_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "-0.03 0 0.14", 
-      "type": "DistanceSensor", 
-      "name": "front_right_sensor"
-    }, 
+      "transformOffset": "-0.03 0 0.14",
+      "name": "front_right_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n516", 
-      "type": "Brake", 
-      "name": "left_front_brake"
-    }, 
+      "type": "Brake",
+      "name": "left_front_brake",
+      "transformID": "n515"
+    },
     {
-      "transformID": "n516", 
-      "type": "PositionSensor", 
-      "name": "left_front_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "left_front_sensor",
+      "transformID": "n515"
+    },
     {
-      "transformID": "n562", 
-      "type": "Brake", 
-      "name": "left_rear_brake"
-    }, 
+      "type": "Brake",
+      "name": "left_rear_brake",
+      "transformID": "n561"
+    },
     {
-      "transformID": "n562", 
-      "type": "PositionSensor", 
-      "name": "left_rear_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "left_rear_sensor",
+      "transformID": "n561"
+    },
     {
-      "transformID": "n516", 
-      "type": "PositionSensor", 
-      "name": "left_steer_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "left_steer_sensor",
+      "transformID": "n515"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "-0.01 0.042 0.055", 
-      "type": "LightSensor", 
-      "name": "light_sensor"
-    }, 
+      "transformOffset": "-0.01 0.042 0.055",
+      "name": "light_sensor",
+      "type": "LightSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "type": "Receiver", 
-      "name": "receiver"
-    }, 
+      "type": "Receiver",
+      "name": "receiver",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n493", 
-      "type": "Brake", 
-      "name": "right_front_brake"
-    }, 
+      "type": "Brake",
+      "name": "right_front_brake",
+      "transformID": "n492"
+    },
     {
-      "transformID": "n493", 
-      "type": "PositionSensor", 
-      "name": "right_front_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "right_front_sensor",
+      "transformID": "n492"
+    },
     {
-      "transformID": "n539", 
-      "type": "Brake", 
-      "name": "right_rear_brake"
-    }, 
+      "type": "Brake",
+      "name": "right_rear_brake",
+      "transformID": "n538"
+    },
     {
-      "transformID": "n539", 
-      "type": "PositionSensor", 
-      "name": "right_rear_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "right_rear_sensor",
+      "transformID": "n538"
+    },
     {
-      "transformID": "n493", 
-      "type": "PositionSensor", 
-      "name": "right_steer_sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "right_steer_sensor",
+      "transformID": "n492"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "0.04 -0.005 0.05", 
-      "type": "DistanceSensor", 
-      "name": "side_left_sensor"
-    }, 
+      "transformOffset": "0.04 -0.005 0.05",
+      "name": "side_left_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
+    },
     {
-      "transformID": "n143", 
-      "transformOffset": "-0.04 -0.005 0.05", 
-      "type": "DistanceSensor", 
-      "name": "side_right_sensor"
+      "transformOffset": "-0.04 -0.005 0.05",
+      "name": "side_right_sensor",
+      "type": "DistanceSensor",
+      "transformID": "n142"
     }
   ]
 }

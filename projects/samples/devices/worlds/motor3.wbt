@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of a controlled BallJoint."
   ]
   title "Motor 3"
+  coordinateSystem "NUE"
   lineScale 0.3
 }
 Viewpoint {

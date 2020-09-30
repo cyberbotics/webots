@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Model for the course: Models of Biological Sensory-Motor Systems"
@@ -8,6 +8,7 @@ WorldInfo {
   title "GhostDog"
   CFM 0.0001
   basicTimeStep 4
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"

@@ -1,0 +1,29 @@
+name: Test Doc
+
+on:
+  pull_request:
+    paths:
+    - 'docs/**'
+    - '.github/workflows/**'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-doc:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Tests
+      run: |
+        pip install -r docs/tests/requirements.txt
+        export WEBOTS_HOME=$PWD
+        python -m unittest discover -s docs/tests

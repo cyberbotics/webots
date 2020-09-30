@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 
 WbWindowsRegistry::WbWindowsRegistry(const QString &key) {
   HKEY baseKey = 0;
-  QStringList keys = key.split("\\", QString::SkipEmptyParts);
+  QStringList keys = key.split("\\", Qt::SkipEmptyParts);
   assert(keys.length() > 0);
   QString baseString = keys.takeFirst();
   if (baseString.toUpper() == "HKEY_CLASSES_ROOT")

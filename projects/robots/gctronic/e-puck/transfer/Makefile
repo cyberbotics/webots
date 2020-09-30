@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,36 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 XC16_TARGET=xc16
 XC16_VERSION=1.24
+XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
+PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
+EXTRACT=unzip -q
 
 ifeq ($(OSTYPE),linux)
- HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
- EXTRACT=unzip -q
  WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*zip))
- EXTRACT=unzip -q
- WGET=curl -O --silent
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
- EXTRACT=unzip -q
  WGET=wget --quiet
 endif
 

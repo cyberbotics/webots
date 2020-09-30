@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -67,9 +67,11 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 # See the License for the specific language governing permissions and
 # limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
 
-PYTHON_OPTIONAL_HEADER = """#!/usr/bin/env python
-
-"""
+PYTHON_OPTIONAL_HEADERS = [
+    '#!/usr/bin/env python2',
+    '#!/usr/bin/env python3',
+    '#!/usr/bin/env python',
+]
 
 
 class TestLicense(unittest.TestCase):
@@ -78,7 +80,7 @@ class TestLicense(unittest.TestCase):
     def setUp(self):
         """Get all the source files which require a license check."""
         directories = [
-            'src/lib/Controller',
+            'src/Controller',
             'src/webots',
             'src/wren',
             'projects',
@@ -95,8 +97,6 @@ class TestLicense(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
-            'projects/languages/ros/controllers/ros_python/kinetic',
-            'projects/languages/ros/controllers/ros_python/python',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',
@@ -107,14 +107,16 @@ class TestLicense(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Framework',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Linux',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/robots/robotis/darwin-op/libraries/python',
+            'projects/robots/robotis/darwin-op/libraries',
             'projects/samples/robotbenchmark',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
 
         skippedFilePaths = [
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
-            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h'
+            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h',
+            'scripts/packaging/iscc_formatter.c'
         ]
 
         skippedDirectories = [
@@ -166,9 +168,11 @@ class TestLicense(unittest.TestCase):
                             (source, APACHE2_LICENSE_CPP)
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
+                    for pythonHeader in PYTHON_OPTIONAL_HEADERS:
+                        if content.startswith(pythonHeader + '\n'):
+                            content = content[len(pythonHeader):].lstrip('\n')
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_PYTHON) or
-                        content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
+                        content.startswith(APACHE2_LICENSE_PYTHON),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
                             (source, APACHE2_LICENSE_PYTHON)
                     )

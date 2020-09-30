@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -9,7 +9,7 @@ PROTO Bed [
   field SFRotation rotation           0 1 0 0
   field SFString   name               "bed"
   field SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }                                                      # Defines the appearance of the frame.
-  field SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the mattress.  
+  field SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the mattress.
   field SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the pillows.
   field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
 ]

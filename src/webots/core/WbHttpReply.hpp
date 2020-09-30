@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@
 namespace WbHttpReply {
   QByteArray forge404Reply();
   QByteArray forgeHTMLReply(const QString &htmlContent);
-  QByteArray forgeImageReply(const QString &imageFileName);
+  QByteArray forgeFileReply(const QString &fileName);
+  QString mimeType(const QString &url, bool generic = false);
 };  // namespace WbHttpReply
 
 #endif

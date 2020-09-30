@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #ifndef WB_ROBOT_HPP
 #define WB_ROBOT_HPP
 
+#include "WbMFString.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
@@ -25,6 +26,7 @@
 #include <QtCore/QVarLengthArray>
 #include <QtCore/QVector>
 
+class WbAbstractCamera;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -62,9 +64,11 @@ public:
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
+  void setControllerNeedRestart() { mNeedToRestartController = true; }
   bool isWaitingForUserInputEvent() const;
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
+  void addNewlyInsertedDevice(WbNode *node);
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
@@ -91,9 +95,11 @@ public:
   // update sensors in case of no answer needs to be written at this step
   virtual void updateSensors();
 
+  void renderCameras();
+
   // field accessors
   const QString &controllerName() const { return mController->value(); }
-  const QString &controllerArgs() const { return mControllerArgs->value(); }
+  const QStringList &controllerArgs() const { return mControllerArgs->value(); }
   const QString &customData() const { return mCustomData->value(); }
   const QString &window() const { return mWindow->value(); }
   bool synchronization() const { return mSynchronization->value(); }
@@ -102,6 +108,8 @@ public:
   bool selfCollision() const { return mSelfCollision->value(); }
 
   WbSupervisorUtilities *supervisorUtilities() const { return mSupervisorUtilities; }
+
+  const bool isRobot() const override { return true; };
 
   // energy accessors and setters
   double currentEnergy() const;
@@ -137,6 +145,7 @@ signals:
   void controllerChanged();
   void controllerRestarted();
   void controllerExited();
+  void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
   void appendMessageToConsole(const QString &message, bool useStdout);
@@ -154,13 +163,14 @@ protected:
 
   // export
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
 
 private:
   // user accessible fields
   WbSFString *mController;
-  WbSFString *mControllerArgs;
+  WbMFString *mControllerArgs;
   WbSFString *mCustomData;
   WbSFBool *mSupervisor;
   WbSFBool *mSynchronization;
@@ -171,15 +181,18 @@ private:
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
+  bool mNeedToWriteUrdf;
   bool mShowWindowCalled;
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
   const QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
+  bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
 
@@ -188,6 +201,7 @@ private:
   double mPreviousTime;
 
   // supervisor
+  bool mSupervisorUtilitiesNeedUpdate;
   WbSupervisorUtilities *mSupervisorUtilities;
 
   // pin
@@ -237,6 +251,9 @@ private:
   // other variables
   QList<WbDevice *> mDevices;
   QList<WbRenderingDevice *> mRenderingDevices;
+  QList<WbAbstractCamera *> mActiveCameras;
+  QList<WbDevice *> mNewlyAddedDevices;
+  int mNextTag;
 
   QList<int> mPressedKeys;
 
@@ -244,7 +261,10 @@ private:
   WbNode *clone() const override { return new WbRobot(*this); }
   void init();
   void addDevices(WbNode *node);
-  void assignDeviceTags();
+  // if reset is TRUE reassign tags to devices (when device config changed)
+  // if reset is FALSE, only tag of newly added devices will be assigned
+  void assignDeviceTags(bool reset);
+  void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
   void pinToStaticEnvironment(bool pin);
@@ -254,11 +274,13 @@ private:
 
 private slots:
   void updateDevicesAfterDestruction();
+  void updateActiveCameras(WbAbstractCamera *camera, bool isActive);
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();
   void updateControllerDir();
   void updateData();
+  void updateSupervisor();
   void updateModel();
   void removeRenderingDevice();
   void handleMouseChange();

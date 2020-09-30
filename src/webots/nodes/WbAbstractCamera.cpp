@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,9 +23,7 @@
 #include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
-#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
-#include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -34,7 +32,7 @@
 #include "WbWrenShaders.hpp"
 #include "WbWrenTextureOverlay.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
@@ -309,8 +307,12 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-    QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
-    stream.writeRawData(n.constData(), n.size() + 1);
+    if (mImageShm) {
+      stream << (int)(mImageShm->size());
+      QByteArray n = QFile::encodeName(mImageShm->nativeKey());
+      stream.writeRawData(n.constData(), n.size() + 1);
+    } else
+      stream << (int)(0);
     mHasSharedMemoryChanged = false;
   }
 
@@ -352,12 +354,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       // update motion blur factor
       applyMotionBlurToWren();
 
-      if (mSensor->isEnabled())
-        connect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                &WbAbstractCamera::updateCameraTexture, Qt::UniqueConnection);
-      else
-        disconnect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                   &WbAbstractCamera::updateCameraTexture);
+      emit enabled(this, mSensor->isEnabled());
 
       if (!hasBeenSetup()) {
         setup();
@@ -563,7 +560,8 @@ void WbAbstractCamera::updateFieldOfView() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mFieldOfView, 0.7854))
     return;
   if (!mSpherical->value() && fieldOfView() > M_PI) {
-    warn(tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
+    parsingWarn(
+      tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
     mFieldOfView->setValue(0.7854);
     return;
   }

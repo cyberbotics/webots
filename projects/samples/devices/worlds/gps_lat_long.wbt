@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of GPS in latitude-altitude-longitude mode."
   ]
   title "GPS"
+  coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
   gpsReference 40.67 -73.94 10
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Simulation of the KUKA youBot robot."
@@ -31,6 +31,7 @@ WorldInfo {
       ]
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.0007164091970262829 0.9969576358617646 0.07794202367647327 3.2006006

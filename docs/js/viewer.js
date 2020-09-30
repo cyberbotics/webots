@@ -221,7 +221,7 @@ function forgeUrl(book, page, tabs, anchor) {
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
     else
-      url += (isFirstArgument ? '?' : '&') + 'page=' + page;
+      url += '&page=' + page;
 
     // Add or replace the tab argument.
     for (tabOption in tabs) {
@@ -229,7 +229,7 @@ function forgeUrl(book, page, tabs, anchor) {
       if (url.indexOf(tabOption + '=') > -1)
         url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
       else if (tabName)
-        url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabName;
+        url += '&' + tabOption + '=' + tabName;
     }
 
     url += anchorString;
@@ -242,6 +242,8 @@ function addDynamicAnchorEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       var node = event.target;
       while (node && !node.hasAttribute('href'))
         node = node.getParent();
@@ -261,6 +263,8 @@ function addDynamicLoadEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       aClick(event.target);
       event.preventDefault();
     },
@@ -417,6 +421,8 @@ function applyToTitleDiv() {
       newTitle = 'Webots Reference Manual';
     else if (localSetup.book === 'blog')
       newTitle = 'Webots Blog';
+    else if (localSetup.book === 'discord')
+      newTitle = 'Webots Discord Archives';
     else if (localSetup.book === 'automobile')
       newTitle = 'Webots for automobiles';
     else
@@ -523,7 +529,7 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   var content = document.querySelector('#content');
-  if (content.offsetHeight < 2 * window.innerHeight || headings.length < 4)
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   var level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
@@ -763,12 +769,17 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
 
+  if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
+    transform.firstRotation = transform.quaternion.clone();
+
+  if (typeof transform.firstPosition === 'undefined' && typeof transform.position !== 'undefined')
+    transform.firstPosition = transform.position.clone();
+
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
   var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
-  var initialPosition = parseFloat(slider.getAttribute('webots-initial-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
     // Compute translation
@@ -784,15 +795,30 @@ function sliderMotorCallback(transform, slider) {
     transform.position.copy(translation);
     transform.updateMatrix();
   } else {
+    // extract anchor
+    var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
+    anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+
     // Compute angle.
-    var angle = initialPosition;
-    angle += value - position;
+    var angle = value - position;
+
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
     q.setFromAxisAngle(
       axis,
       angle
     );
+
+    if (typeof transform.firstRotation !== 'undefined')
+      q.multiply(transform.firstRotation);
+
+    if (typeof transform.firstPosition !== 'undefined')
+      transform.position.copy(transform.firstPosition);
+
+    transform.position.sub(anchor); // remove the offset
+    transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
+    transform.position.add(anchor); // re-add the offset
+
     transform.quaternion.copy(q);
     transform.updateMatrix();
   }
@@ -827,7 +853,19 @@ function highlightX3DElement(robot, deviceElement) {
   if (object) {
     // Show billboard origin.
     var originBillboard = robotComponent.billboardOriginMesh.clone();
-    object.add(originBillboard);
+    if (deviceElement.hasAttribute('device-anchor')) {
+      var anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
+      anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+      originBillboard.position.add(anchor);
+      object.parent.add(originBillboard);
+    } else {
+      if (deviceElement.hasAttribute('webots-transform-offset')) {
+        var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
+        offset = new THREE.Vector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
+        originBillboard.position.add(offset);
+      }
+      object.add(originBillboard);
+    }
     robotComponent.billboardOrigin = originBillboard;
 
     if (type === 'LED') {
@@ -986,9 +1024,9 @@ function createRobotComponent(view) {
             }
             slider.setAttribute('value', device['position']);
             slider.setAttribute('webots-position', device['position']);
-            slider.setAttribute('webots-initial-position', device['initialPosition']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
+            slider.setAttribute('webots-anchor', device['anchor']);
             slider.setAttribute('webots-type', deviceType);
             slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
               var id = e.target.getAttribute('webots-transform-id');
@@ -1002,6 +1040,7 @@ function createRobotComponent(view) {
             motorDiv.appendChild(slider);
             motorDiv.appendChild(maxLabel);
             deviceDiv.appendChild(motorDiv);
+            deviceDiv.setAttribute('device-anchor', device['anchor']);
           }
 
           // LED case: set the target color.
@@ -1092,7 +1131,7 @@ function renderGraphs() {
 
 function applyAnchorIcons(view) {
   var elements = [];
-  var tags = ['figcaption', 'h1', 'h2', 'h3', 'h4'];
+  var tags = ['figcaption', 'h1', 'h2', 'h3', 'h4', 'h5'];
   var i;
   for (i = 0; i < tags.length; i++) {
     var array = Array.prototype.slice.call(view.querySelectorAll(tags[i]));
@@ -1152,10 +1191,11 @@ function updateMenuScrollbar() {
   var e = document.documentElement;
   var t = document.documentElement.scrollTop || document.body.scrollTop;
   var p = e.scrollHeight - t - e.clientHeight;
-  if (p < 244) // 244 is the height in pixels of the footer of Cyberbotics web page
-    document.querySelector('#left').style.height = (e.clientHeight - 290 + p) + 'px';
-  else // 44 is the height in pixels of the header of Cyberbotics web page (44 + 244 = 290)
-    document.querySelector('#left').style.height = 'calc(100% - 44px)';
+  var footerHeight = 192;
+  if (p < footerHeight)
+    document.querySelector('#left').style.height = (e.clientHeight - footerHeight + p) + 'px';
+  else
+    document.querySelector('#left').style.height = '100%';
 }
 
 function updateSelection() {
@@ -1380,6 +1420,7 @@ function extractAnchor(url) {
 // width: in pixels
 function setHandleWidth(width) {
   handle.left.css('width', width + 'px');
+  handle.menu.css('width', width + 'px');
   handle.handle.css('left', width + 'px');
   handle.center.css('left', width + 'px');
   handle.center.css('width', 'calc(100% - ' + width + 'px)');
@@ -1390,17 +1431,15 @@ function initializeHandle() {
   handle = {}; // structure where all the handle info is stored
 
   handle.left = $('#left');
+  handle.menu = $('#menu');
   handle.center = $('#center');
   handle.handle = $('#handle');
   handle.container = $('#webots-doc');
 
   // dimension bounds of the handle in pixels
   handle.min = 0;
-  handle.minThreshold = 75; // under this threshold, the handle is totally hidden
-  if (localSetup.menuWidth && localSetup.menuWidth !== '')
-    handle.initialWidth = localSetup.menuWidth;
-  else
-    handle.initialWidth = handle.left.width();
+  handle.minThreshold = 90; // under this threshold, the handle is totally hidden
+  handle.initialWidth = Math.max(handle.minThreshold, handle.left.width());
   handle.max = Math.max(250, handle.initialWidth);
 
   handle.isResizing = false;
@@ -1418,7 +1457,9 @@ function initializeHandle() {
 
   setHandleWidth(handle.initialWidth);
 
-  handle.handle.on('mousedown', function(e) {
+  handle.handle.on('mousedown touchstart', function(e) {
+    if (e.type === 'touchstart')
+      e = e.originalEvent.touches[0];
     handle.isResizing = true;
     handle.lastDownX = e.clientX;
     handle.container.css('user-select', 'none');
@@ -1429,7 +1470,9 @@ function initializeHandle() {
       setHandleWidth(0);
   });
 
-  $(document).on('mousemove', function(e) {
+  $(document).on('mousemove touchmove', function(e) {
+    if (e.type === 'touchmove')
+      e = e.originalEvent.touches[0];
     if (!handle.isResizing)
       return;
     var mousePosition = e.clientX - handle.container.offset().left; // in pixels
@@ -1441,7 +1484,7 @@ function initializeHandle() {
     if (mousePosition < handle.min || mousePosition > handle.max)
       return;
     setHandleWidth(mousePosition);
-  }).on('mouseup', function(e) {
+  }).on('mouseup touchend', function(e) {
     handle.isResizing = false;
     handle.container.css('user-select', 'auto');
   });

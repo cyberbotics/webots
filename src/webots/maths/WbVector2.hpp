@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include <QtCore/QTextStream>
 
 #include <cassert>
+#include <cfloat>
 #include <cmath>
 
 class WbVector2 {
@@ -129,6 +130,18 @@ public:
   // returns a unit vector with the same direction: / length
   void normalize() { *this /= length(); }
   WbVector2 normalized() const { return *this / length(); }
+
+  void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
+    if (mX > max)
+      mX = max;
+    else if (mX < min)
+      mX = min;
+    if (mY > max)
+      mY = max;
+    else if (mY < min)
+      mY = min;
+  }
+
   // vector comparison
   bool operator==(const WbVector2 &v) const { return mX == v.mX && mY == v.mY; }
   bool operator!=(const WbVector2 &v) const { return mX != v.mX || mY != v.mY; }

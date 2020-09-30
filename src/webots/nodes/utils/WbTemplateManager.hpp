@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ private slots:
   void unsubscribe(QObject *node);
   void regenerateNodeFromFieldChange(WbField *field);
   void regenerateNodeFromParameterChange(WbField *field);
-  void regenerateNode(WbNode *node);
+  void regenerateNode(WbNode *node, bool restarted = false);
   void nodeNeedRegeneration();
 
 private:

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -96,6 +96,7 @@ namespace wren {
 #ifdef _WIN32  // mbstowcs doesn't work properly on Windows
     l = MultiByteToWideChar(CP_UTF8, 0, text, -1, wcharText, l + 1) - 1;
 #else
+    // cppcheck-suppress uninitdata
     l = mbstowcs(wcharText, text, l + 1);
 #endif
 

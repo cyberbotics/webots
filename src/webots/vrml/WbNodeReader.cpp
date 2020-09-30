@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
     if (previousDefNode == mDefs.value(defName, NULL))
       // check if descendant nodes have the same DEF name
       // if it is the case, then we should not overwrite the value
-      mDefs.insert(defName, node);
+      addDefNode(node);
   }
 
   return node;
@@ -158,4 +158,9 @@ QList<WbNode *> WbNodeReader::readVrml(WbTokenizer *tokenizer, const QString &wo
 
 void WbNodeReader::addDefNode(WbNode *defNode) {
   mDefs.insert(defNode->defName(), defNode);
+}
+
+void WbNodeReader::removeDefNode(WbNode *defNode) {
+  if (mDefs.value(defNode->defName()) == defNode)
+    mDefs.remove(defNode->defName());
 }

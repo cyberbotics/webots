@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Demo of the IPR (Katana) robotic arm (Neuronics AG)."
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "IPR (Katana) 6M"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "object"
@@ -43,33 +44,26 @@ DEF FLOOR Solid {
 DEF WALLS Solid {
   children [
     Transform {
-      translation -10 4 -4
+      translation -10 2 0
       rotation 0 0 1 -1.57
       children [
-        Shape {
-          appearance DEF WALL_COLOR PBRAppearance {
-            baseColor 0.905882 0.72549 0.72549
-            roughness 0.10196099999999997
+        DEF WALL_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColor 0.9 0.72 0.72
+            roughness 0.1
             metalness 0
           }
-          geometry ElevationGrid {
-            xDimension 5
-            zDimension 9
+          geometry Plane {
+            size 4 8
           }
         }
       ]
     }
     Transform {
-      translation 10 0 -4
+      translation 10 2 0
       rotation 0 0 1 1.57
       children [
-        Shape {
-          appearance USE WALL_COLOR
-          geometry ElevationGrid {
-            xDimension 5
-            zDimension 9
-          }
-        }
+        USE WALL_SHAPE
       ]
     }
   ]
@@ -544,7 +538,7 @@ Robot {
           name "belt_motor"
         }
       ]
-      textureAnimation -0.001 0
+      textureAnimation -0.05 0
     }
   ]
   name "Belt"

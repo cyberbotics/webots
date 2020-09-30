@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,16 +23,16 @@
 #include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
 #include <cassert>
 
 void WbDifferentialWheels::init() {
-  warn(tr("The DifferentialWheels node is deprecated. Please use the Robot node instead with two "
-          "HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from "
-          "the Help menu to get assistance on converting your DifferentialWheels robot."));
+  parsingWarn(tr("The DifferentialWheels node is deprecated. Please use the Robot node instead with two "
+                 "HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from "
+                 "the Help menu to get assistance on converting your DifferentialWheels robot."));
 
   for (int i = 0; i < 2; i++) {
     mPosition[i] = 0.0;
@@ -221,27 +221,27 @@ void WbDifferentialWheels::findWheels() {
 
   if (physics()) {
     if (!mRightWheel) {
-      warn(tr("A Solid children named \"right wheel\" is missing."));
+      parsingWarn(tr("A Solid children named \"right wheel\" is missing."));
       return;
     }
     if (!mLeftWheel) {
-      warn(tr("A Solid children named \"left wheel\" is missing."));
+      parsingWarn(tr("A Solid children named \"left wheel\" is missing."));
       return;
     }
     if (!mRightWheel->boundingObject()) {
-      warn(tr("The Solid children named \"right wheel\" has no 'boundingObject'."));
+      parsingWarn(tr("The Solid children named \"right wheel\" has no 'boundingObject'."));
       return;
     }
     if (!mLeftWheel->boundingObject()) {
-      warn(tr("The Solid children named \"left wheel\" has no 'boundingObject'."));
+      parsingWarn(tr("The Solid children named \"left wheel\" has no 'boundingObject'."));
       return;
     }
     if (!mRightWheel->physics()) {
-      warn(tr("The Solid children named \"right wheel\" has no 'physics'."));
+      parsingWarn(tr("The Solid children named \"right wheel\" has no 'physics'."));
       return;
     }
     if (!mLeftWheel->physics()) {
-      warn(tr("The Solid children named \"left wheel\" has no 'physics'."));
+      parsingWarn(tr("The Solid children named \"left wheel\" has no 'physics'."));
       return;
     }
   }

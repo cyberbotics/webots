@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,4 +33,10 @@ WbLogicalDevice::WbLogicalDevice(const WbNode &other) : WbBaseNode(other), WbDev
 }
 
 WbLogicalDevice::~WbLogicalDevice() {
+}
+
+bool WbLogicalDevice::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbBaseNode::exportNodeHeader(writer);
 }

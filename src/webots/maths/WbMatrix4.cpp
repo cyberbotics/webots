@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbMatrix4.hpp"
+
 #include "WbMatrix3.hpp"
 #include "WbRotation.hpp"
 
@@ -349,10 +350,6 @@ void WbMatrix4::toOpenGlMatrix(double m[16]) const {
   m[13] = mM[7];
   m[14] = mM[11];
   m[15] = mM[15];
-}
-
-void WbMatrix4::extract3x3Matrix(WbMatrix3 &m) const {
-  m = WbMatrix3(mM[0], mM[1], mM[2], mM[4], mM[5], mM[6], mM[8], mM[9], mM[10]);
 }
 
 WbMatrix3 WbMatrix4::extracted3x3Matrix() const {

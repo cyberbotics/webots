@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "A model of the NASA Sojourner Rover on Mars."
@@ -7,8 +7,9 @@ WorldInfo {
     "Haute Ecole d'Ingenierie et de Gestion de Vaud (HEIG-VD)"
   ]
   title "Sojourner Rover"
-  gravity 0 -3.73 0
+  gravity 3.73
   basicTimeStep 16
+  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {
@@ -19,15 +20,15 @@ Viewpoint {
   follow "Sojourner"
 }
 TexturedBackground {
-  texture "twilight_cloudy_empty"
+  texture "mars"
 }
 TexturedBackgroundLight {
-  texture "twilight_cloudy_empty"
+  texture "mars"
 }
 Fog {
-  color 0.25098 0.172549 0.129412
+  color 0.5 0.2 0
   fogType "EXPONENTIAL"
-  visibilityRange 200
+  visibilityRange 800
 }
 DEF FLAG Solid {
   translation 0.108014 0.441311 1.29315
@@ -72,44 +73,43 @@ Sojourner {
 Rock17cm {
   translation 1.0081 -0.0884858 0.925124
   rotation 0 -1 0 1.29206
+  color 0.8 0.35 0.3
 }
 Rock17cm {
   translation 2.8026 -0.0937371 0.551869
   rotation 0 -1 0 2.79177
   name "rock 17 cm(1)"
+  color 0.8 0.4 0.3
 }
 Rock17cm {
   translation 1.22813 -0.147933 -0.170912
   rotation 0 -1 0 3.26485
   name "rock 17 cm(2)"
+  color 0.9 0.4 0.3
 }
 Rock10cm {
   translation 1.82525 -0.0515644 0.468926
+  color 0.8 0.4 0.3
 }
 Rock10cm {
   translation 0.300248 -0.112514 -0.875617
   name "rock 10 cm(1)"
+  color 0.9 0.4 0.35
 }
 Rock10cm {
   translation 0.387314 -0.116121 -0.177911
   name "rock 10 cm(2)"
+  color 0.9 0.4 0.3
 }
 DEF GROUND Solid {
   translation -641 38.85 -801
   children [
-    DEF GROUND Shape {
-      appearance PBRAppearance {
-        baseColor 0.647059 0.427451 0.290196
-        baseColorMap ImageTexture {
-          url [
-            "sojourner/mars_ground.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+    DEF GROUND_SHAPE Shape {
+      appearance Soil {
         textureTransform TextureTransform {
-          scale 100 100
+          scale 600 600
         }
+        color 0.8 0.2 0
       }
       geometry ElevationGrid {
         height [
@@ -123,6 +123,6 @@ DEF GROUND Solid {
     }
   ]
   name "ground"
-  boundingObject USE GROUND
+  boundingObject USE GROUND_SHAPE
   locked TRUE
 }

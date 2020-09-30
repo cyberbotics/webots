@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 void RosMathUtils::matrixToQuaternion(const double *matrix, geometry_msgs::Quaternion &q) {
   if (matrix[0] == matrix[4] && matrix[0] == matrix[8] && matrix[0] == 1.0) {
     // exception
-    q.w = 0.0;
+    q.w = 1.0;
     q.x = 0.0;
-    q.y = 1.0;
+    q.y = 0.0;
     q.z = 0.0;
     return;
   }

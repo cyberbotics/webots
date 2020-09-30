@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,6 +30,9 @@ WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &lo
 
   mScreenshot = QImage("images:splash_images/" + screenshots.at(randomImageIndex));
   mWebotsLogo = QImage("images:" + logoFileName);
+#ifdef _WIN32
+  setWindowModality(Qt::ApplicationModal);
+#endif
 }
 
 WbSplashScreen::~WbSplashScreen() {

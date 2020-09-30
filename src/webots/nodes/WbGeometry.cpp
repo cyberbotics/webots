@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -138,22 +138,23 @@ void WbGeometry::createOdeObjects() {
 
 // Default creation method (overriden in every WbGeometry inherited class)
 dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
-  warn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
+  parsingWarn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
   return NULL;
 }
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
   const WbVector3 &yAxis = m.column(1);
-  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravity();
+  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
   const double alpha = yAxis.angle(-g);
 
   static const double ZERO_THRESHOLD = 1e-3;
 
   if (fabs(alpha) > ZERO_THRESHOLD)
-    warn("The normal to this geometry's immersion plane is not opposed to the gravity vector. "
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to this geometry's immersion plane is not opposed to the gravity vector. "
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 /////////////////////////
@@ -228,13 +229,14 @@ void WbGeometry::applyToOdeMass() {
 ////////////
 
 void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
-  if (!isInBoundingObject())
+  if (!mWrenMaterial || !isInBoundingObject())
     return;
 
   bool isColliding = mCollisionTime >= WbSimulationState::instance()->time();
   if (onSelection && !isColliding)
     isColliding = mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep();
   const bool wasColliding =
+    mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep() ||
     mPreviousCollisionTime >= WbSimulationState::instance()->time() - 2 * WbWorld::instance()->basicTimeStep();
   const bool changeBoundingObjectMaterial = isColliding != wasColliding || triggerChange;
 
@@ -513,6 +515,19 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
     return false;
 
   return true;
+}
+
+int WbGeometry::triangleCount() const {
+  if (areWrenObjectsInitialized() && this->wrenMesh())
+    return wr_static_mesh_get_triangle_count(this->wrenMesh());
+  else
+    return 0;
+}
+
+bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbBaseNode::exportNodeHeader(writer);
 }
 
 ////////////////////////////////

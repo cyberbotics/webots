@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with recognition capability."
   ]
   title "Camera Image Recognition"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.7346252174262549 -0.6024593478892954 -0.31203929890677645 5.284452

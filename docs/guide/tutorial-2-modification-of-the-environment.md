@@ -24,7 +24,7 @@ We will now delete the `RectangleArena` node and add a simple floor that we will
 
 > **Hands-on #2**: To remove the `RectangleArena`, select it either in the 3D view or in the scene tree view with a left click and press the `Delete` key on your keyboard.
 Alternatively, you can right click on it in the 3D view and select `Delete` in the context menu (you can also use the context menu directly in the scene tree view).
-Select the `TexturedBackroundLight` node and click on the `Add` button.
+Select the `TexturedBackgroundLight` node and click on the `Add` button.
 In the open dialog box, and choose `PROTO nodes (Webots Projects) / objects / floors / Floor (Solid)`.
 
 The newly added `Floor` PROTO has a default size of 10mx10m, but it is possible to adjust its size, its position and texture by changing the corresponding fields.
@@ -134,7 +134,7 @@ The [field editor](the-scene-tree.md#field-editor) of the scene tree view allows
 
 Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) node also modifies its `boundingObject`.
 
-For convenience, the `boundingObject` field accepts also the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
+For convenience, the `boundingObject` field also accepts the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
 It would be also possible to use the same DEF-USE mechanism at the [Shape](../reference/shape.md) level as shown in [this figure](#def-use-mechanism-applied-on-the-shape-node-of-a-solid).
 For now the greatest benefit is being able to also use this [Shape](../reference/shape.md) directly for graphical purposes.
 Later this mechanism will turn out to be very useful for some sensors.

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,13 +76,17 @@ int main(int argc, char **argv) {
   do {
     const char *answer_message = wb_robot_wwi_receive_text();
 
-    if (answer_message && strncmp(answer_message, "record:", 7) == 0) {
-      robotbenchmark_record(answer_message, "pit_escape", metric);
-      waiting_answer = false;
+    if (answer_message) {
+      if (strncmp(answer_message, "record:", 7) == 0) {
+        robotbenchmark_record(answer_message, "pit_escape", metric);
+        waiting_answer = false;
+      } else if (strcmp(answer_message, "exit") == 0)
+        waiting_answer = false;
     }
 
   } while (wb_robot_step(time_step) != -1 && waiting_answer);
 
+  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
   wb_robot_cleanup();
 
   return 0;

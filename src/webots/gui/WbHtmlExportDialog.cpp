@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@ WbHtmlExportDialog::WbHtmlExportDialog(const QString &title, const QString &worl
   mainLayout->addWidget(mButtonBox);
 
   // read intial export values
-  const QHash<QString, QString> parameters = WbWorld::instance()->perspective()->x3dExportParameters();
+  const QMap<QString, QString> parameters = WbWorld::instance()->perspective()->x3dExportParameters();
   QString mapValueString;
   if (parameters.contains(gShadowMapSizeString))
     mapValueString = parameters.value(gShadowMapSizeString);

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,36 +41,45 @@ def github_api(request):
     req.add_header('User-Agent', github_api.user_agent)
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
+    content = ''
     try:
         response = urlopen(req)
+        content = response.read().decode()
     except HTTPError as e:
         print(request)
         print(e.reason)
         print(e.info())
-    content = response.read()
+        raise(e)
     github_api.last_time = time.time()
-    return json.loads(content.decode())
+    return json.loads(content)
 
 
-if len(sys.argv) == 3:
+target_branch = None
+if len(sys.argv) > 3:
+    target_branch = sys.argv[3]
+if len(sys.argv) > 2:
     commit = sys.argv[1]
     repo = sys.argv[2]
 else:
-    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
     repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
 github_api.last_time = 0
 github_api.user_agent = repo
-j = github_api('search/issues?q=' + commit)
+if not target_branch:
+    j = github_api('search/issues?q=' + commit)
 filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt')
-if j['total_count'] == 0:  # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
+if not target_branch and j['total_count'] == 0:
+    # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
+    sys.stderr.write('No PR open yet!')
 else:
-    url = j['items'][0]['pull_request']['url']
-    j = github_api(url)
-    branch = j['base']['ref']
+    if not target_branch:
+        url = j['items'][0]['pull_request']['url']
+        j = github_api(url)
+        target_branch = j['base']['ref']
     with open(filename, 'w') as file:
-        j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
+        j = github_api('repos/' + repo + '/compare/' + target_branch + '...' + commit)
         for f in j['files']:
             if os.path.isfile(f['filename']):  # In case the file has been deleted.
                 file.write(f['filename'] + '\n')

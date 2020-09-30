@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -93,6 +93,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   // openGL tab
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
   mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 2).toInt());
+  mTextureFilteringCombo->setCurrentIndex(prefs->value("OpenGL/textureFiltering", 4).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
   mDisableAntiAliasingCheckBox->setChecked(prefs->value("OpenGL/disableAntiAliasing").toBool());
@@ -151,6 +152,7 @@ void WbPreferencesDialog::accept() {
   // openGL
   prefs->setValue("OpenGL/GTAO", mAmbientOcclusionCombo->currentIndex());
   prefs->setValue("OpenGL/textureQuality", mTextureQualityCombo->currentIndex());
+  prefs->setValue("OpenGL/textureFiltering", mTextureFilteringCombo->currentIndex());
   prefs->setValue("OpenGL/disableShadows", mDisableShadowsCheckBox->isChecked());
   prefs->setValue("OpenGL/disableAntiAliasing", mDisableAntiAliasingCheckBox->isChecked());
 
@@ -304,9 +306,9 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   // row 8
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
-                                    "https://www.cyberbotics.com/doc/guide/telemetry"));
-  QLabel *label = new QLabel(
-    tr("Telemetry (<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
+                                    "https://cyberbotics.com/doc/guide/telemetry"));
+  QLabel *label =
+    new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   layout->addWidget(label, 8, 0);
   layout->addWidget(mTelemetryCheckBox, 8, 1);
@@ -347,13 +349,20 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   layout->addWidget(mTextureQualityCombo, 1, 1, Qt::AlignLeft);
 
   // row 2
-  layout->addWidget(new QLabel(tr("Options:"), this), 2, 0);
-  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
-  layout->addWidget(mDisableShadowsCheckBox, 2, 1, Qt::AlignLeft);
+  mTextureFilteringCombo = new QComboBox(this);
+  for (int i = 0; i < 6; ++i)
+    mTextureFilteringCombo->addItem(QString::number(i));
+  layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
+  layout->addWidget(mTextureFilteringCombo, 2, 1, Qt::AlignLeft);
 
   // row 3
+  layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
+  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
+  layout->addWidget(mDisableShadowsCheckBox, 3, 1, Qt::AlignLeft);
+
+  // row 4
   mDisableAntiAliasingCheckBox = new QCheckBox(tr("Disable anti-aliasing"), this);
-  layout->addWidget(mDisableAntiAliasingCheckBox, 3, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1, Qt::AlignLeft);
 
   return widget;
 }

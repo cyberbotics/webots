@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.343499 -0.910646 -0.229636 5.24359
+  orientation 0.3434989325345835 -0.9106458211432591 -0.22963595489801025 5.24359
   position 0.805917 0.450324 0.499419
 }
 Background {
@@ -27,7 +28,7 @@ Robot {
 }
 Can {
   translation 0 0.176396 0
-  rotation 0.468149 0.242555 -0.849708 0.768349
+  rotation 0.4681489767119297 0.2425549879341024 -0.8497079577312787 0.768349
 }
 TestSuiteSupervisor {
 }

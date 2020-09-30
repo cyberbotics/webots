@@ -1,6 +1,7 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
   lineScale 0.05
   contactProperties [
     ContactProperties {

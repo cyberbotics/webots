@@ -1,4 +1,4 @@
-## Mosyba's Thymio II
+## Mobsya's Thymio II
 
 %robot thymio2 images/robots/thymio2/model.thumbnail.png
 
@@ -72,7 +72,7 @@ Thymio2 {
   SFRotation rotation        0 1 0 0
   SFString   name            "Thymio II"
   SFString   controller      "thymio2_aseba"
-  SFString   controllerArgs  "port=33333"
+  MFString   controllerArgs  "port=33333"
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

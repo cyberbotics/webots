@@ -78,7 +78,7 @@ AiboErs7 {
   SFRotation rotation            1 0 0 -0.05
   SFString   name                "ERS-7"
   SFString   controller          "ers7"
-  SFString   controllerArgs      ""
+  MFString   controllerArgs      []
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE

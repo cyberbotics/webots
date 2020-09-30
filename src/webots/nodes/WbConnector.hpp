@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,6 +81,7 @@ private:
   int mValue;
   bool mIsJointInversed;
   bool mIsInitiallyLocked;
+  bool mNeedToReconfigure;
 
   WrTransform *mTransform;
   WrTransform *mAxesTransform;
@@ -96,6 +97,7 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
+  void addConfigure(QDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);

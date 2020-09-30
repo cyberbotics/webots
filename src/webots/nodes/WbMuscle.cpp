@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ void WbMuscle::init() {
   // deprecated field
   mMaxRadius = findSFDouble("maxRadius");
   if (mVolume->value() == 0.01 && mMaxRadius->value() != 0.0)
-    warn(tr("'maxRadius' field is deprecated, please use the 'volume' field instead."));
+    parsingWarn(tr("'maxRadius' field is deprecated, please use the 'volume' field instead."));
 
   mEndPoint = NULL;
   mHeight = 0.1;
@@ -120,7 +120,7 @@ void WbMuscle::postFinalize() {
   WbBaseNode::postFinalize();
 
   mParentTransform = WbNodeUtilities::findUpperTransform(this);
-  const WbJoint *joint = dynamic_cast<WbJoint *>(parent()->parent());
+  const WbJoint *joint = dynamic_cast<WbJoint *>(parentNode()->parentNode());
   updateEndPoint(joint->solidEndPoint());
   WbWrenVertexArrayFrameListener::instance()->subscribeMuscle(this);
   updateMaterial();
@@ -197,7 +197,7 @@ void WbMuscle::updateEndPointPosition() {
 
 void WbMuscle::updateEndPoint(WbBaseNode *node) {
   const WbSolid *solid = dynamic_cast<WbSolid *>(node);
-  const WbJoint *joint = dynamic_cast<WbJoint *>(parent()->parent());
+  const WbJoint *joint = dynamic_cast<WbJoint *>(parentNode()->parentNode());
   if (mEndPoint != solid) {
     if (mEndPoint) {
       disconnect(mEndPoint->translationFieldValue(), &WbSFVector3::changedByOde, this, &WbMuscle::stretch);
@@ -220,7 +220,7 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
 }
 
 void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate, int motorIndex) {
-  const WbMotor *motor = dynamic_cast<WbMotor *>(parent());
+  const WbMotor *motor = dynamic_cast<WbMotor *>(parentNode());
   if (motor->positionIndex() != motorIndex)
     return;
   mStatus = forcePercentage;

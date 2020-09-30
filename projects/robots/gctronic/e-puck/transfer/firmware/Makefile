@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ endif
 # WEBOTS_HOME_PATH is commonly defined in the caller Makefile
 # but as it is not necessary on non-windows OS, it seems safer to reconstruct it there if required
 ifndef WEBOTS_HOME_PATH
-  space :=
-  space +=
+  null :=
+  space := $(null) $(null)
   WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 

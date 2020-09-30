@@ -4,7 +4,7 @@
 WorldInfo {
   SFString title                          ""         # any string
   MFString info                           [ ]        # any string
-  SFVec3f  gravity                        0 -9.81 0  # any vector
+  SFFloat  gravity                        9.81       # [0, inf)
   SFFloat  CFM                            0.00001    # [0, inf)
   SFFloat  ERP                            0.2        # [0, 1]
   SFString physics                        ""         # any string
@@ -16,7 +16,7 @@ WorldInfo {
   SFFloat  physicsDisableAngularThreshold 0.01       # [0, inf)
   SFNode   defaultDamping                 NULL       # {Damping, PROTO}
   SFFloat  inkEvaporation                 0          # [0, inf)
-  SFVec3f  northDirection                 1 0 0      # unit axis
+  SFString coordinateSystem               "ENU"      # {"ENU", "NUE", "EUN"}
   SFString gpsCoordinateSystem            "local"    # {"WGS84", "local"}
   SFVec3f  gpsReference                   0 0 0      # any vector
   SFFloat  lineScale                      0.1        # [0, inf)
@@ -32,10 +32,9 @@ The [WorldInfo](#worldinfo) node provides general information on the simulated w
 - The `info` field should give additional information, like the author who created the world, the date of creation and a description of the purpose of the world.
 Several character strings can be used.
 
-- The `gravity` field defines the gravitational acceleration to be used in physics simulation.
+- The `gravity` field defines the gravitational acceleration along the vertical axis to be used in physics simulation.
 The gravity is set by default to the gravity found on earth.
 You should change it if you want to simulate rover robots on Mars, for example.
-The gravity vector defines the orientation of the ground plane used by [InertialUnit](inertialunit.md)s.
 
 - The `ERP` field defines the *Error Reduction Parameter* use by ODE to manage contacts joints.
 This applies by default to all contact joints, except those whose contact properties are defined in a [ContactProperties](contactproperties.md) node.
@@ -59,8 +58,7 @@ See [this chapter](physics-plugin.md) for a description on how to set up a physi
 This is especially useful for modeling hydrodynamic forces, wind, non-uniform friction, etc.
 
 - The `basicTimeStep` field defines the duration of the simulation step executed by Webots.
-It is a floating point value expressed in milliseconds.
-The minimum value for this field is 0.001, that is, one microsecond.
+It is a floating point value expressed in milliseconds where the minimum value is 1.
 Setting this field to a high value will accelerate the simulation, but will decrease the accuracy and the stability, especially for physics computations and collision detection.
 It is usually recommended to tune this value in order to find a suitable speed/accuracy trade-off.
 
@@ -99,7 +97,15 @@ This evaporation process is a computationally expensive task, hence the ground t
 Also, it is recommended to use ground textures with low resolution to speed up this process.
 As with the pen device, the modified ground textures can be seen only through infra-red distance sensors, and not through cameras (as the ground textures are not updated on the controller side).
 
-- The `northDirection` field is used to indicate the direction of the *virtual north* and is used by [Compass](compass.md) and [InertialUnit](inertialunit.md) nodes.
+- The `coordinateSystem` field indicates the [axis convention](https://en.wikipedia.org/wiki/Axes_conventions) of the global coordinate system, defining the cartesian and gravity directions.
+Currently it supports only "ENU" (default), "NUE" and "EUN".
+"ENU" means East along the X-positive axis, North along the Y-positive axis and Up along the Z-positive axis.
+It is the most widely used axis convention in robotics, including ROS.
+"NUE" means North along the X-positive axis, Up along the Y-positive axis and East along the Z-positive axis.
+It is the legacy Webots axis convention which was inherited from VRML97.
+"EUN" means East along the X-positive axis, Up along the Y-positive axis and North along the Z-positive axis.
+It is similar to "NUE" but with the North and East inverted.
+Changing the coordinate system will affect the return values of the [Accelerometer](accelerometer.md), [Compass](compass.md), [InertialUnit](inertialunit.md) and [GPS](gps.md) devices.
 
 - The `gpsCoordinateSystem` field is used to indicate in which coordinate system are expressed the coordinates returned by the GPS devices.
 If the value is `WGS84` the World Geodetic System `WGS84` and an Universal Transverse Mercatoris projection are used to compute the latitude, altitude and longitude from the cartesian coordinates of the device, otherwise, if the value is `local` the cartesian coordinates of the device are directly returned as is.

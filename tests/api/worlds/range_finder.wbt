@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.99169286 0.007423969 -0.12841398 5.74739
+  orientation 0.9916928629006359 0.007423969021714616 -0.12841398037560237 5.74739
   position -0.236366 2.54748 4.38049
 }
 Background {
@@ -11,7 +12,7 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 Transform {
@@ -45,11 +46,6 @@ Transform {
   children [
     Shape {
       geometry ElevationGrid {
-        color Color {
-          color [
-            0 0 0
-          ]
-        }
         height [
           0, 0, 0, 0
         ]
@@ -70,7 +66,9 @@ Robot {
     }
   ]
   controller "range_finder_checker"
-  controllerArgs "range_finder"
+  controllerArgs [
+    "range_finder"
+  ]
 }
 TestSuiteSupervisor {
 }

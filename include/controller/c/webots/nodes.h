@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ typedef enum {
   WB_NODE_INDEXED_FACE_SET,
   WB_NODE_INDEXED_LINE_SET,
   WB_NODE_MATERIAL,
+  WB_NODE_MESH,
   WB_NODE_MUSCLE,
   WB_NODE_NORMAL,
   WB_NODE_PBR_APPEARANCE,
@@ -86,7 +87,6 @@ typedef enum {
   WB_NODE_BALL_JOINT_PARAMETERS,
   WB_NODE_CHARGER,
   WB_NODE_CONTACT_PROPERTIES,
-  WB_NODE_CUBEMAP,
   WB_NODE_DAMPING,
   WB_NODE_FLUID,
   WB_NODE_FOCUS,

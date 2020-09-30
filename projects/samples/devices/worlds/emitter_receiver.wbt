@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of an Emitter and a Receiver device."
   ]
   title "Emitter - Receiver"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.999994899514001 0.00044670095511257927 0.0031624996822114393 4.80953

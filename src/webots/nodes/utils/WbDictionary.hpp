@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 // Description: Handles the updates of the DEF names Dictionary
 //
 
-#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
 #include <QtCore/QStringList>
 
 class WbBaseNode;
@@ -54,17 +54,17 @@ public:
 private:
   static WbDictionary *cInstance;
   WbDictionary();
-  virtual ~WbDictionary();
+  ~WbDictionary();
 
   bool updateDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
   void updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
   void updateForInsertion(const WbNode *const node, bool suitableOnly, QList<WbNode *> &defNodes);
   void makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary);
-  QList<QMap<QString, WbNode *>> mNestedDictionaries;
+  QList<QMultiMap<QString, WbNode *>> mNestedDictionaries;
   void clearNestedDictionaries() {
     mNestedUseNodes.clear();
     mNestedDictionaries.clear();
-    mNestedDictionaries << QMap<QString, WbNode *>();
+    mNestedDictionaries << QMultiMap<QString, WbNode *>();
   }
   WbNode *mTargetNode;
   WbField *mTargetField;

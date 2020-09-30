@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ public:
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
                 const QString &worldPath, int id);
   static QString convertFieldValueToLuaStatement(const WbField *field);
+  static const QString &coordinateSystem();
+  static void setCoordinateSystem(const QString &coordinateSystem);
 
 private:
   static QString convertFieldDefaultValueToLuaStatement(const WbField *field);

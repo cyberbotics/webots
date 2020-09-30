@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,6 +34,8 @@
 #include <QtCore/QVector>
 
 #include <cassert>
+
+static QString gCoordinateSystem;
 
 WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
 }
@@ -71,13 +73,21 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] += QString("project_path = \"%1\",").arg(WbProject::current()->path());
   tags["context"] += QString("temporary_files_path = \"%1\",").arg(WbStandardPaths::webotsTmpPath());
   tags["context"] += QString("id = \"%1\",").arg(id);
+  tags["context"] += QString("coordinate_system = \"%1\",").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
   // for example major = R2018a and revision = 0
   tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
-
   return WbTemplateEngine::generate(tags, logHeaderName);
+}
+
+void WbProtoTemplateEngine::setCoordinateSystem(const QString &coordinateSystem) {
+  gCoordinateSystem = coordinateSystem;
+}
+
+const QString &WbProtoTemplateEngine::coordinateSystem() {
+  return gCoordinateSystem;
 }
 
 QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *field) {

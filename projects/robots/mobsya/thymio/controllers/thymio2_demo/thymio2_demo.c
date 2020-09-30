@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,10 +195,11 @@ int main(int argc, char **argv) {
     buttons_pressed[BUTTON_RIGHT] |= (wb_touch_sensor_get_value(buttons[BUTTON_RIGHT]) == 1);
     buttons_pressed[BUTTON_LEFT] |= (wb_touch_sensor_get_value(buttons[BUTTON_LEFT]) == 1);
 
-    wb_led_set(leds_buttons[LED_BUTTON_BACKWARD], (buttons_pressed[BUTTON_BACKWARD] | buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
-    wb_led_set(leds_buttons[LED_BUTTON_FORWARD], (buttons_pressed[BUTTON_FORWARD] | buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
-    wb_led_set(leds_buttons[LED_BUTTON_RIGHT], (buttons_pressed[BUTTON_RIGHT] | buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
-    wb_led_set(leds_buttons[LED_BUTTON_LEFT], (buttons_pressed[BUTTON_LEFT] | buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
+    wb_led_set(leds_buttons[LED_BUTTON_BACKWARD],
+               (buttons_pressed[BUTTON_BACKWARD] || buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
+    wb_led_set(leds_buttons[LED_BUTTON_FORWARD], (buttons_pressed[BUTTON_FORWARD] || buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
+    wb_led_set(leds_buttons[LED_BUTTON_RIGHT], (buttons_pressed[BUTTON_RIGHT] || buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
+    wb_led_set(leds_buttons[LED_BUTTON_LEFT], (buttons_pressed[BUTTON_LEFT] || buttons_pressed[BUTTON_CENTER]) ? 32 : 0);
 
     if (buttons_pressed[BUTTON_CENTER]) {
       const double *acc_values = wb_accelerometer_get_values(acc);

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.731225 -0.659272 -0.175128 5.67849
+  orientation 0.7312252241231249 -0.6592722020692683 -0.17512805367736964 5.67849
   position 0.688572 0.886986 1.28351
 }
 Background {
@@ -11,11 +12,10 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 DEF ROBOT Robot {
-  linearVelocity 0 -5 0
   children [
     Shape {
       geometry Box {
@@ -28,6 +28,7 @@ DEF ROBOT Robot {
     }
   ]
   controller "gps_speed"
+  linearVelocity 0 -5 0
 }
 TestSuiteSupervisor {
 }

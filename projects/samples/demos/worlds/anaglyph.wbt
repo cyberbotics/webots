@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "passive_wheel"
@@ -25,16 +26,10 @@ DEF GROUND Solid {
           translation -8 0 -8
           children [
             Shape {
-              appearance PBRAppearance {
-                baseColorMap ImageTexture {
-                  url [
-                    "textures/grass.jpg"
-                  ]
-                }
-                roughness 1
-                metalness 0
+              appearance Grass {
+                type "mossy"
                 textureTransform TextureTransform {
-                  scale 10 10
+                  scale 8.5 8.5
                 }
               }
               geometry ElevationGrid {
@@ -48,16 +43,10 @@ DEF GROUND Solid {
           ]
         }
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/grass.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance Grass {
+            type "mossy"
             textureTransform TextureTransform {
-              scale 50 50
+              scale 250 250
             }
           }
           geometry Plane {
@@ -234,5 +223,22 @@ Create {
 DEF KHR2HV Khr2hv {
   translation 0.320786 0.2308 -0.618738
   rotation 0.893566143878011 0.3174430511132557 0.3174420511130947 4.60009
-  controllerArgs "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+  controllerArgs [
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+    "0"
+  ]
 }

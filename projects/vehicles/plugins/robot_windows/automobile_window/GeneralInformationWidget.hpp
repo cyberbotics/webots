@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@
 #ifndef GENERAL_INFORMATION_WIDGET_HPP
 #define GENERAL_INFORMATION_WIDGET_HPP
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QString>
-#include <QtCore/QTime>
 #include <QtWidgets/QWidget>
 
 #include <webots/vehicle/car.h>
@@ -52,7 +52,7 @@ private:
   void init();
 
   QCheckBox *mEnableCheckBox;
-  QTime mLastRefreshTime;
+  QElapsedTimer mLastRefreshTimer;
   bool mIsinitialized;
 
   // drawing positions

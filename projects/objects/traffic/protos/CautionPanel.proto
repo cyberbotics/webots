@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic panel: Caution panel.
@@ -8,7 +8,7 @@ PROTO CautionPanel [
   field SFRotation rotation           0 1 0 0
   field SFString   name               "caution panel"
   field MFString   signImage          "textures/signs/us/traffic_signals_ahead.jpg"  # Defines the texture used for the sign.
-  field SFColor    color              0.8 0.8 0.8                                    # Defines the color of the panel
+  field SFColor    color              0.8 0.8 0.8                                    # Defines the color of the panel.
   field MFColor    recognitionColors  [ 1 0.82 0.2, 0.8 0.8 0.8 ]                    # Is `Solid.recognitionColors`.
 ]
 {

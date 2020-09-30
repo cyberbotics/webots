@@ -28,10 +28,11 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable     | Typical Value                                    |
-|--------------------------|--------------------------------------------------|
-| WEBOTS\_HOME             | `C:\Program Files\Webots`                        |
-| PATH                     | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
+| Environment Variable                        | Typical Value                                                                                                        |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                                                            |
+| PATH (for C and MATLAB controllers)         | add `%WEBOTS_HOME%\lib\controller` and `%WEBOTS_HOME%\msys64\mingw64\bin`                                            |
+| PATH (for C++, Python and Java controllers) | add `%WEBOTS_HOME%\lib\controller`, `%WEBOTS_HOME%\msys64\mingw64\bin` and `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`    |
 
 %tab-end
 
@@ -40,7 +41,7 @@ Generic Webots environment variables needed for all the controller languages:
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
 | WEBOTS\_HOME             | `/usr/local/webots`                              |
-| LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib`                         |
+| LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
 
@@ -48,8 +49,8 @@ Generic Webots environment variables needed for all the controller languages:
 
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
-| WEBOTS\_HOME             | `/Applications/Webots`                           |
-| DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
+| WEBOTS\_HOME             | `/Applications/Webots.app`                       |
+| DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
 
@@ -62,44 +63,57 @@ Specific setup depending on the controller language:
 
 %tab "C"
 
-If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
-- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+No specific setup is needed.
 
 %tab-end
 
 %tab "C++"
 
-If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
-- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+No specific setup is needed.
 
 %tab-end
 
 %tab "Python"
-| Version      | Environment Variable     | Typical Value                                    |
-|--------------|--------------------------|--------------------------------------------------|
-| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
-| Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python3X`                |
-| all          | PYTHONIOENCODING         | `UTF-8`                                          |
+| Version               | Environment Variable     | Typical Value                                     |
+|--------------         |--------------------------|---------------------------------------------------|
+| Python 2.7            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`      |
+| Python 3.X            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`      |
+| Python Homebrew 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
+| all                   | PYTHONIOENCODING         | `UTF-8`                                           |
 %tab-end
 
 %tab "Java"
 
-Add the `-Djava.library.path=${WEBOTS_HOME}/lib/java` option to the `java` command line launching the Java controller.
+Add the following options to the `java` command line launching the Java controller:
+- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
+- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
+For example to launch the `Driver` Java controller, type:
+```bash
+java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
+```
 %tab-end
 
 
 %tab "MATLAB"
 
-| Environment Variable     | Typical Value                                    |
-|--------------------------|--------------------------------------------------|
-| WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
-| WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
-| WEBOTS\_VERSION          | `R2019a-rev1`                                    |
+| Environment Variable     | Typical Value                                     |
+|--------------------------|---------------------------------------------------|
+| WEBOTS\_PROJECT          | `C:\Users\MyUsername\my_folder\my_webots_project` |
+| WEBOTS\_CONTROLLER\_NAME | `my_robot_controller`                             |
+| WEBOTS\_VERSION          | `R2020a revision 1`                               |
+
+
+Here is an example of what you should enter in the MATLAB console:
+
+```matlab
+>> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
+>> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
+>> setenv('WEBOTS_VERSION', 'R2020a revision 1')
+>> cd(getenv('WEBOTS_HOME'))
+>> cd('lib/controller/matlab')
+>> launcher
+```
 
 %tab-end
 
@@ -137,7 +151,7 @@ If that simulation has more than one extern controller, you may also set the `WE
 In order to compile and execute extern controllers, the following environment variables should be set:
 ```
 export WEBOTS_HOME=/snap/webots/current/usr/share/webots
-export LD_LIBRARY_PATH=$WEBOTS_HOME/lib
+export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/controller
 ```
 
 Additionally, on Ubuntu 16.04 the following environment variables should be set:

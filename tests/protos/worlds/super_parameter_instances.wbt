@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.30952161260731814 -0.9415885439050846 -0.1326928231505681 0.8544930720188703
@@ -26,7 +27,6 @@ Robot {
     }
   ]
   controller "super_parameter_instances"
-  controllerArgs "super_parameter_instances"
   supervisor TRUE
 }
 TestSuiteSupervisor {

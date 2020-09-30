@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -168,19 +168,19 @@ bool WbVideoRecorder::setMainWindowFullScreen(bool fullScreen) {
 }
 
 void WbVideoRecorder::estimateMovieInfo(double basicTimeStep) {
-  int roundedBasicTimeStep = round(basicTimeStep);
-  double refresh = EXPECTED_FRAME_STEP / (double)roundedBasicTimeStep;
-  int floorRefresh = floor(refresh);
-  int ceilRefresh = ceil(refresh);
-  int frameStep0 = floorRefresh * roundedBasicTimeStep;
-  int frameStep1 = ceilRefresh * roundedBasicTimeStep;
+  const int roundedBasicTimeStep = round(basicTimeStep);
+  const double refresh = mVideoAcceleration * EXPECTED_FRAME_STEP / (double)roundedBasicTimeStep;
+  const int floorRefresh = floor(refresh);
+  const int ceilRefresh = ceil(refresh);
+  const int frameStep0 = floorRefresh * roundedBasicTimeStep;
+  const int frameStep1 = ceilRefresh * roundedBasicTimeStep;
 
   if (frameStep0 == 0 || abs(frameStep0 - EXPECTED_FRAME_STEP) > abs(frameStep1 - EXPECTED_FRAME_STEP)) {
-    mMovieFPS = 1000.0 / frameStep1;
-    cDisplayRefresh = ceilRefresh * mVideoAcceleration;
+    mMovieFPS = mVideoAcceleration * 1000.0 / frameStep1;
+    cDisplayRefresh = frameStep1;
   } else {
-    mMovieFPS = 1000.0 / frameStep0;
-    cDisplayRefresh = floorRefresh * mVideoAcceleration;
+    mMovieFPS = mVideoAcceleration * 1000.0 / frameStep0;
+    cDisplayRefresh = frameStep0;
   }
 }
 
@@ -455,7 +455,7 @@ void WbVideoRecorder::removeOldTempFiles() {
 
 QString WbVideoRecorder::nextFileName() {
   mLastFileNumber++;
-  return mTempDirPath + mFrameFilePrefix + QString().sprintf("%06d", mLastFileNumber) + ".jpg";
+  return mTempDirPath + mFrameFilePrefix + QString::asprintf("%06d", mLastFileNumber) + ".jpg";
 }
 
 void WbVideoRecorder::createMpeg() {
@@ -544,7 +544,7 @@ void WbVideoRecorder::createMpeg() {
     env.insert("AV_LOG_FORCE_COLOR", "1");  // force output message to use ANSI Escape sequences
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
-    mScriptProcess->start("./" + mScriptPath);
+    mScriptProcess->start("./" + mScriptPath, QStringList());
     connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);

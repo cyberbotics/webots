@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   ERP 0.6
   FPS 30
+  coordinateSystem "NUE"
   lineScale 5
   contactProperties [
     ContactProperties {
@@ -71,7 +72,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.06042670177153546 -0.9631916861309017 -0.2619358499352935 2.64150026974578
-  position 133.92404498085006 266.1719029086428 -538.5886187883387
+  position 283.04766693206136 248.33959221256697 -636.6305158186383
   near 3
 }
 TexturedBackground {
@@ -1385,7 +1386,7 @@ SolidBox {
   translation 567.756 0.077 -353.743
   rotation 0 -1 0 0.1791
   size 0.8 0.15 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1403,7 +1404,7 @@ SolidBox {
   rotation 0 1 0 5
   name "box(1)"
   size 0.9 0.15 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1414,7 +1415,7 @@ SolidBox {
   rotation 0 -1 0 2.0792
   name "box(2)"
   size 0.8 0.15 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1425,7 +1426,7 @@ SolidBox {
   rotation 0 -1 0 2.0792
   name "box(3)"
   size 0.8 0.15 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1436,7 +1437,7 @@ SolidBox {
   rotation 0 -1 0 0.3
   name "box(4)"
   size 0.8 0.15 3.25
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -4423,11 +4424,6 @@ TruckSimple {
 TruckSimple {
   translation 590.02934 0.5 -349.71482
   rotation 0 -1 0 4.9
-  trailer TruckTrailerSimple {
-    texture [
-      "textures/truck_trailer_red.jpg"
-    ]
-  }
   name "vehicle(26)"
 }
 TruckSimple {

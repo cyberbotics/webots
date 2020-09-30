@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ int wb_connector_get_presence_sampling_period(WbDeviceTag tag);
 int wb_connector_get_presence(WbDeviceTag tag);
 void wb_connector_lock(WbDeviceTag tag);
 void wb_connector_unlock(WbDeviceTag tag);
+bool wb_connector_is_locked(WbDeviceTag tag);
 
 #ifdef __cplusplus
 }

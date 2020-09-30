@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of 'noiseMaskUrl' field of a color Camera device."
   ]
   title "Camera Noise Mask"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9993654210563073 0.030315713032043043 -0.018700608019766134 5.29098

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -39,6 +39,8 @@ void WbCompass::init() {
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
 }
 
 WbCompass::WbCompass(WbTokenizer *tokenizer) : WbSolidDevice("Compass", tokenizer) {
@@ -80,6 +82,8 @@ void WbCompass::updateLookupTable() {
   // create the lookup table
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
+
+  mNeedToReconfigure = true;
 }
 
 void WbCompass::updateResolution() {
@@ -104,13 +108,30 @@ void WbCompass::handleMessage(QDataStream &stream) {
 void WbCompass::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
+    stream << (unsigned char)C_COMPASS_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 void WbCompass::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
+}
+
+void WbCompass::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 bool WbCompass::refreshSensorIfNeeded() {
@@ -124,9 +145,8 @@ bool WbCompass::refreshSensorIfNeeded() {
 
 void WbCompass::computeValue() {
   // get global north
-  WbWorldInfo *info = WbWorld::instance()->worldInfo();
-  assert(info);
-  const WbVector3 &globalNorth = info->northDirection();
+  assert(WbWorld::instance()->worldInfo());
+  const WbVector3 &globalNorth = WbWorld::instance()->worldInfo()->northVector();
 
   // convert from global to Compass local coordinate system
   WbVector3 localNorth = globalNorth * matrix();

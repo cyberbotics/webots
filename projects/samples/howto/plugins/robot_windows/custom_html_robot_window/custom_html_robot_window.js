@@ -25,7 +25,7 @@ function toggleStopCheckbox(obj) {
   }
 }
 
-// A message comming from the robot has been received.
+// A message coming from the robot has been received.
 function receive(message) {
   if (message.startsWith('ps0: ')) {
     var ps0Value = parseFloat(message.substr(5));

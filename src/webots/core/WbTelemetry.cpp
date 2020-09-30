@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ void WbTelemetry::send(const QString &operation, const QString &file) {
 }
 
 void WbTelemetry::sendRequest(const QString &operation) {
-  QNetworkRequest request(QUrl("https://www.cyberbotics.com/telemetry.php"));
+  QNetworkRequest request(QUrl("https://cyberbotics.com/telemetry.php"));
   QByteArray data;
   data.append("id=");
   const int id = WbPreferences::instance()->value("General/telemetryId", 0).toString().toInt();

@@ -8,9 +8,9 @@ static void logMsg(const char *msg) {
   fclose(f);
 }
 
-static bool wbr_start(void *args) {
+static bool wbr_start(const char *args) {
   char buffer[128];
-  sprintf(buffer, "wbr_start %s", (const char *)args);
+  sprintf(buffer, "wbr_start %s", args);
   logMsg(buffer);
   return true;
 }

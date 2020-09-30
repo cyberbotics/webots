@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a Bumper TouchSensor device."
   ]
   title "Bumper"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9999582989790481 0.00493413149496228 -0.007684702292153962 5.35231

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -145,6 +145,9 @@ void WbLidar::reset() {
   if (r)
     r->reset();
 
+  if (mWrenCamera)
+    mWrenCamera->rotateYaw(-mCurrentRotatingAngle);
+
   mIsPointCloudEnabled = false;
   mCurrentRotatingAngle = 0;
   mPreviousRotatingAngle = 0;
@@ -177,13 +180,11 @@ void WbLidar::initializeSharedMemory() {
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
-  QString info;
   WbRgb color;
   if (hasBeenSetup())
     color = mWrenCamera->copyPixelColourValue(x, y);
 
-  info.sprintf("depth(%d,%d)=%f", x, y, color.red());
-  return info;
+  return QString::asprintf("depth(%d,%d)=%f", x, y, color.red());
 }
 
 void WbLidar::prePhysicsStep(double ms) {
@@ -241,12 +242,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     mSensor->setRefreshRate(mRefreshRate);
 
-    if (mSensor->isEnabled())
-      connect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this, &WbLidar::updateCameraTexture,
-              Qt::UniqueConnection);
-    else
-      disconnect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                 &WbLidar::updateCameraTexture);
+    emit enabled(this, mSensor->isEnabled());
 
     if (!hasBeenSetup()) {
       setup();
@@ -598,7 +594,7 @@ void WbLidar::updateNear() {
     return;
 
   if (mNear->value() > mMinRange->value()) {
-    warn(tr("'near' is greater than to 'minRange'. Setting 'near' to %1.").arg(mMinRange->value()));
+    parsingWarn(tr("'near' is greater than to 'minRange'. Setting 'near' to %1.").arg(mMinRange->value()));
     mNear->setValue(mMinRange->value());
     return;
   }
@@ -612,13 +608,13 @@ void WbLidar::updateMinRange() {
     return;
 
   if (mMinRange->value() < mNear->value()) {
-    warn(tr("'minRange' is less than 'near'. Setting 'minRange' to %1.").arg(mNear->value()));
+    parsingWarn(tr("'minRange' is less than 'near'. Setting 'minRange' to %1.").arg(mNear->value()));
     mMinRange->setValue(mNear->value());
     return;
   }
 
   if (mMinRange->value() >= mMaxRange->value()) {
-    warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(mMinRange->value() + 1.0));
+    parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(mMinRange->value() + 1.0));
     mMaxRange->setValue(mMinRange->value() + 1.0);
     return;
   }
@@ -632,7 +628,7 @@ void WbLidar::updateMinRange() {
 void WbLidar::updateMaxRange() {
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
-    warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
+    parsingWarn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
     mMaxRange->setValue(newMaxRange);
     return;
   }
@@ -674,7 +670,7 @@ void WbLidar::updateTiltAngle() {
 void WbLidar::updateType() {
   if (mType->value().compare("fixed", Qt::CaseInsensitive) != 0 &&
       mType->value().compare("rotating", Qt::CaseInsensitive) != 0) {
-    warn(tr("'type' should either be 'fixed' or 'rotating', reset to 'fixed'"));
+    parsingWarn(tr("'type' should either be 'fixed' or 'rotating', reset to 'fixed'"));
     mType->setValue("fixed");
   }
   if (areWrenObjectsInitialized())
@@ -684,7 +680,7 @@ void WbLidar::updateType() {
 void WbLidar::updateMinFrequency() {
   WbFieldChecker::resetDoubleIfNonPositive(this, mMinFrequency, 0.01);
   if (mMinFrequency->value() > mMaxFrequency->value()) {
-    warn(tr("'minFrequency' should be smaller or equal to 'maxFrequency'."));
+    parsingWarn(tr("'minFrequency' should be smaller or equal to 'maxFrequency'."));
     mMinFrequency->setValue(mMaxFrequency->value());
   }
   if (hasBeenSetup())
@@ -694,7 +690,7 @@ void WbLidar::updateMinFrequency() {
 void WbLidar::updateMaxFrequency() {
   WbFieldChecker::resetDoubleIfNonPositive(this, mMaxFrequency, mMinFrequency->value());
   if (mMaxFrequency->value() < mMinFrequency->value()) {
-    warn(tr("'maxFrequency' should be bigger or equal to 'minFrequency'."));
+    parsingWarn(tr("'maxFrequency' should be bigger or equal to 'minFrequency'."));
     mMaxFrequency->setValue(mMinFrequency->value());
   }
   if (hasBeenSetup())
@@ -704,10 +700,10 @@ void WbLidar::updateMaxFrequency() {
 void WbLidar::updateDefaultFrequency() {
   WbFieldChecker::resetDoubleIfNonPositive(this, mDefaultFrequency, mMinFrequency->value());
   if (mDefaultFrequency->value() < mMinFrequency->value()) {
-    warn(tr("'defaultFrequency' should be bigger or equal to 'minFrequency'."));
+    parsingWarn(tr("'defaultFrequency' should be bigger or equal to 'minFrequency'."));
     mDefaultFrequency->setValue(mMinFrequency->value());
   } else if (mDefaultFrequency->value() > mMaxFrequency->value()) {
-    warn(tr("'defaultFrequency' should be bigger or equal to 'maxFrequency'."));
+    parsingWarn(tr("'defaultFrequency' should be bigger or equal to 'maxFrequency'."));
     mDefaultFrequency->setValue(mMaxFrequency->value());
   }
   if (hasBeenSetup())
@@ -722,15 +718,17 @@ void WbLidar::updateHorizontalResolution() {
     int requiredResolution = ceil((actualNumberOfLayers() * actualFieldOfView()) / verticalFieldOfView());
     if (isRotating()) {
       requiredResolution *= 2.0 * M_PI / actualFieldOfView();
-      warn(tr("Impossible to have a so small 'horizontalResolution' unsing this 'numberOfLayers' and 'verticalFieldOfView'. "
-              "'horizontalResolution' should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. "
-              "'horizontalResolution' set to %1.")
-             .arg(requiredResolution));
+      parsingWarn(
+        tr("Impossible to have a so small 'horizontalResolution' unsing this 'numberOfLayers' and 'verticalFieldOfView'. "
+           "'horizontalResolution' should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. "
+           "'horizontalResolution' set to %1.")
+          .arg(requiredResolution));
     } else
-      warn(tr("Impossible to have a so small 'horizontalResolution' unsing this 'fieldOfView', 'numberOfLayers' and "
-              "'verticalFieldOfView'. 'horizontalResolution' should be bigger or equal to numberOfLayers * fieldOfView / "
-              "verticalFieldOfView. 'horizontalResolution' set to %1.")
-             .arg(requiredResolution));
+      parsingWarn(
+        tr("Impossible to have a so small 'horizontalResolution' unsing this 'fieldOfView', 'numberOfLayers' and "
+           "'verticalFieldOfView'. 'horizontalResolution' should be bigger or equal to numberOfLayers * fieldOfView / "
+           "verticalFieldOfView. 'horizontalResolution' set to %1.")
+          .arg(requiredResolution));
     mHorizontalResolution->setValue(requiredResolution);
   }
 
@@ -748,15 +746,17 @@ void WbLidar::updateVerticalFieldOfView() {
   if (height() < actualNumberOfLayers()) {
     double requiredVerticalFieldOfView = (actualNumberOfLayers() * actualFieldOfView()) / width();
     if (isRotating())
-      warn(tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'numberOfLayers' and 'horizontalResolution'. "
-              "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
-              "'verticalFieldOfView' set to %1.")
-             .arg(requiredVerticalFieldOfView));
+      parsingWarn(
+        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'numberOfLayers' and 'horizontalResolution'. "
+           "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
+           "'verticalFieldOfView' set to %1.")
+          .arg(requiredVerticalFieldOfView));
     else
-      warn(tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'fieldOfView', 'numberOfLayers' and "
-              "'horizontalResolution'. 'verticalFieldOfView' should be bigger or equal to numberOfLayers * fieldOfView / "
-              "horizontalResolution. 'verticalFieldOfView' set to %1.")
-             .arg(requiredVerticalFieldOfView));
+      parsingWarn(
+        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'fieldOfView', 'numberOfLayers' and "
+           "'horizontalResolution'. 'verticalFieldOfView' should be bigger or equal to numberOfLayers * fieldOfView / "
+           "horizontalResolution. 'verticalFieldOfView' set to %1.")
+          .arg(requiredVerticalFieldOfView));
     mVerticalFieldOfView->setValue(requiredVerticalFieldOfView);
   }
 
@@ -775,15 +775,16 @@ void WbLidar::updateNumberOfLayers() {
   if (height() < actualNumberOfLayers()) {
     int requiredNumberOfLayers = height();
     if (isRotating())
-      warn(tr("Impossible to have a so big 'numberOfLayers' unsing this 'verticalFieldOfView' and 'horizontalResolution'. "
-              "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "
-              "M_PI). 'numberOfLayers' set to %1.")
-             .arg(requiredNumberOfLayers));
+      parsingWarn(
+        tr("Impossible to have a so big 'numberOfLayers' unsing this 'verticalFieldOfView' and 'horizontalResolution'. "
+           "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "
+           "M_PI). 'numberOfLayers' set to %1.")
+          .arg(requiredNumberOfLayers));
     else
-      warn(tr("Impossible to have a so big 'numberOfLayers' unsing this 'fieldOfView', 'verticalFieldOfView' and "
-              "'horizontalResolution'. 'numberOfLayers' should be smaller or equal to verticalFieldOfView * "
-              "horizontalResolution / fieldOfView. 'numberOfLayers' set to %1.")
-             .arg(requiredNumberOfLayers));
+      parsingWarn(tr("Impossible to have a so big 'numberOfLayers' unsing this 'fieldOfView', 'verticalFieldOfView' and "
+                     "'horizontalResolution'. 'numberOfLayers' should be smaller or equal to verticalFieldOfView * "
+                     "horizontalResolution / fieldOfView. 'numberOfLayers' set to %1.")
+                    .arg(requiredNumberOfLayers));
     mNumberOfLayers->setValue(requiredNumberOfLayers);
   }
 

@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
   ]
   title "Track"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "track material"
@@ -195,7 +196,6 @@ DEF TRACKED_ROBOT Robot {
           name "left motor"
         }
       ]
-      textureAnimation -0.033 0
       animatedGeometry DEF ANIMATED_GEOM Group {
         children [
           Shape {
@@ -305,7 +305,7 @@ DEF CONVEYOR_BELT Robot {
         LinearMotor {
         }
       ]
-      textureAnimation 0.0295 0
+      textureAnimation 1.85 0
     }
   ]
   name "conveyor robot"
@@ -314,7 +314,7 @@ DEF CONVEYOR_BELT Robot {
       USE PLANE
     ]
   }
-  controller "conveyor_belt"
+  controller "track_conveyor_belt"
 }
 DEF BOX_1 Solid {
   translation -0.6 0.145 0.16

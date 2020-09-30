@@ -1,7 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
-  gravity 0 0 0
+  gravity 0
   physicsDisableTime 0.1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.2762399788601741 0.9481703159641097 0.15704943808830057 1.0466087028797633

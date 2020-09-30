@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -104,9 +104,11 @@ void FireBird6InputPacket::decode(int simulationTime, const FireBird6OutputPacke
   if (outputPacket.isMagnetometerRequested()) {
     double values[3];
     values[0] = readShortAt_MSBFirst(currentPos) / 1100.0;
+    // cppcheck-suppress knownArgument
     // cppcheck-suppress constArgument
     values[1] = readShortAt_MSBFirst(currentPos + 2) / 1100.0;
     // different scaling for Z Axis
+    // cppcheck-suppress knownArgument
     // cppcheck-suppress constArgument
     values[2] = readShortAt_MSBFirst(currentPos + 4) / 980.0;
 

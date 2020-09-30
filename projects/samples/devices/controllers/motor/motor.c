@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 int main(int argc, char **argv) {
   wb_robot_init();
@@ -33,11 +34,12 @@ int main(int argc, char **argv) {
   int counter = 0;
   while (wb_robot_step(time_step) != -1) {
     wb_motor_set_position(motor, target);
-    if (counter++ == 100) {
+    if (counter++ == 50) {
       target += M_PI_4;
       counter = 0;
     }
-    printf("\fForce feedback = %g\n", wb_motor_get_torque_feedback(motor));
+    ANSI_CLEAR_CONSOLE();
+    printf("Force feedback = %g\n", wb_motor_get_torque_feedback(motor));
     printf("Battery level  = %g\n", wb_robot_battery_sensor_get_value());
   };
   wb_robot_cleanup();

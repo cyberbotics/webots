@@ -1,0 +1,116 @@
+name: Test Suite Linux
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  schedule:
+    - cron:  '0 23 * * *'
+  push:
+    tags:
+      - '*'
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  cleanup-runs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rokroskar/workflow-run-cleanup-action@master
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  build:
+    needs: cleanup-runs
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+        include:
+          - os: ubuntu-18.04
+            JAVA_VERSION: "11"
+            ROS_DISTRO: "melodic"
+          - os: ubuntu-20.04
+            JAVA_VERSION: "14"
+            ROS_DISTRO: "noetic"
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+         submodules: true
+    - name: Install Webots Compilation Dependencies
+      run: sudo scripts/install/linux_optional_compilation_dependencies.sh
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+    - name: Webots Package Creation
+      run: |
+        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+        xvfb-run --auto-servernum make distrib -j4
+    - name: Create/Update GitHub release
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        sudo python -m pip install requests PyGithub
+        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: |
+          distribution/*.tar.bz2
+          distribution/*.deb
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - name: Extract Webots
+      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+    - name: Install Webots Dependencies
+      run: sudo scripts/install/linux_runtime_dependencies.sh
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Test Suite
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=$PWD/artifact/webots
+        xvfb-run --auto-servernum python tests/test_suite.py
+  world-update:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-ubuntu-18.04
+        path: artifact
+    - name: Extract Webots
+      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+    - name: Install Webots Dependencies
+      run: sudo scripts/install/linux_runtime_dependencies.sh
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Update World
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=$PWD/artifact/webots
+        xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
+        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi

@@ -1,4 +1,0 @@
-uint64 field
-int32 position
----
-int32 success

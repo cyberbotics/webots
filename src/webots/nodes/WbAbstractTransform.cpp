@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,6 +55,8 @@ void WbAbstractTransform::init(WbBaseNode *node) {
   mIsRotationFieldVisible = true;
   mIsTranslationFieldVisibleReady = false;
   mIsRotationFieldVisibleReady = false;
+  mCanBeTranslated = false;
+  mCanBeRotated = false;
 }
 
 WbAbstractTransform::~WbAbstractTransform() {
@@ -118,10 +120,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (x <= 0.0) {
     if (x == 0.0) {
       correctedScale.setX(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
     } else {
       correctedScale.setX(fabs(x));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
     }
     b = true;
   }
@@ -129,10 +131,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (y <= 0.0) {
     if (y == 0.0) {
       correctedScale.setY(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
     } else {
       correctedScale.setY(fabs(y));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
     }
     b = true;
   }
@@ -140,10 +142,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (z <= 0.0) {
     if (z == 0.0) {
       correctedScale.setZ(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
     } else {
       correctedScale.setZ(fabs(z));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
     }
     b = true;
   }
@@ -162,7 +164,7 @@ bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedSca
       correctedScale.setZ(mScale->x());
     b = true;
     if (warning)
-      mBaseNode->warn(
+      mBaseNode->parsingWarn(
         QObject::tr("'scale' were changed so that x = z because of physics constraints inside a 'boundingObject'."));
   }
 
@@ -187,7 +189,7 @@ bool WbAbstractTransform::checkScaleUniformity(WbVector3 &correctedScale, bool w
   }
 
   if (b && warning)
-    mBaseNode->warn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
+    mBaseNode->parsingWarn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
 
   return b;
 }
@@ -246,20 +248,42 @@ void WbAbstractTransform::updateScale(bool warning) {
   applyToScale();
 }
 
+void WbAbstractTransform::updateTranslationFieldVisibility() const {
+  if (mIsTranslationFieldVisibleReady)
+    return;
+  mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
+  mCanBeTranslated =
+    !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
+  mIsTranslationFieldVisibleReady = true;
+}
+
+void WbAbstractTransform::updateRotationFieldVisibility() const {
+  if (mIsRotationFieldVisibleReady)
+    return;
+  mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
+  mCanBeRotated =
+    !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
+  mIsRotationFieldVisibleReady = true;
+}
+
 bool WbAbstractTransform::isTranslationFieldVisible() const {
-  if (!mIsTranslationFieldVisibleReady) {
-    mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
-    mIsTranslationFieldVisibleReady = true;
-  }
+  updateTranslationFieldVisibility();
   return mIsTranslationFieldVisible;
 }
 
 bool WbAbstractTransform::isRotationFieldVisible() const {
-  if (!mIsRotationFieldVisibleReady) {
-    mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
-    mIsRotationFieldVisibleReady = true;
-  }
+  updateRotationFieldVisibility();
   return mIsRotationFieldVisible;
+}
+
+bool WbAbstractTransform::canBeTranslated() const {
+  updateTranslationFieldVisibility();
+  return mCanBeTranslated;
+}
+
+bool WbAbstractTransform::canBeRotated() const {
+  updateRotationFieldVisibility();
+  return mCanBeRotated;
 }
 
 /////////////////////////
@@ -284,19 +308,9 @@ void WbAbstractTransform::createScaleManipulatorIfNeeded() {
 void WbAbstractTransform::createTranslateRotateManipulatorIfNeeded() {
   if (!mTranslateRotateManipulatorInitialized) {
     mTranslateRotateManipulatorInitialized = true;
-
-    // check if translation or rotation fields are visible and don't trigger
-    // parameter node regeneration
-    bool validTranslation =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && isTranslationFieldVisible();
-    bool validRotation =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && isRotationFieldVisible();
-    if (!validTranslation && !validRotation) {
-      mTranslateRotateManipulatorInitialized = false;
+    if (!canBeTranslated() && !canBeRotated())
       return;
-    }
-
-    mTranslateRotateManipulator = new WbTranslateRotateManipulator(validTranslation, validRotation);
+    mTranslateRotateManipulator = new WbTranslateRotateManipulator(canBeTranslated(), canBeRotated());
     if (mTranslateRotateManipulator) {
       mTranslateRotateManipulator->attachTo(baseNode()->wrenNode());
       updateTranslateRotateHandlesSize();

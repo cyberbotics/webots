@@ -4,11 +4,11 @@
 
 In the Webots environment, the Webots application and each robot C/C++ controller are executed in distinct operating system processes.
 For example, when the "soccer.wbt" world is executed, there is a total of eight processes in memory; one for Webots, six for the six player robots, and one for the supervisor robot.
-To debug a C/C++ controller with Microsoft Visual Studio, please see [here](using-visual-studio-with-webots.md).
+To debug a C/C++ controller with Microsoft Visual Studio, please see [here](using-your-ide.md#visual-studio).
 
 When a controller process performs an illegal instruction, it is terminated by the operating system while the Webots process and the other controller processes remain active.
 Although Webots is still active, the simulation blocks because it waits for data from the terminated controller.
-So if you come across a situation where your simulation stops unexpectedly, but the Webots GUI is still responsive, this usually indicates the crash of a controller.
+So if you come across a situation where your simulation stops unexpectedly, but the Webots GUI is still responsive, this usually indicates that the controller has crashed .
 This can easily be confirmed by listing the active processes at this moment: For example on Linux, type:
 
 ```sh
@@ -26,7 +26,7 @@ $ ps -e
 ```
 
 On macOS, use rather `ps -x` and on Windows use the *Task Manager* for this.
-If one of your robot controllers is missing in the list (or appearing as *<defunct>*) this confirms that it has crashed and therefore blocked the simulation.
+If one of your robot controllers is missing in the list (or appearing as *defunct*) this confirms that it has crashed and therefore blocked the simulation.
 In this example the "soccer\_supervisor" has crashed.
 Note that the crash of a controller is almost certainly caused by an error in the controller code, because an error in Webots would have caused Webots to crash.
 Fortunately, the GNU debugger (`gdb`) can usually help finding the reason of the crash.
@@ -36,24 +36,17 @@ The following example assumes that there is a problem with the "soccer\_supervis
 
 On Windows GDB can be installed for example from the MSYS2 environment with the `mingw-w64-x86_64-gdb` package as indicated in the [optional dependencies](https://github.com/cyberbotics/webots/wiki/Windows-Optional-Dependencies) of the [Windows installation instructions](https://github.com/cyberbotics/webots/wiki/Windows-installation).
 
-The first step is to recompile the controller code with the *-g* flag, in order to add debugging information to the executable file.
-This can be achieved by adding this line to the controller's Makefile:
-
-```makefile
-CFLAGS = -g
-```
-
-Then, you must recompile the controller, either by using the `Clean` and `Build` buttons of the Webots text editor or directly in a terminal:
+The first step is to recompile the controller with the `debug` target, in order to add debugging information to the executable file. 
+You must recompile the controller directly in a terminal, as the Webots text editor `Build` button will omit debugging information from the build:
 
 ```sh
 $ make clean
-$ make
+$ make debug
 ...
 ```
 
-Note that, the *-g* flag should now appear in the compilation line.
-Once you have recompiled the controller, you will need to change controller of the [Robot](../reference/robot.md) node to be [extern](running-extern-robot-controllers.md).
-This can be done from the scene tree:
+Once you have recompiled the controller, you will need to ensure the controller of the [Robot](../reference/robot.md) node is set to be [extern](running-extern-robot-controllers.md).
+If it is not, this can be set from the scene tree:
 Hit the `Pause` and `Reset` buttons, set the `controller` field of the Robot node to `<extern>` and save the world file.
 From a terminal, go to the folder containing your controller program and start it with `gdb`:
 
@@ -118,5 +111,9 @@ $1 = 0x0
 
 The `frame` command instructs the debugger to select the specified stack frame, and the `print` command prints the current value of an expression.
 In this simple example we clearly see that the problem is caused by a NULL (0x0) *time\_string* argument passed to the `sprintf` function.
-The next steps are to: fix the problem, recompile the controller and reload the world to give it another try.
-Once it works correctly you can remove the *-g* flag from the Makefile.
+The next steps are to: 
+1. Fix the problem
+2. Recompile the controller 
+3. Reload the world to give it another try.
+
+Once it works and gives the correct output you can remove the *-g* flag from the Makefile.

@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
 ifeq ($(WEBOTS_HOME),)
 WEBOTS_HOME_PATH = ../../..
 else
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
@@ -60,31 +60,31 @@ CPPOBJS        = $(CPPSRC:.cpp=.o)
 DEPENDENCIES   = $(CPPSRC:.cpp=.d)
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
+LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
+LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-TARGET        = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
 LDFLAGS       = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
+SHAREDLIBS    = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
 CPPFLAGS      = -c -fPIC -Wall -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.dylib
-LDFLAGS      += -install_name @rpath/lib/libCppController.dylib
-TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+LDFLAGS      += -install_name @rpath/lib/controller/libCppController.dylib
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
 LDFLAGS       = -shared
-SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
+SHAREDLIBS    = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
 CPPFLAGS      = -c -fpic -Wall
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.so
-TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.so
+LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
 endif
 
 ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
@@ -110,8 +110,8 @@ $(LIBCONTROLLER):
 	$(CXX) $(CPPINCLUDES) -MM $< > $@
 
 ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a *.def *.exp
+FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a *.def *.exp
 else
-FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/lib/*Cpp*
+FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/*Cpp*
 endif
 FILES_TO_REMOVE += $(CPPOBJS) $(DEPENDENCIES)

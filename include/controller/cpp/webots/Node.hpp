@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ namespace webots {
       INDEXED_FACE_SET,
       INDEXED_LINE_SET,
       MATERIAL,
+      MESH,
       MUSCLE,
       NORMAL,
       PBR_APPEARANCE,
@@ -91,7 +92,6 @@ namespace webots {
       BALL_JOINT_PARAMETERS,
       CHARGER,
       CONTACT_PROPERTIES,
-      CUBEMAP,
       DAMPING,
       FLUID,
       FOCUS,
@@ -125,7 +125,10 @@ namespace webots {
     std::string getTypeName() const;
     std::string getBaseTypeName() const;
     Node *getParentNode() const;
+    bool isProto() const;
+    Node *getFromProtoDef(const std::string &name) const;
     Field *getField(const std::string &fieldName) const;
+    Field *getProtoField(const std::string &fieldName) const;
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getCenterOfMass() const;
@@ -140,6 +143,10 @@ namespace webots {
 
     void moveViewpoint() const;
     void setVisibility(Node *from, bool visible);
+
+    void addForce(const double force[3], bool relative);
+    void addForceWithOffset(const double force[3], const double offset[3], bool relative);
+    void addTorque(const double torque[3], bool relative);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

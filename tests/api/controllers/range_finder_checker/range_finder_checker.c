@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
   } else
     ts_send_error_and_exit("range_finder_checker doesn't support this world: %s", argv[1]);
 
-  ts_assert_boolean_equal(wb_range_finder_save_image(range_finder, "test.tif", 100) != -1,
+  ts_assert_boolean_equal(wb_range_finder_save_image(range_finder, "test.hdr", 100) != -1,
                           "range_finder image did not save correctly (wb_range_finder_save_image returned -1)");
 
   ts_send_success();

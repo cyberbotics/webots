@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ ignoredProtos = [
 
 skippedDirectories = [
     'dependencies',
+    'distribution',
     '.git'
 ]
 
@@ -73,6 +74,8 @@ class TestHeaderVersion(unittest.TestCase):
             fileToTest = currentFile[0]
             with open(fileToTest) as file:
                 content = file.read()
+                if content == '':
+                    continue
                 line = content.splitlines()[0].strip()
                 self.assertTrue(
                     line.startswith(currentFile[1]),

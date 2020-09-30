@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "A demo world using the IPR HD6M180"
   ]
   title "IPR Cube"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "target"

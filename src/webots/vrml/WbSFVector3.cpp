@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ void WbSFVector3::readSFVector3(WbTokenizer *tokenizer, const QString &worldPath
     double y = tokenizer->nextToken()->toDouble();
     double z = tokenizer->nextToken()->toDouble();
     mValue.setXyz(x, y, z);
+    mValue.clamp();
   } catch (...) {
     tokenizer->reportError(tr("Expected floating point value, found %1").arg(tokenizer->lastWord()), tokenizer->lastToken());
     tokenizer->ungetToken();  // unexpected token: keep the tokenizer coherent

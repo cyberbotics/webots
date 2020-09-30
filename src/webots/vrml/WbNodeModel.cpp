@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ WbFieldModel *WbNodeModel::findFieldModel(const QString &fieldName) const {
 bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   QFile input(WbStandardPaths::resourcesPath() + "nodes/" + fileName + ".wrl");
   if (!input.open(QIODevice::ReadOnly)) {
-    WbLog::warning(fileName + ": could not open file");
+    WbLog::warning(fileName + ": could not open file", false, WbLog::PARSING);
     return false;
   }
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -13,7 +13,7 @@ PROTO AckermannVehicle [
   field SFString   name                           "vehicle"
   field SFString   model                          "Ackermann vehicle"
   field SFString   controller                     "void"
-  field SFString   controllerArgs                 ""
+  field MFString   controllerArgs                 [ ]
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
   field SFFloat    trackFront                     1.7

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include "WbConsole.hpp"
 #include "WbMainWindow.hpp"
 #include "WbMessageBox.hpp"
+#include "WbMultimediaStreamingServer.hpp"
 #include "WbNewVersionDialog.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -26,12 +27,12 @@
 #include "WbSingleTaskApplication.hpp"
 #include "WbSplashScreen.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
+#include "WbX3dStreamingServer.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -57,7 +58,11 @@ using namespace std;
 // cf:
 // - http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
-WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL) {
+WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
+  QApplication(argc, argv),
+  mMainWindow(NULL),
+  mTask(NORMAL),
+  mStreamingServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
@@ -66,7 +71,10 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, 
   QProcess process;
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
-  const QString webotsQtPlugins = process.readAllStandardOutput().trimmed().replace('\\', '/') + "mingw64/share/qt5/plugins";
+  QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
+  MSYS2_HOME.chop(1);                          // remove final backslash
+  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
+  const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
@@ -112,6 +120,76 @@ void WbGuiApplication::restart() {
 #else
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
+}
+
+void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
+  bool monitorActivity = false;
+  bool disableTextStreams = false;
+  bool ssl = false;
+  bool controllerEdit = false;
+  int port = 1234;
+  QString mode = "x3d";
+
+#ifdef __APPLE__
+  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
+#else  //  Qt >= 5.15
+  const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
+#endif
+  foreach (QString option, options) {
+    option = option.trimmed();
+    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
+    rx.indexIn(option);
+    const QStringList &capture = rx.capturedTexts();
+    // "key" without value case
+    if (option == "monitorActivity")
+      monitorActivity = true;
+    else if (option == "disableTextStreams")
+      disableTextStreams = true;
+    else if (option == "ssl")
+      ssl = true;
+    else if (option == "controllerEdit")
+      controllerEdit = true;
+    else if (capture.size() == 3) {
+      const QString &key = capture[1];
+      const QString &value = capture[2];
+      if (key == "port") {
+        bool ok;
+        const int tmpPort = value.toInt(&ok);
+        if (ok)
+          port = tmpPort;
+        else {
+          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
+          mTask = FAILURE;
+        }
+      } else if (key == "mode") {
+        if (value != "x3d" && value != "mjpeg") {
+          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
+          mTask = FAILURE;
+        } else if (value == "mjpeg")
+          mode = "mjpeg";
+      } else {
+        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
+        mTask = FAILURE;
+      }
+    } else {
+      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
+      mTask = FAILURE;
+    }
+  }
+  if (mTask == FAILURE) {
+    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    return;
+  }
+  if (mode == "mjpeg") {
+    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer->start(port);
+    return;
+  }
+  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+  mStreamingServer->start(port);
+  WbWorld::enableX3DStreaming();
 }
 
 void WbGuiApplication::parseArguments() {
@@ -170,8 +248,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      WbStreamingServer::instance()->startFromCommandLine(serverArgument);
-      WbWorld::enableX3DStreaming();
+      parseStreamArguments(serverArgument);
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
@@ -232,6 +309,7 @@ void WbGuiApplication::parseArguments() {
     WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
+    WbPreferences::instance()->setValue("OpenGL/textureFiltering", 0);
     mStartupMode = WbSimulationState::PAUSE;
     mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
   }
@@ -299,7 +377,7 @@ bool WbGuiApplication::setup() {
   // image in the splash screen is empty...
   // Doing the same on Windows slows down the popup of the SplashScreen, therefore
   // the main window is created later on Windows.
-  mMainWindow = new WbMainWindow(mShouldMinimize);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
 #endif
 
   if (!mShouldMinimize) {
@@ -309,11 +387,6 @@ bool WbGuiApplication::setup() {
     const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
-    mSplash->setWindowFlags(Qt::SplashScreen);
-#ifdef _WIN32
-    mSplash->setWindowModality(Qt::ApplicationModal);
-#endif
-
     if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
       // we need to center the splash screen on the same window as the mainWindow,
       // which is positioned wherever the mouse is on launch
@@ -363,19 +436,12 @@ bool WbGuiApplication::setup() {
 
 #ifdef _WIN32
   // create main window
-  mMainWindow = new WbMainWindow(mShouldMinimize);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
 #endif
 
-  if (mShouldMinimize) {
-#ifdef __linux__
-    // on Ubuntu 18.04 showMinimized doesn't work
-    // https://bugreports.qt.io/browse/QTBUG-76354
-    mMainWindow->showNormal();
-    mMainWindow->setWindowState(Qt::WindowMinimized);
-#else
+  if (mShouldMinimize)
     mMainWindow->showMinimized();
-#endif
-  } else {
+  else {
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else

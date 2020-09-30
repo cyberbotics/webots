@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -108,6 +108,9 @@ public:
   virtual void attachTranslateRotateManipulator();
   virtual void detachTranslateRotateManipulator();
 
+  // check if translation and rotation field is visible and don't trigger parameter node regeneration
+  bool canBeTranslated() const;
+  bool canBeRotated() const;
   bool isTranslationFieldVisible() const;
   bool isRotationFieldVisible() const;
 
@@ -172,6 +175,10 @@ private:
   mutable bool mIsRotationFieldVisible;
   mutable bool mIsTranslationFieldVisibleReady;
   mutable bool mIsRotationFieldVisibleReady;
+  mutable bool mCanBeTranslated;
+  mutable bool mCanBeRotated;
+  void updateTranslationFieldVisibility() const;
+  void updateRotationFieldVisibility() const;
 
   void updateMatrix() const;
   void updateAbsoluteScale() const;

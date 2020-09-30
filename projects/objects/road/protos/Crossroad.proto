@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -7,10 +7,10 @@
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 1 0 0
-  field SFString   name             "crossroad"             # Defines the the crossroad name
+  field SFString   name             "crossroad"             # Defines the the crossroad name.
   field SFString   id               ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field SFFloat    speedLimit       -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
-  field MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]  # Defines the shape of the crossroad
+  field MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]  # Defines the shape of the crossroad.
   field MFString   connectedRoadIDs []                      # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
   field SFBool     boundingObject   FALSE                   # Defines whether the road should have a bounding object.
   field SFBool     bottom           FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
@@ -61,7 +61,7 @@ PROTO Crossroad [
         }
         %{ if fields.bottom.value then }%
           Shape {
-            appearance USE CROSSROAD_APPEARANCE
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point IS shape
@@ -81,6 +81,7 @@ PROTO Crossroad [
     name IS name
     model "crossroad"
     locked IS locked
+    recognitionColors [ 0.2 0.2 0.2 ]
     %{ if fields.boundingObject.value and nShape > 0 then }%
       contactMaterial IS contactMaterial
       boundingObject USE CROSSROAD_GEOMETRY

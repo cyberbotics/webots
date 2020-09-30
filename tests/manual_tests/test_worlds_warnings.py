@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@ import sys
 from threading import Timer
 from subprocess import Popen, PIPE
 
+if sys.version_info[0] != 3 or sys.version_info[1] < 7:
+    sys.exit('This script requires Python version 3.7')
+
 
 class TestWorldsWarnings(unittest.TestCase):
     """Unit test of the worlds."""
@@ -34,6 +37,7 @@ class TestWorldsWarnings(unittest.TestCase):
             'ComposedShader is experimental.',
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
+            'Warning: Release of profile requested but WebEnginePage still not deleted. Expect troubles !',
             self.crashError  # To remove once #6125 is fixed
         ]
         # Get all the worlds from projects
@@ -67,14 +71,24 @@ class TestWorldsWarnings(unittest.TestCase):
         problematicWorlds = []
         crashedWorlds = []
         for world in self.worlds:
-            self.process = Popen([self.webotsFullPath, '--stdout', '--stderr', '--mode=pause', '--minimize', world], stdin=PIPE,
-                                 stdout=PIPE, stderr=PIPE)
-            t = Timer(5.0, self.stop_webots)
+            print('Testing: %s' % world)
+            self.process = Popen([
+                                    self.webotsFullPath,
+                                    '--stdout',
+                                    '--stderr',
+                                    '--mode=pause',
+                                    '--minimize',
+                                    '--batch',
+                                    '--no-sandbox',
+                                    world
+                                 ], stdin=PIPE,
+                                 stdout=PIPE, stderr=PIPE, text=True)
+            t = Timer(20.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()
-            if error and not any(message in error for message in self.skippedMessages):
+            if error and not any(message in str(error) for message in self.skippedMessages):
                 problematicWorlds.append(world)
-            if error and self.crashError in error:
+            if error and self.crashError in str(error):
                 crashedWorlds.append(world)
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))

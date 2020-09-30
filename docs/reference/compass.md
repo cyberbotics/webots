@@ -15,8 +15,7 @@ Compass {
 ### Description
 
 A [Compass](#compass) node can be used to model a 1, 2 or 3-axis digital compass (magnetic sensor).
-The [Compass](#compass) node returns a vector that indicates the direction of the *virtual north*.
-The *virtual north* is specified by the `northDirection` field in the [WorldInfo](worldinfo.md) node.
+The [Compass](#compass) node returns a vector that indicates the north direction specified by the `coordinateSystem` field of the [WorldInfo](worldinfo.md) node.
 
 ### Field Summary
 
@@ -40,6 +39,8 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_compass_disable`
 #### `wb_compass_get_sampling_period`
 #### `wb_compass_get_values`
+#### `wb_compass_get_lookup_table_size`
+#### `wb_compass_get_lookup_table`
 
 %tab-component "language"
 
@@ -52,6 +53,8 @@ void wb_compass_enable(WbDeviceTag tag, int sampling_period);
 void wb_compass_disable(WbDeviceTag tag);
 int wb_compass_get_sampling_period(WbDeviceTag tag);
 const double *wb_compass_get_values(WbDeviceTag tag);
+int wb_compass_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_compass_get_lookup_table(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -67,6 +70,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getValues() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
     // ...
   }
 }
@@ -84,6 +89,7 @@ class Compass (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getValues(self):
+    def getLookupTable(self):
     # ...
 ```
 
@@ -99,6 +105,7 @@ public class Compass extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double[] getValues();
+  public double[] getLookupTable();
   // ...
 }
 ```
@@ -111,7 +118,8 @@ public class Compass extends Device {
 wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)
-[x y z] = wb_compass_get_values(tag)
+x_y_z_array = wb_compass_get_values(tag)
+lookup_table_array = wb_compass_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -123,6 +131,7 @@ period = wb_compass_get_sampling_period(tag)
 | `/<device_name>/values` | `topic` | [`sensor_msgs::MagneticField`](http://docs.ros.org/api/sensor_msgs/html/msg/MagneticField.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `magnetic_field`<br/>`float64[9] magnetic_field_covariance`<br/> |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -141,7 +150,7 @@ The `wb_compass_disable` function turns off the [Compass](#compass) device.
 The `wb_compass_get_sampling_period` function returns the period given into the `wb_compass_enable` function, or 0 if the device is disabled.
 
 The `wb_compass_get_values` function returns the current [Compass](#compass) measurement.
-The returned vector indicates the direction of the *virtual north* in the coordinate system of the [Compass](#compass) device.
+The returned vector indicates the north direction in the coordinate system of the [Compass](#compass) device.
 Here is the internal algorithm of the `wb_compass_get_values` function in pseudo-code:
 
 ```c
@@ -163,9 +172,8 @@ If the lookupTable is empty and all three xAxis, yAxis and zAxis fields are TRUE
 
 The values are returned as a 3D-vector, therefore only the indices 0, 1, and 2 are valid for accessing the vector.
 Let's look at one example.
-In Webots global coordinates system, the *xz*-plane represents the horizontal floor and the *y*-axis indicates the elevation.
-The default value of the `northDirection` field is [ 1 0 0 ] and therefore the north direction is horizontal and aligned with the x-axis.
-Now if the [Compass](#compass) node is in *upright* position, meaning that its y-axis is aligned with the global y-axis, then the bearing angle in degrees can be computed as follows:
+The default value of the `WorldInfo.coordinateSystem` field is `"ENU"` and therefore the north direction is along with the Y-positive axis.
+Now if the [Compass](#compass) node is in *upright* position, meaning that its z-axis is aligned with the global z-axis, then the bearing angle in degrees can be computed as follows:
 
 ```c
 double get_bearing_in_degrees() {
@@ -178,10 +186,15 @@ double get_bearing_in_degrees() {
 }
 ```
 
+The `wb_compass_get_lookup_table_size` function returns the number of rows in the lookup table.
+
+The `wb_compass_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values obtained with the `wb_compass_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
+
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [Compass](#compass) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.
 If these values are needed for a longer period they must be copied.
 
 <!-- -->
 
-> **Note** [Python]: Ths `getValues` function returns the vector as a list containing three floats.
+> **Note** [Python]: The `getValues` function returns the vector as a list containing three floats.

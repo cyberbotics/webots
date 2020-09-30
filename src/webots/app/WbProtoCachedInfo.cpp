@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@
 
 #include <cassert>
 
-static QString gFileHeader = "Webots Proto Cache File version 1.4";
+static QString gFileHeader = "Webots Proto Cache File version 1.5";
 
-WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mContainsDevices(false), mBaseType("UNKNOWN") {
+WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mNeedsRobotAncestor(false), mBaseType("UNKNOWN") {
   mHexProtoFileHash.clear();
   QFileInfo info(protoFileName);
   mAbsoluteProtoFileName = info.absoluteFilePath();
@@ -81,7 +81,7 @@ bool WbProtoCachedInfo::load() {
     } else if (key == label(DEVICES)) {
       int i;
       ls >> i;
-      mContainsDevices = i;
+      mNeedsRobotAncestor = i;
     } else if (key == label(BASE_TYPE)) {
       ls >> word;
       mBaseType = word;
@@ -125,7 +125,7 @@ bool WbProtoCachedInfo::save() {
   QTextStream out(&file);
   out << gFileHeader << "\n";
   out << label(FILE_HASH) << " " << mHexProtoFileHash << "\n";
-  out << label(DEVICES) << " " << (mContainsDevices ? 1 : 0) << "\n";
+  out << label(DEVICES) << " " << (mNeedsRobotAncestor ? 1 : 0) << "\n";
   out << label(BASE_TYPE) << " " << mBaseType << "\n";
   out << label(SLOT_TYPE) << " " << serializedString(mSlotType) << "\n";
   out << label(PARAMETERS) << " " << mParameterNames.join(",") << "\n";
@@ -166,16 +166,16 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
-  WbNode *previousParent = WbNode::globalParent();
+  WbNode *previousParent = WbNode::globalParentNode();
   try {
-    WbNode::setGlobalParent(NULL);
+    WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
     protoModel = new WbProtoModel(&tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "", protoFileName);
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
   } catch (...) {
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
     return NULL;
   }
 
@@ -193,8 +193,8 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   tokenizer.rewind();
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
-    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word())) {
-      protoInfo->mContainsDevices = true;
+    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
+      protoInfo->mNeedsRobotAncestor = true;
       break;
     }
   }
@@ -222,7 +222,7 @@ QString WbProtoCachedInfo::label(InfoType infoType) {
     case FILE_HASH:
       return "protoFileHash:";
     case DEVICES:
-      return "containsDevices:";
+      return "needsRobotAncestor:";
     case BASE_TYPE:
       return "baseType:";
     case SLOT_TYPE:

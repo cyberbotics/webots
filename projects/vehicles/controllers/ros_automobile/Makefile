@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +17,9 @@
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-
-SERVICE_FILES = $(wildcard include/srv/*.srv)
-SERVICE_HEADERS = $(SERVICE_FILES:include/srv/%.srv=include/webots_ros/%.h)
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
@@ -33,7 +30,15 @@ endif
 PYTHON_COMMAND ?= python
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile clean:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+	@echo "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+else
+ifeq (, $(ROS_DISTRO))
+release debug profile clean:
+	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+else
+ifeq (2, $(ROS_VERSION))
+release debug profile clean:
+	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/Ros*.cpp)
@@ -44,18 +49,12 @@ else
  ros_automobile: $(CXX_SOURCES:.cxx=.d)
 endif
 
-$(CXX_SOURCES:.cxx=.d): $(SERVICE_HEADERS) $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateHeader.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateRequest.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateResponse.h
-
-include/webots_ros/%.h : include/srv/%.srv $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateHeader.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateRequest.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateResponse.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersGenerator.py
-	@echo "# generating ROS header" $(notdir $<)
-	$(SILENT)python $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $< $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
-
-INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -Iinclude
+INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
 
-LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/libraries/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -68,7 +67,7 @@ ifeq ($(OSTYPE),windows)
 endif
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/projects/default/libraries/ros
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/lib/ros
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -78,12 +77,7 @@ CFLAGS += -Wno-unused-local-typedefs
 CFLAGS += -std=c++11
 endif
 
-FILES_TO_REMOVE += include/webots_ros
-
-### Do not modify: this includes Webots global Makefile.include
-
-space :=
-space +=
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+endif
+endif
 endif

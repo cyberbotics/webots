@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -143,9 +143,7 @@ void EPuckFacade::initDevices() {
         if (groundSensorIndex < NUMBER_OF_GROUND_SENSORS && mGroundSensors[groundSensorIndex] == 0) {
           mGroundSensors[groundSensorIndex] = tag;
           gGroundSensorsExist = true;
-        }
-
-        if (mGroundSensors[groundSensorIndex] == 0)
+        } else
           printDeviceError(deviceName);
       }
     }
@@ -155,7 +153,7 @@ void EPuckFacade::initDevices() {
 void EPuckFacade::printDeviceError(const QString &deviceName) {
   QTextStream err(stderr);
   err << QObject::tr("Warning: the device %1 is not found. Please make sure your e-puck model has this device").arg(deviceName)
-      << endl;
+      << '\n';
 }
 
 double EPuckFacade::timer() const {
@@ -178,7 +176,7 @@ void EPuckFacade::initializeRobot() {
 
   if (mCameraSize[HEIGHT] != 1) {
     QTextStream err(stderr);
-    err << QObject::tr("Warning: the camera device of the e-puck should have an height of one.") << endl;
+    err << QObject::tr("Warning: the camera device of the e-puck should have an height of one.") << '\n';
   }
 }
 

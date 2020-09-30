@@ -1,116 +1,116 @@
 {
-  "robotID": "n11", 
-  "name": "pioneer2", 
+  "robotID": "n10",
   "devices": [
     {
-      "transformID": "n25", 
-      "initialPosition": 5.2408332, 
-      "name": "left wheel motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "type": "RotationalMotor",
+      "transformID": "n24",
+      "minPosition": 0,
+      "anchor": "0 0.0825 0",
+      "name": "left wheel motor",
+      "maxPosition": 0,
+      "position": 0
+    },
     {
-      "transformID": "n38", 
-      "initialPosition": 0.92268623, 
-      "name": "right wheel motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "type": "RotationalMotor",
+      "transformID": "n37",
+      "minPosition": 0,
+      "anchor": "0 0.0825 0",
+      "name": "right wheel motor",
+      "maxPosition": 0,
+      "position": 0
+    },
     {
-      "transformID": "n59", 
-      "type": "DistanceSensor", 
-      "name": "ds0"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds0",
+      "transformID": "n58"
+    },
     {
-      "transformID": "n64", 
-      "type": "DistanceSensor", 
-      "name": "ds1"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds1",
+      "transformID": "n63"
+    },
     {
-      "transformID": "n109", 
-      "type": "DistanceSensor", 
-      "name": "ds10"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds10",
+      "transformID": "n108"
+    },
     {
-      "transformID": "n114", 
-      "type": "DistanceSensor", 
-      "name": "ds11"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds11",
+      "transformID": "n113"
+    },
     {
-      "transformID": "n119", 
-      "type": "DistanceSensor", 
-      "name": "ds12"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds12",
+      "transformID": "n118"
+    },
     {
-      "transformID": "n124", 
-      "type": "DistanceSensor", 
-      "name": "ds13"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds13",
+      "transformID": "n123"
+    },
     {
-      "transformID": "n129", 
-      "type": "DistanceSensor", 
-      "name": "ds14"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds14",
+      "transformID": "n128"
+    },
     {
-      "transformID": "n134", 
-      "type": "DistanceSensor", 
-      "name": "ds15"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds15",
+      "transformID": "n133"
+    },
     {
-      "transformID": "n69", 
-      "type": "DistanceSensor", 
-      "name": "ds2"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds2",
+      "transformID": "n68"
+    },
     {
-      "transformID": "n74", 
-      "type": "DistanceSensor", 
-      "name": "ds3"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds3",
+      "transformID": "n73"
+    },
     {
-      "transformID": "n79", 
-      "type": "DistanceSensor", 
-      "name": "ds4"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds4",
+      "transformID": "n78"
+    },
     {
-      "transformID": "n84", 
-      "type": "DistanceSensor", 
-      "name": "ds5"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds5",
+      "transformID": "n83"
+    },
     {
-      "transformID": "n89", 
-      "type": "DistanceSensor", 
-      "name": "ds6"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds6",
+      "transformID": "n88"
+    },
     {
-      "transformID": "n94", 
-      "type": "DistanceSensor", 
-      "name": "ds7"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds7",
+      "transformID": "n93"
+    },
     {
-      "transformID": "n99", 
-      "type": "DistanceSensor", 
-      "name": "ds8"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds8",
+      "transformID": "n98"
+    },
     {
-      "transformID": "n104", 
-      "type": "DistanceSensor", 
-      "name": "ds9"
-    }, 
+      "type": "DistanceSensor",
+      "name": "ds9",
+      "transformID": "n103"
+    },
     {
-      "transformID": "n25", 
-      "type": "PositionSensor", 
-      "name": "left wheel sensor"
-    }, 
+      "type": "PositionSensor",
+      "name": "left wheel sensor",
+      "transformID": "n24"
+    },
     {
-      "transformID": "n38", 
-      "type": "PositionSensor", 
-      "name": "right wheel sensor"
+      "type": "PositionSensor",
+      "name": "right wheel sensor",
+      "transformID": "n37"
     }
-  ]
+  ],
+  "name": "pioneer2"
 }

@@ -76,7 +76,7 @@ static void enable_device(WbDeviceTag tag, bool enable) {
   }
 }
 
-// javascript -> C protocol description:
+// JavaScript -> C protocol description:
 //   [deviceName:commandTag[=commadState][,]]*
 // example:
 //   "e-puck:forward,ds0:enable,myMotor0:value=1.2"

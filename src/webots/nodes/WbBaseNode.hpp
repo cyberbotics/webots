@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -110,6 +110,8 @@ public:
   // return the finalized instance node of a PROTO if only one exists
   WbBaseNode *getSingleFinalizedProtoInstance();
 
+  QString documentationUrl() const;
+
 signals:
   void isBeingDestroyed(WbBaseNode *node);
   void visibleHandlesChanged(bool resizeHandlesEnabled);
@@ -119,6 +121,9 @@ public slots:
   virtual void showResizeManipulator(bool enabled) {}
 
 protected:
+  bool isUrdfRootLink() const override;
+  void exportURDFJoint(WbVrmlWriter &writer) const override;
+
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values
   // otherwise the field values are read from the tokenizer

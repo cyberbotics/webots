@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ WbWheelLiftSolidEvent::WbWheelLiftSolidEvent(WbViewpoint *viewpoint, WbSolid *se
   mSelectedSolid(selectedSolid),
   mInitialTranslation(selectedSolid->translation()) {
   mScaleFactor = WbWorld::instance()->worldInfo()->lineScale();
-  mUpWorldVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
+  mUpWorldVector = WbWorld::instance()->worldInfo()->upVector();
   mViewpoint->lock();
   mSelectedSolid->pausePhysics();
 }

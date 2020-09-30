@@ -29,7 +29,7 @@ BioloidDog {
   SFRotation rotation        0 1 0 0
   SFString   name            "BioloidDog"
   SFString   controller      "bioloid_dog"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   orientation 1 0 0 -1.5708
@@ -26,7 +27,9 @@ DEF DUMMY Robot {
     }
   ]
   controller "dummy"
-  controllerArgs "500"
+  controllerArgs [
+    "500"
+  ]
 }
 TemplateRobotSlotContainer {
   translation 0 0.05 0
@@ -58,7 +61,6 @@ TemplateRobotSlotContainer {
     }
   ]
   controller "template_proto_follow_solid"
-  controllerArgs "template_proto_follow_solid"
 }
 TestSuiteSupervisor {
 }

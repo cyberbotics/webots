@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,10 +49,14 @@ private:
     REMOTE_CONTROL_PLUGIN,
     ROBOT_WINDOW_PLUGIN,
     SOLID_REFERENCE,
-    // No info
+    // No info from there.
+    N_STRING_TYPE_INFO,  // counter
+
     REGULAR,
     SOUND,
-    TEXTURE_URL
+    TEXTURE_URL,
+    HDR_TEXTURE_URL,
+    MESH_URL
   };
   StringType mStringType;
 
@@ -82,8 +86,8 @@ private:
   bool selectItem();
   bool populateItems(QStringList &items);
 
-  static StringType fieldNameToStringType(const QString &fieldName);
-  static const QStringList ITEM_LIST_INFO[9];
+  static StringType fieldNameToStringType(const QString &fieldName, const WbNode *parentNode);
+  static const QStringList ITEM_LIST_INFO[N_STRING_TYPE_INFO];
   static const QStringList REFERENCE_AREA_ITEMS;
 
 private slots:

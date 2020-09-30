@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,7 @@ int main() {
   wb_motor_set_velocity(right_motor, 0.0);
 
   wb_keyboard_enable(TIME_STEP);
-  printf("\fYou can drive this robot by using the arrow"
-         " keys of your keyboard\n");
+  printf("You can drive this robot by using the arrow keys of your keyboard\n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     for (i = 0; i < 16; i++)

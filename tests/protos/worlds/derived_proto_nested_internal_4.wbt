@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.993917 -0.0955779 -0.0547234 1.04528
+  orientation -0.9939166082155587 -0.09557786232488813 -0.05472337842900695 1.04528
   position -0.13873 3.83694 2.25389
   near 0.001
 }
@@ -29,9 +30,10 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "proto_nested_internal"
-  controllerArgs "derived_proto_nested_internal_4"
+  controllerArgs [
+    "derived_proto_nested_internal_4"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

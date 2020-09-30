@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ else
 WEBOTS_HOME := $(WEBOTS_HOME)
 endif
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
@@ -43,8 +43,8 @@ else
 QT_BINARIES_PATH = $(WEBOTS_HOME_PATH)/bin/qt
 
 ifeq ($(OSTYPE),linux)
-LUPDATE = LD_LIBRARY_PATH=$(WEBOTS_HOME)/lib $(QT_BINARIES_PATH)/lupdate
-LRELEASE = LD_LIBRARY_PATH=$(WEBOTS_HOME)/lib $(QT_BINARIES_PATH)/lrelease
+LUPDATE = LD_LIBRARY_PATH=$(WEBOTS_LIB_PATH) $(QT_BINARIES_PATH)/lupdate
+LRELEASE = LD_LIBRARY_PATH=$(WEBOTS_LIB_PATH) $(QT_BINARIES_PATH)/lrelease
 endif
 
 ifeq ($(OSTYPE),darwin)

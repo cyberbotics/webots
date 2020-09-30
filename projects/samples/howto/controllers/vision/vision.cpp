@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*
- * Description: This controller demonstrates how to use openCV to process the camera image.
+ * Description: This controller demonstrates how to use openCV 2.4 to process the camera image.
  *              In order to execute and recompile this example, opencv must be installed.
  *              To run this controller, it is recommended to install the Webots development
  *              environment as explained here:
@@ -72,7 +72,7 @@ void display_commands() {
    The only processing this function does is only displaying parts of the image which
    correspond to one of the predefined filters. */
 void process_image(const unsigned char *image, int length) {
-  /* Matrix which contains the RGBA image from Webots' camera */
+  /* Matrix which contains the BGRA image from Webots' camera */
   Mat img = Mat(Size(width, height), CV_8UC4);
   img.data = (uchar *)image;
 
@@ -86,9 +86,9 @@ void process_image(const unsigned char *image, int length) {
   /* Matrix which will contain the post-processing image */
   Mat filtered = Mat(Size(width, height), CV_8UC4);
 
-  if (filters[NB_FILTERS]) {
+  if (filters[NB_FILTERS])
     filtered = img;
-  } else {
+  else {
     /* Initialize the output matrix in the case we have to build it */
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
@@ -251,7 +251,7 @@ int main() {
     }
 
     /* Display the image */
-    processed_image_ref = wb_display_image_new(processed_image_display, width, height, processed_image, WB_IMAGE_BGRA);
+    processed_image_ref = wb_display_image_new(processed_image_display, width, height, processed_image, WB_IMAGE_ARGB);
     wb_display_image_paste(processed_image_display, processed_image_ref, 0, 0, false);
   }
 

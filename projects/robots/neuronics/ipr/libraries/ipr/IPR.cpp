@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ bool IPR::objectDetectedInGripper() const {
   double valueCenter = distanceSensorValue(4);
   double valueRight1 = distanceSensorValue(5);
   double valueRight2 = distanceSensorValue(6);
-  return (valueCenter + valueRight1 + valueRight2) > 120;
+  return (valueCenter + valueRight1 + valueRight2) > 80;
 }
 
 bool IPR::positionReached(int motorIndex, double targetPosition) const {

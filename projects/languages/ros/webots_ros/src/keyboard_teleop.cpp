@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -118,8 +118,7 @@ int main(int argc, char **argv) {
   ros::Subscriber nameSub = n.subscribe("model_name", 100, controllerNameCallback);
   while (controllerCount == 0 || controllerCount < nameSub.getNumPublishers()) {
     ros::spinOnce();
-    ros::spinOnce();
-    ros::spinOnce();
+    ros::Duration(0.5).sleep();
   }
   ros::spinOnce();
 

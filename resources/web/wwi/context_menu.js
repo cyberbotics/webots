@@ -10,7 +10,6 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.onFollowObject = null;
     this.onEditController = null;
     this.onOpenRobotWindow = null;
-    this.isFollowedObject = null;
     this.isRobotWindowValid = null;
 
     // Create context menu.
@@ -20,10 +19,13 @@ class ContextMenu { // eslint-disable-line no-unused-vars
                            "<li id='contextMenuFollow'><div>Follow</div></li>" +
                            "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
                            "<li><div class='ui-state-disabled'>Zoom</div></li>" +
+                           '<hr>' +
                            "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
                            "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
                            "<li><div class='ui-state-disabled'>Delete</div></li>" +
-                           "<li><div class='ui-state-disabled'>Properties</div></li>";
+                           "<li><div class='ui-state-disabled'>Properties</div></li>" +
+                           '<hr>' +
+                           "<li id='contextMenuHelp'><div id='contextMenuHelpDiv' class='ui-state-disabled'>Help...</div></li>";
     $(parentObject).append(domElement);
     $('#contextMenu').menu({items: '> :not(.ui-widget-header)'});
     $('#contextMenu').css('position', 'absolute');
@@ -36,21 +38,23 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       var id = ui.item.attr('id');
       if (id === 'contextMenuFollow') {
         if (typeof this.onFollowObject === 'function')
-          this.onFollowObject(this.object.name);
+          this.onFollowObject(this.object.name, '1'); // object followed with mode 1
       } else if (id === 'contextMenuUnfollow') {
         if (typeof this.onFollowObject === 'function')
-          this.onFollowObject('none');
+          this.onFollowObject('none', '0'); // object not followed
       } else if (id === 'contextMenuEditController') {
-        var controller = this.object.userData.controller;
+        var controller = this.object.controller;
         $('#webotsEditor').dialog('open');
         $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
         if (typeof this.onEditController === 'function')
           this.onEditController(controller);
       } else if (id === 'contextMenuRobotWindow') {
-        var robotName = this.object.userData.name;
+        var robotName = this.object.name;
         if (typeof this.onOpenRobotWindow === 'function')
           this.onOpenRobotWindow(robotName);
-      } else
+      } else if (id === 'contextMenuHelp')
+        window.open(this.object.docUrl, '_blank');
+      else
         console.log('Unknown menu item: ' + id);
       $('#contextMenu').css('display', 'none');
     });
@@ -73,22 +77,23 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.visible = false;
   }
 
+  // object = {'id', 'name', 'controller', 'docUrl', 'follow'}
   show(object, position) {
     this.object = object;
-    var title = object.userData.name;
-    if (title == null || title === '') {
-      title = object.userData.name.defName;
-      if (title == null || title === '')
-        title = 'Object';
-    }
+    if (typeof object === 'undefined')
+      return;
+
+    var title = object.name;
+    if (title == null || title === '')
+      title = 'Object';
 
     $('#contextMenuTitle').html(title);
-    var controller = object.userData.controller;
+    var controller = object.controller;
     if (controller && controller !== '') { // the current selection is a robot
       $('#contextMenuEditController').css('display', 'inline');
       if (controller === 'void' || controller.length === 0 || !this.authenticatedUser)
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
-      var robotName = object.userData.name;
+      var robotName = object.name;
       var isValid = false;
       if (typeof this.isRobotWindowValid === 'function')
         this.isRobotWindowValid(robotName, (result) => { isValid = result; });
@@ -101,16 +106,21 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuRobotWindow').css('display', 'none');
     }
 
-    var isFollowed = false;
-    if (typeof this.isFollowedObject === 'function')
-      this.isFollowedObject(object, (result) => { isFollowed = result; });
-    if (isFollowed) {
+    if (object.follow < 0) { // follow option not supported
       $('#contextMenuFollow').css('display', 'none');
-      $('#contextMenuUnfollow').css('display', 'inline');
-    } else {
+      $('#contextMenuUnfollow').css('display', 'none');
+    } else if (object.follow === 0) { // object not followed
       $('#contextMenuFollow').css('display', 'inline');
       $('#contextMenuUnfollow').css('display', 'none');
+    } else { // object followed
+      $('#contextMenuFollow').css('display', 'none');
+      $('#contextMenuUnfollow').css('display', 'inline');
     }
+
+    if (this.object.docUrl)
+      $('#contextMenuHelpDiv').removeClass('ui-state-disabled');
+    else
+      $('#contextMenuHelpDiv').addClass('ui-state-disabled');
 
     // Ensure that the context menu is completely visible.
     var w = $('#contextMenu').width();

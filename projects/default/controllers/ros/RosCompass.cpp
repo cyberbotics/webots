@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,14 @@
 
 RosCompass::RosCompass(Compass *compass, Ros *ros) : RosSensor(compass->getName(), compass, ros) {
   mCompass = compass;
+
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
+}
+
+RosCompass::~RosCompass() {
+  mLookupTableServer.shutdown();
+  cleanup();
 }
 
 // creates a publisher for compass values with a [3x1] {double} array
@@ -38,4 +46,11 @@ void RosCompass::publishValue(ros::Publisher publisher) {
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.magnetic_field_covariance[i] = 0;
   publisher.publish(value);
+}
+
+bool RosCompass::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mCompass);
+  const double *values = mCompass->getLookupTable();
+  res.value.assign(values, values + mCompass->getLookupTableSize() * 3);
+  return true;
 }

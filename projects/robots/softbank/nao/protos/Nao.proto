@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
@@ -12,7 +12,7 @@ PROTO Nao [
   field SFInt32{21, 25}              degreeOfFreedom       25                    # Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
   field SFColor                      color                 -1 -1 -1              # Defines the diffuseColor of the secondary `Material`.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
-  field SFString                     controllerArgs        ""                    # Is `Robot.controllerArgs`.
+  field MFString                     controllerArgs        []                    # Is `Robot.controllerArgs`.
   field SFString                     customData            ""                    # Is `Robot.customData`.
   field SFBool                       supervisor            FALSE                 # Is `Robot.supervisor`.
   field SFBool                       synchronization       TRUE                  # Is `Robot.synchronization`.
@@ -4058,8 +4058,13 @@ PROTO Nao [
                                                 }
                                               }
                                             }
-                                            boundingObject DEF BUMPER_BO Box {
-                                              size 0.02 0.025 0.01
+                                            boundingObject DEF BUMPER_BO Transform {
+                                              translation 0.0075 0 0
+                                              children [
+                                                Box {
+                                                  size 0.005 0.025 0.01
+                                                }
+                                              ]
                                             }
                                             lookupTable [
                                             ]

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #ifndef SUPERVISOR_HPP
 #define SUPERVISOR_HPP
 
+#include <webots/Device.hpp>
 #include <webots/Node.hpp>
 #include <webots/Robot.hpp>
 
@@ -59,6 +60,8 @@ namespace webots {
     Node *getSelf() const;
     Node *getFromDef(const std::string &name) const;
     Node *getFromId(int id) const;
+    Node *getFromDevice(const Device *device) const;
+    Node *getFromDeviceTag(int tag) const;
     Node *getSelected() const;
 
     bool virtualRealityHeadsetIsUsed() const;

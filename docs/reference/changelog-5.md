@@ -500,7 +500,7 @@ Released on May, 9th, 2006 (revision 388).
   - Attempted to fix a bug with the gripper device (thanks to Fernando and Ricardo)
   - Fixed roboka.wbt allowing recompilation of Java controllers (thanks to Dominic)
   - Added dWebotsConsolePrintf() in the physics library API (thanks to Harun)
-  - Automatic mouse control change when gravity is along the Z axis (thanks to David)
+  - Automatic mouse control change when gravity is along the z-axis (thanks to David)
   - Fixed bug with light sensors and batch mode (thanks to Nikolaus and Yvan)
   - Updated the `blimp_lis` model and physics, now includes keyboard control (thanks to Antoine)
   - Fixed problem with cylinder getting down in non-physics gripper simulations (thanks to Ricardo)
@@ -540,7 +540,7 @@ Released on March 21st, 2006 (revision 205).
   - Added controllerArgs field to robot nodes to pass arguments to a controller program
   - Fixed bug with `supervisor_field_set()` for a rotation angle in fast2D mode (thanks to Patrícia)
   - Added Aibo ERS7M3 target pattern for recharge station (thanks to Austin)
-  - Fixed bug with Servo.acceleration which was expressed in rad/(micro s)^2 instead of rad/s^2 (thanks to Gerhard)
+  - Fixed bug with Servo.acceleration which was expressed in rad/(micro s)² instead of rad/s² (thanks to Gerhard)
   - Changed the way C/C++ controllers are executed under Windows (`simple.exe` is renamed to `simple.exe_webots` before it is executed)
   - Fixed Roboka0.java so that it now works on Mac OS X as well
   - Added `supervisor_export_image()` and `supervisor_import_node()` in the Java API

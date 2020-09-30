@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -577,12 +577,10 @@ int main(int argc, char **argv) {
       ROS_ERROR("Failed to call service time_step to update robot's time step.");
 
     // get sensors value
-    if (nStep % 1 == 0) {
-      countDist = 0;
-      countGnd = 0;
-      while (countDist < NB_DIST_SENS || countGnd < NB_GROUND_SENS)
-        ros::spinOnce();
-    }
+    countDist = 0;
+    countGnd = 0;
+    while (countDist < NB_DIST_SENS || countGnd < NB_GROUND_SENS)
+      ros::spinOnce();
 
     // Speed initialization
     speed[LEFT] = 0;

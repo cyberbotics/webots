@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 #include "WbFileUtil.hpp"
 #include "WbFluid.hpp"
 #include "WbLanguage.hpp"
+#include "WbMesh.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
@@ -58,7 +59,7 @@ protected:
   }
 };
 
-const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[9] = {
+const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[N_STRING_TYPE_INFO] = {
   QStringList() << "controllers/" << tr("Controller choice")
                 << tr("Please select a controller from the list\n(it will start at the next time step)"),
   QStringList() << "" << tr("Fluid choice") << tr("Please select a fluid from the list\n"),
@@ -386,7 +387,8 @@ void WbExtendedStringEditor::select() {
   apply();
 }
 
-WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName) {
+WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName,
+                                                                                 const WbNode *parentNode) {
   if (fieldName == "controller")
     return CONTROLLER;
   else if (fieldName == "window")
@@ -397,9 +399,14 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     return PHYSICS_PLUGIN;
   else if (fieldName == "sound" || fieldName.endsWith("Sound", Qt::CaseSensitive))
     return SOUND;
-  else if (fieldName == "url" || fieldName.endsWith("Url", Qt::CaseSensitive))
+  else if (fieldName.endsWith("IrradianceUrl", Qt::CaseSensitive))
+    return HDR_TEXTURE_URL;
+  else if (fieldName.endsWith("url", Qt::CaseSensitive) || fieldName.endsWith("Url", Qt::CaseSensitive)) {
+    const WbMesh *mesh = dynamic_cast<const WbMesh *>(parentNode);
+    if (mesh)
+      return MESH_URL;
     return TEXTURE_URL;
-  else if (fieldName == "solidName")
+  } else if (fieldName == "solidName")
     return SOLID_REFERENCE;
   else if (fieldName == "fluidName")
     return FLUID_NAME;
@@ -437,7 +444,7 @@ void WbExtendedStringEditor::edit(bool copyOriginalValue) {
     if (effectiveField->isParameter())
       effectiveField = effectiveField->internalFields().at(0);
 
-    mStringType = fieldNameToStringType(effectiveField->name());
+    mStringType = fieldNameToStringType(effectiveField->name(), effectiveField->parentNode());
   }
 
   const bool hasRetrictedValues = field()->hasRestrictedValues();
@@ -535,6 +542,13 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
     case TEXTURE_URL:
       selectFile("textures", "Texture", "*.png *.PNG *.jpg *.JPG *.jpeg *.JPEG");
       break;
+    case HDR_TEXTURE_URL:
+      selectFile("textures", "Texture", "*.hdr *.HDR");
+      break;
+    case MESH_URL:
+      selectFile("meshes", "Meshes",
+                 "*.3ds *.3DS *.bvh *.BVH *.blend *.BLEND *.dae *.DAE *.fbx *.FBX *.stl *.STL *.obj *.OBJ *.x3d *.X3D");
+      break;
     default:
       return false;
   }
@@ -547,7 +561,7 @@ bool WbExtendedStringEditor::selectItem() {
   if (!populateItems(items))
     return false;
 
-  if (mStringType == SOUND || mStringType == TEXTURE_URL)
+  if (mStringType >= N_STRING_TYPE_INFO)
     return true;
 
   // let the user choose from an item list

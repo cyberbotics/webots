@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,6 +67,8 @@ using namespace std;
 //for the conversion between array and pointer
 %include "arrays_java.i"
 
+%javamethodmodifiers getLookupTableSize "private"
+
 // general typemap for determining the size of output double array
 %typemap(out) double [] {
   const string test("$name");
@@ -78,10 +80,14 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
-  else
+  else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
+
+%typemap(out) const double *getLookupTable {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
 
 // for loading the shared library
 %pragma(java) jniclasscode=%{
@@ -102,6 +108,46 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+
+//----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+
+%typemap(javacode) webots::AnsiCodes %{
+  public final static String RESET = "\u001b[0m";
+
+  public final static String BOLD = "\u001b[1m";
+  public final static String UNDERLINE = "\u001b[4m";
+
+  public final static String BLACK_BACKGROUND = "\u001b[40m";
+  public final static String RED_BACKGROUND = "\u001b[41m";
+  public final static String GREEN_BACKGROUND = "\u001b[42m";
+  public final static String YELLOW_BACKGROUND = "\u001b[43m";
+  public final static String BLUE_BACKGROUND = "\u001b[44m";
+  public final static String MAGENTA_BACKGROUND = "\u001b[45m";
+  public final static String CYAN_BACKGROUND = "\u001b[46m";
+  public final static String WHITE_BACKGROUND = "\u001b[47m";
+
+  public final static String BLACK_FOREGROUND = "\u001b[30m";
+  public final static String RED_FOREGROUND = "\u001b[31m";
+  public final static String GREEN_FOREGROUND = "\u001b[32m";
+  public final static String YELLOW_FOREGROUND = "\u001b[33m";
+  public final static String BLUE_FOREGROUND = "\u001b[34m";
+  public final static String MAGENTA_FOREGROUND = "\u001b[35m";
+  public final static String CYAN_FOREGROUND = "\u001b[36m";
+  public final static String WHITE_FOREGROUND = "\u001b[37m";
+
+  public final static String CLEAR_SCREEN = "\u001b[2J";
+%}
+
+
+// we need to create an empty class for SWIG to create a Java module
+%inline %{
+namespace webots {
+  class AnsiCodes {
+  };
+}
+%}
 
 //----------------------------------------------------------------------------------------------
 //  Device
@@ -553,6 +599,9 @@ using namespace std;
 %rename("getParentNodePrivate") getParentNode() const;
 %javamethodmodifiers getParentNode() const "private"
 
+%rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
+%javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
+
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
 
@@ -560,6 +609,11 @@ using namespace std;
 // ----- begin hand written section ----
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
+    return Node.findNode(cPtr);
+  }
+
+  public Node getFromProtoDef(String name) {
+    long cPtr = wrapperJNI.Node_getFromProtoDefPrivate(swigCPtr, this, name);
     return Node.findNode(cPtr);
   }
 
@@ -1115,6 +1169,15 @@ using namespace std;
     return Node.findNode(cPtr);
   }
 
+  public Node getFromDevice(Device device) {
+    return getFromDeviceTag(device.getTag());
+  }
+
+  private Node getFromDeviceTag(int tag) {
+    long cPtr = wrapperJNI.Supervisor_getFromDeviceTagPrivate(swigCPtr, this, tag);
+    return Node.findNode(cPtr);
+  }
+
   public Node getSelected() {
     long cPtr = wrapperJNI.Supervisor_getSelectedPrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -1125,12 +1188,16 @@ using namespace std;
 %rename("getSelfPrivate") getSelf() const;
 %rename("getFromDefPrivate") getFromDef(const std::string &name) const;
 %rename("getFromIdPrivate") getFromId(int id) const;
+%rename("getFromDevicePrivate") getFromDevice(const Device *device) const;
+%rename("getFromDeviceTagPrivate") getFromDeviceTag(int tag) const;
 %rename("getSelectedPrivate") getSelected() const;
 
 %javamethodmodifiers getRoot() const "private"
 %javamethodmodifiers getSelf() const "private"
 %javamethodmodifiers getFromDef(const std::string &name) const "private"
 %javamethodmodifiers getFromId(int id) const "private"
+%javamethodmodifiers getFromDevice(const Device *device) const "private"
+%javamethodmodifiers getFromDeviceTag(int tag) const "private"
 %javamethodmodifiers getSelected() const "private"
 
 %include <webots/Supervisor.hpp>

@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,19 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),windows)
-TARGET_ODE_LIBRARY=../../msys64/mingw64/bin/ode.dll
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
-TARGET_ODE_LIBRARY=../../lib/libode.so
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-TARGET_ODE_LIBRARY=../../lib/libode.dylib
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)
@@ -41,7 +41,7 @@ $(TARGET_ODE_LIBRARY):
 	@echo "#" copying $(@F) to $@
 	@cp $(@F) $@
 ifeq ($(OSTYPE),darwin)
-	@install_name_tool -id @rpath/lib/libode.dylib $@
+	@install_name_tool -id @rpath/lib/webots/libode.dylib $@
 endif
 
 install: $(TARGET_ODE_LIBRARY)
@@ -59,6 +59,11 @@ CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMOD
 ifneq ($(OSTYPE),darwin)
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
+
+ifeq ($(MAKECMDGOALS),release)
+  CFLAGS += -DdNODEBUG
+endif
+
 CXXFLAGS = -std=c++11
 INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
 

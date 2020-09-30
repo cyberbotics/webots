@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Boomer 3050 Tractor"
@@ -6,6 +6,7 @@ WorldInfo {
   title "Boomer 3050 Tractor"
   ERP 0.7
   basicTimeStep 20
+  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {

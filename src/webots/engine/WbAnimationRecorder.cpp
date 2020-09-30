@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -385,12 +385,17 @@ void WbAnimationRecorder::start(const QString &fileName) {
 void WbAnimationRecorder::stopRecording() {
   disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepEnded, this, &WbAnimationRecorder::update);
   mIsRecording = false;
-
   if (!mFile)
     return;
-
-  // prepend header and initial state to the file containing updates
   mFile->close();
+  const WbWorld *const world = WbWorld::instance();
+  if (!world) {  // the world is being reverted, aborting the animation and deleting the incomplete animation file
+    mFile->remove();
+    delete mFile;
+    mFile = NULL;
+    return;
+  }
+  // prepend header and initial state to the file containing updates
   mFile->open(QFile::ReadOnly | QFile::Text);
   const QByteArray updates = mFile->readAll();
   mFile->close();
@@ -399,7 +404,7 @@ void WbAnimationRecorder::stopRecording() {
   QTextStream out(mFile);
   out << "{\n";
   // write header
-  const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
+  const WbWorldInfo *const worldInfo = world->worldInfo();
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
   out << " \"ids\":\"";
@@ -409,6 +414,7 @@ void WbAnimationRecorder::stopRecording() {
     // store only ids of nodes that changed during the animation
     if (command->isChangedFromStart()) {
       commandsChangedFromStart << command;
+      // cppcheck-suppress knownConditionTrueFalse
       if (!firstCommand)
         out << ";";
       else

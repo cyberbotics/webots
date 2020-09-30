@@ -1,171 +1,171 @@
 {
-  "robotID": "n11", 
-  "name": "youbot", 
   "devices": [
     {
-      "transformID": "n41", 
-      "initialPosition": 0, 
-      "name": "arm1", 
-      "maxPosition": 2.9496, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.9496, 
+      "type": "RotationalMotor",
+      "anchor": "0 0 0.077",
+      "minPosition": -2.9496,
+      "maxPosition": 2.9496,
+      "transformID": "n41",
+      "name": "arm1",
+      "position": 0,
       "axis": "0 0 1"
-    }, 
+    },
     {
-      "transformID": "n61", 
-      "initialPosition": 0, 
-      "name": "arm2", 
-      "maxPosition": 1.5708, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.13446, 
+      "type": "RotationalMotor",
+      "anchor": "0.033 0 0.07",
+      "minPosition": -1.13446,
+      "maxPosition": 1.5708,
+      "transformID": "n61",
+      "name": "arm2",
+      "position": 0,
       "axis": "0 -1 0"
-    }, 
+    },
     {
-      "transformID": "n79", 
-      "initialPosition": 0, 
-      "name": "arm3", 
-      "maxPosition": 2.54818, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.63545, 
+      "type": "RotationalMotor",
+      "anchor": "0 0 0.155",
+      "minPosition": -2.63545,
+      "maxPosition": 2.54818,
+      "transformID": "n79",
+      "name": "arm3",
+      "position": 0,
       "axis": "0 -1 0"
-    }, 
+    },
     {
-      "transformID": "n103", 
-      "initialPosition": 0, 
-      "name": "arm4", 
-      "maxPosition": 1.78024, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.78024, 
+      "type": "RotationalMotor",
+      "anchor": "0 0 0.135",
+      "minPosition": -1.78024,
+      "maxPosition": 1.78024,
+      "transformID": "n103",
+      "name": "arm4",
+      "position": 0,
       "axis": "0 -1 0"
-    }, 
+    },
     {
-      "transformID": "n119", 
-      "initialPosition": 0, 
-      "name": "arm5", 
-      "maxPosition": 2.92343, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.92343, 
+      "type": "RotationalMotor",
+      "anchor": "0 0 0.081",
+      "minPosition": -2.92343,
+      "maxPosition": 2.92343,
+      "transformID": "n119",
+      "name": "arm5",
+      "position": 0,
       "axis": "0 0 1"
-    }, 
+    },
     {
-      "transformID": "n179", 
-      "initialPosition": 0, 
-      "name": "wheel1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "type": "RotationalMotor",
+      "anchor": "0.228 -0.158 -0.055",
+      "minPosition": 0,
+      "maxPosition": 0,
+      "transformID": "n179",
+      "name": "wheel1",
+      "position": 0,
       "axis": "0 1 0"
-    }, 
+    },
     {
-      "transformID": "n220", 
-      "initialPosition": 0, 
-      "name": "wheel2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "type": "RotationalMotor",
+      "anchor": "0.228 0.158 -0.055",
+      "minPosition": 0,
+      "maxPosition": 0,
+      "transformID": "n220",
+      "name": "wheel2",
+      "position": 0,
       "axis": "0 1 0"
-    }, 
+    },
     {
-      "transformID": "n261", 
-      "initialPosition": 0, 
-      "name": "wheel3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "type": "RotationalMotor",
+      "anchor": "-0.228 -0.158 -0.055",
+      "minPosition": 0,
+      "maxPosition": 0,
+      "transformID": "n261",
+      "name": "wheel3",
+      "position": 0,
       "axis": "0 1 0"
-    }, 
+    },
     {
-      "transformID": "n302", 
-      "initialPosition": 0, 
-      "name": "wheel4", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "type": "RotationalMotor",
+      "anchor": "-0.228 0.158 -0.055",
+      "minPosition": 0,
+      "maxPosition": 0,
+      "transformID": "n302",
+      "name": "wheel4",
+      "position": 0,
       "axis": "0 1 0"
-    }, 
+    },
     {
-      "transformID": "n128", 
-      "initialPosition": 4.71239, 
-      "name": "finger1", 
-      "maxPosition": 0.025, 
-      "position": 0, 
-      "type": "LinearMotor", 
-      "minPosition": 0, 
+      "type": "LinearMotor",
+      "anchor": "0 0 0",
+      "minPosition": 0,
+      "maxPosition": 0.025,
+      "transformID": "n128",
+      "name": "finger1",
+      "position": 0,
       "axis": "0 1 0"
-    }, 
+    },
     {
-      "transformID": "n143", 
-      "initialPosition": 3.14159, 
-      "name": "finger2", 
-      "maxPosition": 0.025, 
-      "position": 0, 
-      "type": "LinearMotor", 
-      "minPosition": 0, 
+      "type": "LinearMotor",
+      "anchor": "0 0 0",
+      "minPosition": 0,
+      "maxPosition": 0.025,
+      "transformID": "n143",
+      "name": "finger2",
+      "position": 0,
       "axis": "0 -1 0"
-    }, 
+    },
     {
-      "transformID": "n41", 
-      "type": "PositionSensor", 
-      "name": "arm1sensor"
-    }, 
+      "name": "arm1sensor",
+      "type": "PositionSensor",
+      "transformID": "n41"
+    },
     {
-      "transformID": "n61", 
-      "type": "PositionSensor", 
-      "name": "arm2sensor"
-    }, 
+      "name": "arm2sensor",
+      "type": "PositionSensor",
+      "transformID": "n61"
+    },
     {
-      "transformID": "n79", 
-      "type": "PositionSensor", 
-      "name": "arm3sensor"
-    }, 
+      "name": "arm3sensor",
+      "type": "PositionSensor",
+      "transformID": "n79"
+    },
     {
-      "transformID": "n103", 
-      "type": "PositionSensor", 
-      "name": "arm4sensor"
-    }, 
+      "name": "arm4sensor",
+      "type": "PositionSensor",
+      "transformID": "n103"
+    },
     {
-      "transformID": "n119", 
-      "type": "PositionSensor", 
-      "name": "arm5sensor"
-    }, 
+      "name": "arm5sensor",
+      "type": "PositionSensor",
+      "transformID": "n119"
+    },
     {
-      "transformID": "n128", 
-      "type": "PositionSensor", 
-      "name": "finger1sensor"
-    }, 
+      "name": "finger1sensor",
+      "type": "PositionSensor",
+      "transformID": "n128"
+    },
     {
-      "transformID": "n143", 
-      "type": "PositionSensor", 
-      "name": "finger2sensor"
-    }, 
+      "name": "finger2sensor",
+      "type": "PositionSensor",
+      "transformID": "n143"
+    },
     {
-      "transformID": "n179", 
-      "type": "PositionSensor", 
-      "name": "wheel1sensor"
-    }, 
+      "name": "wheel1sensor",
+      "type": "PositionSensor",
+      "transformID": "n179"
+    },
     {
-      "transformID": "n220", 
-      "type": "PositionSensor", 
-      "name": "wheel2sensor"
-    }, 
+      "name": "wheel2sensor",
+      "type": "PositionSensor",
+      "transformID": "n220"
+    },
     {
-      "transformID": "n261", 
-      "type": "PositionSensor", 
-      "name": "wheel3sensor"
-    }, 
+      "name": "wheel3sensor",
+      "type": "PositionSensor",
+      "transformID": "n261"
+    },
     {
-      "transformID": "n302", 
-      "type": "PositionSensor", 
-      "name": "wheel4sensor"
+      "name": "wheel4sensor",
+      "type": "PositionSensor",
+      "transformID": "n302"
     }
-  ]
+  ],
+  "name": "youbot",
+  "robotID": "n10"
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Unviversal Robot UR3e, UR5e and UR10e grasping cans using Robotiq 3F grippers."
@@ -6,6 +6,7 @@ WorldInfo {
   title "Universal Robot"
   basicTimeStep 16
   physicsDisableAngularThreshold 0.1
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       bounce 0.1
@@ -285,11 +286,12 @@ UR3e {
   translation 1.30296 0.91 -0.079391
   rotation 1 0 0 -1.5707963071795863
   controller "ure_can_grasper"
-  controllerArgs "3"
+  controllerArgs [
+    "3"
+  ]
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
@@ -304,7 +306,6 @@ UR5e {
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
@@ -319,7 +320,6 @@ UR10e {
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
@@ -338,7 +338,6 @@ ConveyorBelt {
   }
   borderHeight 0
   speed 0.2
-  textureAnimation 0.016
 }
 ConveyorBelt {
   translation 1.77 0.75 -2.55
@@ -352,7 +351,6 @@ ConveyorBelt {
   }
   borderHeight 0
   speed 0.2
-  textureAnimation 0.016
 }
 ConveyorBelt {
   translation 0 0 -0.69
@@ -367,7 +365,6 @@ ConveyorBelt {
   speed 0.062
   acceleration 0.012
   timer 90
-  textureAnimation 0.016
 }
 PlasticCrate {
   translation 0.22 0.25 -0.68

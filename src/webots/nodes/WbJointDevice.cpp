@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,15 +61,15 @@ void WbJointDevice::postFinalize() {
 }
 
 WbJoint *WbJointDevice::joint() const {
-  return dynamic_cast<WbJoint *>(parent());
+  return dynamic_cast<WbJoint *>(parentNode());
 }
 
 WbPropeller *WbJointDevice::propeller() const {
-  return dynamic_cast<WbPropeller *>(parent());
+  return dynamic_cast<WbPropeller *>(parentNode());
 }
 
 WbTrack *WbJointDevice::track() const {
-  return dynamic_cast<WbTrack *>(parent());
+  return dynamic_cast<WbTrack *>(parentNode());
 }
 
 WbLogicalDevice *WbJointDevice::getSiblingDeviceByType(int nodeType) const {

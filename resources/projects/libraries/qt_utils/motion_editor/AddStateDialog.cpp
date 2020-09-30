@@ -71,7 +71,7 @@ void AddStateDialog::populateListWidget() {
   }
 
   QSet<QString> motorsSet = availableMotors - motorAlreadyDefined;
-  QStringList motors = motorsSet.toList();
+  QStringList motors = motorsSet.values();
   motors.removeDuplicates();
   motors.sort();
 

@@ -16,10 +16,11 @@ On Windows 10 and Windows 7, open the `Start` menu, go to the `Program Files / C
 
 On Windows 8, open the `Start` screen, scroll to the screen's right until you spot the Cyberbotics section and click on the `Webots` icon.
 
-You can also start Webots from a DOS console (`cmd.exe`) by typing `webots.bat`.
+You can also start Webots from a DOS console (`cmd.exe`) by typing `webots` or `webots.exe`.
 This command works only if executed from the `C:\Program Files\Webots\msys64\mingw64\bin` directory (assuming Webots was installed in `C:\Program Files`).
 It can also work from any directory if the above directory was added to your `Path` environment variable.
-**Note:** Calling `webots.exe` directly from a DOS console may not work, as some settings may be missing (see the contents of `webots.bat` for details).
+**Note:** Calling `webots-bin.exe` from a DOS console may not work, as some settings may be missing.
+**Note:** Calling `webotsw.exe` from a DOS console launches Webots in the background and returns immediately.
 
 ### Command Line Arguments
 
@@ -62,6 +63,7 @@ Options:
     Start the Webots streaming server. Parameters may be
     given as an option:
       port=1234          - Start the streaming server on port 1234.
+      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.
       monitorActivity    - Print a dot '.' on stdout every 5 seconds.
       disableTextStreams - Disable the streaming of stdout and stderr.
 
@@ -71,7 +73,7 @@ Options:
     specifies how many steps are logged. If the --sysinfo option is used, the
     system information is prepended into the log file.
 
-Please report any bug to http://www.cyberbotics.com/bug
+Please report any bug to https://cyberbotics.com/bug
 ```
 
 The optional `worldfile` argument specifies the name of a .wbt file to open.
@@ -101,11 +103,12 @@ The supported options are described in [this table](#streaming-server-options).
 
 %figure "Streaming server options"
 
-| Key                | Value example | Description                                     |
-| ------------------ | ------------- | ----------------------------------------------- |
-| port               | 1234          | The port on which the streaming server is open. |
-| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.      |
-| disableTextStreams |               | Disable the streaming of stdout and stderr.     |
+| Key                | Value example | Description                                      |
+| ------------------ | ------------- | ------------------------------------------------ |
+| port               | 1234          | The port on which the streaming server is open.  |
+| mode               | x3d or mjpeg  | The streaming mode used by the streaming server. |
+| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.       |
+| disableTextStreams |               | Disable the streaming of stdout and stderr.      |
 
 %end
 

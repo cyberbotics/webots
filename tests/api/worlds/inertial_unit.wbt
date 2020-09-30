@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.188339 0.946267 0.262883 4.15506
+  orientation 0.18833897307703992 0.9462668647316347 0.26288296242101467 4.15506
   position -0.929518 1.5538 -1.06563
 }
 Background {
@@ -20,6 +21,10 @@ DEF AIRPLANE Robot {
   translation 0.484785 0.39156 -0.0676172
   children [
     InertialUnit {
+      lookupTable [
+        -1000 -1000 0
+        1000 1000 0
+      ]
     }
     Shape {
       appearance Appearance {
@@ -57,7 +62,6 @@ DEF AIRPLANE Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "inertial_unit"
   supervisor TRUE
 }

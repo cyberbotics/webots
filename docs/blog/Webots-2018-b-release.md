@@ -48,7 +48,7 @@ WREN now shines in large worlds, and is still way ahead of OGRE even in simple s
 
 In a bid to make Webots look as realistic as possible, we have implemented a Physically-Based Rendering pipeline into Webots.
 Physically based rendering relies on improved lighting models, and the use of several additional non-colour textures (normal maps, roughness maps and metalness maps) to represent a material's interactions with light to a very high degree of realism.
-This is useable with the new [PBRAppearance](../reference/pbrappearance.md) and [Cubemap](../reference/cubemap.md) nodes.
+This is useable with the new [PBRAppearance](../reference/pbrappearance.md) and `Cubemap` nodes.
 This is still an experimental feature for now, however.
 We will be rolling it out across our objects and simulations as time goes on, and this will likely change the appearance of your simulation worlds.
 

@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -162,8 +162,8 @@ class Command(object):
             outFile.close()
             errFile.close()
 
-        self.outFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stdout.txt'
-        self.errFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stderr.txt'
+        self.outFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stdout.txt')
+        self.errFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stderr.txt')
         self.resetAttributes()
 
         self.silent = silent

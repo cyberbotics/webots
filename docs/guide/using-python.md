@@ -8,10 +8,11 @@ The Python API is currently composed of a set of about 25 classes having about 2
 The classes are either representations of a node of the scene tree (such as Robot, LED, etc.) or utility classes (such as Motion, ImageRef, etc.).
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
-The Python API of Webots supports both Python 3.7 and Python 2.7.
-On Ubuntu 18.04 and 16.04 it also supports Python 3.6 and Python 3.8, and Python 3.5 Ubuntu 16.04.
+The Python API of Webots supports Python versions 2.7, 3.7 and 3.8.
+Please note that Python 2.7 is deprecated since January 1st, 2020 and should be avoided.
+On Ubuntu it also supports Python versions 3.5 and 3.6.
 
-Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-pycharm-with-webots.md) chapter for a step-by-step procedure.
+Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-your-ide.md#pycharm) chapter for a step-by-step procedure.
 
 ### Installation
 
@@ -39,8 +40,10 @@ To check the versions of Python installed on your system, you can type in a term
 #### macOS Installation
 
 Python 2.7 installed by default.
-You can install Python 3.7 from the [Python web site](https://www.python.org).
+You can install Python 3.7 or 3.8 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
 To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
+
+> **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (e.g. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
 
 #### Windows Installation
 

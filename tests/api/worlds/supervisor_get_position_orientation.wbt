@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.619652 -0.733329 -0.279751 5.36419
+  orientation 0.619651800055127 -0.7333287633746461 -0.2797509097319493 5.36419
   position 0.360259 0.176281 0.684381
 }
 Background {
@@ -20,6 +21,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "supervisor_get_position_orientation"
   supervisor TRUE
 }

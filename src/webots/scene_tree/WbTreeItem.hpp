@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ public:
   bool isSFNode() const;
   bool isItem() const { return mType == ITEM; }
   bool isInvalid() const { return mType == INVALID; }
-  WbField *field() const { return mField; }
+  WbField *field() const { return (mType == FIELD || mType == ITEM) ? mField : NULL; }
   WbNode *node() const;
   int itemIndex(const WbTreeItem *item) const;
   WbTreeItem *lastChild() const;

@@ -18,7 +18,7 @@ Khr3hv {
   SFRotation rotation        0 1 0 0
   SFString   name            "KHR-3HV"
   SFString   controller      "void"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

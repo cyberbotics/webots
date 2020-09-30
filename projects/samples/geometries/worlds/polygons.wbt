@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This world shows the polygon tesselation feature."
   ]
   title "Base graphical geometries"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.15867339485053722 0.9497980224930243 0.269641373373869 3.9581880857397573

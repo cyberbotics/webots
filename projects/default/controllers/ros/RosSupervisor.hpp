@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,11 +28,14 @@
 #include <webots_ros/save_image.h>
 #include <webots_ros/supervisor_get_from_def.h>
 #include <webots_ros/supervisor_get_from_id.h>
+#include <webots_ros/supervisor_get_from_string.h>
 #include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_position.h>
 
+#include <webots_ros/node_add_force_or_torque.h>
+#include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_field.h>
@@ -46,6 +49,7 @@
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
+#include <webots_ros/node_is_proto.h>
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
@@ -114,6 +118,8 @@ public:
   bool getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                           webots_ros::supervisor_get_from_def::Response &res);
   bool getFromIdCallback(webots_ros::supervisor_get_from_id::Request &req, webots_ros::supervisor_get_from_id::Response &res);
+  bool getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                             webots_ros::supervisor_get_from_string::Response &res);
   bool getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res);
 
   bool nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
@@ -123,6 +129,7 @@ public:
   bool nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
   bool nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                  webots_ros::node_get_parent_node::Response &res);
+  bool nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res);
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
@@ -136,6 +143,12 @@ public:
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
   bool nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req, webots_ros::node_set_velocity::Response &res);
+  bool nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
+                            webots_ros::node_add_force_or_torque::Response &res);
+  bool nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+                                      webots_ros::node_add_force_with_offset::Response &res);
+  bool nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
+                             webots_ros::node_add_force_or_torque::Response &res);
   bool nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
   bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
   bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
@@ -203,6 +216,7 @@ private:
   ros::ServiceServer mGetSelfServer;
   ros::ServiceServer mGetFromDefServer;
   ros::ServiceServer mGetFromIdServer;
+  ros::ServiceServer mGetFromDeviceServer;
   ros::ServiceServer mGetSelectedServer;
   ros::ServiceServer mVirtualRealityHeadsetGetOrientationServer;
   ros::ServiceServer mVirtualRealityHeadsetGetPositionServer;
@@ -214,6 +228,7 @@ private:
   ros::ServiceServer mNodeGetDefServer;
   ros::ServiceServer mNodeGetBaseTypeNameServer;
   ros::ServiceServer mNodeGetParentNodeServer;
+  ros::ServiceServer mNodeIsProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;
@@ -222,6 +237,9 @@ private:
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;
+  ros::ServiceServer mNodeAddForceServer;
+  ros::ServiceServer mNodeAddForceWithOffsetServer;
+  ros::ServiceServer mNodeAddTorqueServer;
   ros::ServiceServer mNodeGetFieldServer;
   ros::ServiceServer mNodeMoveViewpointServer;
   ros::ServiceServer mNodeSetVisibilityServer;

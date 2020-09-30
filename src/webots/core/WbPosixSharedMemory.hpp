@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ public:
   static bool attach() { return false; }
   static bool detach() { return false; }
   bool create(int size);
+  int size() const { return mSize; }
   void *data() const { return mData; }
   const QString nativeKey() const { return mName; }
 

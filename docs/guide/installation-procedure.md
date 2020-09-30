@@ -16,7 +16,7 @@ Webots will run on most recent Linux distributions running glibc2.11.1 or earlie
 This includes fairly recent Ubuntu, Debian, Fedora, SuSE, RedHat, etc.
 Webots comes in three different package types: `.deb` (Debian package), `.tar.bz2` (tarball package) and `.snap` (snap package).
 The Debian package is aimed at the latest LTS Ubuntu Linux distribution whereas the tarball and snap packages includes many dependency libraries and are therefore best suited for installation on other Linux distributions.
-All these packages can be installed from our [website](https://cyberbotics.com/download).
+All these packages can be installed from our [official GitHub repository](https://github.com/cyberbotics/webots/releases).
 
 > **Note**: Webots will run much faster if you install an accelerated OpenGL drivers.
 If you have a NVIDIA or AMD graphics card, it is highly recommended that you install the Linux graphics drivers from these manufacturers to take the full advantage of the OpenGL hardware acceleration with Webots.
@@ -27,17 +27,17 @@ Please find instructions in [this section](verifying-your-graphics-driver-instal
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
 
-First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
 
 ```sh
-curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
+wget -qO- https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
 Simply execute the following lines:
 
 ```sh
-sudo apt-add-repository 'deb https://www.cyberbotics.com/debian/ binary-amd64/'
+sudo apt-add-repository 'deb https://cyberbotics.com/debian/ binary-amd64/'
 sudo apt-get update
 ```
 
@@ -45,7 +45,7 @@ As an alternative, you can easily add the Cyberbotics repository from the `Softw
 In the `Other Software` tab, click on the `Add...` button and copy the following line:
 
 ```text
-deb https://www.cyberbotics.com/debian/ binary-amd64/
+deb https://cyberbotics.com/debian/ binary-amd64/
 ```
 
 When you close the window, the APT packages list should be automatically updated.
@@ -87,9 +87,11 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-This package can be installed without the `root` privileges.
-It can be uncompressed anywhere using the `tar` `xjf` command line.
-Once uncompressed, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the uncompression of the tarball:
+Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+
+The tarball package can be installed without the `root` privileges.
+It can be extracted anywhere using the `tar` `xjf` command line.
+Once extracted, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the extraction of the tarball:
 
 ```sh
 tar xjf webots-{{ webots.version.package }}-x86-64.tar.bz2
@@ -104,7 +106,7 @@ export WEBOTS_HOME=/home/username/webots
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
 > **Note**: Webots needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
-You will also need to install *make*, *g++*, *libjpeg8-dev* to compile your own robot controllers.
+You will also need to install *make* and *g++* to compile your own robot controllers.
 Other particular libraries could also be required to recompile some of the distributed binary files.
 In this case an error message will be printed in the Webots console mentioning the missing dependency.
 The package names could slightly change on different releases and distributions.
@@ -134,21 +136,89 @@ To work around this problem, such controllers should be launched as extern contr
 Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
+#### Installing the Docker Image
+
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 18.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+
+These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
+
+##### Install Docker
+
+Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
+
+##### Run Webots in Docker in Headless Mode
+
+The docker image comes with a X virtual framebuffer (Xvfb) already installed and configured so that you can run Webots in headless mode.
+
+To pull the image and start a docker container with it use the following command:
+```
+docker run -it cyberbotics/webots:latest
+```
+
+> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2020b-rev1-ubuntu20.04`).
+
+After starting the docker container you can start Webots headlessly using xvfb:
+```
+xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/file
+```
+
+> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
+
+##### Run Webots in Docker with GUI 
+
+###### Without GPU Acceleration
+
+To run Webots with a graphical user interface in a docker container, you need to enable connections to the X server before starting the docker container:
+```
+xhost +local:root > /dev/null 2>&1
+```
+
+> **Note**: If you need to disable connections to the X server, you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
+
+You can then start the container with the following command:
+```
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
+```
+
+Or if you want to directly launch Webots:
+```
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest webots
+```
+
+###### With GPU Acceleration
+
+To run GPU accelerated docker containers, the `nvidia-docker2` package needs to be installed.
+Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
+
+> **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker versions (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites)).
+
+Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
+```
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
+```
+
+##### Troubleshooting
+
+On some Linux systems, such as Arch Linux, you may get errors related to `fontconfig` when starting Webots.
+If that happens, you should clear the font cache and start Webots again:
+
+```bash
+sudo rm /var/cache/fontconfig/*
+rm ~/.cache/fontconfig/*
+```
 
 #### Server Edition
 
-Webots requires some graphical features that are usually not available by default on a Linux server edition and additional packages needs to be available to make it work:
+Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/scripts/install/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
 
-- `xserver-xorg-core`
-- `libpulse0`
-
-These packages are automatically installed when using the Debian package, but in case of the tarball package the user has to manually install them.
-
-Additionally, it is also necessary to install an OS GUI, for example the Unity desktop `ubuntu-desktop` package.
+Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
+```
+xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batch /path/to/world/file
+```
 
 ### Installation on Windows
 
-1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com/download).
+1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
 
@@ -175,7 +245,7 @@ It may be possible that Windows Defender SmartScreen will display a warning when
 %end
 
 This is likely caused by the fact that the release of Webots is recent and was not yet approved by Microsoft.
-If the Webots installer was downloaded from the [official Cyberbotics web site](https://www.cyberbotics.com/download) using the secure HTTPS protocol, then it is safe to install it.
+If the Webots installer was downloaded from the [official Cyberbotics web site](https://cyberbotics.com) or [official GitHub repository](https://github.com/cyberbotics/webots/releases) using the secure HTTPS protocol, then it is safe to install it.
 You can pass this warning and install Webots by clicking on the "More info" link and the "Run anyway" button depicted below:
 
 %figure "Windows SmartScreen pass"
@@ -184,10 +254,26 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
-1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com/download).
+#### From the Installation File
+
+1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+
+#### From the Homebrew Package
+
+A [Homebrew package](https://formulae.brew.sh/cask/webots) is available for Webots.
+
+If brew is not already installed on your computer, install it with the following command in a terminal:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Webots can then be installed with:
+```
+brew cask install webots
+```
 
 ### macOS Security
 

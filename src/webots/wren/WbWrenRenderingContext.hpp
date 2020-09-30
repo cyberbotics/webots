@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,17 +55,18 @@ public:
     VF_LIDAR_RAYS_PATHS = 0x00008000,       // flag for lidar ray path
     VF_RADAR_FRUSTUMS = 0x00010000,         // flag for radar frustum
     VF_SKIN_SKELETON = 0x00020000,          // flag for skin skeleton
+    VF_NORMALS = 0x00040000,                // Display mesh normals
 
     // distance sensors laser beam
-    VF_LASER_BEAM = 0x00040000,
+    VF_LASER_BEAM = 0x00080000,
 
     // sugar for cameras definition
     VM_ALL = 0xFFFFFFFF,
     VM_NONE = 0x00000000,
     VM_REGULAR = 0xFFF00000,  // no special renderings, i.e. no outlines and no optional renderings from menu selection
     VM_MAIN = 0xFFFFFFFE,
-    VM_WEBOTS_CAMERA = 0xFFFE0000,       // mask for WbCamera (all WREN MovableObjects)
-    VM_WEBOTS_RANGE_CAMERA = 0xFFFC0000  // mask for WbRangeFinder and WbLidar (all WREN MovableObjects except laser beam)
+    VM_WEBOTS_CAMERA = 0xFFFA0000,       // mask for WbCamera (all WREN MovableObjects)
+    VM_WEBOTS_RANGE_CAMERA = 0xFFF80000  // mask for WbRangeFinder and WbLidar (all WREN MovableObjects except laser beam)
   };
 
   enum {

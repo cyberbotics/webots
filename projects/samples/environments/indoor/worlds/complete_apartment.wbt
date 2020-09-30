@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
   ]
   title "This simulation was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.9653355746883712 0.2014160891022787 0.16600839524498465 0.9647161791657932
@@ -12,10 +13,12 @@ Viewpoint {
   exposure 0.5
   ambientOcclusionRadius 1
 }
-Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
 }
 DEF ROOF Group {
   children [
@@ -91,7 +94,8 @@ DEF FLOOR Solid {
       translation 1.87 0 6.29
       children [
         Shape {
-          appearance SlatePavement {
+          appearance Pavement {
+            type "slate"
             textureTransform TextureTransform {
               scale 9.8 2.6
             }

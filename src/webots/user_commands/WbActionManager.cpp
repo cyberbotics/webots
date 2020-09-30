@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@
 #include <QtWidgets/QApplication>
 
 #include <cassert>
+
+using namespace WbAction;
 
 WbActionManager *WbActionManager::cInstance = NULL;
 
@@ -126,7 +128,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:reset_simulation_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("Reset Simulation"));
-  action->setStatusTip(tr("Reset Simulation.\nRestore initial state of the simulation. (%1+Shift+F)").arg(mapControlKey()));
+  action->setStatusTip(tr("Reset Simulation.\nRestore initial state of the simulation. (%1+Shift+T)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_T);
   action->setIcon(icon);
@@ -238,7 +240,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Plain Rendering"));
   action->setStatusTip(tr("Plain OpenGL rendering."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_P);
+#else
   action->setShortcut(Qt::Key_F11);
+#endif
   action->setCheckable(true);
   mActions[PLAIN_RENDERING] = action;
 
@@ -246,7 +252,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Wireframe Rendering"));
   action->setStatusTip(tr("Rendering only the segments between the vertices."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_W);
+#else
   action->setShortcut(Qt::Key_F12);
+#endif
   action->setCheckable(true);
   mActions[WIREFRAME_RENDERING] = action;
 
@@ -400,6 +410,14 @@ void WbActionManager::populateActions() {
   mActions[RADAR_FRUSTUMS] = action;
 
   action = new QAction(this);
+  action->setText(tr("Show Normals"));
+  action->setStatusTip(tr("Show IndexedFaceSet and Mesh nodes normals."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::SHIFT + Qt::Key_F5);
+  action->setCheckable(true);
+  mActions[NORMALS] = action;
+
+  action = new QAction(this);
   action->setText(tr("Show Physics Clusters"));
   action->setStatusTip(tr("Show visual representation of ODE clusters."));
   action->setToolTip(action->statusTip());
@@ -414,6 +432,13 @@ void WbActionManager::populateActions() {
   mActions[BOUNDING_SPHERE] = action;
 
   action = new QAction(this);
+  action->setText(tr("Lock Viewpoint"));
+  action->setStatusTip(tr("Disable Viewpoint translation and rotation from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[LOCK_VIEWPOINT] = action;
+
+  action = new QAction(this);
   action->setText(tr("Disable Selection"));
   action->setStatusTip(tr("Disable selection change from 3D view."));
   action->setToolTip(action->statusTip());
@@ -421,11 +446,32 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_SELECTION] = action;
 
   action = new QAction(this);
-  action->setText(tr("Lock Viewpoint"));
-  action->setStatusTip(tr("Disable Viewpoint translation and rotation from 3D view."));
+  action->setText(tr("Disable 3D View Context Menu"));
+  action->setStatusTip(tr("Disable opening the context menu clicking on the 3D view."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
-  mActions[LOCK_VIEWPOINT] = action;
+  mActions[DISABLE_3D_VIEW_CONTEXT_MENU] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Object Move"));
+  action->setStatusTip(tr("Disable moving objects from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_OBJECT_MOVE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Applying Force and Torque"));
+  action->setStatusTip(tr("Disable applying force and torque to objects from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_FORCE_AND_TORQUE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Fast Mode"));
+  action->setStatusTip(tr("Disable running the simulation in fast mode."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_FAST_MODE] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);
@@ -673,11 +719,18 @@ void WbActionManager::populateActions() {
 
   /* CONSOLE ACTIONS */
   action = new QAction(this);
-  action->setText(tr("&Clear Console"));
-  action->setStatusTip(tr("Clears the Console."));
+  action->setText(tr("&Clear All Consoles"));
+  action->setStatusTip(tr("Clears all the Consoles."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_K);
   mActions[CLEAR_CONSOLE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("&New Console"));
+  action->setStatusTip(tr("Opens a new Console."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::CTRL + Qt::Key_N);
+  mActions[NEW_CONSOLE] = action;
 
   /* VIEWPOINT ACTIONS */
 
@@ -983,9 +1036,15 @@ void WbActionManager::populateActions() {
 
   action = new QAction(this);
   action->setText(tr("&Convert to Base Node(s)"));
-  action->setStatusTip(tr("Convert this PROTO node into the equivalent base node(s)."));
+  action->setStatusTip(tr("Convert this PROTO node (and nested PROTO nodes) into the equivalent base node(s)."));
   action->setToolTip(action->statusTip());
   mActions[CONVERT_TO_BASE_NODES] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Convert &Root to Base Node(s)"));
+  action->setStatusTip(tr("Convert this PROTO node into the equivalent base node(s)."));
+  action->setToolTip(action->statusTip());
+  mActions[CONVERT_ROOT_TO_BASE_NODES] = action;
 
   assert(NACTIONS == mActions.size());
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden, static
@@ -22,7 +22,7 @@ PROTO Supervisor [
   field     SFFloat    radarCrossSection   0.0
   field     MFColor    recognitionColors   []
   field     SFString   controller          "void"
-  field     SFString   controllerArgs      ""
+  field     MFString   controllerArgs      []
   field     SFString   customData          ""
   field     SFBool     supervisor          FALSE
   field     SFBool     synchronization     TRUE

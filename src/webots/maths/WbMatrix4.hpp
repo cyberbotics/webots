@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -112,8 +112,6 @@ public:
   void scale(double sx, double sy, double sz);
 
   // extracts the rotation submatrix
-  void extract3x3Matrix(WbMatrix3 &m) const;
-  void extract3x3Matrix(WbMatrix3 &m, double scale) const;
   WbMatrix3 extracted3x3Matrix() const;
   WbVector3 sub3x3MatrixDot(const WbVector3 &v) const;
 
@@ -219,7 +217,7 @@ inline void WbMatrix4::fromVrml(double tx, double ty, double tz, double rx, doub
   mM[12] = mM[13] = mM[14] = 0.0;
   mM[15] = 1.0;
 
-  // rotate ans scale (assuming the rotation vector is normalized)
+  // rotate and scale (assuming the rotation vector is normalized)
   mM[0] = (rx * rx * t1 + c) * sx;
   mM[1] = (t3 - rz * s) * sy;
   mM[2] = (t2 + ry * s) * sz;

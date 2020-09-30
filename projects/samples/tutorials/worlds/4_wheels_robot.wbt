@@ -1,6 +1,7 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.24852896702592445 -0.9044928799946061 -0.3465919540152224 2.16502
@@ -203,5 +204,5 @@ Robot {
     density -1
     mass 1
   }
-  controller "4_wheels_collision_avoidance"
+  controller "four_wheels_collision_avoidance"
 }

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.332998 -0.799559 -0.499818 4.22224
+  orientation 0.33299795078140804 -0.7995588818216081 -0.4998179261246668 4.22224
   position 0.882874 2.08463 -0.149395
 }
 Background {
@@ -11,6 +12,7 @@ Background {
   ]
 }
 PointLight {
+  attenuation 0 0 1
   intensity 0.5
   location 0 0.345 0
 }
@@ -26,9 +28,9 @@ Robot {
       }
       device [
         RotationalMotor {
+          consumptionFactor 100
           maxVelocity 20
           maxTorque 30
-          consumptionFactor 100
         }
         PositionSensor {
         }
@@ -116,9 +118,17 @@ Robot {
   }
   controller "battery"
   battery [
-    600 36000 5
+    600, 36000, 5
   ]
   cpuConsumption 5
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot(1)"
+  controller "battery_empty"
 }
 TestSuiteSupervisor {
 }

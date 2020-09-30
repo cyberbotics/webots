@@ -1,6 +1,7 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5441571034132583 0.8018891523934346 0.24671204688590198 5.13385
@@ -34,7 +35,7 @@ WoodenBox {
   mass 0.2
 }
 E-puck {
-  controller "e-puck_go_forward"
+  controller "epuck_go_forward"
 }
 DEF BALL Solid {
   translation 0 0.2 -0.2

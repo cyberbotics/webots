@@ -30,15 +30,15 @@ showdown.extension('wbVariables', function() {
   var vars = {
     webots: {
       version: {
-        major: 'R2020a',
+        major: 'R2021a',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2020a',
-        package: 'R2020a'
+        full: 'R2021a',
+        package: 'R2021a'
       }
     },
     date: {
-      year: 2020
+      year: 2021
     }
   };
 
@@ -206,7 +206,7 @@ showdown.extension('wbSpoiler', function() {
     {
       type: 'lang',
       filter: function(text, converter, options) {
-        text = text.replace(/%spoiler\s*"(.*)"\n*(^(?:(?!%end).)*\n)*\n%end/gim, function(match, title, content) {
+        text = text.replace(/%spoiler\s*\"(.*)\"\n(^(?:(?!%end).+\n*)*\n)*\n%end/gim, function(match, title, content) {
           var replacement =
             '<details>\n' +
             '  <summary>' + title + '</summary>\n' +

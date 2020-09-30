@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Aldebaran's Nao H25 V5.0"
@@ -6,6 +6,7 @@ WorldInfo {
   title "Nao Indoors"
   basicTimeStep 20
   FPS 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "Nao foot material"
@@ -23,9 +24,24 @@ Viewpoint {
   follow "NAO"
 }
 Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+  backUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  bottomUrl [
+    "textures/cubic/brown_floor_bottom.png"
+  ]
+  frontUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  leftUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  rightUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  topUrl [
+    "textures/cubic/brown_floor_top.png"
+  ]
 }
 Floor {
   translation -1.7 0 -1.4

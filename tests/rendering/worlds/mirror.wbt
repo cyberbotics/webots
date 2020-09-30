@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0 1 0 0
@@ -44,7 +45,7 @@ Mirror {
 Robot {
   translation 0 -2.1699999999999973 1.4300000000000068
   children [
-    Camera {
+    DEF ROBOT_CAMERA Camera {
       translation 0 0.4700000000000002 -1.6100000000000012
     }
     Shape {
@@ -67,5 +68,4 @@ Robot {
   name "mirror supervisor"
   controller "mirror_supervisor"
   supervisor TRUE
-  cpuConsumption 10
 }

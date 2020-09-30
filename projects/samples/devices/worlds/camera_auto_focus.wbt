@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with auto-focusing capabilities."
   ]
   title "Camera With Auto-Focus"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5185539097945974 0.8041798496814592 0.2905109498849267 4.97139

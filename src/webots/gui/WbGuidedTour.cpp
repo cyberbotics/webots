@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,10 +43,6 @@ WbGuidedTour *WbGuidedTour::instance(QWidget *parent) {
     gInstance = new WbGuidedTour(parent);
 
   return gInstance;
-}
-
-bool WbGuidedTour::isAvailable() {
-  return QFile::exists(WbStandardPaths::projectsPath() + "guided_tour.txt");
 }
 
 WbGuidedTour::WbGuidedTour(QWidget *parent) :
@@ -219,7 +215,6 @@ void WbGuidedTour::prev() {
   selectCurrent();
   mAutoBox->setChecked(false);
   mDeadline = DBL_MAX;
-  WbConsole::instance()->clear();
   loadWorld();
 }
 
@@ -228,7 +223,6 @@ void WbGuidedTour::next() {
   selectCurrent();
   mAutoBox->setChecked(false);
   mDeadline = DBL_MAX;
-  WbConsole::instance()->clear();
   loadWorld();
 }
 
@@ -237,7 +231,6 @@ void WbGuidedTour::nextWorld() {
   mIndex = (mIndex + 1) % mFilenames.size();  // loop
   selectCurrent();
   setSimulationDeadline(mAutoBox->isChecked());
-  WbConsole::instance()->clear();
   loadWorld();
 }
 

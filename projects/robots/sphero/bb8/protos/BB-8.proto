@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -12,7 +12,7 @@ PROTO BB-8 [
   field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
   field SFString   name            "BB-8"  # Is `Solid.name`.
   field SFString   controller      "bb-8"  # Is `Robot.controller`.
-  field SFString   controllerArgs  ""      # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
   field SFString   customData      ""      # Is `Robot.customData`.
   field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE    # Is `Robot.synchronization`.

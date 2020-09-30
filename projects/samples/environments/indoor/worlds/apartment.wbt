@@ -1,21 +1,25 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.40446783044372553 -0.8043128662009316 -0.4353005713294989 4.545517780099422
   position 12.143261180316491 13.364950873142462 5.577133654868257
   exposure 0.5
 }
-Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
 }
 DEF FLOOR Solid {
+  translation 3.3 0 4.95
   children [
     Shape {
       appearance Parquetry {
@@ -23,27 +27,17 @@ DEF FLOOR Solid {
           scale 6 9
         }
       }
-      geometry ElevationGrid {
-        xDimension 5
-        xSpacing 1.65
-        zDimension 7
-        zSpacing 1.65
+      geometry DEF FLOOR_PLANE Plane {
+        size 6.6 9.9
       }
     }
   ]
   name "floor"
-  boundingObject Transform {
-    translation 3.3 0 4.96
-    children [
-      Plane {
-        size 6.6 9.9
-      }
-    ]
-  }
+  boundingObject USE FLOOR_PLANE
   locked TRUE
 }
 DEF ROOF Solid {
-  translation 0 2.4 9.9
+  translation 3.3 2.4 4.95
   rotation 1 0 0 3.14159
   children [
     Shape {
@@ -60,23 +54,11 @@ DEF ROOF Solid {
           scale 8 8
         }
       }
-      geometry ElevationGrid {
-        xDimension 5
-        xSpacing 1.65
-        zDimension 7
-        zSpacing 1.65
-      }
+      geometry USE FLOOR_PLANE
     }
   ]
   name "roof"
-  boundingObject Transform {
-    translation 3.3 0 4.96
-    children [
-      Plane {
-        size 6.6 9.9
-      }
-    ]
-  }
+  boundingObject USE FLOOR_PLANE
   locked TRUE
 }
 Wall {

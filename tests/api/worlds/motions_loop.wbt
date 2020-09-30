@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 40
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0938128 0.977288 0.190019 3.79301
+  orientation 0.09381280484314058 0.9772880504530638 0.19001900980984185 3.79301
   position -0.688942 0.522118 -0.823828
 }
 Background {
@@ -24,7 +25,9 @@ Floor {
 }
 DEF HEXAPOD Hexapod {
   controller "motion"
-  controllerArgs "loop"
+  controllerArgs [
+    "loop"
+  ]
 }
 TestSuiteSupervisor {
 }

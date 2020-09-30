@@ -1,7 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   ERP 0.6
   basicTimeStep 20
+  coordinateSystem "NUE"
   lineScale 5
   contactProperties [
     ContactProperties {

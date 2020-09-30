@@ -160,6 +160,14 @@ int main() {
 If this technique is used with Genetic Algorithms for example, then the `optimizer_save_state` function should save at least all the genotypes and fitness results of the current GA population.
 If this technique is used with Particle Swarm Optimization, then the `optimizer_save_state` function should at least save the position, velocity and fitness of all particles currently in the swarm.
 
+#### Using the wb\_supervisor\_world\_reset Function
+
+Similarly to the [`wb_supervisor_world_reload`](../reference/supervisor.md#wb_supervisor_world_reload) function, this function resets the physics simulation.
+However, it does not restart the controllers.
+The advantage of this function is that it is possible to restart only the desired controllers using the [`wb_supervisor_node_restart_controller`](../reference/supervisor.md#wb_supervisor_node_restart_controller) function.
+Typically, you will restart the [Robot](../reference/robot.md) controllers but not the [Supervisor](../reference/supervisor.md) one.
+Thus, there is no need for the [Supervisor](../reference/supervisor.md) controller to save and restore the complete state of the optimization algorithm.
+
 #### By Starting and Quitting Webots
 
 Finally, the last method is to start and quit the Webots program for each parameter evaluation.

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 // Description: editor for editing a WbField at the bottom of the Scene Tree
 //
 
-#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
 #include <QtWidgets/QWidget>
 
 #include "../../../include/controller/c/webots/supervisor.h"
@@ -67,7 +67,7 @@ protected:
   WbNode *mNode;
 
 private:
-  QMap<WbFieldType, WbValueEditor *> mEditors;
+  QMultiMap<WbFieldType, WbValueEditor *> mEditors;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;

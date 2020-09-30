@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
   sscanf(wb_robot_get_custom_data(), "%d %s", &iteration, file_path);
 
   if (strcmp(argv[1], "supervisor_reset_simulation_iteration_0") == 0) {
-    wb_supervisor_field_set_sf_string(controllerArgs_field, "supervisor_reset_simulation_iteration_1");
+    wb_supervisor_field_set_mf_string(controllerArgs_field, 0, "supervisor_reset_simulation_iteration_1");
     ts_assert_int_equal(
       iteration, 0,
       "Robot custom data should start with '0' at first iteration. The PROTO has been regenerated since Webots started.");
@@ -93,8 +93,10 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     // reset simulation
     wb_supervisor_simulation_reset();
+    wb_supervisor_node_restart_controller(wb_supervisor_node_get_self());
+    wb_supervisor_node_restart_controller(wb_supervisor_node_get_from_def("TEST_SUITE_SUPERVISOR"));
   } else if (strcmp(argv[1], "supervisor_reset_simulation_iteration_1") == 0) {
-    wb_supervisor_field_set_sf_string(controllerArgs_field, "supervisor_reset_simulation_iteration_2");
+    wb_supervisor_field_set_mf_string(controllerArgs_field, 0, "supervisor_reset_simulation_iteration_2");
     // check that the non-static PROTO node was regenerated
     ts_assert_int_equal(iteration, 1, "Robot custom data should start with '1' at second iteration.");
     // read expected position from the 'description' field and compare with current position

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 #include <QtCore/QString>
 
 class WbControlledWorld;
-class QTime;
+class QElapsedTimer;
 
 class WbApplication : public QObject {
   Q_OBJECT
@@ -60,7 +60,7 @@ public:
   void worldReload();
 
   // reset the simulation
-  void simulationReset();
+  void simulationReset(bool restartControllers);
 
   // start/stop video capture
   void startVideoCapture(const QString &fileName, int type, int width, int height, int quality, int acceleration,
@@ -86,7 +86,7 @@ signals:
   void requestScreenshot(const QString &fileName, int quality);
   void simulationQuitRequested(int exitStatus);
   void worldReloadRequested();
-  void simulationResetRequested();
+  void simulationResetRequested(bool restartControllers);
   void videoCaptureStarted(const QString &fileName, int type, int width, int height, int quality, int acceleration,
                            bool showCaption);
   void videoCaptureStopped(bool canceled);
@@ -118,7 +118,7 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-  QTime *mWorldLoadTimer;
+  QElapsedTimer *mWorldLoadTimer;
 
   // remove links to the project dynamic libraries
   void removeOldLibraries();

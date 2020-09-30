@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Simulation of the Robocup Standard Platform League"
   ]
   title "Robocup"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -21,15 +22,11 @@ Viewpoint {
   position -0.6916257978273604 5.767657877815401 -2.5655584153912394
   follow "soccer ball"
 }
-Background {
-  skyColor [
-    0.3333333333333333 0.3333333333333333 1
-  ]
-  cubemap Cubemap {
-    textureBaseName "noon_sunny_empty"
-  }
+TexturedBackground {
+  texture "stadium"
 }
 TexturedBackgroundLight {
+  texture "stadium"
 }
 RobotstadiumSoccerField {
   frame1Color 0.9 0.8 0.2

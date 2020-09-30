@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -161,9 +161,9 @@ void WbCharger::findMaterialsAndLights(const WbGroup *const g) {
     }
   }
   if (g == this && !isAnyMaterialOrLightFound()) {
-    warn(tr("No Material and no Light found. "
-            "The first child of a Charger should be either a Shape, a Light "
-            "or a Group containing Shape and Light nodes."));
+    parsingWarn(tr("No Material and no Light found. "
+                   "The first child of a Charger should be either a Shape, a Light "
+                   "or a Group containing Shape and Light nodes."));
   }
 }
 

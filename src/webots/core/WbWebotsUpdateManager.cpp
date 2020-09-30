@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtNetwork/QNetworkReply>
 
 #include <cassert>
@@ -47,7 +49,7 @@ void WbWebotsUpdateManager::cleanup() {
 
 void WbWebotsUpdateManager::sendRequest() {
   QNetworkRequest request;
-  request.setUrl(QUrl("https://www.cyberbotics.com/webots_current_version.txt"));
+  request.setUrl(QUrl("https://api.github.com/repos/cyberbotics/webots/releases/latest"));
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished, Qt::UniqueConnection);
 }
@@ -65,10 +67,18 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
 
   disconnect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished);
 
-  QString answer = QString::fromUtf8(reply->readAll()).trimmed();
-  bool success = mVersion.fromString(answer);
+  bool success = false;
+  QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+  if (!doc.isNull()) {
+    if (doc.isObject()) {
+      QJsonObject obj = doc.object();
+      if (obj.contains("tag_name"))
+        success = mVersion.fromString(obj.value("tag_name").toString());
+    }
+  }
+
   if (!success) {
-    mError = tr("Invalid format of the current Webots version: \"%1\"").arg(answer);
+    mError = tr("Invalid answer from the GitHub REST API.");
     return;
   }
 

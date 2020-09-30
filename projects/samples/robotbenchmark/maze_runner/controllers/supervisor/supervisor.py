@@ -70,7 +70,12 @@ while robot.step(timestep) != -1:
             stopMessageSent = True
         else:
             message = robot.wwiReceiveText()
-            if message and message.startswith("record:"):
-                record = robotbenchmarkRecord(message, "maze_runner", -time)
-                robot.wwiSendText(record)
-                break
+            if message:
+                if message.startswith("record:"):
+                    record = robotbenchmarkRecord(message, "maze_runner", -time)
+                    robot.wwiSendText(record)
+                    break
+                elif message == "exit":
+                    break
+
+robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

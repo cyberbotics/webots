@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,7 +98,7 @@ void WbVector2Editor::apply() {
   else
     mVector2.setXy(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
                    WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM));
-
+  mVector2.clamp();
   if (singleValue()) {
     WbSFVector2 *const sfVector2 = static_cast<WbSFVector2 *>(singleValue());
     if (sfVector2->value() == mVector2)

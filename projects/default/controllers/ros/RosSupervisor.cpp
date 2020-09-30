@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,6 +65,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_def", &RosSupervisor::getFromDefCallback, this);
   mGetFromIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_id", &RosSupervisor::getFromIdCallback, this);
+  mGetFromDeviceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_device",
+                                                              &RosSupervisor::getFromDeviceCallback, this);
   mGetSelectedServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_selected", &RosSupervisor::getSelectedCallback, this);
   mVirtualRealityHeadsetGetOrientationServer =
@@ -88,6 +90,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                     &RosSupervisor::nodeGetBaseTypeNameCallback, this);
   mNodeGetParentNodeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_parent_node",
                                                                   &RosSupervisor::nodeGetParentNodeCallback, this);
+  mNodeIsProtoServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/is_proto",
+                                                            &RosSupervisor::nodeIsProtoCallback, this);
   mNodeGetPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_position",
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
@@ -105,6 +109,12 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeGetVelocityCallback, this);
   mNodeSetVelocityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_velocity",
                                                                 &RosSupervisor::nodeSetVelocityCallback, this);
+  mNodeAddForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force",
+                                                             &RosSupervisor::nodeAddForceCallback, this);
+  mNodeAddForceWithOffsetServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force_with_offset",
+                                                                       &RosSupervisor::nodeAddForceWithOffsetCallback, this);
+  mNodeAddTorqueServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_torque",
+                                                              &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
                                                              &RosSupervisor::nodeGetFieldCallback, this);
   mNodeMoveViewpointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/move_viewpoint",
@@ -204,6 +214,7 @@ RosSupervisor::~RosSupervisor() {
   mGetSelfServer.shutdown();
   mGetFromDefServer.shutdown();
   mGetFromIdServer.shutdown();
+  mGetFromDeviceServer.shutdown();
   mGetSelectedServer.shutdown();
   mVirtualRealityHeadsetGetOrientationServer.shutdown();
   mVirtualRealityHeadsetGetPositionServer.shutdown();
@@ -399,7 +410,11 @@ bool RosSupervisor::getSelfCallback(webots_ros::get_uint64::Request &req, webots
 bool RosSupervisor::getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                                        webots_ros::supervisor_get_from_def::Response &res) {
   assert(mSupervisor);
-  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
+  if (req.proto) {
+    Node *node = reinterpret_cast<Node *>(req.proto);
+    res.node = reinterpret_cast<uint64_t>(node->getFromProtoDef(req.name));
+  } else
+    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
   return true;
 }
 
@@ -407,6 +422,15 @@ bool RosSupervisor::getFromIdCallback(webots_ros::supervisor_get_from_id::Reques
                                       webots_ros::supervisor_get_from_id::Response &res) {
   assert(mSupervisor);
   res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromId(req.id));
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                                          webots_ros::supervisor_get_from_string::Response &res) {
+  assert(mSupervisor);
+  const Device *device = mRos->getDevice(req.value);
+  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
   return true;
 }
 
@@ -443,53 +467,84 @@ bool RosSupervisor::virtualRealityHeadsetIsUsedCallback(webots_ros::get_bool::Re
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.id = node->getId();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetTypeCallback(webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.type = node->getType();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.name = node->getTypeName();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetDefCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.name = node->getDef();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req,
                                                 webots_ros::node_get_name::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.name = node->getBaseTypeName();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                               webots_ros::node_get_parent_node::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.node = reinterpret_cast<uint64_t>(node->getParentNode());
   return true;
 }
 
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->isProto();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Request &req,
                                             webots_ros::node_get_position::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   const double *position;
   position = node->getPosition();
@@ -499,9 +554,12 @@ bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Reque
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                                webots_ros::node_get_orientation::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   const double *matrix;
   matrix = node->getOrientation();
@@ -509,9 +567,12 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                                 webots_ros::node_get_center_of_mass::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   const double *centerOfMass;
   centerOfMass = node->getCenterOfMass();
@@ -521,9 +582,12 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
                                                          webots_ros::node_get_number_of_contact_points::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.numberOfContactPoints = node->getNumberOfContactPoints();
   return true;
@@ -532,6 +596,8 @@ bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_nu
 bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
                                                 webots_ros::node_get_contact_point::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   const double *point;
   point = node->getContactPoint(req.index);
@@ -541,17 +607,23 @@ bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_poi
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                                  webots_ros::node_get_static_balance::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.balance = node->getStaticBalance();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req,
                                             webots_ros::node_get_velocity::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   const double *velocity;
   velocity = node->getVelocity();
@@ -564,9 +636,12 @@ bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Reque
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req,
                                             webots_ros::node_set_velocity::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   double velocity[6];
   velocity[0] = req.velocity.linear.x;
@@ -580,16 +655,73 @@ bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Reque
   return true;
 }
 
-bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res) {
+bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
+                                         webots_ros::node_add_force_or_torque::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  res.field = reinterpret_cast<uint64_t>(node->getField(req.fieldName));
+  double force[3];
+  force[0] = req.force.x;
+  force[1] = req.force.y;
+  force[2] = req.force.z;
+  node->addForce((const double *)force, req.relative);
+  res.success = 1;
   return true;
 }
 
+bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+                                                   webots_ros::node_add_force_with_offset::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  double force[3];
+  force[0] = req.force.x;
+  force[1] = req.force.y;
+  force[2] = req.force.z;
+  double offset[3];
+  offset[0] = req.offset.x;
+  offset[1] = req.offset.y;
+  offset[2] = req.offset.z;
+  node->addForceWithOffset((const double *)force, (const double *)offset, req.relative);
+  res.success = 1;
+  return true;
+}
+
+bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
+                                          webots_ros::node_add_force_or_torque::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  double torque[3];
+  torque[0] = req.force.x;
+  torque[1] = req.force.y;
+  torque[2] = req.force.z;
+  node->addTorque((const double *)torque, req.relative);
+  res.success = 1;
+  return true;
+}
+
+bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  if (req.proto)
+    res.field = reinterpret_cast<uint64_t>(node->getProtoField(req.fieldName));
+  else
+    res.field = reinterpret_cast<uint64_t>(node->getField(req.fieldName));
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->moveViewpoint();
   res.success = 1;
@@ -599,6 +731,8 @@ bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::R
 bool RosSupervisor::nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req,
                                               webots_ros::node_set_visibility::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   Node *from = reinterpret_cast<Node *>(req.from);
   node->setVisibility(from, req.visible);
@@ -606,50 +740,68 @@ bool RosSupervisor::nodeSetVisibilityCallback(webots_ros::node_set_visibility::R
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->remove();
   res.success = 1;
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                              webots_ros::node_reset_functions::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->resetPhysics();
   res.success = 1;
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                                   webots_ros::node_reset_functions::Response &res) {
   assert(this);
+  if (!req.node)
+    return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->restartController();
   res.success = 1;
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.type = field->getType();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
                                              webots_ros::field_get_type_name::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.name = field->getTypeName();
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &req,
                                           webots_ros::field_get_count::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.count = field->getCount();
   return true;
@@ -657,6 +809,8 @@ bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &
 
 bool RosSupervisor::fieldGetBoolCallback(webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     res.value = field->getSFBool();
@@ -668,6 +822,8 @@ bool RosSupervisor::fieldGetBoolCallback(webots_ros::field_get_bool::Request &re
 bool RosSupervisor::fieldGetInt32Callback(webots_ros::field_get_int32::Request &req,
                                           webots_ros::field_get_int32::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     res.value = field->getSFInt32();
@@ -679,6 +835,8 @@ bool RosSupervisor::fieldGetInt32Callback(webots_ros::field_get_int32::Request &
 bool RosSupervisor::fieldGetFloatCallback(webots_ros::field_get_float::Request &req,
                                           webots_ros::field_get_float::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     res.value = field->getSFFloat();
@@ -690,6 +848,8 @@ bool RosSupervisor::fieldGetFloatCallback(webots_ros::field_get_float::Request &
 bool RosSupervisor::fieldGetVec2fCallback(webots_ros::field_get_vec2f::Request &req,
                                           webots_ros::field_get_vec2f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   const double *value;
   if (field->getType() <= 0x09)
@@ -704,6 +864,8 @@ bool RosSupervisor::fieldGetVec2fCallback(webots_ros::field_get_vec2f::Request &
 bool RosSupervisor::fieldGetVec3fCallback(webots_ros::field_get_vec3f::Request &req,
                                           webots_ros::field_get_vec3f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   const double *value;
   if (field->getType() <= 0x09)
@@ -719,6 +881,8 @@ bool RosSupervisor::fieldGetVec3fCallback(webots_ros::field_get_vec3f::Request &
 bool RosSupervisor::fieldGetRotationCallback(webots_ros::field_get_rotation::Request &req,
                                              webots_ros::field_get_rotation::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   const double *axisAngleValues;
   if (field->getType() <= 0x09)
@@ -732,6 +896,8 @@ bool RosSupervisor::fieldGetRotationCallback(webots_ros::field_get_rotation::Req
 bool RosSupervisor::fieldGetColorCallback(webots_ros::field_get_color::Request &req,
                                           webots_ros::field_get_color::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   const double *value;
   if (field->getType() <= 0x09)
@@ -748,6 +914,8 @@ bool RosSupervisor::fieldGetColorCallback(webots_ros::field_get_color::Request &
 bool RosSupervisor::fieldGetStringCallback(webots_ros::field_get_string::Request &req,
                                            webots_ros::field_get_string::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     res.value = field->getSFString();
@@ -758,6 +926,8 @@ bool RosSupervisor::fieldGetStringCallback(webots_ros::field_get_string::Request
 
 bool RosSupervisor::fieldGetNodeCallback(webots_ros::field_get_node::Request &req, webots_ros::field_get_node::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     res.node = reinterpret_cast<uint64_t>(field->getSFNode());
@@ -768,6 +938,8 @@ bool RosSupervisor::fieldGetNodeCallback(webots_ros::field_get_node::Request &re
 
 bool RosSupervisor::fieldSetBoolCallback(webots_ros::field_set_bool::Request &req, webots_ros::field_set_bool::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     field->setSFBool(req.value);
@@ -780,6 +952,8 @@ bool RosSupervisor::fieldSetBoolCallback(webots_ros::field_set_bool::Request &re
 bool RosSupervisor::fieldSetInt32Callback(webots_ros::field_set_int32::Request &req,
                                           webots_ros::field_set_int32::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     field->setSFInt32(req.value);
@@ -792,6 +966,8 @@ bool RosSupervisor::fieldSetInt32Callback(webots_ros::field_set_int32::Request &
 bool RosSupervisor::fieldSetFloatCallback(webots_ros::field_set_float::Request &req,
                                           webots_ros::field_set_float::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     field->setSFFloat(req.value);
@@ -804,6 +980,8 @@ bool RosSupervisor::fieldSetFloatCallback(webots_ros::field_set_float::Request &
 bool RosSupervisor::fieldSetVec2fCallback(webots_ros::field_set_vec2f::Request &req,
                                           webots_ros::field_set_vec2f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   double values[2];
   values[0] = req.value.x;
@@ -819,6 +997,8 @@ bool RosSupervisor::fieldSetVec2fCallback(webots_ros::field_set_vec2f::Request &
 bool RosSupervisor::fieldSetVec3fCallback(webots_ros::field_set_vec3f::Request &req,
                                           webots_ros::field_set_vec3f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   double values[3];
   values[0] = req.value.x;
@@ -835,6 +1015,8 @@ bool RosSupervisor::fieldSetVec3fCallback(webots_ros::field_set_vec3f::Request &
 bool RosSupervisor::fieldSetRotationCallback(webots_ros::field_set_rotation::Request &req,
                                              webots_ros::field_set_rotation::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   double axisAngleValues[4];
   RosMathUtils::quaternionToAxisAngle(req.value, axisAngleValues);
@@ -849,6 +1031,8 @@ bool RosSupervisor::fieldSetRotationCallback(webots_ros::field_set_rotation::Req
 bool RosSupervisor::fieldSetColorCallback(webots_ros::field_set_color::Request &req,
                                           webots_ros::field_set_color::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   double values[3];
   values[0] = req.value.r;
@@ -865,6 +1049,8 @@ bool RosSupervisor::fieldSetColorCallback(webots_ros::field_set_color::Request &
 bool RosSupervisor::fieldSetStringCallback(webots_ros::field_set_string::Request &req,
                                            webots_ros::field_set_string::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   if (field->getType() <= 0x09)
     field->setSFString(req.value);
@@ -877,6 +1063,8 @@ bool RosSupervisor::fieldSetStringCallback(webots_ros::field_set_string::Request
 bool RosSupervisor::fieldInsertBoolCallback(webots_ros::field_set_bool::Request &req,
                                             webots_ros::field_set_bool::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   if (field->getType() <= 0x09)
@@ -889,6 +1077,8 @@ bool RosSupervisor::fieldInsertBoolCallback(webots_ros::field_set_bool::Request 
 bool RosSupervisor::fieldInsertInt32Callback(webots_ros::field_set_int32::Request &req,
                                              webots_ros::field_set_int32::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   if (field->getType() <= 0x09)
@@ -901,6 +1091,8 @@ bool RosSupervisor::fieldInsertInt32Callback(webots_ros::field_set_int32::Reques
 bool RosSupervisor::fieldInsertFloatCallback(webots_ros::field_set_float::Request &req,
                                              webots_ros::field_set_float::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   if (field->getType() <= 0x09)
@@ -913,6 +1105,8 @@ bool RosSupervisor::fieldInsertFloatCallback(webots_ros::field_set_float::Reques
 bool RosSupervisor::fieldInsertVec2fCallback(webots_ros::field_set_vec2f::Request &req,
                                              webots_ros::field_set_vec2f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   double values[2];
@@ -928,6 +1122,8 @@ bool RosSupervisor::fieldInsertVec2fCallback(webots_ros::field_set_vec2f::Reques
 bool RosSupervisor::fieldInsertVec3fCallback(webots_ros::field_set_vec3f::Request &req,
                                              webots_ros::field_set_vec3f::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   double values[3];
@@ -944,6 +1140,8 @@ bool RosSupervisor::fieldInsertVec3fCallback(webots_ros::field_set_vec3f::Reques
 bool RosSupervisor::fieldInsertRotationCallback(webots_ros::field_set_rotation::Request &req,
                                                 webots_ros::field_set_rotation::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   double axisAngleValues[4];
@@ -958,6 +1156,8 @@ bool RosSupervisor::fieldInsertRotationCallback(webots_ros::field_set_rotation::
 bool RosSupervisor::fieldInsertColorCallback(webots_ros::field_set_color::Request &req,
                                              webots_ros::field_set_color::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   double values[3];
@@ -974,6 +1174,8 @@ bool RosSupervisor::fieldInsertColorCallback(webots_ros::field_set_color::Reques
 bool RosSupervisor::fieldInsertStringCallback(webots_ros::field_set_string::Request &req,
                                               webots_ros::field_set_string::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
   if (field->getType() <= 0x09)
@@ -985,30 +1187,49 @@ bool RosSupervisor::fieldInsertStringCallback(webots_ros::field_set_string::Requ
 
 bool RosSupervisor::fieldRemoveCallback(webots_ros::field_remove::Request &req, webots_ros::field_remove::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
-  if (field->getType() <= 0x09)
-    res.success = 0;
-  else
+  if (field->getType() == Field::SF_NODE)
+    field->removeSF();
+  else if (field->getType() & Field::MF)
     field->removeMF(req.index);
+  else
+    res.success = 0;
   return true;
 }
 
 bool RosSupervisor::fieldImportNodeCallback(webots_ros::field_import_node::Request &req,
                                             webots_ros::field_import_node::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
-  field->importMFNode(req.position, req.filename);
   res.success = 1;
+  if (field->getType() == Field::SF_NODE)
+    field->importSFNode(req.filename);
+  else if (field->getType() == Field::MF_NODE)
+    field->importMFNode(req.position, req.filename);
+  else
+    res.success = 0;
   return true;
 }
 
 bool RosSupervisor::fieldImportNodeFromStringCallback(webots_ros::field_import_node_from_string::Request &req,
                                                       webots_ros::field_import_node_from_string::Response &res) {
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
-  field->importMFNodeFromString(req.position, req.nodeString);
   res.success = 1;
+  if (field->getType() == Field::SF_NODE)
+    field->importSFNodeFromString(req.nodeString);
+  else if (field->getType() == Field::MF_NODE)
+    field->importMFNodeFromString(req.position, req.nodeString);
+  else
+    res.success = 0;
+
   return true;
 }
 
@@ -1016,6 +1237,8 @@ bool RosSupervisor::fieldRemoveNodeCallback(webots_ros::field_remove_node::Reque
                                             webots_ros::field_remove_node::Response &res) {
   ROS_WARN("Deprecated '/supervisor/field/remove_node' service, use '/supervisor/field/remove' service instead.");
   assert(this);
+  if (!req.field)
+    return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   field->removeMF(req.position);
   res.success = 1;

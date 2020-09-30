@@ -32,7 +32,7 @@ CautionPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## CautionSign
 
@@ -108,7 +108,7 @@ ControlledStreetLight {
 
 ### ControlledStreetLight Field Summary
 
-- `controller`: Defines the controller used to make the LED blink.
+- `controller`: Defines the controller used to make the [LED](../reference/led.md) blink.
 
 - `beamWidth`: Defines the beam width of the spot light.
 
@@ -301,7 +301,7 @@ ExitPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## ExitSign
 
@@ -338,7 +338,7 @@ ExitSign {
 
 - `radius`: Defines the radius of the sign pole.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 - `signBoards`: Defines the boards.
 
@@ -396,20 +396,20 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HighwayPole {
-  SFVec3f       translation           0 0 0
-  SFRotation    rotation              0 1 0 0
-  SFString      name                  "highway pole"
-  SFString      type                  "cylinder"
-  SFInt32       stand                 1
-  SFFloat       height                6
-  SFFloat       length                8
-  SFFloat       thickness             0.2
-  SFColor       color                 0.258824 0.258824 0.258824
-  SFFloat       curveRadius           0.4
-  MFNode        rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
-  MFNode        leftHorizontalSigns   [ ]
-  MFNode        leftVerticalSigns     [ ]
+  SFVec3f     translation           0 0 0
+  SFRotation  rotation              0 1 0 0
+  SFString    name                  "highway pole"
+  SFString    type                  "cylinder"
+  SFInt32     stand                 1
+  SFFloat     height                6
+  SFFloat     length                8
+  SFFloat     thickness             0.2
+  SFColor     color                 0.258824 0.258824 0.258824
+  SFFloat     curveRadius           0.4
+  MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
+  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode      leftHorizontalSigns   [ ]
+  MFNode      leftVerticalSigns     [ ]
 }
 ```
 
@@ -420,9 +420,9 @@ HighwayPole {
 
 ### HighwayPole Field Summary
 
-- `type`: Defines the shape of the pole.
+- `type`: Defines the shape of the pole. This field accepts the following values: `"cylinder"`, `"box"` and `"H-shape"`.
 
-- `stand`: Defines the number of stands.
+- `stand`: Defines the number of stands. This field accepts the following values: `1` and `2`.
 
 - `height`: Defines the height of the pole.
 
@@ -517,7 +517,7 @@ OrderPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## OrderSign
 
@@ -720,9 +720,9 @@ RectangularPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
-- `size`: Defines the size of the panel
+- `size`: Defines the size of the panel.
 
 ## SignPole
 
@@ -795,7 +795,7 @@ SpeedLimitPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## SpeedLimitSign
 
@@ -868,7 +868,7 @@ StopPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## StopSign
 
@@ -927,13 +927,13 @@ StreetLight {
   SFVec3f    translation   0 0 0
   SFRotation rotation      0 1 0 0
   SFString   name          "street light"
-  SFVec3f    attenuation   0 1 0
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
   SFFloat    cutOffAngle   1.4
   SFVec3f    direction     0 -1 -0.1
   SFBool     on            TRUE
   SFFloat    radius        1000
+  SFFloat    intensity     30
   SFBool     castShadows   FALSE
 }
 ```
@@ -956,6 +956,8 @@ StreetLight {
 - `on`: Defines whether the spot light is on or off.
 
 - `radius`: Defines the radius of the spot light.
+
+- `intensity`: Defines the radius of the spot light.
 
 - `castShadows`: Defines whether the spot light casts shadows.
 
@@ -1018,11 +1020,11 @@ TrafficLight {
 
 ### TrafficLight Field Summary
 
-- `red_light`: Defines the name of the red LED device.
+- `red_light`: Defines the name of the red [LED](../reference/led.md) device.
 
-- `orange_light`: Defines the name of the orange LED device.
+- `orange_light`: Defines the name of the orange [LED](../reference/led.md) device.
 
-- `green_light`: Defines the name of the green LED device.
+- `green_light`: Defines the name of the green [LED](../reference/led.md) device.
 
 - `lamp_geometry`: Defines the geometry of the lamps.
 
@@ -1119,11 +1121,11 @@ TrafficLightHorizontal {
 
 ### TrafficLightHorizontal Field Summary
 
-- `red_light`: Defines the name of the red LED device.
+- `red_light`: Defines the name of the red [LED](../reference/led.md) device.
 
-- `orange_light`: Defines the name of the orange LED device.
+- `orange_light`: Defines the name of the orange [LED](../reference/led.md) device.
 
-- `green_light`: Defines the name of the green LED device.
+- `green_light`: Defines the name of the green [LED](../reference/led.md) device.
 
 - `lamp_geometry`: Defines the geometry of the lamps.
 
@@ -1214,7 +1216,7 @@ YieldPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 - `textureRotation`: Defines the rotation of the texture used for the sign.
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
  */
 
 #include "round_manager.h"
+
 #include "boolean.h"
 #include "helper.h"
 
@@ -80,7 +81,7 @@ static bool read_input_file() {
       break;
     }
     buffer[strlen(buffer) - 1] = 0;
-    competitor[i] = malloc(strlen(buffer));
+    competitor[i] = malloc(strlen(buffer) + 1);  // add the final '\0'
     strcpy(competitor[i], buffer);
   }
   fclose(file);

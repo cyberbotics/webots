@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   mDerived = false;
   QString baseTypeSlotType;
+
+  mFileVersion = tokenizer->fileVersion();
 
   mInfo.clear();
   const QString &tokenizerInfo = tokenizer->info();
@@ -201,7 +203,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
         // "my_awesome_modelName")
         if (token->word().contains(
-              QRegExp(QString("(^|[^a-zA-Z0-9_])%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
+              QRegExp(QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
           // qDebug() << "TemplateRegenerator" << mName << model->name();
           model->setTemplateRegenerator(true);
         }
@@ -305,26 +307,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     mSlotType = baseTypeSlotType;
 
   if (mDocumentationUrl.isEmpty()) {
-    if (mBaseType == "Robot") {
-      // check for robot doc
-      if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + mName + ".md"))
-        mDocumentationUrl = "https://cyberbotics.com/doc/guide/" + mName;
-    } else {
-      // check for object doc
-      const QDir objectsDir(WbStandardPaths::projectsPath() + "objects");
-      QDir dir(mPath);
-      QString name = dir.dirName().replace('_', '-');
-      while (!dir.isRoot()) {
-        if (dir == objectsDir) {
-          if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md"))
-            mDocumentationUrl = "https://cyberbotics.com/doc/guide/object-" + name;
-          break;
-        }
-        name = dir.dirName().replace('_', '-');
-        if (!dir.cdUp())
-          break;
-      }
-    }
+    const QStringList &bookAndPage = documentationBookAndPage(mBaseType == "Robot", true);
+    if (!bookAndPage.isEmpty())
+      mDocumentationUrl =
+        QString("%1/doc/%2/%3").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
   }
 }
 
@@ -401,8 +387,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
 
   // aliasing error reports are based on the header, so the error offset has no sense here
   tokenizer.setErrorOffset(0);
-  if (!isTemplate())
-    verifyAliasing(root, &tokenizer);
+
+  verifyAliasing(root, &tokenizer);
 
   if (mTemplate) {
     root->setProtoInstanceTemplateContent(content.toUtf8());
@@ -511,7 +497,54 @@ void WbProtoModel::verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const {
       continue;
     bool ok = false;
     verifyNodeAliasing(root, param, tokenizer, isDerived(), ok);
-    if (!ok)
+    if (!isTemplate() && !ok)
       tokenizer->reportError(tr("PROTO parameter '%1' has no matching IS field").arg(param->name()), param->nameToken());
   }
+}
+
+QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoTag) const {
+  QStringList bookAndPage;
+  if (isRobot) {
+    // check for robot doc
+    const QString &name = mName.toLower();
+    if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
+      bookAndPage << "guide" << name;
+      return bookAndPage;
+    }
+  } else {
+    // check for object doc
+    const QDir &objectsDir(WbStandardPaths::projectsPath() + "objects");
+    QDir dir(projectPath());
+    QString name = dir.dirName().replace('_', '-');
+    while (!dir.isRoot()) {
+      if (dir == objectsDir) {
+        if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md")) {
+          bookAndPage << "guide"
+                      << "object-" + name;
+          return bookAndPage;
+        }
+        break;
+      }
+      name = dir.dirName().replace('_', '-');
+      if (!dir.cdUp())
+        break;
+    }
+  }
+  if (!skipProtoTag) {
+    const QString &documentationUrl = mDocumentationUrl;
+    if (!documentationUrl.isEmpty()) {
+      const QStringList &splittedPath = documentationUrl.split("doc/");
+      if (splittedPath.size() == 2) {
+        const QString file(splittedPath[1].split('#')[0]);
+        if (QFile::exists(WbStandardPaths::localDocPath() + file + ".md")) {
+          bookAndPage = file.split('/');
+          if (splittedPath[1].contains('#'))
+            bookAndPage[1] += '#' + splittedPath[1].split('#')[1];
+          return bookAndPage;
+        }
+      }
+    }
+  }
+
+  return bookAndPage;  // return empty
 }

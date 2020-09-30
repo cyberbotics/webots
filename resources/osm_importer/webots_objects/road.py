@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -380,7 +380,7 @@ class Road(WebotsObject):
             f.write('}\n')
         # Export roads
         for road in cls.roads:
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 continue
             coords = road.finalPath.coords
 
@@ -767,7 +767,7 @@ class Crossroad:
             # Substract this crossroad shape to the road path
             road.shape = road.shape.difference(self.shape)
 
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 road.finalPath = road.finalPath.difference(self.shape)
                 continue
             roadPathBeforeEndsRemoval = [Vector2D(x, y) for (x, y) in road.finalPath.coords]
@@ -776,7 +776,7 @@ class Crossroad:
             lastPoint = roadPathBeforeEndsRemoval[-1]
 
             road.finalPath = road.finalPath.difference(self.shape)
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 continue
 
             roadPath = [Vector2D(x, y) for (x, y) in road.finalPath.coords]

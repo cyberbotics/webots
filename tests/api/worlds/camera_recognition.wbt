@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.45369882 -0.46373901 -0.76098851 5.1069199
+  orientation -0.45369881976925047 -0.46373900976414406 -0.760988509612964 5.1069199
   position 1.5476591 -0.6786801 4.248267
 }
 Background {
@@ -16,7 +17,7 @@ DirectionalLight {
 }
 Solid {
   translation -3.49077 3.43016 -2.72278
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -37,7 +38,7 @@ Solid {
 }
 Solid {
   translation -3.097374 2.8409796 -1.0675441
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -58,7 +59,7 @@ Solid {
 }
 Solid {
   translation -4.56863 2.3982827 -2.5180082
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -80,7 +81,7 @@ Solid {
 }
 Solid {
   translation -5.1704021 1.2596087 -2.1223729
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -102,7 +103,7 @@ Solid {
 }
 Solid {
   translation -1.34837 0.660611 -1.26226
-  rotation 0.55708479 -0.049756682 0.82896369 2.51922
+  rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
     Shape {
       appearance Appearance {
@@ -124,7 +125,7 @@ Solid {
 }
 Solid {
   translation -1.61501 0.792452 -1.40516
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -147,7 +148,7 @@ Solid {
 }
 Solid {
   translation -3.1216271 1.773431 -1.1296883
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -186,7 +187,7 @@ Solid {
 }
 Solid {
   translation -3.7763137 0.23806185 -1.2091656
-  rotation 0.55708479 -0.049756682 0.82896369 2.51922
+  rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
     Shape {
       appearance Appearance {
@@ -209,7 +210,7 @@ Solid {
 }
 Solid {
   translation -3.8150432 1.5186302 -0.83295513
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     DEF SHAPE1 Shape {
       appearance Appearance {
@@ -252,7 +253,7 @@ Solid {
 }
 Solid {
   translation -3.49351 0.0982299 -1.05761
-  rotation -0.64578792 -0.53988793 -0.53988793 4.91351
+  rotation -0.6457879227325559 -0.5398879322844559 -0.5398879322844559 4.91351
   children [
     Shape {
       appearance Appearance {
@@ -275,7 +276,7 @@ Solid {
 }
 Robot {
   translation -0.116489 0.196931 -0.132093
-  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Camera {
       width 256
@@ -288,7 +289,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "camera_recognition"
   supervisor TRUE
 }

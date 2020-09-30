@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,6 +57,11 @@ void WbElevationGrid::init() {
 
 WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("ElevationGrid", tokenizer) {
   init();
+
+  if (tokenizer == NULL) {
+    mXDimension->setValueNoSignal(2);
+    mZDimension->setValueNoSignal(2);
+  }
 }
 
 WbElevationGrid::WbElevationGrid(const WbElevationGrid &other) : WbGeometry(other) {
@@ -83,7 +88,7 @@ void WbElevationGrid::preFinalize() {
 
   if (isInBoundingObject()) {
     if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID) {
-      warn("The ElevationGrid geometry cannot be used as a Fluid boundingObject. Immersions will have not effect.\n");
+      parsingWarn("The ElevationGrid geometry cannot be used as a Fluid boundingObject. Immersions will have not effect.\n");
       // TODO: enable dHeightField for immersion detection in src/ode/ode/fluid_dynamics
     }
     isSuitableForInsertionInBoundingObject(true);  // boundingObject specific warnings
@@ -209,7 +214,7 @@ void WbElevationGrid::checkHeight() {
 
   const int extra = mHeight->size() - xdzd;
   if (extra > 0)
-    warn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
+    parsingWarn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
 
   // find min/max height
   mMinHeight = 0;
@@ -451,16 +456,16 @@ bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const
 
   if (warning) {
     if (mXDimension->value() < 2)
-      warn(tr("Invalid 'xDimension' for use in boundingObject."));
+      parsingWarn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
     if (mZDimension->value() < 2)
-      warn(tr("Invalid 'zDimension' for use in boundingObject."));
+      parsingWarn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
-      warn(tr("'height' must be positive when used in a 'boundingObject'."));
+      parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
 
     if (invalid)
-      warn(tr("Cannot create the associated physics object."));
+      parsingWarn(tr("Cannot create the associated physics object."));
   }
 
   return !invalid;
@@ -477,15 +482,15 @@ bool WbElevationGrid::isAValidBoundingObject(bool checkOde, bool warning) const 
 
 bool WbElevationGrid::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet) const {
   WbVector3 localCollisionPoint;
-  double collisionDistance = computeLocalCollisionPoint(ray, localCollisionPoint);
+  const double collisionDistance = computeLocalCollisionPoint(ray, localCollisionPoint);
   if (collisionDistance < 0)
     return false;
 
-  double sizeX = scaledWidth();
-  double sizeZ = scaledDepth();
+  const double sizeX = scaledWidth();
+  const double sizeZ = scaledDepth();
 
-  double u = (double)localCollisionPoint.x() / sizeX;
-  double v = 1 - (double)localCollisionPoint.z() / sizeZ;
+  const double u = (double)localCollisionPoint.x() / sizeX;
+  const double v = (double)localCollisionPoint.z() / sizeZ;
 
   // result
   uv.setXy(u, v);
@@ -651,7 +656,7 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
 ////////////////////////
 
 WbVector3 WbElevationGrid::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A ElevationGrid is used in a Bounding object using an asymmetric friction. ElevationGrid does not support "
-          "asymmetric friction"));
+  parsingWarn(tr("A ElevationGrid is used in a Bounding object using an asymmetric friction. ElevationGrid does not support "
+                 "asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

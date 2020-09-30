@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Pioneer 3AT robot (Adept MobileRobots)."
@@ -6,6 +6,7 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on the sensor data measured by the lidar."
   ]
   title "Pioneer 3AT"
+  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {

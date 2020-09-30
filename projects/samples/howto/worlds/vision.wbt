@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example of how to use OpenCV to process the robot's camera image"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.737851013050371 0.651691011526459 0.17571200310781823 5.42559

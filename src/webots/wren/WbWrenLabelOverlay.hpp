@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ private:
   static const float HORIZONTAL_MARGIN;
 
   WbWrenLabelOverlay(int id, const QString &font);
-  virtual ~WbWrenLabelOverlay();
+  ~WbWrenLabelOverlay();
 
   void createTexture();
   void updateTextureSize();

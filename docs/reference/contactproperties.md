@@ -46,7 +46,7 @@ The values in `material1` and `material2` are exchangeable.
 - The `coulombFriction` are the Coulomb friction coefficients.
 They must be in the range 0 to infinity (use -1 for infinity).
 0 results in a frictionless contact, and infinity results in a contact that never slips.
-This field can held one to four values.
+This field can hold one to four values.
 If it has only one value, the friction is fully symmetric.
 With two values, the friction is fully asymmetric using the same coefficients for both solids.
 With three values, the first solid (corresponding to `material1`) uses asymmetric coefficients (first two values) and the other solid (corresponding to `material2`) uses a symmetric coefficient (last value).
@@ -75,7 +75,7 @@ Normally, if a force f is applied to the two contacting surfaces, to try and get
 However, if the FDS coefficient is set to a positive value k then the surfaces will slide past each other, building up to a steady velocity of k*f relative to each other.
 Note that this is quite different from normal frictional effects: the force does not cause a constant acceleration of the surfaces relative to each other&mdash;it causes a brief acceleration to achieve the steady velocity."
 
-    This field can held one to four values. If it has only one value, this
+    This field can hold one to four values. If it has only one value, this
     coefficient is applied to both directions (force dependent slip is disabled if
     the value is 0). With two values, force dependent slip is fully asymmetric using
     the same coefficients for both solids (if one value is 0, force dependent slip

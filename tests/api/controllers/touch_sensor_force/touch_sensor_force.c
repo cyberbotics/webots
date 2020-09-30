@@ -14,6 +14,11 @@ int main(int argc, char **argv) {
 
   wb_touch_sensor_enable(ts, TIME_STEP);
 
+  int lookup_table_size = wb_touch_sensor_get_lookup_table_size(ts);
+  ts_assert_double_equal(lookup_table_size, 0, "Lookup table size returned is wrong (%d instead of 0)", lookup_table_size);
+  const double *lookup_table = wb_touch_sensor_get_lookup_table(ts);
+  ts_assert_pointer_null((void *)lookup_table, "Lookup table returned is wrong (%p instead of NULL)", lookup_table);
+
   int i;
   for (i = 0; i < 5; i++)
     wb_robot_step(TIME_STEP);

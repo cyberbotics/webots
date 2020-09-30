@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -235,7 +235,11 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
+#ifdef __APPLE__
   QStringList lines = string.split(QRegExp("\n"), QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
+#endif
 
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {

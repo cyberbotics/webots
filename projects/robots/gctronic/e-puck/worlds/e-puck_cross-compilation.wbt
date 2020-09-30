@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The model of the E-puck robot"
   ]
   title "E-puck"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 1 0 0 6

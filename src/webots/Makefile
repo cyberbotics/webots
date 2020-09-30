@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,9 +41,9 @@ WB_PLUGINS_INCLUDE       = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Icore -Imaths -Ino
 WB_ENGINE_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Iplugins -Isound -Iuser_commands -Iutil -Ivrml
 WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Iengine -Imaths -Inodes -Inodes/utils -Iode -Ivrml -Iutil
 # dependency of NODES on QT_GUI is necessary in WbImageTexture to retrieve the size of a texture before loading it in Wren
-WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icore -isystem external/siphash -isystem external/stb_image -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
+WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE) -Iapp -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
-WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
+WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -isystem external/siphash -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
 WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WEB_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
@@ -62,7 +62,7 @@ LUA_INCLUDE = -I$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src
 OIS_INCLUDE = -isystem $(WEBOTS_PATH)/include/libOIS
 PICO_INCLUDE = -I$(WEBOTS_PATH)/include/libpico
 WREN_INCLUDE = -I$(WEBOTS_PATH)/include
-GLM_IMCLUDE  = -I$(WEBOTS_PATH)/src/glm
+STB_INCLUDE  = -isystem $(WEBOTS_PATH)/src/stb
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 
 ifeq ($(OSTYPE),darwin)
@@ -72,7 +72,7 @@ FRAMEWORKS         = $(EXECUTABLE_PATH)/../Frameworks
 PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
-LIB_WREN           = ../wren/libwren.a ../glad/libglad.a $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
+LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 QT_CORE_INCLUDE    = -isystem $(FRAMEWORKS)/QtCore.framework/Headers
 QT_GUI_INCLUDE     = -isystem $(FRAMEWORKS)/QtGui.framework/Headers
@@ -85,7 +85,8 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
 GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_PATH)/lib -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
@@ -107,6 +108,7 @@ CFLAGS += -Wno-deprecated-register
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
+ASSIMP_INCLUDE     = -I$(WEBOTS_PATH)/include/libassimp/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
 QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
@@ -121,7 +123,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_PATH)/lib -L$(WEBOTS_PATH)/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
@@ -134,7 +136,7 @@ LIBS += -lode
 endif
 
 else ifeq ($(OSTYPE),windows)
-vpath %.c ../lib/Controller/api
+vpath %.c ../Controller/api
 WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
 C_SOURCES         += system.c
 LIB_WREN           = ../wren/wren.a ../glad/glad.a
@@ -150,15 +152,15 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
 FREETYPE_INCLUDE   = -I/mingw64/include/freetype2
 TARGET_PATH       = $(WEBOTS_PATH)/msys64/mingw64/bin
-TARGET            = $(TARGET_PATH)/webots.exe
+TARGET            = $(TARGET_PATH)/webots-bin.exe
 CFLAGS            = -isystem /mingw64/lib/libzip/include
 CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
 MOC               = moc
 MOC_FLAGS        += -D_WIN32
 LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebKit -lQt5WebKitWidgets -lQt5Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
 LD_FLAGS          = -Wl,--enable-auto-import
-EXTRA_CMD         = cp launcher/webots.exe.config $(TARGET_PATH)/ ; cp launcher/webots.lnk $(WEBOTS_PATH)/
-FILES_TO_REMOVE   = $(TARGET_PATH)/webots.exe.config $(WEBOTS_PATH)/webots.lnk
+EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
+FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config
 QT_SOURCES        = WbVirtualRealityHeadset.cpp
 ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
@@ -166,7 +168,6 @@ ifeq ($(MAKECMDGOALS),release)
 # stack size doesn't seems to help, so we need to remove this optimization
 CFLAGS          += -fno-ipa-cp-clone
 LD_FLAGS        += -Wl,-subsystem,windows
-EXTRA_CMD       += ; cp launcher/webots.bat $(TARGET_PATH)/webots.bat
 else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
@@ -178,13 +179,13 @@ LIBS += -lode
 endif
 endif
 
-ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
+ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
 
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
 WREN_INCLUDE 	  += -Iwren
-INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEB_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE)
+INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEB_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)
 CFLAGS += -g
@@ -260,7 +261,6 @@ QT_SOURCES += \
   WbController.cpp \
   WbCoordinate.cpp \
   WbCoordinateSystem.cpp \
-  WbCubemap.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
   WbDifferentialWheels.cpp \
@@ -301,6 +301,7 @@ QT_SOURCES += \
   WbHinge2Joint.cpp \
   WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
+  WbImportWizard.cpp \
   WbImmersionProperties.cpp \
   WbIntEditor.cpp \
   WbIntSpinBox.cpp \
@@ -325,6 +326,7 @@ QT_SOURCES += \
   WbMassChecker.cpp \
   WbMaterial.cpp \
   WbMatter.cpp \
+  WbMesh.cpp \
   WbMFBool.cpp \
   WbMFColor.cpp \
   WbMFDouble.cpp \
@@ -337,7 +339,6 @@ QT_SOURCES += \
   WbMicrophone.cpp \
   WbMotor.cpp \
   WbMouse.cpp \
-  WbMultimediaStreamer.cpp \
   WbMultipleValue.cpp \
   WbMuscle.cpp \
   WbNewControllerWizard.cpp \
@@ -438,6 +439,7 @@ QT_SOURCES += \
   WbTranslateRotateManipulator.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \
+  WbTriangleMeshGeometry.cpp \
   WbUndoStack.cpp \
   WbValue.cpp \
   WbValueEditor.cpp \
@@ -447,6 +449,7 @@ QT_SOURCES += \
   WbVelocityViewer.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
+  WbMultimediaStreamingServer.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \
   WbVisualBoundingSphere.cpp \
@@ -463,6 +466,7 @@ QT_SOURCES += \
   WbWrenRenderingContext.cpp \
   WbWrenTextureOverlay.cpp \
   WbWrenWindow.cpp \
+  WbX3dStreamingServer.cpp \
   WbZoom.cpp
 
 # objects that don't inherit from QObject (alphabetical order)
@@ -506,6 +510,7 @@ OTHER_SOURCES = \
   WbMathsUtilities.cpp \
   WbMessageBox.cpp \
   WbMotorSoundManager.cpp \
+  WbMultimediaStreamingLimiter.cpp \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \
@@ -584,14 +589,16 @@ OBJECTS=$(notdir $(C_SOURCES:.c=.o) $(QT_SOURCES:.cpp=.o) $(OTHER_SOURCES:.cpp=.
 
 ifeq ($(OSTYPE),windows)
 OBJECTS += webots.o
+LAUNCHER = ../../msys64/mingw64/bin/webots.exe
+LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
 # prevent 'make' from deleting these intermediate files
 .PRECIOUS: $(MOC_FILES)
 
 vpath %.o $(OBJDIR)
-vpath %.hpp app control core widgets editor engine external/siphash external/stb_image gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml
-vpath %.cpp app control core widgets editor engine external/siphash external/stb_image gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml $(OBJDIR)
+vpath %.hpp app control core widgets editor engine external/siphash gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml
+vpath %.cpp app control core widgets editor engine external/siphash gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml $(OBJDIR)
 
 default:
 	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
@@ -607,7 +614,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET)
+debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
 
 $(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
@@ -622,6 +629,17 @@ $(OBJDIR)/%.d: %.cpp
 $(OBJDIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $@
 	@$(MOC) $(MOC_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
+
+launcher/launcher.o: launcher/launcher.rc
+	@windres -i $< -o $@ --define _WIN32 --define __WIN32__ --define __WIN95__ --define __GNUWIN32__
+
+$(LAUNCHERW): launcher/launcher.c launcher/launcher.o
+	@echo "# compiling webotsw.exe launcher"
+	@gcc $(CFLAGS) -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -o $@
+
+$(LAUNCHER): launcher/launcher.c
+	@echo "# compiling webots.exe launcher"
+	@gcc $(CFLAGS) launcher/launcher.c -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
@@ -713,7 +731,7 @@ webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) build
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) build launcher/launcher.o
 
 count-lines:
 	wc -l */*.c* */*.h*

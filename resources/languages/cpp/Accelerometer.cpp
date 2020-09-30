@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,4 +32,12 @@ int Accelerometer::getSamplingPeriod() const {
 
 const double *Accelerometer::getValues() const {
   return wb_accelerometer_get_values(getTag());
+}
+
+int Accelerometer::getLookupTableSize() const {
+  return wb_accelerometer_get_lookup_table_size(getTag());
+}
+
+const double *Accelerometer::getLookupTable() const {
+  return wb_accelerometer_get_lookup_table(getTag());
 }

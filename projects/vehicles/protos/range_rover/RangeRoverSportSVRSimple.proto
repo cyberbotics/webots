@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
@@ -13,7 +13,7 @@ PROTO RangeRoverSportSVRSimple [
   field       MFString   plate                          "textures/plate.jpg"
   field       SFString   name                           "vehicle"
   field       SFString   controller                     ""
-  field       SFString   controllerArgs                 ""
+  field       MFString   controllerArgs                 [ ]
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]

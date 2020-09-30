@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -285,17 +285,17 @@ bool WbTransform::isAValidBoundingObject(bool checkOde, bool warning) const {
 
   if (cc == 0) {
     if (warning)
-      info(tr("A Transform placed in 'boundingObject' needs a Geometry or Shape as its first child to be valid."));
+      parsingInfo(tr("A Transform placed in 'boundingObject' needs a Geometry or Shape as its first child to be valid."));
     return false;
   }
 
   if (cc > 1 && warning)
-    warn(tr("A Transform placed inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
+    parsingWarn(tr("A Transform placed inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
 
   const WbGeometry *const g = geometry();
   if (g == NULL) {
     if (warning)
-      info(
+      parsingInfo(
         tr("The first child of a Transform placed in 'boundingObject' must be a Geometry or a Shape filled with a Geometry."));
     return false;
   }
@@ -405,4 +405,48 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
   fields << "translation"
          << "rotation";
   return fields;
+}
+
+WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
+  const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbTransform *childNode = this;
+  QList<const WbTransform *> transformList;
+
+  transformList.append(childNode);
+  while (parentNode != fromNode) {
+    childNode = parentNode;
+    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    transformList.append(childNode);
+    assert(parentNode);
+  }
+
+  WbTransform *previousTransform = const_cast<WbTransform *>(transformList.takeLast());
+  WbVector3 translationResult = previousTransform->translation();
+  while (transformList.size() > 0) {
+    const WbTransform *transform = transformList.takeLast();
+    translationResult += previousTransform->rotation().toMatrix3() * transform->translation();
+    previousTransform = const_cast<WbTransform *>(transform);
+  }
+
+  return translationResult;
+}
+
+WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
+  const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbTransform *childNode = this;
+
+  QList<const WbTransform *> transformList;
+  transformList.append(childNode);
+  while (parentNode != fromNode) {
+    childNode = parentNode;
+    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    transformList.append(childNode);
+    assert(parentNode);
+  }
+
+  WbMatrix3 rotationResult = transformList.takeLast()->rotation().toMatrix3();
+  while (transformList.size() > 0)
+    rotationResult *= transformList.takeLast()->rotation().toMatrix3();
+
+  return rotationResult;
 }

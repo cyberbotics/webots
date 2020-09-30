@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,10 +58,13 @@ private:
   WbLookupTable *mLut;
   double mValues[3];  // current sensor value according to lookup table
   double mVelocity[3];
+  bool mNeedToReconfigure;
+  bool mWarningWasPrinted;
 
   // private functions
   WbAccelerometer &operator=(const WbAccelerometer &);  // non copyable
   WbNode *clone() const override { return new WbAccelerometer(*this); }
+  void addConfigure(QDataStream &);
   void init();
   void computeValue();
 

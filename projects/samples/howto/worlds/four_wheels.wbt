@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Description: Examples of four wheels vehicles"
   ]
   title "Four Wheels"
   basicTimeStep 16
+  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {

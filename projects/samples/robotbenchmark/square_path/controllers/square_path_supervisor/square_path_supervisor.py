@@ -62,8 +62,12 @@ supervisor.wwiSendText('stop')
 # Wait for credentials sent by the robot window.
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
-    if message and message.startswith("record:"):
-        performance = metric.getPerformance()
-        record = robotbenchmarkRecord(message, "square_path", performance)
-        supervisor.wwiSendText(record)
-        break
+    if message:
+        if message.startswith("record:"):
+            performance = metric.getPerformance()
+            record = robotbenchmarkRecord(message, "square_path", performance)
+            supervisor.wwiSendText(record)
+        elif message == "exit":
+            break
+
+supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

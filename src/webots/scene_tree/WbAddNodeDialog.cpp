@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 
   // check if top node is a robot node
   const WbNode *const topNode =
-    field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parent());
+    field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
   mHasRobotTopNode = topNode ? WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()) : false;
 
   setWindowTitle(tr("Add a node"));
@@ -445,7 +445,6 @@ void WbAddNodeDialog::buildTree() {
       QTreeWidgetItem *const child = new QTreeWidgetItem(mUsesItem, strl);
 
       child->setIcon(0, QIcon("enabledIcons:node.png"));
-      item->addChild(child);
     }
   }
 
@@ -594,7 +593,7 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
     if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(protoCachedInfo->baseType()) &&
-        protoCachedInfo->containsDevices())
+        protoCachedInfo->needsRobotAncestor())
       continue;
 
     QString errorMessage;

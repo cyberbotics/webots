@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -75,6 +75,8 @@ public:
 
   void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
   void emitTranslationOrRotationChangedByUser() override;
+  WbVector3 translationFrom(const WbNode *fromNode) const;
+  WbMatrix3 rotationMatrixFrom(const WbNode *fromNode) const;
 
   // export
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;

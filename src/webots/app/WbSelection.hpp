@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ public slots:
   void selectNodeFromSceneTree(WbBaseNode *node);
 
   // select another matter from the 3D view
-  void selectTransformFromView3D(WbAbstractTransform *t);
+  void selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled = false);
 
   // update handle size based on viewpoint camera distance
   void updateHandlesScale();
@@ -99,7 +99,7 @@ private:
   bool mResizeHandlesEnabledFromSceneTree;
 
   // select another node
-  void selectNode(WbBaseNode *n);
+  void selectNode(WbBaseNode *n, bool handlesDisabled = false);
 
   // update matter selection
   // if mSelectedNode is not an instance of WbMatter, then select upper matter

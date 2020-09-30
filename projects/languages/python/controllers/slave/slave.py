@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ According to the messages it receives, the robot change its
 behavior.
 """
 
+from controller import AnsiCodes
 from controller import Robot
 
 
@@ -62,7 +63,7 @@ class Slave (Robot):
             if self.receiver.getQueueLength() > 0:
                 message = self.receiver.getData().decode('utf-8')
                 self.receiver.nextPacket()
-                print('I should ' + message + '!')
+                print('I should ' + AnsiCodes.RED_FOREGROUND + message + AnsiCodes.RESET + '!')
                 if message == 'avoid obstacles':
                     self.mode = self.Mode.AVOIDOBSTACLES
                 elif message == 'move forward':

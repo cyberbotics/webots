@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -223,7 +223,7 @@ void WbBallJoint::updatePosition() {
   const WbJointParameters *const p = parameters();
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  assert(p || p2 || p3);
+
   if (solidReference() == NULL && solidEndPoint())
     updatePositions(p ? p->position() : mPosition, p2 ? p2->position() : mPosition2, p3 ? p3->position() : mPosition3);
 }
@@ -271,11 +271,11 @@ void WbBallJoint::checkMotorLimit() {
   } else {
     if (motor->minPosition() < -M_PI_2) {
       motor->setMinPosition(-M_PI_2);
-      warn(tr("The lower limit of the motor associated to the second axis shouldn't be smaller than -pi/2."));
+      parsingWarn(tr("The lower limit of the motor associated to the second axis shouldn't be smaller than -pi/2."));
     }
     if (motor->maxPosition() > M_PI_2) {
       motor->setMaxPosition(M_PI_2);
-      warn(tr("The upper limit of the motor associated to the second axis shouldn't be greater than pi/2."));
+      parsingWarn(tr("The upper limit of the motor associated to the second axis shouldn't be greater than pi/2."));
     }
   }
 }
@@ -620,7 +620,8 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
 void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
-  if (motor() && motor()->isPIDPositionControl())
+  const WbMotor *const m1 = motor();
+  if (m1 && m1->isPIDPositionControl())
     // if controlling in position we update position using directly the angle feedback
     mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
   else
@@ -631,7 +632,8 @@ void WbBallJoint::postPhysicsStep() {
   if (p)
     p->setPositionFromOde(mPosition);
 
-  if (motor2() && motor2()->isPIDPositionControl())
+  const WbMotor *const m2 = motor2();
+  if (m2 && m2->isPIDPositionControl())
     mPosition2 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 1) + mOdePositionOffset2, mPosition2);
   else
     mPosition2 -= dJointGetAMotorAngle(mControlMotor, 1) * mTimeStep / 1000.0;
@@ -639,7 +641,8 @@ void WbBallJoint::postPhysicsStep() {
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
-  if (motor3() && motor3()->isPIDPositionControl())
+  const WbMotor *const m3 = motor3();
+  if (m3 && m3->isPIDPositionControl())
     mPosition3 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 2) + mOdePositionOffset3, mPosition3);
   else
     mPosition3 -= dJointGetAMotorAngle(mControlMotor, 2) * mTimeStep / 1000.0;
@@ -659,6 +662,14 @@ void WbBallJoint::reset() {
     p->reset();
 
   setPosition(mInitialPosition3, 3);
+}
+
+void WbBallJoint::resetPhysics() {
+  WbHinge2Joint::resetPhysics();
+
+  WbMotor *const m = motor3();
+  if (m)
+    m->resetPhysics();
 }
 
 void WbBallJoint::save() {
@@ -681,7 +692,7 @@ void WbBallJoint::applyToOdeAxis() {
   WbVector3 referenceAxis3 = axis3();
 
   if (referenceAxis.cross(referenceAxis3).isNull()) {
-    warn(tr("Axes are aligned: using x and z axes instead."));
+    parsingWarn(tr("Axes are aligned: using x and z axes instead."));
     referenceAxis = WbVector3(1.0, 0.0, 0.0);
     referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
   }
@@ -787,4 +798,12 @@ void WbBallJoint::updateJointAxisRepresentation() {
                               anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z()};
   mMesh = wr_static_mesh_line_set_new(6, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+}
+
+void WbBallJoint::writeExport(WbVrmlWriter &writer) const {
+  if (writer.isUrdf() && solidEndPoint()) {
+    warn(tr("Exporting 'BallJoint' nodes to URDF is currently not supported"));
+    return;
+  }
+  WbBasicJoint::writeExport(writer);
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include "RosSensor.hpp"
 
 #include <webots_ros/get_float.h>
+#include <webots_ros/get_float_array.h>
 #include <webots_ros/get_int.h>
 
 using namespace webots;
@@ -37,6 +38,7 @@ public:
   bool getMinValueCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getMaxValueCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getApertureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
   bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
 
 private:
@@ -46,6 +48,7 @@ private:
   ros::ServiceServer mMinValueServer;
   ros::ServiceServer mMaxValueServer;
   ros::ServiceServer mApertureServer;
+  ros::ServiceServer mLookupTableServer;
   ros::ServiceServer mTypeServer;
 };
 

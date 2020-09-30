@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Huge IndexedFaceSet representing a monkey"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.7255688589530555 0.6640548709110659 0.18050196491132395 0.469979

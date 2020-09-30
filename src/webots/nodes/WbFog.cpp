@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ void WbFog::preFinalize() {
     if (!WbWorld::instance()->isLoading())
       emit WbWrenRenderingContext::instance()->fogNodeAdded();
   } else
-    warn(tr("Only one Fog node is allowed. Only the first Fog node will be taken into account."));
+    parsingWarn(tr("Only one Fog node is allowed. Only the first Fog node will be taken into account."));
 }
 
 void WbFog::postFinalize() {
@@ -123,7 +123,7 @@ void WbFog::updateFogType() {
     mWrenFogType = WR_SCENE_FOG_TYPE_LINEAR;
 
   if (mWrenFogType == WR_SCENE_FOG_TYPE_LINEAR && fogText != QString("linear"))
-    warn(tr("Unknown 'fogType': \"%1\". Set to \"LINEAR\"").arg(mFogType->value()));
+    parsingWarn(tr("Unknown 'fogType': \"%1\". Set to \"LINEAR\"").arg(mFogType->value()));
 
   if (areWrenObjectsInitialized()) {
     applyChangesToWren();

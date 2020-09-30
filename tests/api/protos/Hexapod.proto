@@ -1,9 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 
 PROTO Hexapod [
   field SFVec3f translation 0 0.06 0
   field SFString controller ""
-  field SFString controllerArgs ""
+  field MFString controllerArgs []
 ]
 {
 DEF HEXAPOD Robot {

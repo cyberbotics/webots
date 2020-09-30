@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,6 +7,7 @@ WorldInfo {
   title "Obstacle Avoidance"
   window "obstacle_avoidance"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -23,31 +24,26 @@ Viewpoint {
   followSmoothness 0.01
 }
 TexturedBackground {
-  texture "noon_cloudy_empty"
+  texture "empty_office"
 }
 DirectionalLight {
   direction -0.6 -1 0.55
-  intensity 1.7
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 1
+  cutOffAngle 1.4
+  direction 0 -1 0
+  intensity 3
+  location 1 1.6 0
+  radius 4
   castShadows TRUE
-}
-CeilingLight {
-  translation -1.5 2.32 0
-  pointLightColor 1 0.992157 0.929412
-  pointLightIntensity 0.2
-  castShadows FALSE
-}
-CeilingLight {
-  translation 1.5 2.32 0
-  name "ceiling light(1)"
-  pointLightColor 1 1 0.870588
-  pointLightIntensity 0.2
-  castShadows FALSE
 }
 DEF THYMIO2 Thymio2 {
   translation 2.68 0 0
   rotation 0 1 0 4.712389
   controller "avoid_obstacles"
-  controllerArgs ""
+  controllerArgs []
   bodySlot [
     Compass {
     }

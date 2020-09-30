@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -278,7 +278,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
     }
 
     // ignore invalid node
-    warn(tr("Invalid %1 used in 'animatedGeometries' field.").arg(node->nodeModelName()));
+    parsingWarn(tr("Invalid %1 used in 'animatedGeometries' field.").arg(node->nodeModelName()));
   }
 
   return true;
@@ -319,9 +319,9 @@ void WbTrack::updateTextureTransform() {
       mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
-        mTextureTransform->warn(tr("Non-admissible TextureTransform USE node inside Track node."
-                                   "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
-                                   "the USE texture transform values will change independently from DEF node ones."));
+        mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."
+                                          "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
+                                          "the USE texture transform values will change independently from DEF node ones."));
         const int size = useNodesList.size();
         if (size > 0) {
           for (int i = 0; i < size; ++i)
@@ -330,7 +330,7 @@ void WbTrack::updateTextureTransform() {
         }
       }
     } else if (!mTextureAnimationField->value().isNull())
-      mShape->abstractAppearance()->warn(
+      mShape->abstractAppearance()->parsingWarn(
         tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
     if (isPostFinalizedCalled())
       connect(mShape->abstractAppearance(), &WbAppearance::changed, this, &WbTrack::updateTextureTransform,
@@ -339,11 +339,8 @@ void WbTrack::updateTextureTransform() {
 }
 
 void WbTrack::updateTextureAnimation() {
-  if (!mTextureTransform && !mTextureAnimationField->value().isNull()) {
-    assert(mShape && mShape->abstractAppearance());
-    mShape->abstractAppearance()->warn(
-      tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
-  }
+  if (!mTextureTransform && !mTextureAnimationField->value().isNull())
+    parsingWarn(tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
 }
 
 void WbTrack::updateWheelsList() {
@@ -614,7 +611,7 @@ void WbTrack::prePhysicsStep(double ms) {
 
   // texture animation
   if (mTextureTransform) {
-    mTextureTransform->translate(mSurfaceVelocity * mTextureAnimationField->value());
+    mTextureTransform->translate(0.001 * ms * mSurfaceVelocity * mTextureAnimationField->value());
     mTextureTransform->modifyWrenMaterial(mShape->wrenMaterial());
   }
 
@@ -736,8 +733,8 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
 
   if (newStepSize != newStepSize) {  // NAN
     // abort generation
-    warn(tr("Error during computation of Track animated geometries. "
-            "Please check the TrackWheel nodes in 'children' field."));
+    parsingWarn(tr("Error during computation of Track animated geometries. "
+                   "Please check the TrackWheel nodes in 'children' field."));
     return BeltPosition(WbVector2(), 0.0, -1);
   }
 
@@ -863,8 +860,8 @@ void WbTrack::computeBeltPath() {
 
   if (wheelsPositionError)
     // multiple wheels at the same location
-    warn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
-            "Only the first node is used."));
+    parsingWarn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
+                   "Only the first node is used."));
 }
 
 QString computeTrackDefName() {
@@ -877,7 +874,7 @@ QString computeTrackDefName() {
 }
 
 void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
-  if (mAnimatedObjectList.size() == 0)
+  if (mAnimatedObjectList.size() == 0 || writer.isUrdf())
     return;
 
   WbNode *node = mGeometryField->value();
@@ -888,7 +885,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   else if (defName.isEmpty()) {
     defName = computeTrackDefName();
     node->setDefName(defName, false);
-    warn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
+    parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
   QString position = mBeltPositions[0].position.toString(WbPrecision::DOUBLE_MAX) + " 0";
@@ -980,7 +977,7 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 
   bool isEmpty = true;
-  if (!writer.isX3d()) {
+  if (!writer.isX3d() && !writer.isUrdf()) {
     writer.indent();
     writer << "children [";
     writer.increaseIndent();
@@ -998,13 +995,13 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 
   // write animated geometries
-  if (!writer.isX3d() && !isEmpty)
+  if (!writer.isX3d() && !writer.isUrdf() && !isEmpty)
     writer << "\n";
   isEmpty |= mAnimatedObjectList.isEmpty();
 
   exportAnimatedGeometriesMesh(writer);
 
-  if (!writer.isX3d()) {
+  if (!writer.isX3d() && !writer.isUrdf()) {
     writer.decreaseIndent();
     if (!isEmpty)
       writer.indent();

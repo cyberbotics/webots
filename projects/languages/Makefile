@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,4 +19,3 @@ release debug profile clean:
 	+make -s -C cpp/controllers $@
 	+make -s -C java/controllers $@
 	+make -s -C matlab/controllers $@
-	+make -s -C ros/controllers/ros_python $@

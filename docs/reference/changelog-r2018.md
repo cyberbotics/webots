@@ -100,7 +100,7 @@ Released on July 5th, 2018.
     - BioRob salamander: Dropped useless motorized segments, renamed motors and improved immersion properties.
     - Aibo: Dropped non-functional LEDs from the AiboErs7 PROTO.
     - Atlas: Dropped obsolete URDF importer tool.
-    - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to the
+    - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to a separate [repository](https://github.com/cyberbotics/naoqisim).
 
 ## Webots R2018a Revision 2
 Released on April 18th, 2018.
@@ -272,7 +272,7 @@ Released on December 20th, 2017.
     - Fixed partial insertion of invalid USE nodes: if invalid they are not inserted at all.
     - Fixed check of USE nodes in PROTO files.
     - Fixed check of invalid USE nodes whose definition contains a Slot node with a Solid descendant node.
-    - Fixed errors with the Extrusion PROTO when the spine is along the Z axis.
+    - Fixed errors with the Extrusion PROTO when the spine is along the z-axis.
     - Fixed crash when calling the `wb_speaker_play_sound` function with a sound file whose format is not supported.
     - Linux: fixed display of device name's underscores in the Robot menu.
     - Fixed `Follow Object` not working correctly when used on a non top Solid.
@@ -304,7 +304,7 @@ Released on December 20th, 2017.
     - Fixed artifacts due to the spherical projection of the Camera, Lidar and RangeFinder nodes (thanks to Liam).
     - Fixed VRML97 import not copying textures over to the current project.
     - Fixed wrong collision detection when an ElevationGrid is used in a bounding object and the parent Solid is rotated.
-    - Fixed bug affecting the friction of a track in a world with a gravity along the Z-axis (thanks to Matt).
+    - Fixed bug affecting the friction of a track in a world with a gravity along the z-axis (thanks to Matt).
     - Fixed an issue where importing VRML97 files containing a WorldInfo node could break Viewpoint mouse navigation.
     - Fixed remote control and cross compilation on DARwIn-OP robot using an old DARwIn-OP Framework
     - Fixed the `transparency` argument of the `wb_supervisor_set_label` function which was affecting the color too (thanks to Inbae).

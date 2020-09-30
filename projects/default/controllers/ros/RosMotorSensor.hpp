@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,14 +29,12 @@ public:
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override;
   void rosDisable() override { cleanup(); }
-  std::string deviceName() override;
   int rosSamplingPeriod() override;
 
 private:
   void cleanup();
 
   Motor *mMotor;
-  int mType;
 };
 
 #endif  // ROS_MOTOR_SENSOR_HPP

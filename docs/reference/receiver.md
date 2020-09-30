@@ -33,7 +33,7 @@ Currently, there is no implementation difference between the "radio" and "serial
 
 - `aperture`: opening angle of the reception cone (in radians); for "infra-red" only.
 The receiver can only receive messages from emitters currently located within its reception cone.
-The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the *z*-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
+The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the z-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
 An `aperture` of -1 (the default) is considered to be infinite, meaning that a signal can be received from any direction.
 For "radio" receivers, the `aperture` field is ignored.
 
@@ -507,7 +507,7 @@ public class Receiver extends Device {
 
 ```MATLAB
 strength = wb_receiver_get_signal_strength(tag)
-[x y z] = wb_receiver_get_emitter_direction(tag)
+x_y_z_array = wb_receiver_get_emitter_direction(tag)
 ```
 
 %tab-end
@@ -530,7 +530,7 @@ strength = wb_receiver_get_signal_strength(tag)
 The `wb_receiver_get_signal_strength` function operates on the head packet in the receiver's queue (see [this figure](#receivers-packet-queue)).
 It returns the simulated signal strength at the time the packet was transmitted.
 This signal strength is equal to the inverse of the distance between the emitter and the receiver squared.
-In other words, *s = 1 / r^2*, where *s* is the signal strength and *r* is the distance between emitter and receiver.
+In other words, *s = 1 / r²*, where *s* is the signal strength and *r* is the distance between emitter and receiver.
 If the packet is sent from a physics plugin, the returned value will be positive infinity.
 It is illegal to call this function if the receiver's queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
 

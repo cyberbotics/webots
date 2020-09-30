@@ -22,13 +22,6 @@ WbSplashScreen {
   qproperty-loadingColor: #b4b4b4;
 }
 
-WbLoginDialog {
-  qproperty-backgroundColor: #444;
-  qproperty-companyColor: #fff;
-  qproperty-taglineColor: #c8c8c8;
-  qproperty-versionColor: #dcdcdc;
-}
-
 WbMainWindow {
   qproperty-enabledIconPath: "icons/light";
   qproperty-disabledIconPath: "icons/dark";

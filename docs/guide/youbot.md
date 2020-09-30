@@ -23,11 +23,12 @@ Youbot {
   SFRotation rotation        1 0 0 -1.5708
   SFString   name            "youBot"
   SFString   controller      "youbot"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   MFNode     bodySlot        []
+  SFInt32    numberOfArms    1
 }
 ```
 
@@ -36,6 +37,7 @@ Youbot {
 #### Youbot Field Summary
 
 - `bodySlot`: Extends the robot with new nodes in the body slot.
+- `numberOfArms`: Defines the number of arms on the robot (0, 1 or 2).
 
 ### Samples
 

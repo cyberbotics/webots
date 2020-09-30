@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@
 #include <cassert>
 #include <cmath>
 
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
 
 QList<const WbMotor *> WbMotor::cMotors;
 
@@ -155,6 +155,9 @@ void WbMotor::setupJointFeedback() {
 }
 
 double WbMotor::energyConsumption() const {
+  if (dynamic_cast<WbTrack *>(parentNode()))
+    return 0.0;
+
   return fabs(computeFeedback()) * mConsumptionFactor->value();
 }
 
@@ -167,7 +170,7 @@ void WbMotor::updateMinAndMaxPosition() {
     // no limits
     return;
 
-  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parent());
+  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
   if (parentJoint && parentJoint->parameters())
     p = parentJoint->parameters()->position();
@@ -193,15 +196,15 @@ void WbMotor::updateControlPID() {
   const WbVector3 &pid = mControlPID->value();
   const double p = pid.x();
   if (p <= 0.0)
-    warn(tr("'controlP' (currently %1) must be positive.").arg(p));
+    parsingWarn(tr("'controlP' (currently %1) must be positive.").arg(p));
 
   const double i = pid.y();
   if (i < 0.0)
-    warn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
+    parsingWarn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
 
   const double d = pid.z();
   if (d < 0.0)
-    warn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
+    parsingWarn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
 
   mErrorIntegral = 0.0;
   mPreviousError = 0.0;
@@ -553,7 +556,7 @@ void WbMotor::awake() const {
   }
 
   const WbPropeller *const p = propeller();
-  const WbTrack *const t = dynamic_cast<WbTrack *>(parent());
+  const WbTrack *const t = dynamic_cast<WbTrack *>(parentNode());
   if (p || t) {
     WbSolid *const s = upperSolid();
     assert(s);

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@
 #include "WbConnector.hpp"
 #include "WbContactProperties.hpp"
 #include "WbCoordinate.hpp"
-#include "WbCubemap.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
 #include "WbDifferentialWheels.hpp"
@@ -60,6 +59,7 @@
 #include "WbLinearMotor.hpp"
 #include "WbLog.hpp"
 #include "WbMaterial.hpp"
+#include "WbMesh.hpp"
 #include "WbMicrophone.hpp"
 #include "WbMuscle.hpp"
 #include "WbNodeModel.hpp"
@@ -142,8 +142,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbContactProperties(tokenizer);
   if (modelName == "Coordinate")
     return new WbCoordinate(tokenizer);
-  if (modelName == "Cubemap")
-    return new WbCubemap(tokenizer);
   if (modelName == "Cylinder")
     return new WbCylinder(tokenizer);
   if (modelName == "Damping")
@@ -204,6 +202,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbLightSensor(tokenizer);
   if (modelName == "LinearMotor")
     return new WbLinearMotor(tokenizer);
+  if (modelName == "Mesh")
+    return new WbMesh(tokenizer);
   if (modelName == "Material")
     return new WbMaterial(tokenizer);
   if (modelName == "Microphone")
@@ -289,7 +289,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // reset global parent that could be changed while parsing the PROTO model
   if (parentNode)
-    WbNode::setGlobalParent(parentNode);
+    WbNode::setGlobalParentNode(parentNode);
   WbNode *protoInstance =
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
   if (protoInstance)
@@ -332,8 +332,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbContactProperties(original);
   if (modelName == "Coordinate")
     return new WbCoordinate(original);
-  if (modelName == "Cubemap")
-    return new WbCubemap(original);
   if (modelName == "Cylinder")
     return new WbCylinder(original);
   if (modelName == "Damping")
@@ -396,6 +394,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbLinearMotor(original);
   if (modelName == "Material")
     return new WbMaterial(original);
+  if (modelName == "Mesh")
+    return new WbMesh(original);
   if (modelName == "Microphone")
     return new WbMicrophone(original);
   if (modelName == "Muscle")
@@ -487,10 +487,14 @@ void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &write
     plane.write(writer);
     return;
   }
-
   if (node->nodeModelName() == "Capsule") {
     WbCapsule capsule(*node);
     capsule.write(writer);
+    return;
+  }
+  if (node->nodeModelName() == "Mesh") {
+    WbMesh mesh(*node);
+    mesh.write(writer);
     return;
   }
 

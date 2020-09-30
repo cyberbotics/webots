@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 #include <stdio.h>
 
@@ -75,7 +76,8 @@ int main(int argc, char **argv) {
 
     wb_motor_set_velocity(left_motor, -speed);
     wb_motor_set_velocity(right_motor, -speed);
-    printf("\fPosition: %+f -> control force: %+f\n", position, speed);
+    ANSI_CLEAR_CONSOLE();
+    printf("Position: %+f -> control force: %+f\n", position, speed);
 
     previous_position = position;
   };

@@ -1,19 +1,26 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
+# tags: static
 # The "IRB 4600/40" is a 6 DOF arm developed by ABB: https://new.abb.com/products/robotics/industrial-robots/irb-4600
 # It has a payload of 40kg.
 
 PROTO Irb4600-40 [
-  field SFVec3f    translation  0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation     0 1 0 0       # Is `Transform.rotation`.
-  field SFString   name         "IRB 4600/40" # Is `Solid.name`.
-  field MFNode     handSlot     []            # Extends the arm with new nodes in the arm slot.
-  field SFColor    color        1 0.45 0      # Is `PBRAppearance.baseColor`.
+  field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0               # Is `Transform.rotation`.
+  field SFString   name            "IRB 4600/40"         # Is `Solid.name`.
+  field SFString   controller      "inverse_kinematics"  # Is `Robot.controller`.
+  field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
+  field SFString   customData      ""                    # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE                 # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE                  # Is `Robot.synchronization`.
+  field SFColor    color           1 0.45 0              # Is `PBRAppearance.baseColor`.
+  field MFNode     handSlot        []                    # Extends the arm with new nodes in the hand slot.
+  field SFBool     staticBase      FALSE                 # Defines if the robot base should be pinned to the static environment.
 ]
 {
-  Solid {
+  Robot {
     translation IS translation
     rotation IS rotation
     name IS name
@@ -387,8 +394,15 @@ PROTO Irb4600-40 [
         }
       ]
     }
+    %{ if fields.staticBase.value == false then }%
     physics Physics {
       density 1500
     }
+    %{ end }%
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
   }
 }

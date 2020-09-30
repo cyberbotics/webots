@@ -160,14 +160,9 @@ void dxThreadManagerPthread::reinit(int numThreads)
     if (numThreads > threadCount)
     {
         // first, adjust barrier limit
-#ifdef ODE_DEBUG
-        int result1 = ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
-        int result2 = ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
-        ODE_INFO("pthread barrier reinit results: %d %d\n", result1, result2);
-#else
        ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
        ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
-#endif
+
         // all threads must skip this frame
         for (int i=0; i<threadCount; i++)
             pthread_mutex_unlock(&threadSkipMutex[i]);
@@ -210,14 +205,9 @@ void dxThreadManagerPthread::reinit(int numThreads)
         ode_barrier_wait(&simLoopBarrier1);
 
         // first, adjust barrier limit
-#ifdef ODE_DEBUG
-        int result1 = ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
-        int result2 = ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
-        ODE_PRINT("pthread barrier reinit results: %d %d\n", result1, result2);
-#else
         ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
         ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
-#endif
+
         ode_barrier_wait(&simLoopBarrier2);
         for (int i=0; i<numThreads; i++)
             pthread_mutex_lock(&threadSkipMutex[i]);

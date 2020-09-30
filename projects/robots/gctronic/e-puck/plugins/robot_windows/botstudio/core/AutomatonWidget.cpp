@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  */
 
 #include "AutomatonWidget.hpp"
+
 #include "AutomatonScene.hpp"
 
 #include <QtCore/qmath.h>
@@ -49,7 +50,7 @@ AutomatonWidget::~AutomatonWidget() {
 
 void AutomatonWidget::wheelEvent(QWheelEvent *e) {
   double direction = 1.0;
-  if (e->delta() < 0)
+  if (e->angleDelta().y() < 0)
     direction = -1.0;
   mZoomFactor += mWheelAttenuation * direction;
 
@@ -103,9 +104,9 @@ void AutomatonWidget::updateCursor() {
 
 void AutomatonWidget::resetMatrix() {
   double scale = qPow(2.0, mZoomFactor);
-  QMatrix matrix;
-  matrix.scale(scale, scale);
-  setMatrix(matrix);
+  QTransform transform;
+  transform.scale(scale, scale);
+  setTransform(transform);
 }
 
 void AutomatonWidget::setMode(int mode) {

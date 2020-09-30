@@ -1,12 +1,13 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 8
   defaultDamping Damping {
     linear 0.4
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0598936 0.985395 0.159402 3.55295
+  orientation 0.05989361356740354 0.9853952232166979 0.1594020361085535 3.55295
   position -1.49557 2.58777 -5.25137
 }
 PointLight {
@@ -29,7 +30,6 @@ DEF BALL_A Solid {
   ]
   boundingObject USE SHAPE
   physics Physics {
-    # default damping: 0.4
   }
 }
 DEF BALL_B Solid {

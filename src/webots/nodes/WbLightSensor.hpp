@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,6 +66,7 @@ private:
   void postProcessLightMeasurement();
   void applyOptionalRenderingToWren();
   void updateRaysSetupIfNeeded() override;
+  void addConfigure(QDataStream &);
 
   // user accessible fields
   WbMFVector3 *mLookupTable;
@@ -86,6 +87,7 @@ private:
   WbRgb *mRgbIntensity;
   double mValue;  // current sensor value according to lookup table
   bool mSensorUpdateRequested;
+  bool mNeedToReconfigure;
 
 private slots:
   void updateLineScale() override;

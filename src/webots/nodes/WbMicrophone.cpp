@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -61,7 +61,7 @@ void WbMicrophone::postFinalize() {
 
 void WbMicrophone::updateAperture() {
   if (mAperture->value() < 0.0 && mAperture->value() != -1.0)
-    warn(tr("'aperture' must be either -1 (infinity) or between 0 and 2*pi."));
+    parsingWarn(tr("'aperture' must be either -1 (infinity) or between 0 and 2*pi."));
 }
 
 void WbMicrophone::writeConfigure(QDataStream &stream) {

@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import platform
 import sys
 
 # Due to the use of pathlib and winreg.
-assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
+assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 
 def cleanupLinuxPreferences():

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,6 @@ public:
   // Texture features
   int width() const;
   int height() const;
-  int filtering() const;
 
   // external texture
   void setExternalTexture(WrTexture *texture, unsigned char *image, double ratioX, double ratioY);
@@ -64,6 +63,8 @@ public:
   QString path();
 
   void setRole(const QString &role) { mRole = role; }
+
+  void write(WbVrmlWriter &writer) const override;
 
 signals:
   void changed();
@@ -93,6 +94,7 @@ private:
 
   QString mContainerField;
   QImage *mImage;
+  int mUsedFiltering;
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
 

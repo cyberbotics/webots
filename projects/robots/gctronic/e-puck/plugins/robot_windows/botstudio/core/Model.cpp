@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -70,7 +70,11 @@ void Model::fromString(const QString &string) {
     throw tr("Header not readable");
 
   QString header = string.left(firstNewLineIndex);
+#ifdef __APPLE__
   QStringList headerList = header.split(QRegExp("[#. ]"), QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList headerList = header.split(QRegExp("[#. ]"), Qt::SkipEmptyParts);
+#endif
   if (headerList.size() == 3 && headerList[0] == "botstudio") {
     int macro = headerList[1].toInt();
     int micro = headerList[2].toInt();

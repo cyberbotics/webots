@@ -1,11 +1,14 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation -0.19920914005649323 0.931739910309809 0.3036057609035462 2.044147209923416
+  orientation -0.13622657415385275 0.9621806663584627 0.23590397576193894 2.1272867344043545
   position 4.346352901316498 4.1279446383556495 3.283932116526418
+  follow "robot:IRB 4600/40:solid:solid:solid:solid:solid:solid:pen"
+  followType "Pan and Tilt Shot"
 }
 TexturedBackground {
   texture "empty_office"
@@ -29,69 +32,64 @@ Floor {
   appearance ThreadMetalPlate {
   }
 }
-Robot {
-  translation -1 0 4.84
-  children [
-    Table {
-      size 3 0.74 3
-      feetPadding 0.05
-      frameThickness 0.1
-      trayAppearance OldSteel {
-        textureTransform TextureTransform {
-          scale 2 2
-        }
-      }
-      legAppearance GalvanizedMetal {
-      }
-    }
-    DEF ARM Irb4600-40 {
-      translation 1 0.74 0
-      rotation 1 0 0 4.712388966
-      handSlot [
-        Pen {
-          translation 0 0 0.02
-          rotation 1 0 0 -1.5708
+Irb4600-40 {
+  translation 0 0.74 4.84
+  rotation 1 0 0 4.712388966
+  supervisor TRUE
+  handSlot [
+    Pen {
+      translation 0 0 0.02
+      rotation 1 0 0 -1.5708
+      children [
+        Transform {
+          translation 0 0.05 0
           children [
-            Transform {
-              translation 0 0.05 0
-              children [
-                Shape {
-                  appearance BrushedAluminium {
-                    colorOverride 0 0.4131074998092622 0.9919279774166476
-                  }
-                  geometry Cylinder {
-                    height 0.05
-                    radius 0.04
-                    subdivision 24
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation 0 0.04 0
-              children [
-                Shape {
-                  appearance BrushedAluminium {
-                    colorOverride 0 0 0
-                  }
-                  geometry Cylinder {
-                    height 0.07
-                    radius 0.01
-                    subdivision 12
-                  }
-                }
-              ]
+            Shape {
+              appearance BrushedAluminium {
+                colorOverride 0 0.4131074998092622 0.9919279774166476
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.04
+                subdivision 24
+              }
             }
           ]
-          leadSize 0.01
-          maxDistance 0.05
-          write FALSE
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance BrushedAluminium {
+                colorOverride 0 0 0
+              }
+              geometry Cylinder {
+                height 0.07
+                radius 0.01
+                subdivision 12
+              }
+            }
+          ]
         }
       ]
+      leadSize 0.01
+      maxDistance 0.05
     }
   ]
-  controller "inverse_kinematics"
-  supervisor TRUE
+  staticBase TRUE
+}
+Table {
+  translation -1 0 4.84
+  size 3 0.74 3
+  feetPadding 0.05
+  frameThickness 0.1
+  trayAppearance OldSteel {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+  legAppearance GalvanizedMetal {
+  }
 }
 DEF TABLE_WITH_PAPER_SHEET Transform {
   translation 1.1 0 5.8
@@ -116,6 +114,7 @@ DEF TABLE_WITH_PAPER_SHEET Transform {
       ]
     }
     Table {
+      name "table with paper"
       size 1 0.74 1
       feetPadding 0.05
       frameThickness 0.1

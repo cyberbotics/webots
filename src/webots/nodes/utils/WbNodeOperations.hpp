@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,6 +46,8 @@ public:
 
   // import a .wrl file and append its nodes at the end of the current world
   OperationResult importVrml(const QString &filename, int *importedNodesNumber = NULL, bool fromSupervisor = false);
+  OperationResult importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals,
+                                      bool importAppearances, bool importAsSolid, bool importBoundingObjects);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
                               bool subscribe = false);
@@ -54,6 +56,7 @@ public:
 
   void notifyNodeAdded(WbNode *node);
   void notifyNodeDeleted(WbNode *node);
+  void notifyNodeRegenerated();
 
   void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 

@@ -29,7 +29,7 @@ A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
 The world files must be stored directly in a directory called `worlds`.
 
-> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
+> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button ![](images/pause-button.png =26x26) of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
@@ -52,7 +52,7 @@ It should currently list the following nodes:
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
 - [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
 - [TexturedBackground](object-backgrounds.md#texturedbackground): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
-- [TexturedBackroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
+- [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
 - [RectangleArena](object-floors.md#rectanglearena): define the only object you see so far in this scene.
 
 Each node has some customizable properties called **Fields**.
@@ -69,7 +69,7 @@ In the [scene tree view](the-scene-tree.md), the fields are displayed in a diffe
 Now, we would like to add some objects:
 
 > **Hands-on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
-Click on the `Add` button (plus sign) at the top of the scene tree.
+Click on the `Add` button ![](images/add-button.png =26x26) at the top of the scene tree.
 In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factory / containers / WoodenBox (Solid)`.
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
@@ -96,7 +96,7 @@ We will learn how to use other capabilities in the next tutorials.
 
 Now, we are going to add an e-puck model to the world.
 Make sure that the simulation is paused and that the virtual time elapsed is 0.
-If this is not the case, reset the simulation with the `Reset` button ([rewind](the-user-interface.md)).
+If this is not the case, reset the simulation with the `Reset` button ![](images/reset-simulation-button.png =26x26).
 
 When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
 Otherwise at each save, the position of each 3D object can accumulate errors.
@@ -106,11 +106,11 @@ We don't need to create the e-puck robot from scratch, we will just have to impo
 This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before. Prototyping allows you to create custom objects and to reuse them.
 
 > **Hands-on #5**: Select the last node `WoodenBox` of the scene tree view.
-Click on the `Add` button (plus sign) at the top of the scene tree view.
+Click on the `Add` button ![](images/add-button.png =26x26) at the top of the scene tree view.
 In the dialog box, choose `PROTO nodes (Webots Projects) / robots / gctronic / e-puck / E-puck (Robot)`.
 An e-puck robot should appear in the middle of the arena.
 Move and rotate this robot, the same way you did it with the boxes.
-Save the simulation and press the `Run real-time` button (right arrow).
+Save the simulation and press the `Run real-time` button ![](images/realtime-button.png =26x26).
 
 The robot should move, blink LEDs and avoid obstacles.
 That's because it has a default controller with that behavior.
@@ -131,7 +131,7 @@ It is not possible to apply a force to a `WoodenBox` node, because by default, t
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
 Once this is done, should be able to apply a force on them as well.
 
-The simulation may be paused (pause button), run step-by-step (step button), in real time (right arrow button), in run (double right arrow button) or in fast (triple right arrow button) modes.
+The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26), in run ![](images/run-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
@@ -156,17 +156,17 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands-on #8**: Create a new C (or any other language) controller called `e-puck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
-This will create a new `e-puck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
+> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
+This will create a new `epuck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
 The new source file is displayed in Webots text editor window.
 This source file may be compiled (if written in C, C++ or Java) without any modification, however the current code has no real effect.
-We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
+We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
 
 %tab-component "language"
 %tab "C"
-> **Hands-on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands-on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
 >```c
@@ -237,7 +237,7 @@ We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller t
 %tab-end
 
 %tab "Python"
-> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
@@ -296,7 +296,7 @@ We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller t
 %tab-end
 
 %tab "MATLAB"
-> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
 >```MATLAB
@@ -319,13 +319,13 @@ We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller t
 If everything is fine, your robot should move forwards.
 The robot will move using its maximum speed for a while and then stop once the wheels have rotated of 10 radians.
 
-In the `controllers` directory of your project, a directory containing the `e-puck_go_forward` (or `EPuckGoForward`) controller has been created.
-The `e-puck_go_forward` (or `EPuckGoForward`) directory contains a `e-puck_go_forward` (or `EPuckGoForward`) binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
+In the `controllers` directory of your project, a directory containing the `epuck_go_forward` (or `EPuckGoForward`) controller has been created.
+The `epuck_go_forward` (or `EPuckGoForward`) directory contains a `epuck_go_forward` (or `EPuckGoForward`) binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
 The controller directory name should match with the binary name.
 
 ### Extend the Controller to Speed Control
 
-The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
+The robots wheels are often controlled using velocity, and not position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and to set the desired speed:
 
 %tab-component "language"
@@ -486,7 +486,7 @@ In order to control the motors of the wheels in speed you need to set the target
 %end
 
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
-If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or click on the gear icon above the code area.
+If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or clicking on the gear icon ![](images/build-button.png =26x26) above the code area.
 Compilation errors are displayed in red in the console.
 If there are any, fix them and retry to compile.
 Then, reload the world.

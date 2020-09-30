@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,8 +48,8 @@ TARGET = $(MAKECMDGOALS)
 endif
 endif
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
@@ -59,24 +59,24 @@ release debug profile: docs webots_target
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
-	@+make --silent -C src/packaging
+	@+make --silent -C scripts/packaging
 ifeq ($(OSTYPE),darwin)
-	@+src/packaging/webots.mac
+	@+scripts/packaging/webots.mac
 endif
 ifeq ($(OSTYPE),linux)
-	@+src/packaging/webots.deb
+	@+scripts/packaging/webots.deb
 endif
 	$(eval DT := `expr \`date +%s\` - $(START)`)
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
 
 ifeq ($(OSTYPE),windows)
-CLEAN_IGNORE += -e lib/qt -e include/qt
+CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
 
 # we should make clean before building a release
 clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
-	@+make --silent -C src/packaging clean
+	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
 	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -fv -- {} \;
 ifeq ($(MAKECMDGOALS),clean)
@@ -90,6 +90,9 @@ cleanse: clean
 	@rm -rf $(WEBOTS_DISTRIBUTION_PATH)/*
 ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
+endif
+ifeq ($(OSTYPE),darwin)
+	@rm -rf Contents/Frameworks Contents/MacOS
 endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
@@ -114,7 +117,7 @@ endif
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
 	@+echo "#"; echo "# * libController *"; echo "#"
-	@+make --silent -C src/lib/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+make --silent -C src/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
@@ -153,7 +156,7 @@ clean-docs:
 
 install:
 	@+echo "#"; echo "# * installing (snap) *";
-	@+make --silent -C src/packaging -f Makefile install
+	@+make --silent -C scripts/packaging -f Makefile install
 
 help:
 	@+echo
@@ -163,9 +166,9 @@ help:
 	@+echo -e "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
 	@+echo -e "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
 	@+echo -e "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
-	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# cleanu-up the compilation output"
+	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
 	@+echo -e "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
-	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exits"
+	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exit"
 	@+echo
 	@+echo -e "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
 	@+echo -e "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,8 +54,8 @@ void WbZoom::updateMinFieldOfView() {
   if (WbFieldChecker::resetDoubleIfNegative(this, mMinFieldOfView, 0.0))
     return;
   if (mMinFieldOfView->value() > mMaxFieldOfView->value()) {
-    warn(tr("Invalid 'minFieldOfView' changed to %1. The value should be smaller or equal to 'maxFieldOfView'.")
-           .arg(mMaxFieldOfView->value()));
+    parsingWarn(tr("Invalid 'minFieldOfView' changed to %1. The value should be smaller or equal to 'maxFieldOfView'.")
+                  .arg(mMaxFieldOfView->value()));
     mMinFieldOfView->setValue(mMaxFieldOfView->value());
     return;
   }
@@ -63,8 +63,8 @@ void WbZoom::updateMinFieldOfView() {
 
 void WbZoom::updateMaxFieldOfView() {
   if (mMaxFieldOfView->value() < mMinFieldOfView->value()) {
-    warn(tr("Invalid 'maxFieldOfView' changed to %1. The value should be bigger or equal to 'minFieldOfView'.")
-           .arg(mMinFieldOfView->value() + 0.1));
+    parsingWarn(tr("Invalid 'maxFieldOfView' changed to %1. The value should be bigger or equal to 'minFieldOfView'.")
+                  .arg(mMinFieldOfView->value() + 0.1));
     mMaxFieldOfView->setValue(mMinFieldOfView->value() + 0.1);
     return;
   }

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.39460194 0.86719286 0.30375295 4.78607
+  orientation 0.39460193958163403 0.8671928590805823 0.30375294967795424 4.78607
   position -1.88387 1.84611 0.30522
 }
 Background {
@@ -83,7 +84,9 @@ DEF ROBOT0 Robot {
   ]
   name "robot0"
   controller "emitter_receiver_serial_aperture"
-  controllerArgs "emitter_receiver_serial_aperture_emitter_0"
+  controllerArgs [
+    "emitter_receiver_serial_aperture_emitter_0"
+  ]
 }
 DEF ROBOT1 Robot {
   translation 0.3 0.05 0.3
@@ -129,7 +132,9 @@ DEF ROBOT1 Robot {
   ]
   name "robot1"
   controller "emitter_receiver_serial_aperture"
-  controllerArgs "emitter_receiver_serial_aperture_emitter_1"
+  controllerArgs [
+    "emitter_receiver_serial_aperture_emitter_1"
+  ]
 }
 DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
@@ -175,7 +180,9 @@ DEF ROBOT2 Robot {
   ]
   name "robot2"
   controller "emitter_receiver_serial_aperture"
-  controllerArgs "emitter_receiver_serial_aperture_receiver_2"
+  controllerArgs [
+    "emitter_receiver_serial_aperture_receiver_2"
+  ]
 }
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
@@ -223,7 +230,9 @@ DEF ROBOT3 Robot {
   ]
   name "robot3"
   controller "emitter_receiver_serial_aperture"
-  controllerArgs "emitter_receiver_serial_aperture_receiver_3"
+  controllerArgs [
+    "emitter_receiver_serial_aperture_receiver_3"
+  ]
 }
 TestSuiteSupervisor {
 }

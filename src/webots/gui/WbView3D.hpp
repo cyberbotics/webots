@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 // Description: 3D window for displaying the scene and for switching the display mode
 //
 
+#include "WbAction.hpp"
 #include "WbWrenWindow.hpp"
 
 #include <wren/camera.h>
@@ -63,7 +64,8 @@ public:
   // rendering
   void showFastModeOverlay();
   void hideFastModeOverlay();
-  void remoteMouseEvent(QMouseEvent *event);
+  // in case the context menu show is triggered, return the selected WbMatter node
+  const WbMatter *remoteMouseEvent(QMouseEvent *event);
   void remoteWheelEvent(QWheelEvent *event);
 
   void prepareWorldLoading();
@@ -77,6 +79,7 @@ public:
   void restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
                                 const QStringList &enabledCenterOfBuoyancyNodeNames,
                                 const QStringList &enabledSupportPolygonNodeNames) const;
+  void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled);
 
   void enableResizeManipulator(bool enabled);
   void resizeWren(int width, int height) override;
@@ -122,11 +125,9 @@ private:
   static int cView3DNumber;
   WrCameraProjectionMode mProjectionMode;
   WrViewportPolygonMode mRenderingMode;
-  int mRefreshCounter;
-  QTime *mMousePressTime;
+  QElapsedTimer *mMousePressTimer;
   QPoint mMousePressPosition;
-  bool mSelectionDisabled;
-  bool mViewpointLocked;
+  QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   double mAspectRatio;
   WbWrenFullScreenOverlay *mFastModeOverlay;
   WbWrenFullScreenOverlay *mLoadingWorldOverlay;
@@ -184,6 +185,8 @@ private:
   bool mMouseEventInitialized;
   QCursor mLastMouseCursor;
   Qt::MouseButtons mLastButtonState;
+  bool mIsRemoteMouseEvent;
+  WbMatter *mRemoteContextMenuMatter;
 
   // On selection changed
   void setCheckedShowCenterOfMassAction(WbSolid *selectedSolid);
@@ -234,10 +237,14 @@ private slots:
   void setShowLightsPositions(bool show);
   void setShowPenPaintingRays(bool show);
   void setShowSkeletonAction(bool show);
+  void setShowNormals(bool show);
   void setShowPhysicsClustersAction(bool show);
   void setShowBoundingSphereAction(bool show);
-  void setSelectionDisabled(bool disabled);
-  void setViewPointLocked(bool locked);
+  void setViewPointLocked(bool locked) { setUserInteractionDisabled(WbAction::LOCK_VIEWPOINT, locked); }
+  void setSelectionDisabled(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_SELECTION, disabled); }
+  void setContextMenuDisabled(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, disabled); }
+  void disableObjectMove(bool disabled);
+  void disableApplyForceAndTorque(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE, disabled); }
   void updateMousesPosition(bool fromMouseClick = false, bool fromMouseMove = false);
 
   void cleanWorld() { mWorld = NULL; }

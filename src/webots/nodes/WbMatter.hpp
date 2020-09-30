@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,12 +72,14 @@ public:
   void forwardJerk() override { mNeedToHandleJerk = true; }
 
   // selection
-  void select(bool s);
+  void select(bool selected);
   bool isSelected() const { return mSelected; }
   bool isLocked() const { return mLocked->value(); }
 
   // ODE positioning
   void updateOdeGeomPosition() { updateOdeGeomPosition(odeGeom()); }
+
+  static void enableShowMatterCenter(bool enabled) { cShowMatterCenter = enabled; }
 
 signals:
   void matterNameChanged();
@@ -172,6 +174,8 @@ private:
   WrStaticMesh *mMatterCenterMesh;
 
   void connectNameUpdates() const;
+
+  static bool cShowMatterCenter;
 
 private slots:
   virtual void updateBoundingObject() = 0;

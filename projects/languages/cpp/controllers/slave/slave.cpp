@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 #include <webots/Motor.hpp>
 #include <webots/Receiver.hpp>
 #include <webots/Robot.hpp>
+#include <webots/utils/AnsiCodes.hpp>
 
 #include <algorithm>
 #include <iostream>
@@ -85,7 +86,7 @@ void Slave::run() {
       string message((const char *)receiver->getData());
       receiver->nextPacket();
 
-      cout << "I should " << message << "!" << endl;
+      cout << "I should " << AnsiCodes::RED_FOREGROUND << message << AnsiCodes::RESET << "!" << endl;
 
       if (message.compare("avoid obstacles") == 0)
         mode = AVOID_OBSTACLES;

@@ -8,7 +8,7 @@ Fluid {
   SFString name           "fluid"   # any string
   SFString model          ""        # any string
   SFString description    ""        # any string
-  SFFloat  density        1000      # {-1, [0, inf)} 
+  SFFloat  density        1000      # {-1, [0, inf)}
   SFFloat  viscosity      0.001     # [0, inf)
   SFVec3f  streamVelocity 0 0 0     # any vector
   SFNode   boundingObject NULL      # {node, PROTO}
@@ -37,10 +37,10 @@ This is the name used in a [ImmersionProperties](immersionproperties.md) to refe
 
 - `description`: short description (1 line) of the fluid.
 
-- `density`: density of the fluid expressed in kg/m^3; it defaults to water density.
+- `density`: density of the fluid expressed in *kilogram per cubic meter* [kg/m³]; it defaults to water density.
 The fluid density is taken into account for the computations of Archimedes' thrust, drag forces and drag torques, see [ImmersionProperties](immersionproperties.md).
 
-- `viscosity`: dynamic viscosity of the fluid expressed in kg/(ms).
+- `viscosity`: dynamic viscosity of the fluid expressed in *pascal second* [Pa·s = N·s/m²].
 It defaults to viscosity of water at 20 degrees Celsius.
 
 - `streamVelocity`: fluid linear velocity, the flow being assumed laminar.

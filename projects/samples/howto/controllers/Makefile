@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,30 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-DIRECTORIES=$(subst vision,,$(subst force_control_matlab,,$(subst Makefile,,$(shell ls))))
+DIRECTORIES=$(subst force_control_matlab,,$(subst Makefile,,$(shell ls)))
 TARGETS = $(DIRECTORIES:=.Makefile)
 
 .PHONY: release debug profile clean
 
-ifeq ($(OSTYPE),windows)
-ifeq (,$(shell which opencv_version 2> /dev/null))
-NO_OPENCV = 1
-else
-TARGETS += vision.Makefile
-endif
-else
-TARGETS += vision.Makefile
-endif
-
 release debug profile clean: $(TARGETS)
-ifeq ($(NO_OPENCV),1)
-	@+echo -e "# \033[0;33mopencv not installed, skipping vision controller\033[0m"
-endif
 
 %.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)

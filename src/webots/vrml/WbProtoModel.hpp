@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ class WbFieldModel;
 class WbNode;
 class WbTokenizer;
 
+#include "WbVersion.hpp"
+
 #include <QtCore/QMap>
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -41,6 +43,9 @@ public:
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
 
+  // file version found in file header
+  const WbVersion &fileVersion() const { return mFileVersion; }
+
   // info comments (#) found at the beginning of the .proto file
   const QString &info() const { return mInfo; }
 
@@ -55,6 +60,11 @@ public:
 
   // documentation url the beginning of the .proto file (after the 'documentation url:' string)
   const QString &documentationUrl() const { return mDocumentationUrl; }
+  // return the documentation book and page for this PROTO model:
+  // - robot or object page matching the node name
+  // - if !skipProtoTag: data specified in PROTO 'documentation url' tag
+  // - empty if none of the previous searches are successful
+  QStringList documentationBookAndPage(bool isRobot, bool skipProtoTag) const;
 
   // field models
   WbFieldModel *findFieldModel(const QString &fieldName) const;
@@ -101,12 +111,14 @@ public:
   WbNode *generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId = -1);
 
 private:
+  // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoModel)
 
   QMap<QString, QString> mStaticContentMap;
   QString mContent;
 
   bool mTemplate;
+  WbVersion mFileVersion;
   QString mName;
   QString mInfo;
   bool mIsStatic;  // has the 'static' tag

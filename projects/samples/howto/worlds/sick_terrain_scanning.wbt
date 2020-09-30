@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Sick LMS 291 Terrain Scannings with obstacle avoidance on Pioneer 3AT robot (Adept MobileRobots)."
     "Thanks to Angelos Amanatiadis <aamanat@ee.duth.gr> Group of Robotics and Cognitive Systems - http://robotics.pme.duth.gr/amanatiadis"
   ]
   title "Pioneer 3AT"
+  coordinateSystem "NUE"
   lineScale 1
 }
 Viewpoint {
@@ -27,7 +28,6 @@ Robot {
       height 180
     }
     Transform {
-      translation -50 0 -50
       children [
         Shape {
           appearance PBRAppearance {
@@ -42,9 +42,8 @@ Robot {
               scale 3 3
             }
           }
-          geometry ElevationGrid {
-            xDimension 100
-            zDimension 100
+          geometry Plane {
+            size 100 100
           }
         }
       ]

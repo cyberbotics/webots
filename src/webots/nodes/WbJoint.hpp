@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ public:
   void postFinalize() override;
   void createWrenObjects() override;
   void reset() override;
+  virtual void resetPhysics();
   void save() override;
   virtual QVector<WbLogicalDevice *> devices() const;
 
@@ -60,6 +61,8 @@ signals:
   void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
 protected:
+  void writeExport(WbVrmlWriter &writer) const override;
+
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbJoint(const WbJoint &other);
   WbJoint(const WbNode &other);
@@ -88,12 +91,11 @@ protected slots:
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();
   void updateJointAxisRepresentation() override;
+  const QString urdfName() const override;
 
 private:
   WbJoint &operator=(const WbJoint &);  // non copyable
   void init();
-  WbVector3 mAnchor;  // anchor value with coordinates relative to Solid parent's frame; defaults to endPoint translation if
-                      // JointParameters is NULL, to zero if endPoint is NULL.
   virtual void applyToOdeMinAndMaxStop() = 0;
   virtual void applyToOdeAxis() = 0;
 };

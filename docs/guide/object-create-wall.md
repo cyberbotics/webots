@@ -19,7 +19,7 @@ CreateWall {
   SFFloat    range          2.4384
   SFFloat    aperture       0.157
   SFString   controller     "create_wall_emit_signal"
-  SFString   controllerArgs ""
+  MFString   controllerArgs []
   SFBool     supervisor     FALSE
   SFString   name           "iRobot wall"
 }

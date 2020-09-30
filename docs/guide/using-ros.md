@@ -21,14 +21,13 @@ The user contributed packages are licensed under a variety of open source licens
 There are two ways to use ROS with Webots.
 
 The first solution and the easiest one is to use the **standard ROS controller**.
-This solution however doesn't work on Windows, it works only on Linux and macOS.
+This solution however doesn't work on Windows and macOS, it works only on Linux.
 It is part of the Webots default controllers and is available in any project.
 This controller can be used on any robot in Webots and acts as a ROS node, providing all the Webots functions as services or topics to other ROS nodes.
 
 The second solution named **custom ROS controller** requires that you build your own Webots controller that will also be a ROS node using Webots and ROS libraries.
-It is therefore a bit more complicated than the first solution.
-This solution works on Windows (in Python) in addition to Linux and macOS.
-It should only be used for specific applications that cannot be done with the standard ROS controller.
+This solution works on Windows and macOS (in Python) in addition to Linux.
+It is a bit more difficult to set up but allows for more flexibility.
 
 ### Standard ROS Controller
 
@@ -46,6 +45,8 @@ Therefore the controller uses a specific syntax to declare its services or topic
 `[service/topic_name]`: this field is identical or very close to the Webots function it corresponds to.
 For topics, it is followed by the sampling period.
 For services, it is also the name of the corresponding srv file.
+
+> **Note**: On Windows the standard ROS controller is not available, use the [custom ROS controller](#custom-ros-controller) instead.
 
 #### Using the Standard ROS Controller
 
@@ -87,7 +88,13 @@ In this case, you can build your own custom ROS controller.
 
 It is possible to implement such a ROS node in C++ using the "roscpp" library on Linux and macOS.
 However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.
+An example is provided [here](https://github.com/cyberbotics/webots/tree/master/projects/vehicles/controllers/ros_automobile) to create a specific controller for controlling a vehicle.
 
-On Windows, Linux and macOS, such a controller can be implemented in Python by importing both ROS libraries (including [rospy](http://wiki.ros.org/rospy)) and Webots libraries (controller) in a Webots robot or supervisor controller.
-A simple example of a Python custom ROS controller is provided in the `WEBOTS_HOME/projects/languages/ros/controllers/ros_python/` folder.
-A `README.md` file provides all the necessary details to understand it and further extend it.
+An even more generic solution, is to use an [extern controller](running-extern-robot-controllers.md) and run the controller as a regular ROS node on the ROS side.
+A very simple example is provided [here](https://github.com/cyberbotics/webots/blob/master/projects/languages/ros/webots_ros/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
+A launch file is available to launch Webots with the correct world file, the extern controller and a simple ROS node moving the robot straight as long as there is no obstacle (detected using the front [DistanceSensor](../reference/distancesensor.md)), it can be launched with:
+```
+roslaunch webots_ros webots_ros_python.launch
+```
+
+A [second more complicated example](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).

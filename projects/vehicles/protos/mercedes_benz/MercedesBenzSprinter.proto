@@ -1,0 +1,119 @@
+#VRML_SIM R2021a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Model of a Mercedes-Benz Sprinter.
+
+PROTO MercedesBenzSprinter [
+  field SFVec3f      translation              0 0.4445 0
+  field SFRotation   rotation                 0 1 0 0
+  field SFColor      color                    0.98 0 0.1
+  field SFString     name                     "Mercedes-Benz Sprinter"
+  field SFString     controller               "void"
+  field MFString     controllerArgs           [ ]
+  field SFBool       supervisor               FALSE
+  field SFBool       synchronization          TRUE
+  field MFNode       sensorsSlotFront         [ ]
+  field MFNode       sensorsSlotRear          [ ]
+  field MFNode       sensorsSlotTop           [ ]
+  field MFNode       sensorsSlotCenter        [ ]
+  field SFBool       interior                 FALSE
+]
+{
+  Car {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    model "Mercedes-Benz Sprinter"
+    wheelbase 4.325
+    suspensionFrontSpringConstant 200000
+    suspensionFrontDampingConstant 5000
+    suspensionRearSpringConstant 600000
+    suspensionRearDampingConstant 5000
+    maxSteeringTorque 13000
+    extensionSlot [
+      Group {
+        children IS sensorsSlotCenter
+      }
+      Transform {
+        translation 0 0.47 5.31
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.19 -1.62
+        children IS sensorsSlotRear
+      }
+      Transform {
+      translation 0 2.3 2.99
+      rotation 0 1 0 3.141592653589793
+        children IS sensorsSlotTop
+      }
+      MercedesBenzSprinterMesh {
+        color IS color
+      %{ if fields.interior.value then }%
+        windowTransparency 0.7
+      %{ end }%
+      }
+      MercedesBenzSprinterLights {
+      }
+      MercedesBenzSprinterLogos {
+      }
+      %{ if fields.interior.value then }%
+      MercedesBenzSprinterInterior {
+      }
+      %{ end }%
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.52 1.69
+          children [
+            Box {
+              size 2 1 6.6
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.64 0.67
+          children [
+            Box {
+              size 1.95 1.3 4.5
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.09128 3.60031
+          rotation 1 0 0 0.55
+          children [
+            Box {
+              size 1.88 1.3 2.5
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 4500
+      centerOfMass [
+        0 0 1.5
+      ]
+    }
+    radarCrossSection 150
+    recognitionColors [
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    ]
+    engineFunctionCoefficients 600 0.2 0
+    brakeCoefficient 3500
+    time0To100 14
+    maxVelocity 29.18
+    engineMinRPM 800
+    engineMaxRPM 4000
+  }
+}

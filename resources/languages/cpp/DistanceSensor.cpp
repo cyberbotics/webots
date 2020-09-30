@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,14 @@ double DistanceSensor::getMinValue() const {
 
 double DistanceSensor::getAperture() const {
   return wb_distance_sensor_get_aperture(getTag());
+}
+
+int DistanceSensor::getLookupTableSize() const {
+  return wb_distance_sensor_get_lookup_table_size(getTag());
+}
+
+const double *DistanceSensor::getLookupTable() const {
+  return wb_distance_sensor_get_lookup_table(getTag());
 }
 
 DistanceSensor::Type DistanceSensor::getType() const {

@@ -34,7 +34,7 @@ TinkerbotsBase {
   field SFRotation rotation                               0 0 1 0
   field SFString   name                                   "Tinkerbots"
   field SFString   controller                             "tinkerbots_demo"
-  field SFString   controllerArgs                         ""
+  field MFString   controllerArgs                         []
   field SFString   customData                             ""
   field SFBool     supervisor                             FALSE
   field SFBool     synchronization                        TRUE

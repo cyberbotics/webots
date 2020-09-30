@@ -1,79 +1,79 @@
 {
-  "robotID": "n11", 
-  "name": "microbot", 
+  "robotID": "n10",
+  "name": "microbot",
   "devices": [
     {
-      "transformID": "n72", 
-      "initialPosition": 0, 
-      "name": "left wheel motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "0 -0.009 0.012",
+      "axis": "-1 0 0",
+      "transformID": "n71",
+      "position": 0,
+      "name": "left wheel motor",
+      "minPosition": 0
+    },
     {
-      "transformID": "n91", 
-      "initialPosition": 0, 
-      "name": "right wheel motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "0 -0.009 0.012",
+      "axis": "-1 0 0",
+      "transformID": "n90",
+      "position": 0,
+      "name": "right wheel motor",
+      "minPosition": 0
+    },
     {
-      "transformID": "n24", 
-      "name": "left led", 
-      "ledPBRAppearanceIDs": [
-        "n27"
-      ], 
       "ledColors": [
         "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n30", 
-      "name": "right led", 
+      ],
+      "ledGradual": false,
+      "type": "LED",
+      "transformID": "n23",
       "ledPBRAppearanceIDs": [
-        "n33"
-      ], 
+        "n26"
+      ],
+      "name": "left led"
+    },
+    {
       "ledColors": [
         "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "ledGradual": false,
+      "type": "LED",
+      "transformID": "n29",
+      "ledPBRAppearanceIDs": [
+        "n32"
+      ],
+      "name": "right led"
+    },
     {
-      "transformID": "n58", 
-      "type": "DistanceSensor", 
+      "transformID": "n57",
+      "type": "DistanceSensor",
       "name": "floor sensor"
-    }, 
+    },
     {
-      "transformID": "n36", 
-      "type": "TouchSensor", 
+      "transformID": "n35",
+      "type": "TouchSensor",
       "name": "left bumper"
-    }, 
+    },
     {
-      "transformID": "n72", 
-      "type": "PositionSensor", 
+      "transformID": "n71",
+      "type": "PositionSensor",
       "name": "left wheel sensor"
-    }, 
+    },
     {
-      "transformID": "n13", 
-      "type": "TouchSensor", 
+      "transformID": "n12",
+      "type": "TouchSensor",
       "name": "push button"
-    }, 
+    },
     {
-      "transformID": "n47", 
-      "type": "TouchSensor", 
+      "transformID": "n46",
+      "type": "TouchSensor",
       "name": "right bumper"
-    }, 
+    },
     {
-      "transformID": "n91", 
-      "type": "PositionSensor", 
+      "transformID": "n90",
+      "type": "PositionSensor",
       "name": "right wheel sensor"
     }
   ]

@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.178256 0.983235 -0.0383914 5.70569
+  orientation 0.17825598517311697 0.9832349182170007 -0.03839139680670049 5.70569
   position -2.05173 0.237744 2.4162
 }
 Background {
@@ -45,7 +46,9 @@ Robot {
     }
   ]
   controller "camera_checker"
-  controllerArgs "camera_color_focus"
+  controllerArgs [
+    "camera_color_focus"
+  ]
 }
 TestSuiteSupervisor {
 }

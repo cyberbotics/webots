@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ public:
   WbSolid *solidEndPoint() const;
   WbSolidReference *solidReference() const;
   WbSolid *solidParent() const;
-  dJointID jointID() const { return mJoint; }
+  virtual dJointID jointID() const { return mJoint; }
   // endPoint Solid translation and rotation if joint position is 0
   const WbVector3 &zeroEndPointTranslation() const { return mEndPointZeroTranslation; }
   const WbRotation &zeroEndPointRotation() const { return mEndPointZeroRotation; }
@@ -108,6 +108,8 @@ protected:
   WrRenderable *mRenderable;
   WrStaticMesh *mMesh;
   WrMaterial *mMaterial;
+
+  const bool isJoint() const override { return true; }
 
 protected slots:
   virtual void updateParameters() = 0;

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #include "WbJoint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMotor.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -86,6 +88,14 @@ void WbJoint::reset() {
     mDevice->item(i)->reset();
 
   setPosition(mInitialPosition);
+}
+
+void WbJoint::resetPhysics() {
+  updatePosition();
+
+  WbMotor *const m = motor();
+  if (m)
+    m->resetPhysics();
 }
 
 void WbJoint::save() {
@@ -283,4 +293,65 @@ void WbJoint::updateJointAxisRepresentation() {
 
   mMesh = wr_static_mesh_line_set_new(2, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+}
+
+const QString WbJoint::urdfName() const {
+  if (motor())
+    return getUrdfPrefix() + motor()->deviceName();
+  else if (positionSensor())
+    return getUrdfPrefix() + positionSensor()->deviceName();
+  return WbBaseNode::urdfName();
+}
+
+void WbJoint::writeExport(WbVrmlWriter &writer) const {
+  if (writer.isUrdf() && solidEndPoint()) {
+    const WbNode *const parentRoot = findUrdfLinkRoot();
+    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
+    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
+    const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperTransform(this));
+
+    writer.increaseIndent();
+    writer.indent();
+    const WbMotor *m = motor();
+    if (m && (m->minPosition() != 0.0 || m->maxPosition() != 0.0))
+      writer << QString("<joint name=\"%1\" type=\"revolute\">\n").arg(urdfName());
+    else
+      writer << QString("<joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<parent link=\"%1\"/>\n").arg(parentRoot->urdfName());
+    writer.indent();
+    writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
+    writer.indent();
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_MAX));
+    writer.indent();
+
+    if (m) {
+      if (m->minPosition() != 0.0 || m->maxPosition() != 0.0)
+        writer << QString("<limit effort=\"%1\" lower=\"%2\" upper=\"%3\" velocity=\"%4\"/>\n")
+                    .arg(m->maxForceOrTorque())
+                    .arg(m->minPosition())
+                    .arg(m->maxPosition())
+                    .arg(m->maxVelocity());
+      else
+        writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
+      writer.indent();
+    }
+    writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                .arg(translation.toString(WbPrecision::FLOAT_MAX))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
+    writer.decreaseIndent();
+
+    writer.indent();
+    writer << QString("</joint>\n");
+    writer.decreaseIndent();
+
+    WbNode::exportNodeSubNodes(writer);
+    return;
+  }
+
+  WbBasicJoint::writeExport(writer);
 }

@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a DistanceSensor device."
   ]
   title "Distance Sensor"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.8086242216548459 0.5546511520373894 0.19618605377725323 5.38651

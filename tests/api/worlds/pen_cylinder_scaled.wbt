@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.272136 0.96082 0.0525933 0.183172
+  orientation 0.27213611836550927 0.9608204179085039 0.05259332287544735 0.183172
   position 0.097933 0.164145 0.933943
 }
 Background {
@@ -16,7 +17,7 @@ PointLight {
 }
 DEF BOARD Solid {
   translation -0.08 0.052 -0.13
-  rotation 0.557833 0.80645 0.196116 7.19948
+  rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 7.19948
   scale 1.44 1.44 1.44
   children [
     Shape {
@@ -53,7 +54,7 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0 0.09 0
-        rotation 0.341533 0.844288 0.412955 3.27249
+        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
         children [
           Transform {
             translation 0 0.03 0
@@ -91,7 +92,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation -0.049 0.09 0.088
-          rotation 0.57735 0 -0.816497 6.02139
+          rotation 0.5773498921773197 0 -0.8164968475155537 6.02139
           children [
             Shape {
               geometry Cylinder {

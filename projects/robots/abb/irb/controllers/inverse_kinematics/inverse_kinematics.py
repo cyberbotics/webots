@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,73 +14,44 @@
 
 """Demonstration of inverse kinematics using the "ikpy" Python module."""
 
+import sys
+import tempfile
 try:
+    import ikpy
     from ikpy.chain import Chain
-    from ikpy.link import OriginLink, URDFLink
 except ImportError:
-    import sys
     sys.exit('The "ikpy" Python module is not installed. '
              'To run this sample, please upgrade "pip" and install ikpy with this command: "pip install ikpy"')
 
 import math
 from controller import Supervisor
 
-# Create the arm chain.
-# The constants below have been manually extracted from the Irb4600-40.proto file, looking at the HingeJoint node fields.
-# The chain should contain the "E motor" bone, because this bone defines the hand position.
-armChain = Chain(name='arm', links=[
-    OriginLink(),
-    URDFLink(
-        name="A motor",
-        bounds=[-3.1415, 3.1415],
-        translation_vector=[0, 0, 0.159498],
-        orientation=[0, 0, 0],
-        rotation=[0, 0, 1]
-    ),
-    URDFLink(
-        name="B motor",
-        bounds=[-1.5708, 2.61799],
-        translation_vector=[0.178445, -0.122498, 0.334888],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    ),
-    URDFLink(
-        name="C motor",
-        bounds=[-3.1415, 1.309],
-        translation_vector=[-0.003447, -0.0267, 1.095594],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    ),
-    URDFLink(
-        name="D motor",
-        bounds=[-6.98132, 6.98132],
-        translation_vector=[0.340095, 0.149198, 0.174998],
-        orientation=[0, 0, 0],
-        rotation=[1, 0, 0]
-    ),
-    URDFLink(
-        name="E motor",
-        bounds=[-2.18166, 2.0944],
-        translation_vector=[0.929888, 0, 0],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    )
-])
+if ikpy.__version__[0] < '3':
+    sys.exit('The "ikpy" Python module version is too old. '
+             'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install --upgrade ikpy"')
 
 # Initialize the Webots Supervisor.
 supervisor = Supervisor()
 timeStep = int(4 * supervisor.getBasicTimeStep())
 
+# Create the arm chain from the URDF
+filename = None
+with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
+    filename = file.name
+    file.write(supervisor.getUrdf().encode('utf-8'))
+armChain = Chain.from_urdf_file(filename)
+
 # Initialize the arm motors.
 motors = []
-for motorName in ['A motor', 'B motor', 'C motor', 'D motor', 'E motor', 'F motor']:
-    motor = supervisor.getMotor(motorName)
-    motor.setVelocity(1.0)
-    motors.append(motor)
+for link in armChain.links:
+    if 'motor' in link.name:
+        motor = supervisor.getMotor(link.name)
+        motor.setVelocity(1.0)
+        motors.append(motor)
 
 # Get the arm and target nodes.
 target = supervisor.getFromDef('TARGET')
-arm = supervisor.getFromDef('ARM')
+arm = supervisor.getSelf()
 
 # Loop 1: Draw a circle on the paper sheet.
 print('Draw a circle on the paper sheet...')
@@ -90,15 +61,10 @@ while supervisor.step(timeStep) != -1:
     # Use the circle equation relatively to the arm base as an input of the IK algorithm.
     x = 0.25 * math.cos(t) + 1.1
     y = 0.25 * math.sin(t) - 0.95
-    z = 0.23
+    z = 0.05
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([
-        [1, 0, 0, x],
-        [0, 1, 0, y],
-        [0, 0, 1, z],
-        [0, 0, 0, 1]
-    ])
+    ikResults = armChain.inverse_kinematics([x, y, z])
 
     # Actuate the 3 first arm motors with the IK results.
     for i in range(3):
@@ -129,13 +95,8 @@ while supervisor.step(timeStep) != -1:
     z = targetPosition[1] - armPosition[1]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([
-        [1, 0, 0, x],
-        [0, 1, 0, y],
-        [0, 0, 1, z],
-        [0, 0, 0, 1]
-    ])
+    ikResults = armChain.inverse_kinematics([x, y, z])
 
     # Actuate the 3 first arm motors with the IK results.
-    for i in range(3):
+    for i in range(len(motors)):
         motors[i].setPosition(ikResults[i + 1])

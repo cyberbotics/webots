@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   orientation -0.9173812741630853 0.39663566854827187 0.03304155338629959 0.7222244315929436
@@ -41,12 +42,12 @@ SolidWithExtensionSlot {
   ]
 }
 Robot {
-  controller "follow_solid_in_slot"
-  supervisor TRUE
   children [
     TestSuiteEmitter {
     }
   ]
+  controller "follow_solid_in_slot"
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

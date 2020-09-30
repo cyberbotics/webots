@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
   cout << tr("    given as an option:").toUtf8().constData() << endl;
   cout << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
+  cout << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
   cout << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
   cout << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;
   cout << "  --log-performance=<file>[,<steps>]" << endl;
@@ -84,7 +85,7 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
   cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
-  cout << tr("Please report any bug to http://www.cyberbotics.com/bug").toUtf8().constData() << endl;
+  cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showSysInfo() const {

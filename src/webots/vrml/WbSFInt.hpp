@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ public:
   const int *valuePointer() const { return &mValue; }
   bool isZero() const { return mValue == 0; }
   void setValue(int i);
+  void setValueNoSignal(int i) { mValue = i; }
   WbSFInt &operator=(const WbSFInt &other);
   bool operator==(const WbSFInt &other) const { return mValue == other.mValue; }
 

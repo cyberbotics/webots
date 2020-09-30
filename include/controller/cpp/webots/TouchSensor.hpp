@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,9 @@ namespace webots {
 
     double getValue() const;
     const double *getValues() const;
+
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
 
     Type getType() const;
   };

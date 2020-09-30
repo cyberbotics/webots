@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.343499 -0.910646 -0.229636 5.24359
+  orientation 0.3434989325345835 -0.9106458211432591 -0.22963595489801025 5.24359
   position 0.676068 0.515729 0.632315
 }
 Background {
@@ -20,13 +21,6 @@ DEF FLOOR Solid {
   children [
     Shape {
       geometry ElevationGrid {
-        color Color {
-          color [
-            0.803922 0.498039 0.298039
-            1 1 0
-          ]
-        }
-        colorPerVertex FALSE
         xDimension 11
         xSpacing 0.1
         zDimension 11
@@ -46,7 +40,7 @@ DEF ROBOT Robot {
   children [
     DEF BOX Solid {
       translation -0.2 0.2 -0.2
-      rotation 0.707107 0.5 -0.5 0.5708
+      rotation 0.7071068905932484 0.49999992263776794 -0.49999992263776794 0.5708
       children [
         DEF BOX_SHAPE Shape {
           appearance Appearance {
@@ -91,7 +85,7 @@ DEF CAPSULE Solid {
 }
 DEF CONE Solid {
   translation 0.00810817 0.1 0.371074
-  rotation 0.766261 0.574696 0.287348 1.5708
+  rotation 0.7662608905622442 0.5746959179216474 0.2873479589608237 1.5708
   children [
     DEF CONE_SHAPE Shape {
       appearance Appearance {
@@ -106,7 +100,7 @@ DEF CONE Solid {
 }
 DEF CAN Can {
   translation -0.21 0.0314493 0.24
-  rotation 0.979067 0.203505 0.0037522 1.61401
+  rotation 0.9790667285445644 0.20350494357634522 0.003752198959667637 1.61401
   color 0.666667 1 0.85
 }
 Solid {

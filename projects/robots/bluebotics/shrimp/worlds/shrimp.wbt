@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This example shows a Shrimp III robot (BlueBotics SA)."
@@ -7,6 +7,7 @@ WorldInfo {
   ]
   title "Shrimp III"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.5163327763784002 -0.8563497272590935 -0.008099917323578426 0.39463537377233604

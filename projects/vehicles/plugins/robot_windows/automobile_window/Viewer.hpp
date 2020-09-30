@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ class EncodersWidget;
 class BrakeWidget;
 class ThrottleWidget;
 class RPMWidget;
-class OSMImportWidget;
 
 #include <gui/GenericWindow.hpp>
 
@@ -45,7 +44,6 @@ private:
   BrakeWidget *mBrakeWidget;
   ThrottleWidget *mThrottleWidget;
   RPMWidget *mRPMWidget;
-  OSMImportWidget *mOSMImportWidget;
 };
 
 #endif

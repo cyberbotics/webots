@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example of use of a custom ODE plugin"
@@ -6,6 +6,7 @@ WorldInfo {
   title "Physics"
   physics "flying_mybot"
   basicTimeStep 64
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.997511393271538 0.06728942652903659 -0.021051208299495243 5.54169

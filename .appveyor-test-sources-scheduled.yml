@@ -1,9 +1,15 @@
-# This file is used by the "webots-test-sources-revision" and "webots-test-sources-develop" appveyor projects.
+# This file is used by the "webots-test-sources-master" and "webots-test-sources-develop" appveyor projects.
 
 clone_depth: 1
 
 install:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "pacman -Syu --noconfirm"
+  - taskkill /f /fi "MODULES eq msys-2.0.dll"
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck

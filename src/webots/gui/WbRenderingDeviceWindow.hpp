@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ private:
   GLuint mForegroundTextureUniform;
   GLuint mVaoId;
   GLuint mVboId[2];
+  bool mInitialized;
   float mXFactor;
   float mYFactor;
   QRect mPreviousGeometry;

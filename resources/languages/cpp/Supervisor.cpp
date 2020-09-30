@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -156,6 +156,15 @@ Node *Supervisor::getFromDef(const std::string &name) const {
 
 Node *Supervisor::getFromId(int id) const {
   WbNodeRef nodeRef = wb_supervisor_node_get_from_id(id);
+  return Node::findNode(nodeRef);
+}
+
+Node *Supervisor::getFromDevice(const Device *device) const {
+  return getFromDeviceTag(device->getTag());
+}
+
+Node *Supervisor::getFromDeviceTag(int tag) const {
+  WbNodeRef nodeRef = wb_supervisor_node_get_from_device(tag);
   return Node::findNode(nodeRef);
 }
 

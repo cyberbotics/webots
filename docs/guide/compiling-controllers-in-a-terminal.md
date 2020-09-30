@@ -18,7 +18,7 @@ Or add this line to your "~/.bash\_profile" file.
 On macOS, type this:
 
 ```sh
-$ export WEBOTS_HOME=/Applications/Webots
+$ export WEBOTS_HOME=/Applications/Webots.app
 ```
 
 Or add this line to your "~/.profile" file.
@@ -29,29 +29,28 @@ Like with the editor buttons, it is possible to build the whole project, or only
 ```sh
 $ make
 $ make clean
-$ make my_robot.class
+$ make -f Makefile_java my_robot.class
 $ make my_robot.o
 ```
 
 ### Windows
 
-On Windows you must use the MSYS terminal to compile the controllers.
-MSYS is a UNIX-like terminal that can be used to invoke MinGW commands.
-It can be downloaded from [http://sourceforge.net](http://sourceforge.net).
-You will also need to add the "bin" directory of MinGW to your *PATH* environment variable.
-MinGW is located in the "mingw" subdirectory of Webots distribution.
-When set correctly, the environment variable should be like this:
+On Windows you must use the MSYS2 terminal to compile the controllers.
+MSYS2 is a UNIX-like terminal that can be used to invoke UNIX commands.
+Please follow the instructions [here](https://github.com/cyberbotics/webots/wiki/Windows-installation#msys2-development-environment-and-git) to install it.
 
-```sh
-WEBOTS_HOME=C:\Program Files\Webots
-PATH=C:\program Files\Webots\mingw\bin;C:\...
+You will also have to set the `WEBOTS_HOME` environment variable to point to the installation folder of Webots, typically `C:\Program Files\Webots` and the path to the Webots binaries in the MSYS2 `PATH` environment variable:
+
+```bash
+export WEBOTS_HOME="C:\Program Files\Webots"
+export PATH=$PATH:/C/Program\ Files/Webots/msys64/mingw64/bin:/C/Program\ Files/Webots/msys64/mingw64/bin
 ```
 
-Once MSYS is installed and the environment variables are defined, you should be able to compile controllers by invoking `mingw32-make` in the MSYS terminal, e.g.:
+For convenience, the two above lines can be appended to your `~/.bash_profile` file of MSYS2.
+
+Once MSYS2 is installed and the environment variables are defined, you should be able to compile controllers by invoking `make` in the MSYS2 terminal, e.g.:
 
 ```sh
-$ mingw32-make
-$ mingw32-make clean
-$ mingw32-make my_robot.class
-$ mingw32-make my_robot.o
+$ make
+$ make clean
 ```

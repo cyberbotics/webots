@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,10 +31,11 @@ class TestMatlabFunctions(unittest.TestCase):
             'robot',
             'wb_device_get_type',
             'wb_node_get_name',
+            'lookup_table_size',
             'EXPORTS'
         ]
         self.functions = []
-        filename = os.environ['WEBOTS_HOME'] + '/src/lib/Controller/Controller.def'
+        filename = os.environ['WEBOTS_HOME'] + '/src/Controller/Controller.def'
         self.assertTrue(
             os.path.isfile(filename),
             msg='Missing "%s" file.' % filename
@@ -47,7 +48,7 @@ class TestMatlabFunctions(unittest.TestCase):
     def test_matlab_function_exists(self):
         """Test that the fucntion file exists."""
         for function in self.functions:
-            filename = os.environ['WEBOTS_HOME'] + '/lib/matlab/' + function + '.m'
+            filename = os.environ['WEBOTS_HOME'] + '/lib/controller/matlab/' + function + '.m'
             self.assertTrue(
                 os.path.isfile(filename),
                 msg='Missing "%s" file.' % filename

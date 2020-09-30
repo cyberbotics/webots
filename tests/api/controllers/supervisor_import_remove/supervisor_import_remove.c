@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds0, TIME_STEP);
   wb_distance_sensor_enable(ds1, TIME_STEP);
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(4 * TIME_STEP);  // let time for the other controller to run
 
   wb_supervisor_node_remove(wb_supervisor_node_get_from_def("WORLDINFO"));
 
@@ -156,6 +156,47 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
   ts_assert_boolean_equal(wb_supervisor_field_get_mf_node(root_children_field, -1) == sphere5,
                           "WbNodeRef instance of SPHERE 5 should not change after deleting SPHERE 4.");
+
+  WbNodeRef shape_node = wb_supervisor_node_get_from_def("SHAPE");
+  WbFieldRef geometry_field = wb_supervisor_node_get_field(shape_node, "geometry");
+
+  wb_supervisor_field_import_sf_node_from_string(geometry_field, "DEF SPHERE_GEOM Sphere { radius 0.1 }");
+  const double new_translation[] = {0.15, 0.0, 0.0};
+  wb_supervisor_field_set_sf_vec3f(wb_supervisor_node_get_field(wb_supervisor_node_get_parent_node(shape_node), "translation"),
+                                   new_translation);
+  wb_robot_step(TIME_STEP);
+
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(750, value0, "Sphere not imported.");
+  wb_supervisor_field_remove_sf(geometry_field);
+
+  wb_robot_step(TIME_STEP);
+
+  // this import should be fail because field is not empty
+  wb_supervisor_field_import_sf_node_from_string(geometry_field, "DEF SPHERE_GEOM Sphere { radius 15 }");
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(value0, 750, "Import on non-empty SFNode wrongly succeeded.");
+  wb_supervisor_field_remove_sf(geometry_field);
+
+  wb_robot_step(TIME_STEP);
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(value0, 750, "Sphere not removed.");
+
+  // test subnodes are correctly removed from Supervisor API's internal node list
+  wb_supervisor_field_import_mf_node_from_string(root_children_field, -1,
+                                                 "DEF PARENT Group { children [ Shape { geometry DEF CHILD Cylinder {} } ] }");
+  wb_robot_step(TIME_STEP);
+  WbNodeRef parent_node = wb_supervisor_node_get_from_def("PARENT");
+  ts_assert_pointer_not_null(parent_node, "Invalid reference to node 'PARENT'.");
+  WbNodeRef child_node = wb_supervisor_node_get_from_def("CHILD");
+  ts_assert_pointer_not_null(child_node, "Invalid reference to node 'CHILD'.");
+  ts_assert_int_not_equal(wb_supervisor_node_get_id(child_node), -1, "'CHILD' is not valid after import.");
+  wb_robot_step(TIME_STEP);
+  wb_supervisor_node_remove(parent_node);
+  wb_robot_step(TIME_STEP);
+  ts_assert_int_equal(wb_supervisor_node_get_id(child_node), -1, "'CHILD' is still valid after delete.");
+  child_node = wb_supervisor_node_get_from_def("CHILD");
+  ts_assert_pointer_null(child_node, "Invalid reference to node 'CHILD'.");
 
   ts_send_success();
   return EXIT_SUCCESS;

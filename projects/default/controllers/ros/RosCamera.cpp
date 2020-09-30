@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -90,7 +90,9 @@ void RosCamera::publishValue(ros::Publisher publisher) {
   memcpy(&image.data[0], colorImage, sizeof(char) * 4 * mCamera->getWidth() * mCamera->getHeight());
 
   publisher.publish(image);
+}
 
+void RosCamera::publishAuxiliaryValue() {
   if (mCamera->hasRecognition() && mCamera->getRecognitionSamplingPeriod() > 0) {
     const CameraRecognitionObject *objects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObject object;

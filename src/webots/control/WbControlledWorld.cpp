@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
   QFile file(WbStandardPaths::webotsTmpPath() + "WEBOTS_SERVER");
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream stream(&file);
-    stream << mServer->fullServerName().toUtf8() << endl;
+    stream << mServer->fullServerName().toUtf8() << '\n';
     file.close();
   }
   foreach (WbRobot *const robot, robots()) {
@@ -269,6 +269,14 @@ void WbControlledWorld::processWaitingStep() {
   }
 }
 
+void WbControlledWorld::reset(bool restartControllers) {
+  WbSimulationWorld::reset(restartControllers);
+  if (!restartControllers) {
+    foreach (WbController *controller, mControllers)
+      controller->resetRequestTime();
+  }
+}
+
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
     startControllers();
@@ -387,6 +395,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   for (int i = 0; i < size; ++i) {
     WbController *controller = mControllers[i];
     if (controller->robotId() == robotID) {
+      controller->flushBuffers();
       disconnect(controller, &WbController::hasTerminatedByItself, this,
                  &WbControlledWorld::deleteController);  // avoids double delete
       mNewControllers.removeOne(controller);

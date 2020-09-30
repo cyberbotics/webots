@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,23 +18,28 @@
 #include <webots/LightSensor.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosLightSensor : public RosSensor {
 public:
   RosLightSensor(LightSensor *lightSensor, Ros *ros);
-  virtual ~RosLightSensor() { cleanup(); }
+  virtual ~RosLightSensor();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mLightSensor->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mLightSensor->getSamplingPeriod(); }
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mLightSensor->disable(); }
 
   LightSensor *mLightSensor;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_LIGHT_SENSOR_HPP

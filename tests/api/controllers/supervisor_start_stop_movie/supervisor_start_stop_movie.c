@@ -42,7 +42,6 @@ int main(int argc, char **argv) {
   for (i = 0; i < 50; i++) {
     usleep(100000);
 
-    wb_robot_step(TIME_STEP);
     if (wb_supervisor_movie_is_ready()) {
       ts_assert_boolean_not_equal(wb_supervisor_movie_failed(), "Error while recording the movie file.");
 

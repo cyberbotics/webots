@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -9,9 +9,9 @@ PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0   # Is `Transform.rotation`.
   field SFString   name        "grabber" # Is `Solid.name`.
-  field SFNode     fingerASlot NULL      # Type: "lego cross-"
-  field SFNode     fingerBSlot NULL      # Type: "lego cross-"
-  field SFNode     fingerCSlot NULL      # Type: "lego cross-"
+  field SFNode     fingerASlot NULL      # Type: "lego cross-".
+  field SFNode     fingerBSlot NULL      # Type: "lego cross-".
+  field SFNode     fingerCSlot NULL      # Type: "lego cross-".
 ]
 {
   Slot {

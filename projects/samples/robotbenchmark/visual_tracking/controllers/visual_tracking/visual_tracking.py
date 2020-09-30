@@ -47,7 +47,6 @@ def sendDeviceImage(robot, device):
         fileString = f.read()
         fileString64 = base64.b64encode(fileString).decode()
         robot.wwiSendText("image[" + deviceName + "]:data:image/jpeg;base64," + fileString64)
-        f.close()
 
 
 # Set path to store temporary device images

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 
   const QString &windowFileName = robot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    robot->warn(tr("No dockable HTML robot window is set in the 'window' field."));
+    robot->parsingWarn(tr("No dockable HTML robot window is set in the 'window' field."));
     return;
   }
 
@@ -69,11 +69,8 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 }
 
 WbRobotWindow::~WbRobotWindow() {
-#ifdef _WIN32
-  // With QWebEngine, deleting WebView is sufficient.
   if (mWebView)
     delete mWebView->page();
-#endif
   delete mWebView;
 }
 
@@ -100,7 +97,7 @@ void WbRobotWindow::setupPage() {
 
   const QString &windowFileName = mRobot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    mRobot->warn(tr("No dockable HTML robot window is set in the 'window' field."));
+    mRobot->parsingWarn(tr("No dockable HTML robot window is set in the 'window' field."));
     return;
   }
   QFile htmlFile(windowFileName);
@@ -108,36 +105,39 @@ void WbRobotWindow::setupPage() {
   if (htmlFile.open(QFile::ReadOnly | QFile::Text)) {
     QTextStream htmlInput(&htmlFile);
 
-    QString content = "<!DOCTYPE html><html><head><meta charset='UTF-8'>";
-    content += linkTag(WbStandardPaths::resourcesPath() + "web/local/webots.css");
-    content += linkTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.css");
-    content += linkTag(mRobot->windowFile("css"));
+    QString prependToHead = linkTag(WbStandardPaths::resourcesPath() + "web/local/webots.css") +
+                            linkTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.css");
 #ifdef __APPLE__
     // Chromium bug on macOS:
     // - warnings like the following one are displayed in the console: "2018-05-08 11:17:37.496
     // QtWebEngineProcess[70885:9694859] Couldn't set selectedTextBackgroundColor from default ()"
     // - reference: https://bugs.chromium.org/p/chromium/issues/detail?id=641509
-    content += "<style>::selection { background: #b2d7fe; }</style>";
+    prependToHead += "<style>::selection { background: #b2d7fe; }</style>";
 #endif
-    content += "</head><body>";
-    QRegExp rx("<script[^\">]*src=\"([^\">]*)\"");
+    const QString prependToBody =
+#ifndef _WIN32
+      scriptTag(WbStandardPaths::resourcesPath() + "web/local/qwebchannel.js") +
+#endif
+      scriptTag(WbStandardPaths::resourcesPath() + "web/local/webots.js") +
+      scriptTag(WbStandardPaths::localDocPath() + "dependencies/jquery/1.11.3/jquery.min.js") +
+      scriptTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.js");
+    QString content;
+    const QRegExp script("<script[^\">]*src=\"([^\">]*)\"");
     while (!htmlInput.atEnd()) {
       QString line = htmlInput.readLine();
-      if (rx.indexIn(line) != -1) {
-        QString jsScript = rx.cap(1);
-        line.remove(rx.pos(1), jsScript.length());
-        line.insert(rx.pos(1), formatUrl(jsScript));
+      if (line.contains("<head>"))
+        line += '\n' + prependToHead;
+      else if (line.contains("<body>"))
+        line += '\n' + prependToBody;
+      else if (script.indexIn(line) != -1) {
+        const QString oldUrl = script.cap(1);
+        const QString newUrl = formatUrl(oldUrl) + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount);
+        line.remove(script.pos(1), oldUrl.length());
+        line.insert(script.pos(1), newUrl);
       }
       content += line + '\n';
     }
-    content += scriptTag(WbStandardPaths::resourcesPath() + "web/local/qwebchannel.js");
-    content += scriptTag(WbStandardPaths::resourcesPath() + "web/local/webots.js");
-    content += scriptTag(WbStandardPaths::localDocPath() + "dependencies/jquery/1.11.3/jquery.min.js");
-    content += scriptTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.js");
-    content +=
-      scriptTag(mRobot->windowFile("js") + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount));
     mResetCount++;
-    content += "</body></html>";
     mWebView->setHtml(content, htmlUrl);
     htmlFile.close();
   } else
@@ -215,20 +215,28 @@ void WbRobotWindow::notifyAckReceived() {
 
 void WbRobotWindow::runJavaScript(const QString &message) {
   mTransportLayer->requestAck();
-  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + robot()->name() + "')");
+  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 }
 #endif
 
+QString WbRobotWindow::escapeString(const QString &text) {
+  QString escaped(text);
+  escaped.replace("\\", "\\\\\\\\");
+  escaped.replace("'", "\\'");
+  return escaped;
+}
+
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
+  const QString &message(escapeString(string));
 #ifdef _WIN32
-  mFrame->evaluateJavaScript("webots.Window.receive('" + string + "', '" + robot()->name() + "')");
+  mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 #else
   mRobot->setWaitingForWindow(true);
   if (mLoaded)
-    runJavaScript(string);
+    runJavaScript(message);
   else
     // message will be sent once the robot window loading is completed
-    mWaitingSentMessages << string;
+    mWaitingSentMessages << message;
 #endif
 }
 

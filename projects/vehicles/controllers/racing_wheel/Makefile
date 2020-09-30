@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
@@ -27,11 +27,37 @@ LIBRARIES = -ldriver -lcar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 CFLAGS = -fPIC
-LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib
+LIBRARIES += -Wl,-rpath,$(WEBOTS_LIB_PATH)
 endif
 
-QT = core
 CXX_SOURCES = $(wildcard *.cpp)
 
 # Do not modify the following: this includes Webots global Makefile.include
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+
+# Qt linking
+
+CFLAGS += -std=c++11
+
+ifeq ($(OSTYPE),windows)
+ CFLAGS += -D_USE_MATH_DEFINES
+ QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+ DYNAMIC_LIBRARIES += -lQt5Core
+ INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+endif
+
+ifeq ($(OSTYPE),linux)
+ QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+ QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core
+ INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+endif
+
+ifeq ($(OSTYPE),darwin)
+ WBCFLAGS += -Wno-unknown-pragmas
+ FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
+ INCLUDE += -F"$(FRAMEWORKS_DIR)"
+ FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
+ DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
+ FRAMEWORKS += -framework QtCore
+endif

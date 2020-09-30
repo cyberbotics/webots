@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ INCLUDE = -I"$(ROBOTISOP2_FRAMEWORK_PATH)/include" -I"$(MANAGERS_INCLUDE_PATH)"
 CFLAGS = -DWEBOTS
 LIBRARIES = -L"$(ROBOTISOP2_PATH)" -lrobotis-op2
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

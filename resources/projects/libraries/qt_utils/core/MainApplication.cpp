@@ -24,7 +24,7 @@ MainApplication::MainApplication() {
 
   // add the qt plugins library before instantiating QApplication.
   // this is required for loading libqcocoa.dylib, libqxcb.so and qwindows.dll
-  QApplication::addLibraryPath(StandardPaths::getWebotsHomePath() + "lib/qt/plugins");
+  QApplication::addLibraryPath(StandardPaths::getWebotsHomePath() + "lib/webots/qt/plugins");
 
   // set icon paths
   QDir::addSearchPath("icons", StandardPaths::getCurrentLibraryPath() + "icons");

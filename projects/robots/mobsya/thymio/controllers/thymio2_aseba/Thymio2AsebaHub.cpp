@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -179,6 +179,7 @@ void AsebaWriteBytecode(AsebaVMState *vm) {
 void AsebaResetIntoBootloader(AsebaVMState *vm) {
 }
 
+#ifndef DISABLE_WEAK_CALLBACKS
 void AsebaVMRunCB(AsebaVMState *vm) {
 }
 
@@ -187,6 +188,7 @@ void AsebaVMErrorCB(AsebaVMState *vm, const char *message) {
 
 void AsebaVMResetCB(AsebaVMState *vm) {
 }
+#endif
 
 void AsebaAssert(AsebaVMState *vm, AsebaAssertReason reason) {
   cerr << "\nFatal error: ";

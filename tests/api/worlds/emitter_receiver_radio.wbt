@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.96721893 0.23860298 0.086926193 5.42536
+  orientation 0.9672189282373894 0.23860297956518206 0.08692619284159013 5.42536
   position -0.0300542 1.89899 1.46426
 }
 Background {
@@ -96,7 +97,9 @@ DEF ROBOT0 Robot {
   ]
   name "robot0"
   controller "emitter_receiver_radio"
-  controllerArgs "emitter_receiver_radio_emitter_0"
+  controllerArgs [
+    "emitter_receiver_radio_emitter_0"
+  ]
 }
 DEF ROBOT1 Robot {
   translation 0.3 0.05 0.3
@@ -141,7 +144,9 @@ DEF ROBOT1 Robot {
   ]
   name "robot1"
   controller "emitter_receiver_radio"
-  controllerArgs "emitter_receiver_radio_emitter_1"
+  controllerArgs [
+    "emitter_receiver_radio_emitter_1"
+  ]
 }
 DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
@@ -186,7 +191,9 @@ DEF ROBOT2 Robot {
   ]
   name "robot2"
   controller "emitter_receiver_radio"
-  controllerArgs "emitter_receiver_radio_receiver_2"
+  controllerArgs [
+    "emitter_receiver_radio_receiver_2"
+  ]
 }
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
@@ -232,7 +239,9 @@ DEF ROBOT3 Robot {
   ]
   name "robot3"
   controller "emitter_receiver_radio"
-  controllerArgs "emitter_receiver_radio_receiver_3"
+  controllerArgs [
+    "emitter_receiver_radio_receiver_3"
+  ]
 }
 TestSuiteSupervisor {
 }

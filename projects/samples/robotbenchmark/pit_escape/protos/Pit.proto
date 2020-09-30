@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Randomly generated uneven terrain based on Perlin noise.
@@ -10,7 +10,7 @@ PROTO Pit [
   field SFInt32    xDimension     50
   field SFInt32    zDimension     50
   field SFNode     appearance     SandyGround {}
-  field SFInt32    randomSeed     1 # if seed <= 0 then set a random seed
+  field SFInt32    randomSeed     1               # Defines the random seed, if seed <= 0 then set a random seed.
   field SFInt32    perlinNOctaves 3
   field SFFloat    noiseAmplitude 0.15
   field SFFloat    pitRadius      3

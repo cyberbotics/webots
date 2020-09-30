@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public:
   bool isOutOfDate() const;
 
   // does the associated PROTO model contain at least one device node
-  bool containsDevices() const { return mContainsDevices; }
+  bool needsRobotAncestor() const { return mNeedsRobotAncestor; }
   const QString &info() const { return mInfo; }
   const QString &license() const { return mLicense; }
   const QString &licenseUrl() const { return mLicenseUrl; }
@@ -56,7 +56,7 @@ private:
   QString mAbsoluteFileName;
   QString mAbsoluteProtoFileName;
   QByteArray mHexProtoFileHash;
-  bool mContainsDevices;
+  bool mNeedsRobotAncestor;
   QString mBaseType;
   QString mSlotType;
   QStringList mParameterNames;

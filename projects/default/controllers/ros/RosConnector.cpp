@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,11 +19,14 @@ RosConnector::RosConnector(Connector *connector, Ros *ros) :
   RosSensor(connector->getName() + "/presence_sensor", connector, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mLockServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/lock", &RosConnector::lockCallback);
+  mIsLockedServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_locked", &RosConnector::isLockedCallback);
   mConnector = connector;
 }
 
 RosConnector::~RosConnector() {
   mLockServer.shutdown();
+  mIsLockedServer.shutdown();
   cleanup();
 }
 
@@ -51,5 +54,10 @@ bool RosConnector::lockCallback(webots_ros::set_bool::Request &req, webots_ros::
     mConnector->unlock();
     res.success = true;
   }
+  return true;
+}
+
+bool RosConnector::isLockedCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res) {
+  res.value = mConnector->isLocked();
   return true;
 }

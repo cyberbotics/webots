@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "RoCKIn@Work"
   ]
   title "RoCKIn@Work"
   basicTimeStep 20
+  coordinateSystem "NUE"
   lineScale 0.5
   contactProperties [
     ContactProperties {

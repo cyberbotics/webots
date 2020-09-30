@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.99246073 -0.10712697 -0.059544184 5.61768
+  orientation 0.9924607309221254 -0.10712697009953492 -0.05954418405532431 5.61768
   position 0.398132 1.64293 1.62447
 }
 Background {
@@ -98,7 +99,9 @@ DEF ROBOT0 Robot {
   ]
   name "robot0"
   controller "emitter_receiver_infra-red"
-  controllerArgs "emitter_receiver_infra-red_emitter_0_receiver_0"
+  controllerArgs [
+    "emitter_receiver_infra-red_emitter_0_receiver_0"
+  ]
 }
 DEF ROBOT1 Robot {
   translation 0.3 0.05 0.3
@@ -144,7 +147,9 @@ DEF ROBOT1 Robot {
   ]
   name "robot1"
   controller "emitter_receiver_infra-red"
-  controllerArgs "emitter_receiver_infra-red_emitter_1"
+  controllerArgs [
+    "emitter_receiver_infra-red_emitter_1"
+  ]
 }
 DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
@@ -190,7 +195,9 @@ DEF ROBOT2 Robot {
   ]
   name "robot2"
   controller "emitter_receiver_infra-red"
-  controllerArgs "emitter_receiver_infra-red_receiver_2"
+  controllerArgs [
+    "emitter_receiver_infra-red_receiver_2"
+  ]
 }
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
@@ -237,7 +244,9 @@ DEF ROBOT3 Robot {
   ]
   name "robot3"
   controller "emitter_receiver_infra-red"
-  controllerArgs "emitter_receiver_infra-red_receiver_3"
+  controllerArgs [
+    "emitter_receiver_infra-red_receiver_3"
+  ]
 }
 TestSuiteSupervisor {
 }

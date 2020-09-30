@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a Connector device."
   ]
   title "Connector"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.004183020337560718 0.9260620747312119 0.37734803045117216 3.1315

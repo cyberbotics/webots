@@ -38,29 +38,33 @@ jobs:
           # in case of manually triggered test, planned test or tag test, run complete test
           if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
           then
-            python docs/generate_thumbnails.py --silent;
-            tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+            if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
+            then
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG $TRAVIS_BRANCH;
+            else
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+            fi
+            echo "File(s) to test: $(cat tests/sources/modified_files.txt)";
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
-        - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then echo "Thumbnails not up-to-date:"; git status -s -uno docs; exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 2.7
       python: '2.7'
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 3.8
       dist: bionic
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 2.7
       python: '2.7'
       dist: bionic
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
@@ -74,7 +78,7 @@ jobs:
         - cp dependencies/.clang-format-9 .clang-format
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_unit, travis_release, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 3.8 / openjdk 8 / ROS kinetic
       git: &compilation_git
         depth: 3
@@ -101,16 +105,12 @@ jobs:
             - libzzip-0-13
             - libssl-dev
             - libboost-dev
-            - libjpeg8-dev
             - libavcodec-extra
-            - libgd-dev
-            - libtiff5-dev
+            - libgd3
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
             - libreadline-dev
-            - libassimp-dev
-            - libpng12-dev
             - libav-tools
             - npm
             - python3.5-dev
@@ -120,19 +120,15 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.6-dev python3.7-dev python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=kinetic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf
-        - sudo rosdep init
-        - rosdep update
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-icccm4
+            - libxcb-randr0
+            - libxcb-render-util0
+            - libxcb-xinerama0
+            - rename
+      before_install: &ubuntu_before_install
+        - cd scripts/install; source ./linux_optional_compilation_dependencies.sh; cd ../..
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
@@ -143,20 +139,6 @@ jobs:
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
       dist: bionic
       jdk: openjdk11
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=melodic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf
-        - sudo rosdep init
-        - rosdep update
-        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       addons: &bionic_apt_packages
         apt:
           packages:
@@ -173,16 +155,12 @@ jobs:
             - libzzip-0-13
             - libssl1.0-dev
             - libboost-dev
-            - libjpeg8-dev
             - libavcodec-extra
-            - libgd-dev
-            - libtiff5-dev
+            - libgd3
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
             - libreadline-dev
-            - libassimp-dev
-            - libpng-dev
             - ffmpeg
             - npm
             - python3.6-dev
@@ -192,6 +170,16 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-icccm4
+            - libxcb-randr0
+            - libxcb-render-util0
+            - libxcb-xinerama0
+      script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
+        - make release -j2
+        - make release -j2 -C tests
+        - python tests/test_suite.py --no-ansi-escape --nomake
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
@@ -204,28 +192,18 @@ jobs:
       python: 3.8
       jdk: openjdk8
       addons: *apt_packages
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install python3.6-dev python3.7-dev python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - pip install PyGithub # used to upload packages to Github releases
+      before_install: *ubuntu_before_install
       script:
-        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
+        - rename 's/\.tar.bz2$/_ubuntu-16.04.tar.bz2/' distribution/*.tar.bz2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
-        - if [ "$TRAVIS_BRANCH" != "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - pip install PyGithub # used to upload packages to Github releases
+        - scripts/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       jdk: openjdk11
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
       script:
         - make distrib -j2
@@ -233,26 +211,59 @@ jobs:
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
-      addons:
+      addons: &mac_addons
         homebrew:
           packages:
-            - python
+            - python@3.8
             - cmake
             - swig
             - wget
             - node
-      before_install:
+      before_install: &mac_before_install
+        - brew update
+        - brew install python@3.7
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
-        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.7.zip ]]; then wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P $WEBOTS_HOME/dependencies; fi
+        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.7.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P $WEBOTS_HOME/dependencies; fi
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        - export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.7/bin
+        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
+        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.8.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P $WEBOTS_HOME/dependencies; fi
+        - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
       script:
-        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated
-        - if [ "$TRAVIS_BRANCH" != "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - scripts/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      name: Ubuntu 18.04 / Python 3.8 / openjdk 11
+      dist: bionic
+      jdk: openjdk11
+      before_install: *ubuntu_before_install
+      addons: *bionic_apt_packages
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      name: OSX / Python 2.7
+      os: osx
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
+      language: generic     # Travis doesn't support python on macos yet
+      addons: *mac_addons
+      before_install: *mac_before_install
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated

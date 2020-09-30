@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "iRobot Create simulation"
@@ -6,6 +6,7 @@ WorldInfo {
     "The robot can be stopped by the virtual walls emitting IR light."
   ]
   title "iRobot Create"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.3251268673134766 -0.7444466961861541 -0.5831737620027541 2.40689
@@ -100,23 +101,15 @@ DEF IROBOT_CREATE Create {
 }
 Robot {
   children [
-    Transform {
-      translation -4.95 0 -4.95
-      children [
-        Shape {
-          appearance Parquetry {
-            textureTransform TextureTransform {
-              scale 7 7
-            }
-          }
-          geometry ElevationGrid {
-            xDimension 7
-            xSpacing 1.65
-            zDimension 7
-            zSpacing 1.65
-          }
+    Shape {
+      appearance Parquetry {
+        textureTransform TextureTransform {
+          scale 7 7
         }
-      ]
+      }
+      geometry Plane {
+        size 10 10
+      }
     }
     Display {
       translation 0 0.01 0

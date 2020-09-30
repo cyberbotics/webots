@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ include ../Makefile.os.include
 .PHONY: release debug profile
 
 release debug profile clean:
-	@echo "#"; echo "# *** languages ***"
 	@echo "# make" $@ cpp;
 	+make -s -C cpp $@
 	@echo "# make" $@ java;
@@ -37,14 +36,22 @@ endif
 	+PYTHON_COMMAND=python3.8 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
-	@echo "# make" $@ python3.7;
+	@echo "# make" $@ python3.8;
 	+make -s -C python $@
+	@echo "# make" $@ python3.7;
+	+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python2.7;
 	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $@
 endif
 ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
-	+make -s -C python $@
+	+PYTHON_COMMAND=/usr/bin/python2.7 make -s -C python $@
 	@echo "# make" $@ python3.7;
-	+PYTHON_COMMAND=python3.7 make -s -C python $@
+	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 make -s -C python $@
+	@echo "# make" $@ python3.8;
+	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.8/bin/python3.8 make -s -C python $@
+	@echo "# make" $@ python3.7 brew;
+	+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 SUFFIX=_brew make -s -C python $@
+	@echo "# make" $@ python3.8 brew;
+	+PYTHON_COMMAND=/usr/local/opt/python@3.8/bin/python3.8 SUFFIX=_brew make -s -C python $@
 endif

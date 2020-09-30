@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
 
 public slots:
-  void handleUserCommand(WbActionManager::WbActionKind action);
+  void handleUserCommand(WbAction::WbActionKind action);
 
 protected:
   WbTextBuffer *currentBuffer() const { return mCurrentBuffer; }

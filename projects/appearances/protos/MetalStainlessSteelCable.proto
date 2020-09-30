@@ -1,0 +1,42 @@
+#VRML_SIM R2021a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A stainless steel cable appearance.
+
+PROTO MetalStainlessSteelCable [
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    normalMapFactor 3
+    occlusionMapStrength 5
+    baseColorMap ImageTexture {
+      url [
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_roughness.jpg"
+      ]
+    }
+    metalnessMap ImageTexture {
+      url [
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_metalness.jpg"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_occlusion.jpg"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

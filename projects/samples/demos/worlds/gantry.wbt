@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Demo of a gantry robot playing the Hanoi Towers."
@@ -9,6 +9,7 @@ WorldInfo {
   CFM 0.0001
   ERP 0.6
   basicTimeStep 4
+  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {

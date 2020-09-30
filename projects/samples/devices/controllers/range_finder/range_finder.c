@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ int main() {
     }
 
     if (save_image) {
-      /* Save range-finder's current view as TIFF image in home directory*/
+      /* Save range-finder's current view as HDR image in home directory*/
       char *filepath;
 #ifdef _WIN32
       const char *user_directory = wbu_system_short_path(wbu_system_getenv("USERPROFILE"));
@@ -122,7 +122,7 @@ int main() {
       strcpy(filepath, user_directory);
       strcat(filepath, "/");
 #endif
-      strcat(filepath, "test.tiff");
+      strcat(filepath, "test.hdr");
       wb_range_finder_save_image(range_finder, filepath, 100);
       free(filepath);
       save_image = false;

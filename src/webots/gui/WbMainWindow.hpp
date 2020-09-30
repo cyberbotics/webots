@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
 class WbSimulationView;
+class WbStreamingServer;
 
 class QMenu;
 class QMenuBar;
@@ -47,7 +48,7 @@ class WbMainWindow : public QMainWindow {
   Q_PROPERTY(QString toolBarAlign MEMBER mToolBarAlign READ toolBarAlign WRITE setToolBarAlign)
 
 public:
-  explicit WbMainWindow(bool minimizedOnStart, QWidget *parent = NULL);
+  explicit WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent = NULL);
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
@@ -91,7 +92,8 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorld();
+  void resetWorldFromGui();
+  void resetWorld(bool restartControllers);
   void importVrml();
   void exportVrml();
   void exportHtml();
@@ -110,7 +112,6 @@ private slots:
   void openGithubRepository();
   void openCyberboticsWebsite();
   void openBugReport();
-  void openSupportTicket();
   void openNewsletterSubscription();
   void openDiscord();
   void openTwitter();
@@ -145,7 +146,7 @@ private:
   void showOnlineBook(const QString &);
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
-  WbConsole *mConsole;
+  QList<WbConsole *> mConsoles;
   WbDocumentation *mDocumentation;
   WbBuildEditor *mTextEditor;
   WbSimulationView *mSimulationView;
@@ -200,6 +201,8 @@ private:
   // QSS properties
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
+  WbStreamingServer *mStreamingServer;
+
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
@@ -213,6 +216,9 @@ private slots:
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();
+
+  void openNewConsole(const QString &name = QString("Console"));
+  void handleConsoleClosure();
 
   void openUrl(const QString &fileName, const QString &message, const QString &title);
 

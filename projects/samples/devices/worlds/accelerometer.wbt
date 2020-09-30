@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "In this example, the robot turns on a slope."
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "Accelerometer"
   basicTimeStep 8
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "body"

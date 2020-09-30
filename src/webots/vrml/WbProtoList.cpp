@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -84,7 +84,8 @@ void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &p
     }
   }
   foreach (QFileInfo subfolder, subfolderInfoList) {
-    if (inProtos && (subfolder.fileName() == "textures" || subfolder.fileName() == "icons")) {
+    if (inProtos &&
+        (subfolder.fileName() == "textures" || subfolder.fileName() == "icons" || subfolder.fileName() == "meshes")) {
       // skip any textures or icons subfolder inside a protos folder
       continue;
     }

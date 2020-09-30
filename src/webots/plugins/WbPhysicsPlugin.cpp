@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -110,9 +110,7 @@ const void *dWebotsReceive(int *size) {
 void dWebotsConsolePrintf(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  QString s;
-  s.vsprintf(format, args);
-  WbLog::appendStdout(s);
+  WbLog::appendStdout(QString::vasprintf(format, args), WbLog::PHYSICS_PLUGINS);
   va_end(args);
 }
 
@@ -248,9 +246,6 @@ const WbNode *WbPhysicsPlugin::findNodeByDef(const WbNode *node, const QString &
   const WbBasicJoint *const joint = dynamic_cast<const WbBasicJoint *>(node);
   if (joint) {
     const WbSolid *endPoint = joint->solidEndPoint();
-    if (!endPoint && joint->solidReference())
-      endPoint = joint->solidReference()->solid();
-
     if (endPoint) {
       const WbNode *const result = findNodeByDef(endPoint, def);
       if (result)

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Randomly generated uneven terrain based on Perlin noise.
@@ -7,24 +7,23 @@ PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 1 0 0
   field SFString   name           "uneven terrain"
-  field SFVec3f    size           50 5 50           # Defines the size of the terrain.
-  field SFInt32    xDimension     50                # Defines the number of points in the grid height array in the x direction.
-  field SFInt32    zDimension     50                # Defines the number of points in the grid height array in the y direction.
-  field SFNode     appearance     SandyGround {}    # Defines the appearance of the terrain.
-  field SFVec2f    textureScale   1.0 1.0           # Defines the size of the textures used for the terrain.
-  field SFInt32    randomSeed     1                 # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
-  field SFBool     flatCenter     FALSE             # Defines whether the center of the terrain should be flat.
-  field SFBool     flatBounds     FALSE             # Defines whether the bounds of the terrain should be flat.
-  field SFInt32    perlinNOctaves 3                 # Defines the number of octaves of the perlin noise.
-  
+  field SFVec3f    size           50 5 50                                                            # Defines the size of the terrain.
+  field SFInt32    xDimension     50                                                                 # Defines the number of points in the grid height array in the x direction.
+  field SFInt32    zDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
+  field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }  # Defines the appearance of the terrain.
+  field SFInt32    randomSeed     1                                                                  # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
+  field SFBool     flatCenter     FALSE                                                              # Defines whether the center of the terrain should be flat.
+  field SFBool     flatBounds     FALSE                                                              # Defines whether the bounds of the terrain should be flat.
+  field SFInt32    perlinNOctaves 3                                                                  # Defines the number of octaves of the perlin noise.
+
   # Deprecated in Webots R2019a
-  hiddenField MFString   texture        "textures/sand.jpg"
+  deprecatedField MFString   texture        "textures/sand.jpg"
+  # Deprecated in Webots R2020b
+  deprecatedField SFVec2f    textureScale   1.0 1.0
 ]
 {
   %{
     -- Reference: https://stackoverflow.com/a/42543313/2210777
-
-    local wbcore = require('wbcore')
     local wbrandom = require('wbrandom')
     local os = require('os')
 
@@ -82,102 +81,65 @@ PROTO UnevenTerrain [
     local nOctave = fields.perlinNOctaves.value
 
     local size = fields.size.value
+    
     local xDimension = fields.xDimension.value
+    if xDimension < 2 then
+      xDimension = fields.xDimension.defaultValue
+      io.stderr:write("'xDimension' should be at least equalt to 2.\n")
+    end
+    
     local zDimension = fields.zDimension.value
-
-    local textureScale = { x = size.x / fields.textureScale.value.x, y = size.z / fields.textureScale.value.y }
+    if zDimension < 2 then
+      zDimension = fields.zDimension.defaultValue
+      io.stderr:write("'zDimension' should be at least equalt to 2.\n")
+    end
   }%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      Shape {
-        appearance IS appearance
-        geometry IndexedFaceSet {
-          coord Coordinate {
-            point [
-              %{ for j = 0, zDimension do }%
-                %{ y = -(size.z / 2) + j * (size.z / zDimension) }%
-                %{ for i = 0, xDimension do }%
-                  %{
-                    local height = 1.0
-                    local x = i / xDimension
-                    local z = j / zDimension
-                    if nOctave > 0 then
-                      height = 0.5 * (1.0 + fBm(z, x, perlinSize, nOctave))
-                    end
-                    if fields.flatCenter.value then
-                      height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
-                    end
-                    if fields.flatBounds.value then
-                      height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
-                    end
-                    height = height * size.y
-                  }%
-                  %{= -(size.x / 2) + i * (size.x / xDimension) }% %{= height}% %{= y }%
-                %{ end }%
+      DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
+        translation %{= - size.x / 2 }% 0 %{= - size.z / 2 }%
+        children [
+          Shape {
+            appearance IS appearance
+            geometry ElevationGrid {
+              %{ if xDimension > 2 and zDimension > 2 then }%
+                xDimension IS xDimension
+                xSpacing %{= size.x / (xDimension - 1) }%
+                zDimension IS zDimension
+                zSpacing %{= size.z / (zDimension - 1) }%
+
+                height [
+                  %{ for i=0, xDimension - 1 do }%
+                    %{ for j=0, zDimension - 1 do }%
+                      %{
+                        local height = 1.0
+                        local x = i / xDimension
+                        local z = j / zDimension
+                        if nOctave > 0 then
+                          height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave))
+                        end
+                        if fields.flatCenter.value then
+                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
+                        end
+                        if fields.flatBounds.value then
+                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
+                        end
+                        height = height * size.y
+                      }%
+                      %{= height }%
+                    %{ end }%
+                  %{ end }%
+                ]
               %{ end }%
-            ]
+            }
           }
-          texCoord TextureCoordinate {
-            point [
-              %{ for j = 0, zDimension do }%
-                %{ y = (1.0 - j * (1.0 / zDimension) )}%
-                %{ for i = 0, xDimension do }%
-                  %{= i * (1.0 / xDimension) * textureScale.x  }% %{= y  * textureScale.y }%
-                %{ end }%
-              %{ end }%
-            ]
-          }
-          coordIndex [
-            %{ local width = xDimension + 1 }%
-            %{ for j = 0, zDimension - 1 do }%
-              %{ for i = 0, xDimension - 1 do }%
-                %{= i + j * width  }% %{= i + (j + 1) * width }% %{= (i + 1) + (j + 1) * width }%  %{= (i + 1) + j * width }% -1
-              %{ end }%
-            %{ end }%
-          ]
-          creaseAngle 1
-        }
+        ]
       }
     ]
     name IS name
     model "uneven terrain"
-    boundingObject DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
-      translation %{= - size.x / 2 }% 0 %{= - size.z / 2 }%
-      children [
-        ElevationGrid {
-          %{ if xDimension > 2 and zDimension > 2 then }%
-            xDimension IS xDimension
-            xSpacing %{= size.x / xDimension }%
-            zDimension IS zDimension
-            zSpacing %{= size.z / zDimension }%
-
-            height [
-              %{ for i=0, xDimension - 1 do }%
-                %{ for j=0, zDimension - 1 do }%
-                  %{
-                    local height = 1.0
-                    local x = i / xDimension
-                    local z = j / zDimension
-                    if nOctave > 0 then
-                      height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave))
-                    end
-                    if fields.flatCenter.value then
-                      height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
-                    end
-                    if fields.flatBounds.value then
-                      height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
-                    end
-                    height = height * size.y
-                  }%
-                  %{= height }%
-                %{ end }%
-              %{ end }%
-            ]
-          %{ end }%
-        }
-      ]
-    }
+    boundingObject USE UNEVEN_TERRAIN_ELEVATION_GRID
   }
 }

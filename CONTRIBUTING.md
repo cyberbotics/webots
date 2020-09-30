@@ -6,6 +6,10 @@ We love pull requests from everyone.
 
 * Follow the installation instructions in our [wiki](https://github.com/cyberbotics/webots/wiki/).
 
+## Implement your contribution
+
+Unless you have a good idea to implement, you can browse the [beginner issues](https://github.com/cyberbotics/webots/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and select a feature or bug fix that should be fairly easy to implement.
+
 ## Create a Pull Request
 
 1. Fork the repository: https://help.github.com/articles/fork-a-repo
@@ -18,5 +22,5 @@ Our git workflow is explained in detail [here](https://github.com/cyberbotics/we
 ## Development Guideline
 
 * Follow our [Coding Style](https://github.com/cyberbotics/webots/wiki/Coding-Style/).
-* Avoid comitting files that exist elsewhere. Instead we should link to the source of these files.
+* Avoid comitting files that exist elsewhere. Instead you should link to the source of these files.
 * Avoid comitting files that can be re-created from other files using a Makefile, a script or a compiler.

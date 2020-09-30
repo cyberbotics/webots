@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbIniParser.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QProcessEnvironment>
 
 WbIniParser::WbIniParser(const QString &filename) {
   QFile file(filename);
@@ -39,7 +40,7 @@ WbIniParser::WbIniParser(const QString &filename) {
           mValid = false;
           break;
         }
-        mSections.append(section);
+        mSections.append(section.toLower());
         int equalPosition = line.indexOf("=");
         mKeys.append(line.mid(0, equalPosition).trimmed());
         QString value = line.mid(equalPosition + 1).trimmed();
@@ -66,9 +67,10 @@ void WbIniParser::setValue(int index, QString newValue) {
   mValues[index] = newValue;
 }
 
-QString WbIniParser::resolvedValueAt(int index, const QStringList &environment) const {
+QString WbIniParser::resolvedValueAt(int index, const QProcessEnvironment &environment) const {
   QString value = valueAt(index);
-  if (!sectionAt(index).compare("environment variables with relative paths", Qt::CaseInsensitive)) {
+  if (sectionAt(index) == "environment variables with relative paths" ||
+      sectionAt(index) == "environment variables with paths") {
 #ifdef _WIN32
     QString newWindowsValue = value;
     newWindowsValue.replace(':', ';');
@@ -76,25 +78,20 @@ QString WbIniParser::resolvedValueAt(int index, const QStringList &environment) 
     value = newWindowsValue;
 #endif
   }
-  int count = value.count("$(");
+  const int count = value.count("$(");
   int position = 0;
   for (int j = 0; j < count; ++j) {
     int startIndex = value.indexOf("$(", position);
     // this test avoid errors caused by multiple instances of the same reference
     if (startIndex == -1)
       break;
-    int endIndex = value.indexOf(')', startIndex);
-    QString environmentKey = value.mid(startIndex + 2, endIndex - startIndex - 2);
-    QString environmentValue;
-    int valueIndex = environment.indexOf(QRegExp(QString("^%1=.*").arg(environmentKey)));
-    if (valueIndex != -1) {
-      environmentValue = environment[valueIndex];
-      environmentValue.remove(0, environmentKey.size() + 1);  // remove the environment variable name and '=' sign
-    } else
-      environmentValue = "";
+    const int endIndex = value.indexOf(')', startIndex);
+    const QString environmentKey = value.mid(startIndex + 2, endIndex - startIndex - 2);
+    const QString &environmentValue = environment.value(environmentKey);
     QString newValue = value;
     newValue.replace("$(" + environmentKey + ")", environmentValue);
-    if (!sectionAt(index).compare("environment variables with relative paths", Qt::CaseInsensitive)) {
+    if (sectionAt(index) == "environment variables with relative paths" ||
+        sectionAt(index) == "environment variables with paths") {
 #ifndef _WIN32
       newValue.replace("::", ":");
       if (newValue.startsWith(':'))

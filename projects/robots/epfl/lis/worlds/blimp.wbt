@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "A blimp robot model demonstrating custom physics."
@@ -10,6 +10,7 @@ WorldInfo {
   ]
   title "LIS-EPFL Blimp"
   physics "blimp_physics"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "blimp"

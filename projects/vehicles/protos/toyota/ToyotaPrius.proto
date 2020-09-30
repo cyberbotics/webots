@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -15,13 +15,13 @@ PROTO ToyotaPrius [
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
-  field     SFString   controllerArgs    ""
+  field     MFString   controllerArgs    []
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
-  field     MFNode     sensorsSlotFront  NULL
-  field     MFNode     sensorsSlotRear   NULL
-  field     MFNode     sensorsSlotTop    NULL
-  field     MFNode     sensorsSlotCenter NULL
+  field     MFNode     sensorsSlotFront  []
+  field     MFNode     sensorsSlotRear   []
+  field     MFNode     sensorsSlotTop    []
+  field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
 ]
 {

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ static WbWorld *gWorld = NULL;
 static WbViewpoint *gViewpoint = NULL;
 static bool gMute = true;
 static int gVolume = 80;
-static ALCdevice_struct *gDefaultDevice = NULL;
-static ALCcontext_struct *gContext = NULL;
+static ALCdevice *gDefaultDevice = NULL;
+static ALCcontext *gContext = NULL;
 static QList<WbSoundClip *> gSounds;
 static QList<WbSoundSource *> gSources;
 static WbTextToSpeech *gTextToSpeech = NULL;

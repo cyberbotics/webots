@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QList>
@@ -61,6 +61,7 @@ void WbConnector::init() {
   mStartup = true;
   mSensor = NULL;
   mIsJointInversed = false;
+  mNeedToReconfigure = false;
 
   // init fields
   mType = findSFString("type");
@@ -139,21 +140,31 @@ void WbConnector::updateType() {
   else if (type == "passive")
     mFaceType = PASSIVE;
   else {
-    warn(tr("Unknown 'type' \"%1\": locking disabled.").arg(type));
+    parsingWarn(tr("Unknown 'type' \"%1\": locking disabled.").arg(type));
     mFaceType = UNKNOWN;
   }
 }
 
 void WbConnector::updateIsLocked() {
-  if (mFaceType == PASSIVE && mIsLocked->isTrue()) {
-    warn(tr("Passive connectors cannot be locked."));
-    mIsLocked->setFalse();
+  if (mFaceType == PASSIVE) {
+    if (mIsLocked->isTrue()) {
+      parsingWarn(tr("Passive connectors cannot be locked."));
+      mIsLocked->setFalse();
+    }
+    return;
   }
+
+  if (mIsLocked->isTrue())
+    lock();
+  else
+    unlock();
+
+  mNeedToReconfigure = true;
 }
 
 void WbConnector::updateNumberOfRotations() {
   if (mNumberOfRotations->value() < 0) {
-    warn(tr("'numberOfRotations' must be positive or zero."));
+    parsingWarn(tr("'numberOfRotations' must be positive or zero."));
     mNumberOfRotations->setValue(0);
   }
   applyOptionalRenderingToWren();
@@ -161,7 +172,7 @@ void WbConnector::updateNumberOfRotations() {
 
 void WbConnector::updateDistanceTolerance() {
   if (mDistanceTolerance->value() < 0.0) {
-    warn(tr("'distanceTolerance' must be positive or zero."));
+    parsingWarn(tr("'distanceTolerance' must be positive or zero."));
     mDistanceTolerance->setValue(0.0);
   }
   mMinDist2 = mDistanceTolerance->value() * mDistanceTolerance->value();
@@ -169,24 +180,24 @@ void WbConnector::updateDistanceTolerance() {
 
 void WbConnector::updateAxisTolerance() {
   if (mAxisTolerance->clip(0.0, M_PI))
-    warn(tr("'axisTolerance' must be between 0 and pi."));
+    parsingWarn(tr("'axisTolerance' must be between 0 and pi."));
 }
 
 void WbConnector::updateRotationTolerance() {
   if (mRotationTolerance->clip(0.0, M_PI))
-    warn(tr("'rotationTolerance' must between 0 and pi."));
+    parsingWarn(tr("'rotationTolerance' must between 0 and pi."));
 }
 
 void WbConnector::updateTensileStrength() {
   if (mTensileStrength->value() < 0.0 && mTensileStrength->value() != -1.0) {
-    warn(tr("'tensileStrength' must be positive or -1 (infinite)."));
+    parsingWarn(tr("'tensileStrength' must be positive or -1 (infinite)."));
     mTensileStrength->setValue(-1.0);
   }
 }
 
 void WbConnector::updateShearStrength() {
   if (mShearStrength->value() < 0.0 && mShearStrength->value() != -1.0) {
-    warn(tr("'shearStrength' must be positive or -1 (infinite)."));
+    parsingWarn(tr("'shearStrength' must be positive or -1 (infinite)."));
     mShearStrength->setValue(-1.0);
   }
 }
@@ -493,6 +504,12 @@ void WbConnector::detachFromPeer() {
   else
     mPeer->destroyFixedJoint();
 
+  // detaching connectors may cause some motion that wasn't possible when they were attached to each other
+  // therefore we need to explicitely awake both of them in case they were idle
+  // so that the physics engine can generate their motion accordingly
+  awake();
+  mPeer->awake();
+
   // divorce
   mPeer->mPeer = NULL;
   mPeer = NULL;
@@ -579,7 +596,7 @@ void WbConnector::prePhysicsStep(double ms) {
 // locking required by controller
 void WbConnector::lock() {
   if (mFaceType == PASSIVE) {
-    warn(tr("Passive connectors cannot lock."));
+    parsingWarn(tr("Passive connectors cannot lock."));
     return;
   }
 
@@ -595,7 +612,7 @@ void WbConnector::lock() {
 // unlocking required by controller
 void WbConnector::unlock() {
   if (mFaceType == PASSIVE) {
-    warn(tr("Passive connectors cannot lock."));
+    parsingWarn(tr("Passive connectors cannot lock."));
     return;
   }
 
@@ -733,11 +750,21 @@ void WbConnector::writeAnswer(QDataStream &stream) {
     stream << (unsigned short int)mValue;
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 void WbConnector::writeConfigure(QDataStream &) {
   if (robot())
     mSensor->connectToRobotSignal(robot());
+}
+
+void WbConnector::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (unsigned char)(mIsLocked->value() ? 1 : 0);
+  mNeedToReconfigure = false;
 }
 
 // converts a rotation from quaternion to euler axis/angle representation

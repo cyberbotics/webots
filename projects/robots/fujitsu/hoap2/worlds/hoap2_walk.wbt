@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot."
@@ -8,6 +8,7 @@ WorldInfo {
   ]
   title "Fujitsu HOAP-2 walk"
   basicTimeStep 25
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softERP 0.5
@@ -53,5 +54,7 @@ DEF TATAMI Solid {
 }
 Hoap2 {
   translation 0 0.3 0
-  controllerArgs "walk"
+  controllerArgs [
+    "walk"
+  ]
 }

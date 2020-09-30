@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,14 +86,14 @@ void WbContactProperties::postFinalize() {
 void WbContactProperties::updateCoulombFriction() {
   const int nbElements = mCoulombFriction->size();
   if (nbElements < 1 || nbElements > 4) {
-    warn(tr("'coulombFriction' must have between one and four elements"));
+    parsingWarn(tr("'coulombFriction' must have between one and four elements"));
     return;
   }
 
   for (int c = 0; c < nbElements; ++c) {
     const double cf = mCoulombFriction->item(c);
     if (cf != -1.0 && cf < 0.0) {
-      warn(tr("If not set to -1 (infinity), 'coulombFriction' must be non-negative. Field value reset to 1"));
+      parsingWarn(tr("If not set to -1 (infinity), 'coulombFriction' must be non-negative. Field value reset to 1"));
       mCoulombFriction->setItem(c, 1.0);
       return;
     }
@@ -135,7 +135,7 @@ void WbContactProperties::updateBounceVelocity() {
 void WbContactProperties::updateForceDependentSlip() {
   const int nbElements = mForceDependentSlip->size();
   if (nbElements < 1 || nbElements > 4) {
-    warn(tr("'forceDependentSlip' must have between one and four elements"));
+    parsingWarn(tr("'forceDependentSlip' must have between one and four elements"));
     return;
   }
 

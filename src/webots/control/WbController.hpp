@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include "WbRobot.hpp"
 
 class QLocalSocket;
+class QProcessEnvironment;
 
 class WbController : public QObject {
   Q_OBJECT
@@ -52,9 +53,9 @@ public:
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
-  const QString &args() const;
   bool synchronization() const { return mRobot->synchronization(); }
   double requestTime() const { return mRequestTime; }
+  void resetRequestTime();
   bool isIncompleteRequest() const { return mIncompleteRequest; }
   unsigned int deltaTimeRequested() const { return mDeltaTimeRequested; }
   bool isRequestPending() const { return mRequestPending; }
@@ -77,7 +78,7 @@ private:
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
   QString mCommand;         // command to be exectuted, e.g. "java"
-  QString mCommandLine;     // full command line including command and arguments
+  QStringList mArguments;   // command arguments
   QString mJavaCommand;
   QString mJavaOptions;
   QString mPythonCommand;
@@ -99,14 +100,14 @@ private:
   bool mProcessingRequest;
   bool mHasPendingImmediateAnswer;
 
-  QString mPrefix;
   QString mStdoutBuffer;
   QString mStderrBuffer;
   bool mStdoutNeedsFlush;
   bool mStderrNeedsFlush;
 
-  void addEnvironmentVariable(QStringList &env, QString key, QString value);
-  void addPathEnvironmentVariable(QStringList &env, QString key, QString value, bool override, bool shouldPrepend = false);
+  void addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
+                                    bool shouldPrepend = false);
+  bool removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value);
   void setProcessEnvironment();
   void updateName(const QString &name);
 
@@ -120,6 +121,7 @@ private:
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
+  QString commandLine() const;
 
 private slots:
   void readStdout();

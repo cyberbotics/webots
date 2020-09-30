@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
   ]
   ERP 0.6
   FPS 30
+  coordinateSystem "NUE"
   lineScale 10
   contactProperties [
     ContactProperties {

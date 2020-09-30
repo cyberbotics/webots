@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,17 @@
 #include "WbNodeModel.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
+#include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
 #include <cassert>
+
+static double cLegacyGravity = 9.81;
+
+double WbParser::legacyGravity() {
+  return cLegacyGravity;
+}
 
 WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mMode(NONE) {
 }
@@ -51,7 +58,8 @@ void WbParser::parseInt() {
   if (fieldValue->isBoolean() && fieldName == "filtering" && mTokenizer->fileVersion() < WbVersion(8, 6, 0)) {
     WbLog::warning(QObject::tr("Boolean values for 'ImageTexture.filtering' field are deprecated"
                                " from Webots 8.6 onwards; the value has been converted automatically."
-                               " Please update your PROTO and world files accordingly."));
+                               " Please update your PROTO and world files accordingly."),
+                   false, WbLog::PARSING);
 
     bool isFilteringOn = fieldValue->toBool();
     if (isFilteringOn)
@@ -180,7 +188,6 @@ bool WbParser::parseWorld(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -206,7 +213,6 @@ bool WbParser::parseVrml(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -218,19 +224,6 @@ void WbParser::parseProtoDefinition(const QString &worldPath) {
   parseExactWord("}");
 }
 
-bool WbParser::parseProto(const QString &worldPath) {
-  mTokenizer->rewind();
-  mMode = PROTO;
-  try {
-    parseProtoDefinition(worldPath);
-    parseEof();
-  } catch (...) {
-    return false;
-  }
-
-  return true;
-}
-
 bool WbParser::parseObject(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = WBO;
@@ -239,7 +232,6 @@ bool WbParser::parseObject(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -257,7 +249,6 @@ bool WbParser::parseNodeModel() {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -330,6 +321,13 @@ void WbParser::parseNode(const QString &worldPath) {
     while (peekWord() != "}")
       parseField(nodeModel, worldPath);
     skipToken();  // "}";
+    // if no coordinate system was explicitly set in parseField(), set the default value.
+    if (nodeModel->name() == "WorldInfo" && WbProtoTemplateEngine::coordinateSystem().isEmpty()) {
+      if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0))  // earlier than R2020b
+        WbProtoTemplateEngine::setCoordinateSystem("NUE");
+      else
+        WbProtoTemplateEngine::setCoordinateSystem("ENU");
+    }
     return;
   }
 
@@ -348,7 +346,29 @@ void WbParser::parseNode(const QString &worldPath) {
 
 void WbParser::parseField(const WbNodeModel *nodeModel, const QString &worldPath) {
   const QString &fieldName = parseIdentifier(QObject::tr("field name or '}'"));
-
+  // we need to set the coordinate system to the WbProtoTemplateEngine early enough to be able to pass the "coordinate_system"
+  // as a context dictionary to procedural PROTO parameter nodes that are created before the WorldInfo node.
+  if (nodeModel->name() == "WorldInfo") {
+    if (mTokenizer->fileVersion() >= WbVersion(2020, 1, 0) && fieldName == "coordinateSystem") {
+      QString coordinateSystem = peekWord();
+      if (coordinateSystem.at(0) == '"' && coordinateSystem.back() == '"') {
+        coordinateSystem = coordinateSystem.mid(1, coordinateSystem.size() - 2);
+        WbProtoTemplateEngine::setCoordinateSystem(coordinateSystem);
+      }
+    } else if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0) && fieldName == "gravity") {
+      const double x = nextWord().toDouble();
+      const double y = nextWord().toDouble();
+      const double z = peekWord().toDouble();
+      cLegacyGravity = sqrt(x * x + y * y + z * z);
+      reportError(QObject::tr("Found deprecated gravity vector (%1 %2 %3) in WorldInfo, using gravity vector length: %4")
+                    .arg(x)
+                    .arg(y)
+                    .arg(z)
+                    .arg(cLegacyGravity));
+      mTokenizer->skipField(true);
+      return;
+    }
+  }
   const WbFieldModel *const fieldModel = nodeModel->findFieldModel(fieldName);
   if (!fieldModel) {
     reportError(QObject::tr("Skipped unknown '%1' field in %2 node").arg(fieldName, nodeModel->name()));
@@ -411,7 +431,6 @@ bool WbParser::parseProtoInterface(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 

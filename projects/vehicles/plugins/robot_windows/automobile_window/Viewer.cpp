@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
 // limitations under the License.
 
 #include "Viewer.hpp"
+
 #include "BrakeWidget.hpp"
 #include "EncodersWidget.hpp"
 #include "GeneralInformationWidget.hpp"
-#include "OSMImportWidget.hpp"
 #include "RPMWidget.hpp"
 #include "SpeedWidget.hpp"
 #include "SteeringWidget.hpp"
@@ -51,6 +51,7 @@ QStringList hiddenDevices = (QStringList() << "left_steer"
                                            << "rear_pitch_mirror_frame_motor"
                                            << "steering_wheel_motor"
                                            << "speed_needle_motor"
+                                           << "indicator_lever_motor"
                                            << "rpm_needle_motor");
 
 Viewer::Viewer() : GenericWindow(hiddenDevices) {
@@ -61,10 +62,6 @@ Viewer::Viewer() : GenericWindow(hiddenDevices) {
   mBrakeWidget = new BrakeWidget(this);
   mThrottleWidget = new ThrottleWidget(this);
   mRPMWidget = new RPMWidget(this);
-  if (QDir(qgetenv("WEBOTS_HOME") + QString("/resources/osm_importer/osm_gui")).exists())
-    mOSMImportWidget = new OSMImportWidget(this);
-  else
-    mOSMImportWidget = NULL;
 
   mTabWidget->insertTab(0, mGeneralInformationWidget, "Overview");
   mTabWidget->insertTab(1, mSpeedWidget, "Speed");
@@ -73,9 +70,6 @@ Viewer::Viewer() : GenericWindow(hiddenDevices) {
   mTabWidget->insertTab(4, mBrakeWidget, "Brake");
   mTabWidget->insertTab(5, mThrottleWidget, "Throttle");
   mTabWidget->insertTab(6, mRPMWidget, "RPM");
-
-  if (mOSMImportWidget)
-    mTabWidget->addTab(mOSMImportWidget, "OSM import");
 
   mTabWidget->setCurrentIndex(0);
   setMinimumHeight(550);

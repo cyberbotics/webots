@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -96,12 +96,8 @@ string Robot::getName() const {
   return string(wb_robot_get_name());
 }
 
-string Robot::getControllerName() const {
-  return string(wb_robot_get_controller_name());
-}
-
-string Robot::getControllerArguments() const {
-  return string(wb_robot_get_controller_arguments());
+string Robot::getUrdf(string prefix) const {
+  return string(wb_robot_get_urdf(prefix.c_str()));
 }
 
 double Robot::getTime() const {
@@ -134,8 +130,8 @@ Robot::Mode Robot::getMode() const {
   return Mode(wb_robot_get_mode());
 }
 
-void Robot::setMode(Mode m, void *args) {
-  wb_robot_set_mode(WbRobotMode(m), args);
+void Robot::setMode(Mode m, const char *arg) {
+  wb_robot_set_mode(WbRobotMode(m), arg);
 }
 
 bool Robot::getSupervisor() const {

@@ -1,0 +1,199 @@
+#VRML_SIM R2021a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable conveyor belt moving at a constant speed.
+
+PROTO ConveyorBelt [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "conveyor belt"
+  field SFVec3f    size             1.5 0.6 0.5
+  field SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }  # Defines the appearance of the conveyor belt.
+  field SFFloat    borderThickness  0.03                                                                 # Defines the thickness of the metal part around the conveyor belt.
+  field SFFloat    borderHeight     0.01                                                                 # Defines the height of the border around the conveyor.
+  field SFFloat    speed            0.5                                                                  # Defines the rubber band speed in meters per second.
+  field SFFloat    acceleration     -1                                                                   # Defines the acceleration of the conveyor belt.
+  field SFFloat    timer            0.0                                                                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
+]
+{
+  %{
+    local size = fields.size.value
+    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then
+      io.stderr:write("'size' elements must be strictly positive.\n")
+      size = fields.size.default
+    end
+
+    local borderThickness = fields.borderThickness.value
+    if borderThickness <= 0.0 then
+      io.stderr:write("'borderThickness' must be strictly positive.\n")
+      borderThickness = fields.borderThickness.default
+    end
+
+    local borderHeight = fields.borderHeight.value
+  }%
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller "conveyor_belt"
+    controllerArgs [
+      "%{=fields.speed.value}%"
+      "%{=fields.timer.value}%"
+    ]
+    children [
+      Track {
+        translation 0 %{=0.75 * size.y}% 0
+        rotation -1 0 0 3.141592653589793
+        children [
+          Shape {
+            appearance Rubber {
+              type "dotted"
+              textureTransform TextureTransform {
+                scale %{=4.0 * size.x}% %{=4.0 * size.z}%
+              }
+            }
+            geometry DEF BELT_BO Box {
+              size %{=size.x}% %{=0.5 * size.y}% %{=size.z}%
+            }
+          }
+        ]
+        boundingObject USE BELT_BO
+        physics Physics {
+          density -1
+          mass 1
+        }
+        device [
+          LinearMotor {
+            name "belt_motor"
+            acceleration IS acceleration
+            maxVelocity %{= math.abs(fields.speed.value) }%
+            sound ""
+          }
+        ]
+        textureAnimation %{=-1 / size.x}% 0
+      }
+      Shape {
+        appearance IS appearance
+        geometry IndexedFaceSet {
+          %{
+            local xA = 0.5 * size.x
+            local xB = 0.5 * size.x + borderThickness
+            local yA = 0.0
+            local yB = size.y
+            local yC = size.y + borderHeight
+            local zA = 0.5 * size.z
+            local zB = 0.5 * size.z + borderThickness
+          }%
+          coord Coordinate {
+            point [
+              %{=xB}% %{=yA}% %{=zB}%
+              %{=xB}% %{=yC}% %{=zB}%
+              %{=-xB}% %{=yC}% %{=zB}%
+              %{=-xB}% %{=yA}% %{=zB}%
+              %{=xB}% %{=yA}% %{=-zB}%
+              %{=xB}% %{=yC}% %{=-zB}%
+              %{=-xB}% %{=yC}% %{=-zB}%
+              %{=-xB}% %{=yA}% %{=-zB}%
+              %{=xA}% %{=yC}% %{=zA}%
+              %{=xA}% %{=yC}% %{=-zA}%
+              %{=-xA}% %{=yC}% %{=-zA}%
+              %{=-xA}% %{=yC}% %{=zA}%
+              %{=xA}% %{=yB}% %{=zA}%
+              %{=xA}% %{=yB}% %{=-zA}%
+              %{=-xA}% %{=yB}% %{=-zA}%
+              %{=-xA}% %{=yB}% %{=zA}%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              0 0
+              1 0
+              1 1
+              0 1
+              0 %{=yC/xB}%
+              1 %{=yC/xB}%
+              0 %{=yC/xB}%
+              %{=zB/xB}% %{=yC/xB}%
+              %{=zB/xB}% 0
+              0 0
+              0.001 0
+              0.001 0.001
+              0 0.001
+            ]
+          }
+          texCoordIndex [
+            1 5 4 0 -1
+            0 1 5 4 -1
+            0 8 7 6 -1
+            0 8 7 6 -1
+            9 10 11 12 -1
+            9 10 11 12 -1
+            9 10 11 12 -1
+            9 10 11 12 -1
+            9 10 11 12 -1
+            %{ if borderHeight > 0.0 then }%
+              9 10 11 12 -1
+              9 10 11 12 -1
+              9 10 11 12 -1
+              9 10 11 12 -1
+            %{ end }%
+          ]
+          coordIndex [
+            0 1 2 3 -1
+            4 7 6 5 -1
+            0 4 5 1 -1
+            7 3 2 6 -1
+            1 5 9 8 -1
+            5 6 10 9 -1
+            6 2 11 10 -1
+            2 1 8 11 -1
+            0 3 7 4 -1
+            %{ if borderHeight > 0.0 then }%
+              8 9 13 12 -1
+              9 10 14 13 -1
+              10 11 15 14 -1
+              11 8 12 15 -1
+            %{ end }%
+          ]
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation %{=0.5 * (size.x + borderThickness)}% %{=0.5 * (size.y + borderHeight)}% 0
+          children [
+            Box {
+              size %{=borderThickness}% %{=size.y + borderHeight}% %{=size.z + 2.0 * borderThickness}%
+            }
+          ]
+        }
+        Transform {
+          translation %{=-0.5 * (size.x + borderThickness)}% %{=0.5 * (size.y + borderHeight)}% 0
+          children [
+            Box {
+              size %{=borderThickness}% %{=size.y + borderHeight}% %{=size.z + 2.0 * borderThickness}%
+            }
+          ]
+        }
+        Transform {
+          translation 0 %{=0.5 * (size.y + borderHeight)}% %{=-0.5 * (size.z + borderThickness)}%
+          children [
+            Box {
+              size %{=size.x}% %{=size.y + borderHeight}% %{=borderThickness}%
+            }
+          ]
+        }
+        Transform {
+          translation 0 %{=0.5 * (size.y + borderHeight)}% %{=0.5 * (size.z + borderThickness)}%
+          children [
+            Box {
+              size %{=size.x}% %{=size.y + borderHeight}% %{=borderThickness}%
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

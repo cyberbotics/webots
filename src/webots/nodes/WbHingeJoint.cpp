@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -348,9 +348,9 @@ void WbHingeJoint::postPhysicsStep() {
 void WbHingeJoint::updatePosition() {
   // Update triggered by an artificial move, i.e. a move caused by the user or a Supervisor
   const WbJointParameters *const p = parameters();
-  assert(p);
+
   if (solidReference() == NULL && solidEndPoint())
-    updatePosition(p->position());
+    updatePosition(p ? p->position() : mPosition);
 
   emit updateMuscleStretch(0.0, true, 1);
 }
@@ -390,10 +390,10 @@ void WbHingeJoint::updateSuspension() {
 void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
   const WbJointParameters *const p = dynamic_cast<WbJointParameters *>(sender());
   if (min <= -M_PI)
-    p->warn(tr("HingeJoint 'minStop' must be greater than -pi to be effective."));
+    p->parsingWarn(tr("HingeJoint 'minStop' must be greater than -pi to be effective."));
 
   if (max >= M_PI)
-    p->warn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
+    p->parsingWarn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
 
   WbRotationalMotor *const rm = rotationalMotor();
   if (rm) {
@@ -401,10 +401,10 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
     const double maxPos = rm->maxPosition();
     if (min != max && minPos != maxPos) {
       if (minPos < min)
-        p->warn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
+        p->parsingWarn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
 
       if (maxPos > max)
-        p->warn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
+        p->parsingWarn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
     }
   }
 

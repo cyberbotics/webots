@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,16 +69,11 @@ WbCoordinate *WbIndexedLineSet::coord() const {
 
 void WbIndexedLineSet::createWrenObjects() {
   WbGeometry::createWrenObjects();
-
   updateCoord();
-
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
             &WbIndexedLineSet::updateLineScale);
-
-  sanitizeFields();
   buildWrenMesh();
-
   emit wrenObjectsCreated();
 }
 
@@ -101,12 +96,12 @@ void WbIndexedLineSet::setWrenMaterial(WrMaterial *material, bool castShadows) {
 
 bool WbIndexedLineSet::sanitizeFields() {
   if (!coord() || coord()->point().isEmpty()) {
-    warn(tr("A 'Coordinate' node should be present in the 'coord' field with at least two items."));
+    parsingWarn(tr("A 'Coordinate' node should be present in the 'coord' field with at least two items."));
     return false;
   }
 
   if (mCoordIndex->isEmpty() || estimateIndexCount() < 2) {
-    warn(tr("The 'coordIndex' field should have at least two items."));
+    parsingWarn(tr("The 'coordIndex' field should have at least two items."));
     return false;
   }
 
@@ -127,11 +122,12 @@ void WbIndexedLineSet::buildWrenMesh() {
   float *coordsData = new float[mCoordIndex->size() * 6];
   int coordsCount = computeCoordsData(coordsData);
 
-  mWrenMesh = wr_static_mesh_line_set_new(coordsCount, coordsData, NULL);
+  if (coordsCount > 0) {
+    mWrenMesh = wr_static_mesh_line_set_new(coordsCount, coordsData, NULL);
+    wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
+  }
 
   delete[] coordsData;
-
-  wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 }
 
 void WbIndexedLineSet::reset() {
@@ -144,6 +140,8 @@ void WbIndexedLineSet::reset() {
 
 int WbIndexedLineSet::computeCoordsData(float *data) {
   WbMFInt::Iterator it(*mCoordIndex);
+  if (!it.hasNext())
+    return 0;
   int i = it.next();
   int count = 0;
   WbVector3 v;
@@ -175,8 +173,9 @@ int WbIndexedLineSet::computeCoordsData(float *data) {
 
   if (invalidIndices.size() > 0) {
     invalidIndices.removeDuplicates();
-    warn(tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
-           .arg(invalidIndices.join(", ")));
+    parsingWarn(
+      tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
+        .arg(invalidIndices.join(", ")));
   }
 
   return count;
@@ -272,7 +271,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbIndexedLineSet::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A IndexedLineSet is used in a Bounding object using an asymmetric friction. IndexedLineSet does not support "
-          "asymmetric friction"));
+  parsingWarn(tr("A IndexedLineSet is used in a Bounding object using an asymmetric friction. IndexedLineSet does not support "
+                 "asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

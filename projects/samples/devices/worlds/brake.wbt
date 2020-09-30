@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "In this example, a bike wheel turns until it is slowed down by a braking system."
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "Brake"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.050818747505163665 -0.966521277769107 -0.2515036272533242 3.645814842829025
