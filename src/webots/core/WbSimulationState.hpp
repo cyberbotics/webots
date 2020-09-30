@@ -29,7 +29,7 @@ public:
   static WbSimulationState *instance() { return cInstance ? cInstance : new WbSimulationState(); };
 
   // simulation mode
-  enum Mode { NONE, PAUSE, STEP, REALTIME, RUN, FAST };
+  enum Mode { NONE, PAUSE, STEP, REALTIME, RUN };
   void setMode(Mode mode);
   void undoMode() { setMode(mPreviousMode); }
   Mode mode() const { return mEnabled ? mMode : PAUSE; }
@@ -38,7 +38,7 @@ public:
   bool isStep() const { return mMode == STEP; }
   bool isRealTime() const { return mMode == REALTIME; }
   bool isRunning() const { return mMode == RUN; }
-  bool isFast() const { return mMode == FAST; }
+  bool has3dView() const {  }
   // pause/resume simulation for executing application dialogs
   void pauseSimulation();
   void resumeSimulation();

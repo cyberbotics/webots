@@ -581,8 +581,6 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
       return "real-time";
     case WbSimulationState::RUN:
       return "run";
-    case WbSimulationState::FAST:
-      return "fast";
     default:
       return "";
   }

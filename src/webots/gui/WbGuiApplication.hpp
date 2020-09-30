@@ -52,6 +52,7 @@ private:
   QString mStartWorldName;
   WbSimulationState::Mode mStartupMode;
   WbMainWindow *mMainWindow;
+  bool mShouldShow3dView;
 
   Task mTask;
   QString mTaskArgument;

@@ -100,6 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
+  mShouldShow3dView = true;
 
   parseArguments();
 }
@@ -214,8 +215,8 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::REALTIME;
     else if (arg == "--mode=run")
       mStartupMode = WbSimulationState::RUN;
-    else if (arg == "--mode=fast")
-      mStartupMode = WbSimulationState::FAST;
+    else if (arg == "--disable3dview")
+      mShouldShow3dView = false;
     else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
@@ -484,8 +485,17 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
     return WbSimulationState::REALTIME;
   if (startupMode == "Run")
     return WbSimulationState::RUN;
-  if (startupMode == "Fast")
-    return WbSimulationState::FAST;
+  return WbSimulationState::PAUSE;
+}
+
+bool WbGuiApplication::view3dFromPreferences() const {
+  WbPreferences *const prefs = WbPreferences::instance();
+  const QString startupMode(prefs->value("General/startupMode").toString());
+
+  if (startupMode == "Real-time")
+    return WbSimulationState::REALTIME;
+  if (startupMode == "Run")
+    return WbSimulationState::RUN;
   return WbSimulationState::PAUSE;
 }
 
