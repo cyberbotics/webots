@@ -250,7 +250,7 @@ void WbContactPointsRepresentation::handleSimulationState() {
   const WbSimulationState *const state = WbSimulationState::instance();
   const WbSimulationWorld *const world = WbSimulationWorld::instance();
 
-  if (state->isFast()) {
+  if (!state->is3dViewShown()) {
     disconnect(world, &WbSimulationWorld::physicsStepEnded, this, &WbContactPointsRepresentation::updateRendering);
     wr_node_set_visible(WR_NODE(mTransform), false);
   } else if (mRenderingContext->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_CONTACT_POINTS)) {

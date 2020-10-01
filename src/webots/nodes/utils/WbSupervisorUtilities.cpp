@@ -323,8 +323,6 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
       return WbSimulationState::REALTIME;
     case WB_SUPERVISOR_SIMULATION_MODE_RUN:
       return WbSimulationState::RUN;
-    case WB_SUPERVISOR_SIMULATION_MODE_FAST:
-      return WbSimulationState::FAST;
     default:
       return WbSimulationState::PAUSE;
   }

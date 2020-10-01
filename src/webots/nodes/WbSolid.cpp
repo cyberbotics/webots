@@ -2586,7 +2586,7 @@ bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
                  &WbSolid::refreshSupportPolygonRepresentation);
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,
                  &WbSolid::resetContactPointsAndSupportPolygon);
-      if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast())
+      if (WbSimulationState::instance()->isRunning() || !WbSimulationState::instance()->is3dViewShown())
         deleteSupportPolygonRepresentation();
       else {
         mSupportPolygonRepresentation->show(false);
@@ -2724,7 +2724,7 @@ void WbSolid::resetImmersions() {
 }
 
 void WbSolid::onSimulationModeChanged() {
-  if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast()) {
+  if (WbSimulationState::instance()->isRunning() || !WbSimulationState::instance()->is3dViewShown()) {
     if (mSupportPolygonRepresentation && !mSupportPolygonRepresentationIsEnabled) {
       deleteSupportPolygonRepresentation();
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,

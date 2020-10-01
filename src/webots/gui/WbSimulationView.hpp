@@ -112,8 +112,8 @@ private slots:
   void step();
   void realTime();
   void run();
-  void fast();
-  void disableFastMode(bool disabled);
+  void show3dView();
+  void hide3dView();
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();
@@ -150,7 +150,7 @@ private:
   QHBoxLayout *mToolsLayout;
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
-  bool mNeedRestoreFastMode;
+  bool mNeedToHide3dView;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;
@@ -167,8 +167,8 @@ private:
   void updateFastModeOverlay();
   void renderABlackScreen();
   void retrieveSimulationView();
-  void switchToRunModeIfNecessary();
-  void restoreFastModeIfNecessary();
+  void show3dViewIfNecessary();
+  void restore3dViewIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
   void updateToggleView3DAction(bool enabled);

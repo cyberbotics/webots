@@ -41,6 +41,10 @@ void WbSimulationState::setMode(Mode mode) {
   emit modeChanged();
 }
 
+void WbSimulationState::show3dView(bool show) {
+  mShow3dView = show;
+}
+
 void WbSimulationState::pauseSimulation() {
   if (gResumeMode != NONE) {
     // already paused

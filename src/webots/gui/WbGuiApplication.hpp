@@ -67,6 +67,7 @@ private:
   void setSplashMessage(const QString &);
   void closeSplashScreenIfNeeded();
   WbSimulationState::Mode startupModeFromPreferences() const;
+  bool view3dFromPreferences() const; 
   void loadInitialWorld();
 
   void udpateStyleSheet();

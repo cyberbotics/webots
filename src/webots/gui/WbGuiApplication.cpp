@@ -490,13 +490,11 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
 bool WbGuiApplication::view3dFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
-  const QString startupMode(prefs->value("General/startupMode").toString());
+  const QString show3dView(prefs->value("General/show3dView").toString());
 
-  if (startupMode == "Real-time")
-    return WbSimulationState::REALTIME;
-  if (startupMode == "Run")
-    return WbSimulationState::RUN;
-  return WbSimulationState::PAUSE;
+  if (show3dView == "false")
+    return false;
+  return true;
 }
 
 #ifdef __APPLE__

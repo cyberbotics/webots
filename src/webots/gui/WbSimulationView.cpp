@@ -109,7 +109,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   createActions();
   mTitleBar = new WbDockTitleBar(false, this);
   mToolBar = createToolBar();
-  mNeedRestoreFastMode = false;
+  mNeedToHide3dView = false;
 
   // top level layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
@@ -128,7 +128,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   WbSimulationState *state = WbSimulationState::instance();
 
   //  show a black screen is fast mode is selected
-  if (state->mode() == WbSimulationState::FAST)
+  if (!state->is3dViewShown())
     renderABlackScreen();
 
   connect(mTitleBar, &WbDockTitleBar::closeClicked, this, &WbSimulationView::hide);
@@ -136,8 +136,8 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   connect(mTitleBar, &WbDockTitleBar::minimizeClicked, this, &WbSimulationView::needsMinimize);
   connect(mSplitter, &QSplitter::splitterMoved, this, &WbSimulationView::needsActionsUpdate);
   connect(WbActionManager::instance()->action(WbAction::STEP), &QAction::triggered, mView3D, &WbView3D::unleashAndClean);
-  connect(WbActionManager::instance()->action(WbAction::DISABLE_FAST_MODE), &QAction::triggered, this,
-          &WbSimulationView::disableFastMode);
+  // connect(WbActionManager::instance()->action(WbAction::DISABLE_FAST_MODE), &QAction::triggered, this,
+  //        &WbSimulationView::disableFastMode);
   connect(mView3D, &WbView3D::applicationActionsUpdateRequested, mSceneTree, &WbSceneTree::updateApplicationActions);
 
   // video recording
@@ -299,7 +299,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
   connect(manager->action(WbAction::RUN), &QAction::triggered, this, &WbSimulationView::run);
-  connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
+  // connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
 
   // add actions available in full-screen mode to the current widget
   // otherwise they will be automatically disabled when the toolbar is hidden
@@ -473,7 +473,7 @@ void WbSimulationView::updateVisibility() {
 void WbSimulationView::unmuteSound() {
   WbPreferences::instance()->setValue("Sound/mute", false);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
-  if (mode != WbSimulationState::RUN && mode != WbSimulationState::FAST)
+  if (mode != WbSimulationState::RUN && WbSimulationState::instance()->is3dViewShown())
     WbSoundEngine::setMute(false);
   mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
@@ -544,7 +544,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
     mRecordingTimer->start(800);
     toggleMovieAction(true);
     mTakeScreenshotAction->setEnabled(false);
-    switchToRunModeIfNecessary();
+    show3dViewIfNecessary();
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     if (mainWindow->isMinimized()) {
       mWasMinimized = true;
@@ -555,7 +555,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
 
 void WbSimulationView::stopVideoCapture(bool canceled) {
   WbVideoRecorder::instance()->stopRecording(canceled);
-  restoreFastModeIfNecessary();
+  restore3dViewIfNecessary();
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     mainWindow->showMinimized();
@@ -582,7 +582,7 @@ void WbSimulationView::stopMovie() {
 }
 
 void WbSimulationView::makeMovie() {
-  if (WbSimulationState::instance()->isFast()) {
+  if (!WbSimulationState::instance()->is3dViewShown()) {
     WbLog::warning(tr("Impossible to record a movie while running the simulation in 'Fast' mode."), true);
     return;
   }
@@ -610,20 +610,20 @@ void WbSimulationView::makeMovie() {
   updateFastModeOverlay();
 }
 
-void WbSimulationView::switchToRunModeIfNecessary() {
+void WbSimulationView::show3dViewIfNecessary() {
   // remove "Fast Mode" overlay if necessary
-  if (WbSimulationState::instance()->isFast()) {
-    WbSimulationState::instance()->setMode(WbSimulationState::RUN);
+  if (!WbSimulationState::instance()->is3dViewShown()) {
+    WbSimulationState::instance()->show3dView(true);
     mView3D->hideFastModeOverlay();
-    mNeedRestoreFastMode = true;
+    mNeedToHide3dView = true;
   }
 }
 
-void WbSimulationView::restoreFastModeIfNecessary() {
-  if (mNeedRestoreFastMode) {
+void WbSimulationView::restore3dViewIfNecessary() {
+  if (mNeedToHide3dView) {
     mView3D->showFastModeOverlay();
-    WbSimulationState::instance()->setMode(WbSimulationState::FAST);
-    mNeedRestoreFastMode = false;
+    WbSimulationState::instance()->show3dView(true);
+    mNeedToHide3dView = false;
   }
 }
 
@@ -644,7 +644,7 @@ void WbSimulationView::writeScreenshot(QImage image) {
     WbSimulationState::instance()->resumeSimulation();
     mIsScreenshotRequestedFromGui = false;
   }
-  restoreFastModeIfNecessary();
+  restore3dViewIfNecessary();
 
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
@@ -670,7 +670,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
     return;
   }
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
-  switchToRunModeIfNecessary();
+  show3dViewIfNecessary();
   mView3D->requestScreenshot();
 
   if (mIsScreenshotRequestedFromGui) {
@@ -750,20 +750,26 @@ void WbSimulationView::run() {
   WbSimulationState::instance()->setMode(WbSimulationState::RUN);
 }
 
-void WbSimulationView::fast() {
-  WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+void WbSimulationView::show3dView() {
+  WbSimulationState::instance()->show3dView(true);
 }
 
+void WbSimulationView::hide3dView() {
+  WbSimulationState::instance()->show3dView(false);
+}
+
+/*
 void WbSimulationView::disableFastMode(bool disabled) {
   WbActionManager::instance()->action(WbAction::FAST)->setEnabled(!disabled);
   mView3D->setUserInteractionDisabled(WbAction::DISABLE_FAST_MODE, disabled);
 }
+*/
 
 void WbSimulationView::updateFastModeOverlay() {
-  if (WbSimulationState::instance()->mode() == WbSimulationState::FAST)
-    renderABlackScreen();
-  else
+  if (WbSimulationState::instance()->is3dViewShown())
     retrieveSimulationView();
+  else
+    renderABlackScreen();
 }
 
 void WbSimulationView::prepareWorldLoading() {
@@ -876,7 +882,7 @@ void WbSimulationView::modeKeyPressed(QKeyEvent *event) {
       return;
     case Qt::Key_4:
       // Ctrl + 4
-      fast();
+      show3dView();
       return;
     default:
       break;
@@ -911,10 +917,6 @@ void WbSimulationView::updatePlayButtons() {
 
     case WbSimulationState::RUN:
       actions << realtime << pause << fast;
-      break;
-
-    case WbSimulationState::FAST:
-      actions << realtime << run << pause;
       break;
 
     default:  // PAUSE

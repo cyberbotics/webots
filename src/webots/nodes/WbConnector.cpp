@@ -920,7 +920,7 @@ void WbConnector::hasMoved() {
 // look recursively through Solid and notify each Connector
 void WbConnector::solidHasMoved(WbSolid *solid) {
   // when the simulation is running we don's allow changes
-  if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast())
+  if (WbSimulationState::instance()->isRunning() || !WbSimulationState::instance()->is3dViewShown())
     return;
 
   WbConnector *connector = dynamic_cast<WbConnector *>(solid);

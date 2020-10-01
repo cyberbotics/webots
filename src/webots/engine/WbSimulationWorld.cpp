@@ -294,10 +294,10 @@ void WbSimulationWorld::checkNeedForBoundingMaterialUpdate() {
   const WbWrenRenderingContext *const context = WbWrenRenderingContext::instance();
   const int showAllBoundingObjects = context->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS);
 
-  if (!showAllBoundingObjects && mode == WbSimulationState::FAST)
+  if (!showAllBoundingObjects && !WbSimulationState::instance()->is3dViewShown())
     return;
 
-  if (showAllBoundingObjects && mode != WbSimulationState::FAST) {
+  if (showAllBoundingObjects && WbSimulationState::instance()->is3dViewShown()) {
     connect(this, &WbSimulationWorld::physicsStepEnded, this, &WbSimulationWorld::propagateBoundingObjectUpdate,
             Qt::UniqueConnection);
     propagateBoundingObjectMaterialUpdate(true);

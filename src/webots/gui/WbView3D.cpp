@@ -1067,10 +1067,10 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
     mFastModeOverlay = new WbWrenFullScreenOverlay("Fast mode", 128, true);
     mFastModeOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
   }
-  if (simulationState->mode() == WbSimulationState::FAST)
-    showFastModeOverlay();
-  else
+  if (WbSimulationState::instance()->is3dViewShown())
     hideFastModeOverlay();
+  else
+    showFastModeOverlay();
 
 #ifdef _WIN32
   // Creates the virtual reality headset overlay

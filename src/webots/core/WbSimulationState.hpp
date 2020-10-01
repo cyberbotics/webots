@@ -31,6 +31,7 @@ public:
   // simulation mode
   enum Mode { NONE, PAUSE, STEP, REALTIME, RUN };
   void setMode(Mode mode);
+  void show3dView(bool show);
   void undoMode() { setMode(mPreviousMode); }
   Mode mode() const { return mEnabled ? mMode : PAUSE; }
   Mode previousMode() const { return mEnabled ? mPreviousMode : PAUSE; }
@@ -38,7 +39,7 @@ public:
   bool isStep() const { return mMode == STEP; }
   bool isRealTime() const { return mMode == REALTIME; }
   bool isRunning() const { return mMode == RUN; }
-  bool has3dView() const {  }
+  bool is3dViewShown() const { return mShow3dView; }
   // pause/resume simulation for executing application dialogs
   void pauseSimulation();
   void resumeSimulation();
@@ -80,6 +81,8 @@ protected:
 private:
   static WbSimulationState *cInstance;
   Mode mMode, mPreviousMode;
+
+  bool mShow3dView;
   bool mEnabled;
   double mTime;
 
