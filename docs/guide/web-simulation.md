@@ -311,6 +311,19 @@ In this case, you can open automatically a user session when the computer is swi
 If you have a headless system, i.e., a system without any physical monitors attached, then with the NVIDIA graphics card you could fake a monitor in the X session.
 This solution basically consists in adding a screen configuration to the X server configuration file by copying the Extended Display Identification Data (EDID) of a temporary attached monitor.
 
+#### Startup Procedure
+
+The startup procedure is the following:
+
+1. Start all the simulation servers (`simulation_server.py`).
+2. Start the session server (`session_server.py`).
+
+This procedure should be automated in a startup script, so that the servers are restarted after a reboot of the machine.
+
+This folder also contains a `server.sh` utility script to automatically start and stop `session_server.py` and `simulation_server.py` with a given configuration file.
+
+Please make sure that the `WEBOTS_HOME` variable is set before running the simulation and session server scripts.
+
 #### Using Docker
 
 The simulation server can also be run in a Docker container.
