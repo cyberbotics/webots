@@ -346,6 +346,7 @@ bool WbGuiApplication::setup() {
     mStartupMode = startupModeFromPreferences();
 
   WbSimulationState::instance()->setMode(mStartupMode);
+  WbSimulationState::instance()->show3dView(mShouldShow3dView);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
