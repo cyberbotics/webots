@@ -179,15 +179,24 @@ void WbActionManager::populateActions() {
   mActions[RUN] = action;
 
   icon = QIcon();
-  icon.addFile("enabledIcons:fast_button.png", QSize(), QIcon::Normal);
-  icon.addFile("disabledIcons:fast_button.png", QSize(), QIcon::Disabled);
+  // TODO: Change icon
+  icon.addFile("enabledIcons:sound_unmute_button.png", QSize(), QIcon::Normal);
   action = new QAction(this);
-  action->setText(tr("&Fast"));
-  action->setStatusTip(tr("Run the simulation as fast as possible without graphics. (%1+4)").arg(mapControlKey()));
+  action->setText(tr("&Enable 3D View"));
+  action->setStatusTip(tr("Run the simulation without graphics."));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_4);
   action->setIcon(icon);
-  mActions[FAST] = action;
+  mActions[ENABLE_3D_VIEW] = action;
+
+  icon = QIcon();
+  // TODO: Change icon
+  icon.addFile("enabledIcons:sound_mute_button.png", QSize(), QIcon::Normal);
+  action = new QAction(this);
+  action->setText(tr("&Disable 3D View"));
+  action->setStatusTip(tr("Run the simulation without graphics."));
+  action->setToolTip(action->statusTip());
+  action->setIcon(icon);
+  mActions[DISABLE_3D_VIEW] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
@@ -465,13 +474,6 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
   mActions[DISABLE_FORCE_AND_TORQUE] = action;
-
-  action = new QAction(this);
-  action->setText(tr("Disable Fast Mode"));
-  action->setStatusTip(tr("Disable running the simulation in fast mode."));
-  action->setToolTip(action->statusTip());
-  action->setCheckable(true);
-  mActions[DISABLE_FAST_MODE] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);
@@ -1062,7 +1064,6 @@ void WbActionManager::updateEnabled() {
   mActions[PAUSE]->setEnabled(simulationEnabled);
   mActions[STEP]->setEnabled(simulationEnabled);
   mActions[RUN]->setEnabled(simulationEnabled);
-  mActions[FAST]->setEnabled(simulationEnabled);
 }
 
 void WbActionManager::setEnabled(WbActionKind kind, bool enabled) {

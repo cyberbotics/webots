@@ -655,7 +655,6 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_OBJECT_MOVE));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE));
-  subMenu->addAction(actionManager->action(WbAction::DISABLE_FAST_MODE));
 
   return menu;
 }
@@ -669,7 +668,7 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
   menu->addAction(manager->action(WbAction::RUN));
-  menu->addAction(manager->action(WbAction::FAST));
+  menu->addAction(manager->action(WbAction::ENABLE_3D_VIEW));
   return menu;
 }
 
@@ -985,7 +984,6 @@ void WbMainWindow::createMenus() {
   mSimulationMenu = createSimulationMenu();
   mMenuBar->addAction(mSimulationMenu->menuAction());
   mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::RUN));
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::FAST));
 
   menu = createBuildMenu();
   mMenuBar->addAction(menu->menuAction());
@@ -1375,9 +1373,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbActionManager::instance()
     ->action(WbAction::DISABLE_FORCE_AND_TORQUE)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE));
-  WbActionManager::instance()
-    ->action(WbAction::DISABLE_FAST_MODE)
-    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FAST_MODE));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();

@@ -389,8 +389,6 @@ QString WbPerspective::getActionName(WbAction::WbActionKind action) {
       return "objectMoveDisabled";
     case WbAction::DISABLE_FORCE_AND_TORQUE:
       return "forceAndTorqueDisabled";
-    case WbAction::DISABLE_FAST_MODE:
-      return "fastModeDisabled";
     default:
       return QString();
   }
@@ -407,8 +405,6 @@ WbAction::WbActionKind WbPerspective::getActionFromString(const QString &actionS
     return WbAction::DISABLE_OBJECT_MOVE;
   if (actionString == "forceAndTorqueDisabled")
     return WbAction::DISABLE_FORCE_AND_TORQUE;
-  if (actionString == "fastModeDisabled")
-    return WbAction::DISABLE_FAST_MODE;
 
   assert(false);
   return WbAction::NACTIONS;

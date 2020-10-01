@@ -136,8 +136,6 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   connect(mTitleBar, &WbDockTitleBar::minimizeClicked, this, &WbSimulationView::needsMinimize);
   connect(mSplitter, &QSplitter::splitterMoved, this, &WbSimulationView::needsActionsUpdate);
   connect(WbActionManager::instance()->action(WbAction::STEP), &QAction::triggered, mView3D, &WbView3D::unleashAndClean);
-  // connect(WbActionManager::instance()->action(WbAction::DISABLE_FAST_MODE), &QAction::triggered, this,
-  //        &WbSimulationView::disableFastMode);
   connect(mView3D, &WbView3D::applicationActionsUpdateRequested, mSceneTree, &WbSceneTree::updateApplicationActions);
 
   // video recording
@@ -299,7 +297,8 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
   connect(manager->action(WbAction::RUN), &QAction::triggered, this, &WbSimulationView::run);
-  // connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
+  connect(manager->action(WbAction::ENABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::show3dView);
+  connect(manager->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::hide3dView);
 
   // add actions available in full-screen mode to the current widget
   // otherwise they will be automatically disabled when the toolbar is hidden
@@ -307,7 +306,8 @@ void WbSimulationView::createActions() {
   addAction(manager->action(WbAction::STEP));
   addAction(manager->action(WbAction::REAL_TIME));
   addAction(manager->action(WbAction::RUN));
-  addAction(manager->action(WbAction::FAST));
+  addAction(manager->action(WbAction::ENABLE_3D_VIEW));
+  addAction(manager->action(WbAction::DISABLE_3D_VIEW));
   addAction(manager->action(WbAction::DEL));
   addAction(manager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
@@ -758,13 +758,6 @@ void WbSimulationView::hide3dView() {
   WbSimulationState::instance()->show3dView(false);
 }
 
-/*
-void WbSimulationView::disableFastMode(bool disabled) {
-  WbActionManager::instance()->action(WbAction::FAST)->setEnabled(!disabled);
-  mView3D->setUserInteractionDisabled(WbAction::DISABLE_FAST_MODE, disabled);
-}
-*/
-
 void WbSimulationView::updateFastModeOverlay() {
   if (WbSimulationState::instance()->is3dViewShown())
     retrieveSimulationView();
@@ -901,28 +894,36 @@ void WbSimulationView::updatePlayButtons() {
   QAction *pause = manager->action(WbAction::PAUSE);
   QAction *realtime = manager->action(WbAction::REAL_TIME);
   QAction *run = manager->action(WbAction::RUN);
-  QAction *fast = manager->action(WbAction::FAST);
+  QAction *enable3dView = manager->action(WbAction::ENABLE_3D_VIEW);
+  QAction *disable3dView = manager->action(WbAction::DISABLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
   mToolBar->removeAction(run);
-  mToolBar->removeAction(fast);
+  mToolBar->removeAction(enable3dView);
+  mToolBar->removeAction(disable3dView);
+
 
   QList<QAction *> actions;
 
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::REALTIME:
-      actions << pause << run << fast;
+      actions << pause << run;
       break;
 
     case WbSimulationState::RUN:
-      actions << realtime << pause << fast;
+      actions << realtime << pause;
       break;
 
     default:  // PAUSE
-      actions << realtime << run << fast;
+      actions << realtime << run;
       break;
   }
+
+  if (WbSimulationState::instance()->is3dViewShown())
+    actions << disable3dView;
+  else
+    actions << enable3dView;  
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
@@ -930,15 +931,18 @@ void WbSimulationView::updatePlayButtons() {
   QWidget *pauseWidget = mToolBar->widgetForAction(pause);
   QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
   QWidget *runWidget = mToolBar->widgetForAction(run);
-  QWidget *fastWidget = mToolBar->widgetForAction(fast);
+  QWidget *enable3dViewWidget = mToolBar->widgetForAction(enable3dView);
+  QWidget *disable3dViewWidget = mToolBar->widgetForAction(disable3dView);
   if (runWidget)
     runWidget->setObjectName("menuButton");
-  if (fastWidget)
-    fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
     realTimeWidget->setObjectName("menuButton");
   if (pauseWidget)
     pauseWidget->setObjectName("menuButton");
+  if (enable3dViewWidget)
+    enable3dViewWidget->setObjectName("menuButton");
+  if (disable3dViewWidget)
+    disable3dViewWidget->setObjectName("menuButton");
 
   mToolBar->update();
 

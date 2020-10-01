@@ -36,7 +36,8 @@ namespace WbAction {
     PAUSE,
     STEP,
     RUN,
-    FAST,
+    ENABLE_3D_VIEW,
+    DISABLE_3D_VIEW,
     SOUND_UNMUTE,
     SOUND_MUTE,
     ANIMATION,
@@ -72,7 +73,6 @@ namespace WbAction {
     LOCK_VIEWPOINT,
     DISABLE_OBJECT_MOVE,
     DISABLE_FORCE_AND_TORQUE,
-    DISABLE_FAST_MODE,
     // application actions
     CUT,
     COPY,
