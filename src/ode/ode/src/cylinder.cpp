@@ -118,7 +118,6 @@ void dGeomCylinderGetParams (dGeomID cylinder, dReal *radius, dReal *length)
 
 //**************************** Cyberbotics version of dCylCyl ************************************************
 
-static const dReal thresholdCosinus2 = REAL(5e-2);
 static const int sufficientNumber = 4;
 
  // Two-sided test
