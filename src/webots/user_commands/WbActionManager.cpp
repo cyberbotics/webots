@@ -176,13 +176,13 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_3);
   action->setIcon(icon);
-  mActions[RUN] = action;
+  mActions[FAST] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
   action->setText(tr("&Enable 3D View"));
-  action->setStatusTip(tr("Run the simulation without graphics."));
+  action->setStatusTip(tr("Enable 3D view to show the simulation. (%1+4)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
   mActions[ENABLE_3D_VIEW] = action;
@@ -191,7 +191,7 @@ void WbActionManager::populateActions() {
   icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
   action->setText(tr("&Disable 3D View"));
-  action->setStatusTip(tr("Run the simulation without graphics."));
+  action->setStatusTip(tr("Disable 3D view to gain better performance. (%1+4)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
   mActions[DISABLE_3D_VIEW] = action;
@@ -1061,7 +1061,7 @@ void WbActionManager::updateEnabled() {
   mActions[REAL_TIME]->setEnabled(simulationEnabled);
   mActions[PAUSE]->setEnabled(simulationEnabled);
   mActions[STEP]->setEnabled(simulationEnabled);
-  mActions[RUN]->setEnabled(simulationEnabled);
+  mActions[FAST]->setEnabled(simulationEnabled);
 }
 
 void WbActionManager::setEnabled(WbActionKind kind, bool enabled) {

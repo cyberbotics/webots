@@ -296,7 +296,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::PAUSE), &QAction::triggered, this, &WbSimulationView::pause);
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
-  connect(manager->action(WbAction::RUN), &QAction::triggered, this, &WbSimulationView::run);
+  connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::run);
   connect(manager->action(WbAction::ENABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::show3dView);
   connect(manager->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::hide3dView);
 
@@ -305,7 +305,7 @@ void WbSimulationView::createActions() {
   addAction(manager->action(WbAction::PAUSE));
   addAction(manager->action(WbAction::STEP));
   addAction(manager->action(WbAction::REAL_TIME));
-  addAction(manager->action(WbAction::RUN));
+  addAction(manager->action(WbAction::FAST));
   addAction(manager->action(WbAction::ENABLE_3D_VIEW));
   addAction(manager->action(WbAction::DISABLE_3D_VIEW));
   addAction(manager->action(WbAction::DEL));
@@ -893,13 +893,13 @@ void WbSimulationView::updatePlayButtons() {
 
   QAction *pause = manager->action(WbAction::PAUSE);
   QAction *realtime = manager->action(WbAction::REAL_TIME);
-  QAction *run = manager->action(WbAction::RUN);
+  QAction *fast = manager->action(WbAction::FAST);
   QAction *enable3dView = manager->action(WbAction::ENABLE_3D_VIEW);
   QAction *disable3dView = manager->action(WbAction::DISABLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
-  mToolBar->removeAction(run);
+  mToolBar->removeAction(fast);
   mToolBar->removeAction(enable3dView);
   mToolBar->removeAction(disable3dView);
 
@@ -907,7 +907,7 @@ void WbSimulationView::updatePlayButtons() {
 
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::REALTIME:
-      actions << pause << run;
+      actions << pause << fast;
       break;
 
     case WbSimulationState::RUN:
@@ -915,7 +915,7 @@ void WbSimulationView::updatePlayButtons() {
       break;
 
     default:  // PAUSE
-      actions << realtime << run;
+      actions << realtime << fast;
       break;
   }
 
@@ -929,11 +929,11 @@ void WbSimulationView::updatePlayButtons() {
   // setObjectName (used by the stylesheet)
   QWidget *pauseWidget = mToolBar->widgetForAction(pause);
   QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
-  QWidget *runWidget = mToolBar->widgetForAction(run);
+  QWidget *fastWidget = mToolBar->widgetForAction(fast);
   QWidget *enable3dViewWidget = mToolBar->widgetForAction(enable3dView);
   QWidget *disable3dViewWidget = mToolBar->widgetForAction(disable3dView);
-  if (runWidget)
-    runWidget->setObjectName("menuButton");
+  if (fastWidget)
+    fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
     realTimeWidget->setObjectName("menuButton");
   if (pauseWidget)

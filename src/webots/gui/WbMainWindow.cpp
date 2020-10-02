@@ -242,14 +242,14 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
   static const QString ctrlTwo = tr("Press <i>Ctrl+2</i> to run the simulation in real time.") + "<br/>";
   static const QString ctrlThree = tr("Press <i>Ctrl+3</i> to run the simulation as fast as possible.") + "<br/>";
   static const QString ctrlFour =
-    tr("Press <i>Ctrl+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+    tr("Press <i>Ctrl+4</i> to run the simulation without rendering the 3D scene.") + "<br/>" + "<br/>";
 
   static const QString cmdZero = tr("Press <i>Cmd+0</i> to pause the simulation.") + "<br/>";
   static const QString cmdOne = tr("Press <i>Cmd+1</i> to execute one basic time step.") + "<br/>";
   static const QString cmdTwo = tr("Press <i>Cmd+2</i> to run the simulation in real time.") + "<br/>";
   static const QString cmdThree = tr("Press <i>Cmd+3</i> to run the simulation as fast as possible.") + "<br/>";
   static const QString cmdFour =
-    tr("Press <i>Cmd+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+    tr("Press <i>Cmd+4</i> to run the simulation without rendering the 3D scene.") + "<br/>" + "<br/>";
 
   static const QString ctrlScreenshot =
     tr("Press <i>Ctrl+Shift+P</i> to take a screenshot of the 3D screen.") + "<br/>" + "<br/>";
@@ -667,7 +667,7 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::PAUSE));
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
-  menu->addAction(manager->action(WbAction::RUN));
+  menu->addAction(manager->action(WbAction::FAST));
   menu->addAction(manager->action(WbAction::ENABLE_3D_VIEW));
   return menu;
 }
@@ -983,7 +983,7 @@ void WbMainWindow::createMenus() {
 
   mSimulationMenu = createSimulationMenu();
   mMenuBar->addAction(mSimulationMenu->menuAction());
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::RUN));
+  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::FAST));
 
   menu = createBuildMenu();
   mMenuBar->addAction(menu->menuAction());

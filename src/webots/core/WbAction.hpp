@@ -35,7 +35,7 @@ namespace WbAction {
     REAL_TIME,
     PAUSE,
     STEP,
-    RUN,
+    FAST,
     ENABLE_3D_VIEW,
     DISABLE_3D_VIEW,
     SOUND_UNMUTE,
