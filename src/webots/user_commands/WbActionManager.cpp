@@ -172,7 +172,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:run_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("&Run"));
-  action->setStatusTip(tr("Run the simulation. (%1+3)").arg(mapControlKey()));
+  action->setStatusTip(tr("Run the simulation as fast as possible. (%1+3)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_3);
   action->setIcon(icon);

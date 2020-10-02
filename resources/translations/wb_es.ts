@@ -983,7 +983,7 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Run the simulation. (%1+3)</source>
+        <source>Run the simulation as fast as possible. (%1+3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
