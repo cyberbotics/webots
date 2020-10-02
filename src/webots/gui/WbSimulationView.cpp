@@ -903,7 +903,6 @@ void WbSimulationView::updatePlayButtons() {
   mToolBar->removeAction(enable3dView);
   mToolBar->removeAction(disable3dView);
 
-
   QList<QAction *> actions;
 
   switch (WbSimulationState::instance()->mode()) {
@@ -923,7 +922,7 @@ void WbSimulationView::updatePlayButtons() {
   if (WbSimulationState::instance()->is3dViewShown())
     actions << disable3dView;
   else
-    actions << enable3dView;  
+    actions << enable3dView;
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
