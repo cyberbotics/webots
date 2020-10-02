@@ -354,7 +354,7 @@ CMD ["/usr/local/server.sh", ""]
 To correctly setup and automatically run the simulation server, you should provide the following files:
 * `server/config`: a folder containing the simulation and session configuration files.
     The current example `server.sh` the local configuration by default, i.e. you should provide the `server/config/session/local.json` and `server/config/simulation/local.json` files or specify the configuration files to be used.
-    For example, `server/config/session/localhost.js`
+    For example, `server/config/session/local.json`
     ```
     {
       "port": 1999,
@@ -364,7 +364,7 @@ To correctly setup and automatically run the simulation server, you should provi
       ]
     }
     ```
-    and `server/config/simulation/localhost.js`
+    and `server/config/simulation/local.json`
     ```
     {
       "port": 2000
