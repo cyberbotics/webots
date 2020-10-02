@@ -919,10 +919,15 @@ void WbSimulationView::updatePlayButtons() {
       break;
   }
 
-  if (WbSimulationState::instance()->is3dViewShown())
+  if (WbSimulationState::instance()->is3dViewShown()) {
     actions << disable3dView;
-  else
+    enable3dView->setShortcut(QKeySequence());
+    disable3dView->setShortcut(Qt::CTRL + Qt::Key_4);
+  } else {
     actions << enable3dView;
+    disable3dView->setShortcut(QKeySequence());
+    enable3dView->setShortcut(Qt::CTRL + Qt::Key_4);
+  }
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
