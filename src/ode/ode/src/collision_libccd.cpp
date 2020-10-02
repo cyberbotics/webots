@@ -109,11 +109,6 @@ static bool testAndPrepareDiscContactForAngle(dReal angle, dReal radius, dReal l
 // Adds a contact between 2 cylinders
 static int addCylCylContact(dxGeom *o1, dxGeom *o2, ccd_vec3_t* axis, dContactGeom *contacts, ccd_vec3_t* p, dReal normaldir, dReal depth, int j, int flags, int skip);
 
-static unsigned addUniqueContact(dContactGeom *contacts, dContactGeom *c, unsigned contactcount, unsigned maxcontacts, int flags, int skip);
-static void setObjPosToTriangleCenter(ccd_triangle_t *t); 
-static void ccdSupportTriangle(const void *obj, const ccd_vec3_t *_dir, ccd_vec3_t *v);
-
-
 static 
 void ccdGeomToObj(const dGeomID g, ccd_obj_t *o)
 {
