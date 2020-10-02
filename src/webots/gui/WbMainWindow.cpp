@@ -668,7 +668,6 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
   menu->addAction(manager->action(WbAction::FAST));
-  menu->addAction(manager->action(WbAction::ENABLE_3D_VIEW));
   return menu;
 }
 

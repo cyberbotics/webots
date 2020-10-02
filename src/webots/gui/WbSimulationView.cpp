@@ -895,13 +895,10 @@ void WbSimulationView::updatePlayButtons() {
   QAction *realtime = manager->action(WbAction::REAL_TIME);
   QAction *fast = manager->action(WbAction::FAST);
   QAction *enable3dView = manager->action(WbAction::ENABLE_3D_VIEW);
-  QAction *disable3dView = manager->action(WbAction::DISABLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
   mToolBar->removeAction(fast);
-  mToolBar->removeAction(enable3dView);
-  mToolBar->removeAction(disable3dView);
 
   QList<QAction *> actions;
 
@@ -920,14 +917,21 @@ void WbSimulationView::updatePlayButtons() {
   }
 
   if (WbSimulationState::instance()->is3dViewShown()) {
-    actions << disable3dView;
-    enable3dView->setShortcut(QKeySequence());
-    disable3dView->setShortcut(Qt::CTRL + Qt::Key_4);
+    QIcon icon = QIcon();
+    icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
+    enable3dView->setChecked(true);
+    enable3dView->setText(tr("&Show 3D View"));
+    enable3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)"));
+    enable3dView->setIcon(icon);
   } else {
-    actions << enable3dView;
-    disable3dView->setShortcut(QKeySequence());
-    enable3dView->setShortcut(Qt::CTRL + Qt::Key_4);
+    QIcon icon = QIcon();
+    icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
+    enable3dView->setChecked(false);
+    enable3dView->setText(tr("&Hide 3D View"));
+    enable3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)"));
+    enable3dView->setIcon(icon);
   }
+  actions << enable3dView;
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
@@ -936,7 +940,6 @@ void WbSimulationView::updatePlayButtons() {
   QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
   QWidget *fastWidget = mToolBar->widgetForAction(fast);
   QWidget *enable3dViewWidget = mToolBar->widgetForAction(enable3dView);
-  QWidget *disable3dViewWidget = mToolBar->widgetForAction(disable3dView);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
@@ -945,8 +948,6 @@ void WbSimulationView::updatePlayButtons() {
     pauseWidget->setObjectName("menuButton");
   if (enable3dViewWidget)
     enable3dViewWidget->setObjectName("menuButton");
-  if (disable3dViewWidget)
-    disable3dViewWidget->setObjectName("menuButton");
 
   mToolBar->update();
 

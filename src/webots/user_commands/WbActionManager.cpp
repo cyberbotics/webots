@@ -181,20 +181,10 @@ void WbActionManager::populateActions() {
   icon = QIcon();
   icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
-  action->setText(tr("&Enable 3D View"));
-  action->setStatusTip(tr("Enable 3D view to show the simulation. (%1+4)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
+  action->setCheckable(true);
   mActions[ENABLE_3D_VIEW] = action;
-
-  icon = QIcon();
-  icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
-  action = new QAction(this);
-  action->setText(tr("&Disable 3D View"));
-  action->setStatusTip(tr("Disable 3D view to gain better performance. (%1+4)").arg(mapControlKey()));
-  action->setToolTip(action->statusTip());
-  action->setIcon(icon);
-  mActions[DISABLE_3D_VIEW] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
