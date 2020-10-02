@@ -179,8 +179,7 @@ void WbActionManager::populateActions() {
   mActions[RUN] = action;
 
   icon = QIcon();
-  // TODO: Change icon
-  icon.addFile("enabledIcons:sound_unmute_button.png", QSize(), QIcon::Normal);
+  icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
   action->setText(tr("&Enable 3D View"));
   action->setStatusTip(tr("Run the simulation without graphics."));
@@ -189,8 +188,7 @@ void WbActionManager::populateActions() {
   mActions[ENABLE_3D_VIEW] = action;
 
   icon = QIcon();
-  // TODO: Change icon
-  icon.addFile("enabledIcons:sound_mute_button.png", QSize(), QIcon::Normal);
+  icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
   action->setText(tr("&Disable 3D View"));
   action->setStatusTip(tr("Run the simulation without graphics."));
