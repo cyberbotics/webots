@@ -5,7 +5,7 @@ WorldInfo {
   SFString title                          ""         # any string
   MFString info                           [ ]        # any string
   SFFloat  gravity                        9.81       # [0, inf)
-  SFFloat  CFM                            0.00001    # ]0, inf)
+  SFFloat  CFM                            0.00001    # (0, inf)
   SFFloat  ERP                            0.2        # [0, 1]
   SFString physics                        ""         # any string
   SFFloat  basicTimeStep                  32         # [1, inf)
