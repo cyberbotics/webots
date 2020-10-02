@@ -11,7 +11,7 @@ Here is the usual way to start from computer A, a Webots instance that will run 
 ```sh
 $ ssh myname@computerB.org
 $ export DISPLAY=:0.0
-$ webots --mode=fast --stdout --stderr myworld.wbt
+$ webots --mode=run --disable3dview --stdout --stderr myworld.wbt
 ```
 
 The first line logs onto computer B.
@@ -19,8 +19,8 @@ The 2nd line sets the DISPLAY variable to the display 0 (and screen 0) of comput
 This will indicate to all X11 applications (including Webots) that they need to connect to the X-server running on the local computer: computer B in this case.
 This step is necessary because the DISPLAY variable is usually not set in an `ssh` session.
 
-The last line starts Webots: the *--mode=fast* option enables the *Fast* simulation mode.
-The *--mode=fast* option makes the simulation run as fast as possible, without graphical rendering, which is fine because the graphical output won't be visible anyway from computer A.
+The last line starts Webots: the *--mode=run* option enables the *Run* simulation mode.
+The *--mode=run* in conjunction with *--disable3dview* option makes the simulation run as fast as possible, without graphical rendering, which is fine because the graphical output won't be visible anyway from computer A.
 Options *--stdout* and *--stderr* are used to redirect Webots' output to the standard streams instead of Webots console, otherwise the output would not be visible on computer A.
 
 At this point, Webots will start only if a X-server with proper authorizations is running on computer B.
@@ -37,7 +37,7 @@ Fortunately it is easy to overcome this problem by starting the Webots as a back
 ```sh
 $ ssh myname@computerB.org
 $ export DISPLAY=:0.0
-$ webots --mode=fast --stdout --stderr myworld.wbt &> out.txt &
+$ webots --mode=run --disable3dview --stdout --stderr myworld.wbt &> out.txt &
 $ exit
 ```
 
