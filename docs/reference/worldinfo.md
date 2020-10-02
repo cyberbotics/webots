@@ -5,7 +5,7 @@ WorldInfo {
   SFString title                          ""         # any string
   MFString info                           [ ]        # any string
   SFFloat  gravity                        9.81       # [0, inf)
-  SFFloat  CFM                            0.00001    # [0, inf)
+  SFFloat  CFM                            0.00001    # ]0, inf)
   SFFloat  ERP                            0.2        # [0, 1]
   SFString physics                        ""         # any string
   SFFloat  basicTimeStep                  32         # [1, inf)
@@ -48,8 +48,9 @@ A value of ERP=0.1 to 0.8 is recommended (0.2 is the default).
 This applies by default to all contact joints, except those whose contact properties are defined in a [ContactProperties](contactproperties.md) node.
 Along with the ERP, the CFM controls the spongyness and springyness of the contact joint.
 If a simulation includes heavy masses, then decreasing the CFM value for contacts will prevent heavy objects from penetrating the ground.
-If CFM is set to zero, the constraint will be hard.
-If CFM is set to a positive value, it will be possible to violate the constraint by *pushing on it* (for example, for contact constraints by forcing the two contacting objects together).
+CFM should be strictly positive, it cannot be set to 0.
+If CFM is close to zero, the constraint will be hard.
+If CFM is large, it will be possible to violate the constraint by *pushing on it* (for example, for contact constraints by forcing the two contacting objects together).
 In other words the constraint will be soft, and the softness will increase as CFM increases.
 What is actually happening here is that the constraint is allowed to be violated by an amount proportional to CFM times the restoring force that is needed to enforce the constraint (see ODE documentation for more details).
 
