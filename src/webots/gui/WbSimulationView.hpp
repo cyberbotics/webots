@@ -111,7 +111,7 @@ private slots:
   void pause();
   void step();
   void realTime();
-  void run();
+  void fast();
   void show3dView();
   void hide3dView();
   void updateVisibility();

@@ -271,7 +271,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
     } else {
       printf("fast\n");
-      WbSimulationState::instance()->setMode(WbSimulationState::RUN);
+      WbSimulationState::instance()->setMode(WbSimulationState::FAST);
     }
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
             &WbStreamingServer::propagateSimulationStateChange);
@@ -579,8 +579,8 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
       return "step";
     case WbSimulationState::REALTIME:
       return "real-time";
-    case WbSimulationState::RUN:
-      return "run";
+    case WbSimulationState::FAST:
+      return "fast";
     default:
       return "";
   }

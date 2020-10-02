@@ -272,7 +272,7 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       mTimer->start(mSleepRealTime);
       break;
-    case WbSimulationState::RUN:
+    case WbSimulationState::FAST:
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(true);
       mTimer->start(0);  // the 0 argument here is important, don't remove it

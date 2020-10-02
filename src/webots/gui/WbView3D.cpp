@@ -329,7 +329,7 @@ void WbView3D::refresh() {
   mPhysicsRefresh = true;
   if (sim->isPaused())
     renderLater();
-  else if (sim->isStep() || sim->isRealTime() || sim->isRunning()) {
+  else if (sim->isStep() || sim->isRealTime() || sim->isFast()) {
     if (WbVideoRecorder::instance()->isRecording()) {
       const double time = WbSimulationState::instance()->time();
       static double lastRefreshTime = time;

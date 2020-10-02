@@ -296,7 +296,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::PAUSE), &QAction::triggered, this, &WbSimulationView::pause);
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
-  connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::run);
+  connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
   connect(manager->action(WbAction::ENABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::show3dView);
   connect(manager->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::hide3dView);
 
@@ -473,7 +473,7 @@ void WbSimulationView::updateVisibility() {
 void WbSimulationView::unmuteSound() {
   WbPreferences::instance()->setValue("Sound/mute", false);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
-  if (mode != WbSimulationState::RUN && WbSimulationState::instance()->is3dViewShown())
+  if (mode != WbSimulationState::FAST && WbSimulationState::instance()->is3dViewShown())
     WbSoundEngine::setMute(false);
   mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
@@ -746,8 +746,8 @@ void WbSimulationView::realTime() {
   WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
 }
 
-void WbSimulationView::run() {
-  WbSimulationState::instance()->setMode(WbSimulationState::RUN);
+void WbSimulationView::fast() {
+  WbSimulationState::instance()->setMode(WbSimulationState::FAST);
 }
 
 void WbSimulationView::show3dView() {
@@ -871,7 +871,7 @@ void WbSimulationView::modeKeyPressed(QKeyEvent *event) {
       return;
     case Qt::Key_3:
       // Ctrl + 3
-      run();
+      fast();
       return;
     case Qt::Key_4:
       // Ctrl + 4
@@ -910,7 +910,7 @@ void WbSimulationView::updatePlayButtons() {
       actions << pause << fast;
       break;
 
-    case WbSimulationState::RUN:
+    case WbSimulationState::FAST:
       actions << realtime << pause;
       break;
 

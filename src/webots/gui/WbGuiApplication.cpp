@@ -213,8 +213,8 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::PAUSE;
     else if (arg == "--mode=realtime")
       mStartupMode = WbSimulationState::REALTIME;
-    else if (arg == "--mode=run")
-      mStartupMode = WbSimulationState::RUN;
+    else if (arg == "--mode=fast")
+      mStartupMode = WbSimulationState::FAST;
     else if (arg == "--disable3dview")
       mShouldShow3dView = false;
     else if (arg == "--help")
@@ -484,8 +484,8 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
   if (startupMode == "Real-time")
     return WbSimulationState::REALTIME;
-  if (startupMode == "Run")
-    return WbSimulationState::RUN;
+  if (startupMode == "Fast")
+    return WbSimulationState::FAST;
   return WbSimulationState::PAUSE;
 }
 
