@@ -1645,24 +1645,3 @@ int sCylinderCylinderData::performCollisionChecking()
    return m_nNumberOfContacts;
 }//end of performCollisionChecking
 
-//---------- this function was taken over from ODE 0.5 contrib cylinder and adapted by Yvan Bourquin - www.cyberbotics.com ---------
-int dCollideCylinderCylinder(dxGeom *o1, dxGeom *o2, int flags, dContactGeom *contact, int skip) {
-  dIASSERT (skip >= (int)sizeof(dContactGeom));
-  dIASSERT (o1->type == dCylinderClass);
-  dIASSERT (o2->type == dCylinderClass);
-  dIASSERT ((flags & NUMC_MASK) >= 1);
-
-  sCylinderCylinderData cData(static_cast<dxCylinder *>(o1), static_cast<dxCylinder *>(o2), flags, contact, skip);
-
-  const int num = cData.performCollisionChecking();
-
-  for (int i = 0; i < num; ++i) {
-    dContactGeom *const cg = CONTACT(contact, i * skip);
-    cg->g1 = const_cast<dxGeom *>(o1);
-    cg->g2 = const_cast<dxGeom *>(o2);
-    cg->side1 = -1;
-    cg->side2 = -1;
-  }
-
-  return num;
-}
