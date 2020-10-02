@@ -129,7 +129,7 @@ private:
   QPoint mMousePressPosition;
   QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   double mAspectRatio;
-  WbWrenFullScreenOverlay *mFastModeOverlay;
+  WbWrenFullScreenOverlay *mDisabled3dViewOverlay;
   WbWrenFullScreenOverlay *mLoadingWorldOverlay;
   WbWrenFullScreenOverlay *mVirtualRealityHeadsetOverlay;
 

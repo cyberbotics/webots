@@ -290,7 +290,6 @@ void WbSimulationWorld::propagateBoundingObjectMaterialUpdate(bool onMenuAction)
 }
 
 void WbSimulationWorld::checkNeedForBoundingMaterialUpdate() {
-  const int mode = WbSimulationState::instance()->mode();
   const WbWrenRenderingContext *const context = WbWrenRenderingContext::instance();
   const int showAllBoundingObjects = context->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS);
 
