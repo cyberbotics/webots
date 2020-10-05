@@ -137,6 +137,8 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   connect(mSplitter, &QSplitter::splitterMoved, this, &WbSimulationView::needsActionsUpdate);
   connect(WbActionManager::instance()->action(WbAction::STEP), &QAction::triggered, mView3D, &WbView3D::unleashAndClean);
   connect(mView3D, &WbView3D::applicationActionsUpdateRequested, mSceneTree, &WbSceneTree::updateApplicationActions);
+  connect(WbActionManager::instance()->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this,
+          &WbSimulationView::disable3DView);
 
   // video recording
   mRecordingTimer = new QTimer(this);
@@ -746,6 +748,11 @@ void WbSimulationView::realTime() {
 
 void WbSimulationView::fast() {
   WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+}
+
+void WbSimulationView::disable3DView(bool disabled) {
+  WbActionManager::instance()->action(WbAction::TOGGLE_3D_VIEW)->setEnabled(!disabled);
+  mView3D->setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW, disabled);
 }
 
 void WbSimulationView::toggle3dView() {

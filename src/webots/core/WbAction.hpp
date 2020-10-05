@@ -72,6 +72,7 @@ namespace WbAction {
     LOCK_VIEWPOINT,
     DISABLE_OBJECT_MOVE,
     DISABLE_FORCE_AND_TORQUE,
+    DISABLE_3D_VIEW,
     // application actions
     CUT,
     COPY,
