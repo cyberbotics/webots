@@ -42,6 +42,7 @@ public:
   void setFocusObject(QObject *object) { mFocusObject = object; }
 
   static void setActionEnabledSilently(QAction *action, bool enabled);
+  static QString mapControlKey();
 
 signals:
   void userConsoleEditCommandReceived(WbAction::WbActionKind action);
@@ -65,7 +66,6 @@ private:
 
   void populateActions();
   void connectActions();
-  QString mapControlKey();
 
   static WbActionManager *cInstance;
 

@@ -112,8 +112,7 @@ private slots:
   void step();
   void realTime();
   void fast();
-  void show3dView();
-  void hide3dView();
+  void toggle3dView();
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();

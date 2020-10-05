@@ -178,13 +178,11 @@ void WbActionManager::populateActions() {
   action->setIcon(icon);
   mActions[FAST] = action;
 
-  icon = QIcon();
-  icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
   action = new QAction(this);
-  action->setToolTip(action->statusTip());
-  action->setIcon(icon);
   action->setCheckable(true);
-  mActions[ENABLE_3D_VIEW] = action;
+  action->setShortcut(Qt::CTRL + Qt::Key_4);
+  action->setText(tr("&3D View"));
+  mActions[TOGGLE_3D_VIEW] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));

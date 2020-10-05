@@ -297,8 +297,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
   connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
-  connect(manager->action(WbAction::ENABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::show3dView);
-  connect(manager->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::hide3dView);
+  connect(manager->action(WbAction::TOGGLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::toggle3dView);
 
   // add actions available in full-screen mode to the current widget
   // otherwise they will be automatically disabled when the toolbar is hidden
@@ -306,8 +305,7 @@ void WbSimulationView::createActions() {
   addAction(manager->action(WbAction::STEP));
   addAction(manager->action(WbAction::REAL_TIME));
   addAction(manager->action(WbAction::FAST));
-  addAction(manager->action(WbAction::ENABLE_3D_VIEW));
-  addAction(manager->action(WbAction::DISABLE_3D_VIEW));
+  addAction(manager->action(WbAction::TOGGLE_3D_VIEW));
   addAction(manager->action(WbAction::DEL));
   addAction(manager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
@@ -750,12 +748,11 @@ void WbSimulationView::fast() {
   WbSimulationState::instance()->setMode(WbSimulationState::FAST);
 }
 
-void WbSimulationView::show3dView() {
-  WbSimulationState::instance()->show3dView(true);
-}
-
-void WbSimulationView::hide3dView() {
-  WbSimulationState::instance()->show3dView(false);
+void WbSimulationView::toggle3dView() {
+  if (WbSimulationState::instance()->is3dViewShown())
+    WbSimulationState::instance()->show3dView(false);
+  else
+    WbSimulationState::instance()->show3dView(true);
 }
 
 void WbSimulationView::updateFastModeOverlay() {
@@ -875,7 +872,7 @@ void WbSimulationView::modeKeyPressed(QKeyEvent *event) {
       return;
     case Qt::Key_4:
       // Ctrl + 4
-      show3dView();
+      toggle3dView();
       return;
     default:
       break;
@@ -894,7 +891,7 @@ void WbSimulationView::updatePlayButtons() {
   QAction *pause = manager->action(WbAction::PAUSE);
   QAction *realtime = manager->action(WbAction::REAL_TIME);
   QAction *fast = manager->action(WbAction::FAST);
-  QAction *enable3dView = manager->action(WbAction::ENABLE_3D_VIEW);
+  QAction *enable3dView = manager->action(WbAction::TOGGLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
@@ -919,17 +916,17 @@ void WbSimulationView::updatePlayButtons() {
   if (WbSimulationState::instance()->is3dViewShown()) {
     QIcon icon = QIcon();
     icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
-    enable3dView->setChecked(true);
-    enable3dView->setText(tr("&Show 3D View"));
-    enable3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)"));
     enable3dView->setIcon(icon);
+    enable3dView->setChecked(true);
+    enable3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)").arg(WbActionManager::mapControlKey()));
+    enable3dView->setToolTip(tr("Hide 3D View"));
   } else {
     QIcon icon = QIcon();
     icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
-    enable3dView->setChecked(false);
-    enable3dView->setText(tr("&Hide 3D View"));
-    enable3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)"));
     enable3dView->setIcon(icon);
+    enable3dView->setChecked(false);
+    enable3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)").arg(WbActionManager::mapControlKey()));
+    enable3dView->setToolTip("Show 3D View");
   }
   actions << enable3dView;
 
