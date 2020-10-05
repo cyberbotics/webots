@@ -85,6 +85,7 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+%include "carrays.i"
 
 %rename ("__internalGetLookupTableSize") getLookupTableSize;
 
@@ -522,8 +523,10 @@ class AnsiCodes(object):
     $result = Py_None;
 }
 
-%ignore webots::Lidar::getPointCloud();
+%rename (_getPointCloud) getPointCloud() const;
 %ignore webots::Lidar::getLayerPointCloud();
+
+%array_class(WbLidarPoint, WbLidarPointArray);
 
 %extend webots::Lidar {
 
@@ -539,10 +542,8 @@ class AnsiCodes(object):
 
   %pythoncode %{
   def getPointCloud(self):
-     ret = []
-     for i in range(self.getNumberOfPoints()):
-       ret.append(self.getPoint(i))
-     return ret
+    points = self._getPointCloud()
+    return WbLidarPointArray.frompointer(points)
 
   def getLayerPointCloud(self, layer):
      ret = []
