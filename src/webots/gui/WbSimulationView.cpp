@@ -898,7 +898,7 @@ void WbSimulationView::updatePlayButtons() {
   QAction *pause = manager->action(WbAction::PAUSE);
   QAction *realtime = manager->action(WbAction::REAL_TIME);
   QAction *fast = manager->action(WbAction::FAST);
-  QAction *enable3dView = manager->action(WbAction::TOGGLE_3D_VIEW);
+  QAction *toggle3dView = manager->action(WbAction::TOGGLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
@@ -923,19 +923,19 @@ void WbSimulationView::updatePlayButtons() {
   if (WbSimulationState::instance()->is3dViewShown()) {
     QIcon icon = QIcon();
     icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
-    enable3dView->setIcon(icon);
-    enable3dView->setChecked(true);
-    enable3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)").arg(WbActionManager::mapControlKey()));
-    enable3dView->setToolTip(tr("Hide 3D View"));
+    toggle3dView->setIcon(icon);
+    toggle3dView->setChecked(true);
+    toggle3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)").arg(WbActionManager::mapControlKey()));
+    toggle3dView->setToolTip(tr("Hide 3D View"));
   } else {
     QIcon icon = QIcon();
     icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
-    enable3dView->setIcon(icon);
-    enable3dView->setChecked(false);
-    enable3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)").arg(WbActionManager::mapControlKey()));
-    enable3dView->setToolTip("Show 3D View");
+    toggle3dView->setIcon(icon);
+    toggle3dView->setChecked(false);
+    toggle3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)").arg(WbActionManager::mapControlKey()));
+    toggle3dView->setToolTip("Show 3D View");
   }
-  actions << enable3dView;
+  actions << toggle3dView;
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
@@ -943,15 +943,15 @@ void WbSimulationView::updatePlayButtons() {
   QWidget *pauseWidget = mToolBar->widgetForAction(pause);
   QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
   QWidget *fastWidget = mToolBar->widgetForAction(fast);
-  QWidget *enable3dViewWidget = mToolBar->widgetForAction(enable3dView);
+  QWidget *toggle3dViewWidget = mToolBar->widgetForAction(toggle3dView);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
     realTimeWidget->setObjectName("menuButton");
   if (pauseWidget)
     pauseWidget->setObjectName("menuButton");
-  if (enable3dViewWidget)
-    enable3dViewWidget->setObjectName("menuButton");
+  if (toggle3dViewWidget)
+    toggle3dViewWidget->setObjectName("menuButton");
 
   mToolBar->update();
 
