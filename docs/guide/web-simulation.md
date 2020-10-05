@@ -334,16 +334,13 @@ You can use the following `Dockerfile` to build your Docker image.
 FROM cyberbotics/webots:R2021a-ubuntu18.04
 
 RUN apt update
-RUN apt install -y nano psmisc firejail python3-pip
-RUN pip3 install websocket-client tornado nvidia-ml-py psutil requests distro
-RUN pip3 install -U pynvml --user
+RUN apt install -y firejail python3-pip
+RUN pip3 install tornado pynvml psutil requests distro
 ENV AUDIODEV=null
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:99
-ENV LIBGL_ALWAYS_SOFTWARE=true
 ENV WEBOTS_HOME=/usr/local/webots
 ENV QTWEBENGINE_DISABLE_SANDBOX=1
-RUN echo 'alias python=python3' >> ~/.bashrc
 COPY server/config /usr/local/webots/resources/web/server/config
 COPY server/key /usr/local/webots/resources/web/server/key
 COPY server.sh /usr/local/server.sh
@@ -376,8 +373,8 @@ To correctly setup and automatically run the simulation server, you should provi
     #!/bin/sh
     Xvfb :99 -screen 0 1024x768x16 &
     cd $WEBOTS_HOME/resources/web/server
-    ./server.sh start
-    while true; do sleep 1000; done
+    python3 simulation_server.py config/simulation/local.json >/dev/null &
+    python3 session_server.py config/session/local.json >/dev/null
     ```
 
 Then, you can open in a terminal the directory containing the Dockerfile to build and run the Docker container:
