@@ -787,9 +787,10 @@ WrShaderProgram *WbWrenShaders::overlayShader() {
 
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);       // background
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);       // main
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);       // foreground
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);       // close button
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);       // resize button
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);       // mask
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);       // foreground
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);       // close button
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);       // resize button
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_CHANNEL_COUNT);  // color channel count
 
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY);
@@ -1037,8 +1038,8 @@ WrShaderProgram *WbWrenShaders::segmentationShader() {
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-    buildShader(gShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
-                QFileInfo("gl:shaders/segmentation.frag"));
+    ::buildShader(gShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
+                  QFileInfo("gl:shaders/segmentation.frag"));
   }
 
   return gShaders[SHADER_SEGMENTATION];

@@ -115,6 +115,7 @@ void WbCamera::init() {
   mRecognitionRefreshRate = 0;
   mRecognizedObjects.clear();
   mRecognizedObjectsTexture = NULL;
+  mSegmentationCamera = NULL;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
 }
 
@@ -132,6 +133,7 @@ WbCamera::WbCamera(const WbNode &other) : WbAbstractCamera(other) {
 
 WbCamera::~WbCamera() {
   delete mRecognitionSensor;
+  delete mSegmentationCamera;
   qDeleteAll(mRecognizedObjects);
   mRecognizedObjects.clear();
 }
@@ -166,8 +168,10 @@ void WbCamera::postFinalize() {
   if (zoom())
     zoom()->postFinalize();
 
-  if (recognition())
+  if (recognition()) {
     recognition()->postFinalize();
+    updateRecognition();
+  }
 
   if (focus()) {
     focus()->postFinalize();
@@ -745,6 +749,15 @@ void WbCamera::createWrenCamera() {
     lensFlare()->detachFromViewport();
 
   WbAbstractCamera::createWrenCamera();
+
+  if (mSegmentationCamera)
+    delete mSegmentationCamera;
+  if (recognition() && recognition()->segmentation()) {
+    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
+                                           's', false, mSpherical->value());
+  } else
+    mSegmentationCamera = NULL;
+
   applyFocalSettingsToWren();
   applyFarToWren();
   updateExposure();
@@ -763,6 +776,12 @@ void WbCamera::createWrenOverlay() {
   if (recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
     emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    if (mSegmentationCamera) {
+      mSegmentationCamera->setSize(width(), height());
+      mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
+    }
+    // TODO
+    // emit texturesIdsUpdated(mOverlay->textureGLIds());
   }
 }
 
@@ -777,6 +796,11 @@ void WbCamera::setup() {
   updateAmbientOcclusionRadius();
   updateBloomThreshold();
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
+}
+
+void WbCamera::render() {
+  if (mSegmentationCamera)
+    mSegmentationCamera->render();
 }
 
 /////////////////////
@@ -794,7 +818,10 @@ void WbCamera::updateFocus() {
 
 void WbCamera::updateRecognition() {
   if (hasBeenSetup()) {
-    if (recognition() && !mOverlay->foregroundTexture()) {
+    const WbRecognition *recognitionNode = recognition();
+    connect(recognitionNode, &WbRecognition::segmentationChanged, this, &WbCamera::updateRecognition, Qt::UniqueConnection);
+
+    if (recognitionNode && !mOverlay->foregroundTexture()) {
       mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
       emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
     } else if (mOverlay->foregroundTexture()) {
@@ -802,7 +829,20 @@ void WbCamera::updateRecognition() {
       emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
       mRecognizedObjectsTexture = NULL;
     }
-    if (recognition()) {
+
+    if (recognitionNode && recognitionNode->segmentation() && !mSegmentationCamera) {
+      mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
+                                             's', false, mSpherical->value());
+      mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
+      // TODO emit maskTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    } else if (mSegmentationCamera) {
+      mOverlay->unsetMaskTexture();
+      delete mSegmentationCamera;
+      mSegmentationCamera = NULL;
+      // TODO emit maskTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    }
+    if (recognitionNode && sender() != recognitionNode) {
+      // clear mRecognizedObjects if Recognition node changed but not if `Recognition.segmentation` changed
       qDeleteAll(mRecognizedObjects);
       mRecognizedObjects.clear();
     }
@@ -922,9 +962,23 @@ void WbCamera::applyFocalSettingsToWren() {
 
 void WbCamera::applyFarToWren() {
   mWrenCamera->setFar(mFar->value());
+  if (mSegmentationCamera)
+    mSegmentationCamera->setFar(mFar->value());
 }
 
 void WbCamera::applyCameraSettingsToWren() {
   WbAbstractCamera::applyCameraSettingsToWren();
   applyFocalSettingsToWren();
+}
+
+void WbCamera::applyNearToWren() {
+  WbAbstractCamera::applyNearToWren();
+  if (mSegmentationCamera)
+    mSegmentationCamera->setNear(nearValue());
+}
+
+void WbCamera::applyFieldOfViewToWren() {
+  WbAbstractCamera::applyFieldOfViewToWren();
+  if (mSegmentationCamera)
+    mSegmentationCamera->setFieldOfView(mFieldOfView->value());
 }

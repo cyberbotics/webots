@@ -59,6 +59,7 @@ public:
 
 protected:
   void setup() override;
+  void render() override;
 
 private:
   WbSFNode *mFocus;
@@ -112,6 +113,7 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  WbWrenCamera *mSegmentationCamera;
 
 private slots:
   void updateFocus();
@@ -125,6 +127,8 @@ private slots:
   void updateLensFlare();
   void applyFocalSettingsToWren();
   void applyFarToWren();
+  void applyNearToWren() override;
+  void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
 };

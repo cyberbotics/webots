@@ -65,6 +65,7 @@ WbWrenTextureOverlay::WbWrenTextureOverlay(void *data, int width, int height, Te
   mPixelSize(1.0),
   mDataHasBeenAllocated(false),
   mWrenBackgroundTexture(NULL),
+  mWrenMaskTexture(NULL),
   mWrenForegroundTexture(NULL) {
   if (!mData)
     allocateBlackImageIntoData();
@@ -350,6 +351,13 @@ int WbWrenTextureOverlay::backgroundTextureGLId() const {
     return 0;
 }
 
+int WbWrenTextureOverlay::maskTextureGLId() const {
+  if (mWrenMaskTexture)
+    return wr_texture_get_gl_name(mWrenMaskTexture);
+  else
+    return 0;
+}
+
 int WbWrenTextureOverlay::foregroundTextureGLId() const {
   if (mWrenForegroundTexture)
     return wr_texture_get_gl_name(mWrenForegroundTexture);
@@ -392,9 +400,9 @@ void WbWrenTextureOverlay::setBackgroundTexture(WrTexture *backgroundTexture) {
   wr_overlay_set_background_texture(mWrenOverlay, mWrenBackgroundTexture);
 }
 
-void WbWrenTextureOverlay::unsetBackgroundTexture() {
-  mWrenBackgroundTexture = NULL;
-  wr_overlay_set_background_texture(mWrenOverlay, mWrenBackgroundTexture);
+void WbWrenTextureOverlay::setMaskTexture(WrTexture *texture) {
+  mWrenBackgroundTexture = texture;
+  wr_overlay_set_mask_texture(mWrenOverlay, mWrenBackgroundTexture);
 }
 
 WrTexture2d *WbWrenTextureOverlay::createForegroundTexture() {

@@ -365,7 +365,7 @@ void WbGeometry::deleteWrenRenderable() {
     wr_material_delete(mWrenEncodeDepthMaterial);
     mWrenEncodeDepthMaterial = NULL;
 
-    // Delete segmentation material
+    // Delete camera segmentation material
     wr_material_delete(mWrenSegmentationMaterial);
     mWrenSegmentationMaterial = NULL;
 

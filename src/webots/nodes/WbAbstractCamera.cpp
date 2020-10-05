@@ -255,6 +255,7 @@ void WbAbstractCamera::computeValue() {
     wr_node_set_visible(WR_NODE(mInvisibleNodes.at(i)->wrenNode()), false);
 
   mWrenCamera->render();
+  render();
 
   for (int i = 0; i < invisibleNodesCount; ++i)
     wr_node_set_visible(WR_NODE(mInvisibleNodes.at(i)->wrenNode()), true);

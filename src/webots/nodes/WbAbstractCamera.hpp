@@ -81,6 +81,7 @@ signals:
 
 protected:
   void setup() override;
+  virtual void render(){};
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
@@ -113,9 +114,9 @@ protected:
   virtual void createWrenCamera();
   void createWrenOverlay() override;
   void deleteWren();
-  void applyNearToWren();
   virtual bool isFrustumEnabled() const { return false; }
-  void applyFieldOfViewToWren();
+  virtual void applyNearToWren();
+  virtual void applyFieldOfViewToWren();
   void applyMotionBlurToWren();
   void applyNoiseToWren();
 
