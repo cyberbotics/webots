@@ -297,15 +297,25 @@ static void ue_write_values(struct UpdateElement *ue) {
 }
 
 static void initialize_update_elements() {
-  number_of_update_elements = wb_robot_get_number_of_devices();
-  update_elements = malloc(number_of_update_elements * sizeof(struct UpdateElement));
+  const int number_of_devices = wb_robot_get_number_of_devices();
+  if (update_elements) {
+    assert(number_of_devices > number_of_update_elements);
+    update_elements = realloc(update_elements, number_of_devices * sizeof(struct UpdateElement));
+    if (!update_elements) {
+      fprintf(stderr, "Error reinitializing list of devices.\n");
+      exit(EXIT_FAILURE);
+    }
+  } else
+    update_elements = malloc(number_of_devices * sizeof(struct UpdateElement));
+
   int i;
-  for (i = 0; i < number_of_update_elements; ++i) {
+  for (i = number_of_update_elements; i < number_of_devices; ++i) {
     WbDeviceTag tag = wb_robot_get_device_by_index(i);
     struct UpdateElement *update_element = malloc(sizeof(struct UpdateElement));
     ue_init(update_element, number_of_components(tag));
     update_elements[i] = update_element;
   }
+  number_of_update_elements = wb_robot_get_number_of_devices();
 }
 
 void default_robot_window_cleanup() {
@@ -474,7 +484,7 @@ void wbu_default_robot_window_configure() {
   free_buffer();
 }
 
-static void append_rescaled_image_to_buffer(GImage *img, int new_width, int new_height, float max_range) {
+static void append_rescaled_image_to_buffer_and_free_data(GImage *img, int new_width, int new_height, float max_range) {
   unsigned char *jpeg_data = NULL;
   char *base64_data = NULL;
 
@@ -506,6 +516,8 @@ static void append_rescaled_image_to_buffer(GImage *img, int new_width, int new_
   // 5. Cleanup
   free(jpeg_data);
   free(base64_data);
+  free(img->data);
+  img->data = NULL;
 }
 
 // Device update functions.
@@ -546,9 +558,7 @@ static void camera_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, 0.0f);
-
-  free(img.data);
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, 0.0f);
 }
 
 static void lidar_update(WbDeviceTag tag) {
@@ -584,9 +594,7 @@ static void lidar_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, wb_lidar_get_max_range(tag));
-
-  free(img.float_data);
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_lidar_get_max_range(tag));
 }
 
 static void range_finder_update(WbDeviceTag tag) {
@@ -625,9 +633,7 @@ static void range_finder_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
-
-  free(img.float_data);
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
 }
 
 static void accelerometer_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
@@ -724,21 +730,25 @@ void wbu_default_robot_window_update() {
   if (buffer != NULL)
     return;  // prevent to mix 2 updates.
 
-  if (update_elements == NULL)
+  const int n = wb_robot_get_number_of_devices();
+  if (update_elements == NULL || n > number_of_update_elements) {
+    const bool new_devices = update_elements != NULL;
     initialize_update_elements();
+    if (new_devices)
+      wbu_default_robot_window_configure();
+  }
 
   buffer_append("update {");
-  double simulated_time = wb_robot_get_time();
+  const double simulated_time = wb_robot_get_time();
   buffer_append("\"time\":");
   buffer_append_double(simulated_time);
-  int n = wb_robot_get_number_of_devices();
   if (n) {
     buffer_append(",\"devices\":{");
     int i;
     int updated_device = 0;
     for (i = 0; i < n; ++i) {
-      WbDeviceTag tag = wb_robot_get_device_by_index(i);
-      WbNodeType type = wb_device_get_node_type(tag);
+      const WbDeviceTag tag = wb_robot_get_device_by_index(i);
+      const WbNodeType type = wb_device_get_node_type(tag);
       struct UpdateElement *update_element = update_elements[i];
 
       // store values to be sent later if required.
@@ -778,10 +788,8 @@ void wbu_default_robot_window_update() {
           break;
       }
 
-      bool update_required = robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||
-                             update_element->last_update + update_period_by_type(type) < simulated_time;
-
-      if (update_required) {
+      if (robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||
+          update_element->last_update + update_period_by_type(type) < simulated_time) {
         // send the stored values if any.
         update_element->last_update = simulated_time;
         if (updated_device > 0)

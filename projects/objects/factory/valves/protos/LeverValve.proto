@@ -34,12 +34,12 @@ PROTO LeverValve [
                 roughness 0.4
                 baseColorMap ImageTexture {
                   url [
-                    "../textures/valve_handle.jpg"
+                    "textures/valve_handle.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "../textures/valve_handle_normal.jpg"
+                    "textures/valve_handle_normal.jpg"
                   ]
                 }
                 normalMapFactor 0.65

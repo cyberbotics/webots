@@ -1,5 +1,0 @@
-uint64 node
-uint64 from
-uint8 visible
----
-int8 success

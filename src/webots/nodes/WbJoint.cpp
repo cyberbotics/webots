@@ -306,7 +306,9 @@ const QString WbJoint::urdfName() const {
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
+    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
+    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
     const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
     const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperTransform(this));
 

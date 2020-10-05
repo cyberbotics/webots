@@ -3,9 +3,10 @@
 The Webots telemetry system sends anonymous data to the Webots developers in order to help them improving the software.
 It can be turned off or on the first time you start Webots and from the Webots [preferences](preferences.md#general).
 This data is mainly used to detect and fix crashes on some specific hardware.
+Please refer to the [Privacy Policy](privacy-policy.md) for more details about the collection and use of personal data.
 
 ### Sent Information
-The following table describes all the data sent:
+The following table describes all the data sent by Webots:
 
 | Data sent           | Description                                                                                                                                                     | Value Example                  |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
@@ -21,7 +22,9 @@ The following table describes all the data sent:
 | disableAntiAliasing | The anti-aliasing option set in the [preferences](preferences.md#opengl)                                                                                 | false                          |
 | disableShadows      | The shadows option set in the [preferences](preferences.md#opengl)                                                                                              | false                          |
 | GTAO                | The ambient occlusion option set in the [preferences](preferences.md#opengl)                                                                                    | 2                              |
-| build                     | The build timestamp of the current version of Webots                                                                                                            | 1551716875                     |
+| build               | The build timestamp of the current version of Webots                                                                                                            | 1551716875                     |
 
 
 To be as transparent as possible, all the telemetry raw data is available [here](https://cyberbotics.com/telemetry).
+The stored telemetry raw data also includes the timestamp of the latest telemetry report message.
+The IP address is stored but not displayed on the telemetry page.

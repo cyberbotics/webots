@@ -2201,14 +2201,14 @@ ok it works with safe mode
 
 i still find it strange it worked flawlessly the very first time, but then kept crashing afterwards
 
-##### Chin I 05/02/2019 19:07:38
+##### weebo 05/02/2019 19:07:38
 Hi, are there any step-by-step tutorials on Robotic Arm Simulations and how to write controllers for them?
 
 ##### David Mansolino [cyberbotics] 05/03/2019 06:30:52
 `@AntiSquid`, what is your GPU ? Have you been able to identify which OpenGL preference ([https://cyberbotics.com/doc/guide/preferences#opengl](https://cyberbotics.com/doc/guide/preferences#opengl))  cause the crash ?
 
 
-`@Chin I`  unfortunately not yet, however you can find generic step-by-step tutorials here: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
+`@weebo`  unfortunately not yet, however you can find generic step-by-step tutorials here: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
 
 In these tutorials you will learn (amongst other) how to control motors which is what you need for controlling Robotic Arms.
 
@@ -11474,14 +11474,14 @@ Hi `@Dannte98`
 ##### Rambo 08/23/2019 16:12:17
 I was applying a force which includes a 'for' loop to a vehicle's wheel in the physics plugin,(in physics step, dbodyaddforce).  the force was supposed to be calculated by integration, I simply use a for loop to add things up. If the division of the integeration is over 3(three times in for loop) and the force was applied, the webots crash. However, if the force is only displayed and calculated in webots, but not applied, the division of the integration could go as high as 1000 and still runs smoothly. And the forces calculated by normal means like adds multiflies and such works normally. I tried many methods, but none worked. I wonder if you guys have any clues to this...😫
 
-##### Heisenberg 08/24/2019 20:38:37
+##### TheWgang 08/24/2019 20:38:37
 Hi, the light sensor function returns a value 'E' based on the incidence of light on the sensor. How can  i detect a red light using the light sensor function
 
 ##### Olivier Michel [cyberbotics] 08/26/2019 06:22:55
 Hi `@Rambo`: unfortunately, I have no idea about the problem you are experiencing. Did you try to apply a force of 0 on this object? Does it still crash? If so, the pointer to the object may be wrong.
 
 
-hi `@Heisenberg`: light sensors don't make any different between colored lights. To detect a colored light, I would recommend to use a small white box put in front of a low resolution camera. The box will reflect the color of the light and the camera will get it.
+hi `@TheWgang`: light sensors don't make any different between colored lights. To detect a colored light, I would recommend to use a small white box put in front of a low resolution camera. The box will reflect the color of the light and the camera will get it.
 
 ##### Marcey 08/26/2019 08:59:30
 Hi, I'm using ROS to get to the translation of my robot. In my program I use the "node\_get\_field"-service. This worked until I tried to convert my Robot to a PROTO. Now I can not get the translation field anymore. The supervisor API says :
@@ -11705,7 +11705,7 @@ Hi `@David Mansolino` , thanks for your reply!
 ##### Olivier Michel [cyberbotics] 08/29/2019 05:49:14
 `@Frodo`: did you try print()? Note you need to call Robot.step() so that your print command is sent to Webots and displayed in the console.
 
-##### smruti 08/29/2019 14:04:36
+##### mcBCmc 08/29/2019 14:04:36
 hello, how can i convert .txt to .motion that webots can understand?I have a .txt file that contains the angle of each joints.Now i want nao to be in that position specified in that .txt file. For that reason i have to convert it into .motion file. So how should i do that?Can anyone help
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:06:13
@@ -11723,19 +11723,19 @@ You should try to forge a similar file.
 
 Basically, the header list the motor names, and each line contain a pose (time,posName,motorPositions*)
 
-##### smruti 08/29/2019 14:39:34
+##### mcBCmc 08/29/2019 14:39:34
 actually i m getting my data from kinect and using that data i m getting my joints angle (motor positions)using python . Now i have information of angles of left shoulder pitch and roll, left elbow pitch and roll.Now i want it to be in a file that webots can read.so how should i do that?Continuosly i will be getting data from kinect which will be given to webots .So how should i continuosly convert it to motion files?
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:42:26
 Using the motion mechanism is certainly overkilled. Why not simply and directly actuating the simulated robot motors? (cf. Motor.setPosition(double pos))
 
-##### smruti 08/29/2019 14:43:18
+##### mcBCmc 08/29/2019 14:43:18
 sorry i can't get u
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:45:51
 The Webots motion file mechanism aims to play back a stored motion in simulation. You would like to map the Kinect and the Webots simulated robot in real-time, right? In this case, it seems more appropriated to not use the Webots motion file mechanism, but rather to directly move the simulated robot actuators.
 
-##### smruti 08/29/2019 14:48:48
+##### mcBCmc 08/29/2019 14:48:48
 okay thank you
 
 ##### ClLebi 08/29/2019 15:21:59
@@ -17856,7 +17856,7 @@ HI, I'm using Windows 10 64-bit & have Nvidia gtx 1080 TI with the updated drive
 ##### Stefania Pedrazzi [cyberbotics] 11/13/2019 07:18:08
 `@Anoop` did you check if your GPU is correctly detected by Webots? could you post the content of the Help > OpenGL information message box (or the output of `webots --sysinfo`)?
 
-##### 『DEMÎ』Ghozt (Redsign) 11/13/2019 14:48:31
+##### DEMI Redsign 11/13/2019 14:48:31
 I am used to designing in Catia V5. How could I import my design to webot
 
 ##### Hayden Woodger 11/13/2019 14:49:03
@@ -23315,7 +23315,7 @@ i can't open the Motion Editor. windows = "generic\_window" then reload,
 
 it does not work!!
 
-##### 『DEMÎ』Ghozt (Redsign) 12/24/2019 07:37:54
+##### DEMI Redsign 12/24/2019 07:37:54
 I designed a robot in solidworks. How could i upload it to webot
 
 ##### sugus105 12/24/2019 09:29:10

@@ -1,3 +1,0 @@
-int32 layer
----
-sensor_msgs/PointCloud pointCloud

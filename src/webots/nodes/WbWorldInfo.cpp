@@ -51,19 +51,31 @@ void WbWorldInfo::init(const WbVersion *version) {
   mInkEvaporation = findSFDouble("inkEvaporation");
   mGravity = findSFDouble("gravity");
   mCoordinateSystem = findSFString("coordinateSystem");
+  WbField *northDirectionField = findField("northDirection");
+  const WbSFVector3 *const northDirection = findSFVector3("northDirection");
   if (version && *version < WbVersion(2020, 1, 0, true)) {
     mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
-  }
+    if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
+      northDirectionField->reset();
+    else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0)) {
+      northDirectionField->reset();
+      mCoordinateSystem->setValue("EUN");
+    } else if (!northDirectionField->isDefault())
+      parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
+                     "aligned along the x-axis."));
+  } else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0) && mCoordinateSystem->value() == "NUE") {
+    northDirectionField->reset();
+    mCoordinateSystem->setValue("EUN");
+  } else if (!northDirectionField->isDefault())
+    parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
+
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
-  WbSFVector3 *northDirection = findSFVector3("northDirection");
-  if (northDirection->x() != 0 || northDirection->y() != 1 || northDirection->z() != 0)  // not default value
-    parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
   mPhysicsReceiver = NULL;
 
@@ -305,21 +317,11 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
-  if (mCoordinateSystem->value() == "ENU") {
-    mEastVector = WbVector3(1, 0, 0);
-    mNorthVector = WbVector3(0, 1, 0);
-    mUpVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(0, 1, 0);
-    mGravityBasis[Y].setXyz(0, 0, 1);
-    mGravityBasis[Z].setXyz(1, 0, 0);
-  } else {  // "NUE"
-    mNorthVector = WbVector3(1, 0, 0);
-    mUpVector = WbVector3(0, 1, 0);
-    mEastVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(1, 0, 0);
-    mGravityBasis[Y].setXyz(0, 1, 0);
-    mGravityBasis[Z].setXyz(0, 0, 1);
-  }
+  const QString &system = mCoordinateSystem->value();
+  assert(system.size() == 3);
+  mNorthVector = WbVector3(system[0] == 'N' ? 1 : 0, system[1] == 'N' ? 1 : 0, system[2] == 'N' ? 1 : 0);
+  mEastVector = WbVector3(system[0] == 'E' ? 1 : 0, system[1] == 'E' ? 1 : 0, system[2] == 'E' ? 1 : 0);
+  mUpVector = WbVector3(system[0] == 'U' ? 1 : 0, system[1] == 'U' ? 1 : 0, system[2] == 'U' ? 1 : 0);
   mGravityUnitVector = -mUpVector;
   mGravityVector = mGravityUnitVector * mGravity->value();
 }

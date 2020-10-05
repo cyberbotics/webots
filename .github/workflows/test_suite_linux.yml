@@ -38,7 +38,7 @@ jobs:
       with:
          submodules: true
     - name: Install Webots Compilation Dependencies
-      run: scripts/install/linux_optional_compilation_dependencies.sh
+      run: sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
@@ -49,20 +49,20 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
+    - name: Create/Update GitHub release
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        sudo python -m pip install requests PyGithub
+        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.deb
-    - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
-      run: |
-        sudo python -m pip install requests PyGithub
-        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
@@ -77,7 +77,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -90,7 +90,7 @@ jobs:
         xvfb-run --auto-servernum python tests/test_suite.py
   world-update:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -102,7 +102,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:

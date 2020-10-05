@@ -15,7 +15,7 @@ All the functions included in this library are explained below.
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_init();
 void wbu_driver_cleanup();
@@ -27,7 +27,7 @@ int wbu_driver_step();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -43,7 +43,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def __init__(self):
@@ -56,7 +56,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public Driver();
@@ -93,7 +93,7 @@ Unlike the robot step, the driver step does not have any argument, the default t
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_steering_angle(double steering_angle);
 double wbu_driver_get_steering_angle();
@@ -104,7 +104,7 @@ double wbu_driver_get_steering_angle();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -120,7 +120,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setSteeringAngle(self, steeringAngle):
@@ -133,7 +133,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setSteeringAngle(double steeringAngle);
@@ -181,7 +181,7 @@ The `wbu_driver_get_steering_angle` function returns the current steering angle.
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_cruising_speed(double speed);
 double wbu_driver_get_target_cruising_speed();
@@ -192,7 +192,7 @@ double wbu_driver_get_target_cruising_speed();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -208,7 +208,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setCruisingSpeed(self, speed):
@@ -221,7 +221,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setCruisingSpeed(double speed);
@@ -262,7 +262,7 @@ The `wbu_driver_get_target_cruising_speed` function simply returns the target cr
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 double wbu_driver_get_current_speed();
 ```
@@ -272,7 +272,7 @@ double wbu_driver_get_current_speed();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -287,7 +287,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def getCurrentSpeed(self):
@@ -299,7 +299,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public double getCurrentSpeed();
@@ -337,7 +337,7 @@ The estimated speed is computed using the rotational speed of the actuated wheel
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_throttle(double throttle);
 double wbu_driver_get_throttle();
@@ -348,7 +348,7 @@ double wbu_driver_get_throttle();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -364,7 +364,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setThrottle(self, throttle):
@@ -377,7 +377,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setThrottle(double throttle);
@@ -419,7 +419,7 @@ The `wbu_driver_get_throttle` function simply returns the state of the throttle 
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_brake_intensity(double intensity);
 double wbu_driver_get_brake_intensity();
@@ -430,7 +430,7 @@ double wbu_driver_get_brake_intensity();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -446,7 +446,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setBrakeIntensity(self, intensity):
@@ -459,7 +459,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setBrakeIntensity(double intensity);
@@ -502,7 +502,7 @@ The `wbu_driver_get_brake_intensity` function simply returns the current brake i
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 typedef enum {
   OFF,
@@ -521,7 +521,7 @@ bool wbu_driver_get_hazard_flashers();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -541,7 +541,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     INDICATOR_OFF, INDICATOR_RIGHT, INDICATOR_LEFT
@@ -558,7 +558,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public final static int INDICATOR_OFF, INDICATOR_RIGHT, INDICATOR_LEFT;
@@ -618,7 +618,7 @@ The `wbu_driver_get_hazard_flashers` function allows the user to get the state o
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_dipped_beams(bool state);
 void wbu_driver_set_antifog_lights(bool state);
@@ -631,7 +631,7 @@ bool wbu_driver_get_antifog_lights();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -649,7 +649,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setDippedBeams(self, state):
@@ -664,7 +664,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setDippedBeams(boolean state);
@@ -707,7 +707,7 @@ The `wbu_driver_get_dipped_beams` and `wbu_driver_get_antifog_lights` functions 
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 double wbu_driver_get_rpm();
 ```
@@ -717,7 +717,7 @@ double wbu_driver_get_rpm();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -732,7 +732,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def getRpm(self):
@@ -744,7 +744,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public double getRpm();
@@ -783,7 +783,7 @@ This function returns the estimation of the engine rotation speed.
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 void wbu_driver_set_gear(int gear);
 int wbu_driver_get_gear();
@@ -795,7 +795,7 @@ int wbu_driver_get_gear_number();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -812,7 +812,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     def setGear(self, gear):
@@ -826,7 +826,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setGear(int gear);
@@ -871,7 +871,7 @@ The `wbu_driver_get_gear_number` function simply returns the number of available
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 typedef enum {
   SPEED,
@@ -886,7 +886,7 @@ WbuDriverControlMode wbu_driver_get_control_mode();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -903,7 +903,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     SPEED, TORQUE
@@ -917,7 +917,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public final static int SPEED, TORQUE;
@@ -964,7 +964,7 @@ This `wbu_driver_get_control_mode` returns the current control mode of the car.
 %tab "C"
 
 ```c
-#include <webots/driver.h>
+#include <webots/vehicle/driver.h>
 
 typedef enum {
   DOWN,
@@ -982,7 +982,7 @@ WbuDriverWiperMode wbu_driver_get_wiper_mode();
 %tab "C++"
 
 ```cpp
-#include <webots/Driver.hpp>
+#include <webots/vehicle/Driver.hpp>
 
 namespace webots {
   class Driver {
@@ -1000,7 +1000,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Driver
+from vehicle import Driver
 
 class Driver:
     DOWN, SLOW, NORMAL, FAST
@@ -1015,7 +1015,7 @@ class Driver:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Driver;
+import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public final static int DOWN, SLOW, NORMAL, FAST;
@@ -1096,8 +1096,8 @@ If `ratio` and `splitRpm` are respectively the `hybridPowerSplitRatio` and `hybr
 
 ```
 output_torque_c = c * splitRpm² + b * splitRpm + a
-        output_torque_e = min(maxT; maxP * 60 / 2 * pi * rpm)
-        output_torque_total = output_torque_e + (1 - ratio) * output_torque_c
+output_torque_e = min(maxT; maxP * 60 / 2 * pi * rpm)
+output_torque_total = output_torque_e + (1 - ratio) * output_torque_c
 ```
 
 Here again, if the real rpm is below the `engineMinRPM` parameter of the `Car` PROTO the combustion engine is switched off.
