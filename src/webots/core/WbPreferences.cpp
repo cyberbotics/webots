@@ -62,6 +62,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setFallbacksEnabled(false);
   // set defaults for preferences that are accessed from several locations
   setDefault("General/startupMode", "Real-time");
+  setDefault("General/show3DView", "true");
   setDefault("General/language", "");
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
   setDefault("General/checkWebotsUpdateOnStartup", true);

@@ -31,7 +31,7 @@ public:
   // simulation mode
   enum Mode { NONE, PAUSE, STEP, REALTIME, FAST };
   void setMode(Mode mode);
-  void show3dView(bool show);
+  void show3DView(bool show);
   void undoMode() { setMode(mPreviousMode); }
   Mode mode() const { return mEnabled ? mMode : PAUSE; }
   Mode previousMode() const { return mEnabled ? mPreviousMode : PAUSE; }

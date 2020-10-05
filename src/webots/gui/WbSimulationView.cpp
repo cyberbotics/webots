@@ -544,7 +544,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
     mRecordingTimer->start(800);
     toggleMovieAction(true);
     mTakeScreenshotAction->setEnabled(false);
-    show3dViewIfNecessary();
+    show3DViewIfNecessary();
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     if (mainWindow->isMinimized()) {
       mWasMinimized = true;
@@ -610,10 +610,10 @@ void WbSimulationView::makeMovie() {
   updateFastModeOverlay();
 }
 
-void WbSimulationView::show3dViewIfNecessary() {
+void WbSimulationView::show3DViewIfNecessary() {
   // remove "Fast Mode" overlay if necessary
   if (!WbSimulationState::instance()->is3dViewShown()) {
-    WbSimulationState::instance()->show3dView(true);
+    WbSimulationState::instance()->show3DView(true);
     mView3D->hideFastModeOverlay();
     mNeedToHide3dView = true;
   }
@@ -622,7 +622,7 @@ void WbSimulationView::show3dViewIfNecessary() {
 void WbSimulationView::restore3dViewIfNecessary() {
   if (mNeedToHide3dView) {
     mView3D->showFastModeOverlay();
-    WbSimulationState::instance()->show3dView(true);
+    WbSimulationState::instance()->show3DView(true);
     mNeedToHide3dView = false;
   }
 }
@@ -670,7 +670,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
     return;
   }
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
-  show3dViewIfNecessary();
+  show3DViewIfNecessary();
   mView3D->requestScreenshot();
 
   if (mIsScreenshotRequestedFromGui) {
@@ -757,9 +757,9 @@ void WbSimulationView::disable3DView(bool disabled) {
 
 void WbSimulationView::toggle3dView() {
   if (WbSimulationState::instance()->is3dViewShown())
-    WbSimulationState::instance()->show3dView(false);
+    WbSimulationState::instance()->show3DView(false);
   else
-    WbSimulationState::instance()->show3dView(true);
+    WbSimulationState::instance()->show3DView(true);
 }
 
 void WbSimulationView::updateFastModeOverlay() {

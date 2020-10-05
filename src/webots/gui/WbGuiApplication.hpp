@@ -52,7 +52,8 @@ private:
   QString mStartWorldName;
   WbSimulationState::Mode mStartupMode;
   WbMainWindow *mMainWindow;
-  bool mShouldShow3dView;
+  bool mShouldShow3DView;
+  
 
   Task mTask;
   QString mTaskArgument;
@@ -67,7 +68,7 @@ private:
   void setSplashMessage(const QString &);
   void closeSplashScreenIfNeeded();
   WbSimulationState::Mode startupModeFromPreferences() const;
-  bool view3dFromPreferences() const;
+  bool show3DViewFromPreferences() const;
   void loadInitialWorld();
 
   void udpateStyleSheet();

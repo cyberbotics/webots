@@ -100,7 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
-  mShouldShow3dView = true;
+  mShouldShow3DView = true;
 
   parseArguments();
 }
@@ -220,7 +220,7 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::FAST;
     }
     else if (arg == "--disable3dview")
-      mShouldShow3dView = false;
+      mShouldShow3DView = false;
     else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
@@ -348,9 +348,11 @@ bool WbGuiApplication::setup() {
   WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
+  if (mShouldShow3DView)
+    mShouldShow3DView = show3DViewFromPreferences();
 
-  WbSimulationState::instance()->setMode(mStartupMode);
-  WbSimulationState::instance()->show3dView(mShouldShow3dView);
+  WbSimulationState::instance()->setMode(mStartupMode); 
+  WbSimulationState::instance()->show3DView(mShouldShow3DView);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
@@ -493,11 +495,11 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
   return WbSimulationState::PAUSE;
 }
 
-bool WbGuiApplication::view3dFromPreferences() const {
+bool WbGuiApplication::show3DViewFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
-  const QString show3dView(prefs->value("General/show3dView").toString());
+  const QString show3DView(prefs->value("General/show3DView").toString());
 
-  if (show3dView == "false")
+  if (show3DView == "false")
     return false;
   return true;
 }

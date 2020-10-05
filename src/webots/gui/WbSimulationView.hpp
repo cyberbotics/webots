@@ -167,7 +167,7 @@ private:
   void updateFastModeOverlay();
   void renderABlackScreen();
   void retrieveSimulationView();
-  void show3dViewIfNecessary();
+  void show3DViewIfNecessary();
   void restore3dViewIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
