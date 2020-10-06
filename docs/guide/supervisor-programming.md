@@ -100,7 +100,7 @@ supervisor = Supervisor()
 
 # do this once only
 robot_node = supervisor.getFromDef("MY_ROBOT")
-if robot_node == None:
+if robot_node is None:
     sys.stderr.write("No DEF MY_ROBOT node found in the current world file\n")
     sys.exit(1)
 trans_field = robot_node.getField("translation")
