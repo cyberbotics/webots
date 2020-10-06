@@ -128,7 +128,8 @@ jobs:
             - libxcb-xinerama0
             - rename
       before_install: &ubuntu_before_install
-        - cd scripts/install; source ./linux_optional_compilation_dependencies.sh; cd ../..
+        - sudo scripts/install/linux_optional_compilation_dependencies.sh
+        - source /opt/ros/*/setup.bash  # sets 'ROS_DISTRO'
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2

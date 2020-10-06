@@ -149,6 +149,8 @@ typedef dReal dQuaternion[4];
 #define dCeil(x) ceil(x)
 #define dCopySign(a,b) _ode_copysign(a, b)
 #define dNextAfter(x, y) _ode_nextafter(x, y)
+#define dMax(a, b) ((a) > (b) ? (a) : (b))
+#define dMin(a, b) ((a) > (b) ? (b) : (a))
 
 #ifdef HAVE___ISNAN
 #define dIsNan(x) (__isnan(x))

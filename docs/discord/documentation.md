@@ -1207,3 +1207,250 @@ In any case, to get familiar with the Webots-ros interface, you should probably 
 
 [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 
+##### Simon Steinmann [Moderator] 09/21/2020 09:17:21
+`@Stefania Pedrazzi` I created an issue about the high cpu usage on <extern> waiting
+
+
+another question: I'm working on Reinforcement learning, and I'm wondering how much overhead there is, and if webots can be launched in a minimal way without GUI. Ultimateley, it would be great to be able to launch many simulation instances for parralelized learning
+
+
+or would it be better to launch multiple robot instances in the same simulation to train
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 09:23:09
+usually it is better to run multiple instances of Webots.
+
+It is not possible to launch Webots without GUI, but there are options to avoid useless renderings:
+
+- start webots with `--batch` and `--minimize` options
+
+- run the simulation in `fast` mode (`--mode=fast` in starting option) to disable rendering of the main 3D view
+
+##### Simon Steinmann [Moderator] 09/21/2020 09:37:08
+webots has a fairly large memory footprint. 1.1GB with only a very small and simple simulation. Any methods to decrease that?
+
+
+990MB of that is 'heap', only 113MB is the engine
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757536398948565033/unknown.png)
+%end
+
+
+is the heap shared between multiple instances?
+
+
+I have very limited understanding of memory stacks, heaps and all that
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 09:43:43
+Why are you comparing with the `libQtWebEngineCore`? Note that this is only a minimal part of the Webots application or even a Qt application that is just used for showing the documentation and robot window.
+
+
+By the way I don't think that the heap is shared between different processes.
+
+
+We regularly run successfully multiple Webots instances on power enough machines.
+
+##### Simon Steinmann [Moderator] 09/21/2020 09:56:08
+is there  documentation for multiple instances?
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 09:56:42
+no. What kind of documentation do you need?
+
+##### Simon Steinmann [Moderator] 09/21/2020 09:57:28
+I remember reading somewhere, that you have to specify the PID of the webots process you want to connect to
+
+
+let's say I wanna run 10 instances of the same simulation with the same robot
+
+
+and the same controller
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 09:58:21
+Are you using ROS or extern controllers?
+
+
+Otherwise if the simulation quits itself, you don't need to know the PID of the process
+
+##### Simon Steinmann [Moderator] 09/21/2020 10:02:16
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations)
+
+
+found it
+
+
+gonna try it out
+
+
+for larger scale Reinforcement Learning training, it would be very beneficial, if webots could be launched in a minimal way. Maybe a bit like gazebo server. Where only the absolute base things get loaded. 1,1 GB is quite a bit, if we want to scale it up. Deep Neural Networks can eat up quite some memory too
+
+
+can you point me to a way in the code, or documentation, where the different components get loaded. Or do you know of some tools, to inspect memory allocation and its sources?
+
+
+I already got pretty far with webots over the weekend (based on my previous work). Where I can train a robotic arm in a openai style environment. And I got it really fast. One simulation step takes less than 1ms, including inverse kinematics, simulation, get\_obs and reward calculation
+
+
+Plus webots excellent API support makes it an amazing tool
+
+
+But I'm worried about scalability
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 10:10:20
+The starting options I pointed out are the way to start Webots in the minimal way.
+
+To inspect memory you could use `valgrind` [https://github.com/cyberbotics/webots/wiki/Valgrind](https://github.com/cyberbotics/webots/wiki/Valgrind)
+
+##### Simon Steinmann [Moderator] 09/21/2020 10:11:00
+I tried started webots like you suggested:
+
+webots --batch --minimize --mode=fast
+
+still 1,1GB memory per instance
+
+
+thanks, I'll have a look at Valgrind
+
+
+how do I compile webots in debug mode?
+
+
+And which branch should I use? I always install the latest nightly with the tar method
+
+
+which is the correct branch for R2021a?
+
+
+develop?
+
+
+[https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots](https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots) pretty sure that should say 
+
+"For example, type make -j12 on a CPU with six cores and hyper-threading." and not "four cores"
+
+##### Romi 09/21/2020 10:48:04
+Hi! is there an example for closed loop control of a robot in the sample worlds?
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 10:59:36
+`@Simon Steinmann` to compile in debug mode simply type `make debug -jX`.  For R2021a you have to choose the `develop` branch . I will fix the number of cores in the documentation.
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:00:17
+`@Stefania Pedrazzi` thanks! Please add the 'debug' as well in the documentation
+
+
+it is 'debug' and not '-debug' or '--debug' ?
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:01:14
+yes, it is `make debug`. This a standard Makefile command
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:01:21
+thx 🙂
+
+
+but please include it in the documentation. Not everyone is very familiar with compiling (points at myself) 😄
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:09:11
+`@Romi` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
+
+##### Justin Fisher 09/21/2020 11:09:14
+> Hi! is there an example for closed loop control of a robot in the sample worlds?
+
+`@Romi` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:12:01
+> but please include it in the documentation. Not everyone is very familiar with compiling (points at myself) 😄
+
+`@Simon Steinmann` the wiki page already points out that you can get all the available targets (including for debugging) by running `make help`.
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:12:46
+😅  reading would help
+
+
+but I discovered a potential problem
+
+
+cat scripts/install/bashrc.linux >> ~/.bashrc
+
+
+this script assumes home/user/webots install
+
+
+it will screw things up if people install it somewhere else
+
+##### Romi 09/21/2020 11:14:08
+Thank you! `@Justin Fisher` `@Stefania Pedrazzi`
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:15:20
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757560595988873246/unknown.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:15:44
+`@Simon Steinmann` you should properly set the `WEBOTS_HOME` environment variable
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:15:55
+it is properly set
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757561010591629372/unknown.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:17:23
+Did you adjust the bashrc values to match your environment?
+
+
+for ros issue you should try to reset the `ROS_DISTRO` variable before compiling Webots
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:26:03
+I fixed it, for some reason, resources/webots\_ros was modified. I reverted the change and  pulled again
+
+
+`@Stefania Pedrazzi` valgrind failed. it is version 3.13.0
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757564208928784395/unknown.png)
+%end
+
+
+should I do the 3.12 fix, mentioned in the documentation?
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:31:03
+you should first check that the LD\_LIBRARY\_PATH contains `$WEBOTS_HOME/lib/webots`
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:31:44
+let me check, it seems the old installation is still interfering
+
+
+I fixed the LD\_LIBRARY\_PATH to only include the new directory and recompiled. Still getting this error
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757569019434893372/unknown.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:51:36
+this seems a configuration issue and not a valgrind issue.
+
+do you get the same error if you start webots only with `bin/webots-bin` (without valgrind)?
+
+##### Simon Steinmann [Moderator] 09/21/2020 11:53:38
+that started fine. I'm now redoing everything in /home/webots
+
+
+`@Stefania Pedrazzi` my apologies, the -j12 for a 4 core was correct. "make help" tells me to do -j18, as I have a 6 core multithreaded cpu. It's cpu-threads * 1.5
+
+
+maybe mention in the documentation to just run "make help" to get the correct command
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 13:35:17
+Yes, I didn't change it at the end, because the computation was correct.
+
+
+> maybe mention in the documentation to just run "make help" to get the correct command
+
+`@Simon Steinmann` it is already mentioned in the wiki page
+
+##### Simon Steinmann [Moderator] 09/21/2020 13:36:35
+In the end it doesnt matter much, but a note, that the number is different from your threadcount, could help
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 13:37:27
+There is no correct or wrong number of threads to use. The one printed in the help message is just a suggestion.
+

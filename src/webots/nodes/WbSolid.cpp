@@ -104,7 +104,7 @@ void WbSolid::init() {
   mUseInertiaMatrix = false;
   mIsPermanentlyKinematic = false;
   mIsKinematic = false;
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
 
@@ -1942,23 +1942,33 @@ void WbSolid::applyToOdeScale() {
   resetJoints();
 }
 
-void WbSolid::updateTransformAfterPhysicsStep() {
-  if (mUpdatedAfterStep)
+void WbSolid::updateTransformForPhysicsStep() {
+  if (mUpdatedInStep)
     return;
 
   applyPhysicsTransform();
 
+  QList<WbSolid *> reversedList;
+  reversedList << this;
   WbSolid *s = NULL;
   WbNode *p = parentNode();
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
-      s->applyPhysicsTransform();
-      s->mUpdatedAfterStep = true;
+      if (s->mUpdatedInStep)
+        break;  // ancestor nodes already updated
+      reversedList.prepend(s);
     }
     p = p->parentNode();
   }
-  mUpdatedAfterStep = true;
+
+  // update transform from root to current node as applyPhysicsTransform uses the upper transform matrix
+  QListIterator<WbSolid *> it(reversedList);
+  while (it.hasNext()) {
+    s = it.next();
+    s->applyPhysicsTransform();
+    s->mUpdatedInStep = true;
+  }
 }
 
 void WbSolid::applyPhysicsTransform() {
@@ -2080,7 +2090,7 @@ void WbSolid::prePhysicsStep(double ms) {
   for (i = 0; i < mPropellerChildren.size(); ++i)
     mPropellerChildren.at(i)->prePhysicsStep(ms);
 
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
 }
 
 ////////////
