@@ -293,6 +293,8 @@ In fast mode, the 3D display of the scene is refreshed every *n* basic time step
 
 - ![](images/run-button.png =26x26) The **Fast** menu item (and button) is like `Real-time`, except that it runs as fast as possible.
 
+- ![](images/3d-view-button.png =26x26) The **3D View** menu item (and button) disables or enables graphical rendering. Disabled (black screen) graphical rendering allows for a faster simulation and therefore is well suited for cpu-intensive simulations (genetic algorithms, vision, learning, etc.).
+
 ### Build Menu
 
 The **Build** menu provides the functionality to compile (or cross-compile) controller code.
