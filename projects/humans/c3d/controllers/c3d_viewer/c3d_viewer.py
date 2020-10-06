@@ -48,6 +48,8 @@ angleSignAndOrder = {
 
 
 class c3dFile:
+    """This class holds a C3D file and performs the necessary setup to run it."""
+    """In particular, it inserts and deletes 3D markers in the scene tree and communicates with the robot window."""
     def __init__(self, name):
         self.x = 0
         if not os.path.isfile(name):
