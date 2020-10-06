@@ -21,6 +21,8 @@ import c3d
 import math
 import os.path
 import sys
+import tempfile
+
 transforms3dVailable = True
 try:
     import transforms3d
@@ -51,151 +53,154 @@ class c3dFile:
         if not os.path.isfile(name):
             sys.exit('\'%s\' does not exist.' % name)
         # parse C3D file
-        self.reader = c3d.Reader(open(sys.argv[1], 'rb'))
+        with open(name, 'rb') as file:
+            self.reader = c3d.Reader(file)
 
-        # get C3D files settings
-        self.numberOfPoints = self.reader.header.point_count
-        self.frameStep = 1.0 / self.reader.header.frame_rate
-        self.scale = -1.0 if self.reader.header.scale_factor < 0 else 1.0
-        if self.reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
-            self.scale *= 0.001
-        elif not self.reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
-            print("Can't determine the size unit.")
+            # get C3D files settings
+            self.numberOfPoints = self.reader.header.point_count
+            self.frameStep = 1.0 / self.reader.header.frame_rate
+            self.scale = -1.0 if self.reader.header.scale_factor < 0 else 1.0
+            if self.reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
+                self.scale *= 0.001
+            elif not self.reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
+                print("Can't determine the size unit.")
 
-        # extract point group labels
-        self.labels = self.getPointsList('LABELS') if self.getPointsList('LABELS') is not None else []
-        angleLabels = self.getPointsList('ANGLES') if self.getPointsList('ANGLES') is not None else []
-        forcesLabels = self.getPointsList('FORCES') if self.getPointsList('FORCES') is not None else []
-        momentsLabels = self.getPointsList('MOMENTS') if self.getPointsList('MOMENTS') is not None else []
-        powersLabels = self.getPointsList('POWERS') if self.getPointsList('POWERS') is not None else []
+            # extract point group labels
+            self.labels = self.getPointsList('LABELS') if self.getPointsList('LABELS') is not None else []
+            angleLabels = self.getPointsList('ANGLES') if self.getPointsList('ANGLES') is not None else []
+            forcesLabels = self.getPointsList('FORCES') if self.getPointsList('FORCES') is not None else []
+            momentsLabels = self.getPointsList('MOMENTS') if self.getPointsList('MOMENTS') is not None else []
+            powersLabels = self.getPointsList('POWERS') if self.getPointsList('POWERS') is not None else []
 
-        # get unit for each label group
-        pointGroup = self.reader.groups['POINT']
-        units = {
-            'markers': 'm',
-            'virtual_markers': 'm',
-            'angles': pointGroup.get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in pointGroup.params else 'raw',
-            'forces': pointGroup.get('FORCE_UNITS').string_value if 'FORCE_UNITS' in pointGroup.params else 'raw',
-            'moments': pointGroup.get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in pointGroup.params else 'raw',
-            'powers': pointGroup.get('POWER_UNITS').string_value if 'POWER_UNITS' in pointGroup.params else 'raw'
-        }
+            # get unit for each label group
+            pointGroup = self.reader.groups['POINT']
+            units = {
+                'markers': 'm',
+                'virtual_markers': 'm',
+                'angles': pointGroup.get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in pointGroup.params else 'raw',
+                'forces': pointGroup.get('FORCE_UNITS').string_value if 'FORCE_UNITS' in pointGroup.params else 'raw',
+                'moments': pointGroup.get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in pointGroup.params else 'raw',
+                'powers': pointGroup.get('POWER_UNITS').string_value if 'POWER_UNITS' in pointGroup.params else 'raw'
+            }
 
-        # filter non 3D points and send the list to the robot window
-        filteredLabel = self.labels[:self.numberOfPoints]
-        if angleLabels:
-            filteredLabel = [x for x in filteredLabel if x not in angleLabels]
-        if forcesLabels:
-            filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
-        if momentsLabels:
-            filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
-        if powersLabels:
-            filteredLabel = [x for x in filteredLabel if x not in powersLabels]
+            # filter non 3D points and send the list to the robot window
+            filteredLabel = self.labels[:self.numberOfPoints]
+            if angleLabels:
+                filteredLabel = [x for x in filteredLabel if x not in angleLabels]
+            if forcesLabels:
+                filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
+            if momentsLabels:
+                filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
+            if powersLabels:
+                filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 
-        # split between actual and virtual markers
-        markers = []
-        virtualmarkers = []
-        for label in filteredLabel:
-            if self.isVirtualMarker(label):
-                virtualmarkers.append(label)
-            else:
-                markers.append(label)
-
-        # categorize each labels and send the lists to the robot window
-        self.labelsAndCategory = {
-            'markers': markers,
-            'virtual_markers': virtualmarkers,
-            'angles': angleLabels,
-            'forces': forcesLabels,
-            'moments': momentsLabels,
-            'powers': powersLabels
-        }
-        for key in self.labelsAndCategory:
-            if self.labelsAndCategory[key]:
-                supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(self.labelsAndCategory[key]).strip())
-            else:
-                supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
-        supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
-        # ground reaction forces (GRF)
-        self.grfList = []
-        names = ['LGroundReaction', 'RGroundReaction']
-        markerField = supervisor.getSelf().getField('markers')
-
-        for i in range(len(names)):
-            if names[i] + 'Force' in self.labels and names[i] + 'Moment' in self.labels:
-                self.grfList.append({'name': names[i]})
-                markerField.importMFNodeFromString(-1, 'C3dGroundReactionForce { translation %s %s %s}' %
-                                                       (sys.argv[3 + 3 * i],
-                                                        sys.argv[4 + 3 * i],
-                                                        sys.argv[5 + 3 * i]))
-                self.grfList[-1]['node'] = markerField.getMFNode(-1)
-                self.grfList[-1]['rotation'] = self.grfList[-1]['node'].getField('rotation')
-                self.grfList[-1]['cylinderTranslation'] = self.grfList[-1]['node'].getField('cylinderTranslation')
-                self.grfList[-1]['coneTranslation'] = self.grfList[-1]['node'].getField('coneTranslation')
-                self.grfList[-1]['height'] = self.grfList[-1]['node'].getField('height')
-
-        # get body visualization
-        self.bodyRotations = {}
-        self.bodyTranslations = {}
-        bodyNode = None
-        self.bodyTransparency = float(sys.argv[9])
-        self.height = float(sys.argv[10])
-        if self.height < 0:
-            if 'SUBJECTS' in self.reader.groups and self.reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
-                self.height = 0.001 * float(self.reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
-            elif 'SUBJECT' in self.reader.groups and self.reader.groups['SUBJECT'].get('HEIGHT') is not None:
-                self.height = self.reader.groups['SUBJECT'].get('HEIGHT').float_value
-            else:
-                self.height = 1.83
-        bodyScale = self.height / 1.83  # 1.83m: default size of the human model
-        markerField.importMFNodeFromString(-1,
-                                           'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
-                                           (self.bodyTransparency, bodyScale, bodyScale, bodyScale))
-        bodyNode = markerField.getMFNode(-1)
-        self.bodyTransparencyField = bodyNode.getField('transparency')
-        for label in self.labelsAndCategory['virtual_markers']:
-            node = supervisor.getFromDef(label + '_body')
-            if node:
-                field = node.getField('translation')
-                if field:
-                    self.bodyTranslations[label] = field
-        if bodyNode and self.labelsAndCategory['angles'] is not None:
-            for label in self.labelsAndCategory['angles']:
-                field = bodyNode.getField(label.replace('Angles', 'Rotation'))
-                if field:
-                    self.bodyRotations[label] = field
-
-        # import the marker and initialize the list of points
-        self.pointRepresentations = {}
-        j = 0
-        for i in range(len(self.labels)):
-            label = self.labels[i]
-            pointRepresentation = {}
-            pointRepresentation['visible'] = False
-            pointRepresentation['node'] = None
-            pointRepresentation['solid'] = supervisor.getFromDef(label) if label else None
-            if label in filteredLabel:
-                markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % label)
-                pointRepresentation['node'] = markerField.getMFNode(-1)
-                pointRepresentation['translation'] = pointRepresentation['node'].getField('translation')
-                pointRepresentation['transparency'] = pointRepresentation['node'].getField('transparency')
-                pointRepresentation['radius'] = pointRepresentation['node'].getField('radius')
-                pointRepresentation['color'] = pointRepresentation['node'].getField('color')
+            # split between actual and virtual markers
+            markers = []
+            virtualmarkers = []
+            for label in filteredLabel:
                 if self.isVirtualMarker(label):
-                    pointRepresentation['transparency'].setSFFloat(1.0)
+                    virtualmarkers.append(label)
                 else:
-                    pointRepresentation['visible'] = True
-                j += 1
-            self.pointRepresentations[label] = pointRepresentation
+                    markers.append(label)
 
-        # parse the C3D frames
-        self.frameAndPoints = []
-        self.frameAndAnalog = []
-        for i, points, analog in self.reader.read_frames():
-            self.frameAndPoints.append((i, points))
+            # categorize each labels and send the lists to the robot window
+            self.labelsAndCategory = {
+                'markers': markers,
+                'virtual_markers': virtualmarkers,
+                'angles': angleLabels,
+                'forces': forcesLabels,
+                'moments': momentsLabels,
+                'powers': powersLabels
+            }
+            for key in self.labelsAndCategory:
+                if self.labelsAndCategory[key]:
+                    supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' +
+                                           ' '.join(self.labelsAndCategory[key]).strip())
+                else:
+                    supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
+            supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
+            # ground reaction forces (GRF)
+            self.grfList = []
+            names = ['LGroundReaction', 'RGroundReaction']
+            markerField = supervisor.getSelf().getField('markers')
 
-        X_SCREEN = self.reader.groups['POINT'].get('X_SCREEN').string_value.strip()
-        Y_SCREEN = self.reader.groups['POINT'].get('Y_SCREEN').string_value.strip()
-        self.inverseY = (X_SCREEN == '+X' and Y_SCREEN == '+Z') or (X_SCREEN == '-X' and Y_SCREEN == '-Z')
+            for i in range(len(names)):
+                if names[i] + 'Force' in self.labels and names[i] + 'Moment' in self.labels:
+                    self.grfList.append({'name': names[i]})
+                    markerField.importMFNodeFromString(-1, 'C3dGroundReactionForce { translation %s %s %s}' %
+                                                           (sys.argv[3 + 3 * i],
+                                                            sys.argv[4 + 3 * i],
+                                                            sys.argv[5 + 3 * i]))
+                    self.grfList[-1]['node'] = markerField.getMFNode(-1)
+                    self.grfList[-1]['rotation'] = self.grfList[-1]['node'].getField('rotation')
+                    self.grfList[-1]['cylinderTranslation'] = self.grfList[-1]['node'].getField('cylinderTranslation')
+                    self.grfList[-1]['coneTranslation'] = self.grfList[-1]['node'].getField('coneTranslation')
+                    self.grfList[-1]['height'] = self.grfList[-1]['node'].getField('height')
+
+            # get body visualization
+            self.bodyRotations = {}
+            self.bodyTranslations = {}
+            bodyNode = None
+            self.bodyTransparency = float(sys.argv[9])
+            self.height = float(sys.argv[10])
+            if self.height < 0:
+                if 'SUBJECTS' in self.reader.groups and self.reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
+                    self.height = 0.001 * float(self.reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
+                elif 'SUBJECT' in self.reader.groups and self.reader.groups['SUBJECT'].get('HEIGHT') is not None:
+                    self.height = self.reader.groups['SUBJECT'].get('HEIGHT').float_value
+                else:
+                    self.height = 1.83
+            bodyScale = self.height / 1.83  # 1.83m: default size of the human model
+            markerField.importMFNodeFromString(-1,
+                                               'DEF CentreOfMass_body C3dBodyRepresentation '
+                                               '{ transparency %s scale %lf %lf %lf }' %
+                                               (self.bodyTransparency, bodyScale, bodyScale, bodyScale))
+            bodyNode = markerField.getMFNode(-1)
+            self.bodyTransparencyField = bodyNode.getField('transparency')
+            for label in self.labelsAndCategory['virtual_markers']:
+                node = supervisor.getFromDef(label + '_body')
+                if node:
+                    field = node.getField('translation')
+                    if field:
+                        self.bodyTranslations[label] = field
+            if bodyNode and self.labelsAndCategory['angles'] is not None:
+                for label in self.labelsAndCategory['angles']:
+                    field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+                    if field:
+                        self.bodyRotations[label] = field
+
+            # import the marker and initialize the list of points
+            self.pointRepresentations = {}
+            j = 0
+            for i in range(len(self.labels)):
+                label = self.labels[i]
+                pointRepresentation = {}
+                pointRepresentation['visible'] = False
+                pointRepresentation['node'] = None
+                pointRepresentation['solid'] = supervisor.getFromDef(label) if label else None
+                if label in filteredLabel:
+                    markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % label)
+                    pointRepresentation['node'] = markerField.getMFNode(-1)
+                    pointRepresentation['translation'] = pointRepresentation['node'].getField('translation')
+                    pointRepresentation['transparency'] = pointRepresentation['node'].getField('transparency')
+                    pointRepresentation['radius'] = pointRepresentation['node'].getField('radius')
+                    pointRepresentation['color'] = pointRepresentation['node'].getField('color')
+                    if self.isVirtualMarker(label):
+                        pointRepresentation['transparency'].setSFFloat(1.0)
+                    else:
+                        pointRepresentation['visible'] = True
+                    j += 1
+                self.pointRepresentations[label] = pointRepresentation
+
+            # parse the C3D frames
+            self.frameAndPoints = []
+            self.frameAndAnalog = []
+            for i, points, analog in self.reader.read_frames():
+                self.frameAndPoints.append((i, points))
+
+            X_SCREEN = self.reader.groups['POINT'].get('X_SCREEN').string_value.strip()
+            Y_SCREEN = self.reader.groups['POINT'].get('Y_SCREEN').string_value.strip()
+            self.inverseY = (X_SCREEN == '+X' and Y_SCREEN == '+Z') or (X_SCREEN == '-X' and Y_SCREEN == '-Z')
 
     def __del__(self):
         c3dFile.removeMarkers()
@@ -294,10 +299,12 @@ while supervisor.step(timestep) != -1:
             offsetTime = supervisor.getTime()
             totalFrameCoutner = 0
         elif action == 'c3dfile':
-            with open('default.c3d', 'wb') as file:
-                file.write(base64.b64decode(value[1]))
+            file = tempfile.NamedTemporaryFile(mode='wb', delete=False, suffix='.c3d')
+            file.write(base64.b64decode(value[1]))
+            file.close()
             del c3dfile
-            c3dfile = c3dFile('default.c3d')
+            c3dfile = c3dFile(file.name)
+            os.remove(file.name)
         else:
             print(message)
         message = supervisor.wwiReceiveText()
