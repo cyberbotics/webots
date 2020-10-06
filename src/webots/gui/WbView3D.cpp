@@ -1064,7 +1064,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   // Creates the fast mode overlay
   if (!mDisabled3dViewOverlay) {
-    mDisabled3dViewOverlay = new WbWrenFullScreenOverlay("Hidden 3D view", 128, true);
+    mDisabled3dViewOverlay = new WbWrenFullScreenOverlay("Hidden 3D View", 128, true);
     mDisabled3dViewOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
   }
   if (WbSimulationState::instance()->is3dViewShown())
