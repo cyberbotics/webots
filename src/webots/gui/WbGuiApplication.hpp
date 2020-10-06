@@ -54,7 +54,6 @@ private:
   WbMainWindow *mMainWindow;
   bool mShouldShow3DView;
   
-
   Task mTask;
   QString mTaskArgument;
 
