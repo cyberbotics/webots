@@ -218,8 +218,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=run") {
       cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
       mStartupMode = WbSimulationState::FAST;
-    }
-    else if (arg == "--disable3dview")
+    } else if (arg == "--disable3dview")
       mShouldShow3DView = false;
     else if (arg == "--help")
       mTask = HELP;
@@ -351,7 +350,7 @@ bool WbGuiApplication::setup() {
   if (mShouldShow3DView)
     mShouldShow3DView = show3DViewFromPreferences();
 
-  WbSimulationState::instance()->setMode(mStartupMode); 
+  WbSimulationState::instance()->setMode(mStartupMode);
   WbSimulationState::instance()->show3DView(mShouldShow3DView);
 
   // check specified world file if any
