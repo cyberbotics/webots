@@ -498,8 +498,7 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 bool WbGuiApplication::show3DViewFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
   const QString show3DView(prefs->value("General/show3DView").toString());
-
-  return show3DView != "false"
+  return show3DView != "false";
 }
 
 #ifdef __APPLE__

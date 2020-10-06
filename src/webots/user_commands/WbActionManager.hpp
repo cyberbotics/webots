@@ -44,6 +44,8 @@ public:
   static void setActionEnabledSilently(QAction *action, bool enabled);
   static QString mapControlKey();
 
+  void toggle3DView();
+
 signals:
   void userConsoleEditCommandReceived(WbAction::WbActionKind action);
   void userDocumentationEditCommandReceived(WbAction::WbActionKind action);

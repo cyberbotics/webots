@@ -128,7 +128,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   WbSimulationState *state = WbSimulationState::instance();
 
   //  show a black screen is fast mode is selected
-  if (!state->is3dViewShown())
+  if (!state->is3DViewShown())
     renderABlackScreen();
 
   connect(mTitleBar, &WbDockTitleBar::closeClicked, this, &WbSimulationView::hide);
@@ -236,6 +236,10 @@ QToolBar *WbSimulationView::createToolBar() {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbSimulationView::updatePlayButtons);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSimulationView::updatePlayButtons);
 
+  action = manager->action(WbAction::TOGGLE_3D_VIEW);
+  mToolBar->addAction(action);
+  mToolBar->widgetForAction(action)->setObjectName("menuButton");
+
   mToolBar->addSeparator();
 
   mToolBar->addAction(mMovieAction);
@@ -299,7 +303,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
   connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
-  connect(manager->action(WbAction::TOGGLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::toggle3dView);
+  connect(manager->action(WbAction::TOGGLE_3D_VIEW), &QAction::triggered, this, &WbSimulationView::toggle3DView);
 
   // add actions available in full-screen mode to the current widget
   // otherwise they will be automatically disabled when the toolbar is hidden
@@ -473,7 +477,7 @@ void WbSimulationView::updateVisibility() {
 void WbSimulationView::unmuteSound() {
   WbPreferences::instance()->setValue("Sound/mute", false);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
-  if (mode != WbSimulationState::FAST && WbSimulationState::instance()->is3dViewShown())
+  if (mode != WbSimulationState::FAST && WbSimulationState::instance()->is3DViewShown())
     WbSoundEngine::setMute(false);
   mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
@@ -582,7 +586,7 @@ void WbSimulationView::stopMovie() {
 }
 
 void WbSimulationView::makeMovie() {
-  if (!WbSimulationState::instance()->is3dViewShown()) {
+  if (!WbSimulationState::instance()->is3DViewShown()) {
     WbLog::warning(tr("Impossible to record a movie while running the simulation in 'Fast' mode."), true);
     return;
   }
@@ -612,7 +616,7 @@ void WbSimulationView::makeMovie() {
 
 void WbSimulationView::show3DViewIfNecessary() {
   // remove "Fast Mode" overlay if necessary
-  if (!WbSimulationState::instance()->is3dViewShown()) {
+  if (!WbSimulationState::instance()->is3DViewShown()) {
     WbSimulationState::instance()->show3DView(true);
     mView3D->hideFastModeOverlay();
     mNeedToHide3dView = true;
@@ -755,15 +759,15 @@ void WbSimulationView::disable3DView(bool disabled) {
   mView3D->setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW, disabled);
 }
 
-void WbSimulationView::toggle3dView() {
-  if (WbSimulationState::instance()->is3dViewShown())
+void WbSimulationView::toggle3DView() {
+  if (WbSimulationState::instance()->is3DViewShown())
     WbSimulationState::instance()->show3DView(false);
   else
     WbSimulationState::instance()->show3DView(true);
 }
 
 void WbSimulationView::updateFastModeOverlay() {
-  if (WbSimulationState::instance()->is3dViewShown())
+  if (WbSimulationState::instance()->is3DViewShown())
     retrieveSimulationView();
   else
     renderABlackScreen();
@@ -879,7 +883,7 @@ void WbSimulationView::modeKeyPressed(QKeyEvent *event) {
       return;
     case Qt::Key_4:
       // Ctrl + 4
-      toggle3dView();
+      toggle3DView();
       return;
     default:
       break;
@@ -898,7 +902,6 @@ void WbSimulationView::updatePlayButtons() {
   QAction *pause = manager->action(WbAction::PAUSE);
   QAction *realtime = manager->action(WbAction::REAL_TIME);
   QAction *fast = manager->action(WbAction::FAST);
-  QAction *toggle3dView = manager->action(WbAction::TOGGLE_3D_VIEW);
 
   mToolBar->removeAction(pause);
   mToolBar->removeAction(realtime);
@@ -920,22 +923,7 @@ void WbSimulationView::updatePlayButtons() {
       break;
   }
 
-  if (WbSimulationState::instance()->is3dViewShown()) {
-    QIcon icon = QIcon();
-    icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
-    toggle3dView->setIcon(icon);
-    toggle3dView->setChecked(true);
-    toggle3dView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)").arg(WbActionManager::mapControlKey()));
-    toggle3dView->setToolTip(tr("Hide 3D View"));
-  } else {
-    QIcon icon = QIcon();
-    icon.addFile("enabledIcons:hide_3d_view.png", QSize(), QIcon::Normal);
-    toggle3dView->setIcon(icon);
-    toggle3dView->setChecked(false);
-    toggle3dView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)").arg(WbActionManager::mapControlKey()));
-    toggle3dView->setToolTip("Show 3D View");
-  }
-  actions << toggle3dView;
+  manager->toggle3DView();
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
@@ -943,15 +931,12 @@ void WbSimulationView::updatePlayButtons() {
   QWidget *pauseWidget = mToolBar->widgetForAction(pause);
   QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
   QWidget *fastWidget = mToolBar->widgetForAction(fast);
-  QWidget *toggle3dViewWidget = mToolBar->widgetForAction(toggle3dView);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
     realTimeWidget->setObjectName("menuButton");
   if (pauseWidget)
     pauseWidget->setObjectName("menuButton");
-  if (toggle3dViewWidget)
-    toggle3dViewWidget->setObjectName("menuButton");
 
   mToolBar->update();
 
