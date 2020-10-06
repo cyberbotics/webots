@@ -47,7 +47,7 @@ def search_and_replace(filename, fromString, toString):
 
 def run_webots():
     """Run Webots on WORLD with right flags."""
-    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export ---mode=fast --disable3dview --minimize %s' % WORLD)
+    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --disable3dview --minimize %s' % WORLD)
 
 
 # Script logics.
