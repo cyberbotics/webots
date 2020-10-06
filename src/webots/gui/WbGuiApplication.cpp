@@ -499,9 +499,7 @@ bool WbGuiApplication::show3DViewFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
   const QString show3DView(prefs->value("General/show3DView").toString());
 
-  if (show3DView == "false")
-    return false;
-  return true;
+  return show3DView != "false"
 }
 
 #ifdef __APPLE__
