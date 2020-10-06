@@ -461,10 +461,10 @@ void WbActionManager::populateActions() {
   action->setCheckable(true);
   mActions[DISABLE_FORCE_AND_TORQUE] = action;
 
-  action = new QAction(this);	
-  action->setText(tr("Disable 3D View"));	
-  action->setStatusTip(tr("Disable running the simulation with 3D view."));	
-  action->setToolTip(action->statusTip());	
+  action = new QAction(this);
+  action->setText(tr("Disable 3D View"));
+  action->setStatusTip(tr("Disable running the simulation with 3D view."));
+  action->setToolTip(action->statusTip());
   action->setCheckable(true);
   mActions[DISABLE_3D_VIEW] = action;
 
