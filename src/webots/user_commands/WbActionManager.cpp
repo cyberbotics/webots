@@ -1096,7 +1096,7 @@ void WbActionManager::toggle3DView() {
   } else {
     toggle3DView->setIcon(QIcon("enabledIcons:hide_3d_view.png"));
     toggle3DView->setChecked(false);
-    toggle3DView->setStatusTip(tr("Show 3D view to see the simulation. (%1+4)").arg(mapControlKey()));
+    toggle3DView->setStatusTip(tr("Show 3D View to see the simulation. (%1+4)").arg(mapControlKey()));
     toggle3DView->setToolTip(tr("Show 3D View. (%1+4)").arg(mapControlKey()));
   }
 }
