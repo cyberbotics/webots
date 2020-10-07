@@ -3,7 +3,7 @@ name: Discord Doc Updater
 on:
   schedule:
   - cron: "0 13 * * 3"
-  pull_request:
+  pull_request: 
     types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
