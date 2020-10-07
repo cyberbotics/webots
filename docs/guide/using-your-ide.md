@@ -372,7 +372,7 @@ Path=C:\Program Files\Webots\lib\controller\;C:\Program Files\Webots\msys64\ming
 
 %tab "macOS"
 ```bash
-DYLD_LIBRARY_PATH=/Applications/Webots/lib/controller
+DYLD_LIBRARY_PATH=/Applications/Webots.app/lib/controller
 ```
 %tab-end
 
