@@ -33,6 +33,9 @@ contributors = {}
 
 
 class MyClient(discord.Client):
+    def __init__(self):
+        discord.Client.__init__(self, intents=discord.Intents.all())
+    
     async def export_channel(self, channel):
         year = None
         month = None
