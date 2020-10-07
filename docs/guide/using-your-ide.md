@@ -344,7 +344,7 @@ As an example, the `driver` sample controller is used here.
 
 In order to use the Webots Python API, it should be added to the project.
 This can be done from the `File` / `Settings` menu.
-In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/controller/python37` folder (or any other Python version).
+In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/controller/python38` folder (or any other Python version).
 
 %figure "Addition of the Webots controller library"
 
