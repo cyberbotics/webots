@@ -331,16 +331,12 @@ In this section we provide a sample Docker setup that could be used to run the s
 
 You can use the following `Dockerfile` to build your Docker image.
 ```
-FROM cyberbotics/webots:R2021a-ubuntu18.04
+FROM cyberbotics/webots:latest
 
 RUN apt update
 RUN apt install -y firejail python3-pip
 RUN pip3 install tornado pynvml psutil requests distro
-ENV AUDIODEV=null
-ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:99
-ENV WEBOTS_HOME=/usr/local/webots
-ENV QTWEBENGINE_DISABLE_SANDBOX=1
 COPY server/config /usr/local/webots/resources/web/server/config
 COPY server/key /usr/local/webots/resources/web/server/key
 COPY server.sh /usr/local/server.sh
