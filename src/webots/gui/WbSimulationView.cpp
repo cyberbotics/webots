@@ -559,7 +559,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
 
 void WbSimulationView::stopVideoCapture(bool canceled) {
   WbVideoRecorder::instance()->stopRecording(canceled);
-  restore3dViewIfNecessary();
+  restore3DViewIfNecessary();
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     mainWindow->showMinimized();
@@ -623,7 +623,7 @@ void WbSimulationView::show3DViewIfNecessary() {
   }
 }
 
-void WbSimulationView::restore3dViewIfNecessary() {
+void WbSimulationView::restore3DViewIfNecessary() {
   if (mNeedToHide3dView) {
     mView3D->showFastModeOverlay();
     WbSimulationState::instance()->show3DView(true);
@@ -648,7 +648,7 @@ void WbSimulationView::writeScreenshot(QImage image) {
     WbSimulationState::instance()->resumeSimulation();
     mIsScreenshotRequestedFromGui = false;
   }
-  restore3dViewIfNecessary();
+  restore3DViewIfNecessary();
 
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());

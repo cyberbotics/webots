@@ -168,7 +168,7 @@ private:
   void renderABlackScreen();
   void retrieveSimulationView();
   void show3DViewIfNecessary();
-  void restore3dViewIfNecessary();
+  void restore3DViewIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
   void updateToggleView3DAction(bool enabled);
