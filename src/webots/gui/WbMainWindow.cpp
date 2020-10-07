@@ -1374,6 +1374,9 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbActionManager::instance()
     ->action(WbAction::DISABLE_3D_VIEW)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
+  WbActionManager::instance()
+    ->action(WbAction::TOGGLE_3D_VIEW)
+    ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();
