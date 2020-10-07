@@ -62,6 +62,7 @@ public:
 signals:
   // the simulation mode has changed
   void modeChanged();
+  void visibilityOf3DViewChanged();
   void enabledChanged(bool);
 
   // steps execution

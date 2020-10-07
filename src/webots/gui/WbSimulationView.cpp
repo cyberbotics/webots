@@ -232,6 +232,9 @@ QToolBar *WbSimulationView::createToolBar() {
   mToolBar->widgetForAction(action)->setObjectName("invisibleButton");
   mToolBar->widgetForAction(action)->setVisible("false");
 
+  WbActionManager::instance()->update3DViewButton();
+  connect(WbSimulationState::instance(), &WbSimulationState::visibilityOf3DViewChanged, this, &WbSimulationView::update3DView);
+
   updatePlayButtons();
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbSimulationView::updatePlayButtons);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSimulationView::updatePlayButtons);
@@ -923,8 +926,6 @@ void WbSimulationView::updatePlayButtons() {
       break;
   }
 
-  manager->toggle3DView();
-
   mToolBar->insertActions(mPlayAnchor, actions);
 
   // setObjectName (used by the stylesheet)
@@ -941,7 +942,10 @@ void WbSimulationView::updatePlayButtons() {
   mToolBar->update();
 
   mToolBar->setUpdatesEnabled(true);
+}
 
+void WbSimulationView::update3DView() {
+  WbActionManager::instance()->update3DViewButton();
   updateFastModeOverlay();
 }
 

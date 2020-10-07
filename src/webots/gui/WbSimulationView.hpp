@@ -119,6 +119,7 @@ private slots:
   void updateTitleBarTitle();
   void disableStepButton(bool disabled);
   void updatePlayButtons();
+  void update3DView();
   void updateSoundButtons();
   void needsActionsUpdate(int position, int index);
   void toggleSceneTreeVisibility();

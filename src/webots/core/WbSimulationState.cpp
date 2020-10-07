@@ -43,7 +43,7 @@ void WbSimulationState::setMode(Mode mode) {
 
 void WbSimulationState::show3DView(bool show) {
   mShow3dView = show;
-  emit modeChanged();
+  emit visibilityOf3DViewChanged();
 }
 
 void WbSimulationState::pauseSimulation() {

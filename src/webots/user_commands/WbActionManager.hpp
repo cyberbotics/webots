@@ -43,7 +43,7 @@ public:
 
   static void setActionEnabledSilently(QAction *action, bool enabled);
 
-  void toggle3DView();
+  void update3DViewButton();
 
 signals:
   void userConsoleEditCommandReceived(WbAction::WbActionKind action);

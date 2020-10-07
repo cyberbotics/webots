@@ -1085,7 +1085,7 @@ void WbActionManager::enableTextEditActions(bool enabled) {
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
 }
 
-void WbActionManager::toggle3DView() {
+void WbActionManager::update3DViewButton() {
   QAction *toggle3DView = action(WbAction::TOGGLE_3D_VIEW);
 
   if (WbSimulationState::instance()->is3DViewShown()) {
