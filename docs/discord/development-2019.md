@@ -42,7 +42,7 @@ TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
 
 also, on the wiki, I've seen that the accelerometer and the gyro are encoded on 6 bytes so 2 bytes for X, Y and Z. But the magnetometer is encoded on 12 bytes, which doesn't make sense to me as the raw values are between -32460 and 32760... So are there 3 axis encoded on 4 bytes, or am I missing something?
 
-##### Olivier Michel [cyberbotics] 04/25/2019 11:19:50
+##### Olivier Michel 04/25/2019 11:19:50
 Hi, welcome.
 
 
@@ -56,7 +56,7 @@ Eventually, you will be able to open a pull request to merge your contribution.
 ##### Arsalan.b.r 06/04/2019 07:42:35
 hello
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:42:51
+##### Fabien Rohrer 06/04/2019 07:42:51
 Hi again ^^
 
 ##### Arsalan.b.r 06/04/2019 07:42:56
@@ -71,7 +71,7 @@ how can i do it simply?
 
 is there such a robot in webots?
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:45:40
+##### Fabien Rohrer 06/04/2019 07:45:40
 First of all it's possible to do so. There are even several possibilities to achieve this.
 
 
@@ -83,7 +83,7 @@ Do you have a screenshot of a real setup?
 ##### Arsalan.b.r 06/04/2019 07:47:13
 a passive joint between carts
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:47:48
+##### Fabien Rohrer 06/04/2019 07:47:48
 I think the closest robot we have in Webots yet is the yamor:
 
 
@@ -95,7 +95,7 @@ I think the closest robot we have in Webots yet is the yamor:
 ![tractor-trailer.JPG](https://cdn.discordapp.com/attachments/565155651395780609/585374436270800906/tractor-trailer.JPG)
 %end
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:49:15
+##### Fabien Rohrer 06/04/2019 07:49:15
 The robot model is encapsulated in a PROTO node. The Robots are linked with Connector nodes:
 
 
@@ -104,7 +104,7 @@ The robot model is encapsulated in a PROTO node. The Robots are linked with Conn
 ##### Arsalan.b.r 06/04/2019 07:50:21
 it should be wheeled
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:50:29
+##### Fabien Rohrer 06/04/2019 07:50:29
 I think you could achieve something by studying yamor.wbt
 
 ##### Arsalan.b.r 06/04/2019 07:50:30
@@ -116,7 +116,7 @@ yamor is like snake?
 
 do you have a picture of that?
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:51:07
+##### Fabien Rohrer 06/04/2019 07:51:07
 Yes, but adding wheels to the yamor module is not an issue
 
 
@@ -134,7 +134,7 @@ yes
 
 thanks again
 
-##### Fabien Rohrer [Moderator] 06/04/2019 07:56:42
+##### Fabien Rohrer 06/04/2019 07:56:42
 But first of all, please do our tutorial 😉 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 ##### TH0 06/12/2019 13:54:02
@@ -164,7 +164,7 @@ any ideas? just cloning the valvesoftware openvr sdk does not seem to work.
 
 is it a bug in the webots tutorial or did i miss anything?
 
-##### David Mansolino [cyberbotics] 06/12/2019 13:55:04
+##### David Mansolino 06/12/2019 13:55:04
 this dependency should be downloaded automatically. Can you check the content of your 'dependencies' folder ?
 
 ##### TH0 06/12/2019 13:57:29
@@ -174,7 +174,7 @@ Cyberbotics.Webots.Mingw64.Libraries.manifest  libpico.zip  lua-gd-windows.zip  
 
 libOIS.zip                                     lua-5.2.3    Makefile.linux      Makefile.windows
 
-##### David Mansolino [cyberbotics] 06/12/2019 13:58:15
+##### David Mansolino 06/12/2019 13:58:15
 Ok, perfect, you have it the includes are located in the 'openvr-1.0.7' directories.
 
 
@@ -186,7 +186,7 @@ yes
 
 and there where no errors until the one i pasted here
 
-##### David Mansolino [cyberbotics] 06/12/2019 13:59:16
+##### David Mansolino 06/12/2019 13:59:16
 Ok, let's first try something simple, can you do a 'make cleanse' from the 'webots' folder?
 
 
@@ -198,7 +198,7 @@ done
 
 should i send the output in the chat?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:00:36
+##### David Mansolino 06/12/2019 14:00:36
 Ok, can you retry to do a 'make'
 
 
@@ -213,13 +213,13 @@ is there some trick in discord to send code in a more compact way in the chat? �
 
 like a block or something like that
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:04:52
+##### David Mansolino 06/12/2019 14:04:52
 Not really, but you can send gist link: [https://gist.github.com/](https://gist.github.com/)
 
 ##### TH0 06/12/2019 14:05:53
 ok, how ever, is python and npm needed or only optional?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:06:32
+##### David Mansolino 06/12/2019 14:06:32
 python is higly recommended (even so it is not required to compile the core of Webots).
 
 
@@ -231,7 +231,7 @@ if you want to have npn install (and some other optionnal dependencies) you can 
 ##### TH0 06/12/2019 14:07:33
 ok, but i think, its not the solution for the openvr problem, right?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:08:13
+##### David Mansolino 06/12/2019 14:08:13
 It should not impact openvr, but it is worse trying
 
 
@@ -257,7 +257,7 @@ $
 
 [https://0bin.net/paste/DeUwrdi11b19n91y#XDrDCDC3pOVgGQ3a1vqIJNM6k7hJ0j1e1qgjBpNhMQh](https://0bin.net/paste/DeUwrdi11b19n91y#XDrDCDC3pOVgGQ3a1vqIJNM6k7hJ0j1e1qgjBpNhMQh)
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:15:06
+##### David Mansolino 06/12/2019 14:15:06
 The missing headers should be located in '/C/msys64/home/Thomas/webots/openvr-1.0.7/headers' after the make -j6
 
 
@@ -269,7 +269,7 @@ yes, its there
 
 sorry for the confusion with the find command, i updated the message from above
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:18:54
+##### David Mansolino 06/12/2019 14:18:54
 Ok, no problem, then it seems they are correctly downloaded and then copied in the 'include' fodler
 
 ##### TH0 06/12/2019 14:19:04
@@ -278,7 +278,7 @@ right
 
 seems like an error in the makefile (missing include directory?)
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:20:22
+##### David Mansolino 06/12/2019 14:20:22
 Yes, indeed, can you try changing in 'src/webots/Makefile:
 
 OPEN\_VR\_INCLUDE = -isystem $(WEBOTS\_PATH)/include/openvr
@@ -298,7 +298,7 @@ and try to recompile ?
 
 look good so far
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:26:49
+##### David Mansolino 06/12/2019 14:26:49
 Perfect, we will fix this in our repo !
 
 ##### TH0 06/12/2019 14:30:43
@@ -307,7 +307,7 @@ btw.: great that webots is open source now!
 
 make is completed and was successful!
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:31:54
+##### David Mansolino 06/12/2019 14:31:54
 Perfect !
 
 ##### TH0 06/12/2019 14:32:30
@@ -316,7 +316,7 @@ time for another question? 😉
 
 i think the vr-function in webots is broken. i tried to view a simulation with the htc vive and steam vr but only a blue background appers in the view. when i deactivate position and rotation tracking in the webot gui, a coordinate system (webots style) is displayed in the vive in the center of the display, but no other objects from the scene)
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:36:33
+##### David Mansolino 06/12/2019 14:36:33
 That's strange we did test it a few weeks ago and it was working fine. Unfortunately we don't have any VIve available right now to test.
 
 
@@ -325,7 +325,7 @@ Where you able to view the simulation in Webots moving when you were moving the 
 ##### TH0 06/12/2019 14:37:41
 i'm using the webots 2019a Rev 1 from some weeks ago. is there a newer version?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:39:55
+##### David Mansolino 06/12/2019 14:39:55
 Not yet, but we will release R2019b soon. Unfortunately I don't have the time right now, but if you test with R2019b when we will release it and the problem is still present, please do not hesitate to tell us.
 
 ##### TH0 06/12/2019 14:40:28
@@ -337,13 +337,13 @@ when i move the headset, nothing happens
 
 only a light blue/grey background color
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:41:33
+##### David Mansolino 06/12/2019 14:41:33
 That's indeed not normal, but we changed some part of the VRHeadset code for the next release, so please try again.
 
 ##### TH0 06/12/2019 14:41:36
 whats the world you tested the VR?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:42:11
+##### David Mansolino 06/12/2019 14:42:11
 Many of them, but I remember I tested I lot the 'robotis/soccer.wbt' world
 
 ##### TH0 06/12/2019 14:42:28
@@ -352,7 +352,7 @@ ok, thats the one i used too
 
 i'm not sure, but isn't the version i just build from webots the 2019b you mean?
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:48:16
+##### David Mansolino 06/12/2019 14:48:16
 It depends on which git branch you are ?
 
 ##### TH0 06/12/2019 14:50:14
@@ -364,7 +364,7 @@ i just tested the vive in the 2019b, same problem: colored background but no obj
 
 world file was "nao\_robocup.wbt"
 
-##### David Mansolino [cyberbotics] 06/12/2019 14:53:18
+##### David Mansolino 06/12/2019 14:53:18
 Then if you are using the 'develop' branch you are indeed very close to the R2019b version 😕
 
 ##### TH0 06/12/2019 14:54:44
@@ -373,13 +373,13 @@ ok. the color shown in the vive is the same as the "/Background/SkyColor" (i cha
 
 maybe a near-clipping problem because of different scales?
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:01:22
+##### David Mansolino 06/12/2019 15:01:22
 At least if shows that the connexion with the Vive is correctly established
 
 ##### TH0 06/12/2019 15:01:42
 exact
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:02:05
+##### David Mansolino 06/12/2019 15:02:05
 Yes, maybe near-clip, or maybe a resolution issue. can you try setting the VIve resolution to 50% (you can set this in the preference of SteamVR). and then reboot Webots.
 
 ##### TH0 06/12/2019 15:04:17
@@ -394,7 +394,7 @@ interessting: when i click on some objects in the treeview, the coordinate syste
 ![webotsVR01.png](https://cdn.discordapp.com/attachments/565155651395780609/588384559884926987/webotsVR01.png)
 %end
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:10:35
+##### David Mansolino 06/12/2019 15:10:35
 Can you see the handle in the headset too?
 
 ##### TH0 06/12/2019 15:11:17
@@ -409,13 +409,13 @@ and the position is not tracked, but the rotation from the vive
 
 oh, and i can rotate the cameraview per mouse while vr is on
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:23:28
+##### David Mansolino 06/12/2019 15:23:28
 that's very strange, you should see exactly the same in the Webots view and in one of the two eyes in the headset. Probably there is something not clean with OpenGL on our side.
 
 ##### TH0 06/12/2019 15:27:23
 the vive preview in webots and what i see in the vive is the same
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:27:56
+##### David Mansolino 06/12/2019 15:27:56
 Ok, so you can see the handle in the preview but not in the headset ?
 
 ##### TH0 06/12/2019 15:28:37
@@ -424,13 +424,13 @@ just to be sure: you mean with "handles" the two controllers from the vive?
 
 i do not see the rendered vive controllers in both the webots preview and in the vive
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:29:38
+##### David Mansolino 06/12/2019 15:29:38
 No sorry, I mean the red,green and blue arrows you can see in Webots.
 
 ##### TH0 06/12/2019 15:30:03
 yes, i also see them in the vive (its exacly the same image)
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:30:04
+##### David Mansolino 06/12/2019 15:30:04
 > i do not see the rendered vive controllers in both the webots preview and in the vive
 
 
@@ -440,7 +440,7 @@ that's normal we did not yet interfaced the vive controller with webots.
 ##### TH0 06/12/2019 15:30:26
 sorry, english is not my mother language, i thought you mean the vive handles (controllers)
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:30:31
+##### David Mansolino 06/12/2019 15:30:31
 Ok, than this make more sense, so the problem is really what is rendered in Webots
 
 ##### TH0 06/12/2019 15:30:40
@@ -449,7 +449,7 @@ yes
 
 i think so
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:30:44
+##### David Mansolino 06/12/2019 15:30:44
 > sorry, english is not my mother language, i thought you mean the vive handles (controllers)
 
 
@@ -459,7 +459,7 @@ No problem that was not clear from my side too.
 ##### TH0 06/12/2019 15:31:10
 the good news: you can simulate the behaviour without a vive, right?
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:31:11
+##### David Mansolino 06/12/2019 15:31:11
 Can you try playing with the Viewpoint, near and far value ?
 
 
@@ -489,13 +489,13 @@ see difference far 0 (default) vs. far 1
 
 that means for me, clipping is not the problem, right?
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:36:30
+##### David Mansolino 06/12/2019 15:36:30
 Can you try increasing it to something like 100 ?
 
 ##### TH0 06/12/2019 15:36:44
 same result with 100
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:36:45
+##### David Mansolino 06/12/2019 15:36:45
 (value are in meters)
 
 
@@ -510,7 +510,7 @@ By the way what is your GPU ?
 
 P3200 mobile
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:40:46
+##### David Mansolino 06/12/2019 15:40:46
 > 0 means infinity?
 
 
@@ -530,13 +530,13 @@ yes other apps work fine and i use the vive often
 
 OpenGL 4.6 (415 ext) - Quadro P3200/PCIe/SSE2
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:50:20
+##### David Mansolino 06/12/2019 15:50:20
 Ok, then everything is perfect with your hardware. I will check when I have time and let you know
 
 ##### TH0 06/12/2019 15:51:23
 ok, good luck!
 
-##### David Mansolino [cyberbotics] 06/12/2019 15:52:00
+##### David Mansolino 06/12/2019 15:52:00
 Thank you
 
 ##### BlackPearl 06/19/2019 08:50:43
@@ -551,7 +551,7 @@ I think we found a Bug?
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590826051312025620/image0.jpg)
 %end
 
-##### Fabien Rohrer [Moderator] 06/19/2019 08:52:39
+##### Fabien Rohrer 06/19/2019 08:52:39
 Hi
 
 
@@ -566,7 +566,7 @@ Do you have any way to debug your controller?
 ##### BlackPearl 06/19/2019 18:15:12
 Actually we tried today different controllers but always getting this error
 
-##### David Mansolino [cyberbotics] 06/20/2019 06:54:45
+##### David Mansolino 06/20/2019 06:54:45
 `@BlackPearl` do you get this error with the controllers distributed within Webots?
 
 ##### BlackPearl 06/20/2019 13:54:10
@@ -575,13 +575,13 @@ Yes
 
 That’s why we created our own but still get this error
 
-##### David Mansolino [cyberbotics] 06/20/2019 14:05:24
+##### David Mansolino 06/20/2019 14:05:24
 `@BlackPearl` which version of Webots and which version of Java are you using ?
 
 ##### BlackPearl 06/21/2019 04:11:49
 The latest (java 8 and webots R2019-R1)
 
-##### David Mansolino [cyberbotics] 06/26/2019 06:15:07
+##### David Mansolino 06/26/2019 06:15:07
 `@BlackPearl` can you please try with the latest version of Webots that we releeased yesterday: [https://github.com/omichel/webots/releases/latest](https://github.com/omichel/webots/releases/latest)
 
 ##### BlackPearl 06/28/2019 05:00:03
@@ -603,7 +603,7 @@ Anything we need to pay attention?
 
 It’s a java controller
 
-##### Fabien Rohrer [Moderator] 08/21/2019 09:48:29
+##### Fabien Rohrer 08/21/2019 09:48:29
 How did you installed Java? Your log seems to refer to OpenJDK while we recommend to use the Oracle JDK: [https://cyberbotics.com/doc/guide/using-java#windows](https://cyberbotics.com/doc/guide/using-java#windows)
 
 
@@ -615,7 +615,7 @@ How did you installed Java? Your log seems to refer to OpenJDK while we recommen
 
 We Will change to the oracle jdk
 
-##### Fabien Rohrer [Moderator] 08/21/2019 09:51:44
+##### Fabien Rohrer 08/21/2019 09:51:44
 oops, I think I'm wrong: I was sure you were on windows.
 
 ##### BlackPearl 08/21/2019 09:52:04
@@ -624,13 +624,13 @@ No we are running Linux
 
 But yes we are using the openJDK
 
-##### Fabien Rohrer [Moderator] 08/21/2019 09:52:20
+##### Fabien Rohrer 08/21/2019 09:52:20
 on linux, OpenJDK is supposed to work,
 
 ##### BlackPearl 08/21/2019 09:53:19
 Hm so why the error accurs
 
-##### Fabien Rohrer [Moderator] 08/21/2019 09:56:07
+##### Fabien Rohrer 08/21/2019 09:56:07
 not sure. could you give us more precisely your Java version (`java -version`)? It is supposed to be `1.8`. Does it matches with your `javac -version`?
 
 ##### BlackPearl 08/21/2019 09:57:46
@@ -639,7 +639,7 @@ not sure. could you give us more precisely your Java version (`java -version`)? 
 ![image0.png](https://cdn.discordapp.com/attachments/565155651395780609/613673091335323648/image0.png)
 %end
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:01:29
+##### Fabien Rohrer 08/21/2019 10:01:29
 ok, this is certainly the issue
 
 
@@ -660,19 +660,19 @@ Unbuntu
 
 Hm ok
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:09:36
+##### Fabien Rohrer 08/21/2019 10:09:36
 Let me know if you have troubles with this.
 
 ##### BlackPearl 08/21/2019 10:10:07
 Ok thank you very much. We are downgrading
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:10:23
+##### Fabien Rohrer 08/21/2019 10:10:23
 (it's probably the simplest solution indeed)
 
 ##### MerySgh 08/21/2019 10:13:23
 hello everyone !  has anyone have developed jamming attack in webot  before ?
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:15:38
+##### Fabien Rohrer 08/21/2019 10:15:38
 Hi, Webots is mainly a Desktop app. A jamming attack has not much sense to me. Do you speak about the streaming sever? Our websites?
 
 
@@ -684,13 +684,13 @@ mmm actually !! I'm supposed to develop  jamming attack in my project ... for mo
 ##### BlackPearl 08/21/2019 10:21:14
 `@Fabien Rohrer` it’s still not working ....
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:21:46
+##### Fabien Rohrer 08/21/2019 10:21:46
 `@MerySgh` haha makes more sense
 
 ##### MerySgh 08/21/2019 10:21:55
 I  made the accident but how to develop the attack I do not know yet
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:22:53
+##### Fabien Rohrer 08/21/2019 10:22:53
 `@BlackPearl` so you did downgraded to java and javac 1.8 and clean/build your controller again?
 
 
@@ -706,7 +706,7 @@ I  made the accident but how to develop the attack I do not know yet
 
 sumo ? what do  you mean ?
 
-##### Fabien Rohrer [Moderator] 08/21/2019 10:28:17
+##### Fabien Rohrer 08/21/2019 10:28:17
 If I understand well, you need to simulate a traffic jam after the collision, right?
 
 
@@ -726,7 +726,7 @@ thanks to this attack that the car does not see the passenger crossing the road 
 ##### BlackPearl 08/21/2019 10:42:31
 It still doesn’t work `@fa`
 
-##### Fabien Rohrer [Moderator] 08/21/2019 11:30:38
+##### Fabien Rohrer 08/21/2019 11:30:38
 `@MerySgh` Ok, I understand more and more your scenario. In my knowledge, I'm not aware of similar projects in the Webots community. Do you have specific questions?
 
 
@@ -740,7 +740,7 @@ It still doesn’t work `@fa`
 ##### Derek 09/10/2019 01:23:04
 How can I add some joints in a robot by GUI operation?
 
-##### David Mansolino [cyberbotics] 09/10/2019 06:06:06
+##### David Mansolino 09/10/2019 06:06:06
 Hi `@Derek`, I would recommend to follow our tutorial, in particular this one will explain how to add 4 joints (connected to 4 wheels) to a robot: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
 
 
@@ -749,7 +749,7 @@ Do you have a particular robot in mind ?
 ##### SimonDK 09/15/2019 14:31:33
 What models for omni-directional mecanum wheel platforms have you seen/are there in Webots? How are the mecanum wheels simulated? I would like to develop my own simulation for a platform so are looking for some examples as a starting point.
 
-##### Stefania Pedrazzi [cyberbotics] 09/16/2019 06:10:23
+##### Stefania Pedrazzi 09/16/2019 06:10:23
 Hi `@SimonDK`, the youBot robot has mecanum wheels [https://www.cyberbotics.com/doc/guide/youbot](https://www.cyberbotics.com/doc/guide/youbot)
 
 The mecanum wheel is simulated by setting asymmetric friction  to the [ContactProperties]([https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)) of the wheel.
@@ -763,7 +763,7 @@ Does webots include this marine robots, exact this one? I can find salamander cl
 ![FluidRobot.png](https://cdn.discordapp.com/attachments/565155651395780609/626228320996032512/FluidRobot.png)
 %end
 
-##### Stefania Pedrazzi [cyberbotics] 09/25/2019 06:13:39
+##### Stefania Pedrazzi 09/25/2019 06:13:39
 Hi `@Anoop`, yes this robot is included in Webots. You can find it in the simulation `projects/samples/rendering/worlds/animated_skin.wbt`
 
 [https://www.cyberbotics.com/doc/guide/samples-rendering#animated\_skin-wbt](https://www.cyberbotics.com/doc/guide/samples-rendering#animated_skin-wbt)
@@ -774,7 +774,7 @@ Just note that the `Skin` node used to implement the skin animation is still exp
 ##### Anoop 09/25/2019 17:45:20
 Thanks `@Stefania Pedrazzi` for the information. Can I assume this as a soft robotics or more generally can SKIN node be used for generating soft robotics model?
 
-##### Stefania Pedrazzi [cyberbotics] 09/26/2019 06:20:06
+##### Stefania Pedrazzi 09/26/2019 06:20:06
 `@Anoop` The `Skin` node is a pure graphical functionality that only modifies the mesh of the robot but doesn't affect the physics.
 
 Webots cannot simulation soft robotics because ODE (the Webots physics engine) doesn't support soft body dynamics.
@@ -784,10 +784,10 @@ However there are some tricks to transform a soft robot model into an hard model
 ##### ThePolymath 09/29/2019 10:08:43
 how to integrate webots with an ide in macOS?
 
-##### Fabien Rohrer [Moderator] 09/30/2019 06:35:35
+##### Fabien Rohrer 09/30/2019 06:35:35
 `@ThePolymath` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
 
-##### David Mansolino [cyberbotics] 09/30/2019 06:40:07
+##### David Mansolino 09/30/2019 06:40:07
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
 
 ## October
@@ -798,7 +798,7 @@ Hello Sir, i am trying to understand supervisor programming but i found only thi
 
 if i change robot = Robot() --> robot = Supervisor() , then webots crashes when a supervisor unction called
 
-##### Fabien Rohrer [Moderator] 10/17/2019 14:42:43
+##### Fabien Rohrer 10/17/2019 14:42:43
 I confirm you should use Supervisor() instead of Robot() to access the Supervisor API
 
 
@@ -810,13 +810,13 @@ Are you sure that "robotname" matches with an existing DEF name?
 ##### pavlos27t 10/17/2019 14:43:31
 yes because it crashes on every function
 
-##### Fabien Rohrer [Moderator] 10/17/2019 14:44:01
+##### Fabien Rohrer 10/17/2019 14:44:01
 Ok. Could you post the crash error here?
 
 ##### pavlos27t 10/17/2019 14:44:38
 sorry i don't know how to post a crash error
 
-##### Fabien Rohrer [Moderator] 10/17/2019 14:45:24
+##### Fabien Rohrer 10/17/2019 14:45:24
 Normally, when a Python controller crash, something is displayed in the Webots console. Simply copy-paste it in this chat.
 
 
@@ -828,7 +828,7 @@ sorry it doesn't crash now , everything works fine
 
 😅
 
-##### Fabien Rohrer [Moderator] 10/17/2019 15:13:45
+##### Fabien Rohrer 10/17/2019 15:13:45
 I'm happy to read this 😉
 
 ##### threeal 10/20/2019 18:45:28
@@ -849,7 +849,7 @@ anyway, is it possible to treat webots controller as ros node?
 ##### SimonDK 10/21/2019 04:53:16
 `@Flo` sounds very interesting, will PM you
 
-##### David Mansolino [cyberbotics] 10/21/2019 06:53:31
+##### David Mansolino 10/21/2019 06:53:31
 `@threeal`, Webots has several advantages compared to Gazebo, here is a non-exhaustive list:
 
   - Cross-platform [windows, linux, mac].
@@ -900,7 +900,7 @@ For sur it will 😉 let us know if you have any issues doing so.
 
 And what about the ROS controller provided by Webots? can i use it in my custom made robot or should i create custom made controller for my robot that work as bridge between ROS and Webots?.
 
-##### Olivier Michel [cyberbotics] 10/23/2019 10:33:18
+##### Olivier Michel 10/23/2019 10:33:18
 Of course you can create your custom robot in Webots.
 
 
@@ -920,13 +920,13 @@ See details here: [https://cyberbotics.com/doc/guide/using-ros#standard-ros-cont
 ##### threeal 11/02/2019 00:48:58
 how can i launch python controller in webots?
 
-##### Stefania Pedrazzi [cyberbotics] 11/04/2019 07:08:37
+##### Stefania Pedrazzi 11/04/2019 07:08:37
 Hi `@threeal`, usually controllers are automatically started by Webots when you run the simulation if the is used by any robot node, i.e. the Robot.controller field is set to your python controller name. Does this not work for you?
 
 ##### pavlos27t 11/04/2019 13:16:17
 Hello Sir, i have a strange problem: i give equal speed on left and right wheel of e-puck robot but it doesn't move linear, i print my velocities to confirm it and they are equal ,so why my robot turns?
 
-##### David Mansolino [cyberbotics] 11/04/2019 13:17:21
+##### David Mansolino 11/04/2019 13:17:21
 Hi `@pavlos27t`, just to make sure you are speaking about simulation right? Does the robot collide with something? is the ground flat?
 
 ##### pavlos27t 11/04/2019 13:21:26
@@ -938,13 +938,13 @@ i reset my robots like this [http://prntscr.com/ps9cqr](http://prntscr.com/ps9cq
 
 if collision happens and forces applying should i reset the forces too?
 
-##### David Mansolino [cyberbotics] 11/04/2019 13:26:07
+##### David Mansolino 11/04/2019 13:26:07
 you probably want to reset the physics of the robot too indeed: wb\_supervisor\_node\_reset\_physics
 
 ##### pavlos27t 11/04/2019 13:33:23
 right thanks i didn't know how to reset physics..
 
-##### David Mansolino [cyberbotics] 11/04/2019 13:33:39
+##### David Mansolino 11/04/2019 13:33:39
 You're welcome
 
 ##### pavlos27t 11/06/2019 18:54:05
@@ -956,13 +956,13 @@ hello again , i resetphysics but some forces still applying after collision
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/641711950677409813/unknown.png)
 %end
 
-##### David Mansolino [cyberbotics] 11/07/2019 07:58:34
+##### David Mansolino 11/07/2019 07:58:34
 `@pavlos27t` you should make sure that the wheels are not colliding the floor when you move the robot. It is also recommended to check what is happenning with the contact points just before and just after the reset, you can see this in the view / Optional Rendering menu.
 
 ##### pavlos27t 11/07/2019 10:41:35
 how can i make sure the wheels are not colliding the floor?
 
-##### David Mansolino [cyberbotics] 11/07/2019 16:16:08
+##### David Mansolino 11/07/2019 16:16:08
 By checking the contact points you can see if it does collide with the floor. If you don't see any contact points then it means that it is not colliding: [https://cyberbotics.com/doc/guide/the-user-interface#view-menu](https://cyberbotics.com/doc/guide/the-user-interface#view-menu)
 
 ##### pavlos27 11/07/2019 18:16:14
@@ -977,13 +977,13 @@ i have reset the physics of the floor too, but still i have the same problem
 
 i don't know what to do to fix that do you have any ideas?
 
-##### Fabien Rohrer [Moderator] 11/11/2019 07:20:24
+##### Fabien Rohrer 11/11/2019 07:20:24
 `@pavlos27` Would it be possible to translate it at the floor level, but to add a very small vertical offset, just in order to avoid collisions with the floor during the translation?
 
 ##### pavlos27 11/13/2019 11:20:07
 unfortunately this didn't worked either
 
-##### Fabien Rohrer [Moderator] 11/13/2019 12:29:50
+##### Fabien Rohrer 11/13/2019 12:29:50
 Could you better describe what does not work?
 
 ##### pavlos27 11/13/2019 12:46:06
@@ -995,7 +995,7 @@ i have 2 robots and a rectangle arena . The robots are moving only in one linear
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/644156174123532351/unknown.png)
 %end
 
-##### Fabien Rohrer [Moderator] 11/13/2019 12:47:25
+##### Fabien Rohrer 11/13/2019 12:47:25
 it sounds very correct to me.
 
 
@@ -1010,7 +1010,7 @@ but this doesn't happen at first reset
 
 this happens after 50-60 resets
 
-##### Fabien Rohrer [Moderator] 11/13/2019 12:49:48
+##### Fabien Rohrer 11/13/2019 12:49:48
 I fear that some error is accumulated.
 
 
@@ -1019,13 +1019,13 @@ did you try to revert or reload the whole simulation instead?
 ##### pavlos27 11/13/2019 12:52:34
 no i will try
 
-##### Fabien Rohrer [Moderator] 11/13/2019 12:54:00
+##### Fabien Rohrer 11/13/2019 12:54:00
 I would go for this function first: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_simulation\_reset](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_simulation_reset)
 
 ##### Ella 11/19/2019 16:04:03
 Hello~ I am a real beginner of Webot!!  I want to use a* algorithm  boxes as obstacles and find the path!! but it's really hard,,,, can you give me some tips where to start??
 
-##### Fabien Rohrer [Moderator] 11/19/2019 16:05:16
+##### Fabien Rohrer 11/19/2019 16:05:16
 `@Ella` Hi, I confirm this task may be hard. There is currently no example about such implementation.
 
 
@@ -1046,13 +1046,13 @@ But using a predefined map to start is certainly simpler.
 ##### Ella 11/19/2019 16:16:53
 `@Fabien Rohrer`  Thank you so much!!! Maybe I should try step by step!!!
 
-##### Fabien Rohrer [Moderator] 11/19/2019 16:38:52
+##### Fabien Rohrer 11/19/2019 16:38:52
 you're welcome, good luck with your project 🙂
 
 ##### Dorteel 11/20/2019 09:30:13
 Hi guys! Does anybody here have a model for converting the two wheel velocities of a differential-drive robot to the robot's angular and linear velocity?
 
-##### Fabien Rohrer [Moderator] 11/20/2019 09:31:16
+##### Fabien Rohrer 11/20/2019 09:31:16
 `@Dorteel` Hi, it's a matter to compute the robot odometry, usually using simple trigonometric functions.
 
 ##### Dorteel 11/20/2019 09:32:31
@@ -1061,7 +1061,7 @@ Thanks `@Fabi`en! I think I found something online!
 ##### SimonDK 11/27/2019 17:01:08
 Regarding the Webots graphical interface, I was wondering if there are any plans to have somethings like groups or folders in the Scene Tree, or being able to drag'n'drop to reorganize items? In big simulations you easily lose overview of all items 😀
 
-##### David Mansolino [cyberbotics] 11/28/2019 07:33:06
+##### David Mansolino 11/28/2019 07:33:06
 Yes we have some long-term plans to improve the scene-tree in Webots, but those are long term plans and will not be implemented in a near future (unfortunately we have currently more urgent things to improve), but if you want to try implementing this you are welcome to contribute 😉
 
 ##### SimonDK 11/28/2019 18:09:02
@@ -1072,7 +1072,7 @@ Hi Guys, I am new to Webots but I want to use it for a robot soccer simulation p
 
 ## December
 
-##### Tahir [Moderator] 12/01/2019 01:44:29
+##### Tahir 12/01/2019 01:44:29
 Hi 
 
 `@Enger` Yes it is possible
@@ -1091,7 +1091,7 @@ Hi, i get this error,
 
 and i think i need servo library, anyone have it? thankyou
 
-##### Stefania Pedrazzi [cyberbotics] 12/03/2019 07:27:24
+##### Stefania Pedrazzi 12/03/2019 07:27:24
 `@Musuyaba` the Servo node has been deprecated since many years now (starting from Webots 7.2). Please use the joint and motor nodes instead.
 
 
@@ -1111,7 +1111,7 @@ I see, thank you, i will try it later
 ##### iloving 12/05/2019 01:29:59
 Hi, I can not connect the Internet license server, and the site [https://www.cyberbotics.com/](https://www.cyberbotics.com/) is not attached. Anyone have it?
 
-##### David Mansolino [cyberbotics] 12/05/2019 07:21:00
+##### David Mansolino 12/05/2019 07:21:00
 `@iloving`, we are currenlty running some migration on our server. This might take some time, in the meantime you can use the latest version of Webots which doesn't require any internet license: [https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1](https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1)
 
 ##### juanrh 12/06/2019 20:00:55
@@ -1132,13 +1132,13 @@ any idea what might be the problem here?
 
 ah ok, it looks I should use `export WEBOTS_HOME=/var/lib/snapd/snap/webots/current/usr/share/webots` instead
 
-##### Fabien Rohrer [Moderator] 12/06/2019 20:08:59
+##### Fabien Rohrer 12/06/2019 20:08:59
 Good job! 👍
 
 ##### luoyu 12/09/2019 02:43:09
 Hi, I have a problem that wrong license password for my account. Is It caused by the migration on the server？Can I know how long it will take？
 
-##### Fabien Rohrer [Moderator] 12/09/2019 04:40:59
+##### Fabien Rohrer 12/09/2019 04:40:59
 `@luoyu` could you try with the « webots » password? [https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
 
@@ -1150,24 +1150,24 @@ Thank you very much. The magical password is useful.
 ##### kawaiipotato2023 12/10/2019 07:59:17
 Hello! I just downloaded webots and when I log in it tells me that I am not licensed to use the program. Does anyone know why this happens or how to resolve it?
 
-##### David Mansolino [cyberbotics] 12/10/2019 07:59:56
+##### David Mansolino 12/10/2019 07:59:56
 Hi `@kawaiipotato2023`, which version of Webots did you download?
 
 ##### kawaiipotato2023 12/10/2019 08:02:13
 Webots 8 2.1.2 for windows
 
-##### David Mansolino [cyberbotics] 12/10/2019 08:02:43
+##### David Mansolino 12/10/2019 08:02:43
 Why not using the latest version ?
 
 ##### kawaiipotato2023 12/10/2019 08:03:49
 This was the only version I found, do you have a link to where I can get the latest version?
 
-##### David Mansolino [cyberbotics] 12/10/2019 08:04:56
+##### David Mansolino 12/10/2019 08:04:56
 Yes of course, you can download the latest version from here: [https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1](https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1)
 
 ##### kawaiipotato2023 12/10/2019 08:05:24
 Thank you!
 
-##### David Mansolino [cyberbotics] 12/10/2019 08:05:30
+##### David Mansolino 12/10/2019 08:05:30
 You're welcome
 
