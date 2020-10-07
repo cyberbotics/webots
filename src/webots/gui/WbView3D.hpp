@@ -62,8 +62,8 @@ public:
   // accessor
   WbWrenRenderingContext *wrenRenderingContext() const { return mWrenRenderingContext; }
   // rendering
-  void showFastModeOverlay();
-  void hideFastModeOverlay();
+  void showBlack3DViewOverlay();
+  void hideBlack3DViewOverlay();
   // in case the context menu show is triggered, return the selected WbMatter node
   const WbMatter *remoteMouseEvent(QMouseEvent *event);
   void remoteWheelEvent(QWheelEvent *event);
@@ -129,7 +129,7 @@ private:
   QPoint mMousePressPosition;
   QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   double mAspectRatio;
-  WbWrenFullScreenOverlay *mDisabled3dViewOverlay;
+  WbWrenFullScreenOverlay *mDisabled3DViewOverlay;
   WbWrenFullScreenOverlay *mLoadingWorldOverlay;
   WbWrenFullScreenOverlay *mVirtualRealityHeadsetOverlay;
 

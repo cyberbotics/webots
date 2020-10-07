@@ -150,7 +150,7 @@ private:
   QHBoxLayout *mToolsLayout;
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
-  bool mNeedToHide3dView;
+  bool mNeedToHide3DView;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;

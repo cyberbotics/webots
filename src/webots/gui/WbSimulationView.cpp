@@ -109,7 +109,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   createActions();
   mTitleBar = new WbDockTitleBar(false, this);
   mToolBar = createToolBar();
-  mNeedToHide3dView = false;
+  mNeedToHide3DView = false;
 
   // top level layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
@@ -587,7 +587,7 @@ void WbSimulationView::stopMovie() {
 
 void WbSimulationView::makeMovie() {
   if (!WbSimulationState::instance()->is3DViewShown()) {
-    WbLog::warning(tr("Impossible to record a movie while running the simulation in 'Fast' mode."), true);
+    WbLog::warning(tr("Impossible to record a movie while 3D View is hidden."), true);
     return;
   }
 
@@ -618,16 +618,16 @@ void WbSimulationView::show3DViewIfNecessary() {
   // remove "Fast Mode" overlay if necessary
   if (!WbSimulationState::instance()->is3DViewShown()) {
     WbSimulationState::instance()->show3DView(true);
-    mView3D->hideFastModeOverlay();
-    mNeedToHide3dView = true;
+    mView3D->hideBlack3DViewOverlay();
+    mNeedToHide3DView = true;
   }
 }
 
 void WbSimulationView::restore3DViewIfNecessary() {
-  if (mNeedToHide3dView) {
-    mView3D->showFastModeOverlay();
-    WbSimulationState::instance()->show3DView(true);
-    mNeedToHide3dView = false;
+  if (mNeedToHide3DView) {
+    mView3D->showBlack3DViewOverlay();
+    WbSimulationState::instance()->show3DView(false);
+    mNeedToHide3DView = false;
   }
 }
 
@@ -855,12 +855,12 @@ void WbSimulationView::repaintView3D() {
 
 void WbSimulationView::renderABlackScreen() {
   if (mView3D)
-    mView3D->showFastModeOverlay();
+    mView3D->showBlack3DViewOverlay();
 }
 
 void WbSimulationView::retrieveSimulationView() {
   if (mView3D)
-    mView3D->hideFastModeOverlay();
+    mView3D->hideBlack3DViewOverlay();
 }
 
 void WbSimulationView::modeKeyPressed(QKeyEvent *event) {

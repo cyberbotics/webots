@@ -94,7 +94,7 @@ WbView3D::WbView3D() :
   mLastRefreshTimer(),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
-  mDisabled3dViewOverlay(NULL),
+  mDisabled3DViewOverlay(NULL),
   mLoadingWorldOverlay(NULL),
   mVirtualRealityHeadsetOverlay(NULL),
   mContactPointsRepresentation(NULL),
@@ -929,7 +929,7 @@ void WbView3D::prepareWorldLoading() {
   if (WbVirtualRealityHeadset::isInUse())
     WbVirtualRealityHeadset::instance()->setTextureOverlayVisible(true);
 #endif
-  hideFastModeOverlay();
+  hideBlack3DViewOverlay();
   mLoadingWorldOverlay->setVisible(true);
   WbWrenWindow::renderNow();
 
@@ -1063,14 +1063,14 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   mPicker = new WbWrenPicker();
 
   // Creates the fast mode overlay
-  if (!mDisabled3dViewOverlay) {
-    mDisabled3dViewOverlay = new WbWrenFullScreenOverlay("Hidden 3D View", 128, true);
-    mDisabled3dViewOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
+  if (!mDisabled3DViewOverlay) {
+    mDisabled3DViewOverlay = new WbWrenFullScreenOverlay("Hidden 3D View", 128, true);
+    mDisabled3DViewOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
   }
   if (WbSimulationState::instance()->is3DViewShown())
-    hideFastModeOverlay();
+    hideBlack3DViewOverlay();
   else
-    showFastModeOverlay();
+    showBlack3DViewOverlay();
 
 #ifdef _WIN32
   // Creates the virtual reality headset overlay
@@ -1367,7 +1367,7 @@ void WbView3D::resizeWren(int width, int height) {
   if (mWrenRenderingContext)
     mWrenRenderingContext->setDimension(width, height);
 
-  if (mDisabled3dViewOverlay && mDisabled3dViewOverlay->isVisible())
+  if (mDisabled3DViewOverlay && mDisabled3DViewOverlay->isVisible())
     rescaleFastModePanel();
 
   if (mLoadingWorldOverlay && mLoadingWorldOverlay->isVisible())
@@ -2400,17 +2400,17 @@ void WbView3D::unleashPhysicsDrags() {
 // Fast mode related methods
 
 void WbView3D::rescaleFastModePanel() {
-  mDisabled3dViewOverlay->adjustSize();
+  mDisabled3DViewOverlay->adjustSize();
 }
 
-void WbView3D::showFastModeOverlay() {
-  if (!mWorld || mDisabled3dViewOverlay->isVisible())
+void WbView3D::showBlack3DViewOverlay() {
+  if (!mWorld || mDisabled3DViewOverlay->isVisible())
     return;
 
   disconnect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh);
 
   rescaleFastModePanel();
-  mDisabled3dViewOverlay->setVisible(true);
+  mDisabled3DViewOverlay->setVisible(true);
 
   mParentWidget->setEnabled(false);
   renderLater();
@@ -2420,14 +2420,14 @@ void WbView3D::showFastModeOverlay() {
   updateVirtualRealityHeadsetOverlay();
 }
 
-void WbView3D::hideFastModeOverlay() {
-  if (!mWorld || !mDisabled3dViewOverlay->isVisible())
+void WbView3D::hideBlack3DViewOverlay() {
+  if (!mWorld || !mDisabled3DViewOverlay->isVisible())
     return;
 
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh,
           Qt::UniqueConnection);
 
-  mDisabled3dViewOverlay->setVisible(false);
+  mDisabled3DViewOverlay->setVisible(false);
 
   mParentWidget->setEnabled(true);
   renderLater();
@@ -2438,8 +2438,8 @@ void WbView3D::hideFastModeOverlay() {
 }
 
 void WbView3D::cleanupFullScreenOverlay() {
-  delete mDisabled3dViewOverlay;
-  mDisabled3dViewOverlay = NULL;
+  delete mDisabled3DViewOverlay;
+  mDisabled3DViewOverlay = NULL;
   delete mVirtualRealityHeadsetOverlay;
   mVirtualRealityHeadsetOverlay = NULL;
   delete mLoadingWorldOverlay;
@@ -2450,7 +2450,7 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
   if (!mWorld || !mVirtualRealityHeadsetOverlay)
     return;
 
-  if (mDisabled3dViewOverlay->isVisible()) {
+  if (mDisabled3DViewOverlay->isVisible()) {
     mVirtualRealityHeadsetOverlay->setVisible(false);
     return;
   }
