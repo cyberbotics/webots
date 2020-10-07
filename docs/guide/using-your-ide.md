@@ -358,7 +358,6 @@ In the `Run Configurations` windows, press the `+` button and then select `Pytho
 
 %tab-component "os"
 
-
 %tab "Linux"
 ```bash
 LD_LIBRARY_PATH=/usr/local/webots/lib/controller
