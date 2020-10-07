@@ -367,7 +367,7 @@ LD_LIBRARY_PATH=/usr/local/webots/lib/controller
 
 %tab "Windows"
 ```bash
-Path=C:\Program Files\Webots\lib\controller\;C:\Program Files\Webots\msys64\mingw64\bin\;C:\Program Files\Webots\msys64\mingw64\bin\cpp`
+Path=C:\Program Files\Webots\lib\controller\;C:\Program Files\Webots\msys64\mingw64\bin\;C:\Program Files\Webots\msys64\mingw64\bin\cpp
 ```
 %tab-end
 
