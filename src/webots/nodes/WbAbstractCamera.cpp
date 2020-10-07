@@ -522,7 +522,7 @@ void WbAbstractCamera::createWrenOverlay() {
   else
     mOverlay->setVisible(true, areOverlaysEnabled());
 
-  emit textureIdUpdated(textureGLId());
+  emit textureIdUpdated(textureGLId(), MAIN_TEXTURE);
 }
 
 /////////////////////

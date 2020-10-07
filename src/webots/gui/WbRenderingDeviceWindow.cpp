@@ -30,8 +30,8 @@ static const char *gVertexShaderSource = "#version 330\n"
                                          "layout (location = 1) in vec2 uvAttr;\n"
                                          "out vec2 uv0;\n"
                                          "void main() {\n"
-                                         "   uv0 = uvAttr;\n"
-                                         "   gl_Position = posAttr;\n"
+                                         "  uv0 = uvAttr;\n"
+                                         "  gl_Position = posAttr;\n"
                                          "}\n";
 
 static const char *gStdFragmentShaderSource = "#version 330\n"
@@ -39,31 +39,42 @@ static const char *gStdFragmentShaderSource = "#version 330\n"
                                               "in vec2 uv0;\n"
                                               "out vec4 fragColor;\n"
                                               "void main() {\n"
-                                              "   vec2 deviceUv0 = uv0;\n"
-                                              "   fragColor = texture(image, deviceUv0);\n"
+                                              "  vec2 deviceUv0 = uv0;\n"
+                                              "  fragColor = texture(image, deviceUv0);\n"
                                               "}\n";
 
 static const char *gBackgroundFragmentShaderSource = "#version 330\n"
-                                                     "uniform sampler2D background;\n"
                                                      "uniform sampler2D image;\n"
+                                                     "uniform sampler2D background;\n"
                                                      "in vec2 uv0;\n"
                                                      "out vec4 fragColor;\n"
                                                      "void main() {\n"
-                                                     "   vec4 backgroundColor = texture(background, uv0);\n"
-                                                     "   vec2 deviceUv0 = uv0;\n"
-                                                     "   vec4 color = texture(image, deviceUv0);\n"
-                                                     "   fragColor = mix(backgroundColor, color, color.a);\n"
+                                                     "  vec4 backgroundColor = texture(background, uv0);\n"
+                                                     "  vec2 deviceUv0 = uv0;\n"
+                                                     "  vec4 color = texture(image, deviceUv0);\n"
+                                                     "  fragColor = mix(backgroundColor, color, color.a);\n"
                                                      "}\n";
 
 static const char *gForegroundFragmentShaderSource = "#version 330\n"
-                                                     "uniform sampler2D foreground;\n"
                                                      "uniform sampler2D image;\n"
+                                                     "uniform sampler2D mask;\n"
+                                                     "uniform sampler2D foreground;\n"
+                                                     "uniform int activeTextures;\n"
                                                      "in vec2 uv0;\n"
                                                      "out vec4 fragColor;\n"
                                                      "void main() {\n"
-                                                     "   vec4 foregroundColor = texture(foreground, uv0);\n"
-                                                     "   vec4 color = texture(image, uv0);\n"
-                                                     "   fragColor = mix(color, foregroundColor, foregroundColor.a);\n"
+                                                     "  fragColor = texture(image, uv0);\n"
+                                                     "  if ((activeTextures & 0x01) != 0) {\n"  // mask is active
+                                                     "    vec4 maskColor = texture(mask, uv0);\n"
+                                                     "    if (maskColor.x > 0.01 || maskColor.y > 0.01 || maskColor.z > 0.01)\n"
+                                                     "      fragColor = mix(fragColor, maskColor, 0.8);\n"
+                                                     "    else\n"
+                                                     "      fragColor = mix(fragColor, vec4(1.0, 1.0, 1.0, 1.0), 0.4);\n"
+                                                     "  }\n"
+                                                     "  if ((activeTextures & 0x10) != 0) {\n"  // foreground is active
+                                                     "    vec4 foregroundColor = texture(foreground, uv0);\n"
+                                                     "    fragColor = mix(fragColor, foregroundColor, foregroundColor.a);\n"
+                                                     "  }\n"
                                                      "}\n";
 
 static const char *gDepthFragmentShaderSource = "#version 330\n"
@@ -89,6 +100,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mDevice(device),
   mTextureGLId(device->textureGLId()),
   mBackgroundTextureGLId(device->backgroundTextureGLId()),
+  mMaskTextureGLId(device->maskTextureGLId()),
   mForegroundTextureGLId(device->foregroundTextureGLId()),
   mInitialized(false),
   mXFactor(0.0f),
@@ -104,8 +116,6 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mAbstractCamera = dynamic_cast<WbAbstractCamera *>(mDevice);
   connect(mDevice, &WbRenderingDevice::textureUpdated, this, &WbRenderingDeviceWindow::requestUpdate);
   connect(mDevice, &WbRenderingDevice::textureIdUpdated, this, &WbRenderingDeviceWindow::updateTextureGLId);
-  connect(mDevice, &WbRenderingDevice::backgroundTextureIdUpdated, this, &WbRenderingDeviceWindow::updateBackgroundTextureGLId);
-  connect(mDevice, &WbRenderingDevice::foregroundTextureIdUpdated, this, &WbRenderingDeviceWindow::updateForegroundTextureGLId);
   connect(mDevice, &WbRenderingDevice::closeWindow, this, &WbRenderingDeviceWindow::closeFromMainWindow);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::mainRenderingEnded, this,
           &WbRenderingDeviceWindow::renderNow);
@@ -163,7 +173,7 @@ void WbRenderingDeviceWindow::initialize() {
     mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, gDepthFragmentShaderSource);
   else if (mBackgroundTextureGLId)
     mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, gBackgroundFragmentShaderSource);
-  else if (mForegroundTextureGLId)
+  else if (mForegroundTextureGLId || mMaskTextureGLId)
     mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, gForegroundFragmentShaderSource);
   else
     mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, gStdFragmentShaderSource);
@@ -172,6 +182,8 @@ void WbRenderingDeviceWindow::initialize() {
   mImageUniform = mProgram->uniformLocation("image");
   mBackgroundTextureUniform = mProgram->uniformLocation("background");
   mForegroundTextureUniform = mProgram->uniformLocation("foreground");
+  mMaskTextureUniform = mProgram->uniformLocation("mask");
+  mActiveTexturesUniform = mProgram->uniformLocation("activeTextures");
 
   if (!mDevice->hasBeenSetup())
     return;
@@ -192,6 +204,8 @@ void WbRenderingDeviceWindow::initialize() {
     mYFactor = 1.0f;
     if (mForegroundTextureGLId)
       f->glBindTexture(GL_TEXTURE_2D, mForegroundTextureGLId);
+    if (mMaskTextureGLId)
+      f->glBindTexture(GL_TEXTURE_2D, mMaskTextureGLId);
   }
 
   static const GLfloat vertices[] = {-1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
@@ -232,34 +246,43 @@ void WbRenderingDeviceWindow::render() {
     mProgram->setUniformValue(mMaxRangeUniform, static_cast<float>(mAbstractCamera->maxRange()));
 
   if (mBackgroundTextureGLId) {
-    mProgram->setUniformValue(mBackgroundTextureUniform, 0);
-    mProgram->setUniformValue(mImageUniform, 1);
+    mProgram->setUniformValue(mImageUniform, 0);
+    mProgram->setUniformValue(mBackgroundTextureUniform, 1);
   }
 
-  if (mForegroundTextureGLId) {
-    mProgram->setUniformValue(mForegroundTextureUniform, 0);
-    mProgram->setUniformValue(mImageUniform, 1);
+  if (mForegroundTextureGLId || mMaskTextureGLId) {
+    mProgram->setUniformValue(mImageUniform, 0);
+    mProgram->setUniformValue(mMaskTextureUniform, 1);
+    mProgram->setUniformValue(mForegroundTextureUniform, 2);
+    mProgram->setUniformValue(mActiveTexturesUniform,
+                              (mForegroundTextureUniform ? 0x10 : 0x0) | (mMaskTextureGLId ? 0x1 : 0x0));
   }
 
   f->glActiveTexture(GL_TEXTURE0);
-
-  if (mBackgroundTextureGLId) {
-    f->glBindTexture(GL_TEXTURE_2D, mBackgroundTextureGLId);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    f->glActiveTexture(GL_TEXTURE1);
-  }
-
-  if (mForegroundTextureGLId) {
-    f->glBindTexture(GL_TEXTURE_2D, mForegroundTextureGLId);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    f->glActiveTexture(GL_TEXTURE1);
-  }
-
   f->glBindTexture(GL_TEXTURE_2D, mTextureGLId);
   f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+  if (mBackgroundTextureGLId) {
+    f->glActiveTexture(GL_TEXTURE1);
+    f->glBindTexture(GL_TEXTURE_2D, mBackgroundTextureGLId);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  }
+
+  if (mMaskTextureGLId) {
+    f->glActiveTexture(GL_TEXTURE1);
+    f->glBindTexture(GL_TEXTURE_2D, mMaskTextureGLId);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  }
+
+  if (mForegroundTextureGLId) {
+    f->glActiveTexture(GL_TEXTURE2);
+    f->glBindTexture(GL_TEXTURE_2D, mForegroundTextureGLId);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  }
 
   f->glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -337,20 +360,23 @@ int WbRenderingDeviceWindow::deviceId() const {
   return mDevice->uniqueId();
 }
 
-void WbRenderingDeviceWindow::updateTextureGLId(int id) {
-  mTextureGLId = id;
-  mUpdateRequested = true;
-  mInitialized = false;
-}
-
-void WbRenderingDeviceWindow::updateBackgroundTextureGLId(int id) {
-  mBackgroundTextureGLId = id;
-  mUpdateRequested = true;
-  mInitialized = false;
-}
-
-void WbRenderingDeviceWindow::updateForegroundTextureGLId(int id) {
-  mForegroundTextureGLId = id;
+void WbRenderingDeviceWindow::updateTextureGLId(int id, WbRenderingDevice::TextureRole role) {
+  switch (role) {
+    case WbRenderingDevice::BACKGROUND_TEXTURE:
+      mBackgroundTextureGLId = id;
+      break;
+    case WbRenderingDevice::MAIN_TEXTURE:
+      mTextureGLId = id;
+      break;
+    case WbRenderingDevice::MASK_TEXTURE:
+      mMaskTextureGLId = id;
+      break;
+    case WbRenderingDevice::FOREGROUND_TEXTURE:
+      mForegroundTextureGLId = id;
+      break;
+    default:
+      assert(false);
+  }
   mUpdateRequested = true;
   mInitialized = false;
 }

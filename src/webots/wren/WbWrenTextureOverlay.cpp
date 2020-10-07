@@ -401,8 +401,8 @@ void WbWrenTextureOverlay::setBackgroundTexture(WrTexture *backgroundTexture) {
 }
 
 void WbWrenTextureOverlay::setMaskTexture(WrTexture *texture) {
-  mWrenBackgroundTexture = texture;
-  wr_overlay_set_mask_texture(mWrenOverlay, mWrenBackgroundTexture);
+  mWrenMaskTexture = texture;
+  wr_overlay_set_mask_texture(mWrenOverlay, mWrenMaskTexture);
 }
 
 WrTexture2d *WbWrenTextureOverlay::createForegroundTexture() {

@@ -118,6 +118,7 @@ private:
 private slots:
   void updateFocus();
   void updateRecognition();
+  void createSegmentationCamera();
   void updateNear();
   void updateFar();
   void updateExposure();

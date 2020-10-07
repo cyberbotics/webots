@@ -775,18 +775,17 @@ void WbCamera::createWrenOverlay() {
   assert(recognition() || !mRecognizedObjectsTexture);
   if (recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
-    emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    emit textureIdUpdated(mOverlay->foregroundTextureGLId(), FOREGROUND_TEXTURE);
     if (mSegmentationCamera) {
-      mSegmentationCamera->setSize(width(), height());
       mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
+      emit textureIdUpdated(mOverlay->maskTextureGLId(), MASK_TEXTURE);
     }
-    // TODO
-    // emit texturesIdsUpdated(mOverlay->textureGLIds());
   }
 }
 
 void WbCamera::setup() {
   WbAbstractCamera::setup();
+  createSegmentationCamera();
 
   if (spherical())
     return;
@@ -817,37 +816,46 @@ void WbCamera::updateFocus() {
 }
 
 void WbCamera::updateRecognition() {
-  if (hasBeenSetup()) {
-    const WbRecognition *recognitionNode = recognition();
-    connect(recognitionNode, &WbRecognition::segmentationChanged, this, &WbCamera::updateRecognition, Qt::UniqueConnection);
+  if (!hasBeenSetup())
+    return;
 
-    if (recognitionNode && !mOverlay->foregroundTexture()) {
-      mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
-      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
-    } else if (mOverlay->foregroundTexture()) {
-      mOverlay->deleteForegroundTexture(true);
-      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
-      mRecognizedObjectsTexture = NULL;
-    }
-
-    if (recognitionNode && recognitionNode->segmentation() && !mSegmentationCamera) {
-      mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
-                                             's', false, mSpherical->value());
-      mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
-      // TODO emit maskTextureIdUpdated(mOverlay->foregroundTextureGLId());
-    } else if (mSegmentationCamera) {
-      mOverlay->unsetMaskTexture();
-      delete mSegmentationCamera;
-      mSegmentationCamera = NULL;
-      // TODO emit maskTextureIdUpdated(mOverlay->foregroundTextureGLId());
-    }
-    if (recognitionNode && sender() != recognitionNode) {
-      // clear mRecognizedObjects if Recognition node changed but not if `Recognition.segmentation` changed
-      qDeleteAll(mRecognizedObjects);
-      mRecognizedObjects.clear();
-    }
-    mNeedToConfigure = true;
+  const WbRecognition *recognitionNode = recognition();
+  if (recognitionNode && !mOverlay->foregroundTexture()) {
+    mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
+    emit textureIdUpdated(mOverlay->foregroundTextureGLId(), FOREGROUND_TEXTURE);
+  } else if (mOverlay->foregroundTexture()) {
+    mOverlay->deleteForegroundTexture(true);
+    emit textureIdUpdated(mOverlay->foregroundTextureGLId(), FOREGROUND_TEXTURE);
+    mRecognizedObjectsTexture = NULL;
   }
+
+  // clear mRecognizedObjects if Recognition node changed but not if `Recognition.segmentation` changed
+  qDeleteAll(mRecognizedObjects);
+  mRecognizedObjects.clear();
+
+  createSegmentationCamera();
+
+  mNeedToConfigure = true;
+}
+
+void WbCamera::createSegmentationCamera() {
+  const WbRecognition *recognitionNode = recognition();
+  connect(recognitionNode, &WbRecognition::segmentationChanged, this, &WbCamera::createSegmentationCamera,
+          Qt::UniqueConnection);
+
+  delete mSegmentationCamera;
+
+  if (recognitionNode && recognitionNode->segmentation()) {
+    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
+                                           's', false, mSpherical->value());
+    mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
+    emit textureIdUpdated(mSegmentationCamera->textureGLId(), MASK_TEXTURE);
+  } else {
+    mSegmentationCamera = NULL;
+    mOverlay->unsetMaskTexture();
+    emit textureIdUpdated(0, MASK_TEXTURE);
+  }
+  mNeedToConfigure = true;
 }
 
 void WbCamera::updateLensFlare() {
