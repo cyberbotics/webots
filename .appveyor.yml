@@ -9,6 +9,9 @@ clone_depth: 1
 
 install:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - bash -lc "echo 'Server = https://sourceforge.net/projects/msys2/files/REPOS/MINGW/x86_64/' > /etc/pacman.d/mirrorlist.mingw64"
+  - bash -lc "echo 'Server = https://sourceforge.net/projects/msys2/files/REPOS/MINGW/i686/' > /etc/pacman.d/mirrorlist.mingw32"
+  - bash -lc "echo 'Server = https://sourceforge.net/projects/msys2/files/REPOS/MSYS2/$arch/' > /etc/pacman.d/mirrorlist.msys"
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
