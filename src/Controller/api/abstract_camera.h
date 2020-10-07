@@ -20,6 +20,7 @@
 #include <webots/types.h>
 
 #include "device_private.h"
+#include "image_private.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -31,20 +32,12 @@ typedef struct {
   unsigned int unique_id;  // camera id
   int width;
   int height;
-  char *shm_key;
-  int shmid;
-  int shm_size;
   double camnear;
   bool spherical;
   double fov;  // in degrees
-  unsigned char *image;
   int mode;
-  bool image_requested;
-  double image_update_time;
   void *pdata;
-#ifdef _WIN32
-  HANDLE shm_file;
-#endif
+  Image *image;
 } AbstractCamera;
 
 void wb_abstract_camera_cleanup(WbDevice *d);

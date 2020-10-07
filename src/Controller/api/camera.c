@@ -16,6 +16,7 @@
 
 #include "../util/g_image.h"
 
+#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +42,7 @@ typedef struct {
   int recognition_sampling_period;
   int recognized_object_number;                   // number of object currrently recognized
   WbCameraRecognitionObject *recognized_objects;  // list of objects
+  Image *segmentation;
 } Camera;
 
 static WbDevice *camera_get_device(WbDeviceTag t) {
@@ -75,6 +77,10 @@ static void wb_camera_cleanup(WbDevice *d) {
   if (!c)
     return;
   camera_clear_recognized_objects_list(c);
+  if (c->segmentation) {
+    image_cleanup_shm(c->segmentation);
+    free(c->segmentation);
+  }
   free(c);
   ac->pdata = NULL;
   wb_abstract_camera_cleanup(d);
@@ -101,6 +107,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c->recognition_sampling_period = 0;
   c->recognized_object_number = 0;
   c->recognized_objects = NULL;
+  c->segmentation = NULL;
 
   AbstractCamera *ac = d->pdata;
   ac->pdata = c;
@@ -124,6 +131,10 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD);
     request_write_uint16(r, c->recognition_sampling_period);
     c->enable_recognition = false;  // done
+  }
+  if (c->segmentation && c->segmentation->requested) {
+    request_write_uchar(r, C_CAMERA_GET_SEGMENTATION);
+    c->segmentation->requested = false;
   }
 }
 
@@ -219,6 +230,10 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       }
       break;
     }
+    case C_CAMERA_GET_SEGMENTATION:
+      assert(c->segmentation);
+      c->segmentation->update_time = wb_robot_get_time();
+      break;
     default:
       ROBOT_ASSERT(0);
       break;
@@ -231,7 +246,7 @@ static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
   Camera *c = ac->pdata;
   if (ac->sampling_period != 0) {
     ac->enable = true;
-    ac->image_requested = true;
+    ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_camera_set_fov"))
       c->set_fov = true;
     if (remote_control_is_function_defined("wbr_camera_set_focal_distance"))
@@ -606,16 +621,16 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
-    return ac->image;
+    return ac->image->data;
 
   robot_mutex_lock_step();
   bool success = abstract_camera_request_image(ac, __FUNCTION__);
-  if (!ac->image || !success) {
+  if (!ac->image->data || !success) {
     robot_mutex_unlock_step();
     return NULL;
   }
   robot_mutex_unlock_step();
-  return ac->image;
+  return ac->image->data;
 }
 
 int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
@@ -643,7 +658,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image || !abstract_camera_request_image(ac, __FUNCTION__)) {
+  if (!ac->image->data || !abstract_camera_request_image(ac, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -652,7 +667,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   img.height = ac->height;
 
   img.data_format = G_IMAGE_DATA_FORMAT_BGRA;
-  img.data = ac->image;
+  img.data = ac->image->data;
   int ret = g_image_save(&img, filename, quality);
 
   robot_mutex_unlock_step();
@@ -666,4 +681,69 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag ta
     return NULL;
   }
   return (wb_camera_recognition_get_objects(tag) + index);
+}
+
+const unsigned char *wb_camera_get_segmentation(WbDeviceTag tag) {
+  Camera *c = camera_get_struct(tag);
+  if (!c) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    return NULL;
+  }
+  if (!c->has_recognition) {
+    fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
+    return NULL;
+  } else if (c->recognition_sampling_period == 0) {
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+  bool success = image_request(c->segmentation, __FUNCTION__);
+  if (!c->segmentation->data || !success) {
+    robot_mutex_unlock_step();
+    return NULL;
+  }
+  robot_mutex_unlock_step();
+  return c->segmentation->data;
+}
+
+int wb_camera_save_segmentation(WbDeviceTag tag, const char *filename, int quality) {
+  if (!filename || !filename[0]) {
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
+    return -1;
+  }
+  unsigned char type = g_image_get_type(filename);
+  if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
+    fprintf(stderr, "Error: %s() called with unsupported image format (should be PNG or JPEG).\n", __FUNCTION__);
+    return -1;
+  }
+  if (type == G_IMAGE_JPEG && (quality < 1 || quality > 100)) {
+    fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
+  robot_mutex_lock_step();
+  AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
+  Camera *c = camera_get_struct(tag);
+  if (!c) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return -1;
+  }
+
+  // make sure image is up to date before saving it
+  if (!c->segmentation || !image_request(c->segmentation, __FUNCTION__)) {
+    robot_mutex_unlock_step();
+    return -1;
+  }
+  GImage img;
+  img.width = ac->width;
+  img.height = ac->height;
+
+  img.data_format = G_IMAGE_DATA_FORMAT_BGRA;
+  img.data = c->segmentation->data;
+  int ret = g_image_save(&img, filename, quality);
+
+  robot_mutex_unlock_step();
+  return ret;
 }

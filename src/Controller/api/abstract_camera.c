@@ -30,40 +30,12 @@
 #include "messages.h"
 #include "robot_private.h"
 
-static void wb_abstract_camera_cleanup_shm(WbDevice *d) {
-  AbstractCamera *c = d->pdata;
-#ifdef _WIN32
-  if (c->shm_file != NULL) {
-    UnmapViewOfFile(c->image);
-    CloseHandle(c->shm_file);
-  }
-#else  // POSIX shared memory
-  if (c->shmid > 0) {
-    munmap(c->image, c->shm_size);
-    shm_unlink(c->shm_key);
-  }
-#endif
-}
-
-static void wb_abstract_camera_get_shm(WbDevice *d) {
-  AbstractCamera *c = d->pdata;
-#ifdef _WIN32
-  c->shm_file = OpenFileMapping(FILE_MAP_WRITE, FALSE, c->shm_key);
-  ROBOT_ASSERT(c->shm_file);
-  c->image = MapViewOfFile(c->shm_file, FILE_MAP_WRITE, 0, 0, 0);
-#else  // POSIX shared memory segments
-  c->shmid = shm_open(c->shm_key, O_RDWR, 0400);
-  c->image = (unsigned char *)mmap(0, c->shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, c->shmid, 0);
-#endif
-
-  ROBOT_ASSERT(c->image);
-}
-
 void wb_abstract_camera_cleanup(WbDevice *d) {
   AbstractCamera *c = d->pdata;
   if (c == NULL)
     return;
-  wb_abstract_camera_cleanup_shm(d);
+  image_cleanup_shm(c->image);
+  free(c->image);
   free(c);
 }
 
@@ -78,11 +50,7 @@ void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double f
   c->camnear = camnear;
   c->spherical = spherical;
   c->sampling_period = 0;
-  c->shmid = -1;
-  c->shm_size = 0;
-  c->image = NULL;
-  c->image_requested = false;
-  c->image_update_time = 0.0;
+  c->image = image_new();
 
   d->pdata = c;
 }
@@ -94,15 +62,15 @@ void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint16(r, c->sampling_period);
     c->enable = false;  // done
   }
-  if (c->image_requested) {
+  if (c->image->requested) {
     request_write_uchar(r, C_CAMERA_GET_IMAGE);
-    c->image_requested = false;
+    c->image->requested = false;
   }
 }
 
 void wb_abstract_camera_update_timestamp(WbDevice *d) {
   AbstractCamera *c = d->pdata;
-  c->image_update_time = wb_robot_get_time();
+  c->image->update_time = wb_robot_get_time();
 }
 
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command) {
@@ -112,18 +80,12 @@ bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char 
   switch (command) {
     case C_CAMERA_SHARED_MEMORY:
       // Cleanup the previous shared memory if any.
-      if (c->shm_size > 0)
-        wb_abstract_camera_cleanup_shm(d);
-
-      c->shm_size = request_read_int32(r);
-      if (c->shm_size > 0) {
-        c->shm_key = request_read_string(r);
-        wb_abstract_camera_get_shm(d);
-      }
+      image_cleanup_shm(c->image);
+      image_setup_shm(c->image, r);
       break;
 
     case C_CAMERA_GET_IMAGE:
-      c->image_update_time = wb_robot_get_time();
+      c->image->update_time = wb_robot_get_time();
       break;
 
     default:
@@ -141,16 +103,16 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r) {
 
 bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName) {
   double current_simulation_time = wb_robot_get_time();
-  const double previous_image_update_time = ac->image_update_time;  // in case of reset, time can go backward
+  const double previous_image_update_time = ac->image->update_time;  // in case of reset, time can go backward
   if (previous_image_update_time >= current_simulation_time)
     return true;
 
-  ac->image_requested = true;
+  ac->image->requested = true;
   wb_robot_flush_unlocked();
   if (!wb_robot_get_synchronization())
     // if controller is asynchronous, wb_robot_get_time() could be increased while requesting the image
     current_simulation_time = wb_robot_get_time();
-  if (ac->image_update_time != current_simulation_time && previous_image_update_time <= ac->image_update_time &&
+  if (ac->image->update_time != current_simulation_time && previous_image_update_time <= ac->image->update_time &&
       robot_is_quitting() == 0) {
     fprintf(stderr, "Warning: %s: image could not be retrieved.\n", functionName);
     return false;
@@ -160,14 +122,14 @@ bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName)
 
 void wbr_abstract_camera_set_image(WbDevice *d, const unsigned char *image) {
   AbstractCamera *c = d->pdata;
-  if (c && c->image)
-    memcpy(c->image, image, 4 * c->height * c->width);
+  if (c && c->image->data)
+    memcpy(c->image->data, image, 4 * c->height * c->width);
 }
 
 unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d) {
   AbstractCamera *c = d->pdata;
-  if (c && c->image)
-    return c->image;
+  if (c && c->image->data)
+    return c->image->data;
   return NULL;
 }
 
