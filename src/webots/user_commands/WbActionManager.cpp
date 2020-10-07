@@ -1089,9 +1089,7 @@ void WbActionManager::toggle3DView() {
   QAction *toggle3DView = action(WbAction::TOGGLE_3D_VIEW);
 
   if (WbSimulationState::instance()->is3DViewShown()) {
-    QIcon icon = QIcon();
-    icon.addFile("enabledIcons:show_3d_view.png", QSize(), QIcon::Normal);
-    toggle3DView->setIcon(icon);
+    toggle3DView->setIcon(QIcon("enabledIcons:show_3d_view.png"));
     toggle3DView->setChecked(true);
     toggle3DView->setStatusTip(tr("Hide 3D view to gain better performance. (%1+4)").arg(mapControlKey()));
     toggle3DView->setToolTip(tr("Hide 3D View. (%1+4)").arg(mapControlKey()));
