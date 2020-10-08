@@ -363,8 +363,8 @@ class AnsiCodes(object):
   %}
 
 
-  PyObject *getRecognitionSegmentationArray() {
-    const unsigned char *im = $self->getRecognitionSegmentation();
+  PyObject *getRecognitionSegmentationImageArray() {
+    const unsigned char *im = $self->getRecognitionSegmentationImage();
     int width = $self->getWidth();
     int height = $self->getHeight();
     PyObject *ret = Py_None;

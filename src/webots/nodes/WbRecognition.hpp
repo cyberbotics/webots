@@ -43,6 +43,8 @@ public:
   int frameThickness() const { return mFrameThickness->value(); }
   bool segmentation() const { return mSegmentation->value(); }
 
+  void setSegmentation(bool value) { mSegmentation->setValue(value); }
+
 signals:
   void segmentationChanged();
 

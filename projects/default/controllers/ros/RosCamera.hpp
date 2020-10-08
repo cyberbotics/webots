@@ -23,6 +23,7 @@
 #include <webots_ros/camera_get_zoom_info.h>
 #include <webots_ros/get_bool.h>
 #include <webots_ros/save_image.h>
+#include <webots_ros/set_bool.h>
 #include <webots_ros/set_float.h>
 
 using namespace webots;
@@ -44,17 +45,21 @@ public:
   bool recognitionEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool recognitionSamplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool hasRecognitionCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool isRecognitionSegmentationEnabledCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool saveRecognitionSegmentationImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
+  bool setRecognitionSegmentationCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res);
 
   void rosEnable(int samplingPeriod) override { mCamera->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mCamera->getSamplingPeriod(); }
 
 private:
+  ros::Publisher createImagePublisher(std::string name);
   void cleanup() { mCamera->disable(); }
 
   Camera *mCamera;
   ros::Publisher mRecognitionObjectsPublisher;
-  std::string mColorTopic;
+  ros::Publisher mRecognitionSegmentationPublisher;
   ros::ServiceServer mInfoServer;
   ros::ServiceServer mFocusInfoServer;
   ros::ServiceServer mZoomInfoServer;
@@ -64,6 +69,9 @@ private:
   ros::ServiceServer mRecognitionEnableServer;
   ros::ServiceServer mRecognitionSamplingPeriodServer;
   ros::ServiceServer mHasRecognitionServer;
+  ros::ServiceServer mIsRecognitionSegmentationEnabledServer;
+  ros::ServiceServer mSaveRecognitionSegmentationImageServer;
+  ros::ServiceServer mSetRecognitionSegmentationServer;
 };
 
 #endif  // ROS_CAMERA_HPP

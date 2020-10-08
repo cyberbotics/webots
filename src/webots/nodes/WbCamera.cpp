@@ -121,10 +121,11 @@ void WbCamera::init() {
   mRecognitionRefreshRate = 0;
   mRecognizedObjects.clear();
   mRecognizedObjectsTexture = NULL;
+  mSegmentationChanged = false;
   mSegmentationCamera = NULL;
   mSegmentationShm = NULL;
-  mSegmentationReady = false;
-  mSegmentationChanged = false;
+  mSegmentationImageReady = false;
+  mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
 }
@@ -568,22 +569,30 @@ void WbCamera::writeAnswer(QDataStream &stream) {
         displayRecognizedObjectsInOverlay();
     }
 
-    if (mHasSegmentationSharedMemoryChanged) {
+    if (mSegmentationChanged) {
       stream << (short unsigned int)tag();
-      stream << (unsigned char)C_CAMERA_SEGMENTATION_SHARED_MEMORY;
-      if (mSegmentationShm) {
-        stream << (int)(mSegmentationShm->size());
-        QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
-        stream.writeRawData(n.constData(), n.size() + 1);
-      } else
-        stream << (int)(0);
-      mHasSegmentationSharedMemoryChanged = false;
+      stream << (unsigned char)C_CAMERA_SET_SEGMENTATION;
+      stream << (unsigned char)recognition()->segmentation();
     }
 
-    if (mSegmentationReady) {
-      stream << (short unsigned int)tag();
-      stream << (unsigned char)C_CAMERA_GET_SEGMENTATION;
-      mSegmentationReady = false;
+    if (mSegmentationCamera) {
+      if (mHasSegmentationSharedMemoryChanged) {
+        stream << (short unsigned int)tag();
+        stream << (unsigned char)C_CAMERA_SEGMENTATION_SHARED_MEMORY;
+        if (mSegmentationShm) {
+          stream << (int)(mSegmentationShm->size());
+          QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
+          stream.writeRawData(n.constData(), n.size() + 1);
+        } else
+          stream << (int)(0);
+        mHasSegmentationSharedMemoryChanged = false;
+      }
+
+      if (mSegmentationImageReady) {
+        stream << (short unsigned int)tag();
+        stream << (unsigned char)C_CAMERA_GET_SEGMENTATION_IMAGE;
+        mSegmentationImageReady = false;
+      }
     }
   }
 }
@@ -633,12 +642,18 @@ void WbCamera::handleMessage(QDataStream &stream) {
       mRecognitionSensor->setRefreshRate(mRecognitionRefreshRate);
       break;
     }
-    case C_CAMERA_GET_SEGMENTATION:
-      if (mSegmentationChanged) {
+    case C_CAMERA_SET_SEGMENTATION:
+      unsigned char enabled;
+      stream >> enabled;
+      if (recognition() && recognition()->segmentation() != enabled)
+        recognition()->setSegmentation(enabled);
+      break;
+    case C_CAMERA_GET_SEGMENTATION_IMAGE:
+      if (mSegmentationImageChanged) {
         copyImageToSharedMemory(mSegmentationCamera, (unsigned char *)mSegmentationShm->data());
-        mSegmentationChanged = false;
+        mSegmentationImageChanged = false;
       }
-      mSegmentationReady = true;
+      mSegmentationImageReady = true;
       break;
     default:
       assert(0);
@@ -867,7 +882,7 @@ bool WbCamera::needToRender() {
 void WbCamera::render() {
   if (isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh()) {
     mSegmentationCamera->render();
-    mSegmentationChanged = true;
+    mSegmentationImageChanged = true;
   }
 }
 
@@ -907,11 +922,15 @@ void WbCamera::updateRecognition() {
   mNeedToConfigure = true;
 }
 
+void WbCamera::updateSegmentation() {
+  mSegmentationChanged = true;
+  createSegmentationCamera();
+}
+
 void WbCamera::createSegmentationCamera() {
   const WbRecognition *recognitionNode = recognition();
   if (recognitionNode)
-    connect(recognitionNode, &WbRecognition::segmentationChanged, this, &WbCamera::createSegmentationCamera,
-            Qt::UniqueConnection);
+    connect(recognitionNode, &WbRecognition::segmentationChanged, this, &WbCamera::updateSegmentation, Qt::UniqueConnection);
 
   delete mSegmentationCamera;
 

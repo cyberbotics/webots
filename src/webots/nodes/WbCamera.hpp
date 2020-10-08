@@ -87,7 +87,6 @@ private:
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
   void initializeImageSharedMemory() override;
-  void initializeSegmentationSharedMemory();
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -116,16 +115,20 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  // smart camera segmentation
+  void initializeSegmentationSharedMemory();
+  void createSegmentationCamera();
+  bool mSegmentationChanged;
   WbWrenCamera *mSegmentationCamera;
   WbSharedMemory *mSegmentationShm;
   bool mHasSegmentationSharedMemoryChanged;
-  bool mSegmentationChanged;
-  bool mSegmentationReady;
+  bool mSegmentationImageChanged;
+  bool mSegmentationImageReady;
 
 private slots:
   void updateFocus();
   void updateRecognition();
-  void createSegmentationCamera();
+  void updateSegmentation();
   void updateNear();
   void updateFar();
   void updateExposure();
