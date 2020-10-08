@@ -44,9 +44,16 @@
 class WbDisplayImage {
 public:
   WbDisplayImage(int id, int width, int height, unsigned int *image, bool isTransparent) :
-    mId(id), mWidth(width), mHeight(height), mImage(image), mIsTransparent(isTransparent) {}
+    mId(id),
+    mWidth(width),
+    mHeight(height),
+    mImage(image),
+    mIsTransparent(isTransparent) {}
   WbDisplayImage(const WbDisplayImage &d) :
-    mId(d.id()), mWidth(d.width()), mHeight(d.height()), mIsTransparent(d.isTransparent()) {
+    mId(d.id()),
+    mWidth(d.width()),
+    mHeight(d.height()),
+    mIsTransparent(d.isTransparent()) {
     mImage = new unsigned int[mWidth * mHeight];
     memcpy(mImage, d.image(), mWidth * mHeight * sizeof(unsigned int));
   }

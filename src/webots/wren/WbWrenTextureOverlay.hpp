@@ -56,7 +56,7 @@ public:
   WrTexture *foregroundTexture() const { return mWrenForegroundTexture; }
   void setBackgroundTexture(WrTexture *backgroundTexture);
   void unsetBackgroundTexture() { setBackgroundTexture(NULL); }
-  void setMaskTexture(WrTexture *backgroundTexture);
+  void setMaskTexture(WrTexture *texture);
   void unsetMaskTexture() { setMaskTexture(NULL); }
   WrTexture2d *createForegroundTexture();
   void deleteForegroundTexture(bool restoreMainTexture = false);
