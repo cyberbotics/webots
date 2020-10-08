@@ -109,6 +109,9 @@ function appendNewElement(id, newElement) {
 }
 
 function addDeviceType(type) {
+  if (document.getElementById(type))
+    return; // check if already exists
+
   appendNewElement('content',
     '<div id="' + type + '" class="devices-container animate-left">' +
       '<h1>' + type + '</h1>' +
@@ -121,6 +124,9 @@ function addDeviceType(type) {
 }
 
 function addDevice(device) {
+  if (document.getElementById(device.htmlName))
+    return; // check if already exists
+
   var div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
   if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')

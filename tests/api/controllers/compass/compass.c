@@ -1,5 +1,6 @@
 #include <webots/compass.h>
 #include <webots/robot.h>
+#include <webots/supervisor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -24,11 +25,27 @@ int main(int argc, char **argv) {
 
   const double *values = wb_compass_get_values(compass);
 
-  const double expected[] = {0.707107, 0, 0.707107};
+  const double expected[] = {0.258819, 0, 0.965926};
 
   int i;
   for (i = 0; i < 3; i++)
     ts_assert_double_in_delta(values[i], expected[i], 0.0001, "The compass doesn't return the right north direction.");
+
+  WbNodeRef worldinfo_node = wb_supervisor_node_get_from_def("WORLD_INFO");
+  WbFieldRef coordinate_system_field = wb_supervisor_node_get_field(worldinfo_node, "coordinateSystem");
+
+  wb_supervisor_field_set_sf_string(coordinate_system_field, "EUN");
+  for (i = 0; i < 3; i++)
+    wb_robot_step(TIME_STEP);
+
+  values = wb_compass_get_values(compass);
+
+  ts_assert_double_in_delta(values[0], -expected[2], 0.0001,
+                            "The compass doesn't return the right north direction after changing the coordinate system.");
+  ts_assert_double_in_delta(values[1], expected[1], 0.0001,
+                            "The compass doesn't return the right north direction after changing the coordinate system.");
+  ts_assert_double_in_delta(values[2], expected[0], 0.0001,
+                            "The compass doesn't return the right north direction after changing the coordinate system.");
 
   ts_send_success();
   return EXIT_SUCCESS;

@@ -61,6 +61,7 @@ void WbConnector::init() {
   mStartup = true;
   mSensor = NULL;
   mIsJointInversed = false;
+  mNeedToReconfigure = false;
 
   // init fields
   mType = findSFString("type");
@@ -157,6 +158,8 @@ void WbConnector::updateIsLocked() {
     lock();
   else
     unlock();
+
+  mNeedToReconfigure = true;
 }
 
 void WbConnector::updateNumberOfRotations() {
@@ -747,11 +750,21 @@ void WbConnector::writeAnswer(QDataStream &stream) {
     stream << (unsigned short int)mValue;
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 void WbConnector::writeConfigure(QDataStream &) {
   if (robot())
     mSensor->connectToRobotSignal(robot());
+}
+
+void WbConnector::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (unsigned char)(mIsLocked->value() ? 1 : 0);
+  mNeedToReconfigure = false;
 }
 
 // converts a rotation from quaternion to euler axis/angle representation
