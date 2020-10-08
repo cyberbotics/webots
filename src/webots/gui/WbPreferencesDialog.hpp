@@ -60,7 +60,7 @@ private:
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
     *mHttpProxyPassword;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mShow3DViewCheckBox;
+    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox;
 
   QStringList mValidThemeFilenames;
 

@@ -1085,19 +1085,19 @@ void WbActionManager::enableTextEditActions(bool enabled) {
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
 }
 
-void WbActionManager::update3DViewButton() {
-  QAction *toggle3DView = action(WbAction::SCENE_RENDERING);
+void WbActionManager::updateRenderingButton() {
+  QAction *rendering = action(WbAction::SCENE_RENDERING);
 
   if (WbSimulationState::instance()->isRendering()) {
-    toggle3DView->setIcon(QIcon("enabledIcons:show_3d_view.png"));
-    toggle3DView->setChecked(true);
-    toggle3DView->setStatusTip(tr("Hide Rendering to gain better performance. (%1+4)").arg(mapControlKey()));
-    toggle3DView->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
+    rendering->setIcon(QIcon("enabledIcons:show_3d_view.png"));
+    rendering->setChecked(true);
+    rendering->setStatusTip(tr("Hide Rendering to gain better performance. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
   } else {
-    toggle3DView->setIcon(QIcon("enabledIcons:hide_3d_view.png"));
-    toggle3DView->setChecked(false);
-    toggle3DView->setStatusTip(tr("Show Rendering to see the simulation. (%1+4)").arg(mapControlKey()));
-    toggle3DView->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
+    rendering->setIcon(QIcon("enabledIcons:hide_3d_view.png"));
+    rendering->setChecked(false);
+    rendering->setStatusTip(tr("Show Rendering to see the simulation. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
   }
 }
 

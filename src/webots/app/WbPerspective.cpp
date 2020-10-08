@@ -390,7 +390,7 @@ QString WbPerspective::getActionName(WbAction::WbActionKind action) {
     case WbAction::DISABLE_FORCE_AND_TORQUE:
       return "forceAndTorqueDisabled";
     case WbAction::DISABLE_3D_VIEW:
-      return "3dViewDisabled";
+      return "renderingDisabled";
     default:
       return QString();
   }
@@ -407,7 +407,7 @@ WbAction::WbActionKind WbPerspective::getActionFromString(const QString &actionS
     return WbAction::DISABLE_OBJECT_MOVE;
   if (actionString == "forceAndTorqueDisabled")
     return WbAction::DISABLE_FORCE_AND_TORQUE;
-  if (actionString == "3dViewDisabled")
+  if (actionString == "renderingDisabled")
     return WbAction::DISABLE_3D_VIEW;
 
   assert(false);

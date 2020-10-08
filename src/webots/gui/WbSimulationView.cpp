@@ -109,7 +109,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   createActions();
   mTitleBar = new WbDockTitleBar(false, this);
   mToolBar = createToolBar();
-  mNeedToHide3DView = false;
+  mNeedToHideBlackRenderingOverlay = false;
 
   // top level layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
@@ -232,8 +232,8 @@ QToolBar *WbSimulationView::createToolBar() {
   mToolBar->widgetForAction(action)->setObjectName("invisibleButton");
   mToolBar->widgetForAction(action)->setVisible("false");
 
-  WbActionManager::instance()->update3DViewButton();
-  connect(WbSimulationState::instance(), &WbSimulationState::visibilityOf3DViewChanged, this, &WbSimulationView::update3DView);
+  WbActionManager::instance()->updateRenderingButton();
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSimulationView::updateRendering);
 
   updatePlayButtons();
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbSimulationView::updatePlayButtons);
@@ -551,7 +551,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
     mRecordingTimer->start(800);
     toggleMovieAction(true);
     mTakeScreenshotAction->setEnabled(false);
-    show3DViewIfNecessary();
+    showRenderingIfNecessary();
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     if (mainWindow->isMinimized()) {
       mWasMinimized = true;
@@ -562,7 +562,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
 
 void WbSimulationView::stopVideoCapture(bool canceled) {
   WbVideoRecorder::instance()->stopRecording(canceled);
-  restore3DViewIfNecessary();
+  restoreRenderingIfNecessary();
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     mainWindow->showMinimized();
@@ -614,23 +614,23 @@ void WbSimulationView::makeMovie() {
 
   // reset current simulation mode
   WbSimulationState::instance()->setMode(currentMode);
-  updateFastModeOverlay();
+  updateBlackRenderingOverlay();
 }
 
-void WbSimulationView::show3DViewIfNecessary() {
+void WbSimulationView::showRenderingIfNecessary() {
   // remove "Fast Mode" overlay if necessary
   if (!WbSimulationState::instance()->isRendering()) {
-    WbSimulationState::instance()->show3DView(true);
-    mView3D->hideBlack3DViewOverlay();
-    mNeedToHide3DView = true;
+    WbSimulationState::instance()->setRendering(true);
+    mView3D->hideBlackRenderingOverlay();
+    mNeedToHideBlackRenderingOverlay = true;
   }
 }
 
-void WbSimulationView::restore3DViewIfNecessary() {
-  if (mNeedToHide3DView) {
-    mView3D->showBlack3DViewOverlay();
-    WbSimulationState::instance()->show3DView(false);
-    mNeedToHide3DView = false;
+void WbSimulationView::restoreRenderingIfNecessary() {
+  if (mNeedToHideBlackRenderingOverlay) {
+    mView3D->showBlackRenderingOverlay();
+    WbSimulationState::instance()->setRendering(false);
+    mNeedToHideBlackRenderingOverlay = false;
   }
 }
 
@@ -651,7 +651,7 @@ void WbSimulationView::writeScreenshot(QImage image) {
     WbSimulationState::instance()->resumeSimulation();
     mIsScreenshotRequestedFromGui = false;
   }
-  restore3DViewIfNecessary();
+  restoreRenderingIfNecessary();
 
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
@@ -677,7 +677,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
     return;
   }
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
-  show3DViewIfNecessary();
+  showRenderingIfNecessary();
   mView3D->requestScreenshot();
 
   if (mIsScreenshotRequestedFromGui) {
@@ -764,12 +764,12 @@ void WbSimulationView::disableRendering(bool disabled) {
 
 void WbSimulationView::toggleRendering() {
   if (WbSimulationState::instance()->isRendering())
-    WbSimulationState::instance()->show3DView(false);
+    WbSimulationState::instance()->setRendering(false);
   else
-    WbSimulationState::instance()->show3DView(true);
+    WbSimulationState::instance()->setRendering(true);
 }
 
-void WbSimulationView::updateFastModeOverlay() {
+void WbSimulationView::updateBlackRenderingOverlay() {
   if (WbSimulationState::instance()->isRendering())
     retrieveSimulationView();
   else
@@ -858,12 +858,12 @@ void WbSimulationView::repaintView3D() {
 
 void WbSimulationView::renderABlackScreen() {
   if (mView3D)
-    mView3D->showBlack3DViewOverlay();
+    mView3D->showBlackRenderingOverlay();
 }
 
 void WbSimulationView::retrieveSimulationView() {
   if (mView3D)
-    mView3D->hideBlack3DViewOverlay();
+    mView3D->hideBlackRenderingOverlay();
 }
 
 void WbSimulationView::modeKeyPressed(QKeyEvent *event) {
@@ -944,9 +944,9 @@ void WbSimulationView::updatePlayButtons() {
   mToolBar->setUpdatesEnabled(true);
 }
 
-void WbSimulationView::update3DView() {
-  WbActionManager::instance()->update3DViewButton();
-  updateFastModeOverlay();
+void WbSimulationView::updateRendering() {
+  WbActionManager::instance()->updateRenderingButton();
+  updateBlackRenderingOverlay();
 }
 
 void WbSimulationView::updateSoundButtons() {

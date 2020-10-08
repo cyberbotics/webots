@@ -119,7 +119,7 @@ private slots:
   void updateTitleBarTitle();
   void disableStepButton(bool disabled);
   void updatePlayButtons();
-  void update3DView();
+  void updateRendering();
   void updateSoundButtons();
   void needsActionsUpdate(int position, int index);
   void toggleSceneTreeVisibility();
@@ -151,7 +151,7 @@ private:
   QHBoxLayout *mToolsLayout;
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
-  bool mNeedToHide3DView;
+  bool mNeedToHideBlackRenderingOverlay;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;
@@ -165,11 +165,11 @@ private:
 
   void createActions();
   QToolBar *createToolBar();
-  void updateFastModeOverlay();
+  void updateBlackRenderingOverlay();
   void renderABlackScreen();
   void retrieveSimulationView();
-  void show3DViewIfNecessary();
-  void restore3DViewIfNecessary();
+  void showRenderingIfNecessary();
+  void restoreRenderingIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
   void updateToggleView3DAction(bool enabled);

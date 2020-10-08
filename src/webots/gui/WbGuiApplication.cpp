@@ -100,7 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
-  mShouldShow3DView = true;
+  mShouldDoRendering = true;
 
   parseArguments();
 }
@@ -219,7 +219,7 @@ void WbGuiApplication::parseArguments() {
       cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
-      mShouldShow3DView = false;
+      mShouldDoRendering = false;
     else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
@@ -347,11 +347,11 @@ bool WbGuiApplication::setup() {
   WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
-  if (mShouldShow3DView)
-    mShouldShow3DView = show3DViewFromPreferences();
+  if (mShouldDoRendering)
+    mShouldDoRendering = renderingFromPreferences();
 
   WbSimulationState::instance()->setMode(mStartupMode);
-  WbSimulationState::instance()->show3DView(mShouldShow3DView);
+  WbSimulationState::instance()->setRendering(mShouldDoRendering);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
@@ -494,9 +494,9 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
   return WbSimulationState::PAUSE;
 }
 
-bool WbGuiApplication::show3DViewFromPreferences() const {
+bool WbGuiApplication::renderingFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
-  return prefs->value("General/show3DView").toString() != "false";
+  return prefs->value("General/rendering").toString() != "false";
 }
 
 #ifdef __APPLE__

@@ -87,7 +87,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
-  mShow3DViewCheckBox->setChecked(prefs->value("General/show3DView").toBool());
+  mRenderingCheckBox->setChecked(prefs->value("General/rendering").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
 
   // openGL tab
@@ -147,7 +147,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
-  prefs->setValue("General/show3DView", mShow3DViewCheckBox->isChecked());
+  prefs->setValue("General/rendering", mRenderingCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
 
   // openGL
@@ -271,8 +271,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   connect(chooseFontButton, &QPushButton::pressed, this, &WbPreferencesDialog::openFontDialog);
 
   // row 3
-  mShow3DViewCheckBox = new QCheckBox(tr("Show 3D view"), this);
-  layout->addWidget(mShow3DViewCheckBox, 3, 1);
+  mRenderingCheckBox = new QCheckBox(tr("Rendering"), this);
+  layout->addWidget(mRenderingCheckBox, 3, 1);
 
   // row 4
   layout->addWidget(new QLabel(tr("Editor font:"), this), 4, 0);
