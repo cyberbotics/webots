@@ -101,11 +101,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
     - name: Extract Webots
-      run: |
-        tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
-    - name: Install Webots Compilation Dependencies
-      run: scripts/install/linux_runtime_dependencies.sh
+      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+    - name: Install Webots Dependencies
+      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
