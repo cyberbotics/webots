@@ -36,7 +36,7 @@ namespace WbAction {
     PAUSE,
     STEP,
     FAST,
-    TOGGLE_3D_VIEW,
+    SCENE_RENDERING,
     SOUND_UNMUTE,
     SOUND_MUTE,
     ANIMATION,

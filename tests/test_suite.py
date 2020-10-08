@@ -212,7 +212,7 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --disable3dview --stdout --stderr --minimize --batch'
+webotsArguments = '--mode=fast --no-rendering --stdout --stderr --minimize --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
 
@@ -263,7 +263,7 @@ for groupName in testGroups:
     # when it crashes.
     # this is particuarliy useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
-    #                    firstSimulation + ' --mode=fast --disable3dview --minimize')
+    #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
     command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)

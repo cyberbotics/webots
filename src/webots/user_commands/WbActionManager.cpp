@@ -181,8 +181,8 @@ void WbActionManager::populateActions() {
   action = new QAction(this);
   action->setCheckable(true);
   action->setShortcut(Qt::CTRL + Qt::Key_4);
-  action->setText(tr("&3D View"));
-  mActions[TOGGLE_3D_VIEW] = action;
+  action->setText(tr("&Rendering"));
+  mActions[SCENE_RENDERING] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
@@ -462,8 +462,8 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_FORCE_AND_TORQUE] = action;
 
   action = new QAction(this);
-  action->setText(tr("Disable 3D View"));
-  action->setStatusTip(tr("Disable running the simulation with 3D view."));
+  action->setText(tr("Disable Rendering"));
+  action->setStatusTip(tr("Disable running the simulation with ."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
   mActions[DISABLE_3D_VIEW] = action;
@@ -1086,18 +1086,18 @@ void WbActionManager::enableTextEditActions(bool enabled) {
 }
 
 void WbActionManager::update3DViewButton() {
-  QAction *toggle3DView = action(WbAction::TOGGLE_3D_VIEW);
+  QAction *toggle3DView = action(WbAction::SCENE_RENDERING);
 
-  if (WbSimulationState::instance()->is3DViewShown()) {
+  if (WbSimulationState::instance()->isRendering()) {
     toggle3DView->setIcon(QIcon("enabledIcons:show_3d_view.png"));
     toggle3DView->setChecked(true);
-    toggle3DView->setStatusTip(tr("Hide 3D View to gain better performance. (%1+4)").arg(mapControlKey()));
-    toggle3DView->setToolTip(tr("Hide 3D View. (%1+4)").arg(mapControlKey()));
+    toggle3DView->setStatusTip(tr("Hide Rendering to gain better performance. (%1+4)").arg(mapControlKey()));
+    toggle3DView->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
   } else {
     toggle3DView->setIcon(QIcon("enabledIcons:hide_3d_view.png"));
     toggle3DView->setChecked(false);
-    toggle3DView->setStatusTip(tr("Show 3D View to see the simulation. (%1+4)").arg(mapControlKey()));
-    toggle3DView->setToolTip(tr("Show 3D View. (%1+4)").arg(mapControlKey()));
+    toggle3DView->setStatusTip(tr("Show Rendering to see the simulation. (%1+4)").arg(mapControlKey()));
+    toggle3DView->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
   }
 }
 

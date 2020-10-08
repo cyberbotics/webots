@@ -511,7 +511,7 @@ void WbViewpoint::createWrenObjects() {
           &WbViewpoint::updateRenderingMode);
 
   const bool coordinateSystemIsVisible =
-    WbSimulationState::instance()->is3DViewShown() &&
+    WbSimulationState::instance()->isRendering() &&
     WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
   if (coordinateSystemIsVisible)
     createCoordinateSystem();
@@ -892,7 +892,7 @@ void WbViewpoint::applyOptionalRenderingToWren(int optionalRendering) {
       break;
     case WbWrenRenderingContext::VF_COORDINATE_SYSTEM: {
       const bool visible =
-        WbSimulationState::instance()->is3DViewShown() &&
+        WbSimulationState::instance()->isRendering() &&
         WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
       showCoordinateSystem(visible);
       wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->visibilityMask());
@@ -910,7 +910,7 @@ void WbViewpoint::applyOptionalRenderingToWren() {
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM)) {
     const bool visible =
-      WbSimulationState::instance()->is3DViewShown() &&
+      WbSimulationState::instance()->isRendering() &&
       WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
     showCoordinateSystem(visible);
   }

@@ -213,7 +213,7 @@ Webots requires some graphical features that are usually not available by defaul
 
 Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
 ```
-xvfb-run --auto-servernum webots --mode=fast --disable3dview --stdout --stderr --minimize --batch /path/to/world/file
+xvfb-run --auto-servernum webots --mode=fast --no-rendering --stdout --stderr --minimize --batch /path/to/world/file
 ```
 
 ### Installation on Windows

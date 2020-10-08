@@ -218,7 +218,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=run") {
       cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
       mStartupMode = WbSimulationState::FAST;
-    } else if (arg == "--disable3dview")
+    } else if (arg == "--no-rendering")
       mShouldShow3DView = false;
     else if (arg == "--help")
       mTask = HELP;

@@ -545,6 +545,9 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
+  menu->addAction(actionManager->action(WbAction::SCENE_RENDERING));
+  menu->addSeparator();
+
   subMenu = menu->addMenu(tr("&Follow Object"));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_NONE));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_TRACKING));
@@ -667,7 +670,6 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
   menu->addAction(manager->action(WbAction::FAST));
-  menu->addAction(manager->action(WbAction::TOGGLE_3D_VIEW));
   return menu;
 }
 
@@ -1375,7 +1377,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_3D_VIEW)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
   WbActionManager::instance()
-    ->action(WbAction::TOGGLE_3D_VIEW)
+    ->action(WbAction::SCENE_RENDERING)
     ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
 
 #ifdef _WIN32

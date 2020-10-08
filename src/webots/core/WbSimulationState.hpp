@@ -39,7 +39,7 @@ public:
   bool isStep() const { return mMode == STEP; }
   bool isRealTime() const { return mMode == REALTIME; }
   bool isFast() const { return mMode == FAST; }
-  bool is3DViewShown() const { return mShow3dView; }
+  bool isRendering() const { return mShow3dView; }
   // pause/resume simulation for executing application dialogs
   void pauseSimulation();
   void resumeSimulation();
