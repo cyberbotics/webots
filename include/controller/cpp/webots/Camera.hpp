@@ -48,6 +48,8 @@ namespace webots {
     int getRecognitionSamplingPeriod() const;
     int getRecognitionNumberOfObjects() const;
     const CameraRecognitionObject *getRecognitionObjects() const;
+    const unsigned char *getRecognitionSegmentation() const;
+    int saveRecognitionSegmentation(const std::string &filename, int quality) const;
     static unsigned char imageGetRed(const unsigned char *image, int width, int x, int y);
     static unsigned char imageGetGreen(const unsigned char *image, int width, int x, int y);
     static unsigned char imageGetBlue(const unsigned char *image, int width, int x, int y);

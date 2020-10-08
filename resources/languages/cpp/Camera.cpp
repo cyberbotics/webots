@@ -130,3 +130,11 @@ int Camera::getRecognitionNumberOfObjects() const {
 const CameraRecognitionObject *Camera::getRecognitionObjects() const {
   return wb_camera_recognition_get_objects(getTag());
 }
+
+const unsigned char *Camera::getRecognitionSegmentation() const {
+  return wb_camera_recognition_get_segmentation(getTag());
+}
+
+int Camera::saveRecognitionSegmentation(const string &filename, int quality) const {
+  return wb_camera_recognition_save_segmentation(getTag(), filename.c_str(), quality);
+}
