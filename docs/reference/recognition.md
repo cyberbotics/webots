@@ -7,6 +7,7 @@ Recognition {
   SFBool   occlusion      TRUE    # {TRUE, FALSE}
   SFColor  frameColor     1 0 0   # any color
   SFInt32  frameThickness 1       # [0, inf)
+  SFBool   segmentation   FALSE   # {TRUE, FALSE}
 }
 ```
 
@@ -33,3 +34,6 @@ Additionally, it will slightly speed up the simulation.
 
 - The `frameThickness` field defines the thickness in pixels of the frames in the camera overlay.
 0 means no object frame in the camera overlay.
+
+- The `segmentation` field defines if a segmentation ground truth image is generated based on the [Solids](solid.md).`recognitionColors` field value.
+Background and objects with empty `recognitionColors` field are rendered in black.
