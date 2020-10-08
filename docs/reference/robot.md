@@ -599,6 +599,7 @@ If the specified device is not found, the function returns `NULL` in C++, `null`
 ---
 
 #### `wb_robot_get_device_by_index`
+#### `wb_robot_get_number_of_devices`
 
 %tab-component "language"
 
