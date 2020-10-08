@@ -92,7 +92,6 @@ jobs:
         os: [ubuntu-20.04]
         include:
           - os: ubuntu-20.04
-            python: 3.8
             ROS_DISTRO: noetic
     runs-on: ${{ matrix.os }}
     steps:  
