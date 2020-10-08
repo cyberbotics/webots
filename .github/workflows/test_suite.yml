@@ -103,7 +103,7 @@ jobs:
       run: |
         tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Compilation Dependencies
-      run: scripts/install/linux_optional_compilation_dependencies.sh
+      run: scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
