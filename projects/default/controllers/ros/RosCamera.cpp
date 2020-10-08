@@ -44,8 +44,6 @@ RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), ca
     mRecognitionSamplingPeriodServer =
       RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_get_sampling_period",
                                      &RosCamera::recognitionSamplingPeriodCallback);
-    mImageServer =
-      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/save_image", &RosCamera::saveImageCallback);
     mSaveRecognitionSegmentationImageServer =
       RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_save_segmentation_image",
                                      &RosCamera::saveRecognitionSegmentationImageCallback);
@@ -77,7 +75,7 @@ ros::Publisher RosCamera::createPublisher() {
   return createImagePublisher("image");
 }
 
-ros::Publisher RosCamera::createImagePublisher(std::string name) {
+ros::Publisher RosCamera::createImagePublisher(const std::string &name) {
   sensor_msgs::Image type;
   type.height = mCamera->getHeight();
   type.width = mCamera->getWidth();
@@ -110,7 +108,7 @@ void RosCamera::publishAuxiliaryValue() {
     const CameraRecognitionObject *objects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObject object;
     object.header.stamp = ros::Time::now();
-    object.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation";
+    object.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
     for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
       object.position.x = objects[i].position[0];
       object.position.y = objects[i].position[1];
@@ -212,7 +210,7 @@ bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, web
     mRecognitionObjectsPublisher =
       RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/recognition_objects", type);
     if (mCamera->isRecognitionSegmentationEnabled())
-      mRecognitionSegmentationPublisher = createImagePublisher("recognition_segmentation");
+      mRecognitionSegmentationPublisher = createImagePublisher("recognition_segmentation_image");
   } else {
     ROS_WARN("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
     res.success = false;

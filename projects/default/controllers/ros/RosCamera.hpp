@@ -54,7 +54,7 @@ public:
   int rosSamplingPeriod() override { return mCamera->getSamplingPeriod(); }
 
 private:
-  ros::Publisher createImagePublisher(std::string name);
+  ros::Publisher createImagePublisher(const std::string &name);
   void cleanup() { mCamera->disable(); }
 
   Camera *mCamera;
