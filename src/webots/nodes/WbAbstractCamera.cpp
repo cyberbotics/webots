@@ -178,36 +178,37 @@ void WbAbstractCamera::deleteWren() {
     resetStaticCounters();
 }
 
-void WbAbstractCamera::initializeSharedMemory() {
+void WbAbstractCamera::initializeImageSharedMemory() {
   mHasSharedMemoryChanged = true;
   delete mImageShm;
+  mImageShm = initializeSharedMemory();
+  if (mImageShm)
+    mImageData = (unsigned char *)mImageShm->data();
+}
+
+WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
   QString sharedMemoryName =
     QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
-#ifndef _WIN32
-  mImageShm = new WbPosixSharedMemory(sharedMemoryName);
-#else
-  mImageShm = new QSharedMemory(sharedMemoryName);
-#endif
+  WbSharedMemory *imageShm = new WbSharedMemory(sharedMemoryName);
   // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
   // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.
-  if (mImageShm->attach())
-    mImageShm->detach();
-  if (!mImageShm->create(size())) {
+  if (imageShm->attach())
+    imageShm->detach();
+  if (!imageShm->create(size())) {
     QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
                          "your OS is probably full. Please check your shared memory setup.");
     warn(message);
-    delete mImageShm;
-    mImageShm = NULL;
-    return;
+    delete imageShm;
+    return NULL;
   }
-  mImageData = (unsigned char *)mImageShm->data();
+  return imageShm;
 }
 
 void WbAbstractCamera::setup() {
   cCameraNumber++;
   cCameraCounter++;
 
-  initializeSharedMemory();
+  initializeImageSharedMemory();
   if (!mImageShm)
     return;
 
@@ -224,12 +225,18 @@ void WbAbstractCamera::setup() {
   }
 }
 
+bool WbAbstractCamera::needToRender() {
+  return mSensor->needToRefresh();
+}
+
 void WbAbstractCamera::updateCameraTexture() {
-  if (isPowerOn() && mSensor->needToRefresh()) {
+  if (isPowerOn() && needToRender()) {
     // update camera overlay before main rendering
     computeValue();
-    mSensor->updateTimer();
-    mImageChanged = true;
+    if (mSensor->needToRefresh()) {
+      mSensor->updateTimer();
+      mImageChanged = true;
+    }
   } else if (mSensor->isRemoteModeEnabled() && mOverlay)
     // keep updating the overlay in remote mode
     mOverlay->requestUpdateTexture();
@@ -264,13 +271,11 @@ void WbAbstractCamera::computeValue() {
     log->stopMeasure(WbPerformanceLog::DEVICE_RENDERING, deviceName());
 }
 
-void WbAbstractCamera::copyImageToSharedMemory() {
-  unsigned char *data = image();
-  if (mWrenCamera) {
-    mWrenCamera->enableCopying(true);
-    mWrenCamera->copyContentsToMemory(data);
+void WbAbstractCamera::copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data) {
+  if (camera) {
+    camera->enableCopying(true);
+    camera->copyContentsToMemory(data);
   }
-  mImageChanged = false;
 }
 
 void WbAbstractCamera::reset() {
@@ -291,7 +296,7 @@ void WbAbstractCamera::resetSharedMemory() {
   if (hasBeenSetup()) {
     // the previous shared memory will be released by the new controller start
     cCameraNumber++;
-    initializeSharedMemory();
+    initializeImageSharedMemory();
     mSharedMemoryReset = true;
   }
 }
@@ -364,8 +369,10 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
 
       break;
     case C_CAMERA_GET_IMAGE:
-      if (mImageChanged)
-        copyImageToSharedMemory();
+      if (mImageChanged) {
+        copyImageToSharedMemory(mWrenCamera, image());
+        mImageChanged = false;
+      }
       mImageReady = true;
       break;
     default:

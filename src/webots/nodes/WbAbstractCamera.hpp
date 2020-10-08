@@ -28,8 +28,10 @@ class WbWrenCamera;
 
 #ifdef _WIN32
 class QSharedMemory;
+#define WbSharedMemory QSharedMemory
 #else
 class WbPosixSharedMemory;
+#define WbSharedMemory WbPosixSharedMemory
 #endif
 
 class QDataStream;
@@ -67,7 +69,7 @@ public:
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
   virtual double fieldOfView() const { return mFieldOfView->value(); }
 
-  void resetSharedMemory();
+  virtual void resetSharedMemory();
 
   // static functions
   static int cCameraNumber;
@@ -82,6 +84,7 @@ signals:
 protected:
   void setup() override;
   virtual void render(){};
+  virtual bool needToRender();
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
@@ -102,9 +105,10 @@ protected:
   virtual WbRgb disabledCameraFrustrumColor() const { return WbRgb(0.5f, 0.5f, 0.5f); }
 
   void init();
-  virtual void initializeSharedMemory();
+  virtual void initializeImageSharedMemory();
+  WbSharedMemory *initializeSharedMemory();
   virtual void computeValue();
-  void copyImageToSharedMemory();
+  void copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -139,11 +143,7 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-#ifdef _WIN32
-  QSharedMemory *mImageShm;
-#else
-  WbPosixSharedMemory *mImageShm;
-#endif
+  WbSharedMemory *mImageShm;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;

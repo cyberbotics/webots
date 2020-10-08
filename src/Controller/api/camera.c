@@ -77,10 +77,8 @@ static void wb_camera_cleanup(WbDevice *d) {
   if (!c)
     return;
   camera_clear_recognized_objects_list(c);
-  if (c->segmentation) {
-    image_cleanup_shm(c->segmentation);
-    free(c->segmentation);
-  }
+  image_cleanup_shm(c->segmentation);
+  free(c->segmentation);
   free(c);
   ac->pdata = NULL;
   wb_abstract_camera_cleanup(d);
@@ -107,7 +105,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c->recognition_sampling_period = 0;
   c->recognized_object_number = 0;
   c->recognized_objects = NULL;
-  c->segmentation = NULL;
+  c->segmentation = image_new();
 
   AbstractCamera *ac = d->pdata;
   ac->pdata = c;
@@ -132,7 +130,7 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint16(r, c->recognition_sampling_period);
     c->enable_recognition = false;  // done
   }
-  if (c->segmentation && c->segmentation->requested) {
+  if (c->segmentation->requested) {
     request_write_uchar(r, C_CAMERA_GET_SEGMENTATION);
     c->segmentation->requested = false;
   }
@@ -230,8 +228,14 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       }
       break;
     }
+    case C_CAMERA_SEGMENTATION_SHARED_MEMORY:
+      // Cleanup the previous shared memory if any.
+      c = ac->pdata;
+      image_cleanup_shm(c->segmentation);
+      image_setup_shm(c->segmentation, r);
+      break;
     case C_CAMERA_GET_SEGMENTATION:
-      assert(c->segmentation);
+      c = ac->pdata;
       c->segmentation->update_time = wb_robot_get_time();
       break;
     default:
@@ -683,7 +687,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag ta
   return (wb_camera_recognition_get_objects(tag) + index);
 }
 
-const unsigned char *wb_camera_get_segmentation(WbDeviceTag tag) {
+const unsigned char *wb_camera_recognition_get_segmentation(WbDeviceTag tag) {
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -707,7 +711,7 @@ const unsigned char *wb_camera_get_segmentation(WbDeviceTag tag) {
   return c->segmentation->data;
 }
 
-int wb_camera_save_segmentation(WbDeviceTag tag, const char *filename, int quality) {
+int wb_camera_recognition_save_segmentation(WbDeviceTag tag, const char *filename, int quality) {
   if (!filename || !filename[0]) {
     fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
@@ -732,7 +736,7 @@ int wb_camera_save_segmentation(WbDeviceTag tag, const char *filename, int quali
   }
 
   // make sure image is up to date before saving it
-  if (!c->segmentation || !image_request(c->segmentation, __FUNCTION__)) {
+  if (!image_request(c->segmentation, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }

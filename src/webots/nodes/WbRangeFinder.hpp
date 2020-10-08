@@ -54,7 +54,7 @@ private:
   WbRangeFinder &operator=(const WbRangeFinder &);  // non copyable
   WbNode *clone() const override { return new WbRangeFinder(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
 
   int size() const override { return sizeof(float) * width() * height(); }
   double minRange() const override { return mMinRange->value(); }

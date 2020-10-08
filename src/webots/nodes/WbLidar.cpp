@@ -168,8 +168,8 @@ void WbLidar::updateOptionalRendering(int option) {
   }
 }
 
-void WbLidar::initializeSharedMemory() {
-  WbAbstractCamera::initializeSharedMemory();
+void WbLidar::initializeImageSharedMemory() {
+  WbAbstractCamera::initializeImageSharedMemory();
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = lidarImage();

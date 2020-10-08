@@ -47,6 +47,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset() override;
+  void resetSharedMemory() override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);
@@ -60,6 +61,7 @@ public:
 protected:
   void setup() override;
   void render() override;
+  bool needToRender() override;
 
 private:
   WbSFNode *mFocus;
@@ -84,7 +86,8 @@ private:
   WbCamera &operator=(const WbCamera &);  // non copyable
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
+  void initializeSegmentationSharedMemory();
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -114,6 +117,10 @@ private:
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
   WbWrenCamera *mSegmentationCamera;
+  WbSharedMemory *mSegmentationShm;
+  bool mHasSegmentationSharedMemoryChanged;
+  bool mSegmentationChanged;
+  bool mSegmentationReady;
 
 private slots:
   void updateFocus();

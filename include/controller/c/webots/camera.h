@@ -55,8 +55,8 @@ void wb_camera_recognition_disable(WbDeviceTag tag);
 int wb_camera_recognition_get_sampling_period(WbDeviceTag tag);
 int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag);
 const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag tag);
-const unsigned char *wb_camera_get_segmentation(WbDeviceTag tag);
-int wb_camera_save_segmentation(WbDeviceTag tag, const char *filename, int quality);
+const unsigned char *wb_camera_recognition_get_segmentation(WbDeviceTag tag);
+int wb_camera_recognition_save_segmentation(WbDeviceTag tag, const char *filename, int quality);
 
 #ifdef WB_MATLAB_LOADLIBRARY
 // This function should be used only in the Matlab wrapper
