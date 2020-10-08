@@ -92,10 +92,14 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-20.04
             ROS_DISTRO: noetic
+            python: 3.8
+          - os: ubuntu-18.04
+            ROS_DISTRO: melodic
+            python: 2.7
     runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
@@ -108,10 +112,10 @@ jobs:
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
-    - name: Set up Python 3.8
+    - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: ${{ matrix.python }}
     - name: Setup ROS environment
       uses: ros-tooling/setup-ros@0.0.25
       with:
@@ -125,8 +129,6 @@ jobs:
         Xvfb :99 &
         export DISPLAY=:99
         ./tests/ros.sh
-        ls ~/.ros/log/latest
-        cat ~/.ros/log/latest/rosout.log
   world-update:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
