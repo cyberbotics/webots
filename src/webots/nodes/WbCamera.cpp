@@ -417,7 +417,7 @@ void WbCamera::reset() {
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
 
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
@@ -428,7 +428,7 @@ void WbCamera::updateRaysSetupIfNeeded() {
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView,
                                                                          horizontalFieldOfView, recognition()->maxRange());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
-    recognizedObject->object()->updateTransformAfterPhysicsStep();
+    recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
       recognizedObject->recomputeRayDirection(this, cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes);
     if (valid)
@@ -758,8 +758,12 @@ void WbCamera::createWrenCamera() {
 void WbCamera::createWrenOverlay() {
   WbAbstractCamera::createWrenOverlay();
 
-  if (recognition())
+  // mRecognizedObjectsTexture deleted when creating the WREN overlay
+  assert(recognition() || !mRecognizedObjectsTexture);
+  if (recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
+    emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+  }
 }
 
 void WbCamera::setup() {
@@ -790,10 +794,12 @@ void WbCamera::updateFocus() {
 
 void WbCamera::updateRecognition() {
   if (hasBeenSetup()) {
-    if (recognition() && !mOverlay->foregroundTexture())
+    if (recognition() && !mOverlay->foregroundTexture()) {
       mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
-    else if (mOverlay->foregroundTexture()) {
+      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    } else if (mOverlay->foregroundTexture()) {
       mOverlay->deleteForegroundTexture(true);
+      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
       mRecognizedObjectsTexture = NULL;
     }
     if (recognition()) {

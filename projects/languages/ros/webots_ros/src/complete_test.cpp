@@ -134,15 +134,16 @@ using namespace std;
 
 static int model_count;
 static vector<string> model_list;
-vector<unsigned char> imageColor;
-vector<float> imageRangeFinder;
-int connectorPresence = 0;
-double accelerometerValues[3] = {0, 0, 0};
-double compassValues[3] = {0, 0, 0};
-double GPSValues[3] = {0, 0, 0};
-double GyroValues[3] = {0, 0, 0};
-double inertialUnitValues[4] = {0, 0, 0, 0};
-double touchSensorValues[3] = {0, 0, 0};
+static vector<unsigned char> imageColor;
+static vector<float> imageRangeFinder;
+static int connectorPresence = 0;
+static double accelerometerValues[3] = {0, 0, 0};
+static double compassValues[3] = {0, 0, 0};
+static double GPSValues[3] = {0, 0, 0};
+static double GyroValues[3] = {0, 0, 0};
+static double inertialUnitValues[4] = {0, 0, 0, 0};
+static double touchSensorValues[3] = {0, 0, 0};
+static bool callbackCalled = false;
 
 ros::ServiceClient time_step_client;
 webots_ros::set_int time_step_srv;
@@ -151,6 +152,7 @@ void modelNameCallback(const std_msgs::String::ConstPtr &name) {
   model_count++;
   model_list.push_back(name->data);
   ROS_INFO("Model #%d: %s.", model_count, model_list.back().c_str());
+  callbackCalled = true;
 }
 
 void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
@@ -160,30 +162,36 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
     imageColor[i] = *it;
     i++;
   }
+  callbackCalled = true;
 }
 
 void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
   ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
            object->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   ROS_INFO("Joystick button pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void keyboardCallback(const webots_ros::Int32Stamped::ConstPtr &value) {
   ROS_INFO("Keyboard key pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void radarTargetsCallback(const webots_ros::RadarTarget::ConstPtr &target) {
   ROS_INFO("Received a radar target with distance=%lf received power=%lf speed=%lf azimuth=%lf (time: %d:%d).",
            target->distance, target->receivedPower, target->speed, target->azimuth, target->header.stamp.sec,
            target->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void radarTargetsNumberCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   ROS_INFO("Number of target seen by the radar: %d (time: %d:%d).", value->data, value->header.stamp.sec,
            value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void rangeFinderCallback(const sensor_msgs::Image::ConstPtr &image) {
@@ -193,15 +201,18 @@ void rangeFinderCallback(const sensor_msgs::Image::ConstPtr &image) {
   const float *depth_data = reinterpret_cast<const float *>(&image->data[0]);
   for (int i = 0; i < size; ++i)
     imageRangeFinder[i] = depth_data[i];
+  callbackCalled = true;
 }
 
 void lidarCallback(const sensor_msgs::Image::ConstPtr &image) {
+  callbackCalled = true;
 }
 
 void connectorCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   connectorPresence = value->data;
 
   ROS_INFO("Connector presence: %d (time: %d:%d).", connectorPresence, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
@@ -211,10 +222,12 @@ void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
 
   ROS_INFO("Accelerometer values are x=%f y=%f z=%f (time: %d:%d).", accelerometerValues[0], accelerometerValues[1],
            accelerometerValues[2], values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void battery_sensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Battery level is %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void compassCallback(const sensor_msgs::MagneticField::ConstPtr &values) {
@@ -224,10 +237,12 @@ void compassCallback(const sensor_msgs::MagneticField::ConstPtr &values) {
 
   ROS_INFO("Compass values are x=%f y=%f z=%f (time: %d:%d).", compassValues[0], compassValues[1], compassValues[2],
            values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void distance_sensorCallback(const sensor_msgs::Range::ConstPtr &value) {
   ROS_INFO("Distance from object is %f (time: %d:%d).", value->range, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void GPSCallback(const sensor_msgs::NavSatFix::ConstPtr &values) {
@@ -237,10 +252,12 @@ void GPSCallback(const sensor_msgs::NavSatFix::ConstPtr &values) {
 
   ROS_INFO("GPS values are x=%f y=%f z=%f (time: %d:%d).", GPSValues[0], GPSValues[1], GPSValues[2], values->header.stamp.sec,
            values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void gyroCallback(const sensor_msgs::Imu::ConstPtr &values) {
@@ -250,6 +267,7 @@ void gyroCallback(const sensor_msgs::Imu::ConstPtr &values) {
 
   ROS_INFO("Gyro values are x=%f y=%f z=%f (time: %d:%d).", GyroValues[0], GyroValues[1], GyroValues[2],
            values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void inertialUnitCallback(const sensor_msgs::Imu::ConstPtr &values) {
@@ -261,26 +279,32 @@ void inertialUnitCallback(const sensor_msgs::Imu::ConstPtr &values) {
   ROS_INFO("Inertial unit values (quaternions) are x=%f y=%f z=%f w=%f (time: %d:%d).", inertialUnitValues[0],
            inertialUnitValues[1], inertialUnitValues[2], inertialUnitValues[2], values->header.stamp.sec,
            values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void lightSensorCallback(const sensor_msgs::Illuminance::ConstPtr &value) {
   ROS_INFO("Light intensity is %f.", value->illuminance);
+  callbackCalled = true;
 }
 
 void motorSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Motor sensor sent value %f.", value->data);
+  callbackCalled = true;
 }
 
 void positionSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Position sensor sent value %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void touchSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Touch sensor sent value %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void touchSensorBumperCallback(const webots_ros::BoolStamped::ConstPtr &value) {
   ROS_INFO("Touch sensor sent value %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values) {
@@ -290,11 +314,13 @@ void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
 
   ROS_INFO("Touch sensor values are x = %f, y = %f and z = %f (time: %d:%d).", touchSensorValues[0], touchSensorValues[1],
            touchSensorValues[2], values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
 }
 
 void receiverCallback(const webots_ros::StringStamped::ConstPtr &value) {
   char *message = const_cast<char *>(value->data.c_str());
   ROS_INFO("Received a message %s.", message);
+  callbackCalled = true;
 }
 
 void quit(int sig) {
@@ -548,8 +574,8 @@ int main(int argc, char **argv) {
     ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
     ROS_INFO("Topics for keyboard initialized.");
-
-    while (sub_keyboard.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_keyboard.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -647,7 +673,8 @@ int main(int argc, char **argv) {
     ROS_INFO("Camera enabled.");
     sub_camera_color = n.subscribe(model_name + "/camera/image", 1, cameraCallback);
     ROS_INFO("Topic for camera color initialized.");
-    while (sub_camera_color.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_camera_color.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -731,7 +758,8 @@ int main(int argc, char **argv) {
     ROS_INFO("Camera recognition enabled.");
     sub_camera_recognition = n.subscribe(model_name + "/camera/recognition_objects", 1, cameraRecognitionCallback);
     ROS_INFO("Topic for camera recognition initialized.");
-    while (sub_camera_recognition.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_camera_recognition.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -803,7 +831,8 @@ int main(int argc, char **argv) {
   accelerometer_srv.request.value = 64;
   if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
     sub_accelerometer_64 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
-    while (sub_accelerometer_64.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_accelerometer_64.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -828,7 +857,8 @@ int main(int argc, char **argv) {
   accelerometer_srv.request.value = 32;
   if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
     sub_accelerometer_32 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
-    while (sub_accelerometer_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_accelerometer_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -887,7 +917,8 @@ int main(int argc, char **argv) {
   if (set_battery_sensor_client.call(battery_sensor_srv) && battery_sensor_srv.response.success) {
     ROS_INFO("Battery_sensor enabled.");
     sub_battery_sensor_32 = n.subscribe(model_name + "/battery_sensor/value", 1, battery_sensorCallback);
-    while (sub_battery_sensor_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_battery_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -935,7 +966,8 @@ int main(int argc, char **argv) {
   if (set_compass_client.call(compass_srv) && compass_srv.response.success == 1) {
     ROS_INFO("Compass enabled.");
     sub_compass_32 = n.subscribe(model_name + "/compass/values", 1, compassCallback);
-    while (sub_compass_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_compass_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -990,7 +1022,8 @@ int main(int argc, char **argv) {
   if (connector_enable_presence_client.call(connector_srv) && connector_srv.response.success) {
     ROS_INFO("Connector's presence sensor enabled.");
     sub_connector = n.subscribe(model_name + "/connector/presence", 1, connectorCallback);
-    while (sub_connector.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_connector.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1426,7 +1459,8 @@ int main(int argc, char **argv) {
   if (set_distance_sensor_client.call(distance_sensor_srv) && distance_sensor_srv.response.success) {
     ROS_INFO("Distance_sensor enabled.");
     sub_distance_sensor_32 = n.subscribe(model_name + "/distance_sensor/value", 1, distance_sensorCallback);
-    while (sub_distance_sensor_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_distance_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1551,7 +1585,8 @@ int main(int argc, char **argv) {
   if (set_GPS_client.call(GPS_srv) && GPS_srv.response.success) {
     ROS_INFO("GPS enabled.");
     sub_GPS_32 = n.subscribe(model_name + "/gps/values", 1, GPSCallback);
-    while (sub_GPS_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_GPS_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1559,7 +1594,8 @@ int main(int argc, char **argv) {
     time_step_client.call(time_step_srv);
 
     sub_GPS_speed = n.subscribe(model_name + "/gps/speed", 1, GPSSpeedCallback);
-    while (sub_GPS_speed.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_GPS_speed.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1610,7 +1646,8 @@ int main(int argc, char **argv) {
   if (set_gyro_client.call(gyro_srv) && gyro_srv.response.success) {
     ROS_INFO("Gyro enabled.");
     sub_gyro_32 = n.subscribe(model_name + "/gyro/values", 1, gyroCallback);
-    while (sub_gyro_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_gyro_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1665,7 +1702,8 @@ int main(int argc, char **argv) {
   if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success) {
     ROS_INFO("Inertial_unit enabled.");
     sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/roll_pitch_yaw", 1, inertialUnitCallback);
-    while (sub_inertial_unit_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1716,9 +1754,10 @@ int main(int argc, char **argv) {
   if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
     ROS_INFO("Joystick of %s has been enabled.", model_name.c_str());
     sub_joystick = n.subscribe(model_name + "/joystick/pressed_button", 1, joystickCallback);
+    callbackCalled = false;
     ROS_INFO("Topics for joystick initialized.");
 
-    while (sub_joystick.getNumPublishers() == 0) {
+    while (sub_joystick.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1788,9 +1827,10 @@ int main(int argc, char **argv) {
   if (set_lidar_client.call(lidar_srv) && lidar_srv.response.success) {
     ROS_INFO("Lidar enabled.");
     sub_lidar = n.subscribe(model_name + "/lidar/range_image", 1, lidarCallback);
+    callbackCalled = false;
     ROS_INFO("Topic for lidar initialized.");
 
-    while (sub_lidar.getNumPublishers() == 0) {
+    while (sub_lidar.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1852,7 +1892,8 @@ int main(int argc, char **argv) {
   if (set_light_sensor_client.call(light_sensor_srv) && light_sensor_srv.response.success) {
     ROS_INFO("Light_sensor enabled.");
     sub_light_sensor_32 = n.subscribe(model_name + "/light_sensor/value", 1, lightSensorCallback);
-    while (sub_light_sensor_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_light_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2177,7 +2218,8 @@ int main(int argc, char **argv) {
   if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success) {
     ROS_INFO("Motor feedback enabled.");
     sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback", 1, motorSensorCallback);
-    while (sub_motor_feedback_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_motor_feedback_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2254,7 +2296,8 @@ int main(int argc, char **argv) {
   if (set_position_sensor_client.call(position_sensor_srv) && position_sensor_srv.response.success) {
     ROS_INFO("Position_sensor enabled.");
     sub_position_sensor_32 = n.subscribe(model_name + "/position_sensor/value", 1, positionSensorCallback);
-    while (sub_position_sensor_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_position_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2307,9 +2350,10 @@ int main(int argc, char **argv) {
     ROS_INFO("Radar enabled.");
     sub_radar_target = n.subscribe(model_name + "/radar/targets", 1, radarTargetsCallback);
     sub_radar_target_number = n.subscribe(model_name + "/radar/number_of_targets", 1, radarTargetsNumberCallback);
+    callbackCalled = false;
     ROS_INFO("Topics for radar initialized.");
 
-    while (sub_radar_target.getNumPublishers() == 0 && sub_radar_target_number.getNumPublishers() == 0) {
+    while (sub_radar_target.getNumPublishers() == 0 && sub_radar_target_number.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2369,9 +2413,10 @@ int main(int argc, char **argv) {
   if (set_range_finder_client.call(range_finder_srv) && range_finder_srv.response.success) {
     ROS_INFO("Range-finder enabled.");
     sub_range_finder_color = n.subscribe(model_name + "/range_finder/range_image", 1, rangeFinderCallback);
+    callbackCalled = false;
     ROS_INFO("Topic for range-finder initialized.");
 
-    while (sub_range_finder_color.getNumPublishers() == 0) {
+    while (sub_range_finder_color.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2435,7 +2480,8 @@ int main(int argc, char **argv) {
   if (set_receiver_client.call(receiver_srv) && receiver_srv.response.success) {
     ROS_INFO("Receiver enabled.");
     sub_receiver_32 = n.subscribe(model_name + "/receiver/data", 1, receiverCallback);
-    while (sub_receiver_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_receiver_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2597,7 +2643,8 @@ int main(int argc, char **argv) {
       sub_touch_sensor_32 = n.subscribe(model_name + "/touch_sensor/value", 1, touchSensorCallback);
     else
       sub_touch_sensor_32 = n.subscribe(model_name + "/touch_sensor/values", 1, touchSensor3DCallback);
-    while (sub_touch_sensor_32.getNumPublishers() == 0) {
+    callbackCalled = false;
+    while (sub_touch_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }

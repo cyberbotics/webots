@@ -170,7 +170,7 @@ If you want to use the C++ API follow these instructions:
 
     - In `Property Pages`, in the `Configuration Properties`, add the path to Webots .hpp files:
 
-          
+
             C/C++ > General > Additional Include Directories:
               C:\Program Files\Webots\include\controller\c
               C:\Program Files\Webots\include\controller\cpp
@@ -344,7 +344,7 @@ As an example, the `driver` sample controller is used here.
 
 In order to use the Webots Python API, it should be added to the project.
 This can be done from the `File` / `Settings` menu.
-In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/controller/python37` folder (or any other Python version).
+In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/controller/python38` folder (or any other Python version).
 
 %figure "Addition of the Webots controller library"
 
@@ -354,8 +354,30 @@ In the `Settings` window, select the `Project` / `Project Structure` tab, then, 
 
 The Webots Python API depends on the Webots CPP API, therefore, the path need to be modifed to include the Webots `lib` directory.
 This can be done from the `Run` / `Edit Configurations` menu.
-In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib/controller`.
-On Windows, you should also add `WEBOTS_HOME/msys64/mingw64/bin` to your `PATH` environment variable.
+In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (adjust it if needed, with your actual Webots installation folder):
+
+%tab-component "os"
+
+%tab "Linux"
+```bash
+LD_LIBRARY_PATH=/usr/local/webots/lib/controller
+```
+%tab-end
+
+%tab "Windows"
+```bash
+Path=C:\Program Files\Webots\lib\controller\;C:\Program Files\Webots\msys64\mingw64\bin\;C:\Program Files\Webots\msys64\mingw64\bin\cpp
+```
+%tab-end
+
+%tab "macOS"
+```bash
+DYLD_LIBRARY_PATH=/Applications/Webots.app/lib/controller
+```
+%tab-end
+
+%end
+
 If you are using other libraries (e.g., the `vehicle libraries`, `DARwIn-OP library`, etc.), the path to the corresponding shared libraries should be added as well.
 
 %figure "Addition of the Webots libraries to the path"

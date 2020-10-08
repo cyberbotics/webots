@@ -310,7 +310,9 @@ WbVector3 WbSliderJoint::anchor() const {
 void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
+    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
+    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
     const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
     const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
 
@@ -324,13 +326,23 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_MAX));
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
-                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_MAX))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
     writer.indent();
-    writer << QString("<limit effort=\"%1\" velocity=\"%2\" />\n").arg(motor()->maxVelocity()).arg(motor()->maxForceOrTorque());
+    const WbMotor *m = motor();
+    if (m) {
+      if (m->minPosition() != 0.0 || m->maxPosition() != 0.0)
+        writer << QString("<limit effort=\"%1\" lower=\"%2\" upper=\"%3\" velocity=\"%4\"/>\n")
+                    .arg(m->maxForceOrTorque())
+                    .arg(m->minPosition())
+                    .arg(m->maxPosition())
+                    .arg(m->maxVelocity());
+      else
+        writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
+    }
     writer.decreaseIndent();
 
     writer.indent();

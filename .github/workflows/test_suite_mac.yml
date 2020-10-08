@@ -1,0 +1,83 @@
+name: Test Suite macOS
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  schedule:
+    - cron:  '0 23 * * *'
+  push:
+    tags:
+      - '*'
+
+jobs:
+  cleanup-runs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rokroskar/workflow-run-cleanup-action@master
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  build:
+    needs: cleanup-runs
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+         submodules: true
+    - name: Install Webots Compilation Dependencies
+      run: |
+        brew install cmake swig wget
+        npm install -g appdmg
+        # install regular Python 3.7
+        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
+        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
+        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
+        # install regular Python 3.8
+        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8
+        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
+        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+    - name: Webots Package Creation
+      run: |
+        export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+        make distrib -j4
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: |
+          distribution/*.dmg
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - name: Extract Webots
+      run: |
+        hdiutil mount artifact/webots-*.dmg
+        sudo cp -R /Volumes/Webots/Webots.app /Applications
+        hdiutil unmount /Volumes/Webots
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Test
+      run:
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=/Applications/Webots.app
+        # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
+        # python tests/test_suite.py

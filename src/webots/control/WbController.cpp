@@ -888,7 +888,7 @@ QString WbController::commandLine() const {  // returns the command line with do
 void WbController::handleControllerExit() {
   if (mRobot->controllerName() == "<extern>") {
     processFinished(0, QProcess::NormalExit);
-    mRobot->setControllerStarted(false);
+    mRobot->setControllerNeedRestart();
   }
 }
 

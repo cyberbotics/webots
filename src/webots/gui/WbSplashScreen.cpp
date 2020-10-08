@@ -30,6 +30,9 @@ WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &lo
 
   mScreenshot = QImage("images:splash_images/" + screenshots.at(randomImageIndex));
   mWebotsLogo = QImage("images:" + logoFileName);
+#ifdef _WIN32
+  setWindowModality(Qt::ApplicationModal);
+#endif
 }
 
 WbSplashScreen::~WbSplashScreen() {

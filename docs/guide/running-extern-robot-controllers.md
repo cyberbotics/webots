@@ -28,11 +28,11 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable                        | Typical Value                                                                                                        |
-|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                                                            |
-| PATH (for C and MATLAB controllers)         | add `${WEBOTS_HOME}\lib\controller` and `${WEBOTS_HOME}\msys64\mingw64\bin`                                          |
-| PATH (for C++, Python and Java controllers) | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
+| Environment Variable                        | Typical Value                                                             |
+|---------------------------------------------|---------------------------------------------------------------------------|
+| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                 |
+| Path (all controllers)                      | add `%WEBOTS_HOME%\lib\controller` and `%WEBOTS_HOME%\msys64\mingw64\bin` |
+| Path (for C++, Python and Java controllers) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
 
 %tab-end
 
@@ -45,7 +45,7 @@ Generic Webots environment variables needed for all the controller languages:
 
 %tab-end
 
-%tab "macOs"
+%tab "macOS"
 
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
@@ -84,8 +84,14 @@ No specific setup is needed.
 
 %tab "Java"
 
-Add the `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java` option to the `java` command line launching the Java controller.
+Add the following options to the `java` command line launching the Java controller:
+- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
+- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
+For example to launch the `Driver` Java controller, type:
+```bash
+java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
+```
 %tab-end
 
 

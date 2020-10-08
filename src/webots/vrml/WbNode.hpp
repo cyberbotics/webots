@@ -109,6 +109,8 @@ public:
   // if both 'searchInFields' and 'searchInParameters' are false:
   //    search in parameters if proto node and in fields otherwise
   QList<WbNode *> subNodes(bool recurse, bool searchInFields = true, bool searchInParameters = false) const;
+  static QList<WbNode *> subNodes(const WbField *field, bool recurse, bool searchInFields = true,
+                                  bool searchInParameters = false);
 
   // names
   const QString &defName() const { return mDefName; }
@@ -276,6 +278,7 @@ public:
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
   const WbNode *findRobotRootNode() const;
+  virtual const bool isRobot() const { return false; };
 
 signals:
   // emitted when any value has changed
@@ -319,7 +322,6 @@ protected:
 
   QString getUrdfPrefix() const;
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
-  virtual const bool isRobot() const { return false; };
   virtual const bool isJoint() const { return false; };
 
 private slots:

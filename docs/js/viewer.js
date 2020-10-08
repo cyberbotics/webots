@@ -221,7 +221,7 @@ function forgeUrl(book, page, tabs, anchor) {
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
     else
-      url += (isFirstArgument ? '?' : '&') + 'page=' + page;
+      url += '&page=' + page;
 
     // Add or replace the tab argument.
     for (tabOption in tabs) {
@@ -229,7 +229,7 @@ function forgeUrl(book, page, tabs, anchor) {
       if (url.indexOf(tabOption + '=') > -1)
         url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
       else if (tabName)
-        url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabName;
+        url += '&' + tabOption + '=' + tabName;
     }
 
     url += anchorString;
@@ -242,6 +242,8 @@ function addDynamicAnchorEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       var node = event.target;
       while (node && !node.hasAttribute('href'))
         node = node.getParent();
@@ -261,6 +263,8 @@ function addDynamicLoadEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       aClick(event.target);
       event.preventDefault();
     },
@@ -525,7 +529,7 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   var content = document.querySelector('#content');
-  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && localSetup.book !== 'discord')
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   var level = parseInt(headings[0].tagName[1]) + 1; // current heading level.

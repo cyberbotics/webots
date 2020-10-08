@@ -27,7 +27,7 @@ Likewise, a [LinearMotor](linearmotor.md) can power a [SliderJoint](hingejoint.m
 ### Field Summary
 
 - The `acceleration` field defines the default acceleration of the P-controller.
-It is expressed in *meter per second squared* [m/s²] for linear motors and in *meter per radian squared* [rad/s²] for rotational motors.
+It is expressed in *meter per second squared* [m/s²] for linear motors and in *radian per second squared* [rad/s²] for rotational motors.
 A value of -1 (infinite) means that the acceleration is not limited by the P-controller.
 The acceleration can be changed at run-time with the `wb_motor_set_acceleration` function.
 
@@ -62,7 +62,7 @@ They are expressed in *meter* [m] for [LinearMotor](linearmotor.md) and in *radi
 These fields are described in more detail in the [Motor Limits section](#motor-limits), see below.
 
 - The `maxVelocity` field specifies both the upper limit and the default value for the motor *velocity*.
-It is expressed in *meter per second* [m/s] for linear motors and in *meter per radian* [rad/s] for rotational motors.
+It is expressed in *meter per second* [m/s] for linear motors and in *radian per second* [rad/s] for rotational motors.
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 

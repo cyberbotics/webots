@@ -182,6 +182,22 @@ int main(int argc, char **argv) {
   value0 = wb_distance_sensor_get_value(ds0);
   ts_assert_double_is_bigger(value0, 750, "Sphere not removed.");
 
+  // test subnodes are correctly removed from Supervisor API's internal node list
+  wb_supervisor_field_import_mf_node_from_string(root_children_field, -1,
+                                                 "DEF PARENT Group { children [ Shape { geometry DEF CHILD Cylinder {} } ] }");
+  wb_robot_step(TIME_STEP);
+  WbNodeRef parent_node = wb_supervisor_node_get_from_def("PARENT");
+  ts_assert_pointer_not_null(parent_node, "Invalid reference to node 'PARENT'.");
+  WbNodeRef child_node = wb_supervisor_node_get_from_def("CHILD");
+  ts_assert_pointer_not_null(child_node, "Invalid reference to node 'CHILD'.");
+  ts_assert_int_not_equal(wb_supervisor_node_get_id(child_node), -1, "'CHILD' is not valid after import.");
+  wb_robot_step(TIME_STEP);
+  wb_supervisor_node_remove(parent_node);
+  wb_robot_step(TIME_STEP);
+  ts_assert_int_equal(wb_supervisor_node_get_id(child_node), -1, "'CHILD' is still valid after delete.");
+  child_node = wb_supervisor_node_get_from_def("CHILD");
+  ts_assert_pointer_null(child_node, "Invalid reference to node 'CHILD'.");
+
   ts_send_success();
   return EXIT_SUCCESS;
 }

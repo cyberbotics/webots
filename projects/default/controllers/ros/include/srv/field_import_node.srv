@@ -1,5 +1,0 @@
-uint64 field
-int32 position
-string filename
----
-int32 success

@@ -11,21 +11,8 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-Transform {
-  translation 0.15 -0.0001 0.21
-  children [
-    Shape {
-      appearance PBRAppearance {
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 0.5 0.0001 0.62
-      }
-    }
-  ]
-}
 DEF FLOOR Solid {
+  translation 0.15 0 0.205
   children [
     Shape {
       appearance PBRAppearance {
@@ -33,22 +20,12 @@ DEF FLOOR Solid {
         roughness 1
         metalness 0
       }
-      geometry ElevationGrid {
-        xDimension 31
-        xSpacing 0.01
-        zDimension 43
-        zSpacing 0.01
+      geometry DEF FLOOR_PLANE Plane {
+        size 0.52 0.63
       }
     }
   ]
-  boundingObject Transform {
-    translation 0.15 0 0.205
-    children [
-      Plane {
-        size 0.52 0.63
-      }
-    ]
-  }
+  boundingObject USE FLOOR_PLANE
 }
 Shape {
   appearance PBRAppearance {

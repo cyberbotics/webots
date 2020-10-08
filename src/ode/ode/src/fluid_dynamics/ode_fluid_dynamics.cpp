@@ -245,8 +245,9 @@ int dFluidDynamicsStep (dWorldID w)
       dMultiplyHelper1_331(rav, R, rav);
 
       //printf("linear speed %g  angular speed %g\n", rlvLength, avLength);
-
+#ifndef dNODEBUG
       static const dReal TOLERANCE = 1e-6;
+#endif
       //printf("immersed area %g full area %g\n", img.area, dGeomGetArea(img.g1));
       dIASSERT(img.area >= 0.0 && img.area <= (1.0 + TOLERANCE) * dGeomGetArea(img.g1));
       //printf("immersed volume %g full volume %g\n", img.volume, dGeomGetVolume(img.g1));

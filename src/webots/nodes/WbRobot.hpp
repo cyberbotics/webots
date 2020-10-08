@@ -108,6 +108,8 @@ public:
 
   WbSupervisorUtilities *supervisorUtilities() const { return mSupervisorUtilities; }
 
+  const bool isRobot() const override { return true; };
+
   // energy accessors and setters
   double currentEnergy() const;
   void setCurrentEnergy(double e);
@@ -115,8 +117,8 @@ public:
   double energyUploadSpeed() const;
 
   // handle key events
-  void keyPressed(const QString &text, int key, int modifiers);
-  void keyReleased(const QString &text, int key);
+  void keyPressed(int key, int modifiers);
+  void keyReleased(int key);
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
@@ -163,7 +165,6 @@ protected:
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
-  const bool isRobot() const override { return true; };
 
 private:
   // user accessible fields
