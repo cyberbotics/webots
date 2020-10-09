@@ -44,8 +44,7 @@ source devel/setup.bash
 rossrv list >> available_services.log
 echo @@@ Checking that all webots_ros services are available
 # get all the service files
-ls $BASEDIR/webots_catkin_ws/src/webots_ros/srv  # TODO remove
-FILES=$BASEDIR/webots_catkin_ws/src/webots_ros/srv/*.srv
+FILES=src/webots_ros/srv/*.srv
 if [ ${#FILES[@]} -gt 1 ]; then
   echo @@@ Error: no service file found
   rm -rf $BASEDIR/webots_catkin_ws
