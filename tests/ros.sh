@@ -16,7 +16,6 @@ rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 echo @@@ Compiling package
 catkin_make 2>&1 >> ros_compilation.log
-cat ros_compilation.log  # TODO: remove
 export LD_LIBRARY_PATH=$TMP_LD_LIBRARY_PATH
 if grep -q 'Error' ros_compilation.log; then
   echo @@@ Error: failed to compile ros webots_ros
