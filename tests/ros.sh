@@ -16,6 +16,7 @@ rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 echo @@@ Compiling package
 catkin_make 2>&1 >> ros_compilation.log
+cat ros_compilation.log  # TODO: remove
 export LD_LIBRARY_PATH=$TMP_LD_LIBRARY_PATH
 if grep -q 'Error' ros_compilation.log; then
   echo @@@ Error: failed to compile ros webots_ros
@@ -43,7 +44,8 @@ source devel/setup.bash
 rossrv list >> available_services.log
 echo @@@ Checking that all webots_ros services are available
 # get all the service files
-FILES=src/webots_ros/srv/*.srv
+ls $BASEDIR/webots_catkin_ws/src/webots_ros/srv  # TODO remove
+FILES=$BASEDIR/webots_catkin_ws/src/webots_ros/srv/*.srv
 if [ ${#FILES[@]} -gt 1 ]; then
   echo @@@ Error: no service file found
   rm -rf $BASEDIR/webots_catkin_ws
