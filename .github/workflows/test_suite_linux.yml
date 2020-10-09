@@ -103,6 +103,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
+      with:
+         submodules: true
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
