@@ -16,6 +16,8 @@ Released on XXX YYY, 2020.
     - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
     - Fixed disappearing [DistanceSensor](distancesensor.md) rays [optional rendering](https://cyberbotics.com/doc/guide/the-user-interface#view-menu) after simulation reset ([#2276](https://github.com/cyberbotics/webots/pull/2276)).
     - Fixed cylinder-to-cylinder collision detection in certain cases ([#2282](https://github.com/cyberbotics/webots/pull/2282)).
+  - Dependency Updates
+    - Upgraded to Qt 5.15.1 on Windows.
 
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.
