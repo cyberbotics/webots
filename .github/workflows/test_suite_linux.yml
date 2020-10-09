@@ -88,6 +88,7 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
+        
   test-ros:
     needs: build
     strategy:
