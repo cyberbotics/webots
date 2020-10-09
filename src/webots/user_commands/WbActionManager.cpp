@@ -1089,12 +1089,12 @@ void WbActionManager::updateRenderingButton() {
   QAction *rendering = action(WbAction::SCENE_RENDERING);
 
   if (WbSimulationState::instance()->isRendering()) {
-    rendering->setIcon(QIcon("enabledIcons:show_3d_view.png"));
+    rendering->setIcon(QIcon("enabledIcons:rendering.png"));
     rendering->setChecked(true);
     rendering->setStatusTip(tr("Hide Rendering to gain better performance. (%1+4)").arg(mapControlKey()));
     rendering->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
   } else {
-    rendering->setIcon(QIcon("enabledIcons:hide_3d_view.png"));
+    rendering->setIcon(QIcon("enabledIcons:no_rendering.png"));
     rendering->setChecked(false);
     rendering->setStatusTip(tr("Show Rendering to see the simulation. (%1+4)").arg(mapControlKey()));
     rendering->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
