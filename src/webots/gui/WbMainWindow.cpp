@@ -545,7 +545,7 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
-  menu->addAction(actionManager->action(WbAction::SCENE_RENDERING));
+  menu->addAction(actionManager->action(WbAction::RENDERING));
   menu->addSeparator();
 
   subMenu = menu->addMenu(tr("&Follow Object"));
@@ -1377,7 +1377,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_3D_VIEW)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
   WbActionManager::instance()
-    ->action(WbAction::SCENE_RENDERING)
+    ->action(WbAction::RENDERING)
     ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
 
 #ifdef _WIN32

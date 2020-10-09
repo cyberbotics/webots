@@ -182,7 +182,7 @@ void WbActionManager::populateActions() {
   action->setCheckable(true);
   action->setShortcut(Qt::CTRL + Qt::Key_4);
   action->setText(tr("&Rendering"));
-  mActions[SCENE_RENDERING] = action;
+  mActions[RENDERING] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
@@ -1086,7 +1086,7 @@ void WbActionManager::enableTextEditActions(bool enabled) {
 }
 
 void WbActionManager::updateRenderingButton() {
-  QAction *rendering = action(WbAction::SCENE_RENDERING);
+  QAction *rendering = action(WbAction::RENDERING);
 
   if (WbSimulationState::instance()->isRendering()) {
     rendering->setIcon(QIcon("enabledIcons:rendering.png"));

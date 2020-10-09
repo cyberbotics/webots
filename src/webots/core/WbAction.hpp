@@ -36,7 +36,7 @@ namespace WbAction {
     PAUSE,
     STEP,
     FAST,
-    SCENE_RENDERING,
+    RENDERING,
     SOUND_UNMUTE,
     SOUND_MUTE,
     ANIMATION,

@@ -987,11 +987,11 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hide 3D view to gain better performance. (%1+4)</source>
+        <source>Hide Rendering to gain better performance. (%1+4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-    <source>Show 3D view to see the simulation. (%1+4)</source>
+        <source>Show Rendering to see the simulation. (%1+4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -239,7 +239,7 @@ QToolBar *WbSimulationView::createToolBar() {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbSimulationView::updatePlayButtons);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSimulationView::updatePlayButtons);
 
-  action = manager->action(WbAction::SCENE_RENDERING);
+  action = manager->action(WbAction::RENDERING);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
 
@@ -306,7 +306,7 @@ void WbSimulationView::createActions() {
   connect(manager->action(WbAction::STEP), &QAction::triggered, this, &WbSimulationView::step);
   connect(manager->action(WbAction::REAL_TIME), &QAction::triggered, this, &WbSimulationView::realTime);
   connect(manager->action(WbAction::FAST), &QAction::triggered, this, &WbSimulationView::fast);
-  connect(manager->action(WbAction::SCENE_RENDERING), &QAction::triggered, this, &WbSimulationView::toggleRendering);
+  connect(manager->action(WbAction::RENDERING), &QAction::triggered, this, &WbSimulationView::toggleRendering);
 
   // add actions available in full-screen mode to the current widget
   // otherwise they will be automatically disabled when the toolbar is hidden
@@ -314,7 +314,7 @@ void WbSimulationView::createActions() {
   addAction(manager->action(WbAction::STEP));
   addAction(manager->action(WbAction::REAL_TIME));
   addAction(manager->action(WbAction::FAST));
-  addAction(manager->action(WbAction::SCENE_RENDERING));
+  addAction(manager->action(WbAction::RENDERING));
   addAction(manager->action(WbAction::DEL));
   addAction(manager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
@@ -758,7 +758,7 @@ void WbSimulationView::fast() {
 }
 
 void WbSimulationView::disableRendering(bool disabled) {
-  WbActionManager::instance()->action(WbAction::SCENE_RENDERING)->setEnabled(!disabled);
+  WbActionManager::instance()->action(WbAction::RENDERING)->setEnabled(!disabled);
   mView3D->setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW, disabled);
 }
 
