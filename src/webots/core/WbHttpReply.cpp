@@ -35,9 +35,9 @@ QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Content-Type: text/html\r\n");
-  reply.append(QString("Content-Length: %1\r\n").arg(htmlContent.length()));
+  reply.append(QString("Content-Length: %1\r\n").arg(htmlContent.length()).toUtf8());
   reply.append("\r\n");
-  reply.append(htmlContent);
+  reply.append(htmlContent.toUtf8());
   return reply;
 }
 
@@ -53,8 +53,8 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
-  reply.append(QString("Content-Type: %1\r\n").arg(mimeType));
-  reply.append(QString("Content-Length: %1\r\n").arg(data.length()));
+  reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
+  reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
   reply.append("\r\n");
   reply.append(data);
 
