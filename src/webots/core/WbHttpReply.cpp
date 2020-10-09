@@ -35,9 +35,9 @@ QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Content-Type: text/html\r\n");
-  reply.append(QString("Content-Length: %1\r\n").arg(htmlContent.length()));
+  reply.append(QString("Content-Length: %1\r\n").arg(htmlContent.length()).toUtf8());
   reply.append("\r\n");
-  reply.append(htmlContent);
+  reply.append(htmlContent.toUtf8());
   return reply;
 }
 
@@ -56,8 +56,8 @@ QByteArray WbHttpReply::forgeImageReply(const QString &imageFileName) {
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the images for 1 hour.
-  reply.append(QString("Content-Type: image/%1\r\n").arg(imageExtension));
-  reply.append(QString("Content-Length: %1\r\n").arg(imageSize));
+  reply.append(QString("Content-Type: image/%1\r\n").arg(imageExtension).toUtf8());
+  reply.append(QString("Content-Length: %1\r\n").arg(imageSize).toUtf8());
   reply.append("\r\n");
   reply.append(imageData);
 
