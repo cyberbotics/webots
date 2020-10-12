@@ -57,6 +57,8 @@ ifeq ($(OSTYPE),darwin)
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.9;
+	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
 endif
 
 

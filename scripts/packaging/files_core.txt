@@ -116,9 +116,13 @@ lib/controller/python38_brew/ [mac]
 lib/controller/python38_brew/*.py [mac]
 lib/controller/python38_brew/_*.so [mac]
 
-lib/controller/python39/ [linux]
-lib/controller/python39/*.py [linux]
-lib/controller/python39/_*.so [linux]
+lib/controller/python39/ [linux,mac]
+lib/controller/python39/*.py [linux,mac]
+lib/controller/python39/_*.so [linux,mac]
+
+lib/controller/python39_brew/ [mac]
+lib/controller/python39_brew/*.py [mac]
+lib/controller/python39_brew/_*.so [mac]
 
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
