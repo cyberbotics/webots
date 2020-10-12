@@ -1022,7 +1022,7 @@ namespace webots {
     int getRecognitionNumberOfObjects() const;
     const CameraRecognitionObject *getRecognitionObjects() const;
     bool isRecognitionSegmentationEnabled() const;
-    void setRecognitionSegmentationbool value);
+    void setRecognitionSegmentation(bool value);
     const unsigned char *getRecognitionSegmentationImage() const;
     int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     // ...
@@ -1044,10 +1044,10 @@ class Camera (Device):
     def getRecognitionSamplingPeriod(self):
     def getRecognitionNumberOfObjects(self):
     def getRecognitionObjects(self):
-    def isRecognitionSegmentationEnabled(self);
-    def setRecognitionSegmentation(self, value);
+    def isRecognitionSegmentationEnabled(self):
+    def setRecognitionSegmentation(self, value):
     def getRecognitionSegmentationImage(self):
-    def saveRecognitionSegmentationImage(self, filename, quality);
+    def saveRecognitionSegmentationImage(self, filename, quality):
     # ...
 ```
 
@@ -1102,7 +1102,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObject` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `relative_position`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `relative_orientation`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `position_on_image`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `size_on_image`<br/>`int32 numberofcolors`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html)`[]` `colors`<br/>`String model`<br/><br/>Note: the z value of `position_on_image` and `size_on_image` should be ignored |
 | `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_set_segmentation` | `service`| `webots_ros::set_bool` | |
-| `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[]
+| `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 | `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
 %tab-end
