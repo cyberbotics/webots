@@ -719,7 +719,7 @@ bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Camera *c = camera_get_struct(tag);
   if (c)
-    enabled = c->segmentation;
+    enabled = c->segmentation && c->recognition_sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
@@ -782,19 +782,16 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
   }
-  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 1\n");
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
     fprintf(stderr, "Error: %s() called with unsupported image format (should be PNG or JPEG).\n", __FUNCTION__);
     return -1;
   }
-  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 2\n");
   if (type == G_IMAGE_JPEG && (quality < 1 || quality > 100)) {
     fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
     return -1;
   }
 
-  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 3\n");
   robot_mutex_lock_step();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
