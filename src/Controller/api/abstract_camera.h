@@ -49,7 +49,6 @@ bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char 
 
 void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r);
 
-bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName);
 void wbr_abstract_camera_set_image(WbDevice *d, const unsigned char *image);
 unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d);
 

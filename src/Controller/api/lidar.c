@@ -401,7 +401,7 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
     return (const float *)(void *)ac->image->data;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, __FUNCTION__);
+  bool success = image_request(ac->image, __FUNCTION__);
   robot_mutex_unlock_step();
 
   if (!ac->image->data || !success)

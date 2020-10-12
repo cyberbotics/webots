@@ -101,25 +101,6 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r) {
     c->enable = true;
 }
 
-bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName) {
-  double current_simulation_time = wb_robot_get_time();
-  const double previous_image_update_time = ac->image->update_time;  // in case of reset, time can go backward
-  if (previous_image_update_time >= current_simulation_time)
-    return true;
-
-  ac->image->requested = true;
-  wb_robot_flush_unlocked();
-  if (!wb_robot_get_synchronization())
-    // if controller is asynchronous, wb_robot_get_time() could be increased while requesting the image
-    current_simulation_time = wb_robot_get_time();
-  if (ac->image->update_time != current_simulation_time && previous_image_update_time <= ac->image->update_time &&
-      robot_is_quitting() == 0) {
-    fprintf(stderr, "Warning: %s: image could not be retrieved.\n", functionName);
-    return false;
-  }
-  return true;
-}
-
 void wbr_abstract_camera_set_image(WbDevice *d, const unsigned char *image) {
   AbstractCamera *c = d->pdata;
   if (c && c->image->data)

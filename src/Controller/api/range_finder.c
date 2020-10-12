@@ -228,18 +228,17 @@ double wb_range_finder_get_max_range(WbDeviceTag tag) {
 
 const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
+  if (!ac) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    return NULL;
+  }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
     return (const float *)(void *)ac->image->data;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, __FUNCTION__);
+  bool success = image_request(ac->image, __FUNCTION__);
   robot_mutex_unlock_step();
-
-  if (!ac) {
-    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    return NULL;
-  }
 
   if (!ac->image->data || !success)
     return NULL;
@@ -275,7 +274,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image->data || !abstract_camera_request_image(ac, __FUNCTION__)) {
+  if (!ac->image->data || !image_request(ac->image, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }

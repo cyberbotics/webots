@@ -30,8 +30,12 @@
 
 Image *image_new() {
   Image *i = malloc(sizeof(Image));
+  i->shm_key = NULL;
   i->shmid = -1;
   i->shm_size = 0;
+  i->data = NULL;
+  i->requested = false;
+  i->update_time = 0.0;
   return i;
 }
 

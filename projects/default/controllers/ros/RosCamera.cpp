@@ -251,8 +251,7 @@ bool RosCamera::setRecognitionSegmentationCallback(webots_ros::set_bool::Request
       mCamera->setRecognitionSegmentation(req.value);
       if (mCamera->getRecognitionSamplingPeriod() > 0) {
         if (req.value)
-          mRecognitionSegmentationPublisher = mRecognitionSegmentationPublisher =
-            createImagePublisher("recognition_segmentation");
+          mRecognitionSegmentationPublisher = createImagePublisher("recognition_segmentation");
         else
           mRecognitionSegmentationPublisher.shutdown();
       }

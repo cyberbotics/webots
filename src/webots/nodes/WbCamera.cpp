@@ -495,6 +495,7 @@ void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
     stream << (double)mFieldOfView->value();
   }
   stream << (unsigned char)(recognition() ? 1 : 0);
+  stream << (unsigned char)(recognition() && recognition()->segmentation() ? 1 : 0);
   if (focus()) {
     stream << (double)focus()->focalLength();
     stream << (double)focus()->focalDistance();
@@ -880,7 +881,7 @@ bool WbCamera::needToRender() {
 }
 
 void WbCamera::render() {
-  if (isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh()) {
+  if (mSegmentationCamera && isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh()) {
     mSegmentationCamera->render();
     mSegmentationImageChanged = true;
   }

@@ -655,7 +655,7 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
     return ac->image->data;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, __FUNCTION__);
+  bool success = image_request(ac->image, __FUNCTION__);
   if (!ac->image->data || !success) {
     robot_mutex_unlock_step();
     return NULL;
@@ -689,7 +689,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image->data || !abstract_camera_request_image(ac, __FUNCTION__)) {
+  if (!ac->image->data || !image_request(ac->image, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -782,17 +782,19 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
   }
-
+  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 1\n");
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
     fprintf(stderr, "Error: %s() called with unsupported image format (should be PNG or JPEG).\n", __FUNCTION__);
     return -1;
   }
+  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 2\n");
   if (type == G_IMAGE_JPEG && (quality < 1 || quality > 100)) {
     fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
     return -1;
   }
 
+  fprintf(stderr, "wb_camera_recognition_save_segmentation_image 3\n");
   robot_mutex_lock_step();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
@@ -801,8 +803,17 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     robot_mutex_unlock_step();
     return -1;
   }
+  if (!c->segmentation) {
+    fprintf(
+      stderr,
+      "Error: %s(): segmentation is disabled in Recognition node! Please use: wb_camera_recognition_set_segmentation().\n",
+      __FUNCTION__);
+    robot_mutex_unlock_step();
+    return -1;
+  }
   if (!c->segmentation_image) {
     fprintf(stderr, "Error: %s() called before rendering a valid segmentation image.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return -1;
   }
 
