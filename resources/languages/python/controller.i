@@ -544,8 +544,8 @@ class AnsiCodes(object):
 
     PyObject *points = PyList_New(size);
     for (int i = 0; i < size; i++) {
-      PyObject *v = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
-      PyList_SetItem(points, i, v);
+      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
+      PyList_SetItem(points, i, value);
     }
     return points;
   }
@@ -556,13 +556,15 @@ class AnsiCodes(object):
   }
 
   %pythoncode %{
+  import sys
+
   def getPointCloud(self, dtype='list'):
     if dtype == 'list':
       return self.__getPointCloudList()
     elif dtype == 'buffer':
       return self.__getPointCloudBuffer()
     else:
-      print("ERROR: Supported values for `dtype` are 'list' and 'flatten'")
+      print("Error: `dtype` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(dtype), file=sys.stderr)
       return None
 
   def getLayerPointCloud(self, layer):
