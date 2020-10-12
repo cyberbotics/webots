@@ -4,12 +4,20 @@
 Released on XXX YYY, 2020.
 
   - Bug fixes
+    - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
+    - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
     - Fixed synchronization bug in the start up of extern controllers when the `WEBOTS_PID` environment variable was defined ([#2260](https://github.com/cyberbotics/webots/pull/2260)).
     - Fixed [Lidar](lidar.md) and [RangeFinder](rangefinder.md) memory leak when the robot-window is opened ([#2210](https://github.com/cyberbotics/webots/pull/2210)).
     - Fixed noise generation for [Camera](camera.md), [Lidar](lidar.md) and [RangeFinder](rangefinder.md) producing fixed patterns on some GPUs (like the NVIDIA GeForce RTX series)([#2215](https://github.com/cyberbotics/webots/pull/2215)).
     - Fixed re-initialization of external camera window if recognition is enabled ([#2196](https://github.com/cyberbotics/webots/pull/2196)).
+    - Fixed precision of devices using rays ([Camera](camera.md), [DistanceSensor](distancesensor.md), [Radar](radar.md), and [Receiver](receiver.md)) located on articulated robots' parts ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
+    - Fixed position lags of articulated robots' parts in recorded [animations](../guide/web-animation.md) ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
     - Fixed the `inverse_kinematics` controller ([#2211](https://github.com/cyberbotics/webots/pull/2211)).
     - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
+    - Fixed disappearing [DistanceSensor](distancesensor.md) rays [optional rendering](https://cyberbotics.com/doc/guide/the-user-interface#view-menu) after simulation reset ([#2276](https://github.com/cyberbotics/webots/pull/2276)).
+    - Fixed cylinder-to-cylinder collision detection in certain cases ([#2282](https://github.com/cyberbotics/webots/pull/2282)).
+  - Dependency Updates
+    - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
 
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.

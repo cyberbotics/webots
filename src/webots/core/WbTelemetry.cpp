@@ -61,15 +61,15 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append("&glVersion=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVersion()));
   data.append("&textureQuality=");
-  data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString());
+  data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString().toUtf8());
   data.append("&disableAntiAliasing=");
-  data.append(WbPreferences::instance()->value("OpenGL/disableAntiAliasing", 0).toString());
+  data.append(WbPreferences::instance()->value("OpenGL/disableAntiAliasing", 0).toString().toUtf8());
   data.append("&disableShadows=");
-  data.append(WbPreferences::instance()->value("OpenGL/disableShadows", 0).toString());
+  data.append(WbPreferences::instance()->value("OpenGL/disableShadows", 0).toString().toUtf8());
   data.append("&GTAO=");
-  data.append(WbPreferences::instance()->value("OpenGL/GTAO", 0).toString());
+  data.append(WbPreferences::instance()->value("OpenGL/GTAO", 0).toString().toUtf8());
   data.append("&build=");
-  data.append(QString::number(UNIX_TIMESTAMP));
+  data.append(QString::number(UNIX_TIMESTAMP).toUtf8());
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
   if (id == 0) {

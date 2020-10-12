@@ -2157,7 +2157,11 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
 
   // pass key event to robots if appropriate
   const int modifiers = (((event->modifiers() & Qt::SHIFT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::SHIFT)) +
+#ifdef __APPLE__
+                        (((event->modifiers() & Qt::META) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::CTRL)) +
+#else
                         (((event->modifiers() & Qt::CTRL) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::CTRL)) +
+#endif
                         (((event->modifiers() & Qt::ALT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::ALT));
 
   WbRobot *const currentRobot = getCurrentRobot();
@@ -2167,8 +2171,11 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
   else
     robotList = mWorld->robots();
 
-  foreach (WbRobot *robot, robotList)
-    robot->keyPressed(event->text(), event->key(), modifiers);
+  const int key = event->key();
+  if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
+    foreach (WbRobot *robot, robotList)
+      robot->keyPressed(key, modifiers);
+  }
   handleModifierKey(event, true);
   QWindow::keyPressEvent(event);
 }
@@ -2186,8 +2193,11 @@ void WbView3D::keyReleaseEvent(QKeyEvent *event) {
     else
       robotList = mWorld->robots();
 
-    foreach (WbRobot *const robot, robotList)
-      robot->keyReleased(event->text(), event->key());
+    const int key = event->key();
+    if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
+      foreach (WbRobot *const robot, robotList)
+        robot->keyReleased(key);
+    }
   }
   handleModifierKey(event, false);
   QWindow::keyReleaseEvent(event);

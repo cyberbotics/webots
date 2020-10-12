@@ -448,7 +448,7 @@ void WbCamera::reset() {
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
 
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
@@ -459,7 +459,7 @@ void WbCamera::updateRaysSetupIfNeeded() {
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView,
                                                                          horizontalFieldOfView, recognition()->maxRange());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
-    recognizedObject->object()->updateTransformAfterPhysicsStep();
+    recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
       recognizedObject->recomputeRayDirection(this, cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes);
     if (valid)
