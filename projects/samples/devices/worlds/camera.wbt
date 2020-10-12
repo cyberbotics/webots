@@ -42,9 +42,6 @@ DEF GREEN_BOX Solid {
     }
     geometry USE BOX0
   }
-  recognitionColors [
-    0 1 0
-  ]
 }
 DEF BLUE_BOX Solid {
   translation 0.2 0.05 0.27
@@ -68,9 +65,6 @@ DEF BLUE_BOX Solid {
     }
     geometry USE BOX1
   }
-  recognitionColors [
-    0 0 1
-  ]
 }
 DEF WHITE_BOX Solid {
   translation -0.2 0.05 0.15
@@ -94,9 +88,6 @@ DEF WHITE_BOX Solid {
     }
     geometry USE BOX2
   }
-  recognitionColors [
-    0.74902 0.74902 0.74902
-  ]
 }
 DEF RED_BOX Solid {
   translation 0.42 0.05 -0.1
@@ -120,9 +111,6 @@ DEF RED_BOX Solid {
     }
     geometry USE BOX3
   }
-  recognitionColors [
-    1 0 0
-  ]
 }
 Robot {
   translation 0.15 0 0

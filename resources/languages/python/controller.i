@@ -362,7 +362,6 @@ class AnsiCodes(object):
      return ret
   %}
 
-
   PyObject *getRecognitionSegmentationImageArray() {
     const unsigned char *im = $self->getRecognitionSegmentationImage();
     int width = $self->getWidth();

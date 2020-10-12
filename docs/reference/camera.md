@@ -1126,23 +1126,22 @@ The `wb_camera_recognition_get_sampling_period` function returns the period give
 
 The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get_objects` functions allow the user to get the current number of recognized objects and the objects array.
 
-
 *camera recognition segmentation functions*
 
-If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set, the camera can generate a segmentation ground truth image corresponding to the camera image.
+If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set, the camera generates a segmentation ground truth image corresponding to the camera image.
 The segmented image is generated at the same sampling period as the recognition objects.
 For the segmentation to work it is necessary to enable the recognition, but it is not necessary to enable the camera.
 
 The `wb_camera_recognition_is_segmentation_enabled` function can be used to determine whether the segmentation functionality is active or not.
 
-The `wb_camera_recognition_set_segmentation` functions sets the [Recognition](recognition.md).`segmentation` field to turn on or off the segmentation image generation.
+The `wb_camera_recognition_set_segmentation` function sets the [Recognition](recognition.md).`segmentation` and, if the recognition is enabled, turns on or off the segmentation image generation.
 
 The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
 The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).
 It is also possible to extract the different channels using the [`wb_camera_image_get_red`](#wb_camera_image_get_red), [`wb_camera_image_get_green`](#wb_camera_image_get_green), [`wb_camera_image_get_blue`](#wb_camera_image_get_blue) and [`wb_camera_image_get_gray`](#wb_camera_image_get_gray) functions.
 
 The `wb_camera_recognition_save_segmentation_image` function allows the user to save the latest segmentation image.
-Additional details about the arguments and the return value can be found in the description of the [`wb_camera_save_image`](#wb_camera_save_image) function.
+Further details about the arguments and the return value can be found in the description of the [`wb_camera_save_image`](#wb_camera_save_image) function.
 
 ##### Camera Recognition Object
 

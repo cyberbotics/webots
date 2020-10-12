@@ -35,5 +35,5 @@ Additionally, it will slightly speed up the simulation.
 - The `frameThickness` field defines the thickness in pixels of the frames in the camera overlay.
 0 means no object frame in the camera overlay.
 
-- The `segmentation` field defines if a segmentation ground truth image is generated based on the [Solids](solid.md).`recognitionColors` field value.
+- The `segmentation` field defines if a segmentation ground truth image is generated based on the [Solid](solid.md).`recognitionColors` field value.
 Background and objects with empty `recognitionColors` field are rendered in black.
