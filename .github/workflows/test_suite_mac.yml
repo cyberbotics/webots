@@ -45,7 +45,7 @@ jobs:
         sudo unzip -o -q dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
         sudo mkdir -p dependencies/3.9
         sudo unzip -o -q dependencies/python3.9.zip -d dependencies/3.9
-        dependencies/3.9/bin/python3.9 --version
+        sudo dependencies/3.9/bin/python3.9 --version
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
