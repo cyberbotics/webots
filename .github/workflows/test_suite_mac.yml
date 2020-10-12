@@ -53,6 +53,8 @@ jobs:
         sudo ls /Library/Frameworks/Python.framework/Versions/3.9
         sudo ls /Library/Frameworks/Python.framework/Versions/3.9/bin
         echo $PATH
+        python3.7 --version
+        python3.8 --version
         python3.9 --version
         make distrib -j4
     - uses: actions/upload-artifact@v2
