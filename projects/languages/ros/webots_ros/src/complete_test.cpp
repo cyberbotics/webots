@@ -171,6 +171,17 @@ void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &ob
   callbackCalled = true;
 }
 
+void segmentationCallback(const sensor_msgs::Image::ConstPtr &values) {
+  ROS_INFO("Segmentation callback called.");
+  int i = 0;
+  imageColor.resize(values->step * values->height);
+  for (std::vector<unsigned char>::const_iterator it = values->data.begin(); it != values->data.end(); ++it) {
+    imageColor[i] = *it;
+    i++;
+  }
+  callbackCalled = true;
+}
+
 void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   ROS_INFO("Joystick button pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
@@ -773,6 +784,76 @@ int main(int argc, char **argv) {
 
   sub_camera_recognition.shutdown();
   enable_camera_recognition_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // camera recognition segmentation is enabled
+  ros::ServiceClient is_segmentation_enabled_client =
+    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_is_segmentation_enabled");
+  webots_ros::get_bool is_segmentation_enabled_srv;
+  if (is_segmentation_enabled_client.call(is_segmentation_enabled_srv)) {
+    if (is_segmentation_enabled_srv.response.value)
+      ROS_INFO("Camera recognition segmentation enabled.");
+    else
+      ROS_INFO("Camera recognition segmentation disabled.");
+  } else
+    ROS_ERROR("Failed to get segmentation status.");
+  is_segmentation_enabled_client.shutdown();
+
+  // camera recognition set segmentation
+  ros::ServiceClient set_segmentation_client =
+    n.serviceClient<webots_ros::set_bool>(model_name + "/camera/recognition_set_segmentation");
+  webots_ros::set_bool set_segmentation_srv;
+  set_segmentation_srv.request.value = true;
+  if (set_segmentation_client.call(set_segmentation_srv) && set_segmentation_srv.response.success)
+    ROS_INFO("Segmentation correctly set.");
+  else {
+    if (set_segmentation_srv.response.success == -1)
+      ROS_ERROR("Segmentation value could not be set.");
+    ROS_ERROR("Failed to set segmentation.");
+    return 1;
+  }
+
+  set_segmentation_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::Subscriber sub_segmentation =
+    n.subscribe(model_name + "/camera/recognition_segmentation_image", 1, segmentationCallback);
+  ROS_INFO("Topic for camera recognition segmentation initialized.");
+  callbackCalled = false;
+  while (sub_segmentation.getNumPublishers() == 0 && !callbackCalled) {
+    ros::spinOnce();
+    time_step_client.call(time_step_srv);
+  }
+  ROS_INFO("Topic for camera recognition segmentation connected.");
+  sub_segmentation.shutdown();
+  time_step_client.call(time_step_srv);
+
+  sub_camera_color.shutdown();
+  enable_camera_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // camera recognition save segmentation image
+  ros::ServiceClient save_segmentation_image_client =
+    n.serviceClient<webots_ros::save_image>(model_name + "/camera/recognition_save_segmentation_image");
+  webots_ros::save_image save_segmentation_image_srv;
+  save_segmentation_image_srv.request.filename = std::string(getenv("HOME")) + std::string("/test_image_segmentation.png");
+  save_segmentation_image_srv.request.quality = 100;
+  if (save_segmentation_image_client.call(save_segmentation_image_srv) && save_segmentation_image_srv.response.success == 1)
+    ROS_INFO("Segmentation image saved.");
+  else
+    ROS_ERROR("Failed to call save segmentation image.");
+
+  set_segmentation_srv.request.value = false;
+  if (set_segmentation_client.call(set_segmentation_srv) && set_segmentation_srv.response.success)
+    ROS_INFO("Segmentation correctly unset.");
+  else {
+    if (set_segmentation_srv.response.success == -1)
+      ROS_ERROR("Segmentation value could not be set.");
+    ROS_ERROR("Failed to set segmentation.");
+    return 1;
+  }
+
+  set_segmentation_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // camera_save_image

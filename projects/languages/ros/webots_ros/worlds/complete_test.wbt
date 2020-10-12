@@ -50,6 +50,9 @@ DEF CONE Solid {
     }
   ]
   name "solid(1)"
+  recognitionColors [
+    0.988235 0.913725 0.309804
+  ]
 }
 DEF RADAR_TARGET Solid {
   translation 0 0 -1.86
@@ -267,6 +270,9 @@ Robot {
   boundingObject Box {
     size 0.2 0.2 0.2
   }
+  recognitionColors [
+    0.678431 0.498039 0.658824
+  ]
   controller "ros"
   controllerArgs [
     "--name=my_robot"
@@ -276,7 +282,7 @@ Robot {
   customData "INITIAL"
   supervisor TRUE
   battery [
-    10, 10, 2
+    50, 50, 2
   ]
   window "info"
 }
