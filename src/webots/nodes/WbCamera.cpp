@@ -876,8 +876,7 @@ void WbCamera::setup() {
 }
 
 bool WbCamera::needToRender() {
-  return WbAbstractCamera::needToRender() ||
-         (mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh());
+  return WbAbstractCamera::needToRender() || (mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh());
 }
 
 void WbCamera::render() {
