@@ -27,8 +27,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-    this.renderer = new THREE.WebGLRenderer();
-    //this.renderer = new WebGL2Renderer();
+    //this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new WebGL2Renderer();
     //this.renderer.setPixelRatio(window.devicePixelRatio);
     //this.renderer.setClearColor(0xffffff, 1.0);
     //this.renderer.shadowMap.enabled = true;
