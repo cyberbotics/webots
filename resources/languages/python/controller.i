@@ -543,7 +543,7 @@ class AnsiCodes(object):
     $result = Py_None;
 }
 
-%rename (__getPointCloud) getPointCloud() const;
+%ignore webots::Lidar::getPointCloud();
 %ignore webots::Lidar::getLayerPointCloud();
 
 %extend webots::Lidar {
@@ -553,10 +553,22 @@ class AnsiCodes(object):
     return point[index];
   }
 
-  PyObject* __getPointCloudBytes() const {
+  PyObject* __getPointCloudBuffer() const {
     const char * points = (const char *)$self->getPointCloud();
     const int size = $self->getNumberOfPoints() * sizeof(WbLidarPoint);
     return PyBytes_FromStringAndSize(points, size);
+  }
+
+  PyObject* __getPointCloudList() const {
+    const WbLidarPoint* rawPoints = $self->getPointCloud();
+    const int size = $self->getNumberOfPoints();
+
+    PyObject *points = PyList_New(size);
+    for (int i = 0; i < size; i++) {
+      PyObject *v = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
+      PyList_SetItem(points, i, v);
+    }
+    return points;
   }
 
   webots::LidarPoint getLayerPoint(int layer, int index) const {
@@ -567,12 +579,9 @@ class AnsiCodes(object):
   %pythoncode %{
   def getPointCloud(self, dtype='list'):
     if dtype == 'list':
-      ret = []
-      for i in range(self.getNumberOfPoints()):
-        ret.append(self.getPoint(i))
-      return ret
+      return self.__getPointCloudList()
     elif dtype == 'buffer':
-      return self.__getPointCloudBytes()
+      return self.__getPointCloudBuffer()
     else:
       print("ERROR: Supported values for `dtype` are 'list' and 'flatten'")
       return None
