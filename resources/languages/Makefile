@@ -38,8 +38,10 @@ endif
 	+PYTHON_COMMAND=python3.9 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.9;
+	+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python3.8;
-	+make -s -C python $@
+	+PATH="$(PYTHON38_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python3.7;
 	+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python2.7;
