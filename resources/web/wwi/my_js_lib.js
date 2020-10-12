@@ -348,7 +348,7 @@ Object.assign( glm.vec2.prototype, {
 	}
 })
 
-EffectCompo = function (renderer, renderTarget) {
+function EffectCompo(renderer, renderTarget) {
 	this.renderer = renderer;
 
 	this.renderToScreen = true;
@@ -367,7 +367,7 @@ Object.assign( EffectCompo.prototype, {
 
 	addPass: function ( pass ) {
 		this.passes.push( pass );
-		let size = this.renderer.getDrawingBufferSize( new glm.vec2() );
+		let size = this.renderer.getDrawingBufferSize( new THREE.Vector2() );
 		pass.setSize( size.width, size.height );
 	},
 
@@ -399,7 +399,7 @@ Object.assign( EffectCompo.prototype, {
 	}
 })
 
-RenPass = function (scene, camera) {
+function RenPass (scene, camera) {
 	this.enable=true;
 	this.needsSwap = false;
 	this.clear = true;

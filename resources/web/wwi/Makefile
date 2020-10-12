@@ -46,7 +46,7 @@ endif
 DEPENDENCIES_PATH = dependencies
 THEEEJS_VERSION = 104
 THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three$(THREEJS_SUFFIX).js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.js
 
 null :=
 space := $(null) $(null)
