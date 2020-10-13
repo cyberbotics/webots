@@ -16,6 +16,7 @@
 
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
+#include "WbPropeller.hpp"
 #include "WbSolid.hpp"
 #include "WbTrack.hpp"
 
@@ -58,6 +59,11 @@ void WbLinearMotor::turnOffMotor() {
 double WbLinearMotor::computeFeedback() const {
   if (dynamic_cast<WbTrack *>(parentNode())) {
     warn(tr("Force feedback is not available for a LinearMotor node inside a Track node."));
+    return 0.0;
+  }
+
+  if (dynamic_cast<WbPropeller *>(parentNode())) {
+    warn(tr("Force feedback is not available for a RotationalMotor node inside a WbPropeller node."));
     return 0.0;
   }
 
