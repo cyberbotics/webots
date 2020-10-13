@@ -85,10 +85,9 @@ void WbRotationalMotor::turnOffMotor() {
 }
 
 double WbRotationalMotor::computeFeedback() const {
-  if (dynamic_cast<WbPropeller *>(parentNode())) {
-    warn(tr("Force feedback is not available for a RotationalMotor node inside a WbPropeller node."));
-    return 0.0;
-  }
+  const WbPropeller *propeller = dynamic_cast<WbPropeller *>(parentNode());
+  if (propeller)
+    return fabs(propeller->currentThrust()) + fabs(propeller->currentTorque());
 
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only

@@ -46,6 +46,9 @@ void WbPropeller::init() {
   mHelixType = SLOW_HELIX;
   mHelix = NULL;
 
+  mCurrentThrust = 0.0;
+  mCurrentTorque = 0.0;
+
   // WREN
   mTransform = NULL;
   mRenderable = NULL;
@@ -185,6 +188,9 @@ void WbPropeller::updateShaftAxis() {
 }
 
 void WbPropeller::prePhysicsStep(double ms) {
+  mCurrentThrust = 0.0;
+  mCurrentTorque = 0.0;
+
   WbRotationalMotor *const m = motor();
   if (m == NULL)
     return;
@@ -229,6 +235,9 @@ void WbPropeller::prePhysicsStep(double ms) {
       dBodyEnable(b);
     dBodyAddForceAtPos(b, thrustVector.x(), thrustVector.y(), thrustVector.z(), cot.x(), cot.y(), cot.z());
     dBodyAddTorque(b, torqueVector.x(), torqueVector.y(), torqueVector.z());
+
+    mCurrentThrust = thrust;
+    mCurrentTorque = torque;
 
     updateHelix(absoluteVelocity);
     if (mHelix == NULL)
