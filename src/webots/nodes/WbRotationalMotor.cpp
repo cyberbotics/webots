@@ -87,6 +87,10 @@ void WbRotationalMotor::turnOffMotor() {
 double WbRotationalMotor::computeFeedback() const {
   const WbPropeller *propeller = dynamic_cast<WbPropeller *>(parentNode());
   if (propeller)
+    // RotationalMotor usually returns only torque feedback,
+    // but the propeller case is different since the motor produces both a torque and a force (thrust).
+    // We therefore estimate the feedback by the sum of the force and torque,
+    // so that the consumption computation takes both into account.
     return fabs(propeller->currentThrust()) + fabs(propeller->currentTorque());
 
   const WbJoint *j = joint();
