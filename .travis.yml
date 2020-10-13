@@ -218,6 +218,7 @@ jobs:
         homebrew:
           packages:
             - python@3.8
+            - python@3.9
             - cmake
             - swig
             - wget
@@ -234,6 +235,9 @@ jobs:
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
         - if [[ ! -f $WEBOTS_HOME/dependencies/python3.8.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P $WEBOTS_HOME/dependencies; fi
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.9  # we can't use python3.9 from homebrew for the compilation because it is not compatible with the normal one
+        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.9.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.9.zip -P $WEBOTS_HOME/dependencies; fi
+        - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
