@@ -45,7 +45,7 @@ jobs:
         sudo unzip -o -q dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
         sudo mkdir -p dependencies/3.9
         sudo unzip -o -q dependencies/python3.9.zip -d dependencies/3.9
-        sudo chmod 777 dependencies/3.9/bin/*
+        sudo chmod 777 dependencies/3.9/bin/python3.9
         sudo chmod 777 dependencies/3.9/Python
         dependencies/3.9/bin/python3.9 --version
     - name: Set up Python 3.9
