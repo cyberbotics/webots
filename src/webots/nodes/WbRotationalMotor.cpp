@@ -21,6 +21,7 @@
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbPropeller.hpp"
 #include "WbSolid.hpp"
 
 #include <ode/ode.h>
@@ -84,6 +85,11 @@ void WbRotationalMotor::turnOffMotor() {
 }
 
 double WbRotationalMotor::computeFeedback() const {
+  if (dynamic_cast<WbPropeller *>(parentNode())) {
+    warn(tr("Force feedback is not available for a RotationalMotor node inside a WbPropeller node."));
+    return 0.0;
+  }
+
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
     warn(tr("Feedback is available for motorized joints only"));
