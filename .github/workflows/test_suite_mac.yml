@@ -43,11 +43,9 @@ jobs:
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.9
         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.9.zip -P dependencies
         sudo unzip -o -q dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
-        sudo mkdir -p dependencies/3.9
-        sudo unzip -o -q dependencies/python3.9.zip -d dependencies/3.9
-        sudo chmod 777 dependencies/3.9/bin/python3.9
-        sudo chmod 777 dependencies/3.9/Python
-        dependencies/3.9/bin/python3.9 --version
+        sudo chmod 777 /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9
+        sudo chmod 777 /Library/Frameworks/Python.framework/Versions/3.9/Python
+        /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9 --version
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -61,9 +59,6 @@ jobs:
         python --version
         python3.9 --version
         export PATH=/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
-        sudo ls /Library/Frameworks/Python.framework/Versions/3.9/bin
-        /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9 --version
-        python3.9 --version
         make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
