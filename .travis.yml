@@ -217,15 +217,13 @@ jobs:
       addons: &mac_addons
         homebrew:
           packages:
-            - python@3.8
-            - python@3.9
             - cmake
             - swig
             - wget
             - node
       before_install: &mac_before_install
         - brew update
-        - brew install python@3.7
+        - brew install python@3.7 python@3.8 python@3.9
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
