@@ -55,10 +55,6 @@ jobs:
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 3.8
       dist: bionic
-            - python@3.8
-            - cmake
-            - swig
-            - wget
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 2.7
