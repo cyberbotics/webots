@@ -56,6 +56,8 @@ jobs:
     - name: Webots Package Creation
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        python --version
+        python3.9 --version
         export PATH=/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
         sudo ls /Library/Frameworks/Python.framework/Versions/3.9/bin
         /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9 --version
