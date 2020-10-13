@@ -55,6 +55,10 @@ jobs:
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 3.8
       dist: bionic
+            - python@3.8
+            - cmake
+            - swig
+            - wget
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 2.7
@@ -217,13 +221,14 @@ jobs:
       addons: &mac_addons
         homebrew:
           packages:
+            - python@3.8
             - cmake
             - swig
             - wget
             - node
       before_install: &mac_before_install
         - brew update
-        - brew install python@3.7 python@3.8 python@3.9
+        - brew install python@3.7 python@3.9
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
