@@ -65,6 +65,9 @@ public:
   WbLogicalDevice *device() const;
   double position() const { return mPosition; }
 
+  double currentThrust() const { return mCurrentThrust; }
+  double currentTorque() const { return mCurrentTorque; }
+
 private:
   // Scene Tree fields
   WbSFVector3 *mShaftAxis;
@@ -80,6 +83,9 @@ private:
   HelixType mHelixType;
 
   WbVector3 mNormalizedAxis;
+
+  double mCurrentThrust;
+  double mCurrentTorque;
 
   WrTransform *mTransform;
   WrRenderable *mRenderable;
