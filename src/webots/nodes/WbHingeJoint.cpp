@@ -360,6 +360,8 @@ void WbHingeJoint::updatePosition(double position) {
   assert(s);
   // called after an artificial move
   mPosition = position;
+  if (motor())
+    motor()->setTargetPosition(position);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);

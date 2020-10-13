@@ -233,8 +233,14 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
   assert(s);
   // called after an artificial move (user or Supervisor move) or in kinematic mode
   mPosition = position;
+  if (motor())
+    motor()->setTargetPosition(position);
   mPosition2 = position2;
+  if (motor2())
+    motor2()->setTargetPosition(position2);
   mPosition3 = position3;
+  if (motor3())
+    motor3()->setTargetPosition(position3);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);
