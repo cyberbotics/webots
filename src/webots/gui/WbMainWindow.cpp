@@ -656,7 +656,7 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_OBJECT_MOVE));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE));
-  subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_RENDERING));
 
   return menu;
 }
@@ -1374,11 +1374,11 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_FORCE_AND_TORQUE)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE));
   WbActionManager::instance()
-    ->action(WbAction::DISABLE_3D_VIEW)
-    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
+    ->action(WbAction::DISABLE_RENDERING)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
   WbActionManager::instance()
     ->action(WbAction::RENDERING)
-    ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW));
+    ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();

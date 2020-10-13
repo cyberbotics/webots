@@ -466,7 +466,7 @@ void WbActionManager::populateActions() {
   action->setStatusTip(tr("Disable running the simulation with ."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
-  mActions[DISABLE_3D_VIEW] = action;
+  mActions[DISABLE_RENDERING] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);

@@ -136,7 +136,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   connect(mTitleBar, &WbDockTitleBar::minimizeClicked, this, &WbSimulationView::needsMinimize);
   connect(mSplitter, &QSplitter::splitterMoved, this, &WbSimulationView::needsActionsUpdate);
   connect(WbActionManager::instance()->action(WbAction::STEP), &QAction::triggered, mView3D, &WbView3D::unleashAndClean);
-  connect(WbActionManager::instance()->action(WbAction::DISABLE_3D_VIEW), &QAction::triggered, this,
+  connect(WbActionManager::instance()->action(WbAction::DISABLE_RENDERING), &QAction::triggered, this,
           &WbSimulationView::disableRendering);
   connect(mView3D, &WbView3D::applicationActionsUpdateRequested, mSceneTree, &WbSceneTree::updateApplicationActions);
 
@@ -759,7 +759,7 @@ void WbSimulationView::fast() {
 
 void WbSimulationView::disableRendering(bool disabled) {
   WbActionManager::instance()->action(WbAction::RENDERING)->setEnabled(!disabled);
-  mView3D->setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW, disabled);
+  mView3D->setUserInteractionDisabled(WbAction::DISABLE_RENDERING, disabled);
 }
 
 void WbSimulationView::toggleRendering() {
