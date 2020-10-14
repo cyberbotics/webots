@@ -1119,8 +1119,9 @@ void WbSceneTree::updateSelection() {
       // baseNode = NULL if none or multiple instances exists
       baseNode = baseNode->getSingleFinalizedProtoInstance();
 
-    if (baseNode && !baseNode->areWrenObjectsInitialized())
+    if (baseNode && !(baseNode->areWrenObjectsInitialized() || baseNode->isPostFinalizedCalled()))
       // ignore not initialized nodes
+      // for nodes without WREN objects (e.g. Recognition) check if finalization is completed
       baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
