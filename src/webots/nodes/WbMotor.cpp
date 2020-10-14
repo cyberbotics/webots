@@ -338,6 +338,10 @@ void WbMotor::powerOn(bool e) {  // called when running out of energy with e=fal
     mMotorForceOrTorque = mMaxForceOrTorque->value();
 }
 
+bool WbMotor::isConfigureDone() const {
+  return robot()->isConfigureDone();
+}
+
 /////////////
 // Control //
 /////////////
