@@ -463,7 +463,7 @@ void WbActionManager::populateActions() {
 
   action = new QAction(this);
   action->setText(tr("Disable Rendering"));
-  action->setStatusTip(tr("Disable running the simulation with ."));
+  action->setStatusTip(tr("Disable activating the rendering."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
   mActions[DISABLE_RENDERING] = action;
