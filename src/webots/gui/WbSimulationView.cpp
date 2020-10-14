@@ -127,7 +127,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
 
   WbSimulationState *state = WbSimulationState::instance();
 
-  //  show a black screen is fast mode is selected
+  //  show a black screen if rendering is turned off
   if (!state->isRendering())
     renderABlackScreen();
 
