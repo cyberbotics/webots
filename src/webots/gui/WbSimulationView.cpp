@@ -590,7 +590,7 @@ void WbSimulationView::stopMovie() {
 
 void WbSimulationView::makeMovie() {
   if (!WbSimulationState::instance()->isRendering()) {
-    WbLog::warning(tr("Impossible to record a movie while rendering is hidden."), true);
+    WbLog::warning(tr("Impossible to record a movie while rendering is turned off."), true);
     return;
   }
 
