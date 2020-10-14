@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 
   const double target_position = wb_motor_get_target_position(motor);
   ts_assert_double_equal(target_position, max_position,
-                         "The target position value measured by the motor should be %g and not %g", M_PI_2, target_position);
+                         "The target position value measured by the motor should be %g and not %g", max_position, target_position);
   int i;
   for (i = 0; i < NUMBER_OF_STEPS; ++i)
     wb_robot_step(TIME_STEP);
