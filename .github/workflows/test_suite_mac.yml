@@ -30,8 +30,8 @@ jobs:
     - name: Install Webots Compilation Dependencies
       run: |
         brew install cmake swig wget
-        brew update  # we need to get the package list update to include 'python@3.9'
-        brew install python@3.9
+        # brew update  # we need to get the package list update to include 'python@3.9'
+        # brew install python@3.9
         npm install -g appdmg
         # install regular Python 3.7
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
