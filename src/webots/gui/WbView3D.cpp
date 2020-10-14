@@ -319,7 +319,7 @@ void WbView3D::focusOutEvent(QFocusEvent *event) {
 // main refresh function (update from the simulation engine)
 // for refresh coming from the GUI, use renderLater() instead
 void WbView3D::refresh() {
-  if (!mWorld) {
+  if (!mWorld || !WbSimulationState::instance()->isRendering()) {
     // render black screen
     renderLater();
     return;
@@ -329,7 +329,7 @@ void WbView3D::refresh() {
   mPhysicsRefresh = true;
   if (sim->isPaused())
     renderLater();
-  else if (sim->isStep() || sim->isRealTime() || sim->isFast()) {
+  else {
     if (WbVideoRecorder::instance()->isRecording()) {
       const double time = WbSimulationState::instance()->time();
       static double lastRefreshTime = time;
@@ -347,8 +347,6 @@ void WbView3D::refresh() {
         renderNow();
     }
   }
-  // else isFast -> no rendering
-
   mPhysicsRefresh = false;
 }
 

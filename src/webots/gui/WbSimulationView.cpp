@@ -232,9 +232,6 @@ QToolBar *WbSimulationView::createToolBar() {
   mToolBar->widgetForAction(action)->setObjectName("invisibleButton");
   mToolBar->widgetForAction(action)->setVisible("false");
 
-  WbActionManager::instance()->updateRenderingButton();
-  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSimulationView::updateRendering);
-
   updatePlayButtons();
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbSimulationView::updatePlayButtons);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSimulationView::updatePlayButtons);
@@ -242,6 +239,9 @@ QToolBar *WbSimulationView::createToolBar() {
   action = manager->action(WbAction::RENDERING);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
+
+  WbActionManager::instance()->updateRenderingButton();
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSimulationView::updateRendering);
 
   mToolBar->addSeparator();
 
