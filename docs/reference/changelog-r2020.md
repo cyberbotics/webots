@@ -17,6 +17,7 @@ Released on XXX YYY, 2020.
     - Fixed disappearing [DistanceSensor](distancesensor.md) rays [optional rendering](https://cyberbotics.com/doc/guide/the-user-interface#view-menu) after simulation reset ([#2276](https://github.com/cyberbotics/webots/pull/2276)).
     - Fixed cylinder-to-cylinder collision detection in certain cases ([#2282](https://github.com/cyberbotics/webots/pull/2282)).
     - Fixed [Battery](robot.md#wb_robot_battery_sensor_enable) sensor when the [Robot](robot.md) contains a [Propeller](propeller.md) device ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
+    - Fixed disabled `Help..` item in context menu for some nodes ([#2327](https://github.com/cyberbotics/webots/pull/2327)).
   - Dependency Updates
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
 
