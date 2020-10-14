@@ -496,7 +496,7 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
 bool WbGuiApplication::renderingFromPreferences() const {
   WbPreferences *const prefs = WbPreferences::instance();
-  return prefs->value("General/rendering").toString() != "false";
+  return prefs->value("General/rendering", true).toBool();
 }
 
 #ifdef __APPLE__
