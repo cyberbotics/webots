@@ -56,7 +56,11 @@ else
 ifeq ($(PYTHON_SHORT_VERSION), 38)
 PYTHON_PYMALLOC =
 else
+ifeq ($(PYTHON_SHORT_VERSION), 39)
+PYTHON_PYMALLOC =
+else
 PYTHON_PYMALLOC = m
+endif
 endif
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
