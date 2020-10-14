@@ -622,7 +622,7 @@ void WbSimulationView::showRenderingIfNecessary() {
   if (!WbSimulationState::instance()->isRendering()) {
     WbSimulationState::instance()->setRendering(true);
     mView3D->hideBlackRenderingOverlay();
-    mNeedToHideBlackRenderingOverlay = true;
+    mNeedToRestoreBlackRenderingOverlay = true;
   }
 }
 
