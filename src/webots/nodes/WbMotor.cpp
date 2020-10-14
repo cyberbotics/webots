@@ -358,6 +358,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mControlPID->value().x();
   stream << (double)mControlPID->value().y();
   stream << (double)mControlPID->value().z();
+  stream << (double)mTargetPosition;
   mNeedToConfigure = false;
 }
 
