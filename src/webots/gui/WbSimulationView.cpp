@@ -562,7 +562,7 @@ void WbSimulationView::startVideoCapture(const QString &fileName, int codec, int
 
 void WbSimulationView::stopVideoCapture(bool canceled) {
   WbVideoRecorder::instance()->stopRecording(canceled);
-  restoreRenderingIfNecessary();
+  restoreNoRenderingIfNecessary();
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
     mainWindow->showMinimized();
