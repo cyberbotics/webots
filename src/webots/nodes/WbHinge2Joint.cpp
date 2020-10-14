@@ -549,6 +549,10 @@ void WbHinge2Joint::updatePositions(double position, double position2) {
   // called after an artificial move (user or Supervisor move) or in kinematic mode
   mPosition = position;
   mPosition2 = position2;
+  if (motor() && !motor()->isConfigureDone())
+    motor()->setTargetPosition(position);
+  if (motor2() && !motor2()->isConfigureDone())
+    motor2()->setTargetPosition(position2);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);
