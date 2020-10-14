@@ -329,23 +329,19 @@ void WbView3D::refresh() {
   mPhysicsRefresh = true;
   if (sim->isPaused())
     renderLater();
-  else {
-    if (WbVideoRecorder::instance()->isRecording()) {
-      const double time = WbSimulationState::instance()->time();
-      static double lastRefreshTime = time;
-      if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
-        // render main window immediately even if it is not exposed
-        lastRefreshTime = time;
-        renderNow();
-      }
-    } else if (sim->isPaused())
-      renderLater();
-    else {
-      const qint64 lastRefreshDelta = mLastRefreshTimer.elapsed();
-      const double maxFrameDuration = 1000.0 / mWorld->worldInfo()->fps();  // ms
-      if (lastRefreshDelta > maxFrameDuration)
-        renderNow();
+  else if (WbVideoRecorder::instance()->isRecording()) {
+    const double time = WbSimulationState::instance()->time();
+    static double lastRefreshTime = time;
+    if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
+      // render main window immediately even if it is not exposed
+      lastRefreshTime = time;
+      renderNow();
     }
+  } else {
+    const qint64 lastRefreshDelta = mLastRefreshTimer.elapsed();
+    const double maxFrameDuration = 1000.0 / mWorld->worldInfo()->fps();  // ms
+    if (lastRefreshDelta > maxFrameDuration)
+      renderNow();
   }
   mPhysicsRefresh = false;
 }
