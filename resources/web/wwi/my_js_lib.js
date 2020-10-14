@@ -367,8 +367,6 @@ Object.assign( EffectCompo.prototype, {
 
 	addPass: function ( pass ) {
 		this.passes.push( pass );
-		let size = this.renderer.getDrawingBufferSize( new THREE.Vector2() );
-		pass.setSize( size.width, size.height );
 	},
 
 	isLastEnabledPass: function ( passIndex ) {
@@ -382,8 +380,6 @@ Object.assign( EffectCompo.prototype, {
 
 	render: function () {
 		this._previousFrameTime = Date.now();
-		let currentRenderTarget = this.renderer.getRenderTarget();
-
 		let pass, i, il = this.passes.length;
 
 		for ( i = 0; i < il; i ++ ) {
@@ -394,8 +390,6 @@ Object.assign( EffectCompo.prototype, {
 			pass.renderToScreen = ( this.renderToScreen && this.isLastEnabledPass( i ));
 			pass.render( this.renderer)
 		}
-
-		this.renderer.setRenderTarget( currentRenderTarget );
 	}
 })
 
