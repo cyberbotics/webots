@@ -90,6 +90,7 @@ jobs:
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
     needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}  # TODO: 'test suite' -> 'test ros'
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
@@ -101,7 +102,7 @@ jobs:
             ROS_DISTRO: melodic
             python: 2.7
     runs-on: ${{ matrix.os }}
-    steps:  
+    steps:
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -118,7 +119,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
-    - name: Setup ROS environment
+    - name: Setup ROS ${{ matrix.ROS_DISTRO }} environment
       uses: ros-tooling/setup-ros@0.0.25
       with:
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
