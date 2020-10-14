@@ -151,7 +151,7 @@ private:
   QHBoxLayout *mToolsLayout;
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
-  bool mNeedToHideBlackRenderingOverlay;
+  bool mNeedToRestoreBlackRenderingOverlay;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;
@@ -169,7 +169,7 @@ private:
   void renderABlackScreen();
   void retrieveSimulationView();
   void showRenderingIfNecessary();
-  void restoreRenderingIfNecessary();
+  void restoreNoRenderingIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
   void updateToggleView3DAction(bool enabled);

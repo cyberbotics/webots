@@ -109,7 +109,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   createActions();
   mTitleBar = new WbDockTitleBar(false, this);
   mToolBar = createToolBar();
-  mNeedToHideBlackRenderingOverlay = false;
+  mNeedToRestoreBlackRenderingOverlay = false;
 
   // top level layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
@@ -626,11 +626,11 @@ void WbSimulationView::showRenderingIfNecessary() {
   }
 }
 
-void WbSimulationView::restoreRenderingIfNecessary() {
-  if (mNeedToHideBlackRenderingOverlay) {
+void WbSimulationView::restoreNoRenderingIfNecessary() {
+  if (mNeedToRestoreBlackRenderingOverlay) {
     mView3D->showBlackRenderingOverlay();
     WbSimulationState::instance()->setRendering(false);
-    mNeedToHideBlackRenderingOverlay = false;
+    mNeedToRestoreBlackRenderingOverlay = false;
   }
 }
 
@@ -651,7 +651,7 @@ void WbSimulationView::writeScreenshot(QImage image) {
     WbSimulationState::instance()->resumeSimulation();
     mIsScreenshotRequestedFromGui = false;
   }
-  restoreRenderingIfNecessary();
+  restoreNoRenderingIfNecessary();
 
   if (mWasMinimized) {
     WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
