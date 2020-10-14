@@ -1096,7 +1096,7 @@ void WbActionManager::updateRenderingButton() {
   } else {
     rendering->setIcon(QIcon("enabledIcons:no_rendering.png"));
     rendering->setChecked(false);
-    rendering->setStatusTip(tr("Show Rendering to see the simulation. (%1+4)").arg(mapControlKey()));
+    rendering->setStatusTip(tr("Turn on rendering to see the simulation. (%1+4)").arg(mapControlKey()));
     rendering->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
   }
 }
