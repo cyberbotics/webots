@@ -1064,7 +1064,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   // Creates the fast mode overlay
   if (!mDisabledRenderingOverlay) {
-    mDisabledRenderingOverlay = new WbWrenFullScreenOverlay("Rendering is Hidden", 128, true);
+    mDisabledRenderingOverlay = new WbWrenFullScreenOverlay("No Rendering", 128, true);
     mDisabledRenderingOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
   }
   if (WbSimulationState::instance()->isRendering())
