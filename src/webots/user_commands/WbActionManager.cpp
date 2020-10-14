@@ -1091,7 +1091,7 @@ void WbActionManager::updateRenderingButton() {
   if (WbSimulationState::instance()->isRendering()) {
     rendering->setIcon(QIcon("enabledIcons:rendering.png"));
     rendering->setChecked(true);
-    rendering->setStatusTip(tr("Hide Rendering to gain better performance. (%1+4)").arg(mapControlKey()));
+    rendering->setStatusTip(tr("Turn off rendering to gain better performance. (%1+4)").arg(mapControlKey()));
     rendering->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
   } else {
     rendering->setIcon(QIcon("enabledIcons:no_rendering.png"));
