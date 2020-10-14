@@ -168,8 +168,8 @@ void WbActionManager::populateActions() {
   mActions[STEP] = action;
 
   icon = QIcon();
-  icon.addFile("enabledIcons:run_button.png", QSize(), QIcon::Normal);
-  icon.addFile("disabledIcons:run_button.png", QSize(), QIcon::Disabled);
+  icon.addFile("enabledIcons:fast_button.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:fast_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("&Fast"));
   action->setStatusTip(tr("Run the simulation as fast as possible. (%1+3)").arg(mapControlKey()));
