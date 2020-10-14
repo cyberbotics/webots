@@ -763,10 +763,7 @@ void WbSimulationView::disableRendering(bool disabled) {
 }
 
 void WbSimulationView::toggleRendering() {
-  if (WbSimulationState::instance()->isRendering())
-    WbSimulationState::instance()->setRendering(false);
-  else
-    WbSimulationState::instance()->setRendering(true);
+  WbSimulationState::instance()->setRendering(!WbSimulationState::instance()->isRendering());
 }
 
 void WbSimulationView::updateBlackRenderingOverlay() {
