@@ -465,6 +465,7 @@ void WbSolid::postFinalize() {
   disconnectFieldNotification(rotationFieldValue());
   disconnectFieldNotification(translationFieldValue());
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSolid::onSimulationModeChanged);
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSolid::onSimulationModeChanged);
   connect(this, &WbSolid::massPropertiesChanged, this, &WbSolid::displayWarning);
   connect(mPhysics, &WbSFNode::changed, this, &WbSolid::updatePhysics);
   connect(mRadarCrossSection, &WbSFDouble::changed, this, &WbSolid::updateRadarCrossSection);

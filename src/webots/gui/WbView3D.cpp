@@ -135,6 +135,8 @@ WbView3D::WbView3D() :
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh,
           Qt::UniqueConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbView3D::refresh, Qt::UniqueConnection);
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbView3D::refresh,
+          Qt::UniqueConnection);
   // clean up pending drag-force / drag-torque when simulation restarts
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbView3D::unleashPhysicsDrags);
   // update mouses if required
@@ -1046,8 +1048,8 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   const WbSimulationState *const simulationState = WbSimulationState::instance();
   connect(mWrenRenderingContext, &WbWrenRenderingContext::optionalRenderingChanged, mWorld,
           &WbSimulationWorld::checkNeedForBoundingMaterialUpdate, Qt::UniqueConnection);
-  connect(simulationState, &WbSimulationState::modeChanged, mWorld, &WbSimulationWorld::checkNeedForBoundingMaterialUpdate,
-          Qt::UniqueConnection);
+  connect(simulationState, &WbSimulationState::renderingStateChanged, mWorld,
+          &WbSimulationWorld::checkNeedForBoundingMaterialUpdate, Qt::UniqueConnection);
   mWorld->checkNeedForBoundingMaterialUpdate();
 
   // Prepares the shape picker

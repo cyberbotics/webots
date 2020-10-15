@@ -34,7 +34,7 @@ static inline bool boxVersusPlane(dGeomID g1, dGeomID g2) {
 }
 
 WbContactPointsRepresentation::WbContactPointsRepresentation(WbWrenRenderingContext *context) : mRenderingContext(context) {
-  connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this,
           &WbContactPointsRepresentation::handleSimulationState);
   connect(mRenderingContext, &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbContactPointsRepresentation::updateOptionalRendering);
