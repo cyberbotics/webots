@@ -192,13 +192,13 @@ class AnsiCodes(object):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.__getDeviceByTag(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   def getPositionSensor(self):
       try:
           return self.instance
       except AttributeError:
-          self.__positionSensor = Robot.__getDeviceByTag(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -599,13 +599,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.__getDeviceByTag(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getPositionSensor(self):
       try:
           return self.__positionSensor
       except AttributeError:
-          self.__positionSensor = Robot.__getDeviceByTag(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -663,13 +663,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.__getDeviceByTag(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getMotor(self):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.__getDeviceByTag(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   %}
 }
@@ -1030,7 +1030,7 @@ class AnsiCodes(object):
       tag = self.__internalGetDeviceTagFromName(name)
       return self.__getOrCreateDevice(tag)
     @staticmethod
-    def __getDeviceByTag(tag):
+    def __getDeviceFromTag(tag):
       if tag == 0:
           return None
       size = len(Robot.__devices)
