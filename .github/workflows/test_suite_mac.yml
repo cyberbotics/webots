@@ -29,6 +29,7 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
+        brew update
         brew install cmake swig wget python@3.7 python@3.9
         npm install -g appdmg
         # install regular Python 3.7
