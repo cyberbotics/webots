@@ -6,7 +6,7 @@ The following is a set of guidelines for helping you to contribute to Webots.
 ## Required skills
 
 You don't need to be an expert in robotics or software development to become a contributor.
-Depending on your skills, you contribution may address different parts of the Webots software:
+Depending on your skills, your contribution may address different parts of the Webots software:
 
 - Bug reporting: [A precise description](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)  of a reproducible bug is very helpful to us.
 - Technical English writting: [documentation pages](https://github.com/cyberbotics/webots/tree/master/docs).
