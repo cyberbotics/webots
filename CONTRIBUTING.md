@@ -8,7 +8,7 @@ The following is a set of guidelines for helping you to contribute to Webots.
 You don't need to be an expert in robotics or software development to become a contributor.
 Depending on your skills, your contribution may address different parts of the Webots software:
 
-- Bug reporting: [A precise description](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)  of a reproducible bug is very helpful to us.
+- Bug reporting: [A precise description](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md) of a reproducible bug is very helpful to us.
 - Technical English writting: [documentation pages](https://github.com/cyberbotics/webots/tree/master/docs).
 - Foreign language: [translate the user interface](https://github.com/cyberbotics/webots/tree/master/resources/translations) in your own language.
 - Python programming: [sample simulations](https://github.com/cyberbotics/webots/tree/master/projects/languages/python/controllers), libraries, tools such as [urdf2webots](https://github.com/cyberbotics/urdf2webots), etc.
