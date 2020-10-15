@@ -39,14 +39,9 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
-ifneq ($(MAKECMDGOALS),debug)
-THREEJS_SUFFIX = .min
-endif
+
 
 DEPENDENCIES_PATH = dependencies
-THEEEJS_VERSION = 104
-THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.js
 
 null :=
 space := $(null) $(null)
@@ -79,28 +74,22 @@ release profile update: webots.min.js webots.lib.js
 debug: webots.debug.js
 endif
 
-webots.min.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+webots.min.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
-	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
+	@cat webots.tmp1.js > webots.tmp2.js
 	@node_modules/.bin/minify webots.tmp2.js -o $@
 	@rm webots.tmp2.js webots.tmp1.js
 
-webots.debug.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+webots.debug.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# creating webots.debug.js"
-	@cat $(THREEJS_SOURCE) $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
+	@cat $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
 
 # JS module intended to be included in another module.
-# webots.lib.js is not processed with babel or minify and does not include three.js.
+# webots.lib.js is not processed with babel or minify
 webots.lib.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.lib.js"
 	@cat $(JS_SOURCES) > $@
-
-$(THREEJS_SOURCE):
-	@echo "# downloading $(THREEJS_URL)"
-	@mkdir -p $(DEPENDENCIES_PATH)
-	@$(WGET) $@ $(THREEJS_URL)
-
 
 
 $(INSTALL_TOKEN): package.json

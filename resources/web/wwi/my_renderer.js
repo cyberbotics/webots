@@ -3,7 +3,7 @@ function WebGLAttributes( gl ) {
   let buffers = new WeakMap();
 
   function createBuffer( attribute, bufferType ) {
-    let array = attribute;
+    let array = attribute.array;
     let usage = attribute.dynamic ? 35048 : 35044;
 
     let buffer = gl.createBuffer();
@@ -816,12 +816,9 @@ class WebGL2Renderer {
       let drawEnd = Math.min( dataCount, rangeStart + rangeCount, groupStart + groupCount ) - 1;
 
       let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
-      console.log("1");
-      console.log(this.gl.getError());
+
       if ( drawCount === 0 ) return;
-      this.gl.drawElements( this.gl.TRIANGLES , this.gl.UNSIGNED_SHORT, attribute.type, drawStart * 2 );
-      console.log("2");
-      console.log(this.gl.getError());
+      this.gl.drawElements( this.gl.TRIANGLES, drawCount, this.gl.UNSIGNED_SHORT, drawStart * 2 );
     };
   }
 

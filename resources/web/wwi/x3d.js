@@ -4,7 +4,7 @@
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
 //THREE.X3DLoader = class X3DLoader {
-X3dLoade = class X3dLoader {
+class X3dLoade  {
   constructor(scene) {
     this.scene = scene;
     this.parsedObjects = [];
