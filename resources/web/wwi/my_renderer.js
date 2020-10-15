@@ -140,7 +140,6 @@ function WebGLRenderList() {
     let renderItem = renderItems[ renderItemsIndex ];
 
     if ( renderItem === undefined ) {
-
       renderItem = {
         id: object.id,
         object: object,
@@ -156,7 +155,6 @@ function WebGLRenderList() {
       renderItems[ renderItemsIndex ] = renderItem;
 
     } else {
-
       renderItem.id = object.id;
       renderItem.object = object;
       renderItem.geometry = geometry;
@@ -194,197 +192,23 @@ function WebGLRenderList() {
 }
 function WebGLPrograms( renderer ) {
 
-  let programs = [];
+  let program;
 
-  let shaderIDs = {
-    MeshDepthMaterial: 'depth',
-    MeshDistanceMaterial: 'distanceRGBA',
-    MeshNormalMaterial: 'normal',
-    MeshBasicMaterial: 'basic',
-    MeshLambertMaterial: 'lambert',
-    MeshPhongMaterial: 'phong',
-    MeshToonMaterial: 'phong',
-    MeshStandardMaterial: 'physical',
-    MeshPhysicalMaterial: 'physical',
-    MeshMatcapMaterial: 'matcap',
-    LineBasicMaterial: 'basic',
-    LineDashedMaterial: 'dashed',
-    PointsMaterial: 'points',
-    ShadowMaterial: 'shadow',
-    SpriteMaterial: 'sprite'
-  };
-
-  let parameterNames = [
-    "precision", "map", "matcap", "envMap", "envMapMode", "lightMap", "aoMap", "emissiveMap", "bumpMap", "normalMap", "displacementMap", "specularMap",
-    "roughnessMap", "metalnessMap", "gradientMap",
-    "alphaMap", "combine", "vertexColors", "vertexTangents", "fog", "useFog", "fogExp",
-    "flatShading", "sizeAttenuation", "maxMorphTargets", "maxMorphNormals", "premultipliedAlpha", "alphaTest", "dithering"
-  ];
-
-  this.getParameters = function ( material, object ) {
-    // heuristics to create shader parameters according to lights in the scene
-    // (not to blow over maxLights budget)
-
-    let precision = "highp";
-
-    let parameters = {
-      precision: precision,
-      map: !! material.map,
-      matcap: !! material.matcap,
-      envMap: !! material.envMap,
-      envMapMode: material.envMap && material.envMap.mapping,
-      lightMap: !! material.lightMap,
-      aoMap: !! material.aoMap,
-      emissiveMap: !! material.emissiveMap,
-      bumpMap: !! material.bumpMap,
-      normalMap: !! material.normalMap,
-      displacementMap: !! material.displacementMap,
-      roughnessMap: !! material.roughnessMap,
-      metalnessMap: !! material.metalnessMap,
-      specularMap: !! material.specularMap,
-      alphaMap: !! material.alphaMap,
-
-      gradientMap: !! material.gradientMap,
-
-      combine: material.combine,
-
-      vertexTangents: ( material.normalMap && material.vertexTangents ),
-      vertexColors: material.vertexColors,
-
-      flatShading: material.flatShading,
-
-      sizeAttenuation: material.sizeAttenuation,
-
-      morphTargets: material.morphTargets,
-      morphNormals: material.morphNormals,
-
-      dithering: material.dithering,
-
-      premultipliedAlpha: material.premultipliedAlpha,
-
-      alphaTest: material.alphaTest,
-
-
-    };
-
-    return parameters;
-
-  };
-
-  this.getProgramCode = function ( material, parameters ) {
-
-    let array = [];
-
-    if ( parameters.shaderID ) {
-
-      array.push( parameters.shaderID );
-
-    } else {
-
-      array.push( material.fragmentShader );
-      array.push( material.vertexShader );
-
-    }
-
-    if ( material.defines !== undefined ) {
-
-      for ( let name in material.defines ) {
-
-        array.push( name );
-        array.push( material.defines[ name ] );
-
-      }
-
-    }
-
-    for ( let i = 0; i < parameterNames.length; i ++ ) {
-
-      array.push( parameters[ parameterNames[ i ] ] );
-
-    }
-
-    array.push( material.onBeforeCompile.toString() );
-
-    return array.join();
-
-  };
-
-  this.acquireProgram = function ( material, shader, parameters, code ) {
-
-    let program;
-
-    // Check if code has been already compiled
-    for ( let p = 0, pl = programs.length; p < pl; p ++ ) {
-
-      let programInfo = programs[ p ];
-
-      if ( programInfo.code === code ) {
-
-        program = programInfo;
-        ++ program.usedTimes;
-
-        break;
-
-      }
-
-    }
-
+  this.acquireProgram = function ( material ) {
     if ( program === undefined ) {
-
-      program = new WebGLProgram( renderer, code, material, shader, parameters );
-      programs.push( program );
-
+      program = new WebGLProgram( renderer, material);
     }
-
     return program;
-
   };
-
-  this.releaseProgram = function ( program ) {
-
-    if ( -- program.usedTimes === 0 ) {
-
-      // Remove from unordered set
-      let i = programs.indexOf( program );
-      programs[ i ] = programs[ programs.length - 1 ];
-      programs.pop();
-
-      // Free WebGL resources
-      program.destroy();
-
-    }
-
-  };
-
-  // Exposed for resource monitoring & error feedback via renderer.info:
-  this.programs = programs;
-
 }
-function fetchAttributeLocations( gl, program ) {
 
-  var attributes = {};
-
-  var n = gl.getProgramParameter( program, 35721 );
-
-  for ( var i = 0; i < n; i ++ ) {
-
-    var info = gl.getActiveAttrib( program, i );
-    var name = info.name;
-
-    attributes[ name ] = gl.getAttribLocation( program, name );
-
-  }
-
-  return attributes;
-
-}
-function WebGLProgram( renderer, code, material, shader, parameters ) {
+function WebGLProgram( renderer, material) {
   let gl = renderer.gl;
 
   let defines = material.defines;
 
-  let vertexShader = shader.vertexShader;
-  let fragmentShader = shader.fragmentShader;
+  let vertexShader = meshbasic_vert;
+  let fragmentShader = meshbasic_frag;
 
   let program = gl.createProgram();
 
@@ -399,7 +223,7 @@ function WebGLProgram( renderer, code, material, shader, parameters ) {
     ].join( '\n' );
 
     prefixFragment = [
-      'precision ' + parameters.precision + ' float;',
+      'precision highp float;',
       '\n'
     ].join( '\n' );
 
@@ -438,43 +262,11 @@ function WebGLProgram( renderer, code, material, shader, parameters ) {
       cachedUniforms = new WebGLUniforms( gl, program );
 
     }
-
     return cachedUniforms;
 
   };
 
-  // set up caching for attribute locations
-
-  let cachedAttributes;
-
-  this.getAttributes = function () {
-
-    if ( cachedAttributes === undefined ) {
-
-      cachedAttributes = fetchAttributeLocations( gl, program );
-
-    }
-
-    return cachedAttributes;
-
-  };
-
-  // free resource
-
-  this.destroy = function () {
-
-    gl.deleteProgram( program );
-    this.program = undefined;
-
-  };
-  //
-
-  this.name = shader.name;
-  this.code = code;
-  this.usedTimes = 1;
   this.program = program;
-  this.vertexShader = glVertexShader;
-  this.fragmentShader = glFragmentShader;
 
   return this;
 
@@ -549,26 +341,9 @@ function parseUniform( activeInfo, addr, container ) {
 function getSingularSetter( type ) {
 
 	switch ( type ) {
-
 		case 0x1406: return setValue1f; // FLOAT
-		case 0x8b50: return setValue2fv; // _VEC2
 		case 0x8b51: return setValue3fv; // _VEC3
-		case 0x8b52: return setValue4fv; // _VEC4
-
-		case 0x8b5a: return setValue2fm; // _MAT2
-		case 0x8b5b: return setValue3fm; // _MAT3
 		case 0x8b5c: return setValue4fm; // _MAT4
-
-		case 0x8b5e: case 0x8d66: return setValueT1; // SAMPLER_2D, SAMPLER_EXTERNAL_OES
-		case 0x8b5f: return setValueT3D1; // SAMPLER_3D
-		case 0x8b60: return setValueT6; // SAMPLER_CUBE
-		case 0x8DC1: return setValueT2DArray1; // SAMPLER_2D_ARRAY
-
-		case 0x1404: case 0x8b56: return setValue1i; // INT, BOOL
-		case 0x8b53: case 0x8b57: return setValue2iv; // _VEC2
-		case 0x8b54: case 0x8b58: return setValue3iv; // _VEC3
-		case 0x8b55: case 0x8b59: return setValue4iv; // _VEC4
-
 	}
 
 }
@@ -578,7 +353,6 @@ function setValue4fm( gl, v ) {
 	var elements = v.elements;
 
 	if ( elements === undefined ) {
-
 		if ( arraysEqual( cache, v ) ) return;
 
 		gl.uniformMatrix4fv( this.addr, false, v );
@@ -586,7 +360,6 @@ function setValue4fm( gl, v ) {
 		copyArray( cache, v );
 
 	} else {
-
 		if ( arraysEqual( cache, elements ) ) return;
 
 		mat4array.set( elements );
@@ -602,22 +375,8 @@ function setValue3fv( gl, v ) {
 
 	var cache = this.cache;
 
-	if ( v.x !== undefined ) {
-
-		if ( cache[ 0 ] !== v.x || cache[ 1 ] !== v.y || cache[ 2 ] !== v.z ) {
-
-			gl.uniform3f( this.addr, v.x, v.y, v.z );
-
-			cache[ 0 ] = v.x;
-			cache[ 1 ] = v.y;
-			cache[ 2 ] = v.z;
-
-		}
-
-	} else if ( v.r !== undefined ) {
-
+	if ( v.r !== undefined ) {
 		if ( cache[ 0 ] !== v.r || cache[ 1 ] !== v.g || cache[ 2 ] !== v.b ) {
-
 			gl.uniform3f( this.addr, v.r, v.g, v.b );
 
 			cache[ 0 ] = v.r;
@@ -626,16 +385,7 @@ function setValue3fv( gl, v ) {
 
 		}
 
-	} else {
-
-		if ( arraysEqual( cache, v ) ) return;
-
-		gl.uniform3fv( this.addr, v );
-
-		copyArray( cache, v );
-
 	}
-
 }
 function setValue1f( gl, v ) {
 
@@ -653,22 +403,15 @@ function arraysEqual( a, b ) {
 	if ( a.length !== b.length ) return false;
 
 	for ( var i = 0, l = a.length; i < l; i ++ ) {
-
 		if ( a[ i ] !== b[ i ] ) return false;
-
 	}
-
 	return true;
-
 }
 function copyArray( a, b ) {
 
 	for ( var i = 0, l = b.length; i < l; i ++ ) {
-
 		a[ i ] = b[ i ];
-
 	}
-
 }
 function WebGLUniforms( gl, program ) {
 
@@ -683,40 +426,24 @@ function WebGLUniforms( gl, program ) {
       addr = gl.getUniformLocation( program, info.name );
 
     parseUniform( info, addr, this );
-
   }
-
 }
 
 WebGLUniforms.prototype.setValue = function ( gl, name, value, textures ) {
-
   let u = this.map[ name ];
 
   if ( u !== undefined ) u.setValue( gl, value, textures );
 
 };
 
-WebGLUniforms.prototype.setOptional = function ( gl, object, name ) {
-
-  let v = object[ name ];
-
-  if ( v !== undefined ) this.setValue( gl, name, v );
-
-};
-
 // Static interface
 WebGLUniforms.upload = function ( gl, seq, values, textures ) {
-
   for ( let i = 0, n = seq.length; i !== n; ++ i ) {
 
     let u = seq[ i ],
       v = values[ u.id ];
-
     if ( v.needsUpdate !== false ) {
-
-      // note: always updating when .needsUpdate is undefined
       u.setValue( gl, v.value, textures );
-
     }
 
   }
@@ -724,16 +451,12 @@ WebGLUniforms.upload = function ( gl, seq, values, textures ) {
 };
 
 WebGLUniforms.seqWithValue = function ( seq, values ) {
-
   let r = [];
 
   for ( let i = 0, n = seq.length; i !== n; ++ i ) {
-
     let u = seq[ i ];
     if ( u.id in values ) r.push( u );
-
   }
-
   return r;
 
 };
@@ -743,7 +466,8 @@ const common = {
     diffuse: { value: new Module.Color( 238,238,238 ) }
 };
 
-const meshbasic_frag = "uniform vec3 diffuse;\nuniform float opacity;\nstruct ReflectedLight {\n\tvec3 directDiffuse;\n\tvec3 directSpecular;\n\tvec3 indirectDiffuse;\n\tvec3 indirectSpecular;\n};\nvoid main() {\n\tvec4 diffuseColor = vec4( diffuse, opacity );\n\tReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );\n\treflectedLight.indirectDiffuse += vec3( 1.0 );\n\treflectedLight.indirectDiffuse *= diffuseColor.rgb;\n\tvec3 outgoingLight = reflectedLight.indirectDiffuse;\n\tgl_FragColor = vec4( outgoingLight, diffuseColor.a );\n}";
+const meshbasic_frag = "void main() {\tgl_FragColor = vec4(1,1,1,1 );\n}";
+
 
 const meshbasic_vert = "void main() {\n\tvec3 transformed = vec3( position );\n\tvec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tgl_Position = projectionMatrix * mvPosition;\n}";
 
@@ -768,58 +492,56 @@ class WebGL2Renderer {
     this.currentRenderList = null;
     this.currentProgram = null;
     this.viewport= new glm.vec4( 0, 0, this.domElement.width, this.domElement.height )
+  }
 
-    this.setSize = function ( width, height, updateStyle ) {
+  setSize ( width, height, updateStyle ) {
+    this.canvas.width = width;
+    this.canvas.height = height;
 
-      this.canvas.width = width;
-      this.canvas.height = height;
+    this.viewport = new glm.vec4( 0, 0, width, height );
+    this.gl.viewport( this.viewport.x, this.viewport.y, this.viewport.z, this.viewport.w );
+  }
 
-      this.viewport = new glm.vec4( 0, 0, width, height );
-      this.gl.viewport( this.viewport.x, this.viewport.y, this.viewport.z, this.viewport.w );
+  render ( scene, camera ) {
+    camera.updateMatrixWorld();
 
-    };
+    this.currentRenderList = this.renderLists;
+    this.currentRenderList.init();
 
-    this.render = function ( scene, camera ) {
-      camera.updateMatrixWorld();
+    this.projectObject( scene, camera );
 
-      this.currentRenderList = this.renderLists;
-      this.currentRenderList.init();
+    // render scene
+    let opaqueObjects = this.currentRenderList.opaque;
+    if ( opaqueObjects.length ) this.renderObjects( opaqueObjects, camera );
 
-      this.projectObject( scene, camera );
+  }
 
-      // render scene
-      let opaqueObjects = this.currentRenderList.opaque;
-      if ( opaqueObjects.length ) this.renderObjects( opaqueObjects, camera );
+  renderBufferDirect ( camera, fog, geometry, material, object, group ) {
+    let program = this.setProgram( camera, fog, material, object );
 
-    };
+    let index = geometry.index;
+    let attribute = this.attributes.get( index );
 
-    this.renderBufferDirect = function  ( camera, fog, geometry, material, object, group ) {
-      let program = this.setProgram( camera, fog, material, object );
+    this.setupVertexAttributes( material, program, geometry );
+    if ( index !== null ) {
+      this.gl.bindBuffer( 34963, attribute.buffer );
+    }
 
-      let index = geometry.index;
-      let attribute = this.attributes.get( index );
+    let	dataCount = index.count;
 
-      this.setupVertexAttributes( material, program, geometry );
-      if ( index !== null ) {
-        this.gl.bindBuffer( 34963, attribute.buffer );
-      }
+    let rangeStart = geometry.drawRange.start;
+    let rangeCount = geometry.drawRange.count;
 
-      let	dataCount = index.count;
+    let groupStart = group !== null ? group.start : 0;
+    let groupCount = group !== null ? group.count : Infinity;
 
-      let rangeStart = geometry.drawRange.start;
-      let rangeCount = geometry.drawRange.count;
+    let drawStart = Math.max( rangeStart, groupStart );
+    let drawEnd = Math.min( dataCount, rangeStart + rangeCount, groupStart + groupCount ) - 1;
 
-      let groupStart = group !== null ? group.start : 0;
-      let groupCount = group !== null ? group.count : Infinity;
+    let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
 
-      let drawStart = Math.max( rangeStart, groupStart );
-      let drawEnd = Math.min( dataCount, rangeStart + rangeCount, groupStart + groupCount ) - 1;
-
-      let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
-
-      if ( drawCount === 0 ) return;
-      this.gl.drawElements( this.gl.TRIANGLES, drawCount, this.gl.UNSIGNED_SHORT, drawStart * 2 );
-    };
+    if ( drawCount === 0 ) return;
+    this.gl.drawElements( this.gl.TRIANGLES, drawCount, this.gl.UNSIGNED_SHORT, drawStart * 2 );
   }
 
   projectObject ( object, camera ) {
@@ -856,44 +578,14 @@ class WebGL2Renderer {
     }
 
   }
-/*
-  renderBufferDirect  ( camera, fog, geometry, material, object, group ) {
 
-    let program = this.setProgram( camera, fog, material, object );
-
-    let index = geometry.index;
-    let attribute = this.attributes.get( index );
-
-    this.setupVertexAttributes( material, program, geometry );
-    if ( index !== null ) {
-      this.gl.bindBuffer( 34963, attribute.buffer );
-    }
-
-    let	dataCount = index.count;
-
-    let rangeStart = geometry.drawRange.start;
-    let rangeCount = geometry.drawRange.count;
-
-    let groupStart = group !== null ? group.start : 0;
-    let groupCount = group !== null ? group.count : Infinity;
-
-    let drawStart = Math.max( rangeStart, groupStart );
-    let drawEnd = Math.min( dataCount, rangeStart + rangeCount, groupStart + groupCount ) - 1;
-
-    let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
-
-    if ( drawCount === 0 ) return;
-    this.gl.drawElements(  this.gl.TRIANGLES , drawCount, attribute.type, drawStart * attribute.bytesPerElement );
-  };
-*/
   setProgram( camera, fog, material, object ) {
     let materialProperties = this.properties.get( material );
-
     this.initMaterial( material, fog, object );
 
     let program = materialProperties.program,
       p_uniforms = program.getUniforms(),
-      m_uniforms = materialProperties.shader.uniforms;
+      m_uniforms = common;
 
     if ( this.useProgram( program.program ) ) {
       p_uniforms.setValue( this.gl, 'projectionMatrix', camera.projectionMatrix );
@@ -907,48 +599,29 @@ class WebGL2Renderer {
   }
 
   setupVertexAttributes( material, program, geometry ) {
-    let geometryAttributes = geometry.attributes;
-    let programAttributes = program.getAttributes();
+    let geometryAttribute = geometry.attributes["position"];
 
-    for ( let name in programAttributes ) {
-      let programAttribute = programAttributes[ name ];
-      if ( programAttribute >= 0 ) {
-        let geometryAttribute = geometryAttributes[ name ];
-        if ( geometryAttribute !== undefined ) {
-          let normalized = geometryAttribute.normalized;
-          let size = geometryAttribute.itemSize;
-
-          let attribute = this.attributes.get( geometryAttribute );
-
-          let buffer = attribute.buffer;
-          let type = attribute.type;
-          this.gl.enableVertexAttribArray( programAttribute );
-          this.gl.bindBuffer( 34962, buffer );
-          this.gl.vertexAttribPointer( programAttribute, size, type, normalized, 0, 0 );
-        }
-      }
+    if ( geometryAttribute !== undefined ) {
+      let normalized = geometryAttribute.normalized;
+      let size = geometryAttribute.itemSize;
+      let attribute = this.attributes.get( geometryAttribute );
+      let buffer = attribute.buffer;
+      let type = attribute.type;
+      this.gl.enableVertexAttribArray( "position"  );
+      this.gl.bindBuffer( 34962, buffer );
+      this.gl.vertexAttribPointer( "position" , size, type, normalized, 0, 0 );
     }
   }
 
   initMaterial( material, fog, object ) {
     let materialProperties = this.properties.get( material );
-    let parameters = this.programCache.getParameters(
-      material, object );
 
-    materialProperties.shader = {
-      name: material.type,
-      uniforms: common,
-      vertexShader: meshbasic_vert,
-      fragmentShader: meshbasic_frag
-    };
-
-    let code = this.programCache.getProgramCode( material, parameters );
-    let program = this.programCache.acquireProgram( material, materialProperties.shader, parameters, code );
+    let program = this.programCache.acquireProgram( material);
 
     materialProperties.program = program;
     material.program = program;
 
-    let uniforms = materialProperties.shader.uniforms;
+    let uniforms = common;
 
     let progUniforms = materialProperties.program.getUniforms(),
       uniformsList =
