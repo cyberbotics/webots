@@ -16,7 +16,10 @@ Released on XXX YYY, 2020.
     - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
     - Fixed disappearing [DistanceSensor](distancesensor.md) rays [optional rendering](https://cyberbotics.com/doc/guide/the-user-interface#view-menu) after simulation reset ([#2276](https://github.com/cyberbotics/webots/pull/2276)).
     - Fixed cylinder-to-cylinder collision detection in certain cases ([#2282](https://github.com/cyberbotics/webots/pull/2282)).
+    - Windows: Fixed parsing of arguments with spaces when starting Webots from a DOS console ([#2330](https://github.com/cyberbotics/webots/pull/2330)).
     - Fixed [Battery](robot.md#wb_robot_battery_sensor_enable) sensor when the [Robot](robot.md) contains a [Propeller](propeller.md) device ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
+    - Fixed [Motor](motor.md) target position not updated when changing the `position` field of a [JointParameters](jointparameters.md) node ([#2326](https://github.com/cyberbotics/webots/pull/2326)).
+    - Fixed [`wb_motor_get_target_position`](motor.md#wb_motor_get_target_position) function if the joint initial position is not 0 ([#2326](https://github.com/cyberbotics/webots/pull/2326)).
     - Fixed disabled `Help..` item in context menu for some nodes ([#2327](https://github.com/cyberbotics/webots/pull/2327)).
   - Dependency Updates
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).

@@ -1454,3 +1454,11 @@ In the end it doesnt matter much, but a note, that the number is different from 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 13:37:27
 There is no correct or wrong number of threads to use. The one printed in the help message is just a suggestion.
 
+##### Meenakshi Prabhakar 10/11/2020 15:50:33
+is there any example code for a 4 wheeled robot with line following and obstacle avoidance ?......
+
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2020 06:25:39
+`@Meenakshi Prabhakar` you could check the code of the `e-puck_line_demo.wbt` simulation: [https://www.cyberbotics.com/doc/guide/epuck#e-puck\_line\_demo-wbt](https://www.cyberbotics.com/doc/guide/epuck#e-puck_line_demo-wbt)
+
+the e-puck has only two wheels, but you should be able to easily apply it to a 4-wheeled robot
+

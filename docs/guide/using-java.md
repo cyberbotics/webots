@@ -104,4 +104,4 @@ You may be interested in looking through the directory containing the Java files
 For users who want to use a third-party development environment, it can be useful to know that the package of the Java API ("Controller.jar") is located in the "lib" directory.
 
 Advanced users may want to modify the Java API.
-They will need to modify the SWIG script (controller.i), the java sources and the Makefile located in the "resources/languages/java" directory.
+They will need to modify the SWIG script (controller.i), the Java sources and the Makefile located in the "resources/languages/java" directory.
