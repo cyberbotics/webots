@@ -338,6 +338,10 @@ void WbMotor::powerOn(bool e) {  // called when running out of energy with e=fal
     mMotorForceOrTorque = mMaxForceOrTorque->value();
 }
 
+bool WbMotor::isConfigureDone() const {
+  return robot()->isConfigureDone();
+}
+
 /////////////
 // Control //
 /////////////
@@ -354,6 +358,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mControlPID->value().x();
   stream << (double)mControlPID->value().y();
   stream << (double)mControlPID->value().z();
+  stream << (double)mTargetPosition;
   mNeedToConfigure = false;
 }
 

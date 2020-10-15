@@ -173,6 +173,7 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
       m->control_p = m->previous_control_p;
       m->control_i = m->previous_control_i;
       m->control_d = m->previous_control_d;
+      m->position = request_read_double(r);
       m->configured = true;
       break;
     case C_MOTOR_FEEDBACK:

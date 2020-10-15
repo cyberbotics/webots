@@ -2304,7 +2304,7 @@ But another wrl file has shadow...
 
 I also think that OpenCV is only used in some examples in Webots. So you could also simply remove the related files from Webots.
 
-##### leoliako9595 05/05/2019 13:51:24
+##### leo\_liak 05/05/2019 13:51:24
 Hello, i have also problem linking my system`s opencv with webots, can anyone give a link or some steps of how to do this correctly? I use Ubuntu 18 and opencv4 installed with opencv.org instructions. Thanks in advance
 
 ##### janglee 05/05/2019 17:11:48
@@ -2317,7 +2317,7 @@ like this one [https://www.youtube.com/watch?v=bmoGfBe63ZA](https://www.youtube.
 The Mantis is certainly the most advanced hexapod we have in Webots: [https://cyberbotics.com/doc/guide/mantis](https://cyberbotics.com/doc/guide/mantis)
 
 
-`@leoliako9595` you should simply install opencv and link it with your controller as described here [https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
+`@leo_liak` you should simply install opencv and link it with your controller as described here [https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
 
 ##### Wei 05/06/2019 09:28:02
 `@Fabien Rohrer` Thank you!

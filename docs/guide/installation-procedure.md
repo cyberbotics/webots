@@ -123,7 +123,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 
 ##### Download Size
 
-The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, python, C++ and java compilers, etc.).
+The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
 For Webots R2019b revision 1, the download size of the snap is 1.8GB compared to 1.3GB of the Debian and tarball packages.
 
 ##### Extern Controllers
@@ -164,7 +164,7 @@ xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/fi
 
 > **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
 
-##### Run Webots in Docker with GUI 
+##### Run Webots in Docker with GUI
 
 ###### Without GPU Acceleration
 

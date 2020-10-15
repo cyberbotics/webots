@@ -58,6 +58,7 @@ public:
   void powerOn(bool) override;
 
   bool isPIDPositionControl() const { return (!mUserControl && mMotorForceOrTorque != 0.0 && !std::isinf(mTargetPosition)); }
+  bool isConfigureDone() const;
 
   bool hasMuscles() const { return !mMuscles->isEmpty(); }
 
