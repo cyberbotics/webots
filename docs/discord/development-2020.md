@@ -6790,3 +6790,53 @@ but i have no idea whether it actually is implemented that way!
 
 I think most of the things he wanted quick access to were world objects not situated inside of robots, so it may be that an easy solution to his particular problem is just to put those objects inside his supervisor and attach GPS devices to them for his supervisor to read.  The place where things get tricky is if you want a supervisor to be able to have quick access to what's going on inside another robot, since it currently can't read that robot's sensors and using field.getX functions is slower than Simon wanted.
 
+##### Westin 10/09/2020 18:45:36
+I just ran into an issue that I thought I would let you know about. I tried to use the VR view and it caused both SteamVR and Webots to crash. I wonder if it was too much for the GPU to handle. The GPU is at 100% just showing its home page. I then started Webots up again and it crashed immediately while loading the world without without the chance to turn off VR mode. I then disconnected the headset and tried again with the same issue. This makes me suspect the issue was not due to the GPU being overutilized. My solution was to change the SteamVR configuration files such that it uses the null headset, start Webots, then turn off VR mode. Its Webots R2020b and a Pimax headset. The Pimax drivers seem sketchy, so I'm sure that is at least partly to blame.
+
+##### Justin Fisher 10/10/2020 03:45:49
+I don't know much about getting VR to work, but another way you might have been able to get Webots running long enough for you to change the settings is by using the command line option to have Webots start with the simulation paused.  (I had to learn that to escape a different insta-crash loop I was stuck in!)
+
+##### Lukulus 10/12/2020 07:59:48
+Hello,
+
+Is there a way to get like a world controller, which contains all the elements of a world and the positions?
+
+##### David Mansolino [Cyberbotics] 10/12/2020 08:18:52
+Hello, what you are looking for is called the Supervisor API: [https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor)
+
+
+> I just ran into an issue that I thought I would let you know about. I tried to use the VR view and it caused both SteamVR and Webots to crash. I wonder if it was too much for the GPU to handle. The GPU is at 100% just showing its home page. I then started Webots up again and it crashed immediately while loading the world without without the chance to turn off VR mode. I then disconnected the headset and tried again with the same issue. This makes me suspect the issue was not due to the GPU being overutilized. My solution was to change the SteamVR configuration files such that it uses the null headset, start Webots, then turn off VR mode. Its Webots R2020b and a Pimax headset. The Pimax drivers seem sketchy, so I'm sure that is at least partly to blame.
+
+`@Westin` We never tried with the Pimax headset, but have you tried reducing the image resolution in SteamVR (before startign Webots)?
+
+##### Lukulus 10/12/2020 10:51:54
+Is there a way to get the bounding box of a node in the supervisor, for calculate the distance between two nodes?
+
+##### Olivier Michel [Cyberbotics] 10/12/2020 10:56:25
+Yes, this is possible from the Supervisor API. You should retrieve the `boundingObject` field of the node you want to inspect.
+
+##### Lukulus 10/12/2020 11:02:24
+thank you! And is there also a class documentation where I can find class functions for the boundingObject like get int getDistance(boundingObject  destiny, this)?
+
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2020 11:21:03
+Currently Webots doesn't provide any specific built-in functions for `boundingObjects` nodes.
+
+
+Also note that the `boundingObjects` nodes are normal nodes. So you should be able to compute the distance in your controller program using the Supervisor API
+
+##### Westin 10/12/2020 13:13:53
+`@Justin Fisher` Thanks for the tip.
+
+`@David Mansolino` If I get a chance, I'll try it out.
+
+##### Justin Fisher 10/13/2020 01:28:07
+`@Lukulus` If you're using a simple bounding object, like a sphere shape, the bounding object itself will be centered on the center of the solid that it is the bounding object for.  Suppose that solid has DEF name SOLID42, and that you called your supervisor robot sup.  Then, if your Supervisor is written in Python, you can get that solid's center, in global coordinates, with sup.getFromDef("SOLID42").getPosition().  (If you use some other language than Python, you can look up the equivalent functions for your language in Webots Supervisor docs -- I just gave a Python example because that's what I use.)  You can have more complex bounding shapes, e.g., ones starting with a group or translation field with many children.  In that case, you'd probably want to get an appropriate node from among those children and getPosition() from it.
+
+
+
+You can similarly use getPosition() to find the position of the other solid you're interested in, and then you can compute the distance between those two positions with the good old fashioned Pythagorean theorem. 
+
+
+
+If you're most interested in whether the objects are *colliding*, you may find it useful to use the supervisor get\_contact\_point functions, though I think those only tell you *where* on your solid the collision happened, not *which* other solid it collided with.
+

@@ -1,8 +1,10 @@
 name: Test Sources
 
-on: 
+on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+    paths-ignore:
+      - 'docs/**'
 
 defaults:
   run:
@@ -33,14 +35,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
     - name: Set up Python ${{ matrix.python }}
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
