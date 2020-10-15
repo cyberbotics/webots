@@ -13,21 +13,58 @@ class Obj3d {
     this.type="";
     this.userData = {"": ""};
     this.name="";
-    this.position = new THREE.Vector3(1,1,1);
+    this.position = new glm.vec3(1,1,1);
     this.isObject3D = true;
     this.matrixAutoUpdate = true;
     this.matrixWorldNeedsUpdate = false;
     this.parent = null;
     this.children = [];
-    this.matrix = new THREE.Matrix4();
-    this.matrixWorld = new THREE.Matrix4();
-    this.modelViewMatrix = new THREE.Matrix4();
-    this.normalMatrix = new THREE.Matrix3();
-    this.layers = new Layer();//new THREE.Layers();
+    this.matrix = new glm.mat4();
+    this.matrixWorld = new glm.mat4();
+    this.modelViewMatrix = new glm.mat4();
+    this.normalMatrix = new glm.mat3();
+    this.layers = new Layer();
     this.drawMode = 0;
-    this.quaternion = new THREE.Quaternion();
-    this.scale = new THREE.Vector3( 1, 1, 1 );
+    this.quaternion = new glm.quat();
+    this.scale = new glm.vec3( 1, 1, 1 );
   }
+
+
+	compose( matrix, position, quaternion, scale ) {
+
+		const te = matrix.elements;
+
+		const x = quaternion.x, y = quaternion.y, z = quaternion.z, w = quaternion.w;
+		const x2 = x + x,	y2 = y + y, z2 = z + z;
+		const xx = x * x2, xy = x * y2, xz = x * z2;
+		const yy = y * y2, yz = y * z2, zz = z * z2;
+		const wx = w * x2, wy = w * y2, wz = w * z2;
+
+		const sx = scale.x, sy = scale.y, sz = scale.z;
+
+		te[ 0 ] = ( 1 - ( yy + zz ) ) * sx;
+		te[ 1 ] = ( xy + wz ) * sx;
+		te[ 2 ] = ( xz - wy ) * sx;
+		te[ 3 ] = 0;
+
+		te[ 4 ] = ( xy - wz ) * sy;
+		te[ 5 ] = ( 1 - ( xx + zz ) ) * sy;
+		te[ 6 ] = ( yz + wx ) * sy;
+		te[ 7 ] = 0;
+
+		te[ 8 ] = ( xz + wy ) * sz;
+		te[ 9 ] = ( yz - wx ) * sz;
+		te[ 10 ] = ( 1 - ( xx + yy ) ) * sz;
+		te[ 11 ] = 0;
+
+		te[ 12 ] = position.x;
+		te[ 13 ] = position.y;
+		te[ 14 ] = position.z;
+		te[ 15 ] = 1;
+
+		return matrix;
+
+	}
 
   add(object) {
     if (object == this) {
@@ -53,7 +90,7 @@ class Obj3d {
   	}
 
   updateMatrix() {
-    this.matrix.compose( this.position, this.quaternion, this.scale );
+    this.matrix = this.compose(this.matrix, this.position, this.quaternion, this.scale );
     this.matrixWorldNeedsUpdate = true;
   }
 
@@ -64,7 +101,7 @@ class Obj3d {
       if ( this.parent === null ) {
         this.matrixWorld.copy( this.matrix );
       } else {
-            this.matrixWorld.multiplyMatrices( this.parent.matrixWorld, this.matrix );
+            this.matrixWorld = this.parent.matrixWorld['*'](this.matrix);
       }
       this.matrixWorldNeedsUpdate = false;
       force = true;
@@ -129,10 +166,30 @@ class Cam extends Obj3d {
     this.far = far;
     this.zoom = 1;
     this.view = null;
-    this.projectionMatrix = new THREE.Matrix4();
-    this.matrixWorldInverse = new THREE.Matrix4();
+    this.projectionMatrix = new glm.mat4();
+    this.matrixWorldInverse = new glm.mat4();
     this.isCamera = true;
   }
+
+  makePerspective(out, left, right, top, bottom, near, far ) {
+
+  const te = out.elements;
+  const x = 2 * near / ( right - left );
+  const y = 2 * near / ( top - bottom );
+
+  const a = ( right + left ) / ( right - left );
+  const b = ( top + bottom ) / ( top - bottom );
+  const c = - ( far + near ) / ( far - near );
+  const d = - 2 * far * near / ( far - near );
+
+  te[ 0 ] = x;	te[ 4 ] = 0;	te[ 8 ] = a;	te[ 12 ] = 0;
+  te[ 1 ] = 0;	te[ 5 ] = y;	te[ 9 ] = b;	te[ 13 ] = 0;
+  te[ 2 ] = 0;	te[ 6 ] = 0;	te[ 10 ] = c;	te[ 14 ] = d;
+  te[ 3 ] = 0;	te[ 7 ] = 0;	te[ 11 ] = - 1;	te[ 15 ] = 0;
+
+  return te;
+
+}
 
   updateProjectionMatrix() {
     const near = this.near;
@@ -152,13 +209,12 @@ class Cam extends Obj3d {
     		height *= view.height / fullHeight;
 		}
 
-		this.projectionMatrix.makePerspective( left, left + width, top, top - height, near, this.far );
-  	//this.projectionMatrixInverse.getInverse( this.projectionMatrix );
+		this.projectionMatrix = this.makePerspective(this.projectionMatrix , left, left + width, top, top - height, near, this.far );
   }
 
   updateMatrixWorld(force) {
     super.updateMatrixWorld(force);
-    this.matrixWorldInverse.getInverse( this.matrixWorld );
+    this.matrixWorldInverse = glm.inverse( this.matrixWorld );
   }
 
 }
@@ -213,7 +269,6 @@ class BoxBufferGeo {
 
 			let vertexCounter = 0;
 
-			//const vector = new THREE.Vector3();
       const vector = new glm.vec3();
 			// generate vertices, normals and uvs
 			for ( let iy = 0; iy < gridY1; iy ++ ) {
@@ -270,7 +325,8 @@ class BoxBufferGeo {
   }
   setIndex(index) {
     if ( Array.isArray( index ) ) {
-      this.index = new ( this.arrayMax( index ) > 65535 ? THREE.Uint32BufferAttribute : THREE.Uint16BufferAttribute )( index, 1 );
+      //this.index = new ( this.arrayMax( index ) > 65535 ? THREE.Uint32BufferAttribute : THREE.Uint16BufferAttribute )( index, 1 );
+      this.index = new Float32Array( index );
     } else {
       this.index = index;
     }
@@ -284,7 +340,7 @@ class BoxBufferGeo {
 class MeshBasicMat {
   constructor (){
     this.type = 'MeshBasicMaterial';
-    this.color = new THREE.Color(0xffffff);
+    this.color = new Module.Color(255,255,255);
     this.isMeshBasicMaterial = true;
     this.lights = false;
 	  this.needsUpdate = false
@@ -302,46 +358,6 @@ class MeshBasicMat {
   }
 }
 
-/*
-class WebGL2Renderer extends THREE.WebGLRenderer{
-  constructor() {
-    super();
-    this.width;
-    this.height;
-    //canvas is normally private
-    //this.domElement = this.canvas;
-    this.pixelRatio = 1;
-    this.viewport = glm.vec4(0, 0, this.width, this.height);
-    this.currentRenderTarget = null;
-    this.currentActiveMipmapLevel = 0;
-    this.setSize = function (width, height, updateStyle) {
-      this.width = width;
-      this.height = height;
-      this.domElement.width = Math.floor( width * this.pixelRatio );
-      this.domElement.height = Math.floor( height * this.pixelRatio );
-
-      if ( updateStyle !== false ) {
-        this.domElement.style.width = width + 'px';
-        this.domElement.style.height = height + 'px';
-      }
-      this.setViewport( 0, 0, width, height ); //setViewport est sensé modifier state.viewport. je vais d'abord essayer en me passant de hasTransparentTexture
-      //this.viewport = new THREE.Vector4(0,0, width, height)
-    }
-}
-
-
-
-  getDrawingBufferSize (target) {
-    return target.set(Math.floor(this.widtht * this.pixelRatio, this.height * this.pixelRatio));
-  }
-
-  getRenderTarget() {
-    return this.currentRenderTarget;
-  }
-  setRenderTarget(){
-  }
-}
-*/
 Object.assign( glm.vec2.prototype, {
 	set: function(x, y) {
 		return new glm.vec2(x,y);
@@ -412,7 +428,6 @@ RenPass.prototype = Object.assign( Object.create( RenPass.prototype ), {
 	setSize: function ( width, height ) {},
 
 	render: function ( renderer) {
-		// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
 		renderer.render( this.scene, this.camera );
 	}
 } );

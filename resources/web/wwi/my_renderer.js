@@ -3,17 +3,13 @@ function WebGLAttributes( gl ) {
   let buffers = new WeakMap();
 
   function createBuffer( attribute, bufferType ) {
-
-    let array = attribute.array;
+    let array = attribute;
     let usage = attribute.dynamic ? 35048 : 35044;
 
     let buffer = gl.createBuffer();
 
     gl.bindBuffer( bufferType, buffer );
     gl.bufferData( bufferType, array, usage );
-
-    attribute.onUploadCallback();
-
     let type = 5126;
 
     if ( array instanceof Float32Array ) {
@@ -53,59 +49,25 @@ function WebGLAttributes( gl ) {
     return {
       buffer: buffer,
       type: type,
-      bytesPerElement: array.BYTES_PER_ELEMENT,
+      bytesPerElement: 2,
       version: attribute.version
     };
-
-  }
-
-  function updateBuffer( buffer, attribute, bufferType ) {
-
-    let array = attribute.array;
-    let updateRange = attribute.updateRange;
-
-    gl.bindBuffer( bufferType, buffer );
-
-    if ( attribute.dynamic === false ) {
-
-      gl.bufferData( bufferType, array, 35044 );
-
-    } else if ( updateRange.count === - 1 ) {
-
-      // Not using update ranges
-
-      gl.bufferSubData( bufferType, 0, array );
-
-    } else if ( updateRange.count === 0 ) {
-
-      console.error( 'WebGLObjects.updateBuffer: dynamic BufferAttribute marked as needsUpdate but updateRange.count is 0, ensure you are using set methods or updating manually.' );
-
-    } else {
-
-      gl.bufferSubData( bufferType, updateRange.offset * array.BYTES_PER_ELEMENT,
-        array.subarray( updateRange.offset, updateRange.offset + updateRange.count ) );
-
-      updateRange.count = - 1; // reset range
-
-    }
 
   }
 
   //
 
   function get( attribute ) {
-
     if ( attribute.isInterleavedBufferAttribute ) attribute = attribute.data;
 
     return buffers.get( attribute );
-
   }
 
 
   function update( attribute, bufferType ) {
 
-    if ( attribute.isInterleavedBufferAttribute ) attribute = attribute.data;
 
+    if ( attribute.isInterleavedBufferAttribute ) attribute = attribute.data;
     let data = buffers.get( attribute );
 
     if ( data === undefined ) {
@@ -409,8 +371,6 @@ function fetchAttributeLocations( gl, program ) {
     var info = gl.getActiveAttrib( program, i );
     var name = info.name;
 
-    // console.log( 'THREE.WebGLProgram: ACTIVE VERTEX ATTRIBUTE:', name, i );
-
     attributes[ name ] = gl.getAttribLocation( program, name );
 
   }
@@ -447,9 +407,6 @@ function WebGLProgram( renderer, code, material, shader, parameters ) {
   let vertexGlsl = prefixVertex + vertexShader;
   let fragmentGlsl = prefixFragment + fragmentShader;
 
-   //console.log( '*VERTEX*', vertexGlsl );
-   //console.log( '*FRAGMENT*', fragmentGlsl );
-
   let glVertexShader = gl.createShader( 35633 );
   gl.shaderSource( glVertexShader, vertexGlsl );
   gl.compileShader( glVertexShader );
@@ -458,8 +415,6 @@ function WebGLProgram( renderer, code, material, shader, parameters ) {
   gl.shaderSource( glFragmentShader, fragmentGlsl );
   gl.compileShader( glFragmentShader );
 
-  //console.log( '*glVERTEX*', glVertexShader );
-  //console.log( '*glFRAGMENT*', glFragmentShader );
   gl.attachShader( program, glVertexShader );
   gl.attachShader( program, glFragmentShader );
 
@@ -785,7 +740,7 @@ WebGLUniforms.seqWithValue = function ( seq, values ) {
 
 
 const common = {
-    diffuse: { value: new THREE.Color( 0xeeeeee ) }
+    diffuse: { value: new Module.Color( 238,238,238 ) }
 };
 
 const meshbasic_frag = "uniform vec3 diffuse;\nuniform float opacity;\nstruct ReflectedLight {\n\tvec3 directDiffuse;\n\tvec3 directSpecular;\n\tvec3 indirectDiffuse;\n\tvec3 indirectSpecular;\n};\nvoid main() {\n\tvec4 diffuseColor = vec4( diffuse, opacity );\n\tReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );\n\treflectedLight.indirectDiffuse += vec3( 1.0 );\n\treflectedLight.indirectDiffuse *= diffuseColor.rgb;\n\tvec3 outgoingLight = reflectedLight.indirectDiffuse;\n\tgl_FragColor = vec4( outgoingLight, diffuseColor.a );\n}";
@@ -812,14 +767,14 @@ class WebGL2Renderer {
     this.programCache = new WebGLPrograms(this);
     this.currentRenderList = null;
     this.currentProgram = null;
-    this.viewport= new THREE.Vector4( 0, 0, this.domElement.width, this.domElement.height )
+    this.viewport= new glm.vec4( 0, 0, this.domElement.width, this.domElement.height )
 
     this.setSize = function ( width, height, updateStyle ) {
 
       this.canvas.width = width;
       this.canvas.height = height;
 
-      this.viewport.set( 0, 0, width, height );
+      this.viewport = new glm.vec4( 0, 0, width, height );
       this.gl.viewport( this.viewport.x, this.viewport.y, this.viewport.z, this.viewport.w );
 
     };
@@ -835,6 +790,7 @@ class WebGL2Renderer {
       // render scene
       let opaqueObjects = this.currentRenderList.opaque;
       if ( opaqueObjects.length ) this.renderObjects( opaqueObjects, camera );
+
     };
 
     this.renderBufferDirect = function  ( camera, fog, geometry, material, object, group ) {
@@ -860,13 +816,14 @@ class WebGL2Renderer {
       let drawEnd = Math.min( dataCount, rangeStart + rangeCount, groupStart + groupCount ) - 1;
 
       let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
-
+      console.log("1");
+      console.log(this.gl.getError());
       if ( drawCount === 0 ) return;
-      this.gl.drawElements(  this.gl.TRIANGLES , drawCount, attribute.type, drawStart * attribute.bytesPerElement );
+      this.gl.drawElements( this.gl.TRIANGLES , this.gl.UNSIGNED_SHORT, attribute.type, drawStart * 2 );
+      console.log("2");
+      console.log(this.gl.getError());
     };
   }
-
-
 
   projectObject ( object, camera ) {
       if ( object.isMesh) {
@@ -897,12 +854,14 @@ class WebGL2Renderer {
       let geometry = renderItem.geometry;
       let material = renderItem.material;
       let group = renderItem.group;
-      object.modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, object.matrixWorld );
+      object.modelViewMatrix = camera.matrixWorldInverse['*'](object.matrixWorld);
       this.renderBufferDirect( camera, undefined, geometry, material, object, group );
     }
-  }
 
+  }
+/*
   renderBufferDirect  ( camera, fog, geometry, material, object, group ) {
+
     let program = this.setProgram( camera, fog, material, object );
 
     let index = geometry.index;
@@ -929,7 +888,7 @@ class WebGL2Renderer {
     if ( drawCount === 0 ) return;
     this.gl.drawElements(  this.gl.TRIANGLES , drawCount, attribute.type, drawStart * attribute.bytesPerElement );
   };
-
+*/
   setProgram( camera, fog, material, object ) {
     let materialProperties = this.properties.get( material );
 
