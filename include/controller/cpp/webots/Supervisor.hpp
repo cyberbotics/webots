@@ -25,7 +25,6 @@ namespace webots {
     typedef enum {
       SIMULATION_MODE_PAUSE = 0,
       SIMULATION_MODE_REAL_TIME,
-      SIMULATION_MODE_RUN,
       SIMULATION_MODE_FAST
     } SimulationMode;
 

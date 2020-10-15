@@ -2007,7 +2007,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode);
 namespace webots {
   class Supervisor : public Robot {
     typedef enum {
-      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
     } SimulationMode;
 
     SimulationMode simulationGetMode() const;
@@ -2025,7 +2025,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
 
     def simulationGetMode(self):
     def simulationSetMode(self, mode):
@@ -2040,7 +2040,7 @@ class Supervisor (Robot):
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class Supervisor extends Robot {
-  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST;
+  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST;
 
   public int simulationGetMode();
   public void simulationSetMode(int mode);
