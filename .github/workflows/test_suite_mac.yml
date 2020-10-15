@@ -30,8 +30,8 @@ jobs:
     - name: Install Webots Compilation Dependencies
       run: |
         brew list
-       # brew update
-       # brew upgrade
+        # brew update
+        # brew upgrade
         # brew install cmake swig wget python@3.7 python@3.9
         npm install -g appdmg
         # install regular Python 3.7
