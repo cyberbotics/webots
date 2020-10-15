@@ -92,6 +92,9 @@ signals:
   void needsMinimize();
   void requestOpenUrl(const QString &fileName, const QString &message, const QString &title);
 
+public slots:
+  void disableRendering(bool disabled);
+
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
@@ -112,7 +115,6 @@ private slots:
   void step();
   void realTime();
   void fast();
-  void disableRendering(bool disabled);
   void toggleRendering();
   void updateVisibility();
   void writeScreenshot(QImage image);
@@ -152,6 +154,7 @@ private:
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
   bool mNeedToRestoreBlackRenderingOverlay;
+  bool mNeedToRestoreRendering;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;

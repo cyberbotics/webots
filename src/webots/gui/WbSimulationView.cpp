@@ -110,6 +110,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   mTitleBar = new WbDockTitleBar(false, this);
   mToolBar = createToolBar();
   mNeedToRestoreBlackRenderingOverlay = false;
+  mNeedToRestoreRendering = false;
 
   // top level layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
@@ -618,7 +619,7 @@ void WbSimulationView::makeMovie() {
 }
 
 void WbSimulationView::showRenderingIfNecessary() {
-  // remove "Fast Mode" overlay if necessary
+  // remove "No Rendering" overlay if necessary
   if (!WbSimulationState::instance()->isRendering()) {
     WbSimulationState::instance()->setRendering(true);
     mView3D->hideBlackRenderingOverlay();
@@ -758,6 +759,14 @@ void WbSimulationView::fast() {
 }
 
 void WbSimulationView::disableRendering(bool disabled) {
+  if (disabled) {
+    mNeedToRestoreRendering = WbSimulationState::instance()->isRendering();
+    WbSimulationState::instance()->setRendering(false);
+  } else if (mNeedToRestoreRendering) {
+    mNeedToRestoreRendering = false;
+    WbSimulationState::instance()->setRendering(true);
+  }
+
   WbActionManager::instance()->action(WbAction::RENDERING)->setEnabled(!disabled);
   mView3D->setUserInteractionDisabled(WbAction::DISABLE_RENDERING, disabled);
 }

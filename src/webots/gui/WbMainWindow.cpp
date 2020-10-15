@@ -1376,9 +1376,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbActionManager::instance()
     ->action(WbAction::DISABLE_RENDERING)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
-  WbActionManager::instance()
-    ->action(WbAction::RENDERING)
-    ->setEnabled(!perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
+  mSimulationView->disableRendering(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();
