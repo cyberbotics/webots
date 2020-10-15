@@ -19,6 +19,8 @@ In any case, you should have a minimal knowledge of GitHub to fork our repositor
 
 For C/C++ contributions is strongly recommended that you install the Webots development environment as explained below.
 
+If your contribution is external to Webots, e.g., a sample simulation, a PROTO model, a controller library, etc., you may be interested to contribute it to the [community projects](https://github.com/cyberbotics/community-projects) repository.
+
 ## Need ideas to contribute?
 
 Unless you have a good idea to implement, you can browse the [beginner issues](https://github.com/cyberbotics/webots/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and select a feature or bug fix that should be fairly easy to implement.
