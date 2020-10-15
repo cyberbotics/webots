@@ -2070,13 +2070,13 @@ You can built your own, import from URDF or using some other available tools
 
 That are available on Webots github
 
-##### ellsan 01/29/2020 09:04:00
+##### else { on(); } 01/29/2020 09:04:00
 hi. i have webots v7.4.0 but i can't register. is there a way to register?
 
 ##### Fabien Rohrer [Moderator] 01/29/2020 09:05:30
 Hi, there is no more regisration for Webots 7, you can simply login Webots 7 using the "webots" password as explained here: [https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### ellsan 01/29/2020 09:06:35
+##### else { on(); } 01/29/2020 09:06:35
 thank you very much
 
 ##### Daniil 01/29/2020 13:54:55
@@ -10761,13 +10761,13 @@ thnx
 
 This robot is not available ot of the box in Webots, hoewver you can build you own model. I recommend to follow tutorial 1 to 6 to learn how to do this: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
-##### JapieHoeven 04/20/2020 13:44:04
+##### Robin-Wagenaar 04/20/2020 13:44:04
 Hello, I'm just starting with using Webots for a school project and I have a question with the first tutorial. I'm on a Mac and at tutorial 1 at hands on #9. I have to connect the controller to the E-puck but there is nog "Select" button. On Windows you are able to click a select button, but I can't find that button on MacOS. Can somebody help me connecting the controller to the E-puck? Thank you in advance.
 
 ##### David Mansolino [Cyberbotics] 04/20/2020 13:45:37
-Hi `@JapieHoeven` welcome. You have to select the 'controller' field before looking the 'Select' button.
+Hi `@Robin-Wagenaar` welcome. You have to select the 'controller' field before looking the 'Select' button.
 
-##### JapieHoeven 04/20/2020 13:51:08
+##### Robin-Wagenaar 04/20/2020 13:51:08
 I have this, where is the controller I have to select?
 %figure
 ![Schermafbeelding_2020-04-20_om_15.50.25.png](https://cdn.discordapp.com/attachments/565154703139405824/701792071903608852/Schermafbeelding_2020-04-20_om_15.50.25.png)
@@ -10779,7 +10779,7 @@ Thanks for your quick response!
 ##### David Mansolino [Cyberbotics] 04/20/2020 13:52:24
 It seems you closed the node editor, their is an editor on the bottom of the scene-tree (you should be able to re-open it by draging it), it should looks like: [https://cyberbotics.com/doc/guide/the-scene-tree#field-editor](https://cyberbotics.com/doc/guide/the-scene-tree#field-editor)
 
-##### JapieHoeven 04/20/2020 13:53:04
+##### Robin-Wagenaar 04/20/2020 13:53:04
 Yes it worked! Thanks so much!
 
 ##### David Mansolino [Cyberbotics] 04/20/2020 13:53:26
@@ -18625,13 +18625,13 @@ Thank you!!!
 
 fixed!
 
-##### JapieHoeven 06/09/2020 13:57:53
+##### Robin-Wagenaar 06/09/2020 13:57:53
 Hello, can anyone explain me how I can change the python version that Webots uses? I'm on a Mac and I have installed python 3.7 now, but I need to know how I can switch to this version of Python
 
 ##### David Mansolino [Cyberbotics] 06/09/2020 13:58:47
 You can simply do this from the preferences, where you can specify the Python command: [https://cyberbotics.com/doc/guide/preferences#general](https://cyberbotics.com/doc/guide/preferences#general)
 
-##### JapieHoeven 06/09/2020 13:59:16
+##### Robin-Wagenaar 06/09/2020 13:59:16
 Ah it's that simple. Thanks very much!
 
 ##### David Mansolino [Cyberbotics] 06/09/2020 13:59:23
@@ -18779,7 +18779,7 @@ Script crashes -> reset simulation -> run controller -> run sim : i am not getti
 
 Script crashes -> reset simulation -> run controller -> run sim -> reset simulation (before controller crash) and rerun it works as intended
 
-##### JapieHoeven 06/10/2020 13:21:56
+##### Robin-Wagenaar 06/10/2020 13:21:56
 Hello guys, does anyone know if it is possible to measure the weight of an object with a gripper in Webots? I have to measure the weight of a stone which will be picked up by a gripper, but I haven't found a way to do that yet.
 
 ##### Sergen Aşık 06/10/2020 13:22:55
@@ -18819,7 +18819,7 @@ Thank you
 The WheelsDampingConstant is a constant c in an expression like F=c*w, with w being the angular velocity of the vehicle's axis (meaning it is a resistance force in each tire against the motor output)?
 
 ##### Darko Lukić [Cyberbotics] 06/10/2020 14:20:25
-`@JapieHoeven` TouchSensor can measure the force, maybe you can use it:
+`@Robin-Wagenaar` TouchSensor can measure the force, maybe you can use it:
 
 [https://cyberbotics.com/doc/reference/touchsensor#force-sensors](https://cyberbotics.com/doc/reference/touchsensor#force-sensors)
 
@@ -18834,7 +18834,7 @@ The WheelsDampingConstant is a constant c in an expression like F=c*w, with w be
 ##### Sergen Aşık 06/10/2020 14:27:34
 Is Skeletal Tracking available on Microsoft Kinect?
 
-##### JapieHoeven 06/10/2020 14:29:10
+##### Robin-Wagenaar 06/10/2020 14:29:10
 Ah thanks `@Darko Lukić` , I'll take a look at it.
 
 ##### David Mansolino [Cyberbotics] 06/10/2020 14:30:39
@@ -22792,7 +22792,7 @@ That's not normal for the maxTorque, what is not working exactly?
 
 `@Jatin Sharma` is your controller compiled?
 
-##### Jajaka 06/30/2020 07:06:44
+##### Arunik 06/30/2020 07:06:44
 my webots always not respond when make first simulation project on wizard menu
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:08:18
@@ -22802,7 +22802,7 @@ Do you have write right where you are trying to create the new project?
 
 If you create just a new world is it working?
 
-##### Jajaka 06/30/2020 07:10:31
+##### Arunik 06/30/2020 07:10:31
 could my computer running webots ?
 %figure
 ![error_graphic.png](https://cdn.discordapp.com/attachments/565154703139405824/727420791758651452/error_graphic.png)
@@ -22814,13 +22814,13 @@ my webots is lastest version on website
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:12:01
 Most probably yes, this just means that your GPU is not very powerfull and that Webots will disable advanced rendering features to save performance.
 
-##### Jajaka 06/30/2020 07:14:10
+##### Arunik 06/30/2020 07:14:10
 Oke, so i cant use webots on my computer, do you mean ?
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:14:36
 No that's not what I mean
 
-##### Jajaka 06/30/2020 07:16:59
+##### Arunik 06/30/2020 07:16:59
 thank you
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:17:05
@@ -22885,7 +22885,7 @@ And about  getAvailableTorque?
 ##### lojik 06/30/2020 09:07:42
 The same results, it changes only if I set with setAvailableTorque() function
 
-##### Jajaka 06/30/2020 09:08:32
+##### Arunik 06/30/2020 09:08:32
 my webots always stack while create directory on wizard
 %figure
 ![stack.png](https://cdn.discordapp.com/attachments/565154703139405824/727450489771524106/stack.png)
@@ -38496,13 +38496,13 @@ here are the instructions to install and correctly setup Python:
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 14:17:26
 You're welcome
 
-##### arunik 09/22/2020 06:59:10
+##### arru 09/22/2020 06:59:10
 could webots live streamming ?
 
 ##### Darko Lukić [Cyberbotics] 09/22/2020 07:00:12
 > could webots live streamming ?
 
-`@arunik` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
+`@arru` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
 
 ##### Bkarso 09/22/2020 09:38:00
 hello,I use webots with ros,I use 'get\_velocity' service ,but the value is totally same with my input.If I must use the position\_sensor to  get the Velocity?
@@ -40991,4 +40991,885 @@ Okay, thank you.
 
 ##### David Mansolino [Cyberbotics] 10/07/2020 13:06:55
 You're welcome.
+
+##### owongcho 10/08/2020 13:00:30
+Hello, I created a gripper proto, which include the motors for the fingers. When I am calling the fingers motors from the robot
+
+
+I am getting a warning: "finger motor" device not found.
+
+
+how can I call the fingers that's inside a proto?
+
+
+*finger motors
+
+##### David Mansolino [Cyberbotics] 10/08/2020 13:02:30
+Hi, they should work the same way as in the scene-tree.
+
+
+What is the base node of you PROTO? Is it by any chance a Robot node?
+
+##### owongcho 10/08/2020 13:02:58
+is a solid
+
+##### David Mansolino [Cyberbotics] 10/08/2020 13:03:23
+Ok perfect.
+
+
+After inserting the PROTO, did you made sure to save and revert the simulation?
+
+##### owongcho 10/08/2020 13:04:37
+yes, I saved the proto and world files, and reloaded the world
+
+##### David Mansolino [Cyberbotics] 10/08/2020 13:05:13
+Stupid question, but are you sure you:
+
+  1. used the correct name?
+
+  2. assign the controller to the correct robot?
+
+
+Can you check in the robot-window if you see the finger motor in the list of devices?
+
+##### owongcho 10/08/2020 13:06:27
+ok, let me check
+
+
+ok. I double checked, reset the simulation, and reloaded again. Now is working fine. Thank you!
+
+##### David Mansolino [Cyberbotics] 10/08/2020 13:10:54
+Good news!
+
+You're welcome
+
+##### Justin Fisher 10/09/2020 01:05:05
+I've also often been frustrated by some scene-tree changes, esp. to robot devices, not fully registering and causing difficult-to-diagnose bugs until after a full world reload.  I wonder if there's a good way that Webots could detect when such frustrations are likely to arise and pop up a warning message?  E.g., maybe check when someone hits reset and pop up a warning saying, "Warning: your scene tree has been changed in ways that will not take effect until you reload the world.  Would you like to reload it now?  Click yes or no."
+
+##### SebasRGGamer20 10/09/2020 01:52:45
+Hi everyone, I'm Sebastian, I have a question about how can I change the axes in a 3d object imported to Webots?. Because when I imported a 3d object, the axes of the object are far from it. I mean, the axes aren't in the object correctly... And it is so difficult at the moment to manage the object. Thanks...
+
+##### Justin Fisher 10/09/2020 01:55:06
+(A) You may have a translation field somewhere that is moving parts of the object, or (B) it may be that the vertices of the imported object aren't surrounding the center (0,0,0) of the object.  If (A) just change that translation.  If (B) you may be able to move the vertices in blender or whatever program you used to create the object, or you could just add a translation in webots to offset it the amount you want
+
+##### SebasRGGamer20 10/09/2020 01:55:13
+It is in this case, the orange object is the imported.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/763942618106429451/unknown.png)
+%end
+
+
+> (A) You may have a translation field somewhere that is moving parts of the object, or (B) it may be that the vertices of the imported object aren't surrounding the center (0,0,0) of the object.  If (A) just change that translation.  If (B) you may be able to move the vertices in blender or whatever program you used to create the object, or you could just add a translation in webots to offset it the amount you want
+
+`@Justin Fisher` Thanks friend, I don't know very much about how can I use this software...
+
+##### Justin Fisher 10/09/2020 01:58:30
+where did you get the object you imported?
+
+##### SebasRGGamer20 10/09/2020 01:59:41
+From Solidworks
+
+##### Justin Fisher 10/09/2020 02:01:06
+so you exported it from solidworks?  If so, I'd probably suggest seeing if you can move it in Solidworks so that it is centered at 0,0,0 and then export it again
+
+
+alternatively, i think you could create a webots transform node, then copy-paste your object inside of it [as one of its children], and mess with the translation field of that transform node, and with some experimentation, you may be able to center it
+
+##### SebasRGGamer20 10/09/2020 02:03:12
+Or for example, I can move it from blender too?
+
+##### Justin Fisher 10/09/2020 02:03:30
+yes, that'd probly work too
+
+
+probably it's just a text file, so you probably could go in and manually subtract a certain amount off each of the vertices too if you didn't want to use a program to do it, though that'd be a pain  (can't tell from the pic how many vertices it has)
+
+##### SebasRGGamer20 10/09/2020 02:06:16
+Thanks friend, I'll try it so
+
+##### DrakerDG 10/09/2020 04:47:32
+Greetings to all!  This is my second robot in webots, it still has some mechanical problems, but it manages to follow the line effectively.   Does anyone know what I can do to avoid the shocks that can be seen in the video?
+
+
+
+[https://youtu.be/FFjbia-63hQ](https://youtu.be/FFjbia-63hQ)
+
+##### Darko Lukić [Cyberbotics] 10/09/2020 06:00:19
+`@DrakerDG` Nice project! It seems you are using `Follow Object`, so the camera follows the robot even when the robot does rapid turns (which causes the shocks).
+
+
+
+Maybe you can turn off the object following option or use [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_move\_viewpoint](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_move_viewpoint) to create your custom robot follower.
+
+##### GaGa 10/09/2020 06:06:13
+Hello guys , I'm a beginner and started to build a 4 wheel robot , so I'm encountering a problem while selecting controller stating "some directories or files coould not be created" 
+
+
+
+It would be great if someone give a solution 😊
+
+
+
+%figure
+![20201009_113644.jpg](https://cdn.discordapp.com/attachments/565154703139405824/764005933960790026/20201009_113644.jpg)
+%end
+
+##### David Mansolino [Cyberbotics] 10/09/2020 08:29:53
+Hi `@GaGa`, do you have write acess in this folder? Can you check which files have been created?
+
+##### DrakerDG 10/09/2020 09:55:13
+`@Darko Lukić` Thanks, I will review what you tell me 😁👍🏼
+
+##### DrVoodoo [Moderator] 10/09/2020 10:02:25
+I've run into an issue with Lidar sensors when roll/pitch is non-zero.
+
+
+I'm assuming that it's a manifestation of this bug [https://github.com/cyberbotics/webots/issues/37](https://github.com/cyberbotics/webots/issues/37)
+
+
+So when I grab point cloud data from a lidar with non-zero roll the point cloud has an extra skew on it.
+
+
+Fine, the bug notes state that it's related to the spherical camera projection that is used so I should be able to resolve it setting the spherical attribute of the Lidar node to false.
+
+
+But that then corrupts the point cloud data even further
+
+
+Now if I grab the rangeimage from a non-spherical lidar I can calculate the intrinsic matrix values for the "camera" and convert that depth image into a pointcloud myself and get the correct data out
+
+
+basically is this the best/only way to get accurate lidar data out of a pitched/rolled lidar node? or is there a better solution I'm missing
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:12:03
+HI, what do you mean by pitched/rolled lidar? Is it that you set the ``tiltAngle`` field of the lidar node to something else than 0?
+
+##### DrVoodoo [Moderator] 10/09/2020 10:14:15
+Hi David, no it's when it's mounted to a vehicle on a non-flat surface. Although at present, I've got it mounted on a simulated static 3-axis gimble so that I could investigate more easily.
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:15:50
+OK, in that case it is probably not related to [https://github.com/cyberbotics/webots/issues/37](https://github.com/cyberbotics/webots/issues/37), as this bug is affecting only lidars with a tilt angle not equal to 0.
+
+
+Can you share a picture of th eproblem to help us understanding it?
+
+##### DrVoodoo [Moderator] 10/09/2020 10:18:44
+Ok, so here's my test setup
+%figure
+![Screenshot_from_2020-10-09_11-17-39.png](https://cdn.discordapp.com/attachments/565154703139405824/764069333424930816/Screenshot_from_2020-10-09_11-17-39.png)
+%end
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:20:59
+Note that you are displaying the ray pathes and not the point-cloud here
+
+##### DrVoodoo [Moderator] 10/09/2020 10:21:42
+yup, just to make it easier to see the lidar angle. just getting the other screenshot
+
+
+when the roll is non-zero the point cloud data has an extra skew on it that in this case is causing the points to look like they are clipping through the floor
+%figure
+![Screenshot_from_2020-10-09_11-20-48.png](https://cdn.discordapp.com/attachments/565154703139405824/764070365755605012/Screenshot_from_2020-10-09_11-20-48.png)
+%end
+
+
+but its not just a webots overlay/visualisation problem
+
+
+I get the same skew if its visualised in pcl so its in the point cloud values
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:25:20
+Have you tried increasing the 'near' field ?
+
+##### DrVoodoo [Moderator] 10/09/2020 10:29:11
+what sort of value do you suggest? ive now got near=1 and minRange=2 but it's still there
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:30:06
+That should be far enough, the problem is probably not this in that case.
+
+
+It's difficult to understand where this comes from, can you please report this here including a world reproducting the error: [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+It will be simpler for us if we can reproduce it to understand what is exactly the problem.
+
+##### DrVoodoo [Moderator] 10/09/2020 10:31:26
+will do, thanks
+
+##### David Mansolino [Cyberbotics] 10/09/2020 10:31:38
+Thank you
+
+##### DrVoodoo [Moderator] 10/09/2020 12:52:41
+`@David Mansolino` got delayed but now raised as #2313
+
+##### David Mansolino [Cyberbotics] 10/09/2020 12:58:18
+Thank you, we will have a look and let you know directly on the issue.
+
+##### GaGa 10/09/2020 17:23:18
+> Hi `@GaGa`, do you have write acess in this folder? Can you check which files have been created?
+
+`@David Mansolino` I don't have access to folder and I can create some controllers in the same path aswell !!
+
+##### Tathagata 10/10/2020 15:30:05
+My system is a 32 bit system, I have downloaded and installed the webots 8.2 (x86) version. After installation, when I tried to run it, a prompt popped up and asked for login. As I don't have any account with webots, I tried to register for a new account. Then it redirected to an webpage and it showed 404 error. Is there any way to install Webots in a 32 bit system and use it?
+
+##### Justin Fisher 10/10/2020 18:10:25
+`@Tathagata`  The people who really know seem to be around here mostly during European workday hours.  My sense though is that it currently requires 64 bits.  Sorry.
+
+
+
+Webots became free and open-source last year.  It sounds like you were trying to use a version from before that.  I doubt it is still supported.
+
+##### Olivier Michel [Cyberbotics] 10/10/2020 18:33:16
+I confirm Webots do not support any more 32 bit systems.
+
+##### DrakerDG 10/11/2020 01:35:49
+> Greetings to all!  This is my second robot in webots, it still has some mechanical problems, but it manages to follow the line effectively.   Does anyone know what I can do to avoid the shocks that can be seen in the video?
+
+> 
+
+> [https://youtu.be/FFjbia-63hQ](https://youtu.be/FFjbia-63hQ)
+
+`@DrakerDG` In this is a latest version (V2) with better performance.  I set the ERP = 1 (Error Reduction Parameter) to avoid mechanical errors in the joints of the motors and the rolling wheel.  So far I have not used the supervisor API.  I also got the LEDs to work acceptably, using SpotLights directed towards the ground.  In general this version works much better than the previous one, but I would like it to go faster (More than 3500).
+
+
+
+[https://youtu.be/6lPtWw9iVak](https://youtu.be/6lPtWw9iVak)
+
+##### Simon Steinmann [Moderator] 10/11/2020 10:36:11
+`@DrakerDG` Be careful with setting the ERP that high. I suggest you follow the advice of the documentation and put it to a max of 0.8. Instead, perhaps try raising the cfm slightly. Perhaps something like 1e-4
+
+
+as for "More than 3500"... what do you mean by that?
+
+##### DrakerDG 10/11/2020 11:13:27
+> `@DrakerDG` Be careful with setting the ERP that high. I suggest you follow the advice of the documentation and put it to a max of 0.8. Instead, perhaps try raising the cfm slightly. Perhaps something like 1e-4
+
+`@Simon Steinmann` ok, I previously set the ERP to 0.8 but it didn't work for me, however I hadn't set the CFM.  I am going to set it to 0.8 again and I will put the CFM in the value that you have digested and continue with the tests, thank you very much for the observation
+
+
+> as for "More than 3500"... what do you mean by that?
+
+`@Simon Steinmann` 3500 is the speed value that I have set before converting it to radiants.  In this case for example: wb\_motor\_set\_velocity (left\_motor, 0.00628 * 3500), the result is 21.98 radiants.  By increasing this speed the robot eventually loses the line.  I must continue testing with the values ​​that I have programmed of PID to improve the control of the robot
+
+##### Simon Steinmann [Moderator] 10/11/2020 12:13:15
+at some point you might get a traction problem. Perhaps add a contact property to the worldinfo and increase the friction of the tires
+
+##### DrakerDG 10/11/2020 12:36:00
+Ok, thanks a lot 😁👍🏼.  I had not taken friction into account.
+
+##### aalmanso 10/11/2020 14:28:18
+Hi,
+
+ I work with epuck robot but I need to add another sensors(ground sensor) to read the gray scale of the area under robot.
+
+Is that possible please?
+
+##### DrakerDG 10/11/2020 15:25:40
+`@aalmanso` Is possible, in the children part the sensors you need are added and then you configure them as IR, their sensitivity and other parameters. 
+
+
+
+[https://www.cyberbotics.com/doc/reference/distancesensor](https://www.cyberbotics.com/doc/reference/distancesensor)
+
+##### aalmanso 10/11/2020 16:54:17
+Thanks
+
+##### MumsDad 10/12/2020 02:51:04
+Hi there, this should be an easy fix but I've already spent too much time trying to find a solution. I simply want to get and set the velocity of a ball, I've created it as a robot and have a MATLAB script that can get the translation using wb\_supervisor\_field\_get\_sf\_vec3f()
+
+
+so to get the velocity I'm using this: 
+
+velocity = wb\_supervisor\_node\_get\_velocity(node)
+
+wb\_supervisor\_node\_set\_velocity(node, velocity)
+
+
+
+but whats returned is a pointer array? how do i simply console print the objects current velocity
+
+
+my trouble is just with getting the velocity, i can apply a 6x1 vector to the node
+
+##### Luiz Felipe 10/12/2020 05:18:54
+Hi, the webots official docker images are only compatible with CUDA >=11 right?
+
+##### divya 10/12/2020 05:40:24
+hi! can anyone tell me the significance of bounding box? what it is actually and why do we need it?
+
+##### MumsDad 10/12/2020 05:43:56
+divya, maybe someone can answer this better. but the bounding box is your literal physical form - without it your shape is just a geometry or model that won't interact. Collisions like a ball dropping require a bounding box else it will fall through the ground
+
+##### David Mansolino [Cyberbotics] 10/12/2020 05:48:55
+> Hi, the webots official docker images are only compatible with CUDA >=11 right?
+
+`@Luiz Felipe` hi, if you use the 'ubuntu18.04' image it is instead CUDA >= 10.
+
+##### Luiz Felipe 10/12/2020 05:50:03
+oh... valuable info `@David Mansolino` ...now I need to find a way do downgrade to CUDA 10.2 again hehehehe
+
+##### divya 10/12/2020 05:54:05
+> divya, maybe someone can answer this better. but the bounding box is your literal physical form - without it your shape is just a geometry or model that won't interact. Collisions like a ball dropping require a bounding box else it will fall through the ground
+
+`@MumsDad` this helps! thanks a lot!!
+
+##### David Mansolino [Cyberbotics] 10/12/2020 06:31:27
+> so to get the velocity I'm using this: 
+
+> velocity = wb\_supervisor\_node\_get\_velocity(node)
+
+> wb\_supervisor\_node\_set\_velocity(node, velocity)
+
+> 
+
+> but whats returned is a pointer array? how do i simply console print the objects current velocity
+
+`@MumsDad` You're right, this method is not optimal in Matlab we will improve it.
+
+In the meantime, you should be able to 'convert' it into an array with something like this:
+
+```
+obj = wb_supervisor_node_get_velocity
+setdatatype(obj,'doublePtr', 1, 6);
+velocity = get(obj, 'Value');
+```
+
+##### MumsDad 10/12/2020 06:43:56
+rad thanks david. im not great with pointers so thanks for the help
+
+##### David Mansolino [Cyberbotics] 10/12/2020 06:45:57
+We will improve this for the next version of Webots: [https://github.com/cyberbotics/webots/issues/2316](https://github.com/cyberbotics/webots/issues/2316)
+
+##### Justin Fisher 10/12/2020 06:51:43
+If I use a supervisor to importSFNode on top of an existing node, what happens to the existing node?  Is it deleted?
+
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2020 06:53:18
+> If I use a supervisor to importSFNode on top of an existing node, what happens to the existing node?  Is it deleted?
+
+`@Justin Fisher` Yes. A SFNode field can contain a single node, so the previous value is deleted.
+
+##### Justin Fisher 10/12/2020 06:57:15
+Also, is there any way that a supervisor can tell whether a proto node is a procedural proto?  (Apparently procedural protos sometimes respawn themselves when you use a supervisor to change their fields, thereby obsoleting the supervisor's old ways of referring to them, and if you use these obsolete ways of referring to them it can cause a crash, so I'm hoping to find automated ways of detecting and avoiding that problem.)
+
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2020 07:00:26
+No, there is no function to retrieve this information because procedural PROTOs should work exactly in the same way as other nodes and we don't want to make any difference between the nodes.
+
+If you didn't reported yet the issue you have with regenerated PROTOs, please report it on the GitHub repo.
+
+##### Justin Fisher 10/12/2020 07:09:59
+I did report a crash that I suspect was caused by this (#2287), though perhaps it was caused by something else.  I'm happy to hear you say that procedural PROTOs should work exactly like other nodes, because I had thought that regenerated protos making old references to them obsolete was a known issue, and something controllers were supposed to work around.  The documentation for getFromDef says:
+
+```
+Note that in case of procedural PROTO nodes regeneration, nodes retrieved by wb_supervisor_node_get_from_proto_def might become invalid as well as all the descendant nodes and fields. In this case, after triggering the PROTO regeneration, the nodes and fields should be retrieved again using the Supervisor API functions.
+```
+
+I'm not sure if this is warning that a reference to the PROTO node itself might become obsolete, or just that references to internal parts of it might?
+
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2020 07:46:55
+The "pointers" to the precedural PROTO itself and its visible fields nodes don't change after regeneration. But internal PROTO nodes changes even because dependending on the PROTO header they could be generated or not.
+
+##### Westin 10/12/2020 13:16:07
+I'm not sure if this is a Webots question or a Snap question, but is there a way to install additional python modules in Webots for Linux? I have been using it on Windows and took for granted the fact that I could install something like numpy by opening up a command prompt and using pip.
+
+##### Olivier Michel [Cyberbotics] 10/12/2020 13:18:15
+If you installed Webots with snap and want to use a different version of Python than the one included in snap or want to install additional python modules, then you have to use extern controllers that will use the python installed on your system.
+
+
+Otherwise, if you installed Webots from the DEB or tarball package, Webots can run non-extern (but also extern) python controllers using whatever python version and modules installed on your system.
+
+##### Westin 10/12/2020 13:22:24
+Okay, thanks. I'm on Fedora, so I figure the Ubuntu packages won't work for me. I'll just avoid using Webots on Linux until I feel up to building it from source.
+
+##### Olivier Michel [Cyberbotics] 10/12/2020 13:23:33
+Otherwise, you can use the tarball version. But in any case Webots is very easy to compile from the source on Linux, you should really give it a try 😉 .
+
+##### Westin 10/12/2020 13:23:58
+Okay, I might do that. Thanks!
+
+
+The alternative is turning on the Windows computer (which is much more computationally capable), so its not a big deal either way.
+
+
+I'm trying VR mode again with the Pimax. Webots doesn't immediately crash as it did before, but I'm just getting a black screen in the headset and the rendered window. Sometimes it shows the xyz triad incorrectly in the headset (incorrectly mapped on to each eye so the image does not converge) and sometimes not at all. When I click in the rendered area, the triad comes back as if I rotated around or something. When I turn on anti-aliasing, the behavior changes. Totally black screen, but when I turn the headset to just the right angle, it becomes red, green, or blue. I suspect I am in the triad. I have changed settings in both the Pimax software and SteamVR and have found no significant changes other than the fact that sometimes it crashes Webots and sometimes it doesn't, although it does neither consistently. This is not a critical issue to me.
+
+
+I think my issue is actually two different potentially unrelated issues. The crashing only happens when SteamVR is not already running when I start it. If I start SteamVR manually then start Webots, it does not crash. The other issue is that it doesn't render properly for me. When it does crash, it crashes just after I get a SteamVR error popup that says "Could not start SteamVR Home: Another application was already running".
+
+##### JavierGraca97 10/12/2020 23:38:59
+Hi, Currently I am trying to simulate some robots to implement neural networks, I am working with webots in the R2020b version in the macOS operating system and my intention is to program in Python. The problem arises when I try to use an external controller, I am using pycharm as IDE and it shows me an error. It says the following: "undefined module \_controller". I already reinstalled the "controller" library in pycharm and the error continues. This error is shown every time I run my program in pycharm. What I can do? It is urgent for me to do simulations for research and I cannot find results.
+
+##### Justin Fisher 10/13/2020 01:08:23
+`@JavierGraca97` Did you follow the Webots instructions for setting up PyCharm?  [https://cyberbotics.com/doc/guide/using-your-ide#pycharm](https://cyberbotics.com/doc/guide/using-your-ide#pycharm)  If you can't get that to work, you could just have PyCharm save the controller to the right folder in your project (yourproject/controllers/controllername/controllername.py) and then Webots will start the controller itself when you hit play on the simulation.
+
+##### JavierGraca97 10/13/2020 01:12:58
+`@Justin Fisher` sure, I followed the steps to use pycharm. the problem is that it opened a new pycharm window called "controller.py" where it could not find the "\_controller" module.
+
+##### David Mansolino [Cyberbotics] 10/13/2020 05:51:56
+`@JavierGraca97` what is the name of your controller?
+
+##### Marcoo 10/13/2020 11:10:21
+Hi guys ! I have a question about my Webots installation ; when I try to build I get this error message  "xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
+
+I'm using MacOs.
+
+I'm at EPFL in classe ENG-366 (I'm supposed to say it ^^)
+
+
+
+thanks for your help !
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:11:26
+Hi Marcoo.
+
+When you try to build your controler?
+
+Which version of macOS are you using?
+
+
+From [https://ma.ttias.be/mac-os-xcrun-error-invalid-active-developer-path-missing-xcrun/](https://ma.ttias.be/mac-os-xcrun-error-invalid-active-developer-path-missing-xcrun/)
+
+It seems you can fix the issue with the following command in the terminal:
+
+```
+xcode-select --install
+```
+
+##### Marcoo 10/13/2020 11:14:26
+I'm on MacOS Catalina 10.15.7, using Webots R2020a rev1, and yes trying to build my controler
+
+
+I tried the xcode-select --install and its not working as well
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:16:24
+Can you try the other solution of [https://ma.ttias.be/mac-os-xcrun-error-invalid-active-developer-path-missing-xcrun/](https://ma.ttias.be/mac-os-xcrun-error-invalid-active-developer-path-missing-xcrun/) and let us know if it still doesn't work, i.e.:
+
+```
+sudo xcode-select --reset
+```
+
+
+
+If even that fails, go to the Apple developer download section and download Xcode manually: [https://developer.apple.com/download/more/](https://developer.apple.com/download/more/)
+
+##### Marcoo 10/13/2020 11:17:34
+Do i have to run it in the laptop terminal ?
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:17:57
+Yes, exactly, just open a terminl in your mac and copy past the command
+
+##### Marcoo 10/13/2020 11:20:09
+"impossible to download because it's not available from the server" (xcode-select --install)
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:20:54
+Ok, can you try this one too `sudo xcode-select --reset` ?
+
+##### Marcoo 10/13/2020 11:23:02
+nothing happened... I mean it execute but nothing different
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:24:11
+And what about this one ?
+
+```
+xcode-select --switch /Library/Developer/CommandLineTools
+```
+
+##### Marcoo 10/13/2020 11:25:03
+gives me "xcode-select: error: invalid developer directory '/Library/Developer/CommandLineTools'"
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:25:48
+OK, it seems it is indeed not installed, just to make sure can you try:
+
+```
+ls /Library/Developer/CommandLineTools
+```
+
+##### Marcoo 10/13/2020 11:26:30
+gives me "usr"
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:27:10
+OK then you probably have to install XCode manually: [https://apps.apple.com/us/app/xcode/id497799835?mt=12](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+
+##### Marcoo 10/13/2020 11:28:00
+Okay I'll do it. Thank you very much for your help, I'll come back if I'm stuck again 😉 thanks
+
+##### David Mansolino [Cyberbotics] 10/13/2020 11:28:11
+You're welcome.
+
+##### gaitt 10/13/2020 14:35:23
+Hello, I'm playing with the ROS2 webots tutorial. So far so good. I did have to tweaks launch files. I'm would like now to simulate a rangefinder but somehow I can't find  the corresponding node in the base nodes.
+
+##### David Mansolino [Cyberbotics] 10/13/2020 14:37:28
+Hi `@gaitt`, the ROS2 interface is still under development, and therefore not all the devices are yet supported.
+
+Lidar is but not range-finder, however, if you want it should be quite simple to implement it based on the lidar example: [https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_core/webots\_ros2\_core/devices/lidar\_device.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_core/webots_ros2_core/devices/lidar_device.py)
+
+##### gaitt 10/13/2020 14:41:03
+Ok thanks, I will take a look.
+
+##### David Mansolino [Cyberbotics] 10/13/2020 14:41:30
+You're welcome
+
+##### gaitt 10/13/2020 14:44:45
+Ok a seen now the available device in the ros2 package but how do I add them in the GUI?
+
+##### David Mansolino [Cyberbotics] 10/13/2020 14:46:38
+Oh you mean the Webots devices. To get familiar with Webots I would recommend following these tutorials: [https://www.cyberbotics.com/doc/guide/tutorials](https://www.cyberbotics.com/doc/guide/tutorials)
+
+Since you plan to use ROS2, I would recomment tutorials 1-2-3-5-6
+
+##### gaitt 10/13/2020 15:08:50
+Well you're right, since I develop in ROS2 I only did ROS2 tutorial. I will do more tutorials and come back if needed. Thanks
+
+##### Quadae 10/13/2020 16:35:18
+[https://gyazo.com/3517136de11a51af71be63281db0cdf8](https://gyazo.com/3517136de11a51af71be63281db0cdf8)
+
+
+can anyone help me make this e-puck go towards the yellow cylinder
+
+##### Darko Lukić [Cyberbotics] 10/13/2020 16:51:17
+`@Quadae` You may find this example useful:
+
+[https://github.com/lukicdarkoo/webots-example-visual-tracking](https://github.com/lukicdarkoo/webots-example-visual-tracking)
+
+##### Luthanicus 10/13/2020 19:34:28
+Hello! I am on Windows 10 using webots R2020b version 1 and I am trying to run webots from the terminal. Because the world file I am trying to open is located in a directory with spaces in the path (the exact path of the file is `"C:\My Programs\Robot Code\RobotCodeSimulator\Webots\worlds\World.wbt"`), webots throws the following error:
+
+```
+webots: too many arguments.
+Try 'webots --help' for more information.
+webots: too many arguments.
+Try 'webots --help' for more information.
+```
+
+Is there any way I can run webots from the terminal without needing to move the world file to a path without spaces?
+
+##### Simon Steinmann [Moderator] 10/13/2020 19:52:56
+you should be able to put the path inside of quotation marks
+
+##### Luthanicus 10/13/2020 19:54:07
+Tried that and and I still have the same error
+%figure
+![Capture.PNG](https://cdn.discordapp.com/attachments/565154703139405824/765663685112102932/Capture.PNG)
+%end
+
+##### Simon Steinmann [Moderator] 10/13/2020 19:55:09
+your path is incorrect
+
+
+you can go to the file properties to see the correct path
+
+
+or you go into the folder containing it, an press ctrl+L
+
+##### DrakerDG 10/13/2020 19:56:03
+`@Luthanicus` you need write cd before your path
+
+##### Simon Steinmann [Moderator] 10/13/2020 19:56:33
+no, he is trying to start webots with this file
+
+##### Luthanicus 10/13/2020 19:56:52
+I don't want to cd to that directory. This is for a batch file that will start up webots with a specific world and also start up a WPIlib robot simulator
+
+##### Simon Steinmann [Moderator] 10/13/2020 19:57:12
+try it with the correct path
+
+##### Luthanicus 10/13/2020 19:57:39
+The correct path is identical to what I wrote
+
+##### DrakerDG 10/13/2020 19:57:45
+`@Simon Steinmann` ok, is like a line command, 😁
+
+##### Simon Steinmann [Moderator] 10/13/2020 19:58:21
+I highly doubt that that path is correct. there is not backslash behind "C:"
+
+
+have you copied the path, like I described?
+
+##### Luthanicus 10/13/2020 19:59:25
+I didn't notice that. The problem still persists even after I copied the path in the file properties
+%figure
+![Capture.PNG](https://cdn.discordapp.com/attachments/565154703139405824/765665015113449502/Capture.PNG)
+%end
+
+##### Simon Steinmann [Moderator] 10/13/2020 20:00:34
+I'm not on my linux machine, can you paste your output of "webots --help" ?
+
+##### Luthanicus 10/13/2020 20:01:11
+```
+webots --help
+Usage: webots [options] [worldfile]
+
+Options:
+
+  --help
+    Display this help message and exit.
+
+  --version
+    Display version information and exit.
+
+  --sysinfo
+    Display information about the system and exit.
+
+  --mode=<mode>
+    Choose the startup mode, overriding application preferences. The <mode>
+    argument must be either pause, realtime, run or fast.
+
+  --fullscreen
+    Start Webots in fullscreen.
+
+  --minimize
+    Minimize the Webots window on startup.
+
+  --batch
+    Prevent Webots from creating blocking pop-up windows.
+
+  --stdout
+    Redirect the stdout of the controllers to the terminal.
+
+  --stderr
+    Redirect the stderr of the controllers to the terminal.
+
+  --stream[="key[=value];..."]
+    Start the Webots streaming server. Parameters may be
+    given as an option:
+      port=1234          - Start the streaming server on port 1234.
+      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.
+      monitorActivity    - Print a dot '.' on stdout every 5 seconds.
+      disableTextStreams - Disable the streaming of stdout and stderr.
+
+  --log-performance=<file>[,<steps>]
+    Measure the performance of Webots and log it in the file specified in the
+    <file> argument. The optional <steps> argument is an integer value that
+    specifies how many steps are logged. If the --sysinfo option is used, the
+    system information is prepended into the log file.
+
+Please report any bug to https://cyberbotics.com/bug
+```
+
+##### Simon Steinmann [Moderator] 10/13/2020 20:04:23
+try double quotes around the path
+
+##### Luthanicus 10/13/2020 20:05:36
+Like this: `""C:\My Programs\Robot Code\RobotCodeSimulator\Webots\worlds\World.wbt""`?
+
+If so, it doesn't work.
+
+##### Simon Steinmann [Moderator] 10/13/2020 20:06:17
+perhaps "webots "c:\.....""
+
+##### Luthanicus 10/13/2020 20:07:24
+That doesn't work. I get the error `The filename, directory name, or volume label syntax is incorrect.`
+
+I think it's trying to find a filename with path `"webots "C:\My Programs\Robot Code\RobotCodeSimulator\Webots\worlds\World.wbt""`
+
+##### Simon Steinmann [Moderator] 10/13/2020 20:08:24
+then i dont know. Ask the devs tomorrow, or try to figure it out yourself. It seems to be a windows cmd syntax issue, not webots issue
+
+
+double check that it is finding that file
+
+##### Luthanicus 10/13/2020 20:09:11
+For the time being I'll probably just move the world file so that it has a path without spaces in it.
+
+
+Since `webots Webots\worlds\World.wbt` is successful
+
+##### JavierGraca97 10/13/2020 23:19:05
+> `@JavierGraca97` what is the name of your controller?
+
+`@David Mansolino`  the driver used is driver.py. I already managed to run the program from pycharm, now it shows me another error, which restarts python and the controller is not executed in webots, I already did what is necessary by putting the controller in extern.
+
+
+> `@David Mansolino`  the driver used is driver.py. I already managed to run the program from pycharm, now it shows me another error, which restarts python and the controller is not executed in webots, I already did what is necessary by putting the controller in extern.
+
+`@JavierGraca97`
+%figure
+![Captura_de_Pantalla_2020-10-13_a_las_18.26.36.png](https://cdn.discordapp.com/attachments/565154703139405824/765717352352055326/Captura_de_Pantalla_2020-10-13_a_las_18.26.36.png)
+%end
+
+##### David Mansolino [Cyberbotics] 10/14/2020 06:10:27
+`@JavierGraca97` maybe your controller crashes. I would recommend trying to start the same controller within Webots (not external) to check if it crashes there too.
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 07:16:53
+`@Luthanicus`: I found a solution which you may find odd, but it works from a DOS console. Use three double quotes: `"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" """C:\Program Files\Webots\projects\samples\devices\worlds\camera.wbt"""`. Let me know if that works for you too.
+
+##### ClBaze 10/14/2020 08:42:11
+Hello, I have this error window when I try to record a video from Webots: "Video generation failed due to an encoding problem". Any idea what it could be ?
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:05:42
+Hi `@ClBaze` this means that there were some errors while running ffmpeg to generate the video based on the images recorded by Webots. Do you have ffmpeg installed on your system?
+
+##### ClBaze 10/14/2020 09:14:34
+Yes ffmpeg is installed
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:15:00
+Did you get any other error message in the Webots console?
+
+##### ClBaze 10/14/2020 09:15:52
+No just a window with this message when I enter the name of the file to be saved
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:18:37
+Do you also have libx264 vcodec installed?
+
+##### ClBaze 10/14/2020 09:18:39
+I succesfully recorded a video, then I had to install VLC to read it. And after that I wasn't able to record another video.
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:19:30
+Ok, so then probably installing VLC messed up something with the installation of ffpemd and the video codec. You should probably install them again.
+
+
+Which OS are you using?
+
+##### ClBaze 10/14/2020 09:20:35
+I'm using ubuntu 18.04
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:21:29
+is the `ubuntu-restricted-extras` package still installed on your system?
+
+##### ClBaze 10/14/2020 09:23:06
+no it wasn't
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:23:36
+ok, so then it is probably this package that should be installed again to make the video recording work again
+
+##### ClBaze 10/14/2020 09:25:20
+I still have the error
+
+
+should I try to reinstall ffmpeg ?
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:26:08
+yes, it would be worth to do it
+
+##### ClBaze 10/14/2020 09:29:24
+didn't worked
+
+
+ returns `DEV.LS h264                 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (decoders: h264 h264_crystalhd h264_v4l2m2m h264_vdpau h264_cuvid ) (encoders: libx264 libx264rgb h264_nvenc h264_omx h264_v4l2m2m h264_vaapi nvenc nvenc_h264 )`
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:34:03
+Ok, here is the script used to generate the video and that doesn't work for you (bitrate and fps depends on your world and movie settings):
+
+```
+#!/bin/sh
+echo Recording at 25 FPS, 4218750 bit/s.
+echo Video encoding stage 1... \(please wait\)
+ffmpeg -loglevel warning -y -f image2 -r 25 -i "webotsFrame_10707_%06d.jpg" -b:v 4218750 -vcodec libx264 -pass 1 -g 132 -an -pix_fmt yuvj420p video.mp4
+rc=$?
+if [ $rc != 0 ] ; then
+  exit 1
+fi
+echo Video encoding stage 2... \(please wait\)
+ffmpeg -loglevel warning -y -f image2 -r 25 -i "webotsFrame_10707_%06d.jpg" -b:v 4218750 -vcodec libx264 -pass 2 -g 132 -an -pix_fmt yuvj420p video.mp4
+rc=$?
+if [ $rc != 0 ] ; then
+  exit 1
+fi
+rm -f *2pass-0.log*
+exit 0
+echo Video Encoding complete.
+```
+
+
+If you take any jpg images, rename to match the script expected name (for example `webotsFrame_10707_000000.jpg`, `webotsFrame_10707_000001.jpg`)  and try to run the script you may get some more information about the issue
+
+##### ClBaze 10/14/2020 09:36:09
+ok thanks I'll try that
+
+
+the script works
+
+
+it says `[swscaler @ 0x56167febb960] deprecated pixel format used, make sure you did set range correctly` however
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 09:50:25
+ok i will check this.
+
+
+In the `/tmp` folder you should have some folders named `webots-xxxxx-xxxxxx`. If you look in the most recent one you should find the `ffmpeg_script.sh` that was generated by Webots.
+
+
+Could you please check if that script works as well? (the Webots id in `webotsFrame_10707_%06d.jpg` will be different)
+
+##### ClBaze 10/14/2020 09:56:21
+I have no folder prefixed by webots in /tmp
+
+##### Stefania Pedrazzi [Cyberbotics] 10/14/2020 10:10:19
+did you install Webots using snap? or specify a different path for `WEBOTS_TMPDIR`?
+
+##### ClBaze 10/14/2020 10:14:55
+Ok I figured out that it has something to do with the world basictimestep
+
+
+```INFO: Video creation canceled.
+INFO: Video recording starts when you run a simulation...
+INFO: Creating video...
+Recording at inf FPS, -9223372036854775808 bit/s.
+Video encoding stage 1... (please wait)
+[image2 demuxer @ 0x55de65c84320] Unable to parse option value "inf" as video rate
+[image2 demuxer @ 0x55de65c84320] Error setting option framerate to value inf.
+webotsFrame_29704_%06d.jpg: Invalid argument
+ERROR: Video generation failed.
+```
+
+
+if it is too high the video rate is set to inf
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 10:15:27
+Yes, we recently fixed a bug in Webots with respect to this...
+
+
+[https://github.com/cyberbotics/webots/pull/2268](https://github.com/cyberbotics/webots/pull/2268)
+
+
+If you use a recent nightly build, it should work.
+
+
+[https://github.com/cyberbotics/webots/releases/](https://github.com/cyberbotics/webots/releases/)
+
+##### ClBaze 10/14/2020 10:18:23
+I'm using webots 2020b, I already tested one of the latest night build but it slows down my simulation to 0.05x instead of 0.3x
+
+
+I think I'm gonna patch the version I'm using
+
+
+Thank you both!
+
+
+(Concerning the simulation slow down, it looks like an issue with the connector when locking/unlocking)
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 10:24:30
+About the simulation slow down, it looks like a regression. Could you open a bug report about it and upload a sample simulation demonstrating this performance drop?
+
+
+[https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+##### eeeloooisee 10/14/2020 11:28:02
+Hi everyone. Regarding the PID controller for rotational motors in Webots, are these supposed to have an actual affect in the simulation? For some reason, no matter what controllers I add, I still get the same velocity rise/peak times, overshoots, etc.
+
+##### GaGa 10/14/2020 12:06:08
+Hi everyone can someone give me a code for getting know the position of my robot using GPS in Python
+
+##### Justin Fisher 10/14/2020 12:07:23
+`@GaGa`  You should be able to get most of this here: [https://cyberbotics.com/doc/reference/gps?tab-language=python](https://cyberbotics.com/doc/reference/gps?tab-language=python)
+
+
+Probably your code will look something like this:
+
+```python
+# early in program
+GPS = robot.getDevice("gps")
+GPS.enable( timestep )
+
+# when you want to read it in the main loop
+pos = GPS.getValues() # will return list of X, Y, and Z coords
+```
+
+##### David Mansolino [Cyberbotics] 10/14/2020 12:58:04
+> Hi everyone. Regarding the PID controller for rotational motors in Webots, are these supposed to have an actual affect in the simulation? For some reason, no matter what controllers I add, I still get the same velocity rise/peak times, overshoots, etc.
+
+`@eeeloooisee` Yes they are supposed to, maybe we get stuck by the maximum acceleration of the motor.
+
+##### Simon Steinmann [Moderator] 10/14/2020 13:02:38
+`@eeeloooisee` Give this a careful read, to understand how controllers are implemented and work internally: [https://cyberbotics.com/doc/reference/motor?tab-language=python](https://cyberbotics.com/doc/reference/motor?tab-language=python)
 
