@@ -123,8 +123,9 @@ void WbSliderJoint::updatePosition(double position) {
   assert(s);
   // called after a special artificial move, i.e. a statically based robot was moved
   mPosition = position;
-  if (motor() && !motor()->isConfigureDone())
-    motor()->setTargetPosition(position);
+  WbMotor *m = motor();
+  if (m && !m->isConfigureDone())
+    m->setTargetPosition(position);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);

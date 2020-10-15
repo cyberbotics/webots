@@ -235,12 +235,15 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
   mPosition = position;
   mPosition2 = position2;
   mPosition3 = position3;
-  if (motor() && !motor()->isConfigureDone())
-    motor()->setTargetPosition(position);
-  if (motor2() && !motor2()->isConfigureDone())
-    motor2()->setTargetPosition(position2);
-  if (motor3() && !motor3()->isConfigureDone())
-    motor3()->setTargetPosition(position3);
+  WbMotor *m1 = motor();
+  WbMotor *m2 = motor2();
+  WbMotor *m3 = motor3();
+  if (m1 && !m1->isConfigureDone())
+    m1->setTargetPosition(position);
+  if (m2 && !m2->isConfigureDone())
+    m2->setTargetPosition(position2);
+  if (m3 && !m3->isConfigureDone())
+    m3->setTargetPosition(position3);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);
