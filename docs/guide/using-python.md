@@ -8,7 +8,7 @@ The Python API is currently composed of a set of about 25 classes having about 2
 The classes are either representations of a node of the scene tree (such as Robot, LED, etc.) or utility classes (such as Motion, ImageRef, etc.).
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
-The Python API of Webots supports Python versions 2.7, 3.7 and 3.8.
+The Python API of Webots supports Python versions 2.7, 3.7, 3.8 and 3.9.
 Please note that Python 2.7 is deprecated since January 1st, 2020 and should be avoided.
 On Ubuntu it also supports Python versions 3.5 and 3.6.
 
@@ -40,15 +40,15 @@ To check the versions of Python installed on your system, you can type in a term
 #### macOS Installation
 
 Python 2.7 installed by default.
-You can install Python 3.7 or 3.8 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
-To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
+You can install Python 3.7, 3.8 or 3.9 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
+To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.9 --version`, `python2.7 --version`, `python3 --version`, etc.
 
 > **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (e.g. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
 
 #### Windows Installation
 
-You should install the latest version of Python 3.7 (64 bit) or Python 2.7 (64 bit) from the official [Python website](https://www.python.org).
-Then, you have to modify your `PATH` environment variable to add the path to the `python.exe` binary which is located in the main `Python37` or `Python27` installation folder.
+You should install the latest version of Python 3.7 (64 bit), 3.8 (64 bit), 3.9 (64 bit) or 2.7 (64 bit) from the official [Python website](https://www.python.org).
+Then, you have to modify your `PATH` environment variable to add the path to the `python.exe` binary which is located in the main installation folder.
 To check this was done properly, you can open a DOS console (`CMD.EXE`) and type `python --version`.
 If it displays the correct Python version, then, everything is setup properly and you should be able to run the Python example provided with Webots in the `WEBOTS_HOME/projects/languages/python/worlds/example.wbt` world file.
 
