@@ -1,18 +1,8 @@
 
-class Layer {
-  constructor() {
-    this.mask = 1 | 0;
-  }
-  test( layer ) {
-		return ( this.mask & layer.mask ) !== 0;
-	}
-}
-
 class Object3D {
   constructor(){
     this.type="";
     this.userData = {"": ""};
-    this.name="";
     this.position = new glm.vec3(1,1,1);
     this.isObject3D = true;
     this.matrixAutoUpdate = true;
@@ -23,8 +13,6 @@ class Object3D {
     this.matrixWorld = new glm.mat4();
     this.modelViewMatrix = new glm.mat4();
     this.normalMatrix = new glm.mat3();
-    this.layers = new Layer();
-    this.drawMode = 0;
     this.quaternion = new glm.quat();
     this.scale = new glm.vec3( 1, 1, 1 );
   }
@@ -118,15 +106,12 @@ class Object3D {
 class Group extends Object3D {
   constructor (){
     super();
-    this.type = 'Group';
-    this.isGroup = true;
   }
 }
 
 class Mesh extends Object3D {
   constructor (geometry, material) {
     super();
-    this.type = 'Mesh';
     this.geometry = geometry;
     this.material = material;
     this.isMesh = true;
@@ -136,9 +121,6 @@ class Mesh extends Object3D {
 class Scene extends Object3D {
   constructor () {
     super();
-    this.isScene = true;
-    this.type= 'Scene';
-    this.background;
   }
 }
 
@@ -153,7 +135,6 @@ class Camera extends Object3D {
     this.view = null;
     this.projectionMatrix = new glm.mat4();
     this.matrixWorldInverse = new glm.mat4();
-    this.isCamera = true;
   }
 
   makePerspective(out, left, right, top, bottom, near, far ) {
@@ -206,7 +187,6 @@ class Camera extends Object3D {
 
 class BoxBufferGeometry {
   constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
-    this.type = 'BoxBufferGeometry';
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
@@ -214,7 +194,6 @@ class BoxBufferGeometry {
 		this.heightSegments = heightSegments;
 		this.depthSegments = depthSegments;
     this.attributes = {};
-    this.isBufferGeometry = true
     this.drawRange = { start: 0, count: Infinity };
 
 		// segments
@@ -300,14 +279,6 @@ class BoxBufferGeometry {
 			numberOfVertices += vertexCounter;
 		}
 	}
-  arrayMax( array ) {
-    if ( array.length === 0 ) return - Infinity;
-    let max = array[ 0 ];
-    for ( let i = 1, l = array.length; i < l; ++ i ) {
-      if ( array[ i ] > max ) max = array[ i ];
-    }
-    return max;
-  }
 
   setIndex(index) {
     if ( Array.isArray( index ) ) {
@@ -321,23 +292,9 @@ class BoxBufferGeometry {
 
 class MeshBasicMaterial {
   constructor (){
-    this.type = 'MeshBasicMaterial';
-    this.color = new Module.Color(255,255,255);
-    this.isMeshBasicMaterial = true;
-    this.lights = false;
-	  this.needsUpdate = false
-  	this.colorWrite = true;
-	  this.precision = null;
 	  this.visible = true;
-	  this.userData = {};
   }
 }
-
-Object.assign( glm.vec2.prototype, {
-	set: function(x, y) {
-		return new glm.vec2(x,y);
-	}
-})
 
 function EffectComposer(renderer, renderTarget) {
 	this.renderer = renderer;
