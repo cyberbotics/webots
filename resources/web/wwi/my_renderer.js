@@ -13,37 +13,9 @@ function WebGLAttributes( gl ) {
     let type = 5126;
 
     if ( array instanceof Float32Array ) {
-
       type = 5126;
-
-    } else if ( array instanceof Float64Array ) {
-
-      console.warn( 'WebGLAttributes: Unsupported data buffer format: Float64Array.' );
-
     } else if ( array instanceof Uint16Array ) {
-
       type = 5123;
-
-    } else if ( array instanceof Int16Array ) {
-
-      type = 5122;
-
-    } else if ( array instanceof Uint32Array ) {
-
-      type = 5125;
-
-    } else if ( array instanceof Int32Array ) {
-
-      type = 5124;
-
-    } else if ( array instanceof Int8Array ) {
-
-      type = 5120;
-
-    } else if ( array instanceof Uint8Array ) {
-
-      type = 5121;
-
     }
 
     return {
@@ -201,7 +173,6 @@ function WebGLPrograms( renderer ) {
     return program;
   };
 }
-
 function WebGLProgram( renderer, material) {
   let gl = renderer.gl;
 
@@ -251,225 +222,27 @@ function WebGLProgram( renderer, material) {
   gl.deleteShader( glVertexShader );
   gl.deleteShader( glFragmentShader );
 
-  // set up caching for uniform locations
-
-  let cachedUniforms;
-
-  this.getUniforms = function () {
-
-    if ( cachedUniforms === undefined ) {
-
-      cachedUniforms = new WebGLUniforms( gl, program );
-
-    }
-    return cachedUniforms;
-
-  };
-
   this.program = program;
 
   return this;
 
 }
-function SingleUniform( id, activeInfo, addr ) {
 
-	this.id = id;
-	this.addr = addr;
-	this.cache = [];
-	this.setValue = getSingularSetter( activeInfo.type );
-
-	// this.path = activeInfo.name; // DEBUG
-
-}
-const RePathPart = /([\w\d_]+)(\])?(\[|\.)?/g;
-var mat4array = new Float32Array( 16 );
-function addUniform( container, uniformObject ) {
-
-	container.seq.push( uniformObject );
-	container.map[ uniformObject.id ] = uniformObject;
-
-}
-function parseUniform( activeInfo, addr, container ) {
-
-  var path = activeInfo.name,
-    pathLength = path.length;
-
-  // reset RegExp object, because of the early exit of a previous run
-  RePathPart.lastIndex = 0;
-
-  while ( true ) {
-
-    var match = RePathPart.exec( path ),
-      matchEnd = RePathPart.lastIndex,
-
-      id = match[ 1 ],
-      idIsIndex = match[ 2 ] === ']',
-      subscript = match[ 3 ];
-
-    if ( idIsIndex ) id = id | 0; // convert to integer
-
-    if ( subscript === undefined || subscript === '[' && matchEnd + 2 === pathLength ) {
-
-      // bare name or "pure" bottom-level array "[0]" suffix
-
-      addUniform( container, subscript === undefined ?
-        new SingleUniform( id, activeInfo, addr ) :
-        new PureArrayUniform( id, activeInfo, addr ) );
-
-      break;
-
-    } else {
-
-      // step into inner node / create it in case it doesn't exist
-
-      var map = container.map, next = map[ id ];
-
-      if ( next === undefined ) {
-
-        next = new StructuredUniform( id );
-        addUniform( container, next );
-
-      }
-
-      container = next;
-
-    }
-
-  }
-
-}
-function getSingularSetter( type ) {
-
-	switch ( type ) {
-		case 0x1406: return setValue1f; // FLOAT
-		case 0x8b51: return setValue3fv; // _VEC3
-		case 0x8b5c: return setValue4fm; // _MAT4
-	}
-
-}
-function setValue4fm( gl, v ) {
-
-	var cache = this.cache;
+function setValue4fm( gl, name, v, program) {
 	var elements = v.elements;
+  let addr = gl.getUniformLocation( program, name );
 
 	if ( elements === undefined ) {
-		if ( arraysEqual( cache, v ) ) return;
-
-		gl.uniformMatrix4fv( this.addr, false, v );
-
-		copyArray( cache, v );
+		gl.uniformMatrix4fv( addr, false, v );
 
 	} else {
-		if ( arraysEqual( cache, elements ) ) return;
-
-		mat4array.set( elements );
-
-		gl.uniformMatrix4fv( this.addr, false, mat4array );
-
-		copyArray( cache, elements );
-
-	}
-
-}
-function setValue3fv( gl, v ) {
-
-	var cache = this.cache;
-
-	if ( v.r !== undefined ) {
-		if ( cache[ 0 ] !== v.r || cache[ 1 ] !== v.g || cache[ 2 ] !== v.b ) {
-			gl.uniform3f( this.addr, v.r, v.g, v.b );
-
-			cache[ 0 ] = v.r;
-			cache[ 1 ] = v.g;
-			cache[ 2 ] = v.b;
-
-		}
-
+		gl.uniformMatrix4fv( addr, false, elements );
 	}
 }
-function setValue1f( gl, v ) {
-
-	var cache = this.cache;
-
-	if ( cache[ 0 ] === v ) return;
-
-	gl.uniform1f( this.addr, v );
-
-	cache[ 0 ] = v;
-
-}
-function arraysEqual( a, b ) {
-
-	if ( a.length !== b.length ) return false;
-
-	for ( var i = 0, l = a.length; i < l; i ++ ) {
-		if ( a[ i ] !== b[ i ] ) return false;
-	}
-	return true;
-}
-function copyArray( a, b ) {
-
-	for ( var i = 0, l = b.length; i < l; i ++ ) {
-		a[ i ] = b[ i ];
-	}
-}
-function WebGLUniforms( gl, program ) {
-
-  this.seq = [];
-  this.map = {};
-
-  let n = gl.getProgramParameter( program, 35718 );
-
-  for ( let i = 0; i < n; ++ i ) {
-
-    let info = gl.getActiveUniform( program, i ),
-      addr = gl.getUniformLocation( program, info.name );
-
-    parseUniform( info, addr, this );
-  }
-}
-
-WebGLUniforms.prototype.setValue = function ( gl, name, value, textures ) {
-  let u = this.map[ name ];
-
-  if ( u !== undefined ) u.setValue( gl, value, textures );
-
-};
-
-// Static interface
-WebGLUniforms.upload = function ( gl, seq, values, textures ) {
-  for ( let i = 0, n = seq.length; i !== n; ++ i ) {
-
-    let u = seq[ i ],
-      v = values[ u.id ];
-    if ( v.needsUpdate !== false ) {
-      u.setValue( gl, v.value, textures );
-    }
-
-  }
-
-};
-
-WebGLUniforms.seqWithValue = function ( seq, values ) {
-  let r = [];
-
-  for ( let i = 0, n = seq.length; i !== n; ++ i ) {
-    let u = seq[ i ];
-    if ( u.id in values ) r.push( u );
-  }
-  return r;
-
-};
-
-
-const common = {
-    diffuse: { value: new Module.Color( 238,238,238 ) }
-};
 
 const meshbasic_frag = "void main() {\tgl_FragColor = vec4(1,1,1,1 );\n}";
 
-
-const meshbasic_vert = "void main() {\n\tvec3 transformed = vec3( position );\n\tvec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tgl_Position = projectionMatrix * mvPosition;\n}";
+const meshbasic_vert = "void main() {\n\tvec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n\tgl_Position = projectionMatrix * mvPosition;\n}";
 
 class WebGL2Renderer {
   constructor(){
@@ -583,16 +356,12 @@ class WebGL2Renderer {
     let materialProperties = this.properties.get( material );
     this.initMaterial( material, fog, object );
 
-    let program = materialProperties.program,
-      p_uniforms = program.getUniforms(),
-      m_uniforms = common;
-
+    let program = materialProperties.program;
     if ( this.useProgram( program.program ) ) {
-      p_uniforms.setValue( this.gl, 'projectionMatrix', camera.projectionMatrix );
-      WebGLUniforms.upload(this.gl, materialProperties.uniformsList, m_uniforms);
+      setValue4fm( this.gl, 'projectionMatrix', camera.projectionMatrix, program.program );
     }
 
-    p_uniforms.setValue( this.gl, 'modelViewMatrix', object.modelViewMatrix );
+    setValue4fm( this.gl, 'modelViewMatrix', object.modelViewMatrix, program.program );
 
     return program;
 
@@ -620,14 +389,6 @@ class WebGL2Renderer {
 
     materialProperties.program = program;
     material.program = program;
-
-    let uniforms = common;
-
-    let progUniforms = materialProperties.program.getUniforms(),
-      uniformsList =
-        WebGLUniforms.seqWithValue( progUniforms.seq, uniforms );
-
-    materialProperties.uniformsList = uniformsList;
   }
 
   useProgram( program ) {

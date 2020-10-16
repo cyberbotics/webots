@@ -242,13 +242,6 @@ function Uint16BufferAttribute( array, itemSize, normalized ) {
 }
 
 
-function Uint32BufferAttribute( array, itemSize, normalized ) {
-
-	return new BufferAttribute( new Uint32Array( array ), itemSize, normalized );
-
-}
-
-
 function Float32BufferAttribute( array, itemSize, normalized ) {
 
 	return new BufferAttribute( new Float32Array( array ), itemSize, normalized );
@@ -363,7 +356,7 @@ class BoxBufferGeo {
   }
   setIndex(index) {
     if ( Array.isArray( index ) ) {
-      this.index = new ( this.arrayMax( index ) > 65535 ? Uint32BufferAttribute : Uint16BufferAttribute )( index, 1 );
+      this.index = new Uint16BufferAttribute ( index, 1 );
     } else {
       this.index = index;
     }
