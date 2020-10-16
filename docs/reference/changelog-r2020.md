@@ -3,6 +3,8 @@
 ## Webots R2020b Revision 2
 Released on XXX YYY, 2020.
 
+  - Enhancements
+    - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
     - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
     - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).

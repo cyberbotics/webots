@@ -50,14 +50,9 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 PYTHON_PATH = $(shell $(PYTHON_COMMAND) -u -c "import sys; print(sys.exec_prefix)")
-ifeq ($(PYTHON_SHORT_VERSION), 27)
-PYTHON_PYMALLOC =
-else
-ifeq ($(PYTHON_SHORT_VERSION), 38)
-PYTHON_PYMALLOC =
-else
+SKIP_PYTHON_PYMALLOC := 27 38 39
+ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
-endif
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
