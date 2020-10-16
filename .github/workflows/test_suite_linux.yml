@@ -125,10 +125,10 @@ jobs:
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Run Test
       run: |
-        export LIBGL_ALWAYS_SOFTWARE=true
+        # export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        # python -m pip install rospkg catkin_pkg empy defusedxml netifaces
+        python -m pip install rospkg catkin_pkg empy defusedxml netifaces
         Xvfb :99 &
         export DISPLAY=:99
         ./tests/ros.sh
