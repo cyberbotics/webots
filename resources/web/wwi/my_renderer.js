@@ -2,27 +2,22 @@ function WebGLAttributes( gl ) {
 
   let buffers = new WeakMap();
 
-  function createBuffer( attribute, bufferType ) {
-    let array = attribute.array;
-    let usage = attribute.dynamic ? 35048 : 35044;
-
+  function createBuffer( array, bufferType ) {
+    let usage = gl.STATIC_DRAW;
     let buffer = gl.createBuffer();
 
     gl.bindBuffer( bufferType, buffer );
     gl.bufferData( bufferType, array, usage );
-    let type = 5126;
+    let type = gl.FLOAT;
 
-    if ( array instanceof Float32Array ) {
-      type = 5126;
-    } else if ( array instanceof Uint16Array ) {
-      type = 5123;
+    if ( array instanceof Uint16Array ) {
+      type = gl.UNSIGNED_SHORT;
     }
 
     return {
       buffer: buffer,
       type: type,
       bytesPerElement: 2,
-      version: attribute.version
     };
 
   }
@@ -61,30 +56,6 @@ function WebGLAttributes( gl ) {
     get: get,
     update: update
 
-  };
-
-}
-function WebGLProperties() {
-
-  let properties = new WeakMap();
-
-  function get( object ) {
-
-    let map = properties.get( object );
-
-    if ( map === undefined ) {
-
-      map = {};
-      properties.set( object, map );
-
-    }
-
-    return map;
-
-  }
-
-  return {
-    get: get,
   };
 
 }
@@ -259,7 +230,6 @@ class WebGL2Renderer {
     }
 
     this.attributes = new WebGLAttributes(this.gl);
-    this.properties = new WebGLProperties();
     this.renderLists = new WebGLRenderList();
     this.programCache = new WebGLPrograms(this);
     this.currentRenderList = null;
@@ -294,13 +264,9 @@ class WebGL2Renderer {
 
     let index = geometry.index;
     let attribute = this.attributes.get( index );
-
     this.setupVertexAttributes( material, program, geometry );
-    if ( index !== null ) {
-      this.gl.bindBuffer( 34963, attribute.buffer );
-    }
 
-    let	dataCount = index.count;
+    let	dataCount = index.length;
 
     let rangeStart = geometry.drawRange.start;
     let rangeCount = geometry.drawRange.count;
@@ -314,7 +280,7 @@ class WebGL2Renderer {
     let drawCount = Math.max( 0, drawEnd - drawStart + 1 );
 
     if ( drawCount === 0 ) return;
-    this.gl.drawElements( this.gl.TRIANGLES, drawCount, this.gl.UNSIGNED_SHORT, drawStart * 2 );
+    this.gl.drawElements( this.gl.TRIANGLES, drawCount, attribute.type, drawStart * attribute.bytesPerElement );
   }
 
   projectObject ( object, camera ) {
@@ -353,10 +319,9 @@ class WebGL2Renderer {
   }
 
   setProgram( camera, fog, material, object ) {
-    let materialProperties = this.properties.get( material );
-    this.initMaterial( material, fog, object );
+    let program = this.programCache.acquireProgram( material);
+    material.program = program;
 
-    let program = materialProperties.program;
     if ( this.useProgram( program.program ) ) {
       setValue4fm( this.gl, 'projectionMatrix', camera.projectionMatrix, program.program );
     }
@@ -371,25 +336,14 @@ class WebGL2Renderer {
     let geometryAttribute = geometry.attributes["position"];
 
     if ( geometryAttribute !== undefined ) {
-      let normalized = geometryAttribute.normalized;
-      let size = geometryAttribute.itemSize;
       let attribute = this.attributes.get( geometryAttribute );
       let buffer = attribute.buffer;
       let type = attribute.type;
       this.gl.enableVertexAttribArray( "position"  );
-      this.gl.bindBuffer( 34962, buffer );
-      this.gl.vertexAttribPointer( "position" , size, type, normalized, 0, 0 );
+      this.gl.vertexAttribPointer( "position" , 3, type, false, 0, 0 );
     }
   }
 
-  initMaterial( material, fog, object ) {
-    let materialProperties = this.properties.get( material );
-
-    let program = this.programCache.acquireProgram( material);
-
-    materialProperties.program = program;
-    material.program = program;
-  }
 
   useProgram( program ) {
     if ( this.currentProgram !== program ) {

@@ -219,37 +219,6 @@ class Cam extends Obj3d {
 
 }
 
-function BufferAttribute( array, itemSize, normalized ) {
-
-	this.name = '';
-
-	this.array = array;
-	this.itemSize = itemSize;
-	this.count = array !== undefined ? array.length / itemSize : 0;
-	this.normalized = normalized === true;
-
-	this.usage = 35044;
-	this.updateRange = { offset: 0, count: - 1 };
-
-	this.version = 0;
-}
-
-
-function Uint16BufferAttribute( array, itemSize, normalized ) {
-
-	return new BufferAttribute ( new Uint16Array( array ), itemSize, normalized );
-
-}
-
-
-function Float32BufferAttribute( array, itemSize, normalized ) {
-
-	return new BufferAttribute( new Float32Array( array ), itemSize, normalized );
-
-}
-
-//
-
 class BoxBufferGeo {
   constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
     this.type = 'BoxBufferGeometry';
@@ -285,7 +254,7 @@ class BoxBufferGeo {
 
 		// build geometry
 		this.setIndex( indices );
-		this.attributes['position'] = new Float32BufferAttribute( vertices, 3 );
+		this.attributes['position'] = new Float32Array( vertices );
 
 		function buildPlane( u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex ) {
 			const segmentWidth = width / gridX;
@@ -354,9 +323,10 @@ class BoxBufferGeo {
     }
     return max;
   }
+
   setIndex(index) {
     if ( Array.isArray( index ) ) {
-      this.index = new Uint16BufferAttribute ( index, 1 );
+      this.index = new Uint16Array ( index );
     } else {
       this.index = index;
     }
