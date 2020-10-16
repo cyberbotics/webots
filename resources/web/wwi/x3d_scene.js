@@ -152,8 +152,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = new Module.Color(0, 0, 0);
-
+    //this.scene.background = new Module.cwrap('wr_color_new','bonjour',[0, 0, 0]);
+    //console.log(new Module.cwrap('wr_color_r', 'number',[this.scene.background]));
+    this.scene.background = Module._wr_color_new(8, 0, 0);
+    console.log(Module._wr_color_r(this.scene.background));
     /*
     // Code to debug bloom passes.
     let geometry = new THREE.PlaneGeometry(5, 5);
