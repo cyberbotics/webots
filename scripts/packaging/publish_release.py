@@ -74,10 +74,13 @@ for release in repo.get_releases():
             tagName = release.tag_name
             print('Deleting release "%s"' % release.title)
             release.delete_release()
-            ref = repo.get_git_ref('tags/' + tagName)
-            if ref:
-                print('Deleting tag "%s"' % tagName)
-                ref.delete()
+            try:
+                ref = repo.get_git_ref('tags/' + tagName)
+                if ref:
+                    print('Deleting tag "%s"' % tagName)
+                    ref.delete()
+            except github.GithubException.UnknownObjectException:
+                pass
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
