@@ -15,6 +15,7 @@ PROTO TeslaModel3 [
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     MFString   controllerArgs    []
+  field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorsSlotFront  []
   field     MFNode     sensorsSlotRear   []
@@ -177,6 +178,7 @@ PROTO TeslaModel3 [
     model "Tesla model 3"
     controller IS controller
     controllerArgs IS controllerArgs
+    supervisor IS supervisor
     synchronization IS synchronization
     boundingObject Group {
       children [
