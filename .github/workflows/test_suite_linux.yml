@@ -78,10 +78,10 @@ jobs:
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
-    - name: Set up Python 3.8
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Test Suite
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
@@ -103,10 +103,10 @@ jobs:
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
-    - name: Set up Python 3.8
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Update World
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
