@@ -1,18 +1,15 @@
 #ifndef MESHBASICMATERIAL_HPP
 #define MESHBASICMATERIAL_HPP
 
-#include <emscripten.h>
-#include <emscripten/bind.h>
-using namespace emscripten;
+namespace wren {
+  class MeshBasicMaterial {
+  public:
+    static MeshBasicMaterial *createMeshBasicMaterial() { return new MeshBasicMaterial(); }
+    bool visible() const;
 
-class MeshBasicMaterial {
-public:
-  MeshBasicMaterial();
-  bool visible() const;
-};
-
-EMSCRIPTEN_BINDINGS(MeshBasicMaterial) {
-  class_<MeshBasicMaterial>("MeshBasicMaterial").constructor<>().property("isColor", &Color::isColor)
-}
-
+  private:
+    MeshBasicMaterial();
+    bool mVisible;
+  };
+}  // namespace wren
 #endif

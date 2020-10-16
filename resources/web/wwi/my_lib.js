@@ -654,7 +654,7 @@ function asmFunc(global, env, buffer) {
   HEAPF64[($5_1 + 24 | 0) >> 3] = $0_1;
   HEAPF64[($5_1 + 16 | 0) >> 3] = $1_1;
   HEAPF64[($5_1 + 8 | 0) >> 3] = $2_1;
-  $8_1 = $12(32 | 0) | 0;
+  $8_1 = $17(32 | 0) | 0;
   FUNCTION_TABLE[1 | 0]($8_1, +HEAPF64[($5_1 + 24 | 0) >> 3], +HEAPF64[($5_1 + 16 | 0) >> 3], +HEAPF64[($5_1 + 8 | 0) >> 3]) | 0;
   global$0 = $5_1 + 32 | 0;
   return $8_1 | 0;
@@ -721,16 +721,56 @@ function asmFunc(global, env, buffer) {
  
  function $12($0_1) {
   $0_1 = $0_1 | 0;
+  var $3_1 = 0, $5_1 = 0;
+  $3_1 = global$0 - 16 | 0;
+  HEAP32[($3_1 + 12 | 0) >> 2] = $0_1;
+  $5_1 = HEAP32[($3_1 + 12 | 0) >> 2] | 0;
+  HEAP8[$5_1 >> 0] = 1;
+  return $5_1 | 0;
+ }
+ 
+ function $13($0_1) {
+  $0_1 = $0_1 | 0;
+  var $3_1 = 0;
+  $3_1 = global$0 - 16 | 0;
+  HEAP32[($3_1 + 12 | 0) >> 2] = $0_1;
+  return (HEAPU8[(HEAP32[($3_1 + 12 | 0) >> 2] | 0) >> 0] | 0) & 1 | 0 | 0;
+ }
+ 
+ function $14() {
+  return $15() | 0 | 0;
+ }
+ 
+ function $15() {
+  var $2_1 = 0;
+  $2_1 = $17(1 | 0) | 0;
+  FUNCTION_TABLE[2 | 0]($2_1) | 0;
+  return $2_1 | 0;
+ }
+ 
+ function $16($0_1) {
+  $0_1 = $0_1 | 0;
+  var $3_1 = 0, $7_1 = 0;
+  $3_1 = global$0 - 16 | 0;
+  global$0 = $3_1;
+  HEAP32[($3_1 + 12 | 0) >> 2] = $0_1;
+  $7_1 = ($13(HEAP32[($3_1 + 12 | 0) >> 2] | 0 | 0) | 0) & 1 | 0;
+  global$0 = $3_1 + 16 | 0;
+  return $7_1 | 0;
+ }
+ 
+ function $17($0_1) {
+  $0_1 = $0_1 | 0;
   var $1_1 = 0;
   $1_1 = $0_1 ? $0_1 : 1;
   label$1 : {
    label$2 : while (1) {
-    $0_1 = $16($1_1 | 0) | 0;
+    $0_1 = $21($1_1 | 0) | 0;
     if ($0_1) {
      break label$1
     }
     label$3 : {
-     $0_1 = $14() | 0;
+     $0_1 = $19() | 0;
      if (!$0_1) {
       break label$3
      }
@@ -745,20 +785,20 @@ function asmFunc(global, env, buffer) {
   return $0_1 | 0;
  }
  
- function $13($0_1) {
+ function $18($0_1) {
   $0_1 = $0_1 | 0;
   return HEAP32[$0_1 >> 2] | 0 | 0;
  }
  
- function $14() {
-  return $13(1024 | 0) | 0 | 0;
+ function $19() {
+  return $18(1024 | 0) | 0 | 0;
  }
  
- function $15() {
+ function $20() {
   return 1028 | 0;
  }
  
- function $16($0_1) {
+ function $21($0_1) {
   $0_1 = $0_1 | 0;
   var $4_1 = 0, $6_1 = 0, $5_1 = 0, $3_1 = 0, $8_1 = 0, $2_1 = 0, $12_1 = 0, $9_1 = 0, $7_1 = 0, i64toi32_i32$0 = 0, i64toi32_i32$1 = 0, i64toi32_i32$2 = 0, $10_1 = 0, $11_1 = 0, $1_1 = 0, $83 = 0, $96 = 0, $107 = 0, $115 = 0, $123 = 0, $217 = 0, $228 = 0, $236 = 0, $244 = 0, $279 = 0, $363 = 0, $370 = 0, $461 = 0, $472 = 0, $480 = 0, $488 = 0, $1205 = 0, $1212 = 0, $1334 = 0, $1336 = 0, $1406 = 0, $1413 = 0, $1654 = 0, $1661 = 0;
   $1_1 = global$0 - 16 | 0;
@@ -1275,7 +1315,7 @@ function asmFunc(global, env, buffer) {
                  break label$54;
                 };
                }
-               $5_1 = $18(0 | 0) | 0;
+               $5_1 = $23(0 | 0) | 0;
                if (($5_1 | 0) == (-1 | 0)) {
                 break label$7
                }
@@ -1308,7 +1348,7 @@ function asmFunc(global, env, buffer) {
                  break label$7
                 }
                }
-               $0_1 = $18($2_1 | 0) | 0;
+               $0_1 = $23($2_1 | 0) | 0;
                if (($0_1 | 0) != ($5_1 | 0)) {
                 break label$51
                }
@@ -1318,7 +1358,7 @@ function asmFunc(global, env, buffer) {
               if ($2_1 >>> 0 > 2147483646 >>> 0) {
                break label$7
               }
-              $5_1 = $18($2_1 | 0) | 0;
+              $5_1 = $23($2_1 | 0) | 0;
               if (($5_1 | 0) == ((HEAP32[$0_1 >> 2] | 0) + (HEAP32[($0_1 + 4 | 0) >> 2] | 0) | 0 | 0)) {
                break label$8
               }
@@ -1341,14 +1381,14 @@ function asmFunc(global, env, buffer) {
                break label$5;
               }
               label$60 : {
-               if (($18($4_1 | 0) | 0 | 0) == (-1 | 0)) {
+               if (($23($4_1 | 0) | 0 | 0) == (-1 | 0)) {
                 break label$60
                }
                $2_1 = $4_1 + $2_1 | 0;
                $5_1 = $0_1;
                break label$5;
               }
-              $18(0 - $2_1 | 0 | 0) | 0;
+              $23(0 - $2_1 | 0 | 0) | 0;
               break label$7;
              }
              $5_1 = $0_1;
@@ -1374,8 +1414,8 @@ function asmFunc(global, env, buffer) {
        if ($8_1 >>> 0 > 2147483646 >>> 0) {
         break label$4
        }
-       $5_1 = $18($8_1 | 0) | 0;
-       $0_1 = $18(0 | 0) | 0;
+       $5_1 = $23($8_1 | 0) | 0;
+       $0_1 = $23(0 | 0) | 0;
        if ($5_1 >>> 0 >= $0_1 >>> 0) {
         break label$4
        }
@@ -1936,7 +1976,7 @@ function asmFunc(global, env, buffer) {
       $0_1 = $0_1 + 8 | 0;
       break label$1;
      }
-     HEAP32[($15() | 0) >> 2] = 48;
+     HEAP32[($20() | 0) >> 2] = 48;
      $0_1 = 0;
      break label$1;
     }
@@ -2179,7 +2219,7 @@ function asmFunc(global, env, buffer) {
   return $0_1 | 0;
  }
  
- function $17($0_1) {
+ function $22($0_1) {
   $0_1 = $0_1 | 0;
   var $2_1 = 0, $5_1 = 0, $1_1 = 0, $4_1 = 0, $3_1 = 0, $7_1 = 0, $6_1 = 0, $408 = 0, $415 = 0;
   label$1 : {
@@ -2616,7 +2656,7 @@ function asmFunc(global, env, buffer) {
   }
  }
  
- function $18($0_1) {
+ function $23($0_1) {
   $0_1 = $0_1 | 0;
   var $2_1 = 0, $1_1 = 0;
   $1_1 = ($0_1 + 3 | 0) & -4 | 0;
@@ -2649,20 +2689,20 @@ function asmFunc(global, env, buffer) {
    HEAP32[(0 + 1528 | 0) >> 2] = $2_1;
    return $0_1 | 0;
   }
-  HEAP32[($15() | 0) >> 2] = 48;
+  HEAP32[($20() | 0) >> 2] = 48;
   return -1 | 0;
  }
  
- function $19() {
+ function $24() {
   return global$0 | 0;
  }
  
- function $20($0_1) {
+ function $25($0_1) {
   $0_1 = $0_1 | 0;
   global$0 = $0_1;
  }
  
- function $21($0_1) {
+ function $26($0_1) {
   $0_1 = $0_1 | 0;
   var $1_1 = 0;
   $1_1 = (global$0 - $0_1 | 0) & -16 | 0;
@@ -2670,33 +2710,33 @@ function asmFunc(global, env, buffer) {
   return $1_1 | 0;
  }
  
- function $22($0_1) {
+ function $27($0_1) {
   $0_1 = $0_1 | 0;
   return 1 | 0;
  }
  
- function $23($0_1) {
+ function $28($0_1) {
   $0_1 = $0_1 | 0;
  }
  
- function $24($0_1) {
+ function $29($0_1) {
   $0_1 = $0_1 | 0;
  }
  
- function $25($0_1) {
+ function $30($0_1) {
   $0_1 = $0_1 | 0;
  }
  
- function $26() {
-  $24(1532 | 0);
+ function $31() {
+  $29(1532 | 0);
   return 1540 | 0;
  }
  
- function $27() {
-  $25(1532 | 0);
+ function $32() {
+  $30(1532 | 0);
  }
  
- function $28($0_1) {
+ function $33($0_1) {
   $0_1 = $0_1 | 0;
   var $2_1 = 0, $1_1 = 0;
   label$1 : {
@@ -2708,14 +2748,14 @@ function asmFunc(global, env, buffer) {
      if ((HEAP32[($0_1 + 76 | 0) >> 2] | 0 | 0) > (-1 | 0)) {
       break label$3
      }
-     return $29($0_1 | 0) | 0 | 0;
+     return $34($0_1 | 0) | 0 | 0;
     }
-    $1_1 = $22($0_1 | 0) | 0;
-    $2_1 = $29($0_1 | 0) | 0;
+    $1_1 = $27($0_1 | 0) | 0;
+    $2_1 = $34($0_1 | 0) | 0;
     if (!$1_1) {
      break label$1
     }
-    $23($0_1 | 0);
+    $28($0_1 | 0);
     return $2_1 | 0;
    }
    $2_1 = 0;
@@ -2723,10 +2763,10 @@ function asmFunc(global, env, buffer) {
     if (!(HEAP32[(0 + 1544 | 0) >> 2] | 0)) {
      break label$4
     }
-    $2_1 = $28(HEAP32[(0 + 1544 | 0) >> 2] | 0 | 0) | 0;
+    $2_1 = $33(HEAP32[(0 + 1544 | 0) >> 2] | 0 | 0) | 0;
    }
    label$5 : {
-    $0_1 = HEAP32[($26() | 0) >> 2] | 0;
+    $0_1 = HEAP32[($31() | 0) >> 2] | 0;
     if (!$0_1) {
      break label$5
     }
@@ -2736,19 +2776,19 @@ function asmFunc(global, env, buffer) {
       if ((HEAP32[($0_1 + 76 | 0) >> 2] | 0 | 0) < (0 | 0)) {
        break label$7
       }
-      $1_1 = $22($0_1 | 0) | 0;
+      $1_1 = $27($0_1 | 0) | 0;
      }
      label$8 : {
       if ((HEAP32[($0_1 + 20 | 0) >> 2] | 0) >>> 0 <= (HEAP32[($0_1 + 28 | 0) >> 2] | 0) >>> 0) {
        break label$8
       }
-      $2_1 = $29($0_1 | 0) | 0 | $2_1 | 0;
+      $2_1 = $34($0_1 | 0) | 0 | $2_1 | 0;
      }
      label$9 : {
       if (!$1_1) {
        break label$9
       }
-      $23($0_1 | 0);
+      $28($0_1 | 0);
      }
      $0_1 = HEAP32[($0_1 + 56 | 0) >> 2] | 0;
      if ($0_1) {
@@ -2757,12 +2797,12 @@ function asmFunc(global, env, buffer) {
      break label$6;
     };
    }
-   $27();
+   $32();
   }
   return $2_1 | 0;
  }
  
- function $29($0_1) {
+ function $34($0_1) {
   $0_1 = $0_1 | 0;
   var i64toi32_i32$1 = 0, i64toi32_i32$0 = 0, $1_1 = 0, $2_1 = 0;
   label$1 : {
@@ -2798,7 +2838,7 @@ function asmFunc(global, env, buffer) {
   return 0 | 0;
  }
  
- function $30($0_1) {
+ function $35($0_1) {
   $0_1 = $0_1 | 0;
   return abort() | 0;
  }
@@ -2815,6 +2855,7 @@ function asmFunc(global, env, buffer) {
  // EMSCRIPTEN_END_FUNCS
 ;
  FUNCTION_TABLE[1] = $1;
+ FUNCTION_TABLE[2] = $12;
  function __wasm_memory_size() {
   return buffer.byteLength / 65536 | 0;
  }
@@ -2826,14 +2867,16 @@ function asmFunc(global, env, buffer) {
   "wr_color_r": $9, 
   "wr_color_g": $10, 
   "wr_color_b": $11, 
-  "__errno_location": $15, 
-  "fflush": $28, 
-  "stackSave": $19, 
-  "stackRestore": $20, 
-  "stackAlloc": $21, 
-  "malloc": $16, 
-  "free": $17, 
-  "__growWasmMemory": $30
+  "wr_mesh_basic_material_new": $14, 
+  "wr_mesh_basic_material_visible": $16, 
+  "__errno_location": $20, 
+  "fflush": $33, 
+  "stackSave": $24, 
+  "stackRestore": $25, 
+  "stackAlloc": $26, 
+  "malloc": $21, 
+  "free": $22, 
+  "__growWasmMemory": $35
  };
 }
 
@@ -2961,8 +3004,8 @@ var wasmMemory;
 // so this creates a (non-native-wasm) table for us.
 
 var wasmTable = new WebAssembly.Table({
-  'initial': 2,
-  'maximum': 2,
+  'initial': 3,
+  'maximum': 3,
   'element': 'anyfunc'
 });
 
@@ -4352,6 +4395,12 @@ var _wr_color_g = Module["_wr_color_g"] = createExportWrapper("wr_color_g");
 
 /** @type {function(...*):?} */
 var _wr_color_b = Module["_wr_color_b"] = createExportWrapper("wr_color_b");
+
+/** @type {function(...*):?} */
+var _wr_mesh_basic_material_new = Module["_wr_mesh_basic_material_new"] = createExportWrapper("wr_mesh_basic_material_new");
+
+/** @type {function(...*):?} */
+var _wr_mesh_basic_material_visible = Module["_wr_mesh_basic_material_visible"] = createExportWrapper("wr_mesh_basic_material_visible");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

@@ -290,12 +290,13 @@ class BoxBufferGeometry {
   }
 }
 
+/*
 class MeshBasicMaterial {
   constructor (){
 	  this.visible = true;
   }
 }
-
+*/
 function EffectComposer(renderer, renderTarget) {
 	this.renderer = renderer;
 

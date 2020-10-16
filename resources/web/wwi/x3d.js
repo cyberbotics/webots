@@ -1183,7 +1183,7 @@ function createDefaultMaterial(geometry) {
     //material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
   //else
     //material2 = new THREE.MeshBasicMaterial({color: 0xffffff});
-    material = new MeshBasicMaterial();
+    material = Module._wr_mesh_basic_material_new();//new MeshBasicMaterial();
   return material;
 };
 

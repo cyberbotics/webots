@@ -1,11 +1,17 @@
 #include "MeshBasicMaterial.hpp"
 
-Color::Color(double r, double g, double b) {
-  mR = r;
-  mG = g;
-  mB = b;
-  mIsColor = true;
+#include "MeshBasicMaterial.h"
+
+namespace wren {
+  MeshBasicMaterial::MeshBasicMaterial() { mVisible = true; }
+
+  bool MeshBasicMaterial::visible() const { return mVisible; }
+}  // namespace wren
+
+WrMeshBasicMaterial *wr_mesh_basic_material_new() {
+  return reinterpret_cast<WrMeshBasicMaterial *>(wren::MeshBasicMaterial::createMeshBasicMaterial());
 }
-bool Color::isColor() const {
-  return mIsColor;
+
+bool wr_mesh_basic_material_visible(WrMeshBasicMaterial *meshBasicMaterial) {
+  return reinterpret_cast<wren::MeshBasicMaterial *>(meshBasicMaterial)->visible();
 }
