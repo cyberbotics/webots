@@ -23,6 +23,7 @@ import re
 import requests
 import sys
 from github import Github
+from github.GithubException import import UnknownObjectException
 
 optParser = optparse.OptionParser(
     usage="usage: %prog --key=... --repo=cyberbotics/webots --branch=develop --commit=... [--tag=...]")
@@ -79,8 +80,8 @@ for release in repo.get_releases():
                 if ref:
                     print('Deleting tag "%s"' % tagName)
                     ref.delete()
-            except github.GithubException.UnknownObjectException:
-                pass
+            except UnknownObjectException:
+                pass  # tag was already deleted
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
