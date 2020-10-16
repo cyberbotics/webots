@@ -93,11 +93,8 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}  # TODO: 'test suite' -> 'test ros'
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-18.04]
         include:
-          - os: ubuntu-20.04
-            ROS_DISTRO: noetic
-            python: 3.8
           - os: ubuntu-18.04
             ROS_DISTRO: melodic
             python: 2.7
@@ -128,9 +125,9 @@ jobs:
         export WEBOTS_HOME=$PWD/artifact/webots
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         python -m pip install rospkg catkin_pkg empy defusedxml netifaces
-        # Xvfb :99 &
-        # export DISPLAY=:99
-        xvfb-run --auto-servernum  ./tests/ros.sh
+        Xvfb :99 &
+        export DISPLAY=:99
+        ./tests/ros.sh
   world-update:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
