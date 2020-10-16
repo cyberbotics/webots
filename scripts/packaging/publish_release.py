@@ -23,7 +23,7 @@ import re
 import requests
 import sys
 from github import Github
-from github.GithubException import import UnknownObjectException
+from github.GithubException import UnknownObjectException
 
 optParser = optparse.OptionParser(
     usage="usage: %prog --key=... --repo=cyberbotics/webots --branch=develop --commit=... [--tag=...]")
