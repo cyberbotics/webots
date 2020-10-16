@@ -8,7 +8,7 @@ class Layer {
 	}
 }
 
-class Obj3d {
+class Object3D {
   constructor(){
     this.type="";
     this.userData = {"": ""};
@@ -113,24 +113,9 @@ class Obj3d {
       children[ i ].updateMatrixWorld( force );
     }
   }
-
-  onBeforeRender() {
-
-  }
-
-  onAfterRender() {
-
-  }
-
-  dispatchEvent(e) {
-
-  }
-  addEventListener() {
-
-  }
 }
 
-class Groupe extends Obj3d {
+class Group extends Object3D {
   constructor (){
     super();
     this.type = 'Group';
@@ -138,7 +123,7 @@ class Groupe extends Obj3d {
   }
 }
 
-class Meche extends Obj3d {
+class Mesh extends Object3D {
   constructor (geometry, material) {
     super();
     this.type = 'Mesh';
@@ -148,7 +133,7 @@ class Meche extends Obj3d {
   }
 }
 
-class Saine extends Obj3d {
+class Scene extends Object3D {
   constructor () {
     super();
     this.isScene = true;
@@ -157,7 +142,7 @@ class Saine extends Obj3d {
   }
 }
 
-class Cam extends Obj3d {
+class Camera extends Object3D {
   constructor(fov, aspect, near, far){
     super();
     this.fov = fov;
@@ -219,7 +204,7 @@ class Cam extends Obj3d {
 
 }
 
-class BoxBufferGeo {
+class BoxBufferGeometry {
   constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
     this.type = 'BoxBufferGeometry';
 		this.width = width;
@@ -332,12 +317,9 @@ class BoxBufferGeo {
     }
     return this;
   }
-  addEventListener(){
-
-  }
 }
 
-class MeshBasicMat {
+class MeshBasicMaterial {
   constructor (){
     this.type = 'MeshBasicMaterial';
     this.color = new Module.Color(255,255,255);
@@ -345,16 +327,9 @@ class MeshBasicMat {
     this.lights = false;
 	  this.needsUpdate = false
   	this.colorWrite = true;
-	  this.precision = null; // override the renderer's default precision for this material
+	  this.precision = null;
 	  this.visible = true;
 	  this.userData = {};
-  }
-
-  onBeforeCompile() {
-
-  }
-  addEventListener(){
-
   }
 }
 
@@ -364,23 +339,14 @@ Object.assign( glm.vec2.prototype, {
 	}
 })
 
-function EffectCompo(renderer, renderTarget) {
+function EffectComposer(renderer, renderTarget) {
 	this.renderer = renderer;
-
-	this.renderToScreen = true;
 
 	this.passes = [];
 
-	this._previousFrameTime = Date.now();
 }
 
-Object.assign( EffectCompo.prototype, {
-	swapBuffers: function () {
-		let tmp = this.readBuffer;
-		this.readBuffer = this.writeBuffer;
-		this.writeBuffer = tmp;
-	},
-
+Object.assign( EffectComposer.prototype, {
 	addPass: function ( pass ) {
 		this.passes.push( pass );
 	},
@@ -395,7 +361,7 @@ Object.assign( EffectCompo.prototype, {
 	},
 
 	render: function () {
-		this._previousFrameTime = Date.now();
+		let previousFrameTime = Date.now();
 		let pass, i, il = this.passes.length;
 
 		for ( i = 0; i < il; i ++ ) {
@@ -403,29 +369,19 @@ Object.assign( EffectCompo.prototype, {
 
 			if ( pass.enabled === false ) continue;
 
-			pass.renderToScreen = ( this.renderToScreen && this.isLastEnabledPass( i ));
 			pass.render( this.renderer)
 		}
 	}
 })
 
-function RenPass (scene, camera) {
-	this.enable=true;
-	this.needsSwap = false;
-	this.clear = true;
-	this.renderToScreen = false;
-
+function RenderPass (scene, camera) {
 	this.scene = scene;
 	this.camera = camera;
-
-
 }
 
-RenPass.prototype = Object.assign( Object.create( RenPass.prototype ), {
+RenderPass.prototype = Object.assign( Object.create( RenderPass.prototype ), {
 
-	constructor: RenPass,
-
-	setSize: function ( width, height ) {},
+	constructor: RenderPass,
 
 	render: function ( renderer) {
 		renderer.render( this.scene, this.camera );

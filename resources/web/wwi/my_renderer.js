@@ -139,6 +139,7 @@ class WebGL2Renderer {
     this.gl.drawElements( this.gl.TRIANGLES, drawCount, attribute.type, drawStart * attribute.bytesPerElement );
   }
 
+  //helper function
   renderObjects ( object, camera ) {
       if ( object.isMesh) {
           let geometry = object.geometry;
@@ -162,6 +163,7 @@ class WebGL2Renderer {
     }
   }
 
+  //helper function
   setProgram( camera, material, object ) {
 
     if ( this.currentProgram === null ) {
@@ -173,6 +175,7 @@ class WebGL2Renderer {
     setValue4fm( this.gl, 'modelViewMatrix', object.modelViewMatrix, this.currentProgram );
   }
 
+  //helper function
   setupVertexAttributes( material, program, geometry ) {
     let geometryAttribute = geometry.attributes["position"];
 

@@ -45,7 +45,7 @@ class X3dLoade  {
 
     if (typeof scene !== 'undefined') {
       //object = new THREE.Group();
-      object = new Groupe();
+      object = new Group();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -67,7 +67,7 @@ class X3dLoade  {
         object = parentObject;
       else{
         //object = new THREE.Group();
-        object = new Groupe();
+        object = new Group();
       }
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
@@ -265,7 +265,7 @@ class X3dLoade  {
       mesh = new THREE.Points(geometry, material);
     else
     */
-    let mesh = new Meche(geometry, material);
+    let mesh = new Mesh(geometry, material);
     //var mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
     //if (!material.transparent && !material.userData.hasTransparentTexture)
@@ -717,7 +717,7 @@ class X3dLoade  {
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
     //let boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
-    let boxGeometry = new BoxBufferGeo(size.x, size.y, size.z);
+    let boxGeometry = new BoxBufferGeometry(size.x, size.y, size.z);
     //console.log(boxGeometry.morphAttributes);
 
     boxGeometry.userData = { 'x3dType': 'Box' };
@@ -1183,7 +1183,7 @@ function createDefaultMaterial(geometry) {
     //material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
   //else
     //material2 = new THREE.MeshBasicMaterial({color: 0xffffff});
-    material = new MeshBasicMat();
+    material = new MeshBasicMaterial();
   return material;
 };
 

@@ -40,7 +40,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
 
     //this.scene = new THREE.Scene();
-    this.scene = new Saine();
+    this.scene = new Scene();
     this.renderAllAtLoad = false;
 
     this.viewpoint = new Viewpoint();
@@ -67,8 +67,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     // add antialiasing post-processing effects
     //this.composer = new THREE.EffectComposer(this.renderer);
-    this.composer = new EffectCompo(this.renderer);
-    let renderPass = new RenPass(this.scene, this.viewpoint.camera);
+    this.composer = new EffectComposer(this.renderer);
+    let renderPass = new RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
 
     //this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
