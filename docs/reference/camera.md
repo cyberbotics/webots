@@ -55,7 +55,7 @@ More information on frustums in the corresponding subsection below.
 
 - The `far` field defines the distance from the camera to the far clipping plane.
 
-- The `exposure` field defines the photometric exposure of scene in joule per square metre (J/m^2).
+- The `exposure` field defines the photometric exposure of the scene in joule per square meter (J/m^2).
 
 - The `antiAliasing` field switches on or off (the default) anti-aliasing effect on the camera images.
 Aliasing artifacts can appear as jagged edges (or moiré patterns, strobing, etc.).
