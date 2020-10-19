@@ -40,7 +40,8 @@ install:
   # - ps: Start-Sleep -s 3600
 
 build_script:
-  - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set PATH=C:\Python39-x64;C:\Python39-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set PYTHON39_HOME=/C/Python39-x64
   - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
   - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\scripts\packaging\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
