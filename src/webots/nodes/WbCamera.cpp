@@ -236,7 +236,7 @@ void WbCamera::initializeSegmentationSharedMemory() {
   delete mSegmentationShm;
   mSegmentationShm = initializeSharedMemory();
   mHasSegmentationSharedMemoryChanged = true;
-  if (mImageShm) {
+  if (mSegmentationShm) {
     unsigned char *data = (unsigned char *)mSegmentationShm->data();
     // initialize the shared memory with a black image
     int *im = reinterpret_cast<int *>(data);

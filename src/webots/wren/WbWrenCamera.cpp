@@ -161,7 +161,7 @@ void WbWrenCamera::setMinRange(float minRange) {
 void WbWrenCamera::setMaxRange(float maxRange) {
   mMaxRange = maxRange;
 
-  if (!mIsColor)
+  if (mIsColor)
     return;
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
@@ -787,7 +787,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   }
 
   // hdr resolve
-  if (mType == 'c')
+  if (mIsColor)
     mWrenHdr[index]->setup(mCameraViewport[index]);
 
   // anti-aliasing

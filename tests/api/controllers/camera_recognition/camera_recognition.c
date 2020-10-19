@@ -56,11 +56,11 @@ int main(int argc, char **argv) {
   const int width = wb_camera_get_width(camera);
   int red, green, blue;
   red = wb_camera_image_get_red(image, width, 215, 124);
-  ts_assert_int_in_delta(red, 136, 5, "Image should contain a red sphere at (215, 124): found red channel %d expected %d.", red,
-                         136);
+  ts_assert_int_in_delta(red, 171, 5, "Image should contain a red sphere at (215, 124): found red channel %d expected %d.", red,
+                         171);
   red = wb_camera_image_get_red(image, width, 35, 71);
   ts_assert_int_in_delta(
-    red, 255, 5, "Image should contain a red L shaped geometry at (35, 71): found red channel %d expected %d.", red, 255);
+    red, 207, 5, "Image should contain a red L shaped geometry at (35, 71): found red channel %d expected %d.", red, 207);
   red = wb_camera_image_get_red(image, width, 95, 77);
   green = wb_camera_image_get_red(image, width, 95, 77);
   blue = wb_camera_image_get_red(image, width, 95, 77);
@@ -70,15 +70,15 @@ int main(int argc, char **argv) {
   red = wb_camera_image_get_red(image, width, 85, 200);
   green = wb_camera_image_get_green(image, width, 85, 200);
   blue = wb_camera_image_get_blue(image, width, 85, 200);
-  ts_assert_color_in_delta(red, green, blue, 0, 255, 0, 5,
+  ts_assert_color_in_delta(red, green, blue, 0, 207, 0, 5,
                            "Image should contain a green box at (85, 200)): found color (%d, %d, %d) expected (%d, %d, %d).",
-                           red, green, blue, 0, 255, 0);
+                           red, green, blue, 0, 207, 0);
   red = wb_camera_image_get_red(image, width, 52, 124);
   green = wb_camera_image_get_green(image, width, 52, 124);
   blue = wb_camera_image_get_blue(image, width, 52, 124);
-  ts_assert_color_in_delta(red, green, blue, 0, 0, 255, 5,
+  ts_assert_color_in_delta(red, green, blue, 0, 0, 207, 5,
                            "Image should contain a blue sphere at (54, 124)): found color (%d, %d, %d) expected (%d, %d, %d).",
-                           red, green, blue, 0, 0, 255);
+                           red, green, blue, 0, 0, 207);
 
   ts_assert_boolean_equal(
     wb_camera_recognition_save_segmentation_image(camera, "segmentation.jpg", 100) != -1,
