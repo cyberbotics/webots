@@ -2,13 +2,15 @@
 
 echo @@@ Compile ros webots_ros package
 source /opt/ros/$ROS_DISTRO/setup.bash
-[ -d $WEBOTS_HOME/webots_catkin_ws ] && rm -r $WEBOTS_HOME/webots_catkin_ws
-mkdir -p $WEBOTS_HOME/webots_catkin_ws/src
-cd $WEBOTS_HOME/webots_catkin_ws/src
+# BASEDIR might differ from WEBOTS_HOME if we are not using Webots compiled from this repository directory (e.g. in CI).
+BASEDIR=$(dirname $(realpath $0))/..
+[ -d $BASEDIR/webots_catkin_ws ] && rm -r $BASEDIR/webots_catkin_ws
+mkdir -p $BASEDIR/webots_catkin_ws/src
+cd $BASEDIR/webots_catkin_ws/src
 catkin_init_workspace 2>&1 >> /dev/null
-cp -r $WEBOTS_HOME/resources/webots_ros webots_ros
-cp -r $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots ur_e_webots
-cd $WEBOTS_HOME/webots_catkin_ws
+cp -r $BASEDIR/resources/webots_ros webots_ros
+cp -r $BASEDIR/projects/robots/universal_robots/resources/ros_package/ur_e_webots ur_e_webots
+cd $BASEDIR/webots_catkin_ws
 echo @@@ Installing dependencies
 sudo rosdep init
 rosdep update
@@ -22,12 +24,12 @@ if grep -q 'Error' ros_compilation.log; then
   exit -1
 fi
 
-source $WEBOTS_HOME/webots_catkin_ws/devel/setup.bash
+source $BASEDIR/webots_catkin_ws/devel/setup.bash
 
 # run the complete test
 export ROSCONSOLE_FORMAT='${severity}: ${message}   Line: ${line}'
-export ROSCONSOLE_CONFIG_FILE=$WEBOTS_HOME/tests/rosconsole.config
-cd $WEBOTS_HOME/tests
+export ROSCONSOLE_CONFIG_FILE=$BASEDIR/tests/rosconsole.config
+cd $BASEDIR/tests
 echo @@@ Run ros complete test
 roslaunch webots_ros complete_test.launch auto_close:=true no_gui:=true 2> stderr.log
 if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engine'; then
@@ -37,7 +39,7 @@ if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engi
 fi
 
 # checks that all the service messages specific to webots_ros are available
-cd $WEBOTS_HOME/webots_catkin_ws
+cd $BASEDIR/webots_catkin_ws
 source devel/setup.bash
 rossrv list >> available_services.log
 echo @@@ Checking that all webots_ros services are available
@@ -45,7 +47,7 @@ echo @@@ Checking that all webots_ros services are available
 FILES=src/webots_ros/srv/*.srv
 if [ ${#FILES[@]} -gt 1 ]; then
   echo @@@ Error: no service file found
-  rm -rf $WEBOTS_HOME/webots_catkin_ws
+  rm -rf $BASEDIR/webots_catkin_ws
   exit -1
 fi
 # check that each associated service is found
@@ -59,7 +61,7 @@ do
   fi
 done
 if $missing_service_file ; then
-  rm -rf $WEBOTS_HOME/webots_catkin_ws
+  rm -rf $BASEDIR/webots_catkin_ws
   exit -1
 else
   echo "OK: all service files found"
