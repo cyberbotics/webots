@@ -152,7 +152,7 @@ class WebGL2Renderer {
             this.attributes.update( geometryAttributes[ name ], 34962 );
           }
           let material = object.material;
-          if ( Module._wr_mesh_basic_material_visible(material.visible )) {
+          if ( Module._wr_mesh_basic_material_is_visible(material.visible )) {
             object.modelViewMatrix = camera.matrixWorldInverse['*'](object.matrixWorld);
             this.drawBuffer( camera, geometry, material, object );
           }

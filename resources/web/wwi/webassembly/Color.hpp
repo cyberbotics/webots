@@ -1,8 +1,6 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
-#include "Color.h"
-
 namespace wren {
   class Color {
   public:

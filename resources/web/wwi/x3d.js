@@ -720,7 +720,7 @@ class X3dLoade  {
     let boxGeometry = new BoxBufferGeometry(size.x, size.y, size.z);
     //console.log(boxGeometry.morphAttributes);
 
-    boxGeometry.userData = { 'x3dType': 'Box' };
+    //boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }
 

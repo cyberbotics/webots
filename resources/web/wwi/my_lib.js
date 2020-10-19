@@ -605,10 +605,10 @@ function asmFunc(global, env, buffer) {
   HEAPF64[($6_1 + 8 | 0) >> 3] = $2_1;
   HEAPF64[$6_1 >> 3] = $3_1;
   $8_1 = HEAP32[($6_1 + 28 | 0) >> 2] | 0;
+  HEAP8[$8_1 >> 0] = 1;
   HEAPF64[($8_1 + 8 | 0) >> 3] = +HEAPF64[($6_1 + 16 | 0) >> 3];
   HEAPF64[($8_1 + 16 | 0) >> 3] = +HEAPF64[($6_1 + 8 | 0) >> 3];
   HEAPF64[($8_1 + 24 | 0) >> 3] = +HEAPF64[$6_1 >> 3];
-  HEAP8[$8_1 >> 0] = 1;
   return $8_1 | 0;
  }
  
@@ -2868,7 +2868,7 @@ function asmFunc(global, env, buffer) {
   "wr_color_g": $10, 
   "wr_color_b": $11, 
   "wr_mesh_basic_material_new": $14, 
-  "wr_mesh_basic_material_visible": $16, 
+  "wr_mesh_basic_material_is_visible": $16, 
   "__errno_location": $20, 
   "fflush": $33, 
   "stackSave": $24, 
@@ -4400,7 +4400,7 @@ var _wr_color_b = Module["_wr_color_b"] = createExportWrapper("wr_color_b");
 var _wr_mesh_basic_material_new = Module["_wr_mesh_basic_material_new"] = createExportWrapper("wr_mesh_basic_material_new");
 
 /** @type {function(...*):?} */
-var _wr_mesh_basic_material_visible = Module["_wr_mesh_basic_material_visible"] = createExportWrapper("wr_mesh_basic_material_visible");
+var _wr_mesh_basic_material_is_visible = Module["_wr_mesh_basic_material_is_visible"] = createExportWrapper("wr_mesh_basic_material_is_visible");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

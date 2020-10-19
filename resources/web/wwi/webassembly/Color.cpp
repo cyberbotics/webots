@@ -1,15 +1,11 @@
+#include "Color.h"
 #include "Color.hpp"
 
 #include <math.h>
 
 namespace wren {
 
-  Color::Color(double r, double g, double b) {
-    mR = r;
-    mG = g;
-    mB = b;
-    mIsColor = true;
-  }
+  Color::Color(double r, double g, double b) : mR(r), mG(g), mB(b), mIsColor(true) {}
   bool Color::isColor() const { return mIsColor; }
   double Color::r() const { return mR; }
   double Color::g() const { return mG; }

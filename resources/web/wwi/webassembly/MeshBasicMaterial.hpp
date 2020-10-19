@@ -5,11 +5,11 @@ namespace wren {
   class MeshBasicMaterial {
   public:
     static MeshBasicMaterial *createMeshBasicMaterial() { return new MeshBasicMaterial(); }
-    bool visible() const;
+    bool isVisible() const;
 
   private:
     MeshBasicMaterial();
-    bool mVisible;
+    bool mIsVisible;
   };
 }  // namespace wren
 #endif

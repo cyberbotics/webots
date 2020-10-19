@@ -1,34 +1,32 @@
 
 class Object3D {
   constructor(){
-    this.type="";
     this.userData = {"": ""};
-    this.position = new glm.vec3(1,1,1);
     this.isObject3D = true;
     this.matrixAutoUpdate = true;
     this.matrixWorldNeedsUpdate = false;
     this.parent = null;
     this.children = [];
+    this.position = new glm.vec3(0,0,0);
+    this.scale = new glm.vec3( 1, 1, 1 );
     this.matrix = new glm.mat4();
     this.matrixWorld = new glm.mat4();
-    this.modelViewMatrix = new glm.mat4();
-    this.normalMatrix = new glm.mat3();
     this.quaternion = new glm.quat();
-    this.scale = new glm.vec3( 1, 1, 1 );
   }
 
 
-	compose( matrix, position, quaternion, scale ) {
+	compose() {
 
-		const te = matrix.elements;
+		const te = this.matrix.elements;
 
-		const x = quaternion.x, y = quaternion.y, z = quaternion.z, w = quaternion.w;
+		const x = this.quaternion.x, y = this.quaternion.y, z = this.quaternion.z, w = this.quaternion.w;
+
 		const x2 = x + x,	y2 = y + y, z2 = z + z;
 		const xx = x * x2, xy = x * y2, xz = x * z2;
 		const yy = y * y2, yz = y * z2, zz = z * z2;
 		const wx = w * x2, wy = w * y2, wz = w * z2;
 
-		const sx = scale.x, sy = scale.y, sz = scale.z;
+		const sx = this.scale.x, sy = this.scale.y, sz = this.scale.z;
 
 		te[ 0 ] = ( 1 - ( yy + zz ) ) * sx;
 		te[ 1 ] = ( xy + wz ) * sx;
@@ -45,13 +43,10 @@ class Object3D {
 		te[ 10 ] = ( 1 - ( xx + yy ) ) * sz;
 		te[ 11 ] = 0;
 
-		te[ 12 ] = position.x;
-		te[ 13 ] = position.y;
-		te[ 14 ] = position.z;
+		te[ 12 ] = this.position.x;
+		te[ 13 ] = this.position.y;
+		te[ 14 ] = this.position.z;
 		te[ 15 ] = 1;
-
-		return matrix;
-
 	}
 
   add(object) {
@@ -74,16 +69,13 @@ class Object3D {
   			object.parent = null;
   			this.children.splice( index, 1 );
   		}
-  		return this;
   	}
 
-  updateMatrix() {
-    this.matrix = this.compose(this.matrix, this.position, this.quaternion, this.scale );
-    this.matrixWorldNeedsUpdate = true;
-  }
-
   updateMatrixWorld(force) {
-    if ( this.matrixAutoUpdate ) this.updateMatrix();
+    if ( this.matrixAutoUpdate ) {
+      this.compose(this.matrix );
+      this.matrixWorldNeedsUpdate = true;
+    }
 
     if ( this.matrixWorldNeedsUpdate || force ) {
       if ( this.parent === null ) {
@@ -186,20 +178,9 @@ class Camera extends Object3D {
 }
 
 class BoxBufferGeometry {
-  constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
-		this.width = width;
-		this.height = height;
-		this.depth = depth;
-		this.widthSegments = widthSegments;
-		this.heightSegments = heightSegments;
-		this.depthSegments = depthSegments;
+  constructor( width = 1, height = 1, depth = 1) {
     this.attributes = {};
     this.drawRange = { start: 0, count: Infinity };
-
-		// segments
-		widthSegments = Math.floor( widthSegments );
-		heightSegments = Math.floor( heightSegments );
-		depthSegments = Math.floor( depthSegments );
 
 		// buffers
 		const indices = [];
@@ -209,27 +190,27 @@ class BoxBufferGeometry {
 		let numberOfVertices = 0;
 
 		// build each side of the box geometry
-		buildPlane( 'z', 'y', 'x', - 1, - 1, depth, height, width, depthSegments, heightSegments, 0 ); // px
-		buildPlane( 'z', 'y', 'x', 1, - 1, depth, height, - width, depthSegments, heightSegments, 1 ); // nx
-		buildPlane( 'x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments, 2 ); // py
-		buildPlane( 'x', 'z', 'y', 1, - 1, width, depth, - height, widthSegments, depthSegments, 3 ); // ny
-		buildPlane( 'x', 'y', 'z', 1, - 1, width, height, depth, widthSegments, heightSegments, 4 ); // pz
-		buildPlane( 'x', 'y', 'z', - 1, - 1, width, height, - depth, widthSegments, heightSegments, 5 ); // nz
+		buildPlane( 'z', 'y', 'x', - 1, - 1, depth, height, width); // px
+		buildPlane( 'z', 'y', 'x', 1, - 1, depth, height, - width); // nx
+		buildPlane( 'x', 'z', 'y', 1, 1, width, depth, height); // py
+		buildPlane( 'x', 'z', 'y', 1, - 1, width, depth, - height ); // ny
+		buildPlane( 'x', 'y', 'z', 1, - 1, width, height, depth); // pz
+		buildPlane( 'x', 'y', 'z', - 1, - 1, width, height, - depth ); // nz
 
 		// build geometry
 		this.setIndex( indices );
-		this.attributes['position'] = new Float32Array( vertices );
+		this.attributes['position'] = new Float32Array( vertices);
 
-		function buildPlane( u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex ) {
-			const segmentWidth = width / gridX;
-			const segmentHeight = height / gridY;
+		function buildPlane( u, v, w, udir, vdir, width, height, depth ) {
+			const segmentWidth = width;
+			const segmentHeight = height;
 
 			const widthHalf = width / 2;
 			const heightHalf = height / 2;
 			const depthHalf = depth / 2;
 
-			const gridX1 = gridX + 1;
-			const gridY1 = gridY + 1;
+			const gridX1 = 2 ;
+			const gridY1 = 2;
 
 			let vertexCounter = 0;
 
@@ -261,19 +242,15 @@ class BoxBufferGeometry {
 			// 1. you need three indices to draw a single face
 			// 2. a single segment consists of two faces
 			// 3. so we need to generate six (2*3) indices per segment
-			for ( let iy = 0; iy < gridY; iy ++ ) {
-				for ( let ix = 0; ix < gridX; ix ++ ) {
-					const a = numberOfVertices + ix + gridX1 * iy;
-					const b = numberOfVertices + ix + gridX1 * ( iy + 1 );
-					const c = numberOfVertices + ( ix + 1 ) + gridX1 * ( iy + 1 );
-					const d = numberOfVertices + ( ix + 1 ) + gridX1 * iy;
+
+					const a = numberOfVertices;
+					const b = numberOfVertices + gridX1;
+					const c = numberOfVertices + 1 + gridX1;
+					const d = numberOfVertices + 1;
 
 					// faces
 					indices.push( a, b, d );
 					indices.push( b, c, d );
-
-				}
-			}
 
 			// update total number of vertices
 			numberOfVertices += vertexCounter;
@@ -281,11 +258,7 @@ class BoxBufferGeometry {
 	}
 
   setIndex(index) {
-    if ( Array.isArray( index ) ) {
-      this.index = new Uint16Array ( index );
-    } else {
-      this.index = index;
-    }
+    this.index = new Uint16Array ( index );
     return this;
   }
 }
