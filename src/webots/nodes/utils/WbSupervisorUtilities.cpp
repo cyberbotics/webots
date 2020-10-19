@@ -525,7 +525,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> size;
       stream >> color;
       const QString &text = readString(stream);
-      const QString font = readString(stream);
+      const QString &font = readString(stream);
 
       bool fileFound = false;
       QString filename = WbStandardPaths::fontsPath() + font + ".ttf";

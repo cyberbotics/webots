@@ -45,7 +45,10 @@ public:
     mY = y;
   }
   void setSize(float size) { mSize = size; }
-  void setColor(int color) { colorToArray(mColor, color); }
+  void setColor(int color) {
+    colorToArray(mColor, color);
+    mTextNeedRedraw = true;
+  }
   void setBackgroundColor(int color) { colorToArray(mBackgroundColor, color); }
 
   int id() const { return mId; };

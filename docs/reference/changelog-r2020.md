@@ -6,6 +6,7 @@ Released on XXX YYY, 2020.
   - Enhancements
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
+    - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
     - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
     - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
     - Fixed synchronization bug in the start up of extern controllers when the `WEBOTS_PID` environment variable was defined ([#2260](https://github.com/cyberbotics/webots/pull/2260)).
