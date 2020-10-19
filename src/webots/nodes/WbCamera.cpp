@@ -830,8 +830,8 @@ void WbCamera::createWrenCamera() {
   if (mSegmentationCamera)
     delete mSegmentationCamera;
   if (recognition() && recognition()->segmentation()) {
-    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
-                                           's', false, mSpherical->value());
+    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
+                                           fieldOfView(), 's', false, mSpherical->value());
   } else
     mSegmentationCamera = NULL;
 
@@ -935,8 +935,8 @@ void WbCamera::createSegmentationCamera() {
   delete mSegmentationCamera;
 
   if (recognitionNode && recognitionNode->segmentation()) {
-    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(),
-                                           's', false, mSpherical->value());
+    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
+                                           fieldOfView(), 's', false, mSpherical->value());
     mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
     emit textureIdUpdated(mSegmentationCamera->textureGLId(), MASK_TEXTURE);
   } else {
