@@ -234,6 +234,7 @@ int SSH::executeSSHCommand(const QString &command, bool display, bool wait) {
   assert(mSSHSession);
   openSSHChannel();
   assert(mSSHChannel);
+  // cppcheck-suppress ignoredReturnValue
   log("robot$ " + command + '\n');
   QString cmd(command);
   ssh_channel_write(mSSHChannel, cmd.toUtf8(), cmd.size());
@@ -630,6 +631,7 @@ void SSH::log(const QString &message, bool error) {
 }
 
 void SSH::info(const QString &message) {
+  // cppcheck-suppress ignoredReturnValue
   log("[INFO] " + message + '\n');
 }
 
