@@ -10,6 +10,7 @@ Camera {
   SFBool   spherical              FALSE   # {TRUE, FALSE}
   SFFloat  near                   0.01    # [0, inf)
   SFFloat  far                    0.0     # [0, inf)
+  SFFloat  exposure               1.0     # [near, inf)
   SFBool   antiAliasing           FALSE   # {TRUE, FALSE}
   SFFloat  ambientOcclusionRadius 0       # [0, inf)
   SFFloat  bloomThreshold         -1.0    # [-1, inf)
@@ -53,6 +54,8 @@ A too small value produces depth fighting between overlaid polygons, resulting i
 More information on frustums in the corresponding subsection below.
 
 - The `far` field defines the distance from the camera to the far clipping plane.
+
+- The `exposure` field defines the photometric exposure of the scene in joule per square meter (J/m^2).
 
 - The `antiAliasing` field switches on or off (the default) anti-aliasing effect on the camera images.
 Aliasing artifacts can appear as jagged edges (or moiré patterns, strobing, etc.).
