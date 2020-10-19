@@ -34,10 +34,14 @@ endif
 	+PYTHON_COMMAND=python3.7 make -s -C python $@
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=python3.8 make -s -C python $@
+	@echo "# make" $@ python3.9;
+	+PYTHON_COMMAND=python3.9 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.9;
+	+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python3.8;
-	+make -s -C python $@
+	+PATH="$(PYTHON38_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python3.7;
 	+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
 	@echo "# make" $@ python2.7;
@@ -50,8 +54,12 @@ ifeq ($(OSTYPE),darwin)
 	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 make -s -C python $@
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.8/bin/python3.8 make -s -C python $@
+	@echo "# make" $@ python3.9;
+	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9 make -s -C python $@
 	@echo "# make" $@ python3.7 brew;
 	+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 SUFFIX=_brew make -s -C python $@
 	@echo "# make" $@ python3.8 brew;
 	+PYTHON_COMMAND=/usr/local/opt/python@3.8/bin/python3.8 SUFFIX=_brew make -s -C python $@
+	@echo "# make" $@ python3.9 brew;
+	+PYTHON_COMMAND=/usr/local/opt/python@3.9/bin/python3.9 SUFFIX=_brew make -s -C python $@
 endif
