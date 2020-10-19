@@ -132,7 +132,7 @@ static void initMaterialToPhong(WrMaterial *material) {
   wr_material_set_default_program(material, phongProgram);
   wr_material_set_stencil_ambient_emissive_program(material, phongStencilAmbientEmissiveProgram);
   wr_material_set_stencil_diffuse_specular_program(material, phongStencilDiffuseSpecularProgram);
-  wr_material_set_stencil_clamp_program(material, phongStencilClampProgram);
+  // wr_material_set_stencil_clamp_program(material, phongStencilClampProgram);
 }
 
 // Create the WREN scene.
@@ -180,7 +180,7 @@ static void create_wren_scene() {
 // Render function.
 static void render() {
   printf("render\n");
-  wr_scene_render(wr_scene_get_instance(), NULL);
+  wr_scene_render(wr_scene_get_instance(), NULL, true);
   glutSwapBuffers();
 }
 

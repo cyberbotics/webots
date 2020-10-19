@@ -16,7 +16,6 @@
  * Create a fixed-size window using glut, initialize WREN,
  * and display a sphere using the Webots default shader (without colors and with a texture).
  */
-
 #include <GL/freeglut.h>
 
 #include <wren/camera.h>
@@ -99,7 +98,7 @@ static void create_wren_scene() {
 
 // Render function.
 static void render() {
-  wr_scene_render(wr_scene_get_instance(), NULL);
+  wr_scene_render(wr_scene_get_instance(), NULL, true);
   glutSwapBuffers();
 }
 
