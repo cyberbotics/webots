@@ -163,6 +163,7 @@ private:
 
   QVector<WrPostProcessingEffect *> mPostProcessingEffects;
   WrPostProcessingEffect *mSphericalPostProcessingEffect;
+  WrPostProcessingEffect *mUpdateTextureFormatEffect;
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 

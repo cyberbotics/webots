@@ -72,6 +72,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mNotifyOnTextureUpdate(false),
   mPostProcessingEffects(),
   mSphericalPostProcessingEffect(NULL),
+  mUpdateTextureFormatEffect(NULL),
   mColorNoiseIntensity(0.0f),
   mRangeNoiseIntensity(0.0f),
   mDepthResolution(-1.0f),
@@ -436,7 +437,13 @@ void WbWrenCamera::render() {
 
   if (mIsSpherical)
     applySphericalPostProcessingEffect();
-
+  else if (mUpdateTextureFormatEffect) {
+    WrPostProcessingEffectPass *updateTextureFormatPass =
+      wr_post_processing_effect_get_pass(mUpdateTextureFormatEffect, "PassThrough");
+    wr_post_processing_effect_pass_set_input_texture(updateTextureFormatPass, 0,
+                                                     WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0)));
+    wr_post_processing_effect_apply(mUpdateTextureFormatEffect);
+  }
   mFirstRenderingCall = false;
 
   wr_scene_enable_depth_reset(wr_scene_get_instance(), true);
@@ -596,6 +603,11 @@ void WbWrenCamera::cleanup() {
   wr_post_processing_effect_delete(mSphericalPostProcessingEffect);
   mSphericalPostProcessingEffect = NULL;
 
+  if (mUpdateTextureFormatEffect) {
+    wr_post_processing_effect_delete(mUpdateTextureFormatEffect);
+    mUpdateTextureFormatEffect = NULL;
+  }
+
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
       mWrenBloom[i]->detachFromViewport();
@@ -689,6 +701,14 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
     wr_viewport_set_size(mCameraViewport[index], width, height);
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
+  }
+
+  if (!mIsSpherical && mType == 's') {
+    // a dummy post effect is needed to generate the output texture
+    // note that rendering and output textures have different formats
+    mUpdateTextureFormatEffect = WbWrenPostProcessingEffects::passThrough(mWidth, mHeight);
+    wr_post_processing_effect_set_result_frame_buffer(mUpdateTextureFormatEffect, mResultFrameBuffer);
+    wr_post_processing_effect_setup(mUpdateTextureFormatEffect);
   }
 }
 
@@ -787,7 +807,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   }
 
   // hdr resolve
-  if (mIsColor)
+  if (mType == 'c')
     mWrenHdr[index]->setup(mCameraViewport[index]);
 
   // anti-aliasing

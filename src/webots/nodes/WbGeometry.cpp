@@ -201,7 +201,7 @@ void WbGeometry::setSegmentationColor(const WbRgb &color) {
     return;
 
   const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
-  wr_phong_material_set_diffuse(mWrenSegmentationMaterial, segmentationColor);
+  wr_phong_material_set_linear_diffuse(mWrenSegmentationMaterial, segmentationColor);
 }
 
 ///////////////////
