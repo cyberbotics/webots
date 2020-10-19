@@ -40,7 +40,7 @@ The `near`, `far` and the `fieldOfView` fields define together the viewing frust
 Any 3D shape outside this frustum won't be rendered.
 Hence, shapes too close (standing between the camera and the near plane) won't appear.
 
-The `exposure` field defines the photometric exposure of scene in joule per square metre (J/m^2).
+The `exposure` field defines the photometric exposure of the scene in joule per square meter (J/m^2).
 
 The `follow` field can be used to specify the name of a robot (or other solid object) that the viewpoint will follow during the simulation.
 If the string is empty, or if it does not correspond to any solid object, then the viewpoint will remain fixed.
