@@ -479,9 +479,11 @@ endif
 ###-----------------------------------------------------------------------------
 ### Rule to make the executable file from C/C++ objects
 ###-----------------------------------------------------------------------------
+FUNCTIONS_TO_EXPORT = -s EXPORTED_FUNCTIONS='["_wr_scene_render", "_wr_viewport_set_clear_color_rgb", "_wr_gl_state_set_context_active", "_wr_viewport_set_size","_wr_viewport_set_frame_buffer", "_wr_frame_buffer_setup", "_wr_frame_buffer_enable_depth_buffer", "_wr_frame_buffer_append_output_texture","_wr_texture_set_internal_format", "_wr_texture_rtt_enable_initialize_data", "_wr_camera_new", "_wr_camera_get_near", "_wr_camera_set_near", "_wr_scene_get_viewport", "_wr_scene_get_instance", "_wr_viewport_get_camera", "_wr_camera_set_position", "_wr_frame_buffer_new", "_wr_frame_buffer_set_size", "_wr_texture_rtt_new"]'
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
-	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+	$(SILENT) emcc -s WASM=0 -0 $(OBJECTS) $(FUNCTIONS_TO_EXPORT) $(LIBRARIES)
+  ###$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 endif
 ### End ifdef MAIN_TARGET
@@ -530,7 +532,7 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)emcc -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory

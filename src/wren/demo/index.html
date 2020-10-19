@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <title>Streaming viewer</title>
+    <style>
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    </style>
+  </head>
+  <canvas id="canvas"></canvas>
+    <script src="../a.out.js"></script>
+    <script src='https://git.io/glm-js.min.js'></script>
+    <script>
+
+    function create_wren_scene() {
+      let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
+
+      let camera = Module._wr_viewport_get_camera(vp);
+      let camera_position = glm.vec3(0.0,0.0,10.0);
+      Module._wr_camera_set_position(camera, camera_position);
+
+      let background_color = [0.1,0.5,0.8];
+      Module._wr_viewport_set_clear_color_rgb(vp, background_color);
+    }
+
+    function main() {
+      let canvas = document.querySelector("canvas");
+      let contextAttributes = {
+        alpha: false,
+      };
+      let gl = canvas.getContext("webgl2", contextAttributes);
+      if (!gl) {
+        console.log("webgl2 not found!");
+        return;
+      }
+
+      let mainFrameBuffer = Module._wr_frame_buffer_new();
+      Module._wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
+      let mainFrameBufferTexture = Module._wr_texture_rtt_new();
+      Module._wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
+      Module._wr_texture_set_internal_format(mainFrameBufferTexture, 3);
+      Module._wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
+      Module._wr_frame_buffer_enable_depth_buffer(mainFrameBuffer, true);
+      Module._wr_frame_buffer_setup(mainFrameBuffer);
+
+      let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
+      Module._wr_viewport_set_frame_buffer(vp, mainFrameBuffer);
+      Module._wr_viewport_set_size(vp, canvas.width, canvas.height);
+
+      Module._wr_gl_state_set_context_active(true);
+      //Module._wr_scene_init(Module._wr_scene_get_instance());
+      create_wren_scene()
+      Module._wr_scene_render(Module._wr_scene_get_instance(), null, true);
+
+
+      console.log("Continue");
+
+    }
+
+    main();
+    /*
+    let x = Module._wr_camera_new();
+    Module._wr_camera_set_near(x, 3.14159);
+    console.log(Module._wr_camera_get_near(x));
+    */
+    </script>
+</html>
