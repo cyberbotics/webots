@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
   printf("WorldInfo.gravity = %g\n\n", gravity);
 
   // use a label to display information in the 3D view
-  wb_supervisor_set_label(0, "Going to move the location of the PointLight\nin 2 seconds (simulation time)...", 00.0, 0.0, 0.1,
+  wb_supervisor_set_label(0, "Going to move the location of the PointLight\nin 2 seconds (simulation time)...", 0.0, 0.0, 0.1,
                           0x00FF00, 0.1, "Georgia");
   // move the 'PointLight' node after waiting 2 seconds
   printf("Going to move the location of the PointLight in 2 seconds (simulation time)...\n");
