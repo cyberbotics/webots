@@ -8,6 +8,7 @@ Viewpoint {
   SFString   description             ""               # any string
   SFFloat    near                    0.05             # [0, far]
   SFFloat    far                     0.0              # [near, inf)
+  SFFloat    exposure                1.0              # [0, inf)
   SFString   follow                  ""               # any string
   SFBool     followType              "Tracking Shot"  # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
   SFFloat    followSmoothness        0.5              # [0, 1]
@@ -38,6 +39,8 @@ Setting a far clipping plane will filter out far objects and can therefore great
 The `near`, `far` and the `fieldOfView` fields define together the viewing frustum.
 Any 3D shape outside this frustum won't be rendered.
 Hence, shapes too close (standing between the camera and the near plane) won't appear.
+
+The `exposure` field defines the photometric exposure of scene in joule per square metre (J/m^2).
 
 The `follow` field can be used to specify the name of a robot (or other solid object) that the viewpoint will follow during the simulation.
 If the string is empty, or if it does not correspond to any solid object, then the viewpoint will remain fixed.
