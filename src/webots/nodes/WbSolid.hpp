@@ -198,9 +198,9 @@ public:
   // ODE positioning
   void resetJointsToLinkedSolids();  // reset joint to any linked solid to this one
 
-  // update the node tranform matrix based on the newly computed ODE transform matrix
+  // update the node transform matrix based on the newly computed ODE transform matrix
   // it loops through all the ancestor Solid nodes with a body and updates them
-  void updateTransformAfterPhysicsStep();
+  void updateTransformForPhysicsStep();
 
   // Density
   double volume() const;
@@ -338,7 +338,7 @@ private:
 
   // ODE
   dJointID mJoint;
-  bool mUpdatedAfterStep;
+  bool mUpdatedInStep;  // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
   void computePlaneParams(WbTransform *transform, WbVector3 &n, double &d) const;

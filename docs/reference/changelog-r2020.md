@@ -3,13 +3,30 @@
 ## Webots R2020b Revision 2
 Released on XXX YYY, 2020.
 
+  - Enhancements
+    - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
+    - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
+    - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
+    - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
     - Fixed synchronization bug in the start up of extern controllers when the `WEBOTS_PID` environment variable was defined ([#2260](https://github.com/cyberbotics/webots/pull/2260)).
     - Fixed [Lidar](lidar.md) and [RangeFinder](rangefinder.md) memory leak when the robot-window is opened ([#2210](https://github.com/cyberbotics/webots/pull/2210)).
     - Fixed noise generation for [Camera](camera.md), [Lidar](lidar.md) and [RangeFinder](rangefinder.md) producing fixed patterns on some GPUs (like the NVIDIA GeForce RTX series)([#2215](https://github.com/cyberbotics/webots/pull/2215)).
     - Fixed re-initialization of external camera window if recognition is enabled ([#2196](https://github.com/cyberbotics/webots/pull/2196)).
+    - Fixed precision of devices using rays ([Camera](camera.md), [DistanceSensor](distancesensor.md), [Radar](radar.md), and [Receiver](receiver.md)) located on articulated robots' parts ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
+    - Fixed position lags of articulated robots' parts in recorded [animations](../guide/web-animation.md) ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
     - Fixed the `inverse_kinematics` controller ([#2211](https://github.com/cyberbotics/webots/pull/2211)).
     - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
+    - Fixed disappearing [DistanceSensor](distancesensor.md) rays [optional rendering](https://cyberbotics.com/doc/guide/the-user-interface#view-menu) after simulation reset ([#2276](https://github.com/cyberbotics/webots/pull/2276)).
+    - Fixed cylinder-to-cylinder collision detection in certain cases ([#2282](https://github.com/cyberbotics/webots/pull/2282)).
+    - Windows: Fixed parsing of arguments with spaces when starting Webots from a DOS console ([#2330](https://github.com/cyberbotics/webots/pull/2330)).
+    - Fixed [Battery](robot.md#wb_robot_battery_sensor_enable) sensor when the [Robot](robot.md) contains a [Propeller](propeller.md) device ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
+    - Fixed [Motor](motor.md) target position not updated when changing the `position` field of a [JointParameters](jointparameters.md) node ([#2326](https://github.com/cyberbotics/webots/pull/2326)).
+    - Fixed [`wb_motor_get_target_position`](motor.md#wb_motor_get_target_position) function if the joint initial position is not 0 ([#2326](https://github.com/cyberbotics/webots/pull/2326)).
+    - Fixed the disabled `Help...` item in the context menu for some nodes ([#2327](https://github.com/cyberbotics/webots/pull/2327)).
+    - Added missing `supervisor` field in the `Tractor` and `TeslaModel3` PROTO nodes ([#2351](https://github.com/cyberbotics/webots/pull/2351)).
+  - Dependency Updates
+    - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
 
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.

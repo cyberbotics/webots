@@ -252,7 +252,7 @@ void WbLightSensor::prePhysicsStep(double ms) {
 }
 
 void WbLightSensor::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
   foreach (LightRay *ray, mRayList)
     ray->recomputeRayDirection();
 }

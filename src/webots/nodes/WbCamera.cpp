@@ -417,7 +417,7 @@ void WbCamera::reset() {
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
 
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
@@ -428,7 +428,7 @@ void WbCamera::updateRaysSetupIfNeeded() {
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView,
                                                                          horizontalFieldOfView, recognition()->maxRange());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
-    recognizedObject->object()->updateTransformAfterPhysicsStep();
+    recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
       recognizedObject->recomputeRayDirection(this, cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes);
     if (valid)
@@ -464,6 +464,7 @@ void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
     stream << (double)mFieldOfView->value();
   }
   stream << (unsigned char)(recognition() ? 1 : 0);
+  stream << (double)mExposure->value();
   if (focus()) {
     stream << (double)focus()->focalLength();
     stream << (double)focus()->focalDistance();
@@ -551,6 +552,12 @@ void WbCamera::handleMessage(QDataStream &stream) {
             tr("wb_camera_set_fov(%1) out of zoom range [%2, %3].").arg(fov).arg(z->minFieldOfView()).arg(z->maxFieldOfView()));
       } else
         warn(tr("wb_camera_set_fov() cannot be applied to this camera: missing 'zoom'."));
+      break;
+    }
+    case C_CAMERA_SET_EXPOSURE: {
+      double exposure;
+      stream >> exposure;
+      mExposure->setValue(exposure);
       break;
     }
     case C_CAMERA_SET_FOCAL: {
