@@ -1,0 +1,51 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.17825598517311697 0.9832349182170007 -0.03839139680670049 5.70569
+  position -2.05173 0.237744 2.4162
+}
+Background {
+  skyColor [
+    0 0 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 -1
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 -1
+}
+Transform {
+  translation 0 -0.5 -0.5
+  children [
+    DEF SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry Box {
+        size 1 1 0.1
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Camera {
+      exposure 0.5
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "camera_checker"
+  controllerArgs [
+    "camera_color_exposure"
+  ]
+}
+TestSuiteSupervisor {
+}
