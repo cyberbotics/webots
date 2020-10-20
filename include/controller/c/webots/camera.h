@@ -40,6 +40,8 @@ double wb_camera_get_fov(WbDeviceTag tag);
 double wb_camera_get_max_fov(WbDeviceTag tag);
 double wb_camera_get_min_fov(WbDeviceTag tag);
 void wb_camera_set_fov(WbDeviceTag tag, double fov);  // fov specified in rad
+double wb_camera_get_exposure(WbDeviceTag tag);
+void wb_camera_set_exposure(WbDeviceTag tag, double exposure);
 double wb_camera_get_focal_length(WbDeviceTag tag);
 double wb_camera_get_focal_distance(WbDeviceTag tag);
 double wb_camera_get_max_focal_distance(WbDeviceTag tag);

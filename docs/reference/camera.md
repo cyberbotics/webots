@@ -402,6 +402,94 @@ The minimum and maximum values for the field of view are defined in this [Zoom](
 
 ---
 
+#### `wb_camera_get_exposure`
+#### `wb_camera_set_exposure`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/camera.h>
+
+double wb_camera_get_exposure(WbDeviceTag tag);
+void wb_camera_set_exposure(WbDeviceTag tag, double exposure);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Camera.hpp>
+
+namespace webots {
+  class Camera : public Device {
+    double getExposure() const;
+    virtual void setExposure(double exposure);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Camera
+
+class Camera (Device):
+    def getExposure(self):
+    def setExposure(self, exposure):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Camera;
+
+public class Camera extends Device {
+  public double getExposure();
+  public void setExposure(double exposure);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+exposure = wb_camera_get_exposure(tag)
+wb_camera_set_exposure(tag, exposure)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/<device_name>/get_exposure` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
+| `/<device_name>/set_exposure` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+*get and set exposure of a camera*
+
+These functions allow the controller to get and set the value of the exposure of a camera.
+The original value for this exposure is defined in the [Camera](#camera) node, as `exposure`.
+
+---
+
 #### `wb_camera_get_focal_length`
 #### `wb_camera_get_focal_distance`
 #### `wb_camera_get_max_focal_distance`
