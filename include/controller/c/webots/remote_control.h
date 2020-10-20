@@ -84,6 +84,7 @@ typedef struct WbrInterface {
 
   void (*wbr_set_sampling_period)(WbDeviceTag tag, int sampling_period);
   void (*wbr_camera_set_fov)(WbDeviceTag tag, double fov);
+  void (*wbr_camera_set_exposure)(WbDeviceTag tag, double exposure);
   void (*wbr_camera_set_focal_distance)(WbDeviceTag tag, double focal_distance);
   void (*wbr_led_set)(WbDeviceTag tag, int state);
   void (*wbr_pen_set_ink_color)(WbDeviceTag tag, int color, double density);
