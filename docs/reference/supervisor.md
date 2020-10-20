@@ -2720,7 +2720,8 @@ namespace webots {
   class Field {
     typedef enum {
       SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-      SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+      SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+      MF_STRING, MF_NODE
     } Type;
 
     Type getType() const;
@@ -2740,7 +2741,8 @@ from controller import Field
 
 class Field:
     SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-    SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+    SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+    MF_STRING, MF_NODE
 
     def getType(self):
     def getTypeName(self):
@@ -2757,8 +2759,8 @@ import com.cyberbotics.webots.controller.Field;
 
 public class Field {
   public final static int SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION,
-    SF_COLOR, SF_STRING, SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR,
-    MF_STRING, MF_NODE;
+    SF_COLOR, SF_STRING, SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F,
+    MF_ROTATION, MF_COLOR, MF_STRING, MF_NODE;
 
   public int getType();
   public String getTypeName();
@@ -2773,8 +2775,8 @@ public class Field {
 
 ```MATLAB
 WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, WB_SF_COLOR,
-WB_SF_STRING, WB_SF_NODE, WB_MF, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
-WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
+WB_SF_STRING, WB_SF_NODE, WB_MF, WB_BOOL, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
+WB_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
@@ -2802,6 +2804,7 @@ count = wb_supervisor_field_get_count(field)
 The `wb_supervisor_field_get_type` function returns the data type of a field found previously from the `wb_supervisor_node_get_field` function, as a symbolic value.
 If the argument is NULL, the function returns 0.
 Field types are defined in "webots/supervisor.h" and include for example: `WB_SF_FLOAT`, `WB_MF_NODE`, `WB_SF_STRING`, etc.
+The `WB_MF` value doesn't represent a type but it is a *bit mask* value that can be used to check if the type represents a single field (SF) or a multiple field (MF).
 
 The `wb_supervisor_field_get_type_name` function returns a text string corresponding to the data type of a field found previously from the `wb_supervisor_node_get_field` function.
 Field type names are defined in the VRML97 specifications and include for example: `"SFFloat"`, `"MFNode"`, `"SFString"`, etc.
@@ -2811,7 +2814,7 @@ The `wb_supervisor_field_get_count` function returns the number of items of a mu
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
 
-> **Note** [C++, Java, Python]: In the oriented-object APIs, the WB\_*F\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
+> **Note** [C++, Java, Python]: In the oriented-object APIs, the SF\_* and MF\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
 These integers can be directly compared with the output of the `Field::getType` function.
 
 ---
@@ -3009,7 +3012,11 @@ Default values are defined as `0` and `0.0` for integer and double values, `fals
 
 The `wb_supervisor_field_get_mf_*` functions work the same way as the `wb_supervisor_field_get_sf_*` functions but with multiple `field` argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field (MF).
-The type of the field has to match the name of the function used and the index should be comprised between 0 and the total number of item minus one, otherwise the return value is undefined (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
+Using a negative index starts the count from the last element of the field until the first one.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 > **Note**: If a `wb_supervisor_field_set_*` function is executed just before a corresponding `wb_supervisor_field_get_*` function, in the same time step, the controller library will not send the query to Webots, but answer directly with the value that has just been set before.
 
@@ -3193,9 +3200,11 @@ The type of the field has to match with the name of the function used, otherwise
 
 The `wb_supervisor_field_set_mf_*` functions work the same way as the `wb_supervisor_field_set_sf_*` functions but with a multiple `field` (MF) argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field.
-The type of the field has to match with the name of the function used and the index should be comprised between minus the total number of items and the total number of items minus one, otherwise the value of the field remains unchanged (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
 Using a negative index starts the count from the last element of the field until the first one.
-Index -1 represents the last item and the first item is represented by index 0 or minus number of items.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 The set operations are received by Webots from possibly several supervisors running concurrently.
 In order to ensure reproducible simulation results, they are executed only once all set operations are received, just before advancing the simulation time.

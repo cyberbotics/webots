@@ -46,6 +46,9 @@ int main(int argc, char *argv[]) {
   const double gravity = wb_supervisor_field_get_sf_float(field);
   printf("WorldInfo.gravity = %g\n\n", gravity);
 
+  // use a label to display information in the 3D view
+  wb_supervisor_set_label(0, "Going to move the location of the PointLight\nin 2 seconds (simulation time)...", 0.0, 0.0, 0.1,
+                          0x00FF00, 0.1, "Georgia");
   // move the 'PointLight' node after waiting 2 seconds
   printf("Going to move the location of the PointLight in 2 seconds (simulation time)...\n");
   wb_robot_step(2000);                                             // wait for 2 seconds
@@ -55,6 +58,8 @@ int main(int argc, char *argv[]) {
   wb_supervisor_field_set_sf_vec3f(field, location);
 
   // import a new sphere node after waiting 2 seconds
+  wb_supervisor_set_label(0, "Going to import a Sphere in 2 seconds (simulation time)...", 0.0, 0.0, 0.1, 0x00FF00, 0.1,
+                          "Georgia");
   printf("Going to import a Sphere in 2 seconds (simulation time)...\n");
   wb_robot_step(2000);
   wb_supervisor_field_import_mf_node_from_string(
@@ -62,8 +67,11 @@ int main(int argc, char *argv[]) {
     "Transform { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
 
   // main simulation loop
+  wb_supervisor_set_label(0, "Going to move the Sphere in 2 seconds (simulation time)...", 0.0, 0.0, 0.1, 0x00FF00, 0.1,
+                          "Georgia");
   printf("Going to move the Sphere in 2 seconds (simulation time)...\n");
   wb_robot_step(2000);
+  wb_supervisor_set_label(0, "", 0.0, 0.0, 0.0, 0x00FF00, 0.0, "Georgia");
   double translation[3] = {0.0, 0.0, 0.0};
   // get the last node of the root children field (the Sphere)
   node = wb_supervisor_field_get_mf_node(root_children_field, -1);

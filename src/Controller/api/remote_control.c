@@ -296,6 +296,9 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
               case C_CAMERA_SET_FOV:
                 CALL_INTERFACE_FUNCTION(wbr_camera_set_fov, tag, request_read_double(r));
                 break;
+              case C_CAMERA_SET_EXPOSURE:
+                CALL_INTERFACE_FUNCTION(wbr_camera_set_exposure, tag, request_read_double(r));
+                break;
               case C_CAMERA_SET_FOCAL:
                 CALL_INTERFACE_FUNCTION(wbr_camera_set_focal_distance, tag, request_read_double(r));
                 break;

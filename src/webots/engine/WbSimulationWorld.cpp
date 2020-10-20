@@ -229,11 +229,11 @@ void WbSimulationWorld::step() {
   if (mPhysicsPlugin)
     mPhysicsPlugin->stepEnd();
 
-  emit physicsStepEnded();
-
   // call postPhysicsStep on all Solids to assign new coordinates
   foreach (WbSolid *const solid, l)
     solid->postPhysicsStep();
+
+  emit physicsStepEnded();
 
   WbSimulationState::instance()->increaseTime(timeStep);
   viewpoint()->updateFollowUp();

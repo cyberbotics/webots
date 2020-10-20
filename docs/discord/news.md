@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
-##### David Mansolino [cyberbotics] 09/14/2020 12:50:16
+##### Olivier Michel [Cyberbotics] 10/12/2020 06:14:32
+Here is the first episode of the Webots ROS2 video tutorial series by Soft Illusion. Video 1: Installation of ROS2, Webots, webots\_ros2 pkg and VScode. [https://youtu.be/jU\_FD1\_zAqo](https://youtu.be/jU_FD1_zAqo). Stay tuned for more episodes coming soon!
+
+##### David Mansolino [Cyberbotics] 09/14/2020 12:50:16
 Webots Docker containers are now available on dockerhub: [https://hub.docker.com/r/cyberbotics/webots](https://hub.docker.com/r/cyberbotics/webots)
 
 
@@ -47,7 +50,7 @@ Get it from : [https://www.youtube.com/watch?v=yi4e5FoVWbQ&list=PLt69C9MnPchlWEV
 
 This is a new tutorial Series on Webots. Kindly take a look it includers step by step tutorials from making a custom robot , using different sensors and implementing different controllers.
 
-##### Stefania Pedrazzi [cyberbotics] 09/02/2020 12:09:51
+##### Stefania Pedrazzi [Cyberbotics] 09/02/2020 12:09:51
 We are happy to annouce the release of #Webots "R2020b revision 1".
 
 
@@ -61,7 +64,7 @@ Get it from [https://github.com/cyberbotics/webots/releases/tag/R2020b-rev1](htt
 ![webots_R2020b_rev1.jpg](https://cdn.discordapp.com/attachments/568354695513374730/750688942646362203/webots_R2020b_rev1.jpg)
 %end
 
-##### Olivier Michel [cyberbotics] 08/17/2020 07:53:07
+##### Olivier Michel [Cyberbotics] 08/17/2020 07:53:07
 Here is a new publication comparing Webots to Gazebo and V-REP, performance wise (use of system resources): [https://arxiv.org/abs/2008.04627](https://arxiv.org/abs/2008.04627).
 
 ##### Simon Steinmann [Moderator] 08/14/2020 16:02:38
@@ -75,7 +78,7 @@ Multiple KUKA robotic arms are now available in the Community Projects Repositor
 
 New tutorial on how to convert a ROS repository (or other URDF files) into a Webots PROTO model and load it into your world. [https://github.com/cyberbotics/urdf2webots/blob/master/docs/tutorial.md](https://github.com/cyberbotics/urdf2webots/blob/master/docs/tutorial.md)
 
-##### Olivier Michel [cyberbotics] 08/10/2020 08:39:48
+##### Olivier Michel [Cyberbotics] 08/10/2020 08:39:48
 A nice video tutorial on Creating a Simple Twin Robot in Webots: [https://www.youtube.com/watch?v=mX8p07a7K30](https://www.youtube.com/watch?v=mX8p07a7K30)
 
 
@@ -90,7 +93,7 @@ Thanks for the nice words. I seems Webots 2020b also made it to ArchLinux thanks
 
 You are amazing `@Olivier Michel` . By making Webots open source, you opened a window to researchers worldwide to take advantage of what you and your teammates built for years with high quality and endless hours.
 
-##### Olivier Michel [cyberbotics] 07/29/2020 16:04:12
+##### Olivier Michel [Cyberbotics] 07/29/2020 16:04:12
 We are pleased to announce a new release of the open-source Webots robot simulator: R2020b.
 
 
@@ -131,20 +134,20 @@ Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but fa
 
 [https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
 
-##### David Mansolino [cyberbotics] 07/14/2020 07:10:56
+##### David Mansolino [Cyberbotics] 07/14/2020 07:10:56
 We have created a new repository for the community to share your PROTO, controllers, worlds, etc.
 
 We hope to receive many contributions from the community:
 
 [https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
 
-##### Olivier Michel [cyberbotics] 07/13/2020 14:34:21
+##### Olivier Michel [Cyberbotics] 07/13/2020 14:34:21
 We received a total of 35 submissions to the Webots Google season of Docs. We are now in the process of selecting the best applications.
 
 ##### Doc 07/11/2020 14:22:55
 That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https://www.youtube.com/watch?v=xLL7SoQywf4)
 
-##### Olivier Michel [cyberbotics] 06/13/2020 09:21:11
+##### Olivier Michel [Cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 
 ##### harunkurt00 06/10/2020 13:17:09
@@ -156,10 +159,10 @@ I use Webots to simulate a maze crawl [https://www.instagram.com/p/CBEX0s1DUg8/?
 
 Hi! One more video about Webots [in Russian] [https://www.youtube.com/watch?v=\_bF6-MiNqwg](https://www.youtube.com/watch?v=_bF6-MiNqwg) 🙂
 
-##### David Mansolino [cyberbotics] 06/03/2020 06:38:22
+##### David Mansolino [Cyberbotics] 06/03/2020 06:38:22
 I like how they say Gazebo is not realistic enough so they use Webots instead 😂
 
-##### Olivier Michel [cyberbotics] 06/03/2020 06:24:59
+##### Olivier Michel [Cyberbotics] 06/03/2020 06:24:59
 Here is an interesting paper: Deepbots: A Webots-Based Deep Reinforcement Learning Framework for Robotics. [https://link.springer.com/chapter/10.1007/978-3-030-49186-4\_6](https://link.springer.com/chapter/10.1007/978-3-030-49186-4_6)
 
 ##### dralorg 05/31/2020 19:25:46
@@ -192,7 +195,7 @@ Hi! I want to share the result obtained by my students. During the lab classes, 
 
 `@Alfian` the code is yours? it looks like was previously implemented here, [https://github.com/PrasadNR/Webots-Quadcopter-Python-SITL](https://github.com/PrasadNR/Webots-Quadcopter-Python-SITL) I think you must at least reference the work
 
-##### David Mansolino [cyberbotics] 05/25/2020 06:10:46
+##### David Mansolino [Cyberbotics] 05/25/2020 06:10:46
 You can create a pull-request directly on the Webots github repository:
 
 [https://github.com/cyberbotics/webots](https://github.com/cyberbotics/webots)
@@ -208,7 +211,7 @@ Feel free to open the PR and then we will guide you from the PR directly.
 
 `@David Mansolino` Of course. Where could I put the code?
 
-##### David Mansolino [cyberbotics] 05/25/2020 05:43:22
+##### David Mansolino [Cyberbotics] 05/25/2020 05:43:22
 `@Alfian` very nice video! Would you like to share the code and integrate it in Webots?
 
 ##### Alfian 05/25/2020 04:53:00
@@ -225,7 +228,7 @@ Here, i make the simulation about lock and move position of DJI Mavic 2 Pro usin
 
 [https://youtu.be/vXC9\_T7ekWE](https://youtu.be/vXC9_T7ekWE)
 
-##### Olivier Michel [cyberbotics] 05/18/2020 19:19:50
+##### Olivier Michel [Cyberbotics] 05/18/2020 19:19:50
 Here is a nice youtube channel with a dozen of recent Webots tutorials: [https://www.youtube.com/watch?v=dt\_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/watch?v=dt_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V)
 
 
@@ -242,7 +245,7 @@ That means that you can get paid by Google (from $2,400 to $6,000) to write some
 
 More information is available here: [https://cyberbotics.com/gsod](https://cyberbotics.com/gsod)
 
-##### David Mansolino [cyberbotics] 05/04/2020 13:56:31
+##### David Mansolino [Cyberbotics] 05/04/2020 13:56:31
 You can fin the documentation about this new Webots robot model here: [https://cyberbotics.com/doc/guide/spot](https://cyberbotics.com/doc/guide/spot)
 
 
@@ -254,10 +257,10 @@ This in python and with inverse kinematics would be awesome 😄
 ##### sh33p 04/08/2020 20:17:10
 Oh wow great!
 
-##### Olivier Michel [cyberbotics] 04/06/2020 14:45:33
+##### Olivier Michel [Cyberbotics] 04/06/2020 14:45:33
 For those interested in Deep Reinforcement Learning with Webots, this github repo is a very good starting point:  [https://github.com/LucasWaelti/RL\_Webots](https://github.com/LucasWaelti/RL_Webots)
 
-##### David Mansolino [cyberbotics] 02/13/2020 10:16:18
+##### David Mansolino [Cyberbotics] 02/13/2020 10:16:18
 We are happy to share with you our preliminary demonstration of the AROSYS project which aims at integrating Webots into the SmartMDSD Toolchain in collaboration with the *Technische Hochschule Ulm*: [https://youtu.be/7rNtWxuXHKs](https://youtu.be/7rNtWxuXHKs)
 
 More information about the project: [http://robmosys.eu/arosys](http://robmosys.eu/arosys)
@@ -271,7 +274,7 @@ I've developed VRML library for haskell ,too. It is useful to generate webots's 
 
 Hello, I'm Junji Hashimoto, Gree Inc. I've developed webots-bindings for haskell.  [https://hackage.haskell.org/package/HsWebots](https://hackage.haskell.org/package/HsWebots)
 
-##### David Mansolino [cyberbotics] 01/15/2020 08:51:43
+##### David Mansolino [Cyberbotics] 01/15/2020 08:51:43
 We are happy to announce the release of Webots "R2020a revision 1".
 
 This maintenance release fixes several issues, in particular, we cleaned up the libcontroller to remove all the external dependencies to avoid possible conflicts.
@@ -292,7 +295,7 @@ OpenDR / Thessaloniki
 
 ## 2019
 
-##### Olivier Michel [cyberbotics] 12/20/2019 16:46:04
+##### Olivier Michel [Cyberbotics] 12/20/2019 16:46:04
 `@machinekoder` Thank you for the feedback! Merry Christmas!
 
 ##### machinekoder 12/20/2019 16:45:23
@@ -301,7 +304,7 @@ And merry X-mas 🎄
 
 `@Olivier Michel` Debian repo is fixed👍  Thanks.
 
-##### David Mansolino [cyberbotics] 12/20/2019 15:49:25
+##### David Mansolino [Cyberbotics] 12/20/2019 15:49:25
 Thank you, you too!
 
 ##### Hayden Woodger 12/20/2019 15:49:11
@@ -310,22 +313,22 @@ Thank you, you too!
 
 Thanks for your help with all my novice questions. I hope you all have a very merry Christmas and a happy new year
 
-##### David Mansolino [cyberbotics] 12/20/2019 15:46:50
+##### David Mansolino [Cyberbotics] 12/20/2019 15:46:50
 Dear @everyone the Cyberbotics team is going to be on holidays during the Christmas break, we will therefore not be able to answer your questions until January 6 (but I am sure that the community will be here for helping each other). We whish you all a Merry Christmas and Happy New Year 2020! 🎄 🤶🏻 🎉
 
-##### Olivier Michel [cyberbotics] 12/20/2019 14:22:23
+##### Olivier Michel [Cyberbotics] 12/20/2019 14:22:23
 I believe I also fixed the debian repository. Can you try again and confirm?
 
 
 The download link should be fixed now.
 
-##### David Mansolino [cyberbotics] 12/20/2019 10:53:10
+##### David Mansolino [Cyberbotics] 12/20/2019 10:53:10
 We are currently migratign our webserver to a more powerfull one, and not all the features have been restored yet, this is why some links/features are not available anymore
 
 ##### machinekoder 12/20/2019 10:51:45
 `@David Mansolino` I noticed that the Debian repo is dead `deb [https://www.cyberbotics.com/debian/](https://www.cyberbotics.com/debian/) binary-amd64/` is still supported or has it been dropped?
 
-##### David Mansolino [cyberbotics] 12/20/2019 10:46:42
+##### David Mansolino [Cyberbotics] 12/20/2019 10:46:42
 Indeed, thank you we will fix this right now.
 
 ##### machinekoder 12/20/2019 10:44:40
@@ -337,13 +340,13 @@ Thanks. Btw. this download link is dead:
 ![unknown.png](https://cdn.discordapp.com/attachments/568354695513374730/657533768306786314/unknown.png)
 %end
 
-##### David Mansolino [cyberbotics] 12/20/2019 10:43:13
+##### David Mansolino [Cyberbotics] 12/20/2019 10:43:13
 Hi `@machinekoder` yes R2020a is compatible with ROS1 kinetic and melodic and ROS2 crystal, dashing and eloquent.
 
 ##### machinekoder 12/20/2019 10:41:23
 `@Stefania Pedrazzi` Is RWebots 2020a also released for Ubuntu Melodic or do we have to wait for the next and last ROS classic release with Py3 support?
 
-##### Stefania Pedrazzi [cyberbotics] 12/19/2019 09:09:25
+##### Stefania Pedrazzi [Cyberbotics] 12/19/2019 09:09:25
 Webots "R2020a" released!
 
 This new release adds new robot models other than fixing several issues in particular with #AI and #ML applications.
@@ -353,7 +356,7 @@ Get it from [https://github.com/omichel/webots/releases/tag/R2020a](https://gith
 ![Webots-R2020a-splash.jpg](https://cdn.discordapp.com/attachments/568354695513374730/657147468823396372/Webots-R2020a-splash.jpg)
 %end
 
-##### Olivier Michel [cyberbotics] 12/17/2019 16:02:49
+##### Olivier Michel [Cyberbotics] 12/17/2019 16:02:49
 Yet another one: [https://www.youtube.com/watch?v=Z3UyRjnFePk](https://www.youtube.com/watch?v=Z3UyRjnFePk)
 
 
@@ -368,7 +371,7 @@ Great news `@Fabien Rohrer` , I think you may be winning over many Gazebo and vr
 ##### Fabien Rohrer [Moderator] 11/19/2019 13:34:31
 Our Discord community has just gone beyond 500 people! 🕺🏻
 
-##### Olivier Michel [cyberbotics] 10/31/2019 08:42:21
+##### Olivier Michel [Cyberbotics] 10/31/2019 08:42:21
 LEGO SnowSpeederBrick drone flying in Webots. This simulation was developed by Jaime A, see original post here: [https://youtu.be/y4p-PjtfxQI](https://youtu.be/y4p-PjtfxQI)
 > **Attachment**: [SnowSpeederBrick\_drone\_for\_webots.mp4](https://cdn.discordapp.com/attachments/568354695513374730/639383651007594496/SnowSpeederBrick_drone_for_webots.mp4)
 
@@ -402,7 +405,7 @@ Would like to share with us when you're using Webots? 🐞
 
 The main Webots git repository (and other repositories) has been migrated to our brand-new "Cyberbotics" GitHub organization: [https://github.com/cyberbotics](https://github.com/cyberbotics)
 
-##### David Mansolino [cyberbotics] 08/13/2019 16:04:48
+##### David Mansolino [Cyberbotics] 08/13/2019 16:04:48
 New release of the webots\_ros package: [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
 
 
@@ -416,7 +419,7 @@ This new version of the package greatly simplifies the interface between Webots 
 ##### Fabien Rohrer [Moderator] 07/25/2019 08:21:22
 New model of drone: please welcome the DJI Mavic 2 PRO drone in Webots: [https://bit.ly/2JQZNgA](https://bit.ly/2JQZNgA)
 
-##### David Mansolino [cyberbotics] 07/19/2019 06:57:39
+##### David Mansolino [Cyberbotics] 07/19/2019 06:57:39
 Demonstration of a Telemax robot: [https://www.youtube.com/watch?v=lUWMGk0i9Tc](https://www.youtube.com/watch?v=lUWMGk0i9Tc)
 
 This simulation is available in R2019b, if you didn't already updated to this new version give it a try!
@@ -439,6 +442,6 @@ Get it now from [https://github.com/omichel/webots/releases/tag/R2019b](https://
 
 Demonstration of a Universal Robot UR5e with grippers: [https://youtu.be/WIY9ebqSXUc](https://youtu.be/WIY9ebqSXUc)
 
-##### Olivier Michel [cyberbotics] 04/18/2019 08:39:15
+##### Olivier Michel [Cyberbotics] 04/18/2019 08:39:15
 Short story about robotbenchmark: [https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace](https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace)
 

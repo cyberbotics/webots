@@ -22,6 +22,7 @@
 #include <webots_ros/camera_get_info.h>
 #include <webots_ros/camera_get_zoom_info.h>
 #include <webots_ros/get_bool.h>
+#include <webots_ros/get_float.h>
 #include <webots_ros/save_image.h>
 #include <webots_ros/set_float.h>
 
@@ -41,6 +42,8 @@ public:
   bool saveImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
   bool setFovCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
   bool setFocalDistanceCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
+  bool setExposureCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
+  bool getExposureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool recognitionEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool recognitionSamplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool hasRecognitionCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
@@ -61,6 +64,8 @@ private:
   ros::ServiceServer mImageServer;
   ros::ServiceServer mSetFovServer;
   ros::ServiceServer mSetFocalDistanceServer;
+  ros::ServiceServer mSetExposureServer;
+  ros::ServiceServer mGetExposureServer;
   ros::ServiceServer mRecognitionEnableServer;
   ros::ServiceServer mRecognitionSamplingPeriodServer;
   ros::ServiceServer mHasRecognitionServer;

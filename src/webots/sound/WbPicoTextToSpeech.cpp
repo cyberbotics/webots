@@ -349,8 +349,11 @@ qint16 *WbPicoTextToSpeech::generateBufferFromText(const QString &text, int *siz
         bufferSize += 1024 * 1024;  // 1 MB
         qint16 *previousBuffer = buffer;
         buffer = (qint16 *)realloc(buffer, bufferSize);
-        if (!buffer)  // re-allocation failed, this is required otherwise CppCheck raises an error
+        if (!buffer) {  // re-allocation failed, this is required otherwise CppCheck raises an error
           free(previousBuffer);
+          gError = QString("Cannot re-allocate buffer.");
+          return NULL;
+        }
       }
       char *bufferPointer = ((char *)buffer) + bufferIndex;
       status = pico_getData(gPicoEngine, bufferPointer, PICO_BLOCK_SIZE, &bytesReceived, &outDataType);

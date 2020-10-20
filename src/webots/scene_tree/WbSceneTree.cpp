@@ -1119,7 +1119,7 @@ void WbSceneTree::updateSelection() {
       // baseNode = NULL if none or multiple instances exists
       baseNode = baseNode->getSingleFinalizedProtoInstance();
 
-    if (baseNode && !baseNode->areWrenObjectsInitialized())
+    if (baseNode && !baseNode->isPostFinalizedCalled())
       // ignore not initialized nodes
       baseNode = NULL;
 
