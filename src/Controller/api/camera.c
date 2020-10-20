@@ -120,7 +120,7 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
   }
   if (c->set_exposure) {
     request_write_uchar(r, C_CAMERA_SET_EXPOSURE);
-    request_write_double(r, ac->exposure);
+    request_write_double(r, c->exposure);
     c->set_exposure = false;  // done
   }
   if (c->set_focal_distance) {
