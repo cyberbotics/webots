@@ -226,7 +226,8 @@ void WbCamera::initializeImageSharedMemory() {
   if (mImageShm) {
     // initialize the shared memory with a black image
     int *im = reinterpret_cast<int *>(image());
-    for (int i = 0; i < width() * height(); i++)
+    const int size = width() * height();
+    for (int i = 0; i < size; i++)
       im[i] = 0xFF000000;
   }
 }
@@ -240,7 +241,8 @@ void WbCamera::initializeSegmentationSharedMemory() {
     unsigned char *data = (unsigned char *)mSegmentationShm->data();
     // initialize the shared memory with a black image
     int *im = reinterpret_cast<int *>(data);
-    for (int i = 0; i < width() * height(); i++)
+    const int size = width() * height();
+    for (int i = 0; i < size; i++)
       im[i] = 0xFF000000;
   }
 }
@@ -359,7 +361,8 @@ void WbCamera::displayRecognizedObjectsInOverlay() {
 
     int *data = new int[w * h];
     int *clearData = new int[w * h];
-    for (int i = 0; i < w * h; ++i) {
+    const int size = w * h;
+    for (int i = 0; i < size; ++i) {
       data[i] = color;
       clearData[i] = 0;
     }
