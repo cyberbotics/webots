@@ -15,7 +15,6 @@
 #include "RosGPS.hpp"
 #include "geometry_msgs/Point.h"
 #include "sensor_msgs/NavSatFix.h"
-#include "std_msgs/Header.h"
 #include "webots_ros/Float64Stamped.h"
 
 RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
@@ -48,13 +47,10 @@ ros::Publisher RosGPS::createPublisher() {
 
 // get value from the GPS and publish it into a [3x1] {double} array
 void RosGPS::publishValue(ros::Publisher publisher) {
-  std_msgs::Header header;
-  header.stamp = ros::Time::now();
-  header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-
   if (mGPS->getCoordinateSystem() == GPS::WGS84) {
     sensor_msgs::NavSatFix value;
-    value.header = header;
+    value.header.stamp = ros::Time::now();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
     value.latitude = mGPS->getValues()[0];
     value.longitude = mGPS->getValues()[1];
     value.altitude = mGPS->getValues()[2];
@@ -63,7 +59,6 @@ void RosGPS::publishValue(ros::Publisher publisher) {
     publisher.publish(value);
   } else {
     geometry_msgs::Point value;
-    value.header = header;
     value.x = mGPS->getValues()[0];
     value.y = mGPS->getValues()[1];
     value.z = mGPS->getValues()[2];
