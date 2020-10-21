@@ -115,6 +115,7 @@ public:
     return includeDescendants ? mGlobalListOfContactPoints : mListOfContactPoints;
   }
   const QVector<WbVector3> &computedContactPoints(bool includeDescendants = false);
+  const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
   // accessors to stored fields
   const WbVector3 &translationFromFile() const { return mTranslationLoadedFromFile; }
@@ -408,7 +409,9 @@ private:
 
   // Contact points
   QVector<WbVector3> mListOfContactPoints;
-  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants needed for the support polygon
+  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants
+  // defines the colliding Solid for each for the contact point in mGlobalListOfContactPoints
+  QVector<const WbSolid *> mSolidPerContactPoints;
   bool mHasExtractedContactPoints;
   void extractContactPoints();  // populates both local and global lists
 

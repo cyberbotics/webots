@@ -113,8 +113,12 @@ const double *Node::getContactPoint(int index) const {
   return wb_supervisor_node_get_contact_point(nodeRef, index);
 }
 
-int Node::getNumberOfContactPoints() const {
-  return wb_supervisor_node_get_number_of_contact_points(nodeRef);
+Node *Node::getContactPointNode(int index) const {
+  return findNode(wb_supervisor_node_get_contact_point_node(nodeRef, index));
+}
+
+int Node::getNumberOfContactPoints(bool includeDescendants) const {
+  return wb_supervisor_node_get_number_of_contact_points(nodeRef, includeDescendants);
 }
 
 bool Node::getStaticBalance() const {

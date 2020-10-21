@@ -86,6 +86,7 @@ private:
   WbTransform *mNodeGetOrientation;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
+  bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
   bool mIsProtoRegenerated;
