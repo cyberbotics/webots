@@ -842,7 +842,6 @@ int main(int argc, char **argv) {
   else
     ROS_ERROR("Failed to call save segmentation image.");
 
-  
   // camera recognition disable segmentation
   ros::ServiceClient disable_segmentation_client =
     n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_disable_segmentation");
