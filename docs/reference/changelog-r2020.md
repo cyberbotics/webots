@@ -7,6 +7,7 @@ Released on XXX YYY, 2020.
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
+    - Fixed crash in the Supervisor API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).
     - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
     - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
     - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
