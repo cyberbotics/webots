@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The center of mass position does not match with the reference position.");
 
-  int number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node);
+  int number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, false);
 
   ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS, "Wrong number of contact points.");
 
