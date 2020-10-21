@@ -1484,8 +1484,6 @@ int WbRobot::computeSimulationMode() {
   switch (state->mode()) {
     case WbSimulationState::REALTIME:
       return WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME;
-    case WbSimulationState::RUN:
-      return WB_SUPERVISOR_SIMULATION_MODE_RUN;
     case WbSimulationState::FAST:
       return WB_SUPERVISOR_SIMULATION_MODE_FAST;
     default:

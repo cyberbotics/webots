@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
   start_chrono();
   wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
   sleep(1);  // wait one second
-  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_RUN);
+  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_FAST);
   time_counter = stop_chrono();
   time_after_pause = wb_robot_get_time();
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
   time_before_pause = wb_robot_get_time();
   wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
   step(0);
-  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_RUN);
+  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_FAST);
   time_after_pause = wb_robot_get_time();
 
   ts_assert_double_equal(

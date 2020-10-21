@@ -465,6 +465,7 @@ void WbSolid::postFinalize() {
   disconnectFieldNotification(rotationFieldValue());
   disconnectFieldNotification(translationFieldValue());
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSolid::onSimulationModeChanged);
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSolid::onSimulationModeChanged);
   connect(this, &WbSolid::massPropertiesChanged, this, &WbSolid::displayWarning);
   connect(mPhysics, &WbSFNode::changed, this, &WbSolid::updatePhysics);
   connect(mRadarCrossSection, &WbSFDouble::changed, this, &WbSolid::updateRadarCrossSection);
@@ -2596,7 +2597,7 @@ bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
                  &WbSolid::refreshSupportPolygonRepresentation);
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,
                  &WbSolid::resetContactPointsAndSupportPolygon);
-      if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast())
+      if (WbSimulationState::instance()->isFast() || !WbSimulationState::instance()->isRendering())
         deleteSupportPolygonRepresentation();
       else {
         mSupportPolygonRepresentation->show(false);
@@ -2734,7 +2735,7 @@ void WbSolid::resetImmersions() {
 }
 
 void WbSolid::onSimulationModeChanged() {
-  if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast()) {
+  if (WbSimulationState::instance()->isFast() || !WbSimulationState::instance()->isRendering()) {
     if (mSupportPolygonRepresentation && !mSupportPolygonRepresentationIsEnabled) {
       deleteSupportPolygonRepresentation();
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,

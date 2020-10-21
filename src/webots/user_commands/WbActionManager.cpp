@@ -168,26 +168,21 @@ void WbActionManager::populateActions() {
   mActions[STEP] = action;
 
   icon = QIcon();
-  icon.addFile("enabledIcons:run_button.png", QSize(), QIcon::Normal);
-  icon.addFile("disabledIcons:run_button.png", QSize(), QIcon::Disabled);
-  action = new QAction(this);
-  action->setText(tr("&Run"));
-  action->setStatusTip(tr("Run the simulation. (%1+3)").arg(mapControlKey()));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_3);
-  action->setIcon(icon);
-  mActions[RUN] = action;
-
-  icon = QIcon();
   icon.addFile("enabledIcons:fast_button.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:fast_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("&Fast"));
-  action->setStatusTip(tr("Run the simulation as fast as possible without graphics. (%1+4)").arg(mapControlKey()));
+  action->setStatusTip(tr("Run the simulation as fast as possible. (%1+3)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_4);
+  action->setShortcut(Qt::CTRL + Qt::Key_3);
   action->setIcon(icon);
   mActions[FAST] = action;
+
+  action = new QAction(this);
+  action->setCheckable(true);
+  action->setShortcut(Qt::CTRL + Qt::Key_4);
+  action->setText(tr("&Rendering"));
+  mActions[RENDERING] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
@@ -467,11 +462,11 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_FORCE_AND_TORQUE] = action;
 
   action = new QAction(this);
-  action->setText(tr("Disable Fast Mode"));
-  action->setStatusTip(tr("Disable running the simulation in fast mode."));
+  action->setText(tr("Disable Rendering"));
+  action->setStatusTip(tr("Disable activating the rendering."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
-  mActions[DISABLE_FAST_MODE] = action;
+  mActions[DISABLE_RENDERING] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);
@@ -1061,7 +1056,6 @@ void WbActionManager::updateEnabled() {
   mActions[REAL_TIME]->setEnabled(simulationEnabled);
   mActions[PAUSE]->setEnabled(simulationEnabled);
   mActions[STEP]->setEnabled(simulationEnabled);
-  mActions[RUN]->setEnabled(simulationEnabled);
   mActions[FAST]->setEnabled(simulationEnabled);
 }
 
@@ -1089,6 +1083,22 @@ void WbActionManager::enableTextEditActions(bool enabled) {
   mActions[TRANSPOSE_LINE]->setEnabled(enabled);
   mActions[PRINT]->setEnabled(enabled);
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
+}
+
+void WbActionManager::updateRenderingButton() {
+  QAction *rendering = action(WbAction::RENDERING);
+
+  if (WbSimulationState::instance()->isRendering()) {
+    rendering->setIcon(QIcon("enabledIcons:rendering.png"));
+    rendering->setChecked(true);
+    rendering->setStatusTip(tr("Turn off rendering to gain better performance. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
+  } else {
+    rendering->setIcon(QIcon("enabledIcons:no_rendering.png"));
+    rendering->setChecked(false);
+    rendering->setStatusTip(tr("Turn on rendering to see the simulation. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
+  }
 }
 
 void WbActionManager::forwardTransformToActionToSceneTree() {

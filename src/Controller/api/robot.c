@@ -102,7 +102,7 @@ typedef struct {
   const char *wwi_message_to_send;
   int wwi_message_received_size;
   char *wwi_message_received;
-  WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_RUN, etc.
+  WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
 static bool robot_init_was_done = false;

@@ -22,12 +22,7 @@
 namespace webots {
   class Supervisor : public Robot {
   public:
-    typedef enum {
-      SIMULATION_MODE_PAUSE = 0,
-      SIMULATION_MODE_REAL_TIME,
-      SIMULATION_MODE_RUN,
-      SIMULATION_MODE_FAST
-    } SimulationMode;
+    typedef enum { SIMULATION_MODE_PAUSE = 0, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST } SimulationMode;
 
     Supervisor() : Robot() {}
     virtual ~Supervisor();
