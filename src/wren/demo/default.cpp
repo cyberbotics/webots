@@ -52,6 +52,7 @@ static void create_wren_scene() {
   float background_color[3] = {0.1f, 0.5f, 0.8f};
   wr_viewport_set_clear_color_rgb(vp, background_color);
 
+  /*
   // Generate a dummy texture.
   WrTexture2d *texture = wr_texture_2d_new();
   wr_texture_2d_set_file_path(texture, "dummy.jpg");
@@ -94,6 +95,7 @@ static void create_wren_scene() {
 
   WrTransform *root = wr_scene_get_root(wr_scene_get_instance());
   wr_transform_attach_child(root, WR_NODE(sphereTransform));
+  */
 }
 
 // Render function.

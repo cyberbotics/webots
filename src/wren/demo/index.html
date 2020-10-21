@@ -16,6 +16,24 @@
     <script src='https://git.io/glm-js.min.js'></script>
     <script>
 
+    function render() {
+      Module._wr_scene_render(Module._wr_scene_get_instance(), null, true);
+    }
+
+    function renderLoop() {
+	     render();
+	     //window.setTimeout(renderLoop, 1000 / 60);
+    }
+
+    function cArray(size) {
+      var offset = Module._malloc(size * 8);
+      Module.HEAPF64.set(new Float64Array(size), offset / 8);
+      return {
+        "data": Module.HEAPF64.subarray(offset / 8, offset / 8 + size),
+        "offset": offset
+      }
+    }
+
     function create_wren_scene() {
       let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
 
@@ -23,12 +41,20 @@
       let camera_position = glm.vec3(0.0,0.0,10.0);
       Module._wr_camera_set_position(camera, camera_position);
 
-      let background_color = [0.1,0.5,0.8];
+
+      let background_color = cArray(3);
+      background_color[0] = 0.0;
+
+      console.log(background_color);
       Module._wr_viewport_set_clear_color_rgb(vp, background_color);
+
+      //Module._wr_viewport_set_clear_color_rgb2(vp, 0.1,0.5,0.8);
     }
 
     function main() {
+      /*
       let canvas = document.querySelector("canvas");
+
       let contextAttributes = {
         alpha: false,
       };
@@ -36,7 +62,7 @@
       if (!gl) {
         console.log("webgl2 not found!");
         return;
-      }
+      }*/
 
       let mainFrameBuffer = Module._wr_frame_buffer_new();
       Module._wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
@@ -52,10 +78,10 @@
       Module._wr_viewport_set_size(vp, canvas.width, canvas.height);
 
       Module._wr_gl_state_set_context_active(true);
-      //Module._wr_scene_init(Module._wr_scene_get_instance());
-      create_wren_scene()
-      Module._wr_scene_render(Module._wr_scene_get_instance(), null, true);
+      Module._wr_scene_init(Module._wr_scene_get_instance());
 
+      create_wren_scene();
+      renderLoop();
 
       console.log("Continue");
 
