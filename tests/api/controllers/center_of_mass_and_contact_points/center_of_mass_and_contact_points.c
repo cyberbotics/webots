@@ -22,18 +22,16 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  WbNodeRef root, node;
-  WbFieldRef children;
-
-  root = wb_supervisor_node_get_root();
-  children = wb_supervisor_node_get_field(root, "children");
+  const WbNodeRef root = wb_supervisor_node_get_root();
+  const WbFieldRef children = wb_supervisor_node_get_field(root, "children");
   ts_assert_boolean_equal(wb_supervisor_field_get_type(children) == WB_MF_NODE, "Children has not the WB_MF_NODE type");
 
-  int n = wb_supervisor_field_get_count(children);
+  const int n = wb_supervisor_field_get_count(children);
   ts_assert_boolean_equal(n == 8, "Counting the number of root's children failed (found=%d, expected=8)", n);
 
-  node = wb_supervisor_field_get_mf_node(children, 6);
+  const WbNodeRef node = wb_supervisor_field_get_mf_node(children, 6);
 
+  // center of mass checks
   const double *com = wb_supervisor_node_get_center_of_mass(node);
   double epsilon = 0.0;
   int i, j;
@@ -42,6 +40,7 @@ int main(int argc, char **argv) {
 
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The center of mass position does not match with the reference position.");
 
+  // contact points (root only) checks
   int number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, false);
 
   ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS, "Wrong number of contact points.");
@@ -53,15 +52,8 @@ int main(int argc, char **argv) {
   epsilon = 0.0;
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The contact points positions do not match the reference positions.");
 
-  bool stable = wb_supervisor_node_get_static_balance(node);
-
-  ts_assert_boolean_equal(
-    stable, "The support polygon stability test returns an unstable state whereas the reference state is stable.");
-
-  wb_robot_step(TIME_STEP);
-
+  // contact points (descendants included) checks
   number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, true);
-
   ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER,
                           "Wrong number of contact points when including descendants.");
 
@@ -71,6 +63,12 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(
                             node, REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1) != node,
                           "First node contact point should not belong to the main node.");
+
+  // static balance checks
+  const bool stable = wb_supervisor_node_get_static_balance(node);
+
+  ts_assert_boolean_equal(
+    stable, "The support polygon stability test returns an unstable state whereas the reference state is stable.");
 
   ts_send_success();
   return EXIT_SUCCESS;

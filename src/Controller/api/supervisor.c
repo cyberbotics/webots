@@ -92,6 +92,7 @@ typedef struct WbNodeStructPrivate {
   double *contact_points;           // double[3 * number_of_contact_points]
   int *node_id_per_contact_points;  // int[number_of_contact_points]
   double contact_points_time_stamp;
+  bool contact_point_includes_descendant;
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
@@ -320,6 +321,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->contact_points = NULL;
   n->node_id_per_contact_points = NULL;
   n->contact_points_time_stamp = -1.0;
+  n->contact_points_time_stamp = false;
   n->static_balance = false;
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
@@ -382,7 +384,7 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
-static bool contact_points_include_descendants = false;
+static bool contact_points_includes_descendants = false;
 static bool allows_contact_point_internal_node = false;
 static WbNodeRef static_balance_node_ref = NULL;
 static WbNodeRef reset_physics_node_ref = NULL;
@@ -649,7 +651,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (contact_points_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CONTACT_POINTS);
     request_write_uint32(r, contact_points_node_ref->id);
-    request_write_uchar(r, contact_points_include_descendants ? 1 : 0);
+    request_write_uchar(r, contact_points_includes_descendants ? 1 : 0);
   }
   if (static_balance_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_STATIC_BALANCE);
@@ -1784,9 +1786,10 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp)
+  if (t > node->contact_points_time_stamp || contact_points_includes_descendants != node->contact_point_includes_descendant) {
     node->contact_points_time_stamp = t;
-  else
+    node->contact_point_includes_descendant = contact_points_includes_descendants;
+  } else
     return (node->contact_points && index < node->number_of_contact_points) ?
              node->contact_points + (3 * index) :
              invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
@@ -1813,8 +1816,9 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp) {
+  if (t > node->contact_points_time_stamp || contact_points_includes_descendants != node->contact_point_includes_descendant) {
     node->contact_points_time_stamp = t;
+    node->contact_point_includes_descendant = contact_points_includes_descendants;
     robot_mutex_lock_step();
     contact_points_node_ref = node;
     wb_robot_flush_unlocked();
@@ -1841,14 +1845,15 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp)
+  if (t > node->contact_points_time_stamp || include_descendants != node->contact_point_includes_descendant) {
     node->contact_points_time_stamp = t;
-  else
+    node->contact_point_includes_descendant = include_descendants;
+  } else
     return node->number_of_contact_points;
 
   robot_mutex_lock_step();
   contact_points_node_ref = node;
-  contact_points_include_descendants = include_descendants;
+  contact_points_includes_descendants = include_descendants;
   wb_robot_flush_unlocked();
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
