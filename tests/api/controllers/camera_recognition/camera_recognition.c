@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_bool(occlusion_field, true);
 
   ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
-                              "The Recognition.segmentation field should be set to TRUE.");
+                          "The Recognition.segmentation field should be set to TRUE.");
   const unsigned char *image = wb_camera_recognition_get_segmentation_image(camera);
   ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentaton is disabled.");
 
@@ -49,8 +49,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
   // check segmentation image
   image = wb_camera_recognition_get_segmentation_image(camera);
-  ts_assert_boolean_not_equal(image == NULL,
-                              "The camera segmentation image should not be NULL after enabling the segmented image generation.");
+  ts_assert_boolean_not_equal(
+    image == NULL, "The camera segmentation image should not be NULL after enabling the segmented image generation.");
   const int width = wb_camera_get_width(camera);
   int red, green, blue;
   red = wb_camera_image_get_red(image, width, 215, 124);
@@ -89,15 +89,14 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentation is disabled.");
 
   remove("segmentation.jpg");
-  
+
   WbFieldRef segmentation_field = wb_supervisor_node_get_field(recognition_node, "segmentation");
   wb_supervisor_field_set_sf_bool(segmentation_field, false);
-  
+
   wb_robot_step(TIME_STEP);
-  
+
   ts_assert_boolean_not_equal(wb_camera_recognition_has_segmentation(camera),
                               "Camera recognition segmentation should be FALSE after changing the field value.");
-  
 
   wb_robot_step(TIME_STEP);
   object_number = wb_camera_recognition_get_number_of_objects(camera);
