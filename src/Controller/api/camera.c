@@ -91,8 +91,8 @@ static void wb_camera_cleanup(WbDevice *d) {
 }
 
 static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double min_fov, double max_fov,
-                          double exposure, double focal_length, double focal_distance, double min_focal_distance, double max_focal_distance,
-                          double camnear, bool spherical, bool has_recognition, bool segmentation) {
+                          double exposure, double focal_length, double focal_distance, double min_focal_distance,
+                          double max_focal_distance, double camnear, bool spherical, bool has_recognition, bool segmentation) {
   Camera *c;
   wb_camera_cleanup(d);
   wb_abstract_camera_new(d, id, w, h, fov, camnear, spherical);
