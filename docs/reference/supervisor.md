@@ -1005,7 +1005,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 #include <webots/supervisor.h>
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 ```
 
 %tab-end
@@ -1018,7 +1019,8 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
 namespace webots {
   class Node {
     const double *getContactPoint(int index) const;
-    int getNumberOfContactPoints() const;
+    Node *getContactPointNode(int index) const;
+    int getNumberOfContactPoints(bool includeDescendants = false) const;
     // ...
   }
 }
@@ -1033,7 +1035,8 @@ from controller import Node
 
 class Node:
     def getContactPoint(self, index):
-    def getNumberOfContactPoints(self):
+    def getContactPointNode(self, index):
+    def getNumberOfContactPoints(self, includeDescendants=False):
     # ...
 ```
 
@@ -1046,7 +1049,8 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public double[] getContactPoint(int index);
-  public int getNumberOfContactPoints();
+  public Node getContactPointNode(int index);
+  public int getNumberOfContactPoints(boolean includeDescendants);
   // ...
 }
 ```
@@ -1057,7 +1061,8 @@ public class Node {
 
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_point(node, index)
-number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
+node = wb_supervisor_node_get_contact_point_node(node, index);
+number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, include_descendants)
 ```
 
 %tab-end
@@ -1066,8 +1071,9 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`---`<br/>`int32 numberOfContactPoints` |
+| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
 | `/supervisor/node/get_contact_point` | `service` | `webots_ros::node_get_contact_point` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) point |
+| `/supervisor/node/get_contact_point_node` | `service` | `webots_ros::node_get_contact_point_node` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>`uint64 node`` |
 
 %tab-end
 
@@ -1080,12 +1086,15 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
 The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
 Contact points are expressed in the global (world) coordinate system.
-If the index is less than the number of contact points, then the x (resp. y, z) coordinate of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
+If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
 Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
 
+The The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point (this is useful when used when the descendant contact points are included to know which part belong the contact to).
+
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
+The `include_descendants` argument defines if the contact points with descendant nodes of the node given in argument should be counted or not.
 
 The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
