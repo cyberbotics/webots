@@ -11,6 +11,7 @@ wb_brake_get_type
 wb_brake_set_damping_constant
 wb_camera_disable
 wb_camera_enable
+wb_camera_get_exposure
 wb_camera_get_focal_distance
 wb_camera_get_focal_length
 wb_camera_get_fov
@@ -34,6 +35,7 @@ wb_camera_recognition_is_segmentation_enabled
 wb_camera_recognition_save_segmentation_image
 wb_camera_recognition_set_segmentation
 wb_camera_save_image
+wb_camera_set_exposure
 wb_camera_set_focal_distance
 wb_camera_set_fov
 wb_compass_disable

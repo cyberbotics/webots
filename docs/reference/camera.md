@@ -10,6 +10,7 @@ Camera {
   SFBool   spherical              FALSE   # {TRUE, FALSE}
   SFFloat  near                   0.01    # [0, inf)
   SFFloat  far                    0.0     # [0, inf)
+  SFFloat  exposure               1.0     # [near, inf)
   SFBool   antiAliasing           FALSE   # {TRUE, FALSE}
   SFFloat  ambientOcclusionRadius 0       # [0, inf)
   SFFloat  bloomThreshold         -1.0    # [-1, inf)
@@ -53,6 +54,8 @@ A too small value produces depth fighting between overlaid polygons, resulting i
 More information on frustums in the corresponding subsection below.
 
 - The `far` field defines the distance from the camera to the far clipping plane.
+
+- The `exposure` field defines the photometric exposure of the scene in joule per square meter (J/m^2).
 
 - The `antiAliasing` field switches on or off (the default) anti-aliasing effect on the camera images.
 Aliasing artifacts can appear as jagged edges (or moiré patterns, strobing, etc.).
@@ -397,6 +400,94 @@ These functions allow the controller to get and set the value for the field of v
 The original value for this field of view is defined in the [Camera](#camera) node, as `fieldOfView`.
 Note that changing the field of view using the `wb_camera_set_fov` function is possible only if the camera device has a [Zoom](zoom.md) node defined in its `zoom` field.
 The minimum and maximum values for the field of view are defined in this [Zoom](zoom.md) node, if the zoom is not defined, then the `wb_camera_get_min_fov` and `wb_camera_get_max_fov` functions will return the camera's field of view.
+
+---
+
+#### `wb_camera_get_exposure`
+#### `wb_camera_set_exposure`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/camera.h>
+
+double wb_camera_get_exposure(WbDeviceTag tag);
+void wb_camera_set_exposure(WbDeviceTag tag, double exposure);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Camera.hpp>
+
+namespace webots {
+  class Camera : public Device {
+    double getExposure() const;
+    virtual void setExposure(double exposure);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Camera
+
+class Camera (Device):
+    def getExposure(self):
+    def setExposure(self, exposure):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Camera;
+
+public class Camera extends Device {
+  public double getExposure();
+  public void setExposure(double exposure);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+exposure = wb_camera_get_exposure(tag)
+wb_camera_set_exposure(tag, exposure)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/<device_name>/get_exposure` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
+| `/<device_name>/set_exposure` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+*get and set exposure of a camera*
+
+These functions allow the controller to get and set the value of the exposure of a camera.
+The original value for this exposure is defined in the [Camera](#camera) node, as `exposure`.
 
 ---
 

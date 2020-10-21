@@ -33,6 +33,10 @@ RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), ca
     RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_fov", &RosCamera::setFovCallback);
   mSetFocalDistanceServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_focal_distance",
                                                            &RosCamera::setFocalDistanceCallback);
+  mSetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_exposure", &RosCamera::setExposureCallback);
+  mGetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_exposure", &RosCamera::getExposureCallback);
   mHasRecognitionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/has_recognition",
                                                          &RosCamera::hasRecognitionCallback);
   mIsRecognitionSegmentationEnabledServer =
@@ -60,6 +64,8 @@ RosCamera::~RosCamera() {
   mSetFovServer.shutdown();
   mSetFocalDistanceServer.shutdown();
   mHasRecognitionServer.shutdown();
+  mSetExposureServer.shutdown();
+  mGetExposureServer.shutdown();
   if (mCamera->hasRecognition()) {
     mRecognitionEnableServer.shutdown();
     mRecognitionSamplingPeriodServer.shutdown();
@@ -190,6 +196,19 @@ bool RosCamera::setFovCallback(webots_ros::set_float::Request &req, webots_ros::
 bool RosCamera::setFocalDistanceCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res) {
   mCamera->setFocalDistance(req.value);
   res.success = true;
+  return true;
+}
+
+bool RosCamera::setExposureCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res) {
+  assert(mCamera);
+  mCamera->setExposure(req.value);
+  res.success = true;
+  return true;
+}
+
+bool RosCamera::getExposureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
+  assert(mCamera);
+  res.value = mCamera->getExposure();
   return true;
 }
 

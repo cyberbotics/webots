@@ -31,10 +31,12 @@
 typedef struct {
   double min_fov;
   double max_fov;
+  double exposure;
   double focal_length;
   double focal_distance;
   double min_focal_distance;
   double max_focal_distance;
+  bool set_exposure;
   bool set_focal_distance;
   bool set_fov;
   bool has_recognition;
@@ -89,7 +91,7 @@ static void wb_camera_cleanup(WbDevice *d) {
 }
 
 static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double min_fov, double max_fov,
-                          double focal_length, double focal_distance, double min_focal_distance, double max_focal_distance,
+                          double exposure, double focal_length, double focal_distance, double min_focal_distance, double max_focal_distance,
                           double camnear, bool spherical, bool has_recognition, bool segmentation) {
   Camera *c;
   wb_camera_cleanup(d);
@@ -98,6 +100,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c = malloc(sizeof(Camera));
   c->min_fov = min_fov;
   c->max_fov = max_fov;
+  c->exposure = exposure;
   c->focal_length = focal_length;
   c->focal_distance = focal_distance;
   c->min_focal_distance = min_focal_distance;
@@ -129,6 +132,11 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
     request_write_double(r, ac->fov);
     c->set_fov = false;  // done
   }
+  if (c->set_exposure) {
+    request_write_uchar(r, C_CAMERA_SET_EXPOSURE);
+    request_write_double(r, c->exposure);
+    c->set_exposure = false;  // done
+  }
   if (c->set_focal_distance) {
     request_write_uchar(r, C_CAMERA_SET_FOCAL);
     request_write_double(r, c->focal_distance);
@@ -158,7 +166,7 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
     return;
   unsigned int uid;
   int width, height;
-  double fov, min_fov, max_fov, camnear, focal_length, focal_distance, min_focal_distance, max_focal_distance;
+  double fov, min_fov, max_fov, camnear, exposure, focal_length, focal_distance, min_focal_distance, max_focal_distance;
   bool spherical, has_recognition, segmentation;
 
   AbstractCamera *ac = d->pdata;
@@ -176,13 +184,14 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       max_fov = request_read_double(r);
       has_recognition = request_read_uchar(r) != 0;
       segmentation = request_read_uchar(r) != 0;
+      exposure = request_read_double(r);
       focal_length = request_read_double(r);
       focal_distance = request_read_double(r);
       min_focal_distance = request_read_double(r);
       max_focal_distance = request_read_double(r);
 
       // printf("new camera %u %d %d %lf %lf %d\n", uid, width, height, fov, camnear, spherical);
-      wb_camera_new(d, uid, width, height, fov, min_fov, max_fov, focal_length, focal_distance, min_focal_distance,
+      wb_camera_new(d, uid, width, height, fov, min_fov, max_fov, exposure, focal_length, focal_distance, min_focal_distance,
                     max_focal_distance, camnear, spherical, has_recognition, segmentation);
       break;
     case C_CAMERA_RECONFIGURE:
@@ -194,6 +203,7 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       c->max_fov = request_read_double(r);
       c->has_recognition = request_read_uchar(r) != 0;
       c->segmentation = request_read_uchar(r) != 0;
+      c->exposure = request_read_double(r);
       c->focal_length = request_read_double(r);
       c->focal_distance = request_read_double(r);
       c->min_focal_distance = request_read_double(r);
@@ -280,6 +290,8 @@ static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
     ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_camera_set_fov"))
       c->set_fov = true;
+    if (remote_control_is_function_defined("wbr_camera_set_exposure"))
+      c->set_exposure = true;
     if (remote_control_is_function_defined("wbr_camera_set_focal_distance"))
       c->set_focal_distance = true;
   }
@@ -471,6 +483,32 @@ double wb_camera_get_focal_length(WbDeviceTag tag) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
+}
+
+double wb_camera_get_exposure(WbDeviceTag tag) {
+  double result = NAN;
+  robot_mutex_lock_step();
+  Camera *c = camera_get_struct(tag);
+  if (c)
+    result = c->exposure;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+void wb_camera_set_exposure(WbDeviceTag tag, double exposure) {
+  robot_mutex_lock_step();
+  Camera *c = camera_get_struct(tag);
+  if (!c)
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  else if (exposure < 0)
+    fprintf(stderr, "Error: 'exposure' argument of %s() can't be negative.\n", __FUNCTION__);
+  else {
+    c->exposure = exposure;
+    c->set_exposure = true;
+  }
+  robot_mutex_unlock_step();
 }
 
 double wb_camera_get_focal_distance(WbDeviceTag tag) {

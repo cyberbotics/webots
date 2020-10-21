@@ -35,6 +35,8 @@ namespace webots {
     double getMaxFov() const;
     double getMinFov() const;
     virtual void setFov(double fov);
+    double getExposure() const;
+    void setExposure(double exposure);
     double getFocalLength() const;
     double getFocalDistance() const;
     double getMaxFocalDistance() const;

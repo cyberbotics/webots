@@ -79,6 +79,14 @@ void Camera::setFov(double fov) {
   wb_camera_set_fov(getTag(), fov);
 }
 
+double Camera::getExposure() const {
+  return wb_camera_get_exposure(getTag());
+}
+
+void Camera::setExposure(double exposure) {
+  wb_camera_set_exposure(getTag(), exposure);
+}
+
 double Camera::getFocalLength() const {
   return wb_camera_get_focal_length(getTag());
 }
