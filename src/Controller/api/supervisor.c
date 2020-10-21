@@ -321,7 +321,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->contact_points = NULL;
   n->node_id_per_contact_points = NULL;
   n->contact_points_time_stamp = -1.0;
-  n->contact_points_time_stamp = false;
+  n->contact_point_includes_descendant = false;
   n->static_balance = false;
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
