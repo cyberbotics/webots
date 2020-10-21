@@ -1990,7 +1990,6 @@ int main(int argc, char *argv[]) {
 typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_PAUSE,
   WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME,
-  WB_SUPERVISOR_SIMULATION_MODE_RUN,
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
 
@@ -2008,7 +2007,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode);
 namespace webots {
   class Supervisor : public Robot {
     typedef enum {
-      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
     } SimulationMode;
 
     SimulationMode simulationGetMode() const;
@@ -2026,7 +2025,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
 
     def simulationGetMode(self):
     def simulationSetMode(self, mode):
@@ -2041,7 +2040,7 @@ class Supervisor (Robot):
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class Supervisor extends Robot {
-  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST;
+  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST;
 
   public int simulationGetMode();
   public void simulationSetMode(int mode);
@@ -2054,7 +2053,7 @@ public class Supervisor extends Robot {
 %tab "MATLAB"
 
 ```MATLAB
-WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_RUN, WB_SUPERVISOR_SIMULATION_MODE_FAST
+WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST
 
 mode = wb_supervisor_simulation_get_mode()
 wb_supervisor_simulation_set_mode(mode)
@@ -2084,7 +2083,7 @@ The value returned by this function is updated during the previous function call
 The `wb_supervisor_simulation_set_mode` function allows to set the simulation mode.
 Note that if the `WB_SUPERVISOR_SIMULATION_MODE_PAUSE` is set by the current supervisor, then calling the `wb_robot_step(time_step)` function with a `time_step` argument different from 0 will make the controller wait until the simulation is resumed.
 Calling `wb_robot_step(0)` could be useful to send information to Webots when it is paused (such as modifying, moving, adding or deleting objects).
-The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_RUN)`.
+The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_FAST)`.
 
 The current simulation mode can also be modified by the Webots user, when he's clicking on the corresponding buttons in the user interface.
 
@@ -2094,7 +2093,6 @@ The current simulation mode can also be modified by the Webots user, when he's c
 | -------------------------------------------- | ------------------------------------------------------------------------------- |
 | `WB_SUPERVISOR_SIMULATION_MODE_PAUSE`        | The simulation is paused.                                                       |
 | `WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME`    | The simulation is running as close as possible to the real-time.                |
-| `WB_SUPERVISOR_SIMULATION_MODE_RUN`          | The simulation is running as fast as possible with the graphical renderings.    |
 | `WB_SUPERVISOR_SIMULATION_MODE_FAST`         | The simulation is running as fast as possible without the graphical renderings. |
 
 %end

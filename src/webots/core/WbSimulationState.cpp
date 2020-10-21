@@ -41,6 +41,11 @@ void WbSimulationState::setMode(Mode mode) {
   emit modeChanged();
 }
 
+void WbSimulationState::setRendering(bool show) {
+  mPerformRendering = show;
+  emit renderingStateChanged();
+}
+
 void WbSimulationState::pauseSimulation() {
   if (gResumeMode != NONE) {
     // already paused

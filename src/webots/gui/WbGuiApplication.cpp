@@ -100,6 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
+  mShouldDoRendering = true;
 
   parseArguments();
 }
@@ -212,10 +213,13 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::PAUSE;
     else if (arg == "--mode=realtime")
       mStartupMode = WbSimulationState::REALTIME;
-    else if (arg == "--mode=run")
-      mStartupMode = WbSimulationState::RUN;
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
+    else if (arg == "--mode=run") {
+      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      mStartupMode = WbSimulationState::FAST;
+    } else if (arg == "--no-rendering")
+      mShouldDoRendering = false;
     else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
@@ -343,8 +347,11 @@ bool WbGuiApplication::setup() {
   WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
+  if (mShouldDoRendering)
+    mShouldDoRendering = renderingFromPreferences();
 
   WbSimulationState::instance()->setMode(mStartupMode);
+  WbSimulationState::instance()->setRendering(mShouldDoRendering);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
@@ -482,11 +489,14 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
   if (startupMode == "Real-time")
     return WbSimulationState::REALTIME;
-  if (startupMode == "Run")
-    return WbSimulationState::RUN;
   if (startupMode == "Fast")
     return WbSimulationState::FAST;
   return WbSimulationState::PAUSE;
+}
+
+bool WbGuiApplication::renderingFromPreferences() const {
+  WbPreferences *const prefs = WbPreferences::instance();
+  return prefs->value("General/rendering", true).toBool();
 }
 
 #ifdef __APPLE__
