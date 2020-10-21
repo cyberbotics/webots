@@ -383,6 +383,7 @@ static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
+static bool allows_contact_point_internal_node = false;
 static WbNodeRef static_balance_node_ref = NULL;
 static WbNodeRef reset_physics_node_ref = NULL;
 static WbNodeRef restart_controller_node_ref = NULL;
@@ -801,7 +802,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid && !is_proto_internal) {
+      if (uid && (!is_proto_internal || allows_contact_point_internal_node)) {
         add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto);
         node_id = uid;
       }
@@ -1823,9 +1824,10 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
 
   if (!node->contact_points || index >= node->number_of_contact_points)
     return NULL;
-  // printf("A: %d %p\n", node->node_id_per_contact_points[index],
-  //        wb_supervisor_node_get_from_id(node->node_id_per_contact_points[index]));
-  return find_node_by_id(node->node_id_per_contact_points[index]);
+  allows_contact_point_internal_node = true;
+  WbNodeRef result = node_get_from_id(node->node_id_per_contact_points[index]);
+  allows_contact_point_internal_node = false;
+  return result;
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants) {
