@@ -834,7 +834,7 @@ it working fine
 ##### David Mansolino [Cyberbotics] 04/28/2020 14:09:41
 You're welcome
 
-##### Shubham D 04/29/2020 22:30:02
+##### Shubham Dahatre 04/29/2020 22:30:02
 I am trying to create some solid using transform and shapes.
 
 I am not able to set the objects at desired angle.
@@ -1211,7 +1211,7 @@ does anyone have implemented some kind of pathfinding and can help me ? pls dm
 ##### Ans 05/30/2020 20:39:57
 Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
 
-##### Sergen Aşık 05/31/2020 21:22:36
+##### Deleted User 05/31/2020 21:22:36
 How can i run simulator using Qt Creator?
 
 
@@ -1235,12 +1235,12 @@ The supervisor also send plume information to every robot using emitter-receiver
 
 > How can i run simulator using Qt Creator?
 
-`@Sergen Aşık` do you want to start Webots from Qt Creator, or use Qt in your controller?
+`@Deleted User` do you want to start Webots from Qt Creator, or use Qt in your controller?
 
 
 > is there any depth camera that i can use for skeletal tracking?
 
-`@Sergen Aşık` yes of course, you can use range-finders: [https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
+`@Deleted User` yes of course, you can use range-finders: [https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
 
 ##### lojik 06/02/2020 10:48:45
 Hello everyone, I do not know if someone else have the same problem as me but it is easy to verify.
@@ -6839,4 +6839,79 @@ You can similarly use getPosition() to find the position of the other solid you'
 
 
 If you're most interested in whether the objects are *colliding*, you may find it useful to use the supervisor get\_contact\_point functions, though I think those only tell you *where* on your solid the collision happened, not *which* other solid it collided with.
+
+##### götz 10/19/2020 10:36:38
+Hi there, hope this is the right place for this question, let me know if not. I just started to look into Webots and it seems to be what we're looking for: a great simulator that could replace our raspi-based robots in a robot hackathon event we have to convert to virtual now. Sigh. So my question: Our hackathon was based on robots students would control via RESTful API calls. I gave the tcpip controller a test and then tried Python with Flask as a controller to implement a REST interface. But as Flask is not returning (because it's listening itself) the process is killed. Is there a way to implement a RESTful controller API on a higher level directly in Webots I'm overlooking? Or would I have to implement it on a socket-devel base ("low-level" like tcpip controller example) and then interface it with a REST service running "outside" of Webots?
+
+##### Olivier Michel [Cyberbotics] 10/19/2020 10:41:19
+Hi `@götz`, yes this is possible and should be very easy to implement as a Python controller. However, your controller should remain responsive and call the Robot.step() function regularly. This is configurable with most Python HTTP servers, like in tornado for example. I don't have any experience with Flask, but I doubt it wouldn't be possible. Alternatively, you may run the REST server in a separate thread of your Python controller.
+
+##### götz 10/19/2020 11:07:41
+Hey `@Olivier Michel` thanks for the quick reply, sounds good! So I just have to make sure to call Robot.step() regularly from Flask of whatever and it would not get killed? Nice, I'll give it a try. I'd like to avoid getting into thread development, programming not really being in my main skill set... 😉
+
+##### black\_hammer\_67 10/20/2020 16:03:54
+I have a quastion about webots debuging, how can I debug my code, I write in python and usually I use pdb but in controller scripts it doesn't seem to work
+
+
+the programm stops when pdb.set\_trace() is called
+
+
+but I cannot type to the terminal
+
+##### Olivier Michel [Cyberbotics] 10/20/2020 16:17:11
+I usually rely on the print() function to debug my Python controllers. However, it may be possible to use pdb if you start the Python controller yourself with pdb. In that case, you should use an extern Python controller instead of a regular Webots Python controller.
+
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux&tab-language=python](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux&tab-language=python)
+
+##### black\_hammer\_67 10/20/2020 16:18:58
+ok thank you Mr
+
+##### götz 10/20/2020 17:10:25
+I'll give up with getting my RestAPI embedded in a Python controller to work. Last try, maybe somebody can spot anything obviously wrong  here. 
+```def robotstep():
+    robot.step(32)
+
+if __name__ == '__main__':
+    app = Application()
+    app.listen(3000)
+    tornado.ioloop.PeriodicCallback(robotstep, 16).start()
+    tornado.ioloop.IOLoop.instance().start()
+```
+
+
+It's working and I get the "OK" back from here 
+```class ForwardHandler(tornado.web.RequestHandler):
+    def get(self):
+        leftMotor.setVelocity(3)
+        rightMotor.setVelocity(3)        
+        self.write('OK')
+```
+
+
+But the robot is not doing anything like it's not picked up by robot.step()
+
+
+Sigh.
+
+##### Olivier Michel [Cyberbotics] 10/20/2020 17:47:10
+Can you write some print() statement in the robotstep() function to assess it actually is called?
+
+##### götz 10/20/2020 17:53:32
+Good point... just gave it a try, gets called a lot. 🙂
+
+
+And when I change robotstep() to 
+```def robotstep():
+    leftMotor.setVelocity(3)
+    rightMotor.setVelocity(3)
+    robot.step(32)
+    print("robotstep")
+```
+
+
+The robot starts to move forward. But not when left/rightMotor are called from tornados RequestHandler like above.
+
+
+I just had a session with Simon, the RestAPI controller works for him. So it looks like the issue is somewhere outside of Webots, OS or Python versions. Thanks, Simon!
 

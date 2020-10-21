@@ -13675,7 +13675,7 @@ what should i do?
 
 [https://cyberbotics.com/doc/guide/using-matlab](https://cyberbotics.com/doc/guide/using-matlab)
 
-##### Cyberninja 09/27/2019 06:24:29
+##### Vishal\_kumar 09/27/2019 06:24:29
 i am not able to program physics plugin in python
 
 ##### David Mansolino [Cyberbotics] 09/27/2019 06:32:10
@@ -13697,7 +13697,7 @@ So you can generate those compiled files and directly link those
 Yes, that can indeed be a solution in that case, thanks for the pointer
 
 ##### Raggy 09/27/2019 06:37:31
-Even if there isn't integration with webots, it is probably possible to use Cython to generate C files directly and paste those into webots  `@Cyberninja`
+Even if there isn't integration with webots, it is probably possible to use Cython to generate C files directly and paste those into webots  `@Vishal_kumar`
 
 
 (Although that calls CPython's code too, not sure how webots handles external dependencies)
@@ -13705,7 +13705,7 @@ Even if there isn't integration with webots, it is probably possible to use Cyth
 ##### David Mansolino [Cyberbotics] 09/27/2019 06:40:37
 As long as they are in the path and you take them into account in your Makefile everything should works fine with external dependencies, it works the same way as for controllers ([https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)).
 
-##### Cyberninja 09/27/2019 07:31:53
+##### Vishal\_kumar 09/27/2019 07:31:53
 `@Raggy` `@David Mansolino`  Thank you
 
 ##### aysegulucar 09/27/2019 07:47:50
