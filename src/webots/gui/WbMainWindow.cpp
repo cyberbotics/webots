@@ -241,15 +241,13 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
   static const QString ctrlOne = tr("Press <i>Ctrl+1</i> to execute one basic time step.") + "<br/>";
   static const QString ctrlTwo = tr("Press <i>Ctrl+2</i> to run the simulation in real time.") + "<br/>";
   static const QString ctrlThree = tr("Press <i>Ctrl+3</i> to run the simulation as fast as possible.") + "<br/>";
-  static const QString ctrlFour =
-    tr("Press <i>Ctrl+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+  static const QString ctrlFour = tr("Press <i>Ctrl+4</i> to toggle the 3D scene rendering.") + "<br/>" + "<br/>";
 
   static const QString cmdZero = tr("Press <i>Cmd+0</i> to pause the simulation.") + "<br/>";
   static const QString cmdOne = tr("Press <i>Cmd+1</i> to execute one basic time step.") + "<br/>";
   static const QString cmdTwo = tr("Press <i>Cmd+2</i> to run the simulation in real time.") + "<br/>";
   static const QString cmdThree = tr("Press <i>Cmd+3</i> to run the simulation as fast as possible.") + "<br/>";
-  static const QString cmdFour =
-    tr("Press <i>Cmd+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+  static const QString cmdFour = tr("Press <i>Cmd+4</i> to toggle the 3D scene rendering.") + "<br/>" + "<br/>";
 
   static const QString ctrlScreenshot =
     tr("Press <i>Ctrl+Shift+P</i> to take a screenshot of the 3D screen.") + "<br/>" + "<br/>";
@@ -547,6 +545,9 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
+  menu->addAction(actionManager->action(WbAction::RENDERING));
+  menu->addSeparator();
+
   subMenu = menu->addMenu(tr("&Follow Object"));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_NONE));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_TRACKING));
@@ -655,7 +656,7 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_OBJECT_MOVE));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE));
-  subMenu->addAction(actionManager->action(WbAction::DISABLE_FAST_MODE));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_RENDERING));
 
   return menu;
 }
@@ -668,7 +669,6 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::PAUSE));
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
-  menu->addAction(manager->action(WbAction::RUN));
   menu->addAction(manager->action(WbAction::FAST));
   return menu;
 }
@@ -984,8 +984,6 @@ void WbMainWindow::createMenus() {
 
   mSimulationMenu = createSimulationMenu();
   mMenuBar->addAction(mSimulationMenu->menuAction());
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::RUN));
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::FAST));
 
   menu = createBuildMenu();
   mMenuBar->addAction(menu->menuAction());
@@ -1376,8 +1374,9 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_FORCE_AND_TORQUE)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE));
   WbActionManager::instance()
-    ->action(WbAction::DISABLE_FAST_MODE)
-    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FAST_MODE));
+    ->action(WbAction::DISABLE_RENDERING)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
+  mSimulationView->disableRendering(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();

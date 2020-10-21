@@ -92,6 +92,9 @@ signals:
   void needsMinimize();
   void requestOpenUrl(const QString &fileName, const QString &message, const QString &title);
 
+public slots:
+  void disableRendering(bool disabled);
+
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
@@ -111,14 +114,14 @@ private slots:
   void pause();
   void step();
   void realTime();
-  void run();
   void fast();
-  void disableFastMode(bool disabled);
+  void toggleRendering();
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();
   void disableStepButton(bool disabled);
   void updatePlayButtons();
+  void updateRendering();
   void updateSoundButtons();
   void needsActionsUpdate(int position, int index);
   void toggleSceneTreeVisibility();
@@ -150,7 +153,8 @@ private:
   QHBoxLayout *mToolsLayout;
   QLabel *mMessageLabel;
   QSlider *mSoundVolumeSlider;
-  bool mNeedRestoreFastMode;
+  bool mNeedToRestoreBlackRenderingOverlay;
+  bool mNeedToRestoreRendering;
 
   QAction *mToggleView3DAction, *mToggleSceneTreeAction;
   QToolButton *mShowSceneTreeButton;
@@ -164,11 +168,11 @@ private:
 
   void createActions();
   QToolBar *createToolBar();
-  void updateFastModeOverlay();
+  void updateBlackRenderingOverlay();
   void renderABlackScreen();
   void retrieveSimulationView();
-  void switchToRunModeIfNecessary();
-  void restoreFastModeIfNecessary();
+  void showRenderingIfNecessary();
+  void restoreNoRenderingIfNecessary();
   void toggleMovieAction(bool isRecording);
   void updateSceneTreeActions(bool enabled);
   void updateToggleView3DAction(bool enabled);
