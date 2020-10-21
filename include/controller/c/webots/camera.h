@@ -57,8 +57,9 @@ void wb_camera_recognition_disable(WbDeviceTag tag);
 int wb_camera_recognition_get_sampling_period(WbDeviceTag tag);
 int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag);
 const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag tag);
-bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
-void wb_camera_recognition_set_segmentation(WbDeviceTag tag, bool value);
+bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 

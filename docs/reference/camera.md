@@ -1073,8 +1073,9 @@ It is -1 in case of failure (unable to open the specified file or unrecognized i
 #### `wb_camera_recognition_get_sampling_period`
 #### `wb_camera_recognition_get_number_of_objects`
 #### `wb_camera_recognition_get_objects`
-#### `wb_camera_recognition_is_segmentation_enabled`
-#### `wb_camera_recognition_set_segmentation`
+#### `wb_camera_recognition_has_segmentation`
+#### `wb_camera_recognition_enable_segmentation`
+#### `wb_camera_recognition_disable_segmentation`
 #### `wb_camera_recognition_get_segmentation_image`
 #### `wb_camera_recognition_save_segmentation_image`
 
@@ -1091,8 +1092,9 @@ void wb_camera_recognition_disable(WbDeviceTag tag);
 int wb_camera_recognition_get_sampling_period(WbDeviceTag tag);
 int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag);
 const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag tag);
-bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
-void wb_camera_recognition_set_segmentation(WbDeviceTag tag, bool value);
+bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
 const unsigned char* wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 ```
@@ -1112,8 +1114,9 @@ namespace webots {
     int getRecognitionSamplingPeriod() const;
     int getRecognitionNumberOfObjects() const;
     const CameraRecognitionObject *getRecognitionObjects() const;
-    bool isRecognitionSegmentationEnabled() const;
-    void setRecognitionSegmentation(bool value);
+    bool hasRecognitionSegmentation() const;
+    void enableRecognitionSegmentation();
+    void disableRecognitionSegmentation();
     const unsigned char *getRecognitionSegmentationImage() const;
     int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     // ...
@@ -1135,8 +1138,9 @@ class Camera (Device):
     def getRecognitionSamplingPeriod(self):
     def getRecognitionNumberOfObjects(self):
     def getRecognitionObjects(self):
-    def isRecognitionSegmentationEnabled(self):
-    def setRecognitionSegmentation(self, value):
+    def hasRecognitionSegmentation(self):
+    def enableRecognitionSegmentation(self):
+    def disableRecognitionSegmentation(self):
     def getRecognitionSegmentationImage(self):
     def saveRecognitionSegmentationImage(self, filename, quality):
     # ...
@@ -1156,8 +1160,9 @@ public class Camera extends Device {
   public int getRecognitionSamplingPeriod();
   public int getRecognitionNumberOfObjects();
   public CameraRecognitionObject[] getRecognitionObjects();
-  public boolean isRecognitionSegmentationEnabled();
-  public void setRecognitionSegmentation(boolean value);
+  public boolean hasRecognitionSegmentation();
+  public void enableRecognitionSegmentation();
+  public void disableRecognitionSegmentation();
   public int[] getRecognitionSegmentationImage();
   public int saveRecognitionSegmentationImage(String filename, int quality);
   // ...
@@ -1175,8 +1180,9 @@ wb_camera_recognition_enable(tag, sampling_period)
 number = wb_camera_recognition_get_number_of_objects(tag)
 objects = wb_camera_recognition_get_objects(tag)
 period = wb_camera_recognition_get_sampling_period(tag)
-value = wb_camera_recognition_is_segmentation_enabled(tag)
-wb_camera_recognition_set_segmentation(tag, value)
+value = wb_camera_recognition_has_segmentation(tag)
+wb_camera_recognition_enable_segmentation(tag)
+wb_camera_recognition_disable_segmentation(tag)
 image = wb_camera_recognition_get_segmentation_image(tag)
 success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality)
 ```
@@ -1191,8 +1197,9 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
 | `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
 | `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObject` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `relative_position`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `relative_orientation`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `position_on_image`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `size_on_image`<br/>`int32 numberofcolors`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html)`[]` `colors`<br/>`String model`<br/><br/>Note: the z value of `position_on_image` and `size_on_image` should be ignored |
-| `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_set_segmentation` | `service`| `webots_ros::set_bool` | |
+| `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 | `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
@@ -1223,9 +1230,11 @@ If a [Recognition](recognition.md) node is present in the `recognition` field an
 The segmented image is generated at the same sampling period as the recognition objects.
 For the segmentation to work it is necessary to enable the recognition, but it is not necessary to enable the camera.
 
-The `wb_camera_recognition_is_segmentation_enabled` function can be used to determine whether the segmentation functionality is active or not.
+The `wb_camera_recognition_has_segmentation` function can be used to check if the [Recognition](recognition.md).`segmentation` field is set to TRUE.
+If the [Recognition](recognition.md) node is not defined, the function returns FALSE.
 
-The `wb_camera_recognition_set_segmentation` function sets the [Recognition](recognition.md).`segmentation` and, if the recognition is enabled, turns on or off the segmentation image generation.
+The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
+Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](camera.md#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](camera.md#wb_camera_recognition_enable)).
 
 The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
 The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).

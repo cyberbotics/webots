@@ -118,6 +118,7 @@ private:
   // smart camera segmentation
   void initializeSegmentationSharedMemory();
   void createSegmentationCamera();
+  bool mSegmentationEnabled;
   bool mSegmentationChanged;
   WbWrenCamera *mSegmentationCamera;
   WbSharedMemory *mSegmentationShm;

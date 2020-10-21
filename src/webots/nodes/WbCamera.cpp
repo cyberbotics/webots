@@ -123,6 +123,7 @@ void WbCamera::init() {
   mRecognizedObjectsTexture = NULL;
   mSegmentationChanged = false;
   mSegmentationCamera = NULL;
+  mSegmentationEnabled = false;
   mSegmentationShm = NULL;
   mSegmentationImageReady = false;
   mSegmentationImageChanged = false;
@@ -653,11 +654,10 @@ void WbCamera::handleMessage(QDataStream &stream) {
       mRecognitionSensor->setRefreshRate(mRecognitionRefreshRate);
       break;
     }
-    case C_CAMERA_SET_SEGMENTATION:
+    case C_CAMERA_ENABLE_SEGMENTATION:
       unsigned char enabled;
       stream >> enabled;
-      if (recognition() && recognition()->segmentation() != enabled)
-        recognition()->setSegmentation(enabled);
+      mSegmentationEnabled = enabled;
       break;
     case C_CAMERA_GET_SEGMENTATION_IMAGE:
       if (mSegmentationImageChanged) {
@@ -886,11 +886,13 @@ void WbCamera::setup() {
 }
 
 bool WbCamera::needToRender() {
-  return WbAbstractCamera::needToRender() || (mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh());
+  return WbAbstractCamera::needToRender() || (mSegmentationCamera && mSegmentationEnabled && mRecognitionSensor->isEnabled() &&
+                                              mRecognitionSensor->needToRefresh());
 }
 
 void WbCamera::render() {
-  if (mSegmentationCamera && isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh()) {
+  if (mSegmentationCamera && mSegmentationEnabled && isPowerOn() && mRecognitionSensor->isEnabled() &&
+      mRecognitionSensor->needToRefresh()) {
     mSegmentationCamera->render();
     mSegmentationImageChanged = true;
   }
@@ -934,6 +936,8 @@ void WbCamera::updateRecognition() {
 
 void WbCamera::updateSegmentation() {
   mSegmentationChanged = true;
+  if (mSegmentationEnabled && (!recognition() || !recognition()->segmentation()))
+    mSegmentationEnabled = false;
   createSegmentationCamera();
 }
 

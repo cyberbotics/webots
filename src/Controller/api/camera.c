@@ -45,6 +45,7 @@ typedef struct {
   int recognized_object_number;                   // number of object currrently recognized
   WbCameraRecognitionObject *recognized_objects;  // list of objects
   bool segmentation;
+  bool segmentation_enabled;
   bool segmentation_changed;
   Image *segmentation_image;
 } Camera;
@@ -113,6 +114,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c->recognized_object_number = 0;
   c->recognized_objects = NULL;
   c->segmentation = segmentation;
+  c->segmentation_enabled = false;
   c->segmentation_changed = false;
   if (c->segmentation)
     c->segmentation_image = image_new();
@@ -148,9 +150,9 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
     c->enable_recognition = false;  // done
   }
   if (c->segmentation_changed) {
-    request_write_uchar(r, C_CAMERA_SET_SEGMENTATION);
-    request_write_uchar(r, c->segmentation);
-    if (c->segmentation && !c->segmentation_image)
+    request_write_uchar(r, C_CAMERA_ENABLE_SEGMENTATION);
+    request_write_uchar(r, c->segmentation_enabled ? 1 : 0);
+    if (c->segmentation_enabled && !c->segmentation_image)
       c->segmentation_image = image_new();
     c->segmentation_changed = false;  // done
   }
@@ -259,6 +261,8 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
     case C_CAMERA_SET_SEGMENTATION:
       c = ac->pdata;
       c->segmentation = request_read_uchar(r);
+      if (!c->segmentation)
+        c->segmentation_enabled = false;
       break;
     case C_CAMERA_SEGMENTATION_SHARED_MEMORY:
       // Cleanup the previous shared memory if any.
@@ -454,6 +458,7 @@ void wb_camera_set_fov(WbDeviceTag tag, double fov) {
   Camera *c = camera_get_struct(tag);
   if (!ac || !c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return;
   }
   if (ac->spherical && (fov < 0.0 || fov > 2.0 * M_PI)) {
@@ -554,6 +559,7 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
   Camera *c = camera_get_struct(tag);
   if (!c || !ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return;
   } else if (ac->spherical) {
     fprintf(stderr, "Error: %s() can't be called on a spherical camera.\n", __FUNCTION__);
@@ -592,6 +598,8 @@ void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
     else {
       c->enable_recognition = true;
       c->recognition_sampling_period = sampling_period;
+      if (c->segmentation_enabled && sampling_period == 0)
+        c->segmentation_enabled = false;
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -752,60 +760,94 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag ta
   return (wb_camera_recognition_get_objects(tag) + index);
 }
 
-bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag) {
-  bool enabled = false;
+bool wb_camera_recognition_has_segmentation(WbDeviceTag tag) {
+  bool has_segmentation;
   robot_mutex_lock_step();
   Camera *c = camera_get_struct(tag);
   if (c)
-    enabled = c->segmentation && c->recognition_sampling_period;
-  else
+    has_segmentation = c->segmentation;
+  else {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    has_segmentation = false;
+  }
   robot_mutex_unlock_step();
-  return enabled;
+  return has_segmentation;
 }
 
-void wb_camera_recognition_set_segmentation(WbDeviceTag tag, bool value) {
+void wb_camera_recognition_enable_segmentation(WbDeviceTag tag) {
+  robot_mutex_lock_step();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return;
   }
-  if (value == c->segmentation)
+  if (c->recognition_sampling_period == 0) {
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return;
+  }
+  if (!c->segmentation) {
+    fprintf(stderr, "Error: %s(): segmentation is disabled in Recognition node.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return;
+  }
+  if (!c->segmentation_enabled) {
+    c->segmentation_enabled = true;
+    c->segmentation_changed = true;
+  }
+  robot_mutex_unlock_step();
+}
 
+void wb_camera_recognition_disable_segmentation(WbDeviceTag tag) {
   robot_mutex_lock_step();
-  c->segmentation = value;
-  c->segmentation_changed = true;
+  Camera *c = camera_get_struct(tag);
+  if (!c) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return;
+  }
+  if (!c->has_recognition) {
+    fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return;
+  }
+  if (c->segmentation_enabled) {
+    c->segmentation_enabled = false;
+    c->segmentation_changed = true;
+  }
   robot_mutex_unlock_step();
 }
 
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag) {
+  robot_mutex_lock_step();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return NULL;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
-    return NULL;
-  }
-  if (c->recognition_sampling_period == 0) {
-    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return NULL;
   }
   if (!c->segmentation) {
-    fprintf(
-      stderr,
-      "Error: %s(): segmentation is disabled in Recognition node! Please use: wb_camera_recognition_set_segmentation().\n",
-      __FUNCTION__);
+    robot_mutex_unlock_step();
+    return NULL;
+  }
+  if (!c->segmentation_enabled) {
+    fprintf(stderr, "Error: %s(): segmentation is disabled! Please use: wb_camera_recognition_enable_segmentation().\n",
+            __FUNCTION__);
+    robot_mutex_unlock_step();
     return NULL;
   }
 
-  robot_mutex_lock_step();
   bool success = image_request(c->segmentation_image, __FUNCTION__);
   if (!c->segmentation_image->data || !success) {
     robot_mutex_unlock_step();
@@ -835,14 +877,6 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
-    return -1;
-  }
-  if (!c->segmentation) {
-    fprintf(
-      stderr,
-      "Error: %s(): segmentation is disabled in Recognition node! Please use: wb_camera_recognition_set_segmentation().\n",
-      __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   }

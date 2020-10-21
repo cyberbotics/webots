@@ -179,6 +179,7 @@ Robot {
         minFieldOfView 0.49
       }
       recognition Recognition {
+        segmentation TRUE
       }
     }
     RangeFinder {

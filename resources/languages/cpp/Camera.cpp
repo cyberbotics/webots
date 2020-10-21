@@ -139,12 +139,16 @@ const CameraRecognitionObject *Camera::getRecognitionObjects() const {
   return wb_camera_recognition_get_objects(getTag());
 }
 
-bool Camera::isRecognitionSegmentationEnabled() const {
-  return wb_camera_recognition_is_segmentation_enabled(getTag());
+bool Camera::hasRecognitionSegmentation() const {
+  return wb_camera_recognition_has_segmentation(getTag());
 }
 
-void Camera::setRecognitionSegmentation(bool value) {
-  return wb_camera_recognition_set_segmentation(getTag(), value);
+void Camera::enableRecognitionSegmentation() {
+  wb_camera_recognition_enable_segmentation(getTag());
+}
+
+void Camera::disableRecognitionSegmentation() {
+  wb_camera_recognition_disable_segmentation(getTag());
 }
 
 const unsigned char *Camera::getRecognitionSegmentationImage() const {
