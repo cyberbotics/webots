@@ -996,6 +996,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 
 #### `wb_supervisor_node_get_contact_point`
 #### `wb_supervisor_node_get_number_of_contact_points`
+#### `wb_supervisor_node_get_number_of_contact_points`
 
 %tab-component "language"
 
