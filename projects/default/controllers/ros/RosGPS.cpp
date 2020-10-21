@@ -48,7 +48,7 @@ ros::Publisher RosGPS::createPublisher() {
 
 // get value from the GPS and publish it into a [3x1] {double} array
 void RosGPS::publishValue(ros::Publisher publisher) {
-  Header header;
+  std_msgs::Header header;
   header.stamp = ros::Time::now();
   header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
 
