@@ -55,5 +55,6 @@ int robot_is_quitting();
 void robot_console_print(const char *text, int stream);
 WbSimulationMode robot_get_simulation_mode();
 void robot_set_simulation_mode(WbSimulationMode mode);
+bool robot_is_immediate_message();
 
 #endif  // ROBOT_PRIVATE_H
