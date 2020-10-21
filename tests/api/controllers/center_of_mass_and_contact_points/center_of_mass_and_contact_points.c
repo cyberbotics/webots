@@ -8,7 +8,8 @@
 
 static const double THRESHOLD = 1e-5;
 static const int REFERENCE_NUMBER_OF_CONTACT_POINTS = 16;
-static const double REFERENCE_COM[3] = {-0.000000, 0.068695, 0.000000};
+static const int ADDITIONAL_CONTACT_POINTS_NUMBER = 4;
+static const double REFERENCE_COM[3] = {-0.000000, 0.067383, 0.000000};
 static const double REFERENCE_CONTACT_POINTS[48] = {
   0.010000,  -0.000112, -0.025000, 0.025000,  -0.000112, -0.040000, 0.040000,  -0.000112, -0.025000, 0.025000,
   -0.000112, -0.010000, -0.040000, -0.000112, -0.025000, -0.025000, -0.000112, -0.040000, -0.010000, -0.000112,
@@ -56,6 +57,20 @@ int main(int argc, char **argv) {
 
   ts_assert_boolean_equal(
     stable, "The support polygon stability test returns an unstable state whereas the reference state is stable.");
+
+  wb_robot_step(TIME_STEP);
+
+  number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, true);
+
+  ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER,
+                          "Wrong number of contact points when including descendants.");
+
+  ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(node, 0) == node,
+                          "First node contact point should belong to the main node.");
+
+  ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(
+                            node, REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1) != node,
+                          "First node contact point should not belong to the main node.");
 
   ts_send_success();
   return EXIT_SUCCESS;

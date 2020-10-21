@@ -101,6 +101,24 @@ Robot {
     }
     TestSuiteEmitter {
     }
+    Solid {
+      children [
+        DEF SECONDARY_BOD Transform {
+          translation 0 -0.05 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.015
+              }
+            }
+          ]
+        }
+      ]
+      boundingObject USE SECONDARY_BOD
+      physics Physics {
+      }
+    }
   ]
   boundingObject USE GROUP
   physics Physics {
