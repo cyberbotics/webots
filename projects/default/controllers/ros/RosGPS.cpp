@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #include "RosGPS.hpp"
-#include "std_msgs/Header.h"
-#include "sensor_msgs/NavSatFix.h"
 #include "geometry_msgs/Point.h"
+#include "sensor_msgs/NavSatFix.h"
+#include "std_msgs/Header.h"
 #include "webots_ros/Float64Stamped.h"
 
 RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
