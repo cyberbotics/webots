@@ -17,6 +17,18 @@ The [Recognition](#recognition) node provides a [Camera](camera.md) device with 
 When a [Camera](camera.md) device has a [Recognition](#recognition) node in its `recognition` field, it is able to recognize which objects are present in the camera image.
 Only [Solids](solid.md) whose `recognitionColors` field is not empty can be recognized by the camera.
 
+Additionally, the [Recognition](#recognition) also provides the `segmentation` functionalities to generate segmentation ground truth images displaying the recognized objects.
+In the segmentation image, each pixel will be colored using the `recognitionColors` first item of the corresponding object rendered from the [Camera](camera.md) device.
+The segmentation image can be used as ground truth data, i.e. validated data, given that it will classify exactly the recognized objects.
+An example of segmentation image is shown in [the following figure](#recognition_segmentation_image): on the left you have the [Camera](camera.md) image and on the left the corresponding segmentation image.
+The pixels corresponding to the cookies box, that has an empty `recognitionColors` field, and to the background are not classified and rendered in black.
+
+%figure "Recognition Segmentation Image"
+
+![recognition_segmentation_image.png](images/recognition_segmentation_image.png)
+
+%end  
+
 ### Field Summary
 
 - The `maxRange` field defines the maximum distance at which an object can be recognized.

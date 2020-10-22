@@ -1229,12 +1229,15 @@ The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get
 If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set, the camera generates a segmentation ground truth image corresponding to the camera image.
 The segmented image is generated at the same sampling period as the recognition objects.
 For the segmentation to work it is necessary to enable the recognition, but it is not necessary to enable the camera.
+Even if the [Recognition](recognition.md).`segmentation` field is TRUE, the generation of the segmented image is not automatically enabled when calling the [`wb_camera_recognition_enable`](#wb_camera_recognition_enable) function and it is necessary to call explicitly the []`wb_camera_recognition_enable_segmentation`](#wb_camera_recognition_enable_segmentation).
+
+
 
 The `wb_camera_recognition_has_segmentation` function can be used to check if the [Recognition](recognition.md).`segmentation` field is set to TRUE.
 If the [Recognition](recognition.md) node is not defined, the function returns FALSE.
 
 The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
-Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](camera.md#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](camera.md#wb_camera_recognition_enable)).
+Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
 
 The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
 The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).
