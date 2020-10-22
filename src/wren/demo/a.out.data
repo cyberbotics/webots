@@ -1,0 +1,4909 @@
+#version 330
+
+// This shader does the final blend for GTAO based on
+// https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaocombine.frag
+
+uniform sampler2D inputTextures[3];
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragAo;
+layout(location = 2) out float fragDepth;
+
+in vec2 texUv;
+
+vec3 MultiBounce(float ao, vec3 albedo) {
+  vec3 x = vec3(ao);
+
+  vec3 a = 2.0404 * albedo - vec3(0.3324);
+  vec3 b = -4.7951 * albedo + vec3(0.6417);
+  vec3 c = 2.7552 * albedo + vec3(0.6903);
+
+  return max(x, ((x * a + b) * x + c) * x);
+}
+
+void main() {
+  vec4 base = textureLod(inputTextures[0], texUv, 0);
+  vec2 aoOut = textureLod(inputTextures[1], texUv, 0).rg;
+  float ao = aoOut.r;
+
+  fragDepth = textureLod(inputTextures[2], texUv, 0).x;
+
+  if (ao >= 1.0 || fragDepth == 1.0)
+    fragColor = base;
+  else {
+    fragColor.rgb = base.rgb * MultiBounce(ao, base.rgb);
+    // fragColor.rgb = vec3(ao);
+    fragColor.a = 1.0;
+  }
+  fragAo = vec4(aoOut.rg, 0.0, 0.0);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+out vec2 texUv;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0f);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0f, 1.0f));
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+uniform mat4 modelTransform;
+uniform float screenScale;
+
+out vec2 texUv;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+  mat4 projection = cameraTransforms.infiniteProjection;
+  mat4 view = cameraTransforms.view;
+
+  float w = screenScale;
+  // Remove perspective scaling
+  if (projection[3][3] == 0.0f) {
+    vec4 row = vec4(-view[0][2], -view[1][2], -view[2][2], -view[3][2]);
+    w *= dot(row, modelTransform[3]);
+  }
+  // Remove FOV scaling
+  w /= min(projection[0][0], projection[1][1]);
+
+  // Remove rotation & scaling for billboarding
+  modelView[0].xyz = vec3(1.0f, 0.0f, 0.0f);
+  modelView[1].xyz = vec3(0.0f, 1.0f, 0.0f);
+  modelView[2].xyz = vec3(0.0f, 0.0f, 1.0f);
+
+  gl_Position = projection * modelView * vec4(vCoord * w, 1.0f);
+  texUv = vTexCoord;
+}
+#version 330
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+layout(location = 1) out vec4 normal;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  result = material.diffuse;
+  normal = vec4(0.0);
+}
+#version 330 core
+layout(location = 0) in vec3 vCoord;
+
+out vec3 texUv;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  gl_Position = cameraTransforms.infiniteProjection * mat4(mat3(cameraTransforms.view)) * vec4(vCoord, 1.0);
+  texUv = vCoord;
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec3 fragmentPosition;
+out vec3 fragmentNormal;
+out vec2 texUv;
+out vec2 penTexUv;
+out mat3 normalTransformMatrix;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  normalTransformMatrix = mat3(transpose(inverse(modelView)));
+
+  fragmentNormal = normalize(mat3(transpose(inverse(modelView))) * vNormal);
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+
+uniform mat4 modelTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  gl_Position = cameraTransforms.infiniteProjection * cameraTransforms.view * modelTransform * vec4(vCoord, 1.0);
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec3 fragmentPosition;
+out vec3 normalTransformed;
+out vec2 texUv;
+out vec2 penTexUv;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  normalTransformed = mat3(transpose(inverse(modelView))) * vNormal;
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+
+out vec3 fragmentPosition;
+out vec3 normalTransformed;
+
+uniform mat4 modelTransform;
+
+uniform float screenScale;  // 2 * object size on screen / screen width (both in pixels)
+uniform float depthScale;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;
+}
+material;
+
+void main() {
+  mat4 projection = cameraTransforms.infiniteProjection;
+  mat4 view = cameraTransforms.view;
+
+  float w = screenScale;
+  if (projection[3][3] == 0.0f) {  // perspective
+    vec4 row = vec4(-view[0][2], -view[1][2], -view[2][2], -view[3][2]);
+    w *= dot(row, modelTransform[3]);
+
+    // Remove scaling due to FOV
+    w *= 1.0f / min(projection[0][0], projection[1][1]);
+  } else {  // orthographic
+    float width = 1.0f / projection[0][0];
+    float halfHeight = 1.0f / projection[1][1];
+
+    w *= max(width, halfHeight);
+  }
+
+  mat4 modelView = view * modelTransform;
+  mat4 modelViewProjection = projection * modelView;
+
+  fragmentPosition = vec3(modelViewProjection * vec4(vCoord.xyz, 1.0));
+
+  gl_Position = modelViewProjection * vec4(vCoord.xyz * w, 1.0);
+
+  normalTransformed = mat3(transpose(inverse(modelView))) * vNormal;
+}
+#version 330
+
+// This shader does the inter-frame filtering for GTAO based on
+// https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaotemporaldenoise.frag
+
+// these textures represent: accumulated ao, current frame ao, previous depth buffer and current depth buffer
+uniform sampler2D inputTextures[4];
+
+in vec2 texUv;
+out vec4 fragColor;
+
+uniform mat4 previousInverseViewMatrix;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+vec4 viewSpacePosition(vec2 pixelLocation, bool previousFrame) {
+  // Get the depth value for this pixel
+  float z = 0.0;
+  if (previousFrame)
+    z = texture(inputTextures[2], pixelLocation).r;
+  else
+    z = texture(inputTextures[3], pixelLocation).r;
+
+  // Get x/w and y/w from the viewport position
+  float x = pixelLocation.x * 2 - 1;
+  float y = pixelLocation.y * 2 - 1;
+  vec4 projectedPosition = vec4(x, y, z, 1.0f);
+  // Transform by the inverse projection matrix
+  vec4 vPositionVS = inverse(cameraTransforms.projection) * projectedPosition;
+  // Divide by w to get the view-space position
+  return vec4(vPositionVS.xyz / vPositionVS.w, 1.0);
+}
+
+vec3 previousScreenSpacePosition(vec3 worldSpacePosition) {
+  vec4 viewSpacePosition = inverse(previousInverseViewMatrix) * vec4(worldSpacePosition, 1.0);
+  vec4 clipSpacePosition = cameraTransforms.projection * viewSpacePosition;
+
+  return vec3(clipSpacePosition.xy / clipSpacePosition.w, 0.0);
+}
+
+void main() {
+  // reproject to previous frame screen space
+  vec4 currentViewSpacePosition = viewSpacePosition(texUv, false);
+
+  // current frame world-space
+  vec4 currentWorldSpacePosition = inverse(cameraTransforms.view) * currentViewSpacePosition;
+
+  vec3 lastScreenSpacePosition = previousScreenSpacePosition(currentWorldSpacePosition.xyz);
+  vec2 lastFrameTexUv = lastScreenSpacePosition.xy * 0.5 + 0.5;
+
+  // unproject to previous frame world space
+  vec4 previousWorldSpacePosition = previousInverseViewMatrix * viewSpacePosition(lastFrameTexUv, true);
+
+  // detect disocclusion
+  float dist2 = dot(currentWorldSpacePosition.xyz - previousWorldSpacePosition.xyz,
+                    currentWorldSpacePosition.xyz - previousWorldSpacePosition.xyz);
+
+  // fetch values
+  vec2 currAO = texture(inputTextures[1], texUv).rg;
+  vec2 accumAO = texture(inputTextures[0], lastFrameTexUv).rg;
+
+  float weight = max(0.0, 0.8 - sqrt(dist2) * 100);
+  float ao = mix(currAO.x, accumAO.x, weight);
+
+  // fragColor = vec4(currentWorldSpacePosition.xyz, 1.0);
+  fragColor = vec4(vec3(ao), 1.0);
+}
+#version 330 core
+#define GAMMA 2.0
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec3 fragNormal;
+
+in vec3 texUv;
+
+uniform samplerCube cubeTextures[1];
+
+void main() {
+  // invert z components of sample vector due to VRML default camera orientation looking towards -z
+  fragNormal = vec3(0.0);
+  fragColor = textureLod(cubeTextures[0], vec3(texUv.xy, -texUv.z), 0);
+  fragColor.rgb = pow(fragColor.rgb, vec3(GAMMA));
+}
+#version 330
+
+#define SMAASampleLevelZeroOffset(tex, coord, offset) texture(tex, coord + float(offset) * RESOLUTION)
+#define SMAASampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)
+#define SMAA_AREATEX_SELECT(sample) sample.rg
+
+#define RESOLUTION (1.0 / viewportSize)
+#define mad(a, b, c) (a * b + c)
+
+#define SMAA_MAX_SEARCH_STEPS 16
+#define SMAA_AREATEX_MAX_DISTANCE 16
+#define SMAA_AREATEX_MAX_DISTANCE_DIAG 20
+#define SMAA_MAX_SEARCH_STEPS_DIAG 8
+#define SMAA_AREATEX_PIXEL_SIZE (1.0 / vec2(160.0, 560.0))
+#define SMAA_AREATEX_SUBTEX_SIZE (1.0 / 7.0)
+#define SMAA_CORNER_ROUNDING 25
+#define SMAA_CORNER_ROUNDING_NORM (float(SMAA_CORNER_ROUNDING) / 100.0)
+
+uniform sampler2D inputTextures[3];
+uniform vec2 viewportSize;
+
+in vec2 texUv;
+in vec4 texUvOffsets[3];
+in vec2 vPixcoord;
+
+layout(location = 0) out vec4 result;
+
+vec2 round(vec2 x) {
+  return sign(x) * floor(abs(x) + 0.5);
+}
+
+vec4 round(vec4 x) {
+  return sign(x) * floor(abs(x) + 0.5);
+}
+
+/**
+ * Conditional move:
+ */
+void SMAAMovc(bvec2 cond, inout vec2 variable, vec2 value) {
+  if (cond.x)
+    variable.x = value.x;
+  if (cond.y)
+    variable.y = value.y;
+}
+
+void SMAAMovc(bvec4 cond, inout vec4 variable, vec4 value) {
+  SMAAMovc(cond.xy, variable.xy, value.xy);
+  SMAAMovc(cond.zw, variable.zw, value.zw);
+}
+
+//-----------------------------------------------------------------------------
+// Corner Detection Functions
+
+void SMAADetectHorizontalCornerPattern(sampler2D edgesTex, inout vec2 weights, vec4 texcoord, vec2 d) {
+  vec2 leftRight = step(d.xy, d.yx);
+  vec2 rounding = (1.0 - SMAA_CORNER_ROUNDING_NORM) * leftRight;
+
+  rounding /= leftRight.x + leftRight.y;  // Reduce blending for pixels in the center of a line.
+
+  vec2 factor = vec2(1.0, 1.0);
+  factor.x -= rounding.x * SMAASampleLevelZeroOffset(edgesTex, texcoord.xy, ivec2(0, 1)).r;
+  factor.x -= rounding.y * SMAASampleLevelZeroOffset(edgesTex, texcoord.zw, ivec2(1, 1)).r;
+  factor.y -= rounding.x * SMAASampleLevelZeroOffset(edgesTex, texcoord.xy, ivec2(0, -2)).r;
+  factor.y -= rounding.y * SMAASampleLevelZeroOffset(edgesTex, texcoord.zw, ivec2(1, -2)).r;
+
+  weights *= clamp(factor, 0.0, 1.0);
+}
+
+void SMAADetectVerticalCornerPattern(sampler2D edgesTex, inout vec2 weights, vec4 texcoord, vec2 d) {
+  vec2 leftRight = step(d.xy, d.yx);
+  vec2 rounding = (1.0 - SMAA_CORNER_ROUNDING_NORM) * leftRight;
+
+  rounding /= leftRight.x + leftRight.y;
+
+  vec2 factor = vec2(1.0, 1.0);
+  factor.x -= rounding.x * SMAASampleLevelZeroOffset(edgesTex, texcoord.xy, ivec2(1, 0)).g;
+  factor.x -= rounding.y * SMAASampleLevelZeroOffset(edgesTex, texcoord.zw, ivec2(1, 1)).g;
+  factor.y -= rounding.x * SMAASampleLevelZeroOffset(edgesTex, texcoord.xy, ivec2(-2, 0)).g;
+  factor.y -= rounding.y * SMAASampleLevelZeroOffset(edgesTex, texcoord.zw, ivec2(-2, 1)).g;
+
+  weights *= clamp(factor, 0.0, 1.0);
+}
+
+//-----------------------------------------------------------------------------
+// Diagonal Search Functions
+
+/**
+ * Allows to decode two binary values from a bilinear-filtered access.
+ */
+vec2 SMAADecodeDiagBilinearAccess(vec2 e) {
+  // Bilinear access for fetching 'e' have a 0.25 offset, and we are
+  // interested in the R and G edges:
+  //
+  // +---G---+-------+
+  // |   x o R   x   |
+  // +-------+-------+
+  //
+  // Then, if one of these edge is enabled:
+  //   Red:   (0.75 * X + 0.25 * 1) => 0.25 or 1.0
+  //   Green: (0.75 * 1 + 0.25 * X) => 0.75 or 1.0
+  //
+  // This function will unpack the values (mad + mul + round):
+  // wolframalpha.com: round(x * abs(5 * x - 5 * 0.75)) plot 0 to 1
+  e.r = e.r * abs(5.0 * e.r - 5.0 * 0.75);
+  return round(e);
+}
+
+vec4 SMAADecodeDiagBilinearAccess(vec4 e) {
+  e.rb = e.rb * abs(5.0 * e.rb - 5.0 * 0.75);
+  return round(e);
+}
+
+/**
+ * These functions allows to perform diagonal pattern searches.
+ */
+vec2 SMAASearchDiag1(sampler2D edgesTex, vec2 texcoord, vec2 dir, out vec2 e) {
+  vec4 coord = vec4(texcoord, -1.0, 1.0);
+  vec3 t = vec3(RESOLUTION.xy, 1.0);
+  while (coord.z < float(SMAA_MAX_SEARCH_STEPS_DIAG - 1) && coord.w > 0.9) {
+    coord.xyz = mad(t, vec3(dir, 1.0), coord.xyz);
+    e = SMAASampleLevelZero(edgesTex, coord.xy).rg;
+    coord.w = dot(e, vec2(0.5, 0.5));
+  }
+  return coord.zw;
+}
+
+vec2 SMAASearchDiag2(sampler2D edgesTex, vec2 texcoord, vec2 dir, out vec2 e) {
+  vec4 coord = vec4(texcoord, -1.0, 1.0);
+  coord.x += 0.25 * RESOLUTION.x;  // See @SearchDiag2Optimization
+  vec3 t = vec3(RESOLUTION.xy, 1.0);
+  while (coord.z < float(SMAA_MAX_SEARCH_STEPS_DIAG - 1) && coord.w > 0.9) {
+    coord.xyz = mad(t, vec3(dir, 1.0), coord.xyz);
+
+    // @SearchDiag2Optimization
+    // Fetch both edges at once using bilinear filtering:
+    e = SMAASampleLevelZero(edgesTex, coord.xy).rg;
+    e = SMAADecodeDiagBilinearAccess(e);
+
+    // Non-optimized version:
+    // e.g = SMAASampleLevelZero(edgesTex, coord.xy).g;
+    // e.r = SMAASampleLevelZeroOffset(edgesTex, coord.xy, ivec2(1, 0)).r;
+
+    coord.w = dot(e, vec2(0.5, 0.5));
+  }
+  return coord.zw;
+}
+
+/**
+ * Similar to SMAAArea, this calculates the area corresponding to a certain
+ * diagonal distance and crossing edges 'e'.
+ */
+vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
+  vec2 texcoord = mad(vec2(SMAA_AREATEX_MAX_DISTANCE_DIAG, SMAA_AREATEX_MAX_DISTANCE_DIAG), e, dist);
+
+  // We do a scale and bias for mapping to texel space:
+  texcoord = mad(SMAA_AREATEX_PIXEL_SIZE, texcoord, 0.5 * SMAA_AREATEX_PIXEL_SIZE);
+
+  // Diagonal areas are on the second half of the texture:
+  texcoord.x += 0.5;
+
+  // Move to proper place, according to the subpixel offset:
+  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * offset;
+
+  // Do it!
+  return SMAA_AREATEX_SELECT(SMAASampleLevelZero(areaTex, texcoord));
+}
+
+/**
+ * This searches for diagonal patterns and returns the corresponding weights.
+ */
+vec2 SMAACalculateDiagWeights(sampler2D edgesTex, sampler2D areaTex, vec2 texcoord, vec2 e, vec4 subsampleIndices) {
+  vec2 weights = vec2(0.0, 0.0);
+
+  // Search for the line ends:
+  vec4 d;
+  vec2 end;
+  if (e.r > 0.0) {
+    d.xz = SMAASearchDiag1(edgesTex, texcoord, vec2(-1.0, 1.0), end);
+    d.x += float(end.y > 0.9);
+  } else
+    d.xz = vec2(0.0, 0.0);
+  d.yw = SMAASearchDiag1(edgesTex, texcoord, vec2(1.0, -1.0), end);
+
+  if (d.x + d.y > 2.0) {  // d.x + d.y + 1 > 3
+    // Fetch the crossing edges:
+    vec4 coords = mad(vec4(-d.x + 0.25, d.x, d.y, -d.y - 0.25), RESOLUTION.xyxy, texcoord.xyxy);
+    vec4 c;
+    c.xy = SMAASampleLevelZeroOffset(edgesTex, coords.xy, ivec2(-1, 0)).rg;
+    c.zw = SMAASampleLevelZeroOffset(edgesTex, coords.zw, ivec2(1, 0)).rg;
+    c.yxwz = SMAADecodeDiagBilinearAccess(c.xyzw);
+
+    // Non-optimized version:
+    // vec4 coords = mad(vec4(-d.x, d.x, d.y, -d.y), RESOLUTION.xyxy, texcoord.xyxy);
+    // vec4 c;
+    // c.x = SMAASampleLevelZeroOffset(edgesTex, coords.xy, ivec2(-1,  0)).g;
+    // c.y = SMAASampleLevelZeroOffset(edgesTex, coords.xy, ivec2( 0,  0)).r;
+    // c.z = SMAASampleLevelZeroOffset(edgesTex, coords.zw, ivec2( 1,  0)).g;
+    // c.w = SMAASampleLevelZeroOffset(edgesTex, coords.zw, ivec2( 1, -1)).r;
+
+    // Merge crossing edges at each side into a single value:
+    vec2 cc = mad(vec2(2.0, 2.0), c.xz, c.yw);
+
+    // Remove the crossing edge if we didn't found the end of the line:
+    SMAAMovc(bvec2(step(0.9, d.zw)), cc, vec2(0.0, 0.0));
+
+    // Fetch the areas for this line:
+    weights += SMAAAreaDiag(areaTex, d.xy, cc, subsampleIndices.z);
+  }
+
+  // Search for the line ends:
+  d.xz = SMAASearchDiag2(edgesTex, texcoord, vec2(-1.0, -1.0), end);
+  if (SMAASampleLevelZeroOffset(edgesTex, texcoord, ivec2(1, 0)).r > 0.0) {
+    d.yw = SMAASearchDiag2(edgesTex, texcoord, vec2(1.0, 1.0), end);
+    d.y += float(end.y > 0.9);
+  } else
+    d.yw = vec2(0.0, 0.0);
+
+  if (d.x + d.y > 2.0) {  // d.x + d.y + 1 > 3
+    // Fetch the crossing edges:
+    vec4 coords = mad(vec4(-d.x, -d.x, d.y, d.y), RESOLUTION.xyxy, texcoord.xyxy);
+    vec4 c;
+    c.x = SMAASampleLevelZeroOffset(edgesTex, coords.xy, ivec2(-1, 0)).g;
+    c.y = SMAASampleLevelZeroOffset(edgesTex, coords.xy, ivec2(0, -1)).r;
+    c.zw = SMAASampleLevelZeroOffset(edgesTex, coords.zw, ivec2(1, 0)).gr;
+    vec2 cc = mad(vec2(2.0, 2.0), c.xz, c.yw);
+
+    // Remove the crossing edge if we didn't found the end of the line:
+    SMAAMovc(bvec2(step(0.9, d.zw)), cc, vec2(0.0, 0.0));
+
+    // Fetch the areas for this line:
+    weights += SMAAAreaDiag(areaTex, d.xy, cc, subsampleIndices.w).gr;
+  }
+
+  return weights;
+}
+
+float SMAASearchLength(sampler2D searchTex, vec2 e, float bias, float scale) {
+  // Not required if searchTex accesses are set to point:
+  // vec2 SEARCH_TEX_PIXEL_SIZE = 1.0 / vec2(66.0, 33.0);
+  // e = vec2(bias, 0.0) + 0.5 * SEARCH_TEX_PIXEL_SIZE +
+  //     e * vec2(scale, 1.0) * vec2(64.0, 32.0) * SEARCH_TEX_PIXEL_SIZE;
+  e.r = bias + e.r * scale;
+  return 255.0 * texture(searchTex, e).r;
+}
+
+float SMAASearchXLeft(sampler2D edgesTex, sampler2D searchTex, vec2 texcoord, float end) {
+  /**
+   * @PSEUDO_GATHER4
+   * This texcoord has been offset by (-0.25, -0.125) in the vertex shader to
+   * sample between edge, thus fetching four edges in a row.
+   * Sampling with different offsets in each direction allows to disambiguate
+   * which edges are active from the four fetched ones.
+   */
+  vec2 e = vec2(0.0, 1.0);
+
+  for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++) {  // WebGL port note: Changed while to for
+    e = texture(edgesTex, texcoord).rg;
+    texcoord -= vec2(2.0, 0.0) * RESOLUTION;
+    if (!(texcoord.x > end && e.g > 0.8281 && e.r == 0.0))
+      break;
+  }
+
+  // We correct the previous (-0.25, -0.125) offset we applied:
+  texcoord.x += 0.25 * RESOLUTION.x;
+
+  // The searches are bias by 1, so adjust the coords accordingly:
+  texcoord.x += RESOLUTION.x;
+
+  // Disambiguate the length added by the last step:
+  texcoord.x += 2.0 * RESOLUTION.x;  // Undo last step
+  texcoord.x -= RESOLUTION.x * SMAASearchLength(searchTex, e, 0.0, 0.5);
+
+  return texcoord.x;
+}
+
+float SMAASearchXRight(sampler2D edgesTex, sampler2D searchTex, vec2 texcoord, float end) {
+  vec2 e = vec2(0.0, 1.0);
+
+  for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++) {  // WebGL port note: Changed while to for
+    e = texture(edgesTex, texcoord, 0.0).rg;
+    texcoord += vec2(2.0, 0.0) * RESOLUTION;
+    if (!(texcoord.x < end && e.g > 0.8281 && e.r == 0.0))
+      break;
+  }
+
+  texcoord.x -= 0.25 * RESOLUTION.x;
+  texcoord.x -= RESOLUTION.x;
+  texcoord.x -= 2.0 * RESOLUTION.x;
+  texcoord.x += RESOLUTION.x * SMAASearchLength(searchTex, e, 0.5, 0.5);
+
+  return texcoord.x;
+}
+
+float SMAASearchYUp(sampler2D edgesTex, sampler2D searchTex, vec2 texcoord, float end) {
+  vec2 e = vec2(1.0, 0.0);
+
+  for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++) {  // WebGL port note: Changed while to for
+    e = texture(edgesTex, texcoord, 0.0).rg;
+    texcoord += vec2(0.0, 2.0) * RESOLUTION;  // WebGL port note: Changed sign
+    if (!(texcoord.y > end && e.r > 0.8281 && e.g == 0.0))
+      break;
+  }
+
+  texcoord.y -= 0.25 * RESOLUTION.y;                                         // WebGL port note: Changed sign
+  texcoord.y -= RESOLUTION.y;                                                // WebGL port note: Changed sign
+  texcoord.y -= 2.0 * RESOLUTION.y;                                          // WebGL port note: Changed sign
+  texcoord.y += RESOLUTION.y * SMAASearchLength(searchTex, e.gr, 0.0, 0.5);  // WebGL port note: Changed sign
+
+  return texcoord.y;
+}
+
+float SMAASearchYDown(sampler2D edgesTex, sampler2D searchTex, vec2 texcoord, float end) {
+  vec2 e = vec2(1.0, 0.0);
+
+  for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++) {
+    e = texture(edgesTex, texcoord, 0.0).rg;
+    texcoord -= vec2(0.0, 2.0) * RESOLUTION;
+    if (!(texcoord.y < end && e.r > 0.8281 && e.g == 0.0))
+      break;
+  }
+
+  texcoord.y += 0.25 * RESOLUTION.y;                                         // WebGL port note: Changed sign
+  texcoord.y += RESOLUTION.y;                                                // WebGL port note: Changed sign
+  texcoord.y += 2.0 * RESOLUTION.y;                                          // WebGL port note: Changed sign
+  texcoord.y -= RESOLUTION.y * SMAASearchLength(searchTex, e.gr, 0.5, 0.5);  // WebGL port note: Changed sign
+
+  return texcoord.y;
+}
+
+vec2 SMAAArea(sampler2D areaTex, vec2 dist, float e1, float e2, float offset) {
+  // Rounding prevents precision errors of bilinear filtering:
+  vec2 texcoord = float(SMAA_AREATEX_MAX_DISTANCE) * round(4.0 * vec2(e1, e2)) + dist;
+
+  // We do a scale and bias for mapping to texel space:
+  texcoord = SMAA_AREATEX_PIXEL_SIZE * texcoord + (0.5 * SMAA_AREATEX_PIXEL_SIZE);
+
+  // Move to proper place, according to the subpixel offset:
+  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * offset;
+
+  return texture(areaTex, texcoord, 0.0).rg;
+}
+
+vec4 SMAABlendingWeightCalculationPS(vec2 texcoord, vec2 pixcoord, vec4 offset[3], sampler2D edgesTex, sampler2D areaTex,
+                                     sampler2D searchTex, ivec4 subsampleIndices) {
+  vec4 weights = vec4(0.0, 0.0, 0.0, 0.0);
+
+  vec2 e = texture(edgesTex, texcoord).rg;
+
+  if (e.g > 0.0) {  // Edge at north
+
+    // Diagonals have both north and west edges, so searching for them in
+    // one of the boundaries is enough.
+    weights.rg = SMAACalculateDiagWeights(edgesTex, areaTex, texcoord, e, subsampleIndices);
+
+    // We give priority to diagonals, so if we find a diagonal we skip
+    // horizontal/vertical processing.
+    if (weights.r == -weights.g) {  // weights.r + weights.g == 0.0
+
+      vec2 d;
+
+      // Find the distance to the left:
+      vec2 coords;
+      coords.x = SMAASearchXLeft(edgesTex, searchTex, offset[0].xy, offset[2].x);
+      coords.y = offset[1].y;  // offset[1].y = texcoord.y - 0.25 * RESOLUTION.y (@CROSSING_OFFSET)
+      d.x = coords.x;
+
+      // Now fetch the left crossing edges, two at a time using bilinear
+      // filtering. Sampling at -0.25 (see @CROSSING_OFFSET) enables to
+      // discern what value each edge has:
+      float e1 = texture(edgesTex, coords, 0.0).r;
+
+      // Find the distance to the right:
+      coords.x = SMAASearchXRight(edgesTex, searchTex, offset[0].zw, offset[2].y);
+      d.y = coords.x;
+
+      // We want the distances to be in pixel units (doing this here allow to
+      // better interleave arithmetic and memory accesses):
+      d = d / RESOLUTION.x - pixcoord.x;
+
+      // SMAAArea below needs a sqrt, as the areas texture is compressed
+      // quadratically:
+      vec2 sqrt_d = sqrt(abs(d));
+
+      // Fetch the right crossing edges:
+      coords.y -= 1.0 * RESOLUTION.y;  // WebGL port note: Added
+      float e2 = SMAASampleLevelZeroOffset(edgesTex, coords, ivec2(1, 0)).r;
+
+      // Ok, we know how this pattern looks like, now it is time for getting
+      // the actual area:
+      weights.rg = SMAAArea(areaTex, sqrt_d, e1, e2, float(subsampleIndices.y));
+
+      // fix corners
+      coords.y = texcoord.y;
+      SMAADetectHorizontalCornerPattern(edgesTex, weights.rg, coords.xyxy, d);
+
+    } else
+      e.r = 0.0;  // Skip vertical processing.
+  }
+
+  if (e.r > 0.0) {  // Edge at west
+    vec2 d;
+
+    // Find the distance to the top:
+    vec2 coords;
+
+    coords.y = SMAASearchYUp(edgesTex, searchTex, offset[1].xy, offset[2].z);
+    coords.x = offset[0].x;  // offset[1].x = texcoord.x - 0.25 * RESOLUTION.x;
+    d.x = coords.y;
+
+    // Fetch the top crossing edges:
+    float e1 = texture(edgesTex, coords, 0.0).g;
+
+    // Find the distance to the bottom:
+    coords.y = SMAASearchYDown(edgesTex, searchTex, offset[1].zw, offset[2].w);
+    d.y = coords.y;
+
+    // We want the distances to be in pixel units:
+    d = d / RESOLUTION.y - pixcoord.y;
+
+    // SMAAArea below needs a sqrt, as the areas texture is compressed
+    // quadratically:
+    vec2 sqrt_d = sqrt(abs(d));
+
+    // Fetch the bottom crossing edges:
+    coords.y -= 1.0 * RESOLUTION.y;  // WebGL port note: Added
+    float e2 = SMAASampleLevelZeroOffset(edgesTex, coords, ivec2(0, 1)).g;
+
+    // Get the area for this direction:
+    weights.ba = SMAAArea(areaTex, sqrt_d, e1, e2, float(subsampleIndices.x));
+
+    // Fix corners
+    coords.x = texcoord.x;
+    SMAADetectVerticalCornerPattern(edgesTex, weights.ba, coords.xyxy, d);
+  }
+
+  return vec4(weights);
+}
+
+void main() {
+  result = SMAABlendingWeightCalculationPS(texUv, vPixcoord, texUvOffsets, inputTextures[0], inputTextures[1], inputTextures[2],
+                                           ivec4(0.0));
+}
+#version 330
+
+in vec3 color;
+
+out vec4 fragColor;
+
+uniform bool colorPerVertex;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  // Use vertex color if enabled
+  if (colorPerVertex)
+    fragColor = vec4(color, material.emissiveAndOpacity.w);
+  else
+    fragColor = material.emissiveAndOpacity;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+out vec2 texUv;
+out vec2 seed;
+
+uniform float time;
+
+// http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+// https://www.wolframalpha.com/input/?i=plot%28+mod%28+sin%28mod%28x*12.9898+%2B+y*78.233%2C+3.14%29%29+*+43758.5453%2C1%29x%3D0..2%2C+y%3D0..2%29
+highp float rand(vec2 seed) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt = dot(seed.xy, vec2(a, b));
+  highp float sn = mod(dt, 3.14);
+  return fract(sin(sn) * c);
+}
+
+void main() {
+  texUv = vTexCoord;
+
+  float random = rand(vec2(time, time));
+  seed = vec2(random, rand(vec2(random, random)));
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+in vec3 fragmentPosition;
+in vec3 normalTransformed;
+
+out vec4 fragColor;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+float specularReflection(in vec3 lightDirection, in vec3 normal, in vec3 viewDirection) {
+  vec3 halfwayDirection = normalize(lightDirection + viewDirection);
+  return pow(max(dot(normal, halfwayDirection), 0.0), material.specularAndExponent.w);
+}
+
+void main() {
+  vec3 ambientTotal = vec3(1.0);
+  vec3 diffuseTotal = vec3(0.0);
+  vec3 specularTotal = vec3(0.0);
+
+  vec3 fragmentNormal = normalize(normalTransformed);
+  vec3 viewDirection = normalize(-fragmentPosition);
+
+  vec3 directionToLight = normalize(vec3(1.0));
+  vec4 colorAndIntensity = vec4(1.0);
+
+  float lambert = dot(directionToLight, fragmentNormal);
+
+  if (lambert > 0.0) {
+    float diffuse = lambert * colorAndIntensity.w;
+    diffuseTotal += diffuse * colorAndIntensity.xyz;
+
+    float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * colorAndIntensity.w;
+    specularTotal += specular * colorAndIntensity.xyz;
+  }
+
+  ambientTotal *= material.ambient.xyz;
+  diffuseTotal *= material.diffuse.xyz;
+  specularTotal *= material.specularAndExponent.xyz;
+
+  fragColor =
+    vec4(clamp(clamp(material.emissiveAndOpacity.xyz + ambientTotal, 0.0, 1.0) + clamp(diffuseTotal + specularTotal, 0.0, 1.0),
+               0.0, 1.0),
+         material.emissiveAndOpacity.w);
+}
+#version 330
+out vec3 fragColor;
+in vec3 worldPosition;
+
+uniform samplerCube cubeTextures[1];
+
+const float PI = 3.14159265359;
+
+void main() {
+  // The world vector acts as the normal of a tangent surface
+  // from the origin, aligned to worldPosition. Given this normal, calculate all
+  // incoming radiance of the environment. The result of this radiance
+  // is the radiance of light coming from -Normal direction, which is what
+  // we use in the PBR shader to sample irradiance.
+  vec3 N = normalize(worldPosition);
+
+  vec3 irradiance = vec3(0.0);
+
+  // tangent space calculation from origin point
+  vec3 up = vec3(0.0, 1.0, 0.0);
+  vec3 right = cross(up, N);
+  up = cross(N, right);
+
+  float sampleDelta = 0.025;
+  float nrSamples = 0.0;
+  for (float phi = 0.0; phi < 2.0 * PI; phi += sampleDelta) {
+    for (float theta = 0.0; theta < 0.5 * PI; theta += sampleDelta) {
+      // spherical to cartesian (in tangent space)
+      vec3 tangentSample = vec3(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
+      // tangent space to world
+      vec3 sampleVec = tangentSample.x * right + tangentSample.y * up + tangentSample.z * N;
+
+      irradiance += texture(cubeTextures[0], sampleVec).rgb * cos(theta) * sin(theta);
+      nrSamples++;
+    }
+  }
+  irradiance = PI * irradiance * (1.0 / float(nrSamples));
+
+  fragColor = irradiance;
+}
+#version 300 es
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec2 texUv;
+out vec2 penTexUv;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;
+}
+material;
+
+void main() {
+  gl_Position = cameraTransforms.infiniteProjection * cameraTransforms.view * modelTransform * vec4(vCoord, 1.0);
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+layout(location = 0) in vec3 aPos;
+
+out vec3 worldPosition;
+
+uniform mat4 projection;
+uniform mat4 view;
+
+void main() {
+  worldPosition = aPos;
+  gl_Position = projection * view * vec4(worldPosition, 1.0);
+}
+#version 330
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+const int mainTextureIndex = 0;
+const int penTextureIndex = 1;
+const int backgroundTextureIndex = 2;
+
+in vec2 texUv;
+in vec2 penTexUv;
+in vec3 fragmentNormal;
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
+
+uniform sampler2D inputTextures[3];
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+  ivec3 mLightCount;
+}
+lights;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+void main() {
+  fragNormal = vec4(normalize(fragmentNormal), 1.0) * 0.5 + 0.5;
+
+  vec3 ambientColor = vec3(lights.ambientLight) * material.ambient.xyz;
+
+  vec4 texColor = vec4(1.0);
+  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0)
+    texColor.w = 0.0;
+
+  // Background texture
+  if (material.textureFlags.z > 0.0) {
+    texColor.rgb = texture(inputTextures[backgroundTextureIndex], texUv).rgb;
+    texColor.w = 1.0;
+  }
+
+  // Main texture
+  if (material.textureFlags.x > 0.0) {
+    vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
+    texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+  }
+
+  // Pen texture
+  if (material.textureFlags.y > 0.0) {
+    vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+    texColor = vec4(mix(texColor.xyz, penColor.xyz, penColor.w), texColor.w);
+  }
+
+  fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientColor, material.emissiveAndOpacity.w);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+const float closeButtonSize = 10.0;
+const float resizeButtonSize = 16.0;
+
+out float aspectRatio;
+out float closeButtonProportionX;
+out float closeButtonProportionY;
+out float resizeButtonProportionX;
+out float resizeButtonProportionY;
+
+// Two sets of texcoords are needed since main texture may be flipped
+out vec2 texUv;
+out vec2 texUvFrame;
+
+layout(std140) uniform Overlay {
+  vec4 positionAndSize;  // in percentage of OpenGL viewport size
+  vec4 defaultSize;      // x,y: size, z: render default size instead of actual overlay
+  vec4 borderColor;
+  vec4 backgroundColor;
+  vec4 activeFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
+  vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
+                      // w: overlay transparency
+  vec2 sizeInPixels;  // x,y: size in screen pixels
+  vec2 borderSize;    // x: vertical size, y: horizontal size in percentage of OpenGL viewport size
+}
+overlay;
+
+void main() {
+  aspectRatio = overlay.sizeInPixels.x / overlay.sizeInPixels.y;
+  closeButtonProportionX = closeButtonSize / overlay.sizeInPixels.x;
+  closeButtonProportionY = aspectRatio * closeButtonProportionX;
+  resizeButtonProportionX = resizeButtonSize / overlay.sizeInPixels.x;
+  resizeButtonProportionY = aspectRatio * resizeButtonProportionX;
+
+  texUv = vTexCoord;
+
+  // render default size if requested
+  vec2 actualSize = overlay.positionAndSize.zw;
+  if (overlay.defaultSize.z > 0.0)
+    actualSize = overlay.defaultSize.xy;
+
+  // if texcoords are not in [0.0, 1.0], the border color will be used in the fragment shader
+  vec2 sizeWithBorder = actualSize;
+  if (overlay.activeFlags.w > 0.0) {
+    sizeWithBorder += 2.0 * overlay.borderSize;
+    vec2 scaleFactor = sizeWithBorder / actualSize;
+    texUv -= vec2(0.5);
+    texUv *= scaleFactor;
+    texUv += vec2(0.5);
+  }
+
+  // vCoord.xy go from (0.0, 0.0) to (1.0, 1.0) (see definition of Quad mesh).
+  // overlay.positionAndSize.y goes from 0.0 (top) to 1.0 (bottom),
+  // which is the inverse direction of OpenGL clip space Y.
+  // First scale and translate the coordinates to be inside [(-1.0, -1.0), (1.0, 1.0)],
+  // then apply the offsets while inverting the Y axis.
+  vec2 finalPosition = 2.0 * sizeWithBorder * vec2(vCoord.x, vCoord.y);
+  finalPosition -= 1.0;
+  finalPosition += 2.0 * vec2(overlay.positionAndSize.x,                          // x offset
+                              1.0 - sizeWithBorder.y - overlay.positionAndSize.y  // y offset
+                         );
+
+  gl_Position = vec4(finalPosition, 0.0, 1.0);
+
+  texUvFrame = texUv;
+  // flip texture vertically if requested
+  if (overlay.textureFlags.x > 0.0)
+    texUv.y = 1.0 - texUv.y;
+}
+#version 330
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+in vec3 fragmentPosition;
+in vec3 fragmentNormal;
+in vec2 texUv;
+in vec2 penTexUv;
+in mat3 inverseViewMatrix;
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
+
+uniform sampler2D inputTextures[13];
+uniform samplerCube cubeTextures[1];
+
+struct PBRInfo {
+  float NdotL;                // cos angle between normal and light direction
+  float NdotV;                // cos angle between normal and view direction
+  float NdotH;                // cos angle between normal and half vector
+  float LdotH;                // cos angle between light direction and half vector
+  float VdotH;                // cos angle between view direction and half vector
+  float perceptualRoughness;  // roughness value, as authored by the model creator
+  float metalness;            // metallic value at the surface
+  vec3 reflectance0;          // full reflectance color (normal incidence angle)
+  vec3 reflectance90;         // reflectance color at grazing angle
+  float alphaRoughness;       // roughness mapped to a more linear change in the roughness
+  vec3 diffuseColor;          // color contribution from diffuse lighting
+  vec3 specularColor;         // color contribution from specular lighting
+};
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+  ivec3 mLightCount;
+}
+lights;
+
+// Material parameters for this renderable
+layout(std140) uniform PbrMaterial {
+  vec4 baseColorAndTransparency;
+  vec4 roughnessMetalnessNormalMapFactorOcclusion;
+  vec4 backgroundColorAndIblStrength;
+  vec4 emissiveColorAndIntensity;
+  vec4 baseColorRoughnessMetalnessOcclusionMapFlags;
+  vec4 normalBrdfEmissiveBackgroundFlags;
+  vec4 penFlags;
+  vec4 cubeTextureFlags;
+}
+material;
+
+layout(std140) uniform Fog {
+  vec2 mode;    // x: fogType, y: depthType
+  vec4 params;  // x: density, y: density2, z: fog end, w: inverse range
+  vec4 color;
+}
+fog;
+
+const float M_PI = 3.141592653589793;
+const float minRoughness = 0.04;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+mat3 cotangentFrame(vec3 N, vec3 p, vec2 uv) {
+  // get edge vectors of the pixel triangle
+  vec3 dp1 = dFdx(p);
+  vec3 dp2 = dFdy(p);
+  vec2 duv1 = dFdx(uv);
+  vec2 duv2 = dFdy(uv);
+
+  if (duv1 == vec2(0.0) && duv2 == vec2(0.0))
+    return mat3(vec3(0.0), vec3(0.0), N);
+
+  // solve the linear system
+  vec3 dp2perp = cross(dp2, N);
+  vec3 dp1perp = cross(N, dp1);
+  vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
+  vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+
+  // construct a scale-invariant frame
+  float scale = max(dot(T, T), dot(B, B));
+  if (scale <= 0.0)  // inversesqrt result is undefined for value <= 0
+    return mat3(T, B, N);
+  float invmax = inversesqrt(scale);
+  return mat3(T * invmax, B * invmax, N);
+}
+
+vec3 perturbNormal(vec3 N, vec3 V) {
+  vec3 map = texture(inputTextures[4], texUv).rgb * 2.0 - 1.0;
+  map.xy = vec2(material.roughnessMetalnessNormalMapFactorOcclusion.z) * map.xy;
+  mat3 TBN = cotangentFrame(N, -V, texUv);
+  return normalize(TBN * map);
+}
+
+// Basic Lambertian diffuse
+// Implementation from Lambert's Photometria https://archive.org/details/lambertsphotome00lambgoog
+vec3 diffuse(PBRInfo pbrInputs) {
+  return pbrInputs.diffuseColor / M_PI;
+}
+
+// The following equation models the Fresnel reflectance term of the spec equation (aka F())
+vec3 specularReflection(PBRInfo pbrInputs) {
+  return pbrInputs.reflectance0 +
+         (pbrInputs.reflectance90 - pbrInputs.reflectance0) * pow(clamp(1.0 - pbrInputs.VdotH, 0.0, 1.0), 5.0);
+}
+
+// This calculates the specular geometric attenuation (aka G()),
+// where rougher material will reflect less light back to the viewer.
+float geometricOcclusion(PBRInfo pbrInputs) {
+  float NdotL = pbrInputs.NdotL;
+  float NdotV = pbrInputs.NdotV;
+  float r = pbrInputs.alphaRoughness;
+
+  float attenuationL = 2.0 * NdotL / (NdotL + sqrt(r * r + (1.0 - r * r) * (NdotL * NdotL)));
+  float attenuationV = 2.0 * NdotV / (NdotV + sqrt(r * r + (1.0 - r * r) * (NdotV * NdotV)));
+  return attenuationL * attenuationV;
+}
+
+// The following equation(s) model the distribution of microfacet normals across the area being drawn (aka D())
+// Implementation from "Average Irregularity Representation of a Roughened Surface for Ray Reflection" by T. S. Trowbridge, and
+// K. P. Reitz Follows the distribution function recommended in the SIGGRAPH 2013 course notes from EPIC Games [1], Equation 3.
+float microfacetDistribution(PBRInfo pbrInputs) {
+  float roughnessSq = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
+  float f = (pbrInputs.NdotH * roughnessSq - pbrInputs.NdotH) * pbrInputs.NdotH + 1.0;
+  return roughnessSq / (M_PI * f * f);
+}
+
+vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection) {
+  vec3 diffuseLight = vec3(0.0);
+  vec3 specularLight = vec3(0.0);
+  vec2 brdf = texture(inputTextures[5], vec2(pbrInputs.NdotV, pbrInputs.perceptualRoughness)).xy;
+  if (material.cubeTextureFlags.x > 0.0) {
+    float mipCount = 7.0;
+    float lod = (pbrInputs.perceptualRoughness * mipCount);
+    // A single irradiance map is used for the diffuse and specular reflections:
+    // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
+    // invert z components of sample vectors due to VRML default camera orientation looking towards -z
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
+  } else {
+    diffuseLight = material.backgroundColorAndIblStrength.rgb;
+    specularLight = material.backgroundColorAndIblStrength.rgb;
+  }
+
+  vec3 diffuse = diffuseLight * pbrInputs.diffuseColor;
+  vec3 specular = specularLight * (pbrInputs.specularColor * brdf.x + brdf.y);
+
+  // scale ambient light contribution
+  diffuse *= material.backgroundColorAndIblStrength.w;
+  specular *= material.backgroundColorAndIblStrength.w;
+
+  return diffuse + specular;
+}
+
+vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float roughness, float metalness,
+             vec3 specularEnvironmentR0, vec3 specularEnvironmentR90, float alphaRoughness, vec3 diffuseColor,
+             vec3 specularColor) {
+  float NdotL = clamp(dot(n, l), 0.0001, 1.0);
+  float NdotV = abs(dot(n, v)) + 0.0001;
+  float NdotH = clamp(dot(n, h), 0.0, 1.0);
+  float LdotH = clamp(dot(l, h), 0.0, 1.0);
+  float VdotH = clamp(dot(v, h), 0.0, 1.0);
+  vec3 color = vec3(0.0);
+
+  PBRInfo pbrInputs = PBRInfo(NdotL, NdotV, NdotH, LdotH, VdotH, roughness, metalness, specularEnvironmentR0,
+                              specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+
+  vec3 F = specularReflection(pbrInputs);
+  float G = geometricOcclusion(pbrInputs);
+  float D = microfacetDistribution(pbrInputs);
+
+  vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs) * lightColorAndIntensity.w;
+  vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
+  // Obtain final intensity as reflectance (BRDF) scaled by the energy of the light (cosine law)
+  color = NdotL * lightColorAndIntensity.xyz * (diffuseContrib + specContrib) * lightColorAndIntensity.w;
+
+  return color;
+}
+
+void main() {
+  vec3 viewFragmentNormal = normalize(fragmentNormal);
+
+  fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
+
+  // sample from normal map if one exists
+  if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
+    viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
+
+  vec3 worldFragmentNormal = inverseViewMatrix * viewFragmentNormal;
+
+  // read roughness and metalness values
+  float perceptualRoughness = material.roughnessMetalnessNormalMapFactorOcclusion.x;
+  float metalness = material.roughnessMetalnessNormalMapFactorOcclusion.y;
+
+  // sample roughness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y > 0.0) {
+    vec4 roughnessSample = texture(inputTextures[1], texUv);
+    perceptualRoughness = roughnessSample.r;
+  }
+
+  // sample metalness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z > 0.0) {
+    vec4 metalnessSample = texture(inputTextures[2], texUv);
+    metalness = metalnessSample.r;
+  }
+
+  perceptualRoughness = clamp(perceptualRoughness, minRoughness, 1.0);
+  metalness = clamp(metalness, 0.0, 1.0);
+  float alphaRoughness = perceptualRoughness * perceptualRoughness;
+
+  vec4 baseColor = material.baseColorAndTransparency;
+  baseColor.w = 1.0 - baseColor.w;
+
+  // apply base color map if it exists, composite background texture if necessary
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x > 0.0) {
+    vec4 baseColorMapColor = SRGBtoLINEAR(texture(inputTextures[0], texUv));
+
+    if (material.normalBrdfEmissiveBackgroundFlags.w > 0.0) {
+      vec3 backgroundTextureColor = SRGBtoLINEAR(texture(inputTextures[7], texUv)).rgb;
+      baseColor.rgb = mix(backgroundTextureColor, baseColorMapColor.xyz, baseColorMapColor.w);
+    } else {
+      // take base color
+      baseColor = baseColorMapColor;
+      // re-apply transparency from base material
+      baseColor.w *= (1.0 - material.baseColorAndTransparency.w);
+    }
+
+    baseColor = vec4(baseColor.rgb * material.baseColorAndTransparency.rgb, baseColor.w);
+  }
+
+  // Mix with pen texture
+  if (material.penFlags.x > 0.0) {
+    vec4 penColor = texture(inputTextures[8], penTexUv);
+    baseColor = vec4(mix(baseColor.xyz, penColor.xyz, penColor.w), baseColor.w);
+  }
+
+  vec3 f0 = vec3(0.04);
+  vec3 diffuseColor = baseColor.rgb * (vec3(1.0) - f0);
+  diffuseColor *= 1.0 - metalness;
+  vec3 specularColor = mix(f0, baseColor.rgb, metalness);
+
+  // Compute reflectance.
+  float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
+
+  // For typical incident reflectance range (between 4% to 100%) set the grazing reflectance to 100% for typical fresnel effect.
+  // For very low reflectance range on highly diffuse objects (below 4%), incrementally reduce grazing reflecance to 0%.
+  float reflectance90 = clamp(reflectance * 25.0, 0.0, 1.0);
+  vec3 specularEnvironmentR0 = specularColor.rgb;
+  vec3 specularEnvironmentR90 = vec3(1.0, 1.0, 1.0) * reflectance90;
+
+  vec3 v = normalize(-fragmentPosition);
+  vec3 l = vec3(0.0, 1.0, 0.0);
+  vec3 h = vec3(0.0, 1.0, 0.0);
+  vec3 reflection = -normalize(reflect(inverseViewMatrix * v, worldFragmentNormal));
+
+  float NdotL = 0.0;
+  float NdotV = 0.0;
+  float NdotH = 0.0;
+  float LdotH = 0.0;
+  float VdotH = 0.0;
+
+  vec3 color = vec3(0.0);
+
+  // Apply active directional lights
+  for (int i = 0; i < lights.mLightCount.x; ++i) {
+    DirectionalLight light = lights.directionalLights[i];
+
+    // Direction in uniform buffer is already normalized and in view space
+    l = -vec3(light.direction);
+    h = normalize(l + v);
+
+    color += PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                     specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  // Apply active point lights
+  for (int i = 0; i < lights.mLightCount.y; ++i) {
+    PointLight light = lights.pointLights[i];
+
+    l = light.position.xyz - fragmentPosition;
+
+    float distanceToLight = length(l);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      continue;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    float attenuationFactor = 1.0 / (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+    l = normalize(l);
+    h = normalize(l + v);
+
+    color +=
+      attenuationFactor * PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                                  specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  // Apply active spot lights
+  for (int i = 0; i < lights.mLightCount.z; ++i) {
+    SpotLight light = lights.spotLights[i];
+
+    vec3 lightPosition = vec3(light.position);
+
+    // Direction from surface to light position in eye space
+    vec3 l = lightPosition - fragmentPosition;
+
+    // Distance between surface and light position
+    float distanceToLight = length(l);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      continue;  // not illuminated
+
+    l = normalize(l);
+
+    // Inverted spotlight direction
+    vec3 spotDirection = -light.direction.xyz;
+    // Angle between spotlight direction and direction from light to point
+    float spotAngle = acos(dot(l, spotDirection));
+    // Inner angle
+    float beamWidth = light.spotParams.x;
+    // Outer angle
+    float cutoffAngle = light.spotParams.y;
+
+    float attenuationFactor = 1.0;
+
+    // See if point on surface is inside cone of illumination defined by cutoff
+    if (spotAngle >= cutoffAngle)  // outside
+      continue;                    // light adds no contribution
+
+    else if (spotAngle > beamWidth)  // falloff
+      attenuationFactor *= (cutoffAngle - spotAngle) * light.spotParams.z;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    attenuationFactor /= (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+    l = normalize(l);
+    h = normalize(l + v);
+
+    color +=
+      attenuationFactor * PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                                  specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  PBRInfo pbrInputs = PBRInfo(0.0, dot(viewFragmentNormal, v) - 0.001, 0.0, 0.0, 0.0, perceptualRoughness, metalness,
+                              specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+
+  vec3 ambientColor = getIBLContribution(pbrInputs, worldFragmentNormal, reflection);
+
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.w > 0.0) {
+    float ao = texture(inputTextures[3], texUv).r;
+    ambientColor = mix(ambientColor, ambientColor * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
+  }
+
+  color += ambientColor;
+
+  vec3 emissive = material.emissiveColorAndIntensity.rgb;
+
+  if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
+    emissive = texture(inputTextures[6], texUv).rgb;
+
+  emissive *= material.emissiveColorAndIntensity.w;
+  color += emissive;
+
+  fragColor = vec4(color.rgb, baseColor.a);
+
+  if (fog.mode.x > 0.0) {
+    float fogDensity = fog.params.x;
+    float fogDensity2 = fog.params.y;
+    float fogEnd = fog.params.z;
+    float fogInverseScale = fog.params.w;
+
+    float z;
+    if (fog.mode.y == 1.0)
+      // Real point distance (length)
+      z = length(fragmentPosition.xyz);
+    else
+      // z-depth (plane distance)
+      z = -fragmentPosition.z;
+
+    float fogFactor;
+    if (fog.mode.x == 1.0)  // FOG_EXP
+      fogFactor = exp2(-fogDensity * z);
+    else if (fog.mode.x == 2.0)  // FOG_EXP2
+      fogFactor = exp2(-fogDensity2 * z * z);
+    else  // FOG_LINEAR
+      fogFactor = (fogEnd - z) * fogInverseScale;
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+  }
+}
+#version 330
+
+layout(location = 0) out vec4 result;
+
+void main() {
+  // color mask should be set to false for all channels so this value never gets written
+  result = vec4(0.8, 0.4, 0.0, 0.2);
+}
+#version 330
+
+in vec3 color;
+
+out vec4 fragColor;
+
+uniform bool colorPerVertex;
+uniform float pointSize;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+// Circle with antialiasing drawing
+// (https://www.desultoryquest.com/blog/drawing-anti-aliased-circular-points-using-opengl-slash-webgl/)
+void main() {
+  vec2 cxy = 2.0 * gl_PointCoord - 1.0;
+  float r = dot(cxy, cxy);
+  float delta = fwidth(r);
+  float alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);
+  alpha *= material.emissiveAndOpacity.w;
+
+  // Use vertex color if enabled
+  if (colorPerVertex)
+    fragColor = vec4(color, alpha);
+  else
+    fragColor = vec4(material.emissiveAndOpacity.xyz, alpha);
+}
+#version 330 core
+
+out vec3 fragColor;
+in vec2 texUv;
+
+const float PI = 3.14159265359;
+
+// http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
+// efficient VanDerCorpus calculation.
+float vanDerCorpusRadicalInverse(uint bits) {
+  bits = (bits << 16u) | (bits >> 16u);
+  bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
+  bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);
+  bits = ((bits & 0x0F0F0F0Fu) << 4u) | ((bits & 0xF0F0F0F0u) >> 4u);
+  bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
+  return float(bits) * 2.3283064365386963e-10;  // / 0x100000000
+}
+
+vec2 Hammersley(uint i, uint N) {
+  return vec2(float(i) / float(N), vanDerCorpusRadicalInverse(i));
+}
+
+vec3 ImportanceSampleGGX(vec2 Xi, vec3 N, float roughness) {
+  float a = roughness * roughness;
+
+  float phi = 2.0 * PI * Xi.x;
+  float cosTheta = sqrt((1.0 - Xi.y) / (1.0 + (a * a - 1.0) * Xi.y));
+  float sinTheta = sqrt(1.0 - cosTheta * cosTheta);
+
+  // from spherical coordinates to cartesian coordinates - halfway vector
+  vec3 H;
+  H.x = cos(phi) * sinTheta;
+  H.y = sin(phi) * sinTheta;
+  H.z = cosTheta;
+
+  // from tangent-space H vector to world-space sample vector
+  vec3 up = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
+  vec3 tangent = normalize(cross(up, N));
+  vec3 bitangent = cross(N, tangent);
+
+  vec3 sampleVec = tangent * H.x + bitangent * H.y + N * H.z;
+  return normalize(sampleVec);
+}
+
+float GeometrySchlickGGX(float NdotV, float roughness) {
+  // note that we use a different k for IBL
+  float a = roughness;
+  float k = (a * a) / 2.0;
+
+  float nom = NdotV;
+  float denom = NdotV * (1.0 - k) + k;
+
+  return nom / denom;
+}
+
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness) {
+  float NdotV = max(dot(N, V), 0.0);
+  float NdotL = max(dot(N, L), 0.0);
+  float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+  float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+
+  return ggx1 * ggx2;
+}
+
+vec2 IntegrateBRDF(float NdotV, float roughness) {
+  vec3 V;
+  V.x = sqrt(1.0 - NdotV * NdotV);
+  V.y = 0.0;
+  V.z = NdotV;
+
+  float A = 0.0;
+  float B = 0.0;
+
+  vec3 N = vec3(0.0, 0.0, 1.0);
+
+  const uint SAMPLE_COUNT = 1024u;
+  for (uint i = 0u; i < SAMPLE_COUNT; ++i) {
+    // generates a sample vector that's biased towards the
+    // preferred alignment direction (importance sampling).
+    vec2 Xi = Hammersley(i, SAMPLE_COUNT);
+    vec3 H = ImportanceSampleGGX(Xi, N, roughness);
+    vec3 L = normalize(2.0 * dot(V, H) * H - V);
+
+    float NdotL = max(L.z, 0.0);
+    float NdotH = max(H.z, 0.0);
+    float VdotH = max(dot(V, H), 0.0);
+
+    if (NdotL > 0.0) {
+      float G = GeometrySmith(N, V, L, roughness);
+      float G_Vis = (G * VdotH) / (NdotH * NdotV);
+      float Fc = pow(1.0 - VdotH, 5.0);
+
+      A += (1.0 - Fc) * G_Vis;
+      B += Fc * G_Vis;
+    }
+  }
+  A /= float(SAMPLE_COUNT);
+  B /= float(SAMPLE_COUNT);
+  return vec2(A, B);
+}
+
+void main() {
+  vec2 integratedBRDF = IntegrateBRDF(texUv.x, texUv.y);
+  fragColor = vec3(integratedBRDF, 0.0);
+}
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec2 aTexCoords;
+
+out vec2 texUv;
+
+void main() {
+  texUv = aTexCoords;
+  gl_Position = vec4(aPos, 1.0);
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+layout(location = 0) in vec4 vCoord;
+
+uniform mat4 modelTransform;
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+}
+lights;
+
+// Index of active light (< 0 if inactive)
+layout(std140) uniform LightRenderable {
+  ivec4 activeLights;  // x: directional, y: point, z: spot
+}
+lightRenderable;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void extrude(inout vec4 coord, in vec4 lightDirection, in float w) {
+  if (w == 0.0)
+    coord = vec4(lightDirection.xyz, 0.0);
+}
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+  vec4 vCoordTransformed = modelView * vec4(vCoord.xyz, 1.0);
+
+  // directional light
+  if (lightRenderable.activeLights.x >= 0) {
+    DirectionalLight light = lights.directionalLights[lightRenderable.activeLights.x];
+    extrude(vCoordTransformed, light.direction, vCoord.w);
+  } else {
+    vec3 lightPosition;
+    if (lightRenderable.activeLights.y >= 0)
+      lightPosition = lights.pointLights[lightRenderable.activeLights.y].position.xyz;
+    else
+      lightPosition = lights.spotLights[lightRenderable.activeLights.z].position.xyz;
+
+    vec4 lightDirection = vec4(vCoordTransformed.xyz - lightPosition, 0.0);
+    extrude(vCoordTransformed, lightDirection, vCoord.w);
+  }
+
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec3 fragmentPosition;
+out vec3 fragmentNormal;
+out vec2 texUv;
+out vec2 penTexUv;
+out mat3 inverseViewMatrix;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  inverseViewMatrix = mat3(inverse(cameraTransforms.view));
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  fragmentNormal = normalize(mat3(transpose(inverse(modelView))) * vNormal);
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+
+uniform mat4 modelTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  gl_Position = cameraTransforms.projection * cameraTransforms.view * modelTransform * vec4(vCoord, 1.0);
+}
+#version 330
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+const int mainTextureIndex = 0;
+const int penTextureIndex = 1;
+const int backgroundTextureIndex = 2;
+
+in vec3 fragmentPosition;
+in vec3 normalTransformed;
+in vec2 texUv;
+in vec2 penTexUv;
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
+
+uniform sampler2D inputTextures[3];
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+  ivec3 mLightCount;
+}
+lights;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+layout(std140) uniform Fog {
+  vec2 mode;    // x: fogType, y: depthType
+  vec4 params;  // x: density, y: density2, z: fog end, w: inverse range
+  vec4 color;
+}
+fog;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+float specularReflection(in vec3 lightDirection, in vec3 normal, in vec3 viewDirection) {
+  vec3 halfwayDirection = normalize(lightDirection + viewDirection);
+
+  return pow(max(dot(normal, halfwayDirection), 0.0), material.specularAndExponent.w);
+}
+
+void main() {
+  vec3 ambientTotal = vec3(lights.ambientLight);
+  vec3 diffuseTotal = vec3(0.0);
+  vec3 specularTotal = vec3(0.0);
+
+  vec3 fragmentNormal = normalize(normalTransformed);
+  fragNormal = vec4(fragmentNormal, 1.0) * 0.5 + 0.5;
+  vec3 viewDirection = normalize(-fragmentPosition);
+
+  // Apply active directional lights
+  for (int i = 0; i < lights.mLightCount.x; ++i) {
+    DirectionalLight light = lights.directionalLights[i];
+
+    // Direction in uniform buffer is already normalized and in view space
+    vec3 directionToLight = -vec3(light.direction);
+
+    float lambert = dot(directionToLight, fragmentNormal);
+
+    if (lambert > 0.0) {
+      float diffuse = lambert * light.colorAndIntensity.w;
+      diffuseTotal += diffuse * light.colorAndIntensity.xyz;
+
+      float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+      ;
+      specularTotal += specular * light.colorAndIntensity.xyz;
+    }
+  }
+
+  // Apply active point lights
+  for (int i = 0; i < lights.mLightCount.y; ++i) {
+    PointLight light = lights.pointLights[i];
+
+    vec3 directionToLight = light.position.xyz - fragmentPosition;
+
+    float distanceToLight = length(directionToLight);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      continue;
+
+    directionToLight = normalize(directionToLight);
+
+    float lambert = dot(directionToLight, fragmentNormal);
+
+    if (lambert > 0.0) {
+      vec3 attenuation = light.attenuationAndRadius.xyz;
+      float attenuationFactor = 1.0 / (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+      float diffuse = lambert * light.colorAndIntensity.w;
+      diffuseTotal += attenuationFactor * diffuse * light.colorAndIntensity.xyz;
+
+      float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+      ;
+      specularTotal += attenuationFactor * specular * light.colorAndIntensity.xyz;
+    }
+  }
+
+  // Apply active spot lights
+  for (int i = 0; i < lights.mLightCount.z; ++i) {
+    SpotLight light = lights.spotLights[i];
+
+    vec3 lightPosition = vec3(light.position);
+
+    // Direction from surface to light position in eye space
+    vec3 directionToLight = lightPosition - fragmentPosition;
+
+    // Distance between surface and light position
+    float distanceToLight = length(directionToLight);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      continue;  // not illuminated
+    directionToLight = normalize(directionToLight);
+
+    // Inverted spotlight direction
+    vec3 spotDirection = -light.direction.xyz;
+    // Angle between spotlight direction and direction from light to point
+    float spotAngle = acos(dot(directionToLight, spotDirection));
+    // Inner angle
+    float beamWidth = light.spotParams.x;
+    // Outer angle
+    float cutoffAngle = light.spotParams.y;
+
+    float attenuationFactor = 1.0;
+    // See if point on surface is inside cone of illumination defined by cutoff
+    if (spotAngle >= cutoffAngle)    // outside
+      continue;                      // light adds no contribution
+    else if (spotAngle > beamWidth)  // falloff
+      attenuationFactor *= (cutoffAngle - spotAngle) * light.spotParams.z;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    attenuationFactor /= (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+    float lambert = dot(directionToLight, fragmentNormal);
+    if (lambert < 0.0)
+      continue;
+
+    float diffuse = lambert * light.colorAndIntensity.w;
+    diffuseTotal += attenuationFactor * diffuse * light.colorAndIntensity.xyz;
+
+    float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+    specularTotal += attenuationFactor * specular * light.colorAndIntensity.xyz;
+  }
+
+  vec4 texColor = vec4(1.0);
+  ambientTotal *= material.ambient.xyz;
+  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0) {
+    texColor.w = 0.0;
+    diffuseTotal *= material.diffuse.xyz;
+    specularTotal = vec3(0.0);
+
+    // Apply background texture
+    if (material.textureFlags.z > 0.0) {
+      texColor.rgb = SRGBtoLINEAR(texture(inputTextures[backgroundTextureIndex], texUv)).rgb;
+      texColor.w = 1.0;
+    }
+
+    // Apply main texture
+    if (material.textureFlags.x > 0.0) {
+      vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
+      if (material.textureFlags.z == 0.0)
+        texColor = mainColor;
+      else
+        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+    }
+
+    // Mix with pen texture
+    if (material.textureFlags.y > 0.0) {
+      vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+      texColor = vec4(mix(texColor.xyz, penColor.xyz, penColor.w), texColor.w);
+    }
+  } else {
+    specularTotal *= material.specularAndExponent.xyz;
+
+    // Mix pen texture with mesh diffuse color
+    if (material.textureFlags.y > 0.0) {
+      vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+      diffuseTotal *= mix(material.diffuse.xyz, penColor.xyz, penColor.w);
+    } else
+      diffuseTotal *= material.diffuse.xyz;
+  }
+
+  fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientTotal + diffuseTotal + specularTotal,
+                              material.emissiveAndOpacity.w);
+
+  if (fog.mode.x > 0.0) {
+    float fogDensity = fog.params.x;
+    float fogDensity2 = fog.params.y;
+    float fogEnd = fog.params.z;
+    float fogInverseScale = fog.params.w;
+
+    float z;
+    if (fog.mode.y == 1.0)
+      // Real point distance (length)
+      z = length(fragmentPosition.xyz);
+    else
+      // z-depth (plane distance)
+      z = -fragmentPosition.z;
+
+    float fogFactor;
+    if (fog.mode.x == 1.0)  // FOG_EXP
+      fogFactor = exp2(-fogDensity * z);
+    else if (fog.mode.x == 2.0)  // FOG_EXP2
+      fogFactor = exp2(-fogDensity2 * z * z);
+    else  // FOG_LINEAR
+      fogFactor = (fogEnd - z) * fogInverseScale;
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+  }
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+out vec2 texUv;
+out vec2 seed1;
+out vec2 seed2;
+out vec2 seed3;
+
+uniform float time;
+
+// http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+// https://www.wolframalpha.com/input/?i=plot%28+mod%28+sin%28mod%28x*12.9898+%2B+y*78.233%2C+3.14%29%29+*+43758.5453%2C1%29x%3D0..2%2C+y%3D0..2%29
+highp float rand(vec2 seed) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt = dot(seed.xy, vec2(a, b));
+  highp float sn = mod(dt, 3.14);
+  return fract(sin(sn) * c);
+}
+
+void main() {
+  texUv = vTexCoord;
+
+  float rand1 = rand(vec2(time, time));
+  seed1 = vec2(rand1, rand(vec2(rand1, rand1)));
+  float rand2 = rand(vec2(seed1.y, seed1.y));
+  seed2 = vec2(rand2, rand(vec2(rand2, rand2)));
+  float rand3 = rand(vec2(seed2.y, seed2.y));
+  seed3 = vec2(rand3, rand(vec2(rand3, rand3)));
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+in vec3 fragmentPosition;
+
+out float depth;
+
+void main() {
+  depth = fragmentPosition.z;
+}
+#version 330
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform sampler2D inputTextures[2];
+uniform float transparency;
+
+void main() {
+  vec4 texAColor = texture(inputTextures[0], texUv);
+  vec4 texBColor = texture(inputTextures[1], texUv);
+  result = texAColor + texBColor * (1.0 - transparency);
+}
+#version 330
+
+out vec4 fragColor;
+
+void main() {
+  fragColor = vec4(1.0, 0.0, 1.0, 1.0);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+out vec2 texUv;
+
+void main() {
+  texUv = vTexCoord;
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+
+out vec3 fragmentPosition;
+
+uniform mat4 modelTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+
+  fragmentPosition = vCoordTransformed.xyz;
+
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+}
+#version 330
+
+const int sceneTextureIndex = 0;
+
+in vec2 texUv;
+
+layout(location = 0) out float result;
+
+uniform float resolution;
+
+uniform sampler2D inputTextures[1];
+
+void main() {
+  result = texture(inputTextures[sceneTextureIndex], texUv).x;
+  if (resolution > 0.0) {
+    result = floor(result / resolution + 0.5) * resolution;
+  }
+}
+#version 330
+
+layout(location = 0) out float floatDepth;
+layout(location = 1) out float outputDepth;
+
+uniform float minRange;
+uniform float maxRange;
+
+void main() {
+  floatDepth = gl_FragCoord.z / gl_FragCoord.w;
+  floatDepth = clamp(floatDepth, 0.0, maxRange);
+  if (floatDepth < minRange)
+    floatDepth = maxRange;
+
+  outputDepth = floatDepth;
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+layout(location = 0) in vec3 vCoord;
+
+out vec3 fragmentPosition;
+
+uniform mat4 modelTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+out vec3 fragmentPosition;
+out vec2 texUv;
+out float depth;
+
+uniform mat4 modelTransform;
+uniform vec2 screenPosition;  // [-1; 1]
+uniform float size;           // % of screen
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 projection = cameraTransforms.infiniteProjection;
+  vec4 vertex = modelTransform * vec4(vCoord, 1.0f);
+
+  // Scale to remove distortion
+  float aspect = projection[1][1] / projection[0][0];
+  if (aspect < 1.0f)
+    vertex.x /= aspect;
+  else
+    vertex.y *= aspect;
+
+  vertex.x += screenPosition.x - (size / aspect);
+  vertex.y += screenPosition.y + (size * aspect);
+  vertex.z = -vertex.z;
+  texUv = vTexCoord;
+  gl_Position = vertex;
+}
+#version 330
+
+// This shader does the spatial filtering for GTAO based on
+// https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaospatialdenoise.frag
+
+uniform sampler2D inputTextures[2];
+
+in vec2 texUv;
+out vec2 fragColor;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+vec4 getViewSpacePosition(vec2 pixelLocation) {
+  // Get the depth value for this pixel
+  float z = texture(inputTextures[1], pixelLocation).r;
+  if (z == 1.0)
+    return vec4(0.0);
+  // Get x/w and y/w from the viewport position
+  float x = pixelLocation.x * 2 - 1;
+  float y = pixelLocation.y * 2 - 1;
+  vec4 projectedPosition = vec4(x, y, z, 1.0f);
+  // Transform by the inverse projection matrix
+  vec4 vPositionVS = inverse(cameraTransforms.projection) * projectedPosition;
+  vPositionVS.z = -vPositionVS.z;
+  // Divide by w to get the view-space position
+  return vec4(vPositionVS.xyz / vPositionVS.w, vPositionVS.w);
+}
+
+float gatherWeightedFragment(inout float totalweight, vec2 fragCoord, float referenceDepth, vec2 texSize) {
+  vec4 sampleViewSpacePosition = getViewSpacePosition(fragCoord / texSize);
+  if (sampleViewSpacePosition.w == 0.0)
+    return 0.0;
+
+  float ao = textureLod(inputTextures[0], fragCoord / texSize, 0).r;
+  float sampleDepth = sampleViewSpacePosition.z;
+
+  float relativeDepth = abs(sampleDepth - referenceDepth) / (referenceDepth * 0.1);
+  float w = max(0.0, 0.1 - relativeDepth) * 30;
+
+  totalweight += w;
+
+  return ao * w;
+}
+
+void main() {
+  vec4 viewSpacePosition = getViewSpacePosition(texUv);
+  if (viewSpacePosition.w == 0.0) {
+    fragColor = vec2(1.0, 0.0);
+    return;
+  }
+
+  vec2 realTextureSize = textureSize(inputTextures[0], 0);
+  vec2 center = (texUv * realTextureSize) - 2.0;
+  ivec2 loc = ivec2(center);
+
+  float ao0 = texture(inputTextures[0], texUv).r;
+  float referenceDepth = viewSpacePosition.z;
+  float totalweight = 1.0;
+  float totalao = ao0;
+  // NOTE: textureGather requires GL 4
+  totalao += gatherWeightedFragment(totalweight, center + vec2(1, 0), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(2, 0), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(3, 0), referenceDepth, realTextureSize);
+
+  totalao += gatherWeightedFragment(totalweight, center + vec2(0, 1), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(1, 1), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(2, 1), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(3, 1), referenceDepth, realTextureSize);
+
+  totalao += gatherWeightedFragment(totalweight, center + vec2(0, 2), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(1, 2), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(2, 2), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(3, 2), referenceDepth, realTextureSize);
+
+  totalao += gatherWeightedFragment(totalweight, center + vec2(0, 3), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(1, 3), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(2, 3), referenceDepth, realTextureSize);
+  totalao += gatherWeightedFragment(totalweight, center + vec2(3, 3), referenceDepth, realTextureSize);
+
+  fragColor = vec2(totalao / totalweight, 0.0);
+}
+#version 330
+
+out vec4 fragColor;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  vec4 color;
+  color.bg = material.ambient.xy;
+  color.ra = material.diffuse.xy;
+  fragColor = color;
+}
+#version 330
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+in vec3 fragmentPosition;
+in vec3 fragmentNormal;
+in vec2 texUv;
+in vec2 penTexUv;
+
+out vec4 fragColor;
+
+uniform sampler2D inputTextures[9];
+
+struct PBRInfo {
+  float NdotL;                // cos angle between normal and light direction
+  float NdotV;                // cos angle between normal and view direction
+  float NdotH;                // cos angle between normal and half vector
+  float LdotH;                // cos angle between light direction and half vector
+  float VdotH;                // cos angle between view direction and half vector
+  float perceptualRoughness;  // roughness value, as authored by the model creator (input to shader)
+  float metalness;            // metallic value at the surface
+  vec3 reflectance0;          // full reflectance color (normal incidence angle)
+  vec3 reflectance90;         // reflectance color at grazing angle
+  float alphaRoughness;       // roughness mapped to a more linear change in the roughness
+  vec3 diffuseColor;          // color contribution from diffuse lighting
+  vec3 specularColor;         // color contribution from specular lighting
+};
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+}
+lights;
+
+// Index of active light (< 0 if inactive)
+layout(std140) uniform LightRenderable {
+  ivec4 activeLights;  // x: directional, y: point, z: spot
+}
+lightRenderable;
+
+// Material parameters for this renderable
+layout(std140) uniform PbrMaterial {
+  vec4 baseColorAndTransparency;
+  vec4 roughnessMetalnessNormalMapFactorOcclusion;
+  vec4 backgroundColorAndIblStrength;
+  vec4 emissiveColorAndIntensity;
+  vec4 baseColorRoughnessMetalnessOcclusionMapFlags;
+  vec4 normalBrdfEmissiveBackgroundFlags;
+  vec4 penFlags;
+  vec4 cubeTextureFlags;
+}
+material;
+
+const float M_PI = 3.141592653589793;
+const float minRoughness = 0.04;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+mat3 cotangentFrame(vec3 N, vec3 p, vec2 uv) {
+  // get edge vectors of the pixel triangle
+  vec3 dp1 = dFdx(p);
+  vec3 dp2 = dFdy(p);
+  vec2 duv1 = dFdx(uv);
+  vec2 duv2 = dFdy(uv);
+
+  if (duv1 == vec2(0.0) && duv2 == vec2(0.0))
+    return mat3(vec3(0.0), vec3(0.0), N);
+
+  // solve the linear system
+  vec3 dp2perp = cross(dp2, N);
+  vec3 dp1perp = cross(N, dp1);
+  vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
+  vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+
+  // construct a scale-invariant frame
+  float scale = max(dot(T, T), dot(B, B));
+  if (scale <= 0.0)  // inversesqrt result is undefined for value <= 0
+    return mat3(T, B, N);
+  float invmax = inversesqrt(scale);
+  return mat3(T * invmax, B * invmax, N);
+}
+
+vec3 perturbNormal(vec3 N, vec3 V) {
+  vec3 map = texture(inputTextures[4], texUv).rgb * 2.0 - 1.0;
+  map.xy = vec2(material.roughnessMetalnessNormalMapFactorOcclusion.z) * map.xy;
+  mat3 TBN = cotangentFrame(N, -V, texUv);
+  return normalize(TBN * map);
+}
+
+// Basic Lambertian diffuse
+// Implementation from Lambert's Photometria https://archive.org/details/lambertsphotome00lambgoog
+vec3 diffuse(PBRInfo pbrInputs) {
+  return pbrInputs.diffuseColor / M_PI;
+}
+
+// The following equation models the Fresnel reflectance term of the spec equation (aka F())
+vec3 specularReflection(PBRInfo pbrInputs) {
+  return pbrInputs.reflectance0 +
+         (pbrInputs.reflectance90 - pbrInputs.reflectance0) * pow(clamp(1.0 - pbrInputs.VdotH, 0.0, 1.0), 5.0);
+}
+
+// This calculates the specular geometric attenuation (aka G()),
+// where rougher material will reflect less light back to the viewer.
+float geometricOcclusion(PBRInfo pbrInputs) {
+  float NdotL = pbrInputs.NdotL;
+  float NdotV = pbrInputs.NdotV;
+  float r = pbrInputs.alphaRoughness;
+
+  float attenuationL = 2.0 * NdotL / (NdotL + sqrt(r * r + (1.0 - r * r) * (NdotL * NdotL)));
+  float attenuationV = 2.0 * NdotV / (NdotV + sqrt(r * r + (1.0 - r * r) * (NdotV * NdotV)));
+  return attenuationL * attenuationV;
+}
+
+// The following equation(s) model the distribution of microfacet normals across the area being drawn (aka D())
+// Implementation from "Average Irregularity Representation of a Roughened Surface for Ray Reflection" by T. S. Trowbridge, and
+// K. P. Reitz Follows the distribution function recommended in the SIGGRAPH 2013 course notes from EPIC Games [1], Equation 3.
+float microfacetDistribution(PBRInfo pbrInputs) {
+  float roughnessSq = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
+  float f = (pbrInputs.NdotH * roughnessSq - pbrInputs.NdotH) * pbrInputs.NdotH + 1.0;
+  return roughnessSq / (M_PI * f * f);
+}
+
+vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float roughness, float metalness,
+             vec3 specularEnvironmentR0, vec3 specularEnvironmentR90, float alphaRoughness, vec3 diffuseColor,
+             vec3 specularColor) {
+  float NdotL = clamp(dot(n, l), 0.0001, 1.0);
+  float NdotV = abs(dot(n, v)) + 0.0001;
+  float NdotH = clamp(dot(n, h), 0.0, 1.0);
+  float LdotH = clamp(dot(l, h), 0.0, 1.0);
+  float VdotH = clamp(dot(v, h), 0.0, 1.0);
+  vec3 color = vec3(0.0);
+
+  PBRInfo pbrInputs = PBRInfo(NdotL, NdotV, NdotH, LdotH, VdotH, roughness, metalness, specularEnvironmentR0,
+                              specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+
+  vec3 F = specularReflection(pbrInputs);
+  float G = geometricOcclusion(pbrInputs);
+  float D = microfacetDistribution(pbrInputs);
+
+  vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs) * lightColorAndIntensity.w;
+  vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
+  // Obtain final intensity as reflectance (BRDF) scaled by the energy of the light (cosine law)
+  color = NdotL * lightColorAndIntensity.xyz * (diffuseContrib + specContrib) * lightColorAndIntensity.w;
+
+  return color;
+}
+
+void main() {
+  // sample from normal map if one exists
+  vec3 viewFragmentNormal = normalize(fragmentNormal);
+  if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
+    viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
+
+  // read roughness and metalness values
+  float perceptualRoughness = material.roughnessMetalnessNormalMapFactorOcclusion.x;
+  float metalness = material.roughnessMetalnessNormalMapFactorOcclusion.y;
+
+  // sample roughness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y > 0.0) {
+    vec4 roughnessSample = texture(inputTextures[1], texUv);
+    perceptualRoughness = roughnessSample.r;
+  }
+
+  // sample metalness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z > 0.0) {
+    vec4 metalnessSample = texture(inputTextures[2], texUv);
+    metalness = metalnessSample.r;
+  }
+
+  perceptualRoughness = clamp(perceptualRoughness, minRoughness, 1.0);
+  metalness = clamp(metalness, 0.0, 1.0);
+  float alphaRoughness = perceptualRoughness * perceptualRoughness;
+
+  vec4 baseColor = material.baseColorAndTransparency;
+  baseColor.w = 1.0 - baseColor.w;
+
+  // apply base color map if it exists, composite background texture if necessary
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x > 0.0) {
+    vec4 baseColorMapColor = SRGBtoLINEAR(texture(inputTextures[0], texUv));
+
+    if (material.normalBrdfEmissiveBackgroundFlags.w > 0.0) {
+      vec3 backgroundTextureColor = SRGBtoLINEAR(texture(inputTextures[7], texUv)).rgb;
+      baseColor.rgb = mix(backgroundTextureColor, baseColorMapColor.xyz, baseColorMapColor.w);
+    } else {
+      // take base color
+      baseColor = baseColorMapColor;
+      // re-apply transparency from base material
+      baseColor.w *= (1.0 - material.baseColorAndTransparency.w);
+    }
+
+    baseColor = vec4(baseColor.rgb * material.baseColorAndTransparency.rgb, baseColor.w);
+  }
+
+  // Mix with pen texture
+  if (material.penFlags.x > 0.0) {
+    vec4 penColor = texture(inputTextures[8], penTexUv);
+    baseColor = vec4(mix(baseColor.xyz, penColor.xyz, penColor.w), baseColor.w);
+  }
+
+  // vec3 ambientTotal = vec3(material.iblStrengthAndZeroes.x);
+  vec3 f0 = vec3(0.04);
+  vec3 diffuseColor = baseColor.rgb * (vec3(1.0) - f0);
+  diffuseColor *= 1.0 - metalness;
+  vec3 specularColor = mix(f0, baseColor.rgb, metalness);
+
+  // Compute reflectance.
+  float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
+
+  // For typical incident reflectance range (between 4% to 100%) set the grazing reflectance to 100% for typical fresnel effect.
+  // For very low reflectance range on highly diffuse objects (below 4%), incrementally reduce grazing reflecance to 0%.
+  float reflectance90 = clamp(reflectance * 25.0, 0.0, 1.0);
+  vec3 specularEnvironmentR0 = specularColor.rgb;
+  vec3 specularEnvironmentR90 = vec3(1.0, 1.0, 1.0) * reflectance90;
+
+  vec3 v = normalize(-fragmentPosition);
+  vec3 l = vec3(0.0, 1.0, 0.0);
+  vec3 h = vec3(0.0, 1.0, 0.0);
+  vec3 reflection = -normalize(reflect(v, viewFragmentNormal));
+
+  float NdotL = 0.0;
+  float NdotV = 0.0;
+  float NdotH = 0.0;
+  float LdotH = 0.0;
+  float VdotH = 0.0;
+
+  vec3 color = vec3(0.0);
+
+  // Apply directional light if active
+  if (lightRenderable.activeLights.x >= 0) {
+    DirectionalLight light = lights.directionalLights[lightRenderable.activeLights.x];
+
+    // Direction in uniform buffer is already normalized and in view space
+    l = -vec3(light.direction);
+    h = normalize(l + v);
+
+    color += PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                     specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  // Apply point light if active
+  if (lightRenderable.activeLights.y >= 0) {
+    PointLight light = lights.pointLights[lightRenderable.activeLights.y];
+
+    l = light.position.xyz - fragmentPosition;
+
+    float distanceToLight = length(l);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      discard;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    float attenuationFactor = 1.0 / (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+    l = normalize(l);
+    h = normalize(l + v);
+
+    color +=
+      attenuationFactor * PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                                  specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  // Apply spot light if active
+  if (lightRenderable.activeLights.z >= 0) {
+    SpotLight light = lights.spotLights[lightRenderable.activeLights.z];
+
+    vec3 lightPosition = vec3(light.position);
+
+    // Direction from surface to light position in eye space
+    vec3 l = lightPosition - fragmentPosition;
+
+    // Distance between surface and light position
+    float distanceToLight = length(l);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      discard;  // not illuminated
+
+    l = normalize(l);
+
+    // Inverted spotlight direction
+    vec3 spotDirection = -light.direction.xyz;
+    // Angle between spotlight direction and direction from light to point
+    float spotAngle = acos(dot(l, spotDirection));
+    // Inner angle
+    float beamWidth = light.spotParams.x;
+    // Outer angle
+    float cutoffAngle = light.spotParams.y;
+
+    float attenuationFactor = 1.0;
+
+    // See if point on surface is inside cone of illumination defined by cutoff
+    if (spotAngle >= cutoffAngle)  // outside
+      discard;                     // light adds no contribution
+
+    else if (spotAngle > beamWidth)  // falloff
+      attenuationFactor *= (cutoffAngle - spotAngle) * light.spotParams.z;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    attenuationFactor /= (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+    l = normalize(l);
+    h = normalize(l + v);
+
+    color +=
+      attenuationFactor * PBRpass(l, viewFragmentNormal, v, h, light.colorAndIntensity, perceptualRoughness, metalness,
+                                  specularEnvironmentR0, specularEnvironmentR90, alphaRoughness, diffuseColor, specularColor);
+  }
+
+  fragColor = vec4(color, baseColor.a);
+}
+#version 330
+
+const int lastResultTextureIndex = 0;
+
+noperspective in vec2 texUv;
+
+layout(location = 0) out vec4 fragColor;
+
+uniform sampler2D inputTextures[2];
+
+uniform float uBias;
+uniform float uScale;
+uniform float uGhostDispersal;
+uniform float uHaloWidth;
+uniform float uDistortion;
+uniform int uSamples;
+
+vec3 textureDistorted(in sampler2D tex, in vec2 texcoord, in vec2 direction, in vec3 distortion) {
+  return vec3(texture(tex, texcoord + direction * distortion.r).r, texture(tex, texcoord + direction * distortion.g).g,
+              texture(tex, texcoord + direction * distortion.b).b);
+}
+
+vec3 thresholded(vec2 texCoord, vec2 direction, vec3 distortion) {
+  return max(vec3(0.0), textureDistorted(inputTextures[0], texCoord, direction, distortion) + uBias) * uScale;
+}
+
+void main() {
+  vec3 result = vec3(0.0);
+  vec2 texCoord = -texUv + vec2(1.0);
+  vec2 texelSize = 1.0 / vec2(textureSize(inputTextures[0], 0));
+
+  // Ghosts
+  vec2 ghostVec = (vec2(0.5) - texCoord) * uGhostDispersal;
+
+  vec3 distortion = vec3(-texelSize.x * uDistortion, 0.0, texelSize.x * uDistortion);
+  vec2 direction = normalize(ghostVec);
+
+  for (int i = 0; i < uSamples; ++i) {
+    vec2 offset = fract(texCoord + ghostVec * float(i));
+
+    float weight = length(vec2(0.5) - offset) / length(vec2(0.5));
+    weight = pow(1.0 - weight, 10.0);
+
+    result += thresholded(offset, direction, distortion) * weight;
+  }
+
+  // Color modulation
+  result *= texture(inputTextures[1], vec2(length(vec2(0.5) - texCoord) / length(vec2(0.5)), 0.5)).rgb;
+
+  // Halo
+  vec2 haloVec = normalize(ghostVec) * uHaloWidth;
+  float weight = length(vec2(0.5) - fract(texCoord + haloVec)) / length(vec2(0.5));
+  weight = pow(1.0 - weight, 5.0);
+  result += thresholded(texCoord + haloVec, direction, distortion) * weight;
+
+  fragColor = vec4(result, 1.0);
+}
+#version 330
+
+in vec2 texUv;
+in vec2 seed1;
+in vec2 seed2;
+in vec2 seed3;
+
+out vec4 fragColor;
+
+uniform float intensity;
+
+uniform sampler2D inputTextures[1];
+
+// http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+// https://www.wolframalpha.com/input/?i=plot%28+mod%28+sin%28mod%28x*12.9898+%2B+y*78.233%2C+3.14%29%29+*+43758.5453%2C1%29x%3D0..2%2C+y%3D0..2%29
+highp float rand(vec2 seed) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt = dot(seed.xy, vec2(a, b));
+  highp float sn = mod(dt, 3.14);
+  return fract(sin(sn) * c);
+}
+
+// Box-Muller method
+float gaussian(vec2 uv, vec2 seed) {
+  const float PI = 3.141592653589793238462643383279;
+
+  // generate 2 independents random numbers
+  float U = rand(uv + vec2(seed.x, seed.x));
+  float V = rand(uv + vec2(seed.y, seed.y));
+
+  // make sure U is not close to 0 because log(0) is undefined
+  if (U <= 0.0000001)
+    U = 0.0000001;
+
+  // generate a gaussian value with mean 0 and standard deviation 1
+  float r = sqrt(-2.0 * log(U)) * cos(2.0 * PI * V);
+  return r;
+}
+
+void main() {
+  fragColor = texture(inputTextures[0], texUv) +
+              intensity * vec4(gaussian(texUv, seed1), gaussian(texUv, seed2), gaussian(texUv, seed3), 0.0);
+  fragColor = clamp(fragColor, 0.0, 1.0);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 3) in vec3 vColor;
+
+uniform mat4 modelTransform;
+
+out vec3 color;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+  color = vColor;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec3 fragmentPosition;
+out vec3 normalTransformed;
+out vec2 texUv;
+out vec2 penTexUv;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  normalTransformed = mat3(transpose(inverse(modelView))) * vNormal;
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+
+in vec2 texUv;
+in float depth;
+
+out vec4 fragColor;
+
+uniform sampler2D inputTextures[1];
+
+const int mainTextureIndex = 0;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  vec4 texColor = vec4(1.0f);
+  if (material.textureFlags.x > 0.0f)
+    texColor = texture(inputTextures[mainTextureIndex], texUv);
+
+  fragColor = texColor * material.ambient;
+}
+#version 330 core
+out vec4 fragColor;
+in vec3 worldPosition;
+
+uniform samplerCube cubeTextures[1];
+uniform float roughness;
+
+const float PI = 3.14159265359;
+// ----------------------------------------------------------------------------
+float DistributionGGX(vec3 N, vec3 H, float roughness) {
+  float a = roughness * roughness;
+  float a2 = a * a;
+  float NdotH = max(dot(N, H), 0.0);
+  float NdotH2 = NdotH * NdotH;
+
+  float nom = a2;
+  float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+  denom = PI * denom * denom;
+
+  return nom / denom;
+}
+// ----------------------------------------------------------------------------
+// http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
+// efficient VanDerCorpus calculation.
+float vanDerCorpusRadicalInverse(uint bits) {
+  bits = (bits << 16u) | (bits >> 16u);
+  bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
+  bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);
+  bits = ((bits & 0x0F0F0F0Fu) << 4u) | ((bits & 0xF0F0F0F0u) >> 4u);
+  bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
+  return float(bits) * 2.3283064365386963e-10;  // / 0x100000000
+}
+// ----------------------------------------------------------------------------
+vec2 Hammersley(uint i, uint N) {
+  return vec2(float(i) / float(N), vanDerCorpusRadicalInverse(i));
+}
+// ----------------------------------------------------------------------------
+vec3 ImportanceSampleGGX(vec2 Xi, vec3 N, float roughness) {
+  float a = roughness * roughness;
+
+  float phi = 2.0 * PI * Xi.x;
+  float cosTheta = sqrt((1.0 - Xi.y) / (1.0 + (a * a - 1.0) * Xi.y));
+  float sinTheta = sqrt(1.0 - cosTheta * cosTheta);
+
+  // from spherical coordinates to cartesian coordinates - halfway vector
+  vec3 H;
+  H.x = cos(phi) * sinTheta;
+  H.y = sin(phi) * sinTheta;
+  H.z = cosTheta;
+
+  // from tangent-space H vector to world-space sample vector
+  vec3 up = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
+  vec3 tangent = normalize(cross(up, N));
+  vec3 bitangent = cross(N, tangent);
+
+  vec3 sampleVec = tangent * H.x + bitangent * H.y + N * H.z;
+  return normalize(sampleVec);
+}
+// ----------------------------------------------------------------------------
+void main() {
+  vec3 N = normalize(worldPosition);
+
+  // make the simplyfying assumption that V equals R equals the normal
+  vec3 R = N;
+  vec3 V = R;
+
+  const uint SAMPLE_COUNT = 2048u;
+  vec3 prefilteredColor = vec3(0.0);
+  float totalWeight = 0.0;
+
+  for (uint i = 0u; i < SAMPLE_COUNT; ++i) {
+    // generates a sample vector that's biased towards the preferred alignment direction (importance sampling).
+    vec2 Xi = Hammersley(i, SAMPLE_COUNT);
+    vec3 H = ImportanceSampleGGX(Xi, N, roughness);
+    vec3 L = normalize(2.0 * dot(V, H) * H - V);
+
+    float NdotL = max(dot(N, L), 0.0);
+    if (NdotL > 0.0) {
+      // sample from the environment's mip level based on roughness/pdf
+      float D = DistributionGGX(N, H, roughness);
+      float NdotH = max(dot(N, H), 0.0);
+      float HdotV = max(dot(H, V), 0.0);
+      float pdf = D * NdotH / (4.0 * HdotV) + 0.0001;
+
+      float resolution = 1024.0;  // resolution of source cubemap (per face)
+      float saTexel = 4.0 * PI / (6.0 * resolution * resolution);
+      float saSample = 1.0 / (float(SAMPLE_COUNT) * pdf + 0.0001);
+
+      float mipLevel = roughness == 0.0 ? 0.0 : 0.5 * log2(saSample / saTexel);
+
+      prefilteredColor += textureLod(cubeTextures[0], L, mipLevel).rgb * NdotL;
+      totalWeight += NdotL;
+    }
+  }
+
+  prefilteredColor = prefilteredColor / totalWeight;
+
+  fragColor = vec4(prefilteredColor, 1.0);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 3) in vec3 vColor;
+
+uniform mat4 modelTransform;
+uniform float pointSize;
+
+out vec3 color;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+
+  color = vColor;
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+  gl_PointSize = pointSize;
+}
+#version 330
+
+in vec3 fragmentPosition;
+
+out vec4 fragColor;
+
+uniform sampler2D inputTextures[1];
+
+layout(std140) uniform Fog {
+  vec2 mode;    // x: fogType, y: depthType
+  vec4 params;  // x: density, y: density2, z: fog end, w: inverse range
+  vec4 color;
+}
+fog;
+
+void main() {
+  if (fog.mode.x > 0.0) {
+    float fogDensity = fog.params.x;
+    float fogDensity2 = fog.params.y;
+    float fogEnd = fog.params.z;
+    float fogInverseScale = fog.params.w;
+
+    float z;
+    if (fog.mode.y == 1.0)
+      // Real point distance (length)
+      z = length(fragmentPosition.xyz);
+    else
+      // z-depth (plane distance)
+      z = -fragmentPosition.z;
+
+    float fogFactor;
+    if (fog.mode.x == 1.0)  // FOG_EXP
+      fogFactor = exp2(-fogDensity * z);
+    else if (fog.mode.x == 2.0)  // FOG_EXP2
+      fogFactor = exp2(-fogDensity2 * z * z);
+    else  // FOG_LINEAR
+      fogFactor = (fogEnd - z) * fogInverseScale;
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+
+    fragColor = vec4(fog.color.xyz, pow(1.0 - fogFactor, 2.2));
+  }
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec3 fragmentPosition;
+out vec3 fragmentNormal;
+out vec2 texUv;
+out vec2 penTexUv;
+out mat3 inverseViewMatrix;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  inverseViewMatrix = mat3(inverse(cameraTransforms.view));
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+  fragmentPosition = vec3(vCoordTransformed);
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  fragmentNormal = normalize(mat3(transpose(inverse(modelView))) * vNormal);
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+
+uniform mat4 modelTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+
+  gl_Position = cameraTransforms.projection * vCoordTransformed;
+}
+#version 330
+
+// These constants must be kept in sync with the values in Constants.hpp
+const int maxDirectionalLights = 256;
+const int maxPointLights = 256;
+const int maxSpotLights = 256;
+
+const int mainTextureIndex = 0;
+const int penTextureIndex = 1;
+const int backgroundTextureIndex = 2;
+
+in vec3 fragmentPosition;
+in vec3 normalTransformed;
+in vec2 texUv;
+in vec2 penTexUv;
+
+out vec4 fragColor;
+
+uniform sampler2D inputTextures[3];
+
+struct DirectionalLight {
+  vec4 colorAndIntensity;
+  vec4 direction;
+};
+
+struct PointLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 attenuationAndRadius;
+};
+
+struct SpotLight {
+  vec4 colorAndIntensity;
+  vec4 position;
+  vec4 direction;
+  vec4 attenuationAndRadius;
+  vec4 spotParams;  // x: innerCutOffAngle, y: outerCutOffAngle, z: inverse range, w: unused
+};
+
+// List of active lights and ambient intensity for this frame
+layout(std140) uniform Lights {
+  DirectionalLight directionalLights[maxDirectionalLights];
+  PointLight pointLights[maxPointLights];
+  SpotLight spotLights[maxSpotLights];
+  vec4 ambientLight;
+  ivec3 mLightCount;
+}
+lights;
+
+// Index of active light (< 0 if inactive)
+layout(std140) uniform LightRenderable {
+  ivec4 activeLights;  // x: directional, y: point, z: spot
+}
+lightRenderable;
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+float specularReflection(in vec3 lightDirection, in vec3 normal, in vec3 viewDirection) {
+  vec3 halfwayDirection = normalize(lightDirection + viewDirection);
+
+  return pow(max(dot(normal, halfwayDirection), 0.0), material.specularAndExponent.w);
+}
+
+void main() {
+  vec3 diffuseTotal = vec3(0.0);
+  vec3 specularTotal = vec3(0.0);
+
+  vec3 fragmentNormal = normalize(normalTransformed);
+  vec3 viewDirection = normalize(-fragmentPosition);
+
+  // Apply directional light if active
+  if (lightRenderable.activeLights.x >= 0) {
+    DirectionalLight light = lights.directionalLights[lightRenderable.activeLights.x];
+
+    // Direction in uniform buffer is already normalized and in view space
+    vec3 directionToLight = -vec3(light.direction);
+
+    float lambert = dot(directionToLight, fragmentNormal);
+
+    if (lambert > 0.0) {
+      float diffuse = lambert * light.colorAndIntensity.w;
+      diffuseTotal += diffuse * light.colorAndIntensity.xyz;
+
+      float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+      ;
+      specularTotal += specular * light.colorAndIntensity.xyz;
+    }
+  }
+
+  // Apply point light if active
+  if (lightRenderable.activeLights.y >= 0) {
+    PointLight light = lights.pointLights[lightRenderable.activeLights.y];
+
+    vec3 directionToLight = light.position.xyz - fragmentPosition;
+
+    float distanceToLight = length(directionToLight);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      discard;
+
+    directionToLight = normalize(directionToLight);
+
+    float lambert = dot(directionToLight, fragmentNormal);
+
+    if (lambert > 0.0) {
+      vec3 attenuation = light.attenuationAndRadius.xyz;
+      float attenuationFactor = 1.0 / (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+      float diffuse = lambert * light.colorAndIntensity.w;
+      diffuseTotal += attenuationFactor * diffuse * light.colorAndIntensity.xyz;
+
+      float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+      ;
+      specularTotal += attenuationFactor * specular * light.colorAndIntensity.xyz;
+    }
+  }
+
+  // Apply spot light if active
+  if (lightRenderable.activeLights.z >= 0) {
+    SpotLight light = lights.spotLights[lightRenderable.activeLights.z];
+
+    vec3 lightPosition = vec3(light.position);
+
+    // Direction from surface to light position in eye space
+    vec3 directionToLight = lightPosition - fragmentPosition;
+
+    // Distance between surface and light position
+    float distanceToLight = length(directionToLight);
+    if (distanceToLight > light.attenuationAndRadius.w)
+      discard;  // not illuminated
+
+    directionToLight = normalize(directionToLight);
+
+    // Inverted spotlight direction
+    vec3 spotDirection = -light.direction.xyz;
+    // Angle between spotlight direction and direction from light to point
+    float spotAngle = acos(dot(directionToLight, spotDirection));
+    // Inner angle
+    float beamWidth = light.spotParams.x;
+    // Outer angle
+    float cutoffAngle = light.spotParams.y;
+
+    float attenuationFactor = 1.0;
+    // See if point on surface is inside cone of illumination defined by cutoff
+    if (spotAngle >= cutoffAngle)  // outside
+      discard;
+    else if (spotAngle > beamWidth)  // falloff
+      attenuationFactor *= (cutoffAngle - spotAngle) * light.spotParams.z;
+
+    vec3 attenuation = light.attenuationAndRadius.xyz;
+    attenuationFactor /= (attenuation.x + distanceToLight * (attenuation.y + attenuation.z * distanceToLight));
+
+    float lambert = dot(directionToLight, fragmentNormal);
+    if (lambert < 0.0)
+      discard;
+
+    float diffuse = lambert * light.colorAndIntensity.w;
+    diffuseTotal += attenuationFactor * diffuse * light.colorAndIntensity.xyz;
+
+    float specular = specularReflection(directionToLight, fragmentNormal, viewDirection) * light.colorAndIntensity.w;
+    specularTotal += attenuationFactor * specular * light.colorAndIntensity.xyz;
+  }
+
+  vec4 texColor = vec4(1.0);
+  if (material.textureFlags.x > 0.0) {
+    texColor.w = 0.0;
+    diffuseTotal *= material.diffuse.xyz;
+    specularTotal = vec3(0.0);
+
+    // Apply background texture
+    if (material.textureFlags.z > 0.0) {
+      texColor.rgb = texture(inputTextures[backgroundTextureIndex], texUv).rgb;
+      texColor.w = 1.0;
+    }
+
+    // Apply main texture
+    if (material.textureFlags.x > 0.0) {
+      vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
+      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+    }
+
+    // Mix with pen texture
+    if (material.textureFlags.y > 0.0) {
+      vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+      texColor = vec4(mix(texColor.xyz, penColor.xyz, penColor.w), texColor.w);
+    }
+  } else {
+    specularTotal *= material.specularAndExponent.xyz;
+
+    // Mix pen texture with mesh diffuse color
+    if (material.textureFlags.y > 0.0) {
+      vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+      diffuseTotal *= mix(material.diffuse.xyz, penColor.xyz, penColor.w);
+    } else
+      diffuseTotal *= material.diffuse.xyz;
+  }
+
+  fragColor = texColor * vec4(diffuseTotal + specularTotal, material.emissiveAndOpacity.w);
+}
+#version 330
+
+const int bgTextureIndex = 0;
+const int mainTextureIndex = 1;
+const int fgTextureIndex = 2;
+const int closeButtonTextureIndex = 3;
+const int resizeButtonTextureIndex = 4;
+
+in float aspectRatio;
+in float closeButtonProportionX;
+in float closeButtonProportionY;
+in float resizeButtonProportionX;
+in float resizeButtonProportionY;
+
+in vec2 texUv;
+in vec2 texUvFrame;
+
+out vec4 fragColor;
+
+uniform int channelCount;
+
+uniform sampler2D inputTextures[5];
+
+layout(std140) uniform Overlay {
+  vec4 positionAndSize;
+  vec4 defaultSize;  // x,y: size, z: render default size instead of actual overlay
+  vec4 borderColor;
+  vec4 backgroundColor;
+  vec4 activeFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
+  vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
+                      // w: overlay transparency
+  vec2 sizeInPixels;  // x,y: size in screen pixels
+  vec2 borderSize;    // x: vertical size, y: horizontal size
+}
+overlay;
+
+void main() {
+  fragColor = vec4(0.0);
+
+  // render default size indicator if requested
+  if (overlay.defaultSize.z > 0.0) {
+    if (overlay.positionAndSize.z > overlay.defaultSize.x || overlay.positionAndSize.w > overlay.defaultSize.y)
+      fragColor = vec4(1.0, 1.0, 1.0, 0.3);
+    else
+      fragColor = vec4(0.4, 0.4, 0.4, 0.3);
+  } else if (texUv.x < 0.0 || texUv.x > 1.0 || texUv.y < 0.0 || texUv.y > 1.0)
+    fragColor = overlay.borderColor;
+  else {
+    // bg texture
+    if (overlay.activeFlags.x > 0.0)
+      fragColor = vec4(texture(inputTextures[bgTextureIndex], texUv).rgb, 1.0);
+    else
+      fragColor = vec4(overlay.backgroundColor);
+
+    // main texture
+    if (overlay.activeFlags.y > 0.0) {
+      vec4 color = texture(inputTextures[mainTextureIndex], texUv);
+
+      // normalize depth if required
+      if (overlay.textureFlags.z > 0.0f)
+        color.x = color.x / overlay.textureFlags.z;
+
+      if (channelCount == 1)
+        color = vec4(color.x, color.x, color.x, 1.0);
+
+      if (overlay.textureFlags.w == 0.0)
+        color = vec4(color.xyz, 1.0);
+
+      fragColor = mix(fragColor, color, color.a);
+    }
+
+    // fg texture
+    if (overlay.activeFlags.z > 0.0) {
+      vec4 color = texture(inputTextures[fgTextureIndex], texUv);
+      fragColor = mix(fragColor, color, color.a);
+    }
+
+    // close button
+    if (overlay.textureFlags.y > 0.0) {
+      float closeButtonStartX = (1.0 - closeButtonProportionX) + overlay.borderSize.x;
+      float closeButtonStartY = (1.0 - closeButtonProportionY) + overlay.borderSize.y;
+
+      if (texUvFrame.x >= closeButtonStartX && texUvFrame.y >= closeButtonStartY) {
+        vec2 closeButtonTexUv = texUvFrame - vec2(closeButtonStartX, closeButtonStartY);
+        closeButtonTexUv *= vec2(1.0 / closeButtonProportionX, 1.0 / closeButtonProportionY);
+        vec4 color = texture(inputTextures[closeButtonTextureIndex], clamp(closeButtonTexUv, 0.0, 1.0));
+        fragColor = mix(fragColor, color, color.a);
+      }
+    }
+
+    // resize button
+    if (overlay.textureFlags.y > 1.0) {
+      float resizeButtonStartX = 1.0 - resizeButtonProportionX;
+      float resizeButtonEndY = resizeButtonProportionY;
+
+      if (texUvFrame.x > resizeButtonStartX && texUvFrame.y < resizeButtonEndY) {
+        vec2 resizeButtonTexUv = texUvFrame - vec2(resizeButtonStartX, 0.0);
+        resizeButtonTexUv *= vec2(1.0 / resizeButtonProportionX, 1.0 / resizeButtonProportionY);
+        vec4 color = texture(inputTextures[resizeButtonTextureIndex], clamp(resizeButtonTexUv, 0.0, 1.0));
+        fragColor = mix(fragColor, color, color.a);
+      }
+    }
+  }
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+noperspective out vec2 texUv;
+
+void main() {
+  texUv = vTexCoord;
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+const int sceneTextureIndex = 0;
+const int lastResultTextureIndex = 1;
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform float intensity;
+uniform float firstRender;
+
+uniform sampler2D inputTextures[2];
+
+void main() {
+  vec4 sceneColor = texture(inputTextures[sceneTextureIndex], texUv);
+  vec4 lastColor = texture(inputTextures[lastResultTextureIndex], texUv);
+
+  if (firstRender == 1.0)
+    result = sceneColor;
+  else
+    result = mix(sceneColor, lastColor, intensity);
+
+  result = vec4(result.rgb, 1.0);
+}
+#version 330
+
+#define SMAA_THRESHOLD 0.1
+
+layout(location = 0) out vec4 result;
+
+uniform sampler2D inputTextures[1];
+
+in vec2 texUv;
+in vec4 texUvOffsets[3];
+
+vec4 SMAAColorEdgeDetection(vec2 texcoord, vec4 offset[3], sampler2D colorTex) {
+  vec2 threshold = vec2(SMAA_THRESHOLD, SMAA_THRESHOLD);
+
+  // Calculate color deltas:
+  vec4 delta;
+  vec3 C = texture(colorTex, texcoord).rgb;
+
+  vec3 Cleft = texture(colorTex, offset[0].xy).rgb;
+  vec3 t = abs(C - Cleft);
+  delta.x = max(max(t.r, t.g), t.b);
+
+  vec3 Ctop = texture(colorTex, offset[0].zw).rgb;
+  t = abs(C - Ctop);
+  delta.y = max(max(t.r, t.g), t.b);
+
+  // We do the usual threshold:
+  vec2 edges = step(threshold, delta.xy);
+
+  // Then discard if there is no edge:
+  if (dot(edges, vec2(1.0, 1.0)) == 0.0)
+    discard;
+
+  // Calculate right and bottom deltas:
+  vec3 Cright = texture(colorTex, offset[1].xy).rgb;
+  t = abs(C - Cright);
+  delta.z = max(max(t.r, t.g), t.b);
+
+  vec3 Cbottom = texture(colorTex, offset[1].zw).rgb;
+  t = abs(C - Cbottom);
+  delta.w = max(max(t.r, t.g), t.b);
+
+  // Calculate the maximum delta in the direct neighborhood:
+  float maxDelta = max(max(max(delta.x, delta.y), delta.z), delta.w);
+
+  // Calculate left-left and top-top deltas:
+  vec3 Cleftleft = texture(colorTex, offset[2].xy).rgb;
+  t = abs(C - Cleftleft);
+  delta.z = max(max(t.r, t.g), t.b);
+
+  vec3 Ctoptop = texture(colorTex, offset[2].zw).rgb;
+  t = abs(C - Ctoptop);
+  delta.w = max(max(t.r, t.g), t.b);
+
+  // Calculate the final maximum delta:
+  maxDelta = max(max(maxDelta, delta.z), delta.w);
+
+  // Local contrast adaptation in action:
+  edges.xy *= step(0.5 * maxDelta, delta.xy);
+
+  return vec4(edges, 0.0, 1.0);
+}
+
+void main() {
+  result = SMAAColorEdgeDetection(texUv, texUvOffsets, inputTextures[0]);
+}
+#version 330
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform sampler2D inputTextures[1];
+
+uniform float exposure;
+
+void main() {
+  const float gamma = 2.2;
+  vec3 hdrColor = texture(inputTextures[0], texUv).rgb;
+
+  // Exposure tone mapping
+  vec3 mapped = vec3(1.0) - exp(-hdrColor * exposure);
+  // Gamma correction
+  mapped = pow(mapped, vec3(1.0 / gamma));
+
+  result = vec4(mapped, 1.0);
+}
+#version 330
+
+in vec2 texUv;
+
+out vec4 fragColor;
+
+const int mainTextureIndex = 0;
+
+uniform sampler2D inputTextures[1];
+
+void main() {
+  fragColor = texture(inputTextures[mainTextureIndex], texUv);
+}
+#version 330
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 floatResult;
+layout(location = 1) out vec4 colorResult;
+
+uniform sampler2D inputTextures[1];
+
+void main() {
+  floatResult = vec4(texture(inputTextures[0], texUv).xyz, 1.0);
+  colorResult = floatResult;
+}
+#version 330
+
+uniform sampler2D inputTextures[7];
+
+in vec2 texUv;
+out vec4 fragColor;
+
+void main() {
+  vec4 color = texture(inputTextures[0], texUv);
+  vec4 fullRes = texture(inputTextures[1], texUv);
+  vec4 halfRes = texture(inputTextures[2], texUv);
+  vec4 quarterRes = texture(inputTextures[3], texUv);
+  vec4 eigthRes = texture(inputTextures[4], texUv);
+  vec4 sixteenthRes = texture(inputTextures[5], texUv);
+  vec4 thirtySecondRes = texture(inputTextures[6], texUv);
+
+  fragColor = vec4(color.rgb + 0.1 * (0.1 * fullRes.rgb + 0.2 * halfRes.rgb + 0.4 * quarterRes.rgb + 0.8 * eigthRes.rgb +
+                                      1.6 * sixteenthRes.rgb + 3.2 * thirtySecondRes.rgb),
+                   1.0);
+}
+#version 330
+
+uniform sampler2D inputTextures[2];
+uniform vec2 viewportSize;
+in vec2 texUv;
+in vec4 texUvOffsets[2];
+
+layout(location = 0) out vec4 result;
+
+vec4 SMAANeighborhoodBlendingPS(vec2 texcoord, vec4 offset[2], sampler2D colorTex, sampler2D blendTex) {
+  // Fetch the blending weights for current pixel:
+  vec4 a;
+  a.xz = texture(blendTex, texcoord).xz;
+  a.y = texture(blendTex, offset[1].zw).g;
+  a.w = texture(blendTex, offset[1].xy).a;
+  // Is there any blending weight with a value greater than 0.0?
+  if (dot(a, vec4(1.0, 1.0, 1.0, 1.0)) < 1e-5)
+    return texture(colorTex, texcoord, 0.0);
+  // return vec4(vec3(0.0), 1.0);
+  else {  // Up to 4 lines can be crossing a pixel (one through each edge). We
+    // favor blending by choosing the line with the maximum weight for each
+    // direction:
+    vec2 offset;
+    offset.x = a.a > a.b ? a.a : -a.b;
+    // left vs. right
+    offset.y = a.g > a.r ? -a.g : a.r;
+    // WebGL port note: Changed signs
+
+    // Then we go in the direction that has the maximum weight:
+    if (abs(offset.x) > abs(offset.y)) {
+      // horizontal vs. vertical
+      offset.y = 0.0;
+    } else {
+      offset.x = 0.0;
+    }
+    // Fetch the opposite color and lerp by hand:
+    vec4 C = texture(colorTex, texcoord);
+    texcoord += sign(offset) / viewportSize;
+    vec4 Cop = texture(colorTex, texcoord);
+    float s = abs(offset.x) > abs(offset.y) ? abs(offset.x) : abs(offset.y);
+    // WebGL port note: Added gamma correction
+    C.xyz = pow(C.xyz, vec3(2.2));
+    Cop.xyz = pow(Cop.xyz, vec3(2.2));
+    vec4 mixed = mix(C, Cop, s);
+    mixed.xyz = pow(mixed.xyz, vec3(1.0 / 2.2));
+    return mixed;
+    return 0.5 * mixed;
+  }
+}
+void main() {
+  result = SMAANeighborhoodBlendingPS(texUv, texUvOffsets, inputTextures[0], inputTextures[1]);
+  // result = texture(inputTextures[1], texUv);
+}
+#version 330
+
+uniform sampler2D inputTextures[1];
+
+uniform float threshold;
+
+in vec2 texUv;
+out vec4 fragColor;
+
+float luma(vec3 color) {
+  return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
+void main() {
+  vec4 color = texture(inputTextures[0], texUv);
+  vec2 textureSize = textureSize(inputTextures[0], 0);
+
+  float totalLuma = luma(color.rgb);
+
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(0, 1) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(0, -1) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(-1, 0) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(1, 0) / textureSize).rgb);
+
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(1, 1) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(1, -1) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(-1, 1) / textureSize).rgb);
+  totalLuma += luma(texture(inputTextures[0], texUv + vec2(-1, -1) / textureSize).rgb);
+
+  totalLuma /= 9;
+
+  if (isnan(totalLuma) || totalLuma < threshold)
+    fragColor = vec4(vec3(0.0), 1.0);
+  else {
+    fragColor.r = min(color.r, 4000.0f);
+    fragColor.g = min(color.g, 4000.0f);
+    fragColor.b = min(color.b, 4000.0f);
+    fragColor.a = 1.0;
+  }
+}
+#version 330
+
+in vec2 texUv;
+
+out vec4 fragColor;
+
+const int mainTextureIndex = 0;
+
+uniform int channelCount;
+
+uniform sampler2D inputTextures[1];
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  // The fragment color is either the material ambient color or the texture color
+  if (material.textureFlags.x > 0.0f) {
+    fragColor = texture(inputTextures[mainTextureIndex], texUv);
+    if (channelCount == 1)
+      fragColor.y = fragColor.z = fragColor.x;
+  } else
+    fragColor = material.ambient;
+
+  // Set transparency
+  fragColor.w = material.emissiveAndOpacity.w;
+}
+#version 330
+
+const int sourceTextureIndex = 0;
+const int blurTextureIndex = 1;
+
+// 5-tap filter using coefficients taken from pascal's triangle.
+// This works because the binomial distribution is the discrete equivalent of the normal distribution.
+// http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/
+const int tapCount = 5;
+const int weightCount = 1 + (tapCount - 1) / 2;
+const float offsets[weightCount] = float[](0.0, 1.0, 2.0);
+const float weights[weightCount] = float[](20.0 / 62.0, 15.0 / 62.0, 6.0 / 62.0);
+
+// Optimization: profit from hardware bilinear interpolation to sample two texels at once
+// by sampling between the texels at a location determined by their weights
+const int weightCountShared = (weightCount - 1) / 2;
+const float weightsShared[weightCountShared] = float[](weights[1] + weights[2]);
+const float offsetsShared[weightCountShared] = float[](offsets[1] + weights[1] / weightsShared[0]);
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform int iterationNumber;
+uniform vec2 viewportSize;
+
+uniform sampler2D inputTextures[2];
+
+vec4 convolveHorizontally() {
+  vec4 color;
+  if (iterationNumber == 0) {
+    color = weights[0] * texture(inputTextures[sourceTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x + offsetsShared[i] / viewportSize.x, texUv.y));
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x - offsetsShared[i] / viewportSize.x, texUv.y));
+    }
+  } else {
+    color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color +=
+        weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x + offsetsShared[i] / viewportSize.x, texUv.y));
+      color +=
+        weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x - offsetsShared[i] / viewportSize.x, texUv.y));
+    }
+  }
+
+  return color;
+}
+
+vec4 convolveVertically() {
+  vec4 color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+  for (int i = 0; i < weightCountShared; ++i) {
+    color +=
+      weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y + offsetsShared[i] / viewportSize.y));
+    color +=
+      weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y - offsetsShared[i] / viewportSize.y));
+  }
+
+  return color;
+}
+
+void main() {
+  if (iterationNumber % 2 == 0)
+    result = convolveHorizontally();
+  else
+    result = convolveVertically();
+}
+#version 330
+
+#define pi_2 1.570796327
+
+// These values should coincide with the ones of WbWrenCamera::CameraOrientation
+#define FRONT 0
+#define RIGHT 1
+#define BACK 2
+#define LEFT 3
+#define UP 4
+#define DOWN 5
+
+const vec3 orientations[6] = vec3[6](vec3(1.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, -1.0, 0.0),
+                                     vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, -1.0));
+
+in vec2 texUv;
+
+out vec4 fragColor;
+
+uniform int rangeCamera;
+
+uniform float maxRange;
+uniform float minRange;
+uniform float fovX;
+uniform float fovY;
+uniform float fovYCorrectionCoefficient;
+
+uniform sampler2D inputTextures[6];
+
+void main() {
+  // update the z 3D-coordinate
+  float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
+  vec3 coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
+
+  // update the x spherical coordinate
+  float xCurrentAngle = (0.5 - texUv.x) * fovX;
+
+  // update the x-y 3d coordinate
+  float sinY = sin(yCurrentAngle);
+  coord3d.x = sinY * cos(xCurrentAngle);
+  coord3d.y = sinY * sin(xCurrentAngle);
+
+  // normalize the 3d coordinate
+  vec3 coord3dAbs = abs(coord3d);
+  int maxIndex = 0;
+  float signedValue = coord3d.x;
+  float absMax = coord3dAbs.x;
+  if (coord3dAbs.y > absMax) {
+    maxIndex = 1;
+    signedValue = coord3d.y;
+    absMax = coord3dAbs.y;
+  }
+  if (coord3dAbs.z > absMax) {
+    maxIndex = 2;
+    signedValue = coord3d.z;
+    absMax = coord3dAbs.z;
+  }
+
+  vec3 normalizedCoord3d = coord3d;
+  if (absMax > 0.0)
+    normalizedCoord3d /= absMax;
+
+  // determine on which face the 3d coordinate hits the cube
+  bool isNegative = (signedValue < 0.0);
+  int face = FRONT;
+  if (maxIndex == 0) {
+    if (isNegative)
+      face = BACK;
+    else
+      face = FRONT;
+  } else if (maxIndex == 1) {
+    if (isNegative)
+      face = RIGHT;
+    else
+      face = LEFT;
+  } else if (maxIndex == 2) {
+    if (isNegative)
+      face = DOWN;
+    else
+      face = UP;
+  }
+
+  // retrieve the x-y coordinate relatively to the current face
+  // according to the 3D coordinate
+  vec2 coord = vec2(0.0);
+  if (face == FRONT)
+    coord = normalizedCoord3d.yz;
+  else if (face == RIGHT)
+    coord = normalizedCoord3d.xz;
+  else if (face == LEFT) {
+    coord.x = -normalizedCoord3d.x;
+    coord.y = normalizedCoord3d.z;
+  } else if (face == UP) {
+    coord.x = normalizedCoord3d.y;
+    coord.y = -normalizedCoord3d.x;
+  } else if (face == DOWN)
+    coord = normalizedCoord3d.yx;
+  else if (face == BACK) {
+    coord.x = -normalizedCoord3d.y;
+    coord.y = normalizedCoord3d.z;
+  }
+
+  if (fovX < pi_2)
+    coord.x *= pi_2 / fovX;
+  if (fovY < pi_2)
+    coord.y *= pi_2 / fovY;
+
+  vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
+
+  fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+  if (face == FRONT)
+    fragColor = texture(inputTextures[0], faceCoord);
+  else if (face == RIGHT)
+    fragColor = texture(inputTextures[1], faceCoord);
+  else if (face == BACK)
+    fragColor = texture(inputTextures[2], faceCoord);
+  else if (face == LEFT)
+    fragColor = texture(inputTextures[3], faceCoord);
+  else if (face == UP)
+    fragColor = texture(inputTextures[4], faceCoord);
+  else if (face == DOWN)
+    fragColor = texture(inputTextures[5], faceCoord);
+
+  // rectify the spherical transform
+  if (rangeCamera > 0) {
+    float depth = fragColor.x;
+    if (depth < maxRange) {
+      float cosine = 0.0f;
+      for (int i = 0; i < 6; ++i) {
+        float cosineTmp = dot(normalizedCoord3d, orientations[i]);
+        cosineTmp = cosineTmp / length(normalizedCoord3d);
+        if (cosineTmp > cosine)
+          cosine = cosineTmp;
+      }
+      depth = depth / cosine;
+    }
+    if (depth < minRange)
+      depth = maxRange;
+
+    fragColor = vec4(clamp(depth, 0.0, maxRange), 0.0, 0.0, 0.0);
+  }
+}
+#version 330
+
+in vec2 texUv;
+in vec2 seed;
+
+out float fragColor;
+
+uniform float intensity;
+
+uniform sampler2D inputTextures[1];
+
+// http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+// https://www.wolframalpha.com/input/?i=plot%28+mod%28+sin%28mod%28x*12.9898+%2B+y*78.233%2C+3.14%29%29+*+43758.5453%2C1%29x%3D0..2%2C+y%3D0..2%29
+highp float rand(vec2 seed) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt = dot(seed.xy, vec2(a, b));
+  highp float sn = mod(dt, 3.14);
+  return fract(sin(sn) * c);
+}
+
+// Box-Muller method
+float gaussian(vec2 uv, vec2 seed) {
+  const float PI = 3.141592653589793238462643383279;
+
+  // generate 2 independents random numbers
+  float U = rand(uv + vec2(seed.x, seed.x));
+  float V = rand(uv + vec2(seed.y, seed.y));
+
+  // make sure U is not close to 0 because log(0) is undefined
+  if (U <= 0.0000001)
+    U = 0.0000001;
+
+  // generate a gaussian value with mean 0 and standard deviation 1
+  float r = sqrt(-2.0 * log(U)) * cos(2.0 * PI * V);
+  return r;
+}
+
+void main() {
+  fragColor = texture(inputTextures[0], texUv).r + intensity * gaussian(texUv, seed);
+}
+#version 300 es
+
+precision highp float;
+
+const int mainTextureIndex = 0;
+const int penTextureIndex = 1;
+const int backgroundTextureIndex = 2;
+
+in vec2 texUv;
+in vec2 penTexUv;
+
+out vec4 fragColor;
+
+uniform sampler2D inputTextures[3];
+
+// Material parameters for this renderable
+layout(std140) uniform PhongMaterial {
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specularAndExponent;
+  vec4 emissiveAndOpacity;
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+}
+material;
+
+void main() {
+  fragColor = vec4(1.0);
+
+  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0)
+    fragColor.w = 0.0;
+
+  // Background texture
+  if (material.textureFlags.z > 0.0)
+    fragColor = texture(inputTextures[backgroundTextureIndex], texUv);
+
+  // Main texture
+  if (material.textureFlags.x > 0.0) {
+    vec4 mainColor = texture(inputTextures[mainTextureIndex], texUv);
+    fragColor = vec4(mix(fragColor.xyz, mainColor.xyz, mainColor.w), fragColor.w + mainColor.w);
+  }
+
+  // Pen texture
+  if (material.textureFlags.y > 0.0) {
+    vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
+    fragColor = vec4(mix(fragColor.xyz, penColor.xyz, penColor.w), fragColor.w);
+  }
+}
+#version 330
+
+const int sourceTextureIndex = 0;
+const int blurTextureIndex = 1;
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform int iterationNumber;
+uniform vec2 viewportSize;
+
+uniform int taps;
+uniform vec4 offsets;
+uniform vec4 weights;
+
+uniform sampler2D inputTextures[2];
+
+vec4 convolveHorizontally() {
+  vec4 color;
+  if (iterationNumber == 0) {
+    color = weights[0] * texture(inputTextures[sourceTextureIndex], texUv);
+    for (int i = 1; i < taps; ++i) {
+      color += weights[i] * texture(inputTextures[sourceTextureIndex], vec2(texUv.x + offsets[i] / viewportSize.x, texUv.y));
+      color += weights[i] * texture(inputTextures[sourceTextureIndex], vec2(texUv.x - offsets[i] / viewportSize.x, texUv.y));
+    }
+  } else {
+    color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+    for (int i = 1; i < taps; ++i) {
+      color += weights[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x + offsets[i] / viewportSize.x, texUv.y));
+      color += weights[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x - offsets[i] / viewportSize.x, texUv.y));
+    }
+  }
+
+  return color;
+}
+
+vec4 convolveVertically() {
+  vec4 color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+  for (int i = 1; i < taps; ++i) {
+    color += weights[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y + offsets[i] / viewportSize.y));
+    color += weights[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y - offsets[i] / viewportSize.y));
+  }
+
+  return color;
+}
+
+void main() {
+  if (iterationNumber % 2 == 0)
+    result = convolveHorizontally();
+  else
+    result = convolveVertically();
+}
+#version 330
+
+const int sourceTextureIndex = 0;
+const int blurTextureIndex = 1;
+
+// 9-tap filter using coefficients taken from pascal's triangle.
+// This works because the binomial distribution is the discrete equivalent of the normal distribution.
+// http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/
+const int tapCount = 9;
+const int weightCount = 1 + (tapCount - 1) / 2;
+const float offsets[weightCount] = float[](0.0, 1.0, 2.0, 3.0, 4.0);
+const float weights[weightCount] = float[](924.0 / 4070.0, 792.0 / 4070.0, 495.0 / 4070.0, 220.0 / 4070.0, 66.0 / 4070.0);
+
+// Optimization: profit from hardware bilinear interpolation to sample two texels at once
+// by sampling between the texels at a location determined by their weights
+const int weightCountShared = (weightCount - 1) / 2;
+const float weightsShared[weightCountShared] = float[](weights[1] + weights[2], weights[3] + weights[4]);
+const float offsetsShared[weightCountShared] =
+  float[](offsets[1] + weights[1] / weightsShared[0], offsets[3] + weights[3] / weightsShared[1]);
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform int iterationNumber;
+uniform vec2 viewportSize;
+
+uniform sampler2D inputTextures[2];
+
+vec4 convolveHorizontally() {
+  vec4 color;
+  if (iterationNumber == 0) {
+    color = weights[0] * texture(inputTextures[sourceTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x + offsetsShared[i] / viewportSize.x, texUv.y));
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x - offsetsShared[i] / viewportSize.x, texUv.y));
+    }
+  } else {
+    color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color +=
+        weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x + offsetsShared[i] / viewportSize.x, texUv.y));
+      color +=
+        weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x - offsetsShared[i] / viewportSize.x, texUv.y));
+    }
+  }
+
+  return color;
+}
+
+vec4 convolveVertically() {
+  vec4 color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+  for (int i = 0; i < weightCountShared; ++i) {
+    color +=
+      weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y + offsetsShared[i] / viewportSize.y));
+    color +=
+      weightsShared[i] * texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y - offsetsShared[i] / viewportSize.y));
+  }
+
+  return color;
+}
+
+void main() {
+  if (iterationNumber % 2 == 0)
+    result = convolveHorizontally();
+  else
+    result = convolveVertically();
+
+  result = vec4(result.rgb, 1.0);
+}
+#version 330
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 fragColor;
+
+uniform vec2 center;
+uniform vec2 radialDistortionCoeffs;
+uniform vec2 tangentialDistortionCoeffs;
+
+uniform sampler2D inputTextures[1];
+
+void main() {
+  vec2 distortedUv;
+
+  // based on Brown's distortion model (https://en.wikipedia.org/wiki/Distortion_%28optics%29#Software_correction)
+  float r = pow(texUv.x - center.x, 2.0) + pow(texUv.y - center.y, 2.0);
+  distortedUv.x = texUv.x * (1.0 + radialDistortionCoeffs.x * r + radialDistortionCoeffs.y * r * r) +
+                  tangentialDistortionCoeffs.y * (r + 2.0 * texUv.x * texUv.x) +
+                  2.0 * tangentialDistortionCoeffs.x * texUv.x * texUv.y;
+  distortedUv.y = texUv.y * (1.0 + radialDistortionCoeffs.x * r + radialDistortionCoeffs.y * r * r) +
+                  tangentialDistortionCoeffs.x * (r + 2.0 * texUv.y * texUv.y) +
+                  2.0 * tangentialDistortionCoeffs.y * texUv.x * texUv.y;
+
+  fragColor = texture(inputTextures[0], distortedUv);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+uniform vec2 viewportSize;
+out vec2 texUv;
+out vec4 texUvOffsets[3];
+
+void SMAAEdgeDetection(vec2 texcoord) {
+  // WebGL port note: Changed sign in W components
+  texUvOffsets[0] = texcoord.xyxy + 1.0 / viewportSize.xyxy * vec4(-1.0, 0.0, 0.0, 1.0);
+  texUvOffsets[1] = texcoord.xyxy + 1.0 / viewportSize.xyxy * vec4(1.0, 0.0, 0.0, -1.0);
+  texUvOffsets[2] = texcoord.xyxy + 1.0 / viewportSize.xyxy * vec4(-2.0, 0.0, 0.0, 2.0);
+}
+
+void main() {
+  texUv = vTexCoord;
+  SMAAEdgeDetection(texUv);
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+const int sceneTextureIndex = 0;  // full resolution scene texture
+const int depthTextureIndex = 1;  // full resolution depth buffer texture
+const int blurTextureIndex = 2;   // downsampled and blurred scene texture
+
+const int numTaps = 12;
+const vec2 poissonCoords[numTaps] = vec2[numTaps](vec2(0.00, 0.00), vec2(0.07, -0.45), vec2(-0.15, -0.33), vec2(0.35, -0.32),
+                                                  vec2(-0.39, -0.26), vec2(0.10, -0.23), vec2(0.36, -0.12), vec2(-0.31, -0.01),
+                                                  vec2(-0.38, 0.22), vec2(0.36, 0.23), vec2(-0.13, 0.29), vec2(0.14, 0.41));
+
+const vec2 maxCoC = vec2(5.0, 10.0);  // max. circle of confusion (CoC) radius and diameter in pixels
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 fragColor;
+
+// Depth of field parameters:
+// x = near blur depth, y = focal plane depth, z = far blur depth
+// w = blurriness cutoff constant for objects behind the focal plane
+uniform vec4 dofParams;
+uniform vec2 cameraParams;  // x: zNear, y: zFar
+uniform vec2 blurTextureSize;
+uniform vec2 viewportSize;
+uniform sampler2D inputTextures[3];
+
+float linearizeDepth(float z) {
+  float zNdc = 2.0 * z - 1.0;
+  return cameraParams.x +
+         2.0 * cameraParams.x * cameraParams.y / (cameraParams.y + cameraParams.x - zNdc * (cameraParams.y - cameraParams.x));
+}
+
+float applyDofParams(float depth) {
+  if (depth < dofParams.y) {
+    // scale depth value between near blur distance and focal distance to [-1, 0] range
+    depth = (depth - dofParams.y) / (dofParams.y - dofParams.x);
+  } else {
+    // scale depth value between focal distance and far blur distance to [0, 1] range
+    depth = (depth - dofParams.y) / (dofParams.z - dofParams.y);
+    // clamp the far blur to a maximum blurriness
+    depth = clamp(depth, 0.0, dofParams.w);
+  }
+
+  // scale and bias into [0, 1] range
+  return depth;
+}
+
+void main() {
+  float centerDepth = applyDofParams(linearizeDepth(texture(inputTextures[depthTextureIndex], texUv).x));
+  centerDepth = 0.5 * centerDepth + 0.5;
+
+  // Convert depth of center tap into blur radius in pixels
+  float radiusScale = 0.5 * (blurTextureSize.x / viewportSize.x + blurTextureSize.y / viewportSize.y);
+  float discRadiusScene = abs(centerDepth * maxCoC.y - maxCoC.x);
+  float discRadiusBlur = discRadiusScene * radiusScale;  // radius on blur texture
+
+  vec2 viewportPixelSize = vec2(1.0) / viewportSize;
+  vec2 blurTexturePixelSize = vec2(1.0) / blurTextureSize;
+  vec4 sum = vec4(0.0);
+
+  for (int i = 0; i < numTaps; ++i) {
+    // compute texture coordinates
+    vec2 coordScene = texUv + viewportPixelSize * poissonCoords[i] * discRadiusScene;
+    vec2 coordBlur = texUv + blurTexturePixelSize * poissonCoords[i] * discRadiusBlur;
+
+    // fetch taps and depth
+    vec4 tapScene = texture(inputTextures[sceneTextureIndex], coordScene);
+    vec4 tapBlur = texture(inputTextures[blurTextureIndex], coordBlur);
+    float tapDepth = applyDofParams(linearizeDepth(texture(inputTextures[depthTextureIndex], coordScene).x));
+
+    // mix low and high res. taps based on tap blurriness
+    float blurAmount = abs(tapDepth);  // put blurriness into [0, 1]
+    vec4 tap = mix(tapScene, tapBlur, blurAmount);
+
+    // "smart" blur ignores taps that are closer than the center tap and in focus
+    float factor = (tapDepth >= centerDepth) ? 1.0 : blurAmount;
+
+    // accumulate
+    sum.rgb += tap.rgb * factor;
+    sum.a += factor;
+  }
+
+  fragColor = sum / sum.a;
+}
+#version 330
+
+// This shader does the heavy lifting for GTAO based on
+// https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtao.frag
+
+#define PI 3.1415926535897932
+#define PI_HALF 1.5707963267948966
+
+uniform sampler2D inputTextures[3];
+
+uniform float radius;
+uniform float flipNormalY;
+uniform vec4 clipInfo;
+uniform vec2 viewportSize;
+uniform vec4 params;
+
+out float fragColor;
+
+in vec2 texUv;
+
+#define asfloat(x) intBitsToFloat(x)
+#define asint(x) floatBitsToInt(x)
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+float GTAOFastSqrt(float x) {
+  // [Drobot2014a] Low Level Optimizations for GCN
+  return asfloat(0x1FBD1DF5 + (asint(x) >> 1));
+}
+
+float GTAOFastAcos(float x) {
+  float res = -0.156583 * abs(x) + PI_HALF;
+  res *= GTAOFastSqrt(1.0 - abs(x));
+  return x >= 0 ? res : PI - res;
+}
+
+vec4 getViewSpacePosition(vec2 pixelLocation, mat4 inverseProjectionMatrix) {
+  // Get the depth value for this pixel
+  float z = textureLod(inputTextures[0], pixelLocation, 0.0).r;
+  if (z == 1.0)
+    return vec4(0.0);
+  // Get x/w and y/w from the viewport position
+  float x = pixelLocation.x * 2 - 1;
+  float y = pixelLocation.y * 2 - 1;
+  vec4 projectedPosition = vec4(x, y, z, 1.0f);
+  // Transform by the inverse projection matrix
+  vec4 vPositionVS = inverseProjectionMatrix * projectedPosition;
+  vPositionVS.z = -vPositionVS.z;
+  // Divide by w to get the view-space position
+  return vec4(vPositionVS.xyz / vPositionVS.w, vPositionVS.w);
+}
+
+float getFalloff(float squaredDistance) {
+#define FALLOFF_START2 0.16
+#define FALLOFF_END2 max(radius *radius, FALLOFF_START2)
+  return 2.0 * clamp((squaredDistance - FALLOFF_START2) / (FALLOFF_END2 - FALLOFF_START2), 0.0, 1.0);
+}
+
+void searchForHorizons(inout vec2 horizons, vec2 offset, vec3 viewVector, vec4 viewSpacePosition,
+                       mat4 inverseProjectionMatrix) {
+  // search for h1
+  vec4 sampleViewspacePosition;
+  vec3 sliceSampleToOrigin;
+  sampleViewspacePosition = getViewSpacePosition((gl_FragCoord.xy + offset) / viewportSize, inverseProjectionMatrix);
+  float squaredSampleDistance, inverseSquaredSampleDistance, horizonCosine, falloff = 0.0;
+  if (sampleViewspacePosition != vec4(0.0)) {
+    sliceSampleToOrigin = sampleViewspacePosition.xyz - viewSpacePosition.xyz;
+
+    squaredSampleDistance = dot(sliceSampleToOrigin, sliceSampleToOrigin);
+    inverseSquaredSampleDistance = inversesqrt(squaredSampleDistance);
+    horizonCosine = inverseSquaredSampleDistance * dot(sliceSampleToOrigin, viewVector);
+
+    falloff = getFalloff(squaredSampleDistance);
+    horizons.x = max(horizons.x, horizonCosine - falloff);
+  }
+
+  // search for h2
+  sampleViewspacePosition = getViewSpacePosition((gl_FragCoord.xy - offset) / viewportSize, inverseProjectionMatrix);
+  if (sampleViewspacePosition != vec4(0.0)) {
+    sliceSampleToOrigin = sampleViewspacePosition.xyz - viewSpacePosition.xyz;
+
+    squaredSampleDistance = pow(length(sliceSampleToOrigin), 2);
+    inverseSquaredSampleDistance = inversesqrt(squaredSampleDistance);
+    horizonCosine = inverseSquaredSampleDistance * dot(sliceSampleToOrigin, viewVector);
+
+    falloff = getFalloff(squaredSampleDistance);
+    horizons.y = max(horizons.y, horizonCosine - falloff);
+  }
+}
+
+float integrateArc(vec2 horizons, float cosN, float sinN2, float projectedNormalLength, float n) {
+  return projectedNormalLength * 0.25 *
+         ((horizons.x * sinN2 + cosN - cos(2.0 * horizons.x - n)) + (horizons.y * sinN2 + cosN - cos(2.0 * horizons.y - n)));
+}
+
+void main() {
+  vec3 viewSpaceNormal = textureLod(inputTextures[1], texUv, 0).rgb;
+
+  mat4 inverseProjectionMatrix = inverse(cameraTransforms.projection);
+
+  // first, retrieve view-space position and normals
+  vec4 viewSpacePosition = getViewSpacePosition(texUv, inverseProjectionMatrix);
+  if (viewSpaceNormal == vec3(0.0) || viewSpacePosition.z > 200) {
+    // discard any fragments from the background or those which don't have a normal
+    fragColor = 1.0;
+    return;
+  }
+
+  viewSpaceNormal -= 0.5;
+  viewSpaceNormal *= 2.0;
+  viewSpaceNormal = normalize(vec3(viewSpaceNormal.xy, -viewSpaceNormal.z));
+
+  if (flipNormalY > 0.0)
+    viewSpaceNormal.y *= -1.0;
+
+  // calculate screen-space radius
+  float projectedRadius = (radius * clipInfo.z) / viewSpacePosition.z;
+  float stepsize = projectedRadius / params.z;
+
+  // fetch noises and calculate jittered slice angle
+  ivec2 loc = ivec2(gl_FragCoord.xy);
+  vec2 noises = texelFetch(inputTextures[2], loc % 4, 0).rg;
+  float sliceAngle = (params.x + noises.x) * PI;
+  float currentStep = mod(params.y + noises.y, 1.0) * (stepsize - 1.0) + 1.0;
+  vec3 searchDirection = vec3(cos(sliceAngle), sin(sliceAngle), 0.0);
+
+  // set up last couple of things to find horizon angles
+  vec3 viewVector = normalize(-viewSpacePosition.xyz);
+  vec2 horizons = vec2(-1.0, -1.0);
+
+  vec2 offset;
+  for (int j = 0; j < params.z; ++j) {
+    offset = round(searchDirection.xy * currentStep);
+    currentStep += stepsize;
+
+    searchForHorizons(horizons, offset, viewVector, viewSpacePosition, inverseProjectionMatrix);
+  }
+
+  horizons = vec2(GTAOFastAcos(horizons.x), GTAOFastAcos(horizons.y));
+
+  // calculate n (angle between plane normal and projected normal)
+  vec3 bitangent = normalize(cross(searchDirection, viewVector));
+  vec3 planeNormal = cross(viewVector, bitangent);
+  vec3 projectedNormal = viewSpaceNormal - bitangent * dot(viewSpaceNormal, bitangent);
+
+  float projectedNormalLength = length(projectedNormal);
+  float inverseProjectedNormalLength = 1.0 / (projectedNormalLength + 1e-6);       // to avoid division with zero
+  float cosXi = dot(projectedNormal, planeNormal) * inverseProjectedNormalLength;  // xi = n + PI_HALF
+  float n = GTAOFastAcos(cosXi) - PI_HALF;
+  float cosN = dot(projectedNormal, viewVector) * inverseProjectedNormalLength;
+  float sinN2 = -2.0 * cosXi;  // cos(x + PI_HALF) = -sin(x)
+
+  // clamp to normal hemisphere
+  horizons.x = n + max(-horizons.x - n, -PI_HALF);
+  horizons.y = n + min(horizons.y - n, PI_HALF);
+
+  // distance filter - accept all values until 100m, then ramp down to 0 contrib at 200m
+  float distanceFalloff = (max(min(0.01 * (200 - viewSpacePosition.z), 1.0), 0.0));
+
+  fragColor = 1.0 - ((1.0 - integrateArc(horizons, cosN, sinN2, projectedNormalLength, n)) * distanceFalloff);
+}
+#version 330
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+uniform vec2 viewportSize;
+out vec2 texUv;
+out vec4 texUvOffsets[2];
+
+void SMAANeighborhoodBlendingVS(vec2 texcoord) {
+  texUvOffsets[0] =
+    texcoord.xyxy + (1.0 / viewportSize).xyxy * vec4(-1.0, 0.0, 0.0, -1.0);  // WebGL port note: Changed sign in W component
+  texUvOffsets[1] =
+    texcoord.xyxy + (1.0 / viewportSize).xyxy * vec4(1.0, 0.0, 0.0, 1.0);  // WebGL port note: Changed sign in W component
+}
+
+void main() {
+  texUv = vTexCoord;
+
+  SMAANeighborhoodBlendingVS(texUv);
+
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+#define SMAA_MAX_SEARCH_STEPS 16
+#define RESOLUTION (1.0 / viewportSize)
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 2) in vec2 vTexCoord;
+
+uniform vec2 viewportSize;
+out vec2 texUv;
+out vec4 texUvOffsets[3];
+out vec2 vPixcoord;
+
+void SMAABlendingWeightCalculationVS(vec2 texcoord) {
+  vPixcoord = texcoord / RESOLUTION;
+
+  // We will use these offsets for the searches later on
+  texUvOffsets[0] = texcoord.xyxy + RESOLUTION.xyxy * vec4(-0.25, 0.125, 1.25, 0.125);
+  texUvOffsets[1] = texcoord.xyxy + RESOLUTION.xyxy * vec4(-0.125, 0.25, -0.125, -1.25);
+
+  // And these for the searches, they indicate the ends of the loops:
+  texUvOffsets[2] =
+    vec4(texUvOffsets[0].xz, texUvOffsets[1].yw) + vec4(-2.0, 2.0, -2.0, 2.0) * RESOLUTION.xxyy * float(SMAA_MAX_SEARCH_STEPS);
+}
+
+void main() {
+  texUv = vTexCoord;
+  SMAABlendingWeightCalculationVS(texUv);
+  gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
+}
+#version 330
+
+const int sourceTextureIndex = 0;
+const int blurTextureIndex = 1;
+
+// 13-tap filter using coefficients taken from pascal's triangle.
+// This works because the binomial distribution is the discrete equivalent of the normal distribution.
+// http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/
+const int tapCount = 13;
+const int weightCount = 1 + (tapCount - 1) / 2;
+const float offsets[weightCount] = float[](0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+const float weights[weightCount] = float[](12870.0 / 65502.0, 11440.0 / 65502.0, 8008.0 / 65502.0, 4368.0 / 65502.0,
+                                           1820.0 / 65502.0, 560.0 / 65502.0, 120.0 / 65502.0);
+
+// Optimization: profit from hardware bilinear interpolation to sample two texels at once
+// by sampling between the texels at a location determined by their weights
+const int weightCountShared = (weightCount - 1) / 2;
+const float weightsShared[weightCountShared] =
+  float[](weights[1] + weights[2], weights[3] + weights[4], weights[5] + weights[6]);
+const float offsetsShared[weightCountShared] =
+  float[](offsets[1] + weights[1] / weightsShared[0], offsets[3] + weights[3] / weightsShared[1],
+          offsets[5] + weights[5] / weightsShared[2]);
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform int iterationNumber;
+
+uniform sampler2D inputTextures[2];
+
+vec4 convolveHorizontally(vec2 textureSizeSource, vec2 textureSizeBlur) {
+  vec4 color;
+  if (iterationNumber == 0) {
+    color = weights[0] * texture(inputTextures[sourceTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x + offsetsShared[i] / textureSizeSource.x, texUv.y));
+      color += weightsShared[i] *
+               texture(inputTextures[sourceTextureIndex], vec2(texUv.x - offsetsShared[i] / textureSizeSource.x, texUv.y));
+    }
+  } else {
+    color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+    for (int i = 0; i < weightCountShared; ++i) {
+      color += weightsShared[i] *
+               texture(inputTextures[blurTextureIndex], vec2(texUv.x + offsetsShared[i] / textureSizeBlur.x, texUv.y));
+      color += weightsShared[i] *
+               texture(inputTextures[blurTextureIndex], vec2(texUv.x - offsetsShared[i] / textureSizeBlur.x, texUv.y));
+    }
+  }
+
+  return color;
+}
+
+vec4 convolveVertically(vec2 textureSizeBlur) {
+  vec4 color = weights[0] * texture(inputTextures[blurTextureIndex], texUv);
+  for (int i = 0; i < weightCountShared; ++i) {
+    color += weightsShared[i] *
+             texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y + offsetsShared[i] / textureSizeBlur.y));
+    color += weightsShared[i] *
+             texture(inputTextures[blurTextureIndex], vec2(texUv.x, texUv.y - offsetsShared[i] / textureSizeBlur.y));
+  }
+
+  return color;
+}
+
+void main() {
+  vec2 textureSizeSource = textureSize(inputTextures[sourceTextureIndex], 0);
+  vec2 textureSizeBlur = textureSize(inputTextures[blurTextureIndex], 0);
+  if (iterationNumber % 2 == 0)
+    result = convolveHorizontally(textureSizeSource, textureSizeBlur);
+  else
+    result = convolveVertically(textureSizeBlur);
+}
+#version 330
+
+const int lastResultTextureIndex = 0;
+const int noiseTextureIndex = 1;
+
+in vec2 texUv;
+
+layout(location = 0) out vec4 result;
+
+uniform vec2 textureOffset;
+uniform vec2 textureFactor;
+
+uniform sampler2D inputTextures[2];
+
+void main() {
+  vec2 noiseUv = (texUv + textureOffset) * textureFactor;
+  vec4 noiseColor = texture(inputTextures[noiseTextureIndex], noiseUv);
+  vec4 lastColor = texture(inputTextures[lastResultTextureIndex], texUv);
+
+  result = lastColor;
+  result.rgb = mix(lastColor.rgb, noiseColor.rgb, noiseColor.a);
+}
+#version 330
+
+in vec3 fragmentPosition;
+in vec3 fragmentNormal;
+in vec2 texUv;
+in vec2 penTexUv;
+in mat3 inverseViewMatrix;
+
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
+
+uniform sampler2D inputTextures[13];
+uniform samplerCube cubeTextures[1];
+
+// Material parameters for this renderable
+layout(std140) uniform PbrMaterial {
+  vec4 baseColorAndTransparency;
+  vec4 roughnessMetalnessNormalMapFactorOcclusion;
+  vec4 backgroundColorAndIblStrength;
+  vec4 emissiveColorAndIntensity;
+  vec4 baseColorRoughnessMetalnessOcclusionMapFlags;
+  vec4 normalBrdfEmissiveBackgroundFlags;
+  vec4 penFlags;
+  vec4 cubeTextureFlags;
+}
+material;
+
+struct IBLInfo {
+  float NdotV;                // cos angle between normal and view direction
+  float perceptualRoughness;  // roughness value, as authored by the model creator (input to shader)
+  vec3 diffuseColor;          // color contribution from diffuse lighting
+  vec3 specularColor;         // color contribution from specular lighting
+};
+
+const float minRoughness = 0.04;
+
+vec4 SRGBtoLINEAR(vec4 srgbIn) {
+  vec3 bLess = step(vec3(0.04045), srgbIn.xyz);
+  vec3 linOut = mix(srgbIn.xyz / vec3(12.92), pow((srgbIn.xyz + vec3(0.055)) / vec3(1.055), vec3(2.4)), bLess);
+  return vec4(linOut, srgbIn.w);
+}
+
+mat3 cotangentFrame(vec3 N, vec3 p, vec2 uv) {
+  // get edge vectors of the pixel triangle
+  vec3 dp1 = dFdx(p);
+  vec3 dp2 = dFdy(p);
+  vec2 duv1 = dFdx(uv);
+  vec2 duv2 = dFdy(uv);
+
+  if (duv1 == vec2(0.0) && duv2 == vec2(0.0))
+    return mat3(vec3(0.0), vec3(0.0), N);
+
+  // solve the linear system
+  vec3 dp2perp = cross(dp2, N);
+  vec3 dp1perp = cross(N, dp1);
+  vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
+  vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+
+  // construct a scale-invariant frame
+  float scale = max(dot(T, T), dot(B, B));
+  if (scale <= 0.0)  // inversesqrt result is undefined for value <= 0
+    return mat3(T, B, N);
+  float invmax = inversesqrt(scale);
+  return mat3(T * invmax, B * invmax, N);
+}
+
+vec3 perturbNormal(vec3 N, vec3 V) {
+  vec3 map = texture(inputTextures[4], texUv).rgb * 2.0 - 1.0;
+  map.xy = vec2(material.roughnessMetalnessNormalMapFactorOcclusion.z) * map.xy;
+  mat3 TBN = cotangentFrame(N, -V, texUv);
+  return normalize(TBN * map);
+}
+
+vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
+  vec3 diffuseLight = vec3(0.0);
+  vec3 specularLight = vec3(0.0);
+  vec2 brdf = texture(inputTextures[5], vec2(iblInputs.NdotV, iblInputs.perceptualRoughness)).rg;
+  if (material.cubeTextureFlags.x > 0.0) {
+    float mipCount = 7.0;
+    float lod = (iblInputs.perceptualRoughness * mipCount);
+    // A single irradiance map is used for the diffuse and specular reflections:
+    // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
+    // invert z components of sample vectors due to VRML default camera orientation looking towards -z
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
+  } else {
+    diffuseLight = material.backgroundColorAndIblStrength.rgb;
+    specularLight = material.backgroundColorAndIblStrength.rgb;
+  }
+
+  vec3 diffuse = diffuseLight * iblInputs.diffuseColor;
+  vec3 specular = specularLight * (iblInputs.specularColor * brdf.x + brdf.y);
+
+  // scale ambient light contribution
+  diffuse *= material.backgroundColorAndIblStrength.w;
+  specular *= material.backgroundColorAndIblStrength.w;
+
+  return diffuse + specular;
+}
+
+void main() {
+  vec3 viewFragmentNormal = normalize(fragmentNormal);
+  fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
+
+  // sample from normal map if one exists
+  if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
+    viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
+
+  vec3 worldFragmentNormal = inverseViewMatrix * viewFragmentNormal;
+
+  // read roughness and metalness values
+  float perceptualRoughness = material.roughnessMetalnessNormalMapFactorOcclusion.x;
+  float metalness = material.roughnessMetalnessNormalMapFactorOcclusion.y;
+
+  // sample roughness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y > 0.0) {
+    vec4 roughnessSample = texture(inputTextures[1], texUv);
+    perceptualRoughness = roughnessSample.r;
+  }
+
+  // sample metalness map if one exists
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z > 0.0) {
+    vec4 metalnessSample = texture(inputTextures[2], texUv);
+    metalness = metalnessSample.r;
+  }
+
+  perceptualRoughness = clamp(perceptualRoughness, minRoughness, 1.0);
+  metalness = clamp(metalness, 0.0, 1.0);
+  float alphaRoughness = perceptualRoughness * perceptualRoughness;
+
+  vec4 baseColor = material.baseColorAndTransparency;
+  baseColor.w = 1.0 - baseColor.w;
+
+  // apply base color map if it exists, composite background texture if necessary
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x > 0.0) {
+    vec4 baseColorMapColor = SRGBtoLINEAR(texture(inputTextures[0], texUv));
+
+    if (material.normalBrdfEmissiveBackgroundFlags.w > 0.0) {
+      vec3 backgroundTextureColor = SRGBtoLINEAR(texture(inputTextures[7], texUv)).rgb;
+      baseColor.rgb = mix(backgroundTextureColor, baseColorMapColor.xyz, baseColorMapColor.w);
+    } else {
+      // take base color
+      baseColor = baseColorMapColor;
+      // re-apply transparency from base material
+      baseColor.w *= (1.0 - material.baseColorAndTransparency.w);
+    }
+
+    baseColor = vec4(baseColor.rgb * material.baseColorAndTransparency.rgb, baseColor.w);
+  }
+
+  // Mix with pen texture
+  if (material.penFlags.x > 0.0) {
+    vec4 penColor = texture(inputTextures[8], penTexUv);
+    baseColor = vec4(mix(baseColor.xyz, penColor.xyz, penColor.w), baseColor.w);
+  }
+
+  vec3 f0 = vec3(0.04);
+  vec3 diffuseColor = baseColor.rgb * (vec3(1.0) - f0);
+  diffuseColor *= 1.0 - metalness;
+  vec3 specularColor = mix(f0, baseColor.rgb, metalness);
+  vec3 v = normalize(-fragmentPosition);
+  float NdotV = dot(viewFragmentNormal, v) - 0.001;
+
+  vec3 reflection = -normalize(reflect(inverseViewMatrix * v, worldFragmentNormal));
+
+  IBLInfo iblInputs = IBLInfo(NdotV, perceptualRoughness, diffuseColor, specularColor);
+
+  vec3 color = getIBLContribution(iblInputs, worldFragmentNormal, reflection);
+
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.w > 0.0) {
+    float ao = texture(inputTextures[3], texUv).r;
+    color = mix(color, color * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
+  }
+
+  vec3 emissive = material.emissiveColorAndIntensity.rgb;
+
+  if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
+    emissive = texture(inputTextures[6], texUv).rgb;
+
+  emissive *= material.emissiveColorAndIntensity.w;
+  color += emissive;
+
+  fragColor = vec4(color, baseColor.a);
+}
+#version 330
+
+invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
+
+layout(location = 0) in vec3 vCoord;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec2 vTexCoord;
+layout(location = 4) in vec2 vUnwrappedTexCoord;
+
+out vec2 texUv;
+out vec2 penTexUv;
+out vec3 fragmentNormal;
+
+uniform mat4 modelTransform;
+uniform mat4 textureTransform;
+
+// Camera transforms for this frame
+layout(std140) uniform CameraTransforms {
+  mat4 view;
+  mat4 projection;
+  mat4 infiniteProjection;
+}
+cameraTransforms;
+
+void main() {
+  mat4 modelView = cameraTransforms.view * modelTransform;
+
+  vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
+
+  gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
+
+  fragmentNormal = normalize(mat3(transpose(inverse(modelView))) * vNormal);
+
+  texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
+  penTexUv = vUnwrappedTexCoord;
+}

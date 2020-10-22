@@ -21,7 +21,14 @@
 
 #include <wren/static_mesh.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <unordered_map>
 #include <vector>
@@ -1689,6 +1696,7 @@ namespace wren {
     bind();
 
     glDrawElements(drawingMode, mCacheData->mIndexCount, GL_UNSIGNED_INT, NULL);
+
     if (config::requiresFlushAfterDraw())
       glFlush();
   }
@@ -1938,7 +1946,10 @@ namespace wren {
 
   static void copyFromBuffer(unsigned int target, unsigned int buffer, size_t size, void *dest) {
     glBindBuffer(target, buffer);
+#ifdef __EMSCRIPTEN__
+#else
     glGetBufferSubData(target, 0, size, dest);
+#endif
   }
 
   /*

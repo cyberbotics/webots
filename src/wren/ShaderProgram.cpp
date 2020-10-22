@@ -21,7 +21,14 @@
 
 #include <wren/shader_program.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <cstdlib>
@@ -51,9 +58,9 @@ namespace wren {
   }
 
   void ShaderProgram::setup() {
-    if (glstate::isContextActive())
+    if (glstate::isContextActive()) {
       prepareGl();
-    else
+    } else
       setRequireAction(GlUser::GL_ACTION_PREPARE);
   }
 
@@ -71,13 +78,13 @@ namespace wren {
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
     std::ifstream in(path, std::ios::in | std::ios::binary);
+
     if (in) {
       in.seekg(0, std::ios::end);
       contents.resize(in.tellg());
       in.seekg(0, std::ios::beg);
       in.read(&contents[0], contents.size());
       in.close();
-
       return true;
     }
 
@@ -90,7 +97,6 @@ namespace wren {
       DEBUG("ShaderProgram::compileShader: file not found!");
       DEBUG("Shader source path: " << path.c_str());
     }
-
     unsigned int shaderGlName = glCreateShader(type);
 
     const char *cString = shaderCode.c_str();
@@ -99,15 +105,14 @@ namespace wren {
 
     int success;
     glGetShaderiv(shaderGlName, GL_COMPILE_STATUS, &success);
-
     if (success == GL_FALSE) {
       int logLength;
       glGetShaderiv(shaderGlName, GL_INFO_LOG_LENGTH, &logLength);
 
       char log[logLength];
       glGetShaderInfoLog(shaderGlName, logLength, nullptr, &log[0]);
-
       DEBUG("ShaderProgram::compileShader: compilation failed!");
+      std::cout << log << '\n';
       DEBUG("Shader source path: " << path.c_str());
       DEBUG("InfoLog: " << log);
       mCompilationLog.assign(log);

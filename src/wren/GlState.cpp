@@ -21,7 +21,14 @@
 
 #include <wren/gl_state.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <map>
@@ -97,15 +104,28 @@ namespace wren {
     static std::vector<std::unique_ptr<UniformBuffer>> cUniformBuffers;
 
     void init() {
+#ifdef __EMSCRIPTEN__
+      EmscriptenWebGLContextAttributes attr;
+      emscripten_webgl_init_context_attributes(&attr);
+      attr.alpha = attr.depth = attr.stencil = attr.antialias = attr.preserveDrawingBuffer = attr.failIfMajorPerformanceCaveat =
+        0;
+      attr.enableExtensionsByDefault = 1;
+      attr.premultipliedAlpha = 0;
+      attr.majorVersion = 2;
+      attr.minorVersion = 2;
+      EMSCRIPTEN_WEBGL_CONTEXT_HANDLE ctx = emscripten_webgl_create_context("#canvas", &attr);
+      emscripten_webgl_make_context_current(ctx);
+#else
       if (!gladLoadGL())
         std::cerr << "ERROR: Unable to load OpenGL functions!" << std::endl;
-
-      // attempt to use clip-space Z-values in [0, 1] instead of [-1, 1] for better precision
-      if (!GLAD_GL_ARB_clip_control)
-        DEBUG("GLAD_GL_ARB_clip_control extension not supported by hardware" << std::endl);
-      else
-        glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
-
+        /*
+        // attempt to use clip-space Z-values in [0, 1] instead of [-1, 1] for better precision
+        if (!GLAD_GL_ARB_clip_control)
+          DEBUG("GLAD_GL_ARB_clip_control extension not supported by hardware" << std::endl);
+        else
+          glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
+        */
+#endif
       glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &cMaxCombinedTextureUnits);
       glGetIntegerv(GL_MAX_DRAW_BUFFERS, &cMaxFrameBufferDrawBuffers);
       if (wr_gl_state_is_anisotropic_texture_filtering_supported())
@@ -119,18 +139,27 @@ namespace wren {
       cRenderer = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
       cVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
       cGlslVersion = reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION));
-
+#ifdef __EMSCRIPTEN__
+      int array[4];
+      array[0] = -1;
+      // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+      cGpuMemory = array[0];
+      checkError(GL_INVALID_ENUM);
+#else
+      /*
       if (GLAD_GL_NVX_gpu_memory_info)
         glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
       else {
-        // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
-        // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
-        int array[4];
-        array[0] = -1;
-        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
-        cGpuMemory = array[0];
-        checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
-      }
+      */
+      // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
+      // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
+      int array[4];
+      array[0] = -1;
+      // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+      cGpuMemory = array[0];
+      checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
+      //}
+#endif
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
       cUniformBuffers.reserve(count);
@@ -140,7 +169,7 @@ namespace wren {
       glstate::setDepthTest(true);
       glstate::setCullFace(true);
       glstate::setPolygonMode(GL_FILL);
-      glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
+      // glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
 
       checkError();
 
@@ -329,7 +358,7 @@ namespace wren {
     void setPolygonMode(unsigned int polygonMode) {
       if (cPolygonMode != polygonMode) {
         cPolygonMode = polygonMode;
-        glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
+        // glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
       }
     }
 
@@ -399,9 +428,13 @@ namespace wren {
 
     void setTextureAnisotropy(unsigned int glName, int textureUnit, float anisotropy) {
       assert(cBoundTextures[textureUnit] == glName);
+#ifdef __EMSCRIPTEN__
+#else
+      /*
       if (!GLAD_GL_EXT_texture_filter_anisotropic)
         return;
-
+        */
+#endif
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
         cTextureAnisotropy[glName] = anisotropy;
@@ -794,7 +827,11 @@ int wr_gl_state_get_gpu_memory() {
 }
 
 bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
-  return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+#ifdef __EMSCRIPTEN__
+  return false;
+#else
+  return false;  // return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+#endif
 }
 
 float wr_gl_state_max_texture_anisotropy() {

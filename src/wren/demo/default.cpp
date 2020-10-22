@@ -51,7 +51,6 @@ static void create_wren_scene() {
 
   float background_color[3] = {0.1f, 0.5f, 0.8f};
   wr_viewport_set_clear_color_rgb(vp, background_color);
-
   /*
   // Generate a dummy texture.
   WrTexture2d *texture = wr_texture_2d_new();
@@ -67,26 +66,27 @@ static void create_wren_scene() {
   wr_texture_2d_set_data(texture, data);
   wr_texture_setup(WR_TEXTURE(texture));
   free(data);
-
+  */
   WrShaderProgram *sphereProgram = wr_shader_program_new();
-  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
-  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
-  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
   wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
-  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
-  wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
+  // wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
   wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
   wr_shader_program_set_vertex_shader_path(sphereProgram, "../../../resources/wren/shaders/default.vert");
   wr_shader_program_set_fragment_shader_path(sphereProgram, "../../../resources/wren/shaders/default.frag");
   wr_shader_program_setup(sphereProgram);
+  /*
   if (!wr_shader_program_get_gl_name(sphereProgram))
     printf("Compilation failed: %s\n", wr_shader_program_get_compilation_log(sphereProgram));
-
+  */
   WrRenderable *sphereRenderable = wr_renderable_new();
   WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
   WrMaterial *sphereMaterial = wr_phong_material_new();
   wr_material_set_default_program(sphereMaterial, sphereProgram);
-  wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
+  // wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
   WrTransform *sphereTransform = wr_transform_new();
 
   wr_renderable_set_mesh(sphereRenderable, WR_MESH(sphereMesh));
@@ -95,7 +95,6 @@ static void create_wren_scene() {
 
   WrTransform *root = wr_scene_get_root(wr_scene_get_instance());
   wr_transform_attach_child(root, WR_NODE(sphereTransform));
-  */
 }
 
 // Render function.

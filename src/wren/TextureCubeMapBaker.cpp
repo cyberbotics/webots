@@ -22,7 +22,15 @@
 #include "TextureCubeMap.hpp"
 #include "TextureRtt.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
+
 #include <wren/shader_program.h>
 #include <wren/texture_cubemap.h>
 #include <wren/texture_cubemap_baker.h>

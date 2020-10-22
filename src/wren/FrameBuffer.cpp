@@ -21,7 +21,14 @@
 
 #include <wren/frame_buffer.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <numeric>
@@ -173,8 +180,10 @@ namespace wren {
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
     const int rowIndex = flipY ? (mHeight - 1 - y) : y;
+#ifdef __EMSCRIPTEN__
+#else
     glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
-
+#endif
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
 

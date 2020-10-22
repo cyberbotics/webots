@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
   <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Streaming viewer</title>
     <style>
     canvas {
@@ -12,7 +13,7 @@
     </style>
   </head>
   <canvas id="canvas"></canvas>
-    <script src="../a.out.js"></script>
+    <script src="a.out.js"></script>
     <script src='https://git.io/glm-js.min.js'></script>
     <script>
 
@@ -38,17 +39,59 @@
       let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
 
       let camera = Module._wr_viewport_get_camera(vp);
-      let camera_position = glm.vec3(0.0,0.0,10.0);
+      let camera_position = Module._wr_color_array(0.0,0.0,10.0);
       Module._wr_camera_set_position(camera, camera_position);
 
+      //let background_color = cArray(3);
+      //background_color.data[1] = 1.0;
+      // Create example data to test float_multiply_array
+      var data = new Float32Array([0, 1, 0]);
 
-      let background_color = cArray(3);
-      background_color[0] = 0.0;
+      // Get data byte size, allocate memory on Emscripten heap, and get pointer
+      var nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+      var dataPtr = Module._malloc(nDataBytes);
 
-      console.log(background_color);
-      Module._wr_viewport_set_clear_color_rgb(vp, background_color);
+      // Copy data to Emscripten heap (directly accessed from Module.HEAPU8)
+      var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+      dataHeap.set(new Uint8Array(data.buffer));
+
+      let c = [0,1,1];
+      let d = [1,0,1];
+      let array = Module._wr_color_array(c[0], c[1], c[2]);
+      //let array2 = Module._wr_color_array(d[0], d[1], d[2]);
+      //console.log(array2[1]);
+
+      //console.log(background_color);
+      Module._wr_viewport_set_clear_color_rgb(vp, array);
 
       //Module._wr_viewport_set_clear_color_rgb2(vp, 0.1,0.5,0.8);
+      let sphereProgram = Module._wr_shader_program_new();
+      Module._wr_shader_program_use_uniform(sphereProgram, 16);
+      Module._wr_shader_program_use_uniform_buffer(sphereProgram, 4);
+
+      let ptr1 = allocate(intArrayFromString("../../resources/wren/shaders/default.vert"), 'i8', ALLOC_NORMAL);
+      let ptr2 = allocate(intArrayFromString("../../resources/wren/shaders/default.frag"), 'i8', ALLOC_NORMAL);
+
+      Module._wr_shader_program_set_vertex_shader_path(sphereProgram, ptr1);
+      Module._wr_shader_program_set_fragment_shader_path(sphereProgram, ptr2);
+
+      Module._wr_shader_program_setup(sphereProgram);
+
+      _free(ptr1);
+      _free(ptr2);
+
+      let sphereRenderable = Module._wr_renderable_new();
+      let sphereMesh = Module._wr_static_mesh_unit_sphere_new(2, true, false);
+      let sphereMaterial = Module._wr_phong_material_new();
+      Module._wr_material_set_default_program(sphereMaterial, sphereProgram);
+      let sphereTransform = Module._wr_transform_new();
+
+      Module._wr_renderable_set_mesh(sphereRenderable, sphereMesh);
+      Module._wr_renderable_set_material(sphereRenderable, sphereMaterial, null);
+      Module._wr_transform_attach_child(sphereTransform, sphereRenderable);
+
+      root = Module._wr_scene_get_root(Module._wr_scene_get_instance());
+      Module._wr_transform_attach_child(root, sphereTransform);
     }
 
     function main() {
@@ -81,6 +124,7 @@
       Module._wr_scene_init(Module._wr_scene_get_instance());
 
       create_wren_scene();
+
       renderLoop();
 
       console.log("Continue");

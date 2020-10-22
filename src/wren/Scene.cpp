@@ -41,7 +41,14 @@
 #include <wren/renderable.h>
 #include <wren/scene.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <memory>
@@ -116,8 +123,13 @@ namespace wren {
 
   void Scene::bindPixelBuffer(int buffer) { glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer); }
 
-  void *Scene::mapPixelBuffer(unsigned int accessMode) { return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode); }
-
+  void *Scene::mapPixelBuffer(unsigned int accessMode) {
+#ifdef __EMSCRIPTEN__
+    return NULL;
+#else
+    return NULL;  // return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
+#endif
+  }
   void Scene::unMapPixelBuffer() { glUnmapBuffer(GL_PIXEL_PACK_BUFFER); }
 
   void Scene::terminateFrameCapture() {
@@ -214,7 +226,6 @@ namespace wren {
 
     // debug::printCacheContents();
     // debug::printSceneTree();
-
     renderToViewports({mMainViewport}, culling);
   }
 
@@ -264,6 +275,7 @@ namespace wren {
         }
       } else {
         renderToViewport(culling);
+
         if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
@@ -591,7 +603,6 @@ namespace wren {
 
     for (auto it = first; it < last; ++it) {
       assert((*it)->defaultMaterial());
-
       (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
       (*it)->render();
     }

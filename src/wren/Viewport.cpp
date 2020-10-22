@@ -22,7 +22,14 @@
 #include "PostProcessingEffect.hpp"
 #include "TextureRtt.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 
@@ -294,6 +301,11 @@ void wr_viewport_set_clear_color_rgba(WrViewport *viewport, const float *color) 
   reinterpret_cast<wren::Viewport *>(viewport)->setClearColor(glm::make_vec4(color));
 }
 
+void wr_viewport_set_clear_color_rgb2(WrViewport *viewport, float r, float g, float b) {
+  glm::vec4 clearColor(glm::vec3(r, g, b), 1.0);
+  reinterpret_cast<wren::Viewport *>(viewport)->setClearColor(clearColor);
+}
+
 void wr_viewport_set_polygon_mode(WrViewport *viewport, WrViewportPolygonMode mode) {
   reinterpret_cast<wren::Viewport *>(viewport)->setPolygonMode(mode);
 }
@@ -381,3 +393,22 @@ WrCamera *wr_viewport_get_camera(WrViewport *viewport) {
 WrFrameBuffer *wr_viewport_get_frame_buffer(WrViewport *viewport) {
   return reinterpret_cast<WrFrameBuffer *>(reinterpret_cast<wren::Viewport *>(viewport)->frameBuffer());
 }
+
+float *wr_color_array(float r, float g, float b) {
+  static float array[3];
+  array[0] = r;
+  array[1] = g;
+  array[2] = b;
+
+  return array;
+}
+
+/*
+char *wr_string(int nChar, ...) {
+  static char array[nChar];
+  for (int i = 0, i < nChar, ++i) {
+    fprintf(stderr, "%d\n", i);
+  }
+  return NULL;
+}
+*/
