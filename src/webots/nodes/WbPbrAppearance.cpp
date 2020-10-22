@@ -364,7 +364,7 @@ void WbPbrAppearance::pickOcclusionInTexture(double *occlusion, const WbVector2 
   *occlusion = getRedValueInTexture(occlusionMap(), uv);
 }
 
-double WbPbrAppearance::getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const {
+double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVector2 &uv) const {
   if (texture) {
     WbRgb pickedColor;
     WbVector2 uvTransformed = transformUVCoordinate(uv);
