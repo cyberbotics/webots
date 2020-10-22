@@ -1091,11 +1091,11 @@ If the index is less than the number of contact points, then the x (resp. y, z) 
 Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
 
-The The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point (this is useful when used when the descendant contact points are included to know which part belong the contact to).
+The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
 
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
-The `include_descendants` argument defines if the contact points with descendant nodes of the node given in argument should be counted or not.
+The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
 
 The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 

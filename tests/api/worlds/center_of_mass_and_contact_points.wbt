@@ -103,7 +103,7 @@ Robot {
     }
     Solid {
       children [
-        DEF SECONDARY_BOD Transform {
+        DEF SECONDARY_BODY Transform {
           translation 0 -0.05 0
           children [
             Shape {
@@ -115,7 +115,7 @@ Robot {
           ]
         }
       ]
-      boundingObject USE SECONDARY_BOD
+      boundingObject USE SECONDARY_BODY
       physics Physics {
       }
     }

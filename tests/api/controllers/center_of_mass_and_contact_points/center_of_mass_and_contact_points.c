@@ -58,11 +58,11 @@ int main(int argc, char **argv) {
                           "Wrong number of contact points when including descendants.");
 
   ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(node, 0) == node,
-                          "First node contact point should belong to the main node.");
+                          "First contact point should belong to the main node.");
 
   ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(
                             node, REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1) != node,
-                          "First node contact point should not belong to the main node.");
+                          "Last contact point should not belong to the main node.");
 
   // static balance checks
   const bool stable = wb_supervisor_node_get_static_balance(node);
