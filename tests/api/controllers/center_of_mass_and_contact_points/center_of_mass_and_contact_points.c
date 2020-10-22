@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_supervisor_node_get_contact_point_node(
                             node, REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1) ==
                             wb_supervisor_node_get_from_def("SECONDARY_SOLID"),
-                          "Last contact point should not belong to the main node.");
+                          "Last contact point should belong to the 'SECONDARY_SOLID' node.");
 
   // static balance checks
   const bool stable = wb_supervisor_node_get_static_balance(node);
