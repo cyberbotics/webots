@@ -1,0 +1,57 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.08533127755788347 -0.9877412724774629 -0.13071247727337212 2.099628182618348
+  position -0.20662202998393847 0.09373777086457245 -0.07654263414987043
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Transform {
+  translation 0 0 0.11
+  children [
+    TexturedBoxShape {
+      textureUrl [
+        "textures/tagged_wall.jpg"
+      ]
+      textureMapping "compact"
+    }
+  ]
+}
+Transform {
+  children [
+    TexturedBoxShape {
+      textureUrl [
+        "textures/tagged_wall.jpg"
+      ]
+      textureMapping "compact"
+    }
+  ]
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation 0 0.06 0.003
+      rotation 0 0 1 -1.5707953071795862
+      name "distance sensor left"
+      translationStep 0.001
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0.06 0.113
+      rotation 0 0 1 -1.5707953071795862
+      name "distance sensor right"
+      translationStep 0.001
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_infra-red_cached_images"
+}
+TestSuiteSupervisor {
+}
