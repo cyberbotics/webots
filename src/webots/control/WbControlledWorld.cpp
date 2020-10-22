@@ -168,6 +168,8 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     mRobotsWaitingExternController.removeAll(robot);
     controller->setSocket(socket);
     robot->setControllerStarted(true);
+    // restart simulation if waiting for extern controller
+    restoreStepTimer();
     return;
   }
   controller->start();
@@ -298,16 +300,20 @@ void WbControlledWorld::step() {
   }
 
   // we will have to handle the controllers requests here...
-  bool waitForController = needToWait();
+  bool waitForExternControllerStart = false;
+  bool waitForController = needToWait(&waitForExternControllerStart);
   if (mNeedToYield) {
     QThread::yieldCurrentThread();
     mNeedToYield = false;
   }
 
   if (waitForController) {
-    // wait for controllers configuration and try to call step function later
-    // otherwise the simulation time is not updated when clicking on the step button the first time
-    if ((simulationState->isStep() || simulationState->isPaused()))
+    if (needToWaitForExternControllerStart)
+      // stop timer and restore it when extern controller is connected
+      pauseStepTimer();
+    else if (simulationState->isStep() || simulationState->isPaused())
+      // wait for controllers configuration and try to call step function later
+      // otherwise the simulation time is not updated when clicking on the step button the first time
       retryStepLater();
     return;
   }
@@ -355,10 +361,14 @@ void WbControlledWorld::step() {
   waitForRobotWindowIfNeededAndCompleteStep();
 }
 
-bool WbControlledWorld::needToWait() {
+bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
+  waitForExternControllerStart = false;
   foreach (WbRobot *const robot, mRobotsWaitingExternController) {
-    if (robot->synchronization())
+    if (robot->synchronization()) {
+      if (waitForExternControllerStart)
+        waitForExternControllerStart = true;
       return true;
+    }
   }
   foreach (WbController *const controller, mControllers) {
     if (!controller->isRequestPending() || controller->isIncompleteRequest()) {

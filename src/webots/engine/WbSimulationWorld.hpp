@@ -50,6 +50,9 @@ public:
   bool saveAs(const QString &fileName) override;
   void reset(bool restartControllers) override;
 
+  void pauseStepTimer();
+  void restoreStepTimer();
+
   virtual void step();
 
 public slots:
