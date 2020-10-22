@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds_left, TIME_STEP);
   wb_distance_sensor_enable(ds_right, TIME_STEP);
 
-  wb_robot_step(2 * TIME_STEP);
+  wb_robot_step(TIME_STEP);
 
   ts_assert_double_in_delta(wb_distance_sensor_get_value(ds_left), wb_distance_sensor_get_value(ds_right), 0.1,
                             "Both of the distance sensors should return the same value regardless if they are pointing to the "

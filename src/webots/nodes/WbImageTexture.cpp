@@ -350,11 +350,12 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
   } else if (mImage)
     data = mImage->bits();
   else {
-    if (loadTextureData())
+    if (loadTextureData() && mImage)
       data = mImage->bits();
-    else
+    else {
       pickedColor.setValue(1.0, 1.0, 1.0);
-    return;
+      return;
+    }
   }
 
   double u = uv.x();
