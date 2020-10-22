@@ -261,7 +261,8 @@ void WbSimulationWorld::pauseStepTimer() {
 
 void WbSimulationWorld::restoreStepTimer() {
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
-  if (!mTimer->isActive() && (mode == WbSimulationState::REALTIME || mode == WbSimulationState::RUN || mode == WbSimulationState::FAST))
+  if (!mTimer->isActive() &&
+      (mode == WbSimulationState::REALTIME || mode == WbSimulationState::RUN || mode == WbSimulationState::FAST))
     mTimer->start();
 }
 
