@@ -51,13 +51,13 @@ static void create_wren_scene() {
 
   float background_color[3] = {0.1f, 0.5f, 0.8f};
   wr_viewport_set_clear_color_rgb(vp, background_color);
-  /*
+
   // Generate a dummy texture.
   WrTexture2d *texture = wr_texture_2d_new();
   wr_texture_2d_set_file_path(texture, "dummy.jpg");
-  wr_texture_set_size(WR_TEXTURE(texture), 256, 256);
-  char *data = (char *)malloc(256 * 256 * 4);
-  for (int d = 0; d < (256 * 256); ++d) {
+  wr_texture_set_size(WR_TEXTURE(texture), 512, 512);
+  char *data = (char *)malloc(512 * 512 * 4);
+  for (int d = 0; d < (512 * 512); ++d) {
     data[4 * d] = (d) % 0xff;
     data[4 * d + 1] = (d + d) % 0xff;
     data[4 * d + 2] = (d * d) % 0xff;
@@ -66,14 +66,14 @@ static void create_wren_scene() {
   wr_texture_2d_set_data(texture, data);
   wr_texture_setup(WR_TEXTURE(texture));
   free(data);
-  */
+
   WrShaderProgram *sphereProgram = wr_shader_program_new();
-  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
-  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
-  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
   wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
-  // wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
-  // wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+  wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
+  wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
   wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
   wr_shader_program_set_vertex_shader_path(sphereProgram, "../../../resources/wren/shaders/default.vert");
   wr_shader_program_set_fragment_shader_path(sphereProgram, "../../../resources/wren/shaders/default.frag");
@@ -86,7 +86,7 @@ static void create_wren_scene() {
   WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
   WrMaterial *sphereMaterial = wr_phong_material_new();
   wr_material_set_default_program(sphereMaterial, sphereProgram);
-  // wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
+  wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
   WrTransform *sphereTransform = wr_transform_new();
 
   wr_renderable_set_mesh(sphereRenderable, WR_MESH(sphereMesh));

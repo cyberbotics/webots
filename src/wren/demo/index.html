@@ -26,15 +26,6 @@
 	     //window.setTimeout(renderLoop, 1000 / 60);
     }
 
-    function cArray(size) {
-      var offset = Module._malloc(size * 8);
-      Module.HEAPF64.set(new Float64Array(size), offset / 8);
-      return {
-        "data": Module.HEAPF64.subarray(offset / 8, offset / 8 + size),
-        "offset": offset
-      }
-    }
-
     function create_wren_scene() {
       let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
 
@@ -45,7 +36,7 @@
       //let background_color = cArray(3);
       //background_color.data[1] = 1.0;
       // Create example data to test float_multiply_array
-      var data = new Float32Array([0, 1, 0]);
+      let data = new Float32Array([0, 1, 0]);
 
       // Get data byte size, allocate memory on Emscripten heap, and get pointer
       var nDataBytes = data.length * data.BYTES_PER_ELEMENT;
@@ -55,7 +46,7 @@
       var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
       dataHeap.set(new Uint8Array(data.buffer));
 
-      let c = [0,1,1];
+      let c = [0.1,0.5,0.8];
       let d = [1,0,1];
       let array = Module._wr_color_array(c[0], c[1], c[2]);
       //let array2 = Module._wr_color_array(d[0], d[1], d[2]);
@@ -65,8 +56,25 @@
       Module._wr_viewport_set_clear_color_rgb(vp, array);
 
       //Module._wr_viewport_set_clear_color_rgb2(vp, 0.1,0.5,0.8);
+
+      // Generate a dummy texture.
+      let texture = Module._wr_texture_2d_new();
+      let ptr = allocate(intArrayFromString("dummy.jpg"), 'i8', ALLOC_NORMAL);
+      Module._wr_texture_2d_set_file_path(texture, ptr);
+      Module._wr_texture_set_size(texture, 256, 256);
+      let content = Module._wr_dummy_texture();
+      Module._wr_texture_2d_set_data(texture, content);
+      Module._wr_texture_setup(texture);
+      _free(content);
+
+
       let sphereProgram = Module._wr_shader_program_new();
+      Module._wr_shader_program_use_uniform(sphereProgram, 0);
+      Module._wr_shader_program_use_uniform(sphereProgram, 1);
+      Module._wr_shader_program_use_uniform(sphereProgram, 2);
       Module._wr_shader_program_use_uniform(sphereProgram, 16);
+      Module._wr_shader_program_use_uniform(sphereProgram, 17);
+      Module._wr_shader_program_use_uniform_buffer(sphereProgram, 0);
       Module._wr_shader_program_use_uniform_buffer(sphereProgram, 4);
 
       let ptr1 = allocate(intArrayFromString("../../resources/wren/shaders/default.vert"), 'i8', ALLOC_NORMAL);
@@ -84,6 +92,7 @@
       let sphereMesh = Module._wr_static_mesh_unit_sphere_new(2, true, false);
       let sphereMaterial = Module._wr_phong_material_new();
       Module._wr_material_set_default_program(sphereMaterial, sphereProgram);
+      Module._wr_material_set_texture(sphereMaterial, texture, 0);
       let sphereTransform = Module._wr_transform_new();
 
       Module._wr_renderable_set_mesh(sphereRenderable, sphereMesh);

@@ -114,6 +114,7 @@ namespace wren {
       attr.majorVersion = 2;
       attr.minorVersion = 2;
       EMSCRIPTEN_WEBGL_CONTEXT_HANDLE ctx = emscripten_webgl_create_context("#canvas", &attr);
+      // emscripten_set_canvas_element_size("#canvas", 800, 600);
       emscripten_webgl_make_context_current(ctx);
 #else
       if (!gladLoadGL())
@@ -158,7 +159,7 @@ namespace wren {
       // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
       cGpuMemory = array[0];
       checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
-      //}
+                                    //}
 #endif
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
@@ -430,10 +431,10 @@ namespace wren {
       assert(cBoundTextures[textureUnit] == glName);
 #ifdef __EMSCRIPTEN__
 #else
-      /*
-      if (!GLAD_GL_EXT_texture_filter_anisotropic)
-        return;
-        */
+                                    /*
+                                    if (!GLAD_GL_EXT_texture_filter_anisotropic)
+                                      return;
+                                      */
 #endif
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
@@ -830,7 +831,7 @@ bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 #ifdef __EMSCRIPTEN__
   return false;
 #else
-  return false;  // return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+  return false;                     // return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
 #endif
 }
 

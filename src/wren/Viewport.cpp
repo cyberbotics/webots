@@ -403,6 +403,17 @@ float *wr_color_array(float r, float g, float b) {
   return array;
 }
 
+char *wr_dummy_texture() {
+  static char data[256 * 256 * 4];
+  for (int d = 0; d < (256 * 256); ++d) {
+    data[4 * d] = (d) % 0xff;
+    data[4 * d + 1] = (d + d) % 0xff;
+    data[4 * d + 2] = (d * d) % 0xff;
+    data[4 * d + 3] = 0xff;
+  }
+  return data;
+}
+
 /*
 char *wr_string(int nChar, ...) {
   static char array[nChar];
