@@ -2016,7 +2016,7 @@ And older release from here: [https://github.com/cyberbotics/webots/releases/tag
 
 Hi `@enescan`  you can export your robot in VRML from SolidWorks and then import this VRML file in Webots directly (not that this will import only the shapes, you will then have to add solids, bounding objects, physics, sensors, etc.). Or import from SolidWorks to Blender and then Blender to Webots, here is an example with Autodesk Inventor  (Solidworks works similarly): [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
 
-##### Ayoub Thabit 01/25/2020 19:05:41
+##### AT 01/25/2020 19:05:41
 hello i have a problem in webots, i used to work with C++ i didn't have any problems, now that i want to work with python also i changed my laptop so i reinstalled webots (so we're sure the old configurations on c++ aren't there it's virgin xD) long story short, when i launch the simulation i get error message
 
 
@@ -2044,7 +2044,7 @@ plz heeelp
 Yeah I had the same problem, but it got fixed on its own when i restarted my PC somehow
 
 ##### David Mansolino [Cyberbotics] 01/27/2020 07:12:30
-`@Ayoub Thabit` areyou sure it is the 64bit version of Python that is installed ?
+`@AT` areyou sure it is the 64bit version of Python that is installed ?
 
 ##### Mic.lop 01/27/2020 10:40:01
 Hey everyone! Im a developer trying to use the software to make a simulation of a 3d printing factory. I began using the UR5e model to start. But quickly realize it would be tricky since I do not have the linear sliders available, so I am trying to go with the kuka youbot. However, I will need to stack printers on top of each other (they are big 1m³). So I wanted to get the opinion of someone regarding what could be a quicker fix to have a mobile robot managing a matrix of 3 x 3 x3 printers ?
@@ -2055,7 +2055,7 @@ You can easily mount your UR5e arm on a linear slider. To do so, just add a Robo
 ##### Mic.lop 01/27/2020 12:06:16
 Thanks `@Fabien Rohrer` , will try that. I may also try importing a Liftkit to the environment
 
-##### Ayoub Thabit 01/28/2020 10:21:45
+##### AT 01/28/2020 10:21:45
 `@David Mansolino` yes am sure;but thanks it got fixed on its own when i reinstalled webots again
 
 
@@ -13966,16 +13966,16 @@ error: cannot find symbol
 
 import com.cyberbotics.webots.controller.Car;
 
-##### BreeTheBunny 05/09/2020 23:46:53
+##### Bree 05/09/2020 23:46:53
 Hey I'm extremely new to robotics as well as webots. I'm curious as to how to modify a pre-existing robot (like youbot). I'd like to add distance and line sensors. Is that possible or is better to just start from scratch? I originally made my own but adding/find a claw was difficult. I'm assuming I can just add sensors by using #include \_\_\_\_\_\_ One of my main problems is simply adding lines for a robot to follow. Is there a video or possible tutorial that could help me? I've already visited the tutorials on the official site.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708827364205002782/unknown.png)
 %end
 
 ##### Aan 05/10/2020 01:58:48
-`@BreeTheBunny` you can add sensor in body slot
+`@Bree` you can add sensor in body slot
 
-##### BreeTheBunny 05/10/2020 04:51:16
+##### Bree 05/10/2020 04:51:16
 `@Aan` thank you!
 
 ##### Aan 05/10/2020 06:22:47
@@ -14510,7 +14510,7 @@ Hello! Can anyone explain to me what the return value of `camera.get_orientation
 ##### Lussfer 05/13/2020 01:37:25
 Is there a way to convert local coordinate to wgs84 gps coordinate?
 
-##### BreeTheBunny 05/13/2020 02:34:32
+##### Bree 05/13/2020 02:34:32
 Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709956719119433768/unknown.png)
@@ -14528,7 +14528,7 @@ Then to end the simulation you can use the `wb_supervisor_simulation_quit` funct
 
 > Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 
-`@BreeTheBunny` you can easily create one in your favorite image editor (Gimp for example).
+`@Bree` you can easily create one in your favorite image editor (Gimp for example).
 
 
 > Is there a way to convert local coordinate to wgs84 gps coordinate?
@@ -15539,7 +15539,7 @@ Ok, that's probably an issue rather on your controller code, make sure for examp
 
 You will also find some documentation about how to use a debugger with your controller here: [https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers)
 
-##### BreeTheBunny 05/19/2020 05:21:57
+##### Bree 05/19/2020 05:21:57
 Thanks David, I will look into that
 
 ##### Luiz Felipe 05/19/2020 05:27:19
@@ -18782,7 +18782,7 @@ Script crashes -> reset simulation -> run controller -> run sim -> reset simulat
 ##### Robin-Wagenaar 06/10/2020 13:21:56
 Hello guys, does anyone know if it is possible to measure the weight of an object with a gripper in Webots? I have to measure the weight of a stone which will be picked up by a gripper, but I haven't found a way to do that yet.
 
-##### Sergen Aşık 06/10/2020 13:22:55
+##### Deleted User 06/10/2020 13:22:55
 Can anyone help me? How can i build webots simulator on QT Creator? I designed GUI (button, labels etc.)  When i click the button, webots simulator should run.
 
 
@@ -18792,10 +18792,10 @@ I'm working on Ubuntu
 [https://cyberbotics.com/doc/guide/using-your-ide?tab-language=c++](https://cyberbotics.com/doc/guide/using-your-ide?tab-language=c++) this links didn't help me 😦
 
 ##### Simon Steinmann [Moderator] 06/10/2020 13:28:13
-`@Sergen Aşık` did you set up your environment variables?
+`@Deleted User` did you set up your environment variables?
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/10/2020 13:28:32
-`@Sergen Aşık` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
+`@Deleted User` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
 
 ##### Soyboy 06/10/2020 13:30:30
 > Hi, yes, you can have one robot that is a child of the other, or use connector devices.
@@ -18805,13 +18805,13 @@ I'm working on Ubuntu
 
 Thank you
 
-##### Sergen Aşık 06/10/2020 13:46:35
-> `@Sergen Aşık` did you set up your environment variables?
+##### Deleted User 06/10/2020 13:46:35
+> `@Deleted User` did you set up your environment variables?
 
 `@Simon Steinmann` yep. I did. I edited QT.pro file like this.
 
 
-> `@Sergen Aşık` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
+> `@Deleted User` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
 
 `@Stefania Pedrazzi` I want to use IDE instead of Text Editor.
 
@@ -18831,7 +18831,7 @@ The WheelsDampingConstant is a constant c in an expression like F=c*w, with w be
 ##### nelsondmmg 06/10/2020 14:26:41
 `@David Mansolino` The definition of c is for each wheel (so I have to multiply F by 4) ? Or it accounts all the resistance torque for all wheels ?
 
-##### Sergen Aşık 06/10/2020 14:27:34
+##### Deleted User 06/10/2020 14:27:34
 Is Skeletal Tracking available on Microsoft Kinect?
 
 ##### Robin-Wagenaar 06/10/2020 14:29:10
@@ -18846,15 +18846,15 @@ Ok Thanks.
 ##### David Mansolino [Cyberbotics] 06/10/2020 14:31:04
 > Is Skeletal Tracking available on Microsoft Kinect?
 
-`@Sergen Aşık` not out of the box, you have to implement your own interfeace in the controller.
+`@Deleted User` not out of the box, you have to implement your own interfeace in the controller.
 
 
 > Ok Thanks.
 
 `@nelsondmmg` you're welcome
 
-##### Sergen Aşık 06/10/2020 14:33:41
-> `@Sergen Aşık` not out of the box, you have to implement your own interfeace in the controller.
+##### Deleted User 06/10/2020 14:33:41
+> `@Deleted User` not out of the box, you have to implement your own interfeace in the controller.
 
 `@David Mansolino` how ? I'am new
 
@@ -19421,13 +19421,13 @@ using a controller side workaround for the urdf <mimic /> tag
 
 if someone is interested in the code, let me know 🙂
 
-##### Sergen Aşık 06/11/2020 22:28:20
+##### Deleted User 06/11/2020 22:28:20
 how can i build my controller code on Qt Creator? Not using webots build
 
 
 > how can i build my controller code on Qt Creator? Not using webots build
 
-`@Sergen Aşık` this is my qmake file 
+`@Deleted User` this is my qmake file 
 
 
 
@@ -19549,7 +19549,7 @@ macx {
 `@Simon Steinmann` very nice! If you want to integrate this in Webots do not hesitate to create a PR 😉
 
 ##### Olivier Michel [Cyberbotics] 06/12/2020 06:10:11
-`@Sergen Aşık`: that looks pretty good. Does it work?
+`@Deleted User`: that looks pretty good. Does it work?
 
 ##### Simon Steinmann [Moderator] 06/12/2020 07:55:49
 `@David Mansolino` I simply used the proto you linked me to. I could create a sample world with a controller though, implementing it.
@@ -19888,8 +19888,8 @@ I can try with no controller
 ##### Olivier Michel [Cyberbotics] 06/12/2020 15:48:32
 That will be helpful to better understand.
 
-##### Sergen Aşık 06/12/2020 15:51:15
-> `@Sergen Aşık`: that looks pretty good. Does it work?
+##### Deleted User 06/12/2020 15:51:15
+> `@Deleted User`: that looks pretty good. Does it work?
 
 `@Olivier Michel` nope. i can't build
 
@@ -20114,7 +20114,7 @@ class EgoVehicle:
 
 but i will definitely ping you relating ros and python as my project is based on it and glitches dont seem to die down
 
-##### Sergen Aşık 06/13/2020 23:01:39
+##### Deleted User 06/13/2020 23:01:39
 Can anyone share Kinect Skeletal Tracking SDK with me?
 
 
@@ -20135,7 +20135,7 @@ Hello guys, I want to use Nuitrack software in webots simulator, but problem is 
 
 [https://www.cyberbotics.com/doc/guide/installation-procedure#extern-controllers](https://www.cyberbotics.com/doc/guide/installation-procedure#extern-controllers)
 
-##### Sergen Aşık 06/14/2020 09:31:20
+##### Deleted User 06/14/2020 09:31:20
 > `@furkann` I would recommend using the external controller functionality. That way you can run your code in your own environment
 
 `@Simon Steinmann` Also i tried but nope i can't build
@@ -20326,7 +20326,7 @@ Note also that you should not need to install the complete development environme
 ##### Olivier Michel [Cyberbotics] 06/15/2020 08:08:21
 `@G1020BS`: no idea about this crash... Can you compile one of the provided controller examples with Visual Studio and see whether it crashes too? If it does, that means there is likely a bug with the libController and you should open a bug report. Otherwise, that probably means that your controller has a problem and causes the crash. In such a case, I would recommend you to try to debug your controller by removing lines of code until it doesn't crash any more.
 
-##### Shubham D 06/15/2020 08:44:27
+##### Shubham Dahatre 06/15/2020 08:44:27
 Hello I want to simulate drone which is real type and not using propeller node. 
 
  rotating propeller(solid) must push air(fluid) and then thrust must be generated. 
@@ -41872,4 +41872,727 @@ pos = GPS.getValues() # will return list of X, Y, and Z coords
 
 ##### Simon Steinmann [Moderator] 10/14/2020 13:02:38
 `@eeeloooisee` Give this a careful read, to understand how controllers are implemented and work internally: [https://cyberbotics.com/doc/reference/motor?tab-language=python](https://cyberbotics.com/doc/reference/motor?tab-language=python)
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 14:53:15
+`@Luthanicus`: Having to put three double quotes around command line arguments on Windows was actually a bug which was fixed here: [https://github.com/cyberbotics/webots/pull/2330](https://github.com/cyberbotics/webots/pull/2330) and should be included in the next nightly builds of Webots R2020 revision 2.
+
+##### GaGa 10/14/2020 17:05:39
+> Probably your code will look something like this:
+
+> 
+```python
+> # early in program
+> GPS = robot.getDevice("gps")
+> GPS.enable( timestep )
+> 
+> # when you want to read it in the main loop
+> pos = GPS.getValues() # will return list of X, Y, and Z coords
+> 
+```
+
+`@Justin Fisher` thank you so much it worked
+
+##### Justin Fisher 10/14/2020 18:01:25
+`@GaGa`  I'm glad it worked.  I think I probably should have told you to use `robot.getGPS` in Python rather than the more generic  `robot.getDevice` that Webots uses in other languages.  Glad you figured it out!
+
+##### Luthanicus 10/14/2020 18:17:50
+`@Olivier Michel` That fix works, thank you!
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 18:33:58
+Do mean the triple double quote or the patched version of webots.exe?
+
+##### Luthanicus 10/14/2020 18:34:34
+The triple double quote works, although it is unusual
+
+##### Olivier Michel [Cyberbotics] 10/14/2020 18:35:38
+Yes, the next versions of Webots won't need it any more.
+
+##### Justin Fisher 10/14/2020 18:43:18
+I accidentally advised `@GaGa` to use python's `robot.getDevice` rather than `robot.getGPS` and was surprised to see them report that it worked.  Diving into the source code, I see that  `robot.getDevice` actually is defined in the Python API, despite being undocumented.  The Webots docs encourage you to use more specific functions like `robot.getGPS` instead, to ensure that the device you get will be a member of the appropriate subclass.  However, when I look at the actual code for Webots `controller.py`, there is code there (in `def __getOrCreateDevice`) that can automatically detect each device's type and generates a device of the appropriate class, and this code seems to be used by each of the specific functions like `getGPS`, so **I don't think the more specific call should really be necessary.  Is that right?**
+
+
+
+However it also looks like `def getDevice(tag)` presumes that tag will be a number (otherwise the comparison to the length of the list of devices would crash) so it looks to me like `robot.getDevice("gps")` probably should crash, and `robot.getDevice(1)` probably would work.  This seems odd when the equivalent `get_device` functions in C and Matlab take a string rather than an integer as their argument.  **Maybe a dev can weigh in on whether this is a bug?**  
+
+
+
+(I think I would suggest as a bugfix that Python's `def getDevice(tag)` should be changed to `def getDevice(name)` to retain symmetry with C and Matlab, and should begin with the line `tag = self.__internalGetDeviceTagFromName(name)` just as specific device getters like `getGPS` do.  Or if it were totally up to me, I'd probably make `getDevice` check whether the given argument was a string or an integer, and return a sensible result in either case.   I would then suggest changing the documentation to include `getDevice` as a perfectly legit way to get devices in Python.)
+
+##### SebasRGGamer20 10/14/2020 18:54:44
+Hi everyone, I have one question
+
+
+How can I make virtual serial port communication between Webots and Matlab, I need to make them work at the same time, Webots as receiver and Matlab as emitter...
+
+
+Thanks
+
+##### Justin Fisher 10/14/2020 19:23:37
+`@SebasRGGamer20` I'm not entirely clear on what you want to do.  Webots does have emitter and receiver devices that allow you to pass serial messages from one controller to another.  So you could have your robot have an emitter that is controlled by your Matlab controller, and have another supervisor robot (perhaps a trivial one without any movable parts) with a receiver to receive such messages, where the supervisor will have lots of super-powers to manipulate the Webots simulation however it likes.  Is that what you want?  (You can also use emitter channel 0 to send messages to a plugin for the physics engine, which maybe is more what you're looking for?)
+
+
+Note that using emitters/receivers in Webots always has a one-timestep delay between transmission and receipt of messages, so it's not quite "at the same time".
+
+##### SebasRGGamer20 10/14/2020 19:35:49
+Oh thanks friend
+
+
+So in my case, actually I'm working in an investigation project, which consists in a truck robot so I need to control this robot with the communication between Webots and Matlab because there is a part of the project that needs to be simulated by Matlab. Besides, I have to send data from Matlab to Webots for moving the robot. I don't know if you can understand my idea jaja. Sorry for the explanation.
+
+##### Justin Fisher 10/14/2020 19:42:00
+You can write controllers in Matlab.  It sounds like that's all you'll need.  [https://www.cyberbotics.com/doc/guide/using-matlab](https://www.cyberbotics.com/doc/guide/using-matlab)
+
+
+Depending on what changes you want your Matlab code to make in the Webots simulation, you may want to give your robot supervisor powers and/or set up a separate supervisor robot.
+
+##### SebasRGGamer20 10/14/2020 19:45:31
+What is the supervisor robot? What is its function?
+
+##### Justin Fisher 10/14/2020 19:51:31
+[https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
+
+
+Basically, if you set a robot's supervisor field to TRUE, and then have its controller use Supervisor() rather than Robot() at the beginning, this gives the controller access to lots of superpowers, including being able to access information about everything in the simulation, and the ability to move/change things in the simulation, and even to create or destroy parts of the simulation.
+
+##### SeanLuTW 10/15/2020 03:29:26
+I imported the mesh file of soft scrub from YCB dataset and found that the simulation was unrealistic after it fall and hit the table. Then I used MeshLab to simplify the triangles of the mesh from 16K to 100 and tried again, it directly pass through the table. How can I solve the problem?
+
+##### Justin Fisher 10/15/2020 04:35:33
+`@SeanLuTW` The collision behavior of a solid depends upon what you set as that solid's bounding object.  You *can* use a mesh of triangles as a bounding object.  (Perhaps your new mesh wasn't just triangles, or perhaps you hadn't set it to also serve as the bounding object?)  However, detecting and processing collisions between bounding objects is one of the main things that consumes processor time in the physics simulation.  So I think it's usually advisable instead to create a bounding object out of geometric primitive shapes (like boxes, spheres, and cones) that describe approximately the same shape as the visual mesh you're using, but will be much simpler in the simulation.  As an example, you might look at the included rubber ducky Proto, which uses a mesh to describe the graphical appearance of the ducky, but defines a bounding object for it out of a handful of simpler shapes, as you can see if you hit CTRL-F2 to display bounding objects.  (Even that handful of simple bounding shapes can be taxing on slower computers, and some of my students noted a speed improvement when I replaced that handful of shapes with a simple sphere with roughly the same boundaries as the ducky, with its center of gravity set low to keep the ducky wanting to rest on its bottom.  For our purposes, the speed improvement was worth the slight loss of accuracy.)  [https://github.com/cyberbotics/webots/blob/master/projects/objects/toys/protos/RubberDuck.proto](https://github.com/cyberbotics/webots/blob/master/projects/objects/toys/protos/RubberDuck.proto)
+
+##### Olivier Michel [Cyberbotics] 10/15/2020 06:31:11
+`@SeanLuTW`: The collision should be detected even with a mesh as a bounding object (but meshes are indeed causing much more problems than combinations of simple primitives). Can you open a bug report and upload your simulation as a ZIP file there, so that we can investigate whether this is actually a bug in Webots? [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+##### chungshan 10/15/2020 06:57:00
+Hi, I want to implement a force-torque sensor to attach to the end effector of UR5e. I know that there is the touch sensor to measure force, but it can't measure torque. Is there any suggestion to implement a force-torque sensor?
+
+##### David Mansolino [Cyberbotics] 10/15/2020 07:09:21
+The only soultion to measure torque is to use a joint (balljoint if you need 3 axes torque), you need to add motors with high max torque and use these motors to get the torque feedback.
+
+##### SeanLuTW 10/15/2020 10:59:21
+`@Justin Fisher`  I also added rubber duck into my world and I found that the bounding object of the duck was pretty different from the shape it looks. As you suggested, maybe I should use some basic primitives to approximate the object :)
+
+`@Olivier Michel`  Okay. I will report an issue ASAP. Thanks!
+
+##### chungshan 10/16/2020 05:23:09
+Hi, How can I measure the end effector's force of a manipulator? For example, I add a gripper to UR5. When the gripper grasps an object, I want to measure the end effector's force at this moment (including gripper and object). 
+
+I know that there is a touch sensor that can measure the force in 3d. However, I add a touch sesor (force-3d) to the  toolSlot of UR5e. When the gripper grasps an object (mass=1kg), the measurement of touch sensor still remains around 0. It seems that the touch sensor requires a direct contact with other object to measure the force.
+
+Is there any good way to measure the end effector's force of a manipulator?
+
+##### David Mansolino [Cyberbotics] 10/16/2020 05:26:36
+Hi `@chungshan`, the touchsensor measure the contact force, which means that if it doesn't touches any other object, it will keep returning 0.
+
+You should probably instead use the manipulator motor force/torque feedback utility: [https://cyberbotics.com/doc/reference/motor#wb\_motor\_enable\_force\_feedback](https://cyberbotics.com/doc/reference/motor#wb_motor_enable_force_feedback)
+
+##### nelsondmmg 10/16/2020 13:36:50
+Hi, how can I make a tesla model3 a supervisor in the simulation? It does not have the field in the interface.
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:37:59
+Hi, you're right it seems this one is missing the field. But you can add it in the PROTO file directly.
+
+##### nelsondmmg 10/16/2020 13:38:14
+Ok, thanks
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:38:20
+You're welcome
+
+
+I just fixed this in [https://github.com/cyberbotics/webots/pull/2351](https://github.com/cyberbotics/webots/pull/2351)
+
+It will be available in the next nightly build of Webots from tomorrow ([https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)).
+
+##### nelsondmmg 10/16/2020 13:49:14
+Do I need something more to use the supervisor functions from the controller? Because even after the addition of this field it says that I can't use getFromDef
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:50:00
+You need to import the 'supervisor'.
+
+Here are some examples: [https://cyberbotics.com/doc/guide/supervisor-programming](https://cyberbotics.com/doc/guide/supervisor-programming)
+
+##### nelsondmmg 10/16/2020 13:51:48
+I'm already importing it. It says: ignoring illegal call to wb\_supervisor\_node\_get\_from\_def() in a 'Robot' controller
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:52:16
+Then you did something wrong when editing the PROTO file. Try closing and restarting Webots.
+
+##### nelsondmmg 10/16/2020 13:53:23
+I just copy the supervisor line from the BMW X5 proto and put it in the Tesla's
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:54:30
+Both lines?
+
+make sure to do exactly linke this:
+
+[https://github.com/cyberbotics/webots/pull/2351/files#diff-ccd8ed6289e12767962c8b93ffb504eeb965d540984edd0eae19341fcb05cd11](https://github.com/cyberbotics/webots/pull/2351/files#diff-ccd8ed6289e12767962c8b93ffb504eeb965d540984edd0eae19341fcb05cd11)
+
+##### nelsondmmg 10/16/2020 13:55:06
+Ah, I missed the second line. Thanks.
+
+##### David Mansolino [Cyberbotics] 10/16/2020 13:55:23
+You're welcome 😉
+
+##### m0narch 10/16/2020 17:41:29
+I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
+
+##### Justin Fisher 10/17/2020 01:24:12
+The robot will start moving the next time you call robot.step(timestep).  Your two main choices are to start playing the audio file before you call step() or wait until after, during a later iteration of your main loop, which will be a small fraction of a second later.  You could get finer-grained control by altering your audiofile so that it starts with however long of a delay period of quiet you want.
+
+
+(I was assuming you're playing the audio file directly, not via a webots speaker device.  If you use a webots speaker device, both the speaker and the motors will start when you call robot.step().  Your easiest way to control timing, in multiples of timestep, is just to choose which step you want to tell the speaker to start playing at.  Again, you could get finer-grained control by altering your audio file, e.g., to have a half-timestep delay at the beginning.)
+
+##### GaGa 10/17/2020 11:21:34
+How do we enable or add filters to camera like edge detection , gray scale , threshold and other filters
+
+##### Weebo 10/17/2020 15:46:46
+Hello everyone. I'm working with the e-puck model for Webots, using the groundSensorsSlot in order to follow a line. However, this module only comes with three sensors. I was wondering if I could be able to edit the PROTO file of this module in order to add two more infra-red sensors further apart in the robot. I've already tried to do that, sucessfully recognizing the two new sensors in my controller, but for some reason the value read from the two new sensors doesn't change no matter what. Which makes me think there's something wrong with the implementation.
+
+##### Simon Steinmann [Moderator] 10/17/2020 17:43:09
+you have to enable sensors in your controller first.
+
+##### Weebo 10/17/2020 17:44:58
+I'm narrowing down the problem, it's coming from the very definition of the sensors. I don't know why, even tho I'm definying them EXACTLY like the old ones, theyre' coming out in a different geometric position. I'm just changing the x coordinate. See the attached picture
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/767080751971696650/unknown.png)
+%end
+
+##### black\_hammer\_67 10/17/2020 17:45:33
+i want to make a custom racetrack on webots, so i decided to use the road node and the wayPoint feature, can i create a file with python or matlab containing waypoints and load it somehow into webots ?
+
+##### Simon Steinmann [Moderator] 10/17/2020 17:45:52
+you can turn on optional rendering of sensors
+
+
+shows you where the sensors point
+
+##### Weebo 10/17/2020 17:46:24
+```DEF EPUCK_GS2 DistanceSensor {
+        translation 0.01 0.003 0
+        rotation 0 0 1 -1.57
+        children [
+          USE EPUCK_GS_SHAPE
+        ]
+        name "gs2"
+        lookupTable [
+          0 1000 0.002
+          0.016 300 0.004
+        ]
+        type "infra-red"
+      }
+      DEF EPUCK_GS3 DistanceSensor {
+        translation -0.02 0.003 0
+        rotation 0 0 1 -1.57
+        children [
+          USE EPUCK_GS_SHAPE
+        ]
+        name "gs3"
+        lookupTable [
+          0 1000 0.002
+          0.016 300 0.004
+        ]
+        type "infra-red"
+      }
+```
+
+
+GS2 is one of the old sensors, GS3 is a new one. As you can see, the only difference is the x coordinate in the translation. I don't get why they're coming out lower in the z value
+
+
+Got it working, I just modified the translation until it was fine. Still don't know why they were off if the parent was the same as with the old sensors, but it's working nonetheless. Thanks!
+
+##### Kirlin 10/18/2020 04:56:21
+Hi there, I'm a brazilian (so srry for my bad english) in mechatronic degree a trainee in a robotic's team of my university, so... the challenge for the trainee's is run a very simple simulation with webots, but with several other requirements in another areas and everything has to be in ROS.
+
+Anyway, I found this server when I was looking for some documentation of ROS-Webots, cause everything else on my project it's just done and I can't do the communication between the other areas and the simulation, i tried everything that I found online and everything I have is a launch for a simulation in ROS.
+
+So anyone here have a good documentation or tutorials about using ROS on Webots or something like that ?
+
+##### Justin Fisher 10/19/2020 00:58:06
+`@Kirlin` The people who know most about Webots seem to be around this channel during ordinary business hours in Europe, so hopefully they'll have an answer for you.
+
+
+And here are a couple of questions about pen devices:  (1) when I set inkdensity to intermediate amounts, it seems to average the pen color with white, rather than with whatever the existing color of the surface is, so it looks bad on surfaces that aren't naturally near-white.  Is this a bug or an intentional decision?  I suppose looking up the existing color, or better yet, the existing color as it appears with whatever current ink it has on it, would be more processor intensive?  
+
+
+
+(2) is there any way to erase particular bits of pen writing?  I.e., is there a setting for pen devices to make them work as erasers instead?  The closest analog of an erasable pen I've managed to come up with is to draw and erase things on a display, e.g., in much the way that one of the vacuum robot samples "erases" a layer of dust, but getting this to work on a variety of surfaces ends up basically just "reinventing the wheel" (or in this case, the pen) so it'd be better if there was a way to do this making use of inbuilt-pen devices.
+
+##### David Mansolino [Cyberbotics] 10/19/2020 05:51:46
+> Hi there, I'm a brazilian (so srry for my bad english) in mechatronic degree a trainee in a robotic's team of my university, so... the challenge for the trainee's is run a very simple simulation with webots, but with several other requirements in another areas and everything has to be in ROS.
+
+> Anyway, I found this server when I was looking for some documentation of ROS-Webots, cause everything else on my project it's just done and I can't do the communication between the other areas and the simulation, i tried everything that I found online and everything I have is a launch for a simulation in ROS.
+
+> So anyone here have a good documentation or tutorials about using ROS on Webots or something like that ?
+
+`@Kirlin` Here are a few pointers:
+
+[https://www.cyberbotics.com/doc/guide/using-ros](https://www.cyberbotics.com/doc/guide/using-ros)
+
+[https://www.cyberbotics.com/doc/guide/tutorial-8-using-ros](https://www.cyberbotics.com/doc/guide/tutorial-8-using-ros)
+
+[https://www.youtube.com/watch?v=xRvFJDuhx3Y](https://www.youtube.com/watch?v=xRvFJDuhx3Y) (a bit outdated)
+
+And you can find the topic and service description for each device in the reference manual:
+
+[https://www.cyberbotics.com/doc/reference/accelerometer?tab-language=ros](https://www.cyberbotics.com/doc/reference/accelerometer?tab-language=ros)
+
+
+`@Justin Fisher` 
+
+
+
+1) You are completely right, it seems there is somethign wrong, I just repported this here: [https://github.com/cyberbotics/webots/issues/2353](https://github.com/cyberbotics/webots/issues/2353)
+
+We will try to fix this a soon as possible.
+
+
+
+2) this is unfortunately not yet possible. However, it should not be too hard to implement. If you have some C++ knowledge, you can try yourself (we will of course help you), otherwise, please feel free to open a feature request: [https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
+
+##### Justin Fisher 10/19/2020 06:35:04
+Do you know which C++ file it would be in?  Also, what do you think the best API interface would be for setting a pen to erase?  There could be a separate erase boolean, with a separate API function call to alter it.  Or maybe it makes sense to just view inkDensity <= 0 as erasure?  
+
+
+
+Anyway, if the changes requires API changes, I haven't gotten anywhere close to wrapping my head around what all that would require.  But if it just involves comparing inkDensity to 0 and if so, changing the alpha-component of created ink pixels, that'd probably be something I could do.  Or if someone else is going to change the inkDensity always averages-with-white bug, it'd probably be trivial for them to also make 0 inkDensity just go back to no ink.
+
+##### David Mansolino [Cyberbotics] 10/19/2020 06:38:08
+Here is the CPP file implementign the Pen node in Webots: [https://github.com/cyberbotics/webots/blob/master/src/webots/nodes/WbPen.cpp](https://github.com/cyberbotics/webots/blob/master/src/webots/nodes/WbPen.cpp)
+
+and here is the C file for the API side:
+
+[https://github.com/cyberbotics/webots/blob/master/src/Controller/api/pen.c](https://github.com/cyberbotics/webots/blob/master/src/Controller/api/pen.c)
+
+
+
+I would say that the new field + new API function is cleaner (but this is personal opinion), but if you want to create a first prototype with inkDensity <= 0 it is already a good start, and if needed we can continue from then to convert in new API function.
+
+
+We have by the way a guide for new API function introducing: [https://github.com/cyberbotics/webots/wiki/Adding-New-Node-and-API-Function#adding-a-new-api-function](https://github.com/cyberbotics/webots/wiki/Adding-New-Node-and-API-Function#adding-a-new-api-function)
+
+##### Justin Fisher 10/19/2020 06:49:05
+The docs say 0 is an allowable value for inkDensity, but it should have no effect in current implementation, so probably a good starting point is just to change it to erase old ink, and not just add 0 new ink.  Alternatively, you could extend the allowable inkDensity range to  [-1,1] and have negative densities remove that fraction of existing ink.
+
+
+
+Anyway, it looks like the real action is performed by `mLastPaintTexture->paint`   Do you know where that would be?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 06:51:45
+> The docs say 0 is an allowable value for inkDensity, but it should have no effect in current implementation, so probably a good starting point is just to change it to erase old ink, and not just add 0 new ink.  Alternatively, you could extend the allowable inkDensity range to  [-1,1] and have negative densities remove that fraction of existing ink.
+
+
+
+`@Justin Fisher` yes using 0, is already a good and simple first step.
+
+
+
+> Anyway, it looks like the real action is performed by `mLastPaintTexture->paint`   Do you know where that would be?
+
+well spotted, here is the definition of this function:
+
+[https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/nodes/utils/WbPaintTexture.cpp#L198](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/nodes/utils/WbPaintTexture.cpp#L198)
+
+
+Here is in particular the interesting part: [https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/nodes/utils/WbPaintTexture.cpp#L239-L265](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/nodes/utils/WbPaintTexture.cpp#L239-L265)
+
+##### Justin Fisher 10/19/2020 07:01:56
+So it looks like line 254 sets the alpha channel to paint with to be 1 (opaque).  So probably all we'd need to do to erase is to check if density == 0 and if so change this alpha to 0 (transparent)?
+
+
+
+It seems like the averaging with white bug should be somewhere around here too.  ~~In this code (lines 242, 251-253), I see half of what I would expect a weighted average computation to look like, but I don't see it actually combining the other half anywhere.  So looking at that code, I'd expect it to effectively be doing a weighted average with black (0,0,0) rather than white.~~  But I don't know what the calls to `wr_drawable_texture_set_color` and `wr_drawable_texture_draw_pixel` do in lines 259-260, so perhaps they somehow take care of that.  I guess the next step would be to track those down.
+
+
+(I found the file with those in it, so don't feel obligated to point me to it. 🙂 )
+
+
+Ok, think I got it all figured out.
+
+
+It looks like there are several places (lines 91-97, and lines 131-137) that "clear"  a paintable texture by making it be transparent white (1,1,1,0).  My guess is that one of these is where the white in the "average with white" bug is coming from.  
+
+
+
+Lines 251-254 compute a weighted RGB average between the new ink that should be added and some existing mData, and sets opacity to 1 (opaque).  I haven't been able to decipher yet whether that existing mData is supposed to be the coloration of the underlying texture or the coloration of the paint/ink that has already been put on that texture.  Intuitively, it seems like *both* of those should be taken into account -- e.g., in the case where there is no ink yet, you'd need to look at the underlying coloration to determine what color will be produced by adding partial-density ink over it, whereas if there is already some color of ink on top, then intuitively you should take its color into account too.  I *think* it is just looking at the existing *ink*, which defaults to being transparent white (1,1,1,0), so a weighted average between the new ink RGB and that old "transparent white" ink RGB is what produces the "averaging with white" effect.  
+
+
+
+Changing the default color from transparent white to some other color would just change the bug to be the "averages with that new color" bug.  On average, transparent neutral grey (0.5,0.5,0.5, 0) would probably be the least bad color to average with, so that could be a stopgap.
+
+
+
+Another stopgap might be to copy the underlying image into the paint layer, but that'd probably screw up the resolution of all the unpainted portions.
+
+
+
+So I think the best way of solving this is to actually make use of the alpha channel of your paint layer, rather than always setting it to 0 or 1 like you currently do.  Is there any reason you can't just make half-density blue ink in the paint layer be full blue with half-alpha:  (0,0,1,.5) ?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 07:49:55
+sorry for the late answer, I was having a meeting.
+
+
+> It looks like there are several places (lines 91-97, and lines 131-137) that "clear"  a paintable texture by making it be transparent white (1,1,1,0).  My guess is that one of these is where the white in the "average with white" bug is coming from.  
+
+Yes exactly, this part should conern both the new feature and the 'white bug'.
+
+`@Justin Fisher`
+
+
+This `mData` is actually the color of the texture that is applied on top of the original texture (the one of the object without any ink on it).
+
+
+> So I think the best way of solving this is to actually make use of the alpha channel of your paint layer, rather than always setting it to 0 or 1 like you currently do.  Is there any reason you can't just make half-density blue ink in the paint layer be full blue with half-alpha:  (0,0,1,.5) ?
+
+
+
+I don't see any, this is indeed probably wrong, the alpha layer should be able to take intermediate values.
+
+##### Justin Fisher 10/19/2020 07:55:52
+> This `mData` is actually the color of the texture that is applied on top of the original texture (the one of the object without any ink on it).
+
+`@David Mansolino` 
+
+Sorry, didn't understand this.  Can you say this again in different words?  Say I've used a pen to paint just one black pixel on a big red triangle.  Will the mData (A) be mostly red with a black pixel?  Or will it (B) be mostly transparent white with a black pixel?
+
+
+(I think the answer must be B, because (1) that explains the "averaging with white" bug, and (2) that explains why pen-drawn-ink seems to show up with lousy resolution over a higher-resolution underlying texture.)
+
+##### David Mansolino [Cyberbotics] 10/19/2020 08:02:00
+You're right, it will be mostly transparent with a black pixel.
+
+##### Justin Fisher 10/19/2020 08:05:03
+Is there a way to also access the color at the corresponding point of the underlying texture?  Is so, then you could factor it in and make completely opaque ink like you currently do.
+
+
+
+But I still think the better way to go, if you can, is just to make low-density ink be semi-transparent so that the underlying layer will automatically show through without your needing to explicitly compute the mix here.
+
+##### David Mansolino [Cyberbotics] 10/19/2020 08:06:57
+> Is there a way to also access the color at the corresponding point of the underlying texture?  Is so, then you could factor it in and make completely opaque ink like you currently do.
+
+> 
+
+This is for sure doable, but a bit more complex.
+
+
+
+> But I still think the better way to go, if you can, is just to make low-density ink be semi-transparent so that the underlying layer will automatically show through without your needing to explicitly compute the mix here.
+
+`@Justin Fisher` yes, that's indeed the idea, and should work if the alpha component of the `mData` is set, then semi-transparent parts will be blended with the underlying texture.
+
+##### Justin Fisher 10/19/2020 08:11:25
+So in the simple case where the current ink is fully transparent, the new pixel should just be the ink's RGB with density as the alpha (rather than averaging with the current "transparent white" ink color the way it currently does).  In the simple cases where there is already fully opaque ink there, the current calculation does a fine job of mixing the new low-density ink atop that old ink.  The trickier cases are all the inbetween cases.  E.g., what should happen if you paint over half-transparent red with half-transparent blue?
+
+
+Maybe let's assume that we're spraying tiny droplets of paint that randomly land on tiny subpixels too small to see, and whenever a new droplet covers an old one it hides the old one, and the alpha channel indicates what percentage of the surface actually gets hit with droplets.  Given those assumptions half-transparent blue (0,0,1,0.5) sprayed atop half-transparent red (1,0,0,0.5) should end up having sprayed 3/4 of the underlying surface, so the alpha would need to be 0.75, and 2/3 of that 3/4 will be blue, and only 1/3 will be red (with the remaining red having been covered by blue).  So the right new ink color, given these assumptions, should be (1/3,  0,  2/3,  3/4)
+
+##### David Mansolino [Cyberbotics] 10/19/2020 08:29:58
+That looks good!
+
+##### Justin Fisher 10/19/2020 08:35:46
+Or putting this in general form, the combinedInkOpacity should be newInkOpacity + oldInkOpacity * ( 1 - newInkOpacity).   
+
+
+
+And the RGB components should be newInkColor * newInkOpacity / combinedInkOpacity + oldInkColor * oldInkOpacity * (1 - newInkOpacity) / combinedInkOpacity.
+
+
+If you want to set it up to have density==0 erase, you would just make overwrite the alpha (combinedInkOpacity) with 0 in that case.
+
+
+Or if you want to set it up that negative densities erase that fraction of existing ink (regardless of what the newInkColor is), you would keep the oldInkColor's RGB components, but change the new combinedInkOpacity to be oldInkOpacity * (1 + newInkDensity)
+
+##### David Mansolino [Cyberbotics] 10/19/2020 08:39:32
+Yes that would be a special case, but this is indeed a good solution at least for testing the feasibility.
+
+##### Justin Fisher 10/19/2020 08:40:19
+Do you know if it enforces that inkDensity must be in [0,1]?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 08:40:36
+Most probably yes.
+
+##### Justin Fisher 10/19/2020 08:41:13
+So I guess my suggestion would be to change that to allow [-1,1], and make the changes I outlined above.
+
+
+(I think it's probably better to offer a low-density-eraser to complement low-density-ink, and negative density seems like a perfectly natural way to conceive of the removal of some fraction of ink)
+
+
+I can make a stab at that after I get past a pressing deadline on Tuesday, though (a) I'm not sure how to extend the allowable range to go down to [-1,1] and (b) I haven't tried to compile Webots source myself, so I'd have to figure out quite a lot of that to be able to test it.  So it would (of course) be easier for me to write code that probably gets pretty close to working, and shuffle off the job of testing it to someone else?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 09:03:24
+Yes sure, feel free to open a PR on the repository and let us know when you want us to test / continue it: [https://github.com/cyberbotics/webots](https://github.com/cyberbotics/webots)
+
+##### Justin Fisher 10/19/2020 09:05:15
+If we can get erasers to work, I'll actually use it in the lab I'm setting up for my students, so that'll be good.
+
+
+Separate question:  Is there a good way to delete a "label" that a supervisor creates?  I can set it to display "", which makes it disappear but probably doesn't delete it.   If I repeatedly create new labels with new ID's, then set them to display "", would they somehow accumulate and slow things down?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 10:11:37
+This is not yet possible from the API, but why not reusing previous labels after setting them to `""`?
+
+##### Justin Fisher 10/19/2020 10:36:40
+There are different things I wanted to switch between displaying, with some of the labels lingering much longer than others, and the solution that initially occurred to me was just to create a new label with ID one higher than the last label I'd created to ensure I wouldn't overwrite one I wanted to keep -- seemed easier than engineering my own garbage collection system for no-longer-used label ID's.  But I think you're right that the particular task I was trying to do can be done in a way that re-uses ID's without worry of collision.
+
+
+
+More generally though, I have a fair number of different labels that I sometimes want to display in different combinations, so my lazy solution has been just to give them unique ID's, even though many of them will be set to "" at each given moment, so I wondered whether that was a bad practice?  If I had a way to completely turn off a label so Webots wouldn't any waste time trying to display empty text, I'd probably do that instead.  (But maybe processing some empty labels doesn't really take that much time compared to all the other things Webots does. dunno...) 
+
+
+
+Since labels annoyingly seem to have no useful memory at all of things like font and color, it seems like once a supervisor sets a label to "", Webots may as well just delete that label entirely rather than have it linger around consuming resources.  (Alternatively, you could give labels useful memory of prior settings, so, e.g., I wouldn't have to keep re-specifying locations and fonts with every single call to setLabel even when I don't want them to change!  If you did that, then you probably wouldn't want setting a label to "" to completely kill it.)
+
+##### David Mansolino [Cyberbotics] 10/19/2020 10:41:15
+Honestly, as long as your number of labels remains reasonable you should not see any differences as empty labels are almost costless (both in terms of memory and CPU/GPU consumption), if you have 1000+ more labels then it is indeed time to think more about this, but otherwise you should be able to safetly ignore this.
+
+##### Justin Fisher 10/19/2020 10:41:39
+ok, i'll sleep easy tonight then 🙂
+
+
+I actually wrote my own python label-handling classes to automate things like remembering earlier parameters, so I can update labels with simple calls like `timer.update()` or `counter.update( color=[1,0,0] )`, rather than the monstrous re-listing of all parameters in a mandatory order that vanilla Webots requires.  It wouldn't be that hard for me to set that class up also to do automatic garbage collection on ID's, but your assurances tell me I needn't bother with that (yet, or probably ever).
+
+##### Strauss 10/19/2020 14:34:16
+Anyone can point to some resources on how to make the base of a manipulator floating in ROS?
+
+I've simulated the open\_manioulator robot and my custom urdf but I want to attach its base to a moving platform attached to ceiling. Like when no force is applied to motors, the whole thing should collapse under its weight
+
+##### David Mansolino [Cyberbotics] 10/19/2020 14:45:53
+Hi `@Strauss` you simply have to put the manipulator as a children of your moving platform.
+
+##### Strauss 10/19/2020 14:47:30
+`@David Mansolino` the moving platform is actually a floating base with controllable pose (which could be above earth level).
+
+I need to attach the base of my manipulator to that floating base.
+
+Is it possible in ROS or urdf ?
+
+
+And how to code this concept of floating base? Another robot?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 14:50:47
+Webots does not use URDF directly, but another format, but yes it is possible to put a Robot node inside the children field of another Robot node in Webots.
+
+##### Strauss 10/19/2020 14:51:30
+`@David Mansolino` SDF?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 14:52:04
+[https://cyberbotics.com/doc/reference/generalities](https://cyberbotics.com/doc/reference/generalities)
+
+[https://cyberbotics.com/doc/reference/proto-definition](https://cyberbotics.com/doc/reference/proto-definition)
+
+
+I would recommend following our tutorial to get familiar with robot/world creation in Webots: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+
+##### Strauss 10/19/2020 14:53:28
+Just to be sure, suppose two simple rods with a joint in between: 
+
+------x------
+
+------|------
+
+-----/-------
+
+---ground---
+
+
+
+I want to move x abruptly and actually see the oscillations of the links. Is it possible?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 14:55:00
+Yes, you need to put a maximum acceleration, speed and force/torque high enough. And you may also need to increase the PID.
+
+##### Strauss 10/19/2020 14:58:22
+`@David Mansolino` yeah I want to mess with the controller of the robot by moving the base abruptly :D
+
+Thanks for you suggestions.
+
+I only know basic URDF and Xacro in ROS. Should I study its wiki more and then look into Webots?
+
+##### David Mansolino [Cyberbotics] 10/19/2020 15:08:59
+You're welcome.
+
+
+No no need, if you plan to use Webots, you don't need any URDF and Xacro knowledge, you can do everything directly in the Webots Graphical User Interface. I would advise starting directly with the Webots tutorials
+
+##### black\_hammer\_67 10/19/2020 22:54:32
+Hello to all of u, I am building an RL framework for Webots and I use "robot\_node.getNumberOfContactPoints()" to detect collisions in code and terminate the episode. As is seams it works well for the robot but not for its wheels, when I have a wheel collision it doesn't return any contact point. As a result my robot learns to exploit this bug and touching all the time the walls with its roads to avoid collisions. Is there any way to fix this ? or to check the collisions of the wheels to ? 
+
+I am using a pioneer 3dx proto node for my robot 
+
+Below there is a screenshot of what i am describing.
+
+If anyone could help me I would be gracefull.
+
+
+
+%figure
+![Screenshot_from_2020-10-20_01-47-44.png](https://cdn.discordapp.com/attachments/565154703139405824/767883477500428328/Screenshot_from_2020-10-20_01-47-44.png)
+%end
+
+##### SeanLuTW 10/20/2020 01:14:08
+Hello, I added a node in "toolSlot" of UR5e at my tool canter point, and used DEF to name it as "tcp". In my supervisor node, I tried to use "supervisor.getFromDef("tcp").getPosition()" to get the position of my TCP, but "supervisor.getFromDef("tcp")" just returned None. After I renamed it to, such as "tool" and it worked. I am not sure if it was a reserved keyword?
+
+
+By the way, it is possible to build the intrinsic matrix from the attributes in "Camera" and "RangeFinder"?
+
+##### Justin Fisher 10/20/2020 02:22:04
+So, I hadn't tried out the TexturedBox proto before.  It turns out that it's much more useful than its documentation page would suggest, e.g., giving you full control over what all 6 faces of the box will look like.  Nothing in the documentation page actually says it would be useful for this.  The image shows just one face with a texture and the others solid, and the two options that give you control over more faces aren't actually described in words -- instead there's just a path to a a .jpg that someone could maybe try to go find hiding in their webots installation, but with no words describing why doing so might be worth their while.  I'd suggest making the words actually explain what these two  options do, and probably changing the image to one that does better to illustrate the full power of this, e.g., showing one of those linked jpegs wrapped around a cube.
+
+
+And/or including those jpg's on the documentation page itself, rather than just obscure links to them.
+
+##### David Mansolino [Cyberbotics] 10/20/2020 06:13:00
+`@black_hammer_67`, If you call `robot_node.getNumberOfContactPoints()` you will get the contact points of the robot only, not of the descendant nodes of the robot (e.g. the wheels), you need to call this function fo the wheel nodes too.
+
+
+> Hello, I added a node in "toolSlot" of UR5e at my tool canter point, and used DEF to name it as "tcp". In my supervisor node, I tried to use "supervisor.getFromDef("tcp").getPosition()" to get the position of my TCP, but "supervisor.getFromDef("tcp")" just returned None. After I renamed it to, such as "tool" and it worked. I am not sure if it was a reserved keyword?
+
+`@SeanLuTW` `tcp` is not a reserved keyword, but it is possible, can you share a simple world file reproducing the problem?
+
+
+> By the way, it is possible to build the intrinsic matrix from the attributes in "Camera" and "RangeFinder"?
+
+`@SeanLuTW` using the camera API you can get many parameters that can help you building this matrix (min range, max range, field of view, etc.): [https://www.cyberbotics.com/doc/reference/camera#wb\_camera\_get\_fov](https://www.cyberbotics.com/doc/reference/camera#wb_camera_get_fov)
+
+
+`@Justin Fisher` thank you for the feedback, this documentation is actually auto-generated from the PROTO itself, but it should be possible to improve/extend the description in the PROTO file directly: [https://github.com/cyberbotics/webots/blob/master/projects/objects/geometries/protos/TexturedBox.proto#L1-L13](https://github.com/cyberbotics/webots/blob/master/projects/objects/geometries/protos/TexturedBox.proto#L1-L13)
+
+##### June 10/20/2020 07:58:18
+i have a different problem. drivers are the latest, but installer said no graphics and turned off
+
+
+are there any ryzen users?
+
+##### Olivier Michel [Cyberbotics] 10/20/2020 07:59:21
+What is your operating system? What is your graphics card?
+
+##### June 10/20/2020 08:21:03
+windows10 / nvidia 2070 super
+
+
+cpu is ryzen 3700x
+
+##### Olivier Michel [Cyberbotics] 10/20/2020 08:21:45
+Webots should work on such a machine. What is exactly the error you get? Can you send a screenshot?
+
+##### June 10/20/2020 08:34:04
+are there any other manual? i have only this link [https://www.cyberbotics.com/doc/guide/installation-procedure#installation-on-windows](https://www.cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
+
+i hope a manual for window10 & ryzen 3700x & nvidia 2070 without integrated graphics
+
+
+No, i cant. computer owner is not me. my colleague is not  here
+
+##### David Mansolino [Cyberbotics] 10/20/2020 09:02:39
+In that case it is probably simpler to ask your colleague to come here when he is available.
+
+##### black\_hammer\_67 10/20/2020 11:55:59
+`@David Mansolino`  how can i call this function for the wheels of a proto node as pioneer3dx ?
+
+##### David Mansolino [Cyberbotics] 10/20/2020 12:03:30
+Yes, you can retrieve internal node handle of the pioneer3dx with the `wb_supervisor_node_get_from_proto_def` function:
+
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_from\_proto\_def](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_from_proto_def)
+
+You may need to edit the ``pioneer3dx `` PROTO to add DEF names to the wheels.
+
+Or otherwise you can convert the PROTO node into base nodes (right click on the pioneer3dx  node in the scene tree), this way you can add and retrieve DEF names directly at the wheels level.
+
+##### black\_hammer\_67 10/20/2020 12:04:17
+ok I'll try it thank you
+
+##### David Mansolino [Cyberbotics] 10/20/2020 12:04:33
+You're welcome
+
+##### GaGa 10/20/2020 12:12:56
+Hello all , I'm building a robot with a camera , so is there any possibilities like a if I see a sign and detect and it has to go in a some way like a warehouse robot
+
+
+> Hello all , I'm building a robot with a camera , so is there any possibilities like a if I see a sign and detect and it has to go in a some way like a warehouse robot
+
+`@GaGa` can someone help me build am beginner
+
+##### David Mansolino [Cyberbotics] 10/20/2020 12:14:53
+You might find some related examples and explanations here: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Pattern\_Recognition\_using\_the\_Backpropagation\_Algorithm\_](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Pattern_Recognition_using_the_Backpropagation_Algorithm_)[Advanced]
+
+##### GaGa 10/20/2020 12:19:39
+Tysm but I think it's lil advanced 😂can I get a similar one
+
+
+Easier one**
+
+##### David Mansolino [Cyberbotics] 10/20/2020 12:20:24
+Here is the summary, you will find all kind of level examples: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum)
+
+##### GaGa 10/20/2020 12:20:31
+Tysm
+
+##### David Mansolino [Cyberbotics] 10/20/2020 12:20:37
+You're welcome
+
+##### Chronoj 10/20/2020 13:32:51
+Hello to all of you, i am trying to move a robot from a starting point to a randomly selected point on the floor. I am using the adept pioneer 3-dx robot. I have found how to track the robot's position, using supervisor API , getting the translation field variables( i tried to add a gps node at first, but i could not find how to install it in a "webots-generated" robot). Now i need to get the robot's orientation, but all the related functions  require a node attached to the robot, in order to return orientation. Any suggestions on how can i get the orientation, or how can i attach a node to the robot to use the supervisor function or a compass to get directly the orientation?
+
+##### David Mansolino [Cyberbotics] 10/20/2020 13:34:42
+The robot itself is a node, so you can use the supervisor API too to get it's orientation with the `wb_supervisor_node_get_orientation` function: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
+
+##### Chronoj 10/20/2020 13:57:56
+Seems it works, thank you so much!
+
+##### David Mansolino [Cyberbotics] 10/20/2020 13:59:33
+You're welcome
+
+##### Justin Fisher 10/20/2020 14:46:07
+Any idea why an IR distance sensor would work fine on one surface and not on an extremely similar surface?  The surfaces are both textured boxes with very similar image maps, same roughness setting, no ambient occlusion maps, no transparency.  On many such surfaces, the IR detects blue as maximally distant, and detects red and yellow as being much closer (even when those colors are all the same distance away).  However, on this one surface, blue gives the same close readings as red and yellow do.
+
+##### David Mansolino [Cyberbotics] 10/20/2020 15:00:57
+The IR sensors are influenced by ([https://www.cyberbotics.com/doc/reference/distancesensor#infra-red-sensors](https://www.cyberbotics.com/doc/reference/distancesensor#infra-red-sensors)):
+
+  - the red\_level  (both baseColor or base color texture)
+
+  - the roughness (both roughness or roughness texture)
+
+  - the occlusion (both occlusion or occlusion texture)
+
+Make sure they are all the tree exactly the same.
+
+##### Justin Fisher 10/20/2020 15:06:40
+They are.  Or at least the RGB is as close to the same as my eye can tell, and definitely there is a huge difference between the red component of the blue and the red component of red.  They have occlusion map NULL, but both do have the default occlusion strength of 1, but I don't think that does anything without an occlusion map and regardless it's the same in both cases.  (I think transparency maybe should also be on your list, but it's the same too, 0.)
+
+
+It looks like jpeg compression makes there be slight alterations in blue hues, but even where the red component is 0, it still is seeing the blue as no different from red.
+
+##### David Mansolino [Cyberbotics] 10/20/2020 15:17:31
+Have you tried to use a non-infrared distance sensor to see if you can reproduce this?
+
+##### Justin Fisher 10/20/2020 15:25:59
+It looks like a generic distance sensor gives basically the same readings as the IR one when faced with yellow or red or with the blues on the problematic surface.  The only difference is that the generic one sees blues as close on most surfaces, whereas the IR one sees those blues as far.
+
+
+The IR sensor is the one pointed at the blue ground on our right (the robot's left).  On this surface it sees blue just fine.
+> **Attachment**: [lab2\_theater\_sees\_blue.png.lnk](https://cdn.discordapp.com/attachments/565154703139405824/768135334667092018/lab2_theater_sees_blue.png.lnk)
+
+
+But on this surface it instead gets the same close readings from the blue that it usually gets from yellow and red.
+> **Attachment**: [lab2\_theater\_does\_not\_see\_blue.png.lnk](https://cdn.discordapp.com/attachments/565154703139405824/768135540633501756/lab2_theater_does_not_see_blue.png.lnk)
+
+
+
+%figure
+![lab2_theater_sees_blue.png](https://cdn.discordapp.com/attachments/565154703139405824/768135741729144862/lab2_theater_sees_blue.png)
+%end
+
+
+
+%figure
+![lab2_theater_does_not_see_blue.png](https://cdn.discordapp.com/attachments/565154703139405824/768135809454440469/lab2_theater_does_not_see_blue.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 10/20/2020 16:01:01
+Could you please open a bug report including a ZIP file of your world files, so that we can try to reproduce the problem?
 

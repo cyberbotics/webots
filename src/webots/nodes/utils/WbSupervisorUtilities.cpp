@@ -329,7 +329,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
   }
 }
 
-void WbSupervisorUtilities::processImmediateMessages() {
+void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   int n = mFieldSetRequests.size();
   if (n == 0)
     return;
@@ -342,6 +342,8 @@ void WbSupervisorUtilities::processImmediateMessages() {
     delete r;
   }
   mFieldSetRequests.clear();
+  if (blockRegeneration)
+    return;
   WbTemplateManager::instance()->blockRegeneration(false);
   emit worldModified();
 }
@@ -1103,6 +1105,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
       WbNode *const node = WbNode::findNode(nodeId);
       WbField *field = node->field(fieldId);
 
@@ -1206,6 +1211,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           assert(0);
       }
 
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }
@@ -1253,6 +1259,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
+      bool modified = false;
       WbNode *parentNode = WbNode::findNode(nodeId);
       WbField *field = parentNode->field(fieldId);
       switch (field->type()) {  // remove value
@@ -1267,7 +1277,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(field->value());
           assert(multipleValue->size() > index);
           multipleValue->removeItem(index);
-          emit worldModified();
+          modified = true;
           break;
         }
         case WB_MF_NODE: {
@@ -1288,7 +1298,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(node, true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1300,7 +1310,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1308,6 +1318,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         default:
           assert(0);
       }
+
+      WbTemplateManager::instance()->blockRegeneration(false);
+      if (modified)
+        emit worldModified();
 
       return;
     }

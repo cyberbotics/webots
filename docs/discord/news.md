@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Soft\_illusion 10/19/2020 00:56:39
+We are back with the second episode of the Webots ROS2 video tutorial series . Video 2: Different examples in Webots with ROS2. [https://www.youtube.com/watch?v=MOEkD8iWchw](https://www.youtube.com/watch?v=MOEkD8iWchw). Stay tuned for more upcoming interesting episodes. @everyone
+
 ##### Olivier Michel [Cyberbotics] 10/12/2020 06:14:32
 Here is the first episode of the Webots ROS2 video tutorial series by Soft Illusion. Video 1: Installation of ROS2, Webots, webots\_ros2 pkg and VScode. [https://youtu.be/jU\_FD1\_zAqo](https://youtu.be/jU_FD1_zAqo). Stay tuned for more episodes coming soon!
 
