@@ -308,7 +308,7 @@ void WbControlledWorld::step() {
   }
 
   if (waitForController) {
-    if (needToWaitForExternControllerStart)
+    if (waitForExternControllerStart)
       // stop timer and restore it when extern controller is connected
       pauseStepTimer();
     else if (simulationState->isStep() || simulationState->isPaused())
@@ -362,11 +362,11 @@ void WbControlledWorld::step() {
 }
 
 bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
-  waitForExternControllerStart = false;
+  *waitForExternControllerStart = false;
   foreach (WbRobot *const robot, mRobotsWaitingExternController) {
     if (robot->synchronization()) {
       if (waitForExternControllerStart)
-        waitForExternControllerStart = true;
+        *waitForExternControllerStart = true;
       return true;
     }
   }
