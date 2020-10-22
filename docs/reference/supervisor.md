@@ -3210,6 +3210,7 @@ An exception to this rule applies if one of the following functions is executed:
 - [`wb_supervisor_field_import_sf_*`](#wb_supervisor_field_import_sf_node)
 - [`wb_supervisor_field_remove_mf`](#wb_supervisor_field_remove_mf)
 - [`wb_supervisor_field_remove_sf`](#wb_supervisor_field_remove_sf)
+
 In this case, the set operations queued in the current step of this controller only are executed just before the insert, import or remove operation.
 
 > **Note**: Since Webots 7.4.4, the inertia of a solid is no longer automatically reset when changing its translation or rotation using `wb_supervisor_field_set_sf_vec2f` and `wb_supervisor_field_set_sf_rotation` functions.
