@@ -281,6 +281,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
   mNodeGetContactPoints = NULL;
+  mGetContactPointsIncludeDescendants = false;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
   mIsProtoRegenerated = false;
@@ -741,12 +742,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
       unsigned int id;
+      unsigned char includeDescendants;
 
       stream >> id;
+      stream >> includeDescendants;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
+      mGetContactPointsIncludeDescendants = includeDescendants == 1;
       if (!solid)
         mRobot->warn(
           tr("wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively "
@@ -1470,7 +1474,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mNodeGetCenterOfMass = NULL;
   }
   if (mNodeGetContactPoints) {
-    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints();
+    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints(mGetContactPointsIncludeDescendants);
+    const QVector<const WbSolid *> &solids = mNodeGetContactPoints->computedSolidPerContactPoints();
     const int size = contactPoints.size();
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
@@ -1480,6 +1485,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       stream << (double)v.x();
       stream << (double)v.y();
       stream << (double)v.z();
+      stream << (int)(mGetContactPointsIncludeDescendants ? solids.at(i)->uniqueId() : mNodeGetContactPoints->uniqueId());
     }
     mNodeGetContactPoints = NULL;
   }

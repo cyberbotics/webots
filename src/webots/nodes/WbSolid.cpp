@@ -2444,6 +2444,13 @@ const QVector<WbVector3> &WbSolid::computedContactPoints(bool includeDescendants
   return includeDescendants ? mGlobalListOfContactPoints : mListOfContactPoints;
 }
 
+const QVector<const WbSolid *> &WbSolid::computedSolidPerContactPoints() {
+  extractContactPoints();
+  connect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this, &WbSolid::resetContactPoints,
+          Qt::UniqueConnection);
+  return mSolidPerContactPoints;
+}
+
 void WbSolid::extractContactPoints() {
   if (mHasExtractedContactPoints)
     return;
@@ -2469,6 +2476,10 @@ void WbSolid::extractContactPoints() {
       const double *const pos = cg.pos;
       const WbVector3 v(pos[0], pos[1], pos[2]);
       mGlobalListOfContactPoints.append(v);
+      if (s1->topSolid() == this)
+        mSolidPerContactPoints.append(s1);
+      else
+        mSolidPerContactPoints.append(s2);
       // stores the smallest y-coordinate of all contact points
       const double downProjection = v.dot(world->worldInfo()->upVector());
       if (downProjection < mY)
@@ -2716,6 +2727,7 @@ unsigned char WbSolid::staticBalance() {
 
 void WbSolid::resetContactPointsAndSupportPolygon() {
   mGlobalListOfContactPoints.resize(0);
+  mSolidPerContactPoints.resize(0);
   mY = numeric_limits<double>::max();
   mSupportPolygonNeedsUpdate = true;
   mHasExtractedContactPoints = false;
@@ -2724,6 +2736,7 @@ void WbSolid::resetContactPointsAndSupportPolygon() {
 void WbSolid::resetContactPoints() {
   mListOfContactPoints.resize(0);
   mGlobalListOfContactPoints.resize(0);
+  mSolidPerContactPoints.resize(0);
   mHasExtractedContactPoints = false;
   disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this, &WbSolid::resetContactPoints);
 }
