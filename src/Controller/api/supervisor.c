@@ -938,6 +938,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       free(contact_points_node_ref->contact_points);
       free(contact_points_node_ref->node_id_per_contact_points);
       contact_points_node_ref->contact_points = NULL;
+      contact_points_node_ref->node_id_per_contact_points = NULL;
       contact_points_node_ref->number_of_contact_points = request_read_int32(r);
       if (contact_points_node_ref->number_of_contact_points > 0) {
         const int three_times_size = 3 * contact_points_node_ref->number_of_contact_points;
