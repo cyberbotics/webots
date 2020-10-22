@@ -983,7 +983,7 @@ com = wb_supervisor_node_get_center_of_mass(node)
 
 *get the global position of a solid's center of mass*
 
-The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node expressed in the global (world) coordinate system.
+The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node (including its descendant Solid nodes) expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
