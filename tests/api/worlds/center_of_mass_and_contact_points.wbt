@@ -101,7 +101,7 @@ Robot {
     }
     TestSuiteEmitter {
     }
-    Solid {
+    DEF SECONDARY_SOLID Solid {
       children [
         DEF SECONDARY_BODY Transform {
           translation 0 -0.05 0
