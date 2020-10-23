@@ -105,11 +105,18 @@ export WEBOTS_HOME=/home/username/webots
 
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
-> **Note**: Webots needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
-You will also need to install *make* and *g++* to compile your own robot controllers.
-Other particular libraries could also be required to recompile some of the distributed binary files.
-In this case an error message will be printed in the Webots console mentioning the missing dependency.
-The package names could slightly change on different releases and distributions.
+> **Note**: You will need to install *make* and *g++* to compile your own robot controllers. Other particular libraries could also be required to recompile some of the distributed binary files. The package names could slightly change on different releases and distributions. In this case an error message will be printed in the Webots console mentioning the missing dependency.
+Webots also needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
+ The following commands should work for debian / ubuntu based distributions.
+```sh
+sudo apt-get update
+sudo apt-get install libx264-dev
+sudo apt-get install libfdk-aac1
+```
+Using Anaconda could cause errors when video recording, as the default conda installation of *ffmpeg* does not have x264 enabled. Execute the following command to install ffmpeg with x264.
+```sh
+conda install x264 ffmpeg -c conda-forge
+```
 
 
 #### Installing the Snap Package
