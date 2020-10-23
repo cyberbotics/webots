@@ -75,7 +75,6 @@ namespace wren {
       static int uniqueCounter = 0;
       mFilePath = "Texture2d_" + std::to_string(uniqueCounter++);
     }
-    std::cout << "/* message */" << mFilePath << '\n';
     mCacheKey = cache::Key(cache::sipHash13c(mFilePath.data(), mFilePath.size()));
     auto it = Texture2d::cCache.find(mCacheKey);
     if (it != Texture2d::cCache.end()) {

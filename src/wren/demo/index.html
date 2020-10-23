@@ -65,7 +65,6 @@
       let content = Module._wr_dummy_texture();
       Module._wr_texture_2d_set_data(texture, content);
       Module._wr_texture_setup(texture);
-      _free(content);
 
 
       let sphereProgram = Module._wr_shader_program_new();
