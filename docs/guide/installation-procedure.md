@@ -110,7 +110,7 @@ Other particular libraries could also be required to recompile some of the distr
 The package names could slightly change on different releases and distributions.
 In this case an error message will be printed in the Webots console mentioning the missing dependency.
 Webots also needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
- The following commands should work for debian / ubuntu based distributions.
+ The following commands should work for Debian / Ubuntu based distributions:
 ```sh
 sudo apt-get update
 sudo apt-get install libx264-dev
