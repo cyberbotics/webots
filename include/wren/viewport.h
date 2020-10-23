@@ -66,10 +66,6 @@ int wr_viewport_get_height(WrViewport *viewport);
 WrCamera *wr_viewport_get_camera(WrViewport *viewport);
 WrFrameBuffer *wr_viewport_get_frame_buffer(WrViewport *viewport);
 
-float *wr_color_array(float r, float g, float b);
-char *wr_string(int nChar, ...);
-char *wr_dummy_texture();
-
 #ifdef __cplusplus
 }
 #endif
