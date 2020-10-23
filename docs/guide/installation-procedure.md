@@ -116,7 +116,8 @@ sudo apt-get update
 sudo apt-get install libx264-dev
 sudo apt-get install libfdk-aac1
 ```
-Using Anaconda could cause errors when video recording, as the default conda installation of *ffmpeg* does not have x264 enabled. Execute the following command to install ffmpeg with x264.
+Using Anaconda could cause errors when recording videos, as the default conda installation of *ffmpeg* does not have *x264* enabled.
+Execute the following command to install *ffmpeg* with *x264* support:
 ```sh
 conda install x264 ffmpeg -c conda-forge
 ```
