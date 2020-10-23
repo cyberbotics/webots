@@ -18,7 +18,7 @@
     <script>
 
     function render() {
-      Module._wr_scene_render(Module._wr_scene_get_instance(), null, true);
+      _wr_scene_render(_wr_scene_get_instance(), null, true);
     }
 
     function renderLoop() {
@@ -27,11 +27,11 @@
     }
 
     function create_wren_scene() {
-      let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
+      let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
 
-      let camera = Module._wr_viewport_get_camera(vp);
-      let camera_position = Module._wr_color_array(0.0,0.0,10.0);
-      Module._wr_camera_set_position(camera, camera_position);
+      let camera = _wr_viewport_get_camera(vp);
+      let camera_position = _wrjs_color_array(0.0,0.0,10.0);
+      _wr_camera_set_position(camera, camera_position);
 
       //let background_color = cArray(3);
       //background_color.data[1] = 1.0;
@@ -40,96 +40,84 @@
 
       // Get data byte size, allocate memory on Emscripten heap, and get pointer
       var nDataBytes = data.length * data.BYTES_PER_ELEMENT;
-      var dataPtr = Module._malloc(nDataBytes);
+      var dataPtr = _malloc(nDataBytes);
 
-      // Copy data to Emscripten heap (directly accessed from Module.HEAPU8)
-      var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+      // Copy data to Emscripten heap (directly accessed from HEAPU8)
+      var dataHeap = new Uint8Array(HEAPU8.buffer, dataPtr, nDataBytes);
       dataHeap.set(new Uint8Array(data.buffer));
 
       let c = [0.1,0.5,0.8];
       let d = [1,0,1];
-      let array = Module._wr_color_array(c[0], c[1], c[2]);
-      //let array2 = Module._wr_color_array(d[0], d[1], d[2]);
+      let array = _wrjs_color_array(c[0], c[1], c[2]);
+      //let array2 = _wr_color_array(d[0], d[1], d[2]);
       //console.log(array2[1]);
 
       //console.log(background_color);
-      Module._wr_viewport_set_clear_color_rgb(vp, array);
+      _wr_viewport_set_clear_color_rgb(vp, array);
 
-      //Module._wr_viewport_set_clear_color_rgb2(vp, 0.1,0.5,0.8);
+      //_wr_viewport_set_clear_color_rgb2(vp, 0.1,0.5,0.8);
 
       // Generate a dummy texture.
-      let texture = Module._wr_texture_2d_new();
+      let texture = _wr_texture_2d_new();
       let ptr = allocate(intArrayFromString("dummy.jpg"), 'i8', ALLOC_NORMAL);
-      Module._wr_texture_2d_set_file_path(texture, ptr);
-      Module._wr_texture_set_size(texture, 256, 256);
-      let content = Module._wr_dummy_texture();
-      Module._wr_texture_2d_set_data(texture, content);
-      Module._wr_texture_setup(texture);
+      _wr_texture_2d_set_file_path(texture, ptr);
+      _wr_texture_set_size(texture, 256, 256);
+      let content = _wrjs_dummy_texture();
+      _wr_texture_2d_set_data(texture, content);
+      _wr_texture_setup(texture);
 
 
-      let sphereProgram = Module._wr_shader_program_new();
-      Module._wr_shader_program_use_uniform(sphereProgram, 0);
-      Module._wr_shader_program_use_uniform(sphereProgram, 1);
-      Module._wr_shader_program_use_uniform(sphereProgram, 2);
-      Module._wr_shader_program_use_uniform(sphereProgram, 16);
-      Module._wr_shader_program_use_uniform(sphereProgram, 17);
-      Module._wr_shader_program_use_uniform_buffer(sphereProgram, 0);
-      Module._wr_shader_program_use_uniform_buffer(sphereProgram, 4);
+      let sphereProgram = _wr_shader_program_new();
+      _wr_shader_program_use_uniform(sphereProgram, 0);
+      _wr_shader_program_use_uniform(sphereProgram, 1);
+      _wr_shader_program_use_uniform(sphereProgram, 2);
+      _wr_shader_program_use_uniform(sphereProgram, 16);
+      _wr_shader_program_use_uniform(sphereProgram, 17);
+      _wr_shader_program_use_uniform_buffer(sphereProgram, 0);
+      _wr_shader_program_use_uniform_buffer(sphereProgram, 4);
 
       let ptr1 = allocate(intArrayFromString("../../resources/wren/shaders/default.vert"), 'i8', ALLOC_NORMAL);
       let ptr2 = allocate(intArrayFromString("../../resources/wren/shaders/default.frag"), 'i8', ALLOC_NORMAL);
 
-      Module._wr_shader_program_set_vertex_shader_path(sphereProgram, ptr1);
-      Module._wr_shader_program_set_fragment_shader_path(sphereProgram, ptr2);
+      _wr_shader_program_set_vertex_shader_path(sphereProgram, ptr1);
+      _wr_shader_program_set_fragment_shader_path(sphereProgram, ptr2);
 
-      Module._wr_shader_program_setup(sphereProgram);
+      _wr_shader_program_setup(sphereProgram);
 
       _free(ptr1);
       _free(ptr2);
 
-      let sphereRenderable = Module._wr_renderable_new();
-      let sphereMesh = Module._wr_static_mesh_unit_sphere_new(2, true, false);
-      let sphereMaterial = Module._wr_phong_material_new();
-      Module._wr_material_set_default_program(sphereMaterial, sphereProgram);
-      Module._wr_material_set_texture(sphereMaterial, texture, 0);
-      let sphereTransform = Module._wr_transform_new();
+      let sphereRenderable = _wr_renderable_new();
+      let sphereMesh = _wr_static_mesh_unit_sphere_new(2, true, false);
+      let sphereMaterial = _wr_phong_material_new();
+      _wr_material_set_default_program(sphereMaterial, sphereProgram);
+      _wr_material_set_texture(sphereMaterial, texture, 0);
+      let sphereTransform = _wr_transform_new();
 
-      Module._wr_renderable_set_mesh(sphereRenderable, sphereMesh);
-      Module._wr_renderable_set_material(sphereRenderable, sphereMaterial, null);
-      Module._wr_transform_attach_child(sphereTransform, sphereRenderable);
+      _wr_renderable_set_mesh(sphereRenderable, sphereMesh);
+      _wr_renderable_set_material(sphereRenderable, sphereMaterial, null);
+      _wr_transform_attach_child(sphereTransform, sphereRenderable);
 
-      root = Module._wr_scene_get_root(Module._wr_scene_get_instance());
-      Module._wr_transform_attach_child(root, sphereTransform);
+      root = _wr_scene_get_root(_wr_scene_get_instance());
+      _wr_transform_attach_child(root, sphereTransform);
     }
 
     function main() {
-      /*
-      let canvas = document.querySelector("canvas");
+      _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
+      let mainFrameBuffer = _wr_frame_buffer_new();
+      _wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
+      let mainFrameBufferTexture = _wr_texture_rtt_new();
+      _wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
+      _wr_texture_set_internal_format(mainFrameBufferTexture, 3);
+      _wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
+      _wr_frame_buffer_enable_depth_buffer(mainFrameBuffer, true);
+      _wr_frame_buffer_setup(mainFrameBuffer);
 
-      let contextAttributes = {
-        alpha: false,
-      };
-      let gl = canvas.getContext("webgl2", contextAttributes);
-      if (!gl) {
-        console.log("webgl2 not found!");
-        return;
-      }*/
-
-      let mainFrameBuffer = Module._wr_frame_buffer_new();
-      Module._wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
-      let mainFrameBufferTexture = Module._wr_texture_rtt_new();
-      Module._wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
-      Module._wr_texture_set_internal_format(mainFrameBufferTexture, 3);
-      Module._wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
-      Module._wr_frame_buffer_enable_depth_buffer(mainFrameBuffer, true);
-      Module._wr_frame_buffer_setup(mainFrameBuffer);
-
-      let vp = Module._wr_scene_get_viewport(Module._wr_scene_get_instance());
-      Module._wr_viewport_set_frame_buffer(vp, mainFrameBuffer);
-      Module._wr_viewport_set_size(vp, canvas.width, canvas.height);
-
-      Module._wr_gl_state_set_context_active(true);
-      Module._wr_scene_init(Module._wr_scene_get_instance());
+      let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
+      _wr_viewport_set_frame_buffer(vp, mainFrameBuffer);
+      _wr_viewport_set_size(vp, canvas.width, canvas.height);
+      _wr_gl_state_set_context_active(true);
+      _wr_scene_init(_wr_scene_get_instance());
 
       create_wren_scene();
 
@@ -141,9 +129,9 @@
 
     main();
     /*
-    let x = Module._wr_camera_new();
-    Module._wr_camera_set_near(x, 3.14159);
-    console.log(Module._wr_camera_get_near(x));
+    let x = _wr_camera_new();
+    _wr_camera_set_near(x, 3.14159);
+    console.log(_wr_camera_get_near(x));
     */
     </script>
 </html>

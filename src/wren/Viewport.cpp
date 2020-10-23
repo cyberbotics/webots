@@ -393,33 +393,3 @@ WrCamera *wr_viewport_get_camera(WrViewport *viewport) {
 WrFrameBuffer *wr_viewport_get_frame_buffer(WrViewport *viewport) {
   return reinterpret_cast<WrFrameBuffer *>(reinterpret_cast<wren::Viewport *>(viewport)->frameBuffer());
 }
-
-float *wr_color_array(float r, float g, float b) {
-  static float array[3];
-  array[0] = r;
-  array[1] = g;
-  array[2] = b;
-
-  return array;
-}
-
-char *wr_dummy_texture() {
-  static char data[256 * 256 * 4];
-  for (int d = 0; d < (256 * 256); ++d) {
-    data[4 * d] = (d) % 0xff;
-    data[4 * d + 1] = (d + d) % 0xff;
-    data[4 * d + 2] = (d * d) % 0xff;
-    data[4 * d + 3] = 0xff;
-  }
-  return data;
-}
-
-/*
-char *wr_string(int nChar, ...) {
-  static char array[nChar];
-  for (int i = 0, i < nChar, ++i) {
-    fprintf(stderr, "%d\n", i);
-  }
-  return NULL;
-}
-*/

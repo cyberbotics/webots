@@ -191,7 +191,7 @@ Module['FS_createPath']('/resources/wren', 'shaders', true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/resources/wren/shaders/smaa_blending_weights.vert", "start": 0, "end": 944, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_diffuse_specular.vert", "start": 944, "end": 1979, "audio": 0}, {"filename": "/resources/wren/shaders/pbr.frag", "start": 1979, "end": 17930, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_temporal_denoise.frag", "start": 17930, "end": 20551, "audio": 0}, {"filename": "/resources/wren/shaders/depth_only.vert", "start": 20551, "end": 21072, "audio": 0}, {"filename": "/resources/wren/shaders/lens_flare.vert", "start": 21072, "end": 21295, "audio": 0}, {"filename": "/resources/wren/shaders/default.frag", "start": 21295, "end": 22483, "audio": 0}, {"filename": "/resources/wren/shaders/light_representation.frag", "start": 22483, "end": 22683, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_13_tap.frag", "start": 22683, "end": 25922, "audio": 0}, {"filename": "/resources/wren/shaders/merge_spherical.frag", "start": 25922, "end": 29680, "audio": 0}, {"filename": "/resources/wren/shaders/phong.vert", "start": 29680, "end": 30588, "audio": 0}, {"filename": "/resources/wren/shaders/handles.frag", "start": 30588, "end": 32182, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_final_blend.vert", "start": 32182, "end": 32822, "audio": 0}, {"filename": "/resources/wren/shaders/line_set.frag", "start": 32822, "end": 33329, "audio": 0}, {"filename": "/resources/wren/shaders/bake_diffuse_cubemap.frag", "start": 33329, "end": 34676, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_combine.frag", "start": 34676, "end": 35701, "audio": 0}, {"filename": "/resources/wren/shaders/overlay.vert", "start": 35701, "end": 38498, "audio": 0}, {"filename": "/resources/wren/shaders/point_set.frag", "start": 38498, "end": 39363, "audio": 0}, {"filename": "/resources/wren/shaders/simple.frag", "start": 39363, "end": 40144, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_edge_detect.frag", "start": 40144, "end": 41915, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_5_tap.frag", "start": 41915, "end": 44561, "audio": 0}, {"filename": "/resources/wren/shaders/motion_blur.frag", "start": 44561, "end": 45098, "audio": 0}, {"filename": "/resources/wren/shaders/point_set.vert", "start": 45098, "end": 45671, "audio": 0}, {"filename": "/resources/wren/shaders/depth_of_field.frag", "start": 45671, "end": 49131, "audio": 0}, {"filename": "/resources/wren/shaders/shadow_volume.vert", "start": 49131, "end": 51437, "audio": 0}, {"filename": "/resources/wren/shaders/noise_mask.frag", "start": 51437, "end": 51980, "audio": 0}, {"filename": "/resources/wren/shaders/lens_distortion.frag", "start": 51980, "end": 52983, "audio": 0}, {"filename": "/resources/wren/shaders/simple.vert", "start": 52983, "end": 53584, "audio": 0}, {"filename": "/resources/wren/shaders/pass_through.vert", "start": 53584, "end": 53793, "audio": 0}, {"filename": "/resources/wren/shaders/lens_flare.frag", "start": 53793, "end": 55616, "audio": 0}, {"filename": "/resources/wren/shaders/handles.vert", "start": 55616, "end": 57119, "audio": 0}, {"filename": "/resources/wren/shaders/hdr_resolve.frag", "start": 57119, "end": 57528, "audio": 0}, {"filename": "/resources/wren/shaders/pbr.vert", "start": 57528, "end": 58529, "audio": 0}, {"filename": "/resources/wren/shaders/bake_cubemap.vert", "start": 58529, "end": 58750, "audio": 0}, {"filename": "/resources/wren/shaders/bright_pass.frag", "start": 58750, "end": 60059, "audio": 0}, {"filename": "/resources/wren/shaders/fog.frag", "start": 60059, "end": 61091, "audio": 0}, {"filename": "/resources/wren/shaders/bounding_volume.frag", "start": 61091, "end": 61182, "audio": 0}, {"filename": "/resources/wren/shaders/color_noise.frag", "start": 61182, "end": 62515, "audio": 0}, {"filename": "/resources/wren/shaders/bake_specular_cubemap.frag", "start": 62515, "end": 66126, "audio": 0}, {"filename": "/resources/wren/shaders/bake_brdf.frag", "start": 66126, "end": 69160, "audio": 0}, {"filename": "/resources/wren/shaders/picking.vert", "start": 69160, "end": 69522, "audio": 0}, {"filename": "/resources/wren/shaders/blend_lens_flare.frag", "start": 69522, "end": 69835, "audio": 0}, {"filename": "/resources/wren/shaders/line_set.vert", "start": 69835, "end": 70354, "audio": 0}, {"filename": "/resources/wren/shaders/overlay.frag", "start": 70354, "end": 73973, "audio": 0}, {"filename": "/resources/wren/shaders/coordinate_system.vert", "start": 73973, "end": 74859, "audio": 0}, {"filename": "/resources/wren/shaders/depth_only.frag", "start": 74859, "end": 74964, "audio": 0}, {"filename": "/resources/wren/shaders/range_noise.vert", "start": 74964, "end": 75772, "audio": 0}, {"filename": "/resources/wren/shaders/encode_depth.frag", "start": 75772, "end": 76121, "audio": 0}, {"filename": "/resources/wren/shaders/depth_resolution.frag", "start": 76121, "end": 76458, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_spatial_denoise.frag", "start": 76458, "end": 80132, "audio": 0}, {"filename": "/resources/wren/shaders/bake_brdf.vert", "start": 80132, "end": 80315, "audio": 0}, {"filename": "/resources/wren/shaders/bounding_volume.vert", "start": 80315, "end": 80685, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_diffuse_specular.frag", "start": 80685, "end": 93578, "audio": 0}, {"filename": "/resources/wren/shaders/pass_through.frag", "start": 93578, "end": 93842, "audio": 0}, {"filename": "/resources/wren/shaders/fog.vert", "start": 93842, "end": 94490, "audio": 0}, {"filename": "/resources/wren/shaders/light_representation.vert", "start": 94490, "end": 95533, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_diffuse_specular.vert", "start": 95533, "end": 96668, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_ambient_emissive.vert", "start": 96668, "end": 97795, "audio": 0}, {"filename": "/resources/wren/shaders/picking.frag", "start": 97795, "end": 98192, "audio": 0}, {"filename": "/resources/wren/shaders/encode_depth.vert", "start": 98192, "end": 98632, "audio": 0}, {"filename": "/resources/wren/shaders/color_noise.vert", "start": 98632, "end": 99660, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_final_blend.frag", "start": 99660, "end": 101500, "audio": 0}, {"filename": "/resources/wren/shaders/range_noise.frag", "start": 101500, "end": 102689, "audio": 0}, {"filename": "/resources/wren/shaders/default.vert", "start": 102689, "end": 103517, "audio": 0}, {"filename": "/resources/wren/shaders/skybox.vert", "start": 103517, "end": 103891, "audio": 0}, {"filename": "/resources/wren/shaders/coordinate_system.frag", "start": 103891, "end": 104463, "audio": 0}, {"filename": "/resources/wren/shaders/phong.frag", "start": 104463, "end": 112693, "audio": 0}, {"filename": "/resources/wren/shaders/skybox.frag", "start": 112693, "end": 113133, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_ambient_emissive.frag", "start": 113133, "end": 119978, "audio": 0}, {"filename": "/resources/wren/shaders/blend_bloom.frag", "start": 119978, "end": 120692, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_ambient_emissive.frag", "start": 120692, "end": 123316, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur.frag", "start": 123316, "end": 124989, "audio": 0}, {"filename": "/resources/wren/shaders/gtao.frag", "start": 124989, "end": 131389, "audio": 0}, {"filename": "/resources/wren/shaders/hdr_clear.frag", "start": 131389, "end": 131806, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_ambient_emissive.vert", "start": 131806, "end": 132773, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_edge_detect.vert", "start": 132773, "end": 133424, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_diffuse_specular.frag", "start": 133424, "end": 140471, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_9_tap.frag", "start": 140471, "end": 143274, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_blending_weights.frag", "start": 143274, "end": 159595, "audio": 0}, {"filename": "/resources/wren/shaders/shadow_volume.frag", "start": 159595, "end": 159790, "audio": 0}], "remote_package_size": 159790, "package_uuid": "7f97ec82-13e3-4525-86ca-e4770e8db5f8"});
+   loadPackage({"files": [{"filename": "/resources/wren/shaders/smaa_blending_weights.vert", "start": 0, "end": 944, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_diffuse_specular.vert", "start": 944, "end": 1979, "audio": 0}, {"filename": "/resources/wren/shaders/pbr.frag", "start": 1979, "end": 17930, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_temporal_denoise.frag", "start": 17930, "end": 20551, "audio": 0}, {"filename": "/resources/wren/shaders/depth_only.vert", "start": 20551, "end": 21072, "audio": 0}, {"filename": "/resources/wren/shaders/lens_flare.vert", "start": 21072, "end": 21295, "audio": 0}, {"filename": "/resources/wren/shaders/default.frag", "start": 21295, "end": 22483, "audio": 0}, {"filename": "/resources/wren/shaders/light_representation.frag", "start": 22483, "end": 22683, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_13_tap.frag", "start": 22683, "end": 25922, "audio": 0}, {"filename": "/resources/wren/shaders/merge_spherical.frag", "start": 25922, "end": 29680, "audio": 0}, {"filename": "/resources/wren/shaders/phong.vert", "start": 29680, "end": 30588, "audio": 0}, {"filename": "/resources/wren/shaders/handles.frag", "start": 30588, "end": 32182, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_final_blend.vert", "start": 32182, "end": 32822, "audio": 0}, {"filename": "/resources/wren/shaders/line_set.frag", "start": 32822, "end": 33329, "audio": 0}, {"filename": "/resources/wren/shaders/bake_diffuse_cubemap.frag", "start": 33329, "end": 34676, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_combine.frag", "start": 34676, "end": 35701, "audio": 0}, {"filename": "/resources/wren/shaders/overlay.vert", "start": 35701, "end": 38498, "audio": 0}, {"filename": "/resources/wren/shaders/point_set.frag", "start": 38498, "end": 39363, "audio": 0}, {"filename": "/resources/wren/shaders/simple.frag", "start": 39363, "end": 40144, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_edge_detect.frag", "start": 40144, "end": 41915, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_5_tap.frag", "start": 41915, "end": 44561, "audio": 0}, {"filename": "/resources/wren/shaders/motion_blur.frag", "start": 44561, "end": 45098, "audio": 0}, {"filename": "/resources/wren/shaders/point_set.vert", "start": 45098, "end": 45671, "audio": 0}, {"filename": "/resources/wren/shaders/depth_of_field.frag", "start": 45671, "end": 49131, "audio": 0}, {"filename": "/resources/wren/shaders/shadow_volume.vert", "start": 49131, "end": 51437, "audio": 0}, {"filename": "/resources/wren/shaders/noise_mask.frag", "start": 51437, "end": 51980, "audio": 0}, {"filename": "/resources/wren/shaders/lens_distortion.frag", "start": 51980, "end": 52983, "audio": 0}, {"filename": "/resources/wren/shaders/simple.vert", "start": 52983, "end": 53584, "audio": 0}, {"filename": "/resources/wren/shaders/pass_through.vert", "start": 53584, "end": 53793, "audio": 0}, {"filename": "/resources/wren/shaders/lens_flare.frag", "start": 53793, "end": 55616, "audio": 0}, {"filename": "/resources/wren/shaders/handles.vert", "start": 55616, "end": 57119, "audio": 0}, {"filename": "/resources/wren/shaders/hdr_resolve.frag", "start": 57119, "end": 57528, "audio": 0}, {"filename": "/resources/wren/shaders/pbr.vert", "start": 57528, "end": 58529, "audio": 0}, {"filename": "/resources/wren/shaders/bake_cubemap.vert", "start": 58529, "end": 58750, "audio": 0}, {"filename": "/resources/wren/shaders/bright_pass.frag", "start": 58750, "end": 60059, "audio": 0}, {"filename": "/resources/wren/shaders/fog.frag", "start": 60059, "end": 61091, "audio": 0}, {"filename": "/resources/wren/shaders/bounding_volume.frag", "start": 61091, "end": 61182, "audio": 0}, {"filename": "/resources/wren/shaders/color_noise.frag", "start": 61182, "end": 62515, "audio": 0}, {"filename": "/resources/wren/shaders/bake_specular_cubemap.frag", "start": 62515, "end": 66126, "audio": 0}, {"filename": "/resources/wren/shaders/bake_brdf.frag", "start": 66126, "end": 69160, "audio": 0}, {"filename": "/resources/wren/shaders/picking.vert", "start": 69160, "end": 69522, "audio": 0}, {"filename": "/resources/wren/shaders/blend_lens_flare.frag", "start": 69522, "end": 69835, "audio": 0}, {"filename": "/resources/wren/shaders/line_set.vert", "start": 69835, "end": 70354, "audio": 0}, {"filename": "/resources/wren/shaders/overlay.frag", "start": 70354, "end": 73973, "audio": 0}, {"filename": "/resources/wren/shaders/coordinate_system.vert", "start": 73973, "end": 74859, "audio": 0}, {"filename": "/resources/wren/shaders/depth_only.frag", "start": 74859, "end": 74964, "audio": 0}, {"filename": "/resources/wren/shaders/range_noise.vert", "start": 74964, "end": 75772, "audio": 0}, {"filename": "/resources/wren/shaders/encode_depth.frag", "start": 75772, "end": 76121, "audio": 0}, {"filename": "/resources/wren/shaders/depth_resolution.frag", "start": 76121, "end": 76458, "audio": 0}, {"filename": "/resources/wren/shaders/gtao_spatial_denoise.frag", "start": 76458, "end": 80132, "audio": 0}, {"filename": "/resources/wren/shaders/bake_brdf.vert", "start": 80132, "end": 80315, "audio": 0}, {"filename": "/resources/wren/shaders/bounding_volume.vert", "start": 80315, "end": 80685, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_diffuse_specular.frag", "start": 80685, "end": 93578, "audio": 0}, {"filename": "/resources/wren/shaders/pass_through.frag", "start": 93578, "end": 93842, "audio": 0}, {"filename": "/resources/wren/shaders/fog.vert", "start": 93842, "end": 94490, "audio": 0}, {"filename": "/resources/wren/shaders/light_representation.vert", "start": 94490, "end": 95533, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_diffuse_specular.vert", "start": 95533, "end": 96668, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_ambient_emissive.vert", "start": 96668, "end": 97795, "audio": 0}, {"filename": "/resources/wren/shaders/picking.frag", "start": 97795, "end": 98192, "audio": 0}, {"filename": "/resources/wren/shaders/encode_depth.vert", "start": 98192, "end": 98632, "audio": 0}, {"filename": "/resources/wren/shaders/color_noise.vert", "start": 98632, "end": 99660, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_final_blend.frag", "start": 99660, "end": 101500, "audio": 0}, {"filename": "/resources/wren/shaders/range_noise.frag", "start": 101500, "end": 102689, "audio": 0}, {"filename": "/resources/wren/shaders/default.vert", "start": 102689, "end": 103517, "audio": 0}, {"filename": "/resources/wren/shaders/skybox.vert", "start": 103517, "end": 103891, "audio": 0}, {"filename": "/resources/wren/shaders/coordinate_system.frag", "start": 103891, "end": 104463, "audio": 0}, {"filename": "/resources/wren/shaders/phong.frag", "start": 104463, "end": 112693, "audio": 0}, {"filename": "/resources/wren/shaders/skybox.frag", "start": 112693, "end": 113133, "audio": 0}, {"filename": "/resources/wren/shaders/pbr_stencil_ambient_emissive.frag", "start": 113133, "end": 119978, "audio": 0}, {"filename": "/resources/wren/shaders/blend_bloom.frag", "start": 119978, "end": 120692, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_ambient_emissive.frag", "start": 120692, "end": 123316, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur.frag", "start": 123316, "end": 124989, "audio": 0}, {"filename": "/resources/wren/shaders/gtao.frag", "start": 124989, "end": 131389, "audio": 0}, {"filename": "/resources/wren/shaders/hdr_clear.frag", "start": 131389, "end": 131806, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_ambient_emissive.vert", "start": 131806, "end": 132773, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_edge_detect.vert", "start": 132773, "end": 133424, "audio": 0}, {"filename": "/resources/wren/shaders/phong_stencil_diffuse_specular.frag", "start": 133424, "end": 140471, "audio": 0}, {"filename": "/resources/wren/shaders/gaussian_blur_9_tap.frag", "start": 140471, "end": 143274, "audio": 0}, {"filename": "/resources/wren/shaders/smaa_blending_weights.frag", "start": 143274, "end": 159595, "audio": 0}, {"filename": "/resources/wren/shaders/shadow_volume.frag", "start": 159595, "end": 159790, "audio": 0}], "remote_package_size": 159790, "package_uuid": "204f61f5-e471-46d0-827a-c2d97673273d"});
   
   })();
   
@@ -4694,6 +4694,134 @@ var ASM_CONSTS = {
     }
 
   
+  var JSEvents={inEventHandler:0,removeAllEventListeners:function() {
+        for(var i = JSEvents.eventHandlers.length-1; i >= 0; --i) {
+          JSEvents._removeHandler(i);
+        }
+        JSEvents.eventHandlers = [];
+        JSEvents.deferredCalls = [];
+      },registerRemoveEventListeners:function() {
+        if (!JSEvents.removeEventListenersRegistered) {
+          __ATEXIT__.push(JSEvents.removeAllEventListeners);
+          JSEvents.removeEventListenersRegistered = true;
+        }
+      },deferredCalls:[],deferCall:function(targetFunction, precedence, argsList) {
+        function arraysHaveEqualContent(arrA, arrB) {
+          if (arrA.length != arrB.length) return false;
+  
+          for(var i in arrA) {
+            if (arrA[i] != arrB[i]) return false;
+          }
+          return true;
+        }
+        // Test if the given call was already queued, and if so, don't add it again.
+        for(var i in JSEvents.deferredCalls) {
+          var call = JSEvents.deferredCalls[i];
+          if (call.targetFunction == targetFunction && arraysHaveEqualContent(call.argsList, argsList)) {
+            return;
+          }
+        }
+        JSEvents.deferredCalls.push({
+          targetFunction: targetFunction,
+          precedence: precedence,
+          argsList: argsList
+        });
+  
+        JSEvents.deferredCalls.sort(function(x,y) { return x.precedence < y.precedence; });
+      },removeDeferredCalls:function(targetFunction) {
+        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
+          if (JSEvents.deferredCalls[i].targetFunction == targetFunction) {
+            JSEvents.deferredCalls.splice(i, 1);
+            --i;
+          }
+        }
+      },canPerformEventHandlerRequests:function() {
+        return JSEvents.inEventHandler && JSEvents.currentEventHandler.allowsDeferredCalls;
+      },runDeferredCalls:function() {
+        if (!JSEvents.canPerformEventHandlerRequests()) {
+          return;
+        }
+        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
+          var call = JSEvents.deferredCalls[i];
+          JSEvents.deferredCalls.splice(i, 1);
+          --i;
+          call.targetFunction.apply(null, call.argsList);
+        }
+      },eventHandlers:[],removeAllHandlersOnTarget:function(target, eventTypeString) {
+        for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
+          if (JSEvents.eventHandlers[i].target == target && 
+            (!eventTypeString || eventTypeString == JSEvents.eventHandlers[i].eventTypeString)) {
+             JSEvents._removeHandler(i--);
+           }
+        }
+      },_removeHandler:function(i) {
+        var h = JSEvents.eventHandlers[i];
+        h.target.removeEventListener(h.eventTypeString, h.eventListenerFunc, h.useCapture);
+        JSEvents.eventHandlers.splice(i, 1);
+      },registerOrRemoveHandler:function(eventHandler) {
+        var jsEventHandler = function jsEventHandler(event) {
+          // Increment nesting count for the event handler.
+          ++JSEvents.inEventHandler;
+          JSEvents.currentEventHandler = eventHandler;
+          // Process any old deferred calls the user has placed.
+          JSEvents.runDeferredCalls();
+          // Process the actual event, calls back to user C code handler.
+          eventHandler.handlerFunc(event);
+          // Process any new deferred calls that were placed right now from this event handler.
+          JSEvents.runDeferredCalls();
+          // Out of event handler - restore nesting count.
+          --JSEvents.inEventHandler;
+        };
+        
+        if (eventHandler.callbackfunc) {
+          eventHandler.eventListenerFunc = jsEventHandler;
+          eventHandler.target.addEventListener(eventHandler.eventTypeString, jsEventHandler, eventHandler.useCapture);
+          JSEvents.eventHandlers.push(eventHandler);
+          JSEvents.registerRemoveEventListeners();
+        } else {
+          for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
+            if (JSEvents.eventHandlers[i].target == eventHandler.target
+             && JSEvents.eventHandlers[i].eventTypeString == eventHandler.eventTypeString) {
+               JSEvents._removeHandler(i--);
+             }
+          }
+        }
+      },getNodeNameForTarget:function(target) {
+        if (!target) return '';
+        if (target == window) return '#window';
+        if (target == screen) return '#screen';
+        return (target && target.nodeName) ? target.nodeName : '';
+      },fullscreenEnabled:function() {
+        return document.fullscreenEnabled
+        // Safari 13.0.3 on macOS Catalina 10.15.1 still ships with prefixed webkitFullscreenEnabled.
+        // TODO: If Safari at some point ships with unprefixed version, update the version check above.
+        || document.webkitFullscreenEnabled
+         ;
+      }};
+  
+  
+  
+  function maybeCStringToJsString(cString) {
+      // "cString > 2" checks if the input is a number, and isn't of the special
+      // values we accept here, EMSCRIPTEN_EVENT_TARGET_* (which map to 0, 1, 2).
+      // In other words, if cString > 2 then it's a pointer to a valid place in
+      // memory, and points to a C string.
+      return cString > 2 ? UTF8ToString(cString) : cString;
+    }
+  
+  var specialHTMLTargets=[0, typeof document !== 'undefined' ? document : 0, typeof window !== 'undefined' ? window : 0];function findEventTarget(target) {
+      target = maybeCStringToJsString(target);
+      var domElement = specialHTMLTargets[target] || (typeof document !== 'undefined' ? document.querySelector(target) : undefined);
+      return domElement;
+    }function findCanvasEventTarget(target) { return findEventTarget(target); }function _emscripten_set_canvas_element_size(target, width, height) {
+      var canvas = findCanvasEventTarget(target);
+      if (!canvas) return -4;
+      canvas.width = width;
+      canvas.height = height;
+      return 0;
+    }
+
+  
   
   
   function __webgl_enable_ANGLE_instanced_arrays(ctx) {
@@ -5041,129 +5169,7 @@ var ASM_CONSTS = {
         }
       }};
   
-  var JSEvents={inEventHandler:0,removeAllEventListeners:function() {
-        for(var i = JSEvents.eventHandlers.length-1; i >= 0; --i) {
-          JSEvents._removeHandler(i);
-        }
-        JSEvents.eventHandlers = [];
-        JSEvents.deferredCalls = [];
-      },registerRemoveEventListeners:function() {
-        if (!JSEvents.removeEventListenersRegistered) {
-          __ATEXIT__.push(JSEvents.removeAllEventListeners);
-          JSEvents.removeEventListenersRegistered = true;
-        }
-      },deferredCalls:[],deferCall:function(targetFunction, precedence, argsList) {
-        function arraysHaveEqualContent(arrA, arrB) {
-          if (arrA.length != arrB.length) return false;
-  
-          for(var i in arrA) {
-            if (arrA[i] != arrB[i]) return false;
-          }
-          return true;
-        }
-        // Test if the given call was already queued, and if so, don't add it again.
-        for(var i in JSEvents.deferredCalls) {
-          var call = JSEvents.deferredCalls[i];
-          if (call.targetFunction == targetFunction && arraysHaveEqualContent(call.argsList, argsList)) {
-            return;
-          }
-        }
-        JSEvents.deferredCalls.push({
-          targetFunction: targetFunction,
-          precedence: precedence,
-          argsList: argsList
-        });
-  
-        JSEvents.deferredCalls.sort(function(x,y) { return x.precedence < y.precedence; });
-      },removeDeferredCalls:function(targetFunction) {
-        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
-          if (JSEvents.deferredCalls[i].targetFunction == targetFunction) {
-            JSEvents.deferredCalls.splice(i, 1);
-            --i;
-          }
-        }
-      },canPerformEventHandlerRequests:function() {
-        return JSEvents.inEventHandler && JSEvents.currentEventHandler.allowsDeferredCalls;
-      },runDeferredCalls:function() {
-        if (!JSEvents.canPerformEventHandlerRequests()) {
-          return;
-        }
-        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
-          var call = JSEvents.deferredCalls[i];
-          JSEvents.deferredCalls.splice(i, 1);
-          --i;
-          call.targetFunction.apply(null, call.argsList);
-        }
-      },eventHandlers:[],removeAllHandlersOnTarget:function(target, eventTypeString) {
-        for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
-          if (JSEvents.eventHandlers[i].target == target && 
-            (!eventTypeString || eventTypeString == JSEvents.eventHandlers[i].eventTypeString)) {
-             JSEvents._removeHandler(i--);
-           }
-        }
-      },_removeHandler:function(i) {
-        var h = JSEvents.eventHandlers[i];
-        h.target.removeEventListener(h.eventTypeString, h.eventListenerFunc, h.useCapture);
-        JSEvents.eventHandlers.splice(i, 1);
-      },registerOrRemoveHandler:function(eventHandler) {
-        var jsEventHandler = function jsEventHandler(event) {
-          // Increment nesting count for the event handler.
-          ++JSEvents.inEventHandler;
-          JSEvents.currentEventHandler = eventHandler;
-          // Process any old deferred calls the user has placed.
-          JSEvents.runDeferredCalls();
-          // Process the actual event, calls back to user C code handler.
-          eventHandler.handlerFunc(event);
-          // Process any new deferred calls that were placed right now from this event handler.
-          JSEvents.runDeferredCalls();
-          // Out of event handler - restore nesting count.
-          --JSEvents.inEventHandler;
-        };
-        
-        if (eventHandler.callbackfunc) {
-          eventHandler.eventListenerFunc = jsEventHandler;
-          eventHandler.target.addEventListener(eventHandler.eventTypeString, jsEventHandler, eventHandler.useCapture);
-          JSEvents.eventHandlers.push(eventHandler);
-          JSEvents.registerRemoveEventListeners();
-        } else {
-          for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
-            if (JSEvents.eventHandlers[i].target == eventHandler.target
-             && JSEvents.eventHandlers[i].eventTypeString == eventHandler.eventTypeString) {
-               JSEvents._removeHandler(i--);
-             }
-          }
-        }
-      },getNodeNameForTarget:function(target) {
-        if (!target) return '';
-        if (target == window) return '#window';
-        if (target == screen) return '#screen';
-        return (target && target.nodeName) ? target.nodeName : '';
-      },fullscreenEnabled:function() {
-        return document.fullscreenEnabled
-        // Safari 13.0.3 on macOS Catalina 10.15.1 still ships with prefixed webkitFullscreenEnabled.
-        // TODO: If Safari at some point ships with unprefixed version, update the version check above.
-        || document.webkitFullscreenEnabled
-         ;
-      }};
-  
-  var __emscripten_webgl_power_preferences=['default', 'low-power', 'high-performance'];
-  
-  
-  function maybeCStringToJsString(cString) {
-      // "cString > 2" checks if the input is a number, and isn't of the special
-      // values we accept here, EMSCRIPTEN_EVENT_TARGET_* (which map to 0, 1, 2).
-      // In other words, if cString > 2 then it's a pointer to a valid place in
-      // memory, and points to a C string.
-      return cString > 2 ? UTF8ToString(cString) : cString;
-    }
-  
-  var specialHTMLTargets=[0, typeof document !== 'undefined' ? document : 0, typeof window !== 'undefined' ? window : 0];function findEventTarget(target) {
-      target = maybeCStringToJsString(target);
-      var domElement = specialHTMLTargets[target] || (typeof document !== 'undefined' ? document.querySelector(target) : undefined);
-      return domElement;
-    }
-  
-  function findCanvasEventTarget(target) { return findEventTarget(target); }function _emscripten_webgl_do_create_context(target, attributes) {
+  var __emscripten_webgl_power_preferences=['default', 'low-power', 'high-performance'];function _emscripten_webgl_do_create_context(target, attributes) {
       assert(attributes);
       var contextAttributes = {};
       var a = attributes >> 2;
@@ -6713,7 +6719,7 @@ function intArrayToString(array) {
 }
 
 
-var asmLibraryArg = { "__cxa_allocate_exception": ___cxa_allocate_exception, "__cxa_atexit": ___cxa_atexit, "__cxa_throw": ___cxa_throw, "__indirect_function_table": wasmTable, "__map_file": ___map_file, "__sys_fcntl64": ___sys_fcntl64, "__sys_ioctl": ___sys_ioctl, "__sys_munmap": ___sys_munmap, "__sys_open": ___sys_open, "abort": _abort, "emscripten_memcpy_big": _emscripten_memcpy_big, "emscripten_resize_heap": _emscripten_resize_heap, "emscripten_webgl_create_context": _emscripten_webgl_create_context, "emscripten_webgl_init_context_attributes": _emscripten_webgl_init_context_attributes, "emscripten_webgl_make_context_current": _emscripten_webgl_make_context_current, "environ_get": _environ_get, "environ_sizes_get": _environ_sizes_get, "fd_close": _fd_close, "fd_read": _fd_read, "fd_seek": _fd_seek, "fd_write": _fd_write, "glActiveTexture": _glActiveTexture, "glAttachShader": _glAttachShader, "glBindBuffer": _glBindBuffer, "glBindBufferBase": _glBindBufferBase, "glBindFramebuffer": _glBindFramebuffer, "glBindRenderbuffer": _glBindRenderbuffer, "glBindTexture": _glBindTexture, "glBindVertexArray": _glBindVertexArray, "glBlendEquation": _glBlendEquation, "glBlendFunc": _glBlendFunc, "glBlitFramebuffer": _glBlitFramebuffer, "glBufferData": _glBufferData, "glClear": _glClear, "glClearColor": _glClearColor, "glColorMask": _glColorMask, "glCompileShader": _glCompileShader, "glCreateProgram": _glCreateProgram, "glCreateShader": _glCreateShader, "glCullFace": _glCullFace, "glDeleteBuffers": _glDeleteBuffers, "glDeleteFramebuffers": _glDeleteFramebuffers, "glDeleteProgram": _glDeleteProgram, "glDeleteRenderbuffers": _glDeleteRenderbuffers, "glDeleteShader": _glDeleteShader, "glDeleteTextures": _glDeleteTextures, "glDeleteVertexArrays": _glDeleteVertexArrays, "glDepthFunc": _glDepthFunc, "glDepthMask": _glDepthMask, "glDisable": _glDisable, "glDrawBuffers": _glDrawBuffers, "glDrawElements": _glDrawElements, "glEnable": _glEnable, "glEnableVertexAttribArray": _glEnableVertexAttribArray, "glFlush": _glFlush, "glFramebufferRenderbuffer": _glFramebufferRenderbuffer, "glFramebufferTexture2D": _glFramebufferTexture2D, "glFrontFace": _glFrontFace, "glGenBuffers": _glGenBuffers, "glGenFramebuffers": _glGenFramebuffers, "glGenRenderbuffers": _glGenRenderbuffers, "glGenTextures": _glGenTextures, "glGenVertexArrays": _glGenVertexArrays, "glGenerateMipmap": _glGenerateMipmap, "glGetError": _glGetError, "glGetFloatv": _glGetFloatv, "glGetIntegerv": _glGetIntegerv, "glGetProgramInfoLog": _glGetProgramInfoLog, "glGetProgramiv": _glGetProgramiv, "glGetShaderInfoLog": _glGetShaderInfoLog, "glGetShaderiv": _glGetShaderiv, "glGetString": _glGetString, "glGetUniformBlockIndex": _glGetUniformBlockIndex, "glGetUniformLocation": _glGetUniformLocation, "glLinkProgram": _glLinkProgram, "glMapBufferRange": _glMapBufferRange, "glPolygonOffset": _glPolygonOffset, "glReadBuffer": _glReadBuffer, "glReadPixels": _glReadPixels, "glRenderbufferStorage": _glRenderbufferStorage, "glShaderSource": _glShaderSource, "glStencilFunc": _glStencilFunc, "glStencilMask": _glStencilMask, "glStencilOp": _glStencilOp, "glStencilOpSeparate": _glStencilOpSeparate, "glTexImage2D": _glTexImage2D, "glTexParameterf": _glTexParameterf, "glTexParameterfv": _glTexParameterfv, "glTexParameteri": _glTexParameteri, "glUniform1f": _glUniform1f, "glUniform1i": _glUniform1i, "glUniform2f": _glUniform2f, "glUniformBlockBinding": _glUniformBlockBinding, "glUniformMatrix4fv": _glUniformMatrix4fv, "glUnmapBuffer": _glUnmapBuffer, "glUseProgram": _glUseProgram, "glVertexAttribPointer": _glVertexAttribPointer, "glViewport": _glViewport, "memory": wasmMemory, "setTempRet0": _setTempRet0, "strftime_l": _strftime_l };
+var asmLibraryArg = { "__cxa_allocate_exception": ___cxa_allocate_exception, "__cxa_atexit": ___cxa_atexit, "__cxa_throw": ___cxa_throw, "__indirect_function_table": wasmTable, "__map_file": ___map_file, "__sys_fcntl64": ___sys_fcntl64, "__sys_ioctl": ___sys_ioctl, "__sys_munmap": ___sys_munmap, "__sys_open": ___sys_open, "abort": _abort, "emscripten_memcpy_big": _emscripten_memcpy_big, "emscripten_resize_heap": _emscripten_resize_heap, "emscripten_set_canvas_element_size": _emscripten_set_canvas_element_size, "emscripten_webgl_create_context": _emscripten_webgl_create_context, "emscripten_webgl_init_context_attributes": _emscripten_webgl_init_context_attributes, "emscripten_webgl_make_context_current": _emscripten_webgl_make_context_current, "environ_get": _environ_get, "environ_sizes_get": _environ_sizes_get, "fd_close": _fd_close, "fd_read": _fd_read, "fd_seek": _fd_seek, "fd_write": _fd_write, "glActiveTexture": _glActiveTexture, "glAttachShader": _glAttachShader, "glBindBuffer": _glBindBuffer, "glBindBufferBase": _glBindBufferBase, "glBindFramebuffer": _glBindFramebuffer, "glBindRenderbuffer": _glBindRenderbuffer, "glBindTexture": _glBindTexture, "glBindVertexArray": _glBindVertexArray, "glBlendEquation": _glBlendEquation, "glBlendFunc": _glBlendFunc, "glBlitFramebuffer": _glBlitFramebuffer, "glBufferData": _glBufferData, "glClear": _glClear, "glClearColor": _glClearColor, "glColorMask": _glColorMask, "glCompileShader": _glCompileShader, "glCreateProgram": _glCreateProgram, "glCreateShader": _glCreateShader, "glCullFace": _glCullFace, "glDeleteBuffers": _glDeleteBuffers, "glDeleteFramebuffers": _glDeleteFramebuffers, "glDeleteProgram": _glDeleteProgram, "glDeleteRenderbuffers": _glDeleteRenderbuffers, "glDeleteShader": _glDeleteShader, "glDeleteTextures": _glDeleteTextures, "glDeleteVertexArrays": _glDeleteVertexArrays, "glDepthFunc": _glDepthFunc, "glDepthMask": _glDepthMask, "glDisable": _glDisable, "glDrawBuffers": _glDrawBuffers, "glDrawElements": _glDrawElements, "glEnable": _glEnable, "glEnableVertexAttribArray": _glEnableVertexAttribArray, "glFlush": _glFlush, "glFramebufferRenderbuffer": _glFramebufferRenderbuffer, "glFramebufferTexture2D": _glFramebufferTexture2D, "glFrontFace": _glFrontFace, "glGenBuffers": _glGenBuffers, "glGenFramebuffers": _glGenFramebuffers, "glGenRenderbuffers": _glGenRenderbuffers, "glGenTextures": _glGenTextures, "glGenVertexArrays": _glGenVertexArrays, "glGenerateMipmap": _glGenerateMipmap, "glGetError": _glGetError, "glGetFloatv": _glGetFloatv, "glGetIntegerv": _glGetIntegerv, "glGetProgramInfoLog": _glGetProgramInfoLog, "glGetProgramiv": _glGetProgramiv, "glGetShaderInfoLog": _glGetShaderInfoLog, "glGetShaderiv": _glGetShaderiv, "glGetString": _glGetString, "glGetUniformBlockIndex": _glGetUniformBlockIndex, "glGetUniformLocation": _glGetUniformLocation, "glLinkProgram": _glLinkProgram, "glMapBufferRange": _glMapBufferRange, "glPolygonOffset": _glPolygonOffset, "glReadBuffer": _glReadBuffer, "glReadPixels": _glReadPixels, "glRenderbufferStorage": _glRenderbufferStorage, "glShaderSource": _glShaderSource, "glStencilFunc": _glStencilFunc, "glStencilMask": _glStencilMask, "glStencilOp": _glStencilOp, "glStencilOpSeparate": _glStencilOpSeparate, "glTexImage2D": _glTexImage2D, "glTexParameterf": _glTexParameterf, "glTexParameterfv": _glTexParameterfv, "glTexParameteri": _glTexParameteri, "glUniform1f": _glUniform1f, "glUniform1i": _glUniform1i, "glUniform2f": _glUniform2f, "glUniformBlockBinding": _glUniformBlockBinding, "glUniformMatrix4fv": _glUniformMatrix4fv, "glUnmapBuffer": _glUnmapBuffer, "glUseProgram": _glUseProgram, "glVertexAttribPointer": _glVertexAttribPointer, "glViewport": _glViewport, "memory": wasmMemory, "setTempRet0": _setTempRet0, "strftime_l": _strftime_l };
 var asm = createWasm();
 /** @type {function(...*):?} */
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
@@ -6797,6 +6803,18 @@ var _wr_texture_set_size = Module["_wr_texture_set_size"] = createExportWrapper(
 var _wr_texture_setup = Module["_wr_texture_setup"] = createExportWrapper("wr_texture_setup");
 
 /** @type {function(...*):?} */
+var _wr_camera_new = Module["_wr_camera_new"] = createExportWrapper("wr_camera_new");
+
+/** @type {function(...*):?} */
+var _wr_camera_set_near = Module["_wr_camera_set_near"] = createExportWrapper("wr_camera_set_near");
+
+/** @type {function(...*):?} */
+var _wr_camera_set_position = Module["_wr_camera_set_position"] = createExportWrapper("wr_camera_set_position");
+
+/** @type {function(...*):?} */
+var _wr_camera_get_near = Module["_wr_camera_get_near"] = createExportWrapper("wr_camera_get_near");
+
+/** @type {function(...*):?} */
 var _wr_material_set_texture = Module["_wr_material_set_texture"] = createExportWrapper("wr_material_set_texture");
 
 /** @type {function(...*):?} */
@@ -6839,22 +6857,13 @@ var _wr_viewport_set_frame_buffer = Module["_wr_viewport_set_frame_buffer"] = cr
 var _wr_viewport_get_camera = Module["_wr_viewport_get_camera"] = createExportWrapper("wr_viewport_get_camera");
 
 /** @type {function(...*):?} */
-var _wr_color_array = Module["_wr_color_array"] = createExportWrapper("wr_color_array");
+var _wrjs_color_array = Module["_wrjs_color_array"] = createExportWrapper("wrjs_color_array");
 
 /** @type {function(...*):?} */
-var _wr_dummy_texture = Module["_wr_dummy_texture"] = createExportWrapper("wr_dummy_texture");
+var _wrjs_dummy_texture = Module["_wrjs_dummy_texture"] = createExportWrapper("wrjs_dummy_texture");
 
 /** @type {function(...*):?} */
-var _wr_camera_new = Module["_wr_camera_new"] = createExportWrapper("wr_camera_new");
-
-/** @type {function(...*):?} */
-var _wr_camera_set_near = Module["_wr_camera_set_near"] = createExportWrapper("wr_camera_set_near");
-
-/** @type {function(...*):?} */
-var _wr_camera_set_position = Module["_wr_camera_set_position"] = createExportWrapper("wr_camera_set_position");
-
-/** @type {function(...*):?} */
-var _wr_camera_get_near = Module["_wr_camera_get_near"] = createExportWrapper("wr_camera_get_near");
+var _wrjs_init_context = Module["_wrjs_init_context"] = createExportWrapper("wrjs_init_context");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

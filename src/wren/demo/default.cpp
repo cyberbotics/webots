@@ -38,8 +38,8 @@
 // Define the refresh rate in milliseconds (at best)
 static const int refreshRate = 30;
 // window initial dimension.
-static const int width = 800;
-static const int height = 600;
+static const int width = 1850;
+static const int height = 985;
 
 // Create the WREN scene.
 static void create_wren_scene() {
