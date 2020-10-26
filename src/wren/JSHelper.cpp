@@ -17,7 +17,6 @@
 
 #include <GL/gl.h>
 #include <GLES3/gl3.h>
-#include <emscripten.h>
 #include <emscripten/html5.h>
 
 float *wrjs_color_array(float r, float g, float b) {
