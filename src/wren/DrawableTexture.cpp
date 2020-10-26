@@ -17,7 +17,11 @@
 
 #include <wren/drawable_texture.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 namespace wren {
 
@@ -99,7 +103,11 @@ namespace wren {
       // Replace old texture if texture setup was already made
       if (mGlName) {
         Texture::bind(DEFAULT_USAGE_PARAMS);
+#ifdef __EMSCRIPTEN__
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, newData);
+#else
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, newData);
+#endif
         mHaveMipMapsBeenGenerated = false;
       }
     } else {
@@ -224,8 +232,12 @@ namespace wren {
 
     Texture::bind(Texture::DEFAULT_USAGE_PARAMS);
 
-    // Some texture parameters (format, internal format & data type) are fixed since the class behaviour relies on them
+// Some texture parameters (format, internal format & data type) are fixed since the class behaviour relies on them
+#ifdef __EMSCRIPTEN__
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mData);
+#else
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, mWidth, mHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, mData);
+#endif
 
     mDirty = false;
     resetDirtyRect();
@@ -246,7 +258,12 @@ namespace wren {
         memcpy(&data[index1], &mData[index2], width * sizeof(int));
       }
 
+#ifdef __EMSCRIPTEN__
+      glTexSubImage2D(GL_TEXTURE_2D, 0, mDirtyMinX, mDirtyMinY, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+#else
       glTexSubImage2D(GL_TEXTURE_2D, 0, mDirtyMinX, mDirtyMinY, width, height, GL_BGRA, GL_UNSIGNED_BYTE, data);
+#endif
+
       if (params.mAreMipMapsEnabled)
         generateMipMaps(true);
 

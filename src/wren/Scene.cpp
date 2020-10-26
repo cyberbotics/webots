@@ -41,7 +41,11 @@
 #include <wren/renderable.h>
 #include <wren/scene.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <memory>
@@ -116,7 +120,13 @@ namespace wren {
 
   void Scene::bindPixelBuffer(int buffer) { glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer); }
 
-  void *Scene::mapPixelBuffer(unsigned int accessMode) { return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode); }
+  void *Scene::mapPixelBuffer(unsigned int accessMode) {
+#ifdef __EMSCRIPTEN__
+    return NULL;
+#else
+    return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
+#endif
+  }
 
   void Scene::unMapPixelBuffer() { glUnmapBuffer(GL_PIXEL_PACK_BUFFER); }
 

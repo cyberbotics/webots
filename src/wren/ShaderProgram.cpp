@@ -21,7 +21,11 @@
 
 #include <wren/shader_program.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <cstdlib>

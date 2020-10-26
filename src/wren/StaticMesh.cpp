@@ -21,7 +21,11 @@
 
 #include <wren/static_mesh.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <unordered_map>
 #include <vector>
@@ -1938,7 +1942,10 @@ namespace wren {
 
   static void copyFromBuffer(unsigned int target, unsigned int buffer, size_t size, void *dest) {
     glBindBuffer(target, buffer);
+#ifdef __EMSCRIPTEN__
+#else
     glGetBufferSubData(target, 0, size, dest);
+#endif
   }
 
   /*
