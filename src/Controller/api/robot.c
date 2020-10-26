@@ -895,18 +895,21 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   wb_robot_flush_unlocked();
   while (robot.is_waiting_for_user_input_event && !robot_is_quitting())
     robot_read_data();
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
-  } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
+  }
+
+  if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
     robot_mutex_unlock_step();
     return WB_EVENT_QUIT;
-  } else {
-    robot_mutex_unlock_step();
-    return robot.user_input_event_type;
   }
+
+  robot_mutex_unlock_step();
+  return robot.user_input_event_type;
 }
 
 void wb_robot_flush_unlocked() {
@@ -914,7 +917,6 @@ void wb_robot_flush_unlocked() {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
-    return;
   }
   if (robot.webots_exit == WEBOTS_EXIT_LATER)
     return;
