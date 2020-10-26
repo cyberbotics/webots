@@ -169,7 +169,7 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     controller->setSocket(socket);
     robot->setControllerStarted(true);
     // restart simulation if waiting for extern controller
-    restoreStepTimer();
+    restartStepTimer();
     return;
   }
   controller->start();
