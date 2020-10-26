@@ -202,7 +202,7 @@ void EPuckSlider::sliderMoved(int value) {
 }
 
 void EPuckSlider::sliderReleased() {
-  if (mType == RevertibleSlider && !mWasDragged){
+  if (mType == RevertibleSlider && !mWasDragged) {
     const int v = mSlider->value();
     if (v == mPreviousValue)
       setInverted(!isInverted());
@@ -224,7 +224,6 @@ void EPuckSlider::handleAction(int action) {
         setInverted(false);
     }
   }
-
   update();
 }
 
