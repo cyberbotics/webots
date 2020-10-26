@@ -305,6 +305,11 @@ Robot {
         segmentation TRUE
       }
     }
+    Display {
+      name "segmented image display"
+      width 256
+      height 128
+    }
   ]
   name "MyBot"
   boundingObject Transform {
