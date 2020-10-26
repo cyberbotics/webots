@@ -44,6 +44,9 @@ EPuckSlider::EPuckSlider(QGraphicsScene *scene, const QPoint &position, qreal or
   mSlider->setValue(0);
   mSlider->setPageStep(0);
 
+  mWasDragged = false;
+  mPreviousValue = -1;
+
   mSliderProxy = mScene->addWidget(mSlider);
   QTransform t;
   t.translate(position.x(), position.y());
@@ -58,6 +61,9 @@ EPuckSlider::EPuckSlider(QGraphicsScene *scene, const QPoint &position, qreal or
   connect(mSlider, SIGNAL(actionTriggered(int)), this, SLOT(handleAction(int)));
   connect(mSlider, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
   connect(mSlider, SIGNAL(valueChanged(int)), this, SLOT(emitValueChanged(int)));
+  connect(mSlider, SIGNAL(sliderPressed()), this, SLOT(sliderPressed()));
+  connect(mSlider, SIGNAL(sliderMoved(int)), this, SLOT(sliderMoved(int)));
+  connect(mSlider, SIGNAL(sliderReleased()), this, SLOT(sliderReleased()));
 
   updateStyleSheet();
 }
@@ -186,6 +192,26 @@ EPuckSlider::~EPuckSlider() {
   delete mTextItem;
 }
 
+void EPuckSlider::sliderPressed() {
+  mWasDragged = false;
+}
+
+void EPuckSlider::sliderMoved(int value) {
+  mWasDragged = true;
+  mPreviousValue = value;
+}
+
+void EPuckSlider::sliderReleased() {
+  if (mType == RevertibleSlider && !mWasDragged) {
+    const int v = mSlider->value();
+    if (v == mPreviousValue) {
+      setInverted(!isInverted());
+      update();
+    }
+    mPreviousValue = v;
+  }
+}
+
 void EPuckSlider::handleAction(int action) {
   if (mType == RevertibleSlider) {
     if (mSlider->invertedAppearance()) {
@@ -200,7 +226,6 @@ void EPuckSlider::handleAction(int action) {
         setInverted(false);
     }
   }
-
   update();
 }
 
