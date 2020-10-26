@@ -176,9 +176,9 @@ namespace wren {
     glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
-    const int rowIndex = flipY ? (mHeight - 1 - y) : y;
 #ifdef __EMSCRIPTEN__
 #else
+    const int rowIndex = flipY ? (mHeight - 1 - y) : y;
     glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
 #endif
 

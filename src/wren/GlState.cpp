@@ -343,14 +343,15 @@ namespace wren {
     }
 
     void setPolygonMode(unsigned int polygonMode) {
+#ifdef __EMSCRIPTEN__
+      cPolygonMode = polygonMode;
+#else
       if (cPolygonMode != polygonMode) {
         cPolygonMode = polygonMode;
-#ifdef __EMSCRIPTEN__
-#else
         glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
-#endif
       }
-    }
+#endif
+    }  // namespace glstate
 
     void setPolygonOffset(bool enable, float factor, float units) {
       if (cPolygonOffset != enable) {
