@@ -914,7 +914,9 @@ void wb_robot_flush_unlocked() {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
-  } else if (robot.webots_exit == WEBOTS_EXIT_LATER)
+    return;
+  }
+  if (robot.webots_exit == WEBOTS_EXIT_LATER)
     return;
   robot.is_immediate_message = true;
   robot_send_request(0);
