@@ -204,8 +204,10 @@ void EPuckSlider::sliderMoved(int value) {
 void EPuckSlider::sliderReleased() {
   if (mType == RevertibleSlider && !mWasDragged) {
     const int v = mSlider->value();
-    if (v == mPreviousValue)
+    if (v == mPreviousValue) {
       setInverted(!isInverted());
+      update();
+    }
     mPreviousValue = v;
   }
 }
