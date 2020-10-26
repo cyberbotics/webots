@@ -38,6 +38,7 @@
 #include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
+#include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -139,6 +140,8 @@ public:
                                             webots_ros::node_get_number_of_contact_points::Response &res);
   bool nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
                                    webots_ros::node_get_contact_point::Response &res);
+  bool nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
+                                       webots_ros::node_get_contact_point_node::Response &res);
   bool nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
@@ -234,6 +237,7 @@ private:
   ros::ServiceServer mNodeGetCenterOfMassServer;
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
+  ros::ServiceServer mNodeGetContactPointNodeServer;
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;
