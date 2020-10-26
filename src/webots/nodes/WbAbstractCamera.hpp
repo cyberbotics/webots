@@ -54,11 +54,11 @@ public:
   void writeConfigure(QDataStream &) override;
   void reset() override;
 
-  void updateCameraTexture();
+  virtual void updateCameraTexture();
 
   void setNodeVisibility(WbBaseNode *node, bool visible);
 
-  bool isEnabled() { return mSensor ? mSensor->isEnabled() : false; }
+  virtual bool isEnabled() const { return mSensor ? mSensor->isEnabled() : false; }
 
   // external window
   void enableExternalWindow(bool enabled) override;
@@ -84,7 +84,7 @@ signals:
 protected:
   void setup() override;
   virtual void render(){};
-  virtual bool needToRender();
+  virtual bool needToRender() const;
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
@@ -157,7 +157,7 @@ protected:
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();
-  void updateTextureUpdateNotifications();
+  virtual void updateTextureUpdateNotifications();
 
 public slots:
   void updateAntiAliasing();

@@ -48,6 +48,8 @@ public:
   void postPhysicsStep() override;
   void reset() override;
   void resetSharedMemory() override;
+  bool isEnabled() const override;
+  void updateTextureUpdateNotifications() override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);
@@ -61,7 +63,7 @@ public:
 protected:
   void setup() override;
   void render() override;
-  bool needToRender() override;
+  bool needToRender() const override;
 
 private:
   WbSFNode *mFocus;
@@ -143,6 +145,7 @@ private slots:
   void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
+  void updateOverlayMaskTexture();
 };
 
 #endif  // WB_CAMERA_HPP

@@ -225,19 +225,19 @@ void WbAbstractCamera::setup() {
   }
 }
 
-bool WbAbstractCamera::needToRender() {
-  return mSensor->needToRefresh();
+bool WbAbstractCamera::needToRender() const {
+  return mSensor->isEnabled() && mSensor->needToRefresh();
 }
 
 void WbAbstractCamera::updateCameraTexture() {
   if (isPowerOn() && needToRender()) {
     // update camera overlay before main rendering
     computeValue();
-    if (mSensor->needToRefresh()) {
+    if (WbAbstractCamera::needToRender()) {
       mSensor->updateTimer();
       mImageChanged = true;
     }
-  } else if (mSensor->isRemoteModeEnabled() && mOverlay)
+  } else if (mOverlay && mSensor->isEnabled() && mSensor->isRemoteModeEnabled())
     // keep updating the overlay in remote mode
     mOverlay->requestUpdateTexture();
 }
@@ -261,7 +261,8 @@ void WbAbstractCamera::computeValue() {
   for (int i = 0; i < invisibleNodesCount; ++i)
     wr_node_set_visible(WR_NODE(mInvisibleNodes.at(i)->wrenNode()), false);
 
-  mWrenCamera->render();
+  if (WbAbstractCamera::needToRender())
+    mWrenCamera->render();
   render();
 
   for (int i = 0; i < invisibleNodesCount; ++i)

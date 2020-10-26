@@ -261,7 +261,7 @@ QString WbCamera::pixelInfo(int x, int y) const {
 }
 
 void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, double overlayX, double overlayY) {
-  if (!recognition()) {
+  if (!recognition() || !mSensor->isEnabled()) {
     clearRecognizedObjectsOverlay();
     return;
   }
@@ -516,7 +516,7 @@ void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 
 void WbCamera::resetSharedMemory() {
   WbAbstractCamera::resetSharedMemory();
-  if (hasBeenSetup())
+  if (hasBeenSetup() && (mSegmentationShm || (recognition() && recognition()->segmentation())))
     // the previous shared memory will be released by the new controller start
     initializeSegmentationSharedMemory();
 }
@@ -579,6 +579,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
       stream << (short unsigned int)tag();
       stream << (unsigned char)C_CAMERA_SET_SEGMENTATION;
       stream << (unsigned char)recognition()->segmentation();
+      mSegmentationChanged = false;
     }
 
     if (mSegmentationCamera) {
@@ -655,9 +656,14 @@ void WbCamera::handleMessage(QDataStream &stream) {
       break;
     }
     case C_CAMERA_ENABLE_SEGMENTATION:
-      unsigned char enabled;
-      stream >> enabled;
-      mSegmentationEnabled = enabled;
+      unsigned char segmentationEnabled;
+      stream >> segmentationEnabled;
+      mSegmentationEnabled = segmentationEnabled;
+      if (!hasBeenSetup())
+        setup();
+      else
+        updateOverlayMaskTexture();
+      emit enabled(this, isEnabled());
       break;
     case C_CAMERA_GET_SEGMENTATION_IMAGE:
       if (mSegmentationImageChanged) {
@@ -842,8 +848,11 @@ void WbCamera::createWrenCamera() {
   if (recognition() && recognition()->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
                                            fieldOfView(), 's', false, mSpherical->value());
-  } else
+    connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+  } else {
     mSegmentationCamera = NULL;
+    disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+  }
 
   applyFocalSettingsToWren();
   applyFarToWren();
@@ -860,20 +869,40 @@ void WbCamera::createWrenOverlay() {
 
   // mRecognizedObjectsTexture deleted when creating the WREN overlay
   assert(recognition() || !mRecognizedObjectsTexture);
-  if (recognition()) {
+  if (mWrenCamera && recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
     emit textureIdUpdated(mOverlay->foregroundTextureGLId(), FOREGROUND_TEXTURE);
-    if (mSegmentationCamera) {
-      mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
-      emit textureIdUpdated(mOverlay->maskTextureGLId(), MASK_TEXTURE);
-    }
+    updateOverlayMaskTexture();
   }
+}
+
+void WbCamera::updateOverlayMaskTexture() {
+  if (!mOverlay)
+    return;
+
+  if (mWrenCamera && mSensor->isEnabled() && recognition() && mSegmentationEnabled && mSegmentationCamera)
+    mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
+  else
+    mOverlay->unsetMaskTexture();
+  emit textureIdUpdated(mOverlay->maskTextureGLId(), MASK_TEXTURE);
+}
+
+void WbCamera::updateTextureUpdateNotifications() {
+  WbAbstractCamera::updateTextureUpdateNotifications();
+  if (!mWrenCamera || !mSegmentationCamera)
+    return;
+  if (mExternalWindowEnabled)
+    connect(mSegmentationCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated, Qt::UniqueConnection);
+  else
+    disconnect(mSegmentationCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated);
+  mSegmentationCamera->enableTextureUpdateNotifications(mExternalWindowEnabled);
 }
 
 void WbCamera::setup() {
   WbAbstractCamera::setup();
-  initializeSegmentationSharedMemory();
   createSegmentationCamera();
+  if (mSegmentationShm || (recognition() && recognition()->segmentation()))
+    initializeSegmentationSharedMemory();
 
   if (spherical())
     return;
@@ -885,9 +914,13 @@ void WbCamera::setup() {
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
 }
 
-bool WbCamera::needToRender() {
-  return WbAbstractCamera::needToRender() || (mSegmentationCamera && mSegmentationEnabled && mRecognitionSensor->isEnabled() &&
-                                              mRecognitionSensor->needToRefresh());
+bool WbCamera::isEnabled() const {
+  return (mSegmentationEnabled && recognition() && recognition()->segmentation()) || WbAbstractCamera::isEnabled();
+}
+
+bool WbCamera::needToRender() const {
+  return WbAbstractCamera::needToRender() ||
+         (mSegmentationEnabled && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefresh());
 }
 
 void WbCamera::render() {
@@ -936,8 +969,10 @@ void WbCamera::updateRecognition() {
 
 void WbCamera::updateSegmentation() {
   mSegmentationChanged = true;
-  if (mSegmentationEnabled && (!recognition() || !recognition()->segmentation()))
+  if (mSegmentationEnabled && (!recognition() || !recognition()->segmentation())) {
     mSegmentationEnabled = false;
+    updateOverlayMaskTexture();
+  }
   createSegmentationCamera();
 }
 
@@ -951,14 +986,16 @@ void WbCamera::createSegmentationCamera() {
   if (recognitionNode && recognitionNode->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
                                            fieldOfView(), 's', false, mSpherical->value());
-    mOverlay->setMaskTexture(mSegmentationCamera->getWrenTexture());
-    emit textureIdUpdated(mSegmentationCamera->textureGLId(), MASK_TEXTURE);
+    connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+    if (!mSegmentationShm)
+      initializeSegmentationSharedMemory();
   } else {
     mSegmentationCamera = NULL;
-    mOverlay->unsetMaskTexture();
-    emit textureIdUpdated(0, MASK_TEXTURE);
+    disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
   }
-  mHasSegmentationSharedMemoryChanged = true;
+  updateOverlayMaskTexture();
+  if (mExternalWindowEnabled)
+    updateTextureUpdateNotifications();
 }
 
 void WbCamera::updateLensFlare() {
