@@ -78,6 +78,7 @@ static WbFieldRequest *field_requests_list_head = NULL;
 static WbFieldRequest *field_requests_list_tail = NULL;
 static WbFieldRequest *field_requests_garbage_list = NULL;
 static WbFieldRequest *sent_field_get_request = NULL;
+static bool is_field_immediate_message = false;
 
 typedef struct WbNodeStructPrivate {
   int id;
@@ -466,10 +467,16 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
-  } else {
-    WbFieldRequest *request = field_requests_list_head;
-    field_requests_list_tail = NULL;
-    field_requests_list_head = NULL;
+  } else if (!robot_is_immediate_message() || is_field_immediate_message) {
+    is_field_immediate_message = false;
+    WbFieldRequest *request;
+    if (sent_field_get_request)
+      request = sent_field_get_request;
+    else {
+      request = field_requests_list_head;
+      field_requests_list_tail = NULL;
+      field_requests_list_head = NULL;
+    }
     while (request) {
       WbFieldStruct *f = request->field;
       if (request->type == GET) {
@@ -587,9 +594,9 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         request = next;
       } else {
         // get requests are handled immediately, so only one request has to be sent at a time
-        assert(sent_field_get_request == NULL);
         // request is required when getting back the answer from Webots
-        sent_field_get_request = request;
+        assert(sent_field_get_request == request);
+        assert(request->next == NULL);
         request = request->next;
       }
     }
@@ -984,10 +991,12 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
   request->index = index;
   request->data = data;
   request->is_string = f->type == WB_SF_STRING || f->type == WB_MF_STRING || action == IMPORT_FROM_STRING ||
-                       (action = IMPORT && f->type == WB_MF_NODE);
+                       (action == IMPORT && f->type == WB_MF_NODE);
   request->field = f;
   request->next = NULL;
-  if (field_requests_list_tail) {
+  if (request->type == GET)
+    sent_field_get_request = request;
+  else if (field_requests_list_tail) {
     // append
     field_requests_list_tail->next = request;
     field_requests_list_tail = request;
@@ -995,6 +1004,7 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
     field_requests_list_tail = request;
     field_requests_list_head = field_requests_list_tail;
   }
+  is_field_immediate_message = request->type != SET;  // set operations are postponed
 }
 
 static void field_operation_with_data(WbFieldStruct *f, int action, int index, union WbFieldData data) {
