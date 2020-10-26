@@ -51,7 +51,7 @@ public:
   void reset(bool restartControllers) override;
 
   void pauseStepTimer();
-  void restoreStepTimer();
+  void restartStepTimer();
 
   virtual void step();
 
