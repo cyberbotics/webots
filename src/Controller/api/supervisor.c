@@ -596,7 +596,6 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         // get requests are handled immediately, so only one request has to be sent at a time
         // request is required when getting back the answer from Webots
         assert(sent_field_get_request == request);
-        fprintf(stderr, "GET next %p\n", request->next);
         assert(request->next == NULL);
         request = request->next;
       }
