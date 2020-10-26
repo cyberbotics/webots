@@ -362,7 +362,8 @@ void WbControlledWorld::step() {
 }
 
 bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
-  *waitForExternControllerStart = false;
+  if (waitForExternControllerStart)
+    *waitForExternControllerStart = false;
   foreach (WbRobot *const robot, mRobotsWaitingExternController) {
     if (robot->synchronization()) {
       if (waitForExternControllerStart)
