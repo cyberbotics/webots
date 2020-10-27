@@ -28,6 +28,7 @@ class MyParser {
 
   parseNode(node) {
     if(node.tagName === 'Scene') {
+      //new Scene();
       this.parseChildren(node);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
@@ -61,16 +62,25 @@ class MyParser {
 
   parseShape(node){
     console.log("Une Shape");
-    this.parseGeometry(node.childNodes[0]);
+    let shape;
+    geometry = this.parseGeometry(node.childNodes[0]);
+    shape.geometry = geometry;
+    geometry.parent = shape;
   }
 
   parseGeometry(node){
-    let isGeometry = true;
+    let geometry;
     if(node.tagName === 'Box') {
-      console.log('Une Boxe');
+      geometry = parseBox(node);
     } else {
       isGeometry = false
     }
-    return isGeometry;
+    return geometry;
+  }
+
+  parseBox(node) {
+    let box;
+    console.log("Une box");
+    return box;
   }
 }
