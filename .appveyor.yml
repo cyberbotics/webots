@@ -9,8 +9,8 @@ clone_depth: 1
 
 install:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
-  - curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
-  - curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
   - pacman -Syu --noconfirm
