@@ -65,7 +65,6 @@ class MyParser {
     let shape;
     geometry = this.parseGeometry(node.childNodes[0]);
     shape.geometry = geometry;
-    geometry.parent = shape;
   }
 
   parseGeometry(node){

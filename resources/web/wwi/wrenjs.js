@@ -48,14 +48,26 @@ class Viewpoint {
   */
 }
 
-class Shape {
+class Shape extends BaseNode {
 //compile and link the shaders
-  constructor(id, castShadow, material, geometry) {
+  constructor(id, castShadow, appearance, geometry) {
     this.id = id;
     this.castShadow = castShadow;
-    this.material = material;
+    this.appearance = appearance;
     this.geometry = geometry;
-    //shaders!
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    if (this.appearance)
+      this.appearance.createWrenObjects();
+
+    if (this.geometry){
+      this.geometry.parent = this
+      this.geometry.createWrenObjects();
+    }
+
   }
 }
 
@@ -112,19 +124,23 @@ class Box extends Geometry{
     this.id = id;
     this.size = new glm::vec3(size);
 
-    createWrenBox()
+    createWrenObjects()
   }
 
-  createWrenBox() {
+  createWrenObjects() {
     super.createWrenObjects();
     super.computeWrenRenderable();
-
-    sanitizeFields();
 
     mWrenMesh = wr_static_mesh_unit_box_new(false);
 
     wr_renderable_set_mesh(mWrenRenderable, mWrenMesh);
 
     updateSize();
+  }
+
+  updateSize() {
+      //TODO set in a array
+      wr_transform_set_scale(wrenNode(), glm.vec3(size));
+    }
   }
 }
