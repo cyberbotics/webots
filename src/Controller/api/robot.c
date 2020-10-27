@@ -88,6 +88,7 @@ typedef struct {
   bool need_urdf;
   char *urdf_prefix;
   char *custom_data;
+  bool is_immediate_message;
   bool is_waiting_for_user_input_event;
   WbUserInputEvent user_input_event_type;
   int user_input_event_timeout;
@@ -336,6 +337,7 @@ static void robot_configure(WbRequest *r) {
   robot.has_html_robot_window = request_read_uchar(r);
   wb_robot_window_load_library(robot.window_filename);
   robot.simulation_mode = request_read_int32(r);
+  robot.is_immediate_message = false;
   // printf("configure done\n");
 }
 
@@ -632,6 +634,10 @@ void robot_console_print(const char *text, int stream) {
   }
 }
 
+bool robot_is_immediate_message() {
+  return robot.is_immediate_message;
+}
+
 // Public functions available from the robot API
 
 // multi-thread API
@@ -904,18 +910,21 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   wb_robot_flush_unlocked();
   while (robot.is_waiting_for_user_input_event && !robot_is_quitting())
     robot_read_data();
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
-  } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
+  }
+
+  if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
     robot_mutex_unlock_step();
     return WB_EVENT_QUIT;
-  } else {
-    robot_mutex_unlock_step();
-    return robot.user_input_event_type;
   }
+
+  robot_mutex_unlock_step();
+  return robot.user_input_event_type;
 }
 
 void wb_robot_flush_unlocked() {
@@ -923,12 +932,15 @@ void wb_robot_flush_unlocked() {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
-  } else if (robot.webots_exit == WEBOTS_EXIT_LATER)
+  }
+  if (robot.webots_exit == WEBOTS_EXIT_LATER)
     return;
+  robot.is_immediate_message = true;
   robot_send_request(0);
   robot_read_data();
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     robot.webots_exit = WEBOTS_EXIT_LATER;
+  robot.is_immediate_message = false;
 }
 
 int wb_robot_init_msvc() {

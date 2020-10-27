@@ -44,7 +44,7 @@ public:
   void postFinalize() override;
 
   // specific functions
-  void pickColor(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickColor(WbRgb &pickedColor, const WbVector2 &uv);
 
   // WREN
   virtual const WrTexture *wrenTexture() const { return mWrenTexture; }
@@ -73,6 +73,8 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+
+  bool loadTextureData();
 
 private:
   // user accessible fields

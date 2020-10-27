@@ -368,6 +368,7 @@ LD_LIBRARY_PATH=/usr/local/webots/lib/controller
 ```bash
 Path=C:\Program Files\Webots\lib\controller\;C:\Program Files\Webots\msys64\mingw64\bin\;C:\Program Files\Webots\msys64\mingw64\bin\cpp
 ```
+_Note_: for some reason, the anti-slash at the end of `controller\` and `bin\` is critical. If missing, it won't work.
 %tab-end
 
 %tab "macOS"

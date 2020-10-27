@@ -66,6 +66,9 @@ private slots:
   void handleAction(int action);
   void updateText(int value);
   void emitValueChanged(int value);
+  void sliderPressed();
+  void sliderMoved(int value);
+  void sliderReleased();
 
 private:
   void update();
@@ -89,6 +92,8 @@ private:
   double mRatio;
   int mIndex;
   int mNeutralValue;
+  int mPreviousValue;
+  bool mWasDragged;
 };
 
 #endif
