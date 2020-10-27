@@ -777,7 +777,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto, 0);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, 0, is_proto);  // add self node
       self_node_ref = node_list;
       self_node_ref->is_proto_internal = is_proto_internal;
     } break;
