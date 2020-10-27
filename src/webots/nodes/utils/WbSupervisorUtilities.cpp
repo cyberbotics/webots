@@ -1223,6 +1223,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> index;
       const QString nodeString = readString(stream);
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
       int importedNodesNumber;
       WbNodeOperations::OperationResult operationResult =
         WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
@@ -1235,6 +1238,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mImportedNodesNumber = -1;
       } else if (operationResult != WbNodeOperations::FAILURE)
         mImportedNodesNumber = importedNodesNumber;
+
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }

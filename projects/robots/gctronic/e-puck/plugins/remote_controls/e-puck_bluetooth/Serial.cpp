@@ -125,7 +125,8 @@ Serial::Serial(const string &port) : mName(port) {
     throwFatalException("Error getting the tty attributes");
   }
 
-#else   // __linux__
+#else
+  // __linux__
   int rval;
 
   // test device file existence

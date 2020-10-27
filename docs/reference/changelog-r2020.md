@@ -7,10 +7,12 @@ Released on XXX YYY, 2020.
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
-    - Fixed crash in the Supervisor API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).
+    - macOS: Fixed ability to inverse the distance sensor condition in BotStudio with the e-puck robot ([#2391](https://github.com/cyberbotics/webots/pull/2391)).
+    - Fixed crash in the [Supervisor](supervisor.md) API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).
+    - Fixed values returned by the [Supervisor](supervisor.md) [get field value](supervisor.md#wb_supervisor_field_get_sf_bool) functions after [setting](supervisor.md#wb_supervisor_field_set_sf_bool) the field value in the same controller step ([#2375](https://github.com/cyberbotics/webots/pull/2375)).
     - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
     - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
-    - Fixed handling of <kbd>Ctrl</kbd> key on macOS from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
+    - macOS: Fixed handling of <kbd>Ctrl</kbd> key from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
     - Fixed synchronization bug in the start up of extern controllers when the `WEBOTS_PID` environment variable was defined ([#2260](https://github.com/cyberbotics/webots/pull/2260)).
     - Fixed [Lidar](lidar.md) and [RangeFinder](rangefinder.md) memory leak when the robot-window is opened ([#2210](https://github.com/cyberbotics/webots/pull/2210)).
     - Fixed noise generation for [Camera](camera.md), [Lidar](lidar.md) and [RangeFinder](rangefinder.md) producing fixed patterns on some GPUs (like the NVIDIA GeForce RTX series)([#2215](https://github.com/cyberbotics/webots/pull/2215)).
@@ -27,6 +29,7 @@ Released on XXX YYY, 2020.
     - Fixed [`wb_motor_get_target_position`](motor.md#wb_motor_get_target_position) function if the joint initial position is not 0 ([#2326](https://github.com/cyberbotics/webots/pull/2326)).
     - Fixed the disabled `Help...` item in the context menu for some nodes ([#2327](https://github.com/cyberbotics/webots/pull/2327)).
     - Added missing `supervisor` field in the `Tractor` and `TeslaModel3` PROTO nodes ([#2351](https://github.com/cyberbotics/webots/pull/2351)).
+    - Fixed infra-red [DistanceSensor](distancesensor.md) returned value when pointing at a texture used several times in the world (thanks to [Justin-Fisher](https://github.com/Justin-Fisher)) ([#2378](https://github.com/cyberbotics/webots/pull/2378)).
   - Dependency Updates
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
 
@@ -35,7 +38,7 @@ Released on September 1st, 2020.
 
   - Enhancements
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
-    - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
+    - macOS: Added support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
     - Added a warning in case a [PBRAppearance](pbrappearance.md) is used in a [Shape](shape.md) containing a [PointSet](pointset.md) or [IndexedLineSet](indexedlineset.md) geometry ([#2142](https://github.com/cyberbotics/webots/pull/2142)).
     - Removed all the assertions of ODE to speed up simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
