@@ -255,8 +255,19 @@ void WbSimulationWorld::step() {
   }
 }
 
+void WbSimulationWorld::pauseStepTimer() {
+  mTimer->stop();
+}
+
+void WbSimulationWorld::restartStepTimer() {
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  if (!mTimer->isActive() &&
+      (mode == WbSimulationState::REALTIME || mode == WbSimulationState::RUN || mode == WbSimulationState::FAST))
+    mTimer->start();
+}
+
 void WbSimulationWorld::modeChanged() {
-  WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
     case WbSimulationState::PAUSE:
       mTimer->stop();
