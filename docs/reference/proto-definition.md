@@ -4,6 +4,25 @@
 
 A PROTO node is defined in a PROTO file.
 A PROTO file ends with a `.proto` extension.
+
+#### Header
+
+The PROTO file starts with the following header line:
+
+```
+#VRML_SIM {{ webots.version.major }} utf8
+```
+
+Possibly followed by comments, such as:
+
+```
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is the description of the sample PROTO node.
+```
+
+#### Structure
+
 It lists the fields of the PROTO and defines how these fields impact the underlying object which is defined using base nodes and/or PROTO nodes.
 
 ```
@@ -22,9 +41,13 @@ field fieldType fieldName defaultValue
 - `fieldName` is a freely chosen name for this field.
 - `defaultValue` is a literal default value that depends on `fieldType`.
 
-Here is an example of PROTO definition:
+#### Summary
+
+Here is how a PROTO definition is organized:
 
 ```
+#VRML_SIM {{ webots.version.major }} utf8
+
 PROTO MyProto [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
