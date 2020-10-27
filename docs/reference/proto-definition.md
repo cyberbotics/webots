@@ -2,8 +2,7 @@
 
 ### Interface
 
-A PROTO node is defined in a PROTO file.
-A PROTO file ends with a `.proto` extension.
+A PROTO node is defined in a PROTO file which is a text file ending with a `.proto` extension.
 
 #### Header
 
@@ -23,7 +22,7 @@ Possibly followed by comments, such as:
 
 #### Structure
 
-It lists the fields of the PROTO and defines how these fields impact the underlying object which is defined using base nodes and/or PROTO nodes.
+The PROTO definition lists the fields of the PROTO and defines how these fields impact the underlying object which is defined using base nodes and/or PROTO nodes.
 
 ```
 PROTO protoName [ protoFields ] { protoBody }
@@ -43,7 +42,7 @@ field fieldType fieldName defaultValue
 
 #### Summary
 
-Here is how a PROTO definition is organized:
+Here is how a PROTO file looks like:
 
 ```
 #VRML_SIM {{ webots.version.major }} utf8
