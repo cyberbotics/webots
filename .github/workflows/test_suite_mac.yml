@@ -38,7 +38,7 @@ jobs:
         brew update
         brew upgrade
 
-        # brew update  # required to get the python@3.9 formula
+        brew unlink python@3.8
         brew install swig wget python@3.7 python@3.9  # skip 'cmake' and 'python@3.8' because already installed
         npm install -g appdmg
         # install regular Python 3.7
