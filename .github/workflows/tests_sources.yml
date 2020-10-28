@@ -34,7 +34,7 @@ jobs:
         #  - os: macos-10.15
         #    DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - os: windows-latest
-            DEPENDENCIES_INSTALLATION: "choco install cppcheck"
+            DEPENDENCIES_INSTALLATION: "choco install cppcheck; export PATH=$PATH:C:\\Program Files\\Cppcheck"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
