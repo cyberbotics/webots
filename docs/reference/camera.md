@@ -1226,7 +1226,7 @@ The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get
 
 *camera recognition segmentation functions*
 
-If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set, the camera generates a segmentation ground truth image corresponding to the camera image.
+If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set to TRUE, the camera generates a segmentation ground truth image corresponding to the camera image.
 The segmented image is generated at the same sampling period as the recognition objects.
 For the segmentation to work it is necessary to enable the recognition, but it is not necessary to enable the camera.
 Even if the [Recognition](recognition.md).`segmentation` field is TRUE, the generation of the segmented image is not automatically enabled when calling the [`wb_camera_recognition_enable`](#wb_camera_recognition_enable) function and it is necessary to call explicitly the [`wb_camera_recognition_enable_segmentation`](#wb_camera_recognition_enable_segmentation).
