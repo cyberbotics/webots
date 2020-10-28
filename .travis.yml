@@ -73,51 +73,6 @@ jobs:
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
-    - <<: *unit_tests_staging
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
-      dist: bionic
-      jdk: openjdk11
-      addons: &bionic_apt_packages
-        apt:
-          packages:
-            - g++
-            - cmake
-            - libusb-dev
-            - swig
-            - python2.7-dev
-            - libglu1-mesa-dev
-            - libglib2.0-dev
-            - libfreeimage-dev
-            - libfreetype6-dev
-            - libxml2-dev
-            - libzzip-0-13
-            - libssl1.0-dev
-            - libboost-dev
-            - libavcodec-extra
-            - libgd3
-            - libssh-gcrypt-dev
-            - libzip-dev
-            - python-pip
-            - libreadline-dev
-            - ffmpeg
-            - npm
-            - python3.6-dev
-            - python3.7-dev
-            - openjdk-11-jdk
-            - curl
-            - fakeroot
-            - pbzip2
-            - libxkbcommon-x11-dev
-            - libxcb-keysyms1
-            - libxcb-image0
-            - libxcb-icccm4
-            - libxcb-randr0
-            - libxcb-render-util0
-            - libxcb-xinerama0
-      script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
-        - make release -j2
-        - make release -j2 -C tests
-        - python tests/test_suite.py --no-ansi-escape --nomake
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
@@ -138,14 +93,6 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
         - pip install PyGithub # used to upload packages to Github releases
         - scripts/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
-    - <<: *distribution_staging
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
-      dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
-      jdk: openjdk11
-      addons: *bionic_apt_packages
-      script:
-        - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
@@ -185,17 +132,6 @@ jobs:
       script:
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
-    - <<: *distribution_staging
-      stage: Release
-      if: commit_message IN (travis_release, travis_release_only)
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11
-      dist: bionic
-      jdk: openjdk11
-      before_install: *ubuntu_before_install
-      addons: *bionic_apt_packages
-      script:
-        - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
       stage: Release
       if: commit_message IN (travis_release, travis_release_only)
