@@ -13,7 +13,6 @@
 # limitations under the License.
 
 JS_SOURCES = \
-		wrenjs.js\
 	my_js_lib.js\
 	my_renderer.js\
 	my_parser.js\
