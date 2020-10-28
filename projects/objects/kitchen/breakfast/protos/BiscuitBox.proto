@@ -23,8 +23,8 @@ PROTO BiscuitBox [
 Solid {
   translation IS translation
   rotation IS rotation
-  recognitionColors [ 0 0 0 ]
-   children [
+  recognitionColors [ 0.92 0.76 0.3 ]
+  children [
     Transform {
       scale %{= size.x / 0.24 }% %{= size.y / 0.04 }% %{= size.z / 0.08 }%
       children [
