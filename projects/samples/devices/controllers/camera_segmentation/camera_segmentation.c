@@ -42,7 +42,7 @@ int main() {
 
   /* Get the display device */
   display = wb_robot_get_device("segmented image display");
-  
+
   /* Get a handler to the motors and set target position to infinity (speed control). */
   left_motor = wb_robot_get_device("left wheel motor");
   right_motor = wb_robot_get_device("right wheel motor");
