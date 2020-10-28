@@ -28,6 +28,16 @@ float *wrjs_color_array(float r, float g, float b) {
   return array;
 }
 
+float *wrjs_array4(float element0, float element1, float element2, float element3) {
+  static float array[4];
+  array[0] = element0;
+  array[1] = element1;
+  array[2] = element2;
+  array[3] = element3;
+
+  return array;
+}
+
 char *wrjs_dummy_texture() {
   static char data[256 * 256 * 4];
   for (int d = 0; d < (256 * 256); ++d) {
