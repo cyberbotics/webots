@@ -751,7 +751,7 @@ void WbViewpoint::updateFollowUp() {
     } else if (type == FOLLOW_TRACKING) {
       mEquilibriumVector += delta;
       // clang-format off
-      // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
+      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
       const double mass = ((mFollowSmoothness->value() < 0.05) ? 0.0 :
                            (mFollowSmoothness->value() > 1.0)  ? 1.0 :
                                                                  mFollowSmoothness->value());

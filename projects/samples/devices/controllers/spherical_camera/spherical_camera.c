@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
     ANSI_CLEAR_CONSOLE();
     for (i = 0; i < 3; i++)
       // clang-format off
-      // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
+      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
       printf("last %s blob seen at (%d,%d) with an angle of %f\n",
              (i == GREEN) ? "Green" :
              (i == RED)   ? "Red" :

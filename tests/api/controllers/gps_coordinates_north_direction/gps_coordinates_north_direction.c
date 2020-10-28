@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   const double *position = wb_gps_get_values(gps);
   for (int i = 0; i < 3; i++)
     // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
+    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
     ts_assert_double_in_delta(position[i], expected_position[i], 0.0000001,
                               "The %c value measured by the GPS should be %g and not %g",
                               i == 0 ? 'X' :
