@@ -37,7 +37,7 @@ class WbBaseNode {
   }
 }
 
-class WbViewpoint {
+class WbViewpoint extends WbBaseNode {
   /*Information à disposition
   Id
   Orientation: vec4
@@ -47,10 +47,78 @@ class WbViewpoint {
   zNear = float
   followsmoothness
   */
+  constructor(id, orientation, position, exposure, bloomThreshold, zNear, followsmoothness) {
+    super(id);
+    this.orientation = orientation;
+    this.position = position;
+
+    this.exposure = exposure;
+    this.bloomThreshold = bloomThreshold;
+    this.zNear = zNear;
+    this.far = far;
+    this.fieldOfViewY = M_PI_4;
+    this.followsmoothness = followsmoothness;
+
+    this.inverseViewMatrix;
+
+
+    this.wrenViewport = undefined;
+    this.wrenCamera = undefined;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    this.mWrenViewport = wr_scene_get_viewport(wr_scene_get_instance());
+    //wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
+
+    let color = [0.0, 0.0, 0.0];
+    wr_viewport_set_clear_color_rgb(this.mWrenViewport, color);
+
+    this.mWrenCamera = wr_viewport_get_camera(this.mWrenViewport);
+
+    applyPositionToWren();
+    applyOrientationToWren();
+    applyNearToWren();
+    applyFarToWren();
+    applyFieldOfViewToWren();
+    applyOrthographicViewHeightToWren();
+    updateLensFlare();
+    updatePostProcessingEffects();
+
+    mInverseViewMatrix = wr_transform_get_matrix(this.mWrenCamera);
+
+    // once the camera and viewport are created, update everything in the world instance
+    WbWorld::instance()->setViewpoint(this);
+  }
+
+  applyPositionToWren() {
+    wr_camera_set_position(this.mWrenCamera, this.position); //TODO
+  }
+
+  applyOrientationToWren() {
+    wr_camera_set_orientation(this.mWrenCamera, this.orientation); //TODO
+  }
+
+  applyNearToWren() {
+    wr_camera_set_near(this.mWrenCamera, this.zNear);
+  }
+
+  applyFarToWren() {
+    if (this.far > 0.0)
+      wr_camera_set_far(this.mWrenCamera, this.far);
+    else
+      wr_camera_set_far(this.mWrenCamera, WbViewpoint.DEFAULT_FAR);
+  }
+
+  applyFieldOfViewToWren() {
+    wr_camera_set_fovy(this.mWrenCamera, this.mFieldOfViewY);
+  }
 }
 
+WbViewpoint.DEFAULT_FAR = 1000000.0;
+
 class WbShape extends WbBaseNode {
-//compile and link the shaders
   constructor(id, castShadow, appearance, geometry) {
     super(id);
     this.castShadow = castShadow;
