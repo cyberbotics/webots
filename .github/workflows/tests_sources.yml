@@ -31,7 +31,7 @@ jobs:
           - os: ubuntu-18.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
           - os: ubuntu-20.04
-            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-11"
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
     runs-on: ${{ matrix.os }}
