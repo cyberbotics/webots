@@ -27,11 +27,11 @@ jobs:
         python: [2.7, 3.9]
         include:
           - os: ubuntu-16.04
-            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-11"
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10"
           - os: ubuntu-18.04
-            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-11"
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10"
           - os: ubuntu-20.04
-            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-11"
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10"
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
     runs-on: ${{ matrix.os }}
