@@ -49,6 +49,8 @@ jobs:
     - name: Tests
       if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
+        echo $PATH
+        cppcheck --version
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
         export WEBOTS_HOME=$PWD
