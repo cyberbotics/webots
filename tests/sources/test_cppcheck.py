@@ -29,13 +29,12 @@ class TestCppCheck(unittest.TestCase):
         """Set up called before each test."""
         self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
-        self.cppcheck = 'cppcheck'
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
         self.assertTrue(
-            find_executable(self.cppcheck) is not None,
+            find_executable('cppcheck') is not None,
             msg='Cppcheck is not installed on this computer.'
         )
 
@@ -125,7 +124,7 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
+        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled'
@@ -167,7 +166,7 @@ class TestCppCheck(unittest.TestCase):
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
-        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
+        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         command += '--suppress=strdupCalled '
         # command += '--xml '  # Uncomment this line to get more information on the errors
