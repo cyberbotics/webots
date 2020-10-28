@@ -190,7 +190,7 @@ Then, after closing the window, the overlay will be automatically restored.
 
 When the [recognition mode](#wb_camera_has_recognition) is enabled, rectangles surround the recognized objects.
 If the mouse cursor is over one of these rectangles and the simulator is paused, then a complete description of the recognized object is displayed in red, as shown in [the following figure](#display-of-a-recognized-object).
-If the [Recognition](recognition.md).`segmentation` field is also set, a mask representing the segmentation ground truth image is applied on the camera image displayed in the overlay.
+If the [Recognition](recognition.md).`segmentation` field is also set to TRUE, a mask representing the segmentation ground truth image is applied on the camera image displayed in the overlay.
 
 %figure "Display of a recognized object."
 
