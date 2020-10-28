@@ -6915,3 +6915,6 @@ The robot starts to move forward. But not when left/rightMotor are called from t
 
 I just had a session with Simon, the RestAPI controller works for him. So it looks like the issue is somewhere outside of Webots, OS or Python versions. Thanks, Simon!
 
+
+Looks like the issue was somehow connected to Fedora (tornado version or whatever), works perfectly on Ubuntu 20.04. So my Rest API Controller is on the way. 😃
+
