@@ -153,7 +153,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.root = undefined;
     //this.scene.background = new Module.cwrap('wr_color_new','bonjour',[0, 0, 0]);
     //console.log(new Module.cwrap('wr_color_r', 'number',[this.scene.background]));
-    
+
     /*
     // Code to debug bloom passes.
     let geometry = new THREE.PlaneGeometry(5, 5);
@@ -240,6 +240,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       loader = new MyParser();
       loader.parse(x3dObject);
     }
+
 
     if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));

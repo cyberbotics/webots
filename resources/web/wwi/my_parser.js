@@ -25,7 +25,7 @@ class MyParser {
       this.parseNode(scene);
     }
 
-    _wr_scene_render(wr_scene_get_instance(), NULL, true);
+    _wr_scene_render(_wr_scene_get_instance(), null, true);
     console.log("FINI");
   }
 

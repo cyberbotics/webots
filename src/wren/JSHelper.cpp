@@ -38,6 +38,11 @@ float *wrjs_array4(float element0, float element1, float element2, float element
   return array;
 }
 
+char *wrjs_pointerOnFloat(float nbr) {
+  static float number = nbr;
+  return reinterpret_cast<char *>(&number);
+}
+
 char *wrjs_dummy_texture() {
   static char data[256 * 256 * 4];
   for (int d = 0; d < (256 * 256); ++d) {

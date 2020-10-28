@@ -1,10 +1,10 @@
 class WbScene {
   constructor(id) {
     this.id = id;
-
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     let mainFrameBuffer = _wr_frame_buffer_new();
     _wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
+    console.log(canvas.height);
     let mainFrameBufferTexture = _wr_texture_rtt_new();
     _wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
     _wr_texture_set_internal_format(mainFrameBufferTexture, 3);
@@ -25,18 +25,18 @@ class WbScene {
 class WbBaseNode {
   constructor(id){
     this.id = id;
-    this.mWrenObjectsCreatedCalled = false;
+    this.wrenObjectsCreatedCalled = false;
     this.parent = undefined;
-    this.mWrenNode = undefined;
+    this.wrenNode = undefined;
   }
 
   createWrenObjects() {
-    this.mWrenObjectsCreatedCalled = true;
+    this.wrenObjectsCreatedCalled = true;
 
     if (this.parent !== undefined) {
-      this.mWrenNode = this.parent.wrenNode;
+      this.wrenNode = this.parent.wrenNode;
     } else
-      this.mWrenNode = _wr_scene_get_root(_wr_scene_get_instance());
+      this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
   }
 }
 
@@ -75,12 +75,12 @@ class WbViewpoint extends WbBaseNode {
   createWrenObjects() {
     super.createWrenObjects();
 
-    this.mWrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
-    //wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
+    this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    //wr_viewport_set_visibility_mask(wrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
 
-    _wr_viewport_set_clear_color_rgb(this.mWrenViewport, _wrjs_color_array(0.5, 0.5, 0.8));
+    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.5, 0.5, 0.8));
 
-    this.mWrenCamera = _wr_viewport_get_camera(this.mWrenViewport);
+    this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
 
     this.applyPositionToWren();
     this.applyOrientationToWren();
@@ -91,33 +91,33 @@ class WbViewpoint extends WbBaseNode {
     //updateLensFlare();
     //updatePostProcessingEffects();
 
-    this.inverseViewMatrix = _wr_transform_get_matrix(this.mWrenCamera);
+    this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
 
     // once the camera and viewport are created, update everything in the world instance
     //WbWorld::instance()->setViewpoint(this);
   }
 
   applyPositionToWren() {
-    _wr_camera_set_position(this.mWrenCamera, _wrjs_color_array(this.position.x, this.position.y, this.position.z)) ;
+    _wr_camera_set_position(this.wrenCamera, _wrjs_color_array(this.position.x, this.position.y, this.position.z)) ;
   }
 
   applyOrientationToWren() {
-    _wr_camera_set_orientation(this.mWrenCamera, _wrjs_array4(this.orientation.w, this.orientation.x, this.orientation.y, this.orientation.z));
+    _wr_camera_set_orientation(this.wrenCamera, _wrjs_array4(this.orientation.w, this.orientation.x, this.orientation.y, this.orientation.z));
   }
 
   applyNearToWren() {
-    _wr_camera_set_near(this.mWrenCamera, this.zNear);
+    _wr_camera_set_near(this.wrenCamera, this.zNear);
   }
 
   applyFarToWren() {
     if (this.far > 0.0)
-      _wr_camera_set_far(this.mWrenCamera, this.far);
+      _wr_camera_set_far(this.wrenCamera, this.far);
     else
-      _wr_camera_set_far(this.mWrenCamera, WbViewpoint.DEFAULT_FAR);
+      _wr_camera_set_far(this.wrenCamera, 0);//DEFAULT_FAR ??? seems very far
   }
 
   applyFieldOfViewToWren() {
-    _wr_camera_set_fovy(this.mWrenCamera, this.mFieldOfViewY);
+    _wr_camera_set_fovy(this.wrenCamera, this.mFieldOfViewY);
   }
 }
 
@@ -150,11 +150,11 @@ class WbShape extends WbBaseNode {
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
-      createWrenMaterial(1); //enum
+      this.createWrenMaterial(1); //enum
     /*
     if (this.geometry) {
       if (this.appearance) {
-        if (this.appearance.mWrenObjectsCreatedCalled)
+        if (this.appearance.wrenObjectsCreatedCalled)
           console.error("appearance not implemented yet");
           //this.wrenMaterial = appearance()->modifyWrenMaterial(this.wrenMaterial);
         else
@@ -195,7 +195,7 @@ class WbGeometry extends WbBaseNode {
   }
 
   computeWrenRenderable() {
-    if (!this.mWrenObjectsCreatedCalled)
+    if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 
     //assert(wrenScaleTransform == NULL);
@@ -203,6 +203,7 @@ class WbGeometry extends WbBaseNode {
 
     this.wrenScaleTransform = _wr_transform_new();
     _wr_transform_attach_child(this.wrenNode, this.wrenScaleTransform);
+
     this.wrenNode = this.wrenScaleTransform;
 
     this.wrenRenderable = _wr_renderable_new();
@@ -210,7 +211,7 @@ class WbGeometry extends WbBaseNode {
     // used for rendering range finder camera
     if (!this.wrenEncodeDepthMaterial) {
       this.wrenEncodeDepthMaterial = _wr_phong_material_new();
-      _wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
+      //_wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
     }
 
     _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
@@ -250,17 +251,17 @@ class WbBox extends WbGeometry{
     super.createWrenObjects();
     super.computeWrenRenderable();
 
-    mWrenMesh = _wr_static_mesh_unit_box_new(false);
+    let wrenMesh = _wr_static_mesh_unit_box_new(false);
 
-    _wr_renderable_set_mesh(wrenRenderable, mWrenMesh);
+    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
 
-    updateSize();
+    this.updateSize();
 
     console.log("Box Done");
   }
 
   updateSize() {
-      _wr_transform_set_scale(wrenNode(), _wrjs_color_array(this.size.x, this.size.y, this.size.z));
+      _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
   }
 
 }
@@ -302,10 +303,10 @@ class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 4); //enum
 
       let minRange = 0.0;
-      let maxRange = 1.0;
+      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
 
-      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, minRange]); //enum
-      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, maxRange]); //enum
+      let maxRange = 1.0;
+      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(MaxRange)]); //enum
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../wren/shaders/encode_depth.vert", "../../wren/shaders/encode_depth.frag");
     }
@@ -326,7 +327,7 @@ class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 0); //enum
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 4); //enum
 
-      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], "../../wren/shaders/default.vert", "../../wren/shaders/default.frag");
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], "../../../resources/wren/shaders/default.vert", "../../../resources/wren/shaders/default.frag");
     }
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT];
