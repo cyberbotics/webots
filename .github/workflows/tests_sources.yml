@@ -34,7 +34,7 @@ jobs:
         #  - os: macos-10.15
         #    DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - os: windows-latest
-            DEPENDENCIES_INSTALLATION: "choco install cppcheck; export PATH=$PATH:C:\\Program Files\\Cppcheck"
+            DEPENDENCIES_INSTALLATION: "choco install cppcheck"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -50,6 +50,7 @@ jobs:
     - name: Tests
       if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
+        export PATH=$PATH:C:\\Program Files\\Cppcheck
         echo $PATH
         cppcheck --version
         cp dependencies/.clang-format-9 .clang-format
