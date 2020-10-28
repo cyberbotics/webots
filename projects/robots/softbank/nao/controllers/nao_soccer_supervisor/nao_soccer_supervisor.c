@@ -828,6 +828,7 @@ static void step() {
   if (step_count % attempt_frequency == 0) {
     open_tcp_connections();
 
+    // cppcheck-suppress knownConditionTrueFalse
     if (attempt_frequency < 256)
       attempt_frequency *= 2;
   }
