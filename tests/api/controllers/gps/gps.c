@@ -17,23 +17,29 @@ int main(int argc, char **argv) {
 
   r = wb_gps_get_values(gps);
   for (i = 0; i < 3; i++)
+    // clang-format off
+    // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
     ts_assert_double_equal(r[i], NAN, "The %c value measured by the GPS should be NaN and not %g before the device is enabled",
                            i == 0 ? 'X' :
                            i == 1 ? 'Y' :
                                     'Z',
                            r[i]);
+  // clang-format on
 
   wb_gps_enable(gps, TIME_STEP);
 
   r = wb_gps_get_values(gps);
 
   for (i = 0; i < 3; i++)
+    // clang-format off
+    // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
     ts_assert_double_equal(r[i], NAN,
                            "The %c value measured by the GPS should be NaN and not %g before a wb_robot_step is performed",
                            i == 0 ? 'X' :
                            i == 1 ? 'Y' :
                                     'Z',
                            r[i]);
+  // clang-format on
 
   int coordinate_system = wb_gps_get_coordinate_system(gps);
   ts_assert_int_equal(coordinate_system, WB_GPS_LOCAL_COORDINATE, "Wrong coordinate system returned");
@@ -42,12 +48,15 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     r = wb_gps_get_values(gps);
     for (i = 0; i < 3; i++)
+      // clang-format off
+      // clang-format 11.0.0 is not compatible with previous versions with respect to the conditional operator
       ts_assert_double_in_delta(r[i], e[i], 0.000001,
                                 "The %c value measured by the GPS should be %g and not %g after %d wb_robot_step(s)",
                                 i == 0 ? 'X' :
                                 i == 1 ? 'Y' :
                                          'Z',
                                 e[i], r[i], j);
+    // clang-format on
   }
 
   ts_send_success();
