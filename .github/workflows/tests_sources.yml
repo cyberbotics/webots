@@ -21,7 +21,7 @@ jobs:
     needs: cleanup-runs
     strategy:
       matrix:
-        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-latest]
         python: [2.7, 3.9]
         include:
           - os: ubuntu-16.04
@@ -32,6 +32,8 @@ jobs:
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
+          - os: windows-latest
+            DEPENDENCIES_INSTALLATION: "choco install cppcheck"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
