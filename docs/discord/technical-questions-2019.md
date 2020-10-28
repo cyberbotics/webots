@@ -16103,7 +16103,7 @@ Thank you !
 ##### David Mansolino [Cyberbotics] 10/29/2019 08:55:56
 You're welcome
 
-##### Oxygenious 10/29/2019 09:25:10
+##### Oxygenius 10/29/2019 09:25:10
 Hi everyone, 
 
 I have a question about the physics node. For example, if we design a robot with multiple hinge joints and hence multiple endsolids with defined physics node(weights and center of mass), does the robot's physics node have to  include all the weights of all its parts?
@@ -16122,7 +16122,7 @@ The Robot node derives the Solid node.
 
 You can monitor the overall mass (the sum of all the solids) by selecting the robot, and check the mass tab under the scene tree.
 
-##### Oxygenious 10/29/2019 09:29:51
+##### Oxygenius 10/29/2019 09:29:51
 Okay, thank you !
 
 ##### Fabien Rohrer [Moderator] 10/29/2019 09:30:12
@@ -16323,7 +16323,7 @@ The aim of this project is the assembly of large structure in space
 ##### Fabien Rohrer [Moderator] 10/30/2019 09:19:22
 If perhaps, we are always looking for funds 😜
 
-##### Oxygenious 10/30/2019 12:02:21
+##### Oxygenius 10/30/2019 12:02:21
 Hi!
 
 I was trying to make a stair climbing rover but i have a problem with friction as you can see in the world attached. I tried to change contact properties but it did not work.
@@ -16336,7 +16336,7 @@ And this is the controller
 > **Attachment**: [my\_controller.py](https://cdn.discordapp.com/attachments/565154703139405824/639071785932947469/my_controller.py)
 
 ##### Fabien Rohrer [Moderator] 10/30/2019 12:23:01
-`@Oxygenious` Hi, let me give a look..
+`@Oxygenius` Hi, let me give a look..
 
 
 Ok, I have your simulation running on my computer.
@@ -16356,13 +16356,13 @@ Once fixing this, the friction acts as expected.
 
 By the way, you have also several not-related warnings about density. You can fix them by changing these fields: Physics.density=-1 for each Physics node where you defined the Physics.mass
 
-##### Oxygenious 10/30/2019 12:46:52
+##### Oxygenius 10/30/2019 12:46:52
 when we fix the mass , shouldn't the density be ignored?
 
 ##### Fabien Rohrer [Moderator] 10/30/2019 12:47:41
 Yes, it's the case. My comment is just about how to remove the annoying warnings appearing in the Webots console (I looked at them first).
 
-##### Oxygenious 10/30/2019 12:49:57
+##### Oxygenius 10/30/2019 12:49:57
 Ah okay, so i fixed the typo but the robot still cannot climb the stairs.
 
 
@@ -16387,7 +16387,7 @@ setting both coulombFriction to 10 gives this result
 
 the hinge between the 2 front wheel and the body seems too fragile to support the impact 🙂
 
-##### Oxygenious 10/30/2019 13:01:09
+##### Oxygenius 10/30/2019 13:01:09
 I changed the (bois <=> caoutchouc) to 10 and I still have the same problem in the video
 
 ##### Fabien Rohrer [Moderator] 10/30/2019 13:04:10
@@ -16398,7 +16398,7 @@ I can solve this by setting IiEssieu1.jointParameters.spring/dampingConstant fie
 
 > **Attachment**: [rover.wbt](https://cdn.discordapp.com/attachments/565154703139405824/639087241494265899/rover.wbt)
 
-##### Oxygenious 10/30/2019 13:19:39
+##### Oxygenius 10/30/2019 13:19:39
 okay that's fixed the problem of the hingeJoint but I had another problem with stability as shown in this screenshot .
 %figure
 ![rover.png](https://cdn.discordapp.com/attachments/565154703139405824/639091045983977484/rover.png)
@@ -16416,7 +16416,7 @@ For example, if the spring/damping are too low the robot cannot climp the box, i
 
 I'm pretty sure a good tradeoff can be found, because this layout is used in real robots.
 
-##### Oxygenious 10/30/2019 13:27:16
+##### Oxygenius 10/30/2019 13:27:16
 Okay I will try to adjust some parameters to see if it works .
 
 Thank you very much !

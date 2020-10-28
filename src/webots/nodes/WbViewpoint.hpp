@@ -162,7 +162,7 @@ private:
   WbSFDouble *mAmbientOcclusionRadius;
   WbSFDouble *mBloomThreshold;
 
-  // post-prcoessing effects
+  // post-processing effects
   WbWrenSmaa *mWrenSmaa;
   WbWrenHdr *mWrenHdr;
   WbWrenGtao *mWrenGtao;
