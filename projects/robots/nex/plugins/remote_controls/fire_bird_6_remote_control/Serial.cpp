@@ -125,7 +125,8 @@ Serial::Serial(const string &port) : mName(port) {
     throwFatalException("Error getting the tty attributes");
   }
 
-#else  // __linux__
+#else
+  // __linux__
   mFd = open(mName.c_str(), O_RDWR | O_NOCTTY);
   if (mFd > 0) {
     tcflush(mFd, TCIOFLUSH);  // flush old data
