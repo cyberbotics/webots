@@ -1193,7 +1193,7 @@ function convertStringToVec2(s) {
   return v;
 }
 
-
+/*
 function convertStringToVec3(s) {
   s = s.split(/\s/);
   var v = new glm.vec3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
@@ -1202,13 +1202,7 @@ function convertStringToVec3(s) {
 
 function convertStringToQuaternion(s) {
   var pos = s.split(/\s/);
-  /*
-  var q = new THREE.Quaternion();
-  q.setFromAxisAngle(
-    new Module.Vector3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])),
-    parseFloat(pos[3])
-  );
-  */
+
   //GLM-JS
   var q = glm.angleAxis(parseFloat(pos[3]), new glm.vec3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])));
   return q;

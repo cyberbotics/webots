@@ -1,8 +1,8 @@
 class MyParser {
   constructor() {
     this.Nodes = [];
-
   }
+
   parse(text){
     console.log('X3D: Parsing');
 
@@ -17,18 +17,22 @@ class MyParser {
     }
 
     let scene = xml.getElementsByTagName('Scene')[0];
+    console.log(scene);
     if (scene === undefined) {
       console.error("Scene not found");
     } else {
       console.log("Une scene");
       this.parseNode(scene);
     }
-    console.log(scene);
+
+    _wr_scene_render(wr_scene_get_instance(), NULL, true);
+    console.log("FINI");
   }
 
   parseNode(node) {
     if(node.tagName === 'Scene') {
-      //new Scene();
+      let id = getNodeAttribute(node, 'id');
+      new WbScene(id);
       this.parseChildren(node);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
@@ -57,29 +61,75 @@ class MyParser {
   }
 
   parseViewpoint(node){
-    console.log("Un Viewpoint");
+    /*Information à disposition
+    Id
+    Orientation: vec4
+    Position: vec3
+    Exposure : float ou int
+    bloomThreshold: float ou int
+    zNear = float
+    followsmoothness
+    */
+    let id = getNodeAttribute(node, 'id');
+    let orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation'));
+    let position = convertStringToVec3(getNodeAttribute(node, 'position'));
+    let exposure = parseFloat(getNodeAttribute(node, 'exposure'));
+    let bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
+    let far = parseFloat(getNodeAttribute(node, 'far'));
+    let zNear = parseFloat(getNodeAttribute(node, 'zNear'));
+    let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
+
+    let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness);
   }
 
   parseShape(node){
     console.log("Une Shape");
-    let shape;
-    geometry = this.parseGeometry(node.childNodes[0]);
+    let id = getNodeAttribute(node, 'id');
+    let castShadows = getNodeAttribute(node, 'castShadows').toLowerCase() === 'true';
+
+    let shape = new WbShape(id, castShadows);
+
+    let geometry = this.parseGeometry(node.childNodes[0]);
     shape.geometry = geometry;
+    shape.createWrenObjects();
   }
 
   parseGeometry(node){
     let geometry;
     if(node.tagName === 'Box') {
-      geometry = parseBox(node);
+      geometry = this.parseBox(node);
     } else {
-      isGeometry = false
+      geometry = undefined
     }
     return geometry;
   }
 
   parseBox(node) {
-    let box;
     console.log("Une box");
-    return box;
+    let id = getNodeAttribute(node, 'id');
+    let size = convertStringToVec3(getNodeAttribute(node, 'size'));
+    if(size === undefined)
+      size = glm.vec3(0.1,0.1,0.1);
+
+    return new WbBox(id, size);
   }
+}
+
+function getNodeAttribute(node, attributeName) {
+  console.assert(node && node.attributes);
+  if (attributeName in node.attributes)
+    return node.attributes.getNamedItem(attributeName).value;
+  return undefined;
+}
+
+function convertStringToVec3(s) {
+  s = s.split(/\s/);
+  let v = new glm.vec3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+  return v;
+}
+
+function convertStringToQuaternion(s) {
+  let pos = s.split(/\s/);
+  let q = glm.angleAxis(parseFloat(pos[3]), new glm.vec3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])));
+  return q;
 }

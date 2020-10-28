@@ -38,7 +38,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //this.renderer.physicallyCorrectLights = true
     this.domElement.appendChild(this.renderer.domElement);
 
-
     //this.scene = new THREE.Scene();
     this.scene = new Scene();
     this.renderAllAtLoad = false;
@@ -154,8 +153,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.root = undefined;
     //this.scene.background = new Module.cwrap('wr_color_new','bonjour',[0, 0, 0]);
     //console.log(new Module.cwrap('wr_color_r', 'number',[this.scene.background]));
-    this.scene.background = Module._wr_color_new(8, 0, 0);
-    console.log(Module._wr_color_r(this.scene.background));
+    
     /*
     // Code to debug bloom passes.
     let geometry = new THREE.PlaneGeometry(5, 5);
@@ -232,9 +230,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     //let loader = new THREE.X3DLoader(this);
-    let loader = new X3dLoade(this);
-    loader.enableHDRReflections = this.enableHDRReflections;
-    let objects = loader.parse(x3dObject, parentObject);
+    let objects;
+    let loader;
+    if (false) {
+          loader = new X3dLoade(this);
+          loader.enableHDRReflections = this.enableHDRReflections;
+          objects = loader.parse(x3dObject, parentObject);
+    }else {
+      loader = new MyParser();
+      loader.parse(x3dObject);
+    }
+
     if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
     else {
