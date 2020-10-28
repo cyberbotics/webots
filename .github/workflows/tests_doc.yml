@@ -5,6 +5,8 @@ on:
     paths:
     - 'docs/**'
     - '.github/workflows/**'
+  schedule:
+    - cron:  '0 22 * * *'
 
 defaults:
   run:
