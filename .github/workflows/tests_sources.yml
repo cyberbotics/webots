@@ -6,10 +6,6 @@ on:
     paths-ignore:
       - 'docs/**'
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   cleanup-runs:
     runs-on: ubuntu-latest
