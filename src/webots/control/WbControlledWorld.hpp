@@ -37,7 +37,7 @@ public:
   void startController(WbRobot *robot);
 
   QStringList activeControllersNames() const;
-  bool needToWait();
+  bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
 
