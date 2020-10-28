@@ -19,7 +19,10 @@ int main(int argc, char **argv) {
   const double *position = wb_gps_get_values(gps);
   for (int i = 0; i < 3; i++)
     ts_assert_double_in_delta(position[i], expected_position[i], 0.0000001,
-                              "The %c value measured by the GPS should be %g and not %g", i == 0 ? 'X' : i == 1 ? 'Y' : 'Z',
+                              "The %c value measured by the GPS should be %g and not %g",
+                              i == 0 ? 'X' :
+                              i == 1 ? 'Y' :
+                                       'Z',
                               expected_position[i], position[i]);
 
   ts_send_success();

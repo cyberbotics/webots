@@ -38,12 +38,15 @@ int main() {
   return 0;
 }
 #else
-#include <fcntl.h>    /* definition of O_RDONLY and O_WRONLY */
-#include <stdio.h>    /* definition of sprintf, fprintf, sscanf and stderr */
-#include <stdlib.h>   /* definition of exit() */
-#include <string.h>   /* definition of strcpy() and strlen() */
-#include <sys/stat.h> /* definition of mknod() and S_IFIFO */
-#include <unistd.h>   /* definition of close() */
+// clang-format off
+// clang-format 11.0.0 has problems with AlignTrailingComments when the line starts with a hash (#).
+#include <fcntl.h>     // definition of O_RDONLY and O_WRONLY
+#include <stdio.h>     // definition of sprintf, fprintf, sscanf and stderr
+#include <stdlib.h>    // definition of exit()
+#include <string.h>    // definition of strcpy() and strlen()
+#include <sys/stat.h>  // definition of mknod() and S_IFIFO
+#include <unistd.h>    // definition of close()
+// clang-format on
 #include <webots/distance_sensor.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>

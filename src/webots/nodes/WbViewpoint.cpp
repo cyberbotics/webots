@@ -751,8 +751,9 @@ void WbViewpoint::updateFollowUp() {
     } else if (type == FOLLOW_TRACKING) {
       mEquilibriumVector += delta;
 
-      const double mass =
-        ((mFollowSmoothness->value() < 0.05) ? 0.0 : (mFollowSmoothness->value() > 1.0) ? 1.0 : mFollowSmoothness->value());
+      const double mass = ((mFollowSmoothness->value() < 0.05) ? 0.0 :
+                           (mFollowSmoothness->value() > 1.0)  ? 1.0 :
+                                                                 mFollowSmoothness->value());
       // If mass is 0, we instantly move the viewpoint to its equilibrium position.
       if (mass == 0.0) {
         // Moves the rotation point if a drag rotating the viewpoint is active
