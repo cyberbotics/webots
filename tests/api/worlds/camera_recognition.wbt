@@ -284,6 +284,7 @@ Robot {
       recognition DEF RECOGNITION Recognition {
         maxRange 5
         occlusion FALSE
+        segmentation TRUE
       }
     }
     TestSuiteEmitter {

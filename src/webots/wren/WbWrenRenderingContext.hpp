@@ -89,6 +89,7 @@ public:
 
   // post-processing effects for cameras
   enum {
+    PP_PASS_THROUGH,
     PP_GTAO,
     PP_SPHERICAL_CAMERA_MERGE,
     PP_LENS_DISTORTION,

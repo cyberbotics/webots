@@ -67,12 +67,13 @@ void WbRangeFinder::postFinalize() {
   connect(mResolution, &WbSFDouble::changed, this, &WbRangeFinder::updateResolution);
 }
 
-void WbRangeFinder::initializeSharedMemory() {
-  WbAbstractCamera::initializeSharedMemory();
+void WbRangeFinder::initializeImageSharedMemory() {
+  WbAbstractCamera::initializeImageSharedMemory();
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = rangeFinderImage();
-    for (int i = 0; i < width() * height(); i++)
+    const int size = width() * height();
+    for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
 }

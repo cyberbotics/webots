@@ -15,6 +15,8 @@
 #ifndef WB_RENDERING_DEVICE_WINDOW_HPP
 #define WB_RENDERING_DEVICE_WINDOW_HPP
 
+#include "WbRenderingDevice.hpp"
+
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QWindow>
 #ifdef _WIN32
@@ -24,7 +26,6 @@
 class QOpenGLContext;
 class QOpenGLShaderProgram;
 
-class WbRenderingDevice;
 class WbAbstractCamera;
 
 class WbRenderingDeviceWindow : public QWindow {
@@ -54,11 +55,14 @@ private:
   WbAbstractCamera *mAbstractCamera;
   GLuint mTextureGLId;
   GLuint mBackgroundTextureGLId;
+  GLuint mMaskTextureGLId;
   GLuint mForegroundTextureGLId;
   GLuint mMaxRangeUniform;
   GLuint mImageUniform;
   GLuint mBackgroundTextureUniform;
+  GLuint mMaskTextureUniform;
   GLuint mForegroundTextureUniform;
+  GLuint mActiveTexturesUniform;
   GLuint mVaoId;
   GLuint mVboId[2];
   bool mInitialized;
@@ -75,9 +79,7 @@ private:
 private slots:
   void renderNow();
   void requestUpdate();
-  void updateTextureGLId(int id);
-  void updateBackgroundTextureGLId(int id);
-  void updateForegroundTextureGLId(int id);
+  void updateTextureGLId(int id, WbRenderingDevice::TextureRole);
   void closeFromMainWindow();
 };
 

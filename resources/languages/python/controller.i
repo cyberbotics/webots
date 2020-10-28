@@ -361,6 +361,27 @@ class AnsiCodes(object):
        ret.append(self.getRecognitionObject(i))
      return ret
   %}
+
+  PyObject *getRecognitionSegmentationImageArray() {
+    const unsigned char *im = $self->getRecognitionSegmentationImage();
+    int width = $self->getWidth();
+    int height = $self->getHeight();
+    PyObject *ret = Py_None;
+    if (im) {
+      ret = PyList_New(width);
+      for (int x = 0; x < width; ++x) {
+        PyObject *dim2 = PyList_New(height);
+        PyList_SetItem(ret, x, dim2);
+        for (int y = 0; y < height; ++y) {
+          PyObject *dim3 = PyList_New(3);
+          PyList_SetItem(dim2, y, dim3);
+          for (int ch = 0; ch < 3; ++ch)
+            PyList_SetItem(dim3, ch, PyInt_FromLong((unsigned int)(im[4 * (x + y * width) + 2 - ch])));
+        }
+      }
+    }
+    return ret;
+  }
 };
 
 %include <webots/Camera.hpp>

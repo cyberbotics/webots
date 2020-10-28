@@ -53,6 +53,7 @@ int WbGeometry::maxIndexNumberToCastShadows() {
 void WbGeometry::init() {
   mWrenMaterial = NULL;
   mWrenEncodeDepthMaterial = NULL;
+  mWrenSegmentationMaterial = NULL;
   mWrenMesh = NULL;
   mWrenRenderable = NULL;
   mWrenScaleTransform = NULL;
@@ -99,6 +100,19 @@ void WbGeometry::postFinalize() {
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
             &WbGeometry::updateBoundingObjectVisibility);
+  else {
+    const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
+    while (solid) {
+      if (solid->recognitionColorSize() > 0) {
+        setSegmentationColor(solid->recognitionColor(0));
+        break;
+      }
+      solid = WbNodeUtilities::findUpperSolid(solid);
+    }
+
+    if (!solid)
+      setSegmentationColor(WbRgb(0.0, 0.0, 0.0));
+  }
 }
 
 void WbGeometry::destroyOdeObjects() {
@@ -180,6 +194,14 @@ void WbGeometry::setPickable(bool pickable) {
 
   mPickable = pickable && isShadedGeometryPickable();
   WbWrenPicker::setPickable(mWrenRenderable, uniqueId(), pickable);
+}
+
+void WbGeometry::setSegmentationColor(const WbRgb &color) {
+  if (!mWrenRenderable || !mWrenSegmentationMaterial || isInBoundingObject())
+    return;
+
+  const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
+  wr_phong_material_set_linear_diffuse(mWrenSegmentationMaterial, segmentationColor);
 }
 
 ///////////////////
@@ -314,8 +336,14 @@ void WbGeometry::computeWrenRenderable() {
     mWrenEncodeDepthMaterial = wr_phong_material_new();
     wr_material_set_default_program(mWrenEncodeDepthMaterial, WbWrenShaders::encodeDepthShader());
   }
-
   wr_renderable_set_material(mWrenRenderable, mWrenEncodeDepthMaterial, "encodeDepth");
+
+  // used for rendering segmentation camera
+  if (!mWrenSegmentationMaterial) {
+    mWrenSegmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(mWrenSegmentationMaterial, WbWrenShaders::segmentationShader());
+  }
+  wr_renderable_set_material(mWrenRenderable, mWrenSegmentationMaterial, "segmentation");
 
   wr_transform_attach_child(mWrenScaleTransform, WR_NODE(mWrenRenderable));
 
@@ -336,6 +364,10 @@ void WbGeometry::deleteWrenRenderable() {
     // Delete encode depth material
     wr_material_delete(mWrenEncodeDepthMaterial);
     mWrenEncodeDepthMaterial = NULL;
+
+    // Delete camera segmentation material
+    wr_material_delete(mWrenSegmentationMaterial);
+    mWrenSegmentationMaterial = NULL;
 
     // Delete picking material
     wr_material_delete(wr_renderable_get_material(mWrenRenderable, "picking"));

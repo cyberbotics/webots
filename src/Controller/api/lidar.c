@@ -168,7 +168,7 @@ static void lidar_toggle_remote(WbDevice *d, WbRequest *r) {
   Lidar *l = ac->pdata;
   if (ac->sampling_period != 0) {
     ac->enable = true;
-    ac->image_requested = true;
+    ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_lidar_set_frequency"))
       l->set_frequency = true;
   }
@@ -398,19 +398,19 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
-    return (const float *)(void *)ac->image;
+    return (const float *)(void *)ac->image->data;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, __FUNCTION__);
+  bool success = image_request(ac->image, __FUNCTION__);
   robot_mutex_unlock_step();
 
-  if (!ac->image || !success)
+  if (!ac->image->data || !success)
     return NULL;
 
   if (ac->sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
 
-  return (const float *)(void *)ac->image;
+  return (const float *)(void *)ac->image->data;
 }
 
 const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {

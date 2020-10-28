@@ -1079,7 +1079,7 @@ void WbDisplay::createWrenOverlay() {
   else
     mOverlay->setVisible(true, areOverlaysEnabled());
 
-  emit textureIdUpdated(mOverlay->textureGLId());
+  emit textureIdUpdated(mOverlay->textureGLId(), MAIN_TEXTURE);
 
   WbWrenOpenGlContext::doneWren();
 }
@@ -1116,7 +1116,7 @@ void WbDisplay::attachCamera(WbDeviceTag cameraTag) {
     foreach (WbImageTexture *imageTexture, mImageTextures)
       imageTexture->setBackgroundTexture(texture);
 
-    emit backgroundTextureIdUpdated(mOverlay->backgroundTextureGLId());
+    emit textureIdUpdated(mOverlay->backgroundTextureGLId(), BACKGROUND_TEXTURE);
     // clear the alpha channel so that the background image is visible
     const int size = width() * height();
     for (int i = 0; i < size; i++) {
@@ -1136,7 +1136,7 @@ void WbDisplay::detachCamera() {
       imageTexture->unsetBackgroundTexture();
 
     mAttachedCamera = NULL;
-    emit backgroundTextureIdUpdated(0);
+    emit textureIdUpdated(0, BACKGROUND_TEXTURE);
   }
 }
 

@@ -123,10 +123,19 @@
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
 #define C_CAMERA_SHARED_MEMORY 8
+// ctr <-> sim
+#define C_CAMERA_GET_IMAGE 9
+
+// for the camera recognition
 // ctr -> sim
-#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 9
-#define C_CAMERA_GET_IMAGE 10
-#define C_CAMERA_OBJECTS 11
+#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 10
+#define C_CAMERA_ENABLE_SEGMENTATION 11
+// sim -> ctr
+#define C_CAMERA_OBJECTS 12
+#define C_CAMERA_SEGMENTATION_SHARED_MEMORY 13
+#define C_CAMERA_SET_SEGMENTATION 14
+// ctr <-> sim
+#define C_CAMERA_GET_SEGMENTATION_IMAGE 15
 
 // for the emitter device
 // ctr -> sim

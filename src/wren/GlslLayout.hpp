@@ -110,9 +110,9 @@ namespace wren {
       glm::vec4 mDefaultSize;      // x,y: size, z: render default size instead of actual overlay
       glm::vec4 mBorderColor;
       glm::vec4 mBackgroundColor;
-      glm::vec4 mActiveFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
       glm::vec4 mTextureFlags;  // x: flip vertically, y: additional texture count, z:  maxRange (depth textures only),
                                 // w: overlay transparency
+      glm::uvec2 mActiveFlags;  // x: active textures, y: border
       glm::vec2 mSizeInPixels;  // x,y: size in screen pixels
       glm::vec2 mBorderSize;    // x: vertical size, y: horizontal size
     };

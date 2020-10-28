@@ -24,6 +24,7 @@
 
 #include "WbBaseNode.hpp"
 #include "WbOdeTypes.hpp"
+#include "WbRgb.hpp"
 #include "WbRotation.hpp"
 #include "WbVector2.hpp"
 
@@ -147,6 +148,7 @@ protected:
   // Wren
   WrMaterial *mWrenMaterial;
   WrMaterial *mWrenEncodeDepthMaterial;
+  WrMaterial *mWrenSegmentationMaterial;
   WrStaticMesh *mWrenMesh;
   WrRenderable *mWrenRenderable;
   WrTransform *mWrenScaleTransform;
@@ -189,6 +191,7 @@ private:
   void init();
 
   void applyVisibilityFlagToWren(bool selected);
+  void setSegmentationColor(const WbRgb &color);
   virtual void createResizeManipulator() {}
 
   // ODE info

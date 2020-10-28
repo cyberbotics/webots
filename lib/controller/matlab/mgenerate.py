@@ -93,6 +93,11 @@ gen(PROC, "wb_camera_recognition_enable(tag, sampling_period)", "camera")
 gen(FUNC, "wb_camera_recognition_get_number_of_objects(tag)", "camera")
 #  gen(FUNC, "wb_camera_recognition_get_objects(tag)", "camera")
 gen(FUNC, "wb_camera_recognition_get_sampling_period(tag)", "camera")
+# gen(FUNC, "wb_camera_recognition_get_segmentation_image(tag)", "camera")")
+gen(PROC, "wb_camera_recognition_disable_segmentation(tag)", "camera")
+gen(PROC, "wb_camera_recognition_enable_segmentation(tag)", "camera")
+gen(FUNC, "wb_camera_recognition_has_segmentation(tag)", "camera")
+gen(FUNC, "wb_camera_recognition_save_segmentation_image(tag, filename, quality)", "camera")
 gen(FUNC, "wb_camera_save_image(tag, filename, quality)", "camera")
 
 # compass.h

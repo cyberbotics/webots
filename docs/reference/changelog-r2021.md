@@ -12,6 +12,7 @@ Released on December XXth, 2020.
     - **Added a new argument to the [Supervisor](supervisor.md) [`wb_supervisor_node_get_number_of_contact_points`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) API function to retrieve the number of contact points including those of the desendant nodes ([#2228](https://github.com/cyberbotics/webots/pull/2228)).**
     - Added a new [`wb_supervisor_node_get_contact_point_node`](supervisor.md#wb_supervisor_node_get_contact_point_node) [Supervisor](supervisor.md) API function to get the node reference associated to a given contact point ([#2228](https://github.com/cyberbotics/webots/pull/2228)).
     - Added two new functions to the [Camera](camera.md) API called [`wb_camera_get_exposure`](camera.md#wb_camera_get_exposure) and [`wb_camera_set_exposure`](camera.md#wb_camera_set_exposure) to retrieve and change the [Camera](camera.md) exposure ([#2363](https://github.com/cyberbotics/webots/pull/2363)).
+    - Added a new functionality in the [Recognition](recognition.md) node and [Camera](camera.md) API for generating segmented ground truth images ([#2199](https://github.com/cyberbotics/webots/pull/2199)).
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**
     - **Changed ROS message type published by the [GPS](gps.md) node when it is configured to work in `local` GPS coordinate system ([#2368](https://github.com/cyberbotics/webots/pull/2368))**.

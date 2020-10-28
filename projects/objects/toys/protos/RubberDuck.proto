@@ -31,6 +31,7 @@ PROTO RubberDuck [
     translation IS translation
     rotation IS rotation
     scale %{= scale }% %{= scale }% %{= scale }%
+    recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
       DEF BEAK Transform {
         translation 0 0.05868 0.0394

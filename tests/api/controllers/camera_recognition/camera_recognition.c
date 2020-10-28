@@ -28,13 +28,75 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
   int object_number = wb_camera_recognition_get_number_of_objects(camera);
   ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 1,
-                      "The camera should initialy see %d objects and not %d (without occlusion).", VISIBLE_SOLID_NUMBER + 1,
+                      "The camera should initially see %d objects and not %d (without occlusion).", VISIBLE_SOLID_NUMBER + 1,
                       object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
   wb_supervisor_field_set_sf_bool(occlusion_field, true);
+
+  ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
+                          "The Recognition.segmentation field should be set to TRUE.");
+  const unsigned char *image = wb_camera_recognition_get_segmentation_image(camera);
+  ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentaton is disabled.");
+
+  wb_robot_step(TIME_STEP);
+
+  // enable segmentation
+  wb_camera_recognition_enable_segmentation(camera);
+
+  wb_robot_step(TIME_STEP);
+  // check segmentation image
+  image = wb_camera_recognition_get_segmentation_image(camera);
+  ts_assert_boolean_not_equal(
+    image == NULL, "The camera segmentation image should not be NULL after enabling the segmented image generation.");
+  const int width = wb_camera_get_width(camera);
+  int red, green, blue;
+  red = wb_camera_image_get_red(image, width, 215, 124);
+  ts_assert_int_in_delta(red, 193, 5, "Image should contain a red sphere at (215, 124): found red channel %d expected %d.", red,
+                         193);
+  red = wb_camera_image_get_red(image, width, 35, 71);
+  ts_assert_int_in_delta(
+    red, 255, 5, "Image should contain a red L shaped geometry at (35, 71): found red channel %d expected %d.", red, 255);
+  red = wb_camera_image_get_red(image, width, 95, 77);
+  green = wb_camera_image_get_red(image, width, 95, 77);
+  blue = wb_camera_image_get_red(image, width, 95, 77);
+  ts_assert_color_in_delta(red, green, blue, 0, 0, 0, 2,
+                           "Image should not contain any object at (95, 77): found color (%d, %d, %d) expected (%d, %d, %d).",
+                           red, green, blue, 0, 0, 0);
+  red = wb_camera_image_get_red(image, width, 85, 200);
+  green = wb_camera_image_get_green(image, width, 85, 200);
+  blue = wb_camera_image_get_blue(image, width, 85, 200);
+  ts_assert_color_in_delta(red, green, blue, 0, 255, 0, 5,
+                           "Image should contain a green box at (85, 200)): found color (%d, %d, %d) expected (%d, %d, %d).",
+                           red, green, blue, 0, 255, 0);
+  red = wb_camera_image_get_red(image, width, 52, 124);
+  green = wb_camera_image_get_green(image, width, 52, 124);
+  blue = wb_camera_image_get_blue(image, width, 52, 124);
+  ts_assert_color_in_delta(red, green, blue, 0, 0, 255, 5,
+                           "Image should contain a blue sphere at (54, 124)): found color (%d, %d, %d) expected (%d, %d, %d).",
+                           red, green, blue, 0, 0, 255);
+
+  ts_assert_boolean_equal(
+    wb_camera_recognition_save_segmentation_image(camera, "segmentation.jpg", 100) != -1,
+    "Camera recognition segmentation image did not save correctly (wb_camera_recognition_save_segmentation_image returned -1)");
+
+  wb_robot_step(TIME_STEP);
+  // disable segmentation
+  wb_camera_recognition_disable_segmentation(camera);
+  image = wb_camera_recognition_get_segmentation_image(camera);
+  ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentation is disabled.");
+
+  remove("segmentation.jpg");
+
+  WbFieldRef segmentation_field = wb_supervisor_node_get_field(recognition_node, "segmentation");
+  wb_supervisor_field_set_sf_bool(segmentation_field, false);
+
+  wb_robot_step(TIME_STEP);
+
+  ts_assert_boolean_not_equal(wb_camera_recognition_has_segmentation(camera),
+                              "Camera recognition segmentation should be FALSE after changing the field value.");
 
   wb_robot_step(TIME_STEP);
   object_number = wb_camera_recognition_get_number_of_objects(camera);
