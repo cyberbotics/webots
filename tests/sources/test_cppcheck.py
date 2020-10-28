@@ -17,7 +17,6 @@
 """Test quality of the source code using Cppcheck."""
 import unittest
 import os
-import sys
 import multiprocessing
 
 from distutils.spawn import find_executable
@@ -30,10 +29,7 @@ class TestCppCheck(unittest.TestCase):
         """Set up called before each test."""
         self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
-        if ('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and sys.platform.startswith('linux'):
-            self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
-        else:
-            self.cppcheck = 'cppcheck'
+        self.cppcheck = 'cppcheck'
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
 
     def test_cppcheck_is_correctly_installed(self):
