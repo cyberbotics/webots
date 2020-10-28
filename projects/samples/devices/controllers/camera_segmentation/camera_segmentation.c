@@ -18,8 +18,8 @@
  * Description:  An example of use of a camera device with recognition segmentation capability.
  */
 
-#include <webots/display.h>
 #include <webots/camera.h>
+#include <webots/display.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
@@ -29,7 +29,6 @@
 int main() {
   WbDeviceTag camera, display, left_motor, right_motor;
   WbImageRef segmented_image;
-  const unsigned char *data;
 
   wb_robot_init();
 
@@ -59,7 +58,7 @@ int main() {
   /* Main loop */
   while (wb_robot_step(TIME_STEP) != -1) {
     /* Get the segmented image and display it in the Display */
-    data = wb_camera_recognition_get_segmentation_image(camera);
+    const unsigned char *data = wb_camera_recognition_get_segmentation_image(camera);
     segmented_image = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
     wb_display_image_paste(display, segmented_image, 0, 0, false);
     wb_display_image_delete(display, segmented_image);
