@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Soft\_illusion 10/26/2020 22:30:31
+We are back with the third episode of the Webots ROS2 video tutorial series . Video 3: Using ROS2 Services to interact with Webots. [https://www.youtube.com/watch?v=JS6rwZ3Yql8](https://www.youtube.com/watch?v=JS6rwZ3Yql8). Stay tuned for more upcoming interesting episodes. @everyone
+
 ##### Soft\_illusion 10/19/2020 00:56:39
 We are back with the second episode of the Webots ROS2 video tutorial series . Video 2: Different examples in Webots with ROS2. [https://www.youtube.com/watch?v=MOEkD8iWchw](https://www.youtube.com/watch?v=MOEkD8iWchw). Stay tuned for more upcoming interesting episodes. @everyone
 

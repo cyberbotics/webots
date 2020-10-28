@@ -1462,3 +1462,6 @@ is there any example code for a 4 wheeled robot with line following and obstacle
 
 the e-puck has only two wheels, but you should be able to easily apply it to a 4-wheeled robot
 
+##### Soft\_illusion 10/26/2020 00:15:02
+`@Meenakshi Prabhakar` and `@Stefania Pedrazzi` have a look at [https://youtu.be/l0JuUM58nOs](https://youtu.be/l0JuUM58nOs) there is also a tutorial to make a custom 4 wheel robot in this series.
+
