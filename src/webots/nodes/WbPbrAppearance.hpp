@@ -80,7 +80,7 @@ protected:
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
-  double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
+  double getRedValueInTexture(WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();
 
