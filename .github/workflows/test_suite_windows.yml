@@ -38,4 +38,6 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
-        ls .
+        cat scripts/install/bash_profile.windows >> ~/.bash_profile
+        ./scripts/install/msys64_installer.sh --all
+        make distrib -j4
