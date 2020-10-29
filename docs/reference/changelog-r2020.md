@@ -13,7 +13,7 @@ Released on XXX YYY, 2020.
     - Fixed values returned by the [Supervisor](supervisor.md) [get field value](supervisor.md#wb_supervisor_field_get_sf_bool) functions after [setting](supervisor.md#wb_supervisor_field_set_sf_bool) the field value in the same controller step ([#2375](https://github.com/cyberbotics/webots/pull/2375)).
     - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
     - Fixed recording of movies which was broken when the [WorldInfo](worldinfo.md).`basicTimeStep` was greater than 40 ([#2268](https://github.com/cyberbotics/webots/pull/2268)).
-    - Fixed recording of movie canceled on simulation revert if recording is started from a [Supervisor](supervisor.md#wb_supervisor_movie_start_recording) controller ([#2406](https://github.com/cyberbotics/webots/pull/2406)).
+    - Fixed recording of movie canceled on simulation reset if recording is started from a [Supervisor](supervisor.md#wb_supervisor_movie_start_recording) controller ([#2406](https://github.com/cyberbotics/webots/pull/2406)).
     - macOS: Fixed handling of <kbd>Ctrl</kbd> key from the [Keyboard](keyboard.md) API ([#2265](https://github.com/cyberbotics/webots/pull/2265)).
     - Fixed synchronization bug in the start up of extern controllers when the `WEBOTS_PID` environment variable was defined ([#2260](https://github.com/cyberbotics/webots/pull/2260)).
     - Fixed large amount of CPU resources consumed by Webots in run mode when waiting for extern controllers ([#2377](https://github.com/cyberbotics/webots/pull/2377)).
