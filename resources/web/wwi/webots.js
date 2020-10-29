@@ -237,7 +237,7 @@ webots.View = class View {
             user = '';
           let worldInfoTitle;
           if (typeof this.x3dScene !== 'undefined')
-            worldInfoTitle = this.x3dScene.worldInfo.title;
+            worldInfoTitle = "Test";//this.x3dScene.worldInfo.title;
           else
             worldInfoTitle = this.multimediaClient.worldInfo.title;
           win.setProperties({
@@ -345,7 +345,7 @@ webots.View = class View {
       let infoWindowName;
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
-        infoWindowName = this.x3dScene.worldInfo.window;
+        infoWindowName = "TestWindow";//this.x3dScene.worldInfo.window;
       } else if (this.multimediaClient) {
         windowsDict = this.multimediaClient.robotWindows;
         infoWindowName = this.multimediaClient.worldInfo.infoWindow;

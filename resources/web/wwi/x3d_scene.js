@@ -6,7 +6,7 @@
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
-    this.root = undefined;
+    /*this.root = undefined;
     this.worldInfo = {};
     this.viewpoint = undefined;
     this.sceneModified = false;
@@ -23,12 +23,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     const glVendor = gl.getParameter(gl.VENDOR);
     this.enableHDRReflections = glVendor !== 'Mozilla';
     if (!this.enableHDRReflections)
-      console.warn('HDR reflections are not implemented for the current hardware.');
+      console.warn('HDR reflections are not implemented for the current hardware.');*/
   }
 
   init(texturePathPrefix = '') {
     //this.renderer = new THREE.WebGLRenderer();
-    this.renderer = new WebGL2Renderer();
+    this.renderer = new WrenRenderer();
     //this.renderer.setPixelRatio(window.devicePixelRatio);
     //this.renderer.setClearColor(0xffffff, 1.0);
     //this.renderer.shadowMap.enabled = true;
@@ -36,11 +36,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //this.renderer.gammaInput = false;
     //this.renderer.gammaOutput = false;
     //this.renderer.physicallyCorrectLights = true
-    this.domElement.appendChild(this.renderer.domElement);
+    //this.domElement.appendChild(this.renderer.domElement);
 
     //this.scene = new THREE.Scene();
-    this.scene = new Scene();
-    this.renderAllAtLoad = false;
+    //this.scene = new Scene();
+    //this.renderAllAtLoad = false;
 
     this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = (updateScene) => {
@@ -66,9 +66,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     // add antialiasing post-processing effects
     //this.composer = new THREE.EffectComposer(this.renderer);
-    this.composer = new EffectComposer(this.renderer);
-    let renderPass = new RenderPass(this.scene, this.viewpoint.camera);
-    this.composer.addPass(renderPass);
+    //this.composer = new EffectComposer(this.renderer);
+    //let renderPass = new RenderPass(this.scene, this.viewpoint.camera);
+    //this.composer.addPass(renderPass);
 
     //this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
     //this.composer.addPass(this.bloomPass);
@@ -106,16 +106,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       return;
     }
 
-    // Apply pass uniforms.
-    //this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
-    //this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
-    //this.bloomPass.enabled = this.bloomPass.threshold >= 0;
-
-    if (typeof this.preRender === 'function')
-      this.preRender(this.scene, this.viewpoint.camera);
-    this.composer.render();
-    if (typeof this.postRender === 'function')
-      this.postRender(this.scene, this.viewpoint.camera);
+    this.renderer.render();//this.composer.render();
 
     this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this.renderingTimeout);
@@ -143,6 +134,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   destroyWorld() {
+    /*
     this.selector.clearSelection();
     if (!this.scene)
       return;
@@ -163,10 +155,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.scene.add(plane);
     */
 
-    this.onSceneUpdate();
+    //this.onSceneUpdate();
   }
 
-  deleteObject(id) {
+  deleteObject(id) {/*
     let context = {};
     let object = this.getObjectById('n' + id, false, 'scene', context);
     if (typeof object !== 'undefined') {
@@ -189,10 +181,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
     if (object === this.root)
       this.root = undefined;
-    this.onSceneUpdate();
+    this.onSceneUpdate();*/
   }
 
-  loadWorldFile(url, onLoad) {
+  loadWorldFile(url, onLoad) {/*
     this.objectsIdCache = {};
     //let loader = new THREE.X3DLoader(this);
     let loader = new X3dLoade(this);
@@ -221,15 +213,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
       this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
-      */
-    });
+
+    });*/
   }
 
   loadObject(x3dObject, parentId) {
     let parentObject;
-    if (parentId && parentId !== 0)
-      parentObject = this.getObjectById('n' + parentId);
-    //let loader = new THREE.X3DLoader(this);
     let objects;
     let loader;
     if (false) {
@@ -241,30 +230,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
       loader.parse(x3dObject);
     }
 
-
-    if (typeof parentObject !== 'undefined')
-      this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
-    else {
-      console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
-      objects.forEach((o) => { this.scene.add(o); });
-      this.root = objects[0];
-    }
-    this._setupLights(loader.directionalLights);
-    this._setupEnvironmentMap();
-    if (typeof parentObject === 'undefined') {
-      // Render all the objects at scene load.
-      // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
-      /*
-      this.scene.traverse((o) => {
-        o.frustumCulled = false;
-      });
-      */
-      this.renderAllAtLoad = true;
-    }
-    this.onSceneUpdate();
+    //this.onSceneUpdate();
   }
 
-  applyPose(pose, appliedFields = []) {
+  applyPose(pose, appliedFields = []) {/*
     let id = pose.id;
     let fields = appliedFields;
     for (let key in pose) {
@@ -321,7 +290,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
       this._updateUseNodesIfNeeded(object, id);
     }
-    return fields;
+    return fields;*/
   }
 
   pick(relativePosition, screenPosition) {
@@ -338,12 +307,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   getCamera() {
-    return this.viewpoint.camera;
+    //return this.viewpoint.camera;
   }
 
   getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
-    let upmostSolid;
+    /*let upmostSolid;
     while (node) {
       if (node.userData && node.userData.solid)
         upmostSolid = node;
@@ -353,10 +322,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
     if (typeof upmostSolid !== 'undefined')
       return upmostSolid;
-    return node;
+    return node;*/
   }
 
-  getObjectById(id, skipBoundingObject = false, object = 'scene', context = {}) {
+  getObjectById(id, skipBoundingObject = false, object = 'scene', context = {}) {/*
     // @param 'object':
     //     Global case: object is the root object in which to search for.
     //     Special case to have a good default value: if object === 'scene', then the scene is used.
@@ -465,7 +434,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
       // only fields set in x3d.js are checked
     }
-    return undefined;
+    return undefined;*/
   }
 
   getRobotWindows() {
@@ -560,7 +529,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     */
   }
 
-  _setupEnvironmentMap() {
+  _setupEnvironmentMap() {/*
     let isHDR = false;
     let backgroundMap;
     if (this.scene.background) {
@@ -591,7 +560,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });*/
   }
 
-  _updateUseNodesIfNeeded(object, id) {
+  _updateUseNodesIfNeeded(object, id) {/*
     if (!object)
       return;
 
@@ -641,6 +610,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
         newTargetNodes.push(newClone);
       }
       this.useNodeCache[id].target = newTargetNodes;
-    }
+    }*/
   }
 }

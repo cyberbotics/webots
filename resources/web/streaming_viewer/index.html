@@ -9,11 +9,10 @@
     <link type="text/css" rel="stylesheet" href='../wwi/wwi.css' />
     <link type="text/css" rel="stylesheet" href='style.css' />
   </head>
-  <canvas id="canvas"></canvas>
   <body>
     <div style="padding-left:10px;height:100px">
       <h1>Webots streaming viewer</h1>
-      <p> Connect to: <input id="IPInput" type="text" value="localhost" /> : <input id="PortInput" type="text" value="1234" maxlength="5" size="5" /> mode:
+      <p> Connect to: <input id="IPInput" type="text" value="10.111.1.98" /> : <input id="PortInput" type="text" value="1234" maxlength="5" size="5" /> mode:
         <select id="mode">
           <option value="x3d">X3D</option>
           <option value="mjpeg">MJPEG</option>
@@ -22,6 +21,7 @@
       </p>
     </div>
     <div id="playerDiv" style="height:calc(100% - 120px)">
+      <canvas id="canvas"></canvas>
     </div>
     <script src='https://code.jquery.com/jquery-3.1.1.min.js' integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=' crossorigin='anonymous'></script>
     <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous'></script>

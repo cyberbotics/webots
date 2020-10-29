@@ -24,9 +24,9 @@ class MyParser {
       console.log("Une scene");
       this.parseNode(scene);
     }
-
     _wr_scene_render(_wr_scene_get_instance(), null, true);
-    console.log("FINI");
+
+    console.log("File Parsed");
   }
 
   parseNode(node) {

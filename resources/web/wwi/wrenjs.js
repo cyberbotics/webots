@@ -1,6 +1,7 @@
 class WbScene {
   constructor(id) {
     this.id = id;
+    console.log("Scene done");
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     let mainFrameBuffer = _wr_frame_buffer_new();
     _wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
@@ -17,8 +18,6 @@ class WbScene {
     _wr_viewport_set_size(vp, canvas.width, canvas.height);
     _wr_gl_state_set_context_active(true);
     _wr_scene_init(_wr_scene_get_instance());
-
-    console.log("Scene done");
   }
 }
 
@@ -292,8 +291,14 @@ class WbWrenShaders {
     //WbWrenOpenGlContext::doneWren();
 
     if (!_wr_shader_program_get_gl_name(shader)) {
-      console.error("Shader compilation failed!");
-      console.error(_wr_shader_program_get_compilation_log(shader)+"\n");
+      console.error("Shader Error");
+      if (_wr_shader_program_has_vertex_shader_compilation_failed(shader))
+        console.error("Vertex shader compilation failed");
+      else if (_wr_shader_program_has_fragment_shader_compilation_failed(shader))
+        console.error("Fragment shader compilation failed");
+      else
+        console.error("Linkage failed");
+
     }
   }
 
@@ -311,7 +316,7 @@ class WbWrenShaders {
       let maxRange = 1.0;
       Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(MaxRange)]); //enum
 
-      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../wren/shaders/encode_depth.vert", "../../wren/shaders/encode_depth.frag");
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../../wren/shaders/encode_depth.vert", "../../../wren/shaders/encode_depth.frag");
     }
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH];
@@ -394,3 +399,22 @@ WbWrenShaders.SHADER = { //enum
     SHADER_SMAA_FINAL_BLEND_PASS : 51,
     SHADER_COUNT : 52
   };
+
+  class WrenRenderer {
+    constructor () {
+    }
+
+    setSize ( width, height ) {
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    render() {
+      try {
+        _wr_scene_render(_wr_scene_get_instance(), null, true);
+      }
+      catch(error) {
+        console.log("context not init");
+      }
+    }
+  }
