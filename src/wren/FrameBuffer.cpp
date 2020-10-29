@@ -112,7 +112,12 @@ namespace wren {
         drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
     }
 
+#ifdef __EMSCRIPTEN__
+    drawBuffers.insert(drawBuffers.begin(), GL_BACK);
+    glDrawBuffers(1, &drawBuffers[0]);
+#else
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
+#endif
   }
 
   void FrameBuffer::blitToScreen() {

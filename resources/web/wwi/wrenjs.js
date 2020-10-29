@@ -1,20 +1,9 @@
 class WbScene {
   constructor(id) {
     this.id = id;
-    console.log("Scene done");
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
-    let mainFrameBuffer = _wr_frame_buffer_new();
-    _wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
-    console.log(canvas.height);
-    //let mainFrameBufferTexture = _wr_texture_rtt_new();
-    //_wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
-    //_wr_texture_set_internal_format(mainFrameBufferTexture, 3);
-    //_wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
-    _wr_frame_buffer_enable_depth_buffer(mainFrameBuffer, true);
-    //_wr_frame_buffer_setup(mainFrameBuffer);
 
     let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
-    _wr_viewport_set_frame_buffer(vp, mainFrameBuffer);
     _wr_viewport_set_size(vp, canvas.width, canvas.height);
     _wr_gl_state_set_context_active(true);
     _wr_scene_init(_wr_scene_get_instance());
@@ -69,7 +58,6 @@ class WbViewpoint extends WbBaseNode {
     this.wrenCamera = undefined;
 
     this.createWrenObjects();
-    console.log("Viewpoint done");
   }
 
   createWrenObjects() {
@@ -146,7 +134,6 @@ class WbShape extends WbBaseNode {
       //not sure of the place
       this.applyMaterialToGeometry()
     }
-    console.log("Shape Done");
   }
 
   applyMaterialToGeometry() {
@@ -259,7 +246,6 @@ class WbBox extends WbGeometry{
 
     this.updateSize();
 
-    console.log("Box Done");
   }
 
   updateSize() {
@@ -414,7 +400,7 @@ WbWrenShaders.SHADER = { //enum
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {
-        console.log("context not init");
+        console.log("No Context");
       }
     }
   }
