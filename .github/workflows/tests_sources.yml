@@ -36,7 +36,7 @@ jobs:
          # - os: macos-10.15
          #   DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - os: windows-latest
-            DEPENDENCIES_INSTALLATION: "choco install cppcheck llvm"
+            DEPENDENCIES_INSTALLATION: "choco install cppcheck --version 2.2; choco install llvm --version 11.0.0"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
