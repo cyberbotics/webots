@@ -29,17 +29,7 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
-        # Workaround for homebrew-openssl issue: https://github.com/actions/virtual-environments/issues/1811#issuecomment-708480190
-        brew uninstall openssl@1.0.2t
-        brew uninstall python@2.7.17
-        brew untap local/openssl
-        brew untap local/python2
-        brew cask install xquartz
-        brew update
-        brew upgrade
-
-        # brew update  # required to get the python@3.9 formula
-        brew install swig wget python@3.7 python@3.9  # skip 'cmake' and 'python@3.8' because already installed
+        brew install swig wget cmake python@3.7 python@3.8 python@3.9
         npm install -g appdmg
         # install regular Python 3.7
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
