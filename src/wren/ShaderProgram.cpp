@@ -110,7 +110,6 @@ namespace wren {
       char log[logLength];
       glGetShaderInfoLog(shaderGlName, logLength, nullptr, &log[0]);
       DEBUG("ShaderProgram::compileShader: compilation failed!");
-      std::cout << log << '\n';
       DEBUG("Shader source path: " << path.c_str());
       DEBUG("InfoLog: " << log);
       mCompilationLog.assign(log);

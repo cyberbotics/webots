@@ -129,7 +129,6 @@ class WbShape extends WbBaseNode {
       this.appearance.createWrenObjects();
 
     if (this.geometry){
-      this.geometry.parent = this
       this.geometry.createWrenObjects();
       //not sure of the place
       this.applyMaterialToGeometry()
@@ -230,7 +229,7 @@ class WbGeometry extends WbBaseNode {
 
 }
 
-class WbBox extends WbGeometry{
+class WbBox extends WbGeometry {
   constructor(id, size) {
     super(id);
     this.size = size;
@@ -250,6 +249,32 @@ class WbBox extends WbGeometry{
 
   updateSize() {
       _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
+  }
+}
+
+class WbSphere extends WbGeometry {
+  constructor(id, radius, ico, subdivision) {
+    super(id);
+    this.radius = radius;
+    this.ico = ico;
+    this.subdivision = subdivision;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+    super.computeWrenRenderable();
+
+    let wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
+
+    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+
+    this.updateScale();
+  }
+
+  updateScale() {
+    let scaledRadius = this.radius;
+
+    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }
 
 }

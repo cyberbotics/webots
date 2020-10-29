@@ -21,12 +21,14 @@ class MyParser {
     if (scene === undefined) {
       console.error("Scene not found");
     } else {
-      console.log("Une scene");
       this.parseNode(scene);
     }
-    _wr_scene_render(_wr_scene_get_instance(), null, true);
 
     console.log("File Parsed");
+
+    //Render a first time after beeing parsed
+    //TODO move after parse is called.
+    _wr_scene_render(_wr_scene_get_instance(), null, true);
   }
 
   parseNode(node) {
@@ -74,7 +76,6 @@ class MyParser {
   }
 
   parseShape(node){
-    console.log("Une Shape");
     let id = getNodeAttribute(node, 'id');
     let castShadows = getNodeAttribute(node, 'castShadows').toLowerCase() === 'true';
 
@@ -89,20 +90,31 @@ class MyParser {
     let geometry;
     if(node.tagName === 'Box') {
       geometry = this.parseBox(node);
+    }else if (node.tagName === 'Sphere'){
+      geometry = this.parseSphere(node);
     } else {
+      console.log("Not a recognized geometry");
       geometry = undefined
     }
     return geometry;
   }
 
   parseBox(node) {
-    console.log("Une box");
     let id = getNodeAttribute(node, 'id');
     let size = convertStringToVec3(getNodeAttribute(node, 'size'));
     if(size === undefined)
       size = glm.vec3(0.1,0.1,0.1);
 
     return new WbBox(id, size);
+  }
+
+  parseSphere(node){
+    let id = getNodeAttribute(node, 'id');
+    let radius = parseFloat(getNodeAttribute(node, 'radius'));
+    let ico = getNodeAttribute(node, 'ico').toLowerCase() === 'true'
+    let subdivision = parseInt(getNodeAttribute(node, 'subdivision'));
+
+    return new WbSphere(id, radius, ico, subdivision);
   }
 }
 

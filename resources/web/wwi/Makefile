@@ -26,6 +26,7 @@ JS_SOURCES = \
   context_menu.js \
   viewpoint.js \
   selector.js \
+  mouse_events.js\
   multimedia_client.js \
   texture_loader.js \
   default_url.js \

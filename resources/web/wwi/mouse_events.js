@@ -3,6 +3,7 @@
 
 class MouseEvents { // eslint-disable-line no-unused-vars
   constructor(scene, contextMenu, domElement, mobileDevice) {
+
     this.scene = scene;
     this.contextMenu = contextMenu;
     this.domElement = domElement;
@@ -36,16 +37,17 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseDown(event) {
+    console.log("bl");
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
-      case Module.MOUSE.LEFT.value:
+      case 0: //enum
         this.state.mouseDown |= 1;
         break;
-      case Module.MOUSE.MIDDLE.value:
+      case 1://enum
         this.state.mouseDown |= 4;
         break;
-      case Module.MOUSE.RIGHT.value:
+      case 2://enum
         this.state.mouseDown |= 2;
         break;
     }
@@ -300,8 +302,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _setupMoveParameters(event) {
     this.moveParams = {};
-    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer.domElement, event.clientX, event.clientY);
-    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.scene.renderer.domElement, event.clientX, event.clientY);
+    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, event.clientX, event.clientY);
+    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(canvas, event.clientX, event.clientY);
     this.intersection = this.scene.pick(relativePosition, screenPosition);
 
     if (this.intersection && this.intersection.object)
@@ -310,9 +312,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.pickPosition = null;
 
     if (this.intersection == null) {
-      var cameraPosition = new Module.Vector3();
+      var cameraPosition = new glm.vec3();
       //this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
-      this.moveParams.distanceToPickPosition = Module.length(cameraPosition);
+      this.moveParams.distanceToPickPosition = cameraPosition.length;
     } else
       this.moveParams.distanceToPickPosition = this.intersection.distance;
     if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
@@ -370,7 +372,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
 MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY) => {
   var rect = element.getBoundingClientRect();
-  var pos = new Module.Vector2();
+  var pos = new glm.vec2();
   pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
   pos.y = -((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
   return pos;
@@ -378,7 +380,7 @@ MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY
 
 MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
   var rect = element.getBoundingClientRect();
-  var pos = new Module.Vector2();
+  var pos = new glm.vec2();
   pos.x = Math.round(eventX - rect.left);
   pos.y = Math.round(eventY - rect.top);
   return pos;
