@@ -1698,6 +1698,14 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
   stream.writeRawData(ba.constData(), ba.size() + 1);
+
+  if (WbWorld::instance()->isVideoRecording()) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_MOVIE_STATUS;
+    stream << (unsigned char)WB_SUPERVISOR_MOVIE_RECORDING;
+    delete mMovieStatus;
+    mMovieStatus = NULL;
+  }
 }
 
 void WbSupervisorUtilities::movieStatusChanged(int status) {

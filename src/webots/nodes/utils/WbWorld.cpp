@@ -87,7 +87,8 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
   mIsLoading(false),
-  mIsCleaning(false) {
+  mIsCleaning(false),
+  mIsVideoRecording(false) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);
