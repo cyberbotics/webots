@@ -750,9 +750,12 @@ void WbViewpoint::updateFollowUp() {
       mPosition->setValue(mFollowedSolid->position() + solidRotation * mReferenceOffset);
     } else if (type == FOLLOW_TRACKING) {
       mEquilibriumVector += delta;
-
-      const double mass =
-        ((mFollowSmoothness->value() < 0.05) ? 0.0 : (mFollowSmoothness->value() > 1.0) ? 1.0 : mFollowSmoothness->value());
+      // clang-format off
+      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
+      const double mass = ((mFollowSmoothness->value() < 0.05) ? 0.0 :
+                           (mFollowSmoothness->value() > 1.0)  ? 1.0 :
+                                                                 mFollowSmoothness->value());
+      // clang-format on
       // If mass is 0, we instantly move the viewpoint to its equilibrium position.
       if (mass == 0.0) {
         // Moves the rotation point if a drag rotating the viewpoint is active

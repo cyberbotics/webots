@@ -65,6 +65,8 @@ enum { X, Y, Z };
 #define MAX_NUM_ROBOTS (2 * MAX_NUM_PLAYERS)
 
 // field dimensions (in meters) according to the SPL Nao Rule Book
+// clang-format off
+// clang-format 11.0.0 has problems with AlignTrailingComments when the line starts with a hash (#).
 #define FIELD_SIZE_X 9.050        // official size of the field
 #define FIELD_SIZE_Z 6.050        // for the 2014 competition
 #define CIRCLE_DIAMETER 1.550     // soccer field's central circle
@@ -76,6 +78,7 @@ enum { X, Y, Z };
 #define THROW_IN_LINE_OFFSET 0.400  // offset from side line
 #define LINE_WIDTH 0.050            // white lines
 #define BALL_RADIUS 0.0325
+// clang-format on
 
 // throw-in lines
 const double THROW_IN_LINE_X_END = THROW_IN_LINE_LENGTH / 2;
@@ -828,6 +831,7 @@ static void step() {
   if (step_count % attempt_frequency == 0) {
     open_tcp_connections();
 
+    // cppcheck-suppress knownConditionTrueFalse
     if (attempt_frequency < 256)
       attempt_frequency *= 2;
   }
