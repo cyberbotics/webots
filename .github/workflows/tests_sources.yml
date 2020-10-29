@@ -5,6 +5,8 @@ on:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
     paths-ignore:
       - 'docs/**'
+  schedule:
+    - cron:  '0 22 * * *'
 
 defaults:
   run:
@@ -25,22 +27,22 @@ jobs:
         os: [windows-latest]
         python: [2.7, 3.9]
         include:
-        #  - os: ubuntu-16.04
-        #    DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
-       #   - os: ubuntu-18.04
-        #    DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
-        #  - os: ubuntu-20.04
-        #    DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
-        #  - os: macos-10.15
-        #    DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
+         # - os: ubuntu-16.04
+         #   DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9 cppcheck"
+         # - os: ubuntu-18.04
+         #   DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
+         # - os: ubuntu-20.04
+         #   DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
+         # - os: macos-10.15
+         #   DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - os: windows-latest
             DEPENDENCIES_INSTALLATION: "choco install cppcheck"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
     - name: Set up Python ${{ matrix.python }}
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
@@ -48,7 +50,7 @@ jobs:
       if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: ${{ matrix.DEPENDENCIES_INSTALLATION }}
     - name: Tests
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
         export PATH=$PATH:"/c/Program Files/Cppcheck"
         echo $PATH
