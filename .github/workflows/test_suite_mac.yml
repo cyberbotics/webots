@@ -24,6 +24,9 @@ jobs:
         os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Debug
+      run: |
+        brew install swig wget python@3.7 python@3.9 
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -39,8 +42,7 @@ jobs:
         brew upgrade
 
         brew unlink python@3.8
-        #brew install python@3.9
-        brew install swig wget python@3.7  # skip 'cmake' and 'python@3.8' because already installed
+        brew install swig wget python@3.7 python@3.9  # skip 'cmake' and 'python@3.8' because already installed
         npm install -g appdmg
         # install regular Python 3.7
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
