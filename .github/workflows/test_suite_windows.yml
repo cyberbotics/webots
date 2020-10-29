@@ -38,6 +38,12 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
+        python --version
+        where python
+        where python2.7
+        where python3.7
+        where python3.8
+        where python3.9
         cat scripts/install/bash_profile.windows >> ~/.bash_profile
         ./scripts/install/msys64_installer.sh --all
     - name: Set Commit SHA in Version
@@ -45,7 +51,10 @@ jobs:
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
-        export WEBOTS_HOME=$PWD
+        export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_265
+        export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"
+        export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
