@@ -39,6 +39,8 @@ jobs:
     - name: Install Webots Compilation Dependencies
       run: |
         ls /C
+        ls "/C/Program Files"
+        ls "/C/Program Files (x86)"
         python --version
         where python
         where python2.7
