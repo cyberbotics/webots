@@ -36,7 +36,7 @@ jobs:
          # - os: macos-10.15
          #   DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - os: windows-latest
-            DEPENDENCIES_INSTALLATION: "choco install cppcheck"
+            DEPENDENCIES_INSTALLATION: "choco install cppcheck llvm"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -56,6 +56,7 @@ jobs:
         echo $PATH
         ls "/c/Program Files/Cppcheck"
         cppcheck --version
+        clang-format --version
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
         export WEBOTS_HOME=$PWD
