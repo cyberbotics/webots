@@ -1,3 +1,63 @@
+function render() {
+  _wr_scene_render(_wr_scene_get_instance(), null, true);
+}
+
+function renderLoop() {
+   render();
+   //window.setTimeout(renderLoop, 1000 / 60);
+}
+
+function create_wren_scene() {
+  // Generate a dummy texture.
+  let texture = _wr_texture_2d_new();
+  let ptr = allocate(intArrayFromString("dummy.jpg"), 'i8', ALLOC_NORMAL);
+  _wr_texture_2d_set_file_path(texture, ptr);
+  _wr_texture_set_size(texture, 256, 256);
+  let content = _wrjs_dummy_texture();
+  _wr_texture_2d_set_data(texture, content);
+  _wr_texture_setup(texture);
+
+
+  let sphereProgram = _wr_shader_program_new();
+  _wr_shader_program_use_uniform(sphereProgram, 0);
+  _wr_shader_program_use_uniform(sphereProgram, 1);
+  _wr_shader_program_use_uniform(sphereProgram, 2);
+  _wr_shader_program_use_uniform(sphereProgram, 16);
+  _wr_shader_program_use_uniform(sphereProgram, 17);
+  _wr_shader_program_use_uniform_buffer(sphereProgram, 0);
+  _wr_shader_program_use_uniform_buffer(sphereProgram, 4);
+
+  Module.ccall('wr_shader_program_set_vertex_shader_path', null, ['number', 'string'], [sphereProgram, "../../resources/wren/shaders/default.vert"]);
+  Module.ccall('wr_shader_program_set_fragment_shader_path', null, ['number', 'string'], [sphereProgram, "../../resources/wren/shaders/default.frag"]);
+
+  _wr_shader_program_setup(sphereProgram);
+
+
+
+  let sphereRenderable = _wr_renderable_new();
+  let sphereMesh = _wr_static_mesh_unit_sphere_new(2, true, false);
+  let sphereMaterial = _wr_phong_material_new();
+  _wr_material_set_default_program(sphereMaterial, sphereProgram);
+  _wr_material_set_texture(sphereMaterial, texture, 0);
+  let sphereTransform = _wr_transform_new();
+
+  _wr_renderable_set_mesh(sphereRenderable, sphereMesh);
+  _wr_renderable_set_material(sphereRenderable, sphereMaterial, null);
+  _wr_transform_attach_child(sphereTransform, sphereRenderable);
+
+  root = _wr_scene_get_root(_wr_scene_get_instance());
+  _wr_transform_attach_child(root, sphereTransform);
+}
+
+function main() {
+  create_wren_scene();
+
+  renderLoop();
+
+  console.log("Continue");
+
+}
+
 class MyParser {
   constructor() {
     this.Nodes = [];
@@ -25,7 +85,8 @@ class MyParser {
       this.parseNode(scene);
     }
 
-    _wr_scene_render(_wr_scene_get_instance(), null, true);
+    //_wr_scene_render(_wr_scene_get_instance(), null, true);
+    main();
     console.log("FINI");
   }
 

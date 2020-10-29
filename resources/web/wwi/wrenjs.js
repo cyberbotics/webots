@@ -35,8 +35,9 @@ class WbBaseNode {
 
     if (this.parent !== undefined) {
       this.wrenNode = this.parent.wrenNode;
-    } else
+    } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
+    }
   }
 }
 
@@ -117,7 +118,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   applyFieldOfViewToWren() {
-    _wr_camera_set_fovy(this.wrenCamera, this.mFieldOfViewY);
+    _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
   }
 }
 
