@@ -36,12 +36,15 @@ jobs:
     #- uses: actions/checkout@v2
     #  with:
     #     submodules: true
-    - name: Install Webots Compilation Dependencies
+    - name: debug
+      shell: cmd
       run: |
         choco install python --version 2.7.11
         choco install python --version 3.7.9
         choco install python --version 3.8.6
         choco install python --version 3.9.0
+    - name: Install Webots Compilation Dependencies
+      run: |
         ls /C
         ls "/C/Program Files"
         ls "/C/Program Files (x86)"
