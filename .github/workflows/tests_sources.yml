@@ -52,9 +52,7 @@ jobs:
     - name: Tests
       if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        export PATH=$PATH:"/c/Program Files/Cppcheck"
-        echo $PATH
-        ls "/c/Program Files/Cppcheck"
+        export PATH=$PATH:"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin"
         cppcheck --version
         clang-format --version
         cp dependencies/.clang-format-9 .clang-format
