@@ -38,6 +38,7 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
+        ls /C
         python --version
         where python
         where python2.7
