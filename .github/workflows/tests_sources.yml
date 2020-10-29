@@ -52,6 +52,7 @@ jobs:
       run: |
         export PATH=$PATH:"/c/Program Files/Cppcheck"
         echo $PATH
+        ls "/c/Program Files/Cppcheck"
         cppcheck --version
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
