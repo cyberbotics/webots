@@ -38,6 +38,10 @@ jobs:
     #     submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
+        choco install python --version 2.7.11
+        choco install python --version 3.7.9
+        choco install python --version 3.8.6
+        choco install python --version 3.9.0
         ls /C
         ls "/C/Program Files"
         ls "/C/Program Files (x86)"
