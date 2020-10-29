@@ -1532,7 +1532,8 @@ void WbMainWindow::resetWorld(bool restartControllers) {
   if (!WbWorld::instance())
     newWorld();
   else {
-    mSimulationView->cancelSupervisorMovieRecording();
+    if (restartControllers)
+      mSimulationView->cancelSupervisorMovieRecording();
     WbWorld::instance()->reset(restartControllers);
   }
   mSimulationView->view3D()->renderLater();

@@ -1263,6 +1263,11 @@ void wb_supervisor_movie_start_recording(const char *filename, int width, int he
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
+  if (!wb_supervisor_movie_is_ready()) {
+    fprintf(stderr, "Error: %s(): movie recording has already been started.\n", __FUNCTION__);
+    return;
+  }
+
   if (!filename || !filename[0]) {
     fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
