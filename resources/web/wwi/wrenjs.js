@@ -5,12 +5,12 @@ class WbScene {
     let mainFrameBuffer = _wr_frame_buffer_new();
     _wr_frame_buffer_set_size(mainFrameBuffer, canvas.width, canvas.height);
     console.log(canvas.height);
-    let mainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
-    _wr_texture_set_internal_format(mainFrameBufferTexture, 3);
-    _wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
+    //let mainFrameBufferTexture = _wr_texture_rtt_new();
+    //_wr_texture_rtt_enable_initialize_data(mainFrameBufferTexture, true);
+    //_wr_texture_set_internal_format(mainFrameBufferTexture, 3);
+    //_wr_frame_buffer_append_output_texture(mainFrameBuffer, mainFrameBufferTexture);
     _wr_frame_buffer_enable_depth_buffer(mainFrameBuffer, true);
-    _wr_frame_buffer_setup(mainFrameBuffer);
+    //_wr_frame_buffer_setup(mainFrameBuffer);
 
     let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
     _wr_viewport_set_frame_buffer(vp, mainFrameBuffer);
@@ -79,7 +79,7 @@ class WbViewpoint extends WbBaseNode {
     this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     //wr_viewport_set_visibility_mask(wrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
 
-    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.5, 0.5, 0.8));
+    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.0, 0.0, 0.0));
 
     this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
 
@@ -134,6 +134,7 @@ class WbShape extends WbBaseNode {
     this.wrenMaterial = undefined;
   }
 
+
   createWrenObjects() {
     super.createWrenObjects();
 
@@ -176,6 +177,7 @@ class WbShape extends WbBaseNode {
       this.wrenMaterial = _wr_phong_material_new();
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.defaultShader());
+
     } else {
       console.error("pbr material not implemented yet");
       /*
@@ -215,7 +217,7 @@ class WbGeometry extends WbBaseNode {
       //_wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
     }
 
-    _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
+    //_wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
