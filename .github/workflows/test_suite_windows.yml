@@ -45,6 +45,7 @@ jobs:
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
+        export WEBOTS_HOME=$PWD
         make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
