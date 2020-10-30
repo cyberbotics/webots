@@ -1,6 +1,5 @@
 class MyParser {
   constructor() {
-    this.Nodes = [];
   }
 
   parse(text){
@@ -31,19 +30,19 @@ class MyParser {
     _wr_scene_render(_wr_scene_get_instance(), null, true);
   }
 
-  parseNode(node) {
+  parseNode(node,currentObject) {
     if(node.tagName === 'Scene') {
       let id = getNodeAttribute(node, 'id');
       new WbScene(id);
-      this.parseChildren(node);
+      this.parseChildren(node, currentObject);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
     } else if (node.tagName === 'Viewpoint') {
       this.parseViewpoint(node);
     } else if (node.tagName === 'Transform') {
-      this.parseTransform(node);
+      this.parseTransform(node,currentObject);
     } else if (node.tagName === 'Shape') {
-      this.parseShape(node);
+      this.parseShape(node, currentObject);
     } else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
@@ -54,7 +53,7 @@ class MyParser {
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
-        this.parseNode(child);
+        this.parseNode(child, currentObject);
       }
 
     }
@@ -79,7 +78,7 @@ class MyParser {
 
   }
 
-  parseTransform(node){
+  parseTransform(node, currentObject){
     let id = getNodeAttribute(node, 'id');
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
@@ -87,20 +86,30 @@ class MyParser {
     let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    this.parseChildren(node, transform);
+
+    transform.createWrenObjects();
+
   }
 
-  parseShape(node){
+  parseShape(node, currentObject){
     let id = getNodeAttribute(node, 'id');
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
     let shape = new WbShape(id, castShadows);
 
-    let geometry = this.parseGeometry(node.childNodes[0]);
+    let geometry = this.parseGeometry(node.childNodes[0], shape);
     shape.geometry = geometry;
-    shape.createWrenObjects();
+
+    if(currentObject !== undefined) {
+      currentObject.children.push(shape);
+      shape.parent = currentObject;
+    } else {
+      shape.createWrenObjects();
+    }
   }
 
-  parseGeometry(node){
+  parseGeometry(node, currentNode){
     let geometry;
     if(node.tagName === 'Box') {
       geometry = this.parseBox(node);
@@ -109,6 +118,10 @@ class MyParser {
     } else {
       console.log("Not a recognized geometry");
       geometry = undefined
+    }
+
+    if(currentNode !== undefined && geometry !== undefined) {
+      geometry.parent = currentNode;
     }
     return geometry;
   }

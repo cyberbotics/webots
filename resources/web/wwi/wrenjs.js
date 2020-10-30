@@ -22,8 +22,11 @@ class WbBaseNode {
     this.wrenObjectsCreatedCalled = true;
 
     if (this.parent !== undefined) {
+      console.log("p " + this.id);
+      console.log(this.parent.wrenNode);
       this.wrenNode = this.parent.wrenNode;
     } else{
+      console.log("r " + this.id);
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
   }
@@ -109,8 +112,19 @@ class WbViewpoint extends WbBaseNode {
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
 
+class WbGroup extends WbBaseNode{
+  constructor(id){
+    super(id);
+    this.children = [];
+  }
+
+  createWrenObjects(){
+    super.createWrenObjects();
+  }
+}
+
 //Is also used to represent a solid
-class WbTransform extends WbBaseNode {
+class WbTransform extends WbGroup {
   constructor(id, isSolid, translation, scale, rotation) {
     super(id);
     this.isSolid = isSolid;
@@ -122,20 +136,34 @@ class WbTransform extends WbBaseNode {
   createWrenObjects() {
     super.createWrenObjects();
 
-    WrTransform *transform = wr_transform_new();
-    wr_transform_attach_child(wrenNode(), WR_NODE(transform));
-    setWrenNode(transform);
+    let transform = _wr_transform_new();
 
-    const int size = children().size();
-    for (int i = 0; i < size; ++i) {
-      WbBaseNode *const n = child(i);
-      n->createWrenObjects();
-    }
+    _wr_transform_attach_child(this.wrenNode, transform);
+    this.wrenNode = transform;
 
-    applyTranslationToWren();
-    applyRotationToWren();
-    applyScaleToWren();
+    this.children.forEach(child => {console.log("yo");child.createWrenObjects();});
+
+    this.applyTranslationToWren();
+    this.applyRotationToWren();
+    this.applyScaleToWren();
   }
+
+  applyTranslationToWren() {
+    let translation = _wrjs_color_array(this.translation.x, this.translation.y, this.translation.z);
+    _wr_transform_set_position(this.wrenNode, translation);
+  }
+
+  applyRotationToWren() {
+    let rotation = _wrjs_array4(this.rotation.w, this.rotation.x, this.rotation.y, this.rotation.z);
+    _wr_transform_set_orientation(this.wrenNode, rotation);
+  }
+
+  applyScaleToWren() {
+    let scale = _wrjs_color_array(this.scale.x, this.scale.y, this.scale.z);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+  //TODO add children (in group)
 }
 
 class WbShape extends WbBaseNode {
