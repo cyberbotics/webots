@@ -36,28 +36,17 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
-    - name: debug
+    - name: Install Visual Studio 10
       shell: powershell
       run: choco install vcexpress2010
     - name: Install Webots Compilation Dependencies
       run: |
-        echo '-----'
-        ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"
-        echo '-----'
-        ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC"
-        echo '-----'
-        ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/bin"
-        echo '-----'
-        ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7"
-        echo '-----'
-        ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE"
-        echo '-----'
         echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_265' >> ~/.bash_profile
         echo 'export PYTHON27_HOME=/C/hostedtoolcache/windows/Python/2.7.18/x64' >> ~/.bash_profile
         echo 'export PYTHON37_HOME=/C/hostedtoolcache/windows/Python/3.7.9/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME=/C/hostedtoolcache/windows/Python/3.8.6/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME=/C/hostedtoolcache/windows/Python/3.9.0/x64' >> ~/.bash_profile
-        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"' >> ~/.bash_profile
+        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"' >> ~/.bash_profile
         echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
         cat scripts/install/bash_profile.windows >> ~/.bash_profile
         ./scripts/install/msys64_installer.sh --all
