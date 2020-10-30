@@ -80,3 +80,13 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
+    - name: Install Webots
+      run: |
+        cd artifact
+        webots-R2020b-rev2_setup.exe //VERYSILENT //SUPRESSMSGBOXES //ALLUSERS
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Test
+      run: python tests/test_suite.py
