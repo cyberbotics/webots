@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
