@@ -16,14 +16,14 @@ defaults:
     shell: msys2 {0}
 
 jobs:
-  cleanup-runs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: rokroskar/workflow-run-cleanup-action@master
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  #cleanup-runs:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - uses: rokroskar/workflow-run-cleanup-action@master
+  #    env:
+  #      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
-    needs: cleanup-runs
+    #needs: cleanup-runs
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
@@ -39,11 +39,12 @@ jobs:
     - name: Install Visual Studio 10
       shell: powershell
       run: |
-        choco install jdk8
+        #choco install jdk8
         choco install vcexpress2010
     - name: Install Webots Compilation Dependencies
       run: |
-        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_211' >> ~/.bash_profile
+        #echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_211' >> ~/.bash_profile
+        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_265' >> ~/.bash_profile
         echo 'export PYTHON27_HOME=/C/hostedtoolcache/windows/Python/2.7.18/x64' >> ~/.bash_profile
         echo 'export PYTHON37_HOME=/C/hostedtoolcache/windows/Python/3.7.9/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME=/C/hostedtoolcache/windows/Python/3.8.6/x64' >> ~/.bash_profile
