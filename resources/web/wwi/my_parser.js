@@ -64,12 +64,12 @@ class MyParser {
 
   parseViewpoint(node){
     let id = getNodeAttribute(node, 'id');
-    let orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation'));
-    let position = convertStringToVec3(getNodeAttribute(node, 'position'));
-    let exposure = parseFloat(getNodeAttribute(node, 'exposure'));
+    let orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
+    let position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
+    let exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     let bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
-    let far = parseFloat(getNodeAttribute(node, 'far'));
-    let zNear = parseFloat(getNodeAttribute(node, 'zNear'));
+    let far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
+    let zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
     let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
 
     let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness);
@@ -77,7 +77,7 @@ class MyParser {
 
   parseShape(node){
     let id = getNodeAttribute(node, 'id');
-    let castShadows = getNodeAttribute(node, 'castShadows').toLowerCase() === 'true';
+    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
     let shape = new WbShape(id, castShadows);
 
@@ -101,28 +101,26 @@ class MyParser {
 
   parseBox(node) {
     let id = getNodeAttribute(node, 'id');
-    let size = convertStringToVec3(getNodeAttribute(node, 'size'));
-    if(size === undefined)
-      size = glm.vec3(0.1,0.1,0.1);
+    let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     return new WbBox(id, size);
   }
 
   parseSphere(node){
     let id = getNodeAttribute(node, 'id');
-    let radius = parseFloat(getNodeAttribute(node, 'radius'));
-    let ico = getNodeAttribute(node, 'ico').toLowerCase() === 'true'
-    let subdivision = parseInt(getNodeAttribute(node, 'subdivision'));
+    let radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
+    let ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true'
+    let subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
     return new WbSphere(id, radius, ico, subdivision);
   }
 }
 
-function getNodeAttribute(node, attributeName) {
+function getNodeAttribute(node, attributeName, defaultValue) {
   console.assert(node && node.attributes);
   if (attributeName in node.attributes)
     return node.attributes.getNamedItem(attributeName).value;
-  return undefined;
+  return defaultValue;
 }
 
 function convertStringToVec3(s) {
