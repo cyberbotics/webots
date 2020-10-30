@@ -36,9 +36,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+    - name: debug
+      shell: powershell
+      run: choco install vcexpress2010
     - name: Install Webots Compilation Dependencies
       run: |
-        choco install vcexpress2010
         echo '-----'
         ls "/C/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"
         echo '-----'
