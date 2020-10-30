@@ -1,13 +1,8 @@
 name: Test Suite Linux
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 23 * * *'
-  push:
-    tags:
-      - '*'
 
 defaults:
   run:
@@ -37,6 +32,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         ref: develop
     - name: Install Webots Compilation Dependencies
       run: sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
@@ -69,6 +65,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
+      with:
+         ref: develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
@@ -103,6 +101,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         ref: develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
@@ -134,6 +133,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
+      with:
+         ref: develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
