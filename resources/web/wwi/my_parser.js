@@ -182,9 +182,8 @@ class MyParser {
     // Get the Material tag.
     let materialNode = node.getElementsByTagName('Material')[0];
     let material;
-    //if (typeof materialNode !== 'undefined')
-      //material = parseMaterial(materialNode, )
-
+    if (typeof materialNode !== 'undefined')
+      material = this.parseMaterial(materialNode)
     let texture;
 
     let appearance = new WbAppearance(id, material, texture);
@@ -212,14 +211,14 @@ class MyParser {
     return appearance;
   }
 
-  parseMaterial(node, currentNode) {
+  parseMaterial(node) {
     let id = getNodeAttribute(node, 'id');
-    let ambientIntensity = parseFloat(getNodeAttribute(material, 'ambientIntensity', '0.2')),
-    diffuseColor = convertStringToVec3(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
-    specular = convertStringToVec3(getNodeAttribute(material, 'specularColor', '0 0 0')),
-    emissive = convertStringToVec3(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
-    shininess = parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
-    transparent = parseInt(getNodeAttribute(material, 'transparency', '0'));
+    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
+    diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
+    specular = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0')),
+    emissive = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0')),
+    shininess = parseFloat(getNodeAttribute(node, 'shininess', '0.2')),
+    transparent = parseInt(getNodeAttribute(node, 'transparency', '0'));
 
     return new WbMaterial(id, ambientIntensity, diffuseColor, specular, emissive, shininess, transparent);
   }

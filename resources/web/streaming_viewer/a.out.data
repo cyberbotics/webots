@@ -28,7 +28,7 @@ void main() {
   SMAABlendingWeightCalculationVS(texUv);
   gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
 }
-#version 330
+#version 300 es
 
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 
@@ -873,7 +873,7 @@ void main() {
     fragColor = vec4(clamp(depth, 0.0, maxRange), 0.0, 0.0, 0.0);
   }
 }
-#version 330
+#version 300 es
 
 layout(location = 0) in vec3 vCoord;
 layout(location = 1) in vec3 vNormal;
@@ -3318,7 +3318,9 @@ void main() {
 
   fragColor = texColor * material.ambient;
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -3516,7 +3518,7 @@ void main() {
       if (material.textureFlags.z == 0.0)
         texColor = mainColor;
       else
-        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
     }
 
     // Mix with pen texture
@@ -3561,7 +3563,7 @@ void main() {
       fogFactor = (fogEnd - z) * fogInverseScale;
     fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1.0 - fogFactor, 2.2)), fragColor.w);
   }
 }
 #version 330 core
@@ -3784,7 +3786,9 @@ void main() {
                                       1.6 * sixteenthRes.rgb + 3.2 * thirtySecondRes.rgb),
                    1.0);
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -3867,7 +3871,7 @@ void main() {
   // Main texture
   if (material.textureFlags.x > 0.0) {
     vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
-    texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+    texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
   }
 
   // Pen texture
@@ -4119,7 +4123,7 @@ void main() {
   result = material.diffuse;
   normal = vec4(0.0);
 }
-#version 330
+#version 300 es
 
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 
@@ -4177,7 +4181,9 @@ void main() {
 
   gl_Position = vec4(vec2(-1.0) + 2.0 * vCoord.xy, 0.0, 1.0);
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -4368,7 +4374,7 @@ void main() {
     // Apply main texture
     if (material.textureFlags.x > 0.0) {
       vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
-      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
     }
 
     // Mix with pen texture
