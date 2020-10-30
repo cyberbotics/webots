@@ -50,11 +50,12 @@ jobs:
         echo 'export PYTHON39_HOME=/C/hostedtoolcache/windows/Python/3.9.0/x64' >> ~/.bash_profile
         echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"' >> ~/.bash_profile
         echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
-        echo 'MSYS64_WINDOWS_HOME=`cygpath -m /`' >> ~/.bash_profile
-        echo 'MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH=${MSYS64_WINDOWS_HOME::-1}' >> ~/.bash_profile
-        echo 'MSYS64_HOME="/${MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH/:\//\/}"' >> ~/.bash_profile
-        echo 'alias master="source $GITHUB_WORKSPACE/scripts/install/msys.sh \"$GITHUB_WORKSPACE\""' >> ~/.bash_profile
-        echo 'master  # default to the master branch' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        # echo 'MSYS64_WINDOWS_HOME=`cygpath -m /`' >> ~/.bash_profile
+        # echo 'MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH=${MSYS64_WINDOWS_HOME::-1}' >> ~/.bash_profile
+        # echo 'MSYS64_HOME="/${MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH/:\//\/}"' >> ~/.bash_profile
+        # echo 'source $GITHUB_WORKSPACE/scripts/install/msys.sh \"$GITHUB_WORKSPACE\"' >> ~/.bash_profile
+        # echo 'master  # default to the master branch' >> ~/.bash_profile
         # cat scripts/install/bash_profile.windows >> ~/.bash_profile
         ./scripts/install/msys64_installer.sh --all
     - name: Set Commit SHA in Version
