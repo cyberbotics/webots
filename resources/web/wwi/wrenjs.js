@@ -21,12 +21,9 @@ class WbBaseNode {
   createWrenObjects() {
     this.wrenObjectsCreatedCalled = true;
 
-    if (this.parent !== undefined) {
-      console.log("p " + this.id);
-      console.log(this.parent.wrenNode);
+    if (typeof this.parent !== 'undefined') {
       this.wrenNode = this.parent.wrenNode;
     } else{
-      console.log("r " + this.id);
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
   }
@@ -141,7 +138,7 @@ class WbTransform extends WbGroup {
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
 
-    this.children.forEach(child => {console.log("yo");child.createWrenObjects();});
+    this.children.forEach(child => child.createWrenObjects());
 
     this.applyTranslationToWren();
     this.applyRotationToWren();
@@ -167,11 +164,11 @@ class WbTransform extends WbGroup {
 }
 
 class WbShape extends WbBaseNode {
-  constructor(id, castShadow) {
+  constructor(id, castShadow, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
-    this.appearance = undefined;
-    this.geometry = undefined;
+    this.appearance = appearance;
+    this.geometry = geometry;
 
     this.wrenMaterial = undefined;
   }
@@ -331,6 +328,42 @@ class WbSphere extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }
 
+}
+
+class WbAbstractAppearance extends WbBaseNode {
+  constructor(id){
+    super(id);
+    this.textureTransform = undefined;
+  }
+
+  createWrenObjects(){
+    super.createWrenObjects();
+
+    if(typeof this.textureTransform !== 'undefined') {
+      this.textureTransform.createWrenObjects();
+    }
+  }
+
+}
+
+class WbAppearance extends WbBaseNode {
+  constructor(id, material, texture){
+    super(id);
+    this.material = material;
+    this.texture = texture;
+  }
+
+  createWrenObjects(){
+    super.createWrenObjects();
+
+    if(typeof this.material !== 'undefined') {
+      this.material.createWrenObjects();
+    }
+
+    if(typeof this.texture !== 'undefined') {
+      this.texture.createWrenObjects();
+    }
+  }
 }
 
 

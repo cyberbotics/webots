@@ -17,7 +17,7 @@ class MyParser {
 
     let scene = xml.getElementsByTagName('Scene')[0];
     console.log(scene);
-    if (scene === undefined) {
+    if (typeof scene === 'undefined') {
       console.error("Scene not found");
     } else {
       this.parseNode(scene);
@@ -30,30 +30,30 @@ class MyParser {
     _wr_scene_render(_wr_scene_get_instance(), null, true);
   }
 
-  parseNode(node,currentObject) {
+  parseNode(node, currentNode) {
     if(node.tagName === 'Scene') {
       let id = getNodeAttribute(node, 'id');
       new WbScene(id);
-      this.parseChildren(node, currentObject);
+      this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
     } else if (node.tagName === 'Viewpoint') {
       this.parseViewpoint(node);
     } else if (node.tagName === 'Transform') {
-      this.parseTransform(node,currentObject);
+      this.parseTransform(node, currentNode);
     } else if (node.tagName === 'Shape') {
-      this.parseShape(node, currentObject);
+      this.parseShape(node, currentNode);
     } else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
     }
   }
 
-  parseChildren(node, currentObject) {
+  parseChildren(node, currentNode) {
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
-        this.parseNode(child, currentObject);
+        this.parseNode(child, currentNode);
       }
 
     }
@@ -78,7 +78,7 @@ class MyParser {
 
   }
 
-  parseTransform(node, currentObject){
+  parseTransform(node, currentNode){
     let id = getNodeAttribute(node, 'id');
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
@@ -92,35 +92,69 @@ class MyParser {
 
   }
 
-  parseShape(node, currentObject){
+  parseShape(node, currentNode){
     let id = getNodeAttribute(node, 'id');
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let shape = new WbShape(id, castShadows);
+    let geometry;
+    let appearance;
 
-    let geometry = this.parseGeometry(node.childNodes[0], shape);
-    shape.geometry = geometry;
+    for (let i = 0; i < node.childNodes.length; i++) {
+      let child = node.childNodes[i];
+      if (typeof child.tagName === 'undefined')
+        continue;
 
-    if(currentObject !== undefined) {
-      currentObject.children.push(shape);
-      shape.parent = currentObject;
+      if (typeof appearance === 'undefined') {
+        if (child.tagName === 'Appearance') {
+          // If a sibling PBRAppearance is detected, prefer it.
+          let pbrAppearanceChild = false;
+          for (let j = 0; j < node.childNodes.length; j++) {
+            let child0 = node.childNodes[j];
+            if (child0.tagName === 'PBRAppearance') {
+              pbrAppearanceChild = true;
+              break;
+            }
+          }
+          if (pbrAppearanceChild)
+            continue;
+          appearance = this.parseAppearance(child, currentNode);
+        } else if (child.tagName === 'PBRAppearance')
+          appearance = this.parsePBRAppearance(child, currentNode);
+        if (typeof appearance !== 'undefined')
+          continue;
+      }
+
+      if (typeof geometry === 'undefined') {
+        geometry = this.parseGeometry(child, currentNode);
+        if (typeof geometry !== 'undefined')
+          continue;
+      }
+
+      console.log('X3dLoader: Unknown node: ' + child.tagName);
+    }
+
+    let shape = new WbShape(id, castShadows, geometry, appearance);
+
+    if(typeof currentNode !== 'undefined') {
+      currentNode.children.push(shape);
+      shape.parent = currentNode;
     } else {
       shape.createWrenObjects();
     }
   }
 
-  parseGeometry(node, currentNode){
+  parseGeometry(node, currentNode) {
     let geometry;
     if(node.tagName === 'Box') {
       geometry = this.parseBox(node);
     }else if (node.tagName === 'Sphere'){
       geometry = this.parseSphere(node);
     } else {
-      console.log("Not a recognized geometry");
+      console.log("Not a recognized geometry : " +node.tagName);
       geometry = undefined
     }
 
-    if(currentNode !== undefined && geometry !== undefined) {
+    if(typeof currentNode !== 'undefined' && geometry !== 'undefined') {
       geometry.parent = currentNode;
     }
     return geometry;
@@ -133,7 +167,7 @@ class MyParser {
     return new WbBox(id, size);
   }
 
-  parseSphere(node){
+  parseSphere(node) {
     let id = getNodeAttribute(node, 'id');
     let radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
     let ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true'
@@ -141,6 +175,58 @@ class MyParser {
 
     return new WbSphere(id, radius, ico, subdivision);
   }
+
+  parseAppearance(node, currentNode) {
+    let id = getNodeAttribute(node, 'id');
+
+    // Get the Material tag.
+    let materialNode = node.getElementsByTagName('Material')[0];
+    let material;
+    //if (typeof materialNode !== 'undefined')
+      //material = parseMaterial(materialNode, )
+
+    let texture;
+
+    let appearance = new WbAppearance(id, material, texture);
+    if (typeof appearance !== 'undefined') {
+        if(typeof material !== 'undefined')
+          material.parent = appearance;
+    }
+
+    /*
+    // Check to see if there is a texture.
+    let imageTexture = appearance.getElementsByTagName('ImageTexture');
+    var colorMap;
+    if (imageTexture.length > 0) {
+      colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
+      if (typeof colorMap !== 'undefined') {
+        materialSpecifications.map = colorMap;
+        if (colorMap.userData.isTransparent) {
+          materialSpecifications.transparent = true;
+          materialSpecifications.alphaTest = 0.5; // FIXME needed for example for the target.png in robot_programming.wbt
+        }
+      }
+    }
+    */
+
+    return appearance;
+  }
+
+  parseMaterial(node, currentNode) {
+    let id = getNodeAttribute(node, 'id');
+
+      // Pull out the standard colors.
+      let materialSpecifications = {
+        'ambientIntensity': parseFloat(getNodeAttribute(material, 'ambientIntensity', '0.2')),
+        'diffuseColor': convertStringToVec3(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
+        'specular': convertStringToVec3(getNodeAttribute(material, 'specularColor', '0 0 0')),
+        'emissive': convertStringToVec3(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
+        'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
+        'transparent': parseInt(getNodeAttribute(material, 'transparency', '0'))
+      };
+
+  }
+
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
