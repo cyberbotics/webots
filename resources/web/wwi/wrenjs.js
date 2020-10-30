@@ -56,8 +56,6 @@ class WbViewpoint extends WbBaseNode {
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
-
-    this.createWrenObjects();
   }
 
   createWrenObjects() {
@@ -111,6 +109,35 @@ class WbViewpoint extends WbBaseNode {
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
 
+//Is also used to represent a solid
+class WbTransform extends WbBaseNode {
+  constructor(id, isSolid, translation, scale, rotation) {
+    super(id);
+    this.isSolid = isSolid;
+    this.translation = translation;
+    this.scale = scale;
+    this.rotation = rotation;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    WrTransform *transform = wr_transform_new();
+    wr_transform_attach_child(wrenNode(), WR_NODE(transform));
+    setWrenNode(transform);
+
+    const int size = children().size();
+    for (int i = 0; i < size; ++i) {
+      WbBaseNode *const n = child(i);
+      n->createWrenObjects();
+    }
+
+    applyTranslationToWren();
+    applyRotationToWren();
+    applyScaleToWren();
+  }
+}
+
 class WbShape extends WbBaseNode {
   constructor(id, castShadow) {
     super(id);
@@ -162,7 +189,6 @@ class WbShape extends WbBaseNode {
       this.wrenMaterial = _wr_phong_material_new();
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.defaultShader());
-
     } else {
       console.error("pbr material not implemented yet");
       /*
@@ -279,18 +305,6 @@ class WbSphere extends WbGeometry {
 
 }
 
-/*
-class WbAppearance extends WbBaseNode {
-  static fillWrenDefaultMaterial(wrenMaterial) {
-    if (!wrenMaterial || wrenMaterial->type != WR_MATERIAL_PHONG) {
-      wr_material_delete(wrenMaterial);
-      wrenMaterial = wr_phong_material_new();
-    }
-    wr_material_set_default_program(wrenMaterial, WbWrenShaders::defaultShader());
-    return wrenMaterial;
-  }
-}
-*/
 
 class WbWrenShaders {
 

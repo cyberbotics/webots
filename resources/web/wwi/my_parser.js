@@ -40,6 +40,8 @@ class MyParser {
       this.parseWorldInfo(node);
     } else if (node.tagName === 'Viewpoint') {
       this.parseViewpoint(node);
+    } else if (node.tagName === 'Transform') {
+      this.parseTransform(node);
     } else if (node.tagName === 'Shape') {
       this.parseShape(node);
     } else {
@@ -73,6 +75,18 @@ class MyParser {
     let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
 
     let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness);
+    viewpoint.createWrenObjects();
+
+  }
+
+  parseTransform(node){
+    let id = getNodeAttribute(node, 'id');
+    let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
+    let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
+    let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+
+    let transform = new WbTransform(id, isSolid, translation, scale, rotation);
   }
 
   parseShape(node){
