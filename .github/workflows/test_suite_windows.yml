@@ -8,8 +8,6 @@ on:
   push:
     tags:
       - '*'
-    branches:  #TODO: remove
-      - '*'
 
 defaults:
   run:
@@ -36,7 +34,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
-    - name: Install Visual Studio 10
+    - name: Install Visual Studio 10 and OpenJDK 8
       shell: powershell
       run: |
         choco install jdk8
