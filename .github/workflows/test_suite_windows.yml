@@ -38,7 +38,9 @@ jobs:
          submodules: true
     - name: Install Visual Studio 10
       shell: powershell
-      run: choco install vcexpress2010
+      run: |
+        choco install jdk8
+        choco install vcexpress2010
     - name: Install Webots Compilation Dependencies
       run: |
         echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_265' >> ~/.bash_profile
