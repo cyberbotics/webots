@@ -65,7 +65,6 @@ class WbViewpoint extends WbBaseNode {
     //wr_viewport_set_visibility_mask(wrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
 
     _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.0, 0.0, 0.0));
-
     this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
 
     this.applyPositionToWren();
@@ -392,17 +391,43 @@ class WbAppearance extends WbBaseNode {
 }
 
 class WbMaterial extends WbBaseNode {
-  constructor(id, ambientIntensity, diffuseColor, specular, emissive, shininess, transparent) {
+  constructor(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency) {
     super(id);
     this.ambientIntensity = ambientIntensity;
     this.diffuseColor = diffuseColor;
-    this.specular = specular;
-    this.emissive = emissive;
+    this.specularColor = specularColor;
+    this.emissiveColor = emissiveColor;
     this.shininess = shininess;
-    this.transparent = transparent;
+    this.transparency = transparency;
   }
 
-  modifyWrenMaterial() {console.log("yo");}
+  modifyWrenMaterial(wrenMaterial, textured) {
+    let ambient, diffuse, specular, shininess;
+
+    ambient = glm.vec3(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity);
+
+    if (textured) {
+      diffuse = glm.vec3(1.0, 1.0, 1.0);
+      specular = glm.vec3(1.0, 1.0, 1.0);
+      shininess = 0.0;
+    } else {
+      ambient = glm.vec3(this.ambientIntensity * this.diffuseColor.x,this.ambientIntensity * this.diffuseColor.y,
+                       this.ambientIntensity * this.diffuseColor.z);
+      diffuse = glm.vec3(this.diffuseColor.x, this.diffuseColor.y, this.diffuseColor.z);
+      specular = glm.vec3(this.specularColor.x, this.specularColor.y, this.specularColor.z);
+      shininess = this.shininess;
+    }
+    let ambientColorPointer = array3Pointer(ambient.x, ambient.y, ambient.z);
+    let diffuseColorPointer = array3Pointer(diffuse.x, diffuse.y, diffuse.z);
+    let specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);
+    let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
+    _wr_phong_material_set_all_parameters(wrenMaterial, ambientColorPointer, diffuseColorPointer, specularColorPointer, emissiveColorPointer, shininess, this.transparency);
+
+    _free(ambientColorPointer);
+    _free(diffuseColorPointer);
+    _free(specularColorPointer);
+    _free(emissiveColorPointer);
+  }
 }
 
 class WbWrenShaders {
@@ -586,7 +611,7 @@ WbWrenShaders.SHADER = { //enum
     SHADER_COUNT : 52
   };
 
-  class WrenRenderer {
+class WrenRenderer {
     constructor () {
     }
 
@@ -604,3 +629,13 @@ WbWrenShaders.SHADER = { //enum
       }
     }
   }
+
+function array3Pointer(x, y, z) {
+  let data = new Float32Array([x, y, z]);
+  let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+  let dataPtr = Module._malloc(nDataBytes);
+  let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+  dataHeap.set(new Uint8Array(data.buffer));
+
+  return dataHeap.byteOffset;
+}

@@ -215,12 +215,12 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
     diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
-    specular = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0')),
-    emissive = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0')),
+    specularColor = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0')),
+    emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0')),
     shininess = parseFloat(getNodeAttribute(node, 'shininess', '0.2')),
-    transparent = parseInt(getNodeAttribute(node, 'transparency', '0'));
+    transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
 
-    return new WbMaterial(id, ambientIntensity, diffuseColor, specular, emissive, shininess, transparent);
+    return new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
   }
 
 }

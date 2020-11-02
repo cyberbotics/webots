@@ -35,8 +35,9 @@ namespace wren {
 
   void UniformBuffer::writeValue(const void *data) const {
     bind();
+    std::cout << "/* message */" << mSize << '\n';
 
-    glBufferData(GL_UNIFORM_BUFFER, mSize * 1.5, data, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, mSize * 1.1, data, GL_DYNAMIC_DRAW);
   }
 
   void UniformBuffer::bind() const { glstate::bindUniformBuffer(mGlName, mBinding); }
@@ -46,7 +47,6 @@ namespace wren {
   void UniformBuffer::prepareGl() {
     assert(!mGlName);
     assert(mSize);
-    std::cout << "/* message */" << mSize << '\n';
     glGenBuffers(1, &mGlName);
   }
 
