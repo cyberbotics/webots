@@ -230,7 +230,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       loader.parse(x3dObject);
     }
 
-    //this.onSceneUpdate();
+    this.onSceneUpdate();
   }
 
   applyPose(pose, appliedFields = []) {/*

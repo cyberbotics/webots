@@ -23,8 +23,6 @@
 #include <glad/glad.h>
 #endif
 
-#include <iostream>
-
 namespace wren {
 
   UniformBuffer::UniformBuffer(const unsigned int binding, const int size) : mGlName(0), mBinding(binding), mSize(size) {
@@ -35,9 +33,8 @@ namespace wren {
 
   void UniformBuffer::writeValue(const void *data) const {
     bind();
-    std::cout << "/* message */" << mSize << '\n';
 
-    glBufferData(GL_UNIFORM_BUFFER, mSize * 1.1, data, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, mSize, data, GL_DYNAMIC_DRAW);
   }
 
   void UniformBuffer::bind() const { glstate::bindUniformBuffer(mGlName, mBinding); }
@@ -47,6 +44,7 @@ namespace wren {
   void UniformBuffer::prepareGl() {
     assert(!mGlName);
     assert(mSize);
+
     glGenBuffers(1, &mGlName);
   }
 

@@ -417,6 +417,7 @@ class WbMaterial extends WbBaseNode {
       specular = glm.vec3(this.specularColor.x, this.specularColor.y, this.specularColor.z);
       shininess = this.shininess;
     }
+
     let ambientColorPointer = array3Pointer(ambient.x, ambient.y, ambient.z);
     let diffuseColorPointer = array3Pointer(diffuse.x, diffuse.y, diffuse.z);
     let specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);

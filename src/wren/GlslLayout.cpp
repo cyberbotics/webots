@@ -32,7 +32,7 @@ namespace wren {
     const std::vector<const char *> gUniformBufferNames = {"PhongMaterial",    "PbrMaterial", "Lights", "LightRenderable",
                                                            "CameraTransforms", "Fog",         "Overlay"};
 
-    const std::vector<int> gUniformBufferSizes = {sizeof(PhongMaterial),   sizeof(PbrMaterial),      sizeof(Lights),
+    const std::vector<int> gUniformBufferSizes = {sizeof(PhongMaterial),   sizeof(PbrMaterial),      sizeof(Lights) + 4,
                                                   sizeof(LightRenderable), sizeof(CameraTransforms), sizeof(Fog),
                                                   sizeof(Overlay)};
 
