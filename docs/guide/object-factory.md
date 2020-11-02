@@ -36,6 +36,33 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
+### PlasticBox
+
+A plastic box.
+
+%figure
+
+![PlasticBox](images/objects/containers/PlasticBox/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+PlasticBox {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "plastic box"
+  SFColor    color       1 1 1
+  SFFloat    mass        0
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticCrate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/PlasticCrate.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
 ### PlasticCrate
 
 A plastic crate.
@@ -991,4 +1018,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-
