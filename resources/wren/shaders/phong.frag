@@ -196,7 +196,7 @@ void main() {
       if (material.textureFlags.z == 0.0)
         texColor = mainColor;
       else
-        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
     }
 
     // Mix with pen texture
@@ -241,6 +241,6 @@ void main() {
       fogFactor = (fogEnd - z) * fogInverseScale;
     fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1.0 - fogFactor, 2.2)), fragColor.w);
   }
 }

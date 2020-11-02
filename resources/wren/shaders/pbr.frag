@@ -412,6 +412,6 @@ void main() {
       fogFactor = (fogEnd - z) * fogInverseScale;
     fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1.0 - fogFactor, 2.2)), fragColor.w);
   }
 }
