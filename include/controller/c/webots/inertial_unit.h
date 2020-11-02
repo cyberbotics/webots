@@ -36,6 +36,7 @@ int wb_inertial_unit_get_lookup_table_size(WbDeviceTag tag);
 const double *wb_inertial_unit_get_lookup_table(WbDeviceTag tag);
 
 const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag);
+const double *wb_inertial_unit_get_quaternion(WbDeviceTag tag);
 
 #ifdef __cplusplus
 }

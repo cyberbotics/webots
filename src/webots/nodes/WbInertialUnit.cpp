@@ -110,6 +110,8 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_INERTIAL_UNIT_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
 
+    stream << (double)mQuaternion.x() << (double)mQuaternion.y() << (double)mQuaternion.z() << (double)mQuaternion.w();
+
     mSensor->resetPendingValue();
   }
 
@@ -149,11 +151,13 @@ void WbInertialUnit::computeValue() {
   WbVector3 minusGravity = -wi->gravityUnitVector();
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
-  const WbMatrix3 &e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
-  const double roll = atan2(-e(1, 2), e(1, 1));
-  const double pitch = asin(e(1, 0));
+  const WbMatrix3 &rotation = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
+  const double roll = atan2(-rotation(1, 2), rotation(1, 1));
+  const double pitch = asin(rotation(1, 0));
   assert(!std::isnan(pitch));
-  const double yaw = -atan2(e(2, 0), e(0, 0));
+  const double yaw = -atan2(rotation(2, 0), rotation(0, 0));
+
+  mQuaternion = rotation.toQuaternion();
 
   mValues[0] = mXAxis->isTrue() ? mLut->lookup(roll) : NAN;
   mValues[1] = mZAxis->isTrue() ? mLut->lookup(pitch) : NAN;

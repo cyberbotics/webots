@@ -26,6 +26,7 @@ typedef struct {
   int enable;           // need to enable device ?
   int sampling_period;  // milliseconds
   double rpy[3];        // roll/pitch/yaw
+  double quaternion[4];
   int lookup_table_size;
   double *lookup_table;
 } InertialUnit;
@@ -57,6 +58,9 @@ static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
       s->rpy[0] = request_read_double(r);
       s->rpy[1] = request_read_double(r);
       s->rpy[2] = request_read_double(r);
+
+      for (int i = 0; i < 4; i++)
+        s->quaternion[i] = request_read_double(r);
       break;
     case C_CONFIGURE:
       s->lookup_table_size = request_read_int32(r);
@@ -185,6 +189,20 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
     if (inertial_unit->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
     result = inertial_unit->rpy;
+  } else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_inertial_unit_get_quaternion(WbDeviceTag tag) {
+  const double *result = NULL;
+  robot_mutex_lock_step();
+  InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
+  if (inertial_unit) {
+    if (inertial_unit->sampling_period <= 0)
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
+    result = inertial_unit->quaternion;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();

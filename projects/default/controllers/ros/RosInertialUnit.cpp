@@ -42,19 +42,18 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
 
   // switch roll and pitch axes because the Webots and ROS coordinate systems are not equivalent
   // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top
-  double halfYaw = mInertialUnit->getRollPitchYaw()[1] * 0.5;
-  double halfPitch = mInertialUnit->getRollPitchYaw()[0] * 0.5;
-  double halfRoll = mInertialUnit->getRollPitchYaw()[2] * 0.5;
-  double cosYaw = cos(halfYaw);
-  double sinYaw = sin(halfYaw);
-  double cosPitch = cos(halfPitch);
-  double sinPitch = sin(halfPitch);
-  double cosRoll = cos(halfRoll);
-  double sinRoll = sin(halfRoll);
-  value.orientation.x = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
-  value.orientation.y = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
-  value.orientation.z = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw;
-  value.orientation.w = cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw;
+  tf::Quaternion orientation(
+    mInertialUnit->getQuaternion()[0],
+    mInertialUnit->getQuaternion()[1],
+    mInertialUnit->getQuaternion()[2],
+    mInertialUnit->getQuaternion()[3]
+  );
+  tf::Quaternion orientationRosFix(0.5, 0.5, 0.5, 0.5);
+  orientation = orientation * orientationRosFix;
+  value.orientation.x = orientation.getX();
+  value.orientation.y = orientation.getY();
+  value.orientation.z = orientation.getZ();
+  value.orientation.w = orientation.getW();
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.orientation_covariance[i] = 0;
   value.angular_velocity.x = 0.0;

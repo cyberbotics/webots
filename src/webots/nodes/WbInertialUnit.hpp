@@ -51,6 +51,7 @@ private:
   WbSensor *mSensor;
   WbLookupTable *mLut;
   double mValues[3];  // current sensor value according to lookup table
+  WbQuaternion mQuaternion;
   bool mNeedToReconfigure;
 
   // private functions
