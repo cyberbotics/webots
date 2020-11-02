@@ -91,6 +91,7 @@ namespace wren {
       SpotLight mSpotLights[gMaxActiveSpotLights];
       glm::vec4 mAmbientLight;
       glm::ivec3 mLightCount;
+      float pad;  // Padding of 4 bytes to be compatible with std140
     };
 
     // Used for doing one pass per light
