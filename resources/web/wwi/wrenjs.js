@@ -205,7 +205,7 @@ class WbShape extends WbBaseNode {
   }
 
   createWrenMaterial(type) {
-    let defaultColor = _wrjs_color_array(0.0, 0.0, 0.0);
+    let defaultColor = _wrjs_color_array(1.0, 1.0, 1.0);
     if (this.wrenMaterial)
       _wr_material_delete(this.wrenMaterial);
 
@@ -375,15 +375,15 @@ class WbAppearance extends WbBaseNode {
       console.error("Appearance without material is not implemented yet");
       //wrenMaterial = fillWrenDefaultMaterial(wrenMaterial);
     }
-    /*
-    if (texture())
-      texture()->modifyWrenMaterial(wrenMaterial, 0, 2);
-    else
-      wr_material_set_texture(wrenMaterial, NULL, 0);
 
-    if (textureTransform())
-      textureTransform()->modifyWrenMaterial(wrenMaterial);
-    else*/
+    if (this.texture)
+      this.texture.modifyWrenMaterial(wrenMaterial, 0, 2);
+    else
+      _wr_material_set_texture(wrenMaterial, null, 0);
+
+    if (this.textureTransform)
+      this.textureTransform.modifyWrenMaterial(wrenMaterial);
+    else
       _wr_material_set_texture_transform(wrenMaterial, null);
 
     return wrenMaterial;
