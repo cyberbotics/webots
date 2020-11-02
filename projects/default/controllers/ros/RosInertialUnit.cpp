@@ -42,12 +42,8 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
 
   // switch roll and pitch axes because the Webots and ROS coordinate systems are not equivalent
   // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top
-  tf::Quaternion orientation(
-    mInertialUnit->getQuaternion()[0],
-    mInertialUnit->getQuaternion()[1],
-    mInertialUnit->getQuaternion()[2],
-    mInertialUnit->getQuaternion()[3]
-  );
+  tf::Quaternion orientation(mInertialUnit->getQuaternion()[0], mInertialUnit->getQuaternion()[1],
+                             mInertialUnit->getQuaternion()[2], mInertialUnit->getQuaternion()[3]);
   tf::Quaternion orientationRosFix(0.5, 0.5, 0.5, 0.5);
   orientation = orientation * orientationRosFix;
   value.orientation.x = orientation.getX();
