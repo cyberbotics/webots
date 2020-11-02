@@ -37,11 +37,3 @@ const double *InertialUnit::getRollPitchYaw() const {
 const double *InertialUnit::getQuaternion() const {
   return wb_inertial_unit_get_quaternion(getTag());
 }
-
-int InertialUnit::getLookupTableSize() const {
-  return wb_inertial_unit_get_lookup_table_size(getTag());
-}
-
-const double *InertialUnit::getLookupTable() const {
-  return wb_inertial_unit_get_lookup_table(getTag());
-}

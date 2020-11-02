@@ -151,17 +151,14 @@ void WbInertialUnit::computeValue() {
   WbVector3 minusGravity = -wi->gravityUnitVector();
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
-  const WbMatrix3 &e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
-  const double roll = atan2(-e(1, 2), e(1, 1));
-  const double pitch = asin(e(1, 0));
-  assert(!std::isnan(pitch));
-  const double yaw = -atan2(e(2, 0), e(0, 0));
+  WbMatrix3 e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
+
+  if (!mXAxis->isTrue()) {
+    const double roll = atan2(-e(1, 2), e(1, 1));
+    e *= WbMatrix3(1, 0, 0, roll).transposed();
+  }
 
   mQuaternion = e.toQuaternion();
-
-  mValues[0] = mXAxis->isTrue() ? mLut->lookup(roll) : NAN;
-  mValues[1] = mZAxis->isTrue() ? mLut->lookup(pitch) : NAN;
-  mValues[2] = mYAxis->isTrue() ? mLut->lookup(yaw) : NAN;
 
   // apply resolution if needed
   if (mResolution->value() != -1.0) {
