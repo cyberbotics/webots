@@ -80,20 +80,74 @@ PROTO MetalStorageBox [
           ]
         }
         Transform {
-          translation -0.955 0.545 0
+          translation -0.949 0.139 0
           rotation 0 0 1 0.015
           children [
             Box {
-              size 0.03 1.075 0.9
+              size 0.03 0.265 0.915
             }
           ]
         }
         Transform {
-          translation 0.955 0.545 0
+          translation -0.9529 0.405014 0
+          rotation 0 0 1 0.015
+          children [
+            Box {
+              size 0.03 0.269 0.98
+            }
+          ]
+        }
+        Transform {
+          translation -0.95695 0.674987 0
+          rotation 0 0 1 0.015
+          children [
+            Box {
+              size 0.03 0.269 1.05
+            }
+          ]
+        }
+        Transform {
+          translation -0.96085 0.942994 0
+          rotation 0 0 1 0.015
+          children [
+            Box {
+              size 0.03 0.269 1.13
+            }
+          ]
+        }
+        Transform {
+          translation 0.949 0.139 0
           rotation 0 0 1 -0.015
           children [
             Box {
-              size 0.03 1.075 0.9
+              size 0.03 0.265 0.915
+            }
+          ]
+        }
+        Transform {
+          translation 0.9529 0.405014 0
+          rotation 0 0 1 -0.015
+          children [
+            Box {
+              size 0.03 0.269 0.98
+            }
+          ]
+        }
+        Transform {
+          translation 0.95695 0.674987 0
+          rotation 0 0 1 -0.015
+          children [
+            Box {
+              size 0.03 0.269 1.05
+            }
+          ]
+        }
+        Transform {
+          translation 0.96085 0.942994 0
+          rotation 0 0 1 -0.015
+          children [
+            Box {
+              size 0.03 0.269 1.13
             }
           ]
         }
