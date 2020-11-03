@@ -249,10 +249,10 @@ class WbGeometry extends WbBaseNode {
     // used for rendering range finder camera
     if (!this.wrenEncodeDepthMaterial) {
       this.wrenEncodeDepthMaterial = _wr_phong_material_new();
-      //_wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
+      _wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
     }
 
-    //_wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
+    _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
@@ -276,6 +276,32 @@ class WbGeometry extends WbBaseNode {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, castShadows);
     }
   }
+  //Not use for now, normaly is cone
+  /*
+  deleteWrenRenderable() {
+    if (this.wrenRenderable) {
+      if (this.wrenMaterial)
+        setWrenMaterial(NULL, false);
+
+      // Delete outline material
+      wr_material_delete(mWrenMaterial);
+      mWrenMaterial = NULL;
+
+      // Delete encode depth material
+      wr_material_delete(mWrenEncodeDepthMaterial);
+      mWrenEncodeDepthMaterial = NULL;
+
+      // Delete picking material
+      wr_material_delete(wr_renderable_get_material(mWrenRenderable, "picking"));
+
+      wr_node_delete(WR_NODE(mWrenRenderable));
+      mWrenRenderable = NULL;
+
+      setWrenNode(wr_node_get_parent(WR_NODE(mWrenScaleTransform)));
+      wr_node_delete(WR_NODE(mWrenScaleTransform));
+      mWrenScaleTransform = NULL;
+    }
+  }*/
 
 }
 
@@ -329,6 +355,33 @@ class WbSphere extends WbGeometry {
 
 }
 
+class WbCone extends WbGeometry {
+  constructor(id, bottomRadius, height, subdivision, side, bottom) {
+    super(id);
+    this.bottomRadius = bottomRadius;
+    this.height = height;
+    this.subdivision = subdivision;
+    this.side = side;
+    this.bottom = bottom;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    if (!this.bottom && !this.side)
+        return;
+
+    this.computeWrenRenderable();
+
+    let wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side , this.bottom);
+
+    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+
+    let scale = _wrjs_color_array(this.bottomRadius, this.height, this.bottomRadius);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+}
 class WbAbstractAppearance extends WbBaseNode {
   constructor(id){
     super(id);
@@ -542,12 +595,12 @@ class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 4); //enum
 
       let minRange = 0.0;
-      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
 
       let maxRange = 1.0;
-      Module.ccall('_wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(MaxRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(maxRange)]); //enum
 
-      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../../wren/shaders/encode_depth.vert", "../../../wren/shaders/encode_depth.frag");
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../../resources/wren/shaders/encode_depth.vert", "../../../resources/wren/shaders/encode_depth.frag");
     }
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH];

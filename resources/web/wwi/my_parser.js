@@ -149,7 +149,9 @@ class MyParser {
       geometry = this.parseBox(node);
     }else if (node.tagName === 'Sphere'){
       geometry = this.parseSphere(node);
-    } else {
+    } else if (node.tagName === 'Cone') {
+      geometry = this.parseCone(node);
+    }else {
       console.log("Not a recognized geometry : " +node.tagName);
       geometry = undefined
     }
@@ -174,6 +176,17 @@ class MyParser {
     let subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
     return new WbSphere(id, radius, ico, subdivision);
+  }
+
+  parseCone(node) {
+    let id = getNodeAttribute(node, 'id');
+    let bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
+    let height = getNodeAttribute(node, 'height', '2');
+    let subdivision = getNodeAttribute(node, 'subdivision', '32');
+    let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
+    let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
+
+    return new WbCone(id, bottomRadius, height, subdivision, side, bottom);
   }
 
   parseAppearance(node, currentNode) {
