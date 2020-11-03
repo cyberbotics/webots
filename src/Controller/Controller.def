@@ -437,7 +437,6 @@ wbr_display_save_image
 wbr_distance_sensor_set_value
 wbr_gps_set_values
 wbr_gyro_set_values
-wbr_inertial_unit_set_values
 wbr_light_sensor_set_value
 wbr_microphone_set_buffer
 wbr_motor_set_force_feedback

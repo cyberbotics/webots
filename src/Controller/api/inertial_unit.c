@@ -25,21 +25,14 @@
 typedef struct {
   int enable;           // need to enable device ?
   int sampling_period;  // milliseconds
-  double rpy[3];        // roll/pitch/yaw
   double quaternion[4];
-  int lookup_table_size;
-  double *lookup_table;
+  double noise;
 } InertialUnit;
 
 static InertialUnit *inertial_unit_create() {
   InertialUnit *inertial_unit = malloc(sizeof(InertialUnit));
   inertial_unit->enable = false;
   inertial_unit->sampling_period = 0;
-  inertial_unit->rpy[0] = NAN;
-  inertial_unit->rpy[1] = NAN;
-  inertial_unit->rpy[2] = NAN;
-  inertial_unit->lookup_table = NULL;
-  inertial_unit->lookup_table_size = 0;
   return inertial_unit;
 }
 
@@ -55,22 +48,11 @@ static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
 
   switch (request_read_uchar(r)) {
     case C_INERTIAL_UNIT_DATA:
-      s->rpy[0] = request_read_double(r);
-      s->rpy[1] = request_read_double(r);
-      s->rpy[2] = request_read_double(r);
-
       for (int i = 0; i < 4; i++)
         s->quaternion[i] = request_read_double(r);
       break;
     case C_CONFIGURE:
-      s->lookup_table_size = request_read_int32(r);
-      free(s->lookup_table);
-      s->lookup_table = NULL;
-      if (s->lookup_table_size > 0) {
-        s->lookup_table = (double *)malloc(sizeof(double) * s->lookup_table_size * 3);
-        for (int i = 0; i < s->lookup_table_size * 3; i++)
-          s->lookup_table[i] = request_read_double(r);
-      }
+      s->noise = request_read_double(r);
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
@@ -78,24 +60,12 @@ static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
-int wb_inertial_unit_get_lookup_table_size(WbDeviceTag tag) {
-  int result = 0;
+double wb_inertial_unit_get_noise(WbDeviceTag tag) {
+  double result = 0;
   robot_mutex_lock_step();
   InertialUnit *dev = inertial_unit_get_struct(tag);
   if (dev)
-    result = dev->lookup_table_size;
-  else
-    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
-  return result;
-}
-
-const double *wb_inertial_unit_get_lookup_table(WbDeviceTag tag) {
-  double *result = NULL;
-  robot_mutex_lock_step();
-  InertialUnit *dev = inertial_unit_get_struct(tag);
-  if (dev)
-    result = dev->lookup_table;
+    result = dev->noise;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
@@ -112,8 +82,6 @@ static void inertial_unit_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void inertial_unit_cleanup(WbDevice *d) {
-  InertialUnit *acc = (InertialUnit *)d->pdata;
-  free(acc->lookup_table);
   free(d->pdata);
 }
 
@@ -121,16 +89,6 @@ static void inertial_unit_toggle_remote(WbDevice *d, WbRequest *r) {
   InertialUnit *inertial_unit = d->pdata;
   if (inertial_unit->sampling_period != 0)
     inertial_unit->enable = true;
-}
-
-void wbr_inertial_unit_set_values(WbDeviceTag t, const double *values) {
-  InertialUnit *inertial_unit = inertial_unit_get_struct(t);
-  if (inertial_unit) {
-    inertial_unit->rpy[0] = values[0];
-    inertial_unit->rpy[1] = values[1];
-    inertial_unit->rpy[2] = values[2];
-  } else
-    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_inertial_unit_init(WbDevice *);
@@ -182,13 +140,17 @@ int wb_inertial_unit_get_sampling_period(WbDeviceTag tag) {
 }
 
 const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
-  const double *result = NULL;
+  static double result[3];
   robot_mutex_lock_step();
   InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     if (inertial_unit->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
-    result = inertial_unit->rpy;
+
+    const double *q = inertial_unit->quaternion;
+    result[0] = atan2(2.0 * (q[0] * q[1] + q[3] * q[2]), q[3] * q[3] + q[0] * q[0] - q[1] * q[1] - q[2] * q[2]);
+    result[1] = asin(-2.0 * (q[0] * q[2] - q[3] * q[1]));
+    result[2] = atan2(2.0 * (q[1] * q[2] + q[3] * q[0]), q[3] * q[3] - q[0] * q[0] - q[1] * q[1] + q[2] * q[2]);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();

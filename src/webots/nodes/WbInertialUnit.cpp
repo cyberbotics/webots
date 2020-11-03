@@ -29,13 +29,9 @@
 #include <cassert>
 
 void WbInertialUnit::init() {
-  mValues[0] = 0.0;
-  mValues[1] = 0.0;
-  mValues[2] = 0.0;
-  mLut = NULL;
   mSensor = NULL;
 
-  mLookupTable = findMFVector3("lookupTable");
+  mNoise = findSFDouble("noise");
   mXAxis = findSFBool("xAxis");
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
@@ -57,32 +53,17 @@ WbInertialUnit::WbInertialUnit(const WbNode &other) : WbSolidDevice(other) {
 }
 
 WbInertialUnit::~WbInertialUnit() {
-  delete mLut;
   delete mSensor;
 }
 
 void WbInertialUnit::preFinalize() {
   WbSolidDevice::preFinalize();
   mSensor = new WbSensor();
-  updateLookupTable();
 }
 
 void WbInertialUnit::postFinalize() {
   WbSolidDevice::postFinalize();
-  connect(mLookupTable, &WbMFVector3::changed, this, &WbInertialUnit::updateLookupTable);
   connect(mResolution, &WbSFDouble::changed, this, &WbInertialUnit::updateResolution);
-}
-
-void WbInertialUnit::updateLookupTable() {
-  mValues[0] = 0.0;
-  mValues[1] = 0.0;
-  mValues[2] = 0.0;
-
-  // create the lookup table
-  delete mLut;
-  mLut = new WbLookupTable(*mLookupTable);
-
-  mNeedToReconfigure = true;
 }
 
 void WbInertialUnit::updateResolution() {
@@ -108,8 +89,6 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_INERTIAL_UNIT_DATA;
-    stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
-
     stream << (double)mQuaternion.x() << (double)mQuaternion.y() << (double)mQuaternion.z() << (double)mQuaternion.w();
 
     mSensor->resetPendingValue();
@@ -122,12 +101,7 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
 void WbInertialUnit::addConfigure(QDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
-  stream << (int)mLookupTable->size();
-  for (int i = 0; i < mLookupTable->size(); i++) {
-    stream << (double)mLookupTable->item(i).x();
-    stream << (double)mLookupTable->item(i).y();
-    stream << (double)mLookupTable->item(i).z();
-  }
+  stream << (double)mNoise->value();
   mNeedToReconfigure = false;
 }
 
@@ -162,11 +136,9 @@ void WbInertialUnit::computeValue() {
 
   // apply resolution if needed
   if (mResolution->value() != -1.0) {
-    if (mXAxis->isTrue())
-      mValues[0] = WbMathsUtilities::discretize(mValues[0], mResolution->value());
-    if (mYAxis->isTrue())
-      mValues[1] = WbMathsUtilities::discretize(mValues[1], mResolution->value());
-    if (mZAxis->isTrue())
-      mValues[2] = WbMathsUtilities::discretize(mValues[2], mResolution->value());
+    mQuaternion.setX(WbMathsUtilities::discretize(mQuaternion.x(), mResolution->value()));
+    mQuaternion.setY(WbMathsUtilities::discretize(mQuaternion.y(), mResolution->value()));
+    mQuaternion.setZ(WbMathsUtilities::discretize(mQuaternion.z(), mResolution->value()));
+    mQuaternion.setW(WbMathsUtilities::discretize(mQuaternion.w(), mResolution->value()));
   }
 }
