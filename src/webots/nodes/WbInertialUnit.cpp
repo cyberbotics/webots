@@ -132,9 +132,14 @@ void WbInertialUnit::computeValue() {
     e *= WbMatrix3(noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian());
   }
 
-  if (!mXAxis->isTrue()) {
+  if (!mXAxis->isTrue() || !mYAxis->isTrue() || !mZAxis->isTrue()) {
     WbAxisAngle aa = e.toAxisAngle();
-    aa.axis().setX(0);
+    if (!mXAxis->isTrue())
+      aa.axis().setX(0);
+    if (!mYAxis->isTrue())
+      aa.axis().setZ(0);
+    if (!mZAxis->isTrue())
+      aa.axis().setY(0);
     aa.axis().normalize();
     e = WbMatrix3(aa.axis(), aa.angle());
   }

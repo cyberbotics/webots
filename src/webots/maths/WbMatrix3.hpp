@@ -20,6 +20,7 @@
 //  WbVector3 can be multiplied (=rotated) by this kind of matrix
 //
 
+#include "WbAxisAngle.hpp"
 #include "WbVector3.hpp"
 
 #include <cmath>
@@ -28,26 +29,6 @@
 class WbQuaternion;
 class WbRotation;
 
-class WbAxisAngle {
-public:
-  WbAxisAngle(double x, double y, double z, double angle) {
-    this->mAngle = angle;
-    this->mAxis = WbVector3(x, y, z);
-  };
-
-  WbAxisAngle(WbVector3 axis, double angle) {
-    this->mAngle = angle;
-    this->mAxis = axis;
-  };
-
-  WbVector3 axis() { return mAxis; };
-
-  double angle() { return mAngle; }
-
-private:
-  WbVector3 mAxis;
-  double mAngle;
-};
 
 class WbMatrix3 {
 public:
@@ -138,7 +119,7 @@ public:
   // to other rotation types
   WbQuaternion toQuaternion() const;
   WbVector3 toEulerAnglesZYX() const;
-  WbAxisAngle toAxisAngle() const;  // axis(x, y, z) + angle
+  WbAxisAngle toAxisAngle() const;
 
   QString toString(WbPrecision::Level level) const;
 
