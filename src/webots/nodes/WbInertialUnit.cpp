@@ -15,10 +15,10 @@
 #include "WbInertialUnit.hpp"
 
 #include "WbFieldChecker.hpp"
-#include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbMatrix3.hpp"
+#include "WbRandom.hpp"
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
@@ -126,6 +126,11 @@ void WbInertialUnit::computeValue() {
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
   WbMatrix3 e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
+
+  if (mNoise->value() != 0.0) {
+    const double noise = mNoise->value() * M_PI;
+    e *= WbMatrix3(noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian());
+  }
 
   if (!mXAxis->isTrue()) {
     const double roll = atan2(-e(1, 2), e(1, 1));
