@@ -198,4 +198,7 @@ If these values are needed for a longer period they must be copied.
 <!-- -->
 
 > **Note** [Python]: The `getRollPitchYaw` function returns the angles as a list containing three floats.
-[ROS]: The `/<device_name>/quaternion` topic publishes quaternions that follow ROS coordinate system convention when `coordinateSystem` in [WorldInfo](worldinfo.md) is set to `ENU`.
+
+<!-- -->
+
+> **Note** [ROS]: The `/<device_name>/quaternion` topic publishes quaternions that follow ROS coordinate system convention when `coordinateSystem` in [WorldInfo](worldinfo.md) is set to `ENU`.
