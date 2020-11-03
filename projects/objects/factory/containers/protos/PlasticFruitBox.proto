@@ -57,71 +57,71 @@ PROTO PlasticFruitBox [
           translation 0 0.01319 0
           children [
             Box {
-              size 0.635 0.03 1
+              size 0.588 0.03 0.948
             }
           ]
         }
         Transform {
-          translation 0 0.15029 0.486
+          translation 0 0.13529 0.486
           children [
             Box {
-              size 0.635 0.243 0.028
+              size 0.5 0.273 0.028
             }
           ]
         }
         Transform {
-          translation 0 0.15029 -0.486
+          translation 0 0.13529 -0.486
           children [
             Box {
-              size 0.635 0.243 0.028
+              size 0.5 0.273 0.028
             }
           ]
         }
         Transform {
-          translation -0.3062 0.13309 0
+          translation -0.3062 0.11809 0
           children [
             Box {
-              size 0.023 0.2085 0.944
+              size 0.023 0.2385 0.85
             }
           ]
         }
         Transform {
-          translation 0.3062 0.13309 0
+          translation 0.3062 0.11809 0
           children [
             Box {
-              size 0.023 0.2085 0.944
+              size 0.023 0.2385 0.85
             }
           ]
         }
         Transform {
-          translation -0.3062 0.25459 0.3827
+          translation -0.3062 0.25459 0.3591
           children [
             Box {
-              size 0.023 0.0345 0.1785
+              size 0.023 0.0345 0.1315
             }
           ]
         }
         Transform {
-          translation 0.3062 0.25459 0.3827
+          translation 0.3062 0.25459 0.3591
           children [
             Box {
-              size 0.023 0.0345 0.1785
+              size 0.023 0.0345 0.1315
             }
           ]
         }
         Transform {
-          translation 0.3062 0.25459 -0.3827
+          translation 0.3062 0.25459 -0.3591
           children [
             Box {
-              size 0.023 0.0345 0.1785
+              size 0.023 0.0345 0.1315
             }
           ]
         }
         Transform {
-          translation -0.3062 0.25459 -0.3827
+          translation -0.3062 0.25459 -0.3591
           children [
             Box {
-              size 0.023 0.0345 0.1785
+              size 0.023 0.0345 0.1315
             }
           ]
         }
@@ -158,6 +158,42 @@ PROTO PlasticFruitBox [
           children [
             Box {
               size 0.023 0.018 0.094
+            }
+          ]
+        }
+        Transform {
+          translation -0.283 0.13529 0.460249
+          rotation 0 -1 0 0.83
+          children [
+            Box {
+              size 0.08 0.273 0.028
+            }
+          ]
+        }
+        Transform {
+          translation 0.283 0.13529 0.460249
+          rotation 0 1 0 0.83
+          children [
+            Box {
+              size 0.08 0.273 0.028
+            }
+          ]
+        }
+        Transform {
+          translation 0.283 0.13529 -0.460249
+          rotation 0 1 0 -0.83
+          children [
+            Box {
+              size 0.08 0.273 0.028
+            }
+          ]
+        }
+        Transform {
+          translation -0.283 0.13529 -0.460249
+          rotation 0 1 0 0.83
+          children [
+            Box {
+              size 0.08 0.273 0.028
             }
           ]
         }
