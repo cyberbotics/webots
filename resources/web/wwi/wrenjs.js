@@ -2,11 +2,64 @@ class WbScene {
   constructor(id) {
     this.id = id;
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
+    _wr_scene_init(_wr_scene_get_instance());
 
+    this.updateFrameBuffer();
+
+    //TODO remove
     let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
     _wr_viewport_set_size(vp, canvas.width, canvas.height);
     _wr_gl_state_set_context_active(true);
-    _wr_scene_init(_wr_scene_get_instance());
+
+    _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
+    _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
+
+    //WbWrenPostProcessingEffects::loadResources();
+    this.updateWrenViewportDimensions();
+
+
+  }
+
+  updateFrameBuffer() {
+    if (mWrenMainFrameBuffer)
+      _wr_frame_buffer_delete(mWrenMainFrameBuffer);
+
+    if (mWrenMainFrameBufferTexture)
+      _wr_texture_delete(WR_TEXTURE(mWrenMainFrameBufferTexture));
+
+    if (mWrenNormalFrameBufferTexture)
+      _wr_texture_delete(WR_TEXTURE(mWrenNormalFrameBufferTexture));
+
+    if (mWrenDepthFrameBufferTexture)
+      _wr_texture_delete(WR_TEXTURE(mWrenDepthFrameBufferTexture));
+
+    mWrenMainFrameBuffer = _wr_frame_buffer_new();
+    _wr_frame_buffer_set_size(mWrenMainFrameBuffer, width(), height());
+
+    mWrenMainFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(mWrenMainFrameBufferTexture, WR_TEXTURE_INTERNAL_FORMAT_RGB16F);
+
+    mWrenNormalFrameBufferTexture = wr_texture_rtt_new();
+    _wr_texture_set_internal_format(mWrenNormalFrameBufferTexture, WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+
+    _wr_frame_buffer_append_output_texture(mWrenMainFrameBuffer, mWrenMainFrameBufferTexture);
+    _wr_frame_buffer_append_output_texture(mWrenMainFrameBuffer, mWrenNormalFrameBufferTexture);
+    _wr_frame_buffer_enable_depth_buffer(mWrenMainFrameBuffer, true);
+
+    mWrenDepthFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(WR_TEXTURE(mWrenDepthFrameBufferTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
+    _wr_frame_buffer_set_depth_texture(mWrenMainFrameBuffer, mWrenDepthFrameBufferTexture);
+
+    _wr_frame_buffer_setup(mWrenMainFrameBuffer);
+    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), mWrenMainFrameBuffer);
+
+    _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), width(), height());
+  }
+
+  updateWrenViewportDimensions() {/*
+    const int ratio = (int)devicePixelRatio();
+    wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
+    WbVideoRecorder::instance()->setScreenPixelRatio(ratio);*/
   }
 }
 
@@ -634,6 +687,38 @@ class WbWrenShaders {
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH];
   }
+
+  static fogShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 16); //enum
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 4);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 5);//enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], "../../../resources/wren/shaders/fog.vert", "../../../resources/wren/shaders/fog.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG];
+  }
+
+  static shadowVolumeShader() {
+    if (! WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME]) {
+       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform( WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 16);//enum
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 2);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 3);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 4);//enum
+
+       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], "../../../resources/wren/shaders/shadow_volume.vert", "../../../resources/wren/shaders/shadow_volume.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME];
+  }
+
 }
 
 //gShaders static variable
