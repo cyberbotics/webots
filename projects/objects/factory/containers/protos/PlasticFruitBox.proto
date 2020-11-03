@@ -86,14 +86,6 @@ PROTO PlasticFruitBox [
           ]
         }
         Transform {
-          translation -0.3062 0.25459 0.372
-          children [
-            Box {
-              size 0.023 0.0345 0.2
-            }
-          ]
-        }
-        Transform {
           translation 0.3062 0.13309 0
           children [
             Box {
@@ -102,26 +94,70 @@ PROTO PlasticFruitBox [
           ]
         }
         Transform {
-          translation -0.3062 0.25459 -0.372
+          translation -0.3062 0.25459 0.3827
           children [
             Box {
-              size 0.023 0.0345 0.2
+              size 0.023 0.0345 0.1785
             }
           ]
         }
         Transform {
-          translation 0.3062 0.25459 -0.372
+          translation 0.3062 0.25459 0.3827
           children [
             Box {
-              size 0.023 0.0345 0.2
+              size 0.023 0.0345 0.1785
             }
           ]
         }
         Transform {
-          translation 0.3062 0.25459 0.372
+          translation 0.3062 0.25459 -0.3827
           children [
             Box {
-              size 0.023 0.0345 0.2
+              size 0.023 0.0345 0.1785
+            }
+          ]
+        }
+        Transform {
+          translation -0.3062 0.25459 -0.3827
+          children [
+            Box {
+              size 0.023 0.0345 0.1785
+            }
+          ]
+        }
+        Transform {
+          translation -0.3062 0.24618 0.25305
+          rotation -1 0 0 0.377
+          children [
+            Box {
+              size 0.023 0.018 0.094
+            }
+          ]
+        }
+        Transform {
+          translation 0.3062 0.24618 0.25305
+          rotation -1 0 0 0.377
+          children [
+            Box {
+              size 0.023 0.018 0.094
+            }
+          ]
+        }
+        Transform {
+          translation 0.3062 0.24618 -0.25305
+          rotation -1 0 0 -0.377
+          children [
+            Box {
+              size 0.023 0.018 0.094
+            }
+          ]
+        }
+        Transform {
+          translation -0.3062 0.24618 -0.25305
+          rotation -1 0 0 -0.377
+          children [
+            Box {
+              size 0.023 0.018 0.094
             }
           ]
         }
