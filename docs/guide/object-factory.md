@@ -79,7 +79,7 @@ PlasticFruitBox {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "plastic fruit box"
-  SFColor    color       1 1 1
+  SFColor    color       0 1 0.5
   SFFloat    mass        0
 }
 ```
