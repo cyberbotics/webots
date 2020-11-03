@@ -145,13 +145,15 @@ class MyParser {
 
   parseGeometry(node, currentNode) {
     let geometry;
-    if(node.tagName === 'Box') {
+    if(node.tagName === 'Box')
       geometry = this.parseBox(node);
-    }else if (node.tagName === 'Sphere'){
+    else if (node.tagName === 'Sphere')
       geometry = this.parseSphere(node);
-    } else if (node.tagName === 'Cone') {
+    else if (node.tagName === 'Cone')
       geometry = this.parseCone(node);
-    }else {
+    else if (node.tagName === 'Plane')
+      geometry = this.parsePlane(node);
+    else {
       console.log("Not a recognized geometry : " +node.tagName);
       geometry = undefined
     }
@@ -187,6 +189,13 @@ class MyParser {
     let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
 
     return new WbCone(id, bottomRadius, height, subdivision, side, bottom);
+  }
+
+  parsePlane(node) {
+    let id = getNodeAttribute(node, 'id');
+    let size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
+
+    return new WbPlane(id, size);
   }
 
   parseAppearance(node, currentNode) {
