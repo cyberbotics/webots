@@ -27,7 +27,7 @@ RosInertialUnit::~RosInertialUnit() {
 // creates a publisher for InertialUnit values with a sensor_msgs/Imu as message type
 ros::Publisher RosInertialUnit::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/roll_pitch_yaw";
+  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/quaternion";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

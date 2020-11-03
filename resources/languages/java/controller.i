@@ -74,7 +74,7 @@ using namespace std;
   const string test("$name");
   if (test == "getSFVec2f" || test == "getMFVec2f")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 2);
-  else if (test == "getSFRotation")
+  else if (test == "getSFRotation" || test == "getQuaternion")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 4);
   else if (test == "getVelocity")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
