@@ -29,7 +29,6 @@
 class WbQuaternion;
 class WbRotation;
 
-
 class WbMatrix3 {
 public:
   // construct as identity matrix
