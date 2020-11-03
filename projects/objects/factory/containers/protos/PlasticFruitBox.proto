@@ -4,8 +4,8 @@
 # tags: static
 # A plastic box.
 
-PROTO PlasticBox [
-  field SFString   name        "plastic box"
+PROTO PlasticFruitBox [
+  field SFString   name        "plastic fruit box"
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFColor    color       1 1 1
@@ -19,18 +19,18 @@ PROTO PlasticBox [
       Shape {
         appearance PBRAppearance {
           baseColor IS color
-          baseColorMap ImageTexture { url "textures/plastic_box_base_color.jpg" }
+          baseColorMap ImageTexture { url "textures/plastic_fruit_box_base_color.jpg" }
           transparency 0
           roughness 0
-          roughnessMap ImageTexture { url "textures/plastic_box_roughness.jpg" }
+          roughnessMap ImageTexture { url "textures/plastic_fruit_box_roughness.jpg" }
           metalness 1
-          metalnessMap ImageTexture { url "textures/plastic_box_metalness.jpg" }
+          metalnessMap ImageTexture { url "textures/plastic_fruit_box_metalness.jpg" }
           IBLStrength 1
-          normalMap ImageTexture { url "textures/plastic_box_normal.jpg" }
+          normalMap ImageTexture { url "textures/plastic_fruit_box_normal.jpg" }
           normalMapFactor 1
-          occlusionMap ImageTexture { url "textures/plastic_box_occlusion.jpg" }
+          occlusionMap ImageTexture { url "textures/plastic_fruit_box_occlusion.jpg" }
           occlusionMapStrength 1
-          name "plastic box appearance"
+          name "plastic fruit box appearance"
         }
         geometry IndexedFaceSet {
             coord Coordinate {
