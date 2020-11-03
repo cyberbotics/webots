@@ -133,8 +133,10 @@ void WbInertialUnit::computeValue() {
   }
 
   if (!mXAxis->isTrue()) {
-    const double roll = atan2(-e(1, 2), e(1, 1));
-    e *= WbMatrix3(1, 0, 0, roll).transposed();
+    WbAxisAngle aa = e.toAxisAngle();
+    aa.axis().setX(0);
+    aa.axis().normalize();
+    e = WbMatrix3(aa.axis(), aa.angle());
   }
 
   mQuaternion = e.toQuaternion();

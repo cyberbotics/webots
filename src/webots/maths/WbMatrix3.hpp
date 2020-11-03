@@ -28,6 +28,27 @@
 class WbQuaternion;
 class WbRotation;
 
+class WbAxisAngle {
+public:
+  WbAxisAngle(double x, double y, double z, double angle) {
+    this->mAngle = angle;
+    this->mAxis = WbVector3(x, y, z);
+  };
+
+  WbAxisAngle(WbVector3 axis, double angle) {
+    this->mAngle = angle;
+    this->mAxis = axis;
+  };
+
+  WbVector3 axis() { return mAxis; };
+
+  double angle() { return mAngle; }
+
+private:
+  WbVector3 mAxis;
+  double mAngle;
+};
+
 class WbMatrix3 {
 public:
   // construct as identity matrix
@@ -117,6 +138,7 @@ public:
   // to other rotation types
   WbQuaternion toQuaternion() const;
   WbVector3 toEulerAnglesZYX() const;
+  WbAxisAngle toAxisAngle() const;  // axis(x, y, z) + angle
 
   QString toString(WbPrecision::Level level) const;
 
