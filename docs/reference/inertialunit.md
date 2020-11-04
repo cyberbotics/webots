@@ -175,7 +175,7 @@ The `wb_inertial_unit_get_roll_pitch_yaw` function returns the current *roll*, *
 The values are returned as an array of 3 components therefore only the indices 0, 1, and 2 are valid for accessing the returned array.
 Note that the indices 0, 1 and 2 return the *roll*, *pitch* and *yaw* angles respectively.
 
-The `wb_inertial_unit_get_quaternion` function returns the current orientation of the [InertialUnit](#inertialunit) expressed in quaternions.
+The `wb_inertial_unit_get_quaternion` function returns the current orientation of the [InertialUnit](#inertialunit) expressed as a quaternion.
 The values are returned as an array of 4 components therefore only the indices 0, 1, 2, and 3 are valid for accessing the returned array.
 Note that the indices 0, 1, 2, and 3 return the *x*, *y*, *z*, and *w* components respectively.
 
