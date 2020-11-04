@@ -14,7 +14,7 @@
 
 #include "RosInertialUnit.hpp"
 #include "sensor_msgs/Imu.h"
-#include "tf2/tf2.h"
+#include "tf2/LinearMath/Quaternion.h"
 
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
