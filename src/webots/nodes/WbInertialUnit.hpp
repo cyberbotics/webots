@@ -60,6 +60,7 @@ private:
 
 private slots:
   void updateResolution();
+  void updateNoise();
 };
 
 #endif

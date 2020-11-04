@@ -37,3 +37,7 @@ const double *InertialUnit::getRollPitchYaw() const {
 const double *InertialUnit::getQuaternion() const {
   return wb_inertial_unit_get_quaternion(getTag());
 }
+
+double InertialUnit::getNoise() const {
+  return wb_inertial_unit_get_noise(getTag());
+}

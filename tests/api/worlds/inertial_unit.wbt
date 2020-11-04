@@ -21,7 +21,7 @@ DEF AIRPLANE Robot {
   translation 0.484785 0.39156 -0.0676172
   children [
     InertialUnit {
-      noise 0
+      noise 0.000005
     }
     Shape {
       appearance Appearance {

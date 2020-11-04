@@ -27,6 +27,7 @@ namespace webots {
     int getSamplingPeriod() const;
     const double *getRollPitchYaw() const;
     const double *getQuaternion() const;
+    double getNoise() const;
   };
 }  // namespace webots
 

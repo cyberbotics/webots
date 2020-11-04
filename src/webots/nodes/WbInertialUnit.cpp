@@ -59,11 +59,17 @@ WbInertialUnit::~WbInertialUnit() {
 void WbInertialUnit::preFinalize() {
   WbSolidDevice::preFinalize();
   mSensor = new WbSensor();
+  updateNoise();
 }
 
 void WbInertialUnit::postFinalize() {
   WbSolidDevice::postFinalize();
   connect(mResolution, &WbSFDouble::changed, this, &WbInertialUnit::updateResolution);
+  connect(mNoise, &WbMFVector3::changed, this, &WbInertialUnit::updateNoise);
+}
+
+void WbInertialUnit::updateNoise() {
+  mNeedToReconfigure = true;
 }
 
 void WbInertialUnit::updateResolution() {
