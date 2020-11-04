@@ -23,14 +23,11 @@
 
 class WbAxisAngle {
 public:
-  WbAxisAngle(double x, double y, double z, double angle) {
-    this->mAngle = angle;
-    this->mAxis = WbVector3(x, y, z);
-  };
+  WbAxisAngle(double x, double y, double z, double angle) : mAxis(WbVector3(x, y, z)), mAngle(angle){};
 
   WbVector3 &axis() { return mAxis; };
 
-  double angle() { return mAngle; }
+  double angle() const { return mAngle; }
 
 private:
   WbVector3 mAxis;
