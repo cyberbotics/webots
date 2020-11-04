@@ -3,8 +3,6 @@ name: Test Sources
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
-    paths-ignore:
-      - 'docs/**'
   schedule:
     - cron:  '0 22 * * *'
 
@@ -13,7 +11,18 @@ defaults:
     shell: bash
 
 jobs:
+  workflow-skipper:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - uses: fkirc/skip-duplicate-actions@master
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          paths_ignore: '["docs/**"]'
+
   cleanup-runs:
+    needs: workflow-skipper
     runs-on: ubuntu-latest
     steps:
     - uses: rokroskar/workflow-run-cleanup-action@master
