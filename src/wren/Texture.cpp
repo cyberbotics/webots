@@ -41,9 +41,9 @@ namespace wren {
     GlFormatParams(GL_RGB8, GL_BGR, GL_UNSIGNED_BYTE, 3, 3),
     GlFormatParams(GL_RGBA8, GL_BGRA, GL_UNSIGNED_BYTE, 4, 4),
 #endif
-    GlFormatParams(GL_R16F, GL_RED, GL_FLOAT, 2, 1),
-    GlFormatParams(GL_RGB16F, GL_RGB, GL_FLOAT, 6, 3),
-    GlFormatParams(GL_RGBA16F, GL_RGBA, GL_FLOAT, 8, 4),
+    GlFormatParams(GL_R16F, GL_RED, GL_HALF_FLOAT, 2, 1),
+    GlFormatParams(GL_RGB16F, GL_RGB, GL_HALF_FLOAT, 6, 3),
+    GlFormatParams(GL_RGBA16F, GL_RGBA, GL_HALF_FLOAT, 8, 4),
     GlFormatParams(GL_R32F, GL_RED, GL_FLOAT, 4, 1),
     GlFormatParams(GL_RG32F, GL_RG, GL_FLOAT, 8, 2),
     GlFormatParams(GL_RGB32F, GL_RGB, GL_FLOAT, 12, 3),
