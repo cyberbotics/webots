@@ -148,8 +148,7 @@ WbAxisAngle WbMatrix3::toAxisAngle() const {
     }
     return WbAxisAngle(x, y, z, angle);
   }
-  double s = sqrt((mM[7] - mM[5]) * (mM[7] - mM[5]) + (mM[2] - mM[6]) * (mM[2] - mM[6]) +
-                  (mM[3] - mM[1]) * (mM[3] - mM[1]));
+  double s = sqrt((mM[7] - mM[5]) * (mM[7] - mM[5]) + (mM[2] - mM[6]) * (mM[2] - mM[6]) + (mM[3] - mM[1]) * (mM[3] - mM[1]));
   if (abs(s) < 0.001)
     s = 1;
   angle = acos((mM[0] + mM[4] + mM[8] - 1) / 2);
