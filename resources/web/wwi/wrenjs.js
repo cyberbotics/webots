@@ -36,9 +36,9 @@ class WbScene {
 
     this.wrenMainFrameBuffer = _wr_frame_buffer_new();
     _wr_frame_buffer_set_size(this.wrenMainFrameBuffer, canvas.width, canvas.height);
-
+console.log("aiewe");
     this.wrenMainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 6);//enum
+    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 2);//enum
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
     _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 3);//enum

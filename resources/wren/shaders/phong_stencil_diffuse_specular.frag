@@ -211,4 +211,5 @@ void main() {
   }
 
   fragColor = texColor * vec4(diffuseTotal + specularTotal, material.emissiveAndOpacity.w);
+  fragColor = vec4(pow(fragColor.x, 1.0 / 2.2), pow(fragColor.y, 1.0 / 2.2), pow(fragColor.z, 1.0 / 2.2), pow(fragColor.w, 1.0 / 2.2));
 }
