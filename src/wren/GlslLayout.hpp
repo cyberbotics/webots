@@ -91,6 +91,7 @@ namespace wren {
       SpotLight mSpotLights[gMaxActiveSpotLights];
       glm::vec4 mAmbientLight;
       glm::ivec3 mLightCount;
+      float pad;  // pad the struct to get the same size as the std140 struct in shaders where vec3 is counted as a vec4
     };
 
     // Used for doing one pass per light
