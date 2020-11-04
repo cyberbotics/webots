@@ -1,5 +1,5 @@
 ## Actuators
-test
+Test.
 Webots can simulate a lot of standard robotic actuators.
 Using the nodes described [below](#generic-actuator-list) and their corresponding APIs is sufficient in most of the cases.
 
