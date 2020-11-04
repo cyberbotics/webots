@@ -18,6 +18,9 @@
 
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
+
+  mNoiseServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_noise",
+                                                &RosInertialUnit::getNoise);
 }
 
 RosInertialUnit::~RosInertialUnit() {
@@ -58,4 +61,10 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
   value.linear_acceleration.z = 0.0;
   value.linear_acceleration_covariance[0] = -1.0;  // means no linear_acceleration information
   publisher.publish(value);
+}
+
+bool RosInertialUnit::getNoise(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
+  assert(mInertialUnit);
+  res.value = mInertialUnit->getNoise();
+  return true;
 }

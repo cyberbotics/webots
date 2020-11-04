@@ -32,11 +32,13 @@ public:
   void rosEnable(int samplingPeriod) override { mInertialUnit->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mInertialUnit->getSamplingPeriod(); }
+  bool getNoise(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
 
 private:
   void cleanup() { mInertialUnit->disable(); }
 
   InertialUnit *mInertialUnit;
+  ros::ServiceServer mNoiseServer;
 };
 
 #endif  // ROS_INERTIAL_UNIT_HPP
