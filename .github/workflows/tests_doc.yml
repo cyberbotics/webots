@@ -2,9 +2,6 @@ name: Test Doc
 
 on:
   pull_request:
-    paths:
-    - 'docs/**'
-    - '.github/workflows/**'
   schedule:
     - cron:  '0 22 * * *'
 
@@ -13,6 +10,14 @@ defaults:
     shell: bash
 
 jobs:
+  workflow-skipper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fkirc/skip-duplicate-actions@master
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          paths: '["docs/**", ".github/workflows/**"]'
+
   test-doc:
     runs-on: ${{ matrix.os }}
     strategy:
