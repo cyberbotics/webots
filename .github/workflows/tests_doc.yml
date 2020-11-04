@@ -18,22 +18,24 @@ jobs:
       - uses: fkirc/skip-duplicate-actions@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-          paths: '["docs/**", ".github/workflows/**"]'
+          paths_ignore: '["docs/**"]'
 
   test-doc:
     needs: workflow-skipper
-    if: ${{ needs.workflow-skipper.outputs.should_skip == 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
+      if: needs.workflow-skipper.outputs.should_skip != 'true'
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
+      if: needs.workflow-skipper.outputs.should_skip != 'true'
       with:
         python-version: 3.9
     - name: Tests
+      if: needs.workflow-skipper.outputs.should_skip != 'true'
       run: |
         pip install -r docs/tests/requirements.txt
         export WEBOTS_HOME=$PWD
