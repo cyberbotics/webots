@@ -10,7 +10,7 @@ defaults:
     shell: bash
 
 jobs:
-  workflow-skipper:
+  workflow_skipper:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -21,21 +21,21 @@ jobs:
           paths: '["docs/**"]'
 
   test-doc:
-    needs: workflow-skipper
+    needs: workflow_skipper
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
-      if: ${{needs.workflow-skipper.outputs.should_skip != 'true'}}
+      if: ${{ needs.workflow_skipper.outputs.should_skip != 'true' }}
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
-      if: ${{needs.workflow-skipper.outputs.should_skip != 'true'}}
+      if: ${{ needs.workflow_skipper.outputs.should_skip != 'true' }}
       with:
         python-version: 3.9
     - name: Tests
-      if: ${{needs.workflow-skipper.outputs.should_skip != 'true'}}
+      if: ${{ needs.workflow_skipper.outputs.should_skip != 'true' }}
       run: |
         pip install -r docs/tests/requirements.txt
         export WEBOTS_HOME=$PWD
