@@ -1,65 +1,64 @@
 class WbScene {
   constructor(id) {
     this.id = id;
+    this.wrenMainFrameBuffer = null;
+    this.wrenMainFrameBufferTexture = null;
+    this.wrenNormalFrameBufferTexture = null;
+    this.wrenDepthFrameBufferTexture = null;
+
+
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     _wr_scene_init(_wr_scene_get_instance());
 
-    this.updateFrameBuffer();
-
-    //TODO remove
-    let vp = _wr_scene_get_viewport(_wr_scene_get_instance());
-    _wr_viewport_set_size(vp, canvas.width, canvas.height);
     _wr_gl_state_set_context_active(true);
+
+    this.updateFrameBuffer();
 
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
     //WbWrenPostProcessingEffects::loadResources();
     this.updateWrenViewportDimensions();
-
-
   }
 
   updateFrameBuffer() {
-    if (mWrenMainFrameBuffer)
-      _wr_frame_buffer_delete(mWrenMainFrameBuffer);
+    if (this.wrenMainFrameBuffer)
+      _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
 
-    if (mWrenMainFrameBufferTexture)
-      _wr_texture_delete(WR_TEXTURE(mWrenMainFrameBufferTexture));
+    if (this.wrenMainFrameBufferTexture)
+      _wr_texture_delete(this.wrenMainFrameBufferTexture);
 
-    if (mWrenNormalFrameBufferTexture)
-      _wr_texture_delete(WR_TEXTURE(mWrenNormalFrameBufferTexture));
+    if (this.wrenNormalFrameBufferTexture)
+      _wr_texture_delete(this.wrenNormalFrameBufferTexture);
 
-    if (mWrenDepthFrameBufferTexture)
-      _wr_texture_delete(WR_TEXTURE(mWrenDepthFrameBufferTexture));
+    if (this.wrenDepthFrameBufferTexture)
+      _wr_texture_delete(this.wrenDepthFrameBufferTexture);
 
-    mWrenMainFrameBuffer = _wr_frame_buffer_new();
-    _wr_frame_buffer_set_size(mWrenMainFrameBuffer, width(), height());
+    this.wrenMainFrameBuffer = _wr_frame_buffer_new();
+    _wr_frame_buffer_set_size(this.wrenMainFrameBuffer, canvas.width, canvas.height);
 
-    mWrenMainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(mWrenMainFrameBufferTexture, WR_TEXTURE_INTERNAL_FORMAT_RGB16F);
+    this.wrenMainFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 6);//enum
 
-    mWrenNormalFrameBufferTexture = wr_texture_rtt_new();
-    _wr_texture_set_internal_format(mWrenNormalFrameBufferTexture, WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+    this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 3);//enum
 
-    _wr_frame_buffer_append_output_texture(mWrenMainFrameBuffer, mWrenMainFrameBufferTexture);
-    _wr_frame_buffer_append_output_texture(mWrenMainFrameBuffer, mWrenNormalFrameBufferTexture);
-    _wr_frame_buffer_enable_depth_buffer(mWrenMainFrameBuffer, true);
+    _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
+    _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
+    _wr_frame_buffer_enable_depth_buffer(this.wrenMainFrameBuffer, true);
 
-    mWrenDepthFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(WR_TEXTURE(mWrenDepthFrameBufferTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
-    _wr_frame_buffer_set_depth_texture(mWrenMainFrameBuffer, mWrenDepthFrameBufferTexture);
+    this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, 11);//enum
+    _wr_frame_buffer_set_depth_texture(this.wrenMainFrameBuffer, this.wrenDepthFrameBufferTexture);
 
-    _wr_frame_buffer_setup(mWrenMainFrameBuffer);
-    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), mWrenMainFrameBuffer);
+    _wr_frame_buffer_setup(this.wrenMainFrameBuffer);
+    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), this.wrenMainFrameBuffer);
 
-    _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), width(), height());
+    _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), canvas.width, canvas.height);
   }
 
-  updateWrenViewportDimensions() {/*
-    const int ratio = (int)devicePixelRatio();
-    wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
-    WbVideoRecorder::instance()->setScreenPixelRatio(ratio);*/
+  updateWrenViewportDimensions() {
+    _wr_viewport_set_pixel_ratio(_wr_scene_get_viewport(_wr_scene_get_instance()), 1);// TODO get the right pixel ratio
   }
 }
 
@@ -252,9 +251,8 @@ class WbShape extends WbBaseNode {
         console.error("applyMaterialToGeometry : not implemented yet");
           //this.wrenMaterial = WbAppearance::fillWrenDefaultMaterial(this.wrenMaterial);
       }
-
-      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
+    this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
   }
 
   createWrenMaterial(type) {
@@ -790,6 +788,7 @@ class WrenRenderer {
 
     render() {
       try {
+        //console.log("render");
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {
