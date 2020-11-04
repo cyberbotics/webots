@@ -152,7 +152,7 @@ function addDevice(device) {
   if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')
     div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="checkboxCallback(this)" />';
   div += device.htmlName + '<span id="' + device.htmlName + '-label"></span></h2>';
-  if (device.type === 'Camera' && device.recognition === 1) { // and recognition enabled
+  if (device.type === 'Camera' && device.recognition === 1) {
     if (device.segmentation === 1) {
       div += '<div class="device-option-enable-label">';
       div += '<h2 class="device-option-item-enable-label">';
@@ -421,7 +421,6 @@ function update(data) {
       if (value.recognitionEnabled !== undefined) {
         const recognitionCheckbox = document.getElementById(key + '-recognition-checkbox');
         applyToUntouchedCheckbox(recognitionCheckbox, value.recognitionEnabled);
-        console.log(value.recognitionEnabled);
         const segmentationCheckbox = document.getElementById(key + '-segmentation-checkbox');
         if (segmentationCheckbox)
           segmentationCheckbox.disabled = !value.recognitionEnabled;
