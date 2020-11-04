@@ -22,7 +22,7 @@ jobs:
 
   test-doc:
     needs: workflow-skipper
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    if: ${{ needs.workflow-skipper.outputs.should_skip != 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
