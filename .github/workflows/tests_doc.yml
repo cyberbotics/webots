@@ -18,7 +18,7 @@ jobs:
       - uses: fkirc/skip-duplicate-actions@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-          paths_ignore: '["docs/**"]'
+          paths: '["docs/**"]'
 
   test-doc:
     needs: workflow-skipper
