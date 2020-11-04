@@ -467,7 +467,7 @@ void WbGeometry::computeCastShadows(bool enabled) {
 
 void WbGeometry::setOdePosition(const WbVector3 &translation) {
   mOdePositionSet = translation;
-  mOdeOffsetTranslation = translation + mOdeOffsetRotation.toMatrix3() * mLocalOdeGeomOffsetPosition;
+  mOdeOffsetTranslation = translation + mOdeOffsetRotation * mLocalOdeGeomOffsetPosition;
 
   if (mOdeGeom == NULL)
     return;
@@ -478,9 +478,8 @@ void WbGeometry::setOdePosition(const WbVector3 &translation) {
     dGeomSetOffsetWorldPosition(mOdeGeom, mOdeOffsetTranslation.x(), mOdeOffsetTranslation.y(), mOdeOffsetTranslation.z());
 }
 
-void WbGeometry::setOdeRotation(const WbRotation &rotation) {
+void WbGeometry::setOdeRotation(const WbMatrix3 &rotation) {
   mOdeOffsetRotation = rotation;
-  mOdeOffsetRotation.normalize();
 
   if (!mLocalOdeGeomOffsetPosition.isNull())
     // the position should be recomputed because the local offset is influenced by the global rotation
@@ -496,7 +495,16 @@ void WbGeometry::setOdeRotation(const WbRotation &rotation) {
     return;
 
   dMatrix3 m;
-  dRFromAxisAndAngle(m, mOdeOffsetRotation.x(), mOdeOffsetRotation.y(), mOdeOffsetRotation.z(), mOdeOffsetRotation.angle());
+  m[0] = mOdeOffsetRotation(0, 0);
+  m[1] = mOdeOffsetRotation(0, 1);
+  m[2] = mOdeOffsetRotation(0, 2);
+  m[4] = mOdeOffsetRotation(1, 0);
+  m[5] = mOdeOffsetRotation(1, 1);
+  m[6] = mOdeOffsetRotation(1, 2);
+  m[8] = mOdeOffsetRotation(2, 0);
+  m[9] = mOdeOffsetRotation(2, 1);
+  m[10] = mOdeOffsetRotation(2, 2);
+
   if (dGeomGetBody(mOdeGeom) == NULL)
     dGeomSetRotation(mOdeGeom, m);
   else
