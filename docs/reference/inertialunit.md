@@ -175,6 +175,12 @@ The `wb_inertial_unit_get_roll_pitch_yaw` function returns the current *roll*, *
 The values are returned as an array of 3 components therefore only the indices 0, 1, and 2 are valid for accessing the returned array.
 Note that the indices 0, 1 and 2 return the *roll*, *pitch* and *yaw* angles respectively.
 
+The `wb_inertial_unit_get_quaternion` function returns the current orientation of the [InertialUnit](#inertialunit) expressed in quaternions.
+The values are returned as an array of 4 components therefore only the indices 0, 1, 2, and 3 are valid for accessing the returned array.
+Note that the indices 0, 1, 2, and 3 return the *x*, *y*, *z*, and *w* components respectively.
+
+The `wb_inertial_unit_get_noise` function returns value of `noise` parameter. 
+
 The *roll* angle indicates the unit's rotation angle about its x-axis, in the interval [-&pi;,&pi;].
 The *roll* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its y-axis has the opposite direction of the gravity ([WorldInfo](worldinfo.md) defines the coordinate system).
 
@@ -185,11 +191,6 @@ If the [InertialUnit](#inertialunit) is placed on the [Robot](robot.md) with a s
 The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], with respect to [WorldInfo](worldinfo.md).`coordinateSystem`.
 The *yaw* angle is zero when the [InertialUnit](#inertialunit)'s x-axis is aligned with the north direction, it is &pi;/2 when the unit is heading east, and -&pi;/2 when the unit is oriented towards the west.
 The *yaw* angle can be used as a compass.
-
-The `wb_inertial_unit_get_lookup_table_size` function returns the number of rows in the lookup table.
-
-The `wb_inertial_unit_get_lookup_table` function returns the values of the lookup table.
-This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_inertial_unit_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to internal values managed by the Webots, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.
