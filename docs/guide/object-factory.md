@@ -36,6 +36,59 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
+### MetalStorageBox
+
+A metal storage box.
+
+%figure
+
+![MetalStorageBox](images/objects/containers/MetalStorageBox/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+MetalStorageBox {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "metal storage box"
+  SFFloat    mass        0
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/MetalStorageBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/MetalStorageBox.proto)"
+
+> **license**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### PlasticFruitBox
+
+A plastic fruit box.
+
+%figure
+
+![PlasticFruitBox](images/objects/containers/PlasticFruitBox/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+PlasticFruitBox {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "plastic fruit box"
+  SFColor    color       0 1 0.5
+  SFFloat    mass        0
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticFruitBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/PlasticFruitBox.proto)"
+
+> **license**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
 ### PlasticCrate
 
 A plastic crate.
@@ -991,4 +1044,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-
