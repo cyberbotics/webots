@@ -12,6 +12,8 @@ defaults:
 jobs:
   workflow-skipper:
     runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - uses: fkirc/skip-duplicate-actions@master
         with:
@@ -19,6 +21,8 @@ jobs:
           paths: '["docs/**", ".github/workflows/**"]'
 
   test-doc:
+    needs: workflow-skipper
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
