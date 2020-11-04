@@ -60,4 +60,4 @@ jobs:
       if: matrix.os == 'ubuntu-18.04' && matrix.python == '3.9'
       run: |
         if [[ "$(diff .github/workflows/test_suite_linux.yml .github/workflows/test_suite_linux_develop.yml | grep -c -e '^<' -e '^>')" -ne "13" ]]; then echo Linux Workflows not synchronized; exit -1; fi
-        if [[ "$(diff .github/workflows/test_suite_mac.yml .github/workflows/test_suite_mac_develop.yml | grep -c -e '^<' -e '^>')" -ne "10" ]]; then echo macOS Workflows not synchronized; exit -1; fi
+        # if [[ "$(diff .github/workflows/test_suite_mac.yml .github/workflows/test_suite_mac_develop.yml | grep -c -e '^<' -e '^>')" -ne "10" ]]; then echo macOS Workflows not synchronized; exit -1; fi
