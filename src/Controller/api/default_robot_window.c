@@ -333,6 +333,10 @@ static void camera_configure(WbDeviceTag tag) {
   buffer_append_int(wb_camera_get_width(tag));
   buffer_append(",\"height\":");
   buffer_append_int(wb_camera_get_height(tag));
+  buffer_append(",\"recognition\":");
+  buffer_append_int(wb_camera_has_recognition(tag));
+  buffer_append(",\"segmentation\":");
+  buffer_append_int(wb_camera_recognition_has_segmentation(tag));
 }
 
 static void lidar_configure(WbDeviceTag tag) {
@@ -525,6 +529,18 @@ static void append_rescaled_image_to_buffer_and_free_data(GImage *img, int new_w
 static void camera_update(WbDeviceTag tag) {
   if (wb_camera_get_sampling_period(tag) <= 0)
     return;
+
+  if (wb_camera_has_recognition(tag)) {
+    fprintf(stderr, "recognitionEnabled %d segmentationEnabled %d\n", wb_camera_recognition_get_sampling_period(tag),
+            wb_camera_recognition_is_segmentation_enabled(tag));
+    buffer_append("\"recognitionEnabled\":");
+    buffer_append(wb_camera_recognition_get_sampling_period(tag) > 0 ? "true" : "false");
+    if (wb_camera_recognition_has_segmentation(tag)) {
+      buffer_append(",\"segmentationEnabled\":");
+      buffer_append(wb_camera_recognition_is_segmentation_enabled(tag) ? "true" : "false");
+    }
+    buffer_append(",");
+  }
 
   const unsigned char *image = wb_camera_get_image(tag);
   if (!image)

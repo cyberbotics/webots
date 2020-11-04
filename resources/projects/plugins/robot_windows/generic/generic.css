@@ -204,11 +204,18 @@ h2 {
 .differential-wheels-button:active {
   background-color: #5B5;
 }
-.point-cloud-enable-label {
+.device-option-enable-label {
   position: absolute;
   top: 0px;
   right: 10px;
   text-align: right;
+}
+.device-option-item-enable-label {
+  top: 0px;
+  right: 10px;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .image {
   width: 100%;
