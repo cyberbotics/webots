@@ -13,8 +13,6 @@ defaults:
 jobs:
   workflow-skipper:
     runs-on: ubuntu-latest
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - uses: fkirc/skip-duplicate-actions@master
         with:
@@ -22,7 +20,6 @@ jobs:
           paths_ignore: '["docs/**"]'
 
   cleanup-runs:
-    needs: workflow-skipper
     runs-on: ubuntu-latest
     steps:
     - uses: rokroskar/workflow-run-cleanup-action@master
