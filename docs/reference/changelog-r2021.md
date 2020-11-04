@@ -14,6 +14,7 @@ Released on December XXth, 2020.
     - Added two new functions to the [Camera](camera.md) API called [`wb_camera_get_exposure`](camera.md#wb_camera_get_exposure) and [`wb_camera_set_exposure`](camera.md#wb_camera_set_exposure) to retrieve and change the [Camera](camera.md) exposure ([#2363](https://github.com/cyberbotics/webots/pull/2363)).
     - Added a new functionality in the [Recognition](recognition.md) node and [Camera](camera.md) API for generating segmented ground truth images ([#2199](https://github.com/cyberbotics/webots/pull/2199)).
     - Added options to enable and disable recognition and segmentation functionalities in the [Camera](camera.md) tab of the default robot window ([#2431](https://github.com/cyberbotics/webots/pull/2431)).
+    - **Added a new [`wb_inertial_unit_get_quaternion`](inertialunit.md#wb_inertial_unit_get_quaternion) [InertialUnit](inertialunit.md) API function to get the orientation measurement represented as a quaternion ([#2424](https://github.com/cyberbotics/webots/pull/2424)).**
     - Added a `PlasticFruitBox` and a `MetalStorageBox` PROTO object ([#2427](https://github.com/cyberbotics/webots/pull/2427)).
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**

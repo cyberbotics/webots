@@ -204,8 +204,8 @@ gen(FUNC, "wb_gyro_get_sampling_period(tag)", "gyro")
 gen(PROC, "wb_inertial_unit_enable(tag, sampling_period)", "inertialunit")
 gen(PROC, "wb_inertial_unit_disable(tag)", "inertialunit")
 gen(FUNC, "wb_inertial_unit_get_sampling_period(tag)", "inertialunit")
-# gen(FUNC, "wb_inertial_unit_get_lookup_table_size(tag)", "inertialunit")
-# gen(FUNC, "wb_inertial_unit_get_lookup_table(tag)", "inertialunit")
+gen(FUNC, "wb_inertial_unit_get_noise(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_quaternion(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_roll_pitch_yaw(tag)", "inertialunit")
 
 # joystick.h
