@@ -179,7 +179,7 @@ The `wb_inertial_unit_get_quaternion` function returns the current orientation o
 The values are returned as an array of 4 components therefore only the indices 0, 1, 2, and 3 are valid for accessing the returned array.
 Note that the indices 0, 1, 2, and 3 return the *x*, *y*, *z*, and *w* components respectively.
 
-The `wb_inertial_unit_get_noise` function returns value of `noise` parameter. 
+The `wb_inertial_unit_get_noise` function returns value of `noise` field. 
 
 The *roll* angle indicates the unit's rotation angle about its x-axis, in the interval [-&pi;,&pi;].
 The *roll* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its y-axis has the opposite direction of the gravity ([WorldInfo](worldinfo.md) defines the coordinate system).
