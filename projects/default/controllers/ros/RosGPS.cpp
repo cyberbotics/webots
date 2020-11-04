@@ -61,9 +61,9 @@ void RosGPS::publishValue(ros::Publisher publisher) {
     geometry_msgs::PointStamped value;
     value.header.stamp = ros::Time::now();
     value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-    value.x = mGPS->getValues()[0];
-    value.y = mGPS->getValues()[1];
-    value.z = mGPS->getValues()[2];
+    value.point.x = mGPS->getValues()[0];
+    value.point.y = mGPS->getValues()[1];
+    value.point.z = mGPS->getValues()[2];
     publisher.publish(value);
   }
 
