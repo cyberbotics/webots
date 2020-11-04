@@ -20,13 +20,13 @@ Webots starts Python using the standard `python` command line.
 As a consequence, it executes the first `python` binary found in the current `PATH`.
 If you want to use a different version of Python, please install it if needed and configure your environment so that it becomes the default `python` version when called from the command line in a terminal.
 Alternatively, you can change the default Python command from the Webots Preferences in the General tab.
-If you set it for example to `python3.7` instead of `python`, this version of python will be used by default, if available from the command line.
-It is also possible to set a different version of Python for each robot controller by editing the `[python]` section of the `runtime.ini` file in each robot controller directory and setting the `COMMAND` value to `python3`, `python3.7` or `python2.7`, etc.
+If you set it for example to `python3.8` instead of `python`, this version of python will be used by default, if available from the command line.
+It is also possible to set a different version of Python for each robot controller by editing the `[python]` section of the `runtime.ini` file in each robot controller directory and setting the `COMMAND` value to `python3`, `python3.8` or `python2.7`, etc.
 If specified in the `runtime.ini` file of a controller, this Python command will be executed instead of the default one to launch this controller.
 On Linux and macOS, it is also possible to override this value by setting a standard Python shebang header line in your main python controller file, for example:
 
 ```python
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.8
 ```
 
 On Windows, the shebang header line option is not supported.
@@ -35,13 +35,13 @@ However, it is parsed and a warning is displayed in case of mismatch, e.g., if t
 #### Linux Installation
 
 Most of the Linux distributions have Python 2.7 and 3.x already installed.
-To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.6 --version`, `python2.7 --version`, `python3 --version`, etc.
+To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
 
 #### macOS Installation
 
 Python 2.7 installed by default.
 You can install Python 3.7, 3.8 or 3.9 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
-To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.9 --version`, `python2.7 --version`, `python3 --version`, etc.
+To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
 
 > **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (e.g. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
 
@@ -86,8 +86,8 @@ Where `PYTHON_PATH` is the path to the Python installation directory, for exampl
 
 ### Use an Alternative Python Version
 
-As explained above, the Python libraries for Webots are precompiled for Python 3.7, Python 2.7 and on Ubuntu for the default Python 3 version provided with the system.
-It is possible however to use another Python version by recompiling the Webots Python libraries.
+As explained above, the Python libraries for Webots are precompiled for the standard versions of Python 2.7, 3.7, 3.8, 3.9 and on Ubuntu for the default Python 3 version provided with the system.
+It is possible however to use another Python version, like Anaconda Python, by recompiling the Webots Python libraries.
 Such a task requires some knowledge in software installation, compilation from sources and Makefile.
 
 The general idea is to walk through the following steps:
