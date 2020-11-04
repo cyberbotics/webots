@@ -16,7 +16,8 @@ jobs:
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
-      - uses: fkirc/skip-duplicate-actions@master
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
