@@ -2201,14 +2201,14 @@ ok it works with safe mode
 
 i still find it strange it worked flawlessly the very first time, but then kept crashing afterwards
 
-##### weebo 05/02/2019 19:07:38
+##### Chin 05/02/2019 19:07:38
 Hi, are there any step-by-step tutorials on Robotic Arm Simulations and how to write controllers for them?
 
 ##### David Mansolino [Cyberbotics] 05/03/2019 06:30:52
 `@AntiSquid`, what is your GPU ? Have you been able to identify which OpenGL preference ([https://cyberbotics.com/doc/guide/preferences#opengl](https://cyberbotics.com/doc/guide/preferences#opengl))  cause the crash ?
 
 
-`@weebo`  unfortunately not yet, however you can find generic step-by-step tutorials here: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
+`@Chin`  unfortunately not yet, however you can find generic step-by-step tutorials here: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
 
 In these tutorials you will learn (amongst other) how to control motors which is what you need for controlling Robotic Arms.
 
@@ -2304,7 +2304,7 @@ But another wrl file has shadow...
 
 I also think that OpenCV is only used in some examples in Webots. So you could also simply remove the related files from Webots.
 
-##### leo\_liak 05/05/2019 13:51:24
+##### Leonidas Liakopoulos 05/05/2019 13:51:24
 Hello, i have also problem linking my system`s opencv with webots, can anyone give a link or some steps of how to do this correctly? I use Ubuntu 18 and opencv4 installed with opencv.org instructions. Thanks in advance
 
 ##### janglee 05/05/2019 17:11:48
@@ -2317,7 +2317,7 @@ like this one [https://www.youtube.com/watch?v=bmoGfBe63ZA](https://www.youtube.
 The Mantis is certainly the most advanced hexapod we have in Webots: [https://cyberbotics.com/doc/guide/mantis](https://cyberbotics.com/doc/guide/mantis)
 
 
-`@leo_liak` you should simply install opencv and link it with your controller as described here [https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
+`@Leonidas Liakopoulos` you should simply install opencv and link it with your controller as described here [https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
 
 ##### Wei 05/06/2019 09:28:02
 `@Fabien Rohrer` Thank you!
@@ -2994,7 +2994,7 @@ For information position control for the e-puck in remote-control is not support
 ##### Thelm76 05/20/2019 15:00:29
 Okay thank you, i'll try to do without but I would be harder with just velocity control because of the wb\_robot\_step not properly workng with bluetooth
 
-##### el 05/21/2019 13:28:09
+##### Ελευθερια Ψαθά 05/21/2019 13:28:09
 which is the default focal length and  principle point of the epucks camera?
 
 ##### Fabien Rohrer [Moderator] 05/21/2019 13:29:39
@@ -17282,13 +17282,13 @@ The rover is getting stuck and I am not able to get the simulation of both quadc
 
 In connection with [https://github.com/cyberbotics/webots/issues/1081](https://github.com/cyberbotics/webots/issues/1081) , could anyone let me know any tips as to how I can fix it for now?
 
-##### Kairoux 11/08/2019 17:16:52
+##### Kairu 11/08/2019 17:16:52
 hey everyone is there a way to attach a receiver to a robot like the epuck?
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:18:41
-`@Kairoux` yes of course, you can add it in the 'turretSlot' field.
+`@Kairu` yes of course, you can add it in the 'turretSlot' field.
 
-##### Kairoux 11/08/2019 17:31:24
+##### Kairu 11/08/2019 17:31:24
 ty!
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:56:59

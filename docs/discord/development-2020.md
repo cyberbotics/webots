@@ -6918,3 +6918,417 @@ I just had a session with Simon, the RestAPI controller works for him. So it loo
 
 Looks like the issue was somehow connected to Fedora (tornado version or whatever), works perfectly on Ubuntu 20.04. So my Rest API Controller is on the way. 😃
 
+##### DrVoodoo [Moderator] 10/29/2020 11:08:53
+What is the best way to get the Node associated with a given Device? The ultimate aim is to get the orientation of a RangeFinder. Alternatively (and probably better) is for me to use an InertialUnit but I'm not sure how to go from the readings on an InertialUnit to a global orientation
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:11:06
+In Webots R2021a we introduced a new function doing exactly this: ``wb\_supervisor\_node\_get\_from\_device ``, you can already get a beta of this version from the nighly builds: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+
+Here is the documentation: [https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb\_supervisor\_node\_get\_from\_device](https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb_supervisor_node_get_from_device)
+
+##### DrVoodoo [Moderator] 10/29/2020 11:12:09
+oooh thanks, ok I'll give that a go
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:12:19
+You're welcome 😉
+
+##### DrVoodoo [Moderator] 10/29/2020 11:13:14
+but i am still a interested in understanding the inertialunit readings
+
+
+oh hang on, just had a thought
+
+
+nope, not that
+
+
+so if i get the node of an inertialunit and grab the rotation matrix, the inertialunit rollpitchyaw readings appear to be different
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:20:01
+Probably that you have to check that the inertial unit orientation in the robot is correct.
+
+##### DrVoodoo [Moderator] 10/29/2020 11:21:15
+x forward, y up, z side to side?
+
+
+ok will double check
+
+##### Simon Steinmann [Moderator] 10/29/2020 14:56:04
+Question: How many iterations does webots use for ODE collision detection? Where are the default ODE parameters, which cannot be changed by the api, defined?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 15:04:32
+Here is where the ODE step function is called:[https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/engine/WbSimulationCluster.cpp#L101](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/engine/WbSimulationCluster.cpp#L101)
+
+
+And here is where ODE is initialize: [https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/ode/WbOdeContext.cpp](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/ode/WbOdeContext.cpp)
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:11:22
+Webots uses "world step" not "quick step" right?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:12:43
+Exactly
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:13:11
+This cannot be changed? (besides changing source code?)
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:13:44
+No, this is currently not open.
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:15:36
+okay thank you 🙂
+
+
+(would be cool, if things like this could be changed by the user in the future)
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:18:19
+Feel free to open a feature request 😉
+
+[https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:18:53
+will do ^^
+
+
+[https://github.com/cyberbotics/webots/blob/master/src/ode/ode/src/objects.cpp#L71](https://github.com/cyberbotics/webots/blob/master/src/ode/ode/src/objects.cpp#L71)
+
+
+am I correct in assuming, that these are the default values for min\_depth and max\_vel?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 20:31:06
+Yes you are.
+
+##### Simon Steinmann [Moderator] 10/30/2020 15:58:31
+I noticed something curious, 2020b runs over twice as fast as 2021a. Any ideas as to why this might be?
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:01:32
+Did you compiled them from sources?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:03:23
+2021a I did, 2020b is tarball I'm pretty sure
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:04:01
+Ok, did you by any chance compiled 2021a in debug mode?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:04:27
+should be in release. Can i check that after the fact?
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:05:05
+the simplest is to try to recompile in release, if it is doing nothing it means it was already in release
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:08:02
+jup, was in release
+
+
+jup, it's just 2-3 times slower
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:11:07
+Can you reproduce this on every simulations (let's say of the guided tour), or only on specific ones?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:14:50
+I'll investigate more later
+
+
+ure sample world. 2020b is 3x faster
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/771775850189291610/unknown.png)
+%end
+
+
+I pulled and recompiled 2021a
+
+
+and it is purely the "robot.step()" function
+
+
+that I can gather from our benchmark
+
+
+some internal physics calculation may have changed
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 16:45:21
+From the changelog at [https://github.com/cyberbotics/webots/blob/develop/docs/reference/changelog-r2021.md](https://github.com/cyberbotics/webots/blob/develop/docs/reference/changelog-r2021.md), I cannot see what could be the cause of this performance drop... 🤔
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:49:42
+perhaps you can do the test yourself, open the ure.wbt world on 2020b and 20201a
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:00:00
+OK, I just tested it and for me there is no significant difference between 2020b revision 1 (release) and the current develop branch (R2021a).
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:00:20
+on linux?
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:00:30
+Instead of using the version you compiled yourself for R2021a, can you try one of the nightly builds?
+
+
+No, I am on Windows.
+
+
+I can check on Linux as well...
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:01:59
+downloading the tar
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:07:58
+Are you on Ubuntu 20.04?
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:08:10
+18.04
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:08:23
+OK, same for me.
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:13:52
+the tar version runs faster again
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:22:13
+Good news. This means the problem may come from the way you compiled Webots... Can you try to type "make cleanse" at the top level and "make release" again to recompile the whole thing in optimization mode?
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:27:16
+I'm currently doing everything fresh, clean pull etc.
+
+
+I accidentally built the master branch. good news, that one works perfectly
+
+
+okay, compiled the develop branch. works now too 🙂
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 21:22:25
+It could be that you compiled some part in debug mode (either Webots, ODE, Wren or libController)...
+
+##### Simon Steinmann [Moderator] 10/30/2020 21:22:59
+that's my guess too. I did compile it at some point in debug mode
+
+## November
+
+##### DrVoodoo [Moderator] 11/02/2020 14:09:14
+Is anyone able to advise on going from the rpy readings of an inertial unit to the equivilant rotation matrix? Assuming that both the inertial and the device (say a rangefinder) are located at the same position?
+
+
+So if
+
+```
+double roll = inertial->getRollPitchYaw()[0]; 
+double pitch = inertial->getRollPitchYaw()[1];
+double yaw = inertial->getRollPitchYaw()[2];
+```
+
+
+I think the matrix for that should be
+
+` R = Ry(yaw) * Rx(pitch) * Rz(roll)`
+
+
+```Ry = 
+[ cos(y)    0     sin(y)
+    0       1      0
+ -sin(y)    0     cos(y) ]
+```
+
+
+```Rx = 
+[   1       0      0
+    0     cos(p) -sin(p)
+    0     sin(p)  cos(p) ]
+```
+
+
+```Rz = 
+[ cos(r) -sin(r)   0 
+  sin(r)  cos(r)   0
+    0       0      1 ]
+```
+
+
+and that should give me the following matrix but I just cannot figure out where its going wrong
+
+
+```
+[ sin(p)sin(r)sin(y) + cos(r)cos(y)    sin(p)cos(r)sin(y) - sin(r)cos(y)    cos(p)sin(y)
+  cos(p)sin(r)                         cos(p)cos(r)                         -sin(p)
+  sin(p)sin(r)cos(y) - cos(r)sin(y)    sin(p)cos(r)cos(y) + sin(r)sin(y)    cos(p)cos(y)
+]
+```
+
+
+it's tantilisingly close, but if I give an example of the resulting matrices
+
+
+this is the output from the above
+
+
+```rpyMatrix = 
+0.878361 -0.005254 0.477970
+-0.062284 0.990156 0.125343
+-0.473923 -0.139866 0.869387
+```
+
+
+and this is matrix as pulled off the device using the supervisor
+
+
+```devicematrix = 
+0.487706 0.079376 -0.869392
+0.062286 0.990156 0.125342
+0.870783 -0.115281 0.477962
+```
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 14:31:53
+Hello `@DrVoodoo` , I think you are very close, I think it should be:
+
+```
+R = Ry(yaw) * Rz(pitch) * Rx(roll)
+```
+
+
+Here is a working example:
+
+```Python
+import transforms3d
+from controller import Supervisor
+
+robot = Supervisor()
+
+timestep = int(robot.getBasicTimeStep())
+
+imu_device = robot.getInertialUnit('inertial unit')
+imu_device.enable(timestep)
+
+imu_node = robot.getFromDef('IMU_SOLID')
+
+while robot.step(timestep) != -1:
+    # Print from InertialUnit
+    rpy = imu_device.getRollPitchYaw()
+    matrix = transforms3d.euler.euler2mat(rpy[2], rpy[1], rpy[0], axes='ryzx')
+    # matrix = transforms3d.euler.euler2mat(rpy[0], rpy[1], rpy[2], axes='sxzy')
+    
+    print(matrix)
+
+    # Print as supervisor
+    print(imu_node.getOrientation())
+```
+
+##### DrVoodoo [Moderator] 11/02/2020 14:52:13
+`R = Rz(pitch) * Ry(yaw) * Rx(roll)` still doesnt work for me but I'll have a look at the python in greater depth and see if I can spot where I'm going wrong
+
+
+thanks
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 14:59:13
+I found a rotation for which the Python example doesn't work. Let me fix it
+
+
+`@DrVoodoo`, you can check the Python example now, both conventions (extrinsic and intrinsic) work
+
+##### DrVoodoo [Moderator] 11/02/2020 15:26:06
+ok but we cant compare the rotation matrix on the intertial unit with the matrix we get from the rpy values because inertial units are meant to be positioned with the x axis along the forward direction
+
+
+but devices like rangefinders look backwards along the z axis
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 15:30:20
+Why not rotating the inertial unit to match the rotation of the range finder?
+
+##### DrVoodoo [Moderator] 11/02/2020 15:30:42
+that might be the simplest solution
+
+
+but the documentation does state that it should be positioned so forward is along the x
+
+
+and it does mean that the RollPitchYaw would actually be PitchRollYaw (i think)
+
+
+Thanks `@Darko Lukić` , can't do it now but I'll try just rotating the inertial so it matches the rangefinder and see if that does it
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 16:24:45
+> but devices like rangefinders look backwards along the z axis
+
+
+
+`@DrVoodoo` It seems inconsistent, but it is done to better match OpenCV convention which is important in case of Camera, Lidar and RangeFinder.
+
+##### udits 11/03/2020 10:13:02
+Hi! I'm new to using Webots and I am supposed to import a robot (.STL file) from Fusion360. I managed to import the 3D model but I am unsure on how I should proceed to define the joints and write the controller to get the robot moving.
+
+##### DrVoodoo [Moderator] 11/03/2020 10:35:21
+Right.
+
+
+Firstly thanks to `@Darko Lukić` for their help yesterday
+
+
+Ignoring the documentation and just rotating the inertialunit to the same orientation as the rangefinder was definitely the simplest solution
+
+
+for the sake of avoiding [https://xkcd.com/979/](https://xkcd.com/979/) here's the solution I ended up with
+
+
+So I ended up with `R = Ry(yaw)Rz(roll)Rx(pitch)`
+
+
+which gives
+%figure
+![CodeCogsEqn.png](https://cdn.discordapp.com/attachments/565155651395780609/773134534190301234/CodeCogsEqn.png)
+%end
+
+
+or in code form
+
+
+```struct RPY { double pitch, roll, yaw; };
+const RPY s { sin(inertial->getRollPitchYaw()[0]),
+              sin(inertial->getRollPitchYaw()[1]),
+              sin(inertial->getRollPitchYaw()[2]) };
+const RPY c { cos(inertial->getRollPitchYaw()[0]),
+              cos(inertial->getRollPitchYaw()[1]),
+              cos(inertial->getRollPitchYaw()[2]) };
+
+const std::array<double,9> matrix 
+{
+    c.roll*c.yaw,
+    s.pitch*s.yaw - c.pitch*s.roll*c.yaw,
+    s.pitch*s.roll*c.yaw + c.pitch*s.yaw,
+
+    s.roll,
+    c.pitch*c.roll,
+    s.pitch*(-c.roll),
+    
+    (-c.roll)*s.yaw,
+    c.pitch*s.roll*s.yaw + s.pitch*c.yaw,
+    c.pitch*c.yaw - s.pitch*s.roll*s.yaw      
+};
+```
+
+
+`@udits` can you give some more details. what sort of robot, have you imported as a single object or as individual parts?
+
+##### udits 11/03/2020 10:56:57
+`@DrVoodoo` It's a small robot aimed at swarm robotic applications. I'm importing it as a single object but all the joints connecting the individual components are already defined in Fusion360 before saving as a .STL file
+
+##### MumsDad 11/03/2020 11:06:21
+`@udits` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
+
+
+
+read up on what stl actually is, it is simply a file format which saves your geometry from cad as a mesh of triangles. hence it doens't contain any information about your joints. you have to rig your model with joints, mass's, bounding box, physics ect in webots. See the for help
+
+
+
+[https://www.youtube.com/watch?v=s151UClAnEk](https://www.youtube.com/watch?v=s151UClAnEk)
+
+##### udits 11/03/2020 11:09:29
+`@MumsDad` Thanks! I'll have a look and let you know how it goes!
+
+##### Simon Steinmann [Moderator] 11/03/2020 14:29:19
+`@DrVoodoo`  For future transformation issues, I find these two things really help:
+
+Transforms3d library
+
+[https://matthew-brett.github.io/transforms3d/](https://matthew-brett.github.io/transforms3d/)
+
+and this to quickly convert and double check specific orientations:
+
+[https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
+
