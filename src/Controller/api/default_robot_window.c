@@ -531,8 +531,6 @@ static void camera_update(WbDeviceTag tag) {
     return;
 
   if (wb_camera_has_recognition(tag)) {
-    fprintf(stderr, "recognitionEnabled %d segmentationEnabled %d\n", wb_camera_recognition_get_sampling_period(tag),
-            wb_camera_recognition_is_segmentation_enabled(tag));
     buffer_append("\"recognitionEnabled\":");
     buffer_append(wb_camera_recognition_get_sampling_period(tag) > 0 ? "true" : "false");
     if (wb_camera_recognition_has_segmentation(tag)) {
