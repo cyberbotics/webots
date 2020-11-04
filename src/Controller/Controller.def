@@ -123,9 +123,9 @@ wb_gyro_get_lookup_table
 wb_inertial_unit_disable
 wb_inertial_unit_enable
 wb_inertial_unit_get_roll_pitch_yaw
+wb_inertial_unit_get_quaternion
 wb_inertial_unit_get_sampling_period
-wb_inertial_unit_get_lookup_table_size
-wb_inertial_unit_get_lookup_table
+wb_inertial_unit_get_noise
 wb_joystick_disable
 wb_joystick_enable
 wb_joystick_get_axis_value
@@ -437,7 +437,6 @@ wbr_display_save_image
 wbr_distance_sensor_set_value
 wbr_gps_set_values
 wbr_gyro_set_values
-wbr_inertial_unit_set_values
 wbr_light_sensor_set_value
 wbr_microphone_set_buffer
 wbr_motor_set_force_feedback

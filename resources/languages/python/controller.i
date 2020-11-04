@@ -94,7 +94,7 @@ using namespace std;
   string test("$name");
   if (test == "getSFVec2f" || test == "getMFVec2f")
     len = 2;
-  else if (test == "getSFRotation")
+  else if (test == "getSFRotation" || test == "getQuaternion")
     len = 4;
   else if (test == "getVelocity")
     len = 6;

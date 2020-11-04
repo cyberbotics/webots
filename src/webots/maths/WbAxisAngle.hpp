@@ -12,23 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef INERTIAL_UNIT_HPP
-#define INERTIAL_UNIT_HPP
+#ifndef WB_AXIS_ANGLE_HPP
+#define WB_AXIS_ANGLE_HPP
 
-#include <webots/Device.hpp>
+#include "WbVector3.hpp"
 
-namespace webots {
-  class InertialUnit : public Device {
-  public:
-    explicit InertialUnit(const std::string &name) : Device(name) {}  // Use Robot::getInertialUnit() instead
-    virtual ~InertialUnit() {}
-    virtual void enable(int samplingPeriod);
-    virtual void disable();
-    int getSamplingPeriod() const;
-    const double *getRollPitchYaw() const;
-    const double *getQuaternion() const;
-    double getNoise() const;
-  };
-}  // namespace webots
+//
+// Description: Axis-angle representation
+//
 
-#endif  // INERTIAL_UNIT_HPP
+class WbAxisAngle {
+public:
+  WbAxisAngle(double x, double y, double z, double angle) : mAxis(WbVector3(x, y, z)), mAngle(angle){};
+
+  WbVector3 &axis() { return mAxis; };
+
+  double angle() const { return mAngle; }
+
+private:
+  WbVector3 mAxis;
+  double mAngle;
+};
+
+#endif

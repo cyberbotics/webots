@@ -20,6 +20,7 @@
 //  WbVector3 can be multiplied (=rotated) by this kind of matrix
 //
 
+#include "WbAxisAngle.hpp"
 #include "WbVector3.hpp"
 
 #include <cmath>
@@ -52,6 +53,7 @@ public:
   // construct from axis/angle rotation
   WbMatrix3(double rx, double ry, double rz, double angle) { fromAxisAngle(rx, ry, rz, angle); }
   WbMatrix3(const WbVector3 &r, double angle) { fromAxisAngle(r.x(), r.y(), r.z(), angle); }
+  WbMatrix3(double rx, double ry, double rz) { fromEulerAngles(rx, ry, rz); };
   explicit WbMatrix3(const WbRotation &r) { fromAxisAngle(r); }
   explicit WbMatrix3(const WbQuaternion &q) { fromQuaternion(q); }
 
@@ -116,12 +118,14 @@ public:
   // to other rotation types
   WbQuaternion toQuaternion() const;
   WbVector3 toEulerAnglesZYX() const;
+  WbAxisAngle toAxisAngle() const;
 
   QString toString(WbPrecision::Level level) const;
 
   // assign from other types of rotation
   void fromOpenGlMatrix(const double m[16]);
   void fromAxisAngle(double rx, double ry, double rz, double angle);
+  void fromEulerAngles(double rx, double ry, double rz);
   void fromAxisAngle(const WbVector3 &axis, double angle) { fromAxisAngle(axis.x(), axis.y(), axis.z(), angle); }
   void fromAxisAngle(const WbRotation &r);
   void fromQuaternion(const WbQuaternion &q);
@@ -171,6 +175,27 @@ inline void WbMatrix3::fromAxisAngle(double rx, double ry, double rz, double ang
   mM[6] = t2 - ry * s;
   mM[7] = t4 + rx * s;
   mM[8] = rz * rz * t1 + c;
+}
+
+inline void WbMatrix3::fromEulerAngles(double rx, double ry, double rz) {
+  // Reference: https://www.geometrictools.com/Documentation/EulerAngles.pdf
+
+  const double cx = cos(rx);
+  const double sx = sin(rx);
+  const double cy = cos(ry);
+  const double sy = sin(ry);
+  const double cz = cos(rz);
+  const double sz = sin(rz);
+
+  mM[0] = cy * cz;
+  mM[1] = -cy * sz;
+  mM[2] = sy;
+  mM[3] = cz * sx * sy + cx * sz;
+  mM[4] = cx * cz - sx * sy * sz;
+  mM[5] = -cy * sx;
+  mM[6] = -cx * cz * sy + sx * sz;
+  mM[7] = cz * sx + cx * sy * sz;
+  mM[8] = cx * cy;
 }
 
 inline void WbMatrix3::transpose() {
