@@ -1095,6 +1095,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
 const unsigned char* wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 ```
@@ -1117,6 +1118,7 @@ namespace webots {
     bool hasRecognitionSegmentation() const;
     void enableRecognitionSegmentation();
     void disableRecognitionSegmentation();
+    bool isRecognitionSegmentationEnabled() const;
     const unsigned char *getRecognitionSegmentationImage() const;
     int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     // ...
@@ -1141,6 +1143,7 @@ class Camera (Device):
     def hasRecognitionSegmentation(self):
     def enableRecognitionSegmentation(self):
     def disableRecognitionSegmentation(self):
+    def isRecognitionSegmentationEnabled(self):
     def getRecognitionSegmentationImage(self):
     def getRecognitionSegmentationImageArray(self):
     def saveRecognitionSegmentationImage(self, filename, quality):
@@ -1164,6 +1167,7 @@ public class Camera extends Device {
   public boolean hasRecognitionSegmentation();
   public void enableRecognitionSegmentation();
   public void disableRecognitionSegmentation();
+  public boolean isRecognitionSegmentationEnabled();
   public int[] getRecognitionSegmentationImage();
   public int saveRecognitionSegmentationImage(String filename, int quality);
   // ...
@@ -1184,6 +1188,7 @@ period = wb_camera_recognition_get_sampling_period(tag)
 value = wb_camera_recognition_has_segmentation(tag)
 wb_camera_recognition_enable_segmentation(tag)
 wb_camera_recognition_disable_segmentation(tag)
+wb_camera_recognition_is_segmentation_enabled(tag)
 image = wb_camera_recognition_get_segmentation_image(tag)
 success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality)
 ```
@@ -1201,6 +1206,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 | `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
@@ -1237,6 +1243,9 @@ If the [Recognition](recognition.md) node is not defined, the function returns F
 
 The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
 Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
+
+The `wb_camera_recognition_is_segmentation_enabled` function returns TRUE if the generation of the segmented image is enabled and FALSE otherwise.
+If the recognition functionality is disabled, the segmentation functionality will be disabled as well.
 
 The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
 The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).

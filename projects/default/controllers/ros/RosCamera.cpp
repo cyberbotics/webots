@@ -56,6 +56,9 @@ RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), ca
     mDisableRecognitionSegmentationServer =
       RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_disable_segmentation",
                                      &RosCamera::disableRecognitionSegmentationCallback);
+    mIsRecognitionSegmentationEnabledServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_is_segmentation_enabled",
+                                     &RosCamera::isRecognitionSegmentationEnabledCallback);
     mSaveRecognitionSegmentationImageServer =
       RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_save_segmentation_image",
                                      &RosCamera::saveRecognitionSegmentationImageCallback);
@@ -282,6 +285,13 @@ bool RosCamera::disableRecognitionSegmentationCallback(webots_ros::get_bool::Req
     res.value = true;
   } else
     res.value = false;
+  return true;
+}
+
+bool RosCamera::isRecognitionSegmentationEnabledCallback(webots_ros::get_bool::Request &req,
+                                                         webots_ros::get_bool::Response &res) {
+  assert(mCamera);
+  res.value = mCamera->isRecognitionSegmentationEnabled();
   return true;
 }
 
