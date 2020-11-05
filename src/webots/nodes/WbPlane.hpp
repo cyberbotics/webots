@@ -39,7 +39,7 @@ public:
 
   dGeomID createOdeGeom(dSpaceID space) override;
   void setOdePosition(const WbVector3 &translation) override;
-  void setOdeRotation(const WbRotation &rotation) override;
+  void setOdeRotation(const WbMatrix3 &matrix) override;
 
   void updateOdePlanePosition();
 

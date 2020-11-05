@@ -268,7 +268,7 @@ void WbPlane::setOdePosition(const WbVector3 &translation) {
   updateOdePlanePosition();
 }
 
-void WbPlane::setOdeRotation(const WbRotation &rotation) {
+void WbPlane::setOdeRotation(const WbMatrix3 &matrix) {
   updateOdePlanePosition();
 }
 

@@ -23,8 +23,8 @@
 //
 
 #include "WbBaseNode.hpp"
+#include "WbMatrix3.hpp"
 #include "WbOdeTypes.hpp"
-#include "WbRotation.hpp"
 #include "WbVector2.hpp"
 
 class WbBoundingSphere;
@@ -76,7 +76,7 @@ public:
   void setOdeMass(const dMass *mass);
   const dMass *odeMass() const { return mOdeMass; }
   virtual void setOdePosition(const WbVector3 &translation);
-  virtual void setOdeRotation(const WbRotation &rotation);
+  virtual void setOdeRotation(const WbMatrix3 &rotation);
 
   void setOdeData(dGeomID geom, WbMatter *matterAncestor);  // stores an ODE dGeom if the WbGeometry lies into a boundingObject
   virtual void applyToOdeData(bool correctSolidMass = true) {}  // Resize the ODE dGeom stored in a bounding WbGeometry
@@ -197,7 +197,7 @@ private:
 
   WbVector3 mOdeOffsetTranslation;
   WbVector3 mOdePositionSet;
-  WbRotation mOdeOffsetRotation;
+  WbMatrix3 mOdeOffsetRotation;
 
   bool mPickable;
 
