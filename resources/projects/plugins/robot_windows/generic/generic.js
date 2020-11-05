@@ -163,7 +163,7 @@ function addDevice(device) {
     div += '</h2>';
     if (device.segmentation === 1) {
       div += '<h2 class="device-option-item-enable-label">';
-      div += '<input type="checkbox" title="Enable/disable the segmentation functionality." id="' + device.htmlName + '-segmentation-checkbox" device="' + device.htmlName + '" onclick="cameraSegmentationCheckboxCallback(this)"/>';
+      div += '<input type="checkbox" title="Enable/disable the segmentation functionality." id="' + device.htmlName + '-segmentation-checkbox" device="' + device.htmlName + '" onclick="cameraSegmentationCheckboxCallback(this)" disabled/>';
       div += '<span>Segmentation</span>';
       div += '</h2>';
       div += '</div>';
