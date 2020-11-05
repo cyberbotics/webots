@@ -60,7 +60,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
-bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
+bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);  // private function
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 
