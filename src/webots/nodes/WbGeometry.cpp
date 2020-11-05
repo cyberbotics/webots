@@ -487,8 +487,8 @@ void WbGeometry::setOdeRotation(const WbMatrix3 &rotation) {
 
   if (mIs90DegreesRotated) {
     // append 90 deg rotation
-    static WbQuaternion localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toQuaternion();
-    mOdeOffsetRotation.fromQuaternion(mOdeOffsetRotation.toQuaternion() * localRotation);
+    static const WbMatrix3 localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toMatrix3();
+    mOdeOffsetRotation *= localRotation;
   }
 
   if (mOdeGeom == NULL)
