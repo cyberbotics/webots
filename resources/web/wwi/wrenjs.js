@@ -21,7 +21,7 @@ class WbScene {
     this.updateWrenViewportDimensions();
   }
 
-  updateFrameBuffer() {
+  updateFrameBuffer() {/*
     if (this.wrenMainFrameBuffer)
       _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
 
@@ -36,12 +36,12 @@ class WbScene {
 
     this.wrenMainFrameBuffer = _wr_frame_buffer_new();
     _wr_frame_buffer_set_size(this.wrenMainFrameBuffer, canvas.width, canvas.height);
-console.log("aiewe");
+
     this.wrenMainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 2);//enum
+    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 6);//enum
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 3);//enum
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 2);//enum
 
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
@@ -52,7 +52,7 @@ console.log("aiewe");
     _wr_frame_buffer_set_depth_texture(this.wrenMainFrameBuffer, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_setup(this.wrenMainFrameBuffer);
-    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), this.wrenMainFrameBuffer);
+    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), this.wrenMainFrameBuffer);*/
 
     _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), canvas.width, canvas.height);
   }
@@ -457,6 +457,37 @@ class WbPlane extends WbGeometry{
     let scaleY = 0.1 * Math.min(this.size.x, this.size.y);
 
     let scale = _wrjs_color_array(this.size.x, scaleY, this.size.y);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+}
+
+class WbCylinder extends WbGeometry{
+  constructor (id, radius, height, subdivision, bottom, side, top){
+    super(id);
+    this.radius = radius;
+    this.height = height;
+    this.subdivision = subdivision;
+    this.bottom = bottom;
+    this.side = side;
+    this.top = top;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    if(this.subdivision < 3)
+      this.subdivision = 3;
+
+    if (!this.bottom && !this.side && !this.top)
+      return;
+
+    this.computeWrenRenderable();
+
+    let wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
+
+    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+
+    let scale = _wrjs_color_array(this.radius, this.height, this.radius);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 }

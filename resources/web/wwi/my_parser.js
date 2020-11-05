@@ -153,6 +153,8 @@ class MyParser {
       geometry = this.parseCone(node);
     else if (node.tagName === 'Plane')
       geometry = this.parsePlane(node);
+    else if (node.tagName === 'Cylinder')
+      geometry = this.parseCylinder(node);
     else {
       console.log("Not a recognized geometry : " +node.tagName);
       geometry = undefined
@@ -189,6 +191,18 @@ class MyParser {
     let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
 
     return new WbCone(id, bottomRadius, height, subdivision, side, bottom);
+  }
+
+  parseCylinder(node) {
+    let id = getNodeAttribute(node, 'id');
+    let radius = getNodeAttribute(node, 'radius', '1');
+    let height = getNodeAttribute(node, 'height', '2');
+    let subdivision = getNodeAttribute(node, 'subdivision', '32');
+    let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
+    let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
+    let top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
+
+    return new WbCylinder(id, radius, height, subdivision, bottom, side, top);
   }
 
   parsePlane(node) {
