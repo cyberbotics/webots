@@ -4,11 +4,11 @@ Derived from [Device](device.md) and [Solid](solid.md).
 
 ```
 InertialUnit {
-  MFVec3f lookupTable [ ]    # lookup table
   SFBool  xAxis       TRUE   # {TRUE, FALSE}
   SFBool  zAxis       TRUE   # {TRUE, FALSE}
   SFBool  yAxis       TRUE   # {TRUE, FALSE}
   SFFloat resolution  -1     # {-1, [0, inf)}
+  SFFloat noise       0      # {0, [0, 1)}
 }
 ```
 
@@ -25,13 +25,9 @@ More precisely, the [InertialUnit](#inertialunit) measures the Tait-Bryan angles
 This convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
 The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity vector and their cross-product (see [WorldInfo](worldinfo.md) to change the coordinate system).
 
-> **Note**: In a gimbal lock situation, i.e., when the pitch is -&pi;/2 or &pi;/2, the roll and the yaw are set to NaN (Not a Number).
+> **Note**: To avoid gimbal lock situation you can use the `wb_inertial_unit_get_quaternion` function.
 
 ### Field Summary
-
-- `lookupTable`: This field optionally specifies a lookup table that can be used for changing the angle values [rad] into device specific output values, or for changing the units to degrees for example.
-By default the lookup table is empty and therefore the returned angle values are expressed in radians and no noise is added.
-See the section on the [DistanceSensor](distancesensor.md#lookup-table) node for more explanation on how a `lookupTable` works.
 
 - `xAxis, yAxis, zAxis`: Each of these boolean fields specifies if the computation should be enabled or disabled for the specified axis.
 The `xAxis` field defines whether the *roll* angle should be computed.
@@ -51,14 +47,18 @@ The default is that all three axes are enabled (TRUE).
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
 This field accepts any value in the interval (0.0, inf).
 
+- `noise`: If the noise field is greater than 0.0, a gaussian noise is added to each orientation component, roll, pitch and yaw.
+A value of 0.0 corresponds to no noise and thus saves computation time.
+A value of 1.0 corresponds to a gaussian noise having a standard derivation of &pi;/2 radians.
+
 ### InertialUnit Functions
 
 #### `wb_inertial_unit_enable`
 #### `wb_inertial_unit_disable`
 #### `wb_inertial_unit_get_sampling_period`
 #### `wb_inertial_unit_get_roll_pitch_yaw`
-#### `wb_inertial_unit_get_lookup_table_size`
-#### `wb_inertial_unit_get_lookup_table`
+#### `wb_inertial_unit_get_quaternion`
+#### `wb_inertial_unit_get_noise`
 
 %tab-component "language"
 
@@ -71,8 +71,8 @@ void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period);
 void wb_inertial_unit_disable(WbDeviceTag tag);
 int wb_inertial_unit_get_sampling_period(WbDeviceTag tag);
 const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag);
-int wb_inertial_unit_get_lookup_table_size(WbDeviceTag tag);
-const double *wb_inertial_unit_get_lookup_table(WbDeviceTag tag);
+const double *wb_inertial_unit_get_quaternion(WbDeviceTag tag);
+double wb_inertial_unit_get_noise(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -88,8 +88,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getRollPitchYaw() const;
-    int getLookupTableSize() const;
-    const double *getLookupTable() const;
+    const double *getQuaternion() const;
+    double getNoise() const;
     // ...
   }
 }
@@ -107,7 +107,8 @@ class InertialUnit (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getRollPitchYaw(self):
-    def getLookupTable(self):
+    def getQuaternion(self):
+    def getNoise(self):
     # ...
 ```
 
@@ -123,7 +124,8 @@ public class InertialUnit extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double[] getRollPitchYaw();
-  public double[] getLookupTable();
+  public double[] getQuaternion();
+  public double getNoise();
   // ...
 }
 ```
@@ -137,7 +139,8 @@ wb_inertial_unit_enable(tag, sampling_period)
 wb_inertial_unit_disable(tag)
 period = wb_inertial_unit_get_sampling_period(tag)
 roll_pitch_yaw_array = wb_inertial_unit_get_roll_pitch_yaw(tag)
-lookup_table_array = wb_inertial_unit_get_lookup_table(tag)
+quaternion_array = wb_inertial_unit_get_quaternion(tag)
+noise = wb_inertial_unit_get_noise(tag)
 ```
 
 %tab-end
@@ -146,10 +149,10 @@ lookup_table_array = wb_inertial_unit_get_lookup_table(tag)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/<device_name>/roll_pitch_yaw` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the orientation is filled in |
+| `/<device_name>/quaternion` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the orientation is filled in |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
+| `/<device_name>/get_noise` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 
 
 %tab-end
@@ -172,6 +175,12 @@ The `wb_inertial_unit_get_roll_pitch_yaw` function returns the current *roll*, *
 The values are returned as an array of 3 components therefore only the indices 0, 1, and 2 are valid for accessing the returned array.
 Note that the indices 0, 1 and 2 return the *roll*, *pitch* and *yaw* angles respectively.
 
+The `wb_inertial_unit_get_quaternion` function returns the current orientation of the [InertialUnit](#inertialunit) expressed as a quaternion.
+The values are returned as an array of 4 components therefore only the indices 0, 1, 2, and 3 are valid for accessing the returned array.
+Note that the indices 0, 1, 2, and 3 return the *x*, *y*, *z*, and *w* components respectively.
+
+The `wb_inertial_unit_get_noise` function returns value of `noise` field. 
+
 The *roll* angle indicates the unit's rotation angle about its x-axis, in the interval [-&pi;,&pi;].
 The *roll* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its y-axis has the opposite direction of the gravity ([WorldInfo](worldinfo.md) defines the coordinate system).
 
@@ -183,11 +192,6 @@ The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], wi
 The *yaw* angle is zero when the [InertialUnit](#inertialunit)'s x-axis is aligned with the north direction, it is &pi;/2 when the unit is heading east, and -&pi;/2 when the unit is oriented towards the west.
 The *yaw* angle can be used as a compass.
 
-The `wb_inertial_unit_get_lookup_table_size` function returns the number of rows in the lookup table.
-
-The `wb_inertial_unit_get_lookup_table` function returns the values of the lookup table.
-This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_inertial_unit_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
-
 > **Note** [C, C++]: The returned vector is a pointer to internal values managed by the Webots, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.
 If these values are needed for a longer period they must be copied.
@@ -195,3 +199,7 @@ If these values are needed for a longer period they must be copied.
 <!-- -->
 
 > **Note** [Python]: The `getRollPitchYaw` function returns the angles as a list containing three floats.
+
+<!-- -->
+
+> **Note** [ROS]: The `/<device_name>/quaternion` topic publishes quaternions that follow ROS coordinate system convention when `coordinateSystem` in [WorldInfo](worldinfo.md) is set to `ENU`.
