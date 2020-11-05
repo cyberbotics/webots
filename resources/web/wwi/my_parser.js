@@ -220,7 +220,16 @@ class MyParser {
     let material;
     if (typeof materialNode !== 'undefined')
       material = this.parseMaterial(materialNode)
+
+    // Check to see if there is a texture.
+    let imageTexture = node.getElementsByTagName('ImageTexture')[0];
     let texture;
+    if (typeof imageTexture !== 'undefined')
+      texture = this.parseImageTexture(imageTexture);
+
+
+    //TODO Check for texture transform
+
 
     let appearance = new WbAppearance(id, material, texture);
     if (typeof appearance !== 'undefined') {
@@ -228,21 +237,10 @@ class MyParser {
           material.parent = appearance;
     }
 
-    /*
-    // Check to see if there is a texture.
-    let imageTexture = appearance.getElementsByTagName('ImageTexture');
-    var colorMap;
-    if (imageTexture.length > 0) {
-      colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
-      if (typeof colorMap !== 'undefined') {
-        materialSpecifications.map = colorMap;
-        if (colorMap.userData.isTransparent) {
-          materialSpecifications.transparent = true;
-          materialSpecifications.alphaTest = 0.5; // FIXME needed for example for the target.png in robot_programming.wbt
-        }
-      }
+    if (typeof appearance !== 'undefined') {
+        if(typeof texture !== 'undefined')
+          texture.parent = appearance;
     }
-    */
 
     return appearance;
   }
@@ -257,6 +255,22 @@ class MyParser {
     transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
 
     return new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
+  }
+
+  parseImageTexture(node) {
+    let id = getNodeAttribute(node, 'id');
+    let url = getNodeAttribute(node, 'url', '');
+    let isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
+    let s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
+    let t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
+
+    let textureProperties = node.getElementsByTagName('TextureProperties')[0];
+    let anisotropy = 8;
+    if (typeof textureProperties !== 'undefined'){
+      anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
+    }
+
+    return new WbImageTexture(id, url, isTransparent, s, t, anisotropy);
   }
 
 }
