@@ -1654,7 +1654,7 @@ void main() {
 
   texUv = vec2(textureTransform * vec4(vTexCoord, 0.0f, 1.0f));
 }
-#version 330
+#version 300 es
 
 layout(location = 0) in vec3 vCoord;
 layout(location = 2) in vec2 vTexCoord;
@@ -1781,7 +1781,9 @@ void main() {
 
   normalTransformed = mat3(transpose(inverse(modelView))) * vNormal;
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 in vec2 texUv;
 
@@ -2912,7 +2914,9 @@ void main() {
 
   fragColor = vec4(color, baseColor.a);
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 in vec2 texUv;
 
@@ -3540,11 +3544,8 @@ void main() {
     } else
       diffuseTotal *= material.diffuse.xyz;
   }
-
   fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientTotal + diffuseTotal + specularTotal,
                               material.emissiveAndOpacity.w);
-
-  fragColor = vec4(pow(fragColor.x, 1.0 / 2.2), pow(fragColor.y, 1.0 / 2.2), pow(fragColor.z, 1.0 / 2.2), pow(fragColor.w, 1.0 / 2.2));
   
   if (fog.mode.x > 0.0) {
     float fogDensity = fog.params.x;
@@ -3887,8 +3888,7 @@ void main() {
   }
 
   fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientColor, material.emissiveAndOpacity.w);
-  
-  fragColor = vec4(pow(fragColor.x, 1.0 / 2.2), pow(fragColor.y, 1.0 / 2.2), pow(fragColor.z, 1.0 / 2.2), pow(fragColor.w, 1.0 / 2.2));
+ 
 }
 #version 330
 
@@ -4402,7 +4402,6 @@ void main() {
   }
 
   fragColor = texColor * vec4(diffuseTotal + specularTotal, material.emissiveAndOpacity.w);
-  fragColor = vec4(pow(fragColor.x, 1.0 / 2.2), pow(fragColor.y, 1.0 / 2.2), pow(fragColor.z, 1.0 / 2.2), pow(fragColor.w, 1.0 / 2.2));
 }
 #version 330
 

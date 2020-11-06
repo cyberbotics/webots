@@ -33,6 +33,8 @@
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
+#include <glm/glm.hpp>
+
 #include <cstdio>
 
 // Define the refresh rate in milliseconds (at best)
@@ -49,9 +51,9 @@ static void create_wren_scene() {
   float camera_position[3] = {0.0f, 0.0f, 10.0f};
   wr_camera_set_position(camera, camera_position);
 
-  float background_color[3] = {0.1f, 0.5f, 0.8f};
+  float background_color[3] = {0.0f, 0.0f, 0.0f};
   wr_viewport_set_clear_color_rgb(vp, background_color);
-
+  /*
   // Generate a dummy texture.
   WrTexture2d *texture = wr_texture_2d_new();
   wr_texture_2d_set_file_path(texture, "dummy.jpg");
@@ -66,6 +68,7 @@ static void create_wren_scene() {
   wr_texture_2d_set_data(texture, data);
   wr_texture_setup(WR_TEXTURE(texture));
   free(data);
+  */
 
   WrShaderProgram *sphereProgram = wr_shader_program_new();
   wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
@@ -75,8 +78,8 @@ static void create_wren_scene() {
   wr_shader_program_use_uniform(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
   wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
   wr_shader_program_use_uniform_buffer(sphereProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
-  wr_shader_program_set_vertex_shader_path(sphereProgram, "../../../resources/wren/shaders/default.vert");
-  wr_shader_program_set_fragment_shader_path(sphereProgram, "../../../resources/wren/shaders/default.frag");
+  wr_shader_program_set_vertex_shader_path(sphereProgram, "../../../resources/wren/shaders/phong.vert");
+  wr_shader_program_set_fragment_shader_path(sphereProgram, "../../../resources/wren/shaders/phong.frag");
   wr_shader_program_setup(sphereProgram);
   /*
   if (!wr_shader_program_get_gl_name(sphereProgram))
@@ -86,7 +89,13 @@ static void create_wren_scene() {
   WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
   WrMaterial *sphereMaterial = wr_phong_material_new();
   wr_material_set_default_program(sphereMaterial, sphereProgram);
-  wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
+  float x[] = {0, 0, 0};
+  float y[] = {0, 0, 0};
+  float z[] = {0, 0, 0};
+  float a[] = {0.5, 0.5, 0.8};
+
+  wr_phong_material_set_all_parameters(sphereMaterial, x, y, z, a, 0, 0);
+  // wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);
   WrTransform *sphereTransform = wr_transform_new();
 
   wr_renderable_set_mesh(sphereRenderable, WR_MESH(sphereMesh));

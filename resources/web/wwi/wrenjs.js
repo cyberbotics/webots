@@ -21,7 +21,7 @@ class WbScene {
     this.updateWrenViewportDimensions();
   }
 
-  updateFrameBuffer() {/*
+  updateFrameBuffer() {
     if (this.wrenMainFrameBuffer)
       _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
 
@@ -41,7 +41,7 @@ class WbScene {
     _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 6);//enum
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 2);//enum
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 3);//enum
 
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
@@ -52,7 +52,7 @@ class WbScene {
     _wr_frame_buffer_set_depth_texture(this.wrenMainFrameBuffer, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_setup(this.wrenMainFrameBuffer);
-    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), this.wrenMainFrameBuffer);*/
+    _wr_viewport_set_frame_buffer(_wr_scene_get_viewport(_wr_scene_get_instance()), this.wrenMainFrameBuffer);
 
     _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), canvas.width, canvas.height);
   }
@@ -105,6 +105,7 @@ class WbViewpoint extends WbBaseNode {
 
     this.inverseViewMatrix;
 
+    this.wrenHdr = new WbWrenHdr();
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
@@ -126,7 +127,7 @@ class WbViewpoint extends WbBaseNode {
     this.applyFieldOfViewToWren();
     //applyOrthographicViewHeightToWren();
     //updateLensFlare();
-    //updatePostProcessingEffects();
+    this.updatePostProcessingEffects();
 
     this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
 
@@ -156,10 +157,101 @@ class WbViewpoint extends WbBaseNode {
   applyFieldOfViewToWren() {
     _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
   }
+
+  updatePostProcessingEffects(){
+    if (this.wrenHdr) {
+      this.wrenHdr.setup(this.wrenViewport);
+      this.updateExposure();
+    }
+  }
+
+  updateExposure() {
+    //TODO
+    //if (WbFieldChecker::resetDoubleIfNegative(this, this.exposure, 1.0))
+      //return;
+    if (this.wrenObjectsCreatedCalled && this.wrenHdr)
+      this.wrenHdr.setExposure(this.exposure);
+  }
+
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
 
+class WbWrenAbstractPostProcessingEffect {
+  constructor() {
+    this.wrenPostProcessingEffect = undefined;
+    this.wrenViewport = undefined;
+
+    this.hasBeenSetup = false;
+  }
+}
+
+class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
+  constructor(){
+    super();
+    this.exposure = 1.0;
+  }
+
+  setup(viewport){
+    if (this.wrenPostProcessingEffect) {
+      // In case we want to update the viewport, the old postProcessingEffect has to be removed first
+      if (this.wrenViewport == viewport)
+        _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+
+      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+    }
+
+    this.wrenViewport = viewport;
+
+    let width = _wr_viewport_get_width(this.wrenViewport);
+    let height = _wr_viewport_get_height(this.wrenViewport);
+
+    this.wrenPostProcessingEffect = this.hdrResolve(width, height);
+
+    this.applyParametersToWren();
+
+    _wr_viewport_add_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+    _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
+
+    this.hasBeenSetup = true;
+  }
+
+  setExposure(exposure){
+    this.exposure = exposure;
+
+    this.applyParametersToWren();
+  }
+
+  applyParametersToWren() {
+    if (!this.wrenPostProcessingEffect)
+      return;
+    let firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect)
+    let exposurePointer = _wrjs_pointerOnFloat(1.0);
+    console.log(exposurePointer);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+    [firstPass, "exposure", exposurePointer]);
+  }
+
+  hdrResolve(width, height) {
+    let hdrResolveEffect = _wr_post_processing_effect_new();
+    _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, 7); //enum
+
+    let hdrPass = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [hdrPass, "hdrResolve",]);
+    _wr_post_processing_effect_pass_set_name(hdrPass, "hdrResolve");
+    _wr_post_processing_effect_pass_set_program(hdrPass, WbWrenShaders.hdrResolveShader());
+    _wr_post_processing_effect_pass_set_output_size(hdrPass, width, height);
+    _wr_post_processing_effect_pass_set_alpha_blending(hdrPass, false);
+    _wr_post_processing_effect_pass_set_input_texture_count(hdrPass, 1);
+    _wr_post_processing_effect_pass_set_output_texture_count(hdrPass, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, 2); //enum
+    _wr_post_processing_effect_append_pass(hdrResolveEffect, hdrPass);
+
+    _wr_post_processing_effect_set_result_program(hdrResolveEffect, WbWrenShaders.passThroughShader());
+
+     return hdrResolveEffect
+  }
+}
 class WbGroup extends WbBaseNode{
   constructor(id){
     super(id);
@@ -615,12 +707,8 @@ class WbImageTexture extends WbBaseNode {
 
     this.externalTexture = false;
     this.externalTextureRatio = glm.vec2(1.0,1.0);
-    /*
-    var img = new Image();
-    img.src = 'image.jpg';
-    var context = document.getElementById('canvas').getContext('2d');
-    context.drawImage(img, 0, 0);
-    data = context.getImageData(x, y, 1, 1).data;*/
+
+    this.updateWrenTexture();
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
@@ -671,21 +759,19 @@ class WbImageTexture extends WbBaseNode {
   updateWrenTexture() {
 
     this.destroyWrenTexture();
-
-    QString filePath(path());
-    if (filePath.isEmpty())
-      return;
+    //let image = new Image();
+    //image.src=+ this.url.slice(1, this.url.length-1);
 
     // Only load the image from disk if the texture isn't already in the cache
-    let texture = _wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
-    if (typeof texture === 'undefined') {
-      if (loadTextureData()) {
+    let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
+    if (texture === 0) {
+      if (this.loadTextureData()) {
         texture = _wr_texture_2d_new();
         //TODO check how to access image bits, widht and length
         _wr_texture_set_size(texture, this.image.width, this.image.height);
         _wr_texture_set_translucent(texture, this.isTransparent);
         _wr_texture_2d_set_data(texture, this.image.bits);
-        _wr_texture_2d_set_file_path(texture, filePath.toUtf8().constData());
+        Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
         _wr_texture_setup(texture);
       }
     } else
@@ -696,18 +782,31 @@ class WbImageTexture extends WbBaseNode {
 
   destroyWrenTexture() {
     if (typeof this.externalTexture != 'undefined')
-      wr_texture_delete(WR_TEXTURE(this.wrenTexture));
+      _wr_texture_delete(this.wrenTexture);
 
-    wr_texture_transform_delete(this.wrenTextureTransform);
+    _wr_texture_transform_delete(this.wrenTextureTransform);
 
-    this.wrenTexture = NULL;
-    this.wrenTextureTransform = NULL;
+    this.wrenTexture = undefined;
+    this.wrenTextureTransform = undefined;
 
     //TODO see how to delete js image
     //delete mImage;
-    mImage = NULL;
+    this.image = undefined;
   }
 
+  loadTextureData() {
+    let img = new Image();
+    img.src = this.url;
+    img.addEventListener('load', function() {
+      let context = document.getElementById('canvas2').getContext('2d');
+      context.drawImage(img, 0, 0);
+      let data = context.getImageData(0, 0, img.width, img.height).data;
+      console.log(data);
+      this.image.data = data;
+      this.image.width = width;
+      this.image.height = height;
+    }, false);
+  }
 }
 
 class WbWrenShaders {
@@ -851,7 +950,7 @@ class WbWrenShaders {
     if (! WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME]) {
        WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform( WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 16);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 16);//enum
 
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 2);//enum
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 3);//enum
@@ -863,6 +962,32 @@ class WbWrenShaders {
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME];
   }
 
+  static hdrResolveShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], 0);//enum
+
+      let defaultExposureValue = 1.0;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "exposure", 0, _wrjs_pointerOnFloat(defaultExposureValue)]); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/hdr_resolve.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE];
+}
+
+  static passThroughShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH], 0);//enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/pass_through.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH];
+  }
 }
 
 //gShaders static variable

@@ -258,19 +258,21 @@ class MyParser {
   }
 
   parseImageTexture(node) {
-    let id = getNodeAttribute(node, 'id');
+    const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
-    let isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
-    let s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
-    let t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
+    url = url.slice(1, url.length-1);
+    const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
+    const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
+    const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
 
-    let textureProperties = node.getElementsByTagName('TextureProperties')[0];
+    const textureProperties = node.getElementsByTagName('TextureProperties')[0];
     let anisotropy = 8;
     if (typeof textureProperties !== 'undefined'){
       anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
     }
 
-    return new WbImageTexture(id, url, isTransparent, s, t, anisotropy);
+    const prefix = "/projects/default/worlds/";
+    return new WbImageTexture(id, prefix + url, isTransparent, s, t, anisotropy);
   }
 
 }
