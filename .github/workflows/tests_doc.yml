@@ -20,7 +20,7 @@ jobs:
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths: '["docs/**"]'
-          do_not_skip: '["workflow_dispatch", "schedule", "pull_request.opened"]'
+          concurrent_skipping: 'false'
 
   test-doc:
     needs: job-skipper

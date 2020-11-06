@@ -17,11 +17,11 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@v2.1.0
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
-          do_not_skip: '["workflow_dispatch", "schedule", "pull_request"]'
+          concurrent_skipping: 'false'
 
   cleanup-runs:
     runs-on: ubuntu-latest
