@@ -71,7 +71,7 @@ while supervisor.step(timeStep) != -1:
     z = 0.05
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    initial_position = [0] + [motor.getPositionSensor().getValue() for motor in motors] + [0]
+    initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]
     ikResults = armChain.inverse_kinematics([x, y, z], max_iter=IKPY_MAX_ITERATIONS, initial_position=initial_position)
 
     # Actuate the 3 first arm motors with the IK results.
@@ -103,7 +103,7 @@ while supervisor.step(timeStep) != -1:
     z = targetPosition[1] - armPosition[1]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    initial_position = [0] + [motor.getPositionSensor().getValue() for motor in motors] + [0]
+    initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]
     ikResults = armChain.inverse_kinematics([x, y, z], max_iter=IKPY_MAX_ITERATIONS, initial_position=initial_position)
 
     # Actuate the arm motors with the IK results.
