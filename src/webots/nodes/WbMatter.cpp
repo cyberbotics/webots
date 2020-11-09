@@ -589,7 +589,7 @@ void WbMatter::updateOdePlaceableGeomPosition(dGeomID g) {
   // WbMathsUtilities::printVector3("geom position", pos);
 
   // rotates the ODE dGeom
-  geom->setOdeRotation(WbRotation(transform->rotationMatrix()));
+  geom->setOdeRotation(transform->rotationMatrix());
 }
 
 void WbMatter::updateOdePlanePosition(dGeomID plane) {
