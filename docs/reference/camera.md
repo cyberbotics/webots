@@ -789,8 +789,9 @@ The size in bytes of this memory chunk can be computed as follows:
 byte_size = camera_width * camera_height * 4
 ```
 
-Internal pixel format of the buffer is BGRA (32 bits).
 Attempting to read outside the bounds of this chunk will cause an error.
+Internal pixel format of the buffer is BGRA (32 bits).
+Note that the Java API uses little-endian format and stores the pixel integer value in ARGB format.
 
 The `wb_camera_image_get_red`, `wb_camera_image_get_green` and `wb_camera_image_get_blue` macros can be used for directly accessing the pixel RGB levels from the pixel coordinates.
 The `wb_camera_image_get_gray` macro works in a similar way but returns the gray level of the specified pixel by averaging the three RGB components.
@@ -810,8 +811,9 @@ for (int x = 0; x < image_width; x++)
 
 > **Note** [Java]: The `Camera.getImage` function returns an array of int (`int[]`).
 The length of this array corresponds to the number of pixels in the image, that is the width multiplied by the height of the image.
-Each `int` element of the array represents one pixel coded in BGRA (32 bits).
-For example red is `0x0000ff00`, green is `0x00ff0000`, etc. The `Camera.pixelGetRed`, `Camera.pixelGetGreen` and `Camera.pixelGetBlue` functions can be used to decode a pixel value for the red, green and blue components.
+Each `int` element of the array represents one pixel coded in ARGB (32 bits).
+For example red is `0x00ff0000`, green is `0x0000ff00`, etc.
+The `Camera.pixelGetRed`, `Camera.pixelGetGreen` and `Camera.pixelGetBlue` functions can be used to decode a pixel value for the red, green and blue components.
 The `Camera.pixelGetGray` function works in a similar way, but returns the gray level of the pixel by averaging the three RGB components.
 Each of these four functions take an `int` pixel argument and return an `int` color/gray component in the range [0..255].
 Here is an example:
@@ -841,7 +843,7 @@ This `string` is closely related to the `const char *` of the C API.
 > gray = Camera.imageGetGray(cameraData, camera.getWidth(), 5, 10)
 > ```
 
-> Another way to use the camera in Python is to get the image by the `getImageArray` function which returns a `list<list<list<int>>>`.
+> Another way to use the camera in Python is to get the image by the `getImageArray` function which returns the RGB image data in the `list<list<list<int>>>` format.
 This three dimensional list can be directly used for accessing to the pixels.
 Here is an example:
 
