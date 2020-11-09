@@ -860,7 +860,7 @@ class WbImageTexture extends WbBaseNode {
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
 
-    this.image = null;
+    this.image = new WbImage();
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
@@ -917,17 +917,13 @@ class WbImageTexture extends WbBaseNode {
   }
 
   updateWrenTexture() {
-
     this.destroyWrenTexture();
-    //let image = new Image();
-    //image.src=+ this.url.slice(1, this.url.length-1);
 
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
       if (this.loadTextureData()) {
         texture = _wr_texture_2d_new();
-        //TODO check how to access image bits, widht and length
         _wr_texture_set_size(texture, this.image.width, this.image.height);
         _wr_texture_set_translucent(texture, this.isTransparent);
         _wr_texture_2d_set_data(texture, this.image.bits);
@@ -937,7 +933,7 @@ class WbImageTexture extends WbBaseNode {
     } else
       this.isTransparent = _wr_texture_is_translucent(texture);
 
-    this.wrenTexture = texture;
+      this.wrenTexture = texture;
   }
 
   destroyWrenTexture() {
@@ -956,16 +952,41 @@ class WbImageTexture extends WbBaseNode {
 
   loadTextureData() {
     let img = new Image();
-    img.src = this.url;
-    img.addEventListener('load', function() {
-      let context = document.getElementById('canvas2').getContext('2d');
+    let context = document.getElementById('canvas2').getContext('2d');
+
+    img.onload = function() {
+      canvas2.width = img.width;
+      canvas2.height = img.height;
       context.drawImage(img, 0, 0);
-      let data = context.getImageData(0, 0, img.width, img.height).data;
-      console.log(data);
-      this.image.data = data;
-      this.image.width = width;
-      this.image.height = height;
-    }, false);
+      let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+
+      console.log(img.width);
+      console.log(dataBGRA);
+
+      let data = [];
+      for(let x = 0; x < dataBGRA.length; x = x+4){
+        data.push(dataBGRA[2+x]);
+        data.push(dataBGRA[1+x]);
+        data.push(dataBGRA[0+x]);
+        data.push(dataBGRA[3+x]);
+      }
+      this.image.bits = data;
+      this.image.width = img.width;
+      this.image.height = img.height;
+    };
+
+    img.src = this.url;
+    
+    return true;
+  }
+}
+
+
+class WbImage {
+  constructor(){
+    this.bits = undefined;
+    this.width = 0;
+    this.height = 0;
   }
 }
 
