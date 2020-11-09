@@ -28,6 +28,7 @@
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
 #include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <signal.h>  // signal
 
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
@@ -111,6 +112,7 @@ static WbRobot robot;
 static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
+static bool should_quit_controller = false;
 
 // Static functions
 static void init_robot_window_library() {
@@ -131,6 +133,10 @@ static void init_remote_control_library() {
     if (!remote_control_is_initialized())
       fprintf(stderr, "Error: Cannot load the \"%s\" remote control library.\n", robot.remote_control_filename);
   }
+}
+
+static void quit_controller(int sig) {
+  should_quit_controller = true;
 }
 
 static void init_devices_from_tag(WbRequest *r, int firstTag) {
@@ -979,6 +985,13 @@ int wb_robot_init() {  // API initialization
   // one uint8 giving the number of devices n
   // n \0-terminated strings giving the names of the devices 0 .. n-1
 
+  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
+#ifndef _WIN32
+  signal(SIGTERM, quit_controller);
+  signal(SIGQUIT, quit_controller);
+  signal(SIGHUP, quit_controller);
+#endif
+
   robot.configure = 0;
   robot.real_robot_cleanup = NULL;
   robot.is_supervisor = false;
@@ -1005,12 +1018,12 @@ int wb_robot_init() {  // API initialization
     pipe = strdup(WEBOTS_SERVER);
   else {
     int trial = 0;
-    while (trial < 10) {
+    while (!should_quit_controller) {
       trial++;
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %d second%s)\n", trial, trial > 1 ? "s" : "");
-        sleep(trial);
+        fprintf(stderr, "Webots doesn't seems to be ready yet: (retry count %d)\n", trial);
+        sleep(1);
       } else {
         char buffer[1024];
         snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
@@ -1025,14 +1038,12 @@ int wb_robot_init() {  // API initialization
           }
           fclose(fd);
         } else {
-          fprintf(stderr, "Cannot open file: %s (retrying in %d second%s)\n", buffer, trial, trial > 1 ? "s" : "");
+          fprintf(stderr, "Cannot open file: %s (retry count %d)\n", buffer, trial);
           pipe = NULL;
         }
-        sleep(trial);
+        sleep(1);
       }
     }
-    if (trial == 10)
-      fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
   }
   if (!pipe || !scheduler_init(pipe)) {
     if (!pipe)
