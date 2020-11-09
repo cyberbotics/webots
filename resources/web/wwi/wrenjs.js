@@ -17,7 +17,7 @@ class WbScene {
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
-    //WbWrenPostProcessingEffects::loadResources();
+    //WbWrenPostProcessingEffects.loadResources();
     this.updateWrenViewportDimensions();
   }
 
@@ -100,12 +100,16 @@ class WbViewpoint extends WbBaseNode {
     this.bloomThreshold = bloomThreshold;
     this.zNear = zNear;
     this.far = far;
+    this.aspectRatio = 1.0;
+    this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
+    this.tanHalfFieldOfViewY = TAN_M_PI_8;
     this.followsmoothness = followsmoothness;
 
     this.inverseViewMatrix;
 
     this.wrenHdr = new WbWrenHdr();
+    this.wrenGtao = new WbWrenGtao();
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
@@ -128,7 +132,6 @@ class WbViewpoint extends WbBaseNode {
     //applyOrthographicViewHeightToWren();
     //updateLensFlare();
     this.updatePostProcessingEffects();
-
     this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
 
     // once the camera and viewport are created, update everything in the world instance
@@ -158,11 +161,71 @@ class WbViewpoint extends WbBaseNode {
     _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
   }
 
+  updateNear() {
+    //TODO
+    //if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.05))
+      //return;
+
+    if (this.far > 0.0 && this.far < this.near) {
+      this.near = this.far;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this.applyNearToWren();
+  }
+
+  updateFar() {
+    //TODO
+    //if (WbFieldChecker::resetDoubleIfNegative(this, mFar, 0.0))
+      //return;
+
+    if (this.far > 0.0 && this.far < this.near) {
+      this.far = this.near + 1.0;
+      //TOCHECK it is strange to return here but not in update near
+      //return;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this.applyFarToWren();
+  }
+
+  updateFieldOfViewY() {
+    this.tanHalfFieldOfViewY = tan(0.5 * this.fieldOfView);  // stored for reuse in viewpointRay()
+
+    // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
+    // the view angle is taken with respect to the largest dimension
+    if (this.aspectRatio < 1.0)
+      this.fieldOfViewY = this.fieldOfView;
+    else {
+      this.tanHalfFieldOfViewY /= this.aspectRatio;
+      this.fieldOfViewY = 2.0 * Math.atan(this.tanHalfFieldOfViewY);
+    }
+  }
+
   updatePostProcessingEffects(){
+    if(!this.wrenObjectsCreatedCalled)
+      return;
+
     if (this.wrenHdr) {
       this.wrenHdr.setup(this.wrenViewport);
       this.updateExposure();
     }
+
+    /*
+    if (this.wrenGtao) {
+      //TODO
+      //let qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
+      let qualityLevel = 2;
+      if (qualityLevel === 0)
+        this.wrenGtao.detachFromViewport();
+      else {
+        this.wrenGtao.setHalfResolution(qualityLevel <= 2);
+        this.wrenGtao.setup(this.wrenViewport);
+        this.updateNear();
+        this.updateFar();
+        this.updateFieldOfViewY();
+      }
+    }*/
   }
 
   updateExposure() {
@@ -226,10 +289,8 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
     if (!this.wrenPostProcessingEffect)
       return;
     let firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect)
-    let exposurePointer = _wrjs_pointerOnFloat(1.0);
-    console.log(exposurePointer);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
-    [firstPass, "exposure", exposurePointer]);
+    let exposurePointer = _wrjs_pointerOnFloat(this.exposure);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, "exposure", exposurePointer]);
   }
 
   hdrResolve(width, height) {
@@ -237,8 +298,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
     _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, 7); //enum
 
     let hdrPass = _wr_post_processing_effect_pass_new();
-    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [hdrPass, "hdrResolve",]);
-    _wr_post_processing_effect_pass_set_name(hdrPass, "hdrResolve");
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [hdrPass, "hdrResolve"]);
     _wr_post_processing_effect_pass_set_program(hdrPass, WbWrenShaders.hdrResolveShader());
     _wr_post_processing_effect_pass_set_output_size(hdrPass, width, height);
     _wr_post_processing_effect_pass_set_alpha_blending(hdrPass, false);
@@ -252,6 +312,106 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
      return hdrResolveEffect
   }
 }
+
+class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
+  constructor(){
+    super();
+    this.halfResolution = false;
+
+    this.gtaoPass = null;
+    this.temporalPass = null
+    this.near = 0.0;
+    this.far = 0.0
+    this.fov = 0.78
+    this.radius = 2.0;
+    this.flipNormalY = 0.0
+    this.frameCounter = 0;
+
+    this.clipInfo = [0, 0, 0, 0];
+    this.params = [0, 0, 0, 0];
+    this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
+    this.offsets = [0.0, 0.5, 0.25, 0.75];
+
+  }
+
+  setHalfResolution(halfResolution) {
+    this.halfResolution = halfResolution;
+  }
+
+  detachFromViewport() {
+    if (this.wrenViewport) {
+      _wr_viewport_set_ambient_occlusion_effect(this.wrenViewport, null);
+      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+      this.wrenPostProcessingEffect = null;
+      this.wrenViewport = null;
+      this.hasBeenSetup = false;
+    }
+  }
+
+  setup(viewport) {
+    if (this.wrenPostProcessingEffect) {
+      // In case we want to update the viewport, the old postProcessingEffect has to be removed first
+      if (this.wrenViewport == viewport)
+        _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+
+      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+    }
+
+    this.wrenViewport = viewport;
+
+    let width = _wr_viewport_get_width(this.wrenViewport);
+    let height = _wr_viewport_get_height(this.wrenViewport);
+
+    if (this.halfResolution) {
+      width = width <= 1.0 ? 2.0 : width;
+      height = height <= 1.0 ? 2.0 : height;
+    }
+
+    let viewportFramebuffer = _wr_viewport_get_frame_buffer(this.wrenViewport);
+
+    let depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
+    let normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
+
+    //this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, WR_TEXTURE_INTERNAL_FORMAT_RGB16F, depthTexture, normalTexture, mHalfResolution);
+
+    this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "gtaoForwardPass"]);
+    this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "temporalDenoise"]);
+
+    this.applyParametersToWren();
+
+    _wr_viewport_set_ambient_occlusion_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+    _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
+
+    this.hasBeenSetup = true;
+  }
+
+  applyParametersToWren() {
+    if (!this.wrenPostProcessingEffect)
+      return;
+
+    this.clipInfo[0] = this.near;
+    this.clipInfo[1] = this.far ? this.far : 1000000.0;
+    this.clipInfo[2] = 0.5 * (_wr_viewport_get_height(this.wrenViewport) / (2.0 * Math.tanf(this.fov * 0.5)));
+
+    let array4 = _wrjs_array4(this.clipInfo[0], this.clipInfo[1], this.clipInfo[2], this.clipInfo[3])
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "clipInfo", array4]);
+
+    this.params[0] = this.rotations[this.frameCounter % 6] / 360.0;
+    this.params[1] = this.offsets[(this.frameCounter / 6) % 4];
+
+    array4 = _wrjs_array4(this.params[0], this.params[1], this.params[2], this.params[3])
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "params", array4]);
+
+    let radiusPointer = _wrjs_pointerOnFloat(this.radius);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "radius", radiusPointer]);
+
+    let flipNormalYPointer = _wrjs_pointerOnFloat(this.flipNormalY);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "flipNormalY", flipNormalYPointer]);
+
+    ++this.frameCounter;
+  }
+}
+
 class WbGroup extends WbBaseNode{
   constructor(id){
     super(id);
@@ -419,7 +579,7 @@ class WbGeometry extends WbBaseNode {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, castShadows);
     }
   }
-  //Not use for now, normaly is cone
+  //Not use for now, normaly in cone
   /*
   deleteWrenRenderable() {
     if (this.wrenRenderable) {
@@ -920,10 +1080,10 @@ class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 4); //enum
 
       let minRange = 0.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
 
       let maxRange = 1.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(maxRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(maxRange)]); //enum
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../../resources/wren/shaders/encode_depth.vert", "../../../resources/wren/shaders/encode_depth.frag");
     }
@@ -963,13 +1123,13 @@ class WbWrenShaders {
   }
 
   static hdrResolveShader() {
-    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE]) {
+    if (! WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE] = _wr_shader_program_new();
 
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], 0);//enum
 
-      let defaultExposureValue = 1.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number, string, number, number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "exposure", 0, _wrjs_pointerOnFloat(defaultExposureValue)]); //enum
+      const defaultExposureValue = 1.0;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "exposure", 0, _wrjs_pointerOnFloat(defaultExposureValue)]); //enum
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/hdr_resolve.frag");
     }
@@ -1047,6 +1207,167 @@ WbWrenShaders.SHADER = { //enum
     SHADER_SMAA_FINAL_BLEND_PASS : 51,
     SHADER_COUNT : 52
   };
+
+class WbWrenPostProcessingEffects {
+  static loadResources(){
+    console.log("TODO");
+  }
+
+  /*static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
+    let gtaoEffect = _wr_post_processing_effect_new();
+    _wr_post_processing_effect_set_drawing_index(gtaoEffect, 0);//enum
+
+    let colorPassThrough = _wr_post_processing_effect_pass_new();
+    _wr_post_processing_effect_pass_set_name(colorPassThrough, "colorPassThrough");
+    _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders::passThroughShader());
+    _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
+    _wr_post_processing_effect_pass_set_alpha_blending(colorPassThrough, false);
+    _wr_post_processing_effect_pass_set_input_texture_count(colorPassThrough, 1);
+    _wr_post_processing_effect_pass_set_input_texture_interpolation(colorPassThrough, 0, false);
+    _wr_post_processing_effect_pass_set_output_texture_count(colorPassThrough, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
+    _wr_post_processing_effect_append_pass(gtaoEffect, colorPassThrough);
+
+    WrPostProcessingEffectPass *depthDownsamplePassThrough, *normalDownsamplePassThrough = NULL;
+    if (halfRes) {
+      depthDownsamplePassThrough = wr_post_processing_effect_pass_new();
+      wr_post_processing_effect_pass_set_name(depthDownsamplePassThrough, "depthDownsamplePassThrough");
+      wr_post_processing_effect_pass_set_program(depthDownsamplePassThrough, WbWrenShaders::passThroughShader());
+      wr_post_processing_effect_pass_set_output_size(depthDownsamplePassThrough, width / 2, height / 2);
+      wr_post_processing_effect_pass_set_input_texture_count(depthDownsamplePassThrough, 1);
+      wr_post_processing_effect_pass_set_alpha_blending(depthDownsamplePassThrough, false);
+      wr_post_processing_effect_pass_set_input_texture(depthDownsamplePassThrough, 0, WR_TEXTURE(depthTexture));
+      wr_post_processing_effect_pass_set_input_texture_interpolation(depthDownsamplePassThrough, 0, false);
+      wr_post_processing_effect_pass_set_output_texture_count(depthDownsamplePassThrough, 1);
+      wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, WR_TEXTURE_INTERNAL_FORMAT_R32F);
+      wr_post_processing_effect_append_pass(gtaoEffect, depthDownsamplePassThrough);
+
+      normalDownsamplePassThrough = wr_post_processing_effect_pass_new();
+      wr_post_processing_effect_pass_set_name(normalDownsamplePassThrough, "normalDownsamplePassThrough");
+      wr_post_processing_effect_pass_set_program(normalDownsamplePassThrough, WbWrenShaders::passThroughShader());
+      wr_post_processing_effect_pass_set_alpha_blending(normalDownsamplePassThrough, false);
+      wr_post_processing_effect_pass_set_output_size(normalDownsamplePassThrough, width / 2, height / 2);
+      wr_post_processing_effect_pass_set_input_texture_count(normalDownsamplePassThrough, 1);
+      wr_post_processing_effect_pass_set_input_texture(normalDownsamplePassThrough, 0, WR_TEXTURE(normalTexture));
+      wr_post_processing_effect_pass_set_input_texture_interpolation(normalDownsamplePassThrough, 0, false);
+      wr_post_processing_effect_pass_set_output_texture_count(normalDownsamplePassThrough, 1);
+      wr_post_processing_effect_pass_set_output_texture_format(normalDownsamplePassThrough, 0, textureFormat);
+      wr_post_processing_effect_append_pass(gtaoEffect, normalDownsamplePassThrough);
+    }
+
+    WrPostProcessingEffectPass *gtaoForwardPass = wr_post_processing_effect_pass_new();
+    wr_post_processing_effect_pass_set_name(gtaoForwardPass, "gtaoForwardPass");
+    wr_post_processing_effect_pass_set_program(gtaoForwardPass, WbWrenShaders::gtaoShader());
+    wr_post_processing_effect_pass_set_input_texture_count(gtaoForwardPass, 3);
+
+    if (halfRes)
+      wr_post_processing_effect_pass_set_output_size(gtaoForwardPass, width / 2, height / 2);
+    else {
+      wr_post_processing_effect_pass_set_output_size(gtaoForwardPass, width, height);
+      wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 0, WR_TEXTURE(depthTexture));
+      wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 1, WR_TEXTURE(normalTexture));
+    }
+
+    wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, WR_TEXTURE(gtaoNoiseTexture));
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 0, false);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 1, false);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 2, false);
+    wr_post_processing_effect_pass_set_clear_before_draw(gtaoForwardPass, true);
+    wr_post_processing_effect_pass_set_alpha_blending(gtaoForwardPass, false);
+    wr_post_processing_effect_pass_set_output_texture_count(gtaoForwardPass, 1);
+    wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, WR_TEXTURE_INTERNAL_FORMAT_RED);
+    wr_post_processing_effect_append_pass(gtaoEffect, gtaoForwardPass);
+
+    WrPostProcessingEffectPass *spatialDenoise = wr_post_processing_effect_pass_new();
+    wr_post_processing_effect_pass_set_name(spatialDenoise, "spatialDenoise");
+    wr_post_processing_effect_pass_set_program(spatialDenoise, WbWrenShaders::gtaoSpatialDenoiseShader());
+
+    if (halfRes)
+      wr_post_processing_effect_pass_set_output_size(spatialDenoise, width / 2, height / 2);
+    else
+      wr_post_processing_effect_pass_set_output_size(spatialDenoise, width, height);
+
+    wr_post_processing_effect_pass_set_input_texture_count(spatialDenoise, 2);
+    wr_post_processing_effect_pass_set_input_texture(spatialDenoise, 1, WR_TEXTURE(depthTexture));
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 0, true);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 1, false);
+    wr_post_processing_effect_pass_set_alpha_blending(spatialDenoise, false);
+    wr_post_processing_effect_pass_set_clear_before_draw(spatialDenoise, true);
+    wr_post_processing_effect_pass_set_output_texture_count(spatialDenoise, 1);
+    wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, WR_TEXTURE_INTERNAL_FORMAT_RED);
+    wr_post_processing_effect_append_pass(gtaoEffect, spatialDenoise);
+
+    WrPostProcessingEffectPass *temporalDenoise = wr_post_processing_effect_pass_new();
+    wr_post_processing_effect_pass_set_name(temporalDenoise, "temporalDenoise");
+    wr_post_processing_effect_pass_set_program(temporalDenoise, WbWrenShaders::gtaoTemporalDenoiseShader());
+    wr_post_processing_effect_pass_set_output_size(temporalDenoise, width, height);
+    wr_post_processing_effect_pass_set_input_texture_count(temporalDenoise, 4);
+    wr_post_processing_effect_pass_set_input_texture(temporalDenoise, 3, WR_TEXTURE(depthTexture));
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 2, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 3, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 0, true);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 1, true);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 2, false);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 3, false);
+    wr_post_processing_effect_pass_set_alpha_blending(temporalDenoise, false);
+    wr_post_processing_effect_pass_set_clear_before_draw(temporalDenoise, true);
+    wr_post_processing_effect_pass_set_output_texture_count(temporalDenoise, 1);
+    wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, WR_TEXTURE_INTERNAL_FORMAT_RED);
+    wr_post_processing_effect_append_pass(gtaoEffect, temporalDenoise);
+
+    WrPostProcessingEffectPass *finalBlend = wr_post_processing_effect_pass_new();
+    wr_post_processing_effect_pass_set_name(finalBlend, "FinalBlend");
+    wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders::gtaoCombineShader());
+    wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
+    wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 3);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 0, false);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 1, false);
+    wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 2, false);
+    wr_post_processing_effect_pass_set_clear_before_draw(finalBlend, true);
+    wr_post_processing_effect_pass_set_input_texture(finalBlend, 2, WR_TEXTURE(depthTexture));
+    wr_post_processing_effect_pass_set_output_texture_count(finalBlend, 3);
+    wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, textureFormat);
+    wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 1, WR_TEXTURE_INTERNAL_FORMAT_RED);
+    wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 2, WR_TEXTURE_INTERNAL_FORMAT_R32F);
+    wr_post_processing_effect_append_pass(gtaoEffect, finalBlend);
+
+    // color texture for blending at the end
+    wr_post_processing_effect_connect(gtaoEffect, colorPassThrough, 0, finalBlend, 0);
+
+    // downsampled textures for half-res AO
+    if (halfRes) {
+      wr_post_processing_effect_connect(gtaoEffect, depthDownsamplePassThrough, 0, gtaoForwardPass, 0);
+      wr_post_processing_effect_connect(gtaoEffect, normalDownsamplePassThrough, 0, gtaoForwardPass, 1);
+    }
+
+    // denoising
+    wr_post_processing_effect_connect(gtaoEffect, gtaoForwardPass, 0, spatialDenoise, 0);
+    wr_post_processing_effect_connect(gtaoEffect, spatialDenoise, 0, temporalDenoise, 1);
+    wr_post_processing_effect_connect(gtaoEffect, temporalDenoise, 0, finalBlend, 1);
+
+    // loopbacks for temporal
+    wr_post_processing_effect_connect(gtaoEffect, finalBlend, 1, temporalDenoise, 0);
+    wr_post_processing_effect_connect(gtaoEffect, finalBlend, 2, temporalDenoise, 2);
+
+    wr_post_processing_effect_set_result_program(gtaoEffect, WbWrenShaders::passThroughShader());
+
+    return gtaoEffect;
+  }*/
+}
+
+//WbWrenPostProcessingEffects static variable
+WbWrenPostProcessingEffects.gtaoNoiseTexture = null
+
 
 class WrenRenderer {
     constructor () {
