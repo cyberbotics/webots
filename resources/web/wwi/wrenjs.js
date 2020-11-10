@@ -787,8 +787,7 @@ class WbAppearance extends WbBaseNode {
 
       this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
     } else{
-      console.error("Appearance without material is not implemented yet");
-      //wrenMaterial = fillWrenDefaultMaterial(wrenMaterial);
+      wrenMaterial = this.fillWrenDefaultMaterial(wrenMaterial);
     }
 
     if (this.texture)
@@ -801,6 +800,16 @@ class WbAppearance extends WbBaseNode {
     else
       _wr_material_set_texture_transform(wrenMaterial, null);
 
+    return wrenMaterial;
+  }
+
+  fillWrenDefaultMaterial(wrenMaterial) {
+    //TODO add suport if not a phong material
+    if (!wrenMaterial) {
+      _wr_material_delete(wrenMaterial);
+      wrenMaterial = _wr_phong_material_new();
+    }
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
     return wrenMaterial;
   }
 }
