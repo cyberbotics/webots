@@ -78,7 +78,6 @@ class WbBaseNode {
     } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
-    console.log(this.id);
   }
 }
 
@@ -435,15 +434,17 @@ class WbTransform extends WbGroup {
   }
 
   createWrenObjects() {
-    console.log("youhhh");
     super.createWrenObjects();
-
     let transform = _wr_transform_new();
 
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
 
-    this.children.forEach(child => child.createWrenObjects());
+    console.log(this.children);
+
+    this.children.forEach(child => {
+      child.createWrenObjects()
+    });
 
     this.applyTranslationToWren();
     this.applyRotationToWren();
@@ -480,9 +481,7 @@ class WbShape extends WbBaseNode {
 
 
   createWrenObjects() {
-    console.log("youhou")
     super.createWrenObjects();
-
     if (this.appearance)
       this.appearance.createWrenObjects();
 
@@ -773,7 +772,6 @@ class WbAppearance extends WbBaseNode {
 
   createWrenObjects(){
     super.createWrenObjects();
-
     if(typeof this.material !== 'undefined') {
       this.material.createWrenObjects();
     }
@@ -1372,7 +1370,7 @@ class WrenRenderer {
 
     render() {
       try {
-        //console.log("render");
+        console.log("render");
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {
@@ -1392,7 +1390,7 @@ function array3Pointer(x, y, z) {
 }
 
 function arrayXPointer(array) {
-  let data = new Uint8Array(array);
+  let data = new Uint8ClampedArray(array);
   let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
   let dataPtr = Module._malloc(nDataBytes);
   let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);

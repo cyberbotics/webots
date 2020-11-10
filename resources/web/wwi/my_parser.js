@@ -20,9 +20,7 @@ class MyParser {
     if (typeof scene === 'undefined') {
       console.error("Scene not found");
     } else {
-      this.parseNode(scene).then(result =>{
-        _wr_scene_render(_wr_scene_get_instance(), null, true);
-      });
+      this.parseNode(scene)
     }
 
     console.log("File Parsed");
@@ -36,7 +34,7 @@ class MyParser {
     if(node.tagName === 'Scene') {
       let id = getNodeAttribute(node, 'id');
       result = new WbScene(id);
-      this.parseChildren(node, currentNode);
+      await this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
     } else if (node.tagName === 'Viewpoint') {
@@ -53,12 +51,18 @@ class MyParser {
   }
 
   async parseChildren(node, currentNode) {
+    console.log("début");
+
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
-        this.parseNode(child, currentNode);
+        console.log(child.tagName);
+        await this.parseNode(child, currentNode);
       }
     }
+
+    console.log("fin");
+    return 1;
   }
 
   parseWorldInfo(node){
@@ -89,9 +93,7 @@ class MyParser {
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
     await this.parseChildren(node, transform);
-
     transform.createWrenObjects();
-
   }
 
   async parseShape(node, currentNode){
@@ -143,6 +145,7 @@ class MyParser {
     } else {
       shape.createWrenObjects();
     }
+    return 0;
   }
 
   parseGeometry(node, currentNode) {
@@ -226,9 +229,9 @@ class MyParser {
     // Check to see if there is a texture.
     let imageTexture = node.getElementsByTagName('ImageTexture')[0];
     let texture;
-    if (typeof imageTexture !== 'undefined')
-      texture = await this.parseImageTexture(imageTexture);
-
+    if (typeof imageTexture !== 'undefined'){
+        texture = await this.parseImageTexture(imageTexture);
+    }
 
     //TODO Check for texture transform
 
@@ -288,15 +291,19 @@ class MyParser {
    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
    console.log(img.width);
    console.log(dataBGRA);
-   let data = [];
+   let data = new Uint8ClampedArray(dataBGRA.length);
    for(let x = 0; x < dataBGRA.length; x = x+4){
-     data.push(dataBGRA[2+x]);
-     data.push(dataBGRA[1+x]);
-     data.push(dataBGRA[0+x]);
-     data.push(dataBGRA[3+x]);
+     //data[2+x] = dataBGRA[2+x];
+     //data[1+x] = dataBGRA[1+x];
+     data[2+x] = 48;
+     data[1+x] = 54;
+     data[0+x] = 19;
+     data[3+x] = 96;
+     //data[0+x] = dataBGRA[0+x];
+     //data[3+x] = dataBGRA[3+x];
    }
    let image = new WbImage();
-   
+
    image.bits = data;
    image.width = img.width;
    image.height = img.height;
@@ -307,7 +314,6 @@ class MyParser {
    return new Promise((resolve, reject) => {
      let img = new Image();
      img.onload = () => {
-       console.log("hello");
        resolve(img);
      }
      img.onerror = () => console.log("Error in loading");
