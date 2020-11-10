@@ -23,12 +23,12 @@
 // (4) initialization of the remote scene if any (textures, download)
 
 #include <locale.h>  // LC_NUMERIC
+#include <signal.h>  // signal
 #include <stdarg.h>
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
 #include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
-#include <signal.h>  // signal
 
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
