@@ -985,13 +985,6 @@ int wb_robot_init() {  // API initialization
   // one uint8 giving the number of devices n
   // n \0-terminated strings giving the names of the devices 0 .. n-1
 
-  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
-#ifndef _WIN32
-  signal(SIGTERM, quit_controller);
-  signal(SIGQUIT, quit_controller);
-  signal(SIGHUP, quit_controller);
-#endif
-
   robot.configure = 0;
   robot.real_robot_cleanup = NULL;
   robot.is_supervisor = false;
@@ -1011,6 +1004,13 @@ int wb_robot_init() {  // API initialization
   wb_keyboard_init();
   wb_joystick_init();
   wb_mouse_init();
+
+  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
+#ifndef _WIN32
+  signal(SIGTERM, quit_controller);
+  signal(SIGQUIT, quit_controller);
+  signal(SIGHUP, quit_controller);
+#endif
 
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
@@ -1045,6 +1045,14 @@ int wb_robot_init() {  // API initialization
       }
     }
   }
+
+  signal(SIGINT, SIG_DFL);
+#ifndef _WIN32
+  signal(SIGTERM, SIG_DFL);
+  signal(SIGQUIT, SIG_DFL);
+  signal(SIGHUP, SIG_DFL);
+#endif
+
   if (!pipe || !scheduler_init(pipe)) {
     if (!pipe)
       fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
