@@ -78,6 +78,7 @@ class WbBaseNode {
     } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
+    console.log(this.id);
   }
 }
 
@@ -434,6 +435,7 @@ class WbTransform extends WbGroup {
   }
 
   createWrenObjects() {
+    console.log("youhhh");
     super.createWrenObjects();
 
     let transform = _wr_transform_new();
@@ -478,6 +480,7 @@ class WbShape extends WbBaseNode {
 
 
   createWrenObjects() {
+    console.log("youhou")
     super.createWrenObjects();
 
     if (this.appearance)
@@ -848,7 +851,7 @@ class WbMaterial extends WbBaseNode {
 }
 
 class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, anisotropy){
+  constructor(id, url, isTransparent, s, t, anisotropy, image){
     super(id);
     this.url = url;
 
@@ -859,12 +862,10 @@ class WbImageTexture extends WbBaseNode {
     this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
-
-    this.image = new WbImage();
+    this.image = image;
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
-
     this.externalTexture = false;
     this.externalTextureRatio = glm.vec2(1.0,1.0);
 
@@ -918,18 +919,18 @@ class WbImageTexture extends WbBaseNode {
 
   updateWrenTexture() {
     this.destroyWrenTexture();
-
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      if (this.loadTextureData()) {
-        texture = _wr_texture_2d_new();
-        _wr_texture_set_size(texture, this.image.width, this.image.height);
-        _wr_texture_set_translucent(texture, this.isTransparent);
-        _wr_texture_2d_set_data(texture, this.image.bits);
-        Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
-        _wr_texture_setup(texture);
-      }
+      texture = _wr_texture_2d_new();
+      _wr_texture_set_size(texture, this.image.width, this.image.height);
+      _wr_texture_set_translucent(texture, this.isTransparent);
+      let bitsPointer = arrayXPointer(this.image.bits);
+      _wr_texture_2d_set_data(texture, bitsPointer);
+      _free(bitsPointer);
+      Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
+      _wr_texture_setup(texture);
+
     } else
       this.isTransparent = _wr_texture_is_translucent(texture);
 
@@ -947,37 +948,7 @@ class WbImageTexture extends WbBaseNode {
 
     //TODO see how to delete js image
     //delete mImage;
-    this.image = undefined;
-  }
-
-  loadTextureData() {
-    let img = new Image();
-    let context = document.getElementById('canvas2').getContext('2d');
-
-    img.onload = function() {
-      canvas2.width = img.width;
-      canvas2.height = img.height;
-      context.drawImage(img, 0, 0);
-      let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-
-      console.log(img.width);
-      console.log(dataBGRA);
-
-      let data = [];
-      for(let x = 0; x < dataBGRA.length; x = x+4){
-        data.push(dataBGRA[2+x]);
-        data.push(dataBGRA[1+x]);
-        data.push(dataBGRA[0+x]);
-        data.push(dataBGRA[3+x]);
-      }
-      this.image.bits = data;
-      this.image.width = img.width;
-      this.image.height = img.height;
-    };
-
-    img.src = this.url;
-    
-    return true;
+    //this.image = undefined;
   }
 }
 
@@ -1412,6 +1383,16 @@ class WrenRenderer {
 
 function array3Pointer(x, y, z) {
   let data = new Float32Array([x, y, z]);
+  let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+  let dataPtr = Module._malloc(nDataBytes);
+  let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+  dataHeap.set(new Uint8Array(data.buffer));
+
+  return dataHeap.byteOffset;
+}
+
+function arrayXPointer(array) {
+  let data = new Uint8Array(array);
   let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
   let dataPtr = Module._malloc(nDataBytes);
   let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);

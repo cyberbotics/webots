@@ -20,20 +20,22 @@ class MyParser {
     if (typeof scene === 'undefined') {
       console.error("Scene not found");
     } else {
-      this.parseNode(scene);
+      this.parseNode(scene).then(result =>{
+        _wr_scene_render(_wr_scene_get_instance(), null, true);
+      });
     }
 
     console.log("File Parsed");
 
     //Render a first time after beeing parsed
     //TODO move after parse is called.
-    _wr_scene_render(_wr_scene_get_instance(), null, true);
   }
 
-  parseNode(node, currentNode) {
+  async parseNode(node, currentNode) {
+    let result;
     if(node.tagName === 'Scene') {
       let id = getNodeAttribute(node, 'id');
-      new WbScene(id);
+      result = new WbScene(id);
       this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
@@ -42,20 +44,20 @@ class MyParser {
     } else if (node.tagName === 'Transform') {
       this.parseTransform(node, currentNode);
     } else if (node.tagName === 'Shape') {
-      this.parseShape(node, currentNode);
+      await this.parseShape(node, currentNode);
     } else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
     }
+    return result;
   }
 
-  parseChildren(node, currentNode) {
+  async parseChildren(node, currentNode) {
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
         this.parseNode(child, currentNode);
       }
-
     }
   }
 
@@ -78,7 +80,7 @@ class MyParser {
 
   }
 
-  parseTransform(node, currentNode){
+  async parseTransform(node, currentNode){
     let id = getNodeAttribute(node, 'id');
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
@@ -86,13 +88,13 @@ class MyParser {
     let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
-    this.parseChildren(node, transform);
+    await this.parseChildren(node, transform);
 
     transform.createWrenObjects();
 
   }
 
-  parseShape(node, currentNode){
+  async parseShape(node, currentNode){
     let id = getNodeAttribute(node, 'id');
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
@@ -117,7 +119,7 @@ class MyParser {
           }
           if (pbrAppearanceChild)
             continue;
-          appearance = this.parseAppearance(child, currentNode);
+          appearance = await this.parseAppearance(child, currentNode);
         } else if (child.tagName === 'PBRAppearance')
           appearance = this.parsePBRAppearance(child, currentNode);
         if (typeof appearance !== 'undefined')
@@ -160,7 +162,7 @@ class MyParser {
       geometry = undefined
     }
 
-    if(typeof currentNode !== 'undefined' && geometry !== 'undefined') {
+    if(typeof currentNode !== 'undefined' && typeof geometry !== 'undefined') {
       geometry.parent = currentNode;
     }
     return geometry;
@@ -212,7 +214,7 @@ class MyParser {
     return new WbPlane(id, size);
   }
 
-  parseAppearance(node, currentNode) {
+  async parseAppearance(node, currentNode) {
     let id = getNodeAttribute(node, 'id');
 
     // Get the Material tag.
@@ -225,7 +227,7 @@ class MyParser {
     let imageTexture = node.getElementsByTagName('ImageTexture')[0];
     let texture;
     if (typeof imageTexture !== 'undefined')
-      texture = this.parseImageTexture(imageTexture);
+      texture = await this.parseImageTexture(imageTexture);
 
 
     //TODO Check for texture transform
@@ -257,7 +259,7 @@ class MyParser {
     return new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
   }
 
-  parseImageTexture(node) {
+  async parseImageTexture(node) {
     const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
     url = url.slice(1, url.length-1);
@@ -272,8 +274,46 @@ class MyParser {
     }
 
     const prefix = "/projects/default/worlds/";
-    return new WbImageTexture(id, prefix + url, isTransparent, s, t, anisotropy);
+    let image = await this.loadTextureData(prefix+url);
+    return new WbImageTexture(id, prefix + url, isTransparent, s, t, anisotropy, image);
   }
+
+  async loadTextureData(url) {
+   let context = document.getElementById('canvas2').getContext('2d');
+   let img = await this.loadImage(url);
+
+   canvas2.width = img.width;
+   canvas2.height = img.height;
+   context.drawImage(img, 0, 0);
+   let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+   console.log(img.width);
+   console.log(dataBGRA);
+   let data = [];
+   for(let x = 0; x < dataBGRA.length; x = x+4){
+     data.push(dataBGRA[2+x]);
+     data.push(dataBGRA[1+x]);
+     data.push(dataBGRA[0+x]);
+     data.push(dataBGRA[3+x]);
+   }
+   let image = new WbImage();
+   
+   image.bits = data;
+   image.width = img.width;
+   image.height = img.height;
+   return image;
+ }
+
+ loadImage(src){
+   return new Promise((resolve, reject) => {
+     let img = new Image();
+     img.onload = () => {
+       console.log("hello");
+       resolve(img);
+     }
+     img.onerror = () => console.log("Error in loading");
+     img.src = src;
+   })
+ }
 
 }
 
