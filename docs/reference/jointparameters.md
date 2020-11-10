@@ -2,7 +2,7 @@
 
 ```
 JointParameters {
-  SFFloat position        0       # [0, inf)
+  SFFloat position        0       # (-inf, inf)
   SFVec3f axis            0 0 1   # unit axis
   SFFloat minStop         0       # (-inf, inf)
   SFFloat maxStop         0       # (-inf, inf)
