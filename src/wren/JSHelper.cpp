@@ -19,6 +19,7 @@
 #include <GLES3/gl3.h>
 #include <emscripten/html5.h>
 
+#include <iostream>
 float *wrjs_color_array(float r, float g, float b) {
   static float array[3];
   array[0] = r;
@@ -63,7 +64,7 @@ void wrjs_init_context(int width, int height) {
   attr.majorVersion = 2;
   attr.minorVersion = 2;
   EMSCRIPTEN_WEBGL_CONTEXT_HANDLE ctx = emscripten_webgl_create_context("#canvas", &attr);
-
+  // std::cout << emscripten_webgl_enable_extension(ctx, "EXT_texture_filter_anisotropic") << '\n';
   emscripten_set_canvas_element_size("#canvas", width, height);
 
   emscripten_webgl_make_context_current(ctx);

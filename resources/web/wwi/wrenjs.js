@@ -440,8 +440,6 @@ class WbTransform extends WbGroup {
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
 
-    console.log(this.children);
-
     this.children.forEach(child => {
       child.createWrenObjects()
     });

@@ -51,17 +51,12 @@ class MyParser {
   }
 
   async parseChildren(node, currentNode) {
-    console.log("début");
-
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
-        console.log(child.tagName);
         await this.parseNode(child, currentNode);
       }
     }
-
-    console.log("fin");
     return 1;
   }
 
@@ -289,18 +284,12 @@ class MyParser {
    canvas2.height = img.height;
    context.drawImage(img, 0, 0);
    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-   console.log(img.width);
-   console.log(dataBGRA);
    let data = new Uint8ClampedArray(dataBGRA.length);
    for(let x = 0; x < dataBGRA.length; x = x+4){
-     //data[2+x] = dataBGRA[2+x];
-     //data[1+x] = dataBGRA[1+x];
-     data[2+x] = 48;
-     data[1+x] = 54;
-     data[0+x] = 19;
-     data[3+x] = 96;
-     //data[0+x] = dataBGRA[0+x];
-     //data[3+x] = dataBGRA[3+x];
+     data[2+x] = dataBGRA[2+x];
+     data[1+x] = dataBGRA[1+x];
+     data[0+x] = dataBGRA[0+x];
+     data[3+x] = dataBGRA[3+x];
    }
    let image = new WbImage();
 

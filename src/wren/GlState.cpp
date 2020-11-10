@@ -426,7 +426,8 @@ namespace wren {
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
         cTextureAnisotropy[glName] = anisotropy;
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
+        // TODO: normaly available in webgl with an extension: EXT_texture_filter_anisotropic
+        // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
       }
     }
 
