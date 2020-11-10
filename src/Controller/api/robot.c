@@ -112,7 +112,6 @@ static WbRobot robot;
 static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
-static bool should_quit_controller = false;
 
 // Static functions
 static void init_robot_window_library() {
@@ -133,10 +132,6 @@ static void init_remote_control_library() {
     if (!remote_control_is_initialized())
       fprintf(stderr, "Error: Cannot load the \"%s\" remote control library.\n", robot.remote_control_filename);
   }
-}
-
-static void quit_controller(int sig) {
-  should_quit_controller = true;
 }
 
 static void init_devices_from_tag(WbRequest *r, int firstTag) {
@@ -1005,20 +1000,13 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
-#ifndef _WIN32
-  signal(SIGTERM, quit_controller);
-  signal(SIGQUIT, quit_controller);
-  signal(SIGHUP, quit_controller);
-#endif
-
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
   else {
     int trial = 0;
-    while (!should_quit_controller) {
+    while (true) {
       trial++;
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
@@ -1045,13 +1033,6 @@ int wb_robot_init() {  // API initialization
       }
     }
   }
-
-  signal(SIGINT, SIG_DFL);
-#ifndef _WIN32
-  signal(SIGTERM, SIG_DFL);
-  signal(SIGQUIT, SIG_DFL);
-  signal(SIGHUP, SIG_DFL);
-#endif
 
   if (!pipe || !scheduler_init(pipe)) {
     if (!pipe)

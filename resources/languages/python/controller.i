@@ -38,6 +38,9 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 %}
 
 %{
+#include <setjmp.h>
+#include <signal.h>
+
 #include <webots/Accelerometer.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
@@ -77,7 +80,31 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
+
+static sigjmp_buf sigjmp;
+
+static void backout(int sig) {
+  siglongjmp(sigjmp, sig);
+}
+
 %}
+
+
+//----------------------------------------------------------------------------------------------
+//  Error handling
+//  Reference: https://stackoverflow.com/a/12155582/1983050
+//----------------------------------------------------------------------------------------------
+
+%include <exception.i>
+
+%exception {
+  if (!sigsetjmp(sigjmp, 1)) {
+    signal(SIGINT, backout);
+    $action
+  } else {
+    SWIG_exception(SWIG_RuntimeError, "Exception in $decl");
+  }
+}
 
 //----------------------------------------------------------------------------------------------
 //  Miscellaneous - controller module's level
@@ -1134,3 +1161,5 @@ class AnsiCodes(object):
 %rename ("__internalGetFromDeviceTag") getFromDeviceTag;
 
 %include <webots/Supervisor.hpp>
+
+%exception;
