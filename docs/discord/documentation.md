@@ -1465,3 +1465,20 @@ the e-puck has only two wheels, but you should be able to easily apply it to a 4
 ##### Soft\_illusion 10/26/2020 00:15:02
 `@Meenakshi Prabhakar` and `@Stefania Pedrazzi` have a look at [https://youtu.be/l0JuUM58nOs](https://youtu.be/l0JuUM58nOs) there is also a tutorial to make a custom 4 wheel robot in this series.
 
+##### mø 11/04/2020 18:56:14
+Where can I find component ratings like power usage etc. for the motors/sensors I used? Most of them are standard commercialized ones, so  how can i find them?
+
+##### R\_ 11/07/2020 19:50:42
+Is there an opensource library to test RL on Webots example robots, perhaps similar to this: [https://gist.github.com/mikko/424018819ba3cb10f5780cb7c74cbfb7](https://gist.github.com/mikko/424018819ba3cb10f5780cb7c74cbfb7)
+
+##### Stefania Pedrazzi [Cyberbotics] 11/09/2020 07:30:58
+`@mø` Which information do you need exactly?
+
+You can find all the information about a Webots sensor/motor in the PROTO file that defines it or in the documentation page:
+
+- [https://www.cyberbotics.com/doc/guide/actuators](https://www.cyberbotics.com/doc/guide/actuators)
+
+- [https://www.cyberbotics.com/doc/guide/sensors](https://www.cyberbotics.com/doc/guide/sensors)
+
+But usually Webots models doesn't contain power usage information,  so you should look at the web site of the motor/sensor producer to retrieve these values.
+
