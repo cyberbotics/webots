@@ -22,17 +22,11 @@ jobs:
     - name: Run discord updater
       run: |
         python ./docs/discord/update.py -t ${{ secrets.DISCORD_TOKEN }}
-    - name: Branch and Commit
+    - name: Branch
       run: |
-        sudo apt-get update && sudo apt-get install jq
-        NAME=$(curl https://api.github.com/users/${GITHUB_ACTOR} | jq -r .name)
-        ID=$(curl https://api.github.com/users/${GITHUB_ACTOR} | jq -r .id)
-        git config --global user.name "${NAME}"
-        git config --global user.email "${ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@github.com
         git checkout -b discord-doc-update
-        git add ./docs/discord
-        git commit -m "Update discord docs."
-        git push origin discord-doc-update
     - name: GitHub Pull Request Action
       uses: repo-sync/pull-request@v2.2
       with:
@@ -43,3 +37,8 @@ jobs:
         pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
         pr_reviewer: Maintainers
         pr_label: documentation
+    - name: Commit
+      run: |
+        git add ./docs/discord
+        git commit -m "Update discord docs."
+        git push origin discord-doc-update
