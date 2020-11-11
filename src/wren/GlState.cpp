@@ -24,6 +24,8 @@
 #ifdef __EMSCRIPTEN__
 #include <GL/gl.h>
 #include <GLES3/gl3.h>
+#include <emscripten.h>
+#include <emscripten/html5.h>
 #else
 #include <glad/glad.h>
 #endif
@@ -426,8 +428,8 @@ namespace wren {
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
         cTextureAnisotropy[glName] = anisotropy;
-        // TODO: normaly available in webgl with an extension: EXT_texture_filter_anisotropic
-        // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
       }
     }
 
