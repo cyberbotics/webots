@@ -4,7 +4,6 @@ class MyParser {
 
   parse(text){
     console.log('X3D: Parsing');
-    console.log("cut");
     let xml = null;
     if (window.DOMParser) {
       let parser = new DOMParser();
@@ -116,9 +115,9 @@ class MyParser {
           }
           if (pbrAppearanceChild)
             continue;
-          appearance = await this.parseAppearance(child, currentNode);
+          appearance = await this.parseAppearance(child);
         } else if (child.tagName === 'PBRAppearance')
-          appearance = this.parsePBRAppearance(child, currentNode);
+          appearance = await this.parsePBRAppearance(child);
         if (typeof appearance !== 'undefined')
           continue;
       }
@@ -156,7 +155,7 @@ class MyParser {
     else if (node.tagName === 'Cylinder')
       geometry = this.parseCylinder(node);
     else {
-      console.log("Not a recognized geometry : " +node.tagName);
+      console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
     }
 
@@ -212,7 +211,7 @@ class MyParser {
     return new WbPlane(id, size);
   }
 
-  async parseAppearance(node, currentNode) {
+  async parseAppearance(node) {
     let id = getNodeAttribute(node, 'id');
 
     // Get the Material tag.
@@ -244,6 +243,11 @@ class MyParser {
     if (typeof appearance !== 'undefined') {
         if(typeof texture !== 'undefined')
           texture.parent = appearance;
+    }
+
+    if (typeof appearance !== 'undefined') {
+        if(typeof transform !== 'undefined')
+          transform.parent = appearance;
     }
 
     return appearance;
@@ -280,6 +284,55 @@ class MyParser {
     return new WbImageTexture(id, prefix + url, isTransparent, s, t, anisotropy, image);
   }
 
+  async parsePBRAppearance(node) {
+    const id = getNodeAttribute(node, 'id');
+    let baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
+    let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
+    let roughness = parseFloat(getNodeAttribute(node, 'roughness', '0'))
+    let metalness = parseFloat(getNodeAttribute(node, 'metalness', '1'));
+    let IBLStrength = parseFloat(getNodeAttribute(node, 'IBLStrength', '1'));
+    let normalMapFactor = parseFloat(getNodeAttribute(node, 'normalMapFactor', '1'));
+    let occlusionMapStrength = parseFloat(getNodeAttribute(node, 'occlusionMapStrength', '1'));
+    let emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
+    let emissiveIntensity = parseFloat(getNodeAttribute(node, 'emissiveIntensity', '1'));
+    let textureTransform = node.getElementsByTagName('TextureTransform');
+
+    let imageTextures = node.getElementsByTagName('ImageTexture');
+    let baseColorMap = undefined;
+    let roughnessMap = undefined;
+    let metalnessMap = undefined;
+    let normalMap = undefined;
+    let occlusionMap = undefined;
+    let emissiveColorMap = undefined;
+    for (let i = 0; i < imageTextures.length; i++) {
+      let imageTexture = imageTextures[i];
+      let type = getNodeAttribute(imageTexture, 'type', undefined);
+      if (type === 'baseColor')
+        baseColorMap = await this.parseImageTexture(imageTexture, textureTransform);
+      else if (type === 'roughness')
+        roughnessMap = await this.parseImageTexture(imageTexture, textureTransform);
+      else if (type === 'metalness')
+        metalnessMap = await this.parseImageTexture(imageTexture, textureTransform);
+      else if (type === 'normal')
+        normalMap = await this.parseImageTexture(imageTexture, textureTransform);
+      else if (type === 'occlusion')
+        occlusionMap = await this.parseImageTexture(imageTexture, textureTransform);
+      else if (type === 'emissiveColor')
+        emissiveColorMap = await this.parseImageTexture(imageTexture, textureTransform);
+    }
+    return new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform);
+  }
+
+  parseTextureTransform(node) {
+      const id = getNodeAttribute(node, 'id');
+      let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
+      rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),
+      scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1')),
+      translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
+
+    return new WbTextureTransform(id, center, rotation, scale, translation);
+  }
+
   async loadTextureData(url) {
    let context = document.getElementById('canvas2').getContext('2d');
    let img = await this.loadImage(url);
@@ -312,16 +365,6 @@ class MyParser {
      img.onerror = () => console.log("Error in loading");
      img.src = src;
    })
- }
-
- parseTextureTransform(node) {
-     const id = getNodeAttribute(node, 'id');
-     let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
-     rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),
-     scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1')),
-     translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
-
-   return new WbTextureTransform(id, center, rotation, scale, translation);
  }
 }
 

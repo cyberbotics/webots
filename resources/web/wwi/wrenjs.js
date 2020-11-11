@@ -746,9 +746,9 @@ class WbCylinder extends WbGeometry{
 
 
 class WbAbstractAppearance extends WbBaseNode {
-  constructor(id){
+  constructor(id, transform){
     super(id);
-    this.textureTransform = undefined;
+    this.textureTransform = transform;
   }
 
   createWrenObjects(){
@@ -761,15 +761,16 @@ class WbAbstractAppearance extends WbBaseNode {
 
 }
 
-class WbAppearance extends WbBaseNode {
+class WbAppearance extends WbAbstractAppearance {
   constructor(id, material, texture, transform){
-    super(id);
+    super(id, transform);
     this.material = material;
     this.texture = texture;
-    this.textureTransform = transform;
   }
 
   createWrenObjects(){
+    console.log("yyop");
+
     super.createWrenObjects();
     if(typeof this.material !== 'undefined') {
       this.material.createWrenObjects();
@@ -992,6 +993,14 @@ class WbImage {
     this.bits = undefined;
     this.width = 0;
     this.height = 0;
+  }
+}
+
+class WbPBRAppearance extends WbAbstractAppearance {
+  constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
+    IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
+    super(id);
+
   }
 }
 
