@@ -495,15 +495,20 @@ class WbShape extends WbBaseNode {
       this.createWrenMaterial(1); //enum
 
     if (this.geometry) {
-      if (this.appearance) {
-        if (this.appearance.wrenObjectsCreatedCalled){
+      if (this.appearance instanceof WbAppearance) {
+        if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-        }
         else
-        console.error("applyMaterialToGeometry : not implemented yet");
-          //this.wrenMaterial = WbAppearance::fillWrenDefaultMaterial(this.wrenMaterial);
+          this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
+      } else if (this.appearance instanceof WbPBRAppearance && !(this.geometry instanceof WbPointSet)) {
+        this.createWrenMaterial(2);
+        if (this.appearance.wrenObjectsCreatedCalled)
+          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+      } else {
+        this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       }
     }
+
     this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
   }
 
@@ -517,12 +522,9 @@ class WbShape extends WbBaseNode {
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.defaultShader());
     } else {
-      console.error("pbr material not implemented yet");
-      /*
-      this.wrenMaterial = wr_pbr_material_new();
-      wr_pbr_material_set_base_color(this.wrenMaterial, defaultColor);
-      wr_material_set_default_program(this.wrenMaterial, WbWrenShaders::pbrShader());
-      */
+      this.wrenMaterial = _wr_pbr_material_new();
+      _wr_pbr_material_set_base_color(this.wrenMaterial, defaultColor);
+      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.pbrShader());
     }
   }
 }
@@ -769,8 +771,6 @@ class WbAppearance extends WbAbstractAppearance {
   }
 
   createWrenObjects(){
-    console.log("yyop");
-
     super.createWrenObjects();
     if(typeof this.material !== 'undefined') {
       this.material.createWrenObjects();
@@ -788,9 +788,9 @@ class WbAppearance extends WbAbstractAppearance {
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());
 
       this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
-    } else{
-      wrenMaterial = this.fillWrenDefaultMaterial(wrenMaterial);
-    }
+    } else
+      wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
+
 
     if (this.texture)
       this.texture.modifyWrenMaterial(wrenMaterial, 0, 2);
@@ -805,13 +805,15 @@ class WbAppearance extends WbAbstractAppearance {
     return wrenMaterial;
   }
 
-  fillWrenDefaultMaterial(wrenMaterial) {
+  static fillWrenDefaultMaterial(wrenMaterial) {
+    console.log("coucou");
     //TODO add suport if not a phong material
     if (!wrenMaterial) {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_phong_material_new();
     }
-    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
+    //Replace default by phongShader
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.phongShader());
     return wrenMaterial;
   }
 }
@@ -989,7 +991,7 @@ class WbTextureTransform extends WbBaseNode{
 }
 
 class WbImage {
-  constructor(){
+  constructor() {
     this.bits = undefined;
     this.width = 0;
     this.height = 0;
@@ -999,8 +1001,131 @@ class WbImage {
 class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
     IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
-    super(id);
+    super(id, textureTransform);
+    this.baseColor = baseColor;
+    this.baseColorMap = baseColorMap;
+    this.transparency = transparency;
+    this.roughness = roughness;
+    this.roughnessMap = roughnessMap;
+    this.metalness = metalness;
+    this.metalnessMap = metalnessMap;
+    this.IBLStrength = IBLStrength;
+    this.normalMap = normalMap;
+    this.normalMapFactor = normalMapFactor;
+    this.occlusionMap = occlusionMap;
+    this.occlusionMapStrength = occlusionMapStrength;
+    this.emissiveColor = emissiveColor;
+    this.emissiveColorMap = emissiveColorMap;
+    this.emissiveIntensity = emissiveIntensity;
+    this.textureTransform = textureTransform;
+  }
 
+  createWrenObjects(){
+    super.createWrenObjects;
+
+    if (typeof this.baseColorMap !== 'undefined')
+      this.baseColorMap.createWrenObjects();
+
+    if (typeof this.roughnessMap !== 'undefined')
+      this.roughnessMap.createWrenObjects();
+
+    if (typeof this.metalnessMap !== 'undefined')
+      this.metalnessMap.createWrenObjects();
+
+    if (typeof this.normalMap !== 'undefined')
+      this.normalMap.createWrenObjects();
+
+    if (typeof this.occlusionMap !== 'undefined')
+      this.occlusionMap.createWrenObjects();
+
+    if (typeof this.emissiveColorMap !== 'undefined')
+      this.emissiveColorMap.createWrenObjects();
+  }
+
+  modifyWrenMaterial(wrenMaterial) {
+  /*  if (!wrenMaterial) {//enum //TODO check if not pbr material
+      wr_material_delete(wrenMaterial);
+      wrenMaterial = wr_pbr_material_new();
+    }
+
+    // set up shaders
+    wr_material_set_default_program(wrenMaterial, WbWrenShaders::pbrShader());
+    wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders::pbrStencilAmbientEmissiveShader());
+    wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders::pbrStencilDiffuseSpecularShader());
+
+    // apply textures
+    if (baseColorMap())
+      baseColorMap()->modifyWrenMaterial(wrenMaterial, 0, 7);
+
+    if (roughnessMap())
+      roughnessMap()->modifyWrenMaterial(wrenMaterial, 1, 7);
+
+    if (metalnessMap())
+      metalnessMap()->modifyWrenMaterial(wrenMaterial, 2, 7);
+
+    WbBackground *background = WbBackground::firstInstance();
+    float backgroundLuminosity = 1.0;
+    if (background) {
+      backgroundLuminosity = background->luminosity();
+      connect(background, &WbBackground::luminosityChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
+
+      // irradiance map
+      WrTextureCubeMap *irradianceCubeTexture = background->irradianceCubeTexture();
+      if (irradianceCubeTexture) {
+        wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
+        wr_material_set_texture_cubemap_wrap_r(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        wr_material_set_texture_cubemap_wrap_s(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        wr_material_set_texture_cubemap_wrap_t(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
+        wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 0);
+        wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);
+      } else
+        wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
+
+      connect(background, &WbBackground::cubemapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
+    } else
+      wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
+
+    if (normalMap())
+      normalMap()->modifyWrenMaterial(wrenMaterial, 4, 7);
+
+    if (occlusionMap())
+      occlusionMap()->modifyWrenMaterial(wrenMaterial, 3, 7);
+
+    if (emissiveColorMap())
+      emissiveColorMap()->modifyWrenMaterial(wrenMaterial, 6, 7);
+
+    if (textureTransform())
+      textureTransform()->modifyWrenMaterial(wrenMaterial);
+    else
+      wr_material_set_texture_transform(wrenMaterial, NULL);
+
+    wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
+    wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
+    wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
+
+    const float baseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
+                               static_cast<float>(mBaseColor->blue())};
+
+    const float emissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
+                                   static_cast<float>(mEmissiveColor->blue())};
+
+    float backgroundColor[] = {0.0, 0.0, 0.0};
+
+    if (background) {
+      WbRgb skyColor = background->skyColor();
+      backgroundColor[0] = static_cast<float>(skyColor.red());
+      backgroundColor[1] = static_cast<float>(skyColor.green());
+      backgroundColor[2] = static_cast<float>(skyColor.blue());
+    }
+
+    // set material properties
+    wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
+                                       mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
+                                       mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
+                                       mEmissiveIntensity->value());
+
+    */return wrenMaterial;
   }
 }
 
