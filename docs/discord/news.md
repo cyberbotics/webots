@@ -4,11 +4,16 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
-##### Unns 11/02/2020 12:56:06
+##### KajalGada 11/11/2020 01:06:46
+`@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 
-%figure
-![CollageMaker_20201027_222939677.jpg](https://cdn.discordapp.com/attachments/568354695513374730/772806242551988264/CollageMaker_20201027_222939677.jpg)
-%end
+##### Soft\_illusion 11/07/2020 02:08:52
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
+
+Special Thanks to Webots Team for their guidance.
+
+##### Olivier Michel [Cyberbotics] 11/06/2020 13:41:27
+Here is new nice video tutorial teaching you how to create a robot model from scratch: [https://www.youtube.com/watch?v=ebGJzymXv-o](https://www.youtube.com/watch?v=ebGJzymXv-o)
 
 ##### Soft\_illusion 11/02/2020 07:06:45
 We are back with the fourth episode of the Webots ROS2 video tutorial series . Video 4: Tutorial on Publishers in ROS2 with Webots [https://www.youtube.com/watch?v=-owqJOH3Des](https://www.youtube.com/watch?v=-owqJOH3Des) Stay tuned for more upcoming interesting episodes. @everyone

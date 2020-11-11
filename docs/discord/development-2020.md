@@ -556,14 +556,14 @@ You're welcome.
 
 ## April
 
-##### imjusta23 04/01/2020 17:12:59
+##### angelicaba23 04/01/2020 17:12:59
 Hey, does someone has a code for a light follower?
 
 ##### David Mansolino [Cyberbotics] 04/01/2020 17:18:23
-Hi `@imjusta23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
+Hi `@angelicaba23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
 
-##### imjusta23 04/04/2020 16:23:50
-> Hi `@imjusta23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
+##### angelicaba23 04/04/2020 16:23:50
+> Hi `@angelicaba23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
 
 `@David Mansolino`  thanks!!
 
@@ -661,14 +661,14 @@ Hi, I have a question regarding the Nao robot. I saw WeBots used to be able to i
 ##### Dorteel 04/21/2020 09:13:59
 Thank you `@Stefania Pedrazzi` ! 🙂
 
-##### imjusta23 04/22/2020 20:20:17
+##### angelicaba23 04/22/2020 20:20:17
 Any advice about how to get the epuck moves randomly in this world
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/702614779767947394/image0.jpg)
 %end
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 05:44:20
-Hi `@imjusta23` you might simply use the braitenberg controller.
+Hi `@angelicaba23` you might simply use the braitenberg controller.
 
 ##### fdvalois 04/23/2020 07:34:46
 You just look braitenberg controller online?
@@ -1939,7 +1939,7 @@ thanks `@Simon Steinmann`, I will follow this
 ##### Simon Steinmann [Moderator] 08/06/2020 11:19:38
 Since I have done quite a few urdf2webots conversions lately, I might as well create a tutorial for it, as the process can be complicated if one has not much experience. Is there any robotic arm that people want to see added to the community projects?
 
-##### željko 08/06/2020 11:23:39
+##### Marko G 08/06/2020 11:23:39
 Hey! I'm just in the middle of trying to wrap my head around urf2webots and a tutorial would be of great help to me! The arms I would like to use are KUKA LBR iiwa and Kinova Jaco and I belive that they would be a good addition as they are quite popular. BTW right now reading older messages as I see that you've had similar problems 🙂
 
 ##### Simon Steinmann [Moderator] 08/06/2020 11:24:34
@@ -1948,7 +1948,7 @@ Yesterday I fixed a huge issue in the converter. The joints should not be wonky 
 
 you got a link to the kuka repo?
 
-##### željko 08/06/2020 11:25:49
+##### Marko G 08/06/2020 11:25:49
 OK, thanks a lot 😄 You've just saved me countless hours hahah :)
 
 I found a github repo with the kuka arm which I'm trying to get to work
@@ -1956,7 +1956,7 @@ I found a github repo with the kuka arm which I'm trying to get to work
 ##### Simon Steinmann [Moderator] 08/06/2020 11:26:00
 link?
 
-##### željko 08/06/2020 11:26:05
+##### Marko G 08/06/2020 11:26:05
 just a sec
 
 
@@ -7331,4 +7331,17 @@ Transforms3d library
 and this to quickly convert and double check specific orientations:
 
 [https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
+
+##### Daniele 11/07/2020 20:20:34
+Hi everyone I don't know if it's the right place to write it so tell me if I'm wrong. So I have a code which is supposed to make e-puck robot avoid obstacles and follow the line. It follows the line as it should but when it approaches an obstacle it changes its direction but don't get back to the line. This is the code:
+
+
+code
+> **Attachment**: [test.py](https://cdn.discordapp.com/attachments/565155651395780609/774730160465379368/test.py)
+
+
+Any help would be appreciated.
+
+##### DrakerDG 11/09/2020 21:55:24
+Hello, I am learning Python, what courses or books do you advise me to continue learning?  To be able to program in webots using phyton, since I have only been able to program in C code 😬🙏
 

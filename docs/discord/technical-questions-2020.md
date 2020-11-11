@@ -14408,7 +14408,7 @@ Not to a transform, but to a Solid node yes, the Supervisor can do this: [https:
 
 Thank you 👌, it was also one of my intuitions but was not sure if webots disable something to record videos.
 
-##### Леха\_283 05/12/2020 10:30:58
+##### Алексей\_Александрович 05/12/2020 10:30:58
 Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
 ##### jomell310 05/12/2020 11:20:46
@@ -14419,7 +14419,7 @@ Hello, I am programming robots in the Webots simulator. There is an example of a
 ##### David Mansolino [Cyberbotics] 05/12/2020 11:39:53
 > Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
-`@Леха_283` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
+`@Алексей_Александрович` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
 
 
 > `@David Mansolino` Okay, so I do I need to setup anything? Because right now even if I run the sample project obstacle\_avoidance the simulation doesn't stop after the robot has crossed the line or crashed into something. In the console it says that the supervisor has been started though but It's not doing anything else
@@ -29908,7 +29908,7 @@ Very nice !
 ##### Simon Steinmann [Moderator] 08/06/2020 14:14:50
 [https://github.com/cyberbotics/community-projects/pull/7](https://github.com/cyberbotics/community-projects/pull/7) added PR
 
-##### željko 08/06/2020 14:47:19
+##### Marko G 08/06/2020 14:47:19
 hey, i followed the instructions but i got the following result
 %figure
 ![importing_arm_status.png](https://cdn.discordapp.com/attachments/565154703139405824/740944100974526504/importing_arm_status.png)
@@ -29933,9 +29933,9 @@ added info: He also tried the file I converted and that works without issues for
 It looks like the ``KukaLbrIiwa14R820\_meshes``folder was not copied.
 
 
-`@željko` do you have a folder `/home/gospodar/testiranja(wbtsarms/protos/KukaLbrIiwa14R820_meshesfolder` folder?
+`@Marko G` do you have a folder `/home/gospodar/testiranja(wbtsarms/protos/KukaLbrIiwa14R820_meshesfolder` folder?
 
-##### željko 08/06/2020 14:53:55
+##### Marko G 08/06/2020 14:53:55
 
 %figure
 ![folder_screenshot.png](https://cdn.discordapp.com/attachments/565154703139405824/740945758471061629/folder_screenshot.png)
@@ -29953,13 +29953,13 @@ ok, strange, I will try too in that case
 ##### Simon Steinmann [Moderator] 08/06/2020 14:55:15
 Same files as the new PR in community projects
 
-##### željko 08/06/2020 15:00:57
+##### Marko G 08/06/2020 15:00:57
 i have another computer on my hands so i also tried there, also with ubuntu 18.04 and webots 2020b and i've got the same result
 
 ##### David Mansolino [Cyberbotics] 08/06/2020 15:01:36
 I can reproduce the issue too, I think I found the cause, I am creating a PR to fix this
 
-##### željko 08/06/2020 15:02:21
+##### Marko G 08/06/2020 15:02:21
 nice, thanks 🙂
 
 ##### David Mansolino [Cyberbotics] 08/06/2020 15:02:52
@@ -30011,7 +30011,7 @@ Once that is implemented, I can convert it again, so we dont have to manually se
 ##### David Mansolino [Cyberbotics] 08/06/2020 15:11:38
 Yes that sounds good!
 
-##### željko 08/06/2020 15:15:16
+##### Marko G 08/06/2020 15:15:16
 great! 😄
 
 ##### David Mansolino [Cyberbotics] 08/07/2020 07:06:28
@@ -31320,7 +31320,7 @@ you can add and load things from code, so you can definitely do it manually.
 
 `@saditya` There's an option, size in the scene tree, which is set to 1,1,1. You can reduce the size accordingly then.
 
-##### željko 08/15/2020 09:53:38
+##### Marko G 08/15/2020 09:53:38
 hey
 
 i'm using kuka lbr iiwa from the community repozitory and i'm having a problem with controlling it.
@@ -31345,12 +31345,12 @@ Is there a good solution for build a cable winch e.g. for a crane?
 And if yes, how it would be realized?
 
 ##### Simon Steinmann [Moderator] 08/15/2020 13:08:20
-`@željko` did you download the newest version? They changes yesterday
+`@Marko G` did you download the newest version? They changes yesterday
 
 
 fixed exactly those 2 issues
 
-##### željko 08/15/2020 13:55:38
+##### Marko G 08/15/2020 13:55:38
 i did not
 
 great, thanks a lot 😄
@@ -31397,7 +31397,7 @@ Alright, I just clicked at the wrong part, ity perfectly possible to see two rob
 
 Is it possible to control the gripper and the arm from the same controller?
 
-##### željko 08/15/2020 15:58:15
+##### Marko G 08/15/2020 15:58:15
 > Is it possible to control the gripper and the arm from the same controller?
 
 `@alxy` If they're a part of the same Robot node  then you just have to instantiate all the motors and other devices properly (you have to use the correct names of the motors and so on). You can find the names of devices in the world info window left of the simulation with the rest of the robot properties. If you don't see them then you're using the PROTO node and not the Robot node. To convert, just right click on the Robot in the world info window and the click conver to Base node(s)
@@ -31423,7 +31423,7 @@ you can address the motors in the same script if you want. You just have to init
 
 I usually have a object for all arm motors, and another for all gripper motors
 
-##### željko 08/15/2020 16:17:31
+##### Marko G 08/15/2020 16:17:31
 I want to draw a circle which would denote a trajectory to be followed by my robot. So far I've used the Display node, but I only managed to draw the circle on the plane Shape and that also draws the     rectangular plane. I want only the circle to be visible and not the sorounding rectangle (the Shape plane).
 
   If I change the transparecny of the Display, then both the circle and the plane are transparent which defeats the point
@@ -31680,7 +31680,7 @@ please ,i need help
 
 >   If I change the transparecny of the Display, then both the circle and the plane are transparent which defeats the point
 
-`@željko` did you checked this sample [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt) ?
+`@Marko G` did you checked this sample [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt) ?
 
 
 > Hello. I have to use opencv in my controller but it is compiling but not linking it say something like "undefined reference to...". (Note that linking error is only occuring during calling one of the opencv functions otherwise no error during building,). Also I use opencv version 4.4. My makefile is
@@ -44653,4 +44653,357 @@ Thanks
 Here you can find instructions to implement your transfer system:
 
 [https://www.cyberbotics.com/doc/guide/transfer-to-your-own-robot](https://www.cyberbotics.com/doc/guide/transfer-to-your-own-robot)
+
+##### hero 11/04/2020 13:38:41
+Thanks
+
+##### Waleed Bin 11/04/2020 15:11:42
+Hi So i am new to this webots platform -- my main task is to achieve control of the dron using skeleton gesture from kinect sensor
+
+
+So will anyone be able to help on how can I send commands to the drone in webots
+
+
+is there any specific libraries which can be used to overcome this problem
+
+
+I have to perform simulation in webots so that it saves cost and time to purchase a real drone
+
+##### Darko Lukić [Cyberbotics] 11/04/2020 15:21:59
+Hello `@Waleed Bin`, you can use Mavic PRO that is already modeled in Webots:
+
+[https://www.cyberbotics.com/doc/guide/mavic-2-pro](https://www.cyberbotics.com/doc/guide/mavic-2-pro)
+
+
+
+To control it using the Kinect sensor, you can edit the default controller of the Mavic PRO drone:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/robots/dji/mavic/controllers/mavic2pro/mavic2pro.c](https://github.com/cyberbotics/webots/blob/master/projects/robots/dji/mavic/controllers/mavic2pro/mavic2pro.c)
+
+
+
+You can use your Kinect sensor to change `pitch_disturbance`, `yaw_disturbance` and `roll_disturbance`:
+
+[https://github.com/cyberbotics/webots/blob/320ec05f32b014f0ce8d8a4ee37a6f82cbf8ab1b/projects/robots/dji/mavic/controllers/mavic2pro/mavic2pro.c#L133](https://github.com/cyberbotics/webots/blob/320ec05f32b014f0ce8d8a4ee37a6f82cbf8ab1b/projects/robots/dji/mavic/controllers/mavic2pro/mavic2pro.c#L133)
+
+##### MumsDad 11/04/2020 15:25:06
+> `@MumsDad` How did you the set initial position offset? Saving the world from Webots or simply changing the joint position value in the world file?
+
+> Note that to correctly offset the initial joint position it is not enough to change the joint position, but also the `endPoint` Solid translation and rotation should match the new joint position.
+
+`@Stefania Pedrazzi`  thanks stef, i was changing the position parameter - wasn't touch 'endPoint' or others so maybe i'll try that. My friend had a version which was working fine so we just updated to his
+
+
+also, how do i set an objects position in matlab? I'm a little confused with the below code in c++
+
+`obj_pos.setSFVec3f(self.gripper.getPosition())`
+
+what i'm trying to do is make a ball follow the robot arm
+
+##### Waleed Bin 11/04/2020 15:33:32
+thank you so much `@Darko Lukić`
+
+##### Stefania Pedrazzi [Cyberbotics] 11/04/2020 15:50:04
+> also, how do i set an objects position in matlab? I'm a little confused with the below code in c++
+
+> `obj_pos.setSFVec3f(self.gripper.getPosition())`
+
+> what i'm trying to do is make a ball follow the robot arm
+
+`@MumsDad` Matlab code is very similar to C code. I don't have Matlab to test, but should be:
+
+```
+obj_pos = <use Supervisor functions to get the translation field of object node>
+gripper_node = <use Supervisor function(s) to get the gripper node>
+gripper_position = wb_supervisor_node_get_position(gripper_node)
+wb_supervisor_field_set_sf_vec3f(obj_pos, gripper_position)
+```
+
+##### GrundlePepper 11/04/2020 16:06:36
+Is there a way to export matrices to a text file?
+
+Im trying to extract joint angles, velocities, torques etc. from our webots script using matlab
+
+##### Olivier Michel [Cyberbotics] 11/04/2020 16:09:08
+Yes, from the supervisor you can retrieve positions and orientation of objects: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
+
+##### GrundlePepper 11/04/2020 16:12:49
+I mean strictly for exporting out of webots so that we can create graphs and what not through, post simulation
+
+
+and analyse the data in a text file
+
+
+or excel file
+
+##### Olivier Michel [Cyberbotics] 11/04/2020 16:14:22
+You will have to write a supervisor controller that performs this export to whatever format you need.
+
+##### MumsDad 11/04/2020 16:17:05
+hey oliver
+
+
+i understand what you mean, but i can't see how to do this on: [https://www.cyberbotics.com/doc/reference/supervisor?tab-language=matlab](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=matlab)
+
+
+i can see `wb_supervisor_export_image` but am still having trouble finding the bit that exports data.
+
+##### Olivier Michel [Cyberbotics] 11/04/2020 16:23:17
+Search for `wb_supervisor_node_get_orientation`. This doesn't export data, but retrieve the orientation of a node. You will have to write it into a file yourself.
+
+##### DanyP 11/04/2020 18:03:25
+Good evening,
+
+In the context of a legged wheelchair simulation project, linear actuation method is involved for inducing joints rotation. In particular linear actuators with self-locking ability are used to prevent sudden backward movement in case of actuation overload.
+
+My goal is to implement this ability on Webots. Is there a (preferably easy) way to do this ?
+
+Thank you
+
+##### Waleed Bin 11/04/2020 21:28:02
+Hi so I have been coding in C# for my kinect sensor and I wanted to know if it possible to use that in controlling the quadcopter in webots
+
+
+Using C#
+
+##### DrVoodoo [Moderator] 11/04/2020 21:43:42
+`@Waleed Bin` depends on how many of the kinect features you need. the depth image data can be simulated using a rangefinder device, assuming you mean the kinect v1 there is an existing model for it [https://www.cyberbotics.com/doc/guide/range-finder-sensors#microsoft-kinect](https://www.cyberbotics.com/doc/guide/range-finder-sensors#microsoft-kinect)
+
+
+the visual data can be simulated using a camera device,
+
+
+microphones would need additional work
+
+##### Waleed Bin 11/04/2020 21:45:24
+Hes i am using kinect v1
+
+
+So i am using a hardware device for kinect v1
+
+
+And the drone will be on webots software
+
+
+So will that work out then?
+
+##### SeanLuTW 11/05/2020 01:51:49
+Is it possible to check if a solid is 'entirely' within a range? I know I can call `wb_supervisor_node_get_position` to get the position of specific node, but it only report the position of the origin.
+
+##### GaGa 11/05/2020 02:05:20
+So I'm stuck somewhere, I've created a robot like a vintage vehicle now if I try to create a controller am getting something as directories cannot be created and do I have to add physics for jus support bodies too?
+
+
+The chassis as follows
+%figure
+![20201105_073558.jpg](https://cdn.discordapp.com/attachments/565154703139405824/773729866754424852/20201105_073558.jpg)
+%end
+
+
+What all boudning objects I have to give and why am not able to create a controller for it
+
+##### SeanLuTW 11/05/2020 05:14:37
+I want to use `Connector` to simulate a suction cup sucking objects. The type of the suction cup should be active, right?  And, for example, I have two spheres to be sucked, one with radius 0.1 and the other with 0.01. I set the type of two spheres to passive,  then I should set the `distanceTolerance` of the suction cup to larger radius, i.e., 0.1, so that both spheres can be sucked by the cup, is that right?
+
+##### Stefania Pedrazzi [Cyberbotics] 11/05/2020 07:14:55
+> So I'm stuck somewhere, I've created a robot like a vintage vehicle now if I try to create a controller am getting something as directories cannot be created and do I have to add physics for jus support bodies too?
+
+`@GaGa` You should make sure to have write access to the Webots projects folder containing the world file. Otherwise you won't be able to create a controller.
+
+Then, if you want to use wheel motors to move your vehicle, yes you need to add the physics otherwise it won't move.
+
+
+> Is it possible to check if a solid is 'entirely' within a range? I know I can call `wb_supervisor_node_get_position` to get the position of specific node, but it only report the position of the origin.
+
+`@SeanLuTW` dependending on the application you may want to use different solutions:
+
+1. there is no built-in method to get the size of the object, but if it has a simple `Solid.boundingObject` structure you retrive the size from this field using the Supervisor API
+
+2. you could use devices, like DistanceSensors, Camera (with for example Recognition functionality) or Radar, and extract the size and if the object is within a range from the device measurements
+
+
+> I want to use `Connector` to simulate a suction cup sucking objects. The type of the suction cup should be active, right?  And, for example, I have two spheres to be sucked, one with radius 0.1 and the other with 0.01. I set the type of two spheres to passive,  then I should set the `distanceTolerance` of the suction cup to larger radius, i.e., 0.1, so that both spheres can be sucked by the cup, is that right?
+
+`@SeanLuTW` Yes, this seems correct. The distance is computed from the Connector origin, so the `distanceTolerance` should be greater than 0.1. And spheres can have passive type.
+
+##### GrundlePepper 11/05/2020 07:59:48
+I have just updated my MATLAB to 2019b from 2018b, but my webots is still trying to run my controllers with 2018b. How do i fix this?
+
+
+no dont worry, ive fixed it
+
+##### Olivier Michel [Cyberbotics] 11/05/2020 08:05:25
+I guess you fixed the PATH environment variable to point to the new version of MATLAB?
+
+##### GrundlePepper 11/05/2020 08:06:05
+yeah
+
+##### Daniele 11/06/2020 22:56:35
+Hi everybody. I am new here. Sorry for offtopic but is there any python code of line following with obstacle avoidance? I've seen the c code but i'm not familliar with c language. Thanks.
+
+##### Soft\_illusion 11/07/2020 02:11:56
+[https://github.com/cyberbotics/webots\_ros2/tree/master/webots\_ros2\_tutorials](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_tutorials) This project has Line following in python and ros2. `@Daniele`
+
+##### Daniele 11/07/2020 12:39:59
+yes but i need both in one obstacle avoidance and line following
+
+
+Is there any tutorials on how to navigate robot from point A to the point B (desired destination). Any suggestions?
+
+##### Darko Lukić [Cyberbotics] 11/07/2020 20:28:06
+> Is there any tutorials on how to navigate robot from point A to the point B (desired destination). Any suggestions?
+
+`@Daniele` You should use ROS for that as it provides packages for mapping and path planning. Here is a tutorial with ROS2 and TurtleBot3:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Navigate-TurtleBot3](https://github.com/cyberbotics/webots_ros2/wiki/Navigate-TurtleBot3)
+
+and the result:
+
+[https://www.youtube.com/watch?v=gO0EXKv8x70](https://www.youtube.com/watch?v=gO0EXKv8x70)
+
+##### ArjunSadananda 11/08/2020 20:51:47
+Greetings everyone!
+
+I'm trying to build a 3D wall following course for ePuck, which includes a path spiraling down (like a spiral slide from 1st floor to ground). 
+
+But now the problem i'm facing is that, if I run ePuck on a floor made from STL file, the robot behaves wierdly (Stops/Jumps/hops) at the edges of the triangles of STL file.
+
+
+
+So if i increase the resolution of the STL file, the epuck goes even more crazy!
+
+
+
+I would highly appreciate some solutions for this.
+
+Thanks in advance! 🙂
+
+##### coelhogi 11/08/2020 23:00:13
+Hello everyone! 
+
+I'm having trouble setting up some hinge joints'  end point with de Solid Reference type of constraint.
+
+When I try to test if the joint movement is OK with the position field, it doesn't move, it just seems like no connection is being made between the part and its end point when I use Solid Reference type.
+
+When I use the Solid type o end point everything works fine but as I need to link move than one joint to the same part, I need to reference in another way and I thought Solid Reference would work.
+
+Does anyone know how to use the Solid Reference as an end point?
+
+##### Joshua S 11/09/2020 03:04:43
+Hello, I have some questions regarding Webots.
+
+
+
+Firstly when I first downloaded it I got a system requirements not meant error, but it said that certain features will not be added and that the rendering will be slower then usual. I have a kinda old laptop in windows 10. Will it be hard to do simple things projects on it due to in error.
+
+
+
+Secondly when doing the Webots tutorial, I when using the DEF mechanism on nodes, the program would not be able to find it. I tried doing things like waiting a minute and saving the project and it does not work.
+
+
+
+Thirdly when trying to change the colour of the ball (in Tutorial 3), Webots will not respond to my keyboard making it impossible for me to change the colour. But Webots does react when changing other things like said and postion.
+
+
+
+Are these problems due to the system not meeting the requirements or am I doing some rookie mistakes while following the tutorials?
+
+##### Stefania Pedrazzi [Cyberbotics] 11/09/2020 07:12:51
+`@ArjunSadananda` Hi, I assume that your are also using a complex IndexFaceSet geometry also for the boundingObject of your floor, is it correct?
+
+To make the simulation much more stable, you should instead replace it by a group of simple geometries (boxes, spheres, cylinders).
+
+
+`@coelhogi` Hi, it is "correct" that when changing manually the joint position from the scene tree the `SolidReference` doesn't move.
+
+But this doesn't mean that the link to the `SolidReference` is wrong. If you want to test if it works, you move the joint by applying force to the endPoint `SolidReference` or using the joint `Motor`.
+
+Here you can find some examples using `SolidReference` in a joint:
+
+- Gripper of Khepera III robot: [https://www.cyberbotics.com/doc/guide/khepera3#khepera3\_gripper-wbt](https://www.cyberbotics.com/doc/guide/khepera3#khepera3_gripper-wbt)
+
+- Stewart platform: [https://www.cyberbotics.com/doc/guide/samples-demos#stewart\_platform-wbt](https://www.cyberbotics.com/doc/guide/samples-demos#stewart_platform-wbt)
+
+- Pedal racer: [https://www.cyberbotics.com/doc/guide/samples-howto#pedal\_racer-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#pedal_racer-wbt)
+
+##### Olivier Michel [Cyberbotics] 11/09/2020 07:28:14
+`@Joshua S`: (1) An unsupported graphics card configuration may impact and cause crash. We don't know in advance. Maybe (3) is a symptom of the (1). (2) Beware DEF name are case sensitive.
+
+##### coelhogi 11/09/2020 22:24:27
+> `@coelhogi` Hi, it is "correct" that when changing manually the joint position from the scene tree the `SolidReference` doesn't move.
+
+> But this doesn't mean that the link to the `SolidReference` is wrong. If you want to test if it works, you move the joint by applying force to the endPoint `SolidReference` or using the joint `Motor`.
+
+> Here you can find some examples using `SolidReference` in a joint:
+
+> - Gripper of Khepera III robot: [https://www.cyberbotics.com/doc/guide/khepera3#khepera3\_gripper-wbt](https://www.cyberbotics.com/doc/guide/khepera3#khepera3_gripper-wbt)
+
+> - Stewart platform: [https://www.cyberbotics.com/doc/guide/samples-demos#stewart\_platform-wbt](https://www.cyberbotics.com/doc/guide/samples-demos#stewart_platform-wbt)
+
+> - Pedal racer: [https://www.cyberbotics.com/doc/guide/samples-howto#pedal\_racer-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#pedal_racer-wbt)
+
+`@Stefania Pedrazzi` Thank you, I'll check this out!
+
+##### KajalGada 11/10/2020 00:05:52
+hey everyone, looking for some help. I have a small object that I import into webots (it becomes an IndexedFaceSet shape). I used the same shape for bounding object and gave it physics. I start the object at a height. As the object touches the floor it bounces around and then gets stuck into the wall. As in half the object is in wall.  Any ideas on what I am doing wrong or is this a side effect of IndexedFaceSet?
+
+##### Darko Lukić [Cyberbotics] 11/10/2020 07:49:07
+Hello `@KajalGada` , you should use simple bounding objects to avoid instabilities and increase performance
+
+##### Weebo 11/10/2020 13:22:36
+Hello everyone. I'm trying to use connectors in Webots but I'm not finding a lot of documentation about this. To put you in context, I have a simulation with an e-puck robot. The goal is to have a connector in the front of the robot that would be able to "pick" objects around (that would also have connectors). 
+
+
+
+So far my testing is being performed with two copies of the e-puck robot. I've already added the connector to the PROTO file, I'm able to get the connector in my controller (Python) and able to enablePresence and getPresence in a value. However, my understanding is that this value should change to 1 whenever two connectors are close enough to each other... and that's where I'm stuck, no matter what I do it's always 0.
+
+##### Olivier Michel [Cyberbotics] 11/10/2020 13:25:18
+Did you check that it fulfills all the conditions listed here: [https://cyberbotics.com/doc/reference/connector#wb\_connector\_get\_presence](https://cyberbotics.com/doc/reference/connector#wb_connector_get_presence)
+
+##### Weebo 11/10/2020 13:26:34
+Additional visual referencing
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/775713014342746132/unknown.png)
+%end
+
+
+> Did you check that it fulfills all the conditions listed here: [https://cyberbotics.com/doc/reference/connector#wb\_connector\_get\_presence](https://cyberbotics.com/doc/reference/connector#wb_connector_get_presence)
+
+`@Olivier Michel` Yes, I'd say I've checked everything. I mean, both connectors are coming from the same definition, since it's a copy/paste kind of situation. So they're both the same type and they shouldn't be having any issues with the axis either.
+
+##### Olivier Michel [Cyberbotics] 11/10/2020 13:29:22
+Did you try to set autoLock to FALSE? And increase distanceTolerance?
+
+##### Weebo 11/10/2020 13:29:52
+Let me try
+
+
+Still no luck. Presence value keeps returning 0
+
+
+My only guess is that somehow I'm not properly setting the connector node. Haven't been able to found an example with the connector device being implemented in the PROTO file tho, so I was just winging it.
+
+##### Olivier Michel [Cyberbotics] 11/10/2020 13:36:04
+I would recommend you to check the example provided in webots/projects/samples/devices/worlds/connector.wbt which uses webots/projects/samples/devices/controllers/connector/connector.c controller and uses successfully the get\_presence function. This example works. Rewriting it in Python would be the first step for you to understand how this example differs from yours.
+
+##### Weebo 11/10/2020 13:38:57
+Yes, that's the example I've been following so far. However that's what I was just thinking right now... that example implements the connector in a node way, within the tree structure in Webots. I wouldn't say I'm yet comfortable enough with Webots to be sure I know what I'm doing, and by translating that to my PROTO file instead of creating the node structure I might have left something behind. 
+
+
+
+I will try rewriting the example in Python anyway, see if that throws any light to the issue. Thanks a lot `@Olivier Michel`.
+
+##### coelhogi 11/11/2020 00:04:33
+I'm trying really hard to make this move as a structure but I don't have a clue why it doesn't. I didn't code yet because I wanted to make sure all joints are correct. I saw the Webots examples and I think I'm doing just like them. If someone could take a look and see if can find an error, please report to me. Thanks in advance!
+> **Attachment**: [REDUZIDO.wbt](https://cdn.discordapp.com/attachments/565154703139405824/775873565320282112/REDUZIDO.wbt)
+
+##### KajalGada 11/11/2020 01:07:33
+Thank you `@Darko Lukić`  Yes indeed the complex bounding object was creating problems. Appreciate the help 🙂
+
+##### Stefania Pedrazzi [Cyberbotics] 11/11/2020 06:34:24
+`@coelhogi` please note that the `Solid.physics` properties are not defined for any of your robot parts. You should start defining the physical properties of your robot:
+
+[https://www.cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes#physics-attributes](https://www.cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes#physics-attributes)
+
+[https://www.cyberbotics.com/doc/reference/physics](https://www.cyberbotics.com/doc/reference/physics)
 
