@@ -748,7 +748,7 @@ int main() {
 
   int time_step = wb_robot_get_basic_time_step();
   WbDeviceTag camera = wb_robot_get_device("camera");
-  wb_camera_enable(time_step);
+  wb_camera_enable(camera, time_step);
   const int width = wb_camera_get_width(camera);
   const int height = wb_camera_get_height(camera);
   WbDeviceTag display = wb_robot_get_device("display");
@@ -787,7 +787,7 @@ int main() {
   Display *display = robot->getDisplay("display");
 
   while (robot->step(timeStep) != -1) {
-    const unsinged char *data = camera->getImage();
+    const unsigned char *data = camera->getImage();
     if (data) {
       ImageRef *ir = display->imageNew(width, height, data, Display::ARGB);
       display->imagePaste(ir, 0, 0, false);
@@ -845,7 +845,7 @@ public class ShowCameraInDisplay {
 
     while (robot.step(32) != -1) {
       int[] data = camera.getImage();
-      if (data) {
+      if (data != null) {
         ImageRef ir = display.imageNew(width, height, data, Display.ARGB);
         display.imagePaste(ir, 0, 0, false);
         display.imageDelete(ir);
@@ -877,4 +877,4 @@ end
 %tab-end
 %end
 
-> **Note** [Java]: The `Display.imageNew` function can display the image returned by the `Camera.getImage` function directly if the pixel format argument is set to ARGB.
+> **Note**: The `wb_display_image_new` function can display the image returned by the [`wb_camera_get_image`](camera.md#wb_camera_get_image) function directly if the pixel format argument is set to ARGB.
