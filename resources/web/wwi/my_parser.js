@@ -4,7 +4,7 @@ class MyParser {
 
   parse(text){
     console.log('X3D: Parsing');
-
+    console.log("cut");
     let xml = null;
     if (window.DOMParser) {
       let parser = new DOMParser();
@@ -228,10 +228,14 @@ class MyParser {
         texture = await this.parseImageTexture(imageTexture);
     }
 
-    //TODO Check for texture transform
+    // Check to see if there is a textureTransform.
+    let textureTransform = node.getElementsByTagName('TextureTransform')[0];
+    let transform;
+    if (typeof textureTransform !== 'undefined'){
+        transform = this.parseTextureTransform(textureTransform);
+    }
 
-
-    let appearance = new WbAppearance(id, material, texture);
+    let appearance = new WbAppearance(id, material, texture, transform);
     if (typeof appearance !== 'undefined') {
         if(typeof material !== 'undefined')
           material.parent = appearance;
@@ -310,6 +314,15 @@ class MyParser {
    })
  }
 
+ parseTextureTransform(node) {
+     const id = getNodeAttribute(node, 'id');
+     let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
+     rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),
+     scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1')),
+     translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
+
+   return new WbTextureTransform(id, center, rotation, scale, translation);
+ }
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
