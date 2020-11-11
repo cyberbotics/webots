@@ -66,7 +66,10 @@ void main() {
   texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
   penTexUv = vUnwrappedTexCoord;
 }
-#version 330
+#version 300 es
+
+precision highp float;
+
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -232,7 +235,7 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection) {
     // A single irradiance map is used for the diffuse and specular reflections:
     // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6.0).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;
@@ -480,7 +483,7 @@ void main() {
       fogFactor = (fogEnd - z) * fogInverseScale;
     fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1.0 - fogFactor, 2.2)), fragColor.w);
   }
 }
 #version 330
@@ -1804,7 +1807,7 @@ void main() {
 
   result = vec4(mapped, 1.0);
 }
-#version 330
+#version 300 es
 
 layout(location = 0) in vec3 vCoord;
 layout(location = 1) in vec3 vNormal;
@@ -2089,7 +2092,9 @@ void main() {
 
   fragColor = vec4(prefilteredColor, 1.0);
 }
-#version 330 core
+#version 300 es
+
+precision highp float;
 
 out vec3 fragColor;
 in vec2 texUv;
@@ -2552,7 +2557,7 @@ void main() {
 
   fragColor = vec2(totalao / totalweight, 0.0);
 }
-#version 330 core
+#version 300 es
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec2 aTexCoords;
 
@@ -2579,7 +2584,9 @@ cameraTransforms;
 void main() {
   gl_Position = cameraTransforms.infiniteProjection * cameraTransforms.view * modelTransform * vec4(vCoord, 1.0);
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -2995,7 +3002,7 @@ void main() {
   gl_Position = projection * modelView * vec4(vCoord * w, 1.0f);
   texUv = vTexCoord;
 }
-#version 330
+#version 300 es
 
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 
@@ -3035,7 +3042,7 @@ void main() {
   texUv = vec2(textureTransform * vec4(vTexCoord, 0.0, 1.0));
   penTexUv = vUnwrappedTexCoord;
 }
-#version 330
+#version 300 es
 
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 
@@ -3589,7 +3596,9 @@ void main() {
   fragColor = textureLod(cubeTextures[0], vec3(texUv.xy, -texUv.z), 0);
   fragColor.rgb = pow(fragColor.rgb, vec3(GAMMA));
 }
-#version 330
+#version 300 es
+
+precision highp float;
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;
@@ -3672,7 +3681,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
     // A single irradiance map is used for the diffuse and specular reflections:
     // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6.0).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;

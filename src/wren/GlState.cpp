@@ -147,8 +147,8 @@ namespace wren {
       array[0] = -1;
       // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
       cGpuMemory = array[0];
-      checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
-                                    //}
+      checkError(GL_INVALID_ENUM);             // check errors skipping any possible GL_INVALID_ENUM error
+                                               //}
 #endif
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
@@ -159,8 +159,11 @@ namespace wren {
       glstate::setDepthTest(true);
       glstate::setCullFace(true);
       glstate::setPolygonMode(GL_FILL);
-      // glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
-
+#ifdef __EMSCRIPTEN__
+      // By default in WebGL2
+#else
+      glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
+#endif
       checkError();
 
       cIsGlInitialized = true;
@@ -336,6 +339,9 @@ namespace wren {
     }
 
     void setDepthClamp(bool enable) {
+#ifdef __EMSCRIPTEN__
+// TODO find an alternative
+#else
       if (cDepthClamp != enable) {
         cDepthClamp = enable;
         if (enable)
@@ -343,6 +349,7 @@ namespace wren {
         else
           glDisable(GL_DEPTH_CLAMP);
       }
+#endif
     }
 
     void setPolygonMode(unsigned int polygonMode) {
@@ -420,10 +427,10 @@ namespace wren {
       assert(cBoundTextures[textureUnit] == glName);
 #ifdef __EMSCRIPTEN__
 #else
-                                    /*
-                                    if (!GLAD_GL_EXT_texture_filter_anisotropic)
-                                      return;
-                                      */
+      /*
+      if (!GLAD_GL_EXT_texture_filter_anisotropic)
+        return;
+        */
 #endif
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
@@ -821,7 +828,7 @@ bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 #ifdef __EMSCRIPTEN__
   return false;
 #else
-  return false;                     // return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+  return false;  // return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
 #endif
 }
 

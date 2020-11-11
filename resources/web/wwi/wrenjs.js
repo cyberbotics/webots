@@ -493,7 +493,6 @@ class WbShape extends WbBaseNode {
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this.createWrenMaterial(1); //enum
-
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
@@ -502,8 +501,9 @@ class WbShape extends WbBaseNode {
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       } else if (this.appearance instanceof WbPBRAppearance && !(this.geometry instanceof WbPointSet)) {
         this.createWrenMaterial(2);
-        if (this.appearance.wrenObjectsCreatedCalled)
+        if (this.appearance.wrenObjectsCreatedCalled){
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+        }
       } else {
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       }
@@ -715,7 +715,7 @@ class WbPlane extends WbGeometry{
   }
 }
 
-class WbCylinder extends WbGeometry{
+class WbCylinder extends WbGeometry {
   constructor (id, radius, height, subdivision, bottom, side, top){
     super(id);
     this.radius = radius;
@@ -746,6 +746,10 @@ class WbCylinder extends WbGeometry{
   }
 }
 
+class WbPointSet extends WbGeometry {
+
+}
+
 
 class WbAbstractAppearance extends WbBaseNode {
   constructor(id, transform){
@@ -755,7 +759,6 @@ class WbAbstractAppearance extends WbBaseNode {
 
   createWrenObjects(){
     super.createWrenObjects();
-
     if(typeof this.textureTransform !== 'undefined') {
       this.textureTransform.createWrenObjects();
     }
@@ -1018,11 +1021,16 @@ class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveColorMap = emissiveColorMap;
     this.emissiveIntensity = emissiveIntensity;
     this.textureTransform = textureTransform;
+    if (WbPBRAppearance.cInstanceCounter == 0) {
+      let quality = 2;//TODO: WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+      let resolution = Math.pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+      WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
+    }
+    ++WbPBRAppearance.cInstanceCounter;
   }
 
   createWrenObjects(){
-    super.createWrenObjects;
-
+    super.createWrenObjects();
     if (typeof this.baseColorMap !== 'undefined')
       this.baseColorMap.createWrenObjects();
 
@@ -1043,29 +1051,30 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 
   modifyWrenMaterial(wrenMaterial) {
-  /*  if (!wrenMaterial) {//enum //TODO check if not pbr material
-      wr_material_delete(wrenMaterial);
-      wrenMaterial = wr_pbr_material_new();
+    if (!wrenMaterial) {//enum //TODO check if not pbr material
+      _wr_material_delete(wrenMaterial);
+      wrenMaterial = _wr_pbr_material_new();
     }
 
     // set up shaders
-    wr_material_set_default_program(wrenMaterial, WbWrenShaders::pbrShader());
-    wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders::pbrStencilAmbientEmissiveShader());
-    wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders::pbrStencilDiffuseSpecularShader());
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.pbrShader());
+    _wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders.pbrStencilAmbientEmissiveShader());
+    _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.pbrStencilDiffuseSpecularShader());
 
     // apply textures
-    if (baseColorMap())
-      baseColorMap()->modifyWrenMaterial(wrenMaterial, 0, 7);
+    if (typeof this.baseColorMap !== 'undefined')
+      this.baseColorMap.modifyWrenMaterial(wrenMaterial, 0, 7);
 
-    if (roughnessMap())
-      roughnessMap()->modifyWrenMaterial(wrenMaterial, 1, 7);
+    if (typeof this.roughnessMap !== 'undefined')
+      this.roughnessMap.modifyWrenMaterial(wrenMaterial, 1, 7);
 
-    if (metalnessMap())
-      metalnessMap()->modifyWrenMaterial(wrenMaterial, 2, 7);
+    if (typeof this.metalnessMap !== 'undefined')
+      this.metalnessMap.modifyWrenMaterial(wrenMaterial, 2, 7);
 
-    WbBackground *background = WbBackground::firstInstance();
-    float backgroundLuminosity = 1.0;
-    if (background) {
+
+    //let background = WbBackground::firstInstance();
+    let backgroundLuminosity = 1.0;
+    /*if (background) {
       backgroundLuminosity = background->luminosity();
       connect(background, &WbBackground::luminosityChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
 
@@ -1083,51 +1092,54 @@ class WbPBRAppearance extends WbAbstractAppearance {
         wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
 
       connect(background, &WbBackground::cubemapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
-    } else
-      wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
+    } else*/
+      _wr_material_set_texture_cubemap(wrenMaterial, null, 0);
 
-    if (normalMap())
-      normalMap()->modifyWrenMaterial(wrenMaterial, 4, 7);
+    if (typeof this.normalMap !== 'undefined')
+      this.normalMap.modifyWrenMaterial(wrenMaterial, 4, 7);
 
-    if (occlusionMap())
-      occlusionMap()->modifyWrenMaterial(wrenMaterial, 3, 7);
+    if (typeof this.occlusionMap !== 'undefined')
+      this.occlusionMap.modifyWrenMaterial(wrenMaterial, 3, 7);
 
-    if (emissiveColorMap())
-      emissiveColorMap()->modifyWrenMaterial(wrenMaterial, 6, 7);
-
-    if (textureTransform())
-      textureTransform()->modifyWrenMaterial(wrenMaterial);
+    if (typeof this.emissiveColorMap !== 'undefined'){
+      console.log("yo");
+      this.emissiveColorMap.modifyWrenMaterial(wrenMaterial, 6, 7);
+    }
+    if (typeof this.textureTransform !== 'undefined')
+      this.textureTransform.modifyWrenMaterial(wrenMaterial);
     else
-      wr_material_set_texture_transform(wrenMaterial, NULL);
+      _wr_material_set_texture_transform(wrenMaterial, null);
 
-    wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
-    wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
-    wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
+    _wr_material_set_texture(wrenMaterial, WbPBRAppearance.cBrdfTexture, 5);
+    _wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
+    _wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
-    const float baseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
-                               static_cast<float>(mBaseColor->blue())};
+    let baseColorPointer = array3Pointer(this.baseColor.x, this.baseColor.y, this.baseColor.z);
+    let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
-    const float emissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
-                                   static_cast<float>(mEmissiveColor->blue())};
 
-    float backgroundColor[] = {0.0, 0.0, 0.0};
+    let backgroundColor = glm.vec3(0.0, 0.0, 0.0);
 
-    if (background) {
+    /*if (background) {
       WbRgb skyColor = background->skyColor();
       backgroundColor[0] = static_cast<float>(skyColor.red());
       backgroundColor[1] = static_cast<float>(skyColor.green());
       backgroundColor[2] = static_cast<float>(skyColor.blue());
-    }
+    }*/
+
+    let backgroundColorPointer = array3Pointer(backgroundColor.x, backgroundColor.y, backgroundColor.z);
 
     // set material properties
-    wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
-                                       mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
-                                       mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
-                                       mEmissiveIntensity->value());
+    _wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColorPointer, baseColorPointer,
+      this.transparency, this.roughness, this.metalness, backgroundLuminosity * this.IBLStrength,this.normalMapFactor,
+      this.occlusionMapStrength, emissiveColorPointer,this.emissiveIntensity);
 
-    */return wrenMaterial;
+    return wrenMaterial;
   }
 }
+
+WbPBRAppearance.cBrdfTexture = undefined;
+WbPBRAppearance.cInstanceCounter = 0;
 
 class WbWrenShaders {
 
@@ -1231,6 +1243,103 @@ class WbWrenShaders {
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR];
   }
 
+  static pbrShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 0);  // base color texture //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 1);  // roughness texture //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 2);  // metalness texture //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 3);  // occlusion map //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 4);  // normal map //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 5);  // BRDF LUT //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 6);  // emissive texture //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 7);  // background texture (for displays) //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 8);  // pen texture //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 13);  // irradiance cubemap //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 16); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 17); //enum
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 1); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 2);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 5); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], "../../../resources/wren/shaders/pbr.vert", "../../../resources/wren/shaders/pbr.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR];
+  }
+
+  static pbrStencilAmbientEmissiveShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE] = _wr_shader_program_new();
+
+      // base color texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 0); //enum
+      // roughness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 1); //enum
+      // metalness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 2); //enum
+      // occlusion map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 3); //enum
+      // normal map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 4); //enum
+      // BRDF LUT
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 5); //enum
+      // emissive texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 6); //enum
+      // background texture (for displays)
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 7); //enum
+      // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 8); //enum
+      // irradiance cubemap
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 13); //enum
+      // specular cubemap
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 16); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 17); //enum
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 1); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 4); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "../../../resources/wren/shaders/pbr_stencil_ambient_emissive.vert", "../../../resources/wren/shaders/pbr_stencil_ambient_emissive.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE];
+  }
+
+  static pbrStencilDiffuseSpecularShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR] = _wr_shader_program_new();
+
+      // base color texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 0); //enum
+      // roughness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 1); //enum
+      // metalness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 2); //enum
+      // occlusion map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 3); //enum
+      // normal map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 4); //enum
+      // background texture (for displays)
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 7); //enum
+      // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 8); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 16); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 17); //enum
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 1); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 2); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 3); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 4); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], "../../../resources/wren/shaders/pbr_stencil_diffuse_specular.vert", "../../../resources/wren/shaders/pbr_stencil_diffuse_specular.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR];
+  }
+
   static encodeDepthShader() {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH] = _wr_shader_program_new();
@@ -1251,6 +1360,7 @@ class WbWrenShaders {
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH];
   }
 
+
   static fogShader() {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG] = _wr_shader_program_new();
@@ -1264,6 +1374,16 @@ class WbWrenShaders {
     }
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG];
+  }
+
+  static iblBrdfBakingShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_BRDF_BAKE]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_BRDF_BAKE] = _wr_shader_program_new();
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_BRDF_BAKE], "../../../resources/wren/shaders/bake_brdf.vert", "../../../resources/wren/shaders/bake_brdf.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_BRDF_BAKE];
   }
 
   static shadowVolumeShader() {
@@ -1540,7 +1660,6 @@ class WrenRenderer {
 
     render() {
       try {
-        console.log("render");
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {

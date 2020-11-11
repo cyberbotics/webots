@@ -340,7 +340,7 @@ namespace wren {
 
       // pre-allocate enough memory for the LUT texture.
       glBindTexture(GL_TEXTURE_2D, brdfTextureGlName);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, size, size, 0, GL_RGB, GL_FLOAT, 0);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, size, size, 0, GL_RGBA, GL_FLOAT, 0);
       // be sure to set wrapping mode to GL_CLAMP_TO_EDGE
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

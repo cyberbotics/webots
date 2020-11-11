@@ -19,13 +19,11 @@ class MyParser {
     if (typeof scene === 'undefined') {
       console.error("Scene not found");
     } else {
-      this.parseNode(scene)
+      this.parseNode(scene).then(() => {
+        _wr_scene_render(_wr_scene_get_instance(), null, true);
+        console.log("File Parsed => render");
+      });
     }
-
-    console.log("File Parsed");
-
-    //Render a first time after beeing parsed
-    //TODO move after parse is called.
   }
 
   async parseNode(node, currentNode) {
@@ -86,7 +84,9 @@ class MyParser {
     let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
+
     await this.parseChildren(node, transform);
+
     transform.createWrenObjects();
   }
 
@@ -130,7 +130,6 @@ class MyParser {
 
       console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
-
     let shape = new WbShape(id, castShadows, geometry, appearance);
 
     if(typeof currentNode !== 'undefined') {
@@ -295,7 +294,13 @@ class MyParser {
     let occlusionMapStrength = parseFloat(getNodeAttribute(node, 'occlusionMapStrength', '1'));
     let emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
     let emissiveIntensity = parseFloat(getNodeAttribute(node, 'emissiveIntensity', '1'));
-    let textureTransform = node.getElementsByTagName('TextureTransform');
+
+    // Check to see if there is a textureTransform.
+    let textureTransform = node.getElementsByTagName('TextureTransform')[0];
+    let transform;
+    if (typeof textureTransform !== 'undefined'){
+        transform = this.parseTextureTransform(textureTransform);
+    }
 
     let imageTextures = node.getElementsByTagName('ImageTexture');
     let baseColorMap = undefined;
@@ -320,7 +325,46 @@ class MyParser {
       else if (type === 'emissiveColor')
         emissiveColorMap = await this.parseImageTexture(imageTexture, textureTransform);
     }
-    return new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform);
+
+    let pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
+       normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof transform !== 'undefined')
+          transform.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof baseColorMap !== 'undefined')
+          baseColorMap.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof roughnessMap !== 'undefined')
+          roughnessMap.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof metalnessMap !== 'undefined')
+          metalnessMap.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof normalMap !== 'undefined')
+          normalMap.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof occlusionMap !== 'undefined')
+          occlusionMap.parent = pbrAppearance;
+    }
+
+    if (typeof pbrAppearance !== 'undefined') {
+        if(typeof emissiveColorMap !== 'undefined')
+          emissiveColorMap.parent = pbrAppearance;
+    }
+
+    return pbrAppearance;
   }
 
   parseTextureTransform(node) {
