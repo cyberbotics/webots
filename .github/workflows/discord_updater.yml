@@ -24,8 +24,11 @@ jobs:
         python ./docs/discord/update.py -t ${{ secrets.DISCORD_TOKEN }}
     - name: Branch and Commit
       run: |
-        git config --global user.name ${GITHUB_ACTOR}
-        git config --global user.email ${GITHUB_ACTOR}@github.com
+        sudo apt-get update && sudo apt-get install jq
+        NAME=$(curl https://api.github.com/users/${GITHUB_ACTOR} | jq -r .name)
+        ID=$(curl https://api.github.com/users/${GITHUB_ACTOR} | jq -r .id)
+        git config --global user.name "${NAME}"
+        git config --global user.email "${ID}+${GITHUB_ACTOR}@users.noreply.github.com"
         git checkout -b discord-doc-update
         git add ./docs/discord
         git commit -m "Update discord docs."
