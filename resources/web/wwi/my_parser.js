@@ -1,5 +1,6 @@
 class MyParser {
   constructor() {
+      this.prefix = "/projects/default/worlds/";
   }
 
   parse(text){
@@ -91,9 +92,24 @@ class MyParser {
     let rightUrl = getNodeAttribute(node, 'rightUrl');
     let topUrl = getNodeAttribute(node, 'topUrl');
 
-    let cubeTexture = undefined;
+    let cubeImages = [];
     if(typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined'){
-      console.log("TODO load");
+      //TODO add test to see if all images have the same size and alpha and are squared
+      console.log("load cubeimages");
+      backUrl = backUrl.slice(1, backUrl.length-1);
+      bottomUrl = bottomUrl.slice(1, bottomUrl.length-1);
+      frontUrl = frontUrl.slice(1, frontUrl.length-1);
+      leftUrl = leftUrl.slice(1, leftUrl.length-1);
+      rightUrl = rightUrl.slice(1, rightUrl.length-1);
+      topUrl = topUrl.slice(1, topUrl.length-1);
+
+
+      cubeImages[0] = await this.loadTextureData(this.prefix + backUrl);
+      cubeImages[1] = await this.loadTextureData(this.prefix + bottomUrl);
+      cubeImages[2] = await this.loadTextureData(this.prefix + frontUrl);
+      cubeImages[3] = await this.loadTextureData(this.prefix + leftUrl);
+      cubeImages[4] = await this.loadTextureData(this.prefix + rightUrl);
+      cubeImages[5] = await this.loadTextureData(this.prefix + topUrl);
     } else {
       console.log("Background : Incomplete cubemap");
     }
@@ -105,15 +121,29 @@ class MyParser {
     let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
     let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
 
-    let irradianceCubeTexture = undefined;
+    let irradianceCubeImages = [];
     if(typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined'){
-      console.log("TODO load irradiance");
+      console.log("load irradianceCubeImages");
+      backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length-1);
+      bottomIrradianceUrl = bottomIrradianceUrl.slice(1, bottomIrradianceUrl.length-1);
+      frontIrradianceUrl = frontIrradianceUrl.slice(1, frontIrradianceUrl.length-1);
+      leftIrradianceUrl = leftIrradianceUrl.slice(1, leftIrradianceUrl.length-1);
+      rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
+      topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
+
+      cubeImages[0] = await this.loadTextureData(this.prefix + backIrradianceUrl);
+      cubeImages[1] = await this.loadTextureData(this.prefix + bottomIrradianceUrl);
+      cubeImages[2] = await this.loadTextureData(this.prefix + frontIrradianceUrl);
+      cubeImages[3] = await this.loadTextureData(this.prefix + leftIrradianceUrl);
+      cubeImages[4] = await this.loadTextureData(this.prefix + rightIrradianceUrl);
+      cubeImages[5] = await this.loadTextureData(this.prefix + topIrradianceUrl);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
 
-    let background = new WbBackground(id, skyColor, luminosity, cubeTexture, irradianceCubeTexture);
+    let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeImages);
     background.createWrenObjects();
+    background.applySkyBoxToWren();
     return background;
   }
 
@@ -319,10 +349,13 @@ class MyParser {
     if (typeof textureProperties !== 'undefined'){
       anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
     }
+    let imageTexture = undefined;
+    if(typeof url !== 'undefined' && url !== '') {
+       let image = await this.loadTextureData(this.prefix+url);
+       imageTexture = new WbImageTexture(id, this.prefix + url, isTransparent, s, t, anisotropy, image);
+    }
 
-    const prefix = "/projects/default/worlds/";
-    let image = await this.loadTextureData(prefix+url);
-    return new WbImageTexture(id, prefix + url, isTransparent, s, t, anisotropy, image);
+    return imageTexture;
   }
 
   async parsePBRAppearance(node) {
@@ -422,7 +455,6 @@ class MyParser {
   async loadTextureData(url) {
    let context = document.getElementById('canvas2').getContext('2d');
    let img = await this.loadImage(url);
-
    canvas2.width = img.width;
    canvas2.height = img.height;
    context.drawImage(img, 0, 0);
@@ -448,7 +480,7 @@ class MyParser {
      img.onload = () => {
        resolve(img);
      }
-     img.onerror = () => console.log("Error in loading");
+     img.onerror = () => console.log("Error in loading : " + src);
      img.src = src;
    })
  }

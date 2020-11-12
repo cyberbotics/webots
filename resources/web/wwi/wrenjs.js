@@ -84,15 +84,6 @@ class WbBaseNode {
 }
 
 class WbViewpoint extends WbBaseNode {
-  /*Information à disposition
-  Id
-  Orientation: vec4
-  Position: vec3
-  Exposure : float ou int
-  bloomThreshold: float ou int
-  zNear = float
-  followsmoothness
-  */
   constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness) {
     super(id);
     this.orientation = orientation;
@@ -416,12 +407,12 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
 }
 
 class WbBackground extends WbBaseNode {
-  constructor(id, skyColor, luminosity, cubeTexture, irradianceCubeTexture) {
+  constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
     super(id);
     this.skyColor = skyColor;
     this.luminosity = luminosity;
-    this.cubeTexture = cubeTexture;
-    this.irradianceCubeTexture = irradianceCubeTexture;
+    this.cubeArray = cubeArray;
+    this.irradianceCubeArray = irradianceCubeArray;
 
     this.skyboxShaderProgram = undefined;
     this.skyboxMaterial = undefined;
@@ -434,6 +425,9 @@ class WbBackground extends WbBaseNode {
     this.hdrClearRenderable = undefined;
     this.hdrClearMesh = undefined;
     this.hdrClearTransform = undefined;
+
+    this.cubeMapTexture = undefined;
+    this.irradianceCubeTexture = undefined;
   }
 
   createWrenObjects() {
@@ -495,6 +489,158 @@ class WbBackground extends WbBaseNode {
       _wr_phong_material_set_linear_diffuse(this.hdrClearMaterial, hdrColorPointer);
       _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
     }
+  }
+
+  destroySkyBox() {
+    _wr_scene_set_skybox(_wr_scene_get_instance(), null);
+
+    if (typeof this.skyboxMaterial !== 'undefined')
+      _wr_material_set_texture_cubemap(this.skyboxMaterial, null, 0);
+
+    if (typeof this.cubeMapTexture !== 'undefined') {
+      _wr_texture_delete(this.cubeMapTexture);
+      this.cubeMapTexture = undefined;
+    }
+
+    if (typeof this.irradianceCubeTexture !== 'undefined') {
+      _wr_texture_delete(this.irradianceCubeTexture);
+      this.irradianceCubeTexture = undefined;
+    }
+  }
+
+  applySkyBoxToWren() {
+    this.destroySkyBox();
+
+    let hdrImageData;
+
+    // 1. Load the background.
+    if(this.cubeArray.length === 6) {
+      console.log(this.cubeArray);
+      this.cubeMapTexture = _wr_texture_cubemap_new();
+      _wr_texture_set_internal_format(this.cubeMapTexture, 3); //enum
+
+      let bitsPointers = []
+      for (let i = 0; i < 6; i++) {
+        // TODO Check if some rotations are needed for ENU
+        bitsPointers[i] = arrayXPointer(this.cubeArray[i].bits);
+        _wr_texture_cubemap_set_data(this.cubeMapTexture, bitsPointers[i], i);
+      }
+
+      _wr_texture_set_size(this.cubeMapTexture, this.cubeArray[0].width, this.cubeArray[0].height);
+      _wr_texture_setup(this.cubeMapTexture);
+      _wr_material_set_texture_cubemap(this.skyboxMaterial, this.cubeMapTexture, 0);
+      _wr_material_set_texture_cubemap_wrap_r(this.skyboxMaterial, 0x812F, 0); //enum
+      _wr_material_set_texture_cubemap_wrap_s(this.skyboxMaterial, 0x812F, 0); //enum
+      _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, 0x812F, 0); //enum
+      _wr_scene_set_skybox(_wr_scene_get_instance(), this.skyboxRenderable);
+
+      for(let i = 0; i < 6; i++) {
+        _free(bitsPointers[i]);
+      }
+    }
+
+    // 2. Load the irradiance map.
+    /*let cm = _wr_texture_cubemap_new();
+
+    try {
+      // Check first that every fields are present.
+      bool allUrlDefined = true;
+      bool atLeastOneUrlDefined = false;
+      for (int i = 0; i < 6; ++i) {
+        if (mIrradianceUrlFields[i]->size() == 0) {
+          allUrlDefined = false;
+          continue;
+        } else
+          atLeastOneUrlDefined = true;
+      }
+      if (!allUrlDefined)
+        throw tr(atLeastOneUrlDefined ? "Incomplete irradiance cubemap" : "");
+
+      // Actually load the irradiance map.
+      int w, h, components;
+      for (int i = 0; i < 6; ++i) {
+        QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[gCoordinateSystemSwap(i)]->item(0), false);
+        if (url.isEmpty())
+          throw QString();
+
+        _wr_texture_set_internal_format(cm, 9); //enum
+        float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
+        const int rotate = gCoordinateSystemRotate(i);
+        // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
+        if (rotate != 0) {
+          float *rotated = (float *)stbi__malloc(sizeof(float) * w * h * components);
+          if (rotate == 90) {
+            for (int x = 0; x < w; x++) {
+              for (int y = 0; y < h; y++) {
+                const int u = y * w * components + x * components;
+                const int v = (w - 1 - x) * w * components + y * components;
+                for (int c = 0; c < components; c++)
+                  rotated[u + c] = data[v + c];
+              }
+            }
+            const int swap = w;
+            w = h;
+            h = swap;
+          } else if (rotate == -90) {
+            for (int x = 0; x < w; x++) {
+              for (int y = 0; y < h; y++) {
+                const int u = y * w * components + x * components;
+                const int v = x * w * components + (h - 1 - y) * components;
+                for (int c = 0; c < components; c++)
+                  rotated[u + c] = data[v + c];
+              }
+            }
+            const int swap = w;
+            w = h;
+            h = swap;
+          } else if (rotate == 180) {
+            for (int x = 0; x < w; x++) {
+              for (int y = 0; y < h; y++) {
+                const int u = y * w * components + x * components;
+                const int v = (h - 1 - y) * w * components + (w - 1 - x) * components;
+                for (int c = 0; c < components; c++)
+                  rotated[u + c] = data[v + c];
+              }
+            }
+          }
+          stbi_image_free(data);
+          data = rotated;
+        }
+        _wr_texture_cubemap_set_data(cm, data, i);
+        hdrImageData << data;
+      }
+
+      wr_texture_set_size(WR_TEXTURE(cm), w, h);
+      wr_texture_set_texture_unit(WR_TEXTURE(cm), 13);
+      wr_texture_setup(WR_TEXTURE(cm));
+
+      mIrradianceCubeTexture =
+        wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
+      wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
+
+    } catch (QString &error) {
+      if (error.length() > 0)
+        parsingWarn(error);
+
+      if (mIrradianceCubeTexture) {
+        wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
+        mIrradianceCubeTexture = NULL;
+      }
+
+      // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
+      // Reflections won't be good in such case.
+      if (mCubeMapTexture) {
+        mIrradianceCubeTexture =
+          wr_texture_cubemap_bake_specular_irradiance(mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 64);
+        wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
+      }
+    }
+
+    wr_texture_delete(WR_TEXTURE(cm));
+
+
+    while (hdrImageData.size() > 0)
+      stbi_image_free(hdrImageData.takeFirst());*/
   }
 }
 
@@ -1188,7 +1334,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
       this.occlusionMap.modifyWrenMaterial(wrenMaterial, 3, 7);
 
     if (typeof this.emissiveColorMap !== 'undefined'){
-      console.log("yo");
       this.emissiveColorMap.modifyWrenMaterial(wrenMaterial, 6, 7);
     }
     if (typeof this.textureTransform !== 'undefined')
