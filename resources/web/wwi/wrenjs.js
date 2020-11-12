@@ -98,7 +98,7 @@ class WbViewpoint extends WbBaseNode {
     this.orientation = orientation;
     this.position = position;
 
-    this.exposure = exposure;
+    WbViewpoint.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
     this.zNear = zNear;
     this.far = far;
@@ -235,13 +235,14 @@ class WbViewpoint extends WbBaseNode {
     //if (WbFieldChecker::resetDoubleIfNegative(this, this.exposure, 1.0))
       //return;
     if (this.wrenObjectsCreatedCalled && this.wrenHdr)
-      this.wrenHdr.setExposure(this.exposure);
+      this.wrenHdr.setExposure(Viewpoint.exposure);
   }
 
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
-
+//TODO: remove this global value once we have a scenetree;
+WbViewpoint.exposure = 1;
 class WbWrenAbstractPostProcessingEffect {
   constructor() {
     this.wrenPostProcessingEffect = undefined;
@@ -411,6 +412,89 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "flipNormalY", flipNormalYPointer]);
 
     ++this.frameCounter;
+  }
+}
+
+class WbBackground extends WbBaseNode {
+  constructor(id, skyColor, luminosity, cubeTexture, irradianceCubeTexture) {
+    super(id);
+    this.skyColor = skyColor;
+    this.luminosity = luminosity;
+    this.cubeTexture = cubeTexture;
+    this.irradianceCubeTexture = irradianceCubeTexture;
+
+    this.skyboxShaderProgram = undefined;
+    this.skyboxMaterial = undefined;
+    this.skyboxRenderable = undefined;
+    this.skyboxMesh = undefined;
+    this.skyboxTransform = undefined;
+
+    this.hdrClearShaderProgram = undefined;
+    this.hdrClearMaterial = undefined;
+    this.hdrClearRenderable = undefined;
+    this.hdrClearMesh = undefined;
+    this.hdrClearTransform = undefined;
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    this.skyboxShaderProgram = WbWrenShaders.skyboxShader();
+    this.skyboxMaterial = _wr_phong_material_new();
+    this.skyboxRenderable = _wr_renderable_new();
+    this.skyboxMesh = _wr_static_mesh_unit_box_new(false);
+
+    _wr_material_set_default_program(this.skyboxMaterial, this.skyboxShaderProgram);
+    _wr_renderable_set_cast_shadows(this.skyboxRenderable, false);
+    _wr_renderable_set_receive_shadows(this.skyboxRenderable, false);
+    _wr_renderable_set_mesh(this.skyboxRenderable, this.skyboxMesh);
+    _wr_renderable_set_material(this.skyboxRenderable, this.skyboxMaterial, null);
+    _wr_renderable_set_drawing_mode(this.skyboxRenderable, 0x4); //enum
+    _wr_renderable_set_face_culling(this.skyboxRenderable, false);
+
+    this.skyboxTransform = _wr_transform_new();
+    _wr_transform_attach_child(this.skyboxTransform, this.skyboxRenderable);
+
+    this.hdrClearShaderProgram = WbWrenShaders.hdrClearShader();
+    this.hdrClearMaterial = _wr_phong_material_new();
+    this.hdrClearRenderable = _wr_renderable_new();
+    this.hdrClearMesh = _wr_static_mesh_quad_new();
+
+    _wr_material_set_default_program(this.hdrClearMaterial, this.hdrClearShaderProgram);
+    _wr_renderable_set_cast_shadows(this.hdrClearRenderable, false);
+    _wr_renderable_set_receive_shadows(this.hdrClearRenderable, false);
+    _wr_renderable_set_mesh(this.hdrClearRenderable, this.hdrClearMesh);
+    _wr_renderable_set_material(this.hdrClearRenderable, this.hdrClearMaterial, null);
+    _wr_renderable_set_drawing_mode(this.hdrClearRenderable, 0x4);
+
+    this.hdrClearTransform = _wr_transform_new();
+    _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
+
+    //TODO ask why several background?
+    //if (isFirstInstance())
+    this.applyColourToWren();
+  }
+
+  applyColourToWren() {
+    let colorPointer = _wrjs_color_array(this.skyColor.x, this.skyColor.y, this.skyColor.z);
+
+    _wr_viewport_set_clear_color_rgb(_wr_scene_get_viewport(_wr_scene_get_instance()), colorPointer);
+    if (this.wrenObjectsCreatedCalled) {
+      // use wren's set_diffuse to transform to linear color space
+      _wr_phong_material_set_diffuse(this.hdrClearMaterial, colorPointer);
+
+      // de-gamma correct
+      let hdrColor = [Math.pow(this.skyColor.x, 2.2), Math.pow(this.skyColor.y, 2.2), Math.pow(this.skyColor.z, 2.2)];
+      //TODO get rid of the gloabl variable
+      // reverse tone map
+      let exposure = WbViewpoint.exposure;
+      for (let i = 0; i < 3; ++i)
+        hdrColor[i] = -Math.log(1.000000001 - hdrColor[i]) / exposure;
+
+      let hdrColorPointer = _wrjs_color_array(hdrColor[0], hdrColor[1], hdrColor[2]);
+      _wr_phong_material_set_linear_diffuse(this.hdrClearMaterial, hdrColorPointer);
+      _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
+    }
   }
 }
 
@@ -1417,7 +1501,32 @@ class WbWrenShaders {
     }
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE];
-}
+  }
+
+  static hdrClearShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR], 0); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/hdr_clear.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR];
+  }
+
+  static skyboxShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], 13); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], 4); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], "../../../resources/wren/shaders/skybox.vert", "../../../resources/wren/shaders/skybox.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX];
+  }
 
   static passThroughShader() {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH]) {

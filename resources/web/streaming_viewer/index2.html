@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <body>
+    <script>
+    async function a(){
+       await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+      console.log("a");
+    }
+    function b(){
+      console.log("b");
+    }
+    async function c(){
+      await a();
+      b();
+
+      console.log("c");
+    }
+    function d(){
+      console.log("d");
+    }
+
+    //a().then(() => console.log("D"));
+    c()
+
+    </script>
+  </body>
+  <canvas id="canvas2"><canvas>
+
+
+</html>

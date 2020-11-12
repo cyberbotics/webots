@@ -167,7 +167,6 @@ namespace wren {
 
       DEBUG("ShaderProgram::createProgram: linking failed!");
       DEBUG("InfoLog:" << log);
-      std::cout << "/* message */" << log << '\n';
 
       glDeleteProgram(mGlName);
       mGlName = 0;

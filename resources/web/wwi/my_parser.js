@@ -32,15 +32,18 @@ class MyParser {
       let id = getNodeAttribute(node, 'id');
       result = new WbScene(id);
       await this.parseChildren(node, currentNode);
-    } else if (node.tagName === 'WorldInfo') {
+    } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
-    } else if (node.tagName === 'Viewpoint') {
+    else if (node.tagName === 'Viewpoint')
       this.parseViewpoint(node);
-    } else if (node.tagName === 'Transform') {
+    else if (node.tagName === 'Background')
+      await this.parseBackground(node);
+    else if (node.tagName === 'Transform')
       this.parseTransform(node, currentNode);
-    } else if (node.tagName === 'Shape') {
+    else if (node.tagName === 'Shape')
       await this.parseShape(node, currentNode);
-    } else {
+
+    else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
     }
@@ -75,6 +78,45 @@ class MyParser {
     viewpoint.createWrenObjects();
 
   }
+
+  async parseBackground(node) {
+    let id = getNodeAttribute(node, 'id');
+    let skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
+    let luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
+
+    let backUrl = getNodeAttribute(node, 'backUrl');
+    let bottomUrl = getNodeAttribute(node, 'bottomUrl');
+    let frontUrl = getNodeAttribute(node, 'frontUrl');
+    let leftUrl = getNodeAttribute(node, 'leftUrl');
+    let rightUrl = getNodeAttribute(node, 'rightUrl');
+    let topUrl = getNodeAttribute(node, 'topUrl');
+
+    let cubeTexture = undefined;
+    if(typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined'){
+      console.log("TODO load");
+    } else {
+      console.log("Background : Incomplete cubemap");
+    }
+
+    let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
+    let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
+    let frontIrradianceUrl = getNodeAttribute(node, 'frontIrradianceUrl');
+    let leftIrradianceUrl = getNodeAttribute(node, 'leftIrradianceUrl');
+    let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
+    let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
+
+    let irradianceCubeTexture = undefined;
+    if(typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined'){
+      console.log("TODO load irradiance");
+    } else {
+      console.log("Background : Incomplete irradiance cubemap");
+    }
+
+    let background = new WbBackground(id, skyColor, luminosity, cubeTexture, irradianceCubeTexture);
+    background.createWrenObjects();
+    return background;
+  }
+
 
   async parseTransform(node, currentNode){
     let id = getNodeAttribute(node, 'id');
