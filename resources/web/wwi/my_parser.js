@@ -337,7 +337,7 @@ class MyParser {
     return new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
   }
 
-  async parseImageTexture(node) {
+  async parseImageTexture(node, hasPrefix) {
     const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
     url = url.slice(1, url.length-1);
@@ -352,8 +352,14 @@ class MyParser {
     }
     let imageTexture = undefined;
     if(typeof url !== 'undefined' && url !== '') {
-       let image = await this.loadTextureData(this.prefix+url);
-       imageTexture = new WbImageTexture(id, this.prefix + url, isTransparent, s, t, anisotropy, image);
+      if(!hasPrefix){
+        url = this.prefix+url
+      }else {
+        url = url.split(/webots/)[1];
+        console.log(url);
+      }
+      let image = await this.loadTextureData(url);
+      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);
     }
 
     return imageTexture;
@@ -389,17 +395,17 @@ class MyParser {
       let imageTexture = imageTextures[i];
       let type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor')
-        baseColorMap = await this.parseImageTexture(imageTexture, textureTransform);
+        baseColorMap = await this.parseImageTexture(imageTexture, true);
       else if (type === 'roughness')
-        roughnessMap = await this.parseImageTexture(imageTexture, textureTransform);
+        roughnessMap = await this.parseImageTexture(imageTexture, true);
       else if (type === 'metalness')
-        metalnessMap = await this.parseImageTexture(imageTexture, textureTransform);
+        metalnessMap = await this.parseImageTexture(imageTexture, true);
       else if (type === 'normal')
-        normalMap = await this.parseImageTexture(imageTexture, textureTransform);
+        normalMap = await this.parseImageTexture(imageTexture, true);
       else if (type === 'occlusion')
-        occlusionMap = await this.parseImageTexture(imageTexture, textureTransform);
+        occlusionMap = await this.parseImageTexture(imageTexture, true);
       else if (type === 'emissiveColor')
-        emissiveColorMap = await this.parseImageTexture(imageTexture, textureTransform);
+        emissiveColorMap = await this.parseImageTexture(imageTexture, true);
     }
 
     let pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,

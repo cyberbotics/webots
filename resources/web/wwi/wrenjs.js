@@ -550,7 +550,7 @@ class WbBackground extends WbBaseNode {
 
       for (let i = 0; i < 6; ++i) {
         _wr_texture_set_internal_format(cm, 9); //enum
-        let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [dataHeap.byteOffset, this.irradianceCubeArray[0]]);
+        let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [dataHeap.byteOffset, this.irradianceCubeArray[i]]);
         w = Module.getValue(dataHeap.byteOffset,'i32');
         // TODO Check if some rotations are needed for ENU
         _wr_texture_cubemap_set_data(cm, data, i);
@@ -1258,7 +1258,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
         _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, 0x812F, 0); //enum
         _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, 0x812F, 0); //enum
         _wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
-        _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 0);
+        _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, false, 0);
         _wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);
       } else
         _wr_material_set_texture_cubemap(wrenMaterial, null, 0);
