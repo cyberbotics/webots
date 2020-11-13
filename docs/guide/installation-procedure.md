@@ -267,10 +267,12 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 #### From the Installation File
 
-1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
-2. Double click on this file.
-This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
-3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper:
+
+1. Open a Terminal app.
+2. Type `curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg`.
+3. From the finder, locate the downloaded dmg file, double-click on it. This will mount on the desktop a volume named "Webots" containing the "Webots" application.
+4. Move this application to your home ~/Applications folder or to your system "/Application" folder (administrator priviliges required).
 
 #### From the Homebrew Package
 
@@ -286,9 +288,10 @@ Webots can then be installed with:
 brew cask install webots
 ```
 
-### macOS Security
+### Working Around macOS Gatekeeper
 
-During the first Webots launch, macOS may complain about opening Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+If Webots was downloaded from a web browser (e.g., not from a Terminal with `curl` or `wget`) macOS Gatekeeper may refuse to run Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+You will need administrator privileges to be able to install Webots.
 
 %figure "Unidentified developer dialog"
 
@@ -296,8 +299,8 @@ During the first Webots launch, macOS may complain about opening Webots because 
 
 %end
 
-In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the `Open` menu item.
-`macOS` should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
+You should <kbd>Ctrl</kbd> + click (or right-click) on the Webots icon, and select the `Open` menu item.
+Then, macOS should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
 
 %figure "Open Webots anyway"
 
@@ -305,5 +308,5 @@ In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the
 
 %end
 
-In earlier versions of macOS, this last operation may not work.
-In this case, refer to your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
+More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
+You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
