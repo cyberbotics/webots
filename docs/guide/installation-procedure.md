@@ -288,7 +288,7 @@ Webots can then be installed with:
 brew cask install webots
 ```
 
-### Working Around macOS Gatekeeper
+### Working around macOS Gatekeeper
 
 If Webots was downloaded from a web browser (e.g., not from a Terminal with `curl` or `wget`) macOS Gatekeeper may refuse to run Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
 You will need administrator privileges to be able to install Webots.
