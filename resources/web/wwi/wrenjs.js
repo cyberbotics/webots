@@ -144,10 +144,11 @@ class WbViewpoint extends WbBaseNode {
   }
 
   applyFarToWren() {
+    console.log(this.far);
     if (this.far > 0.0)
       _wr_camera_set_far(this.wrenCamera, this.far);
     else
-      _wr_camera_set_far(this.wrenCamera, DEFAULT_FAR);
+      _wr_camera_set_far(this.wrenCamera, WbViewpoint.DEFAULT_FAR);
   }
 
   applyFieldOfViewToWren() {

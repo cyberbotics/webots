@@ -104,12 +104,12 @@ class MyParser {
       topUrl = topUrl.slice(1, topUrl.length-1);
 
 
-      cubeImages[0] = await this.loadTextureData(this.prefix + backUrl);
-      cubeImages[1] = await this.loadTextureData(this.prefix + bottomUrl);
-      cubeImages[2] = await this.loadTextureData(this.prefix + frontUrl);
-      cubeImages[3] = await this.loadTextureData(this.prefix + leftUrl);
-      cubeImages[4] = await this.loadTextureData(this.prefix + rightUrl);
-      cubeImages[5] = await this.loadTextureData(this.prefix + topUrl);
+      cubeImages[5] = await this.loadTextureData(this.prefix + backUrl);
+      cubeImages[3] = await this.loadTextureData(this.prefix + bottomUrl);
+      cubeImages[4] = await this.loadTextureData(this.prefix + frontUrl);
+      cubeImages[1] = await this.loadTextureData(this.prefix + leftUrl);
+      cubeImages[0] = await this.loadTextureData(this.prefix + rightUrl);
+      cubeImages[2] = await this.loadTextureData(this.prefix + topUrl);
     } else {
       console.log("Background : Incomplete cubemap");
     }
@@ -131,12 +131,12 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      cubeImages[0] = await this.loadTextureData(this.prefix + backIrradianceUrl);
-      cubeImages[1] = await this.loadTextureData(this.prefix + bottomIrradianceUrl);
-      cubeImages[2] = await this.loadTextureData(this.prefix + frontIrradianceUrl);
-      cubeImages[3] = await this.loadTextureData(this.prefix + leftIrradianceUrl);
-      cubeImages[4] = await this.loadTextureData(this.prefix + rightIrradianceUrl);
-      cubeImages[5] = await this.loadTextureData(this.prefix + topIrradianceUrl);
+      cubeImages[5] = await this.loadTextureData(this.prefix + backIrradianceUrl);
+      cubeImages[3] = await this.loadTextureData(this.prefix + bottomIrradianceUrl);
+      cubeImages[4] = await this.loadTextureData(this.prefix + frontIrradianceUrl);
+      cubeImages[1] = await this.loadTextureData(this.prefix + leftIrradianceUrl);
+      cubeImages[0] = await this.loadTextureData(this.prefix + rightIrradianceUrl);
+      cubeImages[2] = await this.loadTextureData(this.prefix + topIrradianceUrl);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
