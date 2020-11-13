@@ -81,14 +81,14 @@ void wrjs_init_context(int width, int height) {
 }
 
 const char *wrjs_load_hdr_file(int *w, char *url) {
-  int z, h, components;
-  static float data[256 * 256 * 3];
-  float *data2 = stbi_loadf(url, &z, &h, &components, 0);
-  for (int i = 0; i < 256 * 256 * 3; i++) {
-    data[i] = data2[i];
-  }
+  int h, components;
+  float *data = stbi_loadf(url, w, &h, &components, 0);
 
   return reinterpret_cast<const char *>(data);
+}
+
+void wrjs_free_hdr_file(char *pointer) {
+  stbi_image_free(pointer);
 }
 
 #endif

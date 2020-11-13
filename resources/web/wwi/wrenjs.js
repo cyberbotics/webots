@@ -465,7 +465,6 @@ class WbBackground extends WbBaseNode {
     _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
 
     this.applyColourToWren();
-    WbBackground.instance = this;
   }
 
   applyColourToWren() {
@@ -508,6 +507,8 @@ class WbBackground extends WbBaseNode {
   }
 
   applySkyBoxToWren() {
+    console.log("qwer");
+
     this.destroySkyBox();
 
     let hdrImageData = [];
@@ -536,16 +537,21 @@ class WbBackground extends WbBaseNode {
       }
     }
 
-    console.log(this.cubeMapTexture);
     // 2. Load the irradiance map.
-    /*let cm = _wr_texture_cubemap_new();
+    let cm = _wr_texture_cubemap_new();
 
     if(this.irradianceCubeArray.length === 6) {
-      let w = 256;
+      let w = 0;
+      let data = new Uint32Array([w]);
+      let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+      let dataPtr = Module._malloc(nDataBytes);
+      let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+      dataHeap.set(new Uint8Array(data.buffer));
+
       for (let i = 0; i < 6; ++i) {
         _wr_texture_set_internal_format(cm, 9); //enum
-        let wPointer = _wrjs_pointerOnInt(w);
-        let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [wPointer, this.irradianceCubeArray[0]]);
+        let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [dataHeap.byteOffset, this.irradianceCubeArray[0]]);
+        w = Module.getValue(dataHeap.byteOffset,'i32');
         // TODO Check if some rotations are needed for ENU
         _wr_texture_cubemap_set_data(cm, data, i);
         hdrImageData[i] = data;
@@ -559,6 +565,10 @@ class WbBackground extends WbBaseNode {
       this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), w);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
+      if (this.irradianceCubeTexture) {
+        _wr_texture_delete(this.irradianceCubeTexture);
+        this.irradianceCubeTexture = null;
+      }
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.
       if (this.cubeMapTexture) {
@@ -567,15 +577,15 @@ class WbBackground extends WbBaseNode {
       }
     }
 
-    _wr_texture_delete(cm);*/
+    _wr_texture_delete(cm);
 
 
     for(let i = 0; i < hdrImageData.length; ++i)
-      console.log("tofree");//stbi_image_free(hdrImageData.takeFirst());
+      _wrjs_free_hdr_file(hdrImageData[i]);
   }
 }
 
-WbBackground.instance = undefined;
+WbBackground.instance;
 
 class WbGroup extends WbBaseNode{
   constructor(id){
@@ -1051,7 +1061,6 @@ class WbImageTexture extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
-
     this.wrenTextureIndex = mainTextureIndex;
     _wr_material_set_texture(wrenMaterial, this.wrenTexture, this.wrenTextureIndex);
     if (this.wrenTexture) {
@@ -1235,15 +1244,14 @@ class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.metalnessMap !== 'undefined')
       this.metalnessMap.modifyWrenMaterial(wrenMaterial, 2, 7);
 
-
+    console.log("asd");
     let background = WbBackground.instance;
     let backgroundLuminosity = 1.0;
     if (typeof background !== 'undefined') {
       backgroundLuminosity = background.luminosity;
 
       // irradiance map
-      let irradianceCubeTexture = this.cubeMapTexture;
-      console.log(irradianceCubeTexture);
+      let irradianceCubeTexture = background.irradianceCubeTexture;
       if (typeof irradianceCubeTexture !== 'undefined') {
         _wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
         _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, 0x812F, 0); //enum
@@ -1865,6 +1873,7 @@ class WrenRenderer {
 
     render() {
       try {
+        console.log("render");
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {

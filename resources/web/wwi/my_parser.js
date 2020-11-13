@@ -22,7 +22,7 @@ class MyParser {
     } else {
       this.parseNode(scene).then(() => {
         _wr_scene_render(_wr_scene_get_instance(), null, true);
-        console.log("File Parsed => render");
+        console.log("File Parsed => rendder");
       });
     }
   }
@@ -31,8 +31,8 @@ class MyParser {
     let result;
     if(node.tagName === 'Scene') {
       let id = getNodeAttribute(node, 'id');
-      result = new WbScene(id);
-      await this.parseChildren(node, currentNode);
+      new WbScene(id);
+      result = await this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -40,7 +40,7 @@ class MyParser {
     else if (node.tagName === 'Background')
       await this.parseBackground(node);
     else if (node.tagName === 'Transform')
-      this.parseTransform(node, currentNode);
+      await this.parseTransform(node, currentNode);
     else if (node.tagName === 'Shape')
       await this.parseShape(node, currentNode);
 
@@ -144,6 +144,7 @@ class MyParser {
     let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     background.createWrenObjects();
     background.applySkyBoxToWren();
+    WbBackground.instance = background;
     return background;
   }
 
