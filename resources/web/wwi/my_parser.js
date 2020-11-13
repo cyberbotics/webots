@@ -356,7 +356,6 @@ class MyParser {
         url = this.prefix+url
       }else {
         url = url.split(/webots/)[1];
-        console.log(url);
       }
       let image = await this.loadTextureData(url);
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);

@@ -116,7 +116,6 @@ class WbViewpoint extends WbBaseNode {
 
     _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.0, 0.0, 0.0));
     this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
-
     this.applyPositionToWren();
     this.applyOrientationToWren();
     this.applyNearToWren();
@@ -507,8 +506,6 @@ class WbBackground extends WbBaseNode {
   }
 
   applySkyBoxToWren() {
-    console.log("qwer");
-
     this.destroySkyBox();
 
     let hdrImageData = [];
@@ -1244,7 +1241,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.metalnessMap !== 'undefined')
       this.metalnessMap.modifyWrenMaterial(wrenMaterial, 2, 7);
 
-    console.log("asd");
     let background = WbBackground.instance;
     let backgroundLuminosity = 1.0;
     if (typeof background !== 'undefined') {
