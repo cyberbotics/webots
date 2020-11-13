@@ -121,7 +121,7 @@ class MyParser {
     let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
     let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
 
-    let irradianceCubeImages = [];
+    let irradianceCubeURL = [];
     if(typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined'){
       console.log("load irradianceCubeImages");
       backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length-1);
@@ -131,17 +131,17 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      cubeImages[5] = await this.loadTextureData(this.prefix + backIrradianceUrl);
-      cubeImages[3] = await this.loadTextureData(this.prefix + bottomIrradianceUrl);
-      cubeImages[4] = await this.loadTextureData(this.prefix + frontIrradianceUrl);
-      cubeImages[1] = await this.loadTextureData(this.prefix + leftIrradianceUrl);
-      cubeImages[0] = await this.loadTextureData(this.prefix + rightIrradianceUrl);
-      cubeImages[2] = await this.loadTextureData(this.prefix + topIrradianceUrl);
+      irradianceCubeURL[5] = this.prefix + backIrradianceUrl;
+      irradianceCubeURL[3] = this.prefix + bottomIrradianceUrl;
+      irradianceCubeURL[4] = this.prefix + frontIrradianceUrl;
+      irradianceCubeURL[1] = this.prefix + leftIrradianceUrl;
+      irradianceCubeURL[0] = this.prefix + rightIrradianceUrl;
+      irradianceCubeURL[2] = this.prefix + topIrradianceUrl;
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
 
-    let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeImages);
+    let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     background.createWrenObjects();
     background.applySkyBoxToWren();
     return background;

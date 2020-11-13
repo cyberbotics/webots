@@ -50,6 +50,8 @@
 #define STB_IMAGE_IMPLEMENTATION  // needed for include to work properly
 #include <stb_image.h>
 
+#include <iostream>
+
 QList<WbBackground *> WbBackground::cBackgroundList;
 
 static const QString gDirections[6] = {"right", "left", "top", "bottom", "front", "back"};
@@ -398,9 +400,9 @@ void WbBackground::applySkyBoxToWren() {
       QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[gCoordinateSystemSwap(i)]->item(0), false);
       if (url.isEmpty())
         throw QString();
-
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
       float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
+
       const int rotate = gCoordinateSystemRotate(i);
       // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
       if (rotate != 0) {

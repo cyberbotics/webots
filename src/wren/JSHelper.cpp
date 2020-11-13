@@ -19,7 +19,12 @@
 #include <GLES3/gl3.h>
 #include <emscripten/html5.h>
 
+#define STB_IMAGE_IMPLEMENTATION  // needed for include to work properly
+#include <stb_image.h>
+
+#include <unistd.h>
 #include <iostream>
+
 float *wrjs_color_array(float r, float g, float b) {
   static float array[3];
   array[0] = r;
@@ -42,6 +47,11 @@ float *wrjs_array4(float element0, float element1, float element2, float element
 char *wrjs_pointerOnFloat(float nbr) {
   static float number = nbr;
   return reinterpret_cast<char *>(&number);
+}
+
+int *wrjs_pointerOnInt(int nbr) {
+  static int number = nbr;
+  return reinterpret_cast<int *>(&number);
 }
 
 char *wrjs_dummy_texture() {
@@ -68,6 +78,17 @@ void wrjs_init_context(int width, int height) {
   emscripten_set_canvas_element_size("#canvas", width, height);
 
   emscripten_webgl_make_context_current(ctx);
+}
+
+const char *wrjs_load_hdr_file(int *w, char *url) {
+  int z, h, components;
+  static float data[256 * 256 * 3];
+  float *data2 = stbi_loadf(url, &z, &h, &components, 0);
+  for (int i = 0; i < 256 * 256 * 3; i++) {
+    data[i] = data2[i];
+  }
+
+  return reinterpret_cast<const char *>(data);
 }
 
 #endif
