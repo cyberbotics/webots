@@ -299,11 +299,6 @@ void wr_viewport_set_clear_color_rgba(WrViewport *viewport, const float *color) 
   reinterpret_cast<wren::Viewport *>(viewport)->setClearColor(glm::make_vec4(color));
 }
 
-void wr_viewport_set_clear_color_rgb2(WrViewport *viewport, float r, float g, float b) {
-  glm::vec4 clearColor(glm::vec3(r, g, b), 1.0);
-  reinterpret_cast<wren::Viewport *>(viewport)->setClearColor(clearColor);
-}
-
 void wr_viewport_set_polygon_mode(WrViewport *viewport, WrViewportPolygonMode mode) {
   reinterpret_cast<wren::Viewport *>(viewport)->setPolygonMode(mode);
 }
