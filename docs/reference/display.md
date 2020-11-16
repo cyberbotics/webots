@@ -735,7 +735,7 @@ After this call the value of `ir` becomes invalid and should not be used any mor
 Using this function is recommended after a clipboard image is not needed any more.
 
 The following controller snippet shows how to copy a [Camera](camera.md) image to the main display image.
-This is particularly useful if you need to process the [Camera](camera.md) image before copying it to the main display image, otherwise please use the [`wb_display_attach_camera`](#wb_display_attach_camera) function that provides better performance.
+This is particularly useful if you need to modify the [Camera](camera.md) image before copying it to the main display image, otherwise you should use the [`wb_display_attach_camera`](#wb_display_attach_camera) function that provides a better performance.
 
 %tab-component "language"
 %tab "C"
