@@ -815,9 +815,9 @@ height = camera.getHeight()
 display = robot.getDisplay('display');
 
 while robot.step(32) != -1:
-    data = camera.getImageArray()
+    data = camera.getImage()
     if data:
-        ir = display.imageNew(data, Display.RGB, width, height)
+        ir = display.imageNew(data, Display.ARGB, width, height)
         display.imagePaste(ir, 0, 0, False)
         display.imageDelete(ir)
 ```
