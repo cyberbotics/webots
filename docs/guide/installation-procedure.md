@@ -283,6 +283,11 @@ open ~/Applications/Webots.app    # to launch Webots using the open command
 ~/Applications/Webots.app/webots  # to launch Webots directly
 ```
 
+Finally, you can launch Webots typing any of these instructions:
+    ```bash  
+    open ~/Applications/Webots.app    # to launch Webots using the open command
+    ~/Applications/Webots.app/webots  # to launch Webots directly
+    ```
 Alternatively, you can double-click on the Webots icon to launch it.
 
 To install Webots for any user, copy the Webots app to the system `/Applications` folder (administrator privileges required).
