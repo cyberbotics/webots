@@ -269,7 +269,6 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper.
 To proceed, open the Terminal and type the following instructions to download and mount the Webots disk image:
-
 ```bash
 curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg
 open webots-{{ webots.version.package }}.dmg
@@ -280,13 +279,15 @@ To install Webots only for the current user, without administrator privileges, p
 mkdir ~/Applications
 cp -r /Volumes/Webots/Webots.app ~/Applications
 ```
+
 To install Webots for any user, copy the Webots app to the system `/Applications` folder instead (administrator privileges required).
 
 Finally, you can launch Webots typing any of these instructions:
-    ```bash  
-    open ~/Applications/Webots.app    # to launch Webots using the open command
-    ~/Applications/Webots.app/webots  # to launch Webots directly
-    ```
+```bash
+open ~/Applications/Webots.app    # to launch Webots using the open command
+~/Applications/Webots.app/webots  # to launch Webots directly
+```
+
 Alternatively, you can double-click on the Webots icon to launch it.
 
 
