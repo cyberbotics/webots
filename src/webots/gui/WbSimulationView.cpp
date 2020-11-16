@@ -154,6 +154,9 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   assert(mainWindow);
   WbVideoRecorder::setMainWindow(mainWindow);
   mWasMinimized = false;
+
+  const QSize *fixSize = new QSize(800, 600);
+  WbSimulationView::enableView3DFixedSize(*fixSize);
 }
 
 WbSimulationView::~WbSimulationView() {
