@@ -779,7 +779,7 @@ using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
-  int timeStep = robot->getBasicTimeStep();
+  const int timeStep = robot->getBasicTimeStep();
 
   Camera *camera = robot->getCamera("camera");
   camera->enable(timeStep);
