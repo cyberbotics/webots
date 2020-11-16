@@ -267,12 +267,25 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 #### From the Installation File
 
-It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper:
+It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper.
+To proceed, open a Terminal app and type the following:
 
-1. Open a Terminal app.
-2. Type `curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg`.
-3. From the Finder, locate the downloaded DMG file, double-click on it. This will mount on the desktop a volume named `Webots` containing the `Webots` application.
-4. Move this application to your home `~/Applications` folder or to your system `/Application` folder (administrator privileges required).
+```bash
+curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg
+open webots-{{ webots.version.package }}.dmg
+```
+
+To install Webots only for the current user, without administrator privileges, proceed with:
+```bash
+mkdir ~/Applications
+cp -r /Volumes/Webots/Webots.app ~/Applications
+open ~/Applications/Webots.app    # to launch Webots using the open command
+~/Applications/Webots.app/webots  # to launch Webots directly
+```
+
+Alternatively, you can double-click on the Webots icon to launch it.
+
+To install Webots for any user, copy the Webots app to the system `/Applications` folder (administrator privileges required).
 
 #### From the Homebrew Package
 
