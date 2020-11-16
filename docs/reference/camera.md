@@ -182,6 +182,7 @@ Similarly, let `vFov` be the vertical field of view (defined just above), and `p
 The camera image is shown by default on top of the 3D window with a magenta border, see [this figure](#camera-overlay-image).
 The user can move this camera image at the desired position using the mouse drag and drop and resize it by clicking on the icon at the bottom right corner.
 Additionally a close button is available on the top right corner to hide the image.
+If the mouse cursor is over the overlay image and the simulation is paused, the RGB value of the selected pixel is displayed in the status bar at the Webots window bottom.
 Once the robot is selected, it is also possible to show or hide the overlay images from the `Camera Devices` item in `Robot` menu.
 
 It is also possible to show the camera image in an external window by double-clicking on it.
