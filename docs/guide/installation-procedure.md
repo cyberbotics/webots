@@ -272,7 +272,7 @@ It is better to download Webots using `curl` so that it doesn't get tagged as "d
 1. Open a Terminal app.
 2. Type `curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg`.
 3. From the Finder, locate the downloaded DMG file, double-click on it. This will mount on the desktop a volume named `Webots` containing the `Webots` application.
-4. Move this application to your home `~/Applications` folder or to your system `/Application` folder (administrator priviliges required).
+4. Move this application to your home `~/Applications` folder or to your system `/Application` folder (administrator privileges required).
 
 #### From the Homebrew Package
 
