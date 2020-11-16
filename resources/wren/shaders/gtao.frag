@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 // This shader does the heavy lifting for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtao.frag
@@ -37,7 +39,7 @@ float GTAOFastSqrt(float x) {
 float GTAOFastAcos(float x) {
   float res = -0.156583 * abs(x) + PI_HALF;
   res *= GTAOFastSqrt(1.0 - abs(x));
-  return x >= 0 ? res : PI - res;
+  return x >= 0.0 ? res : PI - res;
 }
 
 vec4 getViewSpacePosition(vec2 pixelLocation, mat4 inverseProjectionMatrix) {
@@ -46,8 +48,8 @@ vec4 getViewSpacePosition(vec2 pixelLocation, mat4 inverseProjectionMatrix) {
   if (z == 1.0)
     return vec4(0.0);
   // Get x/w and y/w from the viewport position
-  float x = pixelLocation.x * 2 - 1;
-  float y = pixelLocation.y * 2 - 1;
+  float x = pixelLocation.x * 2.0 - 1.0;
+  float y = pixelLocation.y * 2.0 - 1.0;
   vec4 projectedPosition = vec4(x, y, z, 1.0f);
   // Transform by the inverse projection matrix
   vec4 vPositionVS = inverseProjectionMatrix * projectedPosition;
@@ -85,7 +87,7 @@ void searchForHorizons(inout vec2 horizons, vec2 offset, vec3 viewVector, vec4 v
   if (sampleViewspacePosition != vec4(0.0)) {
     sliceSampleToOrigin = sampleViewspacePosition.xyz - viewSpacePosition.xyz;
 
-    squaredSampleDistance = pow(length(sliceSampleToOrigin), 2);
+    squaredSampleDistance = pow(length(sliceSampleToOrigin), 2.0);
     inverseSquaredSampleDistance = inversesqrt(squaredSampleDistance);
     horizonCosine = inverseSquaredSampleDistance * dot(sliceSampleToOrigin, viewVector);
 
@@ -100,13 +102,13 @@ float integrateArc(vec2 horizons, float cosN, float sinN2, float projectedNormal
 }
 
 void main() {
-  vec3 viewSpaceNormal = textureLod(inputTextures[1], texUv, 0).rgb;
+  vec3 viewSpaceNormal = textureLod(inputTextures[1], texUv, 0.0).rgb;
 
   mat4 inverseProjectionMatrix = inverse(cameraTransforms.projection);
 
   // first, retrieve view-space position and normals
   vec4 viewSpacePosition = getViewSpacePosition(texUv, inverseProjectionMatrix);
-  if (viewSpaceNormal == vec3(0.0) || viewSpacePosition.z > 200) {
+  if (viewSpaceNormal == vec3(0.0) || viewSpacePosition.z > 200.0) {
     // discard any fragments from the background or those which don't have a normal
     fragColor = 1.0;
     return;
@@ -135,7 +137,7 @@ void main() {
   vec2 horizons = vec2(-1.0, -1.0);
 
   vec2 offset;
-  for (int j = 0; j < params.z; ++j) {
+  for (int j = 0; j < int(params.z); ++j) {
     offset = round(searchDirection.xy * currentStep);
     currentStep += stepsize;
 
@@ -161,7 +163,7 @@ void main() {
   horizons.y = n + min(horizons.y - n, PI_HALF);
 
   // distance filter - accept all values until 100m, then ramp down to 0 contrib at 200m
-  float distanceFalloff = (max(min(0.01 * (200 - viewSpacePosition.z), 1.0), 0.0));
+  float distanceFalloff = (max(min(0.01 * (200.0 - viewSpacePosition.z), 1.0), 0.0));
 
   fragColor = 1.0 - ((1.0 - integrateArc(horizons, cosN, sinN2, projectedNormalLength, n)) * distanceFalloff);
 }

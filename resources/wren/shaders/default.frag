@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 const int mainTextureIndex = 0;
 const int penTextureIndex = 1;
