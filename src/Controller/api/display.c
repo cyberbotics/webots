@@ -748,7 +748,7 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
     const int s = width * height;
     unsigned char *img = (unsigned char *)data;
     for (j = 0; j < s; j++)
-      ((uint32_t *)i->image)[j] = img[j * 4] << 24 | img[j * 4 + 1] << 16 | img[j * 4 + 2] << 8 | img[j * 4 + 3];
+      ((uint32_t *)i->image)[j] = img[j * 4 + 3] << 24 | img[j * 4 + 2] << 16 | img[j * 4 + 1] << 8 | img[j * 4];
   }
 
   im->id = d->image_next_free_id;
