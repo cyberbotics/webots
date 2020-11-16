@@ -207,7 +207,7 @@ class WbViewpoint extends WbBaseNode {
       this.wrenHdr.setup(this.wrenViewport);
       this.updateExposure();
     }
-    
+
     if (this.wrenGtao) {
       console.log("here we gouch");
       //TODO
@@ -1741,7 +1741,7 @@ class WbWrenPostProcessingEffects {
     console.log("TODO");
   }
 
-  /*static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
+  static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
     let gtaoEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(gtaoEffect, 0);//enum
 
@@ -1792,21 +1792,21 @@ class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_output_size(gtaoForwardPass, width / 2, height / 2);
     else {
       _wr_post_processing_effect_pass_set_output_size(gtaoForwardPass, width, height);
-      _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 0, WR_TEXTURE(depthTexture));
-      _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 1, WR_TEXTURE(normalTexture));
+      _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 0, depthTexture);
+      _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 1, normalTexture);
     }
 
-    _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, WR_TEXTURE(gtaoNoiseTexture));
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, gtaoNoiseTexture);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);//enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);//enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);//enum
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 2, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(gtaoForwardPass, true);
     _wr_post_processing_effect_pass_set_alpha_blending(gtaoForwardPass, false);
     _wr_post_processing_effect_pass_set_output_texture_count(gtaoForwardPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, WR_TEXTURE_INTERNAL_FORMAT_RED);//enum
     _wr_post_processing_effect_append_pass(gtaoEffect, gtaoForwardPass);
 
     WrPostProcessingEffectPass *spatialDenoise = _wr_post_processing_effect_pass_new();
@@ -1890,7 +1890,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_set_result_program(gtaoEffect, WbWrenShaders.passThroughShader());
 
     return gtaoEffect;
-  }*/
+  }
 }
 
 //WbWrenPostProcessingEffects static variable
