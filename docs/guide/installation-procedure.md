@@ -282,6 +282,7 @@ cp -r /Volumes/Webots/Webots.app ~/Applications
 open ~/Applications/Webots.app    # to launch Webots using the open command
 ~/Applications/Webots.app/webots  # to launch Webots directly
 ```
+To install Webots for any user, copy the Webots app to the system `/Applications` folder instead (administrator privileges required).
 
 Finally, you can launch Webots typing any of these instructions:
     ```bash  
