@@ -55,6 +55,7 @@ For example, in order to draw two red lines, the `wb_display_set_color` contextu
 The display image is shown by default on top of the 3D window with a cyan border, see [this figure](#display-overlay-image).
 The user can move this display image at the desired position using the mouse drag and drop and resize it by clicking on the icon at the bottom right corner.
 Additionally a close button is available on the top right corner to hide the image.
+If the mouse cursor is over the overlay image and the simulation is paused, the RGBA value of the selected pixel is displayed in the status bar at the Webots window bottom.
 Once the robot is selected, it is also possible to show or hide the overlay image from the `Display Devices` item in `Robot` menu.
 
 It is also possible to show the display image in an external window by double-clicking on it.
