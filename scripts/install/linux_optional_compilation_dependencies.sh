@@ -9,13 +9,13 @@ fi
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt install --yes lsb-release curl python3.5-dev python3.6-dev python3.7-dev python3.8-dev python3.9-dev
+apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr
 curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "16.04" ]]; then
-       apt install --yes openjdk-8-jdk
+       apt install --yes openjdk-8-jdk python3.5-dev
        export ROS_DISTRO=kinetic
 elif [[ $UBUNTU_VERSION == "18.04" ]]; then
        apt install --yes openjdk-11-jdk
