@@ -4,7 +4,7 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## April
 
-##### Thelm76 04/25/2019 10:34:24
+##### Thelm 04/25/2019 10:34:24
 Hi, I don't know if this is the good place to post this, tell me if I'm wrong.
 
 I'm actually trying to implement a full support for the e-puck's missing sensors in webots (especially for V2). 
