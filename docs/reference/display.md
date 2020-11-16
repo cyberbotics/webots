@@ -747,7 +747,7 @@ This is particularly useful if you need to process the [Camera](camera.md) image
 int main() {
   wb_robot_init();
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
   WbDeviceTag camera = wb_robot_get_device("camera");
   wb_camera_enable(camera, time_step);
   const int width = wb_camera_get_width(camera);
