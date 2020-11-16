@@ -125,7 +125,7 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
     return NULL;
 #else
-    return NULL;  // return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
+    return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
 #endif
   }
   void Scene::unMapPixelBuffer() { glUnmapBuffer(GL_PIXEL_PACK_BUFFER); }

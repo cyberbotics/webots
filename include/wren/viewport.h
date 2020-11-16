@@ -1,8 +1,6 @@
 #ifndef WR_VIEWPORT_H
 #define WR_VIEWPORT_H
 
-#include <stdarg.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -33,7 +31,6 @@ void wr_viewport_delete(WrViewport *viewport);
 
 /* Expects a 3-component array */
 void wr_viewport_set_clear_color_rgb(WrViewport *viewport, const float *color);
-void wr_viewport_set_clear_color_rgb2(WrViewport *viewport, float r, float g, float);
 
 /* Expects a 4-component array */
 void wr_viewport_set_clear_color_rgba(WrViewport *viewport, const float *color);

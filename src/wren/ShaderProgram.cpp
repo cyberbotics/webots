@@ -115,6 +115,7 @@ namespace wren {
       mCompilationLog.assign(log);
       glDeleteShader(shaderGlName);
       shaderGlName = 0;
+      std::cout << log << '\n';
     }
 
     return shaderGlName;

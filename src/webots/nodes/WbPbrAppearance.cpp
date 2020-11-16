@@ -35,8 +35,6 @@
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
 
-#include <iostream>
-
 static WrTextureRtt *cBrdfTexture = NULL;
 static int cInstanceCounter = 0;
 
@@ -111,7 +109,6 @@ void WbPbrAppearance::preFinalize() {
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
     const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-    std::cout << quality << '\n';
     const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
     cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();

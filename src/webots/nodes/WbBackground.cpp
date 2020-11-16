@@ -50,8 +50,6 @@
 #define STB_IMAGE_IMPLEMENTATION  // needed for include to work properly
 #include <stb_image.h>
 
-#include <iostream>
-
 QList<WbBackground *> WbBackground::cBackgroundList;
 
 static const QString gDirections[6] = {"right", "left", "top", "bottom", "front", "back"};
