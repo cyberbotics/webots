@@ -36,11 +36,11 @@ void main() {
   // Main texture
   if (material.textureFlags.x > 0.0) {
     vec4 mainColor = texture(inputTextures[mainTextureIndex], texUv);
-#ifdef __EMSCRIPTEN__
-    fragColor = vec4(mix(fragColor.zyx, mainColor.zyx, mainColor.w), fragColor.w + mainColor.w);
-#else
+//#ifdef __EMSCRIPTEN__
+//    fragColor = vec4(mix(fragColor.zyx, mainColor.zyx, mainColor.w), fragColor.w + mainColor.w);
+//#else
     fragColor = vec4(mix(fragColor.xyz, mainColor.xyz, mainColor.w), fragColor.w + mainColor.w);
-#endif
+//#endif
   }
 
   // Pen texture
