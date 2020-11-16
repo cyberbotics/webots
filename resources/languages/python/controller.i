@@ -383,7 +383,7 @@ class AnsiCodes(object):
 //  Display
 //----------------------------------------------------------------------------------------------
 
-%typemap(in) const void * {
+%typemap(in) const void *(bool need_to_delete) {
   if (!PyList_Check($input) && !PyString_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "expected 'PyList' or 'PyString'\n");
     return NULL;
@@ -403,21 +403,20 @@ class AnsiCodes(object):
     }
     int len3 = PyList_Size(l3);
     $1 = (void *)malloc(len1 * len2 * len3 * sizeof(unsigned char));
+    need_to_delete = true;
     for (int i = 0; i < len1; ++i)
       for (int j = 0; j < len2; ++j)
         for (int k = 0; k < len3; ++k)
           ((unsigned char *)$1)[(j * len1 * len3) + (i * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
   } else { // PyString case
-    const char* s = PyString_AsString($input);
-    // allocate the string in a new variable so that the free defined in the typemap(freearg) applies to a valid pointer
-    char* p = (char *)malloc(PyString_Size($input) * sizeof(unsigned char));
-    strcpy(p, s);
-    $1 = (void *)p;
+    $1 = PyString_AsString($input);
+    need_to_delete = false;
   }
 }
 
 %typemap(freearg) const void * {
-  free($1);
+  if (need_to_delete$argnum)
+    free($1);
 }
 
 %rename (__internalImageNew) imageNew(int width, int height, const void *data, int format) const;
