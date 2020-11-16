@@ -290,7 +290,6 @@ Finally, you can launch Webots typing any of these instructions:
     ```
 Alternatively, you can double-click on the Webots icon to launch it.
 
-To install Webots for any user, copy the Webots app to the system `/Applications` folder (administrator privileges required).
 
 #### From the Homebrew Package
 
