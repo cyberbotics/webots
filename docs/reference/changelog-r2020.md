@@ -7,6 +7,7 @@ Released on XXX YYY, 2020.
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved [Solid](solid.md).`recognitionColors` value for the [BiscuitBox](../guide/object-kitchen.md#biscuitbox) PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
   - Bug fixes
+    - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [wb_display_image_new](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
     - macOS: Fixed ability to inverse the distance sensor condition in BotStudio with the e-puck robot ([#2391](https://github.com/cyberbotics/webots/pull/2391)).
     - Fixed crash in the [Supervisor](supervisor.md) API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).
