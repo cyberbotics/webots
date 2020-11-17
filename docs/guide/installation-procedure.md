@@ -248,8 +248,7 @@ webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.
 
-
-### Windows SmartScreen
+#### Windows SmartScreen
 
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
