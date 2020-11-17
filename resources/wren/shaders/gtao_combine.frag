@@ -24,11 +24,11 @@ vec3 MultiBounce(float ao, vec3 albedo) {
 }
 
 void main() {
-  vec4 base = textureLod(inputTextures[0], texUv, 0);
-  vec2 aoOut = textureLod(inputTextures[1], texUv, 0).rg;
+  vec4 base = textureLod(inputTextures[0], texUv, 0.0);
+  vec2 aoOut = textureLod(inputTextures[1], texUv, 0.0).rg;
   float ao = aoOut.r;
 
-  fragDepth = textureLod(inputTextures[2], texUv, 0).x;
+  fragDepth = textureLod(inputTextures[2], texUv, 0.0).x;
 
   if (ao >= 1.0 || fragDepth == 1.0)
     fragColor = base;

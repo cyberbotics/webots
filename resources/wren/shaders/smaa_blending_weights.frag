@@ -27,11 +27,11 @@ in vec2 vPixcoord;
 
 layout(location = 0) out vec4 result;
 
-vec2 round(vec2 x) {
+vec2 my_round(vec2 x) {
   return sign(x) * floor(abs(x) + 0.5);
 }
 
-vec4 round(vec4 x) {
+vec4 my_round(vec4 x) {
   return sign(x) * floor(abs(x) + 0.5);
 }
 
@@ -102,14 +102,14 @@ vec2 SMAADecodeDiagBilinearAccess(vec2 e) {
   //   Green: (0.75 * 1 + 0.25 * X) => 0.75 or 1.0
   //
   // This function will unpack the values (mad + mul + round):
-  // wolframalpha.com: round(x * abs(5 * x - 5 * 0.75)) plot 0 to 1
+  // wolframalpha.com: my_round(x * abs(5 * x - 5 * 0.75)) plot 0 to 1
   e.r = e.r * abs(5.0 * e.r - 5.0 * 0.75);
-  return round(e);
+  return my_round(e);
 }
 
 vec4 SMAADecodeDiagBilinearAccess(vec4 e) {
   e.rb = e.rb * abs(5.0 * e.rb - 5.0 * 0.75);
-  return round(e);
+  return my_round(e);
 }
 
 /**
@@ -151,7 +151,7 @@ vec2 SMAASearchDiag2(sampler2D edgesTex, vec2 texcoord, vec2 dir, out vec2 e) {
  * Similar to SMAAArea, this calculates the area corresponding to a certain
  * diagonal distance and crossing edges 'e'.
  */
-vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
+vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, int offset) {
   vec2 texcoord = mad(vec2(SMAA_AREATEX_MAX_DISTANCE_DIAG, SMAA_AREATEX_MAX_DISTANCE_DIAG), e, dist);
 
   // We do a scale and bias for mapping to texel space:
@@ -161,7 +161,7 @@ vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
   texcoord.x += 0.5;
 
   // Move to proper place, according to the subpixel offset:
-  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * offset;
+  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * float(offset);
 
   // Do it!
   return SMAA_AREATEX_SELECT(SMAASampleLevelZero(areaTex, texcoord));
@@ -170,7 +170,7 @@ vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
 /**
  * This searches for diagonal patterns and returns the corresponding weights.
  */
-vec2 SMAACalculateDiagWeights(sampler2D edgesTex, sampler2D areaTex, vec2 texcoord, vec2 e, vec4 subsampleIndices) {
+vec2 SMAACalculateDiagWeights(sampler2D edgesTex, sampler2D areaTex, vec2 texcoord, vec2 e, ivec4 subsampleIndices) {
   vec2 weights = vec2(0.0, 0.0);
 
   // Search for the line ends:
@@ -331,7 +331,7 @@ float SMAASearchYDown(sampler2D edgesTex, sampler2D searchTex, vec2 texcoord, fl
 
 vec2 SMAAArea(sampler2D areaTex, vec2 dist, float e1, float e2, float offset) {
   // Rounding prevents precision errors of bilinear filtering:
-  vec2 texcoord = float(SMAA_AREATEX_MAX_DISTANCE) * round(4.0 * vec2(e1, e2)) + dist;
+  vec2 texcoord = float(SMAA_AREATEX_MAX_DISTANCE) * my_round(4.0 * vec2(e1, e2)) + dist;
 
   // We do a scale and bias for mapping to texel space:
   texcoord = SMAA_AREATEX_PIXEL_SIZE * texcoord + (0.5 * SMAA_AREATEX_PIXEL_SIZE);
