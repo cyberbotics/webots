@@ -93,5 +93,4 @@ void main() {
   }
 
   fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientColor, material.emissiveAndOpacity.w);
- 
 }

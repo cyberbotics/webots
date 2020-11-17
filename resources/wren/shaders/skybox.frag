@@ -1,7 +1,6 @@
 #version 300 es
 
 precision highp float;
-
 #define GAMMA 2.0
 
 layout(location = 0) out vec4 fragColor;

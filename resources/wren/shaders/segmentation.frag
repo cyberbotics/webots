@@ -2,14 +2,7 @@
 
 precision highp float;
 
-in vec2 texUv;
-in float depth;
-
 out vec4 fragColor;
-
-uniform sampler2D inputTextures[1];
-
-const int mainTextureIndex = 0;
 
 // Material parameters for this renderable
 layout(std140) uniform PhongMaterial {
@@ -22,9 +15,5 @@ layout(std140) uniform PhongMaterial {
 material;
 
 void main() {
-  vec4 texColor = vec4(1.0f);
-  if (material.textureFlags.x > 0.0f)
-    texColor = texture(inputTextures[mainTextureIndex], texUv);
-
-  fragColor = texColor * material.ambient;
+  fragColor = material.diffuse;
 }

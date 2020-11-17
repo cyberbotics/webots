@@ -2,7 +2,6 @@
 
 precision highp float;
 
-
 // This shader does the spatial filtering for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaospatialdenoise.frag
 

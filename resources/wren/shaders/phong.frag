@@ -216,9 +216,10 @@ void main() {
     } else
       diffuseTotal *= material.diffuse.xyz;
   }
+
   fragColor = texColor * vec4(material.emissiveAndOpacity.xyz + ambientTotal + diffuseTotal + specularTotal,
                               material.emissiveAndOpacity.w);
-  
+
   if (fog.mode.x > 0.0) {
     float fogDensity = fog.params.x;
     float fogDensity2 = fog.params.y;

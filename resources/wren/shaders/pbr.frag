@@ -2,7 +2,6 @@
 
 precision highp float;
 
-
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
 const int maxPointLights = 256;
