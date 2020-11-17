@@ -17,18 +17,16 @@
 import os
 from pyclibrary import CParser
 
+
 listheaders = os.listdir("../../include/wren/")
 buggyheaders = {"config.h", "drawable_texture.h", "file_import.h", "font.h", "overlay.h"}
 listheaders = ["../../include/wren/" + header for header in listheaders if header[len(header)-2:len(header)] == '.h' and not(header in buggyheaders)]
 
-print(listheaders)
 parser = CParser(listheaders)
 
 parser.process_all()
 
-#parser.print_all()
-
-all_values = parser.defs['values']
+#FUNCTIONS
 functionSignatures = parser.defs['functions']
 functionName = functionSignatures.keys()
 functionName = map(lambda name : "_"+ name + ", ", functionName)
@@ -45,4 +43,20 @@ functionName[lastIndex] = lastName;
 f = open("../../src/wren/functionsToExport.txt", 'x')
 
 f.write(''.join(functionName));
+
+#ENUM
+
+all_values = parser.defs['values']
+#Eliminate the #ifdef value
+all_values = [value for value in all_values if ("_H" in value)]
+print(all_values);
+
+if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
+  os.remove("../../resources/web/streaming_viewer/enum.js")
+  
+f = open("../../resources/web/streaming_viewer/enum.js", 'x')
+
+f.write(''.join(all_values));
+
+
 
