@@ -51,7 +51,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     };
 
     this.selector = new Selector();
-    this.selector.onSelectionChange = () => { this.render(); };
+    this.selector.onSelectionChange = () => {
+      this.render(); };
 
     /*
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});

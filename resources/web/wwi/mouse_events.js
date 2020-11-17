@@ -37,7 +37,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseDown(event) {
-    console.log("bl");
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
@@ -68,6 +67,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseMove(event) {
+    console.log("move");
+
     if (!this.enableNavigation && event.button === 0) {
       if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);

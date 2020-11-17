@@ -1,8 +1,6 @@
 #ifndef WR_JSHELPER_H
 #define WR_JSHELPER_H
 
-#ifdef __EMSCRIPTEN__
-
 #include <stdarg.h>
 
 #ifdef __cplusplus
@@ -21,8 +19,6 @@ const char *wrjs_load_hdr_file(int *w, char *url);
 void wrjs_free_hdr_file(char *pointer);
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 #endif  // WR_VIEWPORT_H

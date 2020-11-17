@@ -238,6 +238,7 @@ class WbViewpoint extends WbBaseNode {
 WbViewpoint.DEFAULT_FAR = 1000000.0;
 //TODO: remove this global value once we have a scenetree;
 WbViewpoint.exposure = 1;
+
 class WbWrenAbstractPostProcessingEffect {
   constructor() {
     this.wrenPostProcessingEffect = undefined;
