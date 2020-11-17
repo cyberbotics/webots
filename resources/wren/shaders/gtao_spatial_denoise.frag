@@ -24,8 +24,8 @@ vec4 getViewSpacePosition(vec2 pixelLocation) {
   if (z == 1.0)
     return vec4(0.0);
   // Get x/w and y/w from the viewport position
-  float x = pixelLocation.x * 2 - 1;
-  float y = pixelLocation.y * 2 - 1;
+  float x = pixelLocation.x * 2.0 - 1.0;
+  float y = pixelLocation.y * 2.0 - 1.0;
   vec4 projectedPosition = vec4(x, y, z, 1.0f);
   // Transform by the inverse projection matrix
   vec4 vPositionVS = inverse(cameraTransforms.projection) * projectedPosition;
@@ -39,11 +39,11 @@ float gatherWeightedFragment(inout float totalweight, vec2 fragCoord, float refe
   if (sampleViewSpacePosition.w == 0.0)
     return 0.0;
 
-  float ao = textureLod(inputTextures[0], fragCoord / texSize, 0).r;
+  float ao = textureLod(inputTextures[0], fragCoord / texSize, 0.0).r;
   float sampleDepth = sampleViewSpacePosition.z;
 
   float relativeDepth = abs(sampleDepth - referenceDepth) / (referenceDepth * 0.1);
-  float w = max(0.0, 0.1 - relativeDepth) * 30;
+  float w = max(0.0, 0.1 - relativeDepth) * 30.0;
 
   totalweight += w;
 
@@ -57,7 +57,7 @@ void main() {
     return;
   }
 
-  vec2 realTextureSize = textureSize(inputTextures[0], 0);
+  vec2 realTextureSize = vec2(textureSize(inputTextures[0], 0));
   vec2 center = (texUv * realTextureSize) - 2.0;
   ivec2 loc = ivec2(center);
 
