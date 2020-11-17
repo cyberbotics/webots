@@ -439,7 +439,7 @@ Device *Robot::getDevice(int tag) {
   if (tag == 0)
     return NULL;
 
-  int size = deviceList.size();
+  int size = (int)deviceList.size();
   if (size == 0 || size <= tag)
     return NULL;
   return deviceList[tag];
@@ -449,7 +449,7 @@ Device *Robot::getOrCreateDevice(int tag) {
   if (tag == 0)
     return NULL;
 
-  int size = deviceList.size();
+  int size = (int)deviceList.size();
   if (size > 0) {
     if (size <= tag)
       return NULL;
