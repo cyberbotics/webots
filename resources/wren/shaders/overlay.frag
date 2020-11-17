@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 const int bgTextureIndex = 0;
 const int mainTextureIndex = 1;

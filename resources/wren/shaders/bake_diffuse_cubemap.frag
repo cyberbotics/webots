@@ -1,4 +1,7 @@
-#version 330
+#version 300 es
+
+precision highp float;
+
 out vec3 fragColor;
 in vec3 worldPosition;
 

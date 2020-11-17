@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 #define SMAA_THRESHOLD 0.1
 

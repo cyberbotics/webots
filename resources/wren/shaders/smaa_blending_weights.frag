@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 #define SMAASampleLevelZeroOffset(tex, coord, offset) texture(tex, coord + float(offset) * RESOLUTION)
 #define SMAASampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)

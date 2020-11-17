@@ -1,4 +1,6 @@
-#version 330 core
+#version 300 es
+
+precision highp float;
 
 out vec3 fragColor;
 in vec2 texUv;

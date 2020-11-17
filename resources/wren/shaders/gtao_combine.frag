@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 // This shader does the final blend for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaocombine.frag
