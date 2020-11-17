@@ -232,6 +232,7 @@ xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batc
 1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
+4. (Optional) Follow the [programming language setup](language-setup.md) instructions, if you plan on using specific languages such as Python or Java.
 
 It is possible to install Webots silently from an administrator DOS console, by typing:
 
@@ -247,7 +248,7 @@ webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.
 
-### Windows SmartScreen
+#### Windows SmartScreen
 
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
