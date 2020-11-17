@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 #define pi_2 1.570796327
 
