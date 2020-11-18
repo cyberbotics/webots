@@ -101,9 +101,8 @@ class WbViewpoint extends WbBaseNode {
     this.ambientOcclusionRadius = 2;
 
     this.inverseViewMatrix;
-
     this.wrenHdr = new WbWrenHdr();
-    this.wrenGtao = new WbWrenGtao();
+    //this.wrenGtao = new WbWrenGtao();
     this.wrenBloom = new WbWrenBloom();
 
     this.wrenViewport = undefined;
@@ -528,7 +527,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   setup(viewport) {
     if (this.wrenPostProcessingEffect) {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
-      if (this.wrenViewport == viewport)
+      if (this.wrenViewport === viewport)
         _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
 
       _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
@@ -2242,12 +2241,13 @@ class WbWrenPostProcessingEffects {
 
    _wr_post_processing_effect_connect(bloomEffect, colorPassThrough, 0, blendPass, 0);
    _wr_post_processing_effect_connect(bloomEffect, brightPass, 0, blurPasses[0], 0);
-    for (let i = 0; i < 5; ++i) {
+  for (let i = 0; i < 5; ++i) {
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
-     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
+     //TODO replace that (cause multiple bug but i suspect the main one is caused by the inputoutput texture)
+     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i+1], 1);
      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
-    }
+   }
 
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
 
@@ -2274,6 +2274,7 @@ class WrenRenderer {
     render() {
       try {
         console.log("render");
+        VIEWPOINT.updatePostProcessingParameters();
         _wr_scene_render(_wr_scene_get_instance(), null, true);
       }
       catch(error) {

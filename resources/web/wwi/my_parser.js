@@ -1,3 +1,5 @@
+let VIEWPOINT = undefined;
+
 class MyParser {
   constructor() {
       this.prefix = "/projects/default/worlds/";
@@ -36,7 +38,7 @@ class MyParser {
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
-      this.parseViewpoint(node);
+      VIEWPOINT = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
       await this.parseBackground(node);
     else if (node.tagName === 'Transform')
@@ -94,7 +96,7 @@ class MyParser {
     viewpoint.updateNear();//dans preFinalize
     viewpoint.updateFar();//dans preFinalize
     viewpoint.updatePostProcessingParameters(); //dans render
-
+    return viewpoint
   }
 
   async parseBackground(node) {
