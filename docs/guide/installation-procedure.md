@@ -232,6 +232,7 @@ xvfb-run --auto-servernum webots --mode=fast --no-rendering --stdout --stderr --
 1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
+4. (Optional) Follow the [programming language setup](language-setup.md) instructions, if you plan on using specific languages such as Python or Java.
 
 It is possible to install Webots silently from an administrator DOS console, by typing:
 
@@ -247,7 +248,7 @@ webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.
 
-### Windows SmartScreen
+#### Windows SmartScreen
 
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
@@ -305,7 +306,7 @@ Webots can then be installed with:
 brew cask install webots
 ```
 
-### Working around macOS Gatekeeper
+#### Working around macOS Gatekeeper
 
 If Webots was downloaded from a web browser (e.g., not from a Terminal with `curl` or `wget`) macOS Gatekeeper may refuse to run Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
 You will need administrator privileges to be able to install Webots.

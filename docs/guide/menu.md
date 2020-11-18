@@ -29,7 +29,7 @@
     - [How To](samples-howto.md)
     - [Rendering](samples-rendering.md)
     - [Community Projects](samples-community-projects.md)
-- [Language Setup](language-setup.md)
+- [Programming Language Setup](language-setup.md)
     - [Introduction](introduction.md)
     - [Controller Start-up](controller-start-up.md)
     - [Using C](using-c.md)

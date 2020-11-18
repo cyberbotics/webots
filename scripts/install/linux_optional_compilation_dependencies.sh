@@ -9,21 +9,19 @@ fi
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt install --yes lsb-release wget python3.5-dev python3.6-dev python3.7-dev python3.8-dev python3.9-dev
+apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr
+curl -sL https://deb.nodesource.com/setup_15.x | bash -
+apt-get install --yes nodejs
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "16.04" ]]; then
-       apt install --yes openjdk-8-jdk
-       wget --quiet -O nodesource_setup.sh https://deb.nodesource.com/setup_12.x
-       bash nodesource_setup.sh
-       apt install --yes nodejs
-       rm nodesource_setup.sh
+       apt install --yes openjdk-8-jdk python3.5-dev
        export ROS_DISTRO=kinetic
 elif [[ $UBUNTU_VERSION == "18.04" ]]; then
-       apt install --yes openjdk-11-jdk npm
+       apt install --yes openjdk-11-jdk
        export ROS_DISTRO=melodic
 elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes openjdk-14-jdk npm
+       apt install --yes openjdk-14-jdk
        export ROS_DISTRO=noetic
 else
        echo "Unsupported Linux version."
