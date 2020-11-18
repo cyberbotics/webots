@@ -117,7 +117,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Setup ROS ${{ matrix.ROS_DISTRO }} environment
-      uses: ros-tooling/setup-ros@0.0.25
+      uses: ros-tooling/setup-ros@0.0.26
       with:
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Run Test
