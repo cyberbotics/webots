@@ -374,7 +374,7 @@ ok sure.
 ##### Fabien Rohrer [Moderator] 04/18/2019 13:43:06
 I did a quick search and I have unfortunately not better examples to provide you.
 
-##### Thelm76 04/18/2019 14:08:13
+##### Thelm 04/18/2019 14:08:13
 Hi, i'm trying to implement the missing sensors of the E-PUCK in the webots' simulation,
 
 I am actually working on adding the ToF sensor of th V2 version by editing the prototype file but it returns an error:
@@ -421,7 +421,7 @@ Its definition is there: projects/robots/gctronic/e-puck/protos/E-puckDistanceSe
 
 the lookupTable is not an open field.
 
-##### Thelm76 04/18/2019 14:12:03
+##### Thelm 04/18/2019 14:12:03
 Actually I've just copied one of the other distance sensors and tried to modify it in order to have a different range
 
 
@@ -433,7 +433,7 @@ I think I've found my error
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:12:44
 You could open the lookupTable by adding a line in the  E-puckDistanceSensor.proto file:
 
-##### Thelm76 04/18/2019 14:12:56
+##### Thelm 04/18/2019 14:12:56
 I have left e-puckDistanceSensor instead of just  DistanceSensor that's right?
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:13:17
@@ -442,13 +442,13 @@ Yes, that's another approach.
 
 You could directly use DistanceSensor there
 
-##### Thelm76 04/18/2019 14:13:58
+##### Thelm 04/18/2019 14:13:58
 but will the sensors added in the proto file be working with a real e-puck?
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:14:15
 Unfortunately no.
 
-##### Thelm76 04/18/2019 14:14:29
+##### Thelm 04/18/2019 14:14:29
 oh...
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:14:35
@@ -457,7 +457,7 @@ If you do that, you only act on the simulated robot.
 
 (which is the first step in any case)
 
-##### Thelm76 04/18/2019 14:15:14
+##### Thelm 04/18/2019 14:15:14
 in fact, I am trying to add a support of the sensors like the gyro, the magnetometer and the ToF sensor in webots...
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:15:53
@@ -466,7 +466,7 @@ This is a good development 👍
 
 Once added in the E-puck PROTO, you should also add the devices to the communication protocol between the e-puck controller and the real e-puck
 
-##### Thelm76 04/18/2019 14:16:54
+##### Thelm 04/18/2019 14:16:54
 and as I'm beggining with webots, I don't really know which file defines the sensors in the real e-puck
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:16:55
@@ -475,7 +475,7 @@ You simply have to add this into the e-puck\_wifi library... somewhere 😃
 
 You should take a look at this directory: [https://github.com/omichel/webots/tree/master/projects/robots/gctronic/e-puck/plugins/remote\_controls/e-puck\_wifi](https://github.com/omichel/webots/tree/master/projects/robots/gctronic/e-puck/plugins/remote_controls/e-puck_wifi)
 
-##### Thelm76 04/18/2019 14:18:03
+##### Thelm 04/18/2019 14:18:03
 If I successfully add these sensors I could send you the files if you want
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:18:34
@@ -493,7 +493,7 @@ For example, here is a pull request a user had submited recently:
 
 [https://github.com/omichel/webots/pull/350](https://github.com/omichel/webots/pull/350)
 
-##### Thelm76 04/18/2019 14:21:47
+##### Thelm 04/18/2019 14:21:47
 okay thank you I'll take a look for completing th e-puck files then 😄
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 14:22:07
@@ -1269,13 +1269,13 @@ Thanks!
 ##### Fabien Rohrer [Moderator] 04/25/2019 14:31:45
 you're welcome. Sharing your approach is a good way to thanks us ^^
 
-##### Thelm76 04/26/2019 13:34:45
+##### Thelm 04/26/2019 13:34:45
 Hi, I'm trying to model a magnetic sensor in webots for e-puck, and I just realized that the output is only a vector whereas the magnetic sensor of e-pucks output a value in µT for each axis. Is a lookup table sufficient to convert the compass into a magnetometer? If not, how can I manage to do this in the proto file?
 
 ##### Olivier Michel [Cyberbotics] 04/26/2019 13:37:35
 Hi, yes setting the lookupTable of the Compass node should be sufficient to calibrate your compass model in that case.
 
-##### Thelm76 04/26/2019 13:40:55
+##### Thelm 04/26/2019 13:40:55
 So as I need the value to be between -4912 and 4912, will the output be a 3D vector with a fixed length, or the 3 the output are independent?
 
 ##### Olivier Michel [Cyberbotics] 04/26/2019 13:41:42
@@ -1293,7 +1293,7 @@ lookupTable [-1 -4912 0.1
 
 1 4912 0.1 ]
 
-##### Thelm76 04/26/2019 13:50:08
+##### Thelm 04/26/2019 13:50:08
 so if I do this, it will measure a magnetic field of 4912µT in the webots world right?
 
 ##### Olivier Michel [Cyberbotics] 04/26/2019 13:52:37
@@ -1305,13 +1305,13 @@ However in Webots, the Compass node gives a unit vector which is the direction o
 
 It's not a value expressed in µT.
 
-##### Thelm76 04/26/2019 13:56:30
+##### Thelm 04/26/2019 13:56:30
 I think for the lookup table it will be better to set [ -4912 -4912 0.1   4912 4912 0.1 ] that way, when I'll connect a real e-puck the measured values will be the good ones
 
 ##### Olivier Michel [Cyberbotics] 04/26/2019 13:57:04
 Yes, you certainly need to calibrate it with a real e-puck2 robot.
 
-##### Thelm76 04/26/2019 13:57:58
+##### Thelm 04/26/2019 13:57:58
 Thank you, I'll wait to have a robot to try then
 
 
@@ -2222,7 +2222,7 @@ i reset all the world settings and it worked again, there seems to be an issue w
 ##### David Mansolino [Cyberbotics] 05/03/2019 12:13:59
 That's indeed higly possible, has the physics dll is loaded by Webots directly, if there is a crash in the physics plugin, Webots will crash as well.
 
-##### Thelm76 05/03/2019 12:16:04
+##### Thelm 05/03/2019 12:16:04
 Hi, would it be possible to make multiple e-pucks communicating with each other (e.g. by WiFi or Bluetooth) with cross compliation?
 
 
@@ -2231,7 +2231,7 @@ I will use e-pucks v2
 ##### David Mansolino [Cyberbotics] 05/03/2019 12:17:15
 Hi, this is not supported out of the box, if you are using remote-control you might use emitter-receiver. But with remote-control you will need to implement this by yourself.
 
-##### Thelm76 05/03/2019 12:27:41
+##### Thelm 05/03/2019 12:27:41
 So for now I have to leave webots connected to e-pucks. Also I've found some examples on forums, of people trying to use LibIrcom, which permit to send data by the IR sensors, but I can't find any examples of working codes. So I think I will give up the cross-compilation idea for now and stay with the remote control thing
 
 
@@ -2868,7 +2868,7 @@ We are havin issues attach libreries to the simulator
 ##### David Mansolino [Cyberbotics] 05/17/2019 06:31:55
 Hi, you have to modify the makefile of your controller to add the includes and link with the library, please find more information about this here: [https://www.cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://www.cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
 
-##### Thelm76 05/17/2019 11:12:32
+##### Thelm 05/17/2019 11:12:32
 Hi! I have a problem when connecting e-puck by bluetooth to webots as it says "wbr\_motor\_set\_position was called but not set". In the code the only time I call this method is in an init function to set the motors in velocity control mode :
 
 wheels[i].setPosition(float('+inf'))
@@ -2885,7 +2885,7 @@ Hi, did you try to run the sample e-puck controllers with a remote controlled ro
 
 If so, did that work?
 
-##### Thelm76 05/17/2019 12:29:06
+##### Thelm 05/17/2019 12:29:06
 yes the sample crontrollers are working fine ....
 
 
@@ -2894,7 +2894,7 @@ but I'm progrmming in python
 ##### Olivier Michel [Cyberbotics] 05/17/2019 12:30:38
 Strange... Did you try to make the same kind of motor control as in the C sample? E.g., control in speed rather than in position?
 
-##### Thelm76 05/17/2019 13:13:35
+##### Thelm 05/17/2019 13:13:35
 yes, actually, at first I tried to do a position control in python. then I had this messages so I tried to do a velocity control
 
 
@@ -2903,7 +2903,7 @@ I also tried to put a robot.set(3000) to give time to establish the connection
 ##### Olivier Michel [Cyberbotics] 05/17/2019 13:20:53
 robot.step(3000) is probably useless. It should work fine with a robot.step(100) value or so.
 
-##### Thelm76 05/17/2019 13:36:20
+##### Thelm 05/17/2019 13:36:20
 yes but it's still not working fine..... I'll try to make the same controller in C it maybe will solve the problem
 
 ##### Olivier Michel [Cyberbotics] 05/17/2019 13:37:06
@@ -2936,7 +2936,7 @@ We often use the Breitenberg algorithm ([https://en.wikipedia.org/wiki/Braitenbe
 
 Hi `@Jeremy` , you cannot stop it directly, but you can notify the robot controller to stop by the supervisor controller and handle the stop message in the robot controller. For example you can use the Emitter/Receiver ([https://www.cyberbotics.com/doc/reference/emitter](https://www.cyberbotics.com/doc/reference/emitter)) devices to send the stop message from the supervisor to the robot.
 
-##### Thelm76 05/20/2019 14:54:26
+##### Thelm 05/20/2019 14:54:26
 Hi! Could you help me to find out what's wrong in my code? I'm trying to remote control an e-puck with bluetoothand I get this error :
 
 ```
@@ -2991,7 +2991,7 @@ It means that your controller is linked with a remote control library (cf. Robot
 ##### David Mansolino [Cyberbotics] 05/20/2019 14:57:49
 For information position control for the e-puck in remote-control is not supported with the remote-control library distributed with Webots: [https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/plugins/remote\_controls/e-puck\_bluetooth/entry\_points.cpp#L31](https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/plugins/remote_controls/e-puck_bluetooth/entry_points.cpp#L31)
 
-##### Thelm76 05/20/2019 15:00:29
+##### Thelm 05/20/2019 15:00:29
 Okay thank you, i'll try to do without but I would be harder with just velocity control because of the wb\_robot\_step not properly workng with bluetooth
 
 ##### Ελευθερια Ψαθά 05/21/2019 13:28:09
@@ -3033,7 +3033,7 @@ I'm need to output my robot's GPS as CAN traffic.  I've been able to do so from 
 ##### David Mansolino [Cyberbotics] 05/22/2019 07:08:16
 I would rather keep it on the controller side, but if you want to make it a bit modular you can wrap this in a library that you can call from each of your controller (so that you don't cuplicate the code in each controller).
 
-##### Thelm76 05/22/2019 16:04:04
+##### Thelm 05/22/2019 16:04:04
 Hi, I'm still with my position control problem for the e-puck, so I'm editing the library to implement a position control directly into the e-puck firmware, but now I'm stuck because I need an equivalent a events listeners in C... do someone know how can I do this?
 
 
@@ -3043,7 +3043,7 @@ I can't use simple while (!condition) because I need to execute other pieces of 
 Hi, everyone! I just have started to study webots. And by following the tutorial, I have faced with next error : "ERROR: 'RectangleArena.proto': Lua error: 'floorSize' must contain positive values". Would you help with this? I've tried to change the values of the floorSize. But it doesn't helpful
 
 ##### David Mansolino [Cyberbotics] 05/23/2019 06:13:41
-`@Thelm76` since in remote-control you will communicate with the robot only during the step function, the only way to do this is to check the encoder position at each step. If you want something really precise, the only way is to implement position cotnrol directly in the robot library: [https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/transfer/library/motor\_led/advance\_one\_timer/e\_motors.c](https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/transfer/library/motor_led/advance_one_timer/e_motors.c)
+`@Thelm` since in remote-control you will communicate with the robot only during the step function, the only way to do this is to check the encoder position at each step. If you want something really precise, the only way is to implement position cotnrol directly in the robot library: [https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/transfer/library/motor\_led/advance\_one\_timer/e\_motors.c](https://github.com/omichel/webots/blob/revision/projects/robots/gctronic/e-puck/transfer/library/motor_led/advance_one_timer/e_motors.c)
 
 
 `@moon`, in which tutorial did you encoutner this problem?
@@ -11705,7 +11705,7 @@ Hi `@David Mansolino` , thanks for your reply!
 ##### Olivier Michel [Cyberbotics] 08/29/2019 05:49:14
 `@Frodo`: did you try print()? Note you need to call Robot.step() so that your print command is sent to Webots and displayed in the console.
 
-##### mcBCmc 08/29/2019 14:04:36
+##### xyz 08/29/2019 14:04:36
 hello, how can i convert .txt to .motion that webots can understand?I have a .txt file that contains the angle of each joints.Now i want nao to be in that position specified in that .txt file. For that reason i have to convert it into .motion file. So how should i do that?Can anyone help
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:06:13
@@ -11723,19 +11723,19 @@ You should try to forge a similar file.
 
 Basically, the header list the motor names, and each line contain a pose (time,posName,motorPositions*)
 
-##### mcBCmc 08/29/2019 14:39:34
+##### xyz 08/29/2019 14:39:34
 actually i m getting my data from kinect and using that data i m getting my joints angle (motor positions)using python . Now i have information of angles of left shoulder pitch and roll, left elbow pitch and roll.Now i want it to be in a file that webots can read.so how should i do that?Continuosly i will be getting data from kinect which will be given to webots .So how should i continuosly convert it to motion files?
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:42:26
 Using the motion mechanism is certainly overkilled. Why not simply and directly actuating the simulated robot motors? (cf. Motor.setPosition(double pos))
 
-##### mcBCmc 08/29/2019 14:43:18
+##### xyz 08/29/2019 14:43:18
 sorry i can't get u
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:45:51
 The Webots motion file mechanism aims to play back a stored motion in simulation. You would like to map the Kinect and the Webots simulated robot in real-time, right? In this case, it seems more appropriated to not use the Webots motion file mechanism, but rather to directly move the simulated robot actuators.
 
-##### mcBCmc 08/29/2019 14:48:48
+##### xyz 08/29/2019 14:48:48
 okay thank you
 
 ##### ClLebi 08/29/2019 15:21:59
