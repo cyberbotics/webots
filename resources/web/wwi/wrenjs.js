@@ -1,5 +1,5 @@
 class WbScene {
-  constructor(id) {
+  constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
     this.id = id;
     this.wrenMainFrameBuffer = null;
     this.wrenMainFrameBufferTexture = null;
@@ -19,7 +19,7 @@ class WbScene {
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
-    //WbWrenPostProcessingEffects.loadResources();
+    WbWrenPostProcessingEffects.loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
     this.updateWrenViewportDimensions();
   }
 
@@ -93,11 +93,12 @@ class WbViewpoint extends WbBaseNode {
     this.bloomThreshold = bloomThreshold;
     this.zNear = zNear;
     this.far = far;
-    this.aspectRatio = 1.0;
+    this.aspectRatio = 800/600; //TODO do not hardcode
     this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
     this.followsmoothness = followsmoothness;
+    this.ambientOcclusionRadius = 2;
 
     this.inverseViewMatrix;
 
@@ -151,8 +152,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   applyFieldOfViewToWren() {
-    console.log(this.fieldOfViewY);
-    _wr_camera_set_fovy(this.wrenCamera, 0.602416);//this.fieldOfViewY);
+    _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
 
     if (this.wrenGtao)
       this.wrenGtao.setFov(this.fieldOfViewY);
@@ -186,6 +186,18 @@ class WbViewpoint extends WbBaseNode {
       this.applyFarToWren();
   }
 
+  updateFieldOfView() {
+    //if (WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mFieldOfView, 0.0, M_PI, M_PI_2))
+      //return;
+
+    this.updateFieldOfViewY();
+
+    if (this.wrenObjectsCreatedCalled)
+      this.applyFieldOfViewToWren();
+
+    //emit cameraParametersChanged();
+  }
+
   updateFieldOfViewY() {
     this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);  // stored for reuse in viewpointRay()
 
@@ -199,6 +211,20 @@ class WbViewpoint extends WbBaseNode {
     }
   }
 
+  updateAspectRatio(renderWindowAspectRatio) {
+    if (!this.wrenObjectsCreatedCalled())
+      return;
+
+    this.aspectRatio = renderWindowAspectRatio;
+    _wr_camera_set_aspect_ratio(this.wrenCamera, this.aspectRatio);
+
+    this.updateFieldOfViewY();
+
+    this.applyFieldOfViewToWren();
+
+    //emit cameraParametersChanged();
+  }
+
   updatePostProcessingEffects(){
     if(!this.wrenObjectsCreatedCalled)
       return;
@@ -209,19 +235,53 @@ class WbViewpoint extends WbBaseNode {
     }
 
     if (this.wrenGtao) {
-      console.log("here we gouch");
       //TODO
       //let qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
       let qualityLevel = 2;
       if (qualityLevel === 0)
         this.wrenGtao.detachFromViewport();
       else {
-        //this.wrenGtao.setHalfResolution(qualityLevel <= 2);
-        //this.wrenGtao.setup(this.wrenViewport);
+        this.wrenGtao.setHalfResolution(qualityLevel <= 2);
+        this.wrenGtao.setup(this.wrenViewport);
         this.updateNear();
         this.updateFar();
         this.updateFieldOfViewY();
       }
+    }
+  }
+
+  updatePostProcessingParameters(){
+    if (!this.wrenObjectsCreatedCalled)
+      return;
+
+    if (this.wrenHdr)
+      this.updateExposure();
+
+    if (this.wrenGtao) {
+      //if (this.ambientOcclusionRadius == 0.0 || !WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt()) {
+      if (this.ambientOcclusionRadius == 0.0){
+        this.wrenGtao.detachFromViewport();
+        return;
+      } else if (!this.wrenGtao.hasBeenSetup)
+        this.wrenGtao.setup(this.wrenViewport);
+
+      //let qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
+      let qualityLevel = 2;
+      this.updateNear();
+      this.wrenGtao.setRadius(this.ambientOcclusionRadius);
+      this.wrenGtao.setQualityLevel(qualityLevel);
+      this.wrenGtao.applyOldInverseViewMatrixToWren();
+      this.wrenGtao.copyNewInverseViewMatrix(this.inverseViewMatrix);
+    }
+
+    if (this.wrenBloom) {
+      if (this.bloomThreshold == -1.0) {
+        this.wrenBloom.detachFromViewport();
+        return;
+      } else if (!this.wrenBloom.hasBeenSetup)
+        this.wrenBloom.setup(this.wrenViewport);
+
+      this.wrenBloom.setThreshold(this.bloomThreshold);
     }
   }
 
@@ -330,6 +390,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.params = [0, 0, 0, 0];
     this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
     this.offsets = [0.0, 0.5, 0.25, 0.75];
+    this.previousInverseViewMatrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
   }
 
@@ -340,7 +401,29 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   setFov(fov) {
     this.fov = fov;
     this.applyParametersToWren();
-}
+  }
+
+  setRadius(radius) {
+    this.radius = radius;
+    this.applyParametersToWren();
+  }
+
+  setQualityLevel(qualityLevel) {
+    this.params[2] = 2 << (qualityLevel - 1);
+    this.applyParametersToWren();
+  }
+
+  applyOldInverseViewMatrixToWren() {
+    if (!this.wrenPostProcessingEffect)
+      return;
+
+    const previousInverseViewMatrixPointer = arrayXPointer(this.previousInverseViewMatrix);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.temporalPass, "previousInverseViewMatrix", previousInverseViewMatrixPointer]);
+  }
+
+  copyNewInverseViewMatrix(inverseViewMatrix) {
+      this.previousInverseViewMatrix = inverseViewMatrix;
+  }
 
   detachFromViewport() {
     if (this.wrenViewport) {
@@ -376,11 +459,10 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     let depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
     let normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
-    //this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, WR_TEXTURE_INTERNAL_FORMAT_RGB16F, depthTexture, normalTexture, mHalfResolution);
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, 6, depthTexture, normalTexture, this.halfResolution);//enum WR_TEXTURE_INTERNAL_FORMAT_RGB16F
 
     this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "gtaoForwardPass"]);
     this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "temporalDenoise"]);
-
     this.applyParametersToWren();
 
     _wr_viewport_set_ambient_occlusion_effect(this.wrenViewport, this.wrenPostProcessingEffect);
@@ -395,7 +477,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
 
     this.clipInfo[0] = this.near;
     this.clipInfo[1] = this.far ? this.far : 1000000.0;
-    this.clipInfo[2] = 0.5 * (_wr_viewport_get_height(this.wrenViewport) / (2.0 * Math.tanf(this.fov * 0.5)));
+    this.clipInfo[2] = 0.5 * (_wr_viewport_get_height(this.wrenViewport) / (2.0 * Math.tan(this.fov * 0.5)));
 
     let array4 = _wrjs_array4(this.clipInfo[0], this.clipInfo[1], this.clipInfo[2], this.clipInfo[3])
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "clipInfo", array4]);
@@ -1176,9 +1258,11 @@ class WbTextureTransform extends WbBaseNode{
 
 class WbImage {
   constructor() {
+    this.url = undefined;
     this.bits = undefined;
     this.width = 0;
     this.height = 0;
+    this.isTranslucent;
   }
 }
 
@@ -1702,7 +1786,7 @@ class WbWrenShaders {
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 2); //enum
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 3); //enum
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 4); //enum WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS
 
       const previousInverseViewMatrix = new Array(16).fill(0.0);
       const previousInverseViewMatrixPointer = arrayXPointer(previousInverseViewMatrix);
@@ -1789,8 +1873,25 @@ WbWrenShaders.SHADER = { //enum
   };
 
 class WbWrenPostProcessingEffects {
-  static loadResources(){
-    console.log("TODO");
+  static loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture){
+    WbWrenPostProcessingEffects.lensFlareLenTexture = WbWrenPostProcessingEffects.loadImage(lensFlareLenTexture);
+    WbWrenPostProcessingEffects.smaaAreaTexture = WbWrenPostProcessingEffects.loadImage(smaaAreaTexture);
+    WbWrenPostProcessingEffects.smaaSearchTexture = WbWrenPostProcessingEffects.loadImage(smaaSearchTexture);
+    WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture, );
+  }
+
+  static loadImage(image){
+    let targetTexture = _wr_texture_2d_new();
+    _wr_texture_set_translucent(targetTexture, true);
+    _wr_texture_set_size(targetTexture, image.width, image.height);
+    let bitsPointer = arrayXPointer(image.bits);
+    _wr_texture_2d_set_data(targetTexture, bitsPointer);
+    _free(bitsPointer);
+    _wr_texture_2d_set_file_path(targetTexture, image.url);
+    _wr_texture_2d_set_cache_persistency(targetTexture, true);
+    _wr_texture_set_translucent(targetTexture, image.isTranslucent);
+    _wr_texture_setup(targetTexture)
+    return targetTexture
   }
 
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
@@ -1809,6 +1910,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_append_pass(gtaoEffect, colorPassThrough);
 
     let depthDownsamplePassThrough, normalDownsamplePassThrough = null;
+
     if (halfRes) {
       depthDownsamplePassThrough = _wr_post_processing_effect_pass_new();
       Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [depthDownsamplePassThrough, "depthDownsamplePassThrough"]);
@@ -1848,7 +1950,7 @@ class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 1, normalTexture);
     }
 
-    _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, gtaoNoiseTexture);
+    _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, WbWrenPostProcessingEffects.gtaoNoiseTexture);
     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, 0x812F);//enum
     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, 0x812F);//enum
     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, 0x812F);//enum
@@ -1946,7 +2048,10 @@ class WbWrenPostProcessingEffects {
 }
 
 //WbWrenPostProcessingEffects static variable
-WbWrenPostProcessingEffects.gtaoNoiseTexture = null
+WbWrenPostProcessingEffects.lensFlareLenTexture = null;
+WbWrenPostProcessingEffects.smaaAreaTexture = null;
+WbWrenPostProcessingEffects.smaaSearchTexture = null;
+WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
 
 
 class WrenRenderer {

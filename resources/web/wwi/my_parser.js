@@ -30,9 +30,9 @@ class MyParser {
   async parseNode(node, currentNode) {
     let result;
     if(node.tagName === 'Scene') {
-      let id = getNodeAttribute(node, 'id');
-      new WbScene(id);
+      await this.parseScene(node);
       result = await this.parseChildren(node, currentNode);
+
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -61,6 +61,19 @@ class MyParser {
     return 1;
   }
 
+  async parseScene(node) {
+    let id = getNodeAttribute(node, 'id');
+    let lensFlareLenTexture = await this.loadTextureData("/resources/wren/textures/lens_flare.png", true);
+    lensFlareLenTexture.isTranslucent = true;
+    let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png", true);
+    smaaAreaTexture.isTranslucent = false;
+    let smaaSearchTexture = await this.loadTextureData("/resources/wren/textures/smaa_search_texture.png", true);
+    smaaSearchTexture.isTranslucent = false;
+    let gtaoNoiseTexture = await this.loadTextureData("/resources/wren/textures/gtao_noise_texture.png", true);
+    gtaoNoiseTexture.isTranslucent = true;
+    return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
+  }
+
   parseWorldInfo(node){
     console.log("Un WorldInfo");
   }
@@ -77,6 +90,10 @@ class MyParser {
 
     let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness);
     viewpoint.createWrenObjects();
+    viewpoint.updateFieldOfView();//dans preFinalize
+    viewpoint.updateNear();//dans preFinalize
+    viewpoint.updateFar();//dans preFinalize
+    viewpoint.updatePostProcessingParameters(); //dans render
 
   }
 
@@ -458,7 +475,7 @@ class MyParser {
     return new WbTextureTransform(id, center, rotation, scale, translation);
   }
 
-  async loadTextureData(url) {
+  async loadTextureData(url, bgra) {
    let context = document.getElementById('canvas2').getContext('2d');
    let img = await this.loadImage(url);
    canvas2.width = img.width;
@@ -466,17 +483,23 @@ class MyParser {
    context.drawImage(img, 0, 0);
    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
    let data = new Uint8ClampedArray(dataBGRA.length);
-   for(let x = 0; x < dataBGRA.length; x = x+4){
-     data[2+x] = dataBGRA[2+x];
-     data[1+x] = dataBGRA[1+x];
-     data[0+x] = dataBGRA[0+x];
-     data[3+x] = dataBGRA[3+x];
-   }
+   if(bgra){
+     for(let x = 0; x < dataBGRA.length; x = x+4){
+       data[0+x] = dataBGRA[2+x];
+       data[1+x] = dataBGRA[1+x];
+       data[2+x] = dataBGRA[0+x];
+       data[3+x] = dataBGRA[3+x];
+    }
+  }else
+    data = dataBGRA;
+
+
    let image = new WbImage();
 
    image.bits = data;
    image.width = img.width;
    image.height = img.height;
+   image.url = url;
    return image;
  }
 
