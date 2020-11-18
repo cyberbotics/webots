@@ -104,6 +104,7 @@ class WbViewpoint extends WbBaseNode {
 
     this.wrenHdr = new WbWrenHdr();
     this.wrenGtao = new WbWrenGtao();
+    this.wrenBloom = new WbWrenBloom();
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
@@ -229,6 +230,16 @@ class WbViewpoint extends WbBaseNode {
     if(!this.wrenObjectsCreatedCalled)
       return;
 
+    if (this.lensFlare)
+     this.lensFlare.setup(this.wrenViewport);
+
+    if (this.wrenSmaa) {
+     /*if (WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool())
+       this.wrenSmaa.detachFromViewport();
+     else
+       this.wrenSmaa.setup(mWrenViewport);*/
+    }
+
     if (this.wrenHdr) {
       this.wrenHdr.setup(this.wrenViewport);
       this.updateExposure();
@@ -248,6 +259,17 @@ class WbViewpoint extends WbBaseNode {
         this.updateFieldOfViewY();
       }
     }
+
+    if (this.wrenBloom) {
+      if (this.bloomThreshold === -1.0)
+        this.wrenBloom.detachFromViewport();
+      else
+        this.wrenBloom.setup(this.wrenViewport);
+
+      this.wrenBloom.setThreshold(this.bloomThreshold);
+    }
+
+    //emit refreshRequired();
   }
 
   updatePostProcessingParameters(){
@@ -391,7 +413,6 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
     this.offsets = [0.0, 0.5, 0.25, 0.75];
     this.previousInverseViewMatrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-
   }
 
   setHalfResolution(halfResolution) {
@@ -459,7 +480,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     let depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
     let normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, 6, depthTexture, normalTexture, this.halfResolution);//enum WR_TEXTURE_INTERNAL_FORMAT_RGB16F
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, 6, depthTexture, normalTexture, this.halfResolution);//enum WR_TEXTURE_INTERNAL_FORMAT_RGBA16F
 
     this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "gtaoForwardPass"]);
     this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "temporalDenoise"]);
@@ -498,6 +519,58 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   }
 }
 
+class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
+  constructor(){
+    super();
+    this.threshold = 10.0;
+  }
+
+  setup(viewport) {
+    if (this.wrenPostProcessingEffect) {
+      // In case we want to update the viewport, the old postProcessingEffect has to be removed first
+      if (this.wrenViewport == viewport)
+        _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+
+      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+      this.wrenPostProcessingEffect = undefined;
+    }
+
+    this.wrenViewport = viewport;
+
+    let width = _wr_viewport_get_width(this.wrenViewport);
+    let height = _wr_viewport_get_height(this.wrenViewport);
+
+    // can't use the effect on resolutions smaller than this, it requires 6 passes dividing the viewport each time, so resolutions
+    // smaller than 2^6 in width or height preculde the use of this effect
+    if (Math.min(width, height) <= 64.0)
+      return;
+
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, 6); //enum
+
+    this.applyParametersToWren();
+
+    _wr_viewport_add_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+    _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
+
+    this.hasBeenSetup = true;
+  }
+
+  setThreshold(threshold){
+    this.threshold = threshold;
+
+    this.applyParametersToWren()
+  }
+
+  applyParametersToWren() {
+    if (!this.wrenPostProcessingEffect)
+      return;
+
+    let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "brightPassFilter"]);
+
+    let thresholdPointer = _wrjs_pointerOnFloat(this.threshold);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", thresholdPointer]);
+  }
+}
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
     super(id);
@@ -1812,6 +1885,54 @@ class WbWrenShaders {
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_COMBINE];
   }
+
+  static brightPassShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
+
+      let defaultThresholdPointer = _wrjs_pointerOnFloat(10.0);
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], "threshold", 0, defaultThresholdPointer]); //enum
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/bright_pass.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS];
+  }
+
+  static gaussianBlur13TapShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 1); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE1
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 15); //enum WR_GLSL_LAYOUT_UNIFORM_ITERATION_NUMBER
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/gaussian_blur_13_tap.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP];
+  }
+
+  static bloomBlendShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 1); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE1
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 2); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE2
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 3); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE3
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 4); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE4
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 5); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE5
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 6); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE6
+
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/blend_bloom.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND];
+  }
 }
 
 //gShaders static variable
@@ -2044,6 +2165,93 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_set_result_program(gtaoEffect, WbWrenShaders.passThroughShader());
 
     return gtaoEffect;
+  }
+
+  static bloom(width, height, textureFormat) {
+    let bloomEffect = _wr_post_processing_effect_new();
+    _wr_post_processing_effect_set_drawing_index(bloomEffect, 4); //enum
+
+    let colorPassThrough =_wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, "colorPassThrough"]);
+   _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders.passThroughShader());
+   _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
+   _wr_post_processing_effect_pass_set_alpha_blending(colorPassThrough, false);
+   _wr_post_processing_effect_pass_set_input_texture_count(colorPassThrough, 1);
+   _wr_post_processing_effect_pass_set_output_texture_count(colorPassThrough, 1);
+   _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
+   _wr_post_processing_effect_append_pass(bloomEffect, colorPassThrough);
+
+    let brightPass =_wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [brightPass, "brightPassFilter"]);
+   _wr_post_processing_effect_pass_set_program(brightPass, WbWrenShaders.brightPassShader());
+   _wr_post_processing_effect_pass_set_output_size(brightPass, width, height);
+   _wr_post_processing_effect_pass_set_alpha_blending(brightPass, false);
+   _wr_post_processing_effect_pass_set_input_texture_count(brightPass, 1);
+   _wr_post_processing_effect_pass_set_output_texture_count(brightPass, 1);
+   _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+   _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
+   _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
+
+    let blurPasses = [];
+    let downsamplePasses = [];
+
+    for (let i = 0; i < 6; ++i) {
+      let blurPass =_wr_post_processing_effect_pass_new();
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blurPass, "blurPass" + i]);
+     _wr_post_processing_effect_pass_set_program(blurPass, WbWrenShaders.gaussianBlur13TapShader());
+     _wr_post_processing_effect_pass_set_output_size(blurPass, width / (1 << i), height / (1 << i));
+     _wr_post_processing_effect_pass_set_input_texture_count(blurPass, 2);
+     _wr_post_processing_effect_pass_set_alpha_blending(blurPass, false);
+     _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 0, true);
+     _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 1, true);
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 0,0x812F);
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 1, 0x812F);
+     _wr_post_processing_effect_pass_set_output_texture_count(blurPass, 1);
+     _wr_post_processing_effect_pass_set_output_texture_format(blurPass, 0, textureFormat);
+     _wr_post_processing_effect_pass_set_iteration_count(blurPass, 2);
+     _wr_post_processing_effect_append_pass(bloomEffect, blurPass);
+      blurPasses[i] = blurPass;
+
+      let downsamplePass =_wr_post_processing_effect_pass_new();
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [downsamplePass, "downsamplePass" + i]);
+     _wr_post_processing_effect_pass_set_program(downsamplePass, WbWrenShaders.passThroughShader());
+     _wr_post_processing_effect_pass_set_output_size(downsamplePass, width / (2 << i), height / (2 << i));
+     _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
+     _wr_post_processing_effect_pass_set_alpha_blending(downsamplePass, false);
+     _wr_post_processing_effect_pass_set_input_texture_interpolation(downsamplePass, 0, true);
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+     _wr_post_processing_effect_pass_set_output_texture_count(downsamplePass, 1);
+     _wr_post_processing_effect_pass_set_output_texture_format(downsamplePass, 0, textureFormat);
+     _wr_post_processing_effect_append_pass(bloomEffect, downsamplePass);
+      downsamplePasses[i] = downsamplePass;
+    }
+
+    let blendPass =_wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blendPass, "blendBloom"]);
+   _wr_post_processing_effect_pass_set_alpha_blending(blendPass, false);
+   _wr_post_processing_effect_pass_set_program(blendPass, WbWrenShaders.bloomBlendShader());
+   _wr_post_processing_effect_pass_set_output_size(blendPass, width, height);
+   _wr_post_processing_effect_pass_set_input_texture_count(blendPass, 7);
+
+    for (let i = 0; i < 7; ++i)
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+
+   _wr_post_processing_effect_pass_set_output_texture_count(blendPass, 1);
+   _wr_post_processing_effect_pass_set_output_texture_format(blendPass, 0, textureFormat);
+   _wr_post_processing_effect_append_pass(bloomEffect, blendPass);
+
+   _wr_post_processing_effect_connect(bloomEffect, colorPassThrough, 0, blendPass, 0);
+   _wr_post_processing_effect_connect(bloomEffect, brightPass, 0, blurPasses[0], 0);
+    for (let i = 0; i < 5; ++i) {
+     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
+     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
+     _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
+     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
+    }
+
+   _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
+
+    return bloomEffect;
   }
 }
 
