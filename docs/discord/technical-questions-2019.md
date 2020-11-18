@@ -2994,7 +2994,7 @@ For information position control for the e-puck in remote-control is not support
 ##### Thelm 05/20/2019 15:00:29
 Okay thank you, i'll try to do without but I would be harder with just velocity control because of the wb\_robot\_step not properly workng with bluetooth
 
-##### Ελευθερια Ψαθά 05/21/2019 13:28:09
+##### PSEL 05/21/2019 13:28:09
 which is the default focal length and  principle point of the epucks camera?
 
 ##### Fabien Rohrer [Moderator] 05/21/2019 13:29:39
@@ -13730,7 +13730,7 @@ Args: ask`
 we cant reach to mgaitmanager nethod. all lines including mgaitmanager dont work. Why?
 
 ##### David Mansolino [Cyberbotics] 09/27/2019 14:22:19
-`@Vidicon`, you can ignore this argument (or set it to 1 by default).
+<@301078397801725953>, you can ignore this argument (or set it to 1 by default).
 
 
 `@aysegulucar` we dont have any 'xm430.h' file, but you should probably ask ROBOTIS, or look on internet. a qucik check on internet lead me to: [https://github.com/ROBOTIS-GIT/ROBOTIS-Framework](https://github.com/ROBOTIS-GIT/ROBOTIS-Framework)
