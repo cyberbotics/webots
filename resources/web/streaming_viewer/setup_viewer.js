@@ -1,3 +1,5 @@
+import {webots} from "./../wwi/webots.js";
+
 /* global webots: false */
 
 var view = null;
@@ -63,3 +65,4 @@ function disconnect() {
 }
 
 window.addEventListener('load', init, false);
+document.getElementById('ConnectButton').addEventListener('click', connect);

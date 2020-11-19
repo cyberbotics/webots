@@ -143,3 +143,5 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.visible = true;
   }
 }
+
+export {ContextMenu}

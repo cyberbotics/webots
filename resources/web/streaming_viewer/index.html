@@ -17,7 +17,7 @@
           <option value="x3d">X3D</option>
           <option value="mjpeg">MJPEG</option>
         </select> broadcast: <input id="broadcast" type="checkbox" />
-        <input id="ConnectButton" type="button" value="Connect" onclick="connect()" />
+        <input id="ConnectButton" type="button" value="Connect" />
       </p>
     </div>
     <div id="playerDiv" style="height:calc(100% - 120px);padding:20px">
@@ -31,11 +31,7 @@
     <script src='https://git.io/glm-js.min.js'></script>
     <script src="enum.js"></script>
     <script src="a.out.js"></script>
-    <script src="../wwi/constant.js"></script>
-    <script src="../wwi/wrenjs.js"></script>
-    <script src="../wwi/my_parser.js"></script>
-    <script src='../wwi/webots.min.js'></script>
-    <script src="setup_viewer.js"></script>
+    <script type="module" src="setup_viewer.js"></script>
   </body>
   <canvas id="canvas2"><canvas>
 

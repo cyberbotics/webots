@@ -40,3 +40,5 @@ var DefaultUrl = {
     return '';
   }
 };
+
+export {DefaultUrl}

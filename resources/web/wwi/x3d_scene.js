@@ -1,3 +1,9 @@
+import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
+import {Viewpoint} from "./viewpoint.js";
+import {Selector} from "./selector.js";
+import {MyParser} from "./my_parser.js";
+
+
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
@@ -614,3 +620,5 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }*/
   }
 }
+
+export {X3dScene}

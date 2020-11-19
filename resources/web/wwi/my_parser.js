@@ -1,5 +1,17 @@
 let VIEWPOINT = undefined;
 
+import {WbScene} from "./webotsjs/WbScene.js";
+import {WbViewpoint} from "./webotsjs/WbViewpoint.js";
+import {WbTransform} from "./webotsjs/WbTransform.js";
+import {WbShape} from "./webotsjs/WbShape.js";
+import {WbBox} from "./webotsjs/WbBox.js";
+import {WbCylinder} from "./webotsjs/WbCylinder.js";
+import {WbPlane} from "./webotsjs/WbPlane.js";
+import {WbBackground} from "./webotsjs/WbBackground.js";
+
+
+
+
 class MyParser {
   constructor() {
       this.prefix = "/projects/default/worlds/";
@@ -537,3 +549,5 @@ function convertStringToQuaternion(s) {
   let q = new glm.vec4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
   return q;
 }
+
+export {MyParser}

@@ -1,3 +1,7 @@
+import {webots} from "./../wwi/webots.js";
+import {DefaultUrl} from "./default_url.js";
+
+
 /* global webots, DialogWindow, HelpWindow, DefaultUrl */
 
 class Toolbar { // eslint-disable-line no-unused-vars
@@ -341,3 +345,5 @@ class Toolbar { // eslint-disable-line no-unused-vars
     }
   }
 }
+
+export {Toolbar}

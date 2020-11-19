@@ -318,3 +318,5 @@ RenderPass.prototype = Object.assign( Object.create( RenderPass.prototype ), {
 		renderer.render( this.scene, this.camera );
 	}
 } );
+
+export {Camera}

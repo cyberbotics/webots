@@ -1,3 +1,5 @@
+import {Camera} from "./my_js_lib.js";
+
 /* global THREE */
 'use strict';
 class Viewpoint { // eslint-disable-line no-unused-vars
@@ -208,3 +210,5 @@ class Viewpoint { // eslint-disable-line no-unused-vars
       this.onCameraParametersChanged(updateScene);
   }
 }
+
+export {Viewpoint}

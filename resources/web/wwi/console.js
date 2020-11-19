@@ -1,3 +1,6 @@
+import {DialogWindow} from "./dialog_window.js";
+import {DefaultUrl} from "./default_url.js";
+
 /* global DialogWindow, DefaultUrl */
 'use strict';
 
@@ -119,3 +122,5 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
          ((d.getSeconds() < 10) ? '0' : '') + d.getSeconds();
   }
 }
+
+export {Console}

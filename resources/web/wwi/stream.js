@@ -1,3 +1,5 @@
+import {webots} from "./../wwi/webots.js";
+
 /* global webots */
 'use strict';
 
@@ -138,3 +140,5 @@ class Stream { // eslint-disable-line no-unused-vars
     }
   }
 }
+
+export {Stream}

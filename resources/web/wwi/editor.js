@@ -1,3 +1,7 @@
+import {DialogWindow} from "./dialog_window.js";
+import {SystemInfo} from "./system_info.js";
+import {DefaultUrl} from "./default_url.js";
+
 /* global ace, webots, DialogWindow, DefaultUrl, SystemInfo */
 'use strict';
 
@@ -293,3 +297,5 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     });
   }
 }
+
+export {Editor}

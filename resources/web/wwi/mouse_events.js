@@ -1,3 +1,6 @@
+import {SystemInfo} from "./system_info.js";
+import {webots} from "./../wwi/webots.js";
+
 /* global webots, SystemInfo */
 'use strict';
 
@@ -386,3 +389,5 @@ MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, even
   pos.y = Math.round(eventY - rect.top);
   return pos;
 };
+
+export {MouseEvents}

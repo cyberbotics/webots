@@ -43,3 +43,5 @@ class Selector { // eslint-disable-line no-unused-vars
     this.selectedObject = null;
   }
 }
+
+export {Selector}

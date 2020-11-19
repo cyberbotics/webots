@@ -570,6 +570,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", thresholdPointer]);
   }
 }
+
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
     super(id);

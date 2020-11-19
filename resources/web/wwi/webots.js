@@ -1,3 +1,16 @@
+import {SystemInfo} from "./system_info.js";
+import {ContextMenu} from "./context_menu.js";
+import {X3dScene} from "./x3d_scene.js";
+import {MouseEvents} from "./mouse_events.js";
+import {Console} from "./console.js";
+import {Editor} from "./editor.js";
+import {DefaultUrl} from "./default_url.js";
+import {Toolbar} from "./toolbar.js";
+import {Stream} from "./stream.js";
+import {DialogWindow} from "./dialog_window.js";
+
+
+
 /*
  * Injects a Webots 3D view inside a HTML tag.
  * @class
@@ -37,6 +50,7 @@ webots.showRevert          // defines whether the revert button should be displa
 webots.showQuit            // defines whether the quit button should be displayed
 webots.showRun             // defines whether the run button should be displayed
 */
+let webots = window.webots || {};
 
 webots.View = class View {
   constructor(view3D, mobile) {
@@ -192,7 +206,7 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
+          //TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
@@ -599,3 +613,88 @@ webots.window = (name) => {
     console.log("Robot window '" + name + "' not found.");
   return win;
 };
+
+webots.alert = (title, message, callback) => {
+  webots.currentView.ondialogwindow(true);
+  var parent = webots.currentView.view3D;
+  var panel = document.getElementById('webotsAlert');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'webotsAlert';
+    parent.appendChild(panel);
+  }
+  panel.innerHTML = message;
+  $('#webotsAlert').dialog({
+    title: title,
+    resizeStart: DialogWindow.disablePointerEvents,
+    resizeStop: DialogWindow.enablePointerEvents,
+    dragStart: DialogWindow.disablePointerEvents,
+    dragStop: DialogWindow.enablePointerEvents,
+    appendTo: parent,
+    open: () => { DialogWindow.openDialog(panel); },
+    modal: true,
+    width: 400, // enough room to display the social network buttons in a line
+    buttons: {
+      Ok: () => { $('#webotsAlert').dialog('close'); }
+    },
+    close: () => {
+      if (typeof callback === 'function')
+        callback();
+      webots.currentView.ondialogwindow(false);
+      $('#webotsAlert').remove();
+    }
+  });
+};
+
+webots.confirm = (title, message, okCallback, closeCallback) => {
+  webots.currentView.ondialogwindow(true);
+  var parent = webots.currentView.view3D;
+  var panel = document.createElement('div');
+  panel.id = 'webotsConfirm';
+  panel.innerHTML = message;
+  parent.appendChild(panel);
+  $('#webotsConfirm').dialog({
+    title: title,
+    resizeStart: DialogWindow.disablePointerEvents,
+    resizeStop: DialogWindow.enablePointerEvents,
+    dragStart: DialogWindow.disablePointerEvents,
+    dragStop: DialogWindow.enablePointerEvents,
+    appendTo: parent,
+    open: () => { DialogWindow.openDialog(panel); },
+    modal: true,
+    width: 400, // enough room to display the social network buttons in a line
+    buttons: {
+      Ok: () => {
+        if (typeof okCallback === 'function')
+          okCallback();
+        $('#webotsConfirm').dialog('close');
+      },
+      Cancel: () => { $('#webotsConfirm').dialog('close'); }
+    },
+    close: () => {
+      $('#webotsConfirm').dialog('destroy').remove();
+      webots.currentView.ondialogwindow(false);
+      if (typeof closeCallback === 'function')
+        closeCallback();
+    }});
+};
+
+webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
+  var hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+  var absoluteHours = Math.floor(hours);
+  var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+  var minutes = (hours - absoluteHours) * 60;
+  var absoluteMinutes = Math.floor(minutes);
+  var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+  var seconds = (minutes - absoluteMinutes) * 60;
+  var absoluteSeconds = Math.floor(seconds);
+  var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+  var ms = Math.floor((seconds - absoluteSeconds) * 1000);
+  if (ms < 10)
+    ms = '00' + ms;
+  else if (ms < 100)
+    ms = '0' + ms;
+  return h + ':' + m + ':' + s + ':' + ms;
+};
+
+export {webots}
