@@ -1,4 +1,6 @@
 import {WbBaseNode} from "./WbBaseNode.js"
+import {arrayXPointer} from "./WbUtils.js";
+
 
 class WbImageTexture extends WbBaseNode {
   constructor(id, url, isTransparent, s, t, anisotropy, image){

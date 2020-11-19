@@ -1,4 +1,6 @@
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
+import {array3Pointer} from "./WbUtils.js";
+
 
 class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,

@@ -1,3 +1,5 @@
+import {arrayXPointer} from "./WbUtils.js";
+
 class WbWrenShaders {
 
   static buildShader(shader, vertexShaderPath, fragmentShaderpath) {

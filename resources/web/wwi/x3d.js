@@ -1187,11 +1187,6 @@ function createDefaultMaterial(geometry) {
   return material;
 };
 
-function convertStringToVec2(s) {
-  s = s.split(/\s/);
-  var v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
-  return v;
-}
 
 /*
 function convertStringToVec3(s) {

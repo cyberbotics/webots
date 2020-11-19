@@ -1,4 +1,5 @@
-import {WbBaseNode} from "./WbBaseNode.js"
+import {WbBaseNode} from "./WbBaseNode.js";
+import {array3Pointer} from "./WbUtils.js";
 
 class WbMaterial extends WbBaseNode {
   constructor(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency) {

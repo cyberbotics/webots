@@ -1,6 +1,6 @@
 import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
-
+import {arrayXPointer} from "./WbUtils.js";
 
 class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   constructor(){

@@ -2,15 +2,19 @@ let VIEWPOINT = undefined;
 
 import {WbScene} from "./webotsjs/WbScene.js";
 import {WbViewpoint} from "./webotsjs/WbViewpoint.js";
+import {WbBackground} from "./webotsjs/WbBackground.js";
+
 import {WbTransform} from "./webotsjs/WbTransform.js";
 import {WbShape} from "./webotsjs/WbShape.js";
+
 import {WbBox} from "./webotsjs/WbBox.js";
 import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
-import {WbBackground} from "./webotsjs/WbBackground.js";
 
-
-
+import {WbMaterial} from "./webotsjs/WbMaterial.js";
+import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
+import {WbAppearance} from "./webotsjs/WbAppearance.js";
+import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js";
 
 class MyParser {
   constructor() {
@@ -536,6 +540,12 @@ function getNodeAttribute(node, attributeName, defaultValue) {
   if (attributeName in node.attributes)
     return node.attributes.getNamedItem(attributeName).value;
   return defaultValue;
+}
+
+function convertStringToVec2(s) {
+  s = s.split(/\s/);
+  var v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
+  return v;
 }
 
 function convertStringToVec3(s) {

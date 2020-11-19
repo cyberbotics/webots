@@ -1,7 +1,7 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbViewpoint} from "./WbViewpoint.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
-
+import {arrayXPointer} from "./WbUtils.js";
 
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {

@@ -1,3 +1,5 @@
+import {arrayXPointer} from "./WbUtils.js";
+
 class WbWrenPostProcessingEffects {
   static loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture){
     WbWrenPostProcessingEffects.lensFlareLenTexture = WbWrenPostProcessingEffects.loadImage(lensFlareLenTexture);

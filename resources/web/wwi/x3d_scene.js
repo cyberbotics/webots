@@ -2,6 +2,8 @@ import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
 import {Viewpoint} from "./viewpoint.js";
 import {Selector} from "./selector.js";
 import {MyParser} from "./my_parser.js";
+import {webots} from "./../wwi/webots.js";
+
 
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
