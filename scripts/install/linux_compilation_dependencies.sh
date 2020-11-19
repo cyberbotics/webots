@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 apt update
-apt install --yes git lsb-release cmake swig python2.7-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libgd3 libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev wget libssl-dev zip unzip xvfb
+apt install --yes git lsb-release cmake swig python2.7-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libgd3 libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev wget libssl-dev zip unzip
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "16.04"  || $UBUNTU_VERSION == "18.04" ]]; then
