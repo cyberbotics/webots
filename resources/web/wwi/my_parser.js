@@ -10,6 +10,9 @@ import {WbShape} from "./webotsjs/WbShape.js";
 import {WbBox} from "./webotsjs/WbBox.js";
 import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
+import {WbSphere} from "./webotsjs/WbPlane.js";
+import {WbCone} from "./webotsjs/WbCone.js";
+
 
 import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
