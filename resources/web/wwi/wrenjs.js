@@ -2123,9 +2123,9 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.gtaoCombineShader());
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 3);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 2, false);
