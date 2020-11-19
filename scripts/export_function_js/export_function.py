@@ -42,21 +42,30 @@ functionName[lastIndex] = lastName;
 
 f = open("../../src/wren/functionsToExport.txt", 'x')
 
-f.write(''.join(functionName));
+f.write(''.join(functionName))
+
+f.close()
+
+print("Functions parsed");
 
 #ENUM
 
 all_values = parser.defs['values']
-#Eliminate the #ifdef value
-all_values = [value for value in all_values if ("_H" in value)]
-print(all_values);
+
+#Eliminate the include guard
+all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.items() if not ("_H" in value[0])]
+
 
 if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
   os.remove("../../resources/web/streaming_viewer/enum.js")
   
 f = open("../../resources/web/streaming_viewer/enum.js", 'x')
 
-f.write(''.join(all_values));
+values_string = ''.join(all_values);
+values_string = values_string[:len(values_string) - 3]
+f.write("const ENUM = {\n" + values_string + "}");
 
+f.close()
 
+print("Enums parsed");
 

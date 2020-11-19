@@ -1,5 +1,5 @@
-#ifndef WR_SKELETON
-#define WR_SKELETON
+#ifndef WR_SKELETON_H
+#define WR_SKELETON_H
 
 #ifdef __cplusplus
 extern "C" {

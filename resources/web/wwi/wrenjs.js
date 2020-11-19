@@ -19,7 +19,7 @@ class WbScene {
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
-    WbWrenPostProcessingEffects.loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
+    //WbWrenPostProcessingEffects.loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
     this.updateWrenViewportDimensions();
   }
 
@@ -40,17 +40,17 @@ class WbScene {
     _wr_frame_buffer_set_size(this.wrenMainFrameBuffer, canvas.width, canvas.height);
 
     this.wrenMainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, 6);//enum
+    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, 3);//enum
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
     _wr_frame_buffer_enable_depth_buffer(this.wrenMainFrameBuffer, true);
 
     this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, 11);//enum
+    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
     _wr_frame_buffer_set_depth_texture(this.wrenMainFrameBuffer, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_setup(this.wrenMainFrameBuffer);
@@ -103,7 +103,7 @@ class WbViewpoint extends WbBaseNode {
     this.inverseViewMatrix;
     this.wrenHdr = new WbWrenHdr();
     //this.wrenGtao = new WbWrenGtao();
-    this.wrenBloom = new WbWrenBloom();
+    //this.wrenBloom = new WbWrenBloom();
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
@@ -384,7 +384,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
     _wr_post_processing_effect_pass_set_alpha_blending(hdrPass, false);
     _wr_post_processing_effect_pass_set_input_texture_count(hdrPass, 1);
     _wr_post_processing_effect_pass_set_output_texture_count(hdrPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, 2); //enum
+    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8); //enum: try with rgba
     _wr_post_processing_effect_append_pass(hdrResolveEffect, hdrPass);
 
     _wr_post_processing_effect_set_result_program(hdrResolveEffect, WbWrenShaders.passThroughShader());
@@ -479,7 +479,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     let depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
     let normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, 6, depthTexture, normalTexture, this.halfResolution);//enum WR_TEXTURE_INTERNAL_FORMAT_RGBA16F
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F, depthTexture, normalTexture, this.halfResolution);
 
     this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "gtaoForwardPass"]);
     this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "temporalDenoise"]);
@@ -544,7 +544,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     if (Math.min(width, height) <= 64.0)
       return;
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, 6); //enum
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     this.applyParametersToWren();
 
@@ -607,7 +607,7 @@ class WbBackground extends WbBaseNode {
     _wr_renderable_set_receive_shadows(this.skyboxRenderable, false);
     _wr_renderable_set_mesh(this.skyboxRenderable, this.skyboxMesh);
     _wr_renderable_set_material(this.skyboxRenderable, this.skyboxMaterial, null);
-    _wr_renderable_set_drawing_mode(this.skyboxRenderable, 0x4); //enum
+    _wr_renderable_set_drawing_mode(this.skyboxRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
     _wr_renderable_set_face_culling(this.skyboxRenderable, false);
 
     this.skyboxTransform = _wr_transform_new();
@@ -677,7 +677,7 @@ class WbBackground extends WbBaseNode {
     // 1. Load the background.
     if(this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
-      _wr_texture_set_internal_format(this.cubeMapTexture, 3); //enum
+      _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
       let bitsPointers = []
       for (let i = 0; i < 6; ++i) {
@@ -689,9 +689,9 @@ class WbBackground extends WbBaseNode {
       _wr_texture_set_size(this.cubeMapTexture, this.cubeArray[0].width, this.cubeArray[0].height);
       _wr_texture_setup(this.cubeMapTexture);
       _wr_material_set_texture_cubemap(this.skyboxMaterial, this.cubeMapTexture, 0);
-      _wr_material_set_texture_cubemap_wrap_r(this.skyboxMaterial, 0x812F, 0); //enum
-      _wr_material_set_texture_cubemap_wrap_s(this.skyboxMaterial, 0x812F, 0); //enum
-      _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, 0x812F, 0); //enum
+      _wr_material_set_texture_cubemap_wrap_r(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+      _wr_material_set_texture_cubemap_wrap_s(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+      _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       _wr_scene_set_skybox(_wr_scene_get_instance(), this.skyboxRenderable);
 
       for(let i = 0; i < 6; ++i) {
@@ -711,7 +711,7 @@ class WbBackground extends WbBaseNode {
       dataHeap.set(new Uint8Array(data.buffer));
 
       for (let i = 0; i < 6; ++i) {
-        _wr_texture_set_internal_format(cm, 9); //enum
+        _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
         let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [dataHeap.byteOffset, this.irradianceCubeArray[i]]);
         w = Module.getValue(dataHeap.byteOffset,'i32');
         // TODO Check if some rotations are needed for ENU
@@ -829,7 +829,7 @@ class WbShape extends WbBaseNode {
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
-      this.createWrenMaterial(1); //enum
+      this.createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
@@ -854,7 +854,7 @@ class WbShape extends WbBaseNode {
     if (this.wrenMaterial)
       _wr_material_delete(this.wrenMaterial);
 
-    if (type === 1) { //enum
+    if (type === ENUM.WR_MATERIAL_PHONG) {
       this.wrenMaterial = _wr_phong_material_new();
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.defaultShader());
@@ -1227,10 +1227,8 @@ class WbImageTexture extends WbBaseNode {
     _wr_material_set_texture(wrenMaterial, this.wrenTexture, this.wrenTextureIndex);
     if (this.wrenTexture) {
       _wr_texture_set_translucent(this.wrenTexture, this.isTransparent);
-      _wr_material_set_texture_wrap_s(
-        wrenMaterial, this.repeatS ? 0x2901 : 0x812F, this.wrenTextureIndex);//enum 2x
-      _wr_material_set_texture_wrap_t(
-        wrenMaterial, this.repeatT ? 0x2901 : 0x812F, this.wrenTextureIndex);//enum2x
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT  : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT  : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
       _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering  - 1), this.wrenTextureIndex);
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering , this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
@@ -1253,12 +1251,8 @@ class WbImageTexture extends WbBaseNode {
       if (typeof this.wrenTexture !== 'undefined')
         _wr_texture_set_translucent(this.wrenTexture, false);
 
-      _wr_material_set_texture_wrap_s(wrenMaterial,
-                                     this.repeatS ? 0x2901 : 0x812F,
-                                     backgroundTextureIndex); //enum x2
-      _wr_material_set_texture_wrap_t(wrenMaterial,
-                                     this.repeatT ? 0x2901 : 0x812F,
-                                     backgroundTextureIndex); //enum x2
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, backgroundTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, backgroundTextureIndex);
       _wr_material_set_texture_enable_interpolation(wrenMaterial, false, backgroundTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, false, backgroundTextureIndex);
     }
@@ -1388,7 +1382,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 
   modifyWrenMaterial(wrenMaterial) {
-    if (!wrenMaterial) {//enum //TODO check if not pbr material
+    if (!wrenMaterial) { //TODO check if not pbr material
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_pbr_material_new();
     }
@@ -1417,9 +1411,9 @@ class WbPBRAppearance extends WbAbstractAppearance {
       let irradianceCubeTexture = background.irradianceCubeTexture;
       if (typeof irradianceCubeTexture !== 'undefined') {
         _wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
-        _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, 0x812F, 0); //enum
-        _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, 0x812F, 0); //enum
-        _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, 0x812F, 0); //enum
+        _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
         _wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
         _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, false, 0);
         _wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);
@@ -1496,14 +1490,14 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 0);  // main texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 1);  // pen texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 2);  // background texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 16); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 17); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);  // main texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);  // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);  // background texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 0); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT], "../../../resources/wren/shaders/default.vert", "../../../resources/wren/shaders/default.frag");
     }
@@ -1515,16 +1509,16 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 0);  // main texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 1);  // pen texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 2);  // background texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 16);//enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 17);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);  // main texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);  // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);  // background texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 0);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 2);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 4);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 5);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], "../../../resources/wren/shaders/phong.vert", "../../../resources/wren/shaders/phong.frag");
     }
@@ -1536,15 +1530,15 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.HADER_PHONG_STENCIL_AMBIENT_EMISSIVE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 0); // main texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 1); // pen texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 2); // background texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 16); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 17);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0); // main texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1); // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2); // background texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 0);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 2);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 4);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], "../../../resources/wren/shaders/phong_stencil_ambient_emissive.vert", "../../../resources/wren/shaders/phong_stencil_ambient_emissive.frag");
     }
@@ -1556,16 +1550,16 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 0);// main texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 1);// pen texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 2);// background texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 16);//enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 17);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);// main texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);// pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);// background texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 0);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 2);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 3);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 4);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], "../../../resources/wren/shaders/phong_stencil_diffuse_specular.vert", "../../../resources/wren/shaders/phong_stencil_diffuse_specular.frag");
     }
@@ -1577,23 +1571,23 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 0);  // base color texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 1);  // roughness texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 2);  // metalness texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 3);  // occlusion map //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 4);  // normal map //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 5);  // BRDF LUT //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 6);  // emissive texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 7);  // background texture (for displays) //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 8);  // pen texture //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 13);  // irradiance cubemap //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 16); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 17); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);  // base color texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);  // roughness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);  // metalness texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);  // occlusion map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);  // normal map
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);  // BRDF LUT
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE6);  // emissive texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE7);  // background texture (for displays)
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE8);  // pen texture
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);  // irradiance cubemap
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 1); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 2);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 4); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 5); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PBR);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], "../../../resources/wren/shaders/pbr.vert", "../../../resources/wren/shaders/pbr.frag");
     }
@@ -1606,31 +1600,31 @@ class WbWrenShaders {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE] = _wr_shader_program_new();
 
       // base color texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 0); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
       // roughness texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 1); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
       // metalness texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 2); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
       // occlusion map
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 3); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);
       // normal map
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 4); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);
       // BRDF LUT
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 5); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);
       // emissive texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 6); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE6);
       // background texture (for displays)
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 7); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE7);
       // pen texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 8); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE8);
       // irradiance cubemap
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 13); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);
       // specular cubemap
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 16); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 17); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 1); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PBR);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "../../../resources/wren/shaders/pbr_stencil_ambient_emissive.vert", "../../../resources/wren/shaders/pbr_stencil_ambient_emissive.frag");
     }
@@ -1643,26 +1637,26 @@ class WbWrenShaders {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR] = _wr_shader_program_new();
 
       // base color texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 0); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
       // roughness texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 1); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
       // metalness texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 2); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
       // occlusion map
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 3); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);
       // normal map
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 4); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);
       // background texture (for displays)
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 7); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE7);
       // pen texture
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 8); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 16); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 17); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE8);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 1); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 2); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 3); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PBR);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], "../../../resources/wren/shaders/pbr_stencil_diffuse_specular.vert", "../../../resources/wren/shaders/pbr_stencil_diffuse_specular.frag");
     }
@@ -1674,15 +1668,15 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 16); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       let minRange = 0.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", 0, _wrjs_pointerOnFloat(minRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "minRange", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(minRange)]);
 
       let maxRange = 1.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", 0, _wrjs_pointerOnFloat(maxRange)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "maxRange", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(maxRange)]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], "../../../resources/wren/shaders/encode_depth.vert", "../../../resources/wren/shaders/encode_depth.frag");
     }
@@ -1695,10 +1689,10 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 16); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 4);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], 5);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_FOG], "../../../resources/wren/shaders/fog.vert", "../../../resources/wren/shaders/fog.frag");
     }
@@ -1720,11 +1714,11 @@ class WbWrenShaders {
     if (! WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME]) {
        WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 16);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 2);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 3);//enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], 4);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
        WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SHADOW_VOLUME], "../../../resources/wren/shaders/shadow_volume.vert", "../../../resources/wren/shaders/shadow_volume.frag");
     }
@@ -1736,10 +1730,10 @@ class WbWrenShaders {
     if (! WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], 0);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
 
       const defaultExposureValue = 1.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "exposure", 0, _wrjs_pointerOnFloat(defaultExposureValue)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "exposure", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(defaultExposureValue)]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_RESOLVE], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/hdr_resolve.frag");
     }
@@ -1751,7 +1745,7 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR], 0); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_HDR_CLEAR], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/hdr_clear.frag");
     }
@@ -1763,8 +1757,8 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], 13); //enum
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], 4); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SKYBOX], "../../../resources/wren/shaders/skybox.vert", "../../../resources/wren/shaders/skybox.frag");
     }
@@ -1776,7 +1770,7 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH], 0);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PASS_THROUGH], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/pass_through.frag");
     }
@@ -1790,13 +1784,13 @@ class WbWrenShaders {
 
       const projectionAndViewDefaults = new Array(16).fill(0.0);
       const projectionAndViewDefaultsPointer = arrayXPointer(projectionAndViewDefaults);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "projection", 5, projectionAndViewDefaultsPointer]); //enum
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "view", 5, projectionAndViewDefaultsPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "projection", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, projectionAndViewDefaultsPointer]);
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "view", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, projectionAndViewDefaultsPointer]);
 
       const roughness = 0.0;
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "roughness", 0, _wrjs_pointerOnFloat(roughness)]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "roughness", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(roughness)]);
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], 13);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], "../../../resources/wren/shaders/bake_cubemap.vert", "../../../resources/wren/shaders/bake_specular_cubemap.frag");
 
@@ -1809,24 +1803,24 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 0);//enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 1);//enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 2);//enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 18);//enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 4);//enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       let paramsPointer = _wrjs_array4(0,0,0,0);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "params", 4, paramsPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "params", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F, paramsPointer]);
 
       let clipInfoPointer =_wrjs_array4(0.0, 1000000.0, 0.0, 0.0);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "clipInfo", 4, clipInfoPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "clipInfo", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F, clipInfoPointer]);
 
       let radiusPointer = _wrjs_pointerOnFloat(2.0);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "radius", 0, radiusPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "radius", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, radiusPointer]);
 
       let flipNormalYPointer = _wrjs_pointerOnFloat(0.0);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "flipNormalY", 0, flipNormalYPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "flipNormalY", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, flipNormalYPointer]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/gtao.frag");
     }
@@ -1838,10 +1832,10 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], 0); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], 1); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], 4); //enum
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_SPATIAL_DENOISE], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/gtao_spatial_denoise.frag");
     }
@@ -1853,16 +1847,16 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 0); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 1); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 2); //enum
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 3); //enum
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);
 
-      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 4); //enum WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
       const previousInverseViewMatrix = new Array(16).fill(0.0);
       const previousInverseViewMatrixPointer = arrayXPointer(previousInverseViewMatrix);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], "previousInverseViewMatrix", 5, previousInverseViewMatrixPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], "previousInverseViewMatrix", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, previousInverseViewMatrixPointer]);
 
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/gtao_temporal_denoise.frag");
@@ -1889,10 +1883,10 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
 
       let defaultThresholdPointer = _wrjs_pointerOnFloat(10.0);
-      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], "threshold", 0, defaultThresholdPointer]); //enum
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], "threshold", ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, defaultThresholdPointer]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/bright_pass.frag");
     }
@@ -1904,9 +1898,9 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 1); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE1
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], 15); //enum WR_GLSL_LAYOUT_UNIFORM_ITERATION_NUMBER
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], ENUM.WR_GLSL_LAYOUT_UNIFORM_ITERATION_NUMBER);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GAUSSIAN_BLUR_13_TAP], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/gaussian_blur_13_tap.frag");
     }
@@ -1918,13 +1912,13 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND] = _wr_shader_program_new();
 
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 0); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE0
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 1); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE1
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 2); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE2
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 3); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE3
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 4); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE4
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 5); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE5
-      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], 6); //enum WR_GLSL_LAYOUT_UNIFORM_TEXTURE6
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE6);
 
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BLOOM_BLEND], "../../../resources/wren/shaders/pass_through.vert", "../../../resources/wren/shaders/blend_bloom.frag");
@@ -1937,7 +1931,7 @@ class WbWrenShaders {
 //gShaders static variable
 WbWrenShaders.gShaders = {};
 
-WbWrenShaders.SHADER = { //enum
+WbWrenShaders.SHADER = {
     SHADER_BLOOM_BLEND : 1,
     SHADER_BOUNDING_VOLUME : 2,
     SHADER_BRIGHT_PASS : 3,
@@ -2041,7 +2035,7 @@ class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_input_texture(depthDownsamplePassThrough, 0, depthTexture);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(depthDownsamplePassThrough, 0, false);
       _wr_post_processing_effect_pass_set_output_texture_count(depthDownsamplePassThrough, 1);
-      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, 7); //enum
+      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_R32F);
       _wr_post_processing_effect_append_pass(gtaoEffect, depthDownsamplePassThrough);
 
       normalDownsamplePassThrough = _wr_post_processing_effect_pass_new();
@@ -2071,16 +2065,16 @@ class WbWrenPostProcessingEffects {
     }
 
     _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, WbWrenPostProcessingEffects.gtaoNoiseTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, 0x812F);//enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, 0x812F);//enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, 0x812F);//enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 2, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(gtaoForwardPass, true);
     _wr_post_processing_effect_pass_set_alpha_blending(gtaoForwardPass, false);
     _wr_post_processing_effect_pass_set_output_texture_count(gtaoForwardPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, 0);//enum
+    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, gtaoForwardPass);
 
     let spatialDenoise = _wr_post_processing_effect_pass_new();
@@ -2094,14 +2088,14 @@ class WbWrenPostProcessingEffects {
 
     _wr_post_processing_effect_pass_set_input_texture_count(spatialDenoise, 2);
     _wr_post_processing_effect_pass_set_input_texture(spatialDenoise, 1, depthTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 0, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 1, 0x812F); //enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 0, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 1, false);
     _wr_post_processing_effect_pass_set_alpha_blending(spatialDenoise, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(spatialDenoise, true);
     _wr_post_processing_effect_pass_set_output_texture_count(spatialDenoise, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, 0); //enum
+    _wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, spatialDenoise);
 
     let temporalDenoise = _wr_post_processing_effect_pass_new();
@@ -2110,10 +2104,10 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_size(temporalDenoise, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(temporalDenoise, 4);
     _wr_post_processing_effect_pass_set_input_texture(temporalDenoise, 3, depthTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 0, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 1, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 2, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 3, 0x812F); //enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 3, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 0, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 1, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 2, false);
@@ -2121,7 +2115,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_alpha_blending(temporalDenoise, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(temporalDenoise, true);
     _wr_post_processing_effect_pass_set_output_texture_count(temporalDenoise, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, 0); //enum
+    _wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, temporalDenoise);
 
     let finalBlend = _wr_post_processing_effect_pass_new();
@@ -2129,9 +2123,9 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.gtaoCombineShader());
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 3);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, 0x812F); //enum
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, 0x812F); //enum
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE));
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 2, false);
@@ -2139,8 +2133,8 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_input_texture(finalBlend, 2, depthTexture);
     _wr_post_processing_effect_pass_set_output_texture_count(finalBlend, 3);
     _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, textureFormat);
-    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 1, 0); //enum
-    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 2, 7);//enum
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 1, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 2, ENUM.WR_TEXTURE_INTERNAL_FORMAT_R32F);
     _wr_post_processing_effect_append_pass(gtaoEffect, finalBlend);
 
     // color texture for blending at the end
@@ -2187,7 +2181,7 @@ class WbWrenPostProcessingEffects {
    _wr_post_processing_effect_pass_set_alpha_blending(brightPass, false);
    _wr_post_processing_effect_pass_set_input_texture_count(brightPass, 1);
    _wr_post_processing_effect_pass_set_output_texture_count(brightPass, 1);
-   _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+   _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
    _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
    _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
 
@@ -2218,7 +2212,7 @@ class WbWrenPostProcessingEffects {
      _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
      _wr_post_processing_effect_pass_set_alpha_blending(downsamplePass, false);
      _wr_post_processing_effect_pass_set_input_texture_interpolation(downsamplePass, 0, true);
-     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
      _wr_post_processing_effect_pass_set_output_texture_count(downsamplePass, 1);
      _wr_post_processing_effect_pass_set_output_texture_format(downsamplePass, 0, textureFormat);
      _wr_post_processing_effect_append_pass(bloomEffect, downsamplePass);
@@ -2233,7 +2227,7 @@ class WbWrenPostProcessingEffects {
    _wr_post_processing_effect_pass_set_input_texture_count(blendPass, 7);
 
     for (let i = 0; i < 7; ++i)
-     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, 0x812F); //enum WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE
+     _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
 
    _wr_post_processing_effect_pass_set_output_texture_count(blendPass, 1);
    _wr_post_processing_effect_pass_set_output_texture_format(blendPass, 0, textureFormat);
