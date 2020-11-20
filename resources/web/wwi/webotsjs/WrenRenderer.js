@@ -9,9 +9,10 @@ class WrenRenderer {
 
   render() {
     try {
-      console.log("render");
-      VIEWPOINT.updatePostProcessingParameters();
+      //TODO fix
+      //VIEWPOINT.updatePostProcessingParameters();
       _wr_scene_render(_wr_scene_get_instance(), null, true);
+      console.log("render");
     }
     catch(error) {
       console.log("No Context");

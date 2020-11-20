@@ -1,5 +1,5 @@
 let VIEWPOINT = undefined;
-
+import {World} from "./webotsjs/World.js"
 import {WbScene} from "./webotsjs/WbScene.js";
 import {WbViewpoint} from "./webotsjs/WbViewpoint.js";
 import {WbBackground} from "./webotsjs/WbBackground.js";
@@ -24,6 +24,7 @@ import {WbImage} from "./webotsjs/WbImage.js";
 class MyParser {
   constructor() {
       this.prefix = "/projects/default/worlds/";
+      let world = new World();
   }
 
   parse(text){
@@ -37,16 +38,24 @@ class MyParser {
       xml.async = false;
       xml.loadXML(text);
     }
-
-    let scene = xml.getElementsByTagName('Scene')[0];
-    console.log(scene);
-    if (typeof scene === 'undefined') {
-      console.error("Scene not found");
+    if (typeof xml === 'undefined') {
+      console.error("File to parse not found");
     } else {
-      this.parseNode(scene).then(() => {
-        _wr_scene_render(_wr_scene_get_instance(), null, true);
-        console.log("File Parsed => rendder");
-      });
+      let scene = xml.getElementsByTagName('Scene')[0];
+      if (typeof scene === 'undefined') {
+        let node = xml.getElementsByTagName('nodes')[0];
+        console.log(node);
+        if (typeof node === 'undefined')
+          console.error("Unknown content, nor Scene, nor Node");
+        else
+          this.parseChildren(node); //TODO be sure that it render after receiving new node
+      } else {
+        console.log(scene);
+        this.parseNode(scene).then(() => {
+          _wr_scene_render(_wr_scene_get_instance(), null, true);
+          console.log("File Parsed => rendder");
+        });
+      }
     }
   }
 
