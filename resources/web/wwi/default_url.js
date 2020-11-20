@@ -11,16 +11,17 @@ var DefaultUrl = {
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
         if (src.endsWith('webots.js') || src.endsWith('webots.min.js') || src.endsWith('webots.debug.js') || src.endsWith('webots.mjpeg.js')) {
-          this._wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
+          src = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
           break;
         }
+
       }
     }
     return this._wwiUrl;
   },
 
   wwiImagesUrl: function(name) {
-    return this.wwiUrl() + 'images/';
+    return "../wwi/" + 'images/';
   },
 
   currentScriptUrl: function() {

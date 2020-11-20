@@ -1,4 +1,6 @@
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
+import {WbWrenShaders} from "./WbWrenShaders.js";
+import {WbBackground} from "./WbBackground.js";
 import {array3Pointer} from "./WbUtils.js";
 
 

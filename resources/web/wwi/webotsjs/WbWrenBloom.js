@@ -1,4 +1,5 @@
 import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
+import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
 
 class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {

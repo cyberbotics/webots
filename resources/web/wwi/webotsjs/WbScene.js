@@ -1,4 +1,6 @@
 import {WbWrenShaders} from "./WbWrenShaders.js";
+import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
+
 
 class WbScene {
   constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -21,7 +23,7 @@ class WbScene {
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
-    //WbWrenPostProcessingEffects.loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
+    WbWrenPostProcessingEffects.loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
     this.updateWrenViewportDimensions();
   }
 

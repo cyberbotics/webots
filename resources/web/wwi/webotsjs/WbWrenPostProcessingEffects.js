@@ -1,4 +1,5 @@
 import {arrayXPointer} from "./WbUtils.js";
+import {WbWrenShaders} from "./WbWrenShaders.js";
 
 class WbWrenPostProcessingEffects {
   static loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture){

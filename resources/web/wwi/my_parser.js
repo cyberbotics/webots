@@ -10,7 +10,7 @@ import {WbShape} from "./webotsjs/WbShape.js";
 import {WbBox} from "./webotsjs/WbBox.js";
 import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
-import {WbSphere} from "./webotsjs/WbPlane.js";
+import {WbSphere} from "./webotsjs/WbSphere.js";
 import {WbCone} from "./webotsjs/WbCone.js";
 
 
@@ -18,6 +18,8 @@ import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
 import {WbAppearance} from "./webotsjs/WbAppearance.js";
 import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js";
+import {WbImageTexture} from "./webotsjs/WbImageTexture.js";
+import {WbImage} from "./webotsjs/WbImage.js";
 
 class MyParser {
   constructor() {
@@ -83,7 +85,7 @@ class MyParser {
   }
 
   async parseScene(node) {
-    let id = getNodeAttribute(node, 'id');/*
+    let id = getNodeAttribute(node, 'id');
     let lensFlareLenTexture = await this.loadTextureData("/resources/wren/textures/lens_flare.png", true);
     lensFlareLenTexture.isTranslucent = true;
     let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png", true);
@@ -92,9 +94,7 @@ class MyParser {
     smaaSearchTexture.isTranslucent = false;
     let gtaoNoiseTexture = await this.loadTextureData("/resources/wren/textures/gtao_noise_texture.png", true);
     gtaoNoiseTexture.isTranslucent = true;
-    return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);*/
-    return new WbScene(id);
-
+    return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
 
   parseWorldInfo(node){

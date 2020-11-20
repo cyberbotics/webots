@@ -1,5 +1,7 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbWrenHdr} from "./WbWrenHdr.js";
+import {WbWrenGtao} from "./WbWrenGtao.js";
+import {WbWrenBloom} from "./WbWrenBloom.js";
 
 import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
 
@@ -23,8 +25,8 @@ class WbViewpoint extends WbBaseNode {
 
     this.inverseViewMatrix;
     this.wrenHdr = new WbWrenHdr();
-    //this.wrenGtao = new WbWrenGtao();
-    //this.wrenBloom = new WbWrenBloom();
+    this.wrenGtao = new WbWrenGtao();
+    this.wrenBloom = new WbWrenBloom();
 
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;

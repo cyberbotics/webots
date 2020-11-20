@@ -1,7 +1,9 @@
 import {WbBaseNode} from "./WbBaseNode.js"
+import {WbPointSet} from "./WbPointSet.js"
 import {WbAppearance} from "./WbAppearance.js"
 import {WbPBRAppearance} from "./WbPBRAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
+
 
 
 class WbShape extends WbBaseNode {
