@@ -33,6 +33,7 @@ class WbMaterial extends WbBaseNode {
     let diffuseColorPointer = array3Pointer(diffuse.x, diffuse.y, diffuse.z);
     let specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);
     let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
+
     _wr_phong_material_set_all_parameters(wrenMaterial, ambientColorPointer, diffuseColorPointer, specularColorPointer, emissiveColorPointer, shininess, this.transparency);
 
     _free(ambientColorPointer);

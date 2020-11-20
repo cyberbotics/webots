@@ -21,6 +21,9 @@ import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js";
 import {WbImageTexture} from "./webotsjs/WbImageTexture.js";
 import {WbImage} from "./webotsjs/WbImage.js";
 
+import {Use} from "./webotsjs/Use.js";
+
+
 class MyParser {
   constructor() {
       this.prefix = "/projects/default/worlds/";
@@ -79,6 +82,8 @@ class MyParser {
     //check if top-level nodes
     if(typeof result !== 'undefined' && typeof currentNode === 'undefined')
         World.instance.sceneTree.push(result);
+
+    return result;
   }
 
   async parseChildren(node, currentNode) {
@@ -197,8 +202,35 @@ class MyParser {
     return background;
   }
 
+  async checkUse(node, currentNode) {;
+    let use = getNodeAttribute(node, 'USE');
+    if(typeof use === 'undefined')
+      return;
+
+    let id = getNodeAttribute(node, 'id');
+    let result = World.instance.nodes['n' + use];
+
+    if(typeof result === 'undefined')
+      return;
+
+    let useNode = new Use(id, result);
+
+    if(typeof currentNode !== 'undefined')
+      useNode.parent = currentNode.id;
+
+    if(typeof World.instance.defUse[use] === 'undefined')
+      World.instance.defUse[use] = new Array();
+    World.instance.defUse[use].push(id);
+    useNode.createWrenObjects();
+    return useNode;
+  }
+
 
   async parseTransform(node, currentNode){
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
     let id = getNodeAttribute(node, 'id');
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
@@ -209,14 +241,22 @@ class MyParser {
 
     await this.parseChildren(node, transform);
 
-    transform.createWrenObjects();
+    if(typeof currentNode !== 'undefined') {
+      transform.parent = currentNode.id;
+    }
 
     World.instance.nodes[transform.id] = transform;
+
+    transform.createWrenObjects();
 
     return transform;
   }
 
   async parseShape(node, currentNode){
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
     let id = getNodeAttribute(node, 'id');
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
@@ -249,20 +289,25 @@ class MyParser {
       }
 
       if (typeof geometry === 'undefined') {
-        geometry = this.parseGeometry(child, currentNode);
+        geometry = await this.parseGeometry(child, currentNode);
         if (typeof geometry !== 'undefined')
           continue;
       }
 
       console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
+
     let shape = new WbShape(id, castShadows, geometry, appearance);
 
     if(typeof currentNode !== 'undefined') {
       currentNode.children.push(shape);
-      shape.parent = currentNode;
-    } else {
+      shape.parent = currentNode.id;
+    } else
       shape.createWrenObjects();
+
+
+    if(typeof appearance !== 'undefined') {
+      appearance.parent = shape.id;
     }
 
     World.instance.nodes[shape.id] = shape;
@@ -270,7 +315,11 @@ class MyParser {
     return shape;
   }
 
-  parseGeometry(node, currentNode) {
+  async parseGeometry(node, currentNode) {
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
     let geometry;
     if(node.tagName === 'Box')
       geometry = this.parseBox(node);
@@ -288,7 +337,7 @@ class MyParser {
     }
 
     if(typeof currentNode !== 'undefined' && typeof geometry !== 'undefined') {
-      geometry.parent = currentNode;
+      geometry.parent = currentNode.id;
     }
 
     return geometry;
@@ -301,7 +350,6 @@ class MyParser {
     let box = new WbBox(id, size);
 
     World.instance.nodes[box.id] = box;
-
     return box;
   }
 
@@ -361,13 +409,17 @@ class MyParser {
   }
 
   async parseAppearance(node) {
+    let use = await this.checkUse(node);
+    if(typeof use !== 'undefined')
+      return use;
+
     let id = getNodeAttribute(node, 'id');
 
     // Get the Material tag.
     let materialNode = node.getElementsByTagName('Material')[0];
     let material;
     if (typeof materialNode !== 'undefined')
-      material = this.parseMaterial(materialNode)
+      material = await this.parseMaterial(materialNode)
 
     // Check to see if there is a texture.
     let imageTexture = node.getElementsByTagName('ImageTexture')[0];
@@ -380,23 +432,23 @@ class MyParser {
     let textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined'){
-        transform = this.parseTextureTransform(textureTransform);
+        transform = await this.parseTextureTransform(textureTransform);
     }
 
     let appearance = new WbAppearance(id, material, texture, transform);
     if (typeof appearance !== 'undefined') {
         if(typeof material !== 'undefined')
-          material.parent = appearance;
+          material.parent = appearance.id;
     }
 
     if (typeof appearance !== 'undefined') {
         if(typeof texture !== 'undefined')
-          texture.parent = appearance;
+          texture.parent = appearance.id;
     }
 
     if (typeof appearance !== 'undefined') {
         if(typeof transform !== 'undefined')
-          transform.parent = appearance;
+          transform.parent = appearance.id;
     }
 
     World.instance.nodes[appearance.id] = appearance;
@@ -404,7 +456,11 @@ class MyParser {
     return appearance;
   }
 
-  parseMaterial(node) {
+  async parseMaterial(node) {
+    let use = await this.checkUse(node);
+    if(typeof use !== 'undefined')
+      return use;
+
     let id = getNodeAttribute(node, 'id');
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
     diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
@@ -421,6 +477,10 @@ class MyParser {
   }
 
   async parseImageTexture(node, hasPrefix) {
+    let use = await this.checkUse(node);
+    if(typeof use !== 'undefined')
+      return use;
+
     const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
     url = url.slice(1, url.length-1);
@@ -450,6 +510,10 @@ class MyParser {
   }
 
   async parsePBRAppearance(node) {
+    let use = await this.checkUse(node);
+    if(typeof use !== 'undefined')
+      return use;
+
     const id = getNodeAttribute(node, 'id');
     let baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
@@ -497,37 +561,37 @@ class MyParser {
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof transform !== 'undefined')
-          transform.parent = pbrAppearance;
+          transform.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof baseColorMap !== 'undefined')
-          baseColorMap.parent = pbrAppearance;
+          baseColorMap.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof roughnessMap !== 'undefined')
-          roughnessMap.parent = pbrAppearance;
+          roughnessMap.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof metalnessMap !== 'undefined')
-          metalnessMap.parent = pbrAppearance;
+          metalnessMap.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof normalMap !== 'undefined')
-          normalMap.parent = pbrAppearance;
+          normalMap.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof occlusionMap !== 'undefined')
-          occlusionMap.parent = pbrAppearance;
+          occlusionMap.parent = pbrAppearance.id;
     }
 
     if (typeof pbrAppearance !== 'undefined') {
         if(typeof emissiveColorMap !== 'undefined')
-          emissiveColorMap.parent = pbrAppearance;
+          emissiveColorMap.parent = pbrAppearance.id;
     }
 
     World.instance.nodes[pbrAppearance.id] = pbrAppearance;
@@ -535,7 +599,11 @@ class MyParser {
     return pbrAppearance;
   }
 
-  parseTextureTransform(node) {
+  async parseTextureTransform(node) {
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
     const id = getNodeAttribute(node, 'id');
     let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
     rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),

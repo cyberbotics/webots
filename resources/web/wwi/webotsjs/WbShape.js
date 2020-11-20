@@ -19,10 +19,10 @@ class WbShape extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-    if (this.appearance)
+    if (typeof this.appearance !== 'undefined'){
       this.appearance.createWrenObjects();
-
-    if (this.geometry){
+    }
+    if (typeof this.geometry !== 'undefined'){
       this.geometry.createWrenObjects();
       //not sure of the place
       this.applyMaterialToGeometry()
