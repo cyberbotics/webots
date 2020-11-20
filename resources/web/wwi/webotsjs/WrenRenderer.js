@@ -1,3 +1,5 @@
+import {World} from "./World.js"
+
 class WrenRenderer {
   constructor () {
   }
@@ -9,8 +11,8 @@ class WrenRenderer {
 
   render() {
     try {
-      //TODO fix
-      //VIEWPOINT.updatePostProcessingParameters();
+      World.instance.viewpoint.updatePostProcessingParameters();
+
       _wr_scene_render(_wr_scene_get_instance(), null, true);
       console.log("render");
     }

@@ -48,13 +48,10 @@ class MyParser {
         if (typeof node === 'undefined')
           console.error("Unknown content, nor Scene, nor Node");
         else
-          this.parseChildren(node); //TODO be sure that it render after receiving new node
+          this.parseChildren(node);
       } else {
         console.log(scene);
-        this.parseNode(scene).then(() => {
-          _wr_scene_render(_wr_scene_get_instance(), null, true);
-          console.log("File Parsed => rendder");
-        });
+        this.parseNode(scene);
       }
     }
   }
@@ -63,24 +60,25 @@ class MyParser {
     let result;
     if(node.tagName === 'Scene') {
       await this.parseScene(node);
-      result = await this.parseChildren(node, currentNode);
-
+      await this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
-      VIEWPOINT = this.parseViewpoint(node);
+      World.instance.viewpoint = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
-      await this.parseBackground(node);
+      result = await this.parseBackground(node);
     else if (node.tagName === 'Transform')
-      await this.parseTransform(node, currentNode);
+      result = await this.parseTransform(node, currentNode);
     else if (node.tagName === 'Shape')
-      await this.parseShape(node, currentNode);
-
+      result = await this.parseShape(node, currentNode);
     else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
     }
-    return result;
+
+    //check if top-level nodes
+    if(typeof result !== 'undefined' && typeof currentNode === 'undefined')
+        World.instance.sceneTree.push(result);
   }
 
   async parseChildren(node, currentNode) {
@@ -194,6 +192,8 @@ class MyParser {
     background.createWrenObjects();
     background.applySkyBoxToWren();
     WbBackground.instance = background;
+
+    World.instance.nodes[background.id] = background;
     return background;
   }
 
@@ -210,6 +210,10 @@ class MyParser {
     await this.parseChildren(node, transform);
 
     transform.createWrenObjects();
+
+    World.instance.nodes[transform.id] = transform;
+
+    return transform;
   }
 
   async parseShape(node, currentNode){
@@ -260,7 +264,10 @@ class MyParser {
     } else {
       shape.createWrenObjects();
     }
-    return 0;
+
+    World.instance.nodes[shape.id] = shape;
+
+    return shape;
   }
 
   parseGeometry(node, currentNode) {
@@ -283,6 +290,7 @@ class MyParser {
     if(typeof currentNode !== 'undefined' && typeof geometry !== 'undefined') {
       geometry.parent = currentNode;
     }
+
     return geometry;
   }
 
@@ -290,7 +298,11 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
-    return new WbBox(id, size);
+    let box = new WbBox(id, size);
+
+    World.instance.nodes[box.id] = box;
+
+    return box;
   }
 
   parseSphere(node) {
@@ -299,7 +311,11 @@ class MyParser {
     let ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true'
     let subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
-    return new WbSphere(id, radius, ico, subdivision);
+    let sphere = new WbSphere(id, radius, ico, subdivision);
+
+    World.instance.nodes[sphere.id] = sphere;
+
+    return sphere;
   }
 
   parseCone(node) {
@@ -310,7 +326,11 @@ class MyParser {
     let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
     let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
 
-    return new WbCone(id, bottomRadius, height, subdivision, side, bottom);
+    let cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
+
+    World.instance.nodes[cone.id] = cone;
+
+    return cone;
   }
 
   parseCylinder(node) {
@@ -322,14 +342,22 @@ class MyParser {
     let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
     let top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
 
-    return new WbCylinder(id, radius, height, subdivision, bottom, side, top);
+    let cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
+
+    World.instance.nodes[cylinder.id] = cylinder;
+
+    return cylinder;
   }
 
   parsePlane(node) {
     let id = getNodeAttribute(node, 'id');
     let size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
-    return new WbPlane(id, size);
+    let plane = new WbPlane(id, size);
+
+    World.instance.nodes[plane.id] = plane;
+
+    return plane;
   }
 
   async parseAppearance(node) {
@@ -371,6 +399,8 @@ class MyParser {
           transform.parent = appearance;
     }
 
+    World.instance.nodes[appearance.id] = appearance;
+
     return appearance;
   }
 
@@ -383,7 +413,11 @@ class MyParser {
     shininess = parseFloat(getNodeAttribute(node, 'shininess', '0.2')),
     transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
 
-    return new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
+    let material = new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
+
+    World.instance.nodes[material.id] = material;
+
+    return material;
   }
 
   async parseImageTexture(node, hasPrefix) {
@@ -409,6 +443,8 @@ class MyParser {
       let image = await this.loadTextureData(url);
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);
     }
+
+    World.instance.nodes[imageTexture.id] = imageTexture;
 
     return imageTexture;
   }
@@ -494,17 +530,23 @@ class MyParser {
           emissiveColorMap.parent = pbrAppearance;
     }
 
+    World.instance.nodes[pbrAppearance.id] = pbrAppearance;
+
     return pbrAppearance;
   }
 
   parseTextureTransform(node) {
-      const id = getNodeAttribute(node, 'id');
-      let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
-      rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),
-      scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1')),
-      translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
+    const id = getNodeAttribute(node, 'id');
+    let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0')),
+    rotation = parseFloat(getNodeAttribute(node, 'rotation', '0')),
+    scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1')),
+    translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
 
-    return new WbTextureTransform(id, center, rotation, scale, translation);
+    let textureTransform = new WbTextureTransform(id, center, rotation, scale, translation);
+
+    World.instance.nodes[textureTransform.id] = textureTransform;
+
+    return textureTransform;
   }
 
   async loadTextureData(url, bgra) {

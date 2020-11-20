@@ -1,9 +1,10 @@
-import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
 import {Viewpoint} from "./viewpoint.js";
 import {Selector} from "./selector.js";
 import {MyParser} from "./my_parser.js";
 import {webots} from "./../wwi/webots.js";
 
+import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
+import {World} from "./webotsjs/World.js"
 
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
@@ -457,7 +458,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   processServerMessage(data, view) {
-    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);
