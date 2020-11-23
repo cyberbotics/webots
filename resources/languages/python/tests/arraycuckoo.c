@@ -3,9 +3,9 @@
 typedef struct {
   PyObject_HEAD char *arr;
   int len;
-} ArrayMimic;
+} ArrayCuckoo;
 
-static int ArrayMimic_init(ArrayMimic *self, PyObject *args, PyObject *kwds) {
+static int ArrayCuckoo_init(ArrayCuckoo *self, PyObject *args, PyObject *kwds) {
   self->len = 2;
   self->arr = (char *)malloc(self->len * sizeof(char));
   for (int i = 0; i < self->len; i++) {
@@ -15,7 +15,7 @@ static int ArrayMimic_init(ArrayMimic *self, PyObject *args, PyObject *kwds) {
   return 0;
 }
 
-static PyObject *ArrayMimic_str(ArrayMimic *self) {
+static PyObject *ArrayCuckoo_str(ArrayCuckoo *self) {
   int pos = 0;
   char *s = malloc(self->len * 10);
   for (int i = 0; i < self->len; i++) {
@@ -27,13 +27,13 @@ static PyObject *ArrayMimic_str(ArrayMimic *self) {
   return ret;
 }
 
-static int ArrayMimic_getbuffer(PyObject *obj, Py_buffer *view, int flags) {
+static int ArrayCuckoo_getbuffer(PyObject *obj, Py_buffer *view, int flags) {
   if (view == NULL) {
     PyErr_SetString(PyExc_ValueError, "NULL view in getbuffer");
     return -1;
   }
 
-  ArrayMimic *self = (ArrayMimic *)obj;
+  ArrayCuckoo *self = (ArrayCuckoo *)obj;
   view->obj = (PyObject *)self;
   view->buf = (void *)self->arr;
   view->len = self->len * sizeof(char);
@@ -50,14 +50,14 @@ static int ArrayMimic_getbuffer(PyObject *obj, Py_buffer *view, int flags) {
   return 0;
 }
 
-static PyBufferProcs ArrayMimic_as_buffer = {
-  (getbufferproc)ArrayMimic_getbuffer,
+static PyBufferProcs ArrayCuckoo_as_buffer = {
+  (getbufferproc)ArrayCuckoo_getbuffer,
   (releasebufferproc)0,
 };
 
-static PyObject *ArrayMimic_setpointer(ArrayMimic *self, PyObject *original) {
+static PyObject *ArrayCuckoo_setpointer(ArrayCuckoo *self, PyObject *original) {
   // This method copies reference (not data) from the passed Python object which supports a Python buffer protocol.
-  // In that way this object mimics the original one, except this one exposed as `array.array`.
+  // In that way this object cuckoos the original one, except this one exposed as `array.array`.
 
   Py_buffer buffer;
 
@@ -72,37 +72,37 @@ static PyObject *ArrayMimic_setpointer(ArrayMimic *self, PyObject *original) {
   return Py_BuildValue("d", 1);
 }
 
-static PyMethodDef ArrayMimic_methods[] = {{"setpointer", (PyCFunction)ArrayMimic_setpointer, METH_O, "Set memory pointer"},
+static PyMethodDef ArrayCuckoo_methods[] = {{"setpointer", (PyCFunction)ArrayCuckoo_setpointer, METH_O, "Set memory pointer"},
                                            {NULL, NULL, 0, NULL}};
 
-static PyTypeObject ArrayMimicType = {
+static PyTypeObject ArrayCuckooType = {
   PyVarObject_HEAD_INIT(NULL, 0) "array.array", /* tp_name */
-  sizeof(ArrayMimic),                           /* tp_basicsize */
+  sizeof(ArrayCuckoo),                           /* tp_basicsize */
   0,                                            /* tp_itemsize */
   0,                                            /* tp_dealloc */
   0,                                            /* tp_print */
   0,                                            /* tp_getattr */
   0,                                            /* tp_setattr */
   0,                                            /* tp_reserved */
-  (reprfunc)ArrayMimic_str,                     /* tp_repr */
+  (reprfunc)ArrayCuckoo_str,                     /* tp_repr */
   0,                                            /* tp_as_number */
   0,                                            /* tp_as_sequence */
   0,                                            /* tp_as_mapping */
   0,                                            /* tp_hash  */
   0,                                            /* tp_call */
-  (reprfunc)ArrayMimic_str,                     /* tp_str */
+  (reprfunc)ArrayCuckoo_str,                     /* tp_str */
   0,                                            /* tp_getattro */
   0,                                            /* tp_setattro */
-  &ArrayMimic_as_buffer,                        /* tp_as_buffer */
+  &ArrayCuckoo_as_buffer,                        /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                           /* tp_flags */
-  "ArrayMimic object",                          /* tp_doc */
+  "ArrayCuckoo object",                          /* tp_doc */
   0,                                            /* tp_traverse */
   0,                                            /* tp_clear */
   0,                                            /* tp_richcompare */
   0,                                            /* tp_weaklistoffset */
   0,                                            /* tp_iter */
   0,                                            /* tp_iternext */
-  ArrayMimic_methods,                           /* tp_methods */
+  ArrayCuckoo_methods,                           /* tp_methods */
   0,                                            /* tp_members */
   0,                                            /* tp_getset */
   0,                                            /* tp_base */
@@ -110,19 +110,19 @@ static PyTypeObject ArrayMimicType = {
   0,                                            /* tp_descr_get */
   0,                                            /* tp_descr_set */
   0,                                            /* tp_dictoffset */
-  (initproc)ArrayMimic_init,                    /* tp_init */
+  (initproc)ArrayCuckoo_init,                    /* tp_init */
 };
 
-static struct PyModuleDef ArrayMimic_module = {PyModuleDef_HEAD_INIT, "arraymimic", "Module mytest description", -1,
-                                               ArrayMimic_methods};
+static struct PyModuleDef ArrayCuckoo_module = {PyModuleDef_HEAD_INIT, "arraycuckoo", "Module mytest description", -1,
+                                               ArrayCuckoo_methods};
 
-PyMODINIT_FUNC PyInit_arraymimic(void) {
-  PyObject *module = PyModule_Create(&ArrayMimic_module);
+PyMODINIT_FUNC PyInit_arraycuckoo(void) {
+  PyObject *module = PyModule_Create(&ArrayCuckoo_module);
 
-  ArrayMimicType.tp_new = PyType_GenericNew;
-  if (PyType_Ready(&ArrayMimicType) < 0)
+  ArrayCuckooType.tp_new = PyType_GenericNew;
+  if (PyType_Ready(&ArrayCuckooType) < 0)
     return NULL;
-  PyModule_AddObject(module, "array", (PyObject *)&ArrayMimicType);
+  PyModule_AddObject(module, "array", (PyObject *)&ArrayCuckooType);
 
   return module;
 }

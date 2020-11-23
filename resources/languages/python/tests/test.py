@@ -1,5 +1,5 @@
 import array
-import arraymimic
+import arraycuckoo
 
 
 # Test built in module
@@ -11,7 +11,7 @@ len(arr)
 barr = bytearray(b'123')
 
 # Test built our module
-arr = arraymimic.array()
+arr = arraycuckoo.array()
 print(arr)
 arr.setpointer(barr)
 print(arr)
