@@ -104,7 +104,6 @@ iscc_formatter.exe: iscc_formatter.c
 	+@$(CC) -Wall -o $@ iscc_formatter.c
 
 xvfb:
-ifndef DISPLAY
 	+@echo "# starting Xvfb: X Virtual Frame Buffer"
 	+@Xvfb :99 -screen 0 1024x768x16 &
 endif
