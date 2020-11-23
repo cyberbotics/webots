@@ -5,6 +5,8 @@ class Use {
 
     this.parent = parent;
     this.wrenRenderable;
+
+    this.wrenTextureTransform;
   }
 
   createWrenObjects() {
@@ -22,12 +24,28 @@ class Use {
     this.def.wrenRenderable = temp2;
   }
 
-  modifyWrenMaterial(wrenMaterial, textured) {
+  modifyWrenMaterial1(wrenMaterial) {
+    let temp2 = this.def.wrenTextureTransform;
+    this.def.wrenTextureTransform = undefined;
+    
+    this.def.modifyWrenMaterial(wrenMaterial);
+
+    this.wrenRenderable = this.def.wrenTextureTransform;
+    this.def.wrenTextureTransform = temp2;
+  }
+
+  modifyWrenMaterial2(wrenMaterial, textured) {
     this.def.modifyWrenMaterial(wrenMaterial, textured);
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
-    this.def.modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex);
+    if (typeof backgroundTextureIndex === 'undefined') {
+      if (typeof mainTextureIndex === 'undefined')
+        this.modifyWrenMaterial1(wrenMaterial);
+      else
+        this.modifyWrenMaterial2(wrenMaterial, mainTextureIndex);
+    }else
+      this.def.modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex);
   }
 
   setWrenMaterial(wrenMaterial, castShadow) {
