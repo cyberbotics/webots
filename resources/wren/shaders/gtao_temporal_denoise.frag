@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 // This shader does the inter-frame filtering for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaotemporaldenoise.frag
@@ -28,8 +30,8 @@ vec4 viewSpacePosition(vec2 pixelLocation, bool previousFrame) {
     z = texture(inputTextures[3], pixelLocation).r;
 
   // Get x/w and y/w from the viewport position
-  float x = pixelLocation.x * 2 - 1;
-  float y = pixelLocation.y * 2 - 1;
+  float x = pixelLocation.x * 2.0 - 1.0;
+  float y = pixelLocation.y * 2.0 - 1.0;
   vec4 projectedPosition = vec4(x, y, z, 1.0f);
   // Transform by the inverse projection matrix
   vec4 vPositionVS = inverse(cameraTransforms.projection) * projectedPosition;
@@ -65,7 +67,7 @@ void main() {
   vec2 currAO = texture(inputTextures[1], texUv).rg;
   vec2 accumAO = texture(inputTextures[0], lastFrameTexUv).rg;
 
-  float weight = max(0.0, 0.8 - sqrt(dist2) * 100);
+  float weight = max(0.0, 0.8 - sqrt(dist2) * 100.0);
   float ao = mix(currAO.x, accumAO.x, weight);
 
   // fragColor = vec4(currentWorldSpacePosition.xyz, 1.0);

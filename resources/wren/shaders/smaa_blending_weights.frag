@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 #define SMAASampleLevelZeroOffset(tex, coord, offset) texture(tex, coord + float(offset) * RESOLUTION)
 #define SMAASampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)
@@ -25,15 +27,7 @@ in vec2 vPixcoord;
 
 layout(location = 0) out vec4 result;
 
-vec2 round(vec2 x) {
-  return sign(x) * floor(abs(x) + 0.5);
-}
-
-vec4 round(vec4 x) {
-  return sign(x) * floor(abs(x) + 0.5);
-}
-
-/**
+/*
  * Conditional move:
  */
 void SMAAMovc(bvec2 cond, inout vec2 variable, vec2 value) {
@@ -149,7 +143,7 @@ vec2 SMAASearchDiag2(sampler2D edgesTex, vec2 texcoord, vec2 dir, out vec2 e) {
  * Similar to SMAAArea, this calculates the area corresponding to a certain
  * diagonal distance and crossing edges 'e'.
  */
-vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
+vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, int offset) {
   vec2 texcoord = mad(vec2(SMAA_AREATEX_MAX_DISTANCE_DIAG, SMAA_AREATEX_MAX_DISTANCE_DIAG), e, dist);
 
   // We do a scale and bias for mapping to texel space:
@@ -159,7 +153,7 @@ vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
   texcoord.x += 0.5;
 
   // Move to proper place, according to the subpixel offset:
-  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * offset;
+  texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * float(offset);
 
   // Do it!
   return SMAA_AREATEX_SELECT(SMAASampleLevelZero(areaTex, texcoord));
@@ -168,7 +162,7 @@ vec2 SMAAAreaDiag(sampler2D areaTex, vec2 dist, vec2 e, float offset) {
 /**
  * This searches for diagonal patterns and returns the corresponding weights.
  */
-vec2 SMAACalculateDiagWeights(sampler2D edgesTex, sampler2D areaTex, vec2 texcoord, vec2 e, vec4 subsampleIndices) {
+vec2 SMAACalculateDiagWeights(sampler2D edgesTex, sampler2D areaTex, vec2 texcoord, vec2 e, ivec4 subsampleIndices) {
   vec2 weights = vec2(0.0, 0.0);
 
   // Search for the line ends:

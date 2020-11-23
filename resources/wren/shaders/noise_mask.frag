@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 const int lastResultTextureIndex = 0;
 const int noiseTextureIndex = 1;
