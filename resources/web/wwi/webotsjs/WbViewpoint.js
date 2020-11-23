@@ -152,7 +152,7 @@ class WbViewpoint extends WbBaseNode {
     if(!this.wrenObjectsCreatedCalled)
       return;
 
-    if (this.lensFlare)
+    if (typeof this.lensFlare !== 'undefined')
      this.lensFlare.setup(this.wrenViewport);
 
     if (this.wrenSmaa) {
@@ -244,14 +244,14 @@ class WbViewpoint extends WbBaseNode {
     this.updateNear();
     this.updateFar();
 
-    if (typeof this.lensFlare !== undefined)
+    if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.preFinalize();
   }
 
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.lensFlare !== undefined)
+    if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();
 
     //startFollowUpFromField();

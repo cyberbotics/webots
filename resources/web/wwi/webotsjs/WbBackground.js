@@ -185,6 +185,8 @@ class WbBackground extends WbBaseNode {
 
   postFinalize() {
     super.postFinalize();
+
+    this.applySkyBoxToWren();
   }
 }
 

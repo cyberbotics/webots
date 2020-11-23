@@ -6,12 +6,14 @@ class WbGroup extends WbBaseNode{
     this.children = [];
   }
 
-  createWrenObjects(){
+  createWrenObjects(isTransform){
     super.createWrenObjects();
 
-    this.children.forEach(child => {
-      child.createWrenObjects()
-    });
+    if(!isTransform) {
+      this.children.forEach(child => {
+        child.createWrenObjects()
+      });
+    }
   }
 
   preFinalize() {

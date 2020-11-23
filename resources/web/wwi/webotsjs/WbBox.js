@@ -15,7 +15,6 @@ class WbBox extends WbGeometry {
     _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
 
     this.updateSize();
-
   }
 
   updateSize() {

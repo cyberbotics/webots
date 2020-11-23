@@ -62,8 +62,10 @@ class MyParser {
     let result;
     if(node.tagName === 'Scene') {
       await this.parseScene(node);
-      await this.parseChildren(node, currentNode).then(World.sceneTree.forEach(node => node.finalize());
-      );
+      await this.parseChildren(node, currentNode)
+      World.instance.viewpoint.finalize();
+      World.instance.sceneTree.forEach(node => {
+        node.finalize();});
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -124,11 +126,7 @@ class MyParser {
     let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
 
     let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness);
-    viewpoint.createWrenObjects();
-    viewpoint.updateFieldOfView();//dans preFinalize
-    viewpoint.updateNear();//dans preFinalize
-    viewpoint.updateFar();//dans preFinalize
-    viewpoint.updatePostProcessingParameters(); //dans render
+
     return viewpoint
   }
 
@@ -194,11 +192,10 @@ class MyParser {
     }
 
     let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
-    background.createWrenObjects();
-    background.applySkyBoxToWren();
     WbBackground.instance = background;
 
     World.instance.nodes[background.id] = background;
+
     return background;
   }
 
@@ -237,17 +234,14 @@ class MyParser {
     let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
-    let transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    let transform = await new WbTransform(id, isSolid, translation, scale, rotation);
 
     await this.parseChildren(node, transform);
 
     if(typeof currentNode !== 'undefined') {
       transform.parent = currentNode.id;
     }
-
     World.instance.nodes[transform.id] = transform;
-
-    transform.createWrenObjects();
 
     return transform;
   }
@@ -302,9 +296,7 @@ class MyParser {
     if(typeof currentNode !== 'undefined') {
       currentNode.children.push(shape);
       shape.parent = currentNode.id;
-    } else
-      shape.createWrenObjects();
-
+    }
 
     if(typeof appearance !== 'undefined') {
       appearance.parent = shape.id;

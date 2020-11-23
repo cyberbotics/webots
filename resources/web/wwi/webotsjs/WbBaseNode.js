@@ -25,8 +25,8 @@ class WbBaseNode {
     if (!this.isPreFinalizeCalled)
       this.preFinalize();
 
-    if (!areWrenObjectsInitialized())
-      createWrenObjects();
+    if (!this.wrenObjectsCreatedCalled)
+      this.createWrenObjects();
 
     if (!this.isPostFinalizedCalled)
       this.postFinalize();

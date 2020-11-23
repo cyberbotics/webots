@@ -11,11 +11,15 @@ class WbTransform extends WbGroup {
   }
 
   createWrenObjects() {
-    super.createWrenObjects();
+    super.createWrenObjects(true);
     let transform = _wr_transform_new();
 
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
+
+    this.children.forEach(child => {
+      child.createWrenObjects()
+    });
 
     this.applyTranslationToWren();
     this.applyRotationToWren();

@@ -130,22 +130,22 @@ class WbPBRAppearance extends WbAbstractAppearance {
   preFinalize() {
     super.preFinalize();
 
-    if (typeof this.baseColorMap !== undefined)
+    if (typeof this.baseColorMap !== 'undefined')
       this.baseColorMap.preFinalize();
 
-    if (typeof this.roughnessMap !== undefined)
+    if (typeof this.roughnessMap !== 'undefined')
       this.roughnessMap.preFinalize();
 
-    if (typeof this.metalnessMap !== undefined)
+    if (typeof this.metalnessMap !== 'undefined')
       this.metalnessMap.preFinalize();
 
-    if (typeof this.normalMap !== undefined)
+    if (typeof this.normalMap !== 'undefined')
       this.normalMap.preFinalize();
 
-    if (typeof this.occlusionMap !== undefined)
+    if (typeof this.occlusionMap !== 'undefined')
       this.occlusionMap.preFinalize();
 
-    if (typeof this.emissiveColorMap !== undefined)
+    if (typeof this.emissiveColorMap !== 'undefined')
       this.emissiveColorMap.preFinalize();
 
 
@@ -160,22 +160,22 @@ class WbPBRAppearance extends WbAbstractAppearance {
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.baseColorMap !== undefined)
+    if (typeof this.baseColorMap !== 'undefined')
       this.baseColorMap.postFinalize();
 
-    if (typeof this.roughnessMap !== undefined)
+    if (typeof this.roughnessMap !== 'undefined')
       this.roughnessMap.postFinalize();
 
-    if (typeof this.metalnessMap !== undefined)
+    if (typeof this.metalnessMap !== 'undefined')
       this.metalnessMap.postFinalize();
 
-    if (typeof this.normalMap !== undefined)
+    if (typeof this.normalMap !== 'undefined')
       this.normalMap.postFinalize();
 
-    if (typeof this.occlusionMap !== undefined)
+    if (typeof this.occlusionMap !== 'undefined')
       this.occlusionMap.postFinalize();
 
-    if (typeof this.emissiveColorMap !== undefined)
+    if (typeof this.emissiveColorMap !== 'undefined')
       this.emissiveColorMap.postFinalize();
   }
 

@@ -65,6 +65,40 @@ class WbShape extends WbBaseNode {
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.pbrShader());
     }
   }
+
+  preFinalize() {
+    super.preFinalize();
+
+    if (typeof this.appearance !== 'undefined')
+      this.appearance.preFinalize();
+
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.preFinalize();
+
+    this.updateAppearance();
+    this.updateGeometry();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if (typeof this.appearance !== 'undefined')
+      this.appearance.postFinalize();
+
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.postFinalize();
+
+    //updateCastShadows(); TODO for shadow
+  }
+
+  updateAppearance() {
+    if (this.wrenObjectsCreatedCalled)
+      this.applyMaterialToGeometry();
+  }
+
+  updateGeometry(){
+    
+  }
 }
 
 export {WbShape}
