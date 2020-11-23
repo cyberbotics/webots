@@ -46,8 +46,9 @@ class WbShape extends WbBaseNode {
       } else {
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       }
+      
+      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
-    this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
   }
 
   createWrenMaterial(type) {
