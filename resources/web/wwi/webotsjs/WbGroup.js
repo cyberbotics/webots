@@ -25,7 +25,7 @@ class WbGroup extends WbBaseNode{
   postFinalize() {
     super.postFinalize();
 
-    this.children.forEach( child => child.preFinalize());
+    this.children.forEach( child => child.postFinalize());
   }
 }
 

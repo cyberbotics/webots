@@ -96,7 +96,6 @@ class WbImageTexture extends WbBaseNode {
 
   preFinalize() {
     super.preFinalize();
-    console.log("saéit");
     this.updateUrl();
   }
 

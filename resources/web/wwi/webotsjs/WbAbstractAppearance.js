@@ -24,7 +24,7 @@ class WbAbstractAppearance extends WbBaseNode {
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.textureTransform !== undefined)
+    if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.postFinalize();
   }
 

@@ -97,7 +97,7 @@ class WbShape extends WbBaseNode {
   }
 
   updateGeometry(){
-    
+
   }
 }
 

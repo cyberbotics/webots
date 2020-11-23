@@ -6,6 +6,11 @@ class Use {
   }
 
   createWrenObjects() {
+    let wrenObjTemp3 = this.def.parent;
+    this.def.parent = this.parent;
+    this.def.createWrenObjects();
+    this.parent = this.def.parent;
+    this.def.parent = wrenObjTemp3;
   }
 
   modifyWrenMaterial() {
@@ -13,11 +18,14 @@ class Use {
   }
 
   setWrenMaterial() {
-    let wrenObjTemp3 = this.def.parent;
-    this.def.parent = this.parent;
-    this.def.setWrenMaterial();
-    this.parent = this.def.parent;
-    this.def.parent = wrenObjTemp3;
+  }
+
+  preFinalize(){
+    this.def.preFinalize();
+  }
+
+  postFinalize(){
+    this.def.postFinalize();
   }
 }
 
