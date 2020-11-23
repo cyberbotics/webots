@@ -26,6 +26,10 @@ class Use {
     this.def.modifyWrenMaterial(wrenMaterial, textured);
   }
 
+  modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
+    this.def.modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex);
+  }
+
   setWrenMaterial(wrenMaterial, castShadow) {
     let temp2 = this.def.wrenRenderable;
     this.def.wrenRenderable = this.wrenRenderable;
