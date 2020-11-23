@@ -41,6 +41,21 @@ class WbMaterial extends WbBaseNode {
     _free(specularColorPointer);
     _free(emissiveColorPointer);
   }
+
+  preFinalize() {
+    super.preFinalize();
+
+    /*updateAmbientIntensity();
+    updateDiffuseColor();
+    updateEmissiveColor();
+    updateShininess();
+    updateSpecularColor();
+    updateTransparency();*/
+  }
+
+  postFinalize() {
+    super.postFinalize();
+  }
 }
 
 export {WbMaterial}

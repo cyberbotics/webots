@@ -29,6 +29,10 @@ class WbCylinder extends WbGeometry {
     let scale = _wrjs_color_array(this.radius, this.height, this.radius);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
+
+  postFinalize() {
+    super.postFinalize();
+  }
 }
 
 export {WbCylinder}

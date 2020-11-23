@@ -237,6 +237,26 @@ class WbViewpoint extends WbBaseNode {
       this.wrenHdr.setExposure(WbViewpoint.exposure);
   }
 
+  preFinalize() {
+    super.preFinalize();
+
+    this.updateFieldOfView();
+    this.updateNear();
+    this.updateFar();
+
+    if (typeof this.lensFlare !== undefined)
+      this.lensFlare.preFinalize();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if (typeof this.lensFlare !== undefined)
+      this.lensFlare.postFinalize();
+
+    //startFollowUpFromField();
+  }
+
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;

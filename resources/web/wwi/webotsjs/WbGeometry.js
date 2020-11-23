@@ -54,6 +54,11 @@ class WbGeometry extends WbBaseNode {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, castShadows);
     }
   }
+
+  postFinalize() {
+    super.postFinalize();
+  }
+  
   //Not use for now, normaly in cone
   /*
   deleteWrenRenderable() {

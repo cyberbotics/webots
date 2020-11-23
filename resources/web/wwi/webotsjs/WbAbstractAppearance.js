@@ -13,6 +13,24 @@ class WbAbstractAppearance extends WbBaseNode {
     }
   }
 
+  preFinalize() {
+    super.preFinalize();
+    if (typeof this.textureTransform !== 'undefined')
+      this.textureTransform.preFinalize();
+
+    this.updateTextureTransform();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if (typeof this.textureTransform !== undefined)
+      this.textureTransform.postFinalize();
+  }
+
+  updateTextureTransform() {
+  }
+
 }
 
 export {WbAbstractAppearance}

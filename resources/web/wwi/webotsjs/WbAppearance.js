@@ -53,6 +53,34 @@ class WbAppearance extends WbAbstractAppearance {
     _wr_material_set_default_program(wrenMaterial, WbWrenShaders.phongShader());
     return wrenMaterial;
   }
+
+  preFinalize() {
+    super.preFinalize();
+
+    if (typeof this.material !== 'undefined')
+      this.material.preFinalize();
+
+    if (typeof this.texture !== 'undefined')
+      this.texture.preFinalize();
+
+    this.updateMaterial();
+    this.updateTexture();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if (typeof this.material !== 'undefined')
+      this.material.postFinalize();
+    if (typeof this.texture !== 'undefined')
+      this.texture.postFinalize();
+  }
+
+  updateMaterial() {
+  }
+
+  updateTexture() {
+  }
 }
 
 export {WbAppearance}

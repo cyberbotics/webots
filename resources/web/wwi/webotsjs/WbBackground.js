@@ -178,6 +178,14 @@ class WbBackground extends WbBaseNode {
     for(let i = 0; i < hdrImageData.length; ++i)
       _wrjs_free_hdr_file(hdrImageData[i]);
   }
+
+  preFinalize() {
+    super.preFinalize();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+  }
 }
 
 export{WbBackground}

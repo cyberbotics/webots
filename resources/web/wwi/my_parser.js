@@ -1,4 +1,3 @@
-let VIEWPOINT = undefined;
 import {World} from "./webotsjs/World.js"
 import {WbScene} from "./webotsjs/WbScene.js";
 import {WbViewpoint} from "./webotsjs/WbViewpoint.js";
@@ -63,7 +62,8 @@ class MyParser {
     let result;
     if(node.tagName === 'Scene') {
       await this.parseScene(node);
-      await this.parseChildren(node, currentNode);
+      await this.parseChildren(node, currentNode).then(World.sceneTree.forEach(node => node.finalize());
+      );
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -208,7 +208,7 @@ class MyParser {
       return;
 
     let id = getNodeAttribute(node, 'id');
-    let result = World.instance.nodes['n' + use];
+    let result = World.instance.nodes[use];
 
     if(typeof result === 'undefined')
       return;
@@ -220,8 +220,8 @@ class MyParser {
 
     if(typeof World.instance.defUse[use] === 'undefined')
       World.instance.defUse[use] = new Array();
+
     World.instance.defUse[use].push(id);
-    useNode.createWrenObjects();
     return useNode;
   }
 
@@ -600,7 +600,7 @@ class MyParser {
   }
 
   async parseTextureTransform(node) {
-    let use = await this.checkUse(node, currentNode);
+    let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
 

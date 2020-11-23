@@ -21,6 +21,10 @@ class WbBox extends WbGeometry {
   updateSize() {
       _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
   }
+
+  postFinalize() {
+    super.postFinalize();
+  }
 }
 
 export {WbBox}

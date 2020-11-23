@@ -20,8 +20,6 @@ class WbImageTexture extends WbBaseNode {
     this.wrenBackgroundTexture = undefined;
     this.externalTexture = false;
     this.externalTextureRatio = glm.vec2(1.0,1.0);
-
-    this.updateWrenTexture();
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
@@ -95,6 +93,24 @@ class WbImageTexture extends WbBaseNode {
     //delete mImage;
     //this.image = undefined;
   }
+
+  preFinalize() {
+    super.preFinalize();
+
+    this.updateUrl();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+  }
+
+  updateUrl() {
+    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+    this.url = this.url.replaceAll("\\", "/");
+
+    this.updateWrenTexture();
+  }
+
 }
 
 export {WbImageTexture}

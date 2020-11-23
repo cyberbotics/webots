@@ -24,12 +24,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveColorMap = emissiveColorMap;
     this.emissiveIntensity = emissiveIntensity;
     this.textureTransform = textureTransform;
-    if (WbPBRAppearance.cInstanceCounter == 0) {
-      let quality = 2;//TODO: WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-      let resolution = Math.pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
-      WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
-    }
-    ++WbPBRAppearance.cInstanceCounter;
   }
 
   createWrenObjects(){
@@ -132,6 +126,59 @@ class WbPBRAppearance extends WbAbstractAppearance {
 
     return wrenMaterial;
   }
+
+  preFinalize() {
+    super.preFinalize();
+
+    if (typeof this.baseColorMap !== undefined)
+      this.baseColorMap.preFinalize();
+
+    if (typeof this.roughnessMap !== undefined)
+      this.roughnessMap.preFinalize();
+
+    if (typeof this.metalnessMap !== undefined)
+      this.metalnessMap.preFinalize();
+
+    if (typeof this.normalMap !== undefined)
+      this.normalMap.preFinalize();
+
+    if (typeof this.occlusionMap !== undefined)
+      this.occlusionMap.preFinalize();
+
+    if (typeof this.emissiveColorMap !== undefined)
+      this.emissiveColorMap.preFinalize();
+
+
+    if (WbPBRAppearance.cInstanceCounter == 0) {
+      let quality = 2;//TODO: WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+      let resolution = Math.pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+      WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
+    }
+    ++WbPBRAppearance.cInstanceCounter;
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if (typeof this.baseColorMap !== undefined)
+      this.baseColorMap.postFinalize();
+
+    if (typeof this.roughnessMap !== undefined)
+      this.roughnessMap.postFinalize();
+
+    if (typeof this.metalnessMap !== undefined)
+      this.metalnessMap.postFinalize();
+
+    if (typeof this.normalMap !== undefined)
+      this.normalMap.postFinalize();
+
+    if (typeof this.occlusionMap !== undefined)
+      this.occlusionMap.postFinalize();
+
+    if (typeof this.emissiveColorMap !== undefined)
+      this.emissiveColorMap.postFinalize();
+  }
+
 }
 
 WbPBRAppearance.cBrdfTexture = undefined;

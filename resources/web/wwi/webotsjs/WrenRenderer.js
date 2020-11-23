@@ -10,6 +10,9 @@ class WrenRenderer {
   }
 
   render() {
+    if(!_wr_gl_state_is_initialized())
+      return;
+      
     try {
       World.instance.viewpoint.updatePostProcessingParameters();
 

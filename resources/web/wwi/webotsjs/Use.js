@@ -3,22 +3,21 @@ class Use {
     this.id = id;
     this.def = def;
     this.parent = parent;
-
-    this.wrenNode;
-
   }
 
   createWrenObjects() {
-    console.log(this.def);
-    let wrenObjTemp = this.def.wrenNode;
-    this.def.wrenNode = undefined;
-    this.def.createWrenObjects();
-    this.wrenNode = this.def.wrenNode;
-    this.def.wrenNode = wrenObjTemp;
   }
 
   modifyWrenMaterial() {
     this.def.modifyWrenMaterial();
+  }
+
+  setWrenMaterial() {
+    let wrenObjTemp3 = this.def.parent;
+    this.def.parent = this.parent;
+    this.def.setWrenMaterial();
+    this.parent = this.def.parent;
+    this.def.parent = wrenObjTemp3;
   }
 }
 

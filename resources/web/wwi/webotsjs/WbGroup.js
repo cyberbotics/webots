@@ -8,6 +8,22 @@ class WbGroup extends WbBaseNode{
 
   createWrenObjects(){
     super.createWrenObjects();
+
+    this.children.forEach(child => {
+      child.createWrenObjects()
+    });
+  }
+
+  preFinalize() {
+    super.preFinalize();
+
+    this.children.forEach( child => child.preFinalize());
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    this.children.forEach( child => child.preFinalize());
   }
 }
 

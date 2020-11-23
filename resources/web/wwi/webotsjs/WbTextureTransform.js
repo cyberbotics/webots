@@ -27,6 +27,14 @@ class WbTextureTransform extends WbBaseNode{
     if (this.wrenTextureTransform)
       _wr_texture_transform_delete(this.wrenTextureTransform);
   }
+
+  preFinalize() {
+    super.preFinalize();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+  }
 }
 
 export {WbTextureTransform}

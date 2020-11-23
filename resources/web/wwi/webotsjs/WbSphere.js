@@ -24,6 +24,10 @@ class WbSphere extends WbGeometry {
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }
+  
+  postFinalize() {
+    super.postFinalize();
+  }
 
 }
 
