@@ -3,8 +3,7 @@ import {WbPointSet} from "./WbPointSet.js"
 import {WbAppearance} from "./WbAppearance.js"
 import {WbPBRAppearance} from "./WbPBRAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
-
-
+import {Use} from "./Use.js"
 
 class WbShape extends WbBaseNode {
   constructor(id, castShadow, geometry, appearance) {
@@ -15,7 +14,6 @@ class WbShape extends WbBaseNode {
 
     this.wrenMaterial = undefined;
   }
-
 
   createWrenObjects() {
     super.createWrenObjects();
@@ -33,7 +31,7 @@ class WbShape extends WbBaseNode {
     if (!this.wrenMaterial)
       this.createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
     if (this.geometry) {
-      if (this.appearance instanceof WbAppearance) {
+      if (this.appearance instanceof WbAppearance || (this.appearance instanceof Use && this.appearance.def instanceof WbAppearance)) {
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
         else
@@ -46,7 +44,7 @@ class WbShape extends WbBaseNode {
       } else {
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       }
-      
+
       this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }

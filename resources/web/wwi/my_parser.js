@@ -218,6 +218,7 @@ class MyParser {
     if(typeof World.instance.defUse[use] === 'undefined')
       World.instance.defUse[use] = new Array();
 
+    World.instance.nodes[id] = useNode;
     World.instance.defUse[use].push(id);
     return useNode;
   }
