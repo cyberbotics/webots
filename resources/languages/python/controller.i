@@ -557,7 +557,7 @@ class AnsiCodes(object):
     return point[index];
   }
 
-  PyObject* __getPointCloudBuffer() const {
+  PyObject *__getPointCloudBuffer() const {
     const char *points = (const char *)$self->getPointCloud();
     const int size = $self->getNumberOfPoints() * sizeof(WbLidarPoint);
     return PyBytes_FromStringAndSize(points, size);
