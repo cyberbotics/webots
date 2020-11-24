@@ -18,9 +18,7 @@ class Use extends WbBaseNode {
 
 
   createWrenObjects() {
-
     super.createWrenObjects();
-    let tempList = [];
 
     let temp = this.def.parent;
     this.def.parent = this.parent;
@@ -28,18 +26,12 @@ class Use extends WbBaseNode {
     let temp2 = this.def.wrenRenderable;
     this.def.wrenRenderable = undefined;
 
-    let temp3 = this.def.material;
-    this.def.material = this.material;
-
     this.def.createWrenObjects();
 
     this.def.parent = temp;
 
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
-
-    this.material = this.def.material;
-    this.def.material = temp3;
 
     this.wrenObjectsCreatedCalled = true;
   }
