@@ -237,6 +237,12 @@ class WbViewpoint extends WbBaseNode {
       this.wrenHdr.setExposure(WbViewpoint.exposure);
   }
 
+  updatePosition() {
+    if (this.wrenObjectsCreatedCalled) {
+      this.applyPositionToWren();
+    }
+  }
+
   preFinalize() {
     super.preFinalize();
 

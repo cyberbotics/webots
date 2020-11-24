@@ -1,5 +1,7 @@
 import {SystemInfo} from "./system_info.js";
 import {webots} from "./../wwi/webots.js";
+import {World} from "./webotsjs/World.js"
+
 
 /* global webots, SystemInfo */
 'use strict';
@@ -158,10 +160,15 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       }
       return;
     }
-    this.scene.viewpoint.zoom(this.moveParams.distanceToPickPosition, event.deltaY);
 
-    if (typeof webots.currentView.onmousewheel === 'function')
-      webots.currentView.onmousewheel(event);
+    let position = World.instance.viewpoint.position;
+
+    let rollVector = this.direction(World.instance.viewpoint.orientation);
+    let zDisplacement = glm.vec3(event.deltaY * 0.01 * rollVector.x, event.deltaY * 0.01 * rollVector.y, event.deltaY * 0.01 * rollVector.z);
+    World.instance.viewpoint.position = glm.vec3(position.x + zDisplacement.x, position.y + zDisplacement.y, position.z + zDisplacement.z);
+    World.instance.viewpoint.updatePosition();
+
+    webots.currentView.x3dScene.render();
   }
 
   _wheelTimeoutCallback(event) {
@@ -371,6 +378,12 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         );
       }
     }
+  }
+
+  direction(orientation)  {
+    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
+    let tTimesZ = t * orientation.z;
+    return glm.vec3(tTimesZ * orientation.x + s * orientation.y, tTimesZ * orientation.y - s * orientation.x, tTimesZ * orientation.z + c);
   }
 }
 
