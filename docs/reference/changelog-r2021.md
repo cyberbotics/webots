@@ -15,6 +15,7 @@ Released on December XXth, 2020.
     - Added a new functionality in the [Recognition](recognition.md) node and [Camera](camera.md) API for generating segmented ground truth images ([#2199](https://github.com/cyberbotics/webots/pull/2199)).
     - **Added a new [`wb_inertial_unit_get_quaternion`](inertialunit.md#wb_inertial_unit_get_quaternion) [InertialUnit](inertialunit.md) API function to get the orientation measurement represented as a quaternion ([#2424](https://github.com/cyberbotics/webots/pull/2424)).**
     - Added a `PlasticFruitBox` and a `MetalStorageBox` PROTO object ([#2427](https://github.com/cyberbotics/webots/pull/2427)).
+    - Added a `dtype` parameter to a Python method [`getPointCloud`](lidar.md#wb_lidar_get_point_cloud) that retrieves a `bytearray` representation of points a few times faster than the previous version.
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
   - Cleanup
