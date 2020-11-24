@@ -583,13 +583,13 @@ class AnsiCodes(object):
   %pythoncode %{
   import sys
 
-  def getPointCloud(self, dtype='list'):
-    if dtype == 'list':
+  def getPointCloud(self, data_type='list'):
+    if data_type == 'list':
       return self.__getPointCloudList()
-    elif dtype == 'buffer':
+    elif data_type == 'buffer':
       return self.__getPointCloudBuffer()
     else:
-      print("Error: `dtype` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(dtype), file=sys.stderr)
+      print("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(data_type), file=sys.stderr)
       return None
 
   def getLayerPointCloud(self, layer):
