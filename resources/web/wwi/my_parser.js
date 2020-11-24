@@ -64,6 +64,7 @@ class MyParser {
       await this.parseScene(node);
       await this.parseChildren(node, currentNode)
       World.instance.viewpoint.finalize();
+      console.log(World.instance);
       World.instance.sceneTree.forEach(node => {
         node.finalize();});
     } else if (node.tagName === 'WorldInfo')
@@ -206,20 +207,28 @@ class MyParser {
 
     let id = getNodeAttribute(node, 'id');
     let result = World.instance.nodes[use];
+    if(typeof result === 'undefined'){
+      use = 'n' + use
+      result = World.instance.nodes[use];
+    }
 
     if(typeof result === 'undefined')
       return;
 
     let useNode = new Use(id, result);
 
-    if(typeof currentNode !== 'undefined')
+    if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
+      if (useNode.def instanceof WbShape)
+        currentNode.children.push(useNode);
+    }
 
     if(typeof World.instance.defUse[use] === 'undefined')
       World.instance.defUse[use] = new Array();
 
     World.instance.nodes[id] = useNode;
     World.instance.defUse[use].push(id);
+
     return useNode;
   }
 
@@ -237,12 +246,14 @@ class MyParser {
 
     let transform = await new WbTransform(id, isSolid, translation, scale, rotation);
 
+    World.instance.nodes[transform.id] = transform;
+
     await this.parseChildren(node, transform);
 
-    if(typeof currentNode !== 'undefined') {
+    if(typeof currentNode !== 'undefined'){
       transform.parent = currentNode.id;
+      currentNode.children.push(shape);
     }
-    World.instance.nodes[transform.id] = transform;
 
     return transform;
   }

@@ -47,7 +47,6 @@ class Use extends WbBaseNode {
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
-    console.log(this.def);
     let temp
     if(typeof this.def.textureTransform !== 'undefined') {
       temp = this.def.textureTransform.wrenTextureTransform;
