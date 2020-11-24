@@ -284,7 +284,7 @@ class MyParser {
       }
 
       if (typeof geometry === 'undefined') {
-        geometry = await this.parseGeometry(child, currentNode);
+        geometry = await this.parseGeometry(child, id);
         if (typeof geometry !== 'undefined')
           continue;
       }
@@ -308,10 +308,12 @@ class MyParser {
     return shape;
   }
 
-  async parseGeometry(node, currentNode) {
-    let use = await this.checkUse(node, currentNode);
-    if(typeof use !== 'undefined')
+  async parseGeometry(node, parentId) {
+    let use = await this.checkUse(node);
+    if(typeof use !== 'undefined') {
+      use.parent = parentId;
       return use;
+    }
 
     let geometry;
     if(node.tagName === 'Box')
@@ -329,8 +331,8 @@ class MyParser {
       geometry = undefined
     }
 
-    if(typeof currentNode !== 'undefined' && typeof geometry !== 'undefined') {
-      geometry.parent = currentNode.id;
+    if(typeof parentId !== 'undefined' && typeof geometry !== 'undefined') {
+      geometry.parent = parentId;
     }
 
     return geometry;
