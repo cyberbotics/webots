@@ -10,6 +10,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   constructor(scene, contextMenu, domElement, mobileDevice) {
 
     this.scene = scene;
+    console.log(this.scene);
     this.contextMenu = contextMenu;
     this.domElement = domElement;
     this.mobileDevice = mobileDevice;
@@ -168,7 +169,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     World.instance.viewpoint.position = glm.vec3(position.x + zDisplacement.x, position.y + zDisplacement.y, position.z + zDisplacement.z);
     World.instance.viewpoint.updatePosition();
 
-    webots.currentView.x3dScene.render();
+    this.scene.render();
   }
 
   _wheelTimeoutCallback(event) {

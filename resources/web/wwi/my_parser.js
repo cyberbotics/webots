@@ -64,7 +64,6 @@ class MyParser {
       await this.parseScene(node);
       await this.parseChildren(node, currentNode)
       World.instance.viewpoint.finalize();
-      console.log(World.instance);
       World.instance.sceneTree.forEach(node => {
         node.finalize();});
     } else if (node.tagName === 'WorldInfo')
