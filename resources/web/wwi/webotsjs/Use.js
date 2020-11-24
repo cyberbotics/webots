@@ -1,5 +1,8 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbMaterial} from "./WbMaterial.js";
+import {WbWrenShaders} from "./WbWrenShaders.js"
+import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
+
 
 class Use extends WbBaseNode {
   constructor(id, def, parent){
@@ -11,14 +14,10 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable;
     this.wrenTextureTransform;
-    this.material = new WbMaterial(35, this.def.material.ambientIntensity, this.def.material.diffuseColor, this.def.material.specularColor, this.def.material.emissiveColor, this.def.material.shininess, this.def.material.transparency);
-    this.material.parent = this.id;
   }
 
-  createWrenObjects() {
-    console.log(this.def);
 
-    console.log(this);
+  createWrenObjects() {
 
     super.createWrenObjects();
     let tempList = [];
@@ -45,35 +44,45 @@ class Use extends WbBaseNode {
     this.wrenObjectsCreatedCalled = true;
   }
 
+
   modifyWrenMaterial1(wrenMaterial) {
-    let temp3 = this.def.material;
-    this.def.material = this.material;
-
-    let temp = this.def.wrenTextureTransform;
-    this.def.wrenTextureTransform = undefined;
-
-    this.def.modifyWrenMaterial(wrenMaterial);
-
-    this.wrenRenderable = this.def.wrenTextureTransform;
-    this.def.wrenTextureTransform = temp;
-
-    this.material = this.def.material;
-    this.def.material = temp3;
-
+    wrenMaterial = this.def.modifyWrenMaterial(wrenMaterial);
+    return wrenMaterial;
   }
 
   modifyWrenMaterial2(wrenMaterial, textured) {
-    this.def.modifyWrenMaterial(wrenMaterial, textured);
+    return this.def.modifyWrenMaterial(wrenMaterial, textured);
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
+    console.log(this.def);
+    let temp
+    if(typeof this.def.textureTransform !== 'undefined') {
+      temp = this.def.textureTransform.wrenTextureTransform;
+      this.def.textureTransform.wrenTextureTransform = undefined;
+    } else {
+      temp = this.def.wrenTextureTransform;
+      this.def.wrenTextureTransform = undefined;
+    }
+
     if (typeof backgroundTextureIndex === 'undefined') {
       if (typeof mainTextureIndex === 'undefined')
-        this.modifyWrenMaterial1(wrenMaterial);
+        wrenMaterial = this.modifyWrenMaterial1(wrenMaterial);
       else
-        this.modifyWrenMaterial2(wrenMaterial, mainTextureIndex);
+        wrenMaterial = this.modifyWrenMaterial2(wrenMaterial, mainTextureIndex);
     }else
-      this.def.modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex);
+      wrenMaterial = this.def.modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex);
+
+    if(typeof this.def.textureTransform !== 'undefined') {
+      this.wrenTextureTransform = this.def.textureTransform.wrenTextureTransform;
+      this.def.textureTransform.wrenTextureTransform = temp;
+    } else {
+      this.wrenTextureTransform = this.def.wrenTextureTransform;
+      this.def.wrenTextureTransform = temp;
+    }
+
+
+    return wrenMaterial;
   }
 
   setWrenMaterial(wrenMaterial, castShadow) {

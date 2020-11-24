@@ -15,8 +15,6 @@ class WbBaseNode {
     this.wrenObjectsCreatedCalled = true;
 
     if (typeof this.parent !== 'undefined') {
-      console.log("id : " + this.id);
-      console.log("parent : " +this.parent);
       this.wrenNode = World.instance.nodes[this.parent].wrenNode;
     } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
