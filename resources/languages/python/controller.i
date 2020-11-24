@@ -564,7 +564,7 @@ class AnsiCodes(object):
   }
 
   PyObject* __getPointCloudList() const {
-    const WbLidarPoint* rawPoints = $self->getPointCloud();
+    const WbLidarPoint *rawPoints = $self->getPointCloud();
     const int size = $self->getNumberOfPoints();
 
     PyObject *points = PyList_New(size);
