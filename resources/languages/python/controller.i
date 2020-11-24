@@ -557,17 +557,40 @@ class AnsiCodes(object):
     return point[index];
   }
 
+  PyObject *__getPointCloudBuffer() const {
+    const char *points = (const char *)$self->getPointCloud();
+    const int size = $self->getNumberOfPoints() * sizeof(WbLidarPoint);
+    return PyBytes_FromStringAndSize(points, size);
+  }
+
+  PyObject* __getPointCloudList() const {
+    const WbLidarPoint *rawPoints = $self->getPointCloud();
+    const int size = $self->getNumberOfPoints();
+
+    PyObject *points = PyList_New(size);
+    for (int i = 0; i < size; i++) {
+      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
+      PyList_SetItem(points, i, value);
+    }
+    return points;
+  }
+
   webots::LidarPoint getLayerPoint(int layer, int index) const {
     const webots::LidarPoint *point = $self->getLayerPointCloud(layer);
     return point[index];
   }
 
   %pythoncode %{
-  def getPointCloud(self):
-     ret = []
-     for i in range(self.getNumberOfPoints()):
-       ret.append(self.getPoint(i))
-     return ret
+  import sys
+
+  def getPointCloud(self, data_type='list'):
+    if data_type == 'list':
+      return self.__getPointCloudList()
+    elif data_type == 'buffer':
+      return self.__getPointCloudBuffer()
+    else:
+      print("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(data_type), file=sys.stderr)
+      return None
 
   def getLayerPointCloud(self, layer):
      ret = []
