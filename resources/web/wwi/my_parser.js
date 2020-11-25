@@ -534,7 +534,7 @@ class MyParser {
     let textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined'){
-        transform = this.parseTextureTransform(textureTransform);
+        transform = await this.parseTextureTransform(textureTransform);
     }
 
     let imageTextures = node.getElementsByTagName('ImageTexture');

@@ -36,7 +36,7 @@ class WbShape extends WbBaseNode {
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
         else
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if (this.appearance instanceof WbPBRAppearance && !(this.geometry instanceof WbPointSet)) {
+      } else if ((this.appearance instanceof WbPBRAppearance || (this.appearance instanceof Use && this.appearance.def instanceof WbPBRAppearance)) && !(this.geometry instanceof WbPointSet)) {
         this.createWrenMaterial(2);
         if (this.appearance.wrenObjectsCreatedCalled){
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
