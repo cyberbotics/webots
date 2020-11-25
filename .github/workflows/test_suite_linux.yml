@@ -49,7 +49,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
-    - name: Rename Webots Package and Install Debian Package Dependencies
+    - name: Rename Webots Tarball Package
       if: ${{ matrix.os == 'ubuntu-18.04' }}
       run: |
         sudo apt install --yes rename
