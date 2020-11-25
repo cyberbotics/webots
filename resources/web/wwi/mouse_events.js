@@ -2,6 +2,8 @@ import {SystemInfo} from "./system_info.js";
 import {webots} from "./../wwi/webots.js";
 import {World} from "./webotsjs/World.js"
 
+import {direction, up, right, length} from "./webotsjs/WbUtils.js"
+
 
 /* global webots, SystemInfo */
 'use strict';
@@ -111,15 +113,25 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.scene.viewpoint.rotate(this.moveParams);
     } else {
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let scaleFactor = 0.0003;
-        let targetRight = -scaleFactor * this.moveParams.dx
-        let targetUp = scaleFactor * this.moveParams.dy;
         let orientation = World.instance.viewpoint.orientation;
         let position = World.instance.viewpoint.position;
-        let up = this.up(orientation);
-        let right = this.right(orientation);
-        let targetR = right.mul(targetRight);
-        let targetU = up.mul(targetUp);
+        let distanceToPickPosition = 0.001;
+        if (false)
+          distanceToPickPosition = length(position.sub(rotationCenter));
+        else
+          distanceToPickPosition = length(position);
+
+        if (distanceToPickPosition < 0.001)
+          distanceToPickPosition = 0.001;
+
+        let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+
+        let targetRight = -scaleFactor * this.moveParams.dx
+        let targetUp = scaleFactor * this.moveParams.dy;
+        let upVec = up(orientation);
+        let rightVec = right(orientation);
+        let targetR = rightVec.mul(targetRight);
+        let targetU = upVec.mul(targetUp);
         let target = targetR.add(targetU);
         World.instance.viewpoint.position = position.add(target);
         World.instance.viewpoint.updatePosition();
@@ -170,7 +182,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     }
 
     let position = World.instance.viewpoint.position;
-    let rollVector = this.direction(World.instance.viewpoint.orientation);
+    let rollVector = direction(World.instance.viewpoint.orientation);
     let zDisplacement = rollVector.mul(event.deltaY * 0.001);
     World.instance.viewpoint.position = position.add(zDisplacement);
     World.instance.viewpoint.updatePosition();
@@ -385,24 +397,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         );
       }
     }
-  }
-
-  direction(orientation)  {
-    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
-    let tTimesZ = t * orientation.z;
-    return glm.vec3(tTimesZ * orientation.x + s * orientation.y, tTimesZ * orientation.y - s * orientation.x, tTimesZ * orientation.z + c);
-  }
-
-  right(orientation) {
-    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
-    let tTimesX = t * orientation.x;
-    return glm.vec3(tTimesX * orientation.x + c, tTimesX * orientation.w + s * orientation.z, tTimesX * orientation.z - s * orientation.y);
-  }
-
-  up(orientation) {
-    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
-    let tTimesY = t * orientation.y;
-    return glm.vec3(tTimesY * orientation.x - s * orientation.z, tTimesY * orientation.y + c, tTimesY * orientation.z + s * orientation.x);
   }
 }
 
