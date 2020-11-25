@@ -118,12 +118,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         let position = World.instance.viewpoint.position;
         let up = this.up(orientation);
         let right = this.right(orientation);
-        let targetR = glm.vec3(right.x * targetRight, right.y * targetRight, right.z * targetRight);
-        let targetU = glm.vec3(up.x * targetUp, up.y * targetUp, up.z * targetUp);
+        let targetR = right.mul(targetRight);
+        let targetU = up.mul(targetUp);
         let target = targetR.add(targetU);
-        World.instance.viewpoint.position = glm.vec3(position.x + target.x, position.y + target.y, position.z + target.z);
+        World.instance.viewpoint.position = position.add(target);
         World.instance.viewpoint.updatePosition();
-        console.log(World.instance.viewpoint.position);
         this.scene.render();
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
         this.moveParams.tiltAngle = 0.01 * this.moveParams.dx;
@@ -172,8 +171,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     let position = World.instance.viewpoint.position;
     let rollVector = this.direction(World.instance.viewpoint.orientation);
-    let zDisplacement = glm.vec3(event.deltaY * 0.001 * rollVector.x, event.deltaY * 0.001 * rollVector.y, event.deltaY * 0.001 * rollVector.z);
-    World.instance.viewpoint.position = glm.vec3(position.x + zDisplacement.x, position.y + zDisplacement.y, position.z + zDisplacement.z);
+    let zDisplacement = rollVector.mul(event.deltaY * 0.001);
+    World.instance.viewpoint.position = position.add(zDisplacement);
     World.instance.viewpoint.updatePosition();
 
     this.scene.render();
