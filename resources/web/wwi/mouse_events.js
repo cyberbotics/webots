@@ -10,7 +10,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   constructor(scene, contextMenu, domElement, mobileDevice) {
 
     this.scene = scene;
-    console.log(this.scene);
     this.contextMenu = contextMenu;
     this.domElement = domElement;
     this.mobileDevice = mobileDevice;

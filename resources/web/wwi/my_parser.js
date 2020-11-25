@@ -63,6 +63,7 @@ class MyParser {
     if(node.tagName === 'Scene') {
       await this.parseScene(node);
       await this.parseChildren(node, currentNode)
+      console.log(World.instance);
       World.instance.viewpoint.finalize();
       World.instance.sceneTree.forEach(node => {
         node.finalize();});
@@ -218,7 +219,7 @@ class MyParser {
 
     if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
-      if (useNode.def instanceof WbShape)
+      if (useNode.def instanceof WbShape || useNode.def instanceof WbTransform)
         currentNode.children.push(useNode);
     }
 
@@ -246,12 +247,11 @@ class MyParser {
     let transform = await new WbTransform(id, isSolid, translation, scale, rotation);
 
     World.instance.nodes[transform.id] = transform;
-
     await this.parseChildren(node, transform);
 
     if(typeof currentNode !== 'undefined'){
       transform.parent = currentNode.id;
-      currentNode.children.push(shape);
+      currentNode.children.push(transform);
     }
 
     return transform;

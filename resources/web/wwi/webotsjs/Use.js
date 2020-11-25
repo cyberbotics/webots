@@ -19,7 +19,6 @@ class Use extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-
     let temp = this.def.parent;
     this.def.parent = this.parent;
 
