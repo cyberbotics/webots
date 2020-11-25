@@ -243,6 +243,12 @@ class WbViewpoint extends WbBaseNode {
     }
   }
 
+  updateOrientation() {
+    if (this.wrenObjectsCreatedCalled) {
+      this.applyOrientationToWren();
+    }
+  }
+
   preFinalize() {
     super.preFinalize();
 

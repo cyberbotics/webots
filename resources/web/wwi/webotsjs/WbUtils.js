@@ -1,3 +1,6 @@
+import {M_PI} from "./WbConstants.js"
+
+
 function array3Pointer(x, y, z) {
   let data = new Float32Array([x, y, z]);
   let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
@@ -40,4 +43,48 @@ function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z)
 }
 
-export {array3Pointer, arrayXPointer, direction, up, right, length}
+function vec4ToQuaternion(vec4) {
+  let halfAngle = 0.5 * vec4.w;
+  let sinusHalfAngle = Math.sin(halfAngle), cosinusHalfAngle = Math.cos(halfAngle);
+  return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
+}
+
+function quaternionToVec4(quat) {
+  let angle;
+  if (quat.w >= 1.0)
+    angle = 0.0;
+  else if (quat.w <= -1.0)
+    angle = 2.0 * M_PI;
+  else
+    angle = 2.0 * Math.acos(quat.w);
+
+  // normalise axes
+  let inv = 1.0 / Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z* quat.z);
+  let x = quat.x * inv;
+  let y = quat.y * inv;
+  let z = quat.z * inv;
+
+  return glm.vec4(x, y, z, angle)
+}
+
+function fromAxisAngle(x, y, z, angle) {
+  let result = glm.vec4();
+  let l = x * x + y * y + z * z;
+  if (l > 0.0) {
+    angle *= 0.5;
+    result.w = Math.cos(angle);
+    l = Math.sin(angle) / Math.sqrt(l);
+    result.x = x * l;
+    result.y = y * l;
+    result.z = z * l;
+  } else {
+    result.w = 1.0;
+    result.x = 0.0;
+    result.y = 0.0;
+    result.z = 0.0;
+  }
+  return result
+}
+
+
+export {array3Pointer, arrayXPointer, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle}

@@ -2,8 +2,7 @@ import {SystemInfo} from "./system_info.js";
 import {webots} from "./../wwi/webots.js";
 import {World} from "./webotsjs/World.js"
 
-import {direction, up, right, length} from "./webotsjs/WbUtils.js"
-
+import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from "./webotsjs/WbUtils.js"
 
 /* global webots, SystemInfo */
 'use strict';
@@ -109,23 +108,45 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.moveParams.dx = event.clientX - this.state.x;
     this.moveParams.dy = event.clientY - this.state.y;
 
+    let orientation = World.instance.viewpoint.orientation;
+    let position = World.instance.viewpoint.position;
+
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      this.scene.viewpoint.rotate(this.moveParams);
+      let halfPitchAngle = -0.005 * this.moveParams.dy;
+      let halfYawAngle = -0.005 * this.moveParams.dx;
+      if (!false) {//TODO modify with isObjectPicked
+        halfPitchAngle /= -8;
+        halfYawAngle /= -8;
+      }
+      let sinusYaw = Math.sin(halfYawAngle);
+      let sinusPitch = Math.sin(halfPitchAngle);
+      let pitch = right(orientation);
+      let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z);
+      let worldUpVector = glm.vec3(0, 1, 0); //TODO get it from world
+      let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
+
+      // Updates camera's position and orientation
+      let deltaRotation = yawRotation.mul(pitchRotation);
+      let currentPosition = position;//TODO update according to what is selected(deltaRotation * (position->value() - rotationCenter) + rotationCenter);
+      let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
+      World.instance.viewpoint.position = currentPosition;
+      World.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
+      World.instance.viewpoint.updatePosition();
+      World.instance.viewpoint.updateOrientation();
+      this.scene.render();
     } else {
+      let distanceToPickPosition = 0.001;
+      if (false)//TODO modify with isObjectPicked
+        distanceToPickPosition = length(position.sub(rotationCenter));
+      else
+        distanceToPickPosition = length(position);
+
+      if (distanceToPickPosition < 0.001)
+        distanceToPickPosition = 0.001;
+
+      let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let orientation = World.instance.viewpoint.orientation;
-        let position = World.instance.viewpoint.position;
-        let distanceToPickPosition = 0.001;
-        if (false)
-          distanceToPickPosition = length(position.sub(rotationCenter));
-        else
-          distanceToPickPosition = length(position);
-
-        if (distanceToPickPosition < 0.001)
-          distanceToPickPosition = 0.001;
-
-        let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
-
         let targetRight = -scaleFactor * this.moveParams.dx
         let targetUp = scaleFactor * this.moveParams.dy;
         let upVec = up(orientation);
@@ -137,9 +158,22 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         World.instance.viewpoint.updatePosition();
         this.scene.render();
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
-        this.moveParams.tiltAngle = 0.01 * this.moveParams.dx;
-        this.moveParams.zoomScale = this.moveParams.scaleFactor * 5 * this.moveParams.dy;
-        this.scene.viewpoint.zoomAndTilt(this.moveParams, true);
+        let rollVector = direction(orientation);
+        let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
+        let roll = glm.quat(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let roll3 = glm.quat();
+        roll3.w = roll2.w;
+        roll3.x = roll2.x;
+        roll3.y = roll2.y;
+        roll3.z = roll2.z;
+
+        World.instance.viewpoint.position = position.add(zDisplacement);
+        World.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
+        World.instance.viewpoint.updatePosition();
+        World.instance.viewpoint.updateOrientation();
+
+        this.scene.render();
       }
     }
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
