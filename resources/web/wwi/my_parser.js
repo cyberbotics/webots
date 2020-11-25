@@ -3,6 +3,7 @@ import {WbScene} from "./webotsjs/WbScene.js";
 import {WbViewpoint} from "./webotsjs/WbViewpoint.js";
 import {WbBackground} from "./webotsjs/WbBackground.js";
 
+import {WbGroup} from "./webotsjs/WbGroup.js";
 import {WbTransform} from "./webotsjs/WbTransform.js";
 import {WbShape} from "./webotsjs/WbShape.js";
 
@@ -75,6 +76,8 @@ class MyParser {
       result = await this.parseBackground(node);
     else if (node.tagName === 'Transform')
       result = await this.parseTransform(node, currentNode);
+    else if (node.tagName === 'Group')
+      result = await this.parseGroup(node, currentNode);
     else if (node.tagName === 'Shape')
       result = await this.parseShape(node, currentNode);
     else {
@@ -244,7 +247,7 @@ class MyParser {
     let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
-    let transform = await new WbTransform(id, isSolid, translation, scale, rotation);
+    let transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
     World.instance.nodes[transform.id] = transform;
     await this.parseChildren(node, transform);
@@ -257,7 +260,26 @@ class MyParser {
     return transform;
   }
 
-  async parseShape(node, currentNode){
+  async parseGroup(node, currentNode) {
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
+    let id = getNodeAttribute(node, 'id');
+    let group = new WbGroup(id);
+
+    World.instance.nodes[group.id] = group;
+    await this.parseChildren(node, group);
+
+    if(typeof currentNode !== 'undefined'){
+      group.parent = currentNode.id;
+      currentNode.children.push(group);
+    }
+
+    return group;
+  }
+
+  async parseShape(node, currentNode) {
     let use = await this.checkUse(node, currentNode);
     if(typeof use !== 'undefined')
       return use;
