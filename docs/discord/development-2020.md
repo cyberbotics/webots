@@ -960,7 +960,7 @@ Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Simon Steinmann` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
-##### Axel M [Premier Service] 05/14/2020 09:08:34
+##### PymZoR [Premier Service] 05/14/2020 09:08:34
 `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Simon Steinmann [Moderator] 05/14/2020 12:48:46
 > `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@Axel M` 
+`@PymZoR` 
 
 
 
@@ -1074,7 +1074,7 @@ Is there a way of modifying the usual steering system used in car models?
 ##### David Mansolino [Cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
-##### Axel M [Premier Service] 05/27/2020 16:42:51
+##### PymZoR [Premier Service] 05/27/2020 16:42:51
 I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
 
 
@@ -7657,4 +7657,40 @@ Approved! Thank you.
 
 ##### Simon Steinmann [Moderator] 11/17/2020 12:53:30
 nice, much easier for newcomers now 🙂
+
+
+Out of curiosity, how much would it take, to separate the webots core from the gui? Perhaps in a server / client setup. I see this as a crucial step for wider spread adoption of Webots, especially in the commercial sector, where HPC computers are used for simulation.
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:34:10
+This is tricky as Webots relies a lot on OpenGL for cameras, range-finders, lidars, etc. So a connection to an X server with OpenGL capability is required. The GUI itself is not an issue as the X server is anyhow mandatory. Webots runs perfectly well in the cloud, on HPC computers and in CI machines as long as a possibly virtual X server is setup (we often use xvfb). We are currently working on providing facilities for deploying Webots simulations in the cloud, including HPC systems. So, this is all coming soon...
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:37:03
+That's good to hear. I hope your approach is modular, so only things that are needed can be loaded. For example, when not relying on any visual sensors, it would be great not having to load an X server
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:46:24
+Yes. However, we are not yet at this point, but that's on the roadmap.
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:50:01
+Awesome! Happy to hear that 🙂
+
+##### udits 11/24/2020 14:14:13
+Hi, I have imported a robot from Fusion360 to Webots but I am having difficulty defining hinge joints and getting it to move using my controller code. I had defined rigid joints and revolute joints in Fusion360 as well.
+
+
+The joints haven't been transferred from Fusion360 to Webots as I am importing it in .obj format.
+
+
+I am facing this issue even after defining the hinge joint in Webots.
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:18:37
+I would recommend you to start building the joint structure of your robot first in Webots (or with a text editor) and add the 3D parts, one-by-one, in a second step. You should probably follow the Webots tutorials from the user guide to understand how to build the joint structure.
+
+##### udits 11/24/2020 14:25:37
+Could you please direct me to this tutorial?
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:27:37
+[https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) from 1 to 7 at least.
+
+##### udits 11/24/2020 14:28:29
+Thanks, I'll go through these and get back to you.
 

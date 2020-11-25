@@ -2994,7 +2994,7 @@ For information position control for the e-puck in remote-control is not support
 ##### Thelm 05/20/2019 15:00:29
 Okay thank you, i'll try to do without but I would be harder with just velocity control because of the wb\_robot\_step not properly workng with bluetooth
 
-##### PSEL 05/21/2019 13:28:09
+##### Ελευθερία Ψαθά 05/21/2019 13:28:09
 which is the default focal length and  principle point of the epucks camera?
 
 ##### Fabien Rohrer [Moderator] 05/21/2019 13:29:39
@@ -10146,13 +10146,13 @@ Today I also learned that using the terminal to change the position is propably 
 ##### David Mansolino [Cyberbotics] 07/30/2019 15:36:01
 Very good news, thank you for the feedback. Indeed you probably need to write a ROS node instead of using the command line.
 
-##### Yang Chen 07/30/2019 17:20:28
+##### YCL 07/30/2019 17:20:28
 Hello is there someone who simulate robots walking in sandy environment? Thank you!
 
 ##### MariusJuston [Moderator] 07/30/2019 17:22:05
 Like do you mean having sandy properties or just looks like sand?
 
-##### Yang Chen 07/30/2019 17:23:18
+##### YCL 07/30/2019 17:23:18
 Sandy properties. Like robot is  walking in beach.
 
 ##### MariusJuston [Moderator] 07/30/2019 17:26:55
@@ -10164,7 +10164,7 @@ Maybe look at the bb 8 example
 
 [https://cyberbotics.com/doc/guide/bb8](https://cyberbotics.com/doc/guide/bb8)
 
-##### Yang Chen 07/30/2019 17:33:35
+##### YCL 07/30/2019 17:33:35
 Thank you so much! I will try and learn soon.
 
 
@@ -10177,7 +10177,7 @@ Yes, that is what I am considering now. I saw the moon DEMO of Wevots and try to
 ##### MariusJuston [Moderator] 07/30/2019 17:35:07
 You can  just copy the index face set and then paste
 
-##### Yang Chen 07/30/2019 17:49:52
+##### YCL 07/30/2019 17:49:52
 Do you mean copying and pasting them like this?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605819367380353048/unknown.png)
@@ -10189,11 +10189,11 @@ Click and then press CTRl c on the cord def
 
 And then you can paste is somewhere else
 
-##### Yang Chen 07/30/2019 17:58:18
+##### YCL 07/30/2019 17:58:18
 Hi  MariusJuston, thank you for your kind help. I am wondering do you mean copy one cord and paste it one by one? My question seems so absurd and easy. The reason why I am asking it is if we copy every coor and paste it on nodes like the above picture I showed you, it will be a little time consuming and easy to make mistakes. So I am wondering if I am wrong, maybe there exists other methods that I do not know.
 
 ##### MariusJuston [Moderator] 07/31/2019 04:31:20
-`@Yang Chen` Sorry for the delay. A simple way to do all this, if you want to just reuse the same GROUND shape is to Export that Shape/Solid. To do this you can left click the Shape/Solid and then select the Export button, this will save the information to a .wbo, to re import this .wbo you can just press the Add button and the press Import (bottom right corner ), find your .wbo and you should see the Shape/Solid appear in the tree directory. If you want to move it around you can `Ctrl + X` (Cut) and then `Ctrl + V` (Paste) it in the location you want it to be; however, please be aware that you cannot place a Shape/Solid everywhere so if `Ctrl + V` fails you can probably assume that that is the reason.  
+`@YCL` Sorry for the delay. A simple way to do all this, if you want to just reuse the same GROUND shape is to Export that Shape/Solid. To do this you can left click the Shape/Solid and then select the Export button, this will save the information to a .wbo, to re import this .wbo you can just press the Add button and the press Import (bottom right corner ), find your .wbo and you should see the Shape/Solid appear in the tree directory. If you want to move it around you can `Ctrl + X` (Cut) and then `Ctrl + V` (Paste) it in the location you want it to be; however, please be aware that you cannot place a Shape/Solid everywhere so if `Ctrl + V` fails you can probably assume that that is the reason.  
 
 
 
@@ -10292,13 +10292,13 @@ You can even be more concise using the procedural templates. Look at the SimpleS
 ##### Huey 07/31/2019 12:16:33
 Oh splendid! Thanks so much for sharing these `@MariusJuston`,  `@Fabien Rohrer`, earlier i was abt confused with the DEF use, as i dont always find the DEF i created, but will sure to take a second look on the documentation and other methods you have mentioned! Double thumbs up to you guys 👍  👍
 
-##### Yang Chen 07/31/2019 14:31:40
+##### YCL 07/31/2019 14:31:40
 Hi, `@MariusJuston` , thank you for kind help! And give me suggestion in detail.
 
 ##### MariusJuston [Moderator] 07/31/2019 14:35:55
-`@Yang Chen` No problems!
+`@YCL` No problems!
 
-##### Yang Chen 07/31/2019 14:39:07
+##### YCL 07/31/2019 14:39:07
 👏 while I am wondering about this one
 
 
@@ -10325,7 +10325,7 @@ You could also simply work with basic primitives:
 
 [https://cyberbotics.com/doc/guide/samples-geometries#geometric\_primitives-wbt](https://cyberbotics.com/doc/guide/samples-geometries#geometric_primitives-wbt)
 
-##### Yang Chen 07/31/2019 14:52:42
+##### YCL 07/31/2019 14:52:42
 While it is worthy of it, maybe it is useful and can save time in  long run. In addition, does Solidworks and CAD make sense?
 
 
@@ -10334,7 +10334,7 @@ While it is worthy of it, maybe it is useful and can save time in  long run. In 
 ##### Fabien Rohrer [Moderator] 07/31/2019 14:55:03
 SolidWorks and other CADs are generally exporting very big meshes, hardly usable directly in Webots. Moreover, physics data (joints, etc.) are lost in this operation. Therefore, using Blender inbetween is for sure the simplest solution.
 
-##### Yang Chen 07/31/2019 15:00:12
+##### YCL 07/31/2019 15:00:12
 As you are familiar with Blender combined with our Webots, could you tell me can Blender build hexapod robots,like those in the picture.
 
 
@@ -10367,7 +10367,7 @@ I think that you can already go far using Webots only. I recommend you to do our
 
 I have also to mention that we can model this for you if you have some budget for this.
 
-##### Yang Chen 07/31/2019 15:28:56
+##### YCL 07/31/2019 15:28:56
 Thank you! The hexiapod robot in your samples is really amazing and it could be control by human being ! I need a small one, about 0.5m l,  0.5m w and 0.3m h for robots' whole size and the shape should be like my physical robot.   Can I revise yours based on my physical robot?
 
 ##### Fabien Rohrer [Moderator] 07/31/2019 15:33:45
@@ -10379,7 +10379,7 @@ Downscaling a robot may be tricky.
 
 personnally, I would go for the solution to rewrite it from scratch using the Webots primitives, and to copy the mantis controller.
 
-##### Yang Chen 07/31/2019 15:35:54
+##### YCL 07/31/2019 15:35:54
 Also, how do you ( specialist) in webots  deal with the sandy properties environtment? I saw the contact properties setting. I am wondering can it realize the real scene in our real world that when a robot is walking in beach while the mutual impact bettween sand and robot's feet influence both the state of sand and robot, like the particle dynamics.
 
 
@@ -10412,7 +10412,7 @@ You should be able to define precisely at which depth the robot shrinks.
 
 For sure it's not a perfect deformation simulation, but it gives already a good approximation.
 
-##### Yang Chen 07/31/2019 15:57:21
+##### YCL 07/31/2019 15:57:21
 Get it!  Thank you so much for your kind help and professional instruction!  And Webots are really good!
 
 
@@ -10424,13 +10424,13 @@ Did you tried to play with ContactProperties.softERP/CFM? That’s the key to se
 
 [https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)
 
-##### Yang Chen 07/31/2019 17:05:08
+##### YCL 07/31/2019 17:05:08
 Thank you 😀 ! I will try. And if it is needed, I will contact sales@cyberbotics.com.
 
 ##### MariusJuston [Moderator] 07/31/2019 18:42:17
-`@Yang Chen` sorry being late for the party but on the topic of adding CADed models to Webots what you can is that you can export your CAD as a .obj or an .stl (make sure the scaling is set to meters) then open blender, import the .stl or .obj, then install the adding that `@Fabien Rohrer` made. After importing be sure that the orientation of the object is correct to make sure, to change it select the model and the the plus button the right, that will open up a window where you can select set the orientation. Using the Addin you can the press the export button and then export to a .wbl file not a .wbt
+`@YCL` sorry being late for the party but on the topic of adding CADed models to Webots what you can is that you can export your CAD as a .obj or an .stl (make sure the scaling is set to meters) then open blender, import the .stl or .obj, then install the adding that `@Fabien Rohrer` made. After importing be sure that the orientation of the object is correct to make sure, to change it select the model and the the plus button the right, that will open up a window where you can select set the orientation. Using the Addin you can the press the export button and then export to a .wbl file not a .wbt
 
-##### Yang Chen 07/31/2019 21:00:45
+##### YCL 07/31/2019 21:00:45
 `@MariusJuston` Hi , welcome party.  it begins. I am studying the Mantis now, while the controller is using this function to control the motor's position.
 
 
@@ -10445,7 +10445,7 @@ Can you explain why should we use this function? Does it relate to Central Patte
 ##### MariusJuston [Moderator] 07/31/2019 21:04:20
 To be honest I am not very versed in what the Central Pattern Generator is, but I am assuming that is to make it so that that the robot always has enough points of contact to the ground in order to stay stable and still allows the robot to move forwards.
 
-##### Yang Chen 07/31/2019 21:05:54
+##### YCL 07/31/2019 21:05:54
 Of course, I agree with you. And Central Pattern Generator can realize it. So ...
 
 
@@ -10460,13 +10460,13 @@ Oh that is the the PI constant so that is equivalent to 3.14....
 
 the a[i] is the amplitude of the motion, the 2 PI f is the frequency and p[i] is the phase shift
 
-##### Yang Chen 07/31/2019 21:12:52
+##### YCL 07/31/2019 21:12:52
 Thank you ! this is really clear.  So how do you adjust or choose the amplitude, phase, offset
 
 ##### MariusJuston [Moderator] 07/31/2019 21:14:13
 So I am assuming that you are the one that define the a, p and d arrays and f constant so you just have to change those values
 
-##### Yang Chen 07/31/2019 21:19:40
+##### YCL 07/31/2019 21:19:40
 Yep. Does this controller  realize the tripod gait on this vedio
 
 
@@ -10487,7 +10487,7 @@ Actually yes it does do the tripod gait in that video
 
 Wow it really is impressive how it requires so little code to it make look so complex!
 
-##### Yang Chen 07/31/2019 21:30:54
+##### YCL 07/31/2019 21:30:54
 Yep. I see you are moderator. Are you belongs to  cyberbotics?
 
 
@@ -10502,13 +10502,13 @@ Yep. I see you are moderator. Are you belongs to  cyberbotics?
 ##### MariusJuston [Moderator] 07/31/2019 21:32:57
 No, I just joined Discord like a month ago because I had a question about Webots and after working with Webots, learning about it for a month and helping people I managed to become a Moderator 😉
 
-##### Yang Chen 07/31/2019 21:35:34
+##### YCL 07/31/2019 21:35:34
 Congratulations!
 
 ##### MariusJuston [Moderator] 07/31/2019 21:36:35
 Thanks
 
-##### Yang Chen 07/31/2019 21:36:58
+##### YCL 07/31/2019 21:36:58
 What is  your project  with Webots?
 
 ##### MariusJuston [Moderator] 07/31/2019 21:38:21
@@ -10517,25 +10517,25 @@ It involved using an industrial robot Fanuc M-710iC
 
 We managed to convert the CAD model of the industrial robot into Webots
 
-##### Yang Chen 07/31/2019 21:39:44
+##### YCL 07/31/2019 21:39:44
 and then?
 
 ##### MariusJuston [Moderator] 07/31/2019 21:40:34
 We were able to make the robot move to and from positions using inverse kinematics, etc... Sorry I do not know how far into detail I can go with this.
 
-##### Yang Chen 07/31/2019 21:40:59
+##### YCL 07/31/2019 21:40:59
 I would do this too, and thank you again for your kind instruction before.
 
 ##### MariusJuston [Moderator] 07/31/2019 21:41:09
 No problems
 
-##### Yang Chen 07/31/2019 21:41:34
+##### YCL 07/31/2019 21:41:34
 I mean the  CAD model of the  hixapod robot into Webots
 
 ##### MariusJuston [Moderator] 07/31/2019 21:42:00
 Did you manage?
 
-##### Yang Chen 07/31/2019 21:42:08
+##### YCL 07/31/2019 21:42:08
 by using Blender
 
 
@@ -10547,25 +10547,25 @@ Can you give me some suggestion , website etc. ?
 ##### MariusJuston [Moderator] 07/31/2019 21:44:15
 If you want I can create a video of me converting the CAD model of the robot into a Webots model? (I only have Autodesk Inventor though)
 
-##### Yang Chen 07/31/2019 21:46:54
+##### YCL 07/31/2019 21:46:54
 You are so nice! I am very willing to see your video, if it is convenient for you.
 
 ##### MariusJuston [Moderator] 07/31/2019 21:47:55
 No problems it should not take very long, which version of Blender do you have? Blender just updated to 2.80 and it seems that the Export to .wrl that `@Fabien Rohrer` created no longer appears...
 
-##### Yang Chen 07/31/2019 21:50:41
+##### YCL 07/31/2019 21:50:41
 which version are you using now?
 
 ##### MariusJuston [Moderator] 07/31/2019 21:51:23
 I was using 2.79, I believe. Do not worry about it I will show you in the video everything
 
-##### Yang Chen 07/31/2019 21:53:46
+##### YCL 07/31/2019 21:53:46
 Thank you so much! the version that is convenient for you  is ok for me.  Then I can setup the same one as you.
 
 ##### MariusJuston [Moderator] 07/31/2019 21:54:06
 I will show you how to do it in the video, if you want
 
-##### Yang Chen 07/31/2019 21:56:33
+##### YCL 07/31/2019 21:56:33
 Are you an angel? I mean you are so so kind.
 
 ##### MariusJuston [Moderator] 07/31/2019 21:57:31
@@ -10574,7 +10574,7 @@ Are you an angel? I mean you are so so kind.
 
 This I you called?
 
-##### Yang Chen 07/31/2019 21:59:44
+##### YCL 07/31/2019 21:59:44
 I think so.
 
 
@@ -10583,7 +10583,7 @@ I think so.
 ##### MariusJuston [Moderator] 07/31/2019 22:00:34
 I will probably have the video in something like 2-3 hours
 
-##### Yang Chen 07/31/2019 22:01:42
+##### YCL 07/31/2019 22:01:42
 You are so efficient! I definitely should learn from you.
 
 
@@ -10592,7 +10592,7 @@ Is it your dinner time now?
 ##### MariusJuston [Moderator] 07/31/2019 22:02:29
 No it will probably just take me around 2-3 hours to setup everything up and doing the video
 
-##### Yang Chen 07/31/2019 22:04:18
+##### YCL 07/31/2019 22:04:18
 Ok. I get it.
 
 
@@ -10601,9 +10601,9 @@ Ok. I get it.
 ## August
 
 ##### MariusJuston [Moderator] 08/01/2019 00:39:18
-`@Yang Chen` Here is the video [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
+`@YCL` Here is the video [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
 
-##### Yang Chen 08/01/2019 02:50:41
+##### YCL 08/01/2019 02:50:41
 `@MariusJuston`  Sorry that reply to now. Thank you so much! I will try later.
 
 ##### Fabien Rohrer [Moderator] 08/01/2019 07:39:52
@@ -10621,13 +10621,13 @@ Blender 2.7* has an VRML97 (*.wrl) exporter by default
 ##### NERanger 08/02/2019 15:04:01
 I am running a simulatoin for a 4WD tractor, how can I get the support force from the ground to the wheel? The return value of function "dBodyGetForce" is only valid until any changes are made, but there is no need to add any force, I only want to check the support force. Can anyone help me out plz 😃
 
-##### Yang Chen 08/03/2019 15:23:09
+##### YCL 08/03/2019 15:23:09
 Hi `@MariusJuston`,  your Youtube Video are very helpful and clear! As I use the Solidework 3D model - your method is also useful!
 
 ##### MariusJuston [Moderator] 08/03/2019 15:23:37
 No problems glad I was able to help!
 
-##### Yang Chen 08/03/2019 15:24:57
+##### YCL 08/03/2019 15:24:57
 Thank you for kind share!
 
 
@@ -10637,7 +10637,7 @@ While I face up with a problem about the scale and coordinates,when imported it 
 I am wondering do you face up with these kind of situation befor? I plan to try the transform and unit you teach us in your vedio. As I my  Solidework 3D model  is finished by my partner.  Maybe I need to communicate with him about these problem to find out the reason. And can you give me some suggestion?
 
 ##### MariusJuston [Moderator] 08/03/2019 18:48:55
-`@Yang Chen` sorry about that. So when you imported the file as into blender did it show up as being huge?
+`@YCL` sorry about that. So when you imported the file as into blender did it show up as being huge?
 
 
 The problem is probably the scaling I said inside the video Webots only takes in meters, so if you export your file in inches or mm you will see your model, when imported into Blender being way too large. To fix this either you can export your solid work file directly in the correct units (meters) which is the easiest way of doing it (I have no real idea as to how you would do it in Solidwords because I do not have it). Or you can, when you are exporting the file using blender, when you are asked where to save the file, on the left you can see a scale text bar, make it so that it return current units to meter scale. i.e if it was in inches it would be (1 m /39.3701 inches)  or 0.0254
@@ -10661,7 +10661,7 @@ Another alternative that doesn't require to change the hierarchy of your vehicle
 ##### MariusJuston [Moderator] 08/05/2019 14:43:24
 `@David Mansolino` I completely understand, I will thus wait for the end of the week when he comes back.
 
-##### Yang Chen 08/06/2019 02:29:32
+##### YCL 08/06/2019 02:29:32
 `@MariusJuston` Thank you so much for your kind suggestion. Sorry reply you late. Recently I am focusing on and would focus on another task. These like multiple lines run. Definitely I would try your idea later.
 
 ##### MariusJuston [Moderator] 08/06/2019 02:30:11
@@ -10679,7 +10679,7 @@ No problems! Good luck!
 ##### MariusJuston [Moderator] 08/07/2019 15:07:31
 `@Olivier Michel` No problems this is not really urgent so do not really worry about it. Your work should be your priority 😉
 
-##### Yang Chen 08/08/2019 21:28:12
+##### YCL 08/08/2019 21:28:12
 Hello, is there someone dealing with legged-robots?
 
 
@@ -10692,9 +10692,9 @@ I am wondering how can I  caculate  the gait funcion's parameter of mantis?
 Can you refer me some links ?  Thank you!
 
 ##### David Mansolino [Cyberbotics] 08/09/2019 07:01:44
-Hi `@Yang Chen`, these coefficient where found empirically. An easy way to thune them is tu use numerical optimization methods: [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods)
+Hi `@YCL`, these coefficient where found empirically. An easy way to thune them is tu use numerical optimization methods: [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods)
 
-##### Yang Chen 08/09/2019 15:56:57
+##### YCL 08/09/2019 15:56:57
 Hi `@David Mansolino` ,Thank you so much for your kind help! I would try this later.
 
 
@@ -10704,9 +10704,9 @@ In addition, I want to understand of this sin function. could you recommend me t
 Thank you!
 
 ##### David Mansolino [Cyberbotics] 08/09/2019 16:07:16
-`@Yang Chen`, you should probably have a look at 'central pattern generators' (CPG). Here is for example an article about this: [https://www.sciencedirect.com/science/article/pii/S0960982201005814](https://www.sciencedirect.com/science/article/pii/S0960982201005814)
+`@YCL`, you should probably have a look at 'central pattern generators' (CPG). Here is for example an article about this: [https://www.sciencedirect.com/science/article/pii/S0960982201005814](https://www.sciencedirect.com/science/article/pii/S0960982201005814)
 
-##### Yang Chen 08/09/2019 16:11:23
+##### YCL 08/09/2019 16:11:23
 `@David Mansolino`  👏 Thank you for your kind help! Get it!😀
 
 ##### David Mansolino [Cyberbotics] 08/09/2019 18:01:11
@@ -10796,13 +10796,13 @@ It works perfectly if I reduce it. Thanks a lot!
 ##### Olivier Michel [Cyberbotics] 08/12/2019 15:16:18
 Great.
 
-##### Yang Chen 08/13/2019 15:02:34
+##### YCL 08/13/2019 15:02:34
 Hello! I see the mantis has tripod gait. Could you please show me  the code or other setup which decides when one pair of three feet fix on ground and when one pair of three feet lift the ground?
 
 ##### MariusJuston [Moderator] 08/13/2019 15:10:26
 `wb_motor_set_position(motors[i], a[i] * sin(2.0 * M_PI * f * time + p[i]) + d[i]);` It is all part of the sinusoidal function, the amplitude tells the legs if it should from left to right or right to left and by how much it should move by
 
-##### Yang Chen 08/13/2019 15:21:40
+##### YCL 08/13/2019 15:21:40
 Hi,`@MariusJuston` Thank you! Yes. While I need a specific one. As I am confusing how  this fuction realizes which pair of feet fix on ground and only rotate the legs and when feet lift while legs rotate. My robot's feet always slip.
 
 
@@ -10811,7 +10811,7 @@ So I am trying to totally understand this function. Then, maybe the robot can go
 ##### MariusJuston [Moderator] 08/13/2019 15:25:00
 That is really all based on timing and fine tuning the function. If you look at the graphs of the robot motors while it is running (double click the robot) you will seen the sinusoidal functions and hopefully that helps you
 
-##### Yang Chen 08/13/2019 15:27:30
+##### YCL 08/13/2019 15:27:30
 Thank you so much for your kind suggestion! Yes, of course I will see it now.
 
 
@@ -10823,7 +10823,7 @@ No I meant for in the webots simulation:
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/610857673646407700/unknown.png)
 %end
 
-##### Yang Chen 08/13/2019 15:33:28
+##### YCL 08/13/2019 15:33:28
 Thank you! Get it! I will do it right now!
 
 
@@ -10832,13 +10832,13 @@ Hi,`@MariusJuston` can you see the webots simulation of mantis for a while again
 ##### MariusJuston [Moderator] 08/13/2019 15:53:11
 I cannot seem to see the legs slipping
 
-##### Yang Chen 08/13/2019 16:29:13
+##### YCL 08/13/2019 16:29:13
 `@MariusJuston` Do you use the same nodes and codes as the github shows?
 
 ##### MariusJuston [Moderator] 08/13/2019 16:30:12
 I am assuming so? I am using the latest R2019b Webots
 
-##### Yang Chen 08/13/2019 16:31:10
+##### YCL 08/13/2019 16:31:10
 I use the same nodes and codes as the github shows, after the matis robot walks for a while I can find feet slipping. Sorry I focus on this point. As the slipping is what I want to eliminate.
 
 
@@ -10850,7 +10850,7 @@ While the abnormal thing is that when I run real time simulation for the first t
 ##### MariusJuston [Moderator] 08/13/2019 16:32:59
 Could you show me a video of it happening please
 
-##### Yang Chen 08/13/2019 16:37:18
+##### YCL 08/13/2019 16:37:18
 
 %figure
 ![20190813123611.jpg](https://cdn.discordapp.com/attachments/565154703139405824/610874532601004072/20190813123611.jpg)
@@ -10865,13 +10865,13 @@ Ok, please watt a moment. I need to learn how to do it.
 ##### MariusJuston [Moderator] 08/13/2019 16:38:02
 I have never gotten that error...
 
-##### Yang Chen 08/13/2019 16:38:33
+##### YCL 08/13/2019 16:38:33
 I get this error from the first time I use real time simulation.
 
 ##### MariusJuston [Moderator] 08/13/2019 16:42:55
 You are running the mantis sample world right?
 
-##### Yang Chen 08/13/2019 16:47:07
+##### YCL 08/13/2019 16:47:07
 
 > **Attachment**: [Mantis.mp4](https://cdn.discordapp.com/attachments/565154703139405824/610877003788320808/Mantis.mp4)
 
@@ -10893,7 +10893,7 @@ also the right hind leg.
 ##### MariusJuston [Moderator] 08/13/2019 16:53:12
 That is probably because it is going up the sloped terain
 
-##### Yang Chen 08/13/2019 16:53:27
+##### YCL 08/13/2019 16:53:27
 mine worlds follow this website [https://github.com/omichel/webots/blob/master/projects/robots/micromagic/mantis/worlds/mantis.wbt](https://github.com/omichel/webots/blob/master/projects/robots/micromagic/mantis/worlds/mantis.wbt)
 
 
@@ -10902,7 +10902,7 @@ Mine controller follows this websites[https://github.com/omichel/webots/blob/mas
 ##### MariusJuston [Moderator] 08/13/2019 16:56:09
 Since the motors are set to absolute positions it is forcing the legs to go to those specific positions no matter. This causes it, if there is a slopped terrain to be lift off from the other legs, to fix this you would need to create some kind of suspention on the legs
 
-##### Yang Chen 08/13/2019 16:56:21
+##### YCL 08/13/2019 16:56:21
 how about yours? Do your mantis' simulation has slipping ?
 
 
@@ -10935,7 +10935,7 @@ You probably want to fiddle with columbFriction in the ContactProperties in orde
 
 Or if you want you can go in the PROTO of the mantis and then set the mass property in the physics node to be 1
 
-##### Yang Chen 08/13/2019 17:33:02
+##### YCL 08/13/2019 17:33:02
 Ok. Thank  you so much for your valuable time and patience!
 
 ##### MariusJuston [Moderator] 08/13/2019 17:34:45
@@ -10944,7 +10944,7 @@ That was already set in the sample world so you do not actually need to change t
 
 But if you were to use the mantis in another world you proabbly want to have very similar world settings
 
-##### Yang Chen 08/13/2019 17:36:09
+##### YCL 08/13/2019 17:36:09
 When you are doing your own robot simulation, how do you deal with these parameters, like basicTimeStep 10
 
 FPS 60
@@ -10965,7 +10965,7 @@ Usually you do not need to edit them, but if you see some things behave strangel
 
 For more info about what each parameter means
 
-##### Yang Chen 08/13/2019 17:44:07
+##### YCL 08/13/2019 17:44:07
 `@MariusJuston` OK. I will try. Thank you !
 
 ##### David Mansolino [Cyberbotics] 08/14/2019 09:05:20
@@ -19708,7 +19708,7 @@ hi, why after add a  camera to my robot, the camera cant shot, just a plot of bl
 ##### chenpixx 12/01/2019 20:52:45
 Hi,  I want to plot a point on the right foot sole of robotis-op2. How can I do it?
 
-##### Yang Chen 12/01/2019 23:09:14
+##### YCL 12/01/2019 23:09:14
 Hi everyone. Recently, I want to compare the speed of a robot in simulation with the same robot in real life. In order to let the robot move forward, in simulation, when I use differnt basic time step  with all other parameters stay the same, the time to finish this same motion is differnt, and the speed by calculating the position of the robot over simulation time  is different too. And I see the user manual about basic time  step set-up. Does that mean I need tune the basic time step according to the real robot's speed, with the same parameters and controller betweem the simulation and real robot?
 
 
@@ -19936,7 +19936,7 @@ You can download Webots from here: [https://github.com/cyberbotics/webots/releas
 ##### jacqueline 12/04/2019 00:44:11
 hi since web is still down, can you tell me if husarion robot [https://husarion.com/](https://husarion.com/) is supported in webot like pioneer mobile base?
 
-##### Yang Chen 12/04/2019 04:11:11
+##### YCL 12/04/2019 04:11:11
 `@Olivier Michel` Thank you for your kind help!
 
 ##### David Mansolino [Cyberbotics] 12/04/2019 07:31:41
@@ -20349,7 +20349,7 @@ Thanks, that helped 🙂
 ##### David Mansolino [Cyberbotics] 12/06/2019 13:23:42
 You're welcome :-)
 
-##### Yang Chen 12/06/2019 14:08:46
+##### YCL 12/06/2019 14:08:46
 Hello! I am wondering is there someone tell me how to  plot  a figure of processing data by using webots?  Thank you!
 
 
@@ -20362,12 +20362,12 @@ And can you open these links?
 %end
 
 ##### David Mansolino [Cyberbotics] 12/06/2019 14:11:03
-Hi `@Yang Chen` you can use the Display device to plot data, see for example this example how plots the position of a joint: [https://cyberbotics.com/doc/guide/samples-howto#ziegler\_nichols-wbt](https://cyberbotics.com/doc/guide/samples-howto#ziegler_nichols-wbt)
+Hi `@YCL` you can use the Display device to plot data, see for example this example how plots the position of a joint: [https://cyberbotics.com/doc/guide/samples-howto#ziegler\_nichols-wbt](https://cyberbotics.com/doc/guide/samples-howto#ziegler_nichols-wbt)
 
 
 Unfortunately the forum is currently offline, we are running some migration.
 
-##### Yang Chen 12/06/2019 14:14:32
+##### YCL 12/06/2019 14:14:32
 Thanks, that helped
 
 ##### David Mansolino [Cyberbotics] 12/06/2019 14:14:48
@@ -20397,7 +20397,7 @@ Thanks David🙂
 ##### David Mansolino [Cyberbotics] 12/06/2019 15:31:53
 You're welcome
 
-##### Yang Chen 12/06/2019 16:04:00
+##### YCL 12/06/2019 16:04:00
 `@David Mansolino` Hello, Can I export data got from webot to excel?
 
 
@@ -20406,7 +20406,7 @@ Hello, is there someone know how to export data got from webot to excel?
 ##### David Mansolino [Cyberbotics] 12/06/2019 16:19:09
 `@YC`L there is no out of the box tool to export to excel, but from you controller you can writte any data you want in a cvs file for example as you would do with any other program. A quick search on the web pointed me on this for Python for example: [https://realpython.com/python-csv/](https://realpython.com/python-csv/)
 
-##### Yang Chen 12/06/2019 16:25:12
+##### YCL 12/06/2019 16:25:12
 `@David Mansolino` Thank you very much!
 
 ##### David Mansolino [Cyberbotics] 12/06/2019 16:25:19

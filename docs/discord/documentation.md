@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### Axel M [Premier Service] 04/21/2020 15:59:54
+##### PymZoR [Premier Service] 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -957,16 +957,16 @@ Thanks David 👍 I will make a PR on it soon
 ##### David Mansolino [Cyberbotics] 05/12/2020 09:04:01
 You're welcome, looking forward to see your PR!
 
-##### RumGuru 05/12/2020 22:11:15
+##### Chaytànya 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 06:37:58
-Hi `@RumGuru`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
+Hi `@Chaytànya`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
 
-##### RumGuru 05/13/2020 06:46:52
+##### Chaytànya 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
 ##### İchigogo 05/13/2020 08:00:17
@@ -1481,4 +1481,56 @@ You can find all the information about a Webots sensor/motor in the PROTO file t
 - [https://www.cyberbotics.com/doc/guide/sensors](https://www.cyberbotics.com/doc/guide/sensors)
 
 But usually Webots models doesn't contain power usage information,  so you should look at the web site of the motor/sensor producer to retrieve these values.
+
+##### vinwan 11/19/2020 07:28:39
+How can i use python multiprocessing module in webots?
+
+##### Darko Lukić [Cyberbotics] 11/19/2020 07:58:25
+Hello `@vinwan` , Webots should support the Python multiprocessing module out-of-the-box. Just make sure everything is synced with `step()`
+
+##### vinwan 11/19/2020 09:18:48
+Hello `@Darko Lukić`  Thank you for replying . I just started using webots and i don't know how to sync everything with step() . Is there any documentation i can read about it ?
+
+##### Darko Lukić [Cyberbotics] 11/19/2020 10:53:34
+`@vinwan` Welcome to Webots!
+
+
+
+Yes, here is a reference for the `step()`  function:
+
+[https://cyberbotics.com/doc/reference/robot#wb\_robot\_step](https://cyberbotics.com/doc/reference/robot#wb_robot_step)
+
+
+
+And here is useful guide on how to write a cotroller:
+
+[https://cyberbotics.com/doc/guide/controller-programming?tab-language=python](https://cyberbotics.com/doc/guide/controller-programming?tab-language=python)
+
+
+
+Make sure you have gone through the tutorials first:
+
+[https://cyberbotics.com/doc/guide/tutorials?tab-language=python](https://cyberbotics.com/doc/guide/tutorials?tab-language=python)
+
+##### F\_Nadi 11/21/2020 11:50:37
+Hello guys, I want to rotate my robot exactly 30 degrees to the right in Webots R2019b version. But sometimes my robot is rotated less than 30 degrees. Would you please help me to tackle this problem?
+
+##### KajalGada 11/22/2020 02:57:28
+I was about to ask for webot time step documentation. Curious question: is there a reason I see multiples of 32 for time step usage in examples?
+
+
+`@F_Nadi` I have been working on rotation robots in webots. While I got it to rotate to a certain degree. It was not always exact. I saw error accumulating over time. My best guess is slight mismatch between timings in when sensor was measured (to get position of robot) and when motor commands were executed. Which in some ways represents real world - you can't have exact turns.
+
+
+
+For your references, how I turn robot based on speed and timing: [https://youtu.be/CDOrTKQAOqs](https://youtu.be/CDOrTKQAOqs)
+
+##### Olivier Michel [Cyberbotics] 11/23/2020 07:58:05
+`@KajalGada`: there is actually a reason for using a multiple of 32 millisecond for the controller step: it is easy to divide by two several times. And that can be useful. Let's imagine you choose a `WorldInfo.basicTimeStep` of 32 milliseconds and a robot controller step of 32 milliseconds, so that both are in sync, which is optimal performance-wise. But, it turns out that the physics of your simulation is unstable. Then, dividing the `WorldInfo.basicTimeStep`, so that you get 16 should help improving the stability and will not affect the controller program as both will be in sync every two basic time step. If dividing by two is not enough, you can divide by two again and get 8, and continue with 4, 2 and 1. In every case, your controller will be in sync with the simulation physics step, which contributes to make the simulation efficient and stable.
+
+##### F\_Nadi 11/24/2020 07:31:05
+Thanks `@KajalGada`
+
+##### KajalGada 11/25/2020 01:16:49
+That is smart, thank you for the explaination Olivier 🙂
 
