@@ -45,8 +45,13 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
+    - name: Rename Webots Tarball Package
+      if: ${{ matrix.os == 'ubuntu-18.04' }}
+      run: |
+        sudo apt install --yes rename
+        rename 's/\.tar.bz2$/_ubuntu-18.04.tar.bz2/' distribution/*.tar.bz2
     - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
