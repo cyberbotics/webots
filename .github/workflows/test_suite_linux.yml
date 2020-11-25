@@ -26,9 +26,6 @@ jobs:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
         include:
-          - os: ubuntu-16.04
-            JAVA_VERSION: "8"
-            ROS_DISTRO: "kinetic"
           - os: ubuntu-18.04
             JAVA_VERSION: "11"
             ROS_DISTRO: "melodic"
