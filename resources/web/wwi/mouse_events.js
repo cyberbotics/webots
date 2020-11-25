@@ -72,8 +72,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseMove(event) {
-    console.log("move");
-
     if (!this.enableNavigation && event.button === 0) {
       if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);
@@ -113,9 +111,20 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.scene.viewpoint.rotate(this.moveParams);
     } else {
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        this.moveParams.dx = event.clientX - this.state.initialX;
-        this.moveParams.dy = event.clientY - this.state.initialY;
-        this.scene.viewpoint.translate(this.moveParams);
+        let scaleFactor = 0.0003;
+        let targetRight = -scaleFactor * this.moveParams.dx
+        let targetUp = scaleFactor * this.moveParams.dy;
+        let orientation = World.instance.viewpoint.orientation;
+        let position = World.instance.viewpoint.position;
+        let up = this.up(orientation);
+        let right = this.right(orientation);
+        let targetR = glm.vec3(right.x * targetRight, right.y * targetRight, right.z * targetRight);
+        let targetU = glm.vec3(up.x * targetUp, up.y * targetUp, up.z * targetUp);
+        let target = targetR.add(targetU);
+        World.instance.viewpoint.position = glm.vec3(position.x + target.x, position.y + target.y, position.z + target.z);
+        World.instance.viewpoint.updatePosition();
+        console.log(World.instance.viewpoint.position);
+        this.scene.render();
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
         this.moveParams.tiltAngle = 0.01 * this.moveParams.dx;
         this.moveParams.zoomScale = this.moveParams.scaleFactor * 5 * this.moveParams.dy;
@@ -162,9 +171,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     }
 
     let position = World.instance.viewpoint.position;
-
     let rollVector = this.direction(World.instance.viewpoint.orientation);
-    let zDisplacement = glm.vec3(event.deltaY * 0.01 * rollVector.x, event.deltaY * 0.01 * rollVector.y, event.deltaY * 0.01 * rollVector.z);
+    let zDisplacement = glm.vec3(event.deltaY * 0.001 * rollVector.x, event.deltaY * 0.001 * rollVector.y, event.deltaY * 0.001 * rollVector.z);
     World.instance.viewpoint.position = glm.vec3(position.x + zDisplacement.x, position.y + zDisplacement.y, position.z + zDisplacement.z);
     World.instance.viewpoint.updatePosition();
 
@@ -384,6 +392,18 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
     let tTimesZ = t * orientation.z;
     return glm.vec3(tTimesZ * orientation.x + s * orientation.y, tTimesZ * orientation.y - s * orientation.x, tTimesZ * orientation.z + c);
+  }
+
+  right(orientation) {
+    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
+    let tTimesX = t * orientation.x;
+    return glm.vec3(tTimesX * orientation.x + c, tTimesX * orientation.w + s * orientation.z, tTimesX * orientation.z - s * orientation.y);
+  }
+
+  up(orientation) {
+    let c = Math.cos(orientation.w), s = Math.sin(orientation.w), t = 1 - c;
+    let tTimesY = t * orientation.y;
+    return glm.vec3(tTimesY * orientation.x - s * orientation.z, tTimesY * orientation.y + c, tTimesY * orientation.z + s * orientation.x);
   }
 }
 
