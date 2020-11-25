@@ -51,8 +51,10 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        xvfb-run --auto-servernum make distrib -j4
-    - name: Rename Webots Package
+        export DISPLAY:=
+        Xvfb :99 -screen 0 1024x768x16
+        make distrib -j4
+    - name: Rename Webots Package and Install Debian Package Dependencies
       if: ${{ matrix.os == 'ubuntu-16.04' }}
       run: |
         sudo apt install --yes rename
