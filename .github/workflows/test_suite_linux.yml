@@ -51,7 +51,7 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        export DISPLAY:=
+        export DISPLAY=:99
         Xvfb :99 -screen 0 1024x768x16
         make distrib -j4
     - name: Rename Webots Package and Install Debian Package Dependencies
