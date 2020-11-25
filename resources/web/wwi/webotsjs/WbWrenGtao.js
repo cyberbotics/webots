@@ -39,6 +39,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   }
 
   setQualityLevel(qualityLevel) {
+    console.log("yo");
     this.params[2] = 2 << (qualityLevel - 1);
     this.applyParametersToWren();
   }
@@ -46,13 +47,22 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   applyOldInverseViewMatrixToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
+    let previousInverseViewMatrixPointer
+    if(typeof this.previousInverseViewMatrix !== 'number')
+      previousInverseViewMatrixPointer = arrayXPointer(this.previousInverseViewMatrix);
+    else
+      previousInverseViewMatrixPointer = this.previousInverseViewMatrix;
 
-    const previousInverseViewMatrixPointer = arrayXPointer(this.previousInverseViewMatrix);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.temporalPass, "previousInverseViewMatrix", previousInverseViewMatrixPointer]);
+    if(typeof this.previousInverseViewMatrix !== 'number')
+      _free(previousInverseViewMatrixPointer);
+
+    console.log("0 : " + this.frameCounter);
+
   }
 
   copyNewInverseViewMatrix(inverseViewMatrix) {
-      this.previousInverseViewMatrix = inverseViewMatrix;
+    this.previousInverseViewMatrix = inverseViewMatrix;
   }
 
   detachFromViewport() {
@@ -113,7 +123,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "clipInfo", array4]);
 
     this.params[0] = this.rotations[this.frameCounter % 6] / 360.0;
-    this.params[1] = this.offsets[(this.frameCounter / 6) % 4];
+    this.params[1] = this.offsets[Math.floor(this.frameCounter / 6) %4];
 
     array4 = _wrjs_array4(this.params[0], this.params[1], this.params[2], this.params[3])
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "params", array4]);

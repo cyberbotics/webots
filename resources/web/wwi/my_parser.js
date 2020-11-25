@@ -12,7 +12,7 @@ import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
 import {WbSphere} from "./webotsjs/WbSphere.js";
 import {WbCone} from "./webotsjs/WbCone.js";
-
+import {WbIndexedFaceSet} from "./webotsjs/WbIndexedFaceSet.js"
 
 import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
@@ -358,6 +358,8 @@ class MyParser {
       geometry = this.parsePlane(node);
     else if (node.tagName === 'Cylinder')
       geometry = this.parseCylinder(node);
+    else if (node.tagName === 'IndexedFaceSet')
+      geometry = this.parseIndexedFaceSet(node);
     else {
       console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
@@ -433,6 +435,37 @@ class MyParser {
     World.instance.nodes[plane.id] = plane;
 
     return plane;
+  }
+
+  parseIndexedFaceSet(node) {
+    let id = getNodeAttribute(node, 'id');
+    let isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
+
+    let coordIndexStr = getNodeAttribute(node, 'coordIndex', '').split(/\s/);
+    let coordIndex = coordIndexStr.map(Number);
+
+    let normalIndexStr = getNodeAttribute(node, 'normalIndex', '').split(/\s/);
+    let normalIndex = normalIndexStr.map(Number);
+
+    let texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').split(/\s/);
+    let texCoordIndex = texCoordIndexStr.map(Number);
+
+    let coordinate = node.getElementsByTagName('Coordinate')[0];
+    let coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
+    let coord = coordStr.map(el => parseFloat(el));
+
+    let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
+    let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
+    let texCoord  = texcoordsStr.map(el => parseFloat(el));
+
+    let normalNode = node.getElementsByTagName('Normal')[0];
+    let normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
+    let normal = normalStr.map(el => parseFloat(el));
+
+    let ifs = new IndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal);
+    World.instance.nodes[ifs.id] = ifs;
+
+    return ifs;
   }
 
   async parseAppearance(node) {
@@ -693,7 +726,7 @@ function getNodeAttribute(node, attributeName, defaultValue) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  var v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
+  let v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
   return v;
 }
 
