@@ -27,6 +27,7 @@ import {Use} from "./webotsjs/Use.js";
 class MyParser {
   constructor() {
       this.prefix = "http://localhost:1234/";
+      this.irradiancePrefix = "/projects/default/worlds/"
       let world = new World();
   }
 
@@ -185,13 +186,12 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      irradianceCubeURL[5] = this.prefix + backIrradianceUrl;
-      irradianceCubeURL[3] = this.prefix + bottomIrradianceUrl;
-      irradianceCubeURL[4] = this.prefix + frontIrradianceUrl;
-      irradianceCubeURL[1] = this.prefix + leftIrradianceUrl;
-      irradianceCubeURL[0] = this.prefix + rightIrradianceUrl;
-      irradianceCubeURL[2] = this.prefix + topIrradianceUrl;
-      console.log(topIrradianceUrl);
+      irradianceCubeURL[5] = this.irradiancePrefix + backIrradianceUrl;
+      irradianceCubeURL[3] = this.irradiancePrefix + bottomIrradianceUrl;
+      irradianceCubeURL[4] = this.irradiancePrefix + frontIrradianceUrl;
+      irradianceCubeURL[1] = this.irradiancePrefix + leftIrradianceUrl;
+      irradianceCubeURL[0] = this.irradiancePrefix + rightIrradianceUrl;
+      irradianceCubeURL[2] = this.irradiancePrefix + topIrradianceUrl;
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
