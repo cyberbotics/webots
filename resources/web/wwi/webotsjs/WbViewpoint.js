@@ -76,7 +76,6 @@ class WbViewpoint extends WbBaseNode {
 
   applyFieldOfViewToWren() {
     _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
-
     if (this.wrenGtao)
       this.wrenGtao.setFov(this.fieldOfViewY);
   }
@@ -262,7 +261,8 @@ class WbViewpoint extends WbBaseNode {
 
   postFinalize() {
     super.postFinalize();
-
+    this.updateFieldOfView();
+    this.updatePostProcessingEffects();
     if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();
 

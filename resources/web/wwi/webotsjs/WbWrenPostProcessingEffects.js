@@ -6,7 +6,7 @@ class WbWrenPostProcessingEffects {
     WbWrenPostProcessingEffects.lensFlareLenTexture = WbWrenPostProcessingEffects.loadImage(lensFlareLenTexture);
     WbWrenPostProcessingEffects.smaaAreaTexture = WbWrenPostProcessingEffects.loadImage(smaaAreaTexture);
     WbWrenPostProcessingEffects.smaaSearchTexture = WbWrenPostProcessingEffects.loadImage(smaaSearchTexture);
-    WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture, );
+    WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture);
   }
 
   static loadImage(image){
@@ -15,11 +15,11 @@ class WbWrenPostProcessingEffects {
     _wr_texture_set_size(targetTexture, image.width, image.height);
     let bitsPointer = arrayXPointer(image.bits);
     _wr_texture_2d_set_data(targetTexture, bitsPointer);
-    _free(bitsPointer);
     _wr_texture_2d_set_file_path(targetTexture, image.url);
     _wr_texture_2d_set_cache_persistency(targetTexture, true);
     _wr_texture_set_translucent(targetTexture, image.isTranslucent);
     _wr_texture_setup(targetTexture)
+    _free(bitsPointer);
     return targetTexture
   }
 
