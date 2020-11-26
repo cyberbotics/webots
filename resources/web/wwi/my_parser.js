@@ -26,7 +26,7 @@ import {Use} from "./webotsjs/Use.js";
 
 class MyParser {
   constructor() {
-      this.prefix = "/projects/default/worlds/";
+      this.prefix = "http://localhost:1234/";
       let world = new World();
   }
 
@@ -191,6 +191,7 @@ class MyParser {
       irradianceCubeURL[1] = this.prefix + leftIrradianceUrl;
       irradianceCubeURL[0] = this.prefix + rightIrradianceUrl;
       irradianceCubeURL[2] = this.prefix + topIrradianceUrl;
+      console.log(topIrradianceUrl);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
@@ -554,12 +555,10 @@ class MyParser {
       anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
     }
     let imageTexture = undefined;
+    console.log(url);
+
     if(typeof url !== 'undefined' && url !== '') {
-      if(!hasPrefix){
-        url = this.prefix+url
-      }else {
-        url = url.split(/webots/)[1];
-      }
+      url = this.prefix + url
       let image = await this.loadTextureData(url);
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);
     }
@@ -680,6 +679,7 @@ class MyParser {
   async loadTextureData(url, bgra) {
    let context = document.getElementById('canvas2').getContext('2d');
    let img = await this.loadImage(url);
+   console.log(img);
    canvas2.width = img.width;
    canvas2.height = img.height;
    context.drawImage(img, 0, 0);
@@ -712,6 +712,7 @@ class MyParser {
        resolve(img);
      }
      img.onerror = () => console.log("Error in loading : " + src);
+     img.setAttribute('crossOrigin', ''); //TODO Check if we want to let it
      img.src = src;
    })
  }
