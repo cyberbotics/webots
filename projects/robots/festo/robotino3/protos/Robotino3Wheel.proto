@@ -5,6 +5,9 @@
 # This is a PROTO file for Webots for the robot Robotino 3 from Festo.
 # It is the Robotino 3 robot that can be extended with different features to fullfil your requirement.
 
+# tags: hidden
+# a wheel for Robotino3.proto
+
 PROTO Robotino3Wheel [
   field SFFloat nr 0
 ]
