@@ -4,6 +4,26 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### KajalGada 11/22/2020 03:06:28
+Back with another tutorial: How to use Position sensor in Webots to compute robot odometry. Code is in Python.
+
+[https://youtu.be/WSjTWcTojHg](https://youtu.be/WSjTWcTojHg)
+
+##### Olivier Michel [Cyberbotics] 11/19/2020 10:41:18
+The AI World Cup is running its second edition with a nice Webots simulation of humanoid soccer robots. See [http://aiworldcup.org](http://aiworldcup.org) and [https://vimeo.com/458892241](https://vimeo.com/458892241). The finals will run this Saturday. Videos of qualification matches are already available online: [http://aiworldcup.org](http://aiworldcup.org)/video/
+
+##### KajalGada 11/13/2020 20:13:36
+Get started with writing your own controller code in Python in Webots with this tutorial. I go over differential drive kinematics and do a small project of driving the robot along a square path. [https://youtu.be/CDOrTKQAOqs](https://youtu.be/CDOrTKQAOqs)
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 08:57:04
+You can also check the presentation of Nobleo Technology in the same video at 13:25 [https://vimeo.com/478574166#t=13m25s](https://vimeo.com/478574166#t=13m25s) which relies on a very nice Webots simulation for their autonomous pallet truck "Ida".
+
+
+Here the lightning talk introducing Webots for ROS2 at ROSWorld 2020 conference: [https://vimeo.com/478574166](https://vimeo.com/478574166).
+
+
+Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutorial, you will learn how to implement a line following behavior for a custom robot with ROS2. [https://youtu.be/ZTJa5f5F5fU](https://youtu.be/ZTJa5f5F5fU)
+
 ##### KajalGada 11/11/2020 01:06:46
 `@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 

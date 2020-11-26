@@ -11,7 +11,7 @@ add-apt-repository -y ppa:deadsnakes/ppa
 apt update
 apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr
 curl -sL https://deb.nodesource.com/setup_15.x | bash -
-apt-get install --yes nodejs
+apt install --yes nodejs
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "16.04" ]]; then
