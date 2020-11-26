@@ -21,6 +21,9 @@ import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js";
 import {WbImageTexture} from "./webotsjs/WbImageTexture.js";
 import {WbImage} from "./webotsjs/WbImage.js";
 
+import {WbDirectionalLight} from "./webotsjs/WbDirectionalLight.js";
+
+
 import {Use} from "./webotsjs/Use.js";
 
 
@@ -81,6 +84,8 @@ class MyParser {
       result = await this.parseGroup(node, currentNode);
     else if (node.tagName === 'Shape')
       result = await this.parseShape(node, currentNode);
+    else if (node.tagName === 'DirectionalLight')
+      result = await this.parseDirectionalLight(node, currentNode);
     else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
@@ -341,6 +346,39 @@ class MyParser {
     return shape;
   }
 
+  async parseDirectionalLight(node, currentNode) {
+    //TODO USE
+    let id = getNodeAttribute(node, 'id');
+    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
+    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+
+
+
+    /*
+    var shadowMapSize = parseFloat(getNodeAttribute(node, 'shadowMapSize', '1024'));
+    lightObject.shadow.mapSize.width = shadowMapSize;
+    lightObject.shadow.mapSize.height = shadowMapSize;
+    lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1.5'));
+    lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0.000001'));
+    lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
+    lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));*/
+
+    let dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
+
+    if(typeof currentNode !== 'undefined') {
+      currentNode.children.push(dirLight);
+      dirLight.parent = currentNode.id;
+    }
+
+    World.instance.nodes[dirLight.id] = dirLight;
+
+    return dirLight;
+  }
+
   async parseGeometry(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined') {
@@ -555,7 +593,6 @@ class MyParser {
       anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
     }
     let imageTexture = undefined;
-    console.log(url);
 
     if(typeof url !== 'undefined' && url !== '') {
       url = this.prefix + url
@@ -679,7 +716,6 @@ class MyParser {
   async loadTextureData(url, bgra) {
    let context = document.getElementById('canvas2').getContext('2d');
    let img = await this.loadImage(url);
-   console.log(img);
    canvas2.width = img.width;
    canvas2.height = img.height;
    context.drawImage(img, 0, 0);
