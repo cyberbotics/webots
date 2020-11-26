@@ -70,7 +70,6 @@ Unlike with the APT system, you will have to repeat this operation manually each
 
 On Ubuntu, double-click on the Debian package file to open it with the Ubuntu Software App and click on the `Install` button.
 If a previous version of Webots is already installed, then the text on the button could be different, like `Upgrade` or `Reinstall`.
-Note that GNOME Software App distributed in the first release of Ubuntu 16.04 contains a bug preventing the installation of third-party packages.
 
 Alternatively, the Debian package can also be installed using `apt` or `gdebi` with the `root` privileges:
 
@@ -87,7 +86,7 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+Note that for the old Ubuntu versions 18.04 you should download the `webots-R2020b-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.

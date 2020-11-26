@@ -51,7 +51,7 @@ endif
 endif
 
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
-ifeq ($(TRAVIS),)
+ifeq ($(DISPLAY),)
 export DISPLAY = :99
 XVFB = xvfb
 endif

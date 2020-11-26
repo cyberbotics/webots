@@ -960,7 +960,7 @@ Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Simon Steinmann` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
-##### Axel M [Premier Service] 05/14/2020 09:08:34
+##### PymZoR [Premier Service] 05/14/2020 09:08:34
 `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Simon Steinmann [Moderator] 05/14/2020 12:48:46
 > `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@Axel M` 
+`@PymZoR` 
 
 
 
@@ -1074,7 +1074,7 @@ Is there a way of modifying the usual steering system used in car models?
 ##### David Mansolino [Cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
-##### Axel M [Premier Service] 05/27/2020 16:42:51
+##### PymZoR [Premier Service] 05/27/2020 16:42:51
 I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
 
 
@@ -7344,4 +7344,353 @@ Any help would be appreciated.
 
 ##### DrakerDG 11/09/2020 21:55:24
 Hello, I am learning Python, what courses or books do you advise me to continue learning?  To be able to program in webots using phyton, since I have only been able to program in C code 😬🙏
+
+##### DrVoodoo [Moderator] 11/11/2020 18:22:14
+"Automate the boring stuff with python" is good, highlights where python excels
+
+##### DrakerDG 11/12/2020 05:25:52
+`@DrVoodoo` thanks a lot 😁👍🏼
+
+##### csnametala 11/12/2020 20:41:08
+Hello everyone!
+
+I am using more than one e-puck robot, and at some point some determined to stop for some reason while the others continue their process, so the problem is that when one is on hold, everyone else is stopping in the simulation.
+
+
+Please, does anyone have any idea what it could be?
+
+##### Lukulus 11/13/2020 10:48:16
+Hi everyone, is there a project on git where a scissor lift is implemented? I am trying to simulate a scissor lift, but I have a lot struggle with fixed connection between two elements..
+
+Is there a way to connect two solids at one point? And do you think webots is appropriate to simulate a sissor lift?
+
+Thanks in advance.
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 10:57:39
+I am not aware of such a model implemented in Webots, but I believe you could take inspiration from the Stewart Platform example provided in Webots: [https://cyberbotics.com/doc/guide/samples-demos#stewart\_platform-wbt](https://cyberbotics.com/doc/guide/samples-demos#stewart_platform-wbt) [https://www.youtube.com/watch?v=ddrtiwjKAaY](https://www.youtube.com/watch?v=ddrtiwjKAaY)
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:01:55
+`@Lukulus` it really depends on what you want to simulate. Does it simply have to act and look correct? Or do you actually have to simulate the mechanics and torque/force transmissions? If it just has to behave correctly, you can simplify the functionality by using a slider joint and linear motor. You can add the "scissors" separately, not being connected to the platform, but moving in unison
+
+
+I'm not aware of any rigid body simulators that can simulate closed joint loops
+
+##### Lukulus 11/13/2020 11:05:20
+if it act and looks like a scissor lift would be sufficient
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:05:46
+Then I think this will be your best approach
+
+##### Lukulus 11/13/2020 11:06:00
+ok, thank you:)
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:06:17
+let us know if you have further questions about how to do it 🙂
+
+
+and perhaps post a result, once you're done. I'm sure others are interested too!
+
+
+<@&568329906048598039> I had an idea the other day and wanted to ask if something like this is already implemented or in the works:
+
+Wizard for creating generic robots (arm, vehicle, legged)
+
+
+For example, select Tpye: "arm", DOF "6"
+
+
+it then creates a robot with the correct nodes
+
+##### Lukulus 11/13/2020 11:20:03
+`@Simon Steinmann` my problem is now, that I need two slider joints. the first lift the platform, the second bring the lower scissor together.
+
+Do you have a idea how to simulate this?
+
+
+so while the scissor go up, the scissor must slide togehter
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:21:00
+can you share a screenshot?
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 11:25:37
+`@Simon Steinmann`: the wizard you describe is neither implemented nor in the works.
+
+
+If you want to contribute it, we would be happy to review such a PR.
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:27:16
+I could only feasably do something like that in python. More akin to the urdf2webots tool
+
+
+However, it would be great, to have it in the GUI like the world wizard
+
+
+or conroller wizard
+
+##### Lukulus 11/13/2020 11:28:18
+this is how i want it to simulate
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776770415791702016/unknown.png)
+%end
+
+
+slide 2 moves the platform
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:30:20
+only 1 "scissor" ?
+
+##### Lukulus 11/13/2020 11:30:37
+to make it easy for the beginning
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:32:10
+the easiest would be to ignore the middle fixed point, an turn the other two fixed points into hinge joints with rotational motors, that turn the scissor-blade with the correct rate compared to the vertical slide joint
+
+##### Lukulus 11/13/2020 11:33:05
+nice, this shound work 🙂 thank you
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:33:19
+with simple trigonometry it should be easy to have the angles correlate to the vertical distance
+
+##### Lukulus 11/13/2020 13:16:56
+Is it Posible to add more then one Joint to an endPoint of another joint?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776797750574579742/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:17:17
+yes
+
+##### Lukulus 11/13/2020 13:17:18
+so if I only use one joint there is no problem
+
+
+but if i add the second the device isn't found
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:18:12
+a joint itself is not a device, the motor and sensor are devices
+
+
+they need unique names too
+
+
+if you want to have them at different locations, you can put the hingejoints in a transform node
+
+##### Lukulus 11/13/2020 13:20:16
+so here it says : Warning: "scissor\_2" device not found.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776798589896359936/unknown.png)
+%end
+
+
+ohh ok
+
+
+this i missed
+
+
+ty!
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:20:47
+You're welcome!
+
+##### Lukulus 11/13/2020 13:38:19
+I get the same warning: Warning: "scissor\_2" device not found:/
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776803133187555369/unknown.png)
+%end
+
+
+If I only use one joint here it works perfectly, with two: one of them isn't fount
+
+
+and the controller is crashed
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:40:32
+hard for me to tell from here
+
+
+can you share your project? then I can take a look
+
+##### Lukulus 11/13/2020 13:45:31
+Das sind die relevanten Stellen.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776804944258007100/unknown.png)
+%end
+
+
+but if you want I can make a short example project and share
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:47:26
+the worldfile would be enough
+
+##### Lukulus 11/13/2020 13:59:54
+hmm restarted it, and then it worked🤦‍♂️  Sorry for spamming so much ^^
+
+##### Simon Steinmann [Moderator] 11/13/2020 14:00:04
+np, glad you figured it out 🙂
+
+
+reloading the world also can help in many cases
+
+##### evoo 11/13/2020 23:46:38
+Hi! If I have two robots in my world how do I differentiate one from the other in the controller code? I know how to instantiate one like “ robot = Robot() “ but how about more than one?
+
+##### DrakerDG 11/14/2020 00:09:36
+`@evoo` I'm not sure but I think that in the controller code it can be easily differentiated
+
+##### Simon Steinmann [Moderator] 11/14/2020 11:39:22
+`@evoo` Every controller has the "controller" field. You can have 2 of the same robots, with the same controller. It then get's loaded for each robot separately.
+
+
+If you are using extern controllers, refer to this: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)
+
+##### evoo 11/14/2020 22:09:09
+thank u
+
+##### davidzjeh 11/15/2020 10:36:42
+Hello, I have a question about how can I control the easiest way the Universal Robots to a specified point in the world?(to catch an object which translation is fix)
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 08:00:07
+Hello `@davidzjeh` , you can check the example with ABB IRB 4600:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+##### davidzjeh 11/16/2020 08:08:39
+ahh thanks, can I implement this in C? cuz i saw that is using the ikpy python module that don't exist in C
+
+##### Olivier Michel [Cyberbotics] 11/16/2020 08:46:37
+For C++, you can use ikfast instead of ikpy. `@Simon Steinmann` has implemented it successfully and it's really fast compared to ikpy.
+
+##### davidzjeh 11/16/2020 09:34:32
+in this code detail, how can I define the bounds vector for UR robots? I look the UR5e.proto file, I find the rest, but i don't know this vector or is it neccessary for ikpy?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/777828948918403112/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 09:40:06
+[https://github.com/cyberbotics/webots/blob/fb5cd3df739e4773aa677d9445eebd2ab849493f/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py#L42-L45](https://github.com/cyberbotics/webots/blob/fb5cd3df739e4773aa677d9445eebd2ab849493f/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py#L42-L45)
+
+You should be able to extract those bounds automatically from the model using `wb_robot_get_urdf`
+
+##### davidzjeh 11/16/2020 10:16:57
+||[inverse\_kinematics] Traceback (most recent call last):
+
+[inverse\_kinematics]   File "inverse\_kinematics.py", line 45, in <module>
+
+[inverse\_kinematics]     file.write(supervisor.getUrdf().encode('utf-8'))
+
+[inverse\_kinematics] AttributeError: 'Supervisor' object has no attribute 'getUrdf'
+
+WARNING: 'inverse\_kinematics' controller exited with status: 1.||
+
+
+I just want to run the example code
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 10:18:16
+Which version of Webots do you use?
+
+##### davidzjeh 11/16/2020 10:20:00
+R2020a rev1
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 10:20:48
+`getUrdf()` is introduced in R2020b
+
+[https://cyberbotics.com/doc/blog/Webots-2020-b-release#ros-2--webots](https://cyberbotics.com/doc/blog/Webots-2020-b-release#ros-2--webots)
+
+##### davidzjeh 11/16/2020 10:22:11
+meh 😄 okay, thanks your help, iI will install it
+
+
+I think I installed it when it's released but the simulation totally lagged and install back the r2020a becasuse in this no lagg, smooth run
+
+
+now start the simulation and the webots closes down all time..
+
+
+this happened with my project but on the 2020a version it's fine, but i don't know in 2020b version why it's crash all time without any error message..
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 12:47:45
+Can you identify a cause of the crash? It happens when you start `/projects/robots/abb/irb/worlds/inverse_kinematics.wbt`?
+
+[https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/worlds/inverse\_kinematics.wbt](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/worlds/inverse_kinematics.wbt)
+
+##### Simon Steinmann [Moderator] 11/16/2020 13:39:45
+`@davidzjeh` what operating system are you on?
+
+
+I can help you with the ik implementation. I made a very successful and fast implementation, however I only tested it on Linux
+
+##### davidzjeh 11/16/2020 13:42:29
+> `@davidzjeh` what operating system are you on?
+
+`@Simon Steinmann` win10
+
+
+it's bad? 😄
+
+##### Simon Steinmann [Moderator] 11/16/2020 14:03:42
+I havent tried it :p
+
+
+ikfast has to be compiled. I dont develop on Windows
+
+
+if you have some experience with c++ compiling on windows, we could give it a shot
+
+
+`@davidzjeh` If you are interested to try, install this: [https://github.com/yijiangh/ikfast\_pybind](https://github.com/yijiangh/ikfast_pybind)
+
+
+I can then give you the files needed for your robot
+
+##### davidzjeh 11/16/2020 14:29:27
+okey, i will try but now need to debug my world to work fine..
+
+##### Simon Steinmann [Moderator] 11/17/2020 12:19:05
+[https://github.com/cyberbotics/webots/pull/2460](https://github.com/cyberbotics/webots/pull/2460)
+
+
+PR done for install documentation
+
+##### Olivier Michel [Cyberbotics] 11/17/2020 12:45:10
+Approved! Thank you.
+
+##### Simon Steinmann [Moderator] 11/17/2020 12:53:30
+nice, much easier for newcomers now 🙂
+
+
+Out of curiosity, how much would it take, to separate the webots core from the gui? Perhaps in a server / client setup. I see this as a crucial step for wider spread adoption of Webots, especially in the commercial sector, where HPC computers are used for simulation.
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:34:10
+This is tricky as Webots relies a lot on OpenGL for cameras, range-finders, lidars, etc. So a connection to an X server with OpenGL capability is required. The GUI itself is not an issue as the X server is anyhow mandatory. Webots runs perfectly well in the cloud, on HPC computers and in CI machines as long as a possibly virtual X server is setup (we often use xvfb). We are currently working on providing facilities for deploying Webots simulations in the cloud, including HPC systems. So, this is all coming soon...
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:37:03
+That's good to hear. I hope your approach is modular, so only things that are needed can be loaded. For example, when not relying on any visual sensors, it would be great not having to load an X server
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:46:24
+Yes. However, we are not yet at this point, but that's on the roadmap.
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:50:01
+Awesome! Happy to hear that 🙂
+
+##### udits 11/24/2020 14:14:13
+Hi, I have imported a robot from Fusion360 to Webots but I am having difficulty defining hinge joints and getting it to move using my controller code. I had defined rigid joints and revolute joints in Fusion360 as well.
+
+
+The joints haven't been transferred from Fusion360 to Webots as I am importing it in .obj format.
+
+
+I am facing this issue even after defining the hinge joint in Webots.
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:18:37
+I would recommend you to start building the joint structure of your robot first in Webots (or with a text editor) and add the 3D parts, one-by-one, in a second step. You should probably follow the Webots tutorials from the user guide to understand how to build the joint structure.
+
+##### udits 11/24/2020 14:25:37
+Could you please direct me to this tutorial?
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:27:37
+[https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) from 1 to 7 at least.
+
+##### udits 11/24/2020 14:28:29
+Thanks, I'll go through these and get back to you.
 

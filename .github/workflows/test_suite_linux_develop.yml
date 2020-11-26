@@ -45,8 +45,13 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
+    - name: Rename Webots Tarball Package
+      if: ${{ matrix.os == 'ubuntu-18.04' }}
+      run: |
+        sudo apt install --yes rename
+        rename 's/\.tar.bz2$/_ubuntu-18.04.tar.bz2/' distribution/*.tar.bz2
     - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
@@ -73,7 +78,7 @@ jobs:
         name: build-${{ matrix.os }}
         path: artifact
     - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9
@@ -108,7 +113,7 @@ jobs:
         name: build-${{ matrix.os }}
         path: artifact
     - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python ${{ matrix.python }}
@@ -141,7 +146,7 @@ jobs:
         name: build-ubuntu-18.04
         path: artifact
     - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9

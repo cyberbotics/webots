@@ -38,6 +38,7 @@ Released on XXX YYY, 2020.
     - Fixed performance regression (thanks to [Acwok](https://github.com/Acwok)) ([#2434](https://github.com/cyberbotics/webots/pull/2434)).
   - Dependency Updates
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
+    - **Stopped releasing Webots packages compatible with Ubuntu 16.04.** To run Webots on Ubuntu 16.04, please [compile from sources](https://github.com/cyberbotics/webots/wiki/Linux-installation) ([#2473](https://github.com/cyberbotics/webots/pull/2473)).
 
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.
