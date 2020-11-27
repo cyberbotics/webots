@@ -232,7 +232,7 @@ static void check_keyboard() {
 int main(int argc, char **argv) {
   // Initialization
   wb_robot_init();
-  timeStep = wb_robot_get_basic_time_step();
+  time_step = wb_robot_get_basic_time_step();
 
   // Get and enable the camera
   camera = wb_robot_get_device(camera_name);
