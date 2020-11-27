@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
   // Get and enable the infrared sensors
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {
     infrared_sensors[i] = wb_robot_get_device(infrared_sensors_names[i]);
-    wb_distance_sensor_enable(infrared_sensors[i], timeStep);
+    wb_distance_sensor_enable(infrared_sensors[i], time_step);
   }
 
   // Get the motors and set target position to infinity (speed control)
