@@ -25,9 +25,9 @@ Motor *motor[3];
 // move forward vx m/s, left vy m/s, rotate left va radians/s (va=Angular
 // Velocity)
 void setSpeeds(double vx, double vy, double va) {
-  vx /= 0.063; // wheel radius = 0.063
+  vx /= 0.063;  // wheel radius = 0.063
   vy /= 0.063;
-  va *= 0.1826 / 0.063; // distance wheel center to robot center 0.1826
+  va *= 0.1826 / 0.063;  // distance wheel center to robot center 0.1826
   motor[0]->setVelocity(vy + va);
   motor[1]->setVelocity(-0.5 * vy - sqrt(0.75) * vx + va);
   motor[2]->setVelocity(-0.5 * vy + sqrt(0.75) * vx + va);
@@ -71,8 +71,7 @@ int main(int argc, char *argv[]) {
       targetSpeed[i] = keySpeed[i] * 6;
     double maxSteps = 0;
     for (int i = 3; i--;) {
-      double stepsNeeded = abs(targetSpeed[i] - actualSpeed[i]) /
-                           (maxAcceleration[i] * (timeStep / 1000.0));
+      double stepsNeeded = abs(targetSpeed[i] - actualSpeed[i]) / (maxAcceleration[i] * (timeStep / 1000.0));
       if (stepsNeeded > maxSteps)
         maxSteps = stepsNeeded;
     }
