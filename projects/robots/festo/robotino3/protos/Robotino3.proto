@@ -68,13 +68,13 @@ PROTO Robotino3 [
     model IS model
     children [
       Robotino3Wheel {
-        nr 0
+        number 0
       }
       Robotino3Wheel {
-        nr 1
+        number 1
       }
       Robotino3Wheel {
-        nr 2
+        number 2
       }
       # rotate whole body to x=front, y=left, z=up
       Transform {

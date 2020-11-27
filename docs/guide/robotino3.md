@@ -55,13 +55,9 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
     ContactProperties {
       material1 "WheelMat"
       coulombFriction [
-        1.8, 0, 0.2
+        0, 2, 0
       ]
-      frictionRotation 0.9648 0
       bounce 0
-      forceDependentSlip [
-        10, 0
-      ]
     }
   ]
 ```
