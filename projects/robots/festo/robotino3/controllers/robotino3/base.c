@@ -28,11 +28,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define WHEEL_RADIUS 0.063                    // [m]
-#define DISTANCE_WHEEL_TO_ROBOT_CENTRE 0.1826 // [m]
-#define MAX_SPEED 8                           // [m/s]
-#define DEMO_SPEED 2                          // [m/s]
-#define OBSTACLE_THRESHOLD 0.20               // [m]
+#define WHEEL_RADIUS 0.063                     // [m]
+#define DISTANCE_WHEEL_TO_ROBOT_CENTRE 0.1826  // [m]
+#define MAX_SPEED 8                            // [m/s]
+#define DEMO_SPEED 2                           // [m/s]
+#define OBSTACLE_THRESHOLD 0.20                // [m]
 
 WbDeviceTag wheels[3];
 
