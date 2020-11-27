@@ -39,7 +39,7 @@
 
 #define NUMBER_OF_INFRARED_SENSORS 9
 
-static double timeStep;
+static double time_step;
 static int old_key = -1;
 static bool demo = false;
 static bool autopilot = true;
