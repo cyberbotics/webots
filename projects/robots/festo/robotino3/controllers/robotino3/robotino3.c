@@ -260,7 +260,7 @@ int main(int argc, char **argv) {
 
   // Enable the keyboard inputs
   old_key = 0;
-  wb_keyboard_enable(timeStep);
+  wb_keyboard_enable(time_step);
 
   // Store the last time a message was displayed
   int last_display_second = 0;
