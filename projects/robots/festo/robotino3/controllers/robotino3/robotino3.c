@@ -71,7 +71,7 @@ double convert_volt_to_meter(WbDeviceTag tag, double V) {
 }
 
 static void step() {
-  if (wb_robot_step(timeStep) == -1) {
+  if (wb_robot_step(time_step) == -1) {
     wb_robot_cleanup();
     exit(EXIT_SUCCESS);
   }
