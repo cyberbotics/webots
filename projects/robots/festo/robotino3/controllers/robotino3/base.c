@@ -70,7 +70,7 @@ void base_strafe_right() {
   base_set_speeds(0, -DEMO_SPEED / 2.0, 0);
 }
 
-void base_set_speeds_now(double vx, double vy, double omega) {
+void base_apply_speeds(double vx, double vy, double omega) {
   vx /= WHEEL_RADIUS;
   vy /= WHEEL_RADIUS;
   omega *= DISTANCE_WHEEL_TO_ROBOT_CENTRE / WHEEL_RADIUS;
@@ -94,7 +94,7 @@ void base_accelerate() {
   for (int i = 3; i--;) {
     actualSpeed[i] += (targetSpeed[i] - actualSpeed[i]) / maxSteps;
   }
-  base_set_speeds_now(actualSpeed[0], actualSpeed[1], actualSpeed[2]);
+  base_apply_speeds(actualSpeed[0], actualSpeed[1], actualSpeed[2]);
 }
 
 void base_set_speeds(double vx, double vy, double omega) {
