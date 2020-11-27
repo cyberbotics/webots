@@ -4,34 +4,41 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
 # This is a PROTO file for Webots for the robot Robotino 3 from Festo.
 # It is the Robotino 3 robot that can be extended with different features to fullfil your requirement.
-
+#
 # changed by Thomas Feldmeier 2020, servicerobotik-ulm.de:
 #
-# A lot of changes to correct the movement of the robot.
+# Robotino3 had a lot of bugs in movement, was not able to move fast.
+# 
+# proto/Robotino3.proto:
+#   changed robots coordinate system to x=front, y=left, z=up
+#   corrected position of wheels
+#   robot > Physics > centerOfMass 0 0 -0.1
 #
-# filename Robotino3.proto -> Robotino3Smartsoft.proto
-# changed robots coordinate system to x=front, y=left, z=up
-# robot > children > HingeJoint -> Robotino3SmartsoftWheel (a new .proto):
+# proto/Robotino3Wheel.proto:
 #   device > RotationalMotor > maxVelocity 137.46 (allows max. speed 10 m/s forwards)
 #   boundingObject > Cylinder > height 0.01  (from 0.06, better robot rotation)
-# robot > Physics > centerOfMass 0 0 -0.1 
-# new default controller "FastRobotino"
 #
-# use with WorldInfo > ContactProperties:
-#   material1 "WheelMat"
-#   coulombFriction 0 2 0
-#   bounce 0
+# controller/robotino3.c, base.c, base.h:
+#   increased max speed from 0.1 m/s to 8 m/s
+#   increased demo movement speed from 0.05 m/s to 2 m/s
+#   corrected the movement calculation
+#   added acceleration
+#
+# worlds/robotino3.wbt:
+#   WorldInfo > ContactProperties >
+#     material1 "WheelMat"
+#     coulombFriction 0 2 0
+#     bounce 0
 #
 # DON'T USE IN WORLDS WITH WorldInfo.coordinateSystem "ENU"
 # (maybe the physics engine has an error in asymmetric friction)
-
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
   field  SFRotation  rotation          1 0 0 -1.5708
   field  SFString    name              "Robotino 3"
   field  SFString    model             "Festo - Robotino 3"
-  field  SFString    controller        "FastRobotino"
+  field  SFString    controller        "robotino3"
   field  MFString    controllerArgs    []
   field  SFString    customData        ""
   field  SFBool      supervisor        FALSE
