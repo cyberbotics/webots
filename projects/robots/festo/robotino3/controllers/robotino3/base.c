@@ -81,7 +81,7 @@ void base_apply_speeds(double vx, double vy, double omega) {
 }
 
 void base_accelerate() {
-  double timeStep = wb_robot_get_basic_time_step();
+  const double timeStep = wb_robot_get_basic_time_step();
   double maxSteps = 0;
   for (int i = 3; i--;) {
     double stepsNeeded = fabs(targetSpeed[i] - actualSpeed[i]);
