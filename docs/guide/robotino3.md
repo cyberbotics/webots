@@ -62,6 +62,8 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
   ]
 ```
 
+And in [WorldInfo](../reference/wordlinfo.md) the coordinateSystem must be set to "NUE".
+
 #### robotino3.wbt
 
 ![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.
