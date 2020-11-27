@@ -9,6 +9,7 @@ extern "C" {
 
 float *wrjs_color_array(float r, float g, float b);
 float *wrjs_array4(float element0, float element1, float element2, float element3);
+char *wrjs_array4_char(float element0, float element1, float element2, float element3);
 int *wrjs_pointerOnInt(int nbr);
 char *wrjs_pointerOnFloat(float nbr);
 char *wrjs_dummy_texture();

@@ -115,10 +115,10 @@ void WbViewpoint::init() {
   mRotationCenter = WbVector3(mPosition->value());
 
   mWrenViewport = NULL;
-  mWrenSmaa = new WbWrenSmaa();
-  mWrenHdr = new WbWrenHdr();
-  mWrenGtao = new WbWrenGtao();
-  mWrenBloom = new WbWrenBloom();
+  mWrenSmaa = NULL;   // new WbWrenSmaa();
+  mWrenHdr = NULL;    // new WbWrenHdr();
+  mWrenGtao = NULL;   // new WbWrenGtao();
+  mWrenBloom = NULL;  // new WbWrenBloom();
   mInverseViewMatrix = NULL;
 
   mNodeVisibilityEnabled = false;

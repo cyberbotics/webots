@@ -38,7 +38,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
     _wr_post_processing_effect_append_pass(gtaoEffect, colorPassThrough);
 
-    let depthDownsamplePassThrough, normalDownsamplePassThrough = null;
+    let depthDownsamplePassThrough, normalDownsamplePassThrough = undefined;
 
     if (halfRes) {
       depthDownsamplePassThrough = _wr_post_processing_effect_pass_new();
@@ -259,6 +259,7 @@ class WbWrenPostProcessingEffects {
    }
 
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
+   console.log("postProcess " + brightPass);
 
     return bloomEffect;
   }

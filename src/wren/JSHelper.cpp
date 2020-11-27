@@ -44,6 +44,16 @@ float *wrjs_array4(float element0, float element1, float element2, float element
   return array;
 }
 
+char *wrjs_array4_char(float element0, float element1, float element2, float element3) {
+  static float array[4];
+  array[0] = element0;
+  array[1] = element1;
+  array[2] = element2;
+  array[3] = element3;
+
+  return reinterpret_cast<char *>(array);
+}
+
 char *wrjs_pointerOnFloat(float nbr) {
   static float number = nbr;
   return reinterpret_cast<char *>(&number);

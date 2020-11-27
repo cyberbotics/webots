@@ -195,7 +195,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.onSceneUpdate();*/
   }
 
-  loadWorldFile(url, onLoad) {/*
+  loadWorldFile(url, onLoad) {
+    /*
     this.objectsIdCache = {};
     //let loader = new THREE.X3DLoader(this);
     let loader = new X3dLoade(this);
@@ -245,7 +246,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   applyPose(pose) {
-    console.log(pose);
     let id = pose.id;
     let fields = [];
     let object = World.instance.nodes['n' + id];

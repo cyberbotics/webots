@@ -39,6 +39,8 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
+#include <iostream>
+
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
@@ -225,7 +227,6 @@ void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type
 
 void WbStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-
   if (message.startsWith("robot:")) {
     QString name;
     QString robotMessage;
@@ -600,6 +601,7 @@ void WbStreamingServer::propagateSimulationStateChange() const {
 }
 
 void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
+  /*
   if (mPauseTimeout < 0 || WbSimulationState::instance()->time() < mPauseTimeout)
     return;
 
@@ -609,8 +611,8 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
           &WbStreamingServer::propagateSimulationStateChange);
   client->sendTextMessage(QString("pause: %1").arg(WbSimulationState::instance()->time()));
-  printf("pause\n");
   fflush(stdout);
+  */
 }
 
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
