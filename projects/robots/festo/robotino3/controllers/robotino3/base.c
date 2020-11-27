@@ -81,11 +81,11 @@ void base_apply_speeds(double vx, double vy, double omega) {
 }
 
 void base_accelerate() {
-  const double timeStep = wb_robot_get_basic_time_step();
+  const double time_step = wb_robot_get_basic_time_step();
   double maxSteps = 0;
   for (int i = 3; i--;) {
     double stepsNeeded = fabs(targetSpeed[i] - actualSpeed[i]);
-    stepsNeeded /= maxAcceleration[i] * (timeStep / 1000.0);
+    stepsNeeded /= maxAcceleration[i] * (time_step / 1000.0);
     if (stepsNeeded > maxSteps)
       maxSteps = stepsNeeded;
   }

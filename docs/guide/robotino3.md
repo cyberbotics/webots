@@ -62,7 +62,7 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
   ]
 ```
 
-And in [WorldInfo](../reference/wordlinfo.md) the coordinateSystem must be set to "NUE".
+And in [WorldInfo](../reference/worldinfo.md) the coordinateSystem must be set to "NUE".
 
 #### robotino3.wbt
 
