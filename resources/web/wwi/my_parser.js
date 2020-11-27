@@ -84,6 +84,8 @@ class MyParser {
       result = await this.parseGroup(node, currentNode);
     else if (node.tagName === 'Shape')
       result = await this.parseShape(node, currentNode);
+    else if (node.tagName === 'Switch')
+      result = undefined;
     else if (node.tagName === 'DirectionalLight')
       result = await this.parseDirectionalLight(node, currentNode);
     else {
@@ -779,4 +781,4 @@ function convertStringToQuaternion(s) {
   return q;
 }
 
-export {MyParser}
+export {MyParser, convertStringToVec3, convertStringToQuaternion}

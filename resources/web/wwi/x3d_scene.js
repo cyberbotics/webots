@@ -1,9 +1,10 @@
 import {Viewpoint} from "./viewpoint.js";
 import {Selector} from "./selector.js";
-import {MyParser} from "./my_parser.js";
+import {MyParser, convertStringToVec3, convertStringToQuaternion} from "./my_parser.js";
 import {webots} from "./../wwi/webots.js";
 
 import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
+import {WbTransform} from "./webotsjs/WbTransform.js";
 import {World} from "./webotsjs/World.js"
 
 
@@ -243,8 +244,34 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.onSceneUpdate();
   }
 
-  applyPose(pose, appliedFields = []) {/*
+  applyPose(pose) {
+    console.log(pose);
     let id = pose.id;
+    let fields = [];
+    let object = World.instance.nodes['n' + id];
+
+    if(typeof object === 'undefined')
+      return;
+
+    for (let key in pose) {
+      if (key === 'id')
+        continue;
+      if (fields.indexOf(key) !== -1)
+        continue;
+
+      if(key === 'translation' && object instanceof WbTransform){
+        let translation = convertStringToVec3(pose[key]);
+        object.translation = translation;
+        object.applyTranslationToWren();
+        fields.push[key];
+      } else if (key === 'rotation') {
+        let quaternion = convertStringToQuaternion(pose[key]);
+        object.rotation = quaternion;
+        object.applyRotationToWren();
+        fields.push[key];
+      }
+    }
+    /*
     let fields = appliedFields;
     for (let key in pose) {
       if (key === 'id')
