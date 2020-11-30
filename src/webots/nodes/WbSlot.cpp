@@ -58,7 +58,7 @@ void WbSlot::preFinalize() {
   connect(mEndPoint, &WbSFString::changed, this, &WbSlot::endPointChanged);
   WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
   if (pg)  // parent is a group
-    connect(this, &WbSlot::endPointInserted, pg, &WbGroup::insertChildFromSlot);
+    connect(this, &WbSlot::endPointInserted, pg, &WbGroup::insertChildFromSlotOrJoint);
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)  // parent is another slot
     connect(this, &WbSlot::endPointInserted, ps, &WbSlot::endPointInserted);
