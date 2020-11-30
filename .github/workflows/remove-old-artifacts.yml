@@ -1,4 +1,4 @@
-name: Remove old artifacts
+name: Remove Old Artifacts
 
 on:
   pull_request:
@@ -11,9 +11,8 @@ defaults:
 jobs:
   remove-old-artifacts:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '2 months'
-        skip-tags: true
+    steps:
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          expire-in: 30days
