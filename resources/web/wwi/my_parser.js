@@ -602,8 +602,10 @@ class MyParser {
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);
     }
 
-    World.instance.nodes[imageTexture.id] = imageTexture;
-
+    if(typeof imageTexture !== 'undefined'){
+      World.instance.nodes[imageTexture.id] = imageTexture;
+    }
+    
     return imageTexture;
   }
 

@@ -110,8 +110,9 @@ namespace wren {
     for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
       if (mOutputDrawBuffers[i].mIsEnabled)
         drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+      else
+        drawBuffers.push_back(GL_NONE);
     }
-
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
   }
 
@@ -178,9 +179,10 @@ namespace wren {
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
     const int rowIndex = flipY ? (mHeight - 1 - y) : y;
+
 #ifdef __EMSCRIPTEN__
 #else
-    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
+    // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
 #endif
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }

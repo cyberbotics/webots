@@ -47,9 +47,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-
     let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "brightPassFilter"]);
-    console.log(this.threshold);
     let thresholdPointer = _wrjs_pointerOnFloat(this.threshold);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", thresholdPointer]);
   }

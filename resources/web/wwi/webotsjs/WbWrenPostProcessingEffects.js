@@ -250,16 +250,16 @@ class WbWrenPostProcessingEffects {
 
    _wr_post_processing_effect_connect(bloomEffect, colorPassThrough, 0, blendPass, 0);
    _wr_post_processing_effect_connect(bloomEffect, brightPass, 0, blurPasses[0], 0);
-  for (let i = 0; i < 5; ++i) {
+   for (let i = 0; i < 5; ++i) {
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
      //TODO replace that (cause multiple bug but i suspect the main one is caused by the inputoutput texture)
-     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i+1], 1);
      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
    }
+   //_wr_post_processing_effect_connect(bloomEffect, blurPasses[0], 0, blurPasses[0], 1);
+
 
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
-   console.log("postProcess " + brightPass);
 
     return bloomEffect;
   }

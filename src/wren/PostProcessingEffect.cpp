@@ -33,7 +33,7 @@
 #endif
 
 #include <algorithm>
-
+#include <iostream>
 namespace wren {
 
   void PostProcessingEffect::Pass::setup() {
@@ -171,6 +171,7 @@ namespace wren {
         // write to odd texture, sample from even texture
         mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, false);
         mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, true);
+        // inputOutput.mTextureEven->release();
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
 
         for (Connection &connection : mConnections) {
@@ -181,6 +182,7 @@ namespace wren {
         // write to even texture, sample form odd texture
         mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, true);
         mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, false);
+        // inputOutput.mTextureOdd->release();
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
 
         for (Connection &connection : mConnections) {

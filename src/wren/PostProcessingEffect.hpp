@@ -18,10 +18,10 @@
 #include "Constants.hpp"
 #include "Texture.hpp"
 
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 namespace wren {
 
   class FrameBuffer;
@@ -109,6 +109,7 @@ namespace wren {
         assert(indexInput < mInputTextures.size());
         assert(indexOutput < mOutputTextureFormat.size());
         assert(mInputTextures[indexInput] == NULL);
+
         mInputOutputTextures.push_back(InputOutputTexture(indexInput, indexOutput));
       }
 

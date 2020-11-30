@@ -112,8 +112,8 @@ namespace wren {
       // attempt to use clip-space Z-values in [0, 1] instead of [-1, 1] for better precision
       if (!GLAD_GL_ARB_clip_control)
         DEBUG("GLAD_GL_ARB_clip_control extension not supported by hardware" << std::endl);
-      else
-        glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
+        // else
+        // glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
 #endif
       glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &cMaxCombinedTextureUnits);
       glGetIntegerv(GL_MAX_DRAW_BUFFERS, &cMaxFrameBufferDrawBuffers);
@@ -136,17 +136,17 @@ namespace wren {
       checkError(GL_INVALID_ENUM);
 #else
 
-      if (GLAD_GL_NVX_gpu_memory_info)
-        glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
-      else {
-        // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
-        // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
-        int array[4];
-        array[0] = -1;
-        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
-        cGpuMemory = array[0];
-        checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
-      }
+      // if (GLAD_GL_NVX_gpu_memory_info)
+      // glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
+      // else {
+      // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
+      // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
+      int array[4];
+      array[0] = -1;
+      // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+      cGpuMemory = array[0];
+      checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
+                                    //}
 #endif
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
@@ -160,7 +160,7 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
       // By default in WebGL2
 #else
-      glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
+                                    // glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
 #endif
       checkError();
 
@@ -340,13 +340,13 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
 // TODO find an alternative
 #else
-      if (cDepthClamp != enable) {
-        cDepthClamp = enable;
-        if (enable)
-          glEnable(GL_DEPTH_CLAMP);
-        else
-          glDisable(GL_DEPTH_CLAMP);
-      }
+                                    /*if (cDepthClamp != enable) {
+                                      cDepthClamp = enable;
+                                      if (enable)
+                                        glEnable(GL_DEPTH_CLAMP);
+                                      else
+                                        glDisable(GL_DEPTH_CLAMP);
+                                    }*/
 #endif
     }
 
@@ -355,7 +355,7 @@ namespace wren {
         cPolygonMode = polygonMode;
 #ifdef __EMSCRIPTEN__
 #else
-        glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
+                                    // glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 #endif
       }
     }
@@ -428,8 +428,8 @@ namespace wren {
       assert(cBoundTextures[textureUnit] == glName);
 #ifdef __EMSCRIPTEN__
 #else
-      if (!GLAD_GL_EXT_texture_filter_anisotropic)
-        return;
+                                    // if (!GLAD_GL_EXT_texture_filter_anisotropic)
+                                    // return;
 #endif
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
@@ -826,7 +826,7 @@ bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 #ifdef __EMSCRIPTEN__
   return false;
 #else
-  return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+  return false;                     // static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
 #endif
 }
 

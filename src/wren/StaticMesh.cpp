@@ -1946,7 +1946,7 @@ namespace wren {
     glBindBuffer(target, buffer);
 #ifdef __EMSCRIPTEN__
 #else
-    glGetBufferSubData(target, 0, size, dest);
+    // glGetBufferSubData(target, 0, size, dest);
 #endif
   }
 

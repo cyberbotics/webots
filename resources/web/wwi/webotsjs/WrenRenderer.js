@@ -14,7 +14,7 @@ class WrenRenderer {
       return;
 
     try {
-      World.instance.viewpoint.updatePostProcessingParameters();
+      //World.instance.viewpoint.updatePostProcessingParameters();
 
       _wr_scene_render(_wr_scene_get_instance(), null, true);
       console.log("render");

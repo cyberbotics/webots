@@ -35,7 +35,7 @@ class WbImageTexture extends WbBaseNode {
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering , this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
 
-      if (this.externalTexture && ! this.parentNode().textureTransform) {
+      if (this.externalTexture && ! World.instance.nodes[this.parent].textureTransform) {
         _wr_texture_transform_delete(this.wrenTextureTransform);
         this.wrenTextureTransform = _wr_texture_transform_new();
         _wr_texture_transform_set_scale(this.wrenTextureTransform, this.externalTextureRatio.x, this.externalTextureRatio.y);
@@ -45,6 +45,7 @@ class WbImageTexture extends WbBaseNode {
 
     _wr_material_set_texture(wrenMaterial, this.wrenBackgroundTexture, backgroundTextureIndex);
     if (typeof this.wrenBackgroundTexture !== 'undefined') {
+      console.log(this.url);
       // background texture can't be transparent
       _wr_texture_set_translucent(this.wrenBackgroundTexture, false);
 
