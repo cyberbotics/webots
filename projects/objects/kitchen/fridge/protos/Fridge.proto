@@ -122,6 +122,8 @@ PROTO Fridge [
             centerOfMass [
               0 0 0.35
             ]
+            mass 8.0
+            density -1
           }
         }
       }
@@ -215,6 +217,8 @@ PROTO Fridge [
             centerOfMass [
               0 0 0.35
             ]
+            mass 8.0
+            density -1
           }
         }
       }
