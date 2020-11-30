@@ -92,6 +92,7 @@ release debug profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 	@echo -e "# \033[0;33mnpm not installed, skipping webots.min.js\033[0m"
 else
+NPM_INSTALLED_PACKAGES := $(shell npm list --parseable | grep "node_modules" | sed 's/^.*node_modules\///')
 release profile update: webots.min.js webots.lib.js
 debug: webots.debug.js
 endif
@@ -131,10 +132,10 @@ $(INSTALL_TOKEN): package.json
 
 cleanse: clean
 	@echo "# uninstalling npm dependencies"
-	@rm -fr node_modules $(INSTALL_TOKEN) package-lock.json
-ifneq ($(NPM_EXISTS),)
-	@npm --silent uninstall 1> /dev/null
+ifneq ($(NPM_INSTALLED_PACKAGES),)
+	@npm --silent --no-save uninstall $(NPM_INSTALLED_PACKAGES)
 endif
+	@rm -fr node_modules $(INSTALL_TOKEN) package-lock.json
 
 clean:
 	@rm -fr *.min.js webots.debug.js webots.lib.js $(DEPENDENCIES_PATH)
