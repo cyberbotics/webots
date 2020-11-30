@@ -169,7 +169,7 @@ jobs:
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, world-update]
-    if: ${{ github.event_name != 'push' && github.event_name != 'schedule' && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
