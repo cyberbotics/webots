@@ -90,3 +90,12 @@ jobs:
         export WEBOTS_HOME=/Applications/Webots.app
         # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
         # python tests/test_suite.py
+  delete-artifacts:
+    needs: [build, test-suite]
+    if: ${{ github.event_name != 'push' && github.event_name != 'schedule' && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Delete artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: bild-${{ matrix.os }}
