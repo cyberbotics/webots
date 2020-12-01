@@ -35,7 +35,7 @@ class WbDirectionalLight extends WbLight {
     let maxCount = undefined;//_wr_config_get_max_active_directional_light_count();
     let activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());
     if (activeCount == maxCount)
-    console.log("Maximum number of directional lights " + maxCount +" has been reached, newly added lights won't be rendered.");
+      console.log("Maximum number of directional lights " + maxCount +" has been reached, newly added lights won't be rendered.");
   }
 
   applyLightShadowsToWren() {

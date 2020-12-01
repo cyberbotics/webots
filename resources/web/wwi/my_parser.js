@@ -22,7 +22,7 @@ import {WbImageTexture} from "./webotsjs/WbImageTexture.js";
 import {WbImage} from "./webotsjs/WbImage.js";
 
 import {WbDirectionalLight} from "./webotsjs/WbDirectionalLight.js";
-
+import {WbPointLight} from "./webotsjs/WbPointLight.js";
 
 import {Use} from "./webotsjs/Use.js";
 
@@ -88,6 +88,8 @@ class MyParser {
       result = undefined;
     else if (node.tagName === 'DirectionalLight')
       result = await this.parseDirectionalLight(node, currentNode);
+    else if (node.tagName === 'PointLight')
+      result = await this.parsePointLight(node, currentNode);
     else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
@@ -358,20 +360,9 @@ class MyParser {
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-
-
-    /*
-    var shadowMapSize = parseFloat(getNodeAttribute(node, 'shadowMapSize', '1024'));
-    lightObject.shadow.mapSize.width = shadowMapSize;
-    lightObject.shadow.mapSize.height = shadowMapSize;
-    lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1.5'));
-    lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0.000001'));
-    lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
-    lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));*/
-
     let dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
 
-    if(typeof currentNode !== 'undefined') {
+    if(typeof currentNode !== 'undefined' && typeof dirLight !== 'undefined' ) {
       currentNode.children.push(dirLight);
       dirLight.parent = currentNode.id;
     }
@@ -379,6 +370,30 @@ class MyParser {
     World.instance.nodes[dirLight.id] = dirLight;
 
     return dirLight;
+  }
+
+  async parsePointLight(node, currentNode) {
+    //TODO USE
+    let id = getNodeAttribute(node, 'id');
+    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    let location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
+    let radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
+    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+
+    let pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, currentNode);
+
+    if(typeof currentNode !== 'undefined' && typeof pointLight !== 'undefined') {
+      currentNode.children.push(pointLight);
+    }
+
+    World.instance.nodes[pointLight.id] = pointLight;
+
+    return pointLight;
+
   }
 
   async parseGeometry(node, parentId) {
@@ -605,7 +620,7 @@ class MyParser {
     if(typeof imageTexture !== 'undefined'){
       World.instance.nodes[imageTexture.id] = imageTexture;
     }
-    
+
     return imageTexture;
   }
 

@@ -1,5 +1,5 @@
 import {M_PI} from "./WbConstants.js"
-
+import {World} from "./World.js"
 
 function array3Pointer(x, y, z) {
   let data = new Float32Array([x, y, z]);
@@ -86,5 +86,19 @@ function fromAxisAngle(x, y, z, angle) {
   return result
 }
 
+function findUpperTransform(node) {
+  if (typeof node === 'undefined')
+    return undefined;
 
-export {array3Pointer, arrayXPointer, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle}
+  let n = World.instance.nodes[node.parent]
+  while (typeof n !== 'undefined') {
+    if (n instanceof WbTransform)
+      return n;
+    else
+      n = n.parentNode;
+  }
+  return undefined;
+}
+
+
+export {array3Pointer, arrayXPointer, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}
