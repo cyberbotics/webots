@@ -23,6 +23,7 @@ import {WbImage} from "./webotsjs/WbImage.js";
 
 import {WbDirectionalLight} from "./webotsjs/WbDirectionalLight.js";
 import {WbPointLight} from "./webotsjs/WbPointLight.js";
+import {WbSpotLight} from "./webotsjs/WbSpotLight.js";
 
 import {Use} from "./webotsjs/Use.js";
 
@@ -90,6 +91,8 @@ class MyParser {
       result = await this.parseDirectionalLight(node, currentNode);
     else if (node.tagName === 'PointLight')
       result = await this.parsePointLight(node, currentNode);
+    else if (node.tagName === 'SpotLight')
+      result = await this.parseSpotLight(node, currentNode);
     else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
@@ -395,6 +398,32 @@ class MyParser {
 
     return pointLight;
 
+  }
+
+  async parseSpotLight(node, currentNode) {
+    //TODO USE
+    let id = getNodeAttribute(node, 'id');
+    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
+    let beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let cutOffAngle = parseFloat(getNodeAttribute(node, 'cutOffAngle', '0.785'));
+    let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
+    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    let location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
+    let radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
+    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+
+    let spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, currentNode);
+
+    if(typeof currentNode !== 'undefined' && typeof spotLight !== 'undefined') {
+      currentNode.children.push(spotLight);
+    }
+
+    World.instance.nodes[spotLight.id] = spotLight;
+
+    return spotLight;
   }
 
   async parseGeometry(node, parentId) {
