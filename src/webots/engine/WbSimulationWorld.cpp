@@ -229,11 +229,11 @@ void WbSimulationWorld::step() {
   if (mPhysicsPlugin)
     mPhysicsPlugin->stepEnd();
 
-  emit physicsStepEnded();
-
   // call postPhysicsStep on all Solids to assign new coordinates
   foreach (WbSolid *const solid, l)
     solid->postPhysicsStep();
+
+  emit physicsStepEnded();
 
   WbSimulationState::instance()->increaseTime(timeStep);
   viewpoint()->updateFollowUp();
@@ -255,8 +255,19 @@ void WbSimulationWorld::step() {
   }
 }
 
+void WbSimulationWorld::pauseStepTimer() {
+  mTimer->stop();
+}
+
+void WbSimulationWorld::restartStepTimer() {
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  if (!mTimer->isActive() &&
+      (mode == WbSimulationState::REALTIME || mode == WbSimulationState::RUN || mode == WbSimulationState::FAST))
+    mTimer->start();
+}
+
 void WbSimulationWorld::modeChanged() {
-  WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
     case WbSimulationState::PAUSE:
       mTimer->stop();

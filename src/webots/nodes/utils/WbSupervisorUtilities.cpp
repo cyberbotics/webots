@@ -330,7 +330,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
   }
 }
 
-void WbSupervisorUtilities::processImmediateMessages() {
+void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   int n = mFieldSetRequests.size();
   if (n == 0)
     return;
@@ -343,6 +343,8 @@ void WbSupervisorUtilities::processImmediateMessages() {
     delete r;
   }
   mFieldSetRequests.clear();
+  if (blockRegeneration)
+    return;
   WbTemplateManager::instance()->blockRegeneration(false);
   emit worldModified();
 }
@@ -525,7 +527,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> size;
       stream >> color;
       const QString &text = readString(stream);
-      const QString font = readString(stream);
+      const QString &font = readString(stream);
 
       bool fileFound = false;
       QString filename = WbStandardPaths::fontsPath() + font + ".ttf";
@@ -1064,6 +1066,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
       WbNode *const node = WbNode::findNode(nodeId);
       WbField *field = node->field(fieldId);
 
@@ -1167,6 +1172,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           assert(0);
       }
 
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }
@@ -1177,6 +1183,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
       const QString nodeString = readString(stream);
+
+      // apply queued set field operations
+      processImmediateMessages(true);
 
       int importedNodesNumber;
       WbNodeOperations::OperationResult operationResult =
@@ -1190,6 +1199,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mImportedNodesNumber = -1;
       } else if (operationResult != WbNodeOperations::FAILURE)
         mImportedNodesNumber = importedNodesNumber;
+
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }
@@ -1214,6 +1225,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
+      bool modified = false;
       WbNode *parentNode = WbNode::findNode(nodeId);
       WbField *field = parentNode->field(fieldId);
       switch (field->type()) {  // remove value
@@ -1228,7 +1243,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(field->value());
           assert(multipleValue->size() > index);
           multipleValue->removeItem(index);
-          emit worldModified();
+          modified = true;
           break;
         }
         case WB_MF_NODE: {
@@ -1249,7 +1264,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(node, true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1261,7 +1276,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1269,6 +1284,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         default:
           assert(0);
       }
+
+      WbTemplateManager::instance()->blockRegeneration(false);
+      if (modified)
+        emit worldModified();
 
       return;
     }
@@ -1679,6 +1698,14 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
   stream.writeRawData(ba.constData(), ba.size() + 1);
+
+  if (WbWorld::instance()->isVideoRecording()) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_MOVIE_STATUS;
+    stream << (unsigned char)WB_SUPERVISOR_MOVIE_RECORDING;
+    delete mMovieStatus;
+    mMovieStatus = NULL;
+  }
 }
 
 void WbSupervisorUtilities::movieStatusChanged(int status) {

@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
   // test appearance after regeneration
   const double ds_value_grass = wb_distance_sensor_get_value(ds);
-  ts_assert_double_in_delta(ds_value_grass, 233.0, 20.0, "Wrong distance sensor value with grass texture after regeneration.");
+  ts_assert_double_in_delta(ds_value_grass, 405.0, 20.0, "Wrong distance sensor value with grass texture after regeneration.");
 
   wb_robot_step(TIME_STEP);
 

@@ -160,7 +160,7 @@ lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@echo "# downloading $(LUA_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	@wget -qq http://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@wget -qq https://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@echo "dc7f94ec6ff15c985d2d6ad0f1b35654  $(LUA_PACKAGE)" > $(LUA_PACKAGE).md5
 	@md5sum -c --status $(LUA_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
 	@rm $(LUA_PACKAGE).md5

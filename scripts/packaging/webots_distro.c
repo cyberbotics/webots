@@ -1221,7 +1221,7 @@ static void create_file(const char *name, int m) {
         fprintf(fd, "cd ..\n");
       }
 
-#ifdef WEBOTS_UBUNTU_16_04
+#ifdef WEBOTS_UBUNTU_18_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 

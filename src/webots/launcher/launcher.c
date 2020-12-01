@@ -64,15 +64,18 @@ int main(int argc, char *argv[]) {
 #endif
   l = l0;
   for (int i = 1; i < argc; i++)
-    l += 1 + strlen(argv[i]);          // spaces between arguments
-  char *command_line = malloc(l + 5);  // room for the extra "-bin" string and final '\0'
-  command_line[0] = '\0';              // initially empty string
+    l += 3 + strlen(argv[i]);          // spaces and double quotes between arguments
+  char *command_line = malloc(l + 7);  // room for double quotes, the extra "-bin" string and final '\0'
+  command_line[0] = '\"';
+  command_line[1] = '\0';
   strcat(command_line, module_path);
-  command_line[l0 - 4] = '\0';  // cut out ".exe" after "webots" or "webotsw"
+  command_line[l0 - 3] = '\0';  // cut out ".exe" after "webots" or "webotsw"
   strcat(command_line, "-bin.exe");
+  strcat(command_line, "\"");
   for (int i = 1; i < argc; i++) {
-    strcat(command_line, " ");
+    strcat(command_line, " \"");
     strcat(command_line, argv[i]);
+    strcat(command_line, "\"");
   }
 
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH

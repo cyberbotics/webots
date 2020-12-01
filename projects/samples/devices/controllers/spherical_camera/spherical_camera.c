@@ -125,9 +125,15 @@ int main(int argc, char **argv) {
     // print results
     ANSI_CLEAR_CONSOLE();
     for (i = 0; i < 3; i++)
-      printf("last %s blob seen at (%d,%d) with an angle of %f\n", (i == GREEN) ? "Green" : (i == RED) ? "Red" : "Blue",
+      // clang-format off
+      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
+      printf("last %s blob seen at (%d,%d) with an angle of %f\n",
+             (i == GREEN) ? "Green" :
+             (i == RED)   ? "Red" :
+                            "Blue",
              color_index[i][X], color_index[i][Y],
              coord2D_to_angle((double)(color_index[i][X] + width / 2), (double)(color_index[i][Y] + height / 2)));
+    // clang-format on
 
     // set actuators
     wb_motor_set_velocity(left_motor, 3.0 + speed[LEFT]);

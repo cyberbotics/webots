@@ -828,6 +828,10 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   connect(WbActionManager::instance()->action(WbAction::BOTTOM_VIEW), &QAction::triggered,
           WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::bottomView);
 
+  connect(WbVideoRecorder::instance(), &WbVideoRecorder::videoCreationStatusChanged, w, &WbWorld::updateVideoRecordingStatus);
+  w->updateVideoRecordingStatus(WbVideoRecorder::instance()->isRecording() ? WB_SUPERVISOR_MOVIE_RECORDING :
+                                                                             WB_SUPERVISOR_MOVIE_READY);
+
   mSceneTree->updateSelection();
   disableStepButton(false);
 }

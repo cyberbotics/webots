@@ -386,7 +386,7 @@ PROTO TiagoRightArm [
                               }
                               DEF ARM_RIGHT_5_JOINT HingeJoint {
                                 jointParameters HingeJointParameters {
-                                  anchor -0.162 0.02 0.027
+                                  anchor 0.163 0.02 0.027
                                   dampingConstant 1
                                   staticFriction 1
                                 }
@@ -616,7 +616,7 @@ PROTO TiagoRightArm [
                                         ]
                                         name "arm_right_6_link"
                                         boundingObject Transform {
-                                          translation 0.0409 0 0
+                                          translation -0.0409 0 0
                                           rotation 0 0 -1 1.5708
                                           children [
                                             Cylinder {

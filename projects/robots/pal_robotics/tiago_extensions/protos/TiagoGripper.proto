@@ -154,179 +154,200 @@ PROTO TiagoGripper [
             DEF v1 CapScrew {
               translation 0.0477 0.008 -0.0108
               rotation 0 1 0 -1.5708
-              appearance BrushedAluminium {
+              appearance DEF SCREW_APPEARANCE BrushedAluminium {
               }
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v2 CapScrew {
               translation 0.0477 0.008 -0.043
               rotation 0 1 0 -1.5708
               name "cap screw(1)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v3 CapScrew {
               translation 0.0477 0.008 -0.075
               rotation 0 1 0 -1.5708
               name "cap screw(2)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v4 CapScrew {
               translation 0.0477 -0.008 -0.075
               rotation 0 1 0 -1.5708
               name "cap screw(3)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v5 CapScrew {
               translation 0.0477 -0.008 -0.043
               rotation 0 1 0 -1.5708
               name "cap screw(4)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v6 CapScrew {
               translation 0.0477 -0.008 -0.0108
               rotation 0 1 0 -1.5708
               name "cap screw(5)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v7 CapScrew {
               translation -0.0477 0.008 -0.0108
               rotation 0 1 0 1.5708
               name "cap screw(6)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v8 CapScrew {
               translation -0.0477 0.008 -0.043
               rotation 0 1 0 1.5708
               name "cap screw(7)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v9 CapScrew {
               translation -0.0477 0.008 -0.075
               rotation 0 1 0 1.5708
               name "cap screw(8)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v10 CapScrew {
               translation -0.0477 -0.008 -0.075
               rotation 0 1 0 1.5708
               name "cap screw(9)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v11 CapScrew {
               translation -0.0477 -0.008 -0.043
               rotation 0 1 0 1.5708
               name "cap screw(10)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF v12 CapScrew {
               translation -0.0477 -0.008 -0.0108
               rotation 0 1 0 1.5708
               name "cap screw(11)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0018
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vT1 CapScrew {
               translation -0.0425 0.0094 -0.0945
               name "cap screw(12)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vT2 CapScrew {
               translation 0.0426 -0.0094 -0.09448
               name "cap screw(13)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB1 CapScrew {
               translation 0 -0.033 0.0026
               rotation 1 0 0 3.14159
               name "cap screw(14)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB2 CapScrew {
               translation 0 0.033 0.0026
               rotation 1 0 0 3.14159
               name "cap screw(15)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB3 CapScrew {
               translation -0.0433 -0.0315 0.0026
               rotation 1 0 0 3.14159
               name "cap screw(16)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB4 CapScrew {
               translation 0.0433 0.0315 0.0026
               rotation 1 0 0 3.14159
               name "cap screw(17)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.002
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB5 CapScrew {
               translation -0.0415 0.0029 -0.0004
               rotation 1 0 0 3.14159
               name "cap screw(18)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0036
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
             DEF vB6 CapScrew {
               translation 0.0415 -0.0029 -0.0004
               rotation 1 0 0 3.14159
               name "cap screw(19)"
-              appearance BrushedAluminium {
-              }
+              appearance USE SCREW_APPEARANCE
               screwRadius 0.0036
               screwLength 0.005
+              enablePhysics FALSE
+              enableBoundingObject FALSE
             }
           ]
         }

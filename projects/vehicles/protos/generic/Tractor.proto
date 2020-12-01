@@ -12,6 +12,7 @@ PROTO Tractor [
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     MFString   controllerArgs    [ ]
+  field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
 ]
@@ -23,6 +24,7 @@ Car {
   model "tractor"
   controller IS controller
   controllerArgs IS controllerArgs
+  supervisor IS supervisor
   synchronization IS synchronization
   trackFront 1.4
   trackRear 1.4

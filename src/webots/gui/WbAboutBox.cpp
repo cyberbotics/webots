@@ -14,7 +14,9 @@
 
 #include "WbAboutBox.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbDesktopServices.hpp"
+#include "WbVersion.hpp"
 
 #include <QtCore/QDate>
 #include <QtWidgets/QGridLayout>
@@ -24,38 +26,49 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   setModal(true);
   setWindowTitle(tr("About Webots"));
   QPixmap webotsLogo("images:webots.png");
-  QGridLayout *layout = new QGridLayout();
-  layout->setColumnMinimumWidth(0, 150);
-  layout->setColumnMinimumWidth(1, 250);
-  layout->setRowMinimumHeight(1, 30);
+  QVBoxLayout *layout = new QVBoxLayout();
+  QGridLayout *firstRowLayout = new QGridLayout();
+  firstRowLayout->setColumnMinimumWidth(0, 150);
+  firstRowLayout->setColumnMinimumWidth(1, 250);
 
   QLabel *image = new QLabel();
   image->setPixmap(webotsLogo);
-  layout->addWidget(image, 0, 0, 1, 1, Qt::AlignCenter);
+  firstRowLayout->addWidget(image, 0, 0, 1, 1, Qt::AlignCenter);
 
-  int year = QDate::currentDate().year();
-  QLabel *licenseInfo = new QLabel();
-  connect(licenseInfo, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+  QLabel *versionInfo = new QLabel();
+  connect(versionInfo, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+  QDateTime releaseTimestamp;
+  releaseTimestamp.setTime_t(WbApplicationInfo::releaseDate());
+  versionInfo->setText(QString("<p style='font-size: large;'><b>Webots %1</b></p>"
+                               "<p>Date: %2</p><p>Webots is free software<br>Licensed under the <a style='color: #5DADE2;' "
+                               "href='https://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></p>"
+                               "<p>© Cyberbotics 1998-%3</p>")
+                         .arg(WbApplicationInfo::version().toString())
+                         .arg(releaseTimestamp.date().toString("MMMM dd, yyyy"))
+                         .arg(QDate::currentDate().year()));
+  firstRowLayout->addWidget(versionInfo, 0, 1, 1, 2, Qt::AlignCenter);
 
-  licenseInfo->setWordWrap(true);
-  licenseInfo->setText(QString("<br> © Cyberbotics 1998-%1. Licensed under the <a style='color: #5DADE2;' "
-                               "href='https://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a>.")
-                         .arg(year));
-  layout->addWidget(licenseInfo, 0, 1, 1, 1, Qt::AlignCenter);
-
+  QGridLayout *secondRowLayout = new QGridLayout();
+  secondRowLayout->setRowMinimumHeight(0, 20);
   QLabel *description = new QLabel();
   connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
-  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com'>"
-                       "Our Website</a>&nbsp;&nbsp;");  // extra spaces for correct alignment
-
-  layout->addWidget(description, 1, 0, 1, 1, Qt::AlignBottom | Qt::AlignRight);
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com'>Website</a>");
+  secondRowLayout->addWidget(description, 1, 0, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
   description = new QLabel();
   connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
   description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/reference/changelog'>Changelog</a>");
-  layout->addWidget(description, 1, 1, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
+  secondRowLayout->addWidget(description, 1, 1, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
+  description = new QLabel();
+  connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+  description->setWordWrap(true);
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/privacy-policy'>Privacy Policy</a>");
+  secondRowLayout->addWidget(description, 1, 2, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
+
+  layout->addLayout(firstRowLayout);
+  layout->addLayout(secondRowLayout);
   setLayout(layout);
 }

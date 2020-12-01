@@ -404,6 +404,8 @@ This is done using the distance sensors of the e-puck.
 
 ![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.thumbnail.jpg) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
 
+>**Note**: The model of the pi-puck extension was sponsored by the [ROSin european project](https://www.rosin-project.eu/ftp/ros2-for-the-e-puck2-robot).
+
 #### e-puck2\_server.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.

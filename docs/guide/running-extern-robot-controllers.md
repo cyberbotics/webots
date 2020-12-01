@@ -28,11 +28,11 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable                        | Typical Value                                                                                                        |
-|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                                                            |
-| PATH (for C and MATLAB controllers)         | add `${WEBOTS_HOME}\lib\controller` and `${WEBOTS_HOME}\msys64\mingw64\bin`                                          |
-| PATH (for C++, Python and Java controllers) | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
+| Environment Variable                        | Typical Value                                                             |
+|---------------------------------------------|---------------------------------------------------------------------------|
+| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                 |
+| Path (all controllers)                      | add `%WEBOTS_HOME%\lib\controller` and `%WEBOTS_HOME%\msys64\mingw64\bin` |
+| Path (for C++, Python and Java controllers) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
 
 %tab-end
 
@@ -45,7 +45,7 @@ Generic Webots environment variables needed for all the controller languages:
 
 %tab-end
 
-%tab "macOs"
+%tab "macOS"
 
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
@@ -152,12 +152,6 @@ In order to compile and execute extern controllers, the following environment va
 ```
 export WEBOTS_HOME=/snap/webots/current/usr/share/webots
 export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/controller
-```
-
-Additionally, on Ubuntu 16.04 the following environment variables should be set:
-```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/snap/webots/current/usr/lib/x86_64-linux-gnu
-export LD_PRELOAD=/snap/webots/current/usr/lib/x86_64-linux-gnu/libz.so
 ```
 
 Because of the snap sand-boxing system, Webots has to use a special temporary folder to share information with robot controllers.

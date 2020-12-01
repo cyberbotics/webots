@@ -14,68 +14,6 @@ after_failure: >
   if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage on the '$(echo $TRAVIS_BRANCH)' branch: $(echo $TRAVIS_BUILD_WEB_URL)\" }" $DISCORD_WEBHOOK; fi
 jobs:
   include:
-    - &source_tests_staging
-      stage: Sources Tests
-      name: Ubuntu 16.04 / Python 3.8
-      git:
-        depth: 3
-        submodules: false
-      os: linux
-      dist: xenial
-      language: python
-      python: '3.8'
-      addons:
-        apt:
-          packages:
-            - clang-format-6.0
-      install:
-        - pip install -r tests/sources/requirements.txt
-        - pip install -r docs/tests/requirements.txt
-        - cp dependencies/.clang-format-6 .clang-format
-      script:
-        - python -m unittest discover -s docs/tests
-        - |
-          # in case of manually triggered test, planned test or tag test, run complete test
-          if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
-          then
-            if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
-            then
-              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG $TRAVIS_BRANCH;
-            else
-              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
-            fi
-            echo "File(s) to test: $(cat tests/sources/modified_files.txt)";
-          fi
-        - travis_wait 30 python -m unittest discover -s tests/sources
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 2.7
-      python: '2.7'
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 18.04 / Python 3.8
-      dist: bionic
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 18.04 / Python 2.7
-      python: '2.7'
-      dist: bionic
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: OSX / Python 2.7
-      os: osx
-      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
-      language: generic     # Travis doesn't support python on macos yet
-      addons:
-        homebrew:
-          packages:
-            - clang-format
-            - cppcheck
-            - python
-      install:
-        - pip install -r tests/sources/requirements.txt
-        - pip install -r docs/tests/requirements.txt
-        - cp dependencies/.clang-format-9 .clang-format
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_release, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
@@ -128,55 +66,10 @@ jobs:
             - libxcb-xinerama0
             - rename
       before_install: &ubuntu_before_install
-        - cd scripts/install; source ./linux_optional_compilation_dependencies.sh; cd ../..
+        - sudo scripts/install/linux_optional_compilation_dependencies.sh
+        - source /opt/ros/*/setup.bash  # sets 'ROS_DISTRO'
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
-        - make release -j2
-        - make release -j2 -C tests
-        - python tests/test_suite.py --no-ansi-escape --nomake
-        - ./tests/ros.sh
-    - <<: *unit_tests_staging
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
-      dist: bionic
-      jdk: openjdk11
-      addons: &bionic_apt_packages
-        apt:
-          packages:
-            - g++
-            - cmake
-            - libusb-dev
-            - swig
-            - python2.7-dev
-            - libglu1-mesa-dev
-            - libglib2.0-dev
-            - libfreeimage-dev
-            - libfreetype6-dev
-            - libxml2-dev
-            - libzzip-0-13
-            - libssl1.0-dev
-            - libboost-dev
-            - libavcodec-extra
-            - libgd3
-            - libssh-gcrypt-dev
-            - libzip-dev
-            - python-pip
-            - libreadline-dev
-            - ffmpeg
-            - npm
-            - python3.6-dev
-            - python3.7-dev
-            - openjdk-11-jdk
-            - curl
-            - fakeroot
-            - pbzip2
-            - libxkbcommon-x11-dev
-            - libxcb-keysyms1
-            - libxcb-image0
-            - libxcb-icccm4
-            - libxcb-randr0
-            - libxcb-render-util0
-            - libxcb-xinerama0
-      script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -200,14 +93,6 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
         - pip install PyGithub # used to upload packages to Github releases
         - scripts/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
-    - <<: *distribution_staging
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
-      dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
-      jdk: openjdk11
-      addons: *bionic_apt_packages
-      script:
-        - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
@@ -233,6 +118,9 @@ jobs:
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
         - if [[ ! -f $WEBOTS_HOME/dependencies/python3.8.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P $WEBOTS_HOME/dependencies; fi
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.9  # we can't use python3.9 from homebrew for the compilation because it is not compatible with the normal one
+        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.9.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.9.zip -P $WEBOTS_HOME/dependencies; fi
+        - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
@@ -244,17 +132,6 @@ jobs:
       script:
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
-    - <<: *distribution_staging
-      stage: Release
-      if: commit_message IN (travis_release, travis_release_only)
-      name: Ubuntu 18.04 / Python 3.8 / openjdk 11
-      dist: bionic
-      jdk: openjdk11
-      before_install: *ubuntu_before_install
-      addons: *bionic_apt_packages
-      script:
-        - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
       stage: Release
       if: commit_message IN (travis_release, travis_release_only)

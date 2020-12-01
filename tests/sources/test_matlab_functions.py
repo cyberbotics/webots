@@ -46,7 +46,7 @@ class TestMatlabFunctions(unittest.TestCase):
                     self.functions.append(line.replace('\n', ''))
 
     def test_matlab_function_exists(self):
-        """Test that the fucntion file exists."""
+        """Test that the function file exists."""
         for function in self.functions:
             filename = os.environ['WEBOTS_HOME'] + '/lib/controller/matlab/' + function + '.m'
             self.assertTrue(

@@ -131,7 +131,7 @@ WbVideoRecorder::~WbVideoRecorder() {
 bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep) {
   // show dialog to select parameters
   // compute maximum slow down with the current basicTimeStep
-  WbVideoRecorderDialog dialog(NULL, view->view3D()->size(), 1.0 / floor(EXPECTED_FRAME_STEP / basicTimeStep));
+  WbVideoRecorderDialog dialog(NULL, view->view3D()->size(), 1.0 / ceil(EXPECTED_FRAME_STEP / basicTimeStep));
   bool accept = dialog.exec();
   if (!accept) {
     // cancel button - reject
@@ -168,12 +168,12 @@ bool WbVideoRecorder::setMainWindowFullScreen(bool fullScreen) {
 }
 
 void WbVideoRecorder::estimateMovieInfo(double basicTimeStep) {
-  const int roundedBasicTimeStep = round(basicTimeStep);
-  const double refresh = mVideoAcceleration * EXPECTED_FRAME_STEP / (double)roundedBasicTimeStep;
+  const int ceilBasicTimeStep = ceil(basicTimeStep);
+  const double refresh = mVideoAcceleration * EXPECTED_FRAME_STEP / (double)ceilBasicTimeStep;
   const int floorRefresh = floor(refresh);
   const int ceilRefresh = ceil(refresh);
-  const int frameStep0 = floorRefresh * roundedBasicTimeStep;
-  const int frameStep1 = ceilRefresh * roundedBasicTimeStep;
+  const int frameStep0 = floorRefresh * ceilBasicTimeStep;
+  const int frameStep1 = ceilRefresh * ceilBasicTimeStep;
 
   if (frameStep0 == 0 || abs(frameStep0 - EXPECTED_FRAME_STEP) > abs(frameStep1 - EXPECTED_FRAME_STEP)) {
     mMovieFPS = mVideoAcceleration * 1000.0 / frameStep1;

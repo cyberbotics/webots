@@ -369,7 +369,7 @@ controller.run()
 
 %tab-end
 
-%tab "java"
+%tab "Java"
 
 ```java
 import com.cyberbotics.webots.controller.Robot;
@@ -400,7 +400,7 @@ public class MyController extends Robot {
   private DistanceSensor distanceSensor;
   private Led led;
 
-  // main java program
+  // main Java program
   public static void main(String[] args) {
     MyController controller = new MyController();
     controller.run();
@@ -410,7 +410,7 @@ public class MyController extends Robot {
 
 %tab-end
 
-%tab "matlab"
+%tab "MATLAB"
 
 ```MATLAB
 
@@ -599,6 +599,7 @@ If the specified device is not found, the function returns `NULL` in C++, `null`
 ---
 
 #### `wb_robot_get_device_by_index`
+#### `wb_robot_get_number_of_devices`
 
 %tab-component "language"
 

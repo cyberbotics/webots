@@ -104,7 +104,7 @@ void WbSolid::init() {
   mUseInertiaMatrix = false;
   mIsPermanentlyKinematic = false;
   mIsKinematic = false;
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
 
@@ -1942,23 +1942,33 @@ void WbSolid::applyToOdeScale() {
   resetJoints();
 }
 
-void WbSolid::updateTransformAfterPhysicsStep() {
-  if (mUpdatedAfterStep)
+void WbSolid::updateTransformForPhysicsStep() {
+  if (mUpdatedInStep)
     return;
 
   applyPhysicsTransform();
 
+  QList<WbSolid *> reversedList;
+  reversedList << this;
   WbSolid *s = NULL;
   WbNode *p = parentNode();
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
-      s->applyPhysicsTransform();
-      s->mUpdatedAfterStep = true;
+      if (s->mUpdatedInStep)
+        break;  // ancestor nodes already updated
+      reversedList.prepend(s);
     }
     p = p->parentNode();
   }
-  mUpdatedAfterStep = true;
+
+  // update transform from root to current node as applyPhysicsTransform uses the upper transform matrix
+  QListIterator<WbSolid *> it(reversedList);
+  while (it.hasNext()) {
+    s = it.next();
+    s->applyPhysicsTransform();
+    s->mUpdatedInStep = true;
+  }
 }
 
 void WbSolid::applyPhysicsTransform() {
@@ -2080,7 +2090,7 @@ void WbSolid::prePhysicsStep(double ms) {
   for (i = 0; i < mPropellerChildren.size(); ++i)
     mPropellerChildren.at(i)->prePhysicsStep(ms);
 
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
 }
 
 ////////////
@@ -2979,16 +2989,19 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
     writer.indent();
     writer << QString("<%1>\n").arg(element[j]);
     writer.increaseIndent();
-    if (transform != this || correctOrientation) {
+    if (transform != this || correctOrientation || !offset.isNull()) {
       WbVector3 translation = transform->translation() + offset;
       WbRotation rotation = transform->rotation();
       writer.indent();
       if (correctOrientation) {
         if (transform == this) {
-          translation = WbVector3();
+          translation = offset;
           rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
         } else
           rotation = WbRotation(rotation.toMatrix3() * WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3());
+      } else if (transform == this) {
+        rotation = WbRotation(0.0, 1.0, 0.0, 0.0);
+        translation = offset;
       }
       writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
                   .arg(translation.toString(WbPrecision::FLOAT_MAX))
@@ -3054,7 +3067,8 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule, geometries[j].second);
+              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule,
+                              geometries[j].second + writer.jointOffset());
           }
         }
       }

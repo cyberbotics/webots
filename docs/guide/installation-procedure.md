@@ -70,7 +70,6 @@ Unlike with the APT system, you will have to repeat this operation manually each
 
 On Ubuntu, double-click on the Debian package file to open it with the Ubuntu Software App and click on the `Install` button.
 If a previous version of Webots is already installed, then the text on the button could be different, like `Upgrade` or `Reinstall`.
-Note that GNOME Software App distributed in the first release of Ubuntu 16.04 contains a bug preventing the installation of third-party packages.
 
 Alternatively, the Debian package can also be installed using `apt` or `gdebi` with the `root` privileges:
 
@@ -87,7 +86,7 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+Note that for the old Ubuntu versions 18.04 you should download the `webots-R2020b-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.
@@ -105,11 +104,22 @@ export WEBOTS_HOME=/home/username/webots
 
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
-> **Note**: Webots needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
-You will also need to install *make* and *g++* to compile your own robot controllers.
+You will need to install *make* and *g++* to compile your own robot controllers.
 Other particular libraries could also be required to recompile some of the distributed binary files.
-In this case an error message will be printed in the Webots console mentioning the missing dependency.
 The package names could slightly change on different releases and distributions.
+In this case an error message will be printed in the Webots console mentioning the missing dependency.
+Webots also needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
+ The following commands should work for Debian / Ubuntu based distributions:
+```sh
+sudo apt-get update
+sudo apt-get install libx264-dev
+sudo apt-get install libfdk-aac1
+```
+Using Anaconda could cause errors when recording videos, as the default conda installation of *ffmpeg* does not have *x264* enabled.
+Execute the following command to install *ffmpeg* with *x264* support:
+```sh
+conda install x264 ffmpeg -c conda-forge
+```
 
 
 #### Installing the Snap Package
@@ -123,7 +133,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 
 ##### Download Size
 
-The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, python, C++ and java compilers, etc.).
+The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
 For Webots R2019b revision 1, the download size of the snap is 1.8GB compared to 1.3GB of the Debian and tarball packages.
 
 ##### Extern Controllers
@@ -138,24 +148,24 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 #### Installing the Docker Image
 
-A [Docker](https://www.docker.com) image of Webots based on Ubuntu 18.04 is available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 18.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
-This image can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
+These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
 ##### Install Docker
 
 Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
 
-##### Run Webots in Docker without GUI
+##### Run Webots in Docker in Headless Mode
 
 The docker image comes with a X virtual framebuffer (Xvfb) already installed and configured so that you can run Webots in headless mode.
 
 To pull the image and start a docker container with it use the following command:
 ```
-docker run -it cyberbotics/webots:latest /bin/bash
+docker run -it cyberbotics/webots:latest
 ```
 
-> **Note**: If you need a specific version of Webots and not the latest one, replace `latest` with the version you need (e.g. `R2020b-rev1`).
+> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2020b-rev1-ubuntu20.04`).
 
 After starting the docker container you can start Webots headlessly using xvfb:
 ```
@@ -164,7 +174,7 @@ xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/fi
 
 > **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
 
-##### Run Webots in Docker with GUI 
+##### Run Webots in Docker with GUI
 
 ###### Without GPU Acceleration
 
@@ -177,7 +187,7 @@ xhost +local:root > /dev/null 2>&1
 
 You can then start the container with the following command:
 ```
-docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 Or if you want to directly launch Webots:
@@ -194,7 +204,7 @@ Please follow the [official instructions](https://docs.nvidia.com/datacenter/clo
 
 Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
 ```
-docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 ##### Troubleshooting
@@ -221,6 +231,7 @@ xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batc
 1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
+4. (Optional) Follow the [programming language setup](language-setup.md) instructions, if you plan on using specific languages such as Python or Java.
 
 It is possible to install Webots silently from an administrator DOS console, by typing:
 
@@ -236,7 +247,7 @@ webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.
 
-### Windows SmartScreen
+#### Windows SmartScreen
 
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
@@ -254,14 +265,50 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
-1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
-2. Double click on this file.
-This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
-3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+#### From the Installation File
 
-### macOS Security
+It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper.
+To proceed, open the Terminal and type the following instructions to download and mount the Webots disk image:
+```bash
+curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg
+open webots-{{ webots.version.package }}.dmg
+```
 
-During the first Webots launch, macOS may complain about opening Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+To install Webots only for the current user, without administrator privileges, proceed with:
+```bash
+mkdir ~/Applications
+cp -r /Volumes/Webots/Webots.app ~/Applications
+```
+
+To install Webots for any user, copy the Webots app to the system `/Applications` folder instead (administrator privileges required).
+
+Finally, you can launch Webots typing any of these instructions:
+```bash
+open ~/Applications/Webots.app    # to launch Webots using the open command
+~/Applications/Webots.app/webots  # to launch Webots directly
+```
+
+Alternatively, you can double-click on the Webots icon to launch it.
+
+
+#### From the Homebrew Package
+
+A [Homebrew package](https://formulae.brew.sh/cask/webots) is available for Webots.
+
+If brew is not already installed on your computer, install it with the following command in a terminal:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Webots can then be installed with:
+```
+brew cask install webots
+```
+
+#### Working around macOS Gatekeeper
+
+If Webots was downloaded from a web browser (e.g., not from a Terminal with `curl` or `wget`) macOS Gatekeeper may refuse to run Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+You will need administrator privileges to be able to install Webots.
 
 %figure "Unidentified developer dialog"
 
@@ -269,8 +316,8 @@ During the first Webots launch, macOS may complain about opening Webots because 
 
 %end
 
-In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the `Open` menu item.
-`macOS` should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
+You should <kbd>Ctrl</kbd> + click (or right-click) on the Webots icon, and select the `Open` menu item.
+Then, macOS should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
 
 %figure "Open Webots anyway"
 
@@ -278,5 +325,5 @@ In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the
 
 %end
 
-In earlier versions of macOS, this last operation may not work.
-In this case, refer to your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
+More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
+You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).

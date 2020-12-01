@@ -353,12 +353,14 @@ void Thymio2Model::behaviorAccLeds() {
       intensity = 32;
 
     if (!led.empty()) {
+      // cppcheck-suppress knownConditionTrueFalse
       if (!previous_led.empty())
         getLED(previous_led)->set(0);
       getLED(led)->set(intensity);
     }
     previous_led = led;
   } else {
+    // cppcheck-suppress knownConditionTrueFalse
     if (!previous_led.empty())
       getLED(previous_led)->set(0);
 

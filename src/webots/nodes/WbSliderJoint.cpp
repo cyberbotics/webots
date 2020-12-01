@@ -123,6 +123,9 @@ void WbSliderJoint::updatePosition(double position) {
   assert(s);
   // called after a special artificial move, i.e. a statically based robot was moved
   mPosition = position;
+  WbMotor *m = motor();
+  if (m && !m->isConfigureDone())
+    m->setTargetPosition(position);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);
@@ -310,7 +313,9 @@ WbVector3 WbSliderJoint::anchor() const {
 void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
+    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
+    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
     const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
     const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
 

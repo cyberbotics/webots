@@ -38,8 +38,8 @@
 #include <string.h>
 
 #define NUMBER_OF_INFRARED_SENSORS 9
-#define TIME_STEP (int)wb_robot_get_basic_time_step()  // from world file
 
+static double time_step;
 static int old_key = -1;
 static bool demo = false;
 static bool autopilot = true;
@@ -71,7 +71,7 @@ double convert_volt_to_meter(WbDeviceTag tag, double V) {
 }
 
 static void step() {
-  if (wb_robot_step(TIME_STEP) == -1) {
+  if (wb_robot_step(time_step) == -1) {
     wb_robot_cleanup();
     exit(EXIT_SUCCESS);
   }
@@ -81,6 +81,7 @@ static void passive_wait(double sec) {
   const double start_time = wb_robot_get_time();
   do {
     step();
+    base_accelerate();
   } while (start_time + sec > wb_robot_get_time());
 }
 
@@ -231,16 +232,17 @@ static void check_keyboard() {
 int main(int argc, char **argv) {
   // Initialization
   wb_robot_init();
+  time_step = wb_robot_get_basic_time_step();
 
   // Get and enable the camera
   camera = wb_robot_get_device(camera_name);
   if (camera > 0)
-    wb_camera_enable(camera, TIME_STEP);
+    wb_camera_enable(camera, time_step);
 
   // Get and enable the infrared sensors
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {
     infrared_sensors[i] = wb_robot_get_device(infrared_sensors_names[i]);
-    wb_distance_sensor_enable(infrared_sensors[i], TIME_STEP);
+    wb_distance_sensor_enable(infrared_sensors[i], time_step);
   }
 
   // Get the motors and set target position to infinity (speed control)
@@ -258,7 +260,7 @@ int main(int argc, char **argv) {
 
   // Enable the keyboard inputs
   old_key = 0;
-  wb_keyboard_enable(TIME_STEP);
+  wb_keyboard_enable(time_step);
 
   // Store the last time a message was displayed
   int last_display_second = 0;
@@ -275,6 +277,7 @@ int main(int argc, char **argv) {
     if (autopilot) {
       run_autopilot(display_message, &last_display_second);
     }
+    base_accelerate();
   }
 
   wb_robot_cleanup();

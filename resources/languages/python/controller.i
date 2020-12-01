@@ -383,36 +383,40 @@ class AnsiCodes(object):
 //  Display
 //----------------------------------------------------------------------------------------------
 
-%typemap(in) const void * {
+%typemap(in) const void *(bool need_to_delete) {
   if (!PyList_Check($input) && !PyString_Check($input)) {
-    PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList' or 'PyString'\n");
+    PyErr_SetString(PyExc_TypeError, "expected 'PyList' or 'PyString'\n");
     return NULL;
   }
   if (PyList_Check($input)) {
     int len1 = PyList_Size($input);
     PyObject *l2 = PyList_GetItem($input, 0);
     if (!PyList_Check(l2)) {
-      PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList' of 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList'\n");
       return NULL;
     }
     int len2 = PyList_Size(l2);
     PyObject *l3 = PyList_GetItem(l2, 0);
     if (!PyList_Check(l3)) {
-      PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList' of 'PyList' of 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList' of 'PyList'\n");
       return NULL;
     }
     int len3 = PyList_Size(l3);
     $1 = (void *)malloc(len1 * len2 * len3 * sizeof(unsigned char));
+    need_to_delete = true;
     for (int i = 0; i < len1; ++i)
       for (int j = 0; j < len2; ++j)
         for (int k = 0; k < len3; ++k)
           ((unsigned char *)$1)[(j * len1 * len3) + (i * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
-  } else // PyString case
+  } else { // PyString case
     $1 = PyString_AsString($input);
+    need_to_delete = false;
+  }
 }
 
 %typemap(freearg) const void * {
-  free($1);
+  if (need_to_delete$argnum)
+    free($1);
 }
 
 %rename (__internalImageNew) imageNew(int width, int height, const void *data, int format) const;
