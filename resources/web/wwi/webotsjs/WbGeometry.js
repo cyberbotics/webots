@@ -8,6 +8,7 @@ class WbGeometry extends WbBaseNode {
     this.wrenScaleTransform = undefined;
     this.wrenRenderable = undefined;
     this.wrenEncodeDepthMaterial = undefined;
+    this.wrenMesh = undefined;
   }
 
   computeWrenRenderable() {
@@ -39,7 +40,6 @@ class WbGeometry extends WbBaseNode {
     _wr_renderable_set_cast_shadows(this.wrenRenderable, true);
   }
 
-  //TODO: check if necessary
   applyVisibilityFlagToWren() {
     if (!this.wrenScaleTransform)
       return;
@@ -58,34 +58,38 @@ class WbGeometry extends WbBaseNode {
   postFinalize() {
     super.postFinalize();
   }
-  
-  //Not use for now, normaly in cone
-  /*
+
   deleteWrenRenderable() {
     if (this.wrenRenderable) {
       if (this.wrenMaterial)
-        setWrenMaterial(NULL, false);
+        this.setWrenMaterial(null, false);
 
       // Delete outline material
-      wr_material_delete(mWrenMaterial);
-      mWrenMaterial = NULL;
+      _wr_material_delete(this.wrenMaterial);
+      this.wrenMaterial = undefined;
 
       // Delete encode depth material
-      wr_material_delete(mWrenEncodeDepthMaterial);
-      mWrenEncodeDepthMaterial = NULL;
+      _wr_material_delete(this.wrenEncodeDepthMaterial);
+      this.wrenEncodeDepthMaterial = undefined;
 
       // Delete picking material
-      wr_material_delete(wr_renderable_get_material(mWrenRenderable, "picking"));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "picking"]));
 
-      wr_node_delete(WR_NODE(mWrenRenderable));
-      mWrenRenderable = NULL;
+      _wr_node_delete(this.wrenRenderable);
+      this.wrenRenderable = undefined;
 
-      setWrenNode(wr_node_get_parent(WR_NODE(mWrenScaleTransform)));
-      wr_node_delete(WR_NODE(mWrenScaleTransform));
-      mWrenScaleTransform = NULL;
+      this.wrenNode = _wr_node_get_parent(this.wrenScaleTransform);
+      _wr_node_delete(this.wrenScaleTransform);
+      this.wrenScaleTransform = undefined;
     }
-  }*/
+  }
 
+  createMeshBuffers(verticesCount, indicesCount) {
+    if (verticesCount <= 0 || indicesCount <= 0)
+      return undefined;
+
+    return new WbWrenMeshBuffers(verticesCount, indicesCount, 2, 0); //isInBoundingObject() ? 0 : 2 3rd arg
+  }
 }
 
 export {WbGeometry}

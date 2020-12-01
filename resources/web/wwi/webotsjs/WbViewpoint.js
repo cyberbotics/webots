@@ -24,9 +24,9 @@ class WbViewpoint extends WbBaseNode {
     this.ambientOcclusionRadius = 2;
 
     this.inverseViewMatrix;
-    console.log("sau");
+
     this.wrenHdr = new WbWrenHdr();
-    this.wrenGtao = new WbWrenGtao();
+    //this.wrenGtao = new WbWrenGtao();
     //this.wrenBloom = new WbWrenBloom();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;

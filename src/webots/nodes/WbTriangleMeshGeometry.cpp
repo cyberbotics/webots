@@ -32,6 +32,7 @@
 #include <wren/node.h>
 
 #include <ode/ode.h>
+#include <iostream>
 
 WbTriangleMeshMap WbTriangleMeshGeometry::cTriangleMeshMap;
 
@@ -97,8 +98,9 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  if (WbNodeUtilities::findContainingProto(this))
+  if (WbNodeUtilities::findContainingProto(this)) {
     updateTriangleMesh(false);
+  }
 
   foreach (QString warning, mTriangleMesh->warnings())
     parsingWarn(warning);
