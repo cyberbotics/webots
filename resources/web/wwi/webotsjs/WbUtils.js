@@ -1,5 +1,6 @@
 import {M_PI} from "./WbConstants.js"
 import {World} from "./World.js"
+import {WbTransform} from "./WbTransform.js"
 
 function array3Pointer(x, y, z) {
   let data = new Float32Array([x, y, z]);
@@ -90,7 +91,8 @@ function findUpperTransform(node) {
   if (typeof node === 'undefined')
     return undefined;
 
-  let n = World.instance.nodes[node.parent]
+  let n = World.instance.nodes[node.parentNode];
+
   while (typeof n !== 'undefined') {
     if (n instanceof WbTransform)
       return n;

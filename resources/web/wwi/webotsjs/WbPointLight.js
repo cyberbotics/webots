@@ -10,7 +10,8 @@ class WbPointLight extends WbLight {
 
     this.wrenLight;
     this.lightRepresentation;
-    this.parentNode = parent;
+    if(typeof parent !== 'undefined')
+      this.parentNode = parent.id;
   }
 
   createWrenObjects() {
@@ -26,10 +27,13 @@ class WbPointLight extends WbLight {
 
     //this.applyBillboardVisibilityToWren();
   }
+  
   attachToUpperTransform() {
     let upperTransform = findUpperTransform(this);
-    if (typeof upperTransform !== 'undefined')
+
+    if (typeof upperTransform !== 'undefined'){
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
+    }
   }
 
   applyLightAttenuationToWren() {

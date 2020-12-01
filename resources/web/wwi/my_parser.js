@@ -260,6 +260,7 @@ class MyParser {
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
     World.instance.nodes[transform.id] = transform;
+
     await this.parseChildren(node, transform);
 
     if(typeof currentNode !== 'undefined'){
