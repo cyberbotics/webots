@@ -37,7 +37,7 @@
 #include <wren/texture.h>
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
-#include <iostream>
+
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 
 void WbImageTexture::init() {
@@ -259,7 +259,6 @@ void WbImageTexture::modifyWrenMaterial(WrMaterial *wrenMaterial, const int main
 
   wr_material_set_texture(wrenMaterial, WR_TEXTURE(mWrenBackgroundTexture), backgroundTextureIndex);
   if (mWrenBackgroundTexture) {
-    std::cout << "/* message */" << '\n';
     // background texture can't be transparent
     wr_texture_set_translucent(mWrenBackgroundTexture, false);
 

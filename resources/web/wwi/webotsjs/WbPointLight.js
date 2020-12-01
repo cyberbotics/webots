@@ -9,7 +9,6 @@ class WbPointLight extends WbLight {
     this.radius = radius;
 
     this.wrenLight;
-    this.lightRepresentation;
     if(typeof parent !== 'undefined')
       this.parentNode = parent.id;
   }
@@ -19,15 +18,10 @@ class WbPointLight extends WbLight {
     this.attachToUpperTransform();
     super.createWrenObjects();
 
-    // Has to be done after WbLight::createWrenTransform (otherwise wrenNode() == NULL)
-    //this.lightRepresentation = new WbLightRepresentation(wrenNode(), mLocation->value());
-
     this.applyLightAttenuationToWren();
     this.applyNodeLocationToWren();
-
-    //this.applyBillboardVisibilityToWren();
   }
-  
+
   attachToUpperTransform() {
     let upperTransform = findUpperTransform(this);
 
@@ -44,7 +38,6 @@ class WbPointLight extends WbLight {
   applyNodeLocationToWren() {
     let position = _wrjs_color_array(this.location.x, this.location.y, this.location.z);
     _wr_point_light_set_position_relative(this.wrenLight, position);
-    //this.lightRepresentation.position(this.location);
   }
 
   applyLightColorToWren() {
@@ -69,10 +62,5 @@ class WbPointLight extends WbLight {
   applyLightShadowsToWren() {
     _wr_point_light_set_cast_shadows(this.wrenLight, this.castShadows);
   }
-  /*
-  applyBillboardVisibilityToWren() {
-    const bool enabled = WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_LIGHTS_POSITIONS);
-    mLightRepresentation->setVisible(isOn() && enabled);
-  }*/
 }
 export {WbPointLight}
