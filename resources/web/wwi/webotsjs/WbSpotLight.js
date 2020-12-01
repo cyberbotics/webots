@@ -2,7 +2,7 @@ import {WbLight} from "./WbLight.js"
 import {findUpperTransform} from "./WbUtils.js"
 
 class WbSpotLight extends WbLight {
-  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, currentNode){
+  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parent){
     super(id, on, color, intensity, castShadows, ambientIntensity);
     this.attenuation = attenuation;
     this.beamWidth = beamWidth;
@@ -29,7 +29,7 @@ class WbSpotLight extends WbLight {
 
   attachToUpperTransform() {
     let upperTransform = findUpperTransform(this);
-
+    console.log(upperTransform);
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }
