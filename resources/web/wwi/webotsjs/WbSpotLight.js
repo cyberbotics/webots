@@ -29,7 +29,7 @@ class WbSpotLight extends WbLight {
 
   attachToUpperTransform() {
     let upperTransform = findUpperTransform(this);
-    console.log(upperTransform);
+
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }

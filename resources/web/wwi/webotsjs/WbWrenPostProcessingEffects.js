@@ -253,8 +253,7 @@ class WbWrenPostProcessingEffects {
    for (let i = 0; i < 5; ++i) {
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
      //TODO replace that (cause multiple bug but i suspect the main one is caused by the inputoutput texture)
-     //_wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i+1], 1);
-
+     _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
    }

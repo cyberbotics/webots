@@ -27,7 +27,7 @@ class WbViewpoint extends WbBaseNode {
 
     this.wrenHdr = new WbWrenHdr();
     //this.wrenGtao = new WbWrenGtao();
-    //this.wrenBloom = new WbWrenBloom();
+    this.wrenBloom = new WbWrenBloom();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
   }
