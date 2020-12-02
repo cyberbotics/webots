@@ -80,7 +80,7 @@ $(JAVA_SOURCES): $(WRAPPER)
 
 $(WRAPPER): $(INTERFACE) $(SOURCE_HEADERS)
 	@mkdir -p $(SWIG_OUTPUT)
-	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/resources/languages/java/ $(INCLUDES) -o $@ $<
+	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/src/controller/java/ $(INCLUDES) -o $@ $<
 
 $(WRAPPER_OBJECT): $(WRAPPER)
 	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
