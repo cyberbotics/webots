@@ -45138,7 +45138,7 @@ Hi guys! I’m having a problem with the option “Solid Reference”. I configu
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/776968452857921536/unknown.png)
 %end
 
-##### Vu Nam Nguyen 11/14/2020 01:14:19
+##### Steven37 11/14/2020 01:14:19
 > I am trying to simulate the drone Mavic2Pro but I am not really good at PID controller yet. I have created 6 PD controllers for (x,y) position, roll, pitch, yaw and altitude but I'm still having trouble choosing the suitable values for the P, D constants for all 6 controllers. So can anyone tell me based on observing this drone, how can I adjust the PD parameters? Or is there any way that can help me improve my drone, please?
 > **Attachment**: [DroneTestToAsk.mp4](https://cdn.discordapp.com/attachments/565154703139405824/776978286738800640/DroneTestToAsk.mp4)
 
@@ -45818,4 +45818,912 @@ there is many great guides and tutorials
 
 
 there is also multiple sample worlds with sample controllers
+
+##### Steven37 11/25/2020 16:22:19
+In the picture, in the droplist of DEF SagaThorvald Group's children, I want to create four identical shapes which is the shape you see in the image below. But when I created 2 of them, it feels like they stick together. I still want them to be joined together but I don't know how to move each to the position I want because I can't find a place to adjust their translation. So can anyone help me, please?
+%figure
+![Webots_sagaThorvald.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781193061383274536/Webots_sagaThorvald.JPG)
+%end
+
+##### Simon Steinmann [Moderator] 11/25/2020 16:23:58
+`@Steven37` Add a "Transform" node as the parent of the "Shape" node
+
+
+Saga > children > transform > children > shape
+
+##### Steven37 11/25/2020 16:34:51
+`@Simon Steinmann` thank you!
+
+##### owongcho 11/26/2020 01:15:11
+hello, is there a way to swap between end effectors during simulation using the controller of the robot?
+
+##### Olivier Michel [Cyberbotics] 11/26/2020 06:41:25
+What do you mean exactly?
+
+##### owongcho 11/26/2020 07:48:32
+I mean, if I have a gripper attached to a robot arm (e.g., IRB4600) and I need to change the attached gripper for a different gripper during simulation, it is possible to do this using supervisor functions instead of changing the two grippers by manually editing the nodes?
+
+##### Olivier Michel [Cyberbotics] 11/26/2020 07:53:57
+Yes, you can use the supervisor API to do this. Don't forget to reset the physics of the robot from the supervisor API after you change the effector. You will need [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_remove\_mf](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_remove_mf) to remove the effector, [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_import\_mf\_node](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_mf_node) to import the new effector and [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics) once the change is done to stabilize the physics of the arm.
+
+##### deej 11/26/2020 11:23:42
+Hi, I have a problem with object falling through floor. I have tried to find an answer on the internet but even though I have found the WeBots physics documentation it didnt really help.
+> **Attachment**: [2020-11-26\_12-19-44.mkv](https://cdn.discordapp.com/attachments/565154703139405824/781480296968617985/2020-11-26_12-19-44.mkv)
+
+##### Stefania Pedrazzi [Cyberbotics] 11/26/2020 12:33:40
+Hi `@deej`, usually the cylinder should not fall through the floor.
+
+From the video I don't see the details of the WorldInfo and FLOOR nodes.
+
+Maybe using the default Floor PROTO node (from the Add Node dialog) and resetting all the changes to the WorldInfo will help you better identifying the source of the issue.
+
+##### F\_Nadi 11/26/2020 12:49:02
+Hi all, according to my previous question and `@KajalGada`  answer (in <#565155720933146637>), I cannot rotate my robot as much as an exact degree. so I want to check it manually by a 'while' loop. It means I will rotate my robot until the difference between start degree of the robot and current degree is equal to my desired degree. The robot has a rotation vector of size 4 (rx, ry, rz and angle), how can I calculate a number as robot's degree with world coordinate system (degree between a vector that shows robot direction and world coordinate system)?
+
+##### Simon Steinmann [Moderator] 11/26/2020 12:50:29
+[https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/) this can be very useful for checking and calculating fixed values
+
+
+in general it is best to use 3x3 rotation matrices or quaternion rotation if you wanna do dynamic rotation calculations. If you use python, this library is extremely useful [https://matthew-brett.github.io/transforms3d/](https://matthew-brett.github.io/transforms3d/)
+
+##### F\_Nadi 11/26/2020 12:53:19
+Thanks a lot `@Simon Steinmann`.
+
+##### deej 11/26/2020 12:54:13
+`@Stefania Pedrazzi` Here I am sending my world info, floor, and cylinder nodes
+%figure
+![worldinfo.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781503078687309834/worldinfo.JPG)
+%end
+
+
+
+%figure
+![Cylinder_and_floor.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781503091933315072/Cylinder_and_floor.JPG)
+%end
+
+
+and the only reason why i created custom floor was because it didnt work either.
+
+##### Darko Lukić [Cyberbotics] 11/26/2020 12:58:53
+It seems that your cylinder is too heavy. Try reducing the mass (e.g. to 1kg) to verify if the mass is an issue.
+
+
+
+If the mass is the issue then check this out:
+
+[https://cyberbotics.com/doc/guide/modeling#my-robot-is-heavy-and-sinks-into-the-ground-constantly](https://cyberbotics.com/doc/guide/modeling#my-robot-is-heavy-and-sinks-into-the-ground-constantly)
+
+##### deej 11/26/2020 13:01:07
+Hey, thanks very much. Now it works flawlessly, who would have thought that there is such a thing as "my robot si too heavy and sinks through the ground" 😄
+
+##### Whizbuzzer 11/26/2020 13:46:06
+Hello guys. Does anyone know how to establish a connection between two epuck robots?
+
+##### Simon Steinmann [Moderator] 11/26/2020 13:46:34
+emitter and receiver
+
+##### Whizbuzzer 11/26/2020 13:50:54
+I figured out that I would have to use these two nodes but I couldn't figure out how to put them into the controller (sorry I'm not that good at programming). As in, originally, I have the basic Braitenberg controller, but I have trouble figuring out how to add the emitter and receiver parts into it. Webots site has just the code snippets. Could someone please provide an example of emitter-receiver implementation?
+
+##### owongcho 11/26/2020 14:59:39
+`@Olivier Michel` thanks for the information. I am trying to use the def removeMF(self, index):  supervisor.removeMF('gripper',1), but I am getting this error AttributeError: 'Supervisor' object has no attribute 'removeMF'.  What I am doing wrong? Is there a example that has implemented this supervisor API function?
+
+##### Simon Steinmann [Moderator] 11/26/2020 16:03:43
+you have to select the specific node of which you want to remove a field
+
+##### owongcho 11/26/2020 17:09:11
+I don't know what I doing wrong because I have tried different options (see picture). The error I am getting is: return \_controller.Field\_removeMF(self, index)
+
+TypeError: in method 'Field\_removeMF', argument 1 of type 'webots::Field *'
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/781567242529407037/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 11/26/2020 18:31:44
+you first have to select that field
+
+
+try 
+
+`handSlotField = supervisor.getField("handSlot")
+
+handSlotField.removeMF(0)`
+
+
+wait, that's a node
+
+
+idk, try it. might work
+
+##### AngelAyala 11/26/2020 19:09:47
+Hello there!, anyone knows if is possible to know if a Robot node has collided with another object? maybe using the Supervisor node
+
+##### Darko Lukić [Cyberbotics] 11/26/2020 21:38:09
+`@AngelAyala` , You can use "bumper":
+
+[https://cyberbotics.com/doc/reference/touchsensor#bumper-sensors](https://cyberbotics.com/doc/reference/touchsensor#bumper-sensors)
+
+
+Alternatively, you can use a physics plugin:
+
+[https://www.cyberbotics.com/doc/reference/physics-plugin](https://www.cyberbotics.com/doc/reference/physics-plugin)
+
+##### Whizbuzzer 11/26/2020 21:39:47
+> I figured out that I would have to use these two nodes but I couldn't figure out how to put them into the controller (sorry I'm not that good at programming). As in, originally, I have the basic Braitenberg controller, but I have trouble figuring out how to add the emitter and receiver parts into it. Webots site has just the code snippets. Could someone please provide an example of emitter-receiver implementation?
+
+`@Whizbuzzer`  could anyone please help me with this?
+
+##### deej 11/26/2020 21:43:21
+Well, here I am again, this time I have a problem with emmiter/reciever. For some reason the recieved data are not scalar eventhough i am sending a scalar. Or am I not?
+%figure
+![emmiter.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781636237089177621/emmiter.JPG)
+%end
+
+
+
+%figure
+![reciever.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781636240721444874/reciever.JPG)
+%end
+
+
+I have a function that only accepts (1,1) scalar... and i get error there
+
+##### Darko Lukić [Cyberbotics] 11/26/2020 21:46:23
+One useful tip. Webots has a very rich collection of examples. When you need an example, just go `File > Open Sample World...` and search for example you need. E.g. in your case, the keyword would be `emitter`.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/781637004223709214/unknown.png)
+%end
+
+
+You can send and receive an array only, scalar values are not supported. If you need to send a single value, you can send it as an array of one element.
+
+##### deej 11/26/2020 21:50:13
+Ahhh, I see. Thank you 🙂
+
+
+I still have a problem with it. Im trying all sort of methods to convert the 1x1 array into single value. What is the right way to do it? Sorry for such a noobish question 😄
+
+##### SeanLuTW 11/27/2020 07:15:31
+I want to write the console output to a file, including the error and warning. I launch webots with command `$ webots [my_world].wbt --stdout --stderr 2>&1 >file.log`, but only standard output wrote into the file, the error still displayed on the terminal. Do I used the redirection operators incorrectly?
+
+##### Darko Lukić [Cyberbotics] 11/27/2020 08:14:18
+`@SeanLuTW` 
+
+```bash
+webots [my_world].wbt --stdout --stderr &>file.log
+```
+
+This should work
+
+##### Steven37 11/27/2020 08:30:36
+I have defined a group called sagaThorvald in the children section of the Robot node. Now, in the boundingObject section, I want to reselect the group defined above but I can't see it in the USE section. Can anyone explain to me why and how to fix it, please?
+%figure
+![Webots_sagaThorvald2.JPG](https://cdn.discordapp.com/attachments/565154703139405824/781799125925494794/Webots_sagaThorvald2.JPG)
+%end
+
+##### Olivier Michel [Cyberbotics] 11/27/2020 08:37:26
+That because a boundingObject can have only a specific structure, e.g., a Group that contains only one level of Transform nodes and your sagaThorvald object probably doesn't meet this requirement.
+
+
+See rules here: [https://cyberbotics.com/doc/reference/solid#how-to-use-the-boundingobject-field](https://cyberbotics.com/doc/reference/solid#how-to-use-the-boundingobject-field)
+
+##### Steven37 11/27/2020 09:18:56
+`@Olivier Michel` So in this case, can I choose the boundingObject for my DIY mobile robot as a box? Will it affect my robot's performance?
+
+##### Olivier Michel [Cyberbotics] 11/27/2020 10:15:53
+I don't think a fairly simple bounding object will affect the simulation performance.
+
+##### Steven37 11/27/2020 10:18:40
+`@Olivier Michel` ok thank you
+
+
+`@Olivier Michel` However, the boundingObject can not cover my whole robot and I don't know how to extend it. Also, is it the reason when I tried to control its wheels, it didn't move? Thank you!
+
+##### Olivier Michel [Cyberbotics] 11/27/2020 13:19:35
+A bounding object can be composed of several primitive shapes. Please follow this tutorial to understand how to build a complex bounding object: [https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)
+
+##### owongcho 11/27/2020 15:59:45
+I tried it, but didnt work. After many trial, this worked for me:
+
+robot=supervisor.getFromDef('Robot')
+
+handslot=Node.getField(robot,'handSlot')
+
+Field.removeMF(handslot,0)
+
+
+
+My question is why the Index in Field.removeMF(fieldName, Index) is bound to -1 and 0?
+
+##### Simon Steinmann [Moderator] 11/27/2020 16:01:42
+`@owongcho` -1 is the last index, -2 would be the second last. 0 is the first. If you only have one field, -1 is the last and first entry at the same time
+
+##### owongcho 11/27/2020 16:03:13
+ok. Thank you!
+
+##### deej 11/27/2020 16:23:00
+**Recieved value does not meet the condition (1,1)**
+
+Using a Matlab I have encountered a problem with emitter and receiver. I use a simple condition in my PID class, input must be (1,1) in other words scalar. But when I send a single value and receive it the received value is not meeting the condition "must be (1,1)".
+
+I tried all sorts of methods to convert the received 1x1 array to scalar like:
+
+
+
+`recieved_array = receiver.get_data()`
+
+`scalar = received_array(1)`
+
+`scalar = recieved_array{1}`
+
+`scalar = cell2mat(array);`
+
+
+
+I also tried 
+
+
+
+`size(scalar)`
+
+`class(scalar)`
+
+
+
+and I got that the scalar was indeed `(1,1) 'double'`. So that raises even more questions why does it not work. 
+
+
+
+Nothing worked but luckily for me it was not big of a problem, after all, I just removed the conditions and it works. But I can imagine someone having a problem with it.
+
+##### owongcho 11/27/2020 17:55:10
+`@Olivier Michel` `@Simon Steinmann` Thanks for your guidance, I am able to modify a field in my robot node.  Now, I am having the following issue: Initially, the robot has a gripper, then I start the simulation with the functions Field.removeMF(handslot,0) and Field.importMFNode(handslot,0,path), which run fine - removed the gripper and then added the same gripper back. However, when I reset the simulation, the original gripper disappears, shouldn't it be restored to the initial state of having the robot with the gripper?
+
+##### Simon Steinmann [Moderator] 11/27/2020 17:55:56
+you probably have to reload the world
+
+##### owongcho 11/27/2020 18:07:00
+reloading the world will restore it to my last saved World version. but I am wandering why the gripper keep removed after resetting the simulation because during the simulation, my last executed function is the Field.importMFNode(handslot,0,path)?
+
+##### Simon Steinmann [Moderator] 11/27/2020 18:09:13
+[https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu)
+
+
+this explains what reset does
+
+
+I dont think the function has dynamic adding / remmoving of nodes in ind
+
+
+mind*
+
+##### owongcho 11/27/2020 18:15:59
+I see. Thank. I am try adding a save function just after importing function to keep the gripper even after resetting the simulation.
+
+##### Simon Steinmann [Moderator] 11/27/2020 18:20:36
+you can also reset certain things separately, like controllers, physics etc.
+
+##### Whizbuzzer 11/27/2020 19:45:05
+Guys any idea how to set the buffer size on the epuck receiver? I have been trying to find a way to do so but for some reason, the queue length is remaining zero. So I thought setting a bufferSize could do the trick.
+
+##### JavierGraca97 11/27/2020 20:49:56
+`@Olivier Michel` hi i'm starting robot simulation with nao and we want to test you some pulsating neural network algorithms. before working with the AI ​​we are working with the initiating sensors, generating movements and we want to do recognition but we could not establish it because we could not create the recognition node. they would be so kind to send me information to generate the acknowledgments node. and finally the recognition node is created in the .proto file?
+
+##### coelhogi 11/28/2020 02:35:51
+Hey! How can I set a delay in the controller code? I'm doing it in C++ but is seems like Sleep is not working. All the required includes are in the code. Thanks in advance.
+
+##### Whizbuzzer 11/28/2020 04:41:45
+How do I comment out multiple lines in Webots?
+
+
+Is there any shortcut?
+
+##### watchdogs132 11/28/2020 08:03:43
+Hello . Something weird happening with my webots (r2020b) . When I try to build my project , the console gets stuck after showing copying (name).exe , the dialog box (reload reset cancel) is not popping up .  Also webots is not opening when I try to open a specific project .
+
+##### Steven37 11/28/2020 11:31:55
+Can anyone explain to me why I have named device RotationalMotor and get the device with that name in the controller section but I get the error "device not found", please? I checked and made sure I named and used the correct names for those 4 devices, in the image below I take an example with device "wheelFR".
+%figure
+![Webots_saga2_LI.jpg](https://cdn.discordapp.com/attachments/565154703139405824/782207142676660224/Webots_saga2_LI.jpg)
+%end
+
+##### Simon Steinmann [Moderator] 11/28/2020 12:51:00
+`@Steven37` It might be that you are using the same name for the DEF of the joint. Make sure all names and DEFs are unique. Perhaps name the motors "wheelFRmotor"
+
+##### Whizbuzzer 11/28/2020 13:44:17
+Is it possible for an epuck's IR sensor to function as a light sensor as well as a proximity sensor at the sensor at the same time?
+
+##### Simon Steinmann [Moderator] 11/28/2020 13:52:33
+`@Whizbuzzer` can you elaborate on what you mean exactly?
+
+
+distance sensor API
+
+[https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python](https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python)
+
+Ligth sensor API
+
+[https://www.cyberbotics.com/doc/reference/lightsensor?tab-language=python](https://www.cyberbotics.com/doc/reference/lightsensor?tab-language=python)
+
+
+
+These links might help
+
+##### Whizbuzzer 11/28/2020 13:59:27
+What I am trying to do is use an epuck's IR sensors 0 and 7 as both, light sensors and distance sensors so that when a condition = (both light sensor values > 0) and (flag==1), the puck will send a message to a receiver. The receiver has an LED mounted into it.
+
+##### Simon Steinmann [Moderator] 11/28/2020 14:00:45
+A single sensor can only operate in one mode. If you can extract several things from the same sensor data, then it can work
+
+##### Whizbuzzer 11/28/2020 14:01:17
+Also, regarding the LED, this might sound stupid, but I have placed the LED sphere "into" the receiver robot, which is a cylinder. Would an LED work if I do that? I sure am seeing its range if I do that.
+
+##### Simon Steinmann [Moderator] 11/28/2020 14:02:07
+you can put any device inside of a robot node
+
+
+And you can put any shape into the LED children field [https://www.cyberbotics.com/doc/reference/led?tab-language=python](https://www.cyberbotics.com/doc/reference/led?tab-language=python)
+
+##### Whizbuzzer 11/28/2020 14:20:38
+Also, another question, the light sensor on my epuck doesn't have none-zero values upon entering the range of an LED, but its values become non-zero after exiting that range and stay non-zero for quite some time before returning to zero
+
+
+So does that indicate some sort of noise? If so then how do I remove that noise?
+
+##### Simon Steinmann [Moderator] 11/28/2020 14:21:44
+what exactly are you using for the light sensor?
+
+##### Whizbuzzer 11/28/2020 14:23:17
+I am using epuck's light sensors 0 and 7 (frontmost ones) to detect the LED on another robot. I have modeled that LED according to the sample world, "led.wbt"
+
+##### Simon Steinmann [Moderator] 11/28/2020 14:23:32
+[https://www.cyberbotics.com/doc/reference/lightsensor?tab-language=python](https://www.cyberbotics.com/doc/reference/lightsensor?tab-language=python) read this
+
+
+and especially how lookup tables work:
+
+[https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python#lookup-table](https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python#lookup-table)
+
+
+i'm guessing the noise is due to the 3rd value of your lookup table
+
+##### Steven37 11/28/2020 14:53:29
+When I control 4 wheels to make the robot move, it acts like the video I have attached. So can anyone guess what was causing this problem? Can anyone save me, please?
+> **Attachment**: [3Y\_project\_Saga\_thorvald\_agri\_w8.mp4](https://cdn.discordapp.com/attachments/565154703139405824/782257869437009930/3Y_project_Saga_thorvald_agri_w8.mp4)
+
+##### Whizbuzzer 11/28/2020 14:54:25
+Your axis of rotation of the wheel is not aligned with its shape
+
+
+Did you check out the tutorial?
+
+##### Simon Steinmann [Moderator] 11/28/2020 14:54:38
+you have to add a transform node before the joints to position them
+
+
+when you click on a hingejoint in your scene tree, it shows the origin of the joint. Move that with a tranform node to where you want it to be
+
+
+Robot > children > tranform > children > hingejoint > endPoint Solid
+
+
+the enPoint Solid being your wheel
+
+##### Whizbuzzer 11/28/2020 15:19:17
+How do I modify a custom receiver node's range? For some reason, it is able to receive messages from an epuck no matter how far the epuck is.
+
+##### Simon Steinmann [Moderator] 11/28/2020 15:20:09
+all in the API reference 😉 [https://www.cyberbotics.com/doc/reference/receiver?tab-language=python](https://www.cyberbotics.com/doc/reference/receiver?tab-language=python)
+
+
+in case you did not know, you can just rightclick on something in webots and click help. It shows you all API documentation
+
+##### Whizbuzzer 11/28/2020 15:35:48
+I did check out the receiver documentation. But it does not say anything about its range unlike the emitter.
+
+##### Simon Steinmann [Moderator] 11/28/2020 15:38:35
+> signalStrengthNoise: standard deviation of the gaussian noise added to the signal strength returned by wb\_receiver\_get\_signal\_strength. The noise is proportionnal to the signal strength, e.g., a signalStrengthNoise of 0.1 will add a noise with a standard deviation of 0.1 for a signal strength of 1 and 0.2 for a signal strength of 2.
+
+
+The Signal range you have to set in the emitter
+
+##### Steven37 11/28/2020 15:42:33
+`@Simon Steinmann` How can I add the Transform node before the hingejoint? Do I need to rebuild it?
+
+##### Simon Steinmann [Moderator] 11/28/2020 15:43:25
+`@Steven37` you add a Transform node on the same level as the hingejoint, then you just cut the hingejoint and put it in the Transform's children field
+
+##### Whizbuzzer 11/28/2020 16:05:31
+epuck's emitter range is coming out to be -1 which I believe means infinite. Would I have to modify it into finite values then? I was under the assumption that epuck's emitter range would be the same as the range for the distance sensors. Also, `@Simon Steinmann` thank you very much for the responses. I am indeed going through the documentations before asking questions.
+
+##### Steven37 11/28/2020 16:11:00
+`@Simon Steinmann` I have already followed what you instruct but there are still some problems like in the video. Can you check for me again, please?
+> **Attachment**: [3Y\_project\_Saga\_thorvald\_agri\_w82.mp4](https://cdn.discordapp.com/attachments/565154703139405824/782277375782158356/3Y_project_Saga_thorvald_agri_w82.mp4)
+
+##### Simon Steinmann [Moderator] 11/28/2020 16:40:39
+send your world file
+
+##### Steven37 11/28/2020 16:50:00
+Is it what you need?
+> **Attachment**: [3Y\_project\_Saga\_thorvald\_agri.wbt](https://cdn.discordapp.com/attachments/565154703139405824/782287191182278697/3Y_project_Saga_thorvald_agri.wbt)
+
+##### Simon Steinmann [Moderator] 11/28/2020 17:09:43
+yes
+
+
+okay, so you have to move the hingejoint by changing the tranlation of the Transform node
+
+
+and remove the translation of the end point solid
+
+
+if you change the translation of endPoint by anything except along the rotational axis, you will get the issue you are currently having
+
+
+what is highlighted here needs to be changed to position the origin of the joint
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/782292764246802462/unknown.png)
+%end
+
+##### Whizbuzzer 11/28/2020 20:22:15
+For some reason, the epuck's IR sensor is having non-zero values even when all light sources (including directional light) are turned off.
+
+
+Can someone help me with this?
+
+##### Simon Steinmann [Moderator] 11/28/2020 20:24:23
+it's a distance sensor of the type IR, not a IR light sensor
+
+
+[https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python#distancesensor-types](https://www.cyberbotics.com/doc/reference/distancesensor?tab-language=python#distancesensor-types)
+
+##### Whizbuzzer 11/28/2020 20:25:19
+But it can also function as a light sensor according to the documentation
+
+##### Simon Steinmann [Moderator] 11/28/2020 20:26:12
+where?
+
+##### Whizbuzzer 11/28/2020 20:27:17
+
+%figure
+![image0.jpg](https://cdn.discordapp.com/attachments/565154703139405824/782341870415511582/image0.jpg)
+%end
+
+##### Simon Steinmann [Moderator] 11/28/2020 20:27:36
+those are not IR sensors but light sensor
+
+##### Whizbuzzer 11/28/2020 20:27:38
+It has light sensors ls0 to ls7 and they occupy same positions as proximity sensors
+
+
+So I have initialized ls0 and ls7 in a similar fashion to distance sensors. But the values of the light sensors just don't become 0.
+
+
+Guys does anyone have any knowledge on the LightSensors of epuck? It was kind of strange that those LightSensors detected even light from DirectionalLight and TexturedBackgroundLight nodes, even stranger that their values were non-zero when they were in the same direction as the device's shadow, and zero when they were in the opposite direction to the device's shadow.
+
+
+Is there a way to get the simulation timer? I want to make a condition such that:
+
+
+
+After timer = 5 seconds:
+
+     condition happens
+
+
+Does epuck have directional bluetooth transmission/reception?
+
+##### Simon Steinmann [Moderator] 11/29/2020 10:28:25
+[https://www.cyberbotics.com/doc/reference/robot?tab-language=python#wb\_robot\_get\_time](https://www.cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_time) to get the simulation time
+
+
+you can change the aperture of emitter and receiver
+
+##### udits 11/29/2020 15:28:36
+Hi, I am planning to add a caster wheel (spherical shaped) to balance my 2 wheeled robot. Could you please recommend the best joint to use for this and a possible example I could refer?
+
+
+I haved used a  hinge joint for now but for some reason my robot is only able to go back and forth for a very short distance like a boomerang.
+
+##### Simon Steinmann [Moderator] 11/29/2020 17:04:48
+`@udits` You could use a hinge2joint. it has 2 degrees of freedom, thus can model a caster / ball joint / sphere
+
+##### Rosalie van Ark 11/29/2020 17:36:35
+Is there a way to run 2 controllers at once? I am working with a NAO and a Pedestrian
+
+##### Whizbuzzer 11/29/2020 17:38:28
+You can try fusing the two controllers instead. Look at the emitter\_controller.wbt sample. In that, they have put emitter and receiver controllers in one program instead and fed that program to an emitter robot and a receiver robot.
+
+##### Simon Steinmann [Moderator] 11/29/2020 17:39:00
+each robot has one controller
+
+
+but you can put as much functionality into one controller as you like
+
+
+and you can have as many robots per simulation as you like
+
+##### Rosalie van Ark 11/29/2020 17:42:07
+But currently when I try running the world it only loads 1 of the controllers, how do I fix it in such a way that it will run the 2 controllers simultaneously?
+
+##### Whizbuzzer 11/29/2020 17:44:25
+If you’re talking about the window on the right, you can just open up a new controller. If you are saying that one robot runs a controller and other doesn’t, then you gotta feed a controller into the non-working robot’s controller field.
+
+##### Rosalie van Ark 11/29/2020 17:51:39
+The problem is that the pedestrian already knows its controller, but as you can see in the console it only wants to run the NAO file and I don't get why it only wants to run the NAO file
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/782665092038393866/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 11/29/2020 17:56:37
+reload the world just as a sanity check
+
+
+it's always a good first troubleshooting step
+
+
+if it doesnt work, feel free to post the world file
+
+##### Rosalie van Ark 11/29/2020 18:01:35
+Didn't work unfortunately so here is the world file:
+> **Attachment**: [Simple\_World.wbt](https://cdn.discordapp.com/attachments/565154703139405824/782667592392245248/Simple_World.wbt)
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:09:07
+alright had to check the Proto source
+
+
+you have to add "false" to the ControllerArgs
+
+
+by default the Pedestrian is static
+
+
+if you right click on a model, you can select "view Proto source"
+
+
+`@Olivier Michel`  perhaps this should be mentioned somewhere, or it should be an exposed field.
+
+##### Rosalie van Ark 11/29/2020 18:15:37
+It works! Thank you very much for the help😁
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:17:29
+[https://tenor.com/view/salute-minons-gif-8721605](https://tenor.com/view/salute-minons-gif-8721605)
+
+##### udits 11/29/2020 18:23:05
+Here's the file with the 2 wheeled robot, could you please tell me how to configure the joint?
+> **Attachment**: [WORKS\_SLIGHT\_MOVEMENT.wbt](https://cdn.discordapp.com/attachments/565154703139405824/782673002122444880/WORKS_SLIGHT_MOVEMENT.wbt)
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:25:04
+it's not working?
+
+##### udits 11/29/2020 18:26:01
+it moves very slightly and I am not sure how I set the parameters for it to move
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:26:13
+you want it to be motorized?
+
+##### udits 11/29/2020 18:26:39
+Nope, I just want it to be an additional support  to the 2 wheels
+
+
+Just for balancing purposes
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:27:30
+I dont think that you need motor devices then
+
+
+delete the motor
+
+
+and I'd put the joint into a transform node and use that to position it
+
+
+and leave the anchor and translation of the ball at 0 0 0
+
+
+might not be needed, but might help. I've never used hinge2joints myself
+
+##### udits 11/29/2020 18:30:07
+I'm sorry I don't quite understand this
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:31:48
+you do know that your robot is several meters big?
+
+##### udits 11/29/2020 18:32:11
+Yes
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:33:00
+your bot is super wonky, it's origin is meters below the ground
+
+##### udits 11/29/2020 18:33:18
+I'm actually new to the Webots environment and I have tried importing this current model from Fusion360
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:35:05
+I recommend having the robot's origin in the base Plate for example
+
+
+all your mesh files have an huge offset from their center
+
+##### udits 11/29/2020 18:37:02
+Okay, would you recommend brining the components together on Webots itself?
+
+##### Simon Steinmann [Moderator] 11/29/2020 18:57:18
+Yeah probably
+
+##### udits 11/29/2020 18:59:22
+Okay, I will do that
+
+
+How do I fix the issue with the caster wheel?
+
+##### Simon Steinmann [Moderator] 11/29/2020 20:24:54
+once your robot is set up correctly, the caster wheel will most likelyl work
+
+##### udits 11/29/2020 20:25:32
+I'll still have to assign it to be the endPoint?
+
+
+And I'm not too sure about the jointParameters and devices - how do I configure those?
+
+
+I've got the origin on the base plate and I have assembled the robot on Webots this time. I still don't get the desired result. I have used the hinge joint for the caster wheel. Could you please recommend how I can rectify this? `@Simon Steinmann`
+> **Attachment**: [NEW\_BOT.wbt](https://cdn.discordapp.com/attachments/565154703139405824/782759167328124958/NEW_BOT.wbt)
+
+##### Stefania Pedrazzi [Cyberbotics] 11/30/2020 07:16:49
+Hi `@coelhogi`, you cannot use sleep because it will also block the simulation and not only your controller. The way to go is to pass the desired sleep time as argument of the `Robot::step(ms)` function: for example if you pass 1000 as argument, the simulation will go forward of 1 second and then start again the controller program execution.
+
+
+Hi `@watchdogs132`, it is difficult to help you with this little information. You should provide more information and a step by step procedure to reproduce the issues.
+
+##### Olivier Michel [Cyberbotics] 11/30/2020 07:25:39
+Yes, that's a bid odd and we should probably add a field to turn it into non-static instead of this tricky `controllerArg` thing...
+
+
+I just opened an issue about it: [https://github.com/cyberbotics/webots/issues/2480](https://github.com/cyberbotics/webots/issues/2480) and that's a "good first issue" because I believe it's pretty simple to implement, so anyone with a basic knowledge of Webots PROTOs should be able to implement it.
+
+##### Steven37 11/30/2020 12:12:21
+Hi, I'm quite new to Webots so now I want to create a farm environment like the one in the photo but I can't find any available objects that look like my desired crop. So how can I create them in Webots? Thank you!
+%figure
+![GetAttachmentThumbnail.png](https://cdn.discordapp.com/attachments/565154703139405824/782942092199591957/GetAttachmentThumbnail.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 11/30/2020 12:19:18
+Hi `@Steven37`, if you don't find any model in Webots you can import it from other formats.
+
+Webots supports meshes from many different format (see the Mesh node [https://www.cyberbotics.com/doc/reference/mesh](https://www.cyberbotics.com/doc/reference/mesh))  so if you already have a 3D model of crops you can use it in Webots. Another option to import meshes in Webots is to use the Webots exporter plugin for Blender ([https://github.com/cyberbotics/blender-webots-exporter](https://github.com/cyberbotics/blender-webots-exporter)).
+
+Alternatively, if you are not interested in any specific crop type you could try to use the tree models already existing in Webots and scale them down so that they match the desired crop size.
+
+##### nozomi 11/30/2020 16:34:51
+Hello, I want to simulate an electric vehicle in Webots and record the running range of it. Is there any build-in method to measure running range in Webots?
+
+##### Simon Steinmann [Moderator] 11/30/2020 16:35:14
+`@nozomi` Robots can have batteries
+
+##### Justin Fisher 11/30/2020 19:58:32
+Can anyone help diagnose this strange behavior?  My simulation works every other time I run it.  I.e., I hit play and it hangs at time=0.016.  I hit pause, reset, play again and it runs fine.  I hit pause reset and play again and it hangs again at time=0.16.  Back and forth...
+
+
+
+I think it probably has something to do with the reset button resetting just some aspects of the simulation, not others, so there must be some element that it doesn't reset that is somehow toggling between two states, and in one state makes it hang.  Though I have no idea which aspects would somehow get toggled by this.  I also have no idea what is making it hang the half of the time that it does hang, since it doesn't display any diagnostic information when it hangs and half the time it works fine so it seems like everything I'm using is *capable* of working fine.
+
+
+Hrm... now I partially fixed it, so that it hangs at time 0.016 upon world (re)load, but then works upon *every* reset after that, which is better than working on only *every* *other* reset, but still annoying.   I suspect the problem has something to do with my starting the simulation with robot nodes with physics but no bounding boxes and no solid parts.  These robots then use supervisor powers to spawn body parts for themselves.  If I set one such robot to have the "null" supervisor, the simulation hangs every other reset, whereas if I set it instead to use a supervisor that spawns body parts for it, then it hangs on the first run after world (re)load, but then works fine every reset after that.  It still seems mysterious to me that Webots will let me have such a robot every *other* run -- if such robots are problematic, why don't they make it hang *every* run?
+
+##### Simon Steinmann [Moderator] 11/30/2020 20:21:50
+Do you have any condition for your main loop or the step execution?
+
+
+you could try setting that condition to True, just to test it out
+
+##### Justin Fisher 11/30/2020 20:27:08
+I don't think it actually makes it to the main loop when it hangs.  (At timestep 0, the robot controllers do nothing, to give a "ringmaster" supervisor the chance to install the right controllers onto robots.  At timestep 0.016 the two robots spawn body parts onto themselves, which apparently succeeds, since I can see the body parts appear on the robots, but then it hangs without entering their main loops, even though I don't think I'm executing many/any commands between the ones that I can see showing up in the display and the print("About to enter main loop") command that doesn't show up in the console.)
+
+
+The console does seem to lag though, so I'm not sure how much I should trust it.  E.g., when it hangs, hitting reset makes it spit out a bunch more console printouts.
+
+##### Simon Steinmann [Moderator] 11/30/2020 20:32:17
+some step function is executed, ohterwise it would not be at 0.016
+
+
+I would hunt for that
+
+
+put print() steps in your code
+
+
+perhaps disable robots, only have one controller going, find the problematic one
+
+##### Justin Fisher 11/30/2020 20:33:49
+yes, it gets to 0.016 because the controllers do virtually nothing at step 0, aside from calling step to advance to 0.016.
+
+
+and yes I tried disabling one controller (by setting it to "void") -- that produced the hangs-every-other-time scenario -- it actually works better with that controller doing stuff rather than being void
+
+
+Do you have a good understanding of which nodes in a robot need to have physics enabled?
+
+##### Simon Steinmann [Moderator] 11/30/2020 20:36:35
+try setting it to "none"
+
+
+in general solid nodes have physics
+
+##### Justin Fisher 11/30/2020 20:37:15
+I'd like the robot node itself not to have a bounding object, and instead have everything with a bounding object be a child (or more distant descendant) of the robot node itself.
+
+
+But my (admittedly murky) understanding of the docs is that, if I want those various children to be physically attached to one another, I need to enable physics on the robot node too
+
+
+(*physically attached to each other and not to the environment)
+
+
+------
+
+Ok, I seem to have fixed the problem, by hitting reset at a point in the cycle where I expected it to be able to work on next run and then hitting save world, it managed to save whatever hidden state of the world was allowing it not to hang, so now it doesn't hang after reload anymore.  Weird...
+
+##### Simon Steinmann [Moderator] 11/30/2020 21:02:15
+hmmm
+
+
+curious
+
+## December
+
+##### Olivier Michel [Cyberbotics] 12/01/2020 06:51:41
+That is very strange indeed. It would be interesting to determine whether the hang occurs in one of your controllers (and if Robot.synchronization is TRUE, Webots will wait for them forever) or in Webots itself. A possibility to sort this out is to set all Robot.synchronization to FALSE and see whether the hang persists. Another possibility is to set all Robot.controller to the "void" controller. If the hang doesn't happen any more in both cases, it is very likely that the hang is due to one of your controllers. Otherwise, it's likely a bug in Webots.
+
+##### Pragathi Praveena 12/01/2020 18:09:32
+Hi! I am new to Webots and I am trying to add a camera in the environment whose position and rotation I can set programmatically. It looks like I cannot just add a camera - it has to be attached to a Solid node. Is there a way for me to set the translation and rotation of the Solid node programmatically, so that I can make the camera fly around the scene?
+
+##### Simon Steinmann [Moderator] 12/01/2020 18:33:09
+`@Pragathi Praveena` what exactly is your goal? Do you want to simulate a camera, or do you want to record your simulation in a specific way?
+
+
+My approach would be to add a Robot node, add the camera as a child, and make the robot a supervisor
+
+
+then you can give that camera-robot a controller, retrieve the image
+
+
+To move the "robot" you can use the supervisor api
+
+
+[https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor)
+
+##### Pragathi Praveena 12/01/2020 18:39:40
+I want to simulate a camera. But I don't want the movement of the camera to be constrained by the degrees of freedom of the robot. It would be ideal if the camera could move anywhere and be in any orientation.
+
+##### Simon Steinmann [Moderator] 12/01/2020 18:40:37
+that "robot"  node is just a basenode, that allows you to have a controller
+
+
+a robot node in webots allows you to access any devices, motors and sensors under it
+
+
+so you can have your main robot, and a second "camera bot" which only consists of the camera
+
+##### Pragathi Praveena 12/01/2020 18:45:13
+Yeah. That sounds like what I need. How do you set position/rotation with the supervisor node?
+
+##### Simon Steinmann [Moderator] 12/01/2020 18:47:29
+by changing the translation and orientation fields
+
+##### Pragathi Praveena 12/01/2020 18:48:48
+Okay. Thanks!
+
+##### Simon Steinmann [Moderator] 12/01/2020 18:52:04
+in python that would look something like that
+
+cameraNode = supervisor.getSelf()
+
+cameraPos = CameraNode.getField("translation")
+
+cameraPos.setSFVec3f([x, y, z])
+
+
+rotation is "setSFRotation"
+
+##### Whizbuzzer 12/01/2020 20:06:33
+Guys is there a way such that I can make 1 epuck detect multiple other epucks simultaneously? I am trying to implement a Multirobot algorithm which requires a robot to detect multiple other robots and take an action accordingly.
+
+##### Simon Steinmann [Moderator] 12/01/2020 20:37:08
+You can have each bot broadcast their odometry with emitters
+
+##### Whizbuzzer 12/01/2020 20:42:09
+The problem with this is that my project is designed to be computationally simple, meaning no odometry or camera related tasks, and the moving robots navigate by exchanging "pheromone" signals with the stationary robots.
+
+##### Simon Steinmann [Moderator] 12/01/2020 21:07:26
+you can have emmiters with limited range
+
+
+emitting "pheromones", which others can pick up with receivers
+
+##### Justin Fisher 12/02/2020 02:28:23
+`@Whizbuzzer` If you can't find a way to use webots devices themselves to do what you want, you could also make a supervisor controller send each robot whatever information you think it should have.
+
+##### Whizbuzzer 12/02/2020 02:33:05
+My project is decentralized. Won't adding a supervisor centralize it?
+
+
+The goal of the project is that the robots travel autonomously without the need of a centralizef controller.
+
+##### Justin Fisher 12/02/2020 02:37:43
+And a question of my own.  I've been struggling with what seems to be inconsistent behavior from Webots involving devices that I use a supervisor to import to robots.  The docs warn that a controller restart will be required to detect supervisor-imported devices so I have been restarting the robot controllers before looking for devices.  This works fairly often, but sometimes it fails to detect devices, even while it successfully detects other devices that I've added in pretty much the same way, and I can't figure out where this difference is coming from, nor how to avoid it.
+
+
+
+I *think* the problematic cases arise only when I have a supervisor first import one part (say an arm), then do robot.step(0) to ensure that arm will have been added.  Then add another part (say a hand) containing the device as a child of that just-added arm.  Then I restart the robot's controller and have it try to getMotor() from the hand the next timestep.  Sometimes robot.getMotor() will then find the motor in the hand just fine, whereas other times it won't.  (In both cases, it shows up in the scene tree, and the visual is there in the simulation, so the import definitely partly succeeded, just not enough to allow the robot to control the device.)  I can't tell why this should be different in some cases than in others.   Any ideas?
+
+
+`@Whizbuzzer`  I think it might be good for you to distinguish (a) what powers are you simulating your robots as having, versus (b) how are you going to go about setting up a simulation of robots with such powers.  It sounds like your goal for (a) is to simulate robots with quite localized powers, that base their decisions only on information that should be available to them based on local cues.  
+
+
+
+For (b), in some sense you're stuck with a centralized controller because the whole simulation is running on your CPU, which is a centralized controller, and within a single ODE Physics Engine which again is quite centralized.  If part of what it takes to get the simulation to run the way you want is to add a supervisor controller that feeds inputs into your robot's sensors like the inputs that you think your simulated robots should have, then that doesn't make your robot's any less "autonomous" than the fact that they're all running on a single CPU does.  You can still have "autonomous" robots that base their decisions only upon locally available cues, even if you had to write a supervisor controller to feed them those cues.
+
+
+Can you say exactly what cues you were hoping your robots would use?  You mentioned pheremones.  Is pheremone strength supposed to be proportional to the distance to other robots?  Are pheremones something that is laid down in the environment like ant trails?
+
+
+If pheremone strength is supposed to be a function of distance, you may want to use radar devices as these are meant to give distance readings for objects in range, and then you can run the distance reading through whatever function you want and then base your decision just on the output.
+
+If pheremones are supposed to be laid down in the environment, like ant trails, I'd suggest considering using a Webots pen device to paint the pheremone trails onto the surfaces that your robots drive over, and use low-resolution cameras or IR sensors aimed at the ground to detect the presence of such trails.  If you want the pheromones to slowly dissipate, you could set your world's inkevaporation rate to have the pheremone trails slowly dissolve.
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 07:23:49
+We recently found a bug corresponding to what you describe and already implemented a fix, see: [https://github.com/cyberbotics/webots/pull/2482](https://github.com/cyberbotics/webots/pull/2482) (we just merged it, so that it will be shipped in the next nightly builds).
+
+##### Pragathi Praveena 12/02/2020 08:57:37
+Your suggestions were super helpful. I tried this in Webots. However, some simple printing of the robot's translation field does not work. Any suggestions to what I might be doing wrong? My code is here. [https://www.codepile.net/pile/xA6KBePr](https://www.codepile.net/pile/xA6KBePr) My Webots setup is here. [https://pasteboard.co/JD2fMvU.png](https://pasteboard.co/JD2fMvU.png)
+
+##### Justin Fisher 12/02/2020 09:14:54
+Yes that does indeed look like the same bug I was experiencing, and I was indeed experiencing it only in cases where the imported device was placed after the endpoint of a joint (ball not hinge), and only for the last such device imported that way.  It looks like the workaround you'd initially found was just to import more stuff afterwards to somehow trigger it to update the device list?    I'm not absolutely sure, but I think that some of the cases where I had the error were ones where I had imported some more stuff after the problematic device, but I can play around with this to see if I can find a workaround like that, at least until we get to a stage where my students will have downloaded the actual fix.  Thanks!
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 09:16:45
+The actual fix should be available tomorrow in ~~Webots R2020b-rev2~~ nightly build.
+
+
+I would happy to get your feedback about it.
+
+##### Stefania Pedrazzi [Cyberbotics] 12/02/2020 09:20:54
+The fix will only be available in the Webots R2021a nightly build and not in R2020b-rev2.
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 09:26:14
+Oh, yes that's right.
+
+##### Stefania Pedrazzi [Cyberbotics] 12/02/2020 09:28:43
+By the way for workaround, you should try to add a dummy node directly in the `Robot.children` field. If you import nodes in a joint descendant node it won't do the trick.
+
+##### Justin Fisher 12/02/2020 09:29:26
+I'll check it out at some point, though if I can find a workaround that doesn't require my students downloading a new version, I'll probably try to go with that for now.  (And if I can't find a workaround, I may just scrap the thing that would have used this, since it isn't absolutely vital)
+
+
+I'll try loading a dummy node into robot.children -- thanks for the suggestion!
+
+
+This works!  Thank you!
+
+##### Simon Steinmann [Moderator] 12/02/2020 10:40:23
+I don't have much c experience. The code looks correct to me. Perhaps try removing the include for the robot.h
+
+supervisor.h has all the robot.h functionality, expanded by the supervisor functionality. Maybe that helps
+
+
+And just to make sure, there are no outputs on the console in webots? And the simulation is running?
+
+
+Can you be a bit more specific on what is or isn't working?
+
+##### Stefania Pedrazzi [Cyberbotics] 12/02/2020 10:42:52
+Good!
+
+##### Justin Fisher 12/02/2020 10:55:00
+In case you're curious, the devices I was having the problem importing were motors and IR sensors that were imported into segments in the jointed bodies of these "ant-bots".  They work great now!
+%figure
+![antbots.png](https://cdn.discordapp.com/attachments/565154703139405824/783647404024004618/antbots.png)
+%end
+
+##### Simon Steinmann [Moderator] 12/02/2020 12:50:16
+How does one export the urdf in the current  2020b? Export and chaning the extension to .urdf does not work anymore
 

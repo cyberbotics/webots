@@ -7694,3 +7694,98 @@ Could you please direct me to this tutorial?
 ##### udits 11/24/2020 14:28:29
 Thanks, I'll go through these and get back to you.
 
+## December
+
+##### Simon Steinmann [Moderator] 12/01/2020 20:03:00
+Question: Are you guys aware that the robot window (where one can monitor devices) 1. takes a huge performance hit, and 2. the performance penalty persists, even when closed. The world has to be restarted to fix it.
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 07:18:12
+Yes for 1. Not sure for 2. Maybe 2 would deserve an issue so that we won't forget to investigate it and try to fix it, as it should fixable.
+
+##### Simon Steinmann [Moderator] 12/02/2020 10:42:38
+`@Olivier Michel` Okay, I'll open an issue.
+
+
+Would it be feasible to have a user adjustable polling rate in a multiple of timesteps? That could vastly increase performance
+
+
+Also I suspect the root of the performance is the unbuffered supervisor calls to retrieve fields.
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 10:46:44
+Sure, you can use any polling rate. It's better that the polling rate (wb\_robot\_step value / wb\_sensor\_enable value) is a multiple of the World.basicTimeStep for performance.
+
+##### Simon Steinmann [Moderator] 12/02/2020 10:46:55
+On another note, the "add node" window can be very slow when searching / expanding. This is especially true when having a extra project paths like the community projects. I suspect that a search is done every time. Perhaps this could be once and buffered on world load
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 10:47:46
+Yes, it is a known problem. But we have plans to improve this.
+
+##### Simon Steinmann [Moderator] 12/02/2020 10:47:59
+okay great. so I dont have to open an issueß
+
+
+?
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 10:48:12
+Not for this one.
+
+##### Simon Steinmann [Moderator] 12/02/2020 10:48:26
+good 🙂
+
+
+Last question. I managed to get my ikfast controller to work on windows as well. I added all included robot arms of webots. I think this would be a great addition to webots as a standard included controller. The solvers could be precompiled for the different versions and included in the webots/lib/controller/pythonxx path
+
+
+about 2MB
+
+
+(per OS / version)
+
+
+It is vastly superior to ikpy, not just in performance, but also quality
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 11:00:20
+`@Simon Steinmann` Users can generate the `ikfast` Python library (including C++ library) simply by navigating to a folder with the exported URDF and executing a single command:
+
+```bash
+docker run -v ${PWD}:/output cyberbotics/pyikfast [base_link] [effector]
+```
+
+(see [https://github.com/cyberbotics/pyikfast](https://github.com/cyberbotics/pyikfast))
+
+##### Simon Steinmann [Moderator] 12/02/2020 11:04:20
+holy crap you implemented it 😮
+
+
+pardon my french :p
+
+
+it is ikfast though? So it will return all possible solutions at once?
+
+
+My python controller takes these solutions and has algorithms to select the best solution and I also created a cartesian velocity control without any error drift
+
+
+I think it would be great to have a very simple working solution for the included robots, with a guide / steps to create it for your own robot
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 11:11:31
+Yes, it returns a few solutions and a user can pick one.
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 11:13:20
+I don't like the idea of having many robot-specific libraries in the webots/lib/controller/pythonxx folder. But a single nice C++ example of using ikfast with some specific robot could be great if it is sufficiently documented in README.md file so that users can generalize it to other robots.
+
+##### Simon Steinmann [Moderator] 12/02/2020 11:15:12
+I'll take a look at you guy's compiled solvers and see if it is compatible with my controller. Perhaps something can be done here
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 11:16:22
+If you can the merge cartesian velocity control and the algorithm that picks the best solution it would be a great contribution
+
+##### Simon Steinmann [Moderator] 12/02/2020 11:17:41
+Yeah, these work truly great (kinda proud of that). I'll try to flush them out and clean them up
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 11:18:01
+Sounds great 🙂
+
+##### Simon Steinmann [Moderator] 12/02/2020 12:13:35
+[https://github.com/cyberbotics/webots/issues/2493](https://github.com/cyberbotics/webots/issues/2493) robot window bug
+
