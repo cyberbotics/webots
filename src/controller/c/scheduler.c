@@ -22,7 +22,7 @@
 #include <string.h>  // strlen, memcpy
 #include <unistd.h>
 #include <webots/types.h>
-#include "../util/g_pipe.h"
+#include "g_pipe.h"
 #include "robot_private.h"
 #include "scheduler.h"
 #ifdef _WIN32

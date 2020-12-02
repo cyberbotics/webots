@@ -138,32 +138,39 @@ else
 release debug profile: $(JAR_FILE) $(TARGET)
 
 JAVA_CLASSES: $(JAVA_SOURCES)
+	@echo "# compiling  Java sources"
 	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
 
 $(WRAPPER_OBJECT): $(WRAPPER)
+	@echo "# compiling  "$(notdir $^)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
+	@echo "# compiling  "$^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared $^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -o $@
 	@chmod a-x $@
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
+	@echo "# compiling  "$^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
+	@echo "# linking    "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
 	$^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): JAVA_CLASSES
+	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
 
 $(JAVA_SOURCES): $(WRAPPER)
 
 $(WRAPPER): $(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# generating "$(notdir $@)
 	test -d $(SWIG_OUTPUT_PATH) || mkdir -p $(SWIG_OUTPUT_PATH)
 	$(SWIG) -c++ -java -package $(subst /,.,$(CONTROLLERPATH)) -outdir $(SWIG_OUTPUT_PATH) $(WEBOTS_INCLUDES) -o "$@" $<
 

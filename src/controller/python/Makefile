@@ -91,9 +91,11 @@ else
 release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# generating "$@
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking    "$@
 	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
@@ -103,6 +105,7 @@ $(LIBCPPCONTROLLER):
 	@echo "$(LIBCPPCONTROLLER) doesn't exist"
 
 $(WRAPPER_OBJECT):$(WRAPPER)
+	echo "# compiling  "$<
 	$(CXX) $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
 endif
 

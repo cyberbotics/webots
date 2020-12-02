@@ -22,8 +22,8 @@
 #include <webots/display.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
-#include "../util/g_image.h"
 #include "display_private.h"
+#include "g_image.h"
 #include "messages.h"
 #include "remote_control_private.h"  //required to forward the display state from Webots to the remote_control
 #include "robot_private.h"

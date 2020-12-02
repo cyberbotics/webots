@@ -26,7 +26,7 @@
 #include "WbSolid.hpp"
 
 #include "../../../include/controller/c/webots/position_sensor.h"  // position sensor types
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_CONFIGURE
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_CONFIGURE
 
 #include <QtCore/QDataStream>
 

@@ -17,7 +17,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <cassert>
