@@ -240,13 +240,10 @@ void WbGroup::descendantNodeInserted(WbBaseNode *decendant) {
     pg->descendantNodeInserted(decendant);
     return;
   }
-  WbBasicJoint *pj = dynamic_cast<WbBasicJoint *>(parentNode());
-  if (pj) {
+
+  if (dynamic_cast<WbBasicJoint *>(parentNode()))
     emit notifyParentJoint(decendant);
-    return;
-  }
-  WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
-  if (ps)
+  else if (dynamic_cast<WbSlot *>(parentNode()))
     emit notifyParentSlot(decendant);
 }
 
