@@ -1,0 +1,64 @@
+name: Test Suite Windows (develop)
+
+on:
+  schedule:
+    - cron:  '0 23 * * *'
+
+defaults:
+  run:
+    shell: msys2 {0}
+
+jobs:
+  cleanup-runs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rokroskar/workflow-run-cleanup-action@master
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  build:
+    needs: cleanup-runs
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+    - uses: actions/checkout@v2
+      with:
+         submodules: true
+         ref: develop
+    - name: Install Visual Studio 10 and OpenJDK 8
+      shell: powershell
+      run: |
+        choco install jdk8
+        choco install vcexpress2010
+    - name: Install Webots Compilation Dependencies
+      run: |
+        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_211' >> ~/.bash_profile
+        echo 'export PYTHON27_HOME=/C/hostedtoolcache/windows/Python/2.7.18/x64' >> ~/.bash_profile
+        echo 'export PYTHON37_HOME=/C/hostedtoolcache/windows/Python/3.7.9/x64' >> ~/.bash_profile
+        echo 'export PYTHON38_HOME=/C/hostedtoolcache/windows/Python/3.8.6/x64' >> ~/.bash_profile
+        echo 'export PYTHON39_HOME=/C/hostedtoolcache/windows/Python/3.9.0/x64' >> ~/.bash_profile
+        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"' >> ~/.bash_profile
+        echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        ./scripts/install/msys64_installer.sh --all
+        ./scripts/install/nodejs_windows_installer.sh
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+    - name: Webots Package Creation
+      run: |
+        echo $PATH
+        javac -version
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        make distrib -j4
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: |
+          distribution/*.exe
