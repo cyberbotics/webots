@@ -73,10 +73,7 @@ JAVA_FILES      = Accelerometer.java \
                   TouchSensor.java \
                   wrapper.java \
                   wrapperJNI.java
-JAVA_SOURCES    = $(addprefix $(SWIG_OUTPUT_PATH)/,$(JAVA_FILES))
 LIBNAME         = JavaController
-
-.PHONY: JAVA_CLASSES
 
 #compilation options
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
@@ -137,10 +134,6 @@ release debug profile:
 else
 release debug profile: $(JAR_FILE) $(TARGET)
 
-JAVA_CLASSES: $(JAVA_SOURCES)
-	@echo "# compiling  Java sources"
-	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
-
 $(WRAPPER_OBJECT): $(WRAPPER)
 	@echo "# compiling  "$(notdir $^)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
@@ -162,12 +155,12 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
 	$^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lm -o "$@"
 
-$(JAR_FILE): JAVA_CLASSES
+$(JAR_FILE): $(WRAPPER)
+	@echo "# compiling  Java sources"
+	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
 	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
-
-$(JAVA_SOURCES): $(WRAPPER)
 
 $(WRAPPER): $(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# generating "$(notdir $@)
