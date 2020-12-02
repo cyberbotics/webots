@@ -27,6 +27,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.paramsPointer = undefined;
     this.radiusPointer = undefined;
     this.flipNormalYPointer = undefined;
+    this.previousInverseViewMatrixPointer = undefined;
   }
 
   setHalfResolution(halfResolution) {
@@ -51,15 +52,14 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   applyOldInverseViewMatrixToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-    let previousInverseViewMatrixPointer
     if(typeof this.previousInverseViewMatrix !== 'number')
-      previousInverseViewMatrixPointer = arrayXPointerFloat(this.previousInverseViewMatrix);
-    else
-      previousInverseViewMatrixPointer = this.previousInverseViewMatrix;
+      this.previousInverseViewMatrixPointer = arrayXPointerFloat(this.previousInverseViewMatrix);
+    else{
+      _free(this.previousInverseViewMatrixPointer);
+      this.previousInverseViewMatrixPointer = this.previousInverseViewMatrix;
+    }
 
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.temporalPass, "previousInverseViewMatrix", previousInverseViewMatrixPointer]);
-    if(typeof this.previousInverseViewMatrix !== 'number')
-      _free(previousInverseViewMatrixPointer);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.temporalPass, "previousInverseViewMatrix", this.previousInverseViewMatrixPointer]);
   }
 
   copyNewInverseViewMatrix(inverseViewMatrix) {
@@ -127,6 +127,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
 
     this.params[0] = this.rotations[this.frameCounter % 6] / 360.0;
     this.params[1] = this.offsets[Math.floor(this.frameCounter / 6) %4];
+
     _free(this.paramsPointer);
     this.paramsPointer = arrayXPointerFloat(this.params);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "params", this.paramsPointer]);
