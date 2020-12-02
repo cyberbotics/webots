@@ -174,4 +174,4 @@ jobs:
     - name: Delete artifacts
       uses: geekyeggo/delete-artifact@v1
       with:
-        name: bild-${{ matrix.os }}
+        name: build-${{ matrix.os }}
