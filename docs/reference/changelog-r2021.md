@@ -22,3 +22,4 @@ Released on December XXth, 2020.
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**
     - **Changed ROS message type published by the [GPS](gps.md) node when it is configured to work in `local` GPS coordinate system ([#2368](https://github.com/cyberbotics/webots/pull/2368))**.
+    - Fixed updating the robot's device list after importing a device node at run time in a field descending from a joint ([#2482](https://github.com/cyberbotics/webots/pull/2482)).

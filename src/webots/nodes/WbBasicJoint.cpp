@@ -113,6 +113,9 @@ void WbBasicJoint::postFinalize() {
     e->postFinalize();
 
   connect(mEndPoint, &WbSFNode::changed, this, &WbBasicJoint::updateEndPoint);
+  const WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
+  assert(pg);
+  connect(this, &WbBasicJoint::endPointChanged, pg, &WbGroup::insertChildFromSlotOrJoint);
   connect(mParameters, &WbSFNode::changed, this, &WbBasicJoint::updateParameters);
 
   WbSolid *const s = solidEndPoint();
