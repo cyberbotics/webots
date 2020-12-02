@@ -93,6 +93,9 @@ jobs:
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
