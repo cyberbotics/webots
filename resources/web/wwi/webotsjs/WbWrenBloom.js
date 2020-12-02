@@ -1,11 +1,13 @@
 import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
 import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
+import {pointerOnFloat} from "./WbUtils.js";
 
 class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   constructor(){
     super();
     this.threshold = 10.0;
+    this.thresholdPointer = undefined;
   }
 
   setup(viewport) {
@@ -48,8 +50,9 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     if (!this.wrenPostProcessingEffect)
       return;
     let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "brightPassFilter"]);
-    let thresholdPointer = _wrjs_pointerOnFloat(this.threshold);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", thresholdPointer]);
+    _free(this.thresholdPointer);
+    this.thresholdPointer = pointerOnFloat(this.threshold);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", this.thresholdPointer]);
   }
 }
 

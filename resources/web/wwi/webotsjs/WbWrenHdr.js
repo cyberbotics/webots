@@ -1,10 +1,13 @@
 import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
+import {pointerOnFloat} from "./WbUtils.js";
 
 class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
   constructor(){
     super();
     this.exposure = 1.0;
+
+    this.exposurePointer = undefined;
   }
 
   setup(viewport){
@@ -41,8 +44,9 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect{
     if (!this.wrenPostProcessingEffect)
       return;
     let firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect)
-    let exposurePointer = _wrjs_pointerOnFloat(this.exposure);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, "exposure", exposurePointer]);
+    _free(this.exposurePointer);
+    this.exposurePointer = pointerOnFloat(this.exposure);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, "exposure", this.exposurePointer]);
   }
 
   hdrResolve(width, height) {

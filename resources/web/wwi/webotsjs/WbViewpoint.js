@@ -26,8 +26,8 @@ class WbViewpoint extends WbBaseNode {
     this.inverseViewMatrix;
 
     this.wrenHdr = new WbWrenHdr();
-    //this.wrenGtao = new WbWrenGtao();
-    this.wrenBloom = new WbWrenBloom();
+    this.wrenGtao = new WbWrenGtao();
+    //this.wrenBloom = new WbWrenBloom();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
   }
@@ -261,7 +261,6 @@ class WbViewpoint extends WbBaseNode {
 
   postFinalize() {
     super.postFinalize();
-    this.updateFieldOfView();
     this.updatePostProcessingEffects();
     if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();

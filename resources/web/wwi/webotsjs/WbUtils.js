@@ -22,6 +22,27 @@ function arrayXPointer(array) {
   return dataHeap.byteOffset;
 }
 
+function arrayXPointerFloat(array) {
+  let data = new Float32Array(array);
+  let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+  let dataPtr = Module._malloc(nDataBytes);
+  let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+  dataHeap.set(new Uint8Array(data.buffer));
+
+  return dataHeap.byteOffset;
+}
+
+function pointerOnFloat(float) {
+  let data = new Float32Array(1);
+  data[0] = float;
+  let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+  let dataPtr = Module._malloc(nDataBytes);
+  let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+  dataHeap.set(new Uint8Array(data.buffer));
+
+  return dataHeap.byteOffset;
+}
+
 function direction(vec4)  {
   let c = Math.cos(vec4.w), s = Math.sin(vec4.w), t = 1 - c;
   let tTimesZ = t * vec4.z;
@@ -103,4 +124,4 @@ function findUpperTransform(node) {
 }
 
 
-export {array3Pointer, arrayXPointer, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}
+export {array3Pointer, arrayXPointer, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}

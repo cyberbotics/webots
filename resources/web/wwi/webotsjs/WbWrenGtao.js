@@ -1,7 +1,7 @@
 import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
 import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
-import {arrayXPointer} from "./WbUtils.js";
+import {arrayXPointerFloat, pointerOnFloat} from "./WbUtils.js";
 
 class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   constructor(){
@@ -22,6 +22,11 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
     this.offsets = [0.0, 0.5, 0.25, 0.75];
     this.previousInverseViewMatrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+    this.clipInfoPointer = undefined;
+    this.paramsPointer = undefined;
+    this.radiusPointer = undefined;
+    this.flipNormalYPointer = undefined;
   }
 
   setHalfResolution(halfResolution) {
@@ -48,7 +53,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
       return;
     let previousInverseViewMatrixPointer
     if(typeof this.previousInverseViewMatrix !== 'number')
-      previousInverseViewMatrixPointer = arrayXPointer(this.previousInverseViewMatrix);
+      previousInverseViewMatrixPointer = arrayXPointerFloat(this.previousInverseViewMatrix);
     else
       previousInverseViewMatrixPointer = this.previousInverseViewMatrix;
 
@@ -115,22 +120,22 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.clipInfo[1] = this.far ? this.far : 1000000.0;
     this.clipInfo[2] = 0.5 * (_wr_viewport_get_height(this.wrenViewport) / (2.0 * Math.tan(this.fov * 0.5)));
 
-    let array4 = _wrjs_array4_char(this.clipInfo[0], this.clipInfo[1], this.clipInfo[2], this.clipInfo[3]);
+    _free(this.clipInfoPointer);
+    this.clipInfoPointer = arrayXPointerFloat(this.clipInfo);
 
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "clipInfo", array4]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "clipInfo", this.clipInfoPointer]);
 
     this.params[0] = this.rotations[this.frameCounter % 6] / 360.0;
     this.params[1] = this.offsets[Math.floor(this.frameCounter / 6) %4];
-
-    //this.params[0] pose problème
-
-    let paramsPointer = _wrjs_array4_char(this.params[0], this.params[1], this.params[2], this.params[3]);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "params", paramsPointer]);
-    let radiusPointer = _wrjs_pointerOnFloat(this.radius);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "radius", radiusPointer]);
-    let flipNormalYPointer = _wrjs_pointerOnFloat(this.flipNormalY);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "flipNormalY", flipNormalYPointer]);
-
+    _free(this.paramsPointer);
+    this.paramsPointer = arrayXPointerFloat(this.params);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "params", this.paramsPointer]);
+    _free(this.radiusPointer);
+    this.radiusPointer = pointerOnFloat(this.radius);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "radius", this.radiusPointer]);
+    _free(this.flipNormalYPointer);
+    this.flipNormalYPointer = pointerOnFloat(this.flipNormalY);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.gtaoPass, "flipNormalY", this.flipNormalYPointer]);
     ++this.frameCounter;
   }
 }
