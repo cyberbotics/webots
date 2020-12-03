@@ -20,7 +20,15 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
 PYTHON_COMMAND ?= python
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))

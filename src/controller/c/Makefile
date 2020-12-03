@@ -20,6 +20,17 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+	@echo "  make count-lines           count the lines of code of C controller library"
+
+count-lines:
+	wc -l *.c* *.h*
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME_PATH)/dependencies
@@ -102,14 +113,6 @@ OBJECTS=$(notdir $(SOURCES:.c=.o))
 %:: s.%
 %:: SCCS/s.%
 
-default:
-	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
-	@echo "  make debug                 for debug (with gdb symbols)"
-	@echo "  make profile               for profiling (with gprof information)"
-	@echo "  make release               for finale release"
-	@echo "  make clean                 remove build directory"
-	@echo "  make count-lines           count the lines of code of libController"
-
 ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is either of those
 -include $(addprefix $(OBJDIR)/,$(notdir $(SOURCES:.c=.d)))
 endif
@@ -182,5 +185,3 @@ FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/libController.lib
 FILES_TO_REMOVE += $(WEBOTS_HOME_PATH)/msys64/mingw32/bin/Controller.dll
 FILES_TO_REMOVE += $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/libController.a
 FILES_TO_REMOVE += $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/Controller.lib
-count-lines:
-	wc -l *.c* *.h*

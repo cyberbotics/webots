@@ -20,6 +20,13 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 .DEFAULT_GOAL := release
