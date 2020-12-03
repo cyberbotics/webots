@@ -41,7 +41,7 @@ ifeq ($(UBUNTU_VERSION), 16.04)
 	@+PYTHON_COMMAND=python3.5 make -s -C python $@
 endif
 	@echo "#"
-	@echo "# Python 3.6 controller library ("$@")
+	@echo "# Python 3.6 controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=python3.6 make -s -C python $@
 	@echo "#"
