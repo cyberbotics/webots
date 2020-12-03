@@ -106,13 +106,12 @@ ECHO_N          = -n
 else
 
 ifeq ($(OSTYPE),darwin)
-JAVA_HEADERS    = $(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
 CFLAGS1         = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-PLATFORM_INCLUDE= -I"$(JAVA_HEADERS)"
+PLATFORM_INCLUDE= -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
 TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
 CFLAGS2         = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
 JNILIB_FLAGS    = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../../..
-JAVA_INCLUDES   = -I$(JAVA_HEADERS)
+JAVA_INCLUDES   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ECHO_N          = '\c'ifdef USE_STD_CXX
