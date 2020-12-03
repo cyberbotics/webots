@@ -1,3 +1,4 @@
+name: Test Suite macOS (develop)
 
 on:
   schedule:
