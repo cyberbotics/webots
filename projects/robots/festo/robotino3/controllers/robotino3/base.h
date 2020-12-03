@@ -34,7 +34,8 @@ void base_turn_left();
 void base_turn_right();
 void base_strafe_left();
 void base_strafe_right();
-void base_set_wheel_velocity(WbDeviceTag t, double velocity);
+void base_apply_speeds(double vx, double vy, double omega);
+void base_accelerate();
 void base_set_speeds(double vx, double vy, double omega);
 void base_braitenberg_avoidance();
 
