@@ -1,3 +1,4 @@
+name: Test Suite Windows
 
 on:
   pull_request:
