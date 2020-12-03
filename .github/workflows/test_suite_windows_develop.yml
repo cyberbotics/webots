@@ -1,13 +1,8 @@
-name: Test Suite Windows
+name: Test Suite Windows (develop)
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 23 * * *'
-  push:
-    tags:
-      - '*'
 
 defaults:
   run:
@@ -34,6 +29,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         ref: develop
     - name: Install Visual Studio 10 and OpenJDK 8
       shell: powershell
       run: |

@@ -12,13 +12,9 @@ WorldInfo {
     ContactProperties {
       material1 "WheelMat"
       coulombFriction [
-        1.8, 0, 0.2
+        0, 2, 0
       ]
-      frictionRotation 0.9648 0
       bounce 0
-      forceDependentSlip [
-        10, 0
-      ]
     }
   ]
 }
@@ -69,8 +65,8 @@ DEF ROOF RectangleArena {
   }
 }
 Robotino3 {
-  translation -4.896 0.00815182 -0.32
-  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  translation -4.896 0.00815 -0.32
+  rotation 1 0 0 -1.5708
   topSlot [
     Robotino3HokuyoMountingSupport {
       extensionSlot [
