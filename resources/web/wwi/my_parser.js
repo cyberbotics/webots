@@ -24,6 +24,7 @@ import {WbImage} from "./webotsjs/WbImage.js";
 import {WbDirectionalLight} from "./webotsjs/WbDirectionalLight.js";
 import {WbPointLight} from "./webotsjs/WbPointLight.js";
 import {WbSpotLight} from "./webotsjs/WbSpotLight.js";
+import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
 
@@ -33,6 +34,7 @@ class MyParser {
       this.prefix = "http://localhost:1234/";
       this.irradiancePrefix = "/projects/default/worlds/"
       let world = new World();
+      this.fog = false;
   }
 
   parse(text){
@@ -93,6 +95,8 @@ class MyParser {
       result = await this.parsePointLight(node, currentNode);
     else if (node.tagName === 'SpotLight')
       result = await this.parseSpotLight(node, currentNode);
+    else if (node.tagName === 'Fog' && !this.fog)
+      result = await this.parseFog(node);
     else {
       console.log(node.tagName);
       console.error("The parser doesn't support this type of node");
@@ -358,7 +362,7 @@ class MyParser {
     //TODO USE
     let id = getNodeAttribute(node, 'id');
     let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
     let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
@@ -381,7 +385,7 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
     let location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
     let radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
@@ -406,7 +410,7 @@ class MyParser {
     let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     let beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'), false);
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     let cutOffAngle = parseFloat(getNodeAttribute(node, 'cutOffAngle', '0.785'));
     let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
     let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
@@ -424,6 +428,22 @@ class MyParser {
     World.instance.nodes[spotLight.id] = spotLight;
 
     return spotLight;
+  }
+
+  async parseFog(node) {
+    let id = getNodeAttribute(node, 'id');
+    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
+    let visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
+    let fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
+
+    let fog = new WbFog(id, color, visibilityRange, fogType);
+
+    World.instance.nodes[fog.id] = fog;
+
+    if(typeof fog !== 'undefined')
+      this.fog = true;
+
+    return fog;
   }
 
   async parseGeometry(node, parentId) {
@@ -633,6 +653,7 @@ class MyParser {
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
+    const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
     const textureProperties = node.getElementsByTagName('TextureProperties')[0];
     let anisotropy = 8;
@@ -644,7 +665,7 @@ class MyParser {
     if(typeof url !== 'undefined' && url !== '') {
       url = this.prefix + url
       let image = await this.loadTextureData(url);
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, anisotropy, image);
+      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering, anisotropy, image);
     }
 
     if(typeof imageTexture !== 'undefined'){

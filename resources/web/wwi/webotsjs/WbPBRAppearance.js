@@ -2,6 +2,7 @@ import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbBackground} from "./WbBackground.js";
 import {array3Pointer} from "./WbUtils.js";
+import {textureQuality} from "./WbPreferences.js";
 
 
 class WbPBRAppearance extends WbAbstractAppearance {
@@ -150,7 +151,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
 
 
     if (WbPBRAppearance.cInstanceCounter == 0) {
-      let quality = 2;//TODO: WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+      let quality = textureQuality;
       let resolution = Math.pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
       WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
     }

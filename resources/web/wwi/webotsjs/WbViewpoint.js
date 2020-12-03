@@ -2,6 +2,8 @@ import {WbBaseNode} from "./WbBaseNode.js";
 import {WbWrenHdr} from "./WbWrenHdr.js";
 import {WbWrenGtao} from "./WbWrenGtao.js";
 import {WbWrenBloom} from "./WbWrenBloom.js";
+import {GTAO_LEVEL} from "./WbPreferences.js";
+
 
 import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
 
@@ -26,8 +28,8 @@ class WbViewpoint extends WbBaseNode {
     this.inverseViewMatrix;
 
     this.wrenHdr = new WbWrenHdr();
-    this.wrenGtao = new WbWrenGtao();
-    //this.wrenBloom = new WbWrenBloom();
+    //this.wrenGtao = new WbWrenGtao();
+    this.wrenBloom = new WbWrenBloom();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
   }
@@ -167,9 +169,7 @@ class WbViewpoint extends WbBaseNode {
     }
 
     if (this.wrenGtao) {
-      //TODO
-      //let qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
-      let qualityLevel = 2;
+      let qualityLevel = GTAO_LEVEL;
       if (qualityLevel === 0)
         this.wrenGtao.detachFromViewport();
       else {
@@ -201,15 +201,13 @@ class WbViewpoint extends WbBaseNode {
       this.updateExposure();
 
     if (this.wrenGtao) {
-      //if (this.ambientOcclusionRadius == 0.0 || !WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt()) {
-      if (this.ambientOcclusionRadius == 0.0){
+      if (this.ambientOcclusionRadius == 0.0 || GTAO_LEVEL === 0){
         this.wrenGtao.detachFromViewport();
         return;
       } else if (!this.wrenGtao.hasBeenSetup)
         this.wrenGtao.setup(this.wrenViewport);
 
-      //let qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
-      let qualityLevel = 2;
+      let qualityLevel = GTAO_LEVEL;
       this.updateNear();
       this.wrenGtao.setRadius(this.ambientOcclusionRadius);
       this.wrenGtao.setQualityLevel(qualityLevel);

@@ -1,15 +1,17 @@
 import {WbBaseNode} from "./WbBaseNode.js"
 import {arrayXPointer} from "./WbUtils.js";
+import {textureFiltering} from "./WbPreferences.js";
 
 
 class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, anisotropy, image){
+  constructor(id, url, isTransparent, s, t, filtering, anisotropy, image){
     super(id);
     this.url = url;
 
     this.isTransparent = isTransparent;
     this.repeatS = s;
     this.repeatT = t;
+    this.filtering = filtering;
 
     this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
@@ -23,6 +25,7 @@ class WbImageTexture extends WbBaseNode {
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
+    console.log(this.usedFiltering);
     if (!wrenMaterial)
       return;
     this.wrenTextureIndex = mainTextureIndex;
@@ -98,6 +101,7 @@ class WbImageTexture extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
     this.updateUrl();
+    this.updateFiltering();
   }
 
   postFinalize() {
@@ -111,6 +115,12 @@ class WbImageTexture extends WbBaseNode {
     this.updateWrenTexture();
   }
 
+  updateFiltering() {
+    // The filtering level has an upper bound defined by the maximum supported anisotropy level.
+    // A warning is not produced here because the maximum anisotropy level is not up to the user
+    // and may be repeatedly shown even though a minimum requirement warning was already given.
+    this.usedFiltering = Math.min(this.filtering, textureFiltering);
+  }
 }
 
 export {WbImageTexture}
