@@ -66,7 +66,6 @@ DEF ROOF RectangleArena {
 }
 Robotino3 {
   translation -4.896 0.00815 -0.32
-  rotation 1 0 0 -1.5708
   topSlot [
     Robotino3HokuyoMountingSupport {
       extensionSlot [
