@@ -142,7 +142,7 @@ class MyParser {
     let position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     let exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     let bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
-    let far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
+    let far = parseFloat(getNodeAttribute(node, 'far', '2000'));
     let zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
     let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
     let ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
