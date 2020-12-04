@@ -9,7 +9,7 @@ import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
 
 
 class WbViewpoint extends WbBaseNode {
-  constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness) {
+  constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness, ambientOcclusionRadius) {
     super(id);
     this.orientation = orientation;
     this.position = position;
@@ -23,7 +23,7 @@ class WbViewpoint extends WbBaseNode {
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
     this.followsmoothness = followsmoothness;
-    this.ambientOcclusionRadius = 2;
+    this.ambientOcclusionRadius = ambientOcclusionRadius;
 
     this.inverseViewMatrix;
 
