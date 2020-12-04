@@ -25,7 +25,6 @@ class WbImageTexture extends WbBaseNode {
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
-    console.log(this.usedFiltering);
     if (!wrenMaterial)
       return;
     this.wrenTextureIndex = mainTextureIndex;

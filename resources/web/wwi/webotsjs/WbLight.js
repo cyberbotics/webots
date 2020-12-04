@@ -28,8 +28,27 @@ class WbLight extends WbBaseNode {
   applyLightShadowsToWren(){}
 
   applySceneAmbientColorToWren() {
-    //TODO: not needed until we export ambientIntensity
-    //this.computeAmbientLight();
+    this.computeAmbientLight();
+  }
+
+  computeAmbientLight() {
+    let rgb = glm.vec3(0.0, 0.0, 0.0);
+
+    WbLight.lights.forEach (light => {
+      if (light.on) {
+          rgb.x += light.ambientIntensity * light.color.x;
+          rgb.y += light.ambientIntensity * light.color.y;
+          rgb.z += light.ambientIntensity * light.color.z;
+      }
+    });
+
+    _wr_scene_set_ambient_light(_wrjs_color_array(rgb.x, rgb.y, rgb.z));
+  }
+
+  preFinalize() {
+    WbLight.lights.push(this);
   }
 }
+
+WbLight.lights = [];
 export {WbLight}
