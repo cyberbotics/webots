@@ -13,9 +13,10 @@ class WbWrenPostProcessingEffects {
     let targetTexture = _wr_texture_2d_new();
     _wr_texture_set_translucent(targetTexture, true);
     _wr_texture_set_size(targetTexture, image.width, image.height);
+
     let bitsPointer = arrayXPointer(image.bits);
     _wr_texture_2d_set_data(targetTexture, bitsPointer);
-    _wr_texture_2d_set_file_path(targetTexture, image.url);
+    Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [targetTexture, image.url]);
     _wr_texture_2d_set_cache_persistency(targetTexture, true);
     _wr_texture_set_translucent(targetTexture, image.isTranslucent);
     _wr_texture_setup(targetTexture)
@@ -24,6 +25,7 @@ class WbWrenPostProcessingEffects {
   }
 
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
+
     let gtaoEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(gtaoEffect, 0);//enum
 

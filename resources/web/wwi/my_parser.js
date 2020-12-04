@@ -791,15 +791,8 @@ class MyParser {
    context.drawImage(img, 0, 0);
    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
    let data = new Uint8ClampedArray(dataBGRA.length);
-   if(bgra){
-     for(let x = 0; x < dataBGRA.length; x = x+4){
-       data[0+x] = dataBGRA[2+x];
-       data[1+x] = dataBGRA[1+x];
-       data[2+x] = dataBGRA[0+x];
-       data[3+x] = dataBGRA[3+x];
-    }
-  }else
-    data = dataBGRA;
+
+   data = dataBGRA;
 
 
    let image = new WbImage();

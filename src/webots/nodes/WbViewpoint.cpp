@@ -117,7 +117,7 @@ void WbViewpoint::init() {
   mWrenViewport = NULL;
   mWrenSmaa = NULL;  // new WbWrenSmaa();
   mWrenHdr = new WbWrenHdr();
-  mWrenGtao = NULL;  // new WbWrenGtao();
+  mWrenGtao = new WbWrenGtao();
   mWrenBloom = new WbWrenBloom();
   mInverseViewMatrix = NULL;
 
