@@ -29,7 +29,7 @@
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QVector>

@@ -20,7 +20,15 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
 PYTHON_COMMAND ?= python
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
@@ -91,9 +99,11 @@ else
 release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# generating "$@
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking    "$@
 	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
@@ -103,6 +113,7 @@ $(LIBCPPCONTROLLER):
 	@echo "$(LIBCPPCONTROLLER) doesn't exist"
 
 $(WRAPPER_OBJECT):$(WRAPPER)
+	echo "# compiling  "$<
 	$(CXX) $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
 endif
 

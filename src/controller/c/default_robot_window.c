@@ -47,8 +47,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "../util/base64.h"
-#include "../util/g_image.h"
+#include "base64.h"
+#include "g_image.h"
 #include "robot_private.h"
 
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))

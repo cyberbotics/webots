@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-#include "../util/g_image.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/lidar.h>
 #include <webots/robot.h>
 #include "abstract_camera.h"
+#include "g_image.h"
 #include "messages.h"
 #include "remote_control_private.h"
 #include "robot_private.h"

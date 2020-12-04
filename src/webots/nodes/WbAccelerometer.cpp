@@ -24,7 +24,7 @@
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
 #include <cassert>
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 void WbAccelerometer::init() {
   for (int i = 0; i < 3; i++) {

@@ -20,44 +20,67 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+	@echo "  make count-lines           count the lines of code of C++ controller library"
+
+count-lines:
+	wc -l *.c* *.h*
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-CPPSRC        = Accelerometer.cpp \
-                Brake.cpp \
-                Camera.cpp \
-                Compass.cpp \
-                Connector.cpp \
-                Device.cpp \
-                DifferentialWheels.cpp \
-                Display.cpp \
-                DistanceSensor.cpp \
-                Emitter.cpp \
-                Field.cpp \
-                GPS.cpp \
-                Gyro.cpp \
-                InertialUnit.cpp \
-                Joystick.cpp \
-                Keyboard.cpp \
-                LED.cpp \
-                Lidar.cpp \
-                LightSensor.cpp \
-                Motion.cpp \
-                Motor.cpp \
-                Mouse.cpp \
-                Node.cpp \
-                Pen.cpp \
-                PositionSensor.cpp \
-                Radar.cpp \
-                RangeFinder.cpp \
-                Receiver.cpp \
-                Robot.cpp \
-                Skin.cpp \
-                Speaker.cpp \
-                Supervisor.cpp \
-                TouchSensor.cpp
+OBJDIR = build/$(MAKECMDGOALS)
+ifneq (,$(findstring $(MAKECMDGOALS),debug profile release))
+BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR))
+endif
 
-CPPOBJS        = $(CPPSRC:.cpp=.o)
-DEPENDENCIES   = $(CPPSRC:.cpp=.d)
+vpath %.o $(OBJDIR)
+vpath %.cpp .
+
+CPPSRC = Accelerometer.cpp \
+         Brake.cpp \
+         Camera.cpp \
+         Compass.cpp \
+         Connector.cpp \
+         Device.cpp \
+         DifferentialWheels.cpp \
+         Display.cpp \
+         DistanceSensor.cpp \
+         Emitter.cpp \
+         Field.cpp \
+         GPS.cpp \
+         Gyro.cpp \
+         InertialUnit.cpp \
+         Joystick.cpp \
+         Keyboard.cpp \
+         LED.cpp \
+         Lidar.cpp \
+         LightSensor.cpp \
+         Motion.cpp \
+         Motor.cpp \
+         Mouse.cpp \
+         Node.cpp \
+         Pen.cpp \
+         PositionSensor.cpp \
+         Radar.cpp \
+         RangeFinder.cpp \
+         Receiver.cpp \
+         Robot.cpp \
+         Skin.cpp \
+         Speaker.cpp \
+         Supervisor.cpp \
+         TouchSensor.cpp
+
+OBJECTS = $(CPPSRC:.cpp=.o)
+CPPOBJS = $(addprefix $(OBJDIR)/, $(OBJECTS))
+
+ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is either of those
+-include $(addprefix $(OBJDIR)/,$(notdir $(CPPSRC:.cpp=.d)))
+endif
 
 ifeq ($(OSTYPE),windows)
 LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
@@ -94,6 +117,7 @@ endif
 all debug profile release: $(TARGET)
 
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
+	echo "# linking "$@
 	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
 
 $(LIBCONTROLLER):
@@ -102,12 +126,14 @@ $(LIBCONTROLLER):
 -include $(DEPENDENCIES)
 
 # cpp compilation rule
-%.o:%.cpp
+$(OBJDIR)/%.o:%.cpp
+	@echo "# compiling "$<
 	$(CXX) $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
 
 # dependency rule
-%.d:%.cpp
-	$(CXX) $(CPPINCLUDES) -MM $< > $@
+$(OBJDIR)/%.d:%.cpp
+	@echo "# updating "$(notdir $@)
+	@$(CXX) $(CPPINCLUDES) -MM $< > $@
 
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a *.def *.exp

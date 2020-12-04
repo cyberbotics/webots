@@ -226,19 +226,6 @@ resources/fonts/
 resources/fonts/fallback_fonts.txt
 resources/fonts/SIL-Open-Font-License.txt
 resources/fonts/*.ttf
-resources/languages/
-resources/languages/cpp/
-resources/languages/cpp/*.cpp
-resources/languages/cpp/Makefile
-resources/languages/java/
-resources/languages/java/controller.i
-resources/languages/java/Makefile
-resources/languages/java/SWIG_generated_files/
-resources/languages/java/SWIG_generated_files/*.java
-resources/languages/java/SWIG_generated_files/*.cpp
-resources/languages/python/
-resources/languages/python/controller.i
-resources/languages/python/Makefile
 resources/templates/
 resources/templates/controllers [recurse]
 resources/templates/plugins/
@@ -367,6 +354,23 @@ resources/qt_warning_filters.conf
 
 scripts/
 scripts/preferences_cleaner [recurse]
+
+src/
+src/controller/
+src/controller/cpp/
+src/controller/cpp/*.cpp
+src/controller/cpp/Makefile
+src/controller/java/
+src/controller/java/controller.i
+src/controller/java/Makefile
+src/controller/java/SWIG_generated_files/
+src/controller/java/SWIG_generated_files/*.java
+src/controller/java/SWIG_generated_files/*.cpp
+src/controller/python/
+src/controller/python/controller.i
+src/controller/python/Makefile
+src/controller/matlab/
+src/controller/matlab/mgenerate.py
 
 util/ [mac]
 util/ffmpeg [mac]

@@ -20,6 +20,7 @@ import re
 
 PROC = 0
 FUNC = 1
+FOLDER = '../../../lib/controller/matlab/'
 
 
 def gen_with_doc(type, line, doc_url=None):
@@ -27,7 +28,7 @@ def gen_with_doc(type, line, doc_url=None):
     assert match
     function = match.group(1)
     arguments = match.group(2)
-    with open(function + '.m', 'w') as file:
+    with open(FOLDER + function + '.m', 'w', newline='\n') as file:
         result = 'result = ' if type == FUNC else ''
         file.write('function %s%s(%s)\n' % (result, function, arguments))
         file.write('%% Usage: %s(%s)\n' % (function, arguments))
@@ -43,7 +44,7 @@ def gen(type, line, doc_page=None):
 
 
 def gen_const(name, value):
-    with open(name + '.m', 'w') as file:
+    with open(FOLDER + name + '.m', 'w', newline='\n') as file:
         file.write('function value = %s\n' % name)
         file.write('value = %s;\n' % value)
 
@@ -628,7 +629,8 @@ gen_const("ANSI_WHITE_BACKGROUND", "strcat(27, '[47m')")
 gen_const("ANSI_CLEAR_SCREEN", "strcat(27, '[2J')")
 
 # these lists are exact copy paste from the doc (without the commented lines and with addition of the experimental nodes)
-gen_consts_from_list('WB_DISTANCE_SENSOR_GENERIC, WB_DISTANCE_SENSOR_INFRA_RED, WB_DISTANCE_SENSOR_SONAR, WB_DISTANCE_SENSOR_LASER')
+gen_consts_from_list(
+ 'WB_DISTANCE_SENSOR_GENERIC, WB_DISTANCE_SENSOR_INFRA_RED, WB_DISTANCE_SENSOR_SONAR, WB_DISTANCE_SENSOR_LASER')
 gen_consts_from_list('WB_GPS_LOCAL_COORDINATE, WB_GPS_WGS84_COORDINATE')
 gen_consts_from_list('WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL')
 gen_consts_from_list("""
@@ -658,6 +660,7 @@ gen_consts_from_list("""
     WB_NODE_TRACK, WB_NODE_TRACK_WHEEL, WB_NODE_WORLD_INFO, WB_NODE_ZOOM,
     WB_NODE_MICROPHONE, WB_NODE_RADIO, WB_NODE_SKIN
     """)
-gen_consts_from_list('WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST')
+gen_consts_from_list(
+ 'WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST')
 gen_consts_from_list('WB_ROTATIONAL, WB_LINEAR')
 gen_consts_from_list('WB_TOUCH_SENSOR_BUMPER, WB_TOUCH_SENSOR_FORCE, WB_TOUCH_SENSOR_FORCE3D')
