@@ -31,8 +31,10 @@
 #     original file, with the additional 'hidden' tag added.
 #
 # 2. If <path> does not end in ".proto" -> assumes directory
-#   - creates a backup folder next to our chosen <path>
-#   - searches for every .proto file in <path> recursively and:
+#   - duplicates our chosen <path> and appends "_multiProto_0" to the name
+#   - the original <path> remains unchanged. If executed multiple times, the
+#     trailing number for the <path> duplicates increases.
+#   - searches for every .proto file in the duplicated <path> recursively and:
 #       - ignores .proto file with either no header or a 'hidden' tag
 #       - replaces the file with a version, where meshes are extracted and put
 #         into a "<filename>_meshes" folder.
@@ -66,11 +68,11 @@ class proto2multi:
         filepath = "{}/{}.proto".format(self.meshFilesPath, name)
         meshProtoFile = open(filepath, "w")
         self.header(meshProtoFile)
-        meshProtoFile.write("PROTO {}Mesh [\n]\n{}\n".format(name, "{"))
+        meshProtoFile.write("PROTO {} [\n]\n{}\n".format(name, "{"))
         meshProtoFile.write(string)
         meshProtoFile.write("}\n")
         meshProtoFile.close()
-        replaceString = "{}Mesh {}\n".format(name, "{")
+        replaceString = "{} {}\n".format(name, "{")
         self.shapeIndex += 1
         return replaceString
 
@@ -101,6 +103,7 @@ class proto2multi:
                 if not line.startswith("#"):
                     print("skipping - proto file has no header " + outFile)
                     self.pf.close()
+                    self.f.close()
                     self.cleanup(inFile, outFile)
                     return
                 while line.startswith("#"):
@@ -119,8 +122,9 @@ class proto2multi:
                 ln = line.split()
                 eof += 1
                 if eof > 10:
-                    self.cleanup(inFile)
+                    self.f.close()
                     self.pf.close()
+                    self.cleanup(inFile)                    
                     return
             if "IndexedFaceSet" in ln:
                 shapeLevel = 1
@@ -154,8 +158,7 @@ class proto2multi:
             os.remove(outFile)
 
     def convert_all(self, sourcePath):
-        self.create_backup(sourcePath)
-        outPath = sourcePath
+        outPath = self.create_multiProtoDir(sourcePath)
         os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
@@ -177,15 +180,16 @@ class proto2multi:
             inFile = inFile + "_temp"
             self.convert(inFile, outFile)
 
-    def create_backup(self, sourcePath):
+    def create_multiProtoDir(self, sourcePath):
         # Create a backup of the folder we are converting
-        backupName = os.path.basename(sourcePath) + "_backup_0"
-        backupPath = os.path.dirname(sourcePath) + "/" + backupName
+        newDirName = os.path.basename(sourcePath) + "_multiProto_0"
+        newDirPath = os.path.dirname(sourcePath) + "/" + newDirName
         n = 0
-        while os.path.isdir(backupPath):
+        while os.path.isdir(newDirPath):
             n += 1
-            backupPath = backupPath[:-1] + str(n)
-        shutil.copytree(sourcePath, backupPath)
+            newDirPath = newDirPath[:-1] + str(n)
+        shutil.copytree(sourcePath, newDirPath)
+        return newDirPath
 
 
 if __name__ == "__main__":
