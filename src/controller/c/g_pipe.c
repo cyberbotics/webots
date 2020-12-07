@@ -31,7 +31,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <webots/types.h>
-#include "../api/scheduler.h"
+#include "scheduler.h"
 
 GPipe *g_pipe_new(const char *name) {  // used by Webots 7
   const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");

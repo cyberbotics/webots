@@ -4,6 +4,85 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### KajalGada 11/22/2020 03:06:28
+Back with another tutorial: How to use Position sensor in Webots to compute robot odometry. Code is in Python.
+
+[https://youtu.be/WSjTWcTojHg](https://youtu.be/WSjTWcTojHg)
+
+##### Olivier Michel [Cyberbotics] 11/19/2020 10:41:18
+The AI World Cup is running its second edition with a nice Webots simulation of humanoid soccer robots. See [http://aiworldcup.org](http://aiworldcup.org) and [https://vimeo.com/458892241](https://vimeo.com/458892241). The finals will run this Saturday. Videos of qualification matches are already available online: [http://aiworldcup.org](http://aiworldcup.org)/video/
+
+##### KajalGada 11/13/2020 20:13:36
+Get started with writing your own controller code in Python in Webots with this tutorial. I go over differential drive kinematics and do a small project of driving the robot along a square path. [https://youtu.be/CDOrTKQAOqs](https://youtu.be/CDOrTKQAOqs)
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 08:57:04
+You can also check the presentation of Nobleo Technology in the same video at 13:25 [https://vimeo.com/478574166#t=13m25s](https://vimeo.com/478574166#t=13m25s) which relies on a very nice Webots simulation for their autonomous pallet truck "Ida".
+
+
+Here the lightning talk introducing Webots for ROS2 at ROSWorld 2020 conference: [https://vimeo.com/478574166](https://vimeo.com/478574166).
+
+
+Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutorial, you will learn how to implement a line following behavior for a custom robot with ROS2. [https://youtu.be/ZTJa5f5F5fU](https://youtu.be/ZTJa5f5F5fU)
+
+##### KajalGada 11/11/2020 01:06:46
+`@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
+
+##### Soft\_illusion 11/07/2020 02:08:52
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
+
+Special Thanks to Webots Team for their guidance.
+
+##### Olivier Michel [Cyberbotics] 11/06/2020 13:41:27
+Here is new nice video tutorial teaching you how to create a robot model from scratch: [https://www.youtube.com/watch?v=ebGJzymXv-o](https://www.youtube.com/watch?v=ebGJzymXv-o)
+
+##### Soft\_illusion 11/02/2020 07:06:45
+We are back with the fourth episode of the Webots ROS2 video tutorial series . Video 4: Tutorial on Publishers in ROS2 with Webots [https://www.youtube.com/watch?v=-owqJOH3Des](https://www.youtube.com/watch?v=-owqJOH3Des) Stay tuned for more upcoming interesting episodes. @everyone
+
+##### Siddhi 10/28/2020 17:46:29
+Machines have never ceased to amaze us with the ways they have found a place in our lives. Do you also want to build a machine that will fascinatingly mimic life? *Innerve'20*✨ presents You this competition to put your creation to a trial. You will *simulate your robots to follow a standardised pathway*🤖🤖 set by us in the most accurate way possible. *The platform is Webots.* So get your robots ready now for this exciting battle!👾
+
+
+
+*Date: 7 November, 2020*🗓️
+
+*Time: 2pm*⏰
+
+
+
+All students from schools and colleges can participate and get the chance to *win prizes worth Rs.60000*🎁💰💸
+
+
+
+*Register at:* 💫 [https://www.innerve-igdtuw.in/events/mae.html](https://www.innerve-igdtuw.in/events/mae.html)
+
+
+
+*For queries email us at:* offtrackbotmaetech@gmail.com
+
+
+
+Find more such exciting events. *Visit our website:* ✨ [https://www.innerve-igdtuw.in/](https://www.innerve-igdtuw.in/)
+
+
+
+[https://www.instagram.com/p/CG2iDRUle7x/?igshid=1a4o9pwbtbllz](https://www.instagram.com/p/CG2iDRUle7x/?igshid=1a4o9pwbtbllz)
+
+
+
+[https://www.facebook.com/833869116723997/posts/3176497582461127/?app=fbl](https://www.facebook.com/833869116723997/posts/3176497582461127/?app=fbl)
+
+
+
+[https://twitter.com/Innerveigdtuw/status/1321112692485017601?s=19](https://twitter.com/Innerveigdtuw/status/1321112692485017601?s=19)
+
+
+
+[https://www.linkedin.com/posts/innerve\_innerve-innerve2020-igdtuw-activity-6726877525621956608-eVLy](https://www.linkedin.com/posts/innerve_innerve-innerve2020-igdtuw-activity-6726877525621956608-eVLy)
+
+
+
+\#participate <\#568354695513374730>
+
 ##### Soft\_illusion 10/26/2020 22:30:31
 We are back with the third episode of the Webots ROS2 video tutorial series . Video 3: Using ROS2 Services to interact with Webots. [https://www.youtube.com/watch?v=JS6rwZ3Yql8](https://www.youtube.com/watch?v=JS6rwZ3Yql8). Stay tuned for more upcoming interesting episodes. @everyone
 

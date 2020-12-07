@@ -55,6 +55,7 @@ For example, in order to draw two red lines, the `wb_display_set_color` contextu
 The display image is shown by default on top of the 3D window with a cyan border, see [this figure](#display-overlay-image).
 The user can move this display image at the desired position using the mouse drag and drop and resize it by clicking on the icon at the bottom right corner.
 Additionally a close button is available on the top right corner to hide the image.
+If the mouse cursor is over the overlay image and the simulation is paused, the RGBA value of the selected pixel is displayed in the status bar at the bottom of the Webots window.
 Once the robot is selected, it is also possible to show or hide the overlay image from the `Display Devices` item in `Robot` menu.
 
 It is also possible to show the display image in an external window by double-clicking on it.
@@ -733,4 +734,148 @@ The `wb_display_image_delete` function releases the memory used by a clipboard i
 After this call the value of `ir` becomes invalid and should not be used any more.
 Using this function is recommended after a clipboard image is not needed any more.
 
-> **Note** [Java]: The `Display.imageNew` function can display the image returned by the `Camera.getImage` function directly if the pixel format argument is set to ARGB.
+The following controller snippet shows how to copy a [Camera](camera.md) image to the main display image.
+This is particularly useful if you need to modify the [Camera](camera.md) image before copying it to the main display image, otherwise you should use the [`wb_display_attach_camera`](#wb_display_attach_camera) function that provides a better performance.
+
+%tab-component "language"
+%tab "C"
+```c
+#include <webots/robot.h>
+#include <webots/camera.h>
+#include <webots/display.h>
+
+int main() {
+  wb_robot_init();
+
+  const int time_step = wb_robot_get_basic_time_step();
+  WbDeviceTag camera = wb_robot_get_device("camera");
+  wb_camera_enable(camera, time_step);
+  const int width = wb_camera_get_width(camera);
+  const int height = wb_camera_get_height(camera);
+  WbDeviceTag display = wb_robot_get_device("display");
+
+  while(wb_robot_step(time_step) != -1) {
+    const unsigned char *data = wb_camera_get_image(camera);
+    if (data) {
+      WbImageRef ir = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
+      wb_display_image_paste(display, ir, 0, 0, false);
+      wb_display_image_delete(display, ir);
+    }
+  }
+
+  wb_robot_cleanup();
+  return 0;
+}
+```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <webots/Camera.hpp>
+#include <webots/Display.hpp>
+
+using namespace webots;
+
+int main() {
+  Robot *robot = new Robot();
+  const int timeStep = robot->getBasicTimeStep();
+
+  Camera *camera = robot->getCamera("camera");
+  camera->enable(timeStep);
+  const int width = camera->getWidth();
+  const int height = camera->getHeight();
+  Display *display = robot->getDisplay("display");
+
+  while (robot->step(timeStep) != -1) {
+    const unsigned char *data = camera->getImage();
+    if (data) {
+      ImageRef *ir = display->imageNew(width, height, data, Display::ARGB);
+      display->imagePaste(ir, 0, 0, false);
+      display->imageDelete(ir);
+    }
+  }
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot, Camera, Display
+
+robot = Robot()
+timestep = int(robot.getBasicTimeStep())
+
+camera = robot.getCamera('camera')
+camera.enable(timestep)
+width = camera.getWidth()
+height = camera.getHeight()
+display = robot.getDisplay('display');
+
+while robot.step(32) != -1:
+    data = camera.getImage()
+    if data:
+        ir = display.imageNew(data, Display.ARGB, width, height)
+        display.imagePaste(ir, 0, 0, False)
+        display.imageDelete(ir)
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.Camera;
+import com.cyberbotics.webots.controller.Display;
+import com.cyberbotics.webots.controller.ImageRef;
+
+public class ShowCameraInDisplay {
+
+  public static void main(String[] args) {
+
+    final Robot robot = new Robot();
+    int timeStep = (int) Math.round(robot.getBasicTimeStep());
+
+    Camera camera = robot.getCamera("camera");
+    camera.enable(timeStep);
+    int width = camera.getWidth();
+    int height = camera.getHeight();
+    Display display = robot.getDisplay("display");
+
+    while (robot.step(32) != -1) {
+      int[] data = camera.getImage();
+      if (data != null) {
+        ImageRef ir = display.imageNew(width, height, data, Display.ARGB);
+        display.imagePaste(ir, 0, 0, false);
+        display.imageDelete(ir);
+      }
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+time_step = wb_robot_get_basic_time_step();
+camera = wb_robot_get_device("camera");
+wb_camera_enable(camera, time_step);
+width = wb_camera_get_width(camera);
+height = wb_camera_get_height(camera);
+display = wb_robot_get_device("display");
+
+while wb_robot_step(time_step) ~= -1
+  data = wb_camera_get_image(camera);
+  if data
+    ir = wb_display_image_new(display, width, height, data, ARGB);
+    wb_display_image_paste(display, ir, 0, 0, false);
+    wb_display_image_delete(display, ir);
+  end
+end
+```
+%tab-end
+%end
+
+> **Note**: The `wb_display_image_new` function can display the image returned by the [`wb_camera_get_image`](camera.md#wb_camera_get_image) function directly if the pixel format argument is set to ARGB.

@@ -6,9 +6,11 @@ Released on XXX YYY, 2020.
   - Enhancements
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved [Solid](solid.md).`recognitionColors` value for the [BiscuitBox](../guide/object-kitchen.md#biscuitbox) PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
+    - Improved documentation of [Camera](camera.md) image format and how to show the image retrieved through the [Camera](camera.md) API in a [Display](display.md) device ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
   - Bug fixes
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
     - macOS: Fixed ability to inverse the distance sensor condition in BotStudio with the e-puck robot ([#2391](https://github.com/cyberbotics/webots/pull/2391)).
+    - Fixed crash in the Python [Display.imageNew](display.md#wb_display_image_new) function when passing the image data in string/bytes format ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
     - Fixed crash in the [Supervisor](supervisor.md) API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).
     - Fixed values returned by the [Supervisor](supervisor.md) [get field value](supervisor.md#wb_supervisor_field_get_sf_bool) functions after [setting](supervisor.md#wb_supervisor_field_set_sf_bool) the field value in the same controller step ([#2375](https://github.com/cyberbotics/webots/pull/2375)).
     - Fixed supervisor label color change which was not working if the text remained unchanged ([#2357](https://github.com/cyberbotics/webots/pull/2357)).
@@ -33,8 +35,10 @@ Released on XXX YYY, 2020.
     - Fixed the disabled `Help...` item in the context menu for some nodes ([#2327](https://github.com/cyberbotics/webots/pull/2327)).
     - Added missing `supervisor` field in the `Tractor` and `TeslaModel3` PROTO nodes ([#2351](https://github.com/cyberbotics/webots/pull/2351)).
     - Fixed infra-red [DistanceSensor](distancesensor.md) returned value when pointing at a texture used several times in the world (thanks to [Justin-Fisher](https://github.com/Justin-Fisher)) ([#2378](https://github.com/cyberbotics/webots/pull/2378)).
+    - Fixed performance regression (thanks to [Acwok](https://github.com/Acwok)) ([#2434](https://github.com/cyberbotics/webots/pull/2434)).
   - Dependency Updates
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
+    - **Stopped releasing Webots packages compatible with Ubuntu 16.04.** To run Webots on Ubuntu 16.04, please [compile from sources](https://github.com/cyberbotics/webots/wiki/Linux-installation) ([#2473](https://github.com/cyberbotics/webots/pull/2473)).
 
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.

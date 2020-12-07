@@ -20,6 +20,13 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
+default:
+	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for finale release"
+	@echo "  make clean                 remove build directory"
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 .DEFAULT_GOAL := release
@@ -73,10 +80,7 @@ JAVA_FILES      = Accelerometer.java \
                   TouchSensor.java \
                   wrapper.java \
                   wrapperJNI.java
-JAVA_SOURCES    = $(addprefix $(SWIG_OUTPUT_PATH)/,$(JAVA_FILES))
 LIBNAME         = JavaController
-
-.PHONY: JAVA_CLASSES
 
 #compilation options
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
@@ -102,13 +106,12 @@ ECHO_N          = -n
 else
 
 ifeq ($(OSTYPE),darwin)
-JAVA_HEADERS    = $(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
 CFLAGS1         = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-PLATFORM_INCLUDE= -I"$(JAVA_HEADERS)"
+PLATFORM_INCLUDE= -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
 TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
 CFLAGS2         = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
 JNILIB_FLAGS    = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../../..
-JAVA_INCLUDES   = -I$(JAVA_HEADERS)
+JAVA_INCLUDES   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ECHO_N          = '\c'ifdef USE_STD_CXX
@@ -137,33 +140,36 @@ release debug profile:
 else
 release debug profile: $(JAR_FILE) $(TARGET)
 
-JAVA_CLASSES: $(JAVA_SOURCES)
-	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
-
 $(WRAPPER_OBJECT): $(WRAPPER)
+	@echo "# compiling  "$(notdir $^)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
+	@echo "# compiling  "$^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared $^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -o $@
 	@chmod a-x $@
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
+	@echo "# compiling  "$^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
+	@echo "# linking    "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
 	$^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lm -o "$@"
 
-$(JAR_FILE): JAVA_CLASSES
+$(JAR_FILE): $(WRAPPER)
+	@echo "# compiling  Java sources"
+	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
+	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
 
-$(JAVA_SOURCES): $(WRAPPER)
-
 $(WRAPPER): $(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# generating "$(notdir $@)
 	test -d $(SWIG_OUTPUT_PATH) || mkdir -p $(SWIG_OUTPUT_PATH)
 	$(SWIG) -c++ -java -package $(subst /,.,$(CONTROLLERPATH)) -outdir $(SWIG_OUTPUT_PATH) $(WEBOTS_INCLUDES) -o "$@" $<
 

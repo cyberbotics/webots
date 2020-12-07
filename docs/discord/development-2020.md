@@ -556,14 +556,14 @@ You're welcome.
 
 ## April
 
-##### imjusta23 04/01/2020 17:12:59
+##### angelicaba23 04/01/2020 17:12:59
 Hey, does someone has a code for a light follower?
 
 ##### David Mansolino [Cyberbotics] 04/01/2020 17:18:23
-Hi `@imjusta23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
+Hi `@angelicaba23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
 
-##### imjusta23 04/04/2020 16:23:50
-> Hi `@imjusta23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
+##### angelicaba23 04/04/2020 16:23:50
+> Hi `@angelicaba23`, this sample show a very simple light follower: [https://cyberbotics.com/doc/guide/samples-devices#light\_sensor-wbt](https://cyberbotics.com/doc/guide/samples-devices#light_sensor-wbt)
 
 `@David Mansolino`  thanks!!
 
@@ -661,14 +661,14 @@ Hi, I have a question regarding the Nao robot. I saw WeBots used to be able to i
 ##### Dorteel 04/21/2020 09:13:59
 Thank you `@Stefania Pedrazzi` ! 🙂
 
-##### imjusta23 04/22/2020 20:20:17
+##### angelicaba23 04/22/2020 20:20:17
 Any advice about how to get the epuck moves randomly in this world
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/702614779767947394/image0.jpg)
 %end
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 05:44:20
-Hi `@imjusta23` you might simply use the braitenberg controller.
+Hi `@angelicaba23` you might simply use the braitenberg controller.
 
 ##### fdvalois 04/23/2020 07:34:46
 You just look braitenberg controller online?
@@ -960,7 +960,7 @@ Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Simon Steinmann` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
-##### Axel M [Premier Service] 05/14/2020 09:08:34
+##### PymZoR [Premier Service] 05/14/2020 09:08:34
 `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Simon Steinmann [Moderator] 05/14/2020 12:48:46
 > `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@Axel M` 
+`@PymZoR` 
 
 
 
@@ -1074,7 +1074,7 @@ Is there a way of modifying the usual steering system used in car models?
 ##### David Mansolino [Cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
-##### Axel M [Premier Service] 05/27/2020 16:42:51
+##### PymZoR [Premier Service] 05/27/2020 16:42:51
 I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
 
 
@@ -1939,7 +1939,7 @@ thanks `@Simon Steinmann`, I will follow this
 ##### Simon Steinmann [Moderator] 08/06/2020 11:19:38
 Since I have done quite a few urdf2webots conversions lately, I might as well create a tutorial for it, as the process can be complicated if one has not much experience. Is there any robotic arm that people want to see added to the community projects?
 
-##### željko 08/06/2020 11:23:39
+##### Marko G 08/06/2020 11:23:39
 Hey! I'm just in the middle of trying to wrap my head around urf2webots and a tutorial would be of great help to me! The arms I would like to use are KUKA LBR iiwa and Kinova Jaco and I belive that they would be a good addition as they are quite popular. BTW right now reading older messages as I see that you've had similar problems 🙂
 
 ##### Simon Steinmann [Moderator] 08/06/2020 11:24:34
@@ -1948,7 +1948,7 @@ Yesterday I fixed a huge issue in the converter. The joints should not be wonky 
 
 you got a link to the kuka repo?
 
-##### željko 08/06/2020 11:25:49
+##### Marko G 08/06/2020 11:25:49
 OK, thanks a lot 😄 You've just saved me countless hours hahah :)
 
 I found a github repo with the kuka arm which I'm trying to get to work
@@ -1956,7 +1956,7 @@ I found a github repo with the kuka arm which I'm trying to get to work
 ##### Simon Steinmann [Moderator] 08/06/2020 11:26:00
 link?
 
-##### željko 08/06/2020 11:26:05
+##### Marko G 08/06/2020 11:26:05
 just a sec
 
 
@@ -6917,4 +6917,780 @@ I just had a session with Simon, the RestAPI controller works for him. So it loo
 
 
 Looks like the issue was somehow connected to Fedora (tornado version or whatever), works perfectly on Ubuntu 20.04. So my Rest API Controller is on the way. 😃
+
+##### DrVoodoo [Moderator] 10/29/2020 11:08:53
+What is the best way to get the Node associated with a given Device? The ultimate aim is to get the orientation of a RangeFinder. Alternatively (and probably better) is for me to use an InertialUnit but I'm not sure how to go from the readings on an InertialUnit to a global orientation
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:11:06
+In Webots R2021a we introduced a new function doing exactly this: ``wb\_supervisor\_node\_get\_from\_device ``, you can already get a beta of this version from the nighly builds: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+
+Here is the documentation: [https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb\_supervisor\_node\_get\_from\_device](https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb_supervisor_node_get_from_device)
+
+##### DrVoodoo [Moderator] 10/29/2020 11:12:09
+oooh thanks, ok I'll give that a go
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:12:19
+You're welcome 😉
+
+##### DrVoodoo [Moderator] 10/29/2020 11:13:14
+but i am still a interested in understanding the inertialunit readings
+
+
+oh hang on, just had a thought
+
+
+nope, not that
+
+
+so if i get the node of an inertialunit and grab the rotation matrix, the inertialunit rollpitchyaw readings appear to be different
+
+##### David Mansolino [Cyberbotics] 10/29/2020 11:20:01
+Probably that you have to check that the inertial unit orientation in the robot is correct.
+
+##### DrVoodoo [Moderator] 10/29/2020 11:21:15
+x forward, y up, z side to side?
+
+
+ok will double check
+
+##### Simon Steinmann [Moderator] 10/29/2020 14:56:04
+Question: How many iterations does webots use for ODE collision detection? Where are the default ODE parameters, which cannot be changed by the api, defined?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 15:04:32
+Here is where the ODE step function is called:[https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/engine/WbSimulationCluster.cpp#L101](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/engine/WbSimulationCluster.cpp#L101)
+
+
+And here is where ODE is initialize: [https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/ode/WbOdeContext.cpp](https://github.com/cyberbotics/webots/blob/d019ad4906e44a34a94fbea4e110d71af7172c07/src/webots/ode/WbOdeContext.cpp)
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:11:22
+Webots uses "world step" not "quick step" right?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:12:43
+Exactly
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:13:11
+This cannot be changed? (besides changing source code?)
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:13:44
+No, this is currently not open.
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:15:36
+okay thank you 🙂
+
+
+(would be cool, if things like this could be changed by the user in the future)
+
+##### David Mansolino [Cyberbotics] 10/29/2020 18:18:19
+Feel free to open a feature request 😉
+
+[https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
+
+##### Simon Steinmann [Moderator] 10/29/2020 18:18:53
+will do ^^
+
+
+[https://github.com/cyberbotics/webots/blob/master/src/ode/ode/src/objects.cpp#L71](https://github.com/cyberbotics/webots/blob/master/src/ode/ode/src/objects.cpp#L71)
+
+
+am I correct in assuming, that these are the default values for min\_depth and max\_vel?
+
+##### David Mansolino [Cyberbotics] 10/29/2020 20:31:06
+Yes you are.
+
+##### Simon Steinmann [Moderator] 10/30/2020 15:58:31
+I noticed something curious, 2020b runs over twice as fast as 2021a. Any ideas as to why this might be?
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:01:32
+Did you compiled them from sources?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:03:23
+2021a I did, 2020b is tarball I'm pretty sure
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:04:01
+Ok, did you by any chance compiled 2021a in debug mode?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:04:27
+should be in release. Can i check that after the fact?
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:05:05
+the simplest is to try to recompile in release, if it is doing nothing it means it was already in release
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:08:02
+jup, was in release
+
+
+jup, it's just 2-3 times slower
+
+##### David Mansolino [Cyberbotics] 10/30/2020 16:11:07
+Can you reproduce this on every simulations (let's say of the guided tour), or only on specific ones?
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:14:50
+I'll investigate more later
+
+
+ure sample world. 2020b is 3x faster
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/771775850189291610/unknown.png)
+%end
+
+
+I pulled and recompiled 2021a
+
+
+and it is purely the "robot.step()" function
+
+
+that I can gather from our benchmark
+
+
+some internal physics calculation may have changed
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 16:45:21
+From the changelog at [https://github.com/cyberbotics/webots/blob/develop/docs/reference/changelog-r2021.md](https://github.com/cyberbotics/webots/blob/develop/docs/reference/changelog-r2021.md), I cannot see what could be the cause of this performance drop... 🤔
+
+##### Simon Steinmann [Moderator] 10/30/2020 16:49:42
+perhaps you can do the test yourself, open the ure.wbt world on 2020b and 20201a
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:00:00
+OK, I just tested it and for me there is no significant difference between 2020b revision 1 (release) and the current develop branch (R2021a).
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:00:20
+on linux?
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:00:30
+Instead of using the version you compiled yourself for R2021a, can you try one of the nightly builds?
+
+
+No, I am on Windows.
+
+
+I can check on Linux as well...
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:01:59
+downloading the tar
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:07:58
+Are you on Ubuntu 20.04?
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:08:10
+18.04
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:08:23
+OK, same for me.
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:13:52
+the tar version runs faster again
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 17:22:13
+Good news. This means the problem may come from the way you compiled Webots... Can you try to type "make cleanse" at the top level and "make release" again to recompile the whole thing in optimization mode?
+
+##### Simon Steinmann [Moderator] 10/30/2020 17:27:16
+I'm currently doing everything fresh, clean pull etc.
+
+
+I accidentally built the master branch. good news, that one works perfectly
+
+
+okay, compiled the develop branch. works now too 🙂
+
+##### Olivier Michel [Cyberbotics] 10/30/2020 21:22:25
+It could be that you compiled some part in debug mode (either Webots, ODE, Wren or libController)...
+
+##### Simon Steinmann [Moderator] 10/30/2020 21:22:59
+that's my guess too. I did compile it at some point in debug mode
+
+## November
+
+##### DrVoodoo [Moderator] 11/02/2020 14:09:14
+Is anyone able to advise on going from the rpy readings of an inertial unit to the equivilant rotation matrix? Assuming that both the inertial and the device (say a rangefinder) are located at the same position?
+
+
+So if
+
+```
+double roll = inertial->getRollPitchYaw()[0]; 
+double pitch = inertial->getRollPitchYaw()[1];
+double yaw = inertial->getRollPitchYaw()[2];
+```
+
+
+I think the matrix for that should be
+
+` R = Ry(yaw) * Rx(pitch) * Rz(roll)`
+
+
+```Ry = 
+[ cos(y)    0     sin(y)
+    0       1      0
+ -sin(y)    0     cos(y) ]
+```
+
+
+```Rx = 
+[   1       0      0
+    0     cos(p) -sin(p)
+    0     sin(p)  cos(p) ]
+```
+
+
+```Rz = 
+[ cos(r) -sin(r)   0 
+  sin(r)  cos(r)   0
+    0       0      1 ]
+```
+
+
+and that should give me the following matrix but I just cannot figure out where its going wrong
+
+
+```
+[ sin(p)sin(r)sin(y) + cos(r)cos(y)    sin(p)cos(r)sin(y) - sin(r)cos(y)    cos(p)sin(y)
+  cos(p)sin(r)                         cos(p)cos(r)                         -sin(p)
+  sin(p)sin(r)cos(y) - cos(r)sin(y)    sin(p)cos(r)cos(y) + sin(r)sin(y)    cos(p)cos(y)
+]
+```
+
+
+it's tantilisingly close, but if I give an example of the resulting matrices
+
+
+this is the output from the above
+
+
+```rpyMatrix = 
+0.878361 -0.005254 0.477970
+-0.062284 0.990156 0.125343
+-0.473923 -0.139866 0.869387
+```
+
+
+and this is matrix as pulled off the device using the supervisor
+
+
+```devicematrix = 
+0.487706 0.079376 -0.869392
+0.062286 0.990156 0.125342
+0.870783 -0.115281 0.477962
+```
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 14:31:53
+Hello `@DrVoodoo` , I think you are very close, I think it should be:
+
+```
+R = Ry(yaw) * Rz(pitch) * Rx(roll)
+```
+
+
+Here is a working example:
+
+```Python
+import transforms3d
+from controller import Supervisor
+
+robot = Supervisor()
+
+timestep = int(robot.getBasicTimeStep())
+
+imu_device = robot.getInertialUnit('inertial unit')
+imu_device.enable(timestep)
+
+imu_node = robot.getFromDef('IMU_SOLID')
+
+while robot.step(timestep) != -1:
+    # Print from InertialUnit
+    rpy = imu_device.getRollPitchYaw()
+    matrix = transforms3d.euler.euler2mat(rpy[2], rpy[1], rpy[0], axes='ryzx')
+    # matrix = transforms3d.euler.euler2mat(rpy[0], rpy[1], rpy[2], axes='sxzy')
+    
+    print(matrix)
+
+    # Print as supervisor
+    print(imu_node.getOrientation())
+```
+
+##### DrVoodoo [Moderator] 11/02/2020 14:52:13
+`R = Rz(pitch) * Ry(yaw) * Rx(roll)` still doesnt work for me but I'll have a look at the python in greater depth and see if I can spot where I'm going wrong
+
+
+thanks
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 14:59:13
+I found a rotation for which the Python example doesn't work. Let me fix it
+
+
+`@DrVoodoo`, you can check the Python example now, both conventions (extrinsic and intrinsic) work
+
+##### DrVoodoo [Moderator] 11/02/2020 15:26:06
+ok but we cant compare the rotation matrix on the intertial unit with the matrix we get from the rpy values because inertial units are meant to be positioned with the x axis along the forward direction
+
+
+but devices like rangefinders look backwards along the z axis
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 15:30:20
+Why not rotating the inertial unit to match the rotation of the range finder?
+
+##### DrVoodoo [Moderator] 11/02/2020 15:30:42
+that might be the simplest solution
+
+
+but the documentation does state that it should be positioned so forward is along the x
+
+
+and it does mean that the RollPitchYaw would actually be PitchRollYaw (i think)
+
+
+Thanks `@Darko Lukić` , can't do it now but I'll try just rotating the inertial so it matches the rangefinder and see if that does it
+
+##### Darko Lukić [Cyberbotics] 11/02/2020 16:24:45
+> but devices like rangefinders look backwards along the z axis
+
+
+
+`@DrVoodoo` It seems inconsistent, but it is done to better match OpenCV convention which is important in case of Camera, Lidar and RangeFinder.
+
+##### udits 11/03/2020 10:13:02
+Hi! I'm new to using Webots and I am supposed to import a robot (.STL file) from Fusion360. I managed to import the 3D model but I am unsure on how I should proceed to define the joints and write the controller to get the robot moving.
+
+##### DrVoodoo [Moderator] 11/03/2020 10:35:21
+Right.
+
+
+Firstly thanks to `@Darko Lukić` for their help yesterday
+
+
+Ignoring the documentation and just rotating the inertialunit to the same orientation as the rangefinder was definitely the simplest solution
+
+
+for the sake of avoiding [https://xkcd.com/979/](https://xkcd.com/979/) here's the solution I ended up with
+
+
+So I ended up with `R = Ry(yaw)Rz(roll)Rx(pitch)`
+
+
+which gives
+%figure
+![CodeCogsEqn.png](https://cdn.discordapp.com/attachments/565155651395780609/773134534190301234/CodeCogsEqn.png)
+%end
+
+
+or in code form
+
+
+```struct RPY { double pitch, roll, yaw; };
+const RPY s { sin(inertial->getRollPitchYaw()[0]),
+              sin(inertial->getRollPitchYaw()[1]),
+              sin(inertial->getRollPitchYaw()[2]) };
+const RPY c { cos(inertial->getRollPitchYaw()[0]),
+              cos(inertial->getRollPitchYaw()[1]),
+              cos(inertial->getRollPitchYaw()[2]) };
+
+const std::array<double,9> matrix 
+{
+    c.roll*c.yaw,
+    s.pitch*s.yaw - c.pitch*s.roll*c.yaw,
+    s.pitch*s.roll*c.yaw + c.pitch*s.yaw,
+
+    s.roll,
+    c.pitch*c.roll,
+    s.pitch*(-c.roll),
+    
+    (-c.roll)*s.yaw,
+    c.pitch*s.roll*s.yaw + s.pitch*c.yaw,
+    c.pitch*c.yaw - s.pitch*s.roll*s.yaw      
+};
+```
+
+
+`@udits` can you give some more details. what sort of robot, have you imported as a single object or as individual parts?
+
+##### udits 11/03/2020 10:56:57
+`@DrVoodoo` It's a small robot aimed at swarm robotic applications. I'm importing it as a single object but all the joints connecting the individual components are already defined in Fusion360 before saving as a .STL file
+
+##### MumsDad 11/03/2020 11:06:21
+`@udits` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
+
+
+
+read up on what stl actually is, it is simply a file format which saves your geometry from cad as a mesh of triangles. hence it doens't contain any information about your joints. you have to rig your model with joints, mass's, bounding box, physics ect in webots. See the for help
+
+
+
+[https://www.youtube.com/watch?v=s151UClAnEk](https://www.youtube.com/watch?v=s151UClAnEk)
+
+##### udits 11/03/2020 11:09:29
+`@MumsDad` Thanks! I'll have a look and let you know how it goes!
+
+##### Simon Steinmann [Moderator] 11/03/2020 14:29:19
+`@DrVoodoo`  For future transformation issues, I find these two things really help:
+
+Transforms3d library
+
+[https://matthew-brett.github.io/transforms3d/](https://matthew-brett.github.io/transforms3d/)
+
+and this to quickly convert and double check specific orientations:
+
+[https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
+
+##### Daniele 11/07/2020 20:20:34
+Hi everyone I don't know if it's the right place to write it so tell me if I'm wrong. So I have a code which is supposed to make e-puck robot avoid obstacles and follow the line. It follows the line as it should but when it approaches an obstacle it changes its direction but don't get back to the line. This is the code:
+
+
+code
+> **Attachment**: [test.py](https://cdn.discordapp.com/attachments/565155651395780609/774730160465379368/test.py)
+
+
+Any help would be appreciated.
+
+##### DrakerDG 11/09/2020 21:55:24
+Hello, I am learning Python, what courses or books do you advise me to continue learning?  To be able to program in webots using phyton, since I have only been able to program in C code 😬🙏
+
+##### DrVoodoo [Moderator] 11/11/2020 18:22:14
+"Automate the boring stuff with python" is good, highlights where python excels
+
+##### DrakerDG 11/12/2020 05:25:52
+`@DrVoodoo` thanks a lot 😁👍🏼
+
+##### csnametala 11/12/2020 20:41:08
+Hello everyone!
+
+I am using more than one e-puck robot, and at some point some determined to stop for some reason while the others continue their process, so the problem is that when one is on hold, everyone else is stopping in the simulation.
+
+
+Please, does anyone have any idea what it could be?
+
+##### Lukulus 11/13/2020 10:48:16
+Hi everyone, is there a project on git where a scissor lift is implemented? I am trying to simulate a scissor lift, but I have a lot struggle with fixed connection between two elements..
+
+Is there a way to connect two solids at one point? And do you think webots is appropriate to simulate a sissor lift?
+
+Thanks in advance.
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 10:57:39
+I am not aware of such a model implemented in Webots, but I believe you could take inspiration from the Stewart Platform example provided in Webots: [https://cyberbotics.com/doc/guide/samples-demos#stewart\_platform-wbt](https://cyberbotics.com/doc/guide/samples-demos#stewart_platform-wbt) [https://www.youtube.com/watch?v=ddrtiwjKAaY](https://www.youtube.com/watch?v=ddrtiwjKAaY)
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:01:55
+`@Lukulus` it really depends on what you want to simulate. Does it simply have to act and look correct? Or do you actually have to simulate the mechanics and torque/force transmissions? If it just has to behave correctly, you can simplify the functionality by using a slider joint and linear motor. You can add the "scissors" separately, not being connected to the platform, but moving in unison
+
+
+I'm not aware of any rigid body simulators that can simulate closed joint loops
+
+##### Lukulus 11/13/2020 11:05:20
+if it act and looks like a scissor lift would be sufficient
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:05:46
+Then I think this will be your best approach
+
+##### Lukulus 11/13/2020 11:06:00
+ok, thank you:)
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:06:17
+let us know if you have further questions about how to do it 🙂
+
+
+and perhaps post a result, once you're done. I'm sure others are interested too!
+
+
+<@&568329906048598039> I had an idea the other day and wanted to ask if something like this is already implemented or in the works:
+
+Wizard for creating generic robots (arm, vehicle, legged)
+
+
+For example, select Tpye: "arm", DOF "6"
+
+
+it then creates a robot with the correct nodes
+
+##### Lukulus 11/13/2020 11:20:03
+`@Simon Steinmann` my problem is now, that I need two slider joints. the first lift the platform, the second bring the lower scissor together.
+
+Do you have a idea how to simulate this?
+
+
+so while the scissor go up, the scissor must slide togehter
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:21:00
+can you share a screenshot?
+
+##### Olivier Michel [Cyberbotics] 11/13/2020 11:25:37
+`@Simon Steinmann`: the wizard you describe is neither implemented nor in the works.
+
+
+If you want to contribute it, we would be happy to review such a PR.
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:27:16
+I could only feasably do something like that in python. More akin to the urdf2webots tool
+
+
+However, it would be great, to have it in the GUI like the world wizard
+
+
+or conroller wizard
+
+##### Lukulus 11/13/2020 11:28:18
+this is how i want it to simulate
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776770415791702016/unknown.png)
+%end
+
+
+slide 2 moves the platform
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:30:20
+only 1 "scissor" ?
+
+##### Lukulus 11/13/2020 11:30:37
+to make it easy for the beginning
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:32:10
+the easiest would be to ignore the middle fixed point, an turn the other two fixed points into hinge joints with rotational motors, that turn the scissor-blade with the correct rate compared to the vertical slide joint
+
+##### Lukulus 11/13/2020 11:33:05
+nice, this shound work 🙂 thank you
+
+##### Simon Steinmann [Moderator] 11/13/2020 11:33:19
+with simple trigonometry it should be easy to have the angles correlate to the vertical distance
+
+##### Lukulus 11/13/2020 13:16:56
+Is it Posible to add more then one Joint to an endPoint of another joint?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776797750574579742/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:17:17
+yes
+
+##### Lukulus 11/13/2020 13:17:18
+so if I only use one joint there is no problem
+
+
+but if i add the second the device isn't found
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:18:12
+a joint itself is not a device, the motor and sensor are devices
+
+
+they need unique names too
+
+
+if you want to have them at different locations, you can put the hingejoints in a transform node
+
+##### Lukulus 11/13/2020 13:20:16
+so here it says : Warning: "scissor\_2" device not found.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776798589896359936/unknown.png)
+%end
+
+
+ohh ok
+
+
+this i missed
+
+
+ty!
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:20:47
+You're welcome!
+
+##### Lukulus 11/13/2020 13:38:19
+I get the same warning: Warning: "scissor\_2" device not found:/
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776803133187555369/unknown.png)
+%end
+
+
+If I only use one joint here it works perfectly, with two: one of them isn't fount
+
+
+and the controller is crashed
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:40:32
+hard for me to tell from here
+
+
+can you share your project? then I can take a look
+
+##### Lukulus 11/13/2020 13:45:31
+Das sind die relevanten Stellen.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/776804944258007100/unknown.png)
+%end
+
+
+but if you want I can make a short example project and share
+
+##### Simon Steinmann [Moderator] 11/13/2020 13:47:26
+the worldfile would be enough
+
+##### Lukulus 11/13/2020 13:59:54
+hmm restarted it, and then it worked🤦‍♂️  Sorry for spamming so much ^^
+
+##### Simon Steinmann [Moderator] 11/13/2020 14:00:04
+np, glad you figured it out 🙂
+
+
+reloading the world also can help in many cases
+
+##### evoo 11/13/2020 23:46:38
+Hi! If I have two robots in my world how do I differentiate one from the other in the controller code? I know how to instantiate one like “ robot = Robot() “ but how about more than one?
+
+##### DrakerDG 11/14/2020 00:09:36
+`@evoo` I'm not sure but I think that in the controller code it can be easily differentiated
+
+##### Simon Steinmann [Moderator] 11/14/2020 11:39:22
+`@evoo` Every controller has the "controller" field. You can have 2 of the same robots, with the same controller. It then get's loaded for each robot separately.
+
+
+If you are using extern controllers, refer to this: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)
+
+##### evoo 11/14/2020 22:09:09
+thank u
+
+##### davidzjeh 11/15/2020 10:36:42
+Hello, I have a question about how can I control the easiest way the Universal Robots to a specified point in the world?(to catch an object which translation is fix)
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 08:00:07
+Hello `@davidzjeh` , you can check the example with ABB IRB 4600:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+##### davidzjeh 11/16/2020 08:08:39
+ahh thanks, can I implement this in C? cuz i saw that is using the ikpy python module that don't exist in C
+
+##### Olivier Michel [Cyberbotics] 11/16/2020 08:46:37
+For C++, you can use ikfast instead of ikpy. `@Simon Steinmann` has implemented it successfully and it's really fast compared to ikpy.
+
+##### davidzjeh 11/16/2020 09:34:32
+in this code detail, how can I define the bounds vector for UR robots? I look the UR5e.proto file, I find the rest, but i don't know this vector or is it neccessary for ikpy?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/777828948918403112/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 09:40:06
+[https://github.com/cyberbotics/webots/blob/fb5cd3df739e4773aa677d9445eebd2ab849493f/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py#L42-L45](https://github.com/cyberbotics/webots/blob/fb5cd3df739e4773aa677d9445eebd2ab849493f/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py#L42-L45)
+
+You should be able to extract those bounds automatically from the model using `wb_robot_get_urdf`
+
+##### davidzjeh 11/16/2020 10:16:57
+||[inverse\_kinematics] Traceback (most recent call last):
+
+[inverse\_kinematics]   File "inverse\_kinematics.py", line 45, in <module>
+
+[inverse\_kinematics]     file.write(supervisor.getUrdf().encode('utf-8'))
+
+[inverse\_kinematics] AttributeError: 'Supervisor' object has no attribute 'getUrdf'
+
+WARNING: 'inverse\_kinematics' controller exited with status: 1.||
+
+
+I just want to run the example code
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 10:18:16
+Which version of Webots do you use?
+
+##### davidzjeh 11/16/2020 10:20:00
+R2020a rev1
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 10:20:48
+`getUrdf()` is introduced in R2020b
+
+[https://cyberbotics.com/doc/blog/Webots-2020-b-release#ros-2--webots](https://cyberbotics.com/doc/blog/Webots-2020-b-release#ros-2--webots)
+
+##### davidzjeh 11/16/2020 10:22:11
+meh 😄 okay, thanks your help, iI will install it
+
+
+I think I installed it when it's released but the simulation totally lagged and install back the r2020a becasuse in this no lagg, smooth run
+
+
+now start the simulation and the webots closes down all time..
+
+
+this happened with my project but on the 2020a version it's fine, but i don't know in 2020b version why it's crash all time without any error message..
+
+##### Darko Lukić [Cyberbotics] 11/16/2020 12:47:45
+Can you identify a cause of the crash? It happens when you start `/projects/robots/abb/irb/worlds/inverse_kinematics.wbt`?
+
+[https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/worlds/inverse\_kinematics.wbt](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/worlds/inverse_kinematics.wbt)
+
+##### Simon Steinmann [Moderator] 11/16/2020 13:39:45
+`@davidzjeh` what operating system are you on?
+
+
+I can help you with the ik implementation. I made a very successful and fast implementation, however I only tested it on Linux
+
+##### davidzjeh 11/16/2020 13:42:29
+> `@davidzjeh` what operating system are you on?
+
+`@Simon Steinmann` win10
+
+
+it's bad? 😄
+
+##### Simon Steinmann [Moderator] 11/16/2020 14:03:42
+I havent tried it :p
+
+
+ikfast has to be compiled. I dont develop on Windows
+
+
+if you have some experience with c++ compiling on windows, we could give it a shot
+
+
+`@davidzjeh` If you are interested to try, install this: [https://github.com/yijiangh/ikfast\_pybind](https://github.com/yijiangh/ikfast_pybind)
+
+
+I can then give you the files needed for your robot
+
+##### davidzjeh 11/16/2020 14:29:27
+okey, i will try but now need to debug my world to work fine..
+
+##### Simon Steinmann [Moderator] 11/17/2020 12:19:05
+[https://github.com/cyberbotics/webots/pull/2460](https://github.com/cyberbotics/webots/pull/2460)
+
+
+PR done for install documentation
+
+##### Olivier Michel [Cyberbotics] 11/17/2020 12:45:10
+Approved! Thank you.
+
+##### Simon Steinmann [Moderator] 11/17/2020 12:53:30
+nice, much easier for newcomers now 🙂
+
+
+Out of curiosity, how much would it take, to separate the webots core from the gui? Perhaps in a server / client setup. I see this as a crucial step for wider spread adoption of Webots, especially in the commercial sector, where HPC computers are used for simulation.
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:34:10
+This is tricky as Webots relies a lot on OpenGL for cameras, range-finders, lidars, etc. So a connection to an X server with OpenGL capability is required. The GUI itself is not an issue as the X server is anyhow mandatory. Webots runs perfectly well in the cloud, on HPC computers and in CI machines as long as a possibly virtual X server is setup (we often use xvfb). We are currently working on providing facilities for deploying Webots simulations in the cloud, including HPC systems. So, this is all coming soon...
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:37:03
+That's good to hear. I hope your approach is modular, so only things that are needed can be loaded. For example, when not relying on any visual sensors, it would be great not having to load an X server
+
+##### Olivier Michel [Cyberbotics] 11/20/2020 13:46:24
+Yes. However, we are not yet at this point, but that's on the roadmap.
+
+##### Simon Steinmann [Moderator] 11/20/2020 13:50:01
+Awesome! Happy to hear that 🙂
+
+##### udits 11/24/2020 14:14:13
+Hi, I have imported a robot from Fusion360 to Webots but I am having difficulty defining hinge joints and getting it to move using my controller code. I had defined rigid joints and revolute joints in Fusion360 as well.
+
+
+The joints haven't been transferred from Fusion360 to Webots as I am importing it in .obj format.
+
+
+I am facing this issue even after defining the hinge joint in Webots.
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:18:37
+I would recommend you to start building the joint structure of your robot first in Webots (or with a text editor) and add the 3D parts, one-by-one, in a second step. You should probably follow the Webots tutorials from the user guide to understand how to build the joint structure.
+
+##### udits 11/24/2020 14:25:37
+Could you please direct me to this tutorial?
+
+##### Olivier Michel [Cyberbotics] 11/24/2020 14:27:37
+[https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) from 1 to 7 at least.
+
+##### udits 11/24/2020 14:28:29
+Thanks, I'll go through these and get back to you.
 

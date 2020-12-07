@@ -17,8 +17,6 @@ distrib: release
 release debug profile:
 	@echo "#"; echo "# *** translations ***"
 	@+make -s -C translations $@
-	@echo "#"; echo "# *** languages ***"
-	@+make -s -C languages $@
 	@echo "#"; echo "# *** projects ***"
 	@+make -s -C projects $@
 	@echo "#"; echo "# *** web/wwi ***"
@@ -28,7 +26,6 @@ cleanse: clean
 
 clean:
 	@+make -s -C translations $@
-	@+make -s -C languages $@
 	@+make -s -C projects $@
 	@-rm -rf sumo_exporter/*.pyc
 	@+make -s -C web/wwi $(MAKECMDGOALS)

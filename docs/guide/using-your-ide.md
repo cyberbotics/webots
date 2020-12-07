@@ -99,6 +99,8 @@ In principle any C or C++ controller from the Webots distribution can be turned 
 
 Since Webots R2018b, a Visual Studio option is offered in the **Wizards / New Robot Controller...** menu after you choose the C or C++ language on Windows.
 This wizard creates a Visual Studio project for your robot controller, so that you don't need to configure it manually as described in the next section.
+The wizard assumes that you defined the environment variable `WEBOTS_HOME` in the system settings.
+This variable should point to the installation folder of Webots, typically, `C:\Program Files\Webots` or `C:\Users\<MyUsername>\AppData\Local\Programs\Webots`.
 
 #### Configuration
 

@@ -146,7 +146,7 @@ void WbContactProperties::updateForceDependentSlip() {
 }
 
 void WbContactProperties::updateSoftCfm() {
-  if (WbFieldChecker::resetDoubleIfNegative(this, mSoftCfm, 0.001))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mSoftCfm, 0.001))
     return;
   if (areOdeObjectsCreated())
     emit valuesChanged();

@@ -3,8 +3,6 @@ name: Test Sources
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
-    paths-ignore:
-      - 'docs/**'
   schedule:
     - cron:  '0 22 * * *'
 
@@ -13,14 +11,27 @@ defaults:
     shell: bash
 
 jobs:
+  job-skipper:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v2.1.0
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          paths_ignore: '["docs/**"]'
+          concurrent_skipping: 'false'
+
   cleanup-runs:
     runs-on: ubuntu-latest
     steps:
     - uses: rokroskar/workflow-run-cleanup-action@master
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
   test-sources:
-    needs: cleanup-runs
+    needs: [cleanup-runs, job-skipper]
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2019]
@@ -42,17 +53,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
     - name: Set up Python ${{ matrix.python }}
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
-      if: (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
         export WEBOTS_HOME=$PWD
         python -m unittest discover -s tests/sources
+    - name: Test Workflows Synchronization
+      if: needs.job-skipper.outputs.should_skip != 'true' && (matrix.os == 'ubuntu-18.04' && matrix.python == '3.9')
+      run: |
+        if [[ "$(diff .github/workflows/test_suite_linux.yml .github/workflows/test_suite_linux_develop.yml | grep -c -e '^<' -e '^>')" -ne "13" ]]; then echo Linux Workflows not synchronized; exit -1; fi
+        if [[ "$(diff .github/workflows/test_suite_mac.yml .github/workflows/test_suite_mac_develop.yml | grep -c -e '^<' -e '^>')" -ne "10" ]]; then echo macOS Workflows not synchronized; exit -1; fi
+        if [[ "$(diff .github/workflows/test_suite_windows.yml .github/workflows/test_suite_windows_develop.yml | grep -c -e '^<' -e '^>')" -ne "8" ]]; then echo Windows Workflows not synchronized; exit -1; fi

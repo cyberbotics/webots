@@ -432,6 +432,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   urlFieldCopy.write(writer);
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
+  findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"

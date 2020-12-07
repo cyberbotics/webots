@@ -1,4 +1,6 @@
-#version 330
+#version 300 es
+
+precision highp float;
 
 const int sceneTextureIndex = 0;  // full resolution scene texture
 const int depthTextureIndex = 1;  // full resolution depth buffer texture

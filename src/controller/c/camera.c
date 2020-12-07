@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#include "../util/g_image.h"
-
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -24,6 +22,7 @@
 #include <webots/camera.h>
 #include <webots/robot.h>
 #include "abstract_camera.h"
+#include "g_image.h"
 #include "messages.h"
 #include "remote_control_private.h"
 #include "robot_private.h"

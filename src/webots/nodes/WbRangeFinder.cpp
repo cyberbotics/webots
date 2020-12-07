@@ -21,7 +21,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenTextureOverlay.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 

@@ -30,6 +30,9 @@ if ikpy.__version__[0] < '3':
     sys.exit('The "ikpy" Python module version is too old. '
              'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install --upgrade ikpy"')
 
+
+IKPY_MAX_ITERATIONS = 4
+
 # Initialize the Webots Supervisor.
 supervisor = Supervisor()
 timeStep = int(4 * supervisor.getBasicTimeStep())
@@ -40,13 +43,17 @@ with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
     filename = file.name
     file.write(supervisor.getUrdf().encode('utf-8'))
 armChain = Chain.from_urdf_file(filename)
+for i in [0, 6]:
+    armChain.active_links_mask[0] = False
 
-# Initialize the arm motors.
+# Initialize the arm motors and encoders.
 motors = []
 for link in armChain.links:
     if 'motor' in link.name:
         motor = supervisor.getMotor(link.name)
         motor.setVelocity(1.0)
+        position_sensor = motor.getPositionSensor()
+        position_sensor.enable(timeStep)
         motors.append(motor)
 
 # Get the arm and target nodes.
@@ -64,7 +71,8 @@ while supervisor.step(timeStep) != -1:
     z = 0.05
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([x, y, z])
+    initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]
+    ikResults = armChain.inverse_kinematics([x, y, z], max_iter=IKPY_MAX_ITERATIONS, initial_position=initial_position)
 
     # Actuate the 3 first arm motors with the IK results.
     for i in range(3):
@@ -95,8 +103,15 @@ while supervisor.step(timeStep) != -1:
     z = targetPosition[1] - armPosition[1]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([x, y, z])
+    initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]
+    ikResults = armChain.inverse_kinematics([x, y, z], max_iter=IKPY_MAX_ITERATIONS, initial_position=initial_position)
 
-    # Actuate the 3 first arm motors with the IK results.
+    # Recalculate the inverse kinematics of the arm if necessary.
+    position = armChain.forward_kinematics(ikResults)
+    squared_distance = (position[0, 3] - x)**2 + (position[1, 3] - y)**2 + (position[2, 3] - z)**2
+    if math.sqrt(squared_distance) > 0.03:
+        ikResults = armChain.inverse_kinematics([x, y, z])
+
+    # Actuate the arm motors with the IK results.
     for i in range(len(motors)):
         motors[i].setPosition(ikResults[i + 1])

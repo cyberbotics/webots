@@ -98,7 +98,7 @@ graph TD
     Shape1 -->|geometry| Box[[Box](../reference/box.md)]
     Shape1 -.- USEBODY
   Robot -->|children| HingeJoint[[HingeJoint](../reference/hingejoint.md)]
-    HingeJoint -->|devices| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
+    HingeJoint -->|device| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
     HingeJoint -->|jointParameters| HingeJointParameters[[HingeJointParameters](../reference/hingejointparameters.md)]
     HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
       Solid -->|physics| Physics2[[DEF WHEEL_PH Physics](../reference/physics.md)]

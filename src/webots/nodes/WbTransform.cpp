@@ -338,7 +338,7 @@ void WbTransform::applyToOdeGeomRotation() {
   assert(geom);
 
   if (dGeomGetBody(geom) == NULL)
-    g->setOdeRotation(WbRotation(rotationMatrix()));
+    g->setOdeRotation(rotationMatrix());
 
   applyToOdeMass(g, geom);
 }

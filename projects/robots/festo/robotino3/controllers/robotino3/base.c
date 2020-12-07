@@ -26,64 +26,81 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#define WHEEL_DIAMETER 0.125                      // [m]
-#define WHEEL_RADIUS_GAP 0.184                    // [m]
-#define MAX_LIN_SPEED_KM_H 10                     // [km/h]
-#define MAX_LIN_SPEED (MAX_LIN_SPEED_KM_H / 3.6)  // [m/s]
-#define LIN_SPEED 1.1                             // [m/s]
-#define OBSTACLE_THRESHOLD 0.20                   // [m]
+#define WHEEL_RADIUS 0.063                     // [m]
+#define DISTANCE_WHEEL_TO_ROBOT_CENTRE 0.1826  // [m]
+#define MAX_SPEED 8                            // [m/s]
+#define DEMO_SPEED 2                           // [m/s]
+#define OBSTACLE_THRESHOLD 0.20                // [m]
 
 WbDeviceTag wheels[3];
 
+double actualSpeed[3] = {0.0, 0.0, 0.0};
+double targetSpeed[3] = {0.0, 0.0, 0.0};
+double maxAcceleration[3] = {10.0, 6.0, 20.0};
+
 void base_reset() {
-  base_set_speeds(0.0, 0.0, 0.0);
+  targetSpeed[0] = 0.0;
+  targetSpeed[1] = 0.0;
+  targetSpeed[2] = 0.0;
 }
 
 void base_forwards() {
-  base_set_speeds(MAX_LIN_SPEED / 2.0, 0, 0);
+  base_set_speeds(DEMO_SPEED / 2.0, 0, 0);
 }
 
 void base_backwards() {
-  base_set_speeds(-MAX_LIN_SPEED / 2.0, 0, 0);
+  base_set_speeds(-DEMO_SPEED / 2.0, 0, 0);
 }
 
 void base_turn_left() {
-  base_set_speeds(0, 0, -3.0 * MAX_LIN_SPEED / 2.0);
+  base_set_speeds(0, 0, 3.0 * DEMO_SPEED / 2.0);
 }
 
 void base_turn_right() {
-  base_set_speeds(0, 0, 3.0 * MAX_LIN_SPEED / 2.0);
+  base_set_speeds(0, 0, -3.0 * DEMO_SPEED / 2.0);
 }
 
 void base_strafe_left() {
-  base_set_speeds(0, -MAX_LIN_SPEED / 2.0, 0);
+  base_set_speeds(0, DEMO_SPEED / 2.0, 0);
 }
 
 void base_strafe_right() {
-  base_set_speeds(0, MAX_LIN_SPEED / 2.0, 0);
+  base_set_speeds(0, -DEMO_SPEED / 2.0, 0);
 }
 
-void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
-  wb_motor_set_position(t, INFINITY);
-  if (velocity > wb_motor_get_max_velocity(t))
-    velocity = wb_motor_get_max_velocity(t);
-  if (velocity < -wb_motor_get_max_velocity(t))
-    velocity = -wb_motor_get_max_velocity(t);
-  wb_motor_set_velocity(t, velocity);
+void base_apply_speeds(double vx, double vy, double omega) {
+  vx /= WHEEL_RADIUS;
+  vy /= WHEEL_RADIUS;
+  omega *= DISTANCE_WHEEL_TO_ROBOT_CENTRE / WHEEL_RADIUS;
+  wb_motor_set_velocity(wheels[0], vy - omega);
+  // cos(angle between wheel and movement axis)
+  wb_motor_set_velocity(wheels[1], -sqrt(0.75) * vx - 0.5 * vy - omega);
+  wb_motor_set_velocity(wheels[2], sqrt(0.75) * vx - 0.5 * vy - omega);
+}
+
+void base_accelerate() {
+  const double time_step = wb_robot_get_basic_time_step();
+  double maxSteps = 0;
+  for (int i = 3; i--;) {
+    double stepsNeeded = fabs(targetSpeed[i] - actualSpeed[i]);
+    stepsNeeded /= maxAcceleration[i] * (time_step / 1000.0);
+    if (stepsNeeded > maxSteps)
+      maxSteps = stepsNeeded;
+  }
+  if (maxSteps < 1)
+    maxSteps = 1;
+  for (int i = 3; i--;) {
+    actualSpeed[i] += (targetSpeed[i] - actualSpeed[i]) / maxSteps;
+  }
+  base_apply_speeds(actualSpeed[0], actualSpeed[1], actualSpeed[2]);
 }
 
 void base_set_speeds(double vx, double vy, double omega) {
-  // Because of the orientation of the robot, vx and vy are inverted
-  // Conversion matrix from paper, section 4:
-  // http://ftp.itam.mx/pub/alfredo/ROBOCUP/SSLDocs/PapersTDPs/omnidrive.pdf
-  double w_motor[3] = {0.0, 0.0, 0.0};
-  w_motor[0] = -0.5 * vy + 0.866 * vx + WHEEL_RADIUS_GAP * omega;
-  w_motor[1] = -0.5 * vy - 0.866 * vx + WHEEL_RADIUS_GAP * omega;
-  w_motor[2] = vy + WHEEL_RADIUS_GAP * omega;
-
-  for (int i = 0; i < 3; i++)
-    base_set_wheel_velocity(wheels[i], w_motor[i]);
+  targetSpeed[0] = vx;
+  targetSpeed[1] = vy;
+  targetSpeed[2] = omega;
 }
 
 void base_braitenberg_avoidance(double *sensors_values) {

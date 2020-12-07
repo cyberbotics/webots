@@ -1,5 +1,5 @@
-#ifndef WR_SKELETON
-#define WR_SKELETON
+#ifndef WR_SKELETON_H
+#define WR_SKELETON_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,4 +29,4 @@ void wr_skeleton_update_offset(WrSkeleton *skeleton);
 }
 #endif
 
-#endif  // WR_SKELETON
+#endif  // WR_SKELETON_H

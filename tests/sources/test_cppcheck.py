@@ -91,8 +91,8 @@ class TestCppCheck(unittest.TestCase):
         sourceDirs = [
             'src/webots',
             'src/wren',
-            'src/Controller',
-            'resources/languages/cpp',
+            'src/controller/c',
+            'src/controller/cpp',
             'resources/projects'
         ]
         skippedDirs = [
