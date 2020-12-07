@@ -35,12 +35,6 @@
 #define BLIND_SPOT_COLOR 0xC0C0C0
 #define BACKGROUND_COLOR 0xFFFFFF
 
-// the lidar values are clamped between 0 and CLAMP_MAX
-#define CLAMP_MAX 1.0
-
-// function retrieving the min value between x and y
-#define MIN(x, y) ((x) > (y) ? (y) : (x))
-
 // function displaying lidar values on a display
 static void display(WbDeviceTag d,   // display
                     int dw,          // display width
@@ -68,7 +62,7 @@ static void display(WbDeviceTag d,   // display
 
   int i;
   for (i = 0; i < ns; i++) {
-    float f = MIN(CLAMP_MAX, v[i]);
+    float f = v[i];
     float alpha = -fov2 + fov * i / ns - M_PI_2;
     wb_display_draw_line(d, dw2, dh2, dw2 + f * cos(alpha) * dw2 / CLAMP_MAX, dh2 + f * sin(alpha) * dh2 / CLAMP_MAX);
   }
