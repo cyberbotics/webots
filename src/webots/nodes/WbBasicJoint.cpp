@@ -102,7 +102,6 @@ void WbBasicJoint::setMatrixNeedUpdate() {
     s->setMatrixNeedUpdate();
 }
 
-#include <QtCore/QDebug>
 void WbBasicJoint::postFinalize() {
   WbBaseNode::postFinalize();
 
