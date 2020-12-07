@@ -162,6 +162,10 @@ Device *Robot::getDeviceByIndex(int index) {
   return getOrCreateDevice(wb_robot_get_device_by_index(index));
 }
 
+Device *Robot::getDevice(const std::string &name) {
+  return getOrCreateDevice(wb_robot_get_device(name.c_str()));
+}
+
 int Robot::getType() const {
   return wb_robot_get_type();
 }
@@ -435,7 +439,7 @@ TouchSensor *Robot::createTouchSensor(const string &name) const {
   return new TouchSensor(name);
 }
 
-Device *Robot::getDevice(int tag) {
+Device *Robot::getDeviceFromTag(int tag) {
   if (tag == 0)
     return NULL;
 

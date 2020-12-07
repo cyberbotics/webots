@@ -192,13 +192,13 @@ class AnsiCodes(object):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.getDevice(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   def getPositionSensor(self):
       try:
           return self.instance
       except AttributeError:
-          self.__positionSensor = Robot.getDevice(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -647,13 +647,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.getDevice(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getPositionSensor(self):
       try:
           return self.__positionSensor
       except AttributeError:
-          self.__positionSensor = Robot.getDevice(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -711,13 +711,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.getDevice(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getMotor(self):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.getDevice(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   %}
 }
@@ -1074,8 +1074,11 @@ class AnsiCodes(object):
     def getDeviceByIndex(self, index):
       tag = self.__internalGetDeviceTagFromIndex(index)
       return self.__getOrCreateDevice(tag)
+    def getDevice(self, name):
+      tag = self.__internalGetDeviceTagFromName(name)
+      return self.__getOrCreateDevice(tag)
     @staticmethod
-    def getDevice(tag):
+    def __getDeviceFromTag(tag):
       if tag == 0:
           return None
       size = len(Robot.__devices)
