@@ -58,7 +58,7 @@ private:
   std::string mTestName;
   Robot *mRobot;
   Emitter *mEmitter;
-  
+
   void notifyControllerStatus(bool running) {
     if (!mEmitter)
       mEmitter = mRobot->getEmitter("ts_emitter");
@@ -71,7 +71,7 @@ private:
 #endif
     mEmitter->send(msg, strlen(msg));
   }
-  
+
   void sendErrorAndExit(const std::string &errorMessage) {
     // write the result to the file
     std::ofstream file;
