@@ -1087,6 +1087,8 @@ class AnsiCodes(object):
           return None
       count = self.getNumberOfDevices()
       size = len(Robot.__devices)
+      # if new devices have been added, then count is greater than size
+      # deleted devices are not removed from the C API list and don't affect the number of devices
       if count == size and size > 0 and tag < size:
           return Robot.__devices[tag]
 
