@@ -80,7 +80,7 @@ class proto2multi:
         path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         if outFile is None:
-            newPath = "{}/multifile_{}".format(path, self.robotName)
+            newPath = "{}/{}_multifile".format(path, self.robotName)
             outFile = "{}/{}.proto".format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
@@ -124,7 +124,7 @@ class proto2multi:
                 if eof > 10:
                     self.f.close()
                     self.pf.close()
-                    self.cleanup(inFile)                    
+                    self.cleanup(inFile)
                     return
             if "IndexedFaceSet" in ln:
                 shapeLevel = 1
@@ -142,7 +142,7 @@ class proto2multi:
                     if "{" in ln or "[" in ln:
                         shapeLevel += 1
                 replaceString = self.createProto(newProtoString)
-                self.pf.write(indent * level +  "geometry " + defString + replaceString)
+                self.pf.write(indent * level + "geometry " + defString + replaceString)
                 self.pf.write(indent * level + "}\n")
             else:
                 if "}" in ln or "]" in ln:
