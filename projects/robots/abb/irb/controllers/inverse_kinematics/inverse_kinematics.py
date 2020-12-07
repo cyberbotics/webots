@@ -50,7 +50,7 @@ for i in [0, 6]:
 motors = []
 for link in armChain.links:
     if 'motor' in link.name:
-        motor = supervisor.getMotor(link.name)
+        motor = supervisor.getDevice(link.name)
         motor.setVelocity(1.0)
         position_sensor = motor.getPositionSensor()
         position_sensor.enable(timeStep)
@@ -87,7 +87,7 @@ while supervisor.step(timeStep) != -1:
         break
     elif supervisor.getTime() > 1.5:
         # Note: start to draw at 1.5 second to be sure the arm is well located.
-        supervisor.getPen('pen').write(True)
+        supervisor.getDevice('pen').write(True)
 
 # Loop 2: Move the arm hand to the target.
 print('Move the yellow and black sphere to move the arm...')

@@ -51,6 +51,9 @@ Released on December XXth, 2020.
     - Added missing `supervisor` field in the `Tractor` and `TeslaModel3` PROTO nodes ([#2351](https://github.com/cyberbotics/webots/pull/2351)).
     - Fixed infra-red [DistanceSensor](distancesensor.md) returned value when pointing at a texture used several times in the world (thanks to [Justin-Fisher](https://github.com/Justin-Fisher)) ([#2378](https://github.com/cyberbotics/webots/pull/2378)).
     - Fixed performance regression (thanks to [Acwok](https://github.com/Acwok)) ([#2434](https://github.com/cyberbotics/webots/pull/2434)).
+    - **Deprecated all the device getter methods in Python.** They are replaced by a new [`Robot.getDevice`](robot.md#wb_robot_get_device) method which is closer to the C API ([#2510](https://github.com/cyberbotics/webots/pull/2510)).
+    - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
+    - Fixed the [webots\_physics\_collide(dGeomID, dGeomID)](callback-functions.md) callback function so that it gets called even if the [`boundingObject`](solid.md#solid-fields) is a [Group](group.md) node ([#2505](https://github.com/cyberbotics/webots/pull/2505)).
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**
     - **Changed ROS message type published by the [GPS](gps.md) node when it is configured to work in `local` GPS coordinate system ([#2368](https://github.com/cyberbotics/webots/pull/2368))**.

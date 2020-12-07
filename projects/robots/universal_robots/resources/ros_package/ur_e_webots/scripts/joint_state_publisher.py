@@ -41,8 +41,8 @@ class JointStatePublisher(object):
         self.previousTime = 0
         self.previousPosition = []
         for name in JointStatePublisher.jointNames:
-            self.motors.append(robot.getMotor(name))
-            self.sensors.append(robot.getPositionSensor(name + '_sensor'))
+            self.motors.append(robot.getDevice(name))
+            self.sensors.append(robot.getDevice(name + '_sensor'))
             self.sensors[-1].enable(self.timestep)
             self.previousPosition.append(0)
         self.publisher = rospy.Publisher(nodeName + 'joint_states', JointState, queue_size=1)

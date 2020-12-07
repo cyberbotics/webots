@@ -82,6 +82,7 @@ namespace webots {
     double getBasicTimeStep() const;
     int getNumberOfDevices() const;
     Device *getDeviceByIndex(int index);
+    Device *getDevice(const std::string &name);
     int getType() const;
 
     virtual void batterySensorEnable(int samplingPeriod);
@@ -127,7 +128,7 @@ namespace webots {
     void setData(const std::string &data);
 
     // internal functions
-    static Device *getDevice(int tag);
+    static Device *getDeviceFromTag(int tag);
     static int getDeviceTypeFromTag(int tag);
     static std::string getDeviceNameFromTag(int tag);
     static int getDeviceTagFromIndex(int index);

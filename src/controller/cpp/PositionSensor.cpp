@@ -44,7 +44,7 @@ PositionSensor::Type PositionSensor::getType() const {
 
 Brake *PositionSensor::getBrake() {
   if (brake == NULL)
-    brake = dynamic_cast<Brake *>(Robot::getDevice(getBrakeTag()));
+    brake = dynamic_cast<Brake *>(Robot::getDeviceFromTag(getBrakeTag()));
   return brake;
 }
 
@@ -54,7 +54,7 @@ int PositionSensor::getBrakeTag() const {
 
 Motor *PositionSensor::getMotor() {
   if (motor == NULL)
-    motor = dynamic_cast<Motor *>(Robot::getDevice(getMotorTag()));
+    motor = dynamic_cast<Motor *>(Robot::getDeviceFromTag(getMotorTag()));
   return motor;
 }
 

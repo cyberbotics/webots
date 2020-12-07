@@ -24,15 +24,15 @@ driver.setSteeringAngle(0.0)  # go straight
 
 # get and enable the distance sensors
 for name in sensorsNames:
-    sensors[name] = driver.getDistanceSensor('distance sensor ' + name)
+    sensors[name] = driver.getDevice('distance sensor ' + name)
     sensors[name].enable(10)
 
 # get and enable the GPS
-gps = driver.getGPS('gps')
+gps = driver.getDevice('gps')
 gps.enable(10)
 
 # get the camera
-camera = driver.getCamera('camera')
+camera = driver.getDevice('camera')
 # uncomment those lines to enable the camera
 # camera.enable(50)
 # camera.recognitionEnable(50)

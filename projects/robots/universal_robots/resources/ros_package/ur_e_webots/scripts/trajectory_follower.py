@@ -122,8 +122,8 @@ class TrajectoryFollower(object):
         self.motors = []
         self.sensors = []
         for name in TrajectoryFollower.jointNames:
-            self.motors.append(robot.getMotor(name))
-            self.sensors.append(robot.getPositionSensor(name + '_sensor'))
+            self.motors.append(robot.getDevice(name))
+            self.sensors.append(robot.getDevice(name + '_sensor'))
             self.sensors[-1].enable(self.timestep)
         self.goal_handle = None
         self.trajectory = None

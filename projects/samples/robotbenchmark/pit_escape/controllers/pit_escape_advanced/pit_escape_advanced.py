@@ -6,11 +6,11 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
-pitchMotor = robot.getMotor("body pitch motor")
+pitchMotor = robot.getDevice("body pitch motor")
 pitchMotor.setPosition(float('inf'))
 pitchMotor.setVelocity(0.0)
 
-bodyGyro = robot.getGyro("body gyro")
+bodyGyro = robot.getDevice("body gyro")
 bodyGyro.enable(timestep)
 
 maxSpeed = 8.72
