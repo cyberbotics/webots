@@ -19,6 +19,7 @@ Released on December XXth, 2020.
     - Added a `data_type` parameter to a Python method [`getPointCloud`](lidar.md#wb_lidar_get_point_cloud) that retrieves a `bytearray` representation of points a few times faster than the previous version.
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
+    - The [webots_physics_collide(dGeomID, dGeomID)](callback-functions.md#int-webots_physics_collidedgeomid-dgeomid) callback function is called even if the [`boundingObject`](solid.md#solid-fields) value is set to be the [Group](group.md) node ([#2505](https://github.com/cyberbotics/webots/pull/2505)).
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**
     - **Changed ROS message type published by the [GPS](gps.md) node when it is configured to work in `local` GPS coordinate system ([#2368](https://github.com/cyberbotics/webots/pull/2368))**.
