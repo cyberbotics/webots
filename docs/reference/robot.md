@@ -497,6 +497,12 @@ namespace webots {
 from controller import Robot
 
 class Robot:
+    def getDevice(self, name):
+    def getJoystick(self):
+    def getKeyboard(self):
+    def getMouse(self):
+
+    # deprecated methods (replaced by getDevice):
     def getAccelerometer(self, name):
     def getBrake(self, name):
     def getCamera(self, name):
@@ -508,13 +514,10 @@ class Robot:
     def getGPS(self, name):
     def getGyro(self, name):
     def getInertialUnit(self, name):
-    def getJoystick(self):
-    def getKeyboard(self):
     def getLED(self, name):
     def getLidar(self, name):
     def getLightSensor(self, name):
     def getMotor(self, name):
-    def getMouse(self):
     def getPen(self, name):
     def getPositionSensor(self, name):
     def getRadar(self, name):

@@ -171,7 +171,7 @@ TIME_STEP = 32
 
 robot = Robot()
 
-sensor = robot.getDistanceSensor("my_distance_sensor")
+sensor = robot.getDevice("my_distance_sensor")
 sensor.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:
@@ -442,7 +442,7 @@ from math import pi, sin
 TIME_STEP = 32
 
 robot = Robot()
-motor = robot.getMotor("my_motor")
+motor = robot.getDevice("my_motor")
 
 F = 2.0   # frequency 2 Hz
 t = 0.0   # elapsed simulation time
@@ -622,8 +622,8 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(sensor);
-  double d2 = robot->getDistanceSensor(sensor);
+  double d1 = sensor->getValue();
+  double d2 = sensor->getValue();
   if (d2 > d1)  // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -633,8 +633,8 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-    d1 = robot.getDistanceSensor(sensor)
-    d2 = robot.getDistanceSensor(sensor)
+    d1 = sensor.getValue()
+    d2 = sensor.getValue()
     if d2 > d1: # WRONG: d2 will always equal d1 here
         avoidCollision()
 ```
@@ -643,8 +643,8 @@ while robot.step(40) != -1:
 %tab "Java"
 ```java
 while (robot.step(40) != -1) {
-  d1 = robot.getDistanceSensor(sensor);
-  d2 = robot.getDistanceSensor(sensor);
+  d1 = sensor.getValue();
+  d2 = sensor.getValue();
   if (d2 > d1) // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -684,10 +684,10 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(sensor);
+  double d1 = sensor->getValue();
   if (robot->step(40) == -1)
     break;
-  double d2 = robot->getDistanceSensor(sensor);
+  double d2 = sensor->getValue();
   if (d2 > d1)
     avoidCollision();
 }
@@ -697,10 +697,10 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-    d1 = robot.getDistanceSensor(sensor)
+    d1 = sensor.getValue()
     if robot.step(40) == -1:
         break
-    d2 = robot.getDistanceSensor(sensor)
+    d2 = sensor.getValue()
     if d2 > d1:
         avoidCollision()
 ```
@@ -709,10 +709,10 @@ while robot.step(40) != -1:
 %tab "Java"
 ```java
 while (robot.step(40) != -1) {
-  double d1 = robot.getDistanceSensor(sensor);
+  double d1 = sensor.getValue();
   if (robot.step(40) == -1)
     break;
-  double d2 = robot.getDistanceSensor(sensor);
+  double d2 = sensor.getValue();
   if (d2 > d1)
     avoidCollision();
 }
@@ -919,13 +919,13 @@ TIME_STEP = 32
 
 robot = Robot()
 
-left_sensor = robot.getDistanceSensor("left_sensor")
-right_sensor = robot.getDistanceSensor("right_sensor")
+left_sensor = robot.getDevice("left_sensor")
+right_sensor = robot.getDevice("right_sensor")
 left_sensor.enable(TIME_STEP)
 right_sensor.enable(TIME_STEP)
 
-left_motor = robot.getMotor("left_motor")
-right_motor = robot.getMotor("right_motor")
+left_motor = robot.getDevice("left_motor")
+right_motor = robot.getDevice("right_motor")
 left_motor.setPosition(float('inf'))
 right_motor.setPosition(float('inf'))
 left_motor.setVelocity(0.0)
@@ -1212,7 +1212,7 @@ TIME_STEP = 32
 
 robot = Robot()
 
-sensor = robot.getDistanceSensor("my_distance_sensor")
+sensor = robot.getDevice("my_distance_sensor")
 sensor.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:

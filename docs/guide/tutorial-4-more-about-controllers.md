@@ -409,13 +409,13 @@ Reload the world.
 > ]
 >
 > for i in range(8):
->     ps.append(robot.getDistanceSensor(psNames[i]))
+>     ps.append(robot.getDevice(psNames[i]))
 >     ps[i].enable(TIME_STEP)
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
-> leftMotor = robot.getMotor('left wheel motor')
-> rightMotor = robot.getMotor('right wheel motor')
+> leftMotor = robot.getDevice('left wheel motor')
+> rightMotor = robot.getDevice('right wheel motor')
 > leftMotor.setPosition(float('inf'))
 > rightMotor.setPosition(float('inf'))
 > leftMotor.setVelocity(0.0)
@@ -779,11 +779,11 @@ psNames = [
 ]
 
 for i in range(8):
-    ps.append(robot.getDistanceSensor(psNames[i]))
+    ps.append(robot.getDevice(psNames[i]))
     ps[i].enable(TIME_STEP)
 
-leftMotor = robot.getMotor('left wheel motor')
-rightMotor = robot.getMotor('right wheel motor')
+leftMotor = robot.getDevice('left wheel motor')
+rightMotor = robot.getDevice('right wheel motor')
 leftMotor.setPosition(float('inf'))
 rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)

@@ -239,7 +239,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 %tab "Python"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
->Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
+>Modify the program by getting the motor devices (`leftMotor = robot.getDevice('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
 >from controller import Robot, Motor
 >
@@ -249,8 +249,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >robot = Robot()
 >
 ># get the motor devices
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 ># set the target position of the motors
 >leftMotor.setPosition(10.0)
 >rightMotor.setPosition(10.0)
@@ -414,8 +414,8 @@ In order to control the motors of the wheels in speed you need to set the target
 >robot = Robot()
 >
 ># get a handler to the motors and set target position to infinity (speed control)
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 >leftMotor.setPosition(float('inf'))
 >rightMotor.setPosition(float('inf'))
 >
