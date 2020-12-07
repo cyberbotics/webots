@@ -102,6 +102,7 @@ void WbBasicJoint::setMatrixNeedUpdate() {
     s->setMatrixNeedUpdate();
 }
 
+#include <QtCore/QDebug>
 void WbBasicJoint::postFinalize() {
   WbBaseNode::postFinalize();
 
@@ -114,8 +115,13 @@ void WbBasicJoint::postFinalize() {
 
   connect(mEndPoint, &WbSFNode::changed, this, &WbBasicJoint::updateEndPoint);
   const WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
-  assert(pg);
-  connect(this, &WbBasicJoint::endPointChanged, pg, &WbGroup::insertChildFromSlotOrJoint);
+  if (pg)
+    connect(this, &WbBasicJoint::endPointChanged, pg, &WbGroup::insertChildFromSlotOrJoint);
+  else {
+    const WbSlot *slot = dynamic_cast<WbSlot *>(parentNode());
+    if (slot)
+      connect(this, &WbBasicJoint::endPointChanged, slot, &WbSlot::endPointInserted);
+  }
   connect(mParameters, &WbSFNode::changed, this, &WbBasicJoint::updateParameters);
 
   WbSolid *const s = solidEndPoint();
