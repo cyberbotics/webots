@@ -5,5 +5,5 @@ sceneTreePerspectives: 000000ff0000000100000002000000a4000000fc01000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/cpp_import_device/cpp_import_device.cpp"
+textFiles: 1 "controllers/cpp_import_device/cpp_import_device.cpp" "controllers/test_suite_supervisor/test_suite_supervisor.py"
 consoles: Console:All:All
