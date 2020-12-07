@@ -1085,14 +1085,14 @@ class AnsiCodes(object):
     def __getOrCreateDevice(self, tag):
       if tag == 0:
           return None
+      count = self.getNumberOfDevices()
       size = len(Robot.__devices)
-      if size > 0:
-          if tag >= size:
-              return None
+      if count == size and size > 0 and tag < size:
           return Robot.__devices[tag]
 
-      # initialize Robot.__devices list
-      count = self.getNumberOfDevices()
+      # (re-)initialize Robot.__devices list
+      if tag > count:
+          return None
       Robot.__devices = [None] * (count + 1)
       for i in range(0, count):
           otherTag = self.__internalGetDeviceTagFromIndex(i)

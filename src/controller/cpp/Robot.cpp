@@ -449,15 +449,16 @@ Device *Robot::getOrCreateDevice(int tag) {
   if (tag == 0)
     return NULL;
 
-  int size = (int)deviceList.size();
-  if (size > 0) {
-    if (size <= tag)
-      return NULL;
+  const int count = wb_robot_get_number_of_devices();
+  const int size = (int)deviceList.size();
+  std::cerr << "getOrCreateDevice " << count << " " << size << " " << tag << std::endl;
+  if (size == count && size > 0 && tag < size)
     return deviceList[tag];
-  }
 
-  // initialize deviceList
-  int count = wb_robot_get_number_of_devices();
+  // (re-)initialize deviceList
+  if (tag > count)
+    return NULL;
+  std::cerr << "getOrCreateDevice resize" << std::endl;
   deviceList.resize(count + 1);
   deviceList[0] = NULL;
   for (int i = 0; i < count; i++) {
