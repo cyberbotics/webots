@@ -2,6 +2,11 @@ import {WbGeometry} from "./WbGeometry.js"
 import {WbTriangleMesh} from "./WbTriangleMesh.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
 
+import {WbMatrix4} from "./utils/WbMatrix4.js"
+import {WbMatrix3} from "./utils/WbMatrix3.js"
+
+import {arrayXPointerFloat} from "./WbUtils.js";
+
 
 class WbTriangleMeshGeometry extends WbGeometry {
   constructor(id) {
@@ -12,12 +17,13 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   createWrenObjects() {
+    //TODO
     //if (!mTriangleMeshError.isEmpty())
       //console.error(mTriangleMeshError);
 
     super.createWrenObjects();
 
-    buildWrenMesh(false);
+    this.buildWrenMesh(false);
   }
 
   deleteWrenRenderable() {
@@ -30,8 +36,10 @@ class WbTriangleMeshGeometry extends WbGeometry {
 
     super.deleteWrenRenderable();
   }
+
   buildWrenMesh(updateCache) {
-    /*if (updateCache) {
+    /*
+    if (updateCache) {
       WbTriangleMeshCache::releaseTriangleMesh(this);
       mMeshKey.set(this);
       WbTriangleMeshCache::useTriangleMesh(this);
@@ -66,18 +74,118 @@ class WbTriangleMeshGeometry extends WbGeometry {
     // Restore pickable state
     //setPickable(isPickable());
 
-    let buffers = super.createMeshBuffers(estimateVertexCount(), estimateIndexCount());
-    /*this.buildGeomIntoBuffers(buffers, WbMatrix4(), !mTriangleMesh->areTextureCoordinatesValid());
+    let buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
+    this.buildGeomIntoBuffers(buffers, new WbMatrix4(), this.triangleMesh.areTextureCoordinatesValid);
 
-    mWrenMesh = wr_static_mesh_new(buffers->verticesCount(), buffers->indicesCount(), buffers->vertexBuffer(),
-                                   buffers->normalBuffer(), buffers->texCoordBuffer(), buffers->unwrappedTexCoordBuffer(),
-                                   buffers->indexBuffer(), createOutlineMesh);
+    //TODO CHECK INPUT
+    let vertexBufferPointer = arrayXPointerFloat(buffer.vertexBuffer);
+    let normalBufferPointer = arrayXPointerFloat(buffer.normalBuffer);
+    let texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
+    let unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
+    let indexBufferPointer = arrayXPointer(indexBuffer);
+    this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
+      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
-    delete buffers;
+    _free(vertexBufferPointer);
+    _free(normalBufferPointer);
+    _free(texCoordBufferPointer);
+    _free(unwrappedTexCoordsBufferPointer);
+    _free(indexBufferPointer);
 
-    wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
-    updateNormalsRepresentation();*/
+    buffers.clear();
+
+    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+  }
+
+  estimateVertexCount() {
+    assert(this.triangleMesh.isValid);
+
+    return 3 * this.triangleMesh.numberOfTriangles;
+  }
+
+  estimateIndexCount() {
+    assert(this.triangleMesh.isValid);
+
+    return 3 * this.triangleMesh.numberOfTriangles;
+  }
+
+  buildGeomIntoBuffers(buffers, m, generateUserTexCoords) {
+    assert(this.triangleMesh.isValid);
+
+    let rm = m.extracted3x3Matrix();
+    let n = this.triangleMesh.numberOfTriangles;
+
+    let start = buffers.vertexIndex / 3;
+    let vBuf = buffers.vertexBuffer;
+    if (typeof vBuf !== 'undefined') {
+      let i = buffers.vertexIndex;
+      for (let t = 0; t < n; ++t) {    // foreach triangle
+        for (let v = 0; v < 3; ++v) {  // foreach vertex
+          WbWrenMeshBuffers.writeCoordinates(this.triangleMesh.vertex(t, v, 0), this.triangleMesh.vertex(t, v, 1), this.triangleMesh.vertex(t, v, 2), m, vBuf, i);
+          i += 3;
+        }
+      }
+    }
+
+    let nBuf = buffers.normalBuffer;
+    if (typeof nBuf !== 'undefined') {
+      let i = buffers.vertexIndex;
+      for (let t = 0; t < n; ++t) {    // foreach triangle
+        for (let v = 0; v < 3; ++v) {  // foreach vertex
+          WbWrenMeshBuffers.writeNormal(this.triangleMesh.normal(t, v, 0), this.triangleMesh.normal(t, v, 1), this.triangleMesh.normal(t, v, 2), rm, nBuf, i);
+          i += 3;
+        }
+      }
+    }
+
+    let tBuf = buffers.texCoordBuffer;
+    let utBuf = buffers.unwrappedTexCoordsBuffer;
+    if (typeof tBuf !== 'undefined') {
+      let i = start * buffers.texCoordSetsCount * 2;
+      for (let t = 0; t < n; ++t) {    // foreach triangle
+        for (let v = 0; v < 3; ++v) {  // foreach vertex
+          tBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
+          tBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
+
+          if (generateUserTexCoords) {
+            utBuf[i] = this.triangleMesh.nonRecursiveTextureCoordinate(t, v, 0);
+            utBuf[i + 1] = this.triangleMesh.nonRecursiveTextureCoordinate(t, v, 1);
+          } else {
+            utBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
+            utBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
+          }
+          i += 2;
+        }
+      }
+    }
+
+    let iBuf = buffers.indexBuffer;
+    if (typeof iBuf !== 'undefined') {
+      start = buffers.vertexIndex / 3;
+      let i = buffers.index;
+      for (let t = 0; t < n; ++t) {  // foreach triangle
+        for (let v = 0; v < 3; ++v)  // foreach vertex
+          iBuf[i++] = start + this.triangleMesh.index(t, v);
+      }
+      buffers.index = i;
+    }
+    buffers.vertexIndex = buffers.vertexIndex + this.estimateVertexCount() * 3;
+  }
+
+  preFinalize() {
+    if (this.isPreFinalizeCalled)
+      return;
+
+    super.preFinalize();
+
+    this.createTriangleMesh();
+  }
+
+  createTriangleMesh() {
+    this.triangleMesh = new WbTriangleMesh();
+    this.updateTriangleMesh();
   }
 }
+
 
 export {WbTriangleMeshGeometry}

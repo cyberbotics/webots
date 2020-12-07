@@ -1,5 +1,6 @@
 import {WbBaseNode} from "./WbBaseNode.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
+import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js"
 
 
 class WbGeometry extends WbBaseNode {
@@ -53,10 +54,6 @@ class WbGeometry extends WbBaseNode {
       _wr_renderable_set_material(this.wrenRenderable, material, null);
       _wr_renderable_set_cast_shadows(this.wrenRenderable, castShadows);
     }
-  }
-
-  postFinalize() {
-    super.postFinalize();
   }
 
   deleteWrenRenderable() {

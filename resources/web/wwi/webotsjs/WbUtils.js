@@ -123,5 +123,4 @@ function findUpperTransform(node) {
   return undefined;
 }
 
-
 export {array3Pointer, arrayXPointer, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}

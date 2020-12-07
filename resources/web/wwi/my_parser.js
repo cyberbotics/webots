@@ -28,7 +28,6 @@ import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
 
-
 class MyParser {
   constructor() {
       this.prefix = "http://localhost:1234/";
@@ -560,16 +559,32 @@ class MyParser {
     let coordinate = node.getElementsByTagName('Coordinate')[0];
     let coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
     let coord = coordStr.map(el => parseFloat(el));
+    let coordArray = [];
+    for(let i = 0; i < coord.length; i = i + 3) {
+      coordArray.push(new glm.vec3(coord[i], coord[i + 1], coord[i + 2]));
+    }
 
     let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
     let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
     let texCoord  = texcoordsStr.map(el => parseFloat(el));
+    let texCoordArray = [];
+    for(let i = 0; i < texCoord.length; i = i + 2) {
+      texCoordArray.push(new glm.vec2(texCoord[i], texCoord[i + 1]));
+    }
 
     let normalNode = node.getElementsByTagName('Normal')[0];
     let normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
     let normal = normalStr.map(el => parseFloat(el));
+    let normalArray = [];
+    for(let i = 0; i < normal.length; i = i + 3) {
+      normalArray.push(new glm.vec3(normal[i], normal[i + 1], normal[i + 2]));
+    }
 
-    let ifs = new IndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal);
+    let creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '1'));
+    let ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
+    let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
+
+    let ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
     World.instance.nodes[ifs.id] = ifs;
 
     return ifs;

@@ -258,7 +258,6 @@ class WbWrenPostProcessingEffects {
      //_wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
      //_wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
-     console.log("yoa");
    }
 
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
