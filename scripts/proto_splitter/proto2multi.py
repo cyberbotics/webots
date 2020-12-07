@@ -142,7 +142,7 @@ class proto2multi:
                     if "{" in ln or "[" in ln:
                         shapeLevel += 1
                 replaceString = self.createProto(newProtoString)
-                self.pf.write(indent * level + defString + "geometry " + replaceString)
+                self.pf.write(indent * level +  "geometry " + defString + replaceString)
                 self.pf.write(indent * level + "}\n")
             else:
                 if "}" in ln or "]" in ln:
