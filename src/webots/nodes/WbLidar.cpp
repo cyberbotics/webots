@@ -821,7 +821,7 @@ void WbLidar::applyResolutionToWren() {
 }
 
 void WbLidar::applyMaxRangeToWren() {
-  mWrenCamera->setMaxRange(3.402823466e+10);
+  mWrenCamera->setMaxRange(mMaxRange->value());
 }
 
 void WbLidar::applyCameraSettingsToWren() {
