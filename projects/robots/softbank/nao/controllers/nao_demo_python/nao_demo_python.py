@@ -202,46 +202,46 @@ class Nao (Robot):
         self.timeStep = int(self.getBasicTimeStep())
 
         # camera
-        self.cameraTop = self.getCamera("CameraTop")
-        self.cameraBottom = self.getCamera("CameraBottom")
+        self.cameraTop = self.getDevice("CameraTop")
+        self.cameraBottom = self.getDevice("CameraBottom")
         self.cameraTop.enable(4 * self.timeStep)
         self.cameraBottom.enable(4 * self.timeStep)
 
         # accelerometer
-        self.accelerometer = self.getAccelerometer('accelerometer')
+        self.accelerometer = self.getDevice('accelerometer')
         self.accelerometer.enable(4 * self.timeStep)
 
         # gyro
-        self.gyro = self.getGyro('gyro')
+        self.gyro = self.getDevice('gyro')
         self.gyro.enable(4 * self.timeStep)
 
         # gps
-        self.gps = self.getGPS('gps')
+        self.gps = self.getDevice('gps')
         self.gps.enable(4 * self.timeStep)
 
         # inertial unit
-        self.inertialUnit = self.getInertialUnit('inertial unit')
+        self.inertialUnit = self.getDevice('inertial unit')
         self.inertialUnit.enable(self.timeStep)
 
         # ultrasound sensors
         self.us = []
         usNames = ['Sonar/Left', 'Sonar/Right']
         for i in range(0, len(usNames)):
-            self.us.append(self.getDistanceSensor(usNames[i]))
+            self.us.append(self.getDevice(usNames[i]))
             self.us[i].enable(self.timeStep)
 
         # foot sensors
         self.fsr = []
         fsrNames = ['LFsr', 'RFsr']
         for i in range(0, len(fsrNames)):
-            self.fsr.append(self.getTouchSensor(fsrNames[i]))
+            self.fsr.append(self.getDevice(fsrNames[i]))
             self.fsr[i].enable(self.timeStep)
 
         # foot bumpers
-        self.lfootlbumper = self.getTouchSensor('LFoot/Bumper/Left')
-        self.lfootrbumper = self.getTouchSensor('LFoot/Bumper/Right')
-        self.rfootlbumper = self.getTouchSensor('RFoot/Bumper/Left')
-        self.rfootrbumper = self.getTouchSensor('RFoot/Bumper/Right')
+        self.lfootlbumper = self.getDevice('LFoot/Bumper/Left')
+        self.lfootrbumper = self.getDevice('LFoot/Bumper/Right')
+        self.rfootlbumper = self.getDevice('RFoot/Bumper/Left')
+        self.rfootrbumper = self.getDevice('RFoot/Bumper/Right')
         self.lfootlbumper.enable(self.timeStep)
         self.lfootrbumper.enable(self.timeStep)
         self.rfootlbumper.enable(self.timeStep)
@@ -249,13 +249,13 @@ class Nao (Robot):
 
         # there are 7 controlable LED groups in Webots
         self.leds = []
-        self.leds.append(self.getLED('ChestBoard/Led'))
-        self.leds.append(self.getLED('RFoot/Led'))
-        self.leds.append(self.getLED('LFoot/Led'))
-        self.leds.append(self.getLED('Face/Led/Right'))
-        self.leds.append(self.getLED('Face/Led/Left'))
-        self.leds.append(self.getLED('Ears/Led/Right'))
-        self.leds.append(self.getLED('Ears/Led/Left'))
+        self.leds.append(self.getDevice('ChestBoard/Led'))
+        self.leds.append(self.getDevice('RFoot/Led'))
+        self.leds.append(self.getDevice('LFoot/Led'))
+        self.leds.append(self.getDevice('Face/Led/Right'))
+        self.leds.append(self.getDevice('Face/Led/Left'))
+        self.leds.append(self.getDevice('Ears/Led/Right'))
+        self.leds.append(self.getDevice('Ears/Led/Left'))
 
         # get phalanx motor tags
         # the real Nao has only 2 motors for RHand/LHand
@@ -265,16 +265,16 @@ class Nao (Robot):
         self.maxPhalanxMotorPosition = []
         self.minPhalanxMotorPosition = []
         for i in range(0, self.PHALANX_MAX):
-            self.lphalanx.append(self.getMotor("LPhalanx%d" % (i + 1)))
-            self.rphalanx.append(self.getMotor("RPhalanx%d" % (i + 1)))
+            self.lphalanx.append(self.getDevice("LPhalanx%d" % (i + 1)))
+            self.rphalanx.append(self.getDevice("RPhalanx%d" % (i + 1)))
 
             # assume right and left hands have the same motor position bounds
             self.maxPhalanxMotorPosition.append(self.rphalanx[i].getMaxPosition())
             self.minPhalanxMotorPosition.append(self.rphalanx[i].getMinPosition())
 
         # shoulder pitch motors
-        self.RShoulderPitch = self.getMotor("RShoulderPitch")
-        self.LShoulderPitch = self.getMotor("LShoulderPitch")
+        self.RShoulderPitch = self.getDevice("RShoulderPitch")
+        self.LShoulderPitch = self.getDevice("LShoulderPitch")
 
         # keyboard
         self.keyboard = self.getKeyboard()

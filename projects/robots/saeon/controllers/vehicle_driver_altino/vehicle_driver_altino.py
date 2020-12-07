@@ -22,12 +22,12 @@ driver = Driver()
 
 basicTimeStep = int(driver.getBasicTimeStep())
 sensorTimeStep = 4 * basicTimeStep
-front_left_sensor = driver.getDistanceSensor('front_left_sensor')
-front_center_sensor = driver.getDistanceSensor('front_center_sensor')
-front_right_sensor = driver.getDistanceSensor('front_right_sensor')
+front_left_sensor = driver.getDevice('front_left_sensor')
+front_center_sensor = driver.getDevice('front_center_sensor')
+front_right_sensor = driver.getDevice('front_right_sensor')
 
-headlights = driver.getLED("headlights")
-backlights = driver.getLED("backlights")
+headlights = driver.getDevice("headlights")
+backlights = driver.getDevice("backlights")
 
 keyboard = driver.getKeyboard()
 keyboard.enable(sensorTimeStep)
@@ -36,9 +36,9 @@ front_left_sensor.enable(sensorTimeStep)
 front_center_sensor.enable(sensorTimeStep)
 front_right_sensor.enable(sensorTimeStep)
 
-side_left_sensor = driver.getDistanceSensor('side_left_sensor')
-side_right_sensor = driver.getDistanceSensor('side_right_sensor')
-back_sensor = driver.getDistanceSensor('back_sensor')
+side_left_sensor = driver.getDevice('side_left_sensor')
+side_right_sensor = driver.getDevice('side_right_sensor')
+back_sensor = driver.getDevice('back_sensor')
 
 side_left_sensor.enable(sensorTimeStep)
 side_right_sensor.enable(sensorTimeStep)
