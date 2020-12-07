@@ -41,8 +41,8 @@ Thymio2AsebaHub::Thymio2AsebaHub(int port) : stream(0) {
   vm.stack = &stack[0];
   vm.stackSize = stack.size();
 
-  vm.variables = reinterpret_cast<sint16 *>(&variables);
-  vm.variablesSize = sizeof(variables) / sizeof(sint16);
+  vm.variables = reinterpret_cast<short int *>(&variables);
+  vm.variablesSize = sizeof(variables) / sizeof(short int);
 
   try {
     std::ostringstream o;
@@ -76,8 +76,8 @@ void Thymio2AsebaHub::connectionCreated(Dashel::Stream *stream) {
 }
 
 void Thymio2AsebaHub::incomingData(Dashel::Stream *stream) {
-  uint16 temp;
-  uint16 len;
+  unsigned short int temp;
+  unsigned short int len;
 
   stream->read(&temp, 2);
   len = bswap16(temp);
@@ -86,7 +86,7 @@ void Thymio2AsebaHub::incomingData(Dashel::Stream *stream) {
   lastMessageData.resize(len + 2);
   stream->read(&lastMessageData[0], lastMessageData.size());
 
-  if (bswap16(*(uint16 *)&lastMessageData[0]) >= 0xA000)
+  if (bswap16(*(unsigned short int *)&lastMessageData[0]) >= 0xA000)
     AsebaProcessIncomingEvents(&vm);
   else
     cerr << "Non debug event dropped." << endl;
@@ -125,7 +125,7 @@ extern "C" {
 void AsebaPutVmToSleep(AsebaVMState *vm) {
 }
 
-void AsebaSendBuffer(AsebaVMState *vm, const uint8 *data, uint16 length) {
+void AsebaSendBuffer(AsebaVMState *vm, const unsigned char *data, unsigned short int length) {
   Dashel::Stream *stream = thymio2->stream;
   if (!stream) {
     cerr << "Invalid stream" << std::endl;
@@ -133,7 +133,7 @@ void AsebaSendBuffer(AsebaVMState *vm, const uint8 *data, uint16 length) {
   }
 
   try {
-    uint16 temp;
+    unsigned short int temp;
     temp = bswap16(length - 2);
     stream->write(&temp, 2);
     temp = bswap16(vm->nodeId);
@@ -145,7 +145,8 @@ void AsebaSendBuffer(AsebaVMState *vm, const uint8 *data, uint16 length) {
   }
 }
 
-uint16 AsebaGetBuffer(AsebaVMState *vm, uint8 *data, uint16 maxLength, uint16 *source) {
+unsigned short int AsebaGetBuffer(AsebaVMState *vm, unsigned char *data, unsigned short int maxLength,
+                                  unsigned short int *source) {
   if (thymio2->lastMessageData.size()) {
     *source = thymio2->lastMessageSource;
     memcpy(data, &thymio2->lastMessageData[0], thymio2->lastMessageData.size());
@@ -169,7 +170,7 @@ const AsebaNativeFunctionDescription *const *AsebaGetNativeFunctionsDescriptions
 }
 
 extern AsebaNativeFunctionPointer nativeFunctions[];
-void AsebaNativeFunction(AsebaVMState *vm, uint16 id) {
+void AsebaNativeFunction(AsebaVMState *vm, unsigned short int id) {
   nativeFunctions[id](vm);
 }
 
