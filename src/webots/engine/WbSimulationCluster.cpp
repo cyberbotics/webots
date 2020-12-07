@@ -439,7 +439,6 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
     if (dGeomIsSpace(o2))
       dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
-    return;
   }
 
   // retrieve data
