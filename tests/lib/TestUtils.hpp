@@ -34,19 +34,6 @@ public:
     notifyControllerStatus(true);
   }
 
-  void notifyControllerStatus(bool running) {
-    if (!mEmitter)
-      mEmitter = mRobot->getEmitter("ts_emitter");
-
-    char msg[256];
-#ifdef _WIN32
-    sprintf(msg, "ts %d %ld", running, GetCurrentProcessId());
-#else
-    sprintf(msg, "ts %d %d", running, getpid());
-#endif
-    mEmitter->send(msg, strlen(msg));
-  }
-
   void sendSuccess() {
     // write the result to the file
     std::ofstream file;
@@ -62,7 +49,29 @@ public:
     exit(EXIT_SUCCESS);
   }
 
-  // please use rather the assertion tests that this function
+  void assertPointerNotNull(void *ptr, const std::string &errorMessage) {
+    if (ptr == NULL)
+      sendErrorAndExit(errorMessage);
+  }
+
+private:
+  std::string mTestName;
+  Robot *mRobot;
+  Emitter *mEmitter;
+  
+  void notifyControllerStatus(bool running) {
+    if (!mEmitter)
+      mEmitter = mRobot->getEmitter("ts_emitter");
+
+    char msg[256];
+#ifdef _WIN32
+    sprintf(msg, "ts %d %ld", running, GetCurrentProcessId());
+#else
+    sprintf(msg, "ts %d %d", running, getpid());
+#endif
+    mEmitter->send(msg, strlen(msg));
+  }
+  
   void sendErrorAndExit(const std::string &errorMessage) {
     // write the result to the file
     std::ofstream file;
@@ -78,16 +87,6 @@ public:
     delete mRobot;
     exit(EXIT_FAILURE);
   }
-
-  void assertPointerNotNull(void *ptr, const std::string &errorMessage) {
-    if (ptr == NULL)
-      sendErrorAndExit(errorMessage);
-  }
-
-private:
-  std::string mTestName;
-  Robot *mRobot;
-  Emitter *mEmitter;
 };
 
 #endif

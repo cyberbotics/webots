@@ -20,8 +20,6 @@ int main(int argc, char **argv) {
   ts.assertPointerNotNull(ds1, "DistanceSensor 2 not found after import.");
   ds1->enable(timeStep);
 
-  robot->step(timeStep);
-
   // Import the second PositionSensor
   childrenField->importMFNodeFromString(1, "DistanceSensor { name \"ds2\" }");
   DistanceSensor *ds2 = robot->getDistanceSensor("ds2");
