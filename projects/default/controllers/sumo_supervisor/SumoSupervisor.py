@@ -377,15 +377,15 @@ class SumoSupervisor (Supervisor):
                     self.trafficLights[id].trafficLightRecognitionColors[j] = trafficLightNode.getField("recognitionColors")
                 ledName = id + "_" + str(j) + "_"
                 if ledName + "r" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 0] = self.getLED(ledName + "r")
+                    self.trafficLights[id].LED[3 * j + 0] = self.getDevice(ledName + "r")
                 else:
                     self.trafficLights[id].LED[3 * j + 0] = None
                 if ledName + "y" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 1] = self.getLED(ledName + "y")
+                    self.trafficLights[id].LED[3 * j + 1] = self.getDevice(ledName + "y")
                 else:
                     self.trafficLights[id].LED[3 * j + 1] = None
                 if ledName + "g" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 2] = self.getLED(ledName + "g")
+                    self.trafficLights[id].LED[3 * j + 2] = self.getDevice(ledName + "g")
                 else:
                     self.trafficLights[id].LED[3 * j + 2] = None
 
@@ -508,7 +508,7 @@ class SumoSupervisor (Supervisor):
         self.sumoDisplay = None
         if useDisplay:
             view = self.traci.gui.getIDList()[0]
-            display = self.getDisplay('sumo')
+            display = self.getDevice('sumo')
             if display is not None:
                 from SumoDisplay import SumoDisplay
                 self.sumoDisplay = SumoDisplay(display, displayZoom, view, directory, displayRefreshRate, displayFitSize,

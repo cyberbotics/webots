@@ -17,6 +17,7 @@ Released on December XXth, 2020.
     - **The [InertialUnit](inertialunit.md)`.lookupTable` field was deprecated and the related `wb_inertial_unit_get_lookup_table_size` and `wb_inertial_unit_get_lookup_table` functions were removed ([#2424](https://github.com/cyberbotics/webots/pull/2424)).**
     - Added a `PlasticFruitBox` and a `MetalStorageBox` PROTO object ([#2427](https://github.com/cyberbotics/webots/pull/2427)).
     - Added a `data_type` parameter to a Python method [`getPointCloud`](lidar.md#wb_lidar_get_point_cloud) that retrieves a `bytearray` representation of points a few times faster than the previous version.
+    - **Deprecated all the device getter methods in Python.** They are replaced by a new [`Robot.getDevice`](robot.md#wb_robot_get_device) method which is closer to the C API ([#2510](https://github.com/cyberbotics/webots/pull/2510)).
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
     - Fixed the [webots\_physics\_collide(dGeomID, dGeomID)](callback-functions.md) callback function so that it gets called even if the [`boundingObject`](solid.md#solid-fields) is a [Group](group.md) node ([#2505](https://github.com/cyberbotics/webots/pull/2505)).

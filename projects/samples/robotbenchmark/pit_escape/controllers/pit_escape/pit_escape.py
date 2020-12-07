@@ -10,7 +10,7 @@ timestep = int(robot.getBasicTimeStep())
 maxSpeed = 8.72
 
 # Configuration of the main motor of the robot.
-pitchMotor = robot.getMotor("body pitch motor")
+pitchMotor = robot.getDevice("body pitch motor")
 pitchMotor.setPosition(float('inf'))
 pitchMotor.setVelocity(0.0)
 

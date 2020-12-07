@@ -21,8 +21,8 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 absoluteStop = float(sys.argv[1])
-motor = robot.getMotor('rotational motor')
-positionSensor = robot.getPositionSensor('position sensor')
+motor = robot.getDevice('rotational motor')
+positionSensor = robot.getDevice('position sensor')
 positionSensor.enable(timestep)
 
 while robot.step(timestep) != -1:

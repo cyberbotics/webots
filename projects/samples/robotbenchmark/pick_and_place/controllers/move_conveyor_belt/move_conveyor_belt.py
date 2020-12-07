@@ -4,6 +4,6 @@ from controller import Robot
 
 robot = Robot()
 
-motor = robot.getMotor("belt motor")
+motor = robot.getDevice("belt motor")
 motor.setVelocity(0.2)
 motor.setPosition(0.75)

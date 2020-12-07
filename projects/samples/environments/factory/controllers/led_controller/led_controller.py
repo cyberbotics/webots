@@ -21,10 +21,10 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
-led = robot.getLED('led')
+led = robot.getDevice('led')
 led.set(True)
 
-positionSensor = robot.getPositionSensor('emergency button sensor')
+positionSensor = robot.getDevice('emergency button sensor')
 positionSensor.enable(timestep)
 
 released = True

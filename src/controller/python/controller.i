@@ -192,13 +192,13 @@ class AnsiCodes(object):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.getDevice(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   def getPositionSensor(self):
       try:
           return self.instance
       except AttributeError:
-          self.__positionSensor = Robot.getDevice(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -647,13 +647,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.getDevice(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getPositionSensor(self):
       try:
           return self.__positionSensor
       except AttributeError:
-          self.__positionSensor = Robot.getDevice(self.getPositionSensorTag())
+          self.__positionSensor = Robot.__getDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
   %}
 }
@@ -711,13 +711,13 @@ class AnsiCodes(object):
       try:
           return self.__brake
       except AttributeError:
-          self.__brake = Robot.getDevice(self.getBrakeTag())
+          self.__brake = Robot.__getDeviceFromTag(self.getBrakeTag())
           return self.__brake
   def getMotor(self):
       try:
           return self.__motor
       except AttributeError:
-          self.__motor = Robot.getDevice(self.getMotorTag())
+          self.__motor = Robot.__getDeviceFromTag(self.getMotorTag())
           return self.__motor
   %}
 }
@@ -907,6 +907,7 @@ class AnsiCodes(object):
     def createAccelerometer(self, name):
       return Accelerometer(name)
     def getAccelerometer(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.ACCELEROMETER):
         return None
@@ -914,6 +915,7 @@ class AnsiCodes(object):
     def createBrake(self, name):
       return Brake(name)
     def getBrake(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getBrake is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.BRAKE):
         return None
@@ -921,6 +923,7 @@ class AnsiCodes(object):
     def createCamera(self, name):
       return Camera(name)
     def getCamera(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getCamera is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.CAMERA):
         return None
@@ -928,6 +931,7 @@ class AnsiCodes(object):
     def createCompass(self, name):
       return Compass(name)
     def getCompass(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getCompass is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.COMPASS):
         return None
@@ -935,6 +939,7 @@ class AnsiCodes(object):
     def createConnector(self, name):
       return Connector(name)
     def getConnector(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getConnector is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.CONNECTOR):
         return None
@@ -942,6 +947,7 @@ class AnsiCodes(object):
     def createDisplay(self, name):
       return Display(name)
     def getDisplay(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getDisplay is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.DISPLAY):
         return None
@@ -949,6 +955,7 @@ class AnsiCodes(object):
     def createDistanceSensor(self, name):
       return DistanceSensor(name)
     def getDistanceSensor(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.DISTANCE_SENSOR):
         return None
@@ -956,6 +963,7 @@ class AnsiCodes(object):
     def createEmitter(self, name):
       return Emitter(name)
     def getEmitter(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.EMITTER):
         return None
@@ -963,6 +971,7 @@ class AnsiCodes(object):
     def createGPS(self, name):
       return GPS(name)
     def getGPS(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getGPS is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.GPS):
         return None
@@ -970,6 +979,7 @@ class AnsiCodes(object):
     def createGyro(self, name):
       return Gyro(name)
     def getGyro(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getGyro is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.GYRO):
         return None
@@ -977,6 +987,7 @@ class AnsiCodes(object):
     def createInertialUnit(self, name):
       return InertialUnit(name)
     def getInertialUnit(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getInertialUnit is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.INERTIAL_UNIT):
         return None
@@ -988,6 +999,7 @@ class AnsiCodes(object):
     def createLED(self, name):
       return LED(name)
     def getLED(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getLED is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.LED):
         return None
@@ -995,6 +1007,7 @@ class AnsiCodes(object):
     def createLidar(self, name):
       return Lidar(name)
     def getLidar(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getLidar is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.LIDAR):
         return None
@@ -1002,6 +1015,7 @@ class AnsiCodes(object):
     def createLightSensor(self, name):
       return LightSensor(name)
     def getLightSensor(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getLightSensor is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.LIGHT_SENSOR):
         return None
@@ -1009,6 +1023,7 @@ class AnsiCodes(object):
     def createMotor(self, name):
       return Motor(name)
     def getMotor(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.LINEAR_MOTOR) and not Device.hasType(tag, Node.ROTATIONAL_MOTOR):
         return None
@@ -1018,6 +1033,7 @@ class AnsiCodes(object):
     def createPen(self, name):
       return Pen(name)
     def getPen(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getPen is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.PEN):
         return None
@@ -1025,6 +1041,7 @@ class AnsiCodes(object):
     def createPositionSensor(self, name):
       return PositionSensor(name)
     def getPositionSensor(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getPositionSensor is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.POSITION_SENSOR):
         return None
@@ -1032,6 +1049,7 @@ class AnsiCodes(object):
     def createRadar(self, name):
       return Radar(name)
     def getRadar(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getRadar is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.RADAR):
         return None
@@ -1039,6 +1057,7 @@ class AnsiCodes(object):
     def createRangeFinder(self, name):
       return RangeFinder(name)
     def getRangeFinder(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getRangeFinder is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.RANGE_FINDER):
         return None
@@ -1046,6 +1065,7 @@ class AnsiCodes(object):
     def createReceiver(self, name):
       return Receiver(name)
     def getReceiver(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.RECEIVER):
         return None
@@ -1053,6 +1073,7 @@ class AnsiCodes(object):
     def createSkin(self, name):
       return Skin(name)
     def getSkin(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getSkin is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.SKIN):
         return None
@@ -1060,6 +1081,7 @@ class AnsiCodes(object):
     def createSpeaker(self, name):
       return Speaker(name)
     def getSpeaker(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getSpeaker is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.SPEAKER):
         return None
@@ -1067,6 +1089,7 @@ class AnsiCodes(object):
     def createTouchSensor(self, name):
       return TouchSensor(name)
     def getTouchSensor(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getTouchSensor is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.TOUCH_SENSOR):
         return None
@@ -1074,8 +1097,11 @@ class AnsiCodes(object):
     def getDeviceByIndex(self, index):
       tag = self.__internalGetDeviceTagFromIndex(index)
       return self.__getOrCreateDevice(tag)
+    def getDevice(self, name):
+      tag = self.__internalGetDeviceTagFromName(name)
+      return self.__getOrCreateDevice(tag)
     @staticmethod
-    def getDevice(tag):
+    def __getDeviceFromTag(tag):
       if tag == 0:
           return None
       size = len(Robot.__devices)

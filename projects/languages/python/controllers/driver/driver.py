@@ -29,7 +29,7 @@ class Driver (Supervisor):
 
     def __init__(self):
         super(Driver, self).__init__()
-        self.emitter = self.getEmitter('emitter')
+        self.emitter = self.getDevice('emitter')
         robot = self.getFromDef('ROBOT1')
         self.translationField = robot.getField('translation')
         self.keyboard.enable(Driver.timeStep)

@@ -133,7 +133,7 @@ double Motor::getMaxTorque() const {
 
 Brake *Motor::getBrake() {
   if (brake == NULL)
-    brake = dynamic_cast<Brake *>(Robot::getDevice(getBrakeTag()));
+    brake = dynamic_cast<Brake *>(Robot::getDeviceFromTag(getBrakeTag()));
   return brake;
 }
 
@@ -143,7 +143,7 @@ int Motor::getBrakeTag() const {
 
 PositionSensor *Motor::getPositionSensor() {
   if (positionSensor == NULL)
-    positionSensor = dynamic_cast<PositionSensor *>(Robot::getDevice(getPositionSensorTag()));
+    positionSensor = dynamic_cast<PositionSensor *>(Robot::getDeviceFromTag(getPositionSensorTag()));
   return positionSensor;
 }
 
