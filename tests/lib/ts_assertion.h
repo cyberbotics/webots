@@ -18,7 +18,7 @@
   } while (0)
 
 #define TS_DOUBLE_IN_DELTA(value, expected, delta) \
-  ((isnan(value) && isnan(expected)) || (fabs((value) - (expected)) <= (delta)))
+  ((isnan(value) && isnan(expected)) || (isinf(value) && isinf(expected)) || (fabs((value) - (expected)) <= (delta)))
 
 void ts_assert_boolean_equal(bool value, const char *error_message, ...) {
   bool correct = value;
