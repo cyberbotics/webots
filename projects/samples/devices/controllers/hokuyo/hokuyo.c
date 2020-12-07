@@ -35,6 +35,9 @@
 #define BLIND_SPOT_COLOR 0xC0C0C0
 #define BACKGROUND_COLOR 0xFFFFFF
 
+// max distance represented in the displayed circle
+#define RADIUS 1.0
+
 // function displaying lidar values on a display
 static void display(WbDeviceTag d,   // display
                     int dw,          // display width
@@ -64,7 +67,7 @@ static void display(WbDeviceTag d,   // display
   for (i = 0; i < ns; i++) {
     float f = v[i];
     float alpha = -fov2 + fov * i / ns - M_PI_2;
-    wb_display_draw_line(d, dw2, dh2, dw2 + f * cos(alpha) * dw2 / CLAMP_MAX, dh2 + f * sin(alpha) * dh2 / CLAMP_MAX);
+    wb_display_draw_line(d, dw2, dh2, dw2 + f * cos(alpha) * dw2 / RADIUS, dh2 + f * sin(alpha) * dh2 / RADIUS);
   }
 }
 
