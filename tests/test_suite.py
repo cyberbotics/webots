@@ -48,7 +48,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
+testGroups = ['api', 'other-api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
 testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
