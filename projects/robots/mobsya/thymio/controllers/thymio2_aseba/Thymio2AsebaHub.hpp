@@ -45,8 +45,8 @@ public:
   std::valarray<signed short> stack;
   _vmVariables variables;
 
-  uint16 lastMessageSource;
-  std::valarray<uint8> lastMessageData;
+  unsigned short int lastMessageSource;
+  std::valarray<unsigned char> lastMessageData;
 };
 
 #endif
