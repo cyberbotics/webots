@@ -26,51 +26,51 @@
 #define VM_VARIABLES_ARG_SIZE 32
 
 struct _vmVariables {
-  sint16 id;
-  sint16 source;
-  sint16 args[VM_VARIABLES_ARG_SIZE];
-  sint16 fwversion[2];
-  sint16 productid;
+  short int id;
+  short int source;
+  short int args[VM_VARIABLES_ARG_SIZE];
+  short int fwversion[2];
+  short int productid;
 
-  // sint16 buttons[5];
+  // short int buttons[5];
 
-  sint16 buttons_state[5];
-  // sint16 buttons_mean[5];
-  // sint16 buttons_noise[5];
+  short int buttons_state[5];
+  // short int buttons_mean[5];
+  // short int buttons_noise[5];
 
-  sint16 prox[7];
+  short int prox[7];
 
-  // sint16 sensor_data[7];
-  // sint16 intensity[7];
-  sint16 rx_data;     // not implemented
-  sint16 ir_tx_data;  // not implemented
+  // short int sensor_data[7];
+  // short int intensity[7];
+  short int rx_data;     // not implemented
+  short int ir_tx_data;  // not implemented
 
-  sint16 ground_ambiant[2];
-  sint16 ground_reflected[2];
-  sint16 ground_delta[2];
+  short int ground_ambiant[2];
+  short int ground_reflected[2];
+  short int ground_delta[2];
 
-  sint16 target[2];
-  // sint16 vbat[2];
-  // sint16 imot[2];
-  sint16 uind[2];
-  sint16 pwm[2];
+  short int target[2];
+  // short int vbat[2];
+  // short int imot[2];
+  short int uind[2];
+  short int pwm[2];
 
-  sint16 acc[3];
+  short int acc[3];
 
-  sint16 ntc;  // not implemented
+  short int ntc;  // not implemented
 
-  sint16 rc5_address;  // not implemented
-  sint16 rc5_command;  // not implemented
+  short int rc5_address;  // not implemented
+  short int rc5_command;  // not implemented
 
-  sint16 sound_level;  // not implemented
-  sint16 sound_tresh;  // not implemented
-  sint16 sound_mean;   // not implemented
+  short int sound_level;  // not implemented
+  short int sound_tresh;  // not implemented
+  short int sound_mean;   // not implemented
 
-  sint16 timers[2];
+  short int timers[2];
 
-  sint16 acc_tap;  // not implemented
+  short int acc_tap;  // not implemented
 
-  sint16 freeSpace[VM_VARIABLES_FREE_SPACE];
+  short int freeSpace[VM_VARIABLES_FREE_SPACE];
 };
 
 enum Event {

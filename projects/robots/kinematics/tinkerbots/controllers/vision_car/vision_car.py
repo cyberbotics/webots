@@ -19,14 +19,14 @@ timestep = int(robot.getBasicTimeStep())
 
 print('Move forward until an obstabcle is detected.')
 
-robot.getLED('motor led').set(0xFF0000)
-robot.getLED('distance sensor led').set(0x00FF00)
+robot.getDevice('motor led').set(0xFF0000)
+robot.getDevice('distance sensor led').set(0x00FF00)
 
-motor = robot.getMotor('motor')
+motor = robot.getDevice('motor')
 motor.setPosition(float('inf'))  # Velocity control mode.
 motor.setVelocity(0.5 * motor.getMaxVelocity())
 
-distanceSensor = robot.getDistanceSensor('distance sensor')
+distanceSensor = robot.getDevice('distance sensor')
 distanceSensor.enable(timestep)
 
 

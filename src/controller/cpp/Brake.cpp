@@ -32,7 +32,7 @@ void Brake::setDampingConstant(double dampingConstant) const {
 
 Motor *Brake::getMotor() {
   if (motor == NULL)
-    motor = dynamic_cast<Motor *>(Robot::getDevice(getMotorTag()));
+    motor = dynamic_cast<Motor *>(Robot::getDeviceFromTag(getMotorTag()));
   return motor;
 }
 
@@ -42,7 +42,7 @@ int Brake::getMotorTag() const {
 
 PositionSensor *Brake::getPositionSensor() {
   if (positionSensor == NULL)
-    positionSensor = dynamic_cast<PositionSensor *>(Robot::getDevice(getPositionSensorTag()));
+    positionSensor = dynamic_cast<PositionSensor *>(Robot::getDeviceFromTag(getPositionSensorTag()));
   return positionSensor;
 }
 

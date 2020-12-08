@@ -13,15 +13,15 @@ maxMotorVelocity = 9.53
 distanceSensorCalibrationConstant = 360
 
 # Get left and right wheel motors.
-leftMotor = robot.getMotor("motor.left")
-rightMotor = robot.getMotor("motor.right")
+leftMotor = robot.getDevice("motor.left")
+rightMotor = robot.getDevice("motor.right")
 
 # Get frontal distance sensors.
-outerLeftSensor = robot.getDistanceSensor("prox.horizontal.0")
-centralLeftSensor = robot.getDistanceSensor("prox.horizontal.1")
-centralSensor = robot.getDistanceSensor("prox.horizontal.2")
-centralRightSensor = robot.getDistanceSensor("prox.horizontal.3")
-outerRightSensor = robot.getDistanceSensor("prox.horizontal.4")
+outerLeftSensor = robot.getDevice("prox.horizontal.0")
+centralLeftSensor = robot.getDevice("prox.horizontal.1")
+centralSensor = robot.getDevice("prox.horizontal.2")
+centralRightSensor = robot.getDevice("prox.horizontal.3")
+outerRightSensor = robot.getDevice("prox.horizontal.4")
 
 # Enable distance sensors.
 outerLeftSensor.enable(timeStep)

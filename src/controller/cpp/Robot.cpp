@@ -162,6 +162,10 @@ Device *Robot::getDeviceByIndex(int index) {
   return getOrCreateDevice(wb_robot_get_device_by_index(index));
 }
 
+Device *Robot::getDevice(const std::string &name) {
+  return getOrCreateDevice(wb_robot_get_device(name.c_str()));
+}
+
 int Robot::getType() const {
   return wb_robot_get_type();
 }
@@ -435,7 +439,7 @@ TouchSensor *Robot::createTouchSensor(const string &name) const {
   return new TouchSensor(name);
 }
 
-Device *Robot::getDevice(int tag) {
+Device *Robot::getDeviceFromTag(int tag) {
   if (tag == 0)
     return NULL;
 
@@ -449,15 +453,16 @@ Device *Robot::getOrCreateDevice(int tag) {
   if (tag == 0)
     return NULL;
 
-  int size = (int)deviceList.size();
-  if (size > 0) {
-    if (size <= tag)
-      return NULL;
+  const int count = wb_robot_get_number_of_devices();
+  const int size = (int)deviceList.size();
+  // if new devices have been added, then count is greater than devices.length
+  // deleted devices are not removed from the C API list and don't affect the number of devices
+  if (size == count && size > 0 && tag < size)
     return deviceList[tag];
-  }
 
-  // initialize deviceList
-  int count = wb_robot_get_number_of_devices();
+  // (re-)initialize deviceList
+  if (tag > count)
+    return NULL;
   deviceList.resize(count + 1);
   deviceList[0] = NULL;
   for (int i = 0; i < count; i++) {
