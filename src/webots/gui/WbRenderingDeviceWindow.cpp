@@ -199,15 +199,9 @@ void WbRenderingDeviceWindow::initialize() {
     f->glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &textureHeight);
     mXFactor = ((float)mDevice->width()) / textureWidth;
     mYFactor = ((float)mDevice->height()) / textureHeight;
-    if (mBackgroundTextureGLId)
-      f->glBindTexture(GL_TEXTURE_2D, mBackgroundTextureGLId);
   } else {
     mXFactor = 1.0f;
     mYFactor = 1.0f;
-    if (mForegroundTextureGLId)
-      f->glBindTexture(GL_TEXTURE_2D, mForegroundTextureGLId);
-    if (mMaskTextureGLId)
-      f->glBindTexture(GL_TEXTURE_2D, mMaskTextureGLId);
   }
 
   static const GLfloat vertices[] = {-1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
