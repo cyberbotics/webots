@@ -61,7 +61,7 @@ int main() {
       /* Get the segmented image and display it in the Display */
       const unsigned char *data = wb_camera_recognition_get_segmentation_image(camera);
       if (data) {
-        segmented_image = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
+        segmented_image = wb_display_image_new(display, width, height, data, WB_IMAGE_BGRA);
         wb_display_image_paste(display, segmented_image, 0, 0, false);
         wb_display_image_delete(display, segmented_image);
       }
