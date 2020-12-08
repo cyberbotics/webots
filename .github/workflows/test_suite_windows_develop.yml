@@ -2,7 +2,7 @@ name: Test Suite Windows (develop)
 
 on:
   schedule:
-    - cron:  '0 23 * * *'
+    - cron:  '0 12 * * *'
 
 defaults:
   run:
