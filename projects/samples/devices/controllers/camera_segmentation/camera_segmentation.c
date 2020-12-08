@@ -57,7 +57,7 @@ int main() {
 
   /* Main loop */
   while (wb_robot_step(TIME_STEP) != -1) {
-    if (wb_camera_recognition_is_segmentation_enabled(camera) && wb_camera_recognition_get_sampling_period(camera) <= 0) {
+    if (wb_camera_recognition_is_segmentation_enabled(camera) && wb_camera_recognition_get_sampling_period(camera) > 0) {
       /* Get the segmented image and display it in the Display */
       const unsigned char *data = wb_camera_recognition_get_segmentation_image(camera);
       if (data) {
