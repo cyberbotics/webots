@@ -1,0 +1,18 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.6931032800836722 0.6931032800836722 0.1980295085953349 0.75
+  position 1.2 1.6 2.3
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "cpp_import_device"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

@@ -1111,14 +1111,16 @@ class AnsiCodes(object):
     def __getOrCreateDevice(self, tag):
       if tag == 0:
           return None
+      count = self.getNumberOfDevices()
       size = len(Robot.__devices)
-      if size > 0:
-          if tag >= size:
-              return None
+      # if new devices have been added, then count is greater than size
+      # deleted devices are not removed from the C API list and don't affect the number of devices
+      if count == size and size > 0 and tag < size:
           return Robot.__devices[tag]
 
-      # initialize Robot.__devices list
-      count = self.getNumberOfDevices()
+      # (re-)initialize Robot.__devices list
+      if tag > count:
+          return None
       Robot.__devices = [None] * (count + 1)
       for i in range(0, count):
           otherTag = self.__internalGetDeviceTagFromIndex(i)

@@ -1092,14 +1092,15 @@ namespace webots {
     if (tag == 0)
       return null;
 
-    if (devices != null) {
-      if (tag >= devices.length)
-        return null;
-      return devices[tag];
-    }
-
-    // initialize devices list
     int count = getNumberOfDevices();
+    // if new devices have been added, then count is greater than devices.length
+    // deleted devices are not removed from the C API list and don't affect the number of devices
+    if (count == devices.length && devices != null && tag < devices.length)
+        return devices[tag];
+
+    // (re-)initialize devices list
+    if (tag > count)
+        return null;
     devices = new Device[count + 1];
     for (int i = 0; i < count; i++) {
       int otherTag = getDeviceTagFromIndex(i);
