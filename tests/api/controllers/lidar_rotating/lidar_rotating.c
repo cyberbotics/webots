@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
   double diff_sum = 0.0;
 
   for (i = 0; i < fixed_lidar_resolution; ++i)
-    diff_sum += fabs(image_rotating_lidar[i] - image_fixed_lidar[i]);
+    if (!isinf(image_rotating_lidar[i]) && !isinf(image_fixed_lidar[i]))
+      diff_sum += fabs(image_rotating_lidar[i] - image_fixed_lidar[i]);
 
   ts_assert_double_is_bigger(15, diff_sum,
                              "There is too much difference in the image resulting from the fixed and from the rotating lidar, "

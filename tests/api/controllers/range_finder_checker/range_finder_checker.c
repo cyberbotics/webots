@@ -38,10 +38,10 @@ int main(int argc, char **argv) {
       {width / 2, height - 1}   // bottom line, central pixel
     };
     double samples_expected_values[4] = {
-      INFINITY, // no collision
-      2.0,      // collision with transparent object
-      2.0,      // collision
-      2.0       // collision with colored ElevationGrid
+      wb_range_finder_get_max_range(range_finder),  // no collision
+      2.0,                                          // collision with transparent object
+      2.0,                                          // collision
+      2.0                                           // collision with colored ElevationGrid
     };
 
     int i;
@@ -67,11 +67,11 @@ int main(int argc, char **argv) {
       {width - 1, height / 2},      // middle line, last pixel
     };
     double samples_expected_values[5] = {
-      2.0,                                          // collision
-      wb_range_finder_get_max_range(range_finder),  // no collision
-      2.0,                                          // collision
-      wb_range_finder_get_max_range(range_finder),  // no collision
-      2.0,                                          // collision
+      2.0,       // collision
+      INFINITY,  // no collision
+      2.0,       // collision
+      INFINITY,  // no collision
+      2.0,       // collision
     };
 
     int i;
