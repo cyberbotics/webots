@@ -933,8 +933,8 @@ This `string` is closely related to the `const char *` of the C API.
 > gray = Camera.imageGetGray(cameraData, camera.getWidth(), 5, 10)
 > ```
 
-> Another way to use the camera in Python is to get the image by the `getImageArray` function which returns a `list<list<list<int>>>`.
-This three dimensional list can be directly used for accessing the RGB pixels value.
+> Another way to get the camera image in Python is to use the `getImageArray` method which returns a `list<list<list<int>>>`.
+This three dimensional list can be directly used for accessing the RGB pixels value. However, this method runs significantly slower than the `getImage` method.
 Here is an example:
 
 > ```python
