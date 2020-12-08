@@ -56,9 +56,11 @@ A typically good value for this field is to set it just big enough so that the s
 More information about the frustum is provided in the [frustum](camera.md#frustum) section of the [Camera](camera.md) node.
 
 - The `minRange` field defines the minimum range of the range-finder (objects closer to the range-finder than the minimum range are not detected (but still occlude other objects).
+If the depth is smaller the `minRange` value then infinity is returned.
 
 - The `maxRange` defines the distance between the range-finder and the far clipping plane of the OpenGL view frustum.
 This field defines the maximum range that a range-finder can achieve and so the maximum possible value of the range image (in meter).
+If the depth is bigger the `maxRange` value then infinity is returned.
 
 - If the `motionBlur` field is greater than 0.0, the image is blurred by the motion of the range-finder or objects in the field of view.
 More information on motion blur is provided in the [motionBlur](camera.md) field description of the [Camera](camera.md) node.
