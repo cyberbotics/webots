@@ -102,6 +102,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mBackgroundTextureGLId(device->backgroundTextureGLId()),
   mMaskTextureGLId(device->maskTextureGLId()),
   mForegroundTextureGLId(device->foregroundTextureGLId()),
+  mVboId(NULL),
   mInitialized(false),
   mXFactor(0.0f),
   mYFactor(0.0f),
@@ -161,6 +162,7 @@ WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
   f->glDeleteVertexArrays(1, &mVaoId);
   f->glDeleteBuffers(2, (GLuint *)&mVboId);
   mContext->doneCurrent();
+  delete mVboId;
 }
 
 void WbRenderingDeviceWindow::initialize() {
@@ -213,10 +215,11 @@ void WbRenderingDeviceWindow::initialize() {
   static GLfloat const texCoords[] = {0.0f, mYFactor, mXFactor, 0.0,      0.0f,     0.0,
                                       0.0f, mYFactor, mXFactor, mYFactor, mXFactor, 0.0};
 
-  if (!f->glIsVertexArray(mVaoId))
+  if (!mVboId) {
+    mVboId = new GLuint[2];
     f->glGenVertexArrays(1, &mVaoId);
-  if (!f->glIsBuffer(mVboId[0]))
-    f->glGenBuffers(2, (GLuint *)&mVboId);
+    f->glGenBuffers(2, mVboId);
+  }
   f->glBindVertexArray(mVaoId);
   f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
