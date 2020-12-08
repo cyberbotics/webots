@@ -28,7 +28,7 @@ using namespace std;
 
 static Thymio2AsebaHub *thymio2 = NULL;
 
-Thymio2AsebaHub::Thymio2AsebaHub(int port) : stream(0) {
+Thymio2AsebaHub::Thymio2AsebaHub(int port) : stream(0), lastMessageSource(0), lastMessageData(0) {
   thymio2 = this;
 
   vm.nodeId = 1;
