@@ -27,6 +27,7 @@ import {WbSpotLight} from "./webotsjs/WbSpotLight.js";
 import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
+import {WbVector3} from "./webotsjs/utils/WbVector3.js";
 
 class MyParser {
   constructor() {
@@ -561,7 +562,7 @@ class MyParser {
     let coord = coordStr.map(el => parseFloat(el));
     let coordArray = [];
     for(let i = 0; i < coord.length; i = i + 3) {
-      coordArray.push(new glm.vec3(coord[i], coord[i + 1], coord[i + 2]));
+      coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
     }
 
     let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
@@ -577,7 +578,7 @@ class MyParser {
     let normal = normalStr.map(el => parseFloat(el));
     let normalArray = [];
     for(let i = 0; i < normal.length; i = i + 3) {
-      normalArray.push(new glm.vec3(normal[i], normal[i + 1], normal[i + 2]));
+      normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
     }
 
     let creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '1'));
