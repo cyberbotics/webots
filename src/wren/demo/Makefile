@@ -19,11 +19,13 @@ include ../../../resources/Makefile.os.include
 ifeq ($(OSTYPE),linux)
 GLAD=libglad.a
 GLU=GLU
+GLUT=glut
 OPENGL=GL
 WREN=libwren.a
 else ifeq ($(OSTYPE),windows)
 GLAD=glad.a
 GLU=glu32
+GLUT=freeglut
 OPENGL=opengl32
 WREN=wren.a
 else
@@ -33,10 +35,10 @@ endif
 all: default phong
 
 default: default.cpp
-	g++ -I../../../include default.cpp ../wren.a ../../glad/$(GLAD) -lfreeglut -l$(OPENGL) -l$(GLU) -o default
+	g++ -I../../../include default.cpp ../$(WREN) ../../glad/$(GLAD) -l$(GLUT) -l$(OPENGL) -l$(GLU) -ldl -o default
 
 phong: phong.cpp
-	g++ -g -I../../../include phong.cpp ../wren.a ../../glad/$(GLAD) -lfreeglut -l$(OPENGL) -l$(GLU) -o phong
+	g++ -g -I../../../include phong.cpp ../$(WREN) ../../glad/$(GLAD) -l$(GLUT) -l$(OPENGL) -l$(GLU) -ldl -o phong
 
 clean:
 	rm default phong
