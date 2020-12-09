@@ -64,7 +64,7 @@ private:
   GLuint mForegroundTextureUniform;
   GLuint mActiveTexturesUniform;
   GLuint mVaoId;
-  GLuint mVboId[2];
+  GLuint *mVboId;
   bool mInitialized;
   float mXFactor;
   float mYFactor;

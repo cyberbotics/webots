@@ -122,7 +122,15 @@ static void apply_command(const char *command) {
     else if (strncmp(token, "position=", 9) == 0 && tag > 0) {
       double position = atof(&token[9]);
       wb_motor_set_position(tag, position);
-    } else if (strcmp(token, "pointCloudEnable") == 0)
+    } else if (strcmp(token, "recognitionEnable") == 0)
+      wb_camera_recognition_enable(tag, time_step);
+    else if (strcmp(token, "recognitionDisable") == 0)
+      wb_camera_recognition_disable(tag);
+    else if (strcmp(token, "segmentationEnable") == 0)
+      wb_camera_recognition_enable_segmentation(tag);
+    else if (strcmp(token, "segmentationDisable") == 0)
+      wb_camera_recognition_disable_segmentation(tag);
+    else if (strcmp(token, "pointCloudEnable") == 0)
       wb_lidar_enable_point_cloud(tag);
     else if (strcmp(token, "pointCloudDisable") == 0)
       wb_lidar_disable_point_cloud(tag);

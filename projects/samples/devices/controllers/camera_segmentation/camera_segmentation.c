@@ -57,11 +57,15 @@ int main() {
 
   /* Main loop */
   while (wb_robot_step(TIME_STEP) != -1) {
-    /* Get the segmented image and display it in the Display */
-    const unsigned char *data = wb_camera_recognition_get_segmentation_image(camera);
-    segmented_image = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
-    wb_display_image_paste(display, segmented_image, 0, 0, false);
-    wb_display_image_delete(display, segmented_image);
+    if (wb_camera_recognition_is_segmentation_enabled(camera) && wb_camera_recognition_get_sampling_period(camera) > 0) {
+      /* Get the segmented image and display it in the Display */
+      const unsigned char *data = wb_camera_recognition_get_segmentation_image(camera);
+      if (data) {
+        segmented_image = wb_display_image_new(display, width, height, data, WB_IMAGE_BGRA);
+        wb_display_image_paste(display, segmented_image, 0, 0, false);
+        wb_display_image_delete(display, segmented_image);
+      }
+    }
   }
 
   wb_robot_cleanup();

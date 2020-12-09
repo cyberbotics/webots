@@ -597,8 +597,6 @@ void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
     else {
       c->enable_recognition = true;
       c->recognition_sampling_period = sampling_period;
-      if (c->segmentation_enabled && sampling_period == 0)
-        c->segmentation_enabled = false;
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -821,6 +819,24 @@ void wb_camera_recognition_disable_segmentation(WbDeviceTag tag) {
     c->segmentation_changed = true;
   }
   robot_mutex_unlock_step();
+}
+
+bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag) {
+  robot_mutex_lock_step();
+  Camera *c = camera_get_struct(tag);
+  if (!c) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return false;
+  }
+  if (!c->has_recognition) {
+    fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
+    return false;
+  }
+  const bool is_segmentation_enabled = c->segmentation_enabled;
+  robot_mutex_unlock_step();
+  return is_segmentation_enabled;
 }
 
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag) {
