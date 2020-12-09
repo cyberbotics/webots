@@ -893,12 +893,3 @@ DEF SUMO_VEHICLE24 CitroenCZeroSimple {
   ]
   name "vehicle(26)"
 }
-SumoInterface {
-  gui FALSE
-  useNetconvert FALSE
-  enableWheelsRotation TRUE
-  radius 200
-  laneChangeDelay 4
-  port 1472
-  seed 0
-}
