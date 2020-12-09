@@ -108,7 +108,7 @@ class WbBox extends WbGeometry {
   }
 }
 
-WbBox.IntersectedFace {
+WbBox.IntersectedFace = {
   FRONT_FACE : 0,
   BACK_FACE : 1,
   LEFT_FACE : 2,

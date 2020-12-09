@@ -524,8 +524,8 @@ class WbTriangleMesh {
       vertices[2] = coord[this.coordIndices[index + 2]];
 
       // compute face center and normal
-      const edge1(vertices[1].sub(vertices[0]));
-      const edge2(vertices[2].sub(vertices[0]));
+      const edge1 = vertices[1].sub(vertices[0]);
+      const edge2 = vertices[2].sub(vertices[0]);
       let normal = edge1.cross(edge2);
       normal.normalize();
       const origin = new WbVector3(vertices[0].add(vertices[1]).add(vertices[2]).div(3.0));
@@ -534,7 +534,7 @@ class WbTriangleMesh {
       const faceNormal = new WbRay(origin, normal);
       let tmin, tmax;
       const result = faceNormal.intersects(minBound, maxBound, tmin, tmax);
-      assert(result.[0]);
+      assert(result[0]);
       const faceIndex = WbBox.findIntersectedFace(minBound, maxBound, origin.add(normal.mul(result[1])));
 
       for (let v = 0; v < 3; ++v) {  // foreach vertex
