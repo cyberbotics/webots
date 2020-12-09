@@ -53,6 +53,7 @@ jobs:
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
         path: |
@@ -88,3 +89,15 @@ jobs:
         export WEBOTS_HOME=/Applications/Webots.app
         # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
         # python tests/test_suite.py
+  delete-artifacts:
+    needs: [build, test-suite]
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Delete artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: build-${{ matrix.os }}

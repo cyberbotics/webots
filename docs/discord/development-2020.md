@@ -7789,3 +7789,285 @@ Sounds great 🙂
 ##### Simon Steinmann [Moderator] 12/02/2020 12:13:35
 [https://github.com/cyberbotics/webots/issues/2493](https://github.com/cyberbotics/webots/issues/2493) robot window bug
 
+
+`@Darko Lukić` I tried your docker compile for the ur10e. I ran into the same issue as I did with my initial solvers with it requiring lapack and throwing errors because of incorrect header definitions
+
+
+These issues I only had with the universal robot arms so far
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 15:39:08
+We tested only with ABB' IRB 4600. How did you solve the issue?
+
+##### Simon Steinmann [Moderator] 12/02/2020 15:39:59
+[https://github.com/yijiangh/ikfast\_pybind/tree/master/src/ur5](https://github.com/yijiangh/ikfast_pybind/tree/master/src/ur5)
+
+
+I copied the setup of the ur5 here and changed the DH parameters to match the ur3e ur5e and ur10e robots
+
+
+irb4600, p-rob3 and puma work with the ikfast from urdf compiler
+
+
+(I basically did what you did a few month back)
+
+
+although your implementation is much cleaner 😄
+
+
+I did get it to compile on linux after days of troubleshooting, but not on windows
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 15:43:10
+That looks too specific to UR robots, maybe we should try to find a better solution
+
+##### Simon Steinmann [Moderator] 12/02/2020 15:44:44
+I quite like the ikfast\_pybind repo. That's how I implemented my solvers
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 15:44:51
+I will not have time the following week, but after that I can look at it
+
+##### Simon Steinmann [Moderator] 12/02/2020 15:44:56
+and the universals are already added
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 15:51:25
+We can improve `pyikfast`. I checked the other solutions but they lacked generalization and they are overcompilcated for users. `pyikfast` generates a Python library in one command. We have to improve support for the UR robots though
+
+##### Simon Steinmann [Moderator] 12/02/2020 15:52:19
+I think the easiest would be to include the solvers for the existing ones, so just the python wrapper has to be compiled
+
+
+and or we figure out that lapack / blas issue
+
+
+maybe we can even put my velocity control and "best solution picker" into the c++ file. That could speed things up
+
+
+Anyways, in the meantime i'll make an example of my controller with the irb
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 15:55:47
+I would prefer to solve the lapack issue as a user may want to build a robot similar to e.g. UR5
+
+
+That would be better. In that case we can benefit from the velocity control and "best solution picker" in C++ controllers as well
+
+##### Simon Steinmann [Moderator] 12/02/2020 15:59:23
+Sounds good. Hit me up when you want to tackle the issues. I can show you what I figured out and exact problems exist
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 16:00:05
+Nice, thanks, I will 🙂
+
+##### Simon Steinmann [Moderator] 12/03/2020 17:16:44
+`@Darko Lukić` First version using your pyikfast and my controller.
+> **Attachment**: [irb4600\_ikfast\_sample.zip](https://cdn.discordapp.com/attachments/565155651395780609/784105857281425438/irb4600_ikfast_sample.zip)
+
+
+the controller contains a folder with all files needed to create the python module. To get it to work on Windows I had to change a header.
+
+
+`pip install .`
+
+should be all you have to do inside the "pyikfast" folder
+
+
+oh and you'll need transforms3d
+
+
+`pip install transforms3d`
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 17:24:03
+Fantastic! Thank you! Let me discuss with `@Olivier Michel` where is the best place to put it. I believe we should include a nice tutorial that follows the example.
+
+##### Simon Steinmann [Moderator] 12/03/2020 17:25:55
+there is still some work to do and i'd like to move some functionality into the c++ portion. But it certainly works well  🙂
+
+
+`@Darko Lukić` I really like your ikfast creation with docker, however, I think it would be good to create seperate python modules for different robots. So people can create several modules. I suggest that instead of naming it "robot.urdf" and having a "pyikfast" module, a custom robot name can be used (or just the default from webots).
+
+
+For example:
+
+`irb4600_40.urdf `turns into` pyikfast_irb4600_40`  modoule
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 13:26:58
+`@Simon Steinmann` You can choose the library extension:
+
+[https://github.com/cyberbotics/pyikfast/blob/1b45a9d4401ec4e63a0a2ca1d15ca20e19da315c/entrypoint.bash#L5](https://github.com/cyberbotics/pyikfast/blob/1b45a9d4401ec4e63a0a2ca1d15ca20e19da315c/entrypoint.bash#L5)
+
+
+
+So you call:
+
+```
+docker run -v ${PWD}:/output cyberbotics/pyikfast base_link solid_12208 _my_robot
+```
+
+and the library gets named `pyikfast_my_robot`.
+
+##### Simon Steinmann [Moderator] 12/04/2020 13:27:09
+Also I noticed, that the "handslot" is not generated in the urdf. Thus there is a mismatch in orientation between the solver and handslot
+
+
+oh okay, great. It still wants the "robot.urdf" though?
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 13:28:35
+Yes, but we can change it
+
+##### Simon Steinmann [Moderator] 12/04/2020 13:28:40
+I see it in the script
+
+
+should be fine I think, the module name is what matters
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 13:28:59
+Feel free to propose a better approach and we can consider implementing it
+
+##### Simon Steinmann [Moderator] 12/04/2020 13:29:23
+more important is to adjust the ikfast.h, as it does not work under windows in its current version
+
+
+a few lines need to be changed
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 13:29:35
+Do you have a device or solid in that slot?
+
+##### Simon Steinmann [Moderator] 12/04/2020 13:29:56
+no, empty slot. Just the robot extracted
+
+
+I also found a lead for the lapack problem. Lapack library has to be manually linstalled/compiled and then linked. I'm a c++ novice, so I dont know how to do that
+
+
+[http://openrave.org/docs/0.8.2/openravepy/ikfast/#using-generated-ik-files](http://openrave.org/docs/0.8.2/openravepy/ikfast/#using-generated-ik-files) here it is explained / mentioned
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 13:32:03
+If there is no solid in the slot it doesn't make sense to extract it? That was our assumption
+
+
+Great, I will take a look
+
+##### Simon Steinmann [Moderator] 12/04/2020 13:32:47
+it should be extracted as an empty link, like many urdf files have
+
+
+an endeffector transform
+
+
+I tried adding a Solid in the handslot, however, it does not show up in the urdf. It seems to me, that only "revolute" joints get generated from hingeJoints, but no "fixed" joints from Solids
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 15:26:14
+The fixed joints are generated from solids only if the solids have name configured
+
+##### Simon Steinmann [Moderator] 12/04/2020 15:41:35
+hmm aparently not if a transform node is between two solids
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 16:01:29
+It should work even if there are other nodes in between. Could you please submit a bug report?
+
+##### Simon Steinmann [Moderator] 12/04/2020 16:07:20
+will do
+
+
+Partially figured it out [https://github.com/cyberbotics/webots/issues/2503](https://github.com/cyberbotics/webots/issues/2503)
+
+##### Steven37 12/06/2020 07:53:23
+Hi, I just want to ask a simple question that how can I attach a sensor, for example, the lidar LMS 291 to a robot existing in Webots, Pioneer3 for instance? Can anyone show me, please?
+
+##### Whizbuzzer 12/06/2020 07:59:16
+Some robots have an additional spot for that e.g. E-puck has a turret slot where you can add additional nodes. Check out the Pioneer3 documentation
+
+##### Steven37 12/06/2020 08:16:26
+I saw this picture in the pioneer3's document so how can I attach the lidar like that?
+%figure
+![pioneer3at_avoidance.png](https://cdn.discordapp.com/attachments/565155651395780609/785057048277811200/pioneer3at_avoidance.png)
+%end
+
+##### Simon Steinmann [Moderator] 12/06/2020 13:39:18
+`@Steven37` select the extensionSlot, click on the plus on top and select whatever you want to attach
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138302314610698/unknown.png)
+%end
+
+
+you can use the "Find" function in the top right of the window to search for "lidar". Once added, use the the translation and rotation field to position the devide. Alternatively you can use the arrows as well
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138891249811456/unknown.png)
+%end
+
+##### Steven37 12/06/2020 13:50:21
+`@Simon Steinmann` thank you so so much!
+
+##### Simon Steinmann [Moderator] 12/07/2020 11:18:48
+Hey `@Darko Lukić`, Could you take a look at the PR [https://github.com/cyberbotics/pyikfast/pull/2](https://github.com/cyberbotics/pyikfast/pull/2) I made for pyikfast? Would be helpful to have that merged for the tutorial. Also, I dont have write permission to merge PRs
+
+
+Okay this is a bit multilayered:
+
+- In order to address this issue for the included robotic arms [https://github.com/cyberbotics/webots/issues/2503](https://github.com/cyberbotics/webots/issues/2503)
+
+- I plan to use this PR I made [https://github.com/cyberbotics/webots/pull/2513](https://github.com/cyberbotics/webots/pull/2513) (proto splitter update), to convert the existing arms into multi-proto files. This is long overdue, view proto source on the irb4600 freezes my webots for 2 minutes. In addition, I'll make the "toolSlot" name consistent, and turn it into a Solid node. This way it can get converted into URDF. This is also the same behaviour as the urdf2webots script has (since my PR spree on that repo a few month back)
+
+##### Darko Lukić [Cyberbotics] 12/07/2020 13:07:37
+`@Simon Steinmann` You can also put a dummy node in  `toolSlot` ?
+
+##### Simon Steinmann [Moderator] 12/07/2020 13:15:21
+do you mean adding a "Transform" as a child by default?
+
+##### Darko Lukić [Cyberbotics] 12/07/2020 13:16:18
+`Transform` or `Solid` should do the job
+
+##### Simon Steinmann [Moderator] 12/07/2020 13:23:04
+I'm also adding names to the Solids
+
+
+how do I add a Transform node to children, while still having it be the exposed field variable?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785498357619490846/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 12/07/2020 13:37:12
+Sorry, `Transform` will not work. Here is an example:
+
+```
+UR10e {
+  name "ur10e"
+  toolSlot [
+    Solid {
+      children [
+        Solid {
+        }
+      ]
+      name "toolSlot"
+    }
+  ]
+}
+```
+
+##### Simon Steinmann [Moderator] 12/07/2020 13:37:47
+I just added a Transform node as the default value of the MFNode field
+
+
+works
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785500409333547078/unknown.png)
+%end
+
+
+[https://github.com/cyberbotics/webots/pull/2516](https://github.com/cyberbotics/webots/pull/2516)
+
+
+done and tested. No errors for me
+
+
+`@Darko Lukić` can I have write access? I cannot merge the approved changes
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785506389707194408/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 12/07/2020 14:05:50
+I just added write access to the cyberbotics committers group, so that you should be able to merge it now.
+
+##### Simon Steinmann [Moderator] 12/07/2020 14:06:22
+works
+

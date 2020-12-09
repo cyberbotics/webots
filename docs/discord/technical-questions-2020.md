@@ -21084,7 +21084,7 @@ with robot being a Supervisor()
 
 Well I guess LEDs dont have to be set up on the fly...
 
-##### townofsacha 06/17/2020 22:45:04
+##### froggyspond 06/17/2020 22:45:04
 can anyone help me figure out a problemo
 
 
@@ -21108,7 +21108,7 @@ do you have enough storage on your computer? :p
 
 and what OS are you using?
 
-##### townofsacha 06/17/2020 22:46:38
+##### froggyspond 06/17/2020 22:46:38
 yeah i have plenty
 
 
@@ -21120,7 +21120,7 @@ you tried this link? [https://github.com/cyberbotics/webots/releases/tag/R2020a-
 
 must be a problem on your side. Perhaps try updating and restarting your pc
 
-##### townofsacha 06/17/2020 22:49:13
+##### froggyspond 06/17/2020 22:49:13
 ill try that link and update my computer
 
 
@@ -21129,7 +21129,7 @@ i tried it on my old pc and the same thing happened
 ##### Simon Steinmann [Moderator] 06/17/2020 22:49:49
 I doubt github is down
 
-##### townofsacha 06/17/2020 22:49:50
+##### froggyspond 06/17/2020 22:49:50
 ill try that link though
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 05:33:14
@@ -46674,9 +46674,6 @@ If pheremones are supposed to be laid down in the environment, like ant trails, 
 ##### Olivier Michel [Cyberbotics] 12/02/2020 07:23:49
 We recently found a bug corresponding to what you describe and already implemented a fix, see: [https://github.com/cyberbotics/webots/pull/2482](https://github.com/cyberbotics/webots/pull/2482) (we just merged it, so that it will be shipped in the next nightly builds).
 
-##### Pragathi Praveena 12/02/2020 08:57:37
-Your suggestions were super helpful. I tried this in Webots. However, some simple printing of the robot's translation field does not work. Any suggestions to what I might be doing wrong? My code is here. [https://www.codepile.net/pile/xA6KBePr](https://www.codepile.net/pile/xA6KBePr) My Webots setup is here. [https://pasteboard.co/JD2fMvU.png](https://pasteboard.co/JD2fMvU.png)
-
 ##### Justin Fisher 12/02/2020 09:14:54
 Yes that does indeed look like the same bug I was experiencing, and I was indeed experiencing it only in cases where the imported device was placed after the endpoint of a joint (ball not hinge), and only for the last such device imported that way.  It looks like the workaround you'd initially found was just to import more stuff afterwards to somehow trigger it to update the device list?    I'm not absolutely sure, but I think that some of the cases where I had the error were ones where I had imported some more stuff after the problematic device, but I can play around with this to see if I can find a workaround like that, at least until we get to a stage where my students will have downloaded the actual fix.  Thanks!
 
@@ -46726,4 +46723,525 @@ In case you're curious, the devices I was having the problem importing were moto
 
 ##### Simon Steinmann [Moderator] 12/02/2020 12:50:16
 How does one export the urdf in the current  2020b? Export and chaning the extension to .urdf does not work anymore
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 13:24:26
+I just tried with my development version of R2021a and it seems to work.
+
+##### Simon Steinmann [Moderator] 12/02/2020 13:27:34
+on windows currently, so I only have 2020b.  When is the next official release?
+
+
+`@Darko Lukić` Providing a link to the docker installation of Webots would be quite beneficial in the readme here: [https://github.com/cyberbotics/pyikfast](https://github.com/cyberbotics/pyikfast)
+
+##### Darko Lukić [Cyberbotics] 12/02/2020 13:37:29
+But it is not related to the Webots docker
+
+##### Olivier Michel [Cyberbotics] 12/02/2020 13:52:39
+The next official released is R2021a to be released in December 2020.
+
+##### Simon Steinmann [Moderator] 12/02/2020 14:01:50
+ohh it's its own image
+
+
+sorry my bad
+
+##### KajalGada 12/03/2020 00:31:41
+Hey everyone. I need some help running Python3.9 on Ubuntu. 
+
+My Ubuntu had Python3.5 by default and that works fine.
+
+I upgraded Python to Python 3.9 and added it to my PATH variable.
+
+I am getting the following error:
+
+"ModuleNotFoundError: No module named 'controller'"
+
+
+
+I looked around in the Webots Library folder and I see python35, python36, python37 and python38. Nothing for python39.
+
+
+
+Just wanted to check-in here if I am in the right direction. It seems I might have to compile controller for python3.9.
+
+
+
+Anyone else run into similar issues or already tried this and can help?
+
+
+
+Thank you in advance.
+
+##### Whizbuzzer 12/03/2020 00:41:58
+I think only upto Python 3.7 is supported for Webots Ubuntu
+
+##### KajalGada 12/03/2020 00:42:52
+This page says 3.9 is supported: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)
+
+##### Justin Fisher 12/03/2020 03:06:34
+`@KajalGada` Are you running the controllers from Webots or externally?  If externally, you'll need to be sure to make sure your external controller knows where to find Webots modules, which your error message suggests it's not successfully doing.  
+
+
+
+If you're running it from Webots, Webots is usually pretty good about cueing Python where to find Webots stuff, so I'm not sure what your problem is.  Is it possible that you have an older version of Webots installed that was pre Python 3.9, which just came out a month or two ago?  You might try installing the newest version of Webots, e.g. a recent nightly build.  You could also set Webots to run a slightly older version of Python unless you really want/need some of the bells and whistles from 3.9.
+
+##### owongcho 12/03/2020 03:29:42
+hello, I have a proto that only appears when I try to add it from the handslot and if I try to add it outside of the handslot of the robot, the proto is not available to be selected among the options. Does anyone know why is that?
+
+##### Justin Fisher 12/03/2020 03:40:49
+`@owongcho` Some protos are set to appear only in particular slots.  If you want to use such a proto, you'll either need to create a matching slot to house it, or you can copy the proto and edit out its slot requirement in the copy.
+
+##### owongcho 12/03/2020 03:53:59
+`@Justin Fisher` got it. Thank you.
+
+##### KajalGada 12/03/2020 03:58:15
+`@Justin Fisher` 
+
+
+
+TLDR: rolled back to 3.8 and it works :)
+
+
+
+Detailed response:
+
+
+
+Thank you for writing back. I am running the controller code through Webots itself. I do have Webots 2020, not the recently nightly though.
+
+
+
+It is good to hear that Python3.9 files were added. I am guessing it wil be included in the next official release. *May I suggest the documentation to be updated to reflect 3.9 doesn't work with the official release? I don't mind writing a PR.*
+
+
+
+No I didn't have a particular reason for using Python 3.9. My computer was at 3.5, so I had choose 3.9 as it was more recent. I did roll back to 3.8 and it works with Python 3.8.
+
+##### Pragathi Praveena 12/03/2020 04:31:37
+I am using a ROS+Python extern controller. Any suggestions as to how to access a child device of Supervisor? robot\_node = supervisor.getSelf() and camera = robot\_node.getCamera("camera") does not seem to work. I get an error <type object 'object' has no attribute '\_\_getattr\_\_'>.
+
+##### Justin Fisher 12/03/2020 04:41:23
+`@Pragathi Praveena` Unfortunately Webots currently has completely separate interfaces for (A) having a supervisor access nodes/fields in the scene tree, and (B) having a robot use devices in itself.  What you wrote mixes these together.  Your `robot_node` will be (A) a Node in the scene tree, whereas `getCamera()` only works with (B) a robot using devices within itself.  If you want (A) the node that contains the camera, you'll probably want `supervisor.getFromDef("DEF_name")` where `DEF_name` is the DEF-name of the camera node in the scene tree.  If you instead want (B) to *use* the camera, and this camera is in the same robot as the one that your supervisor controller is the controller for, then `supervisor.getCamera("camera")` should work, where `camera` is the value of the `name` field of your camera node (not its DEF-name).  If this camera is in some other robot instead, then your supervisor will sadly be unable to "get"/use this camera.  Superpowers extend only so far!
+
+
+`@KajalGada` You're welcome.  Glad you got it figured out.  I think the next official release is coming within a few weeks, so by the time your PR made it through, it'd probably soon be out of date anyway.  (I'm just a community member though so that's nothing official, just my two cents!)
+
+##### Pragathi Praveena 12/03/2020 05:14:55
+`@Justin Fisher` Your suggestion supervisor.getCamera("camera") worked for what I was looking for. Thanks! There are fewer examples in the documentation for using supervisor, so what you explained was super helpful.
+
+##### Olivier Michel [Cyberbotics] 12/03/2020 06:59:28
+Hi, this is an error in the documentation. Actually, Webots R2020b-rev1 supports Python 2.7, 3.7 and .38. Webots R2020b-rev2 supports also Python 3.9. You can it from the nightly builds: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Pragathi Praveena 12/03/2020 07:56:24
+When using ROS controller, is it possible to print to Webots console instead of the system terminal?
+
+##### Stefania Pedrazzi [Cyberbotics] 12/03/2020 08:01:46
+Currently this functionality is not available in the default ROS controller. But you could extend it by adding a new service whre you pass the text to the ROS controller and the ROS controller simply calls the print function (and writes the text in the Webots console).
+
+If you would implement this, we will be happy to review it and include it in the distributed Webots ROS controller.
+
+##### Pragathi Praveena 12/03/2020 08:04:14
+`@Stefania Pedrazzi` I see. Thanks! I will take a look at this.
+
+##### Simon Steinmann [Moderator] 12/03/2020 14:32:15
+is it possible to update Webots from official to nightly, or do I have to download the whole installer?
+
+##### Stefania Pedrazzi [Cyberbotics] 12/03/2020 14:38:12
+There is no update mechanism. So you have to download the whole nightly package. If you are working on Linux, I would suggest to use the tarball packages to have multiple versions on your system, given that they are not installed but just extracted.
+
+##### Simon Steinmann [Moderator] 12/03/2020 14:39:33
+i'm familiar with that. I'm currently on Windows. Was just wondering. Update mechanism would be nice to have, but that effort is probably better spend fixing and adding other features
+
+##### Stefania Pedrazzi [Cyberbotics] 12/03/2020 14:49:24
+To guarantee the full compatibility, all the package files need to be installed. So I don't see a big advantage of adding an update mechanism just for the users that download nightlies with the risks that some files are not compatible.
+
+
+Downloading and installing a new version is time consuming, especially on Windows, even if it is done automatically.
+
+##### KajalGada 12/03/2020 17:25:52
+Thank you `@Olivier Michel` I was able to work with Python 3.8 🙂
+
+
+`@Justin Fisher` All good, once againt thank you for helping out 🙂
+
+##### wyaguiu 12/03/2020 21:18:37
+Hi guys! Is there an option to configurate the gradual rotation motor speed?
+
+##### Simon Steinmann [Moderator] 12/03/2020 21:20:53
+What exactly do you mean?
+
+##### raxman 12/04/2020 05:08:10
+For lidar, is there a way to read data easier than using storing it in a struct? Matlab seems to hate structs as none of their tools work with structs.
+
+##### DanyP 12/04/2020 07:33:20
+Hello,
+
+When adding a stiffness value to a hingejoint which contains a rotational motor: Is the torque computed by Webots via get\_torque\_feedback() also considering the induced torque of the torsional spring, or purely the motor torque ?
+
+##### Simon Steinmann [Moderator] 12/04/2020 10:55:43
+[https://cyberbotics.com/doc/reference/motor?tab-language=python#force-and-torque-control](https://cyberbotics.com/doc/reference/motor?tab-language=python#force-and-torque-control)
+
+##### Olivier Michel [Cyberbotics] 12/04/2020 11:20:29
+I don't think so. Can you propose some improvements to the MATLAB API to address this?
+
+##### DanyP 12/04/2020 11:44:53
+Hi again,
+
+When setting a specific position command to the motor, how does Webots translate this value into torques ? Is this done thanks to the PID values in the ControlPID field of the motor node ?
+
+##### Olivier Michel [Cyberbotics] 12/04/2020 11:48:11
+Yes. This should be clearly stated in the documentation, isn't it?
+
+##### DanyP 12/04/2020 11:50:59
+Thank you for your answer. Well I was not sure to understand properly what is written in the doc but basically yes. Thank you
+
+##### Olivier Michel [Cyberbotics] 12/04/2020 12:01:53
+Feel free to open a PR to suggest clarifications in the doc if that's not clear enough.
+
+##### Rosalie van Ark 12/04/2020 14:09:36
+Is it possible for a controller to get the specific [x,y,z] coordinates of other objects present in the world?
+
+##### Simon Steinmann [Moderator] 12/04/2020 14:10:10
+`@Rosalie van Ark` Yes, with the supervisor api
+
+
+[https://cyberbotics.com/doc/reference/supervisor?tab-language=python](https://cyberbotics.com/doc/reference/supervisor?tab-language=python)
+
+##### Rosalie van Ark 12/04/2020 14:11:29
+Great thank you!
+
+##### Simon Steinmann [Moderator] 12/04/2020 14:12:16
+if you want positions relative to your robot, let me know. I have an easy to integrate python module, which does that for you
+
+##### Rosalie van Ark 12/04/2020 14:30:50
+Yes please that would be really useful!
+
+##### Simon Steinmann [Moderator] 12/04/2020 14:31:21
+
+> **Attachment**: [get\_relative\_position.py](https://cdn.discordapp.com/attachments/565154703139405824/784426625370423296/get_relative_position.py)
+
+
+place that in the same directory as your controller
+
+
+use it in your main controller like this:
+
+`from controller import Supervisor
+
+from get\_relative\_position import RelativePositions
+
+
+
+supervisor = Supervisor()
+
+RelPos = RelativePositions(supervisor, 'TARGET')
+
+
+
+target\_pos, target\_rot = RelPos.get\_pos()`
+
+
+your robot has to be a supervisor for this to work
+
+
+'TARGET' being the DEF of the object you want the position of
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+please give me feedback if something is unclear, any suggestions or criticism you have
+
+##### Rosalie van Ark 12/04/2020 14:39:12
+Will do, thank you very much for the quick help🤩
+
+##### Simon Steinmann [Moderator] 12/04/2020 14:39:24
+you're welcome
+
+##### Rosalie van Ark 12/04/2020 15:01:31
+How can we get all the children of a group node? We've tried by using robot.getFromDef("Building").children but that doesn't seem to work for us
+%figure
+![GroupNode.png](https://cdn.discordapp.com/attachments/565154703139405824/784434218171105290/GroupNode.png)
+%end
+
+##### Simon Steinmann [Moderator] 12/04/2020 15:02:21
+`children` is a Field
+
+
+children = robot.getFromDef("Building").getField("children")
+
+
+count = children.getCount
+
+
+node = children.getMFNode(0)
+
+##### Rosalie van Ark 12/04/2020 15:07:41
+Aaahhh of course
+
+
+It works!
+
+##### watchdogs132 12/04/2020 15:42:15
+Hello , is there any way to display the position which is under the joint parameters section , on the console ?
+
+##### Olivier Michel [Cyberbotics] 12/04/2020 15:43:06
+Do you mean the current position of a motor?
+
+##### watchdogs132 12/04/2020 15:43:39
+I have a hinge joint , under the hinge joint parameter section , the position basically shows total angle of rotation of the wheel. I want this to show on the console .
+
+##### Simon Steinmann [Moderator] 12/04/2020 15:44:22
+use the position sensor
+
+##### watchdogs132 12/04/2020 15:46:30
+Thank you for your help 🙂
+
+##### Whizbuzzer 12/05/2020 21:04:00
+Could anyone please provide me with the mathematical formula (control law) for the Braitenberg collision avoidance controller from the tutorials?
+
+
+Is there a way to record data values (e.g. Total objects retrieved/transported from location a to b) vs time?
+
+##### Stefania Pedrazzi [Cyberbotics] 12/07/2020 07:10:10
+`@Whizbuzzer` you can find the mathematical formula in the braitenberg controller code:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/braitenberg/braitenberg.c#L183-L202](https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/braitenberg/braitenberg.c#L183-L202)
+
+
+to record data you can print the simulation time and your data in a file.
+
+##### furchan 12/07/2020 13:21:07
+hi guys, do u know, which lidar has double axis ? I want to see x and y axis with Lidar. Help me pls.
+
+##### Darko Lukić [Cyberbotics] 12/07/2020 13:26:42
+Hello `@furchan`,
+
+[https://cyberbotics.com/doc/reference/lidar](https://cyberbotics.com/doc/reference/lidar)
+
+There is a `numberOfLayers` parameter. If you increase it above 1 there you will have multi-layer LiDAR.
+
+
+
+To enable the point cloud you can use the `wb_lidar_enable_point_cloud` function:
+
+[https://cyberbotics.com/doc/reference/lidar#wb\_lidar\_enable\_point\_cloud](https://cyberbotics.com/doc/reference/lidar#wb_lidar_enable_point_cloud) 
+
+or you can also enable it from the robot window. Then, to view the point cloud, go to `View > Optional Rendering > Show Lidar Point Cloud`.
+
+##### furchan 12/07/2020 13:58:37
+`@Darko Lukić`  Thanks a lot bro
+
+##### Pragathi Praveena 12/07/2020 18:43:46
+I am using an external ROS+Python controller to get image data from a camera (getImageArray) and publish to a topic. I have GPU acceleration on. The maximum publishing rate that I get is 19 Hz, which is not sufficient for displaying the image to a user. What can I try to increase the publishing rate?
+
+##### furchan 12/07/2020 19:37:01
+hi everyone, can we import Solidworks files to Webots? Is it possible?
+
+##### Simon Steinmann [Moderator] 12/07/2020 19:53:44
+`@Pragathi Praveena` This really depends on what is the bottleneck. What realtime factor are you getting when running the simulation in fast mode? (ctrl + 3)
+
+##### Pragathi Praveena 12/07/2020 20:39:13
+`@Simon Steinmann` Between 0.7 and 0.8.
+
+##### Simon Steinmann [Moderator] 12/07/2020 21:51:30
+that is probably your issue, also your basictimestep will influence your max hz
+
+
+with 32ms, you cannot get more than about 30hz
+
+##### Pragathi Praveena 12/07/2020 22:20:33
+`@Simon Steinmann` I tried tweaking the basictimestep, but it did not make much of a difference. In the ultra-fast no Graphics mode, I am getting 22 Hz, but no more. The getImageArray slows down the rate by quite a bit, and actually publishing it worsens it. Are there any alternatives to getImageArray?
+
+##### Simon Steinmann [Moderator] 12/07/2020 22:38:33
+what resolution are you using? Uncompressed raw image data is huge
+
+##### DrakerDG 12/07/2020 23:17:44
+`@furchan` I have not yet used native files from solidworks to webots.  But if in OBJ format.  You can export the mesh to OBJ and try importing it into webots as a solid.  You export this new solid from webots to WBO format
+
+##### furchan 12/07/2020 23:31:58
+`@DrakerDG`  OK. I will try this way.
+
+##### Pragathi Praveena 12/07/2020 23:33:03
+Sure. I can change that and check. I am currently using 320x190. My main concern was that just adding getImageArray in the ROS code (without actually publishing anything) halves the realtime factor, and I thought that may be a suboptimal way of retrieving data.
+
+##### raxman 12/08/2020 02:47:40
+Is there a reason video acceleration is set at inf and i cannot change it when tryign to record my simulation?
+
+
+is there a setting enabling this>
+
+##### Justin Fisher 12/08/2020 02:56:48
+`@Pragathi Praveena` What format are you storing your image in in Python?  If you use getImageArray to store it as a Python list of lists, that'll probably be less efficient than if you can convert it straight to a NumPy array.  I haven't experimented with this, but I *think* the most efficient way to do this is to use getImage (which returns a byte string) and to have numpy.frombuffer treat this as a buffer for an array.   That should cut down on processing time spent copying the image, and especially for generating the Python lists, which tend not to be compact/efficient.
+
+
+
+(Regardless, it sounds like even without the camera your simulation isn't running as fast as you want it, so it may be that you'll want to look for other ways to speed it up, like reducing number of objects or joints, or using simpler geometric approximations for your bounding objects.  Or, it could be that you have a controller that's running slow and holding things up -- you can test this by toggling the synchronous setting for the simulation.)
+
+##### Pragathi Praveena 12/08/2020 04:11:14
+`@Justin Fisher` These are all some good points that I will test. I think a combination will shave off enough overhead to make the simulation run in real-time. Thanks for the pointers!
+
+##### GaGa 12/08/2020 04:28:06
+Hello all , so I've been trying to do line following using epuck and my epuck works in a circular pattern , it is keep on revoluting at one place , any solutions
+
+##### Olivier Michel [Cyberbotics] 12/08/2020 06:39:16
+This is bug which was fixed recently. Try to run a recent nightly build and you should not see the problem any more.
+
+##### Darko Lukić [Cyberbotics] 12/08/2020 08:33:49
+`@Pragathi Praveena` I have just tested a camera stream (resolution 640x480) and I am getting around 130fps on my laptop. Let me know if you have any questions.
+
+
+Here is the code:
+
+```python
+import rospy
+from sensor_msgs.msg import Image
+from controller import Robot
+
+
+robot = Robot()
+timestep = int(robot.getBasicTimeStep())
+camera = robot.getCamera('camera')
+camera.enable(timestep)
+rospy.init_node('my_node', anonymous=True)
+pubimg = rospy.Publisher('camera', Image, queue_size=10)
+while robot.step(timestep) != -1 and not rospy.is_shutdown():
+    img = Image()
+    img.data = camera.getImage()
+    pubimg.publish(img)
+```
+
+##### Tahir [Moderator] 12/08/2020 12:22:28
+Hi all
+
+I am simulating a robot dog and synchronising the model in Webots with the real robot joint states.
+
+
+Everything works fine if the real robot is on ground when running the wb controller the model also goes to same state on the ground
+
+
+But when the real robot is standing, I run the wb controller leg joints are than synchronised but the robot falls back to the back
+
+
+I know this is because of gravity so I removed the Physics node from the robot. Is it a good idea to do that or is there anyother way of doing this
+
+
+After removing the Physics node the robot in webots stand as well
+
+
+Another question is if I walk the robot in real(at the moment not implemented so just a question for clarification) will the robot in webots move like the same
+
+
+After standing when I sit down the robot this is how in Webots the robot looks like
+
+
+
+%figure
+![20201208_132924.jpg](https://cdn.discordapp.com/attachments/565154703139405824/785845534899830854/20201208_132924.jpg)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 12/08/2020 13:04:28
+`@Tahir` the answer depends of what it the purpose of the simulation. If you just want to represent exactly the real robot status and move the simulated robot only based on the real robot behavior, then yes you should probably remove the Physics nodes from your robot so that no external forces are applied to the simulated robot. Otherwise if you enable the physics, there will be some mismatch with the real robot.
+
+I'm not sure to understand the second question. But you should not only synchronize the joints but also the rotation and translation (using the Supervisor API) of the top Robot node so that it can move in simulation similarly to the real one.
+
+##### Rosalie van Ark 12/08/2020 14:31:12
+We want to know the distance between the robot and a Wall (a proto in Webots), and not just the distance to the centre of the wall but to the part of the wall that the robot is closest to (and we don't want to use distance sensors as we're creating an internal representation of its world), how can we do that? (the problem is that we can't find the closest point of the wall relative to the robot)
+
+##### Darko Lukić [Cyberbotics] 12/08/2020 14:34:10
+`@Rosalie van Ark` To find the closest point to the wall you can use the RangeFinder node:
+
+[https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
+
+(pick the smallest value in the matrix)
+
+##### Simon Steinmann [Moderator] 12/08/2020 14:35:21
+You can also use linear algebra to do it mathematically
+
+
+[https://www.qc.edu.hk/math/Advanced%20Level/Point\_to\_line.htm](https://www.qc.edu.hk/math/Advanced%20Level/Point_to_line.htm)
+
+
+here's some methods if you reduce it to 2 dimensions (which should be a valid simplification for a ground robot)
+
+
+...Robotics... when you actually need the maths you learned in school 😄
+
+##### Rosalie van Ark 12/08/2020 14:43:22
+Hahaha
+
+
+Thanks `@Darko Lukić` and `@Simon Steinmann`! We'll look into it
+
+##### dimple.bhuta 12/08/2020 16:08:58
+Hello, 
+
+i have written a code that implements reeds shepp for uturn and I use a controller to control the car(bmx) and track the uturn
+
+
+However
+
+
+WARNING: DEF EGO\_VEHICLE\_r0 TeslaModel3 (PROTO) > Transform > DEF LEFT\_STEER\_HINGE2 Hinge2Joint > RotationalMotor: too big requested position: 1.27875 > 1
+
+WARNING: DEF EGO\_VEHICLE\_r0 TeslaModel3 (PROTO) > Transform > DEF RIGHT\_STEER\_HINGE2 Hinge2Joint > RotationalMotor: too low requested position: -1.29372 < -1
+
+WARNING: DEF EGO\_VEHICLE\_r0 TeslaModel3 (PROTO) > Transform > DEF LEFT\_REAR\_WHEEL\_HINGE HingeJoint > RotationalMotor: The requested velocity -242.784 exceeds 'maxVelocity' = 138.889.
+
+WARNING: DEF EGO\_VEHICLE\_r0 TeslaModel3 (PROTO) > Transform > DEF RIGHT\_REAR\_WHEEL\_HINGE HingeJoint > RotationalMotor: The requested velocity 229.657 exceeds 'maxVelocity' = 138.889.
+
+
+I get all these warnings
+
+
+Than these errors
+
+
+Error: wb\_motor\_set\_velocity() called with an invalid 'velocity' argument.(NaN)
+
+Error: wb\_motor\_set\_velocity() called with an invalid 'velocity' argument.(NaN)
+
+Warning: wbu\_driver\_set\_steering\_angle() called with an invalid 'steering\_angle' argument (NaN)
+
+Warning: wbu\_driver\_set\_steering\_angle() called with an invalid 'steering\_angle' argument (NaN)
+
+
+and than my vehicle crashes
+
+
+i am not sure what is causing this
+
+
+In an isolated case it works completely fine
+
+##### Darko Lukić [Cyberbotics] 12/08/2020 16:11:55
+You are calling `wb_motor_set_velocity` and `wbu_driver_set_steering_angle` with invalid arguments (`NaN`).
+
+##### dimple.bhuta 12/08/2020 16:12:36
+ok  but it isnt suppose to happen. I constantly send out updated velocity commands
+
+
+and its not causing any problems in case of straight path or paths with some curves
+
+##### Darko Lukić [Cyberbotics] 12/08/2020 16:14:05
+Try printing and checking the arguments before calling the mentioned functions
+
+##### dimple.bhuta 12/08/2020 16:14:16
+ok thank you
+
+##### Darko Lukić [Cyberbotics] 12/08/2020 16:15:17
+If you are sure that the arguments are valid let us know, the problem may be something else
+
+##### dimple.bhuta 12/08/2020 16:15:27
+ok
+
+##### GaGa 12/09/2020 06:09:37
+Is there any tutorial or any leads where I can see how to work on line follower using epuck
+
+##### DrakerDG 12/09/2020 06:27:16
+`@GaGa` hello, maybe something like this?
+
+[https://youtu.be/\_wl1i1xcrFc](https://youtu.be/_wl1i1xcrFc)
+
+##### GaGa 12/09/2020 11:38:11
+`@DrakerDG` it would be great if u have any steps how u did
 

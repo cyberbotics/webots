@@ -62,6 +62,7 @@ jobs:
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - uses: actions/upload-artifact@v2
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
         path: |
