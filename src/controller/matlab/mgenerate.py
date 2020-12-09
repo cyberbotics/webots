@@ -40,8 +40,7 @@ def gen_with_doc(type, line, doc_url=None):
 
 
 def gen(type, line, doc_page=None):
-    if type == FUNC:
-        gen_with_doc(type, line, 'https://www.cyberbotics.com/doc/reference/' + doc_page if doc_page is not None else None)
+    gen_with_doc(type, line, 'https://www.cyberbotics.com/doc/reference/' + doc_page if doc_page is not None else None)
 
 
 def gen_const(name, value):
