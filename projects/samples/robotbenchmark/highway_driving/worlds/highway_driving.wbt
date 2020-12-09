@@ -677,6 +677,7 @@ Solid {
         ccw FALSE
         creaseAngle 1.1
       }
+      castShadows FALSE
     }
   ]
   name "solid(2)"
@@ -891,4 +892,13 @@ DEF SUMO_VEHICLE24 CitroenCZeroSimple {
     0.18 0.28 0.64
   ]
   name "vehicle(26)"
+}
+SumoInterface {
+  gui FALSE
+  useNetconvert FALSE
+  enableWheelsRotation TRUE
+  radius 200
+  laneChangeDelay 4
+  port 1472
+  seed 0
 }
