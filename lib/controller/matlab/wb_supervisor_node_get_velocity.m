@@ -5,4 +5,4 @@ function result = wb_supervisor_node_get_velocity(noderef)
 
 obj = calllib('libController', 'wb_supervisor_node_get_velocity', noderef);
 setdatatype(obj,'doublePtr', 1, 3);
-vec3f = get(obj, 'Value');
+result = get(obj, 'Value');
