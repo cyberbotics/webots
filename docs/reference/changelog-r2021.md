@@ -13,6 +13,7 @@ Released on December XXth, 2020.
     - Added a new [`wb_supervisor_node_get_contact_point_node`](supervisor.md#wb_supervisor_node_get_contact_point_node) [Supervisor](supervisor.md) API function to get the node reference associated to a given contact point ([#2228](https://github.com/cyberbotics/webots/pull/2228)).
     - Added two new functions to the [Camera](camera.md) API called [`wb_camera_get_exposure`](camera.md#wb_camera_get_exposure) and [`wb_camera_set_exposure`](camera.md#wb_camera_set_exposure) to retrieve and change the [Camera](camera.md) exposure ([#2363](https://github.com/cyberbotics/webots/pull/2363)).
     - Added a new functionality in the [Recognition](recognition.md) node and [Camera](camera.md) API for generating segmented ground truth images ([#2199](https://github.com/cyberbotics/webots/pull/2199)).
+    - Added options to enable and disable recognition and segmentation functionalities in the [Camera](camera.md) tab of the default robot window ([#2431](https://github.com/cyberbotics/webots/pull/2431)).
     - Added a new [`wb_inertial_unit_get_quaternion`](inertialunit.md#wb_inertial_unit_get_quaternion) [InertialUnit](inertialunit.md) API function to get the orientation measurement represented as a quaternion ([#2424](https://github.com/cyberbotics/webots/pull/2424)).
     - **The [InertialUnit](inertialunit.md)`.lookupTable` field was deprecated and the related `wb_inertial_unit_get_lookup_table_size` and `wb_inertial_unit_get_lookup_table` functions were removed ([#2424](https://github.com/cyberbotics/webots/pull/2424)).**
     - Added a `PlasticFruitBox` and a `MetalStorageBox` PROTO object ([#2427](https://github.com/cyberbotics/webots/pull/2427)).
@@ -21,6 +22,7 @@ Released on December XXth, 2020.
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved [Solid](solid.md).`recognitionColors` value for the [BiscuitBox](../guide/object-kitchen.md#biscuitbox) PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
     - Improved documentation of [Camera](camera.md) image format and how to show the image retrieved through the [Camera](camera.md) API in a [Display](display.md) device ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
+    - The [Lidar](lidar.md) and [RangeFinder](rangefinder.md) devices now return infinity when the depth is out of range ([#2509](https://github.com/cyberbotics/webots/pull/2509)).
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).

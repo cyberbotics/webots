@@ -791,6 +791,7 @@ Solid {
         ccw FALSE
         creaseAngle 1.1
       }
+      castShadows FALSE
     }
   ]
   name "solid(2)"

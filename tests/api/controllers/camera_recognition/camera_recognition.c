@@ -48,6 +48,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
   // check segmentation image
+  ts_assert_boolean_equal(wb_camera_recognition_is_segmentation_enabled(camera),
+                          "The Recognition.segmentation functionality should be enabled.");
   image = wb_camera_recognition_get_segmentation_image(camera);
   ts_assert_boolean_not_equal(
     image == NULL, "The camera segmentation image should not be NULL after enabling the segmented image generation.");
@@ -90,6 +92,9 @@ int main(int argc, char **argv) {
 
   remove("segmentation.jpg");
 
+  wb_robot_step(TIME_STEP);
+  ts_assert_boolean_not_equal(wb_camera_recognition_is_segmentation_enabled(camera),
+                              "The Recognition.segmentation functionality should be disabled.");
   WbFieldRef segmentation_field = wb_supervisor_node_get_field(recognition_node, "segmentation");
   wb_supervisor_field_set_sf_bool(segmentation_field, false);
 

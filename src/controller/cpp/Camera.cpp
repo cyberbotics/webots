@@ -151,6 +151,10 @@ void Camera::disableRecognitionSegmentation() {
   wb_camera_recognition_disable_segmentation(getTag());
 }
 
+bool Camera::isRecognitionSegmentationEnabled() const {
+  return wb_camera_recognition_is_segmentation_enabled(getTag());
+}
+
 const unsigned char *Camera::getRecognitionSegmentationImage() const {
   return wb_camera_recognition_get_segmentation_image(getTag());
 }

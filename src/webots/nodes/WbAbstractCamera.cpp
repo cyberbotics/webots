@@ -361,7 +361,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       // update motion blur factor
       applyMotionBlurToWren();
 
-      emit enabled(this, mSensor->isEnabled());
+      emit enabled(this, isEnabled());
 
       if (!hasBeenSetup()) {
         setup();
