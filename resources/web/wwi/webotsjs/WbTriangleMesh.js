@@ -10,9 +10,12 @@ class WbTriangleMesh {
     this.coordinates;
     this.coordIndices;
     this.tmpTexIndices;
-
+    this.normals
     this.textureCoordinates;
     this.nonRecursiveTextureCoordinates;
+
+    this.min;
+    this.max;
   }
 
   vertex(triangle, vertex, component) {
@@ -127,10 +130,10 @@ class WbTriangleMesh {
     return nTriangles;
   }
 
-  // populate mCoordIndices and mTmpTexIndices with valid indices
+  // populate this.coordIndices and this.tmpTexIndices with valid indices
   indicesPass(coord, coordIndex, normalIndex, texCoordIndex) {
     assert(!this.normalsValid || typeof normalIndex === 'undefined');
-    assert(!this.textureCoordinatesValid || typeof texCoordIndex === 'undefined');
+    assert(!this.areTextureCoordinatesValid || typeof texCoordIndex === 'undefined');
     assert(this.tmpNormalIndices.length === 0);
     assert(this.tmpTexIndices.length === 0);
 
@@ -146,7 +149,7 @@ class WbTriangleMesh {
       // -> add a current index to the current face
       //    in order to have consistent data
       if (index !== -1 && i === coordIndexSize - 1)
-        currentFaceIndices.push(new WbVector3(index, this.NormalsValid ? normalIndex[i] : 0, this.textureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
       const cfiSize = currentFaceIndices.length;
       // add the current face
       if (index === -1 || i === coordIndexSize - 1) {
@@ -189,7 +192,7 @@ class WbTriangleMesh {
               this.tmpNormalIndices.push(tesselatorOutput[2].y);
             }
 
-            if (this.textureCoordinatesValid) {
+            if (this.areTextureCoordinatesValid) {
               this.tmpTexIndices.push(tesselatorOutput[0].z);
               this.tmpTexIndices.push(tesselatorOutput[1].z);
               this.tmpTexIndices.push(tesselatorOutput[2].z);
@@ -213,7 +216,7 @@ class WbTriangleMesh {
               this.tmpNormalIndices.push(tesselatorOutput[5].y);
             }
 
-            if (this.textureCoordinatesValid) {
+            if (this.areTextureCoordinatesValid) {
               this.tmpTexIndices.push(tesselatorOutput[0].z);
               this.tmpTexIndices.push(tesselatorOutput[1].z);
               this.tmpTexIndices.push(tesselatorOutput[2].z);
@@ -257,7 +260,7 @@ class WbTriangleMesh {
                   this.tmpNormalIndices.push(snippedIndices[k + 1].y);
                   this.tmpNormalIndices.push(snippedIndices[k + 2].y);
                 }
-                if (this.textureCoordinatesValid) {
+                if (this.areTextureCoordinatesValid) {
                   this.tmpTexIndices.push(snippedIndices[k].z);
                   this.tmpTexIndices.push(snippedIndices[k + 1].z);
                   this.tmpTexIndices.push(snippedIndices[k + 2].z);
@@ -275,7 +278,7 @@ class WbTriangleMesh {
       }
       // add a coordIndex to the currentFace
       else
-        currentFaceIndices.push(new WbVector3(index, this.normalsValid ? normalIndex[i] : 0, this.textureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
     }
 
     assert(this.coordIndices.length === this.tmpNormalIndices.length || this.tmpNormalIndices.length === 0);
@@ -284,7 +287,7 @@ class WbTriangleMesh {
   }
 
   // reverse the order of the second and third element
-  // of each triplet of the mCoordIndices and mTmpTexIndices arrays
+  // of each triplet of the this.coordIndices and this.tmpTexIndices arrays
   reverseIndexOrder() {
     const coordIndicesSize = this.coordIndices.length;
     assert(coordIndicesSize % 3 === 0);
@@ -297,7 +300,7 @@ class WbTriangleMesh {
       this.coordIndices[i2] = this.coordIndices[i1];
       this.coordIndices[i1] = third;
 
-      if (this.textureCoordinatesValid) {
+      if (this.areTextureCoordinatesValid) {
         const thirdIndex = this.tmpTexIndices[i2];
         this.tmpTexIndices[i2] = this.tmpTexIndices[i1];
         this.tmpTexIndices[i1] = thirdIndex;
@@ -305,7 +308,7 @@ class WbTriangleMesh {
     }
   }
 
-  // populate mTmpTriangleNormals from coord and mCoordIndices
+  // populate this.tmpTriangleNormals from coord and this.coordIndices
   tmpNormalsPass(coord, normal) {
     assert(this.numberOfTriangles === this.coordIndices.length / 3);
     assert(this.coordIndices.length % 3 === 0);
@@ -323,7 +326,7 @@ class WbTriangleMesh {
         const indexB = this.coordIndices[j + 1];
         const indexC = this.coordIndices[j + 2];
 
-        assert(indexA >= 0 && indexA < coord.length;
+        assert(indexA >= 0 && indexA < coord.length);
         assert(indexB >= 0 && indexB < coord.length);
         assert(indexC >= 0 && indexC < coord.length);
 
@@ -359,8 +362,7 @@ class WbTriangleMesh {
     return "";
   }
 
-/*
-  // populate mIndices, mCoordinates, mTextureCoordinates and mNormals
+  // populate this.coordinates, this.textureCoordinates and this.normals
   finalPass(coord, normal, texCoord, creaseAngle) {
     assert(coord && coord.length > 0);
     assert(this.tmpTriangleNormals.length === mNTriangles || (this.normalsValid && this.normalPerVertex));
@@ -380,74 +382,74 @@ class WbTriangleMesh {
     this.min[1] = this.max[1];
     this.min[2] = this.max[2];
     for (let i = 0; i < coordSize; ++i) {
-      vertex = coord->item(i);
+      vertex = coord[i];
 
-      const double x = vertex.x();
-      if (mMax[X] < x)
-        mMax[X] = x;
-      else if (mMin[X] > x)
-        mMin[X] = x;
+      const x = vertex.x;
+      if (this.max[0] < x)
+        this.max[0] = x;
+      else if (this.min[0] > x)
+        this.min[0] = x;
 
-      const double y = vertex.y();
-      if (mMax[Y] < y)
-        mMax[Y] = y;
-      else if (mMin[Y] > y)
-        mMin[Y] = y;
+      const y = vertex.y;
+      if (this.max[1] < y)
+        this.max[1] = y;
+      else if (this.min[1] > y)
+        this.min[1] = y;
 
-      const double z = vertex.z();
-      if (mMax[Z] < z)
-        mMax[Z] = z;
-      else if (mMin[Z] > z)
-        mMin[Z] = z;
+      const z = vertex.z;
+      if (this.max[2] < z)
+        this.max[2] = z;
+      else if (this.min[2] > z)
+        this.min[2] = z;
 
-      mCoordinates.append(x);
-      mCoordinates.append(y);
-      mCoordinates.append(z);
+      this.coordinates.push(x);
+      this.coordinates.push(y);
+      this.coordinates.push(z);
     }
 
-    for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
-      const int k = 3 * t;
-      for (int v = 0; v < 3; ++v) {  // foreach vertex
-        const int index = k + v;
-        const int indexCoord = mCoordIndices[index];
+    for (let t = 0; t < this.numberOfTriangles; ++t) {  // foreach triangle
+      const k = 3 * t;
+      for (let v = 0; v < 3; ++v) {  // foreach vertex
+        const index = k + v;
+        const indexCoord = this.coordIndices[index];
 
         // compute the normal per vertex (from normal per triangle)
-        if (!mNormalsValid || !mNormalPerVertex) {
-          WbVector3 triangleNormal;
-          const WbVector3 &faceNormal = mTmpTriangleNormals[t];
-          const QList<int> &linkedTriangles = mTmpVertexToTriangle.values(indexCoord);
-          const int ltSize = linkedTriangles.size();
+        if (!this.normalsValid || !this.normalPerVertex) {
+          let triangleNormal = new WbVector3();
+          const faceNormal = this.tmpTriangleNormals[t];
+          const linkedTriangles = this.tmpVertexToTriangle[indexCoord];
+          const ltSize = linkedTriangles.length;
           // stores the normals of the linked triangles which are already used.
-          const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
-          int creasedLinkedTriangleNumber = 0;
-          int linkedTriangleNormalsIndex = 0;
-          for (int i = 0; i < ltSize; ++i) {
-            const int linkedTriangleIndex = linkedTriangles.at(i);
-            if (linkedTriangleIndex >= 0 && linkedTriangleIndex < mNTriangles) {
-              const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
+          const linkedTriangleNormals = [];
+          let creasedLinkedTriangleNumber = 0;
+          let linkedTriangleNormalsIndex = 0;
+          for (let i = 0; i < ltSize; ++i) {
+            const linkedTriangleIndex = linkedTriangles[i];
+            if (linkedTriangleIndex >= 0 && linkedTriangleIndex < this.numberOfTriangles) {
+              const linkedTriangleNormal = this.tmpTriangleNormals[linkedTriangleIndex];
               // perform the creaseAngle check
               if (faceNormal.angle(linkedTriangleNormal) < creaseAngle) {
                 creasedLinkedTriangleNumber++;
-                bool found = false;
+                let found = false;
                 // we don't want coplanar face normals on e.g. a cylinder to bias a
                 // normal and cause discontinuities, so don't include duplicated
                 // normals in the smoothing pass
-                for (int lN = 0; lN < linkedTriangleNormalsIndex; ++lN) {
-                  const WbVector3 *currentLinkedTriangleNormal = linkedTriangleNormals[lN];
-                  if (currentLinkedTriangleNormal->almostEquals(linkedTriangleNormal, 0.0001)) {
+                for (let lN = 0; lN < linkedTriangleNormalsIndex; ++lN) {
+                  const currentLinkedTriangleNormal = linkedTriangleNormals[lN];
+                  if (currentLinkedTriangleNormal.almostEquals(linkedTriangleNormal, 0.0001)) {
                     found = true;
                     break;
                   }
                 }
                 if (!found) {
                   triangleNormal += linkedTriangleNormal;
-                  linkedTriangleNormals[linkedTriangleNormalsIndex] = &linkedTriangleNormal;
+                  linkedTriangleNormals[linkedTriangleNormalsIndex] = linkedTriangleNormal;
                   linkedTriangleNormalsIndex++;
                 }
               }
             }
           }
-          delete[] linkedTriangleNormals;
+          linkedTriangleNormals = [];
 
           if (triangleNormal.isNull())
             triangleNormal = faceNormal;
@@ -455,47 +457,100 @@ class WbTriangleMesh {
             triangleNormal.normalize();
 
           // populate the remaining two final arrays
-          mNormals.append(triangleNormal[X]);
-          mNormals.append(triangleNormal[Y]);
-          mNormals.append(triangleNormal[Z]);
-          mIsNormalCreased.append(creasedLinkedTriangleNumber == ltSize);
+          this.normals.push(triangleNormal[0]);
+          this.normals.push(triangleNormal[1]);
+          this.normals.push(triangleNormal[2]);
+          this.isNormalCreased.push(creasedLinkedTriangleNumber === ltSize);
         } else {  // normal already defined per vertex
-          const int indexNormal = mTmpNormalIndices[index];
+          const indexNormal = this.tmpNormalIndices[index];
           if (indexNormal >= 0 && indexNormal < normalSize) {
-            const WbVector3 nor(normal->item(indexNormal));
-            mNormals.append(nor.x());
-            mNormals.append(nor.y());
-            mNormals.append(nor.z());
-            mIsNormalCreased.append(false);
+            const nor = normal[indexNormal];
+            this.normals.push(nor.x);
+            this.normals.push(nor.y);
+            this.normals.push(nor.z);
+            this.isNormalCreased.push(false);
           }
         }
 
-        if (mTextureCoordinatesValid) {
-          const int indexTex = mTmpTexIndices[index];
+        if (this.areTextureCoordinatesValid) {
+          const indexTex = this.tmpTexIndices[index];
           if (indexTex >= 0 && indexTex < texCoordSize) {
-            const WbVector2 tex(texCoord->item(indexTex));
-            mTextureCoordinates.append(tex.x());
-            mTextureCoordinates.append(1.0 - tex.y());
+            const tex = texCoord[indexTex];
+            this.textureCoordinates.push(tex.x);
+            this.textureCoordinates.push(1.0 - tex.y);
           } else {
             // foreach texture coordinate component
-            mTextureCoordinates.append(0.5);
-            mTextureCoordinates.append(0.5);
+            this.textureCoordinates.push(0.5);
+            this.textureCoordinates.push(0.5);
           }
         }
       }
     }
 
-    if (!mTextureCoordinatesValid)
-      setDefaultTextureCoordinates(coord);
+    if (!this.areTextureCoordinatesValid)
+      this.setDefaultTextureCoordinates(coord);
 
     // check the resulted size
-    assert(mCoordinates.size() == 3 * coordSize);
-    assert(mNormals.size() == 3 * 3 * mNTriangles);
-    assert(mIsNormalCreased.size() == 3 * mNTriangles);
-    assert(mTextureCoordinates.size() == 0 || mTextureCoordinates.size() == 2 * 3 * mNTriangles);
-    assert(mNonRecursiveTextureCoordinates.size() == 0 || mNonRecursiveTextureCoordinates.size() == 2 * 3 * mNTriangles);
+    assert(this.coordinates.length === 3 * coordSize);
+    assert(this.normals.length === 3 * 3 * this.numberOfTriangles);
+    assert(this.isNormalCreased.length === 3 * this.numberOfTriangles);
+    assert(this.textureCoordinates.length === 0 || this.textureCoordinates.length === 2 * 3 * this.numberOfTriangles);
+    assert(this.nonRecursiveTextureCoordinates.length === 0 || this.nonRecursiveTextureCoordinates.length === 2 * 3 * this.numberOfTriangles);
   }
-*/
+
+  setDefaultTextureCoordinates(coord) {
+    const minBound = new WbVector3(this.min[0], this.min[1], this.min[2]);
+    const maxBound = new WbVector3(this.max[0], this.max[1], this.max[2]);
+    const size = maxBound.sub(minBound);
+
+    // compute size and find longest and second-longest dimensions for default mapping
+    let longestDimension = -1;
+    let secondLongestDimension = -1;
+    for (let i = 0; i < 3; ++i) {
+      if (longestDimension < 0 || size[i] > size[longestDimension]) {
+        secondLongestDimension = longestDimension;
+        longestDimension = i;
+      } else if (secondLongestDimension < 0 || size[i] > size[secondLongestDimension])
+        secondLongestDimension = i;
+    }
+
+    assert(longestDimension >= 0 && secondLongestDimension >= 0);
+
+    let index = 0;
+    let vertices = [];
+    for (let t = 0; t < this.numberOfTriangles; ++t) {  // foreach triangle
+      vertices[0] = coord[this.coordIndices[index]];
+      vertices[1] = coord[this.coordIndices[index + 1]];
+      vertices[2] = coord[this.coordIndices[index + 2]];
+
+      // compute face center and normal
+      const edge1(vertices[1].sub(vertices[0]));
+      const edge2(vertices[2].sub(vertices[0]));
+      let normal = edge1.cross(edge2);
+      normal.normalize();
+      const origin = new WbVector3(vertices[0].add(vertices[1]).add(vertices[2]).div(3.0));
+
+      // compute intersection with the bounding box
+      const faceNormal = new WbRay(origin, normal);
+      let tmin, tmax;
+      const result = faceNormal.intersects(minBound, maxBound, tmin, tmax);
+      assert(result.[0]);
+      const faceIndex = WbBox.findIntersectedFace(minBound, maxBound, origin.add(normal.mul(result[1])));
+
+      for (let v = 0; v < 3; ++v) {  // foreach vertex
+        // compute default texture mapping
+        this.textureCoordinates.push((vertices[v].get(longestDimension) - this.min.get(longestDimension)) / size.get(longestDimension));
+        this.textureCoordinates.push(1.0 - (vertices[v].get(secondLongestDimension) - this.min.get(secondLongestDimension)) / size.get(longestDimension));
+
+        // compute non-recursive mapping
+        const uv = WbBox.computeTextureCoordinate(minBound, maxBound, vertices[v], true, faceIndex);
+        this.nonRecursiveTextureCoordinates.push(uv.x);
+        this.nonRecursiveTextureCoordinates.push(uv.y);
+      }
+
+      index += 3;
+    }
+  }
 }
 
 export {WbTriangleMesh}

@@ -1,3 +1,5 @@
+import{M_PI} from "./../WbConstants.js"
+
 class WbVector3 {
   constructor(x = 0.0, y = 0.0, z = 0.0){
     this.x = x;
@@ -5,16 +7,20 @@ class WbVector3 {
     this.z = z;
   }
 
+  add(vec){
+    return new WbVector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+  }
+
   sub(vec) {
     return new WbVector3(this.x - vec.x, this.y - vec.y, this.z -  vec.z);
   }
 
-  div(number) {
-    this.x /= number;
-    this.y /= number;
-    this.z /= number;
+  mul(number) {
+    return new WbVector3(this.x * number, this.y * number, this.z * number);
+  }
 
-    return this;
+  div(number) {
+    return new WbVector3(this.x / number, this.y / number, this.z / number);
   }
   // cross product
   cross(v) {
@@ -30,6 +36,13 @@ class WbVector3 {
   }
 
   normalize() {
+    let result = this.div(this.length());
+    this.x = result.x;
+    this.y = result.y;
+    this.z = result.z;
+  }
+
+  normalized() {
     return this.div(this.length());
   }
 
@@ -37,5 +50,32 @@ class WbVector3 {
      return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
+  length2() {
+    return this.x * this.x + this.y * this.y + this.z * this.z; }
+  // dot product
+  dot(v) {
+     return this.x * v.x + this.y * v.y + this.z * v.z;
+   }
+
+   // null test
+  isNull() {
+    return this.x == 0.0 && this.y == 0.0 && this.z == 0.0;
+  }
+
+  // angle between two vectors (in radians)
+  angle(v) {
+    let s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
+    assert(Math.abs(s) < 1.0000000001);
+    return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : Math.acos(s);
+  }
+
+  get(index) {
+    if(index === 0)
+      return this.x;
+    else if(index === 1)
+      return this.y;
+    else if (index === 2)
+      return this.z;
+  }
 }
 export {WbVector3}
