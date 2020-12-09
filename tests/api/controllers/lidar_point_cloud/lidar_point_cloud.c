@@ -14,8 +14,8 @@ int main(int argc, char **argv) {
 
   WbDeviceTag lidar = wb_robot_get_device("lidar");
 
-  int resolution = wb_lidar_get_horizontal_resolution(lidar);
-  int number_of_layers = wb_lidar_get_number_of_layers(lidar);
+  const int resolution = wb_lidar_get_horizontal_resolution(lidar);
+  const int number_of_layers = wb_lidar_get_number_of_layers(lidar);
 
   ts_assert_int_equal(resolution, 512, "The horizontal resolution of the lidar should be '512'.");
   ts_assert_int_equal(number_of_layers, 3, "The number of layers of the lidar should be '3'.");
@@ -32,9 +32,9 @@ int main(int argc, char **argv) {
   ts_assert_pointer_not_null((void *)point_cloud, "Cannot retrieve point cloud image pointer (at step 1).");
   int i = 0;
   for (i = 0; i < resolution * number_of_layers; ++i) {
-    float x = point_cloud[i].x;
-    float y = point_cloud[i].y;
-    float z = point_cloud[i].z;
+    const float x = point_cloud[i].x;
+    const float y = point_cloud[i].y;
+    const float z = point_cloud[i].z;
     ts_assert_vec3_equal(x, y, z, 0.0, 0.0, 0.0, "Point cloud shouldn't be available one step after enabling the lidar.");
     ts_assert_double_equal(image_lidar[i], 0.0, "Range image shouldn't be available one step after enabling the lidar.");
   }
@@ -68,9 +68,9 @@ int main(int argc, char **argv) {
   point_cloud = wb_lidar_get_point_cloud(lidar);
   ts_assert_pointer_not_null((void *)point_cloud, "Cannot retrieve point cloud image pointer (at step 3).");
   for (i = 0; i < resolution * number_of_layers; ++i) {
-    float x = point_cloud[i].x;
-    float y = point_cloud[i].y;
-    float z = point_cloud[i].z;
+    const float x = point_cloud[i].x;
+    const float y = point_cloud[i].y;
+    const float z = point_cloud[i].z;
     if (!isinf(x) && !isinf(y) && !isinf(z)) {
       const float d = sqrt(x * x + y * y + z * z);
       ts_assert_double_in_delta(image_lidar[i], d, 0.05,

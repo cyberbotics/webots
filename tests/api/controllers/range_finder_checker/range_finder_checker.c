@@ -30,14 +30,14 @@ int main(int argc, char **argv) {
     int x, y;
     const float *image = wb_range_finder_get_range_image(range_finder);
 
-    int samples_number = 4;
-    int samples_positions[4][2] = {
+    const int samples_number = 4;
+    const int samples_positions[4][2] = {
       {0, height / 2},          // middle line, first pixel
       {width / 2, height / 2},  // middle line, central pixel
       {width - 1, height / 2},  // middle line, last pixel
       {width / 2, height - 1}   // bottom line, central pixel
     };
-    double samples_expected_values[4] = {
+    const double samples_expected_values[4] = {
       wb_range_finder_get_max_range(range_finder),  // no collision
       2.0,                                          // collision with transparent object
       2.0,                                          // collision
@@ -58,15 +58,15 @@ int main(int argc, char **argv) {
     int x, y;
     const float *image = wb_range_finder_get_range_image(range_finder);
 
-    int samples_number = 5;
-    int samples_positions[5][2] = {
+    const int samples_number = 5;
+    const int samples_positions[5][2] = {
       {0, height / 2},              // middle line, first pixel
       {width / 4, height / 2},      // middle line, fourth
       {width / 2, height / 2},      // middle line, middle
       {3 * width / 4, height / 2},  // middle line, 3 fourth
       {width - 1, height / 2},      // middle line, last pixel
     };
-    double samples_expected_values[5] = {
+    const double samples_expected_values[5] = {
       2.0,       // collision
       INFINITY,  // no collision
       2.0,       // collision

@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
   WbDeviceTag fixed_lidar = wb_robot_get_device("lidar");
   WbDeviceTag rotating_lidar = wb_robot_get_device("rotating lidar");
 
-  int fixed_lidar_resolution = wb_lidar_get_horizontal_resolution(fixed_lidar);
-  int rotating_lidar_resolution = wb_lidar_get_horizontal_resolution(rotating_lidar);
+  const int fixed_lidar_resolution = wb_lidar_get_horizontal_resolution(fixed_lidar);
+  const int rotating_lidar_resolution = wb_lidar_get_horizontal_resolution(rotating_lidar);
 
   ts_assert_int_equal(4 * fixed_lidar_resolution, rotating_lidar_resolution,
                       "The resolution of the rotating lidar should be 4 times bigger than the resolution of the fixed one.");
