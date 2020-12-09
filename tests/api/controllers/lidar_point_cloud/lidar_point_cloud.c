@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     float y = point_cloud[i].y;
     float z = point_cloud[i].z;
     if (!isinf(x) && !isinf(y) && !isinf(z)) {
-      float d = sqrt(x * x + y * y + z * z);
+      const float d = sqrt(x * x + y * y + z * z);
       ts_assert_double_in_delta(image_lidar[i], d, 0.05,
                                 "Point cloud and range image does not correspond, Received value = %f, Expected value = %f",
                                 image_lidar[i], d);
