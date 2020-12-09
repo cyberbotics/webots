@@ -40,7 +40,8 @@ def gen_with_doc(type, line, doc_url=None):
 
 
 def gen(type, line, doc_page=None):
-    gen_with_doc(type, line, 'https://www.cyberbotics.com/doc/reference/' + doc_page if doc_page is not None else None)
+    if type == FUNC:
+        gen_with_doc(type, line, 'https://www.cyberbotics.com/doc/reference/' + doc_page if doc_page is not None else None)
 
 
 def gen_const(name, value):
@@ -209,6 +210,8 @@ gen(FUNC, "wb_inertial_unit_get_sampling_period(tag)", "inertialunit")
 gen(FUNC, "wb_inertial_unit_get_noise(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_quaternion(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_roll_pitch_yaw(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table_size(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table(tag)", "inertialunit")
 
 # joystick.h
 gen(PROC, "wb_joystick_enable(sampling_period)", "joystick")
@@ -454,7 +457,7 @@ gen(FUNC, "wb_supervisor_node_get_selected()", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_orientation(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_static_balance(noderef)", "supervisor")
-gen(FUNC, "wb_supervisor_node_get_velocity(noderef)", "supervisor")
+# gen(FUNC, "wb_supervisor_node_get_velocity(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_is_proto(noderef)", "supervisor")
 gen(PROC, "wb_supervisor_node_move_viewpoint(node)", "supervisor")
 gen(PROC, "wb_supervisor_node_set_visibility(node, from, visible)", "supervisor")
