@@ -60,7 +60,7 @@ If the depth is smaller than the `minRange` value then infinity is returned.
 
 - The `maxRange` defines the distance between the range-finder and the far clipping plane of the OpenGL view frustum.
 This field defines the maximum range that a range-finder can achieve and so the maximum possible value of the range image (in meter).
-If the depth is bigger the `maxRange` value then infinity is returned.
+If the depth is bigger than the `maxRange` value then infinity is returned.
 
 - If the `motionBlur` field is greater than 0.0, the image is blurred by the motion of the range-finder or objects in the field of view.
 More information on motion blur is provided in the [motionBlur](camera.md) field description of the [Camera](camera.md) node.
