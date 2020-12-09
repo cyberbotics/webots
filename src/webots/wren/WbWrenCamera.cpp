@@ -917,6 +917,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 
     mWrenRangeNoise[index]->setTime(time);
     mWrenRangeNoise[index]->setIntensity(mRangeNoiseIntensity);
+    mWrenRangeNoise[index]->setMinRange(mMinRange);
+    mWrenRangeNoise[index]->setMaxRange(mMaxRange);
   }
 
   if (mDepthResolution > 0.0f)

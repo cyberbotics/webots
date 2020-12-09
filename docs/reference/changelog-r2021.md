@@ -22,6 +22,7 @@ Released on December XXth, 2020.
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved [Solid](solid.md).`recognitionColors` value for the [BiscuitBox](../guide/object-kitchen.md#biscuitbox) PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
     - Improved documentation of [Camera](camera.md) image format and how to show the image retrieved through the [Camera](camera.md) API in a [Display](display.md) device ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
+    - The [Lidar](lidar.md) and [RangeFinder](rangefinder.md) devices now return infinity when the depth is out of range ([#2509](https://github.com/cyberbotics/webots/pull/2509)).
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
     - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).

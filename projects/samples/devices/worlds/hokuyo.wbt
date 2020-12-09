@@ -220,10 +220,12 @@ Robot {
     }
     HokuyoUtm30lx {
       translation 0 0.136 0
+      noise 0.01
     }
     HokuyoUrg04lx {
       translation 0 0.05 0.089
       rotation 1 0 0 1.5708
+      noise 0.01
     }
     Transform {
       translation -0.02 0.063 -0.042

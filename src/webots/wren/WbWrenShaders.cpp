@@ -1022,6 +1022,14 @@ WrShaderProgram *WbWrenShaders::rangeNoiseShader() {
     wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "intensity", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
                                             reinterpret_cast<const char *>(&intensity));
 
+    float minRange = 0.0f;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "minRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+                                            reinterpret_cast<const char *>(&minRange));
+
+    float maxRange = 0.0f;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "maxRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+                                            reinterpret_cast<const char *>(&maxRange));
+
     ::buildShader(gShaders[SHADER_RANGE_NOISE], QFileInfo("gl:shaders/range_noise.vert"),
                   QFileInfo("gl:shaders/range_noise.frag"));
   }

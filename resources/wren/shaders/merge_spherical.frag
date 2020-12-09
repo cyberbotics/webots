@@ -12,6 +12,8 @@ precision highp float;
 #define UP 4
 #define DOWN 5
 
+const float FLT_MAX = intBitsToFloat(0x7F800000);
+
 const vec3 orientations[6] = vec3[6](vec3(1.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, -1.0, 0.0),
                                      vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, -1.0));
 
@@ -137,8 +139,10 @@ void main() {
       depth = depth / cosine;
     }
     if (depth < minRange)
-      depth = maxRange;
+      depth = FLT_MAX;
+    if (depth >= maxRange)
+      depth = FLT_MAX;
 
-    fragColor = vec4(clamp(depth, 0.0, maxRange), 0.0, 0.0, 0.0);
+    fragColor = vec4(depth, 0.0, 0.0, 0.0);
   }
 }
