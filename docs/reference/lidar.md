@@ -157,7 +157,7 @@ If the range value is smaller than the `minRange` value then infinity is returne
 
 - The `maxRange` field defines the distance between the lidar and the far clipping plane of the OpenGL view frustum.
 This field defines the maximum range that the lidar can achieve and so the maximum possible value of the range image (in meter).
-If the range value is bigger the `maxRange` value then infinity is returned.
+If the range value is bigger than the `maxRange` value then infinity is returned.
 
 - The `type` field should either be 'fixed' or 'rotating', it defines if the lidar has a rotating or fixed head.
 
