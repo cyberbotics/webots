@@ -21,9 +21,99 @@ class WbBox extends WbGeometry {
       _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
   }
 
-  postFinalize() {
-    super.postFinalize();
+  static findIntersectedFace(minBound, maxBound, intersectionPoint) {
+    const TOLERANCE = 1e-9;
+
+    // determine intersected face
+    if (Math.abs(intersectionPoint.x - maxBound.x) < TOLERANCE)
+      return WbBox.IntersectedFace.RIGHT_FACE;
+    else if (Math.abs(intersectionPoint.x - minBound.x) < TOLERANCE)
+      return WbBox.IntersectedFace.LEFT_FACE;
+    else if (Math.abs(intersectionPoint.z - minBound.z) < TOLERANCE)
+      return WbBox.IntersectedFace.BACK_FACE;
+    else if (Math.abs(intersectionPoint.z - maxBound.z) < TOLERANCE)
+      return WbBox.IntersectedFace.FRONT_FACE;
+    else if (Math.abs(intersectionPoint.y - maxBound.y) < TOLERANCE)
+      return WbBox.IntersectedFace.TOP_FACE;
+    else if (Math.abs(intersectionPoint.y - minBound.y) < TOLERANCE)
+      return WbBox.IntersectedFace.BOTTOM_FACE;
+
+    return -1;
+  }
+
+  static computeTextureCoordinate(minBound, maxBound, point, nonRecursive, intersectedFace) {
+    let u, v;
+    if (intersectedFace < 0)
+      intersectedFace = this.findIntersectedFace(minBound, maxBound, point);
+
+    let vertex = point.sub(minBound);
+    let size = maxBound.sub(minBound);
+    switch (intersectedFace) {
+      case WbBox.IntersectedFace.FRONT_FACE:
+        u = vertex.x / size.x;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.50;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.BACK_FACE:
+        u = 1 - vertex.x / size.x;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.LEFT_FACE:
+        u = vertex.z / size.z;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.25;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.RIGHT_FACE:
+        u = 1 - vertex.z / size.z;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.75;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.TOP_FACE:
+        u = vertex.x / size.x;
+        v = vertex.z / size.z;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.50;
+          v = 0.50 * v;
+        }
+        break;
+      case WbBox.IntersectedFace.BOTTOM_FACE:
+        u = vertex.x / size.x;
+        v = 1 - vertex.z / size.z;
+        if (nonRecursive) {
+          u = 0.25 * u;
+          v = 0.50 * v;
+        }
+        break;
+      default:
+        v = 0;
+        u = 0;
+        assert(false);
+        break;
+    }
+
+    return new WbVector2(u, v);
   }
 }
+
+WbBox.IntersectedFace {
+  FRONT_FACE : 0,
+  BACK_FACE : 1,
+  LEFT_FACE : 2,
+  RIGHT_FACE : 3,
+  TOP_FACE : 4,
+  BOTTOM_FACE : 5};
 
 export {WbBox}
