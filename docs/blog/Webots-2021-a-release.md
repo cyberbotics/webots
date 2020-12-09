@@ -7,7 +7,7 @@
 Webots R2021a is there! And it's packed with a bunch of new features, new models, improvements and, of course, bug fixes.
 
 However, this article only lists some of the major changes.
-Please refer to the [2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
+Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
 
 
 ## Image Segmentation
