@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# For now, it works only on linux and Windows
+# For now, it works only on Linux and Windows
 
 include ../../../resources/Makefile.os.include
 
