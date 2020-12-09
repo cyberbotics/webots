@@ -209,8 +209,6 @@ gen(FUNC, "wb_inertial_unit_get_sampling_period(tag)", "inertialunit")
 gen(FUNC, "wb_inertial_unit_get_noise(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_quaternion(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_roll_pitch_yaw(tag)", "inertialunit")
-# gen(FUNC, "wb_inertial_unit_get_lookup_table_size(tag)", "inertialunit")
-# gen(FUNC, "wb_inertial_unit_get_lookup_table(tag)", "inertialunit")
 
 # joystick.h
 gen(PROC, "wb_joystick_enable(sampling_period)", "joystick")
