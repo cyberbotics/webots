@@ -67,7 +67,7 @@ static void display(WbDeviceTag d,   // display
   for (i = 0; i < ns; i++) {
     const float f = v[i];
     if (f != INFINITY) {
-      float alpha = -fov2 + fov * i / ns - M_PI_2;
+      const float alpha = -fov2 + fov * i / ns - M_PI_2;
       wb_display_draw_line(d, dw2, dh2, dw2 + f * cos(alpha) * dw2 / RADIUS, dh2 + f * sin(alpha) * dh2 / RADIUS);
     }
   }
