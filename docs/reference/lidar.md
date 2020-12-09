@@ -153,7 +153,7 @@ A typically good value for this field is to set it just big enough so that the s
 More information about the frustum is provided in the [frustum](camera.md#frustum) section of the [Camera](camera.md) node.
 
 - The `minRange` field defines the minimum range of the lidar, objects closer to the lidar than the minimum range are not detected (but still occlude other objects).
-If the range value is smaller the `minRange` value then infinity is returned.
+If the range value is smaller than the `minRange` value then infinity is returned.
 
 - The `maxRange` field defines the distance between the lidar and the far clipping plane of the OpenGL view frustum.
 This field defines the maximum range that the lidar can achieve and so the maximum possible value of the range image (in meter).
