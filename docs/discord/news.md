@@ -4,6 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Soft\_illusion 12/01/2020 16:33:04
+We are back with the 8th episode of the Webots ROS2 video tutorial series. Video 8: RQT\_graph, ROS2 topic echo | Debugging tools [https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s](https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s) Stay tuned for more upcoming interesting episodes.
+
+Special Thanks to webots team for their support.
+
+##### AngelAyala 11/26/2020 19:06:19
+I'm glad to contribute, there was some missing aspect in the comparison, but still was accepted in a very good conference
+
+##### Soft\_illusion 11/25/2020 18:28:50
+We are back with the 7th episode of the Webots ROS2 video tutorial series . Video 7: Tutorial on Basics and Advance features of Rviz2 [https://www.youtube.com/watch?v=L9lD4QQJ8Cw](https://www.youtube.com/watch?v=L9lD4QQJ8Cw) Stay tuned for more upcoming interesting episodes.  
+
+Special Thanks to Webots Team for their guidance. 👏
+
 ##### KajalGada 11/22/2020 03:06:28
 Back with another tutorial: How to use Position sensor in Webots to compute robot odometry. Code is in Python.
 
