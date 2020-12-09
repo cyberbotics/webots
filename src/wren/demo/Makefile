@@ -12,15 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# For now, it can only works on linux.
+# For now, it works only on linux and Windows
+
+include ../../../resources/Makefile.os.include
+
+ifeq ($(OSTYPE),linux)
+GLAD=libglad.a
+GLU=GLU
+OPENGL=GL
+WREN=libwren.a
+else ifeq ($(OSTYPE),windows)
+GLAD=glad.a
+GLU=glu32
+OPENGL=opengl32
+WREN=wren.a
+else
+$(error $(OSTYPE) is not supported)
+endif
 
 all: default phong
 
 default: default.cpp
-	g++ -I../../../include default.cpp ../libwren.a ../../glad/libglad.a -lglut -lGL -lGLU -ldl -o default
+	g++ -I../../../include default.cpp ../wren.a ../../glad/$(GLAD) -lfreeglut -l$(OPENGL) -l$(GLU) -o default
 
 phong: phong.cpp
-	g++ -g -I../../../include phong.cpp ../libwren.a ../../glad/libglad.a -lglut -lGL -lGLU -ldl -o phong
+	g++ -g -I../../../include phong.cpp ../wren.a ../../glad/$(GLAD) -lfreeglut -l$(OPENGL) -l$(GLU) -o phong
 
 clean:
 	rm default phong
