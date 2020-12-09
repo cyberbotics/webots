@@ -4,7 +4,7 @@
 
 ---
 
-Webots R2021a is there! And it's packed with a bunch of new features, new models, improvements and, of course, bug fixes.
+Webots R2021a is there! And it's packed some new features, improvements and, of course, bug fixes.
 
 However, this article only lists some of the major changes.
 Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
@@ -19,23 +19,31 @@ Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a com
 We are continuing to develop and improve the support for ROS 2 in Webots with now [13 Webots packages for ROS 2](https://github.com/cyberbotics/webots_ros2).
 This version of Webots is fully compatible with [ROS 2 Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy).
 
-- new documentation
-- we ensured device like lidar do not copy memory (to be measured)
+- We are happy to participate to [Google Season of Docs](https://cyberbotics.com/gsod) this year!
+Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ) channel a serie of video tutorials about ROS2 and Webots is now available.
+Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS2 basics, how to create a Webots ROS2 driver, how to do SLAM, or follow AR tags. 
+- We also signficantly enchanged and refactored our documentation for the [webots_ros2](https://github.com/cyberbotics/webots_ros2) package.
+References, examples, and tutorials, are now gathered to [a single place](https://github.com/cyberbotics/webots_ros2/wiki) with a clean overview.
+- We improved performances of the Lidar node by  do not copy memory (to be measured)
+- inertial unit quaternion
 
 ---
 
 
-## New Appearances
+## More Assets
 
-To let you model more realistic robots and environments we expanded again our `PBRAppearance` library with new PROTO files.
+In order to improve our asset library, we have added baskets that may be convinient for your next pick-and-place project.
 
-| | | |
-| :---: | :---: | :---: |
-| ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) | ![Pavement](images/appearances/Pavement_a.thumbnail.png) |
+| | |
+| :---: | :---: |
+| ![PlasticFruitBox](../guide/images/objects/containers/PlasticFruitBox/model.thumbnail.png) | ![MetalStorageBox](../guide/images/objects/containers/MetalStorageBox/model.thumbnail.png) |
+
 
 ---
 
-## Image Segmentation
+## Webots GitHub Action
+
+
 
 ---
 
