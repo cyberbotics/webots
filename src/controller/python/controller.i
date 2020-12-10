@@ -35,6 +35,12 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
     if not os.path.isdir(cpp_folder):  # development environment
         cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin')
     os.add_dll_directory(cpp_folder)
+
+def windows_ctrl_handler(a,b=None):
+    sys.exit(1)
+if sys.platform == 'win32':
+    import win32api
+    win32api.SetConsoleCtrlHandler(windows_ctrl_handler, True)
 %}
 
 %{
