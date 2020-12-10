@@ -1,3 +1,6 @@
+import {WbVector3} from "./utils/WbVector3.js";
+import {WbTesselator} from "./utils/WbTesselator.js";
+
 class WbTriangleMesh {
   constructor(){
     this.isValid = false;
@@ -9,7 +12,8 @@ class WbTriangleMesh {
 
     this.coordinates;
     this.coordIndices;
-    this.tmpTexIndices;
+    this.tmpNormalIndices = [];
+    this.tmpTexIndices = [];
     this.normals
     this.textureCoordinates;
     this.nonRecursiveTextureCoordinates;
@@ -67,7 +71,6 @@ class WbTriangleMesh {
     // this value will be used to determine the content of mNormals
     const isNormalDefined = typeof normal !== 'undefined' && normal.length > 0;
     const isNormalIndexDefined = typeof normalIndex !== 'undefined' && normalIndex.length > 0;
-
     this.normalsValid = isNormalDefined;
     if (this.normalPerVertex) {
       if (isNormalDefined && isNormalIndexDefined && normalIndex.length != coordIndex.length) {
@@ -132,8 +135,8 @@ class WbTriangleMesh {
 
   // populate this.coordIndices and this.tmpTexIndices with valid indices
   indicesPass(coord, coordIndex, normalIndex, texCoordIndex) {
-    assert(!this.normalsValid || typeof normalIndex === 'undefined');
-    assert(!this.areTextureCoordinatesValid || typeof texCoordIndex === 'undefined');
+    assert(!this.normalsValid || typeof normalIndex !== 'undefined');
+    assert(!this.areTextureCoordinatesValid || typeof texCoordIndex !== 'undefined');
     assert(this.tmpNormalIndices.length === 0);
     assert(this.tmpTexIndices.length === 0);
 
@@ -365,8 +368,8 @@ class WbTriangleMesh {
   // populate this.coordinates, this.textureCoordinates and this.normals
   finalPass(coord, normal, texCoord, creaseAngle) {
     assert(coord && coord.length > 0);
-    assert(this.tmpTriangleNormals.length === mNTriangles || (this.normalsValid && this.normalPerVertex));
-    assert(this.numberOfTriangles === mCoordIndices.length / 3);
+    assert(this.tmpTriangleNormals.length === this.numberOfTriangles || (this.normalsValid && this.normalPerVertex));
+    assert(this.numberOfTriangles === this.coordIndices.length / 3);
     assert(this.coordIndices.length % 3 === 0);
     assert(this.coordIndices.length === this.tmpTexIndices.length || this.tmpTexIndices.length === 0);
     const texCoordSize = typeof texCoord !== 'undefined' ? texCoord.length : 0;

@@ -1,62 +1,79 @@
+import {WbVector3} from "./WbVector3.js";
+
 class WbTesselator {
+
+  static tessBegin(type) {
+    assert(type === libtess.primitiveType.GL_TRIANGLES);
+  }
+
+  // the glu tesselator calls this function in the right order to populate the
+  // index list
+  static tessVertexData(vertex, r) {
+    /*console.log("vertex : ");
+    console.log(vertex);
+    console.log("r : ");
+    console.log(r);*/
+    r.push(new WbVector3(vertex[0], vertex[1], vertex[2]));
+  }
+
+  static tessEnd() {
+  }
+  // used to force triangle list (and disable strips and fans)
+  static tessEdgeFlag(flag) {
+  }
+
+  static tessError(errorCode) {
+    console.err('error callback');
+    console.err('error number: ' + errorCode);
+    WbTesselator.error = true;
+  }
+
   static tesselate(indexes, vertices, results) {
-    results = [];
 
    // don't reallocate the results list into the tesselator callback
    const indexSize = indexes.length;
    const s = indexSize - 2;
    const maxSize = (s > 0) ? 3 * s : 0;
-
-   const int vertexSize = vertices.size();
+   const vertexSize = vertices.length;
 
    assert(indexSize == vertexSize);
 
    let tesselator = new libtess.GluTesselator();
    assert(tesselator);
    //TODO: the callback functions
-   tesselator.gluTessCallback(GLU_TESS_BEGIN, (GLU_function_pointer)&tessBegin);
-   tesselator.gluTessCallback(GLU_TESS_VERTEX_DATA, (GLU_function_pointer)&tessVertexData);
-   tesselator.gluTessCallback(GLU_TESS_END, (GLU_function_pointer)&tessEnd);
-   tesselator.gluTessCallback(GLU_TESS_EDGE_FLAG, (GLU_function_pointer)&tessEdgeFlag);
-   tesselator.gluTessCallback(GLU_TESS_ERROR, (GLU_function_pointer)&tessError);
-   tesselator.gluTessProperty(GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_POSITIVE);
-   tesselator.gluTessBeginPolygon(&results);
+   tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_BEGIN, WbTesselator.tessBegin);
+   tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_VERTEX_DATA, WbTesselator.tessVertexData);
+   tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_END, WbTesselator.tessEnd);
+   tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_EDGE_FLAG, WbTesselator.tessEdgeFlag);
+   tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_ERROR, WbTesselator.tessError);
+   tesselator.gluTessProperty(libtess.gluEnum.GLU_TESS_WINDING_RULE, libtess.windingRule.GLU_TESS_WINDING_POSITIVE);
+   tesselator.gluTessBeginPolygon(results);
    tesselator.gluTessBeginContour();
 
-   TesselatorData *tesselatorData = static_cast<TesselatorData *>(malloc(sizeof(TesselatorData) * vertexSize));
+   for (let i = 0; i < vertexSize; i++) {
+     const currentVertex = vertices[i];
+     const pos = [currentVertex.x, currentVertex.y, currentVertex.z];
+     const data = [indexes[i].x, indexes[i].y, indexes[i].z];
 
-   for (int i = 0; i < vertexSize; i++) {
-     const WbVector3 &currentVertex = vertices[i];
-
-     TesselatorData *data = &tesselatorData[i];
-     data->pos[0] = (GLdouble)currentVertex.x();
-     data->pos[1] = (GLdouble)currentVertex.y();
-     data->pos[2] = (GLdouble)currentVertex.z();
-     data->coordIndex = indexes[i][0];
-     data->normalIndex = indexes[i][1];
-     data->texIndex = indexes[i][2];
-
-     gluTessVertex(tesselator, data->pos, data);
+     tesselator.gluTessVertex(pos, data);
    }
 
-   gluTessEndContour(tesselator);
-   gluTessEndPolygon(tesselator);
+   tesselator.gluTessEndContour(tesselator);
+   tesselator.gluTessEndPolygon(tesselator);
 
-   gluDeleteTess(tesselator);
+   tesselator.gluDeleteTess(tesselator);
 
    // make sure no allocation was done in the tesselator callback
-   assert(results.size() <= maxSize);
-
-   free(tesselatorData);
+   assert(results.length <= maxSize);
 
    // check that the data is consistent, otherwise delete the result list
-   if (results.size() % 3 != 0)
-     errorString = QObject::tr("Tessellation Error: the result of the tesselation is not a multiple of 3.");
-
-   if (!errorString.isEmpty())
-     results.clear();
-
-   return errorString;
-  }
+   if (results.length % 3 !== 0 || WbTesselator.error) {
+     console.error("Tessellation Error: the result of the tesselation is not a multiple of 3.");
+     results = [];
+   }
+ }
 }
+
+WbTesselator.error = false;
+
 export {WbTesselator}
