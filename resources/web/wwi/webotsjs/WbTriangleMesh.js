@@ -383,7 +383,6 @@ class WbTriangleMesh {
 
     // populate the vertex array
     let vertex = coord[0];
-    console.log(this.max);
     this.max[0] = vertex.x;
     this.max[1] = vertex.y;
     this.max[2] = vertex.z;

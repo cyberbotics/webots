@@ -6,7 +6,7 @@ import {WbMatrix4} from "./utils/WbMatrix4.js";
 import {WbMatrix3} from "./utils/WbMatrix3.js";
 
 import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js";
-import {arrayXPointerFloat, arrayXPointer} from "./WbUtils.js";
+import {arrayXPointerFloat, arrayXPointerInt} from "./WbUtils.js";
 
 class WbTriangleMeshGeometry extends WbGeometry {
   constructor(id) {
@@ -75,14 +75,14 @@ class WbTriangleMeshGeometry extends WbGeometry {
     //setPickable(isPickable());
 
     let buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
-    this.buildGeomIntoBuffers(buffers, new WbMatrix4(), this.triangleMesh.areTextureCoordinatesValid);
+    this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
 
     //TODO CHECK INPUT
-    let vertexBufferPointer = arrayXPointerFloat(buffer.vertexBuffer);
-    let normalBufferPointer = arrayXPointerFloat(buffer.normalBuffer);
+    let vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
+    let normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
     let texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
     let unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    let indexBufferPointer = arrayXPointer(buffers.indexBuffer);
+    let indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
     this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
       unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 

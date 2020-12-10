@@ -22,6 +22,16 @@ function arrayXPointer(array) {
   return dataHeap.byteOffset;
 }
 
+function arrayXPointerInt(array) {
+  let data = new Int32Array(array);
+  let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+  let dataPtr = Module._malloc(nDataBytes);
+  let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+  dataHeap.set(new Uint8Array(data.buffer));
+
+  return dataHeap.byteOffset;
+}
+
 function arrayXPointerFloat(array) {
   let data = new Float32Array(array);
   let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
@@ -123,4 +133,4 @@ function findUpperTransform(node) {
   return undefined;
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}
