@@ -1108,9 +1108,6 @@ class AnsiCodes(object):
       if size == 0 or tag >= size:
           return None
       return Robot.__devices[tag]
-    @staticmethod
-    def getDeviceFromTag(tag):
-      return Robot.internalGetDeviceFromTag(tag)
     def __getOrCreateDevice(self, tag):
       if tag == 0:
           return None
