@@ -44,7 +44,7 @@ if sys.platform == 'win32':
 %}
 
 %{
-#ifndef _WIN32
+#if !(defined(_WIN64) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__))
 #include <setjmp.h>
 #include <signal.h>
 #endif
@@ -89,7 +89,7 @@ if sys.platform == 'win32':
 
 using namespace std;
 
-#ifndef _WIN32
+#if !(defined(_WIN64) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__))
 static sigjmp_buf sigjmp;
 
 static void backout(int sig) {
@@ -107,14 +107,14 @@ static void backout(int sig) {
 %include <exception.i>
 
 %exception {
-  #ifndef _WIN32
+#if defined(_SETJMP_H_)
   if (!sigsetjmp(sigjmp, 1)) {
     signal(SIGINT, backout);
     $action
   } else {
     SWIG_exception(SWIG_RuntimeError, "Exception in $decl");
   }
-  #endif
+#endif
 }
 
 //----------------------------------------------------------------------------------------------
