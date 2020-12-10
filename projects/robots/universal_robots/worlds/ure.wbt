@@ -4,7 +4,7 @@ WorldInfo {
     "Unviversal Robot UR3e, UR5e and UR10e grasping cans using Robotiq 3F grippers."
   ]
   title "Universal Robot"
-  basicTimeStep 16
+  basicTimeStep 8
   physicsDisableAngularThreshold 0.1
   coordinateSystem "NUE"
   contactProperties [
