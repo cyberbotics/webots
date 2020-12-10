@@ -10,7 +10,15 @@ However, this article only lists some of the major changes.
 Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
 
 
-## Image Segmentation
+## Camera Image Segmentation
+
+Webots now is ready for your next deep learning project as it now supports [object recognition and segmentation](https://cyberbotics.com/doc/reference/camera#wb_camera_has_recognition)!
+
+![Image Segmentation](images/image_segmentation.gif)
+
+This new functionality reuses the existing camera recognition functionality to classify the objects in the scene based on properties of the object instance.
+This generic and customizablemethod allows the user to apply any type of segmentation: semantic, instance or panoptic seg-mentation.
+Simply setting the recognition property at the object model layer, will generate a semantic segmentation.
 
 ---
 
@@ -43,7 +51,14 @@ In order to improve our asset library, we have added baskets that may be convini
 
 ## Webots GitHub Action
 
+Running Webots simulations in the GitHub's CI has never been easier!
 
+![Webots GitHub Action](https://github.com/cyberbotics/webots-animation-action/raw/master/assets/cover.png)
+
+Now, you can use [Webots GitHub Action](https://github.com/marketplace/actions/webots-animation) and in a few lines configure Webots to run your worlds in CI.
+
+The GitHub action will automatically publish animation of your Webots simulations to [GitHub Pages](https://pages.github.com/), so you can share them easily with your peers.
+In addition, you can integrate unit testing and run the tests every commit.
 
 ---
 
