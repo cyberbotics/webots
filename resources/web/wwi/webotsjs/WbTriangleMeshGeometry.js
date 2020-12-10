@@ -1,12 +1,12 @@
 import {WbGeometry} from "./WbGeometry.js"
-import {WbTriangleMesh} from "./WbTriangleMesh.js"
-import {WbWrenShaders} from "./WbWrenShaders.js"
+import {WbTriangleMesh} from "./WbTriangleMesh.js";
+import {WbWrenShaders} from "./WbWrenShaders.js";
 
-import {WbMatrix4} from "./utils/WbMatrix4.js"
-import {WbMatrix3} from "./utils/WbMatrix3.js"
+import {WbMatrix4} from "./utils/WbMatrix4.js";
+import {WbMatrix3} from "./utils/WbMatrix3.js";
 
-import {arrayXPointerFloat} from "./WbUtils.js";
-
+import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js";
+import {arrayXPointerFloat, arrayXPointer} from "./WbUtils.js";
 
 class WbTriangleMeshGeometry extends WbGeometry {
   constructor(id) {
@@ -53,7 +53,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     if (!this.triangleMesh.isValid)
       return;
 
-    //const createOutlineMesh = isInBoundingObject();
+    const createOutlineMesh = false;//TODO isInBoundingObject();
 
     this.computeWrenRenderable();
 
@@ -82,7 +82,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     let normalBufferPointer = arrayXPointerFloat(buffer.normalBuffer);
     let texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
     let unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    let indexBufferPointer = arrayXPointer(indexBuffer);
+    let indexBufferPointer = arrayXPointer(buffers.indexBuffer);
     this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
       unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 

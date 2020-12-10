@@ -1,4 +1,5 @@
 import {WbVector4} from "./WbVector4.js"
+import {WbVector3} from "./WbVector3.js"
 
 class WbWrenMeshBuffers {
   constructor(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
@@ -20,7 +21,7 @@ class WbWrenMeshBuffers {
     this.isExternalVertexBuffer = false;
     this.isExternalNormalBuffer = false
 
-    resetAll(verticesCount, indicesCount, this.texCoordSetsCount, colorBufferSize);
+    this.resetAll(verticesCount, indicesCount, this.texCoordSetsCount, colorBufferSize);
   }
 
   resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
@@ -29,16 +30,16 @@ class WbWrenMeshBuffers {
     this.verticesCount = verticesCount;
     this.indicesCount = indicesCount;
     this.texCoordSetsCount = texCoordSetsCount;
-    this.vertexBuffer = new Float32Array[verticesCount * 3];
-    this.normalBuffer = new Float32Array[verticesCount * 3];
+    this.vertexBuffer = [];
+    this.normalBuffer = [];
     if (texCoordSetsCount > 0) {
-      this.texCoordBuffer = new Float32Array[verticesCount * texCoordSetsCount * 2];
-      this.unwrappedTexCoordsBuffer = new Float32Array[verticesCount * texCoordSetsCount * 2];
+      this.texCoordBuffer = [];
+      this.unwrappedTexCoordsBuffer = [];
     }
-    this.indexBuffer = new Uint32Array[indicesCount];
+    this.indexBuffer = [];
     this.colorBufferSize = colorBufferSize;
     if (colorBufferSize > 0)
-      this.colorBuffer = new Uint32Array[colorBufferSize];
+      this.colorBuffer = [];
   }
 
   clear() {

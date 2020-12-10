@@ -10,16 +10,17 @@ class WbTriangleMesh {
     this.numberOfTriangles;
     this.normalPerVertex;
 
-    this.coordinates;
-    this.coordIndices;
+    this.coordinates = [];
+    this.coordIndices = [];
     this.tmpNormalIndices = [];
     this.tmpTexIndices = [];
-    this.normals
-    this.textureCoordinates;
-    this.nonRecursiveTextureCoordinates;
+    this.normals = []
+    this.textureCoordinates = [];
+    this.nonRecursiveTextureCoordinates = [];
+    this.isNormalCreased = []
 
-    this.min;
-    this.max;
+    this.min = [Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE];
+    this.max = [Number.MIN_VALUE, Number.MIN_VALUE, Number.MIN_VALUE];
   }
 
   vertex(triangle, vertex, component) {
@@ -34,12 +35,16 @@ class WbTriangleMesh {
      return 3 * triangle + vertex;
   }
 
+  normal(triangle, vertex, component) {
+    return this.normals[3 * this.index(triangle, vertex) + component];
+  }
+
   textureCoordinate(triangle, vertex, component) {
-    return this.textureCoordinates[2 * index(triangle, vertex) + component];
+    return this.textureCoordinates[2 * this.index(triangle, vertex) + component];
   }
 
   nonRecursiveTextureCoordinate(triangle, vertex, component) {
-    return this.nonRecursiveTextureCoordinates[2 * index(triangle, vertex) + component];
+    return this.nonRecursiveTextureCoordinates[2 * this.index(triangle, vertex) + component];
   }
 
 
@@ -378,6 +383,7 @@ class WbTriangleMesh {
 
     // populate the vertex array
     let vertex = coord[0];
+    console.log(this.max);
     this.max[0] = vertex.x;
     this.max[1] = vertex.y;
     this.max[2] = vertex.z;
