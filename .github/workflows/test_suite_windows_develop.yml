@@ -49,19 +49,19 @@ jobs:
         ./scripts/install/msys64_installer.sh --all
         ./scripts/install/nodejs_windows_installer.sh
     - name: Set Commit SHA in Version
-      if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+      if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - name: Create/Update GitHub release
-      if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
-      if: ${{ !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
         path: |
