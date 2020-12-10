@@ -14,6 +14,7 @@
 
 #include "WbGroup.hpp"
 
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbGeometry.hpp"
 #include "WbOdeContext.hpp"
@@ -88,6 +89,10 @@ void WbGroup::postFinalize() {
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)
     connect(this, &WbGroup::notifyParentSlot, ps, &WbSlot::endPointInserted);
+  // if parent is a joint, it needs to be notified when a new node is inserted
+  const WbBasicJoint *pj = dynamic_cast<WbBasicJoint *>(parentNode());
+  if (pj)
+    connect(this, &WbGroup::notifyParentJoint, pj, &WbBasicJoint::endPointChanged);
 
   const WbGroup *const parent = dynamic_cast<const WbGroup *const>(parentNode());
   if (parent && parent->mHasNoSolidAncestor) {
@@ -227,17 +232,22 @@ bool WbGroup::isAValidBoundingObject(bool checkOde, bool warning) const {
 }
 
 void WbGroup::descendantNodeInserted(WbBaseNode *decendant) {
-  if (parentNode()) {
-    WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
-    WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
-    if (pg)
-      pg->descendantNodeInserted(decendant);
-    if (ps)
-      emit notifyParentSlot(decendant);
+  if (!parentNode())
+    return;
+
+  WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
+  if (pg) {
+    pg->descendantNodeInserted(decendant);
+    return;
   }
+
+  if (dynamic_cast<WbBasicJoint *>(parentNode()))
+    emit notifyParentJoint(decendant);
+  else if (dynamic_cast<WbSlot *>(parentNode()))
+    emit notifyParentSlot(decendant);
 }
 
-void WbGroup::insertChildFromSlot(WbBaseNode *decendant) {
+void WbGroup::insertChildFromSlotOrJoint(WbBaseNode *decendant) {
   descendantNodeInserted(decendant);
   emit childAdded(decendant);
 }

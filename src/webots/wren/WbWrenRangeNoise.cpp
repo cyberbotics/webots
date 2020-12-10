@@ -22,7 +22,12 @@
 #include <wren/texture.h>
 #include <wren/viewport.h>
 
-WbWrenRangeNoise::WbWrenRangeNoise() : WbWrenAbstractPostProcessingEffect(), mTime(0.0f), mIntensity(0.0f) {
+WbWrenRangeNoise::WbWrenRangeNoise() :
+  WbWrenAbstractPostProcessingEffect(),
+  mTime(0.0f),
+  mIntensity(0.0f),
+  mMinRange(0.0f),
+  mMaxRange(0.0f) {
 }
 
 void WbWrenRangeNoise::setup(WrViewport *viewport) {
@@ -64,6 +69,18 @@ void WbWrenRangeNoise::setIntensity(float intensity) {
   applyParametersToWren();
 }
 
+void WbWrenRangeNoise::setMinRange(float minRange) {
+  mMinRange = minRange;
+
+  applyParametersToWren();
+}
+
+void WbWrenRangeNoise::setMaxRange(float maxRange) {
+  mMaxRange = maxRange;
+
+  applyParametersToWren();
+}
+
 void WbWrenRangeNoise::applyParametersToWren() {
   if (!mWrenPostProcessingEffect)
     return;
@@ -73,4 +90,10 @@ void WbWrenRangeNoise::applyParametersToWren() {
 
   wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_first_pass(mWrenPostProcessingEffect),
                                                        "intensity", reinterpret_cast<const char *>(&mIntensity));
+
+  wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_first_pass(mWrenPostProcessingEffect),
+                                                       "minRange", reinterpret_cast<const char *>(&mMinRange));
+
+  wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_first_pass(mWrenPostProcessingEffect),
+                                                       "maxRange", reinterpret_cast<const char *>(&mMaxRange));
 }

@@ -136,7 +136,7 @@ LIBS += -lode
 endif
 
 else ifeq ($(OSTYPE),windows)
-vpath %.c ../Controller/api
+vpath %.c ../controller/c
 WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
 C_SOURCES         += system.c
 LIB_WREN           = ../wren/wren.a ../glad/glad.a

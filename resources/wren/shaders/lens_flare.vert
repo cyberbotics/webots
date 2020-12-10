@@ -1,9 +1,9 @@
-#version 330
+#version 300 es
 
 layout(location = 0) in vec3 vCoord;
 layout(location = 2) in vec2 vTexCoord;
 
-noperspective out vec2 texUv;
+out vec2 texUv;
 
 void main() {
   texUv = vTexCoord;

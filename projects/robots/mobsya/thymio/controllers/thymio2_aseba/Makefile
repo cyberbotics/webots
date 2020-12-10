@@ -27,9 +27,9 @@ DASHEL_HOME = $(WEBOTS_HOME)/projects/robots/mobsya/thymio/libraries/dashel/
 C_SOURCES = \
   thymio2_definitions.c \
   thymio2_natives.c \
-  aseba/transport/buffer/vm-buffer.c \
-  aseba/vm/natives.c \
-  aseba/vm/vm.c
+  aseba/aseba/transport/buffer/vm-buffer.c \
+  aseba/aseba/vm/natives.c \
+  aseba/aseba/vm/vm.c
 CXX_SOURCES = $(wildcard *.cpp)
 
 ifneq ($(OSTYPE),darwin)
@@ -40,7 +40,7 @@ ifeq ($(OSTYPE),windows)
 CFLAGS = -Wno-address -Wno-unused-function -DDISABLE_WEAK_CALLBACKS
 endif
 
-INCLUDE = -I"$(DASHEL_HOME)" -Iaseba
+INCLUDE = -I"$(DASHEL_HOME)" -Iaseba/aseba
 LIBRARIES = -L"$(DASHEL_HOME)" -ldashel
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

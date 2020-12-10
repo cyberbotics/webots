@@ -182,6 +182,7 @@ Similarly, let `vFov` be the vertical field of view (defined just above), and `p
 The camera image is shown by default on top of the 3D window with a magenta border, see [this figure](#camera-overlay-image).
 The user can move this camera image at the desired position using the mouse drag and drop and resize it by clicking on the icon at the bottom right corner.
 Additionally a close button is available on the top right corner to hide the image.
+If the mouse cursor is over the overlay image and the simulation is paused, the RGB value of the selected pixel is displayed in the status bar at the bottom of the Webots window.
 Once the robot is selected, it is also possible to show or hide the overlay images from the `Camera Devices` item in `Robot` menu.
 
 It is also possible to show the camera image in an external window by double-clicking on it.
@@ -878,8 +879,9 @@ The size in bytes of this memory chunk can be computed as follows:
 byte_size = camera_width * camera_height * 4
 ```
 
-Internal pixel format of the buffer is BGRA (32 bits).
 Attempting to read outside the bounds of this chunk will cause an error.
+Internal pixel format of the buffer is BGRA (32 bits).
+Note that the Java API uses little-endian format and stores the pixel integer value in ARGB format.
 
 The `wb_camera_image_get_red`, `wb_camera_image_get_green` and `wb_camera_image_get_blue` macros can be used for directly accessing the pixel RGB levels from the pixel coordinates.
 The `wb_camera_image_get_gray` macro works in a similar way but returns the gray level of the specified pixel by averaging the three RGB components.
@@ -899,8 +901,9 @@ for (int x = 0; x < image_width; x++)
 
 > **Note** [Java]: The `Camera.getImage` function returns an array of int (`int[]`).
 The length of this array corresponds to the number of pixels in the image, that is the width multiplied by the height of the image.
-Each `int` element of the array represents one pixel coded in BGRA (32 bits).
-For example red is `0x0000ff00`, green is `0x00ff0000`, etc. The `Camera.pixelGetRed`, `Camera.pixelGetGreen` and `Camera.pixelGetBlue` functions can be used to decode a pixel value for the red, green and blue components.
+Each `int` element of the array represents one pixel coded in ARGB (32 bits).
+For example red is `0x00ff0000`, green is `0x0000ff00`, etc.
+The `Camera.pixelGetRed`, `Camera.pixelGetGreen` and `Camera.pixelGetBlue` functions can be used to decode a pixel value for the red, green and blue components.
 The `Camera.pixelGetGray` function works in a similar way, but returns the gray level of the pixel by averaging the three RGB components.
 Each of these four functions take an `int` pixel argument and return an `int` color/gray component in the range [0..255].
 Here is an example:
@@ -930,8 +933,8 @@ This `string` is closely related to the `const char *` of the C API.
 > gray = Camera.imageGetGray(cameraData, camera.getWidth(), 5, 10)
 > ```
 
-> Another way to use the camera in Python is to get the image by the `getImageArray` function which returns a `list<list<list<int>>>`.
-This three dimensional list can be directly used for accessing to the pixels.
+> Another way to get the camera image in Python is to use the `getImageArray` method which returns a `list<list<list<int>>>`.
+This three dimensional list can be directly used for accessing the RGB pixels value. However, this method runs significantly slower than the `getImage` method.
 Here is an example:
 
 > ```python
@@ -1095,6 +1098,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
 void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
 const unsigned char* wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 ```
@@ -1117,6 +1121,7 @@ namespace webots {
     bool hasRecognitionSegmentation() const;
     void enableRecognitionSegmentation();
     void disableRecognitionSegmentation();
+    bool isRecognitionSegmentationEnabled() const;
     const unsigned char *getRecognitionSegmentationImage() const;
     int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     // ...
@@ -1141,6 +1146,7 @@ class Camera (Device):
     def hasRecognitionSegmentation(self):
     def enableRecognitionSegmentation(self):
     def disableRecognitionSegmentation(self):
+    def isRecognitionSegmentationEnabled(self):
     def getRecognitionSegmentationImage(self):
     def getRecognitionSegmentationImageArray(self):
     def saveRecognitionSegmentationImage(self, filename, quality):
@@ -1164,6 +1170,7 @@ public class Camera extends Device {
   public boolean hasRecognitionSegmentation();
   public void enableRecognitionSegmentation();
   public void disableRecognitionSegmentation();
+  public boolean isRecognitionSegmentationEnabled();
   public int[] getRecognitionSegmentationImage();
   public int saveRecognitionSegmentationImage(String filename, int quality);
   // ...
@@ -1184,6 +1191,7 @@ period = wb_camera_recognition_get_sampling_period(tag)
 value = wb_camera_recognition_has_segmentation(tag)
 wb_camera_recognition_enable_segmentation(tag)
 wb_camera_recognition_disable_segmentation(tag)
+wb_camera_recognition_is_segmentation_enabled(tag)
 image = wb_camera_recognition_get_segmentation_image(tag)
 success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality)
 ```
@@ -1201,6 +1209,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 | `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
@@ -1237,6 +1246,9 @@ If the [Recognition](recognition.md) node is not defined, the function returns F
 
 The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
 Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
+
+The `wb_camera_recognition_is_segmentation_enabled` function returns TRUE if the generation of the segmented image is enabled and FALSE otherwise.
+If the recognition functionality is disabled, the segmentation functionality will be disabled as well.
 
 The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
 The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).

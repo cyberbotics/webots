@@ -1,4 +1,4 @@
-#version 330 core
+#version 300 es
 layout(location = 0) in vec3 vCoord;
 
 out vec3 texUv;

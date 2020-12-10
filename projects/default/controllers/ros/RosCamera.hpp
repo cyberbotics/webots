@@ -51,6 +51,7 @@ public:
   bool hasRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
   bool enableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
   bool disableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool isRecognitionSegmentationEnabledCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
   bool saveRecognitionSegmentationImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
 
   void rosEnable(int samplingPeriod) override { mCamera->enable(samplingPeriod); }
@@ -79,6 +80,7 @@ private:
   ros::ServiceServer mHasRecognitionServer;
   ros::ServiceServer mHasRecognitionSegmentationServer;
   ros::ServiceServer mEnableRecognitionSegmentationServer;
+  ros::ServiceServer mIsRecognitionSegmentationEnabledServer;
   ros::ServiceServer mDisableRecognitionSegmentationServer;
   ros::ServiceServer mSaveRecognitionSegmentationImageServer;
 };

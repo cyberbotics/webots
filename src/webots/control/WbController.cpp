@@ -42,7 +42,7 @@
 #include <QtCore/QProcessEnvironment>
 #include <QtNetwork/QLocalSocket>
 #include <cassert>
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #ifdef _WIN32
 #include <windows.h>

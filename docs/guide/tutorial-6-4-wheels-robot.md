@@ -98,7 +98,7 @@ graph TD
     Shape1 -->|geometry| Box[[Box](../reference/box.md)]
     Shape1 -.- USEBODY
   Robot -->|children| HingeJoint[[HingeJoint](../reference/hingejoint.md)]
-    HingeJoint -->|devices| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
+    HingeJoint -->|device| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
     HingeJoint -->|jointParameters| HingeJointParameters[[HingeJointParameters](../reference/hingejointparameters.md)]
     HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
       Solid -->|physics| Physics2[[DEF WHEEL_PH Physics](../reference/physics.md)]
@@ -243,7 +243,7 @@ for (int i = 0; i < 4 ; i++)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
-    wheels.append(robot.getMotor(name))
+    wheels.append(robot.getDevice(name))
 ```
 %tab-end
 
@@ -438,12 +438,12 @@ robot = Robot()
 ds = []
 dsNames = ['ds_right', 'ds_left']
 for i in range(2):
-    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds.append(robot.getDevice(dsNames[i]))
     ds[i].enable(TIME_STEP)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for i in range(4):
-    wheels.append(robot.getMotor(wheelsNames[i]))
+    wheels.append(robot.getDevice(wheelsNames[i]))
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 avoidObstacleCounter = 0

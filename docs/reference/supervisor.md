@@ -3546,9 +3546,6 @@ int main(int argc, char **argv) {
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
 
-> **Note**: Note that these functions are still limited in the actual Webots version.
-For example, a device imported into a Robot node doesn't reset the Robot, so the device cannot be get by using the `wb_robot_get_device` function.
-
 ---
 
 #### `wb_supervisor_virtual_reality_headset_is_used`

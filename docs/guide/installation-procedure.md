@@ -70,7 +70,6 @@ Unlike with the APT system, you will have to repeat this operation manually each
 
 On Ubuntu, double-click on the Debian package file to open it with the Ubuntu Software App and click on the `Install` button.
 If a previous version of Webots is already installed, then the text on the button could be different, like `Upgrade` or `Reinstall`.
-Note that GNOME Software App distributed in the first release of Ubuntu 16.04 contains a bug preventing the installation of third-party packages.
 
 Alternatively, the Debian package can also be installed using `apt` or `gdebi` with the `root` privileges:
 
@@ -87,7 +86,7 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+Note that for the old Ubuntu versions 18.04 you should download the `webots-R2020b-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.
@@ -144,7 +143,7 @@ However, when developing robot controllers, it is often useful to use various co
 If such components are needed, users can install them on their system or local environment to create, possibly compile and link their robot controllers.
 However, because of the snap sand-boxing, Webots will be unable to launch these controller itself.
 To work around this problem, such controllers should be launched as extern controllers from outside of Webots.
-Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
+Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib/controller` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
 #### Installing the Docker Image
@@ -232,6 +231,7 @@ xvfb-run --auto-servernum webots --mode=fast --no-rendering --stdout --stderr --
 1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
+4. (Optional) Follow the [programming language setup](language-setup.md) instructions, if you plan on using specific languages such as Python or Java.
 
 It is possible to install Webots silently from an administrator DOS console, by typing:
 
@@ -247,7 +247,7 @@ webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.
 
-### Windows SmartScreen
+#### Windows SmartScreen
 
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
@@ -267,10 +267,29 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 #### From the Installation File
 
-1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
-2. Double click on this file.
-This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
-3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+It is better to download Webots using `curl` so that it doesn't get tagged as "downloaded from the Internet" and won't be blocked by macOS Gatekeeper.
+To proceed, open the Terminal and type the following instructions to download and mount the Webots disk image:
+```bash
+curl -L -O https://github.com/cyberbotics/webots/releases/download/{{ webots.version.package }}/webots-{{ webots.version.package }}.dmg
+open webots-{{ webots.version.package }}.dmg
+```
+
+To install Webots only for the current user, without administrator privileges, proceed with:
+```bash
+mkdir ~/Applications
+cp -r /Volumes/Webots/Webots.app ~/Applications
+```
+
+To install Webots for any user, copy the Webots app to the system `/Applications` folder instead (administrator privileges required).
+
+Finally, you can launch Webots typing any of these instructions:
+```bash
+open ~/Applications/Webots.app    # to launch Webots using the open command
+~/Applications/Webots.app/webots  # to launch Webots directly
+```
+
+Alternatively, you can double-click on the Webots icon to launch it.
+
 
 #### From the Homebrew Package
 
@@ -286,9 +305,10 @@ Webots can then be installed with:
 brew cask install webots
 ```
 
-### macOS Security
+#### Working around macOS Gatekeeper
 
-During the first Webots launch, macOS may complain about opening Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+If Webots was downloaded from a web browser (e.g., not from a Terminal with `curl` or `wget`) macOS Gatekeeper may refuse to run Webots because it is from an unidentified developer (see [this figure](#unidentified-developer-dialog)).
+You will need administrator privileges to be able to install Webots.
 
 %figure "Unidentified developer dialog"
 
@@ -296,8 +316,8 @@ During the first Webots launch, macOS may complain about opening Webots because 
 
 %end
 
-In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the `Open` menu item.
-`macOS` should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
+You should <kbd>Ctrl</kbd> + click (or right-click) on the Webots icon, and select the `Open` menu item.
+Then, macOS should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
 
 %figure "Open Webots anyway"
 
@@ -305,5 +325,5 @@ In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the
 
 %end
 
-In earlier versions of macOS, this last operation may not work.
-In this case, refer to your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
+More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
+You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).

@@ -53,6 +53,7 @@ namespace webots {
     bool hasRecognitionSegmentation() const;
     void enableRecognitionSegmentation();
     void disableRecognitionSegmentation();
+    bool isRecognitionSegmentationEnabled() const;
     const unsigned char *getRecognitionSegmentationImage() const;
     int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     static unsigned char imageGetRed(const unsigned char *image, int width, int x, int y);
