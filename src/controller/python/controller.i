@@ -38,8 +38,10 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 %}
 
 %{
+#ifndef _WIN32
 #include <setjmp.h>
 #include <signal.h>
+#endif
 
 #include <webots/Accelerometer.hpp>
 #include <webots/Brake.hpp>
@@ -81,12 +83,13 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 using namespace std;
 
+#ifndef _WIN32
 static sigjmp_buf sigjmp;
 
 static void backout(int sig) {
   siglongjmp(sigjmp, sig);
 }
-
+#endif
 %}
 
 
@@ -98,12 +101,14 @@ static void backout(int sig) {
 %include <exception.i>
 
 %exception {
+  #ifndef _WIN32
   if (!sigsetjmp(sigjmp, 1)) {
     signal(SIGINT, backout);
     $action
   } else {
     SWIG_exception(SWIG_RuntimeError, "Exception in $decl");
   }
+  #endif
 }
 
 //----------------------------------------------------------------------------------------------
