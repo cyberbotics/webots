@@ -582,11 +582,8 @@ class MyParser {
     }
 
     let creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
-    let ccw = parseFloat(getNodeAttribute(node, 'ccw', 'true'));
-    let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', 'true'));
-    console.log(creaseAngle);
-    console.log(ccw);
-    console.log(normalPerVertex);
+    let ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
+    let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
 
     let ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
     World.instance.nodes[ifs.id] = ifs;

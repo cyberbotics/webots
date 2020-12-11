@@ -38,16 +38,9 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   buildWrenMesh(updateCache) {
-    /*
-    if (updateCache) {
-      WbTriangleMeshCache::releaseTriangleMesh(this);
-      mMeshKey.set(this);
-      WbTriangleMeshCache::useTriangleMesh(this);
-    }*/
 
     this.deleteWrenRenderable();
-
-    _wr_static_mesh_delete(this.wrenMesh);
+   _wr_static_mesh_delete(this.wrenMesh);
     this.wrenMesh = undefined;
 
     if (!this.triangleMesh.isValid)

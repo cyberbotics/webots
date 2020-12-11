@@ -14,6 +14,7 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable;
     this.wrenTextureTransform;
+    //this.wrenMesh;
   }
 
 
@@ -25,12 +26,18 @@ class Use extends WbBaseNode {
     let temp2 = this.def.wrenRenderable;
     this.def.wrenRenderable = undefined;
 
+    let temp3 = this.def.wrenMesh;
+    this.def.wrenMesh = undefined;
+
     this.def.createWrenObjects();
 
     this.def.parent = temp;
 
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
+
+    this.wrenMesh = this.def.wrenMesh;
+    this.def.wrenMesh = temp3;
 
     this.wrenObjectsCreatedCalled = true;
   }
