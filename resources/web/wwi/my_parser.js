@@ -24,6 +24,7 @@ import {WbImage} from "./webotsjs/WbImage.js";
 import {WbDirectionalLight} from "./webotsjs/WbDirectionalLight.js";
 import {WbPointLight} from "./webotsjs/WbPointLight.js";
 import {WbSpotLight} from "./webotsjs/WbSpotLight.js";
+import {WbLight} from "./webotsjs/WbLight.js";
 import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
@@ -240,7 +241,7 @@ class MyParser {
 
     if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
-      if (useNode.def instanceof WbShape || useNode.def instanceof WbTransform)
+      if (useNode.def instanceof WbShape || useNode.def instanceof WbTransform || useNode.def instanceof WbLight)
         currentNode.children.push(useNode);
     }
 
@@ -406,7 +407,10 @@ class MyParser {
   }
 
   async parseSpotLight(node, currentNode) {
-    //TODO USE
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+
     let id = getNodeAttribute(node, 'id');
     let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));

@@ -10,7 +10,7 @@ class WbPointLight extends WbLight {
 
     this.wrenLight;
     if(typeof parent !== 'undefined')
-      this.parentNode = parent.id;
+      this.parent = parent.id;
   }
 
   createWrenObjects() {

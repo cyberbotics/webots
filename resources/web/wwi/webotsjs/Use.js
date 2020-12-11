@@ -14,10 +14,10 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable;
     this.wrenTextureTransform;
-    //this.wrenMesh;
+    this.wrenMesh;
   }
 
-
+  //TODO Cleanup, test the type of the def node to know what is necessary to replace
   createWrenObjects() {
     super.createWrenObjects();
     let temp = this.def.parent;
