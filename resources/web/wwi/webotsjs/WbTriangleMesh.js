@@ -100,13 +100,14 @@ class WbTriangleMesh {
       console.warn("Invalid normal definition: the size of 'normal' should equal the number of triangles when 'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle.");
       this.normalsValid = false;
     }
+
     if (!counterClockwise)
       this.reverseIndexOrder();
     let error = this.tmpNormalsPass(coord, normal);
+
     if (typeof error !== 'undefined')
       return;
     this.finalPass(coord, normal, texCoord, creaseAngle);
-
 
     // final obvious check
     if (this.numberOfTriangles <= 0) {
@@ -367,7 +368,7 @@ class WbTriangleMesh {
       this.tmpVertexToTriangle[index] = t;
     }
 
-    return "";
+    return;
   }
 
   // populate this.coordinates, this.textureCoordinates and this.normals
@@ -457,7 +458,6 @@ class WbTriangleMesh {
               }
             }
           }
-          linkedTriangleNormals = [];
 
           if (triangleNormal.isNull())
             triangleNormal = faceNormal;
