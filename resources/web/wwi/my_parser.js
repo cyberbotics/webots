@@ -567,28 +567,34 @@ class MyParser {
     let texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').split(/\s/);
     let texCoordIndex = texCoordIndexStr.map(Number);
 
-    let coordinate = node.getElementsByTagName('Coordinate')[0];
-    let coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
-    let coord = coordStr.map(el => parseFloat(el));
     let coordArray = [];
-    for(let i = 0; i < coord.length; i = i + 3) {
-      coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
+    let coordinate = node.getElementsByTagName('Coordinate')[0];
+    if (typeof coordinate !== 'undefined') {
+      let coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
+      let coord = coordStr.map(el => parseFloat(el));
+      for(let i = 0; i < coord.length; i = i + 3) {
+        coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
+      }
     }
 
-    let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
-    let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
-    let texCoord  = texcoordsStr.map(el => parseFloat(el));
     let texCoordArray = [];
-    for(let i = 0; i < texCoord.length; i = i + 2) {
-      texCoordArray.push(new glm.vec2(texCoord[i], texCoord[i + 1]));
+    let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
+    if (typeof textureCoordinate !== 'undefined') {
+      let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
+      let texCoord  = texcoordsStr.map(el => parseFloat(el));
+      for(let i = 0; i < texCoord.length; i = i + 2) {
+        texCoordArray.push(new glm.vec2(texCoord[i], texCoord[i + 1]));
+      }
     }
 
-    let normalNode = node.getElementsByTagName('Normal')[0];
-    let normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
-    let normal = normalStr.map(el => parseFloat(el));
     let normalArray = [];
-    for(let i = 0; i < normal.length; i = i + 3) {
-      normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
+    let normalNode = node.getElementsByTagName('Normal')[0];
+    if (typeof normalNode !== 'undefined') {
+      let normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
+      let normal = normalStr.map(el => parseFloat(el));
+      for(let i = 0; i < normal.length; i = i + 3) {
+        normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
+      }
     }
 
     let creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));

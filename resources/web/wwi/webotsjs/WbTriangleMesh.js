@@ -350,7 +350,7 @@ class WbTriangleMesh {
           return undefined;
 
         n.div(length);
-        this.tmpTriangleNormals.append(n);
+        this.tmpTriangleNormals.push(n);
       }
     }
 
