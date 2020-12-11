@@ -10,6 +10,20 @@ However, this article only lists some of the major changes.
 Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
 
 
+## ⭐️s and Milestones
+
+Webots GitHub repository has reached more than 1000 stars!
+This is fantastic news for us as it shows that the Webots community has been growing ahead of our expectations.
+It has been 2 years since we started the exciting open-source journey.
+We are thankful to all contributors and partners who made the Webots become possible.
+
+This year will be also remembered by other milestones:
+- Our Discord community is now counting over 1000 members.
+- YouTube channel has exceeded 1000 subscribers.
+- The recently released Webots Docker container has yielded almost 5000 downloads.
+
+----
+
 ## Camera Image Segmentation
 
 Webots now is ready for your next deep learning project as it now supports [object recognition and segmentation](https://cyberbotics.com/doc/reference/camera#wb_camera_has_recognition)!
@@ -69,6 +83,11 @@ In addition, you can integrate unit testing and run the tests every commit.
 ## Extra Goodies
 
 Webots now supports Python 3.9 on all platforms (Windows, Linux, and macOS).
+
+Devices added during the simulation run are available in the robot controller.
+We believe this feature will be especially interesting for deep learning applications.
+
+We also added [exposure control](camera.md#wb_camera_get_exposure) to the camera node.
 
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2021a today, so you don't miss out on all these great new features!**
