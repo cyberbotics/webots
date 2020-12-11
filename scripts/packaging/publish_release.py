@@ -48,18 +48,19 @@ if now.weekday() >= 5:
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
 if options.tag and not options.tag.startswith('refs/heads/'):
-    tag = options.tag.replace('refs/tags/', '')
-    title = tag
-    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (tag, warningMessage)
-    if tag.startswith('nightly_'):
+    tagName = options.tag.replace('refs/tags/', '')
+    title = tagName
+    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (tagName, warningMessage)
+    if tagName.startswith('nightly_'):
         print('Skipping nightly build tag.')
         sys.exit(0)
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
-    tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-             % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
-    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
+    tagName = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
+    branchName = options.branch.replace('refs/heads/', '')
+    branchLink = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+                 % (branchName, options.repo, options.commit, now.year)
+    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branchLink, warningMessage)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
@@ -72,21 +73,21 @@ for release in repo.get_releases():
         if now.weekday() <= 1:  # Monday or tuesday
             maxDay += 2  # weekend day doesn't count
         if date > datetime.timedelta(days=maxDay, hours=12):  # keep only 3 nightly releases in total
-            tagName = release.tag_name
+            releaseTagName = release.tag_name
             print('Deleting release "%s"' % release.title)
             release.delete_release()
             try:
-                ref = repo.get_git_ref('tags/' + tagName)
+                ref = repo.get_git_ref('tags/' + releaseTagName)
                 if ref:
-                    print('Deleting tag "%s"' % tagName)
+                    print('Deleting tag "%s"' % releaseTagName)
                     ref.delete()
             except UnknownObjectException:
                 pass  # tag was already deleted
 
 if not releaseExists:
-    print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
-    draft = True if options.tag else False
-    repo.create_git_tag_and_release(tag=tag,
+    print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tagName, options.commit))
+    draft = False if tagName.startswith('nightly_') else True
+    repo.create_git_tag_and_release(tag=tagName,
                                     tag_message=title,
                                     release_name=title,
                                     release_message=message,
@@ -120,15 +121,13 @@ for release in repo.get_releases():
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed (remaining trials: %d)' % remainingTrials)
-                    if (releaseExists and
-                            not (options.tag and not options.tag.startswith('refs/heads/')) and
-                            not releaseCommentModified and
-                            options.branch.replace('refs/heads/', '') not in release.body):
+                    if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
+                            branchName not in release.body):
                         print('Updating release description')
                         releaseCommentModified = True
-                        branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-                                 % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
-                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branch)
+                        branchLink = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+                                     % (branchName, options.repo, options.commit, now.year)
+                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branchLink)
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break
