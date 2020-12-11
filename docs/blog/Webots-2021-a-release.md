@@ -10,7 +10,7 @@ However, this article only lists some of the major changes.
 Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
 
 
-## ⭐️s and Milestones
+## ⭐️s and Milestones 🎉
 
 Webots GitHub repository has reached more than 1000 stars!
 This is fantastic news for us as it shows that the Webots community has been growing ahead of our expectations.
