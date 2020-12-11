@@ -589,7 +589,7 @@ class AnsiCodes(object):
     elif data_type == 'buffer':
       return self.__getPointCloudBuffer()
     else:
-      print("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(data_type), file=sys.stderr)
+      sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
       return None
 
   def getLayerPointCloud(self, layer):
