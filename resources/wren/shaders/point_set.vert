@@ -1,4 +1,4 @@
-#version 300 es
+#version 330 core
 
 layout(location = 0) in vec3 vCoord;
 layout(location = 3) in vec3 vColor;

@@ -97,6 +97,10 @@ namespace wren {
     }
     unsigned int shaderGlName = glCreateShader(type);
 
+#ifdef __EMSCRIPTEN__
+    shaderCode.replace(0, 17, "#version 300 es");
+#endif
+
     const char *cString = shaderCode.c_str();
     glShaderSource(shaderGlName, 1, &cString, nullptr);
     glCompileShader(shaderGlName);
