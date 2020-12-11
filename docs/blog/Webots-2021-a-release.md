@@ -4,7 +4,7 @@
 
 ---
 
-Webots R2021a is there! And it's packed some new features, improvements and, of course, bug fixes.
+Webots R2021a is there! And it's packed with some new features, improvements and, of course, bug fixes.
 
 However, this article only lists some of the major changes.
 Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a comprehensive list of all changes.
