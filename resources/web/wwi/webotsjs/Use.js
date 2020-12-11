@@ -1,5 +1,5 @@
 import {WbBaseNode} from "./WbBaseNode.js";
-import {WbMaterial} from "./WbMaterial.js";
+import {WbShape} from "./WbShape.js";
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 
@@ -14,6 +14,7 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable;
     this.wrenTextureTransform;
+    this.wrenMaterial;
     this.wrenMesh;
   }
 
@@ -26,7 +27,10 @@ class Use extends WbBaseNode {
     let temp2 = this.def.wrenRenderable;
     this.def.wrenRenderable = undefined;
 
-    let temp3 = this.def.wrenMesh;
+    let temp3 = this.def.wrenMaterial;
+    this.def.wrenMaterial = undefined;
+
+    let temp4 = this.def.wrenMesh;
     this.def.wrenMesh = undefined;
 
     this.def.createWrenObjects();
@@ -36,8 +40,11 @@ class Use extends WbBaseNode {
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
 
+    this.wrenMaterial = this.def.wrenMaterial;
+    this.def.wrenMaterial = temp3;
+
     this.wrenMesh = this.def.wrenMesh;
-    this.def.wrenMesh = temp3;
+    this.def.wrenMesh = temp4;
 
     this.wrenObjectsCreatedCalled = true;
   }
