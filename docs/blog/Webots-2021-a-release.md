@@ -19,7 +19,7 @@ We are thankful to all contributors and partners who made the Webots become poss
 
 This year will be also remembered by other milestones:
 - Our Discord community is now counting over 1000 members.
-- YouTube channel has exceeded 1000 subscribers.
+- The YouTube Cyberobotics channel has exceeded 1000 subscribers.
 - The recently released Webots Docker container has yielded almost 5000 downloads.
 
 ----
