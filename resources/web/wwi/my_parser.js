@@ -383,7 +383,10 @@ class MyParser {
   }
 
   async parsePointLight(node, currentNode) {
-    //TODO USE
+    let use = await this.checkUse(node, currentNode);
+    if(typeof use !== 'undefined')
+      return use;
+      
     let id = getNodeAttribute(node, 'id');
     let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));

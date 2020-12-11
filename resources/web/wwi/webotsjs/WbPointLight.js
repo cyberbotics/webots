@@ -64,4 +64,5 @@ class WbPointLight extends WbLight {
     _wr_point_light_set_cast_shadows(this.wrenLight, this.castShadows);
   }
 }
+
 export {WbPointLight}
