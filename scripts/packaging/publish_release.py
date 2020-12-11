@@ -85,7 +85,7 @@ for release in repo.get_releases():
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
-    draft = True if options.tag else False
+    draft = False if tag.startswith('nightly_') else True
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
@@ -120,9 +120,7 @@ for release in repo.get_releases():
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed (remaining trials: %d)' % remainingTrials)
-                    if (releaseExists and
-                            not (options.tag and not options.tag.startswith('refs/heads/')) and
-                            not releaseCommentModified and
+                    if (releaseExists and tag.startswith('nightly_') and not releaseCommentModified and
                             options.branch.replace('refs/heads/', '') not in release.body):
                         print('Updating release description')
                         releaseCommentModified = True
