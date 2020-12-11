@@ -34,7 +34,7 @@ Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAA
 Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS2 basics, how to create a Webots ROS2 driver, how to do SLAM, or follow AR tags. 
 - We also significantly enhanced and refactored our documentation for the [webots\_ros2](https://github.com/cyberbotics/webots\_ros2) package.
 References, examples, and tutorials, are now gathered to [a single place](https://github.com/cyberbotics/webots\_ros2/wiki) with a clear overview.
-- We improved the performances of the Lidar node by over 7 times.
+- We improved the performance of the Lidar node by over 7 times.
 - The InertialUnit node now returns quaternions making it easier to use in ROS2 nodes.
 
 ---
