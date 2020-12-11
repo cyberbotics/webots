@@ -6,7 +6,8 @@ import {webots} from "./../wwi/webots.js";
 import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
 import {WbTransform} from "./webotsjs/WbTransform.js";
 import {World} from "./webotsjs/World.js"
-import {WbAbstractAppearance} from "./webotsjs/WbAbstractAppearance.js"
+import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js"
+import {WbMaterial} from "./webotsjs/WbMaterial.js"
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
@@ -269,13 +270,19 @@ class X3dScene { // eslint-disable-line no-unused-vars
         object.rotation = quaternion;
         object.applyRotationToWren();
         fields.push[key];
-      } else if (object instanceof WbAbstractAppearance || object instanceof WbMaterial) {
+      } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
         else if (key === 'diffuseColor')
           object.diffuseColor = convertStringToVec3(pose[key]);
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
+
+        if(object instanceof WbMaterial)
+          World.instance.nodes[World.instance.nodes[object.parent].parent].updateAppearance();
+        else{
+          World.instance.nodes[object.parent].updateAppearance();
+        }
       }
     }
     /*
