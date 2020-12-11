@@ -56,7 +56,7 @@ In order to improve our asset library, we have added baskets that may be convini
 Running Webots simulations in the GitHub's CI has never been easier!
 
 %figure "Webots GitHub Action"
-![Webots GitHub Action](https://github.com/cyberbotics/webots-animation-action/raw/master/assets/cover.png)
+![Webots GitHub Action Image](https://github.com/cyberbotics/webots-animation-action/raw/master/assets/cover.png)
 %end
 
 Now, you can use [Webots GitHub Action](https://github.com/marketplace/actions/webots-animation) and in a few lines configure Webots to run your worlds in CI.
