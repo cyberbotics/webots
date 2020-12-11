@@ -15,7 +15,7 @@ Please refer to the [R2021 changelog](../reference/changelog-r2021.md) for a com
 Webots GitHub repository has reached more than 1000 stars!
 This is fantastic news for us as it shows that the Webots community has been growing ahead of our expectations.
 It has been 2 years since we started the exciting open-source journey.
-We are thankful to all contributors and partners who made the Webots become possible.
+We are thankful to all contributors and partners who made the Webots open-source dream become reality.
 
 This year will be also remembered by other milestones:
 - Our Discord community is now counting over 1000 members.
