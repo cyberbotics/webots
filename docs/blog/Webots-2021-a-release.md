@@ -38,10 +38,10 @@ After setting the recognition property of an object, the object will be immediat
 
 ---
 
-## ROS 2 & Webots
+## ROS2 & Webots
 
-We are continuing to develop and improve the support for ROS 2 in Webots with now [13 Webots packages for ROS 2](https://github.com/cyberbotics/webots\_ros2).
-This version of Webots is fully compatible with [ROS 2 Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy).
+We are continuing to develop and improve the support for ROS2 in Webots with now [13 Webots packages for ROS2](https://github.com/cyberbotics/webots\_ros2).
+This version of Webots is fully compatible with [ROS2 Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy).
 
 - We are happy to participate in [Google Season of Docs](https://cyberbotics.com/gsod) this year!
 Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ) channel a series of video tutorials about ROS2 and Webots is now available.
