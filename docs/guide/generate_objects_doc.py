@@ -251,7 +251,7 @@ for proto in prioritaryProtoList + fileList:
                     file.write(u'|     |     |\n')
                     file.write(u'|:---:|:---:|\n')
                     for i in range(len(files)):
-                        image = os.path.basename(files[i]).replace('.thumbnail.', '.')
+                        image = os.path.basename(files[i]).replace('.thumbnail.png', '.png')
                         if i % 2 == 0:
                             file.write(u'| ![%s](%s) |' % (image, files[i]))
                         else:
