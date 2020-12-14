@@ -12,7 +12,8 @@ import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
 import {WbSphere} from "./webotsjs/WbSphere.js";
 import {WbCone} from "./webotsjs/WbCone.js";
-import {WbIndexedFaceSet} from "./webotsjs/WbIndexedFaceSet.js"
+import {WbIndexedFaceSet} from "./webotsjs/WbIndexedFaceSet.js";
+import {WbIndexedLineSet} from "./webotsjs/WbIndexedLineSet.js";
 
 import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
@@ -478,6 +479,8 @@ class MyParser {
       geometry = this.parseCylinder(node);
     else if (node.tagName === 'IndexedFaceSet')
       geometry = this.parseIndexedFaceSet(node);
+    else if (node.tagName === 'IndexedLineSet')
+      geometry = this.parseIndexedLineSet(node);
     else {
       console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
@@ -606,6 +609,30 @@ class MyParser {
     World.instance.nodes[ifs.id] = ifs;
 
     return ifs;
+  }
+
+  parseIndexedLineSet(node) {
+    let id = getNodeAttribute(node, 'id');
+    let coordinate = node.getElementsByTagName('Coordinate')[0];
+
+    if (typeof coordinate === 'undefined')
+      return undefined;
+
+    let indicesStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);
+
+    let verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+
+    let coord = [];
+    for (let i = 0; i < verticesStr.length; i += 3) {
+      coord.push(new WbVector3(parseFloat(verticesStr[i]), parseFloat(verticesStr[i + 1]), parseFloat(verticesStr[i + 2])));
+    }
+
+    let coordIndex = indicesStr.map(Number);
+
+    let ils = new WbIndexedLineSet(id, coord, coordIndex);
+    World.instance.nodes[ils.id] = ils;
+
+    return ils;
   }
 
   async parseAppearance(node) {
