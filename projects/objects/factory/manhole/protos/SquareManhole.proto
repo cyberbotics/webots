@@ -9,7 +9,7 @@ PROTO SquareManhole [
   field SFRotation rotation              0 1 0 0
   field SFString   name                  "manhole"
   field SFVec3f    size                  1 0.1 1    # Defines the size of the manhole.
-  field SFBool     enableBoundingObject  TRUE       # Defines whether the fire manhole should have a bounding object.
+  field SFBool     enableBoundingObject  TRUE       # Defines whether the manhole should have a bounding object.
 ]
 {
   Solid {

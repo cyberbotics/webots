@@ -50,44 +50,17 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 MetalStorageBox {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
   SFString   name        "metal storage box"
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 0 1 0
   SFFloat    mass        0
 }
 ```
 
 > **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/MetalStorageBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/MetalStorageBox.proto)"
 
-> **license**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### PlasticFruitBox
-
-A plastic fruit box.
-
-%figure
-
-![PlasticFruitBox](images/objects/containers/PlasticFruitBox/model.thumbnail.png)
-
-%end
-
-Derived from [Solid](../reference/solid.md).
-
-```
-PlasticFruitBox {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
-  SFString   name        "plastic fruit box"
-  SFColor    color       0 1 0.5
-  SFFloat    mass        0
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticFruitBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/PlasticFruitBox.proto)"
-
-> **license**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
 
 ### PlasticCrate
 
@@ -113,6 +86,33 @@ PlasticCrate {
 ```
 
 > **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticCrate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/PlasticCrate.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### PlasticFruitBox
+
+A plastic box.
+
+%figure
+
+![PlasticFruitBox](images/objects/containers/PlasticFruitBox/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+PlasticFruitBox {
+  SFString   name        "plastic fruit box"
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFColor    color       0 1 0.5
+  SFFloat    mass        0
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticFruitBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/containers/protos/PlasticFruitBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -308,7 +308,7 @@ SquareManhole {
 
 - `size`: Defines the size of the manhole.
 
-- `enableBoundingObject`: Defines whether the fire manhole should have a bounding object.
+- `enableBoundingObject`: Defines whether the manhole should have a bounding object.
 
 ## Pallet
 
@@ -563,14 +563,15 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
-  SFVec3f    translation      0 0 0
-  SFRotation rotation         0 0 1 0
-  SFString   name             "cap screw"
-  SFNode     appearance       OldSteel {}
-  SFFloat    screwRadius      0.006
-  SFFloat    screwLength      0.05
-  SFString   contactMaterial  "default"
-  SFBool     enablePhysics    TRUE
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 0 1 0
+  SFString   name                  "cap screw"
+  SFNode     appearance            OldSteel {}
+  SFFloat    screwRadius           0.006
+  SFFloat    screwLength           0.05
+  SFString   contactMaterial       "default"
+  SFBool     enablePhysics         TRUE
+  SFBool     enableBoundingObject  TRUE
 }
 ```
 
@@ -588,6 +589,8 @@ CapScrew {
 - `screwLength`: Defines the length of the screw.
 
 - `enablePhysics`: Defines whether the screw should have physics.
+
+- `enableBoundingObject`: Defines whether the screw should have a bounding object.
 
 ### ElectricalPlug
 
@@ -1044,3 +1047,4 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+
