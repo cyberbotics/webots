@@ -1,6 +1,5 @@
 """Test module for the titles."""
 
-import emoji
 import re
 import sys
 import unittest
@@ -97,7 +96,7 @@ class TestTitles(unittest.TestCase):
                 word = words[w]
                 if (not word or word.startswith('wb') or word.endswith('.wbt') or word.endswith('.wbt]') or
                         word in exceptions or numberPattern.match(word) or len(word) == 1 or
-                        word[0] in emoji.UNICODE_EMOJI):
+                        len(re.findall(r'[^\w\s,]', word)) > 0):  # word contains some emoji
                     continue  # Exceptions.
                 if w == 0:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' %
