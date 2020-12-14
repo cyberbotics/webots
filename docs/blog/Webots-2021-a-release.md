@@ -38,18 +38,18 @@ After setting the recognition property of an object, the object will be immediat
 
 ---
 
-## ROS2 & Webots
+## ROS 2 & Webots
 
-We are continuing to develop and improve the support for ROS2 in Webots with now [13 Webots packages for ROS2](https://github.com/cyberbotics/webots\_ros2).
-This version of Webots is fully compatible with [ROS2 Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy).
+We are continuing to develop and improve the support for ROS 2 in Webots with now [13 Webots packages for ROS 2](https://github.com/cyberbotics/webots\_ros2).
+This version of Webots is fully compatible with [ROS 2 Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy).
 
 - We are happy to participate in [Google Season of Docs](https://cyberbotics.com/gsod) this year!
-Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ) channel a series of video tutorials about ROS2 and Webots is now available.
-Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS2 basics, how to create a Webots ROS2 driver, how to do SLAM, or follow AR tags. 
+Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ) channel a series of video tutorials about ROS 2 and Webots is now available.
+Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS 2 basics, how to create a Webots ROS 2 driver, how to do SLAM, or follow AR tags. 
 - We also significantly enhanced and refactored our documentation for the [webots\_ros2](https://github.com/cyberbotics/webots\_ros2) package.
 References, examples, and tutorials, are now gathered to [a single place](https://github.com/cyberbotics/webots\_ros2/wiki) with a clear overview.
 - We improved the performance of the [Lidar](https://cyberbotics.com/doc/reference/lidar) node by over 7 times.
-- The [InertialUnit](https://cyberbotics.com/doc/reference/inertialunit) node now returns quaternions making it easier to use in ROS2 nodes.
+- The [InertialUnit](https://cyberbotics.com/doc/reference/inertialunit) node now returns quaternions making it easier to use in ROS 2 nodes.
 
 ---
 
