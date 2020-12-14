@@ -69,7 +69,7 @@ In order to improve our asset library, we have added baskets that may be conveni
 
 Running Webots simulations in GitHub's CI has never been easier!
 
-%figure "Webots GitHub Action"
+%figure "Webots GitHub Action Image"
 ![Webots GitHub Action Image](https://github.com/cyberbotics/webots-animation-action/raw/master/assets/cover.png)
 %end
 
