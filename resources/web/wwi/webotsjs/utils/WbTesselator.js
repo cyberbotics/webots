@@ -40,7 +40,7 @@ class WbTesselator {
 
    let tesselator = new libtess.GluTesselator();
    assert(tesselator);
-   //TODO: the callback functions
+
    tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_BEGIN, WbTesselator.tessBegin);
    tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_VERTEX_DATA, WbTesselator.tessVertexData);
    tesselator.gluTessCallback(libtess.gluEnum.GLU_TESS_END, WbTesselator.tessEnd);

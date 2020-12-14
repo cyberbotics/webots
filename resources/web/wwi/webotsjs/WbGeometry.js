@@ -38,7 +38,7 @@ class WbGeometry extends WbBaseNode {
 
     this.applyVisibilityFlagToWren();
 
-    _wr_renderable_set_cast_shadows(this.wrenRenderable, true);
+    this.computeCastShadows(true);
   }
 
   applyVisibilityFlagToWren() {
@@ -52,7 +52,7 @@ class WbGeometry extends WbBaseNode {
   setWrenMaterial(material, castShadows) {
     if (this.wrenRenderable) {
       _wr_renderable_set_material(this.wrenRenderable, material, null);
-      _wr_renderable_set_cast_shadows(this.wrenRenderable, castShadows);
+      this.computeCastShadows(castShadows);
     }
   }
 
@@ -86,6 +86,17 @@ class WbGeometry extends WbBaseNode {
       return undefined;
 
     return new WbWrenMeshBuffers(verticesCount, indicesCount, 2, 0); //isInBoundingObject() ? 0 : 2 3rd arg
+  }
+
+  computeCastShadows(enabled) {
+    if (typeof this.wrenRenderable === 'undefined')
+      return;
+
+    if (this.isInBoundingObject) {
+      _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
+      _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
+    } else
+      _wr_renderable_set_cast_shadows(this.wrenRenderable, enabled);
   }
 }
 

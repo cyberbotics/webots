@@ -106,6 +106,10 @@ class Use extends WbBaseNode {
   postFinalize(){
     this.isPreFinalizeCalled = false;
   }
+
+  computeCastShadows(castShadows){
+    this.def.computeCastShadows(castShadows);
+  }
 }
 
 export{Use}

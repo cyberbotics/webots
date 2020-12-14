@@ -75,7 +75,6 @@ class WbShape extends WbBaseNode {
       this.geometry.preFinalize();
 
     this.updateAppearance();
-    this.updateGeometry();
   }
 
   postFinalize() {
@@ -87,7 +86,7 @@ class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    //updateCastShadows(); TODO for shadow
+    this.updateCastShadows();
   }
 
   updateAppearance() {
@@ -95,8 +94,12 @@ class WbShape extends WbBaseNode {
       this.applyMaterialToGeometry();
   }
 
-  updateGeometry(){
+  updateCastShadows() {
+    assert(!this.isInBoundingObject);
 
+    if (typeof this.geometry !== 'undefined') {
+      this.geometry.computeCastShadows(this.castShadow)
+    }
   }
 }
 
