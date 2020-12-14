@@ -33,7 +33,7 @@ Webots now is ready for your next deep learning project as it now supports [obje
 %end
 
 This new functionality reuses the existing camera recognition functionality to classify the objects in the scene based on the properties of the object instance.
-This generic and customizable method allows the user to apply any type of segmentation: semantic, instance, or panoptic seg-mentation.
+This generic and customizable method allows the user to apply any type of segmentation: semantic, instance, or panoptic segmentation.
 Simply setting the recognition property at the object model layer, will generate a semantic segmentation.
 
 ---
