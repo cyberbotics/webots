@@ -45,7 +45,7 @@ This version of Webots is fully compatible with [ROS 2 Foxy Fitzroy](https://ind
 
 - We are happy to participate in [Google Season of Docs](https://cyberbotics.com/gsod) this year!
 Thanks to the [Soft illusion YouTube](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ) channel a series of video tutorials about ROS 2 and Webots is now available.
-Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS 2 basics, how to create a Webots ROS 2 driver, how to do SLAM, or follow AR tags. 
+Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqmIGRTOch8o9GiQ) and learn about ROS 2 basics, how to create a Webots ROS 2 driver, how to do SLAM, or follow AR tags.
 - We also significantly enhanced and refactored our documentation for the [webots\_ros2](https://github.com/cyberbotics/webots\_ros2) package.
 References, examples, and tutorials, are now gathered to [a single place](https://github.com/cyberbotics/webots\_ros2/wiki) with a clear overview.
 - We improved the performance of the [Lidar](https://cyberbotics.com/doc/reference/lidar) node by over 7 times.
