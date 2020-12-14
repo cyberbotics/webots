@@ -65,6 +65,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_def", &RosSupervisor::getFromDefCallback, this);
   mGetFromIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_id", &RosSupervisor::getFromIdCallback, this);
+  mGetFromDeviceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_device",
+                                                              &RosSupervisor::getFromDeviceCallback, this);
   mGetSelectedServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_selected", &RosSupervisor::getSelectedCallback, this);
   mVirtualRealityHeadsetGetOrientationServer =
@@ -101,6 +103,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                          &RosSupervisor::nodeGetNumberOfContactPointsCallback, this);
   mNodeGetContactPointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_contact_point",
                                                                     &RosSupervisor::nodeGetContactPointCallback, this);
+  mNodeGetContactPointNodeServer = mRos->nodeHandle()->advertiseService(
+    (ros->name()) + "/supervisor/node/get_contact_point_node", &RosSupervisor::nodeGetContactPointNodeCallback, this);
   mNodeGetStaticBalanceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_static_balance",
                                                                      &RosSupervisor::nodeGetStaticBalanceCallback, this);
   mNodeGetVelocityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_velocity",
@@ -212,6 +216,7 @@ RosSupervisor::~RosSupervisor() {
   mGetSelfServer.shutdown();
   mGetFromDefServer.shutdown();
   mGetFromIdServer.shutdown();
+  mGetFromDeviceServer.shutdown();
   mGetSelectedServer.shutdown();
   mVirtualRealityHeadsetGetOrientationServer.shutdown();
   mVirtualRealityHeadsetGetPositionServer.shutdown();
@@ -228,6 +233,7 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetCenterOfMassServer.shutdown();
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
+  mNodeGetContactPointNodeServer.shutdown();
   mNodeGetStaticBalanceServer.shutdown();
   mNodeGetVelocityServer.shutdown();
   mNodeSetVelocityServer.shutdown();
@@ -422,6 +428,15 @@ bool RosSupervisor::getFromIdCallback(webots_ros::supervisor_get_from_id::Reques
   return true;
 }
 
+// cppcheck-suppress constParameter
+bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                                          webots_ros::supervisor_get_from_string::Response &res) {
+  assert(mSupervisor);
+  const Device *device = mRos->getDevice(req.value);
+  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
+  return true;
+}
+
 bool RosSupervisor::getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res) {
   assert(mSupervisor);
   res.value = reinterpret_cast<uint64_t>(mSupervisor->getSelected());
@@ -577,7 +592,7 @@ bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_nu
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  res.numberOfContactPoints = node->getNumberOfContactPoints();
+  res.numberOfContactPoints = node->getNumberOfContactPoints(req.includeDescendants);
   return true;
 }
 
@@ -592,6 +607,16 @@ bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_poi
   res.point.x = point[0];
   res.point.y = point[1];
   res.point.z = point[2];
+  return true;
+}
+
+bool RosSupervisor::nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
+                                                    webots_ros::node_get_contact_point_node::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.node = reinterpret_cast<uint64_t>(node->getContactPointNode(req.index));
   return true;
 }
 

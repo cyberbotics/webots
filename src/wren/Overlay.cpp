@@ -34,8 +34,9 @@ namespace wren {
 
   static const int BACKGROUND_TEXTURE_INDEX = 0;
   static const int MAIN_TEXTURE_INDEX = 1;
-  static const int FOREGROUND_TEXTURE_INDEX = 2;
-  static const int ADDITIONAL_TEXTURE_STARTING_INDEX = 3;
+  static const int MASK_TEXTURE_INDEX = 2;
+  static const int FOREGROUND_TEXTURE_INDEX = 3;
+  static const int ADDITIONAL_TEXTURE_STARTING_INDEX = 4;
 
   ShaderProgram *Overlay::cDefaultSizeProgram = NULL;
   size_t Overlay::cMaxOrder = 0;
@@ -59,31 +60,12 @@ namespace wren {
       mParams.mBackgroundColor = color;
   }
 
-  void Overlay::setTexture(Texture *texture) {
-    mTexture = texture;
-
-    if (mTexture)
-      mParams.mActiveFlags.y = 1.0f;
+  void Overlay::setTexture(Texture *texture, int role) {
+    mTextures[role] = texture;
+    if (texture)
+      mParams.mActiveFlags.x = mParams.mActiveFlags.x | (1u << role);
     else
-      mParams.mActiveFlags.y = 0.0f;
-  }
-
-  void Overlay::setBackgroundTexture(Texture *texture) {
-    mBackgroundTexture = texture;
-
-    if (mBackgroundTexture)
-      mParams.mActiveFlags.x = 1.0f;
-    else
-      mParams.mActiveFlags.x = 0.0f;
-  }
-
-  void Overlay::setForegroundTexture(Texture *texture) {
-    mForegroundTexture = texture;
-
-    if (mForegroundTexture)
-      mParams.mActiveFlags.z = 1.0f;
-    else
-      mParams.mActiveFlags.z = 0.0f;
+      mParams.mActiveFlags.x = mParams.mActiveFlags.x & ~(1u << role);
   }
 
   void Overlay::addAdditionalTexture(Texture *texture) {
@@ -98,7 +80,7 @@ namespace wren {
     assert(mProgram);
 
     DEBUG("Overlay::render, this=" << this << ", order=" << mOrder);
-    DEBUGONE(mTexture);
+    DEBUGONE(mTextures[MAIN_TEXTURE_INDEX]);
     debug::printVec4(mParams.mPositionAndSize, "mPositionAndSize");
 
     if (!mIsVisible || mParams.mPositionAndSize.z == 0.0f || mParams.mPositionAndSize.w == 0.0f)
@@ -116,16 +98,15 @@ namespace wren {
                                       mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height());
     glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
 
-    prepareTexture(mBackgroundTexture, BACKGROUND_TEXTURE_INDEX);
-    prepareTexture(mTexture, MAIN_TEXTURE_INDEX);
-    prepareTexture(mForegroundTexture, FOREGROUND_TEXTURE_INDEX);
+    for (size_t i = 0; i < ADDITIONAL_TEXTURE_STARTING_INDEX; ++i)
+      prepareTexture(mTextures[i], i);
 
     for (size_t i = 0; i < mAdditionalTextures.size(); ++i)
       prepareTexture(mAdditionalTextures[i], ADDITIONAL_TEXTURE_STARTING_INDEX + i);
 
     int channelCountLocation = mProgram->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_CHANNEL_COUNT);
-    if (channelCountLocation >= 0)
-      glUniform1i(channelCountLocation, mTexture->glFormatParams().mChannelCount);
+    if (channelCountLocation >= 0 && mTextures[MAIN_TEXTURE_INDEX])
+      glUniform1i(channelCountLocation, mTextures[MAIN_TEXTURE_INDEX]->glFormatParams().mChannelCount);
 
     mMesh->render(GL_TRIANGLES);
 
@@ -147,20 +128,18 @@ namespace wren {
     mIsVisible(true),
     mShowDefaultSize(false),
     mPremultipliedAlpha(false),
-    mTexture(NULL),
-    mBackgroundTexture(NULL),
-    mForegroundTexture(NULL),
     mTextureParams(Texture::DEFAULT_USAGE_PARAMS),
     mMesh(StaticMesh::createQuad()),
     mProgram(NULL) {
+    mTextures.resize(FOREGROUND_TEXTURE_INDEX + 1, NULL);
     mTextureParams.mIsInterpolationEnabled = false;
 
     mParams.mPositionAndSize = glm::vec4(0.0f);
     mParams.mDefaultSize = glm::vec4(0.0f);
     mParams.mBorderColor = glm::vec4(0.0f);
     mParams.mBackgroundColor = glm::vec4(0.0f);
-    mParams.mActiveFlags = glm::vec4(0.0f);
     mParams.mTextureFlags = glm::vec4(0.0f);
+    mParams.mActiveFlags = glm::uvec2(0u);
     mParams.mSizeInPixels = glm::vec2(0.0f, 0.0f);
     mParams.mBorderSize = glm::vec2(0.0f);
 
@@ -265,7 +244,7 @@ void wr_overlay_set_border_size(WrOverlay *overlay, float size_horizontal, float
 }
 
 void wr_overlay_set_texture(WrOverlay *overlay, WrTexture *texture) {
-  reinterpret_cast<wren::Overlay *>(overlay)->setTexture(reinterpret_cast<wren::Texture *>(texture));
+  reinterpret_cast<wren::Overlay *>(overlay)->setTexture(reinterpret_cast<wren::Texture *>(texture), wren::MAIN_TEXTURE_INDEX);
 }
 
 void wr_overlay_set_texture_flip_vertical(WrOverlay *overlay, bool flip) {
@@ -273,11 +252,17 @@ void wr_overlay_set_texture_flip_vertical(WrOverlay *overlay, bool flip) {
 }
 
 void wr_overlay_set_background_texture(WrOverlay *overlay, WrTexture *texture) {
-  reinterpret_cast<wren::Overlay *>(overlay)->setBackgroundTexture(reinterpret_cast<wren::Texture *>(texture));
+  reinterpret_cast<wren::Overlay *>(overlay)->setTexture(reinterpret_cast<wren::Texture *>(texture),
+                                                         wren::BACKGROUND_TEXTURE_INDEX);
+}
+
+void wr_overlay_set_mask_texture(WrOverlay *overlay, WrTexture *texture) {
+  reinterpret_cast<wren::Overlay *>(overlay)->setTexture(reinterpret_cast<wren::Texture *>(texture), wren::MASK_TEXTURE_INDEX);
 }
 
 void wr_overlay_set_foreground_texture(WrOverlay *overlay, WrTexture *texture) {
-  reinterpret_cast<wren::Overlay *>(overlay)->setForegroundTexture(reinterpret_cast<wren::Texture *>(texture));
+  reinterpret_cast<wren::Overlay *>(overlay)->setTexture(reinterpret_cast<wren::Texture *>(texture),
+                                                         wren::FOREGROUND_TEXTURE_INDEX);
 }
 
 void wr_overlay_add_additional_texture(WrOverlay *overlay, WrTexture *texture) {

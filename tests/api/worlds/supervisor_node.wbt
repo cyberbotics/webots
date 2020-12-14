@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -65,7 +65,14 @@ DEF ROBOT Robot {
 }
 DEF Test Robot {
   children [
+    DEF COMPASS Compass {
+    }
     TestSuiteEmitter {
+    }
+    SickLms291 {
+      translation 0.39 0.1 0.4
+    }
+    Kinect {
     }
   ]
   name "supervisor"

@@ -41,7 +41,7 @@ Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutoria
 `@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 
 ##### Soft\_illusion 11/07/2020 02:08:52
-We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone
 
 Special Thanks to Webots Team for their guidance.
 
@@ -153,7 +153,7 @@ We are happy to annouce the release of #Webots "R2020b revision 1".
 
 
 
-This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS. 
+This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS.
 
 
 
@@ -228,7 +228,7 @@ Together with you, we are committed  to provide high quality, free and open sour
 Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
 
 ##### amitsaini 07/24/2020 15:35:03
-Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots.
 
 [https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
 
@@ -542,4 +542,3 @@ Demonstration of a Universal Robot UR5e with grippers: [https://youtu.be/WIY9ebq
 
 ##### Olivier Michel [Cyberbotics] 04/18/2019 08:39:15
 Short story about robotbenchmark: [https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace](https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace)
-

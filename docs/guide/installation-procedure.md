@@ -143,7 +143,7 @@ However, when developing robot controllers, it is often useful to use various co
 If such components are needed, users can install them on their system or local environment to create, possibly compile and link their robot controllers.
 However, because of the snap sand-boxing, Webots will be unable to launch these controller itself.
 To work around this problem, such controllers should be launched as extern controllers from outside of Webots.
-Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
+Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib/controller` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
 #### Installing the Docker Image
@@ -223,7 +223,7 @@ Webots requires some graphical features that are usually not available by defaul
 
 Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
 ```
-xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batch /path/to/world/file
+xvfb-run --auto-servernum webots --mode=fast --no-rendering --stdout --stderr --minimize --batch /path/to/world/file
 ```
 
 ### Installation on Windows

@@ -93,13 +93,13 @@ def reduce_speed_if_vehicle_on_side(speed, side):
 get_filtered_speed.previousSpeeds = []
 driver = Driver()
 for name in sensorsNames:
-    sensors[name] = driver.getDistanceSensor("distance sensor " + name)
+    sensors[name] = driver.getDevice("distance sensor " + name)
     sensors[name].enable(10)
 
-gps = driver.getGPS("gps")
+gps = driver.getDevice("gps")
 gps.enable(10)
 
-camera = driver.getCamera("camera")
+camera = driver.getDevice("camera")
 # uncomment those lines to enable the camera
 # camera.enable(10)
 # camera.recognitionEnable(50)

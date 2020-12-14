@@ -16,6 +16,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
 #### `wb_supervisor_node_get_from_id`
+#### `wb_supervisor_node_get_from_device`
 #### `wb_supervisor_node_get_selected`
 
 %tab-component "language"
@@ -29,6 +30,7 @@ WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
+WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
 
@@ -45,6 +47,7 @@ namespace webots {
     Node *getSelf();
     Node *getFromDef(const std::string &name);
     Node *getFromId(int id);
+    Node *getFromDevice(const Device *device);
     Node *getSelected();
     // ...
   }
@@ -63,6 +66,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
+    def getFromDevice(self, device);
     def getSelected(self):
     # ...
 ```
@@ -79,6 +83,7 @@ public class Supervisor extends Robot {
   public Node getSelf();
   public Node getFromDef(String name);
   public Node getFromId(int id);
+  public Node getFromDevice(Device device);
   public Node getSelected();
   // ...
 }
@@ -93,6 +98,7 @@ node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
 node = wb_supervisor_node_get_from_id(id)
+node = wb_supervisor_node_get_from_device(tag)
 node = wb_supervisor_node_get_selected()
 ```
 
@@ -106,6 +112,7 @@ node = wb_supervisor_node_get_selected()
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_device` | `service` | `webots_ros::supervisor_get_from_string` | `string value`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
 %tab-end
@@ -138,6 +145,10 @@ The `wb_supervisor_node_get_from_id` function retrieves a handle to a node, but 
 The function returns NULL if the given identifier doesn't match with any node of the current world.
 It is recommended to use this function only when knowing formerly the identifier (rather than looping on this function to retrieve all the nodes of a world).
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
+
+The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
+The function returns NULL if the given device is invalid or is an internal node of a PROTO.
+Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
 Like any [Group](group.md) node, the root node has a MFNode field called "children" which can be parsed to read each node in the scene tree.
@@ -972,7 +983,7 @@ com = wb_supervisor_node_get_center_of_mass(node)
 
 *get the global position of a solid's center of mass*
 
-The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node expressed in the global (world) coordinate system.
+The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node (including its descendant Solid nodes) expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
@@ -984,6 +995,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 ---
 
 #### `wb_supervisor_node_get_contact_point`
+#### `wb_supervisor_node_get_contact_point_node`
 #### `wb_supervisor_node_get_number_of_contact_points`
 
 %tab-component "language"
@@ -994,7 +1006,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 #include <webots/supervisor.h>
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 ```
 
 %tab-end
@@ -1007,7 +1020,8 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
 namespace webots {
   class Node {
     const double *getContactPoint(int index) const;
-    int getNumberOfContactPoints() const;
+    Node *getContactPointNode(int index) const;
+    int getNumberOfContactPoints(bool includeDescendants = false) const;
     // ...
   }
 }
@@ -1022,7 +1036,8 @@ from controller import Node
 
 class Node:
     def getContactPoint(self, index):
-    def getNumberOfContactPoints(self):
+    def getContactPointNode(self, index):
+    def getNumberOfContactPoints(self, includeDescendants=False):
     # ...
 ```
 
@@ -1035,7 +1050,8 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public double[] getContactPoint(int index);
-  public int getNumberOfContactPoints();
+  public Node getContactPointNode(int index);
+  public int getNumberOfContactPoints(boolean includeDescendants);
   // ...
 }
 ```
@@ -1046,7 +1062,8 @@ public class Node {
 
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_point(node, index)
-number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
+node = wb_supervisor_node_get_contact_point_node(node, index);
+number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, include_descendants)
 ```
 
 %tab-end
@@ -1055,8 +1072,9 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`---`<br/>`int32 numberOfContactPoints` |
+| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
 | `/supervisor/node/get_contact_point` | `service` | `webots_ros::node_get_contact_point` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) point |
+| `/supervisor/node/get_contact_point_node` | `service` | `webots_ros::node_get_contact_point_node` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>`uint64 node`` |
 
 %tab-end
 
@@ -1069,12 +1087,15 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
 The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
 Contact points are expressed in the global (world) coordinate system.
-If the index is less than the number of contact points, then the x (resp. y, z) coordinate of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
+If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
 Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
 
+The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
+
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
+The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
 
 The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
@@ -1979,7 +2000,6 @@ int main(int argc, char *argv[]) {
 typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_PAUSE,
   WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME,
-  WB_SUPERVISOR_SIMULATION_MODE_RUN,
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
 
@@ -1997,7 +2017,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode);
 namespace webots {
   class Supervisor : public Robot {
     typedef enum {
-      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
     } SimulationMode;
 
     SimulationMode simulationGetMode() const;
@@ -2015,7 +2035,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
 
     def simulationGetMode(self):
     def simulationSetMode(self, mode):
@@ -2030,7 +2050,7 @@ class Supervisor (Robot):
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class Supervisor extends Robot {
-  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST;
+  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST;
 
   public int simulationGetMode();
   public void simulationSetMode(int mode);
@@ -2043,7 +2063,7 @@ public class Supervisor extends Robot {
 %tab "MATLAB"
 
 ```MATLAB
-WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_RUN, WB_SUPERVISOR_SIMULATION_MODE_FAST
+WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST
 
 mode = wb_supervisor_simulation_get_mode()
 wb_supervisor_simulation_set_mode(mode)
@@ -2073,7 +2093,7 @@ The value returned by this function is updated during the previous function call
 The `wb_supervisor_simulation_set_mode` function allows to set the simulation mode.
 Note that if the `WB_SUPERVISOR_SIMULATION_MODE_PAUSE` is set by the current supervisor, then calling the `wb_robot_step(time_step)` function with a `time_step` argument different from 0 will make the controller wait until the simulation is resumed.
 Calling `wb_robot_step(0)` could be useful to send information to Webots when it is paused (such as modifying, moving, adding or deleting objects).
-The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_RUN)`.
+The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_FAST)`.
 
 The current simulation mode can also be modified by the Webots user, when he's clicking on the corresponding buttons in the user interface.
 
@@ -2083,7 +2103,6 @@ The current simulation mode can also be modified by the Webots user, when he's c
 | -------------------------------------------- | ------------------------------------------------------------------------------- |
 | `WB_SUPERVISOR_SIMULATION_MODE_PAUSE`        | The simulation is paused.                                                       |
 | `WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME`    | The simulation is running as close as possible to the real-time.                |
-| `WB_SUPERVISOR_SIMULATION_MODE_RUN`          | The simulation is running as fast as possible with the graphical renderings.    |
 | `WB_SUPERVISOR_SIMULATION_MODE_FAST`         | The simulation is running as fast as possible without the graphical renderings. |
 
 %end
@@ -3526,9 +3545,6 @@ int main(int argc, char **argv) {
 ```
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
-
-> **Note**: Note that these functions are still limited in the actual Webots version.
-For example, a device imported into a Robot node doesn't reset the Robot, so the device cannot be get by using the `wb_robot_get_device` function.
 
 ---
 

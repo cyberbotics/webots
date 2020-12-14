@@ -131,7 +131,7 @@ It is not possible to apply a force to a `WoodenBox` node, because by default, t
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
 Once this is done, should be able to apply a force on them as well.
 
-The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26), in run ![](images/run-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
+The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
@@ -239,7 +239,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 %tab "Python"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
->Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
+>Modify the program by getting the motor devices (`leftMotor = robot.getDevice('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
 >from controller import Robot, Motor
 >
@@ -249,8 +249,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >robot = Robot()
 >
 ># get the motor devices
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 ># set the target position of the motors
 >leftMotor.setPosition(10.0)
 >rightMotor.setPosition(10.0)
@@ -414,8 +414,8 @@ In order to control the motors of the wheels in speed you need to set the target
 >robot = Robot()
 >
 ># get a handler to the motors and set target position to infinity (speed control)
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 >leftMotor.setPosition(float('inf'))
 >rightMotor.setPosition(float('inf'))
 >

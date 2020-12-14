@@ -1,8 +1,10 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 const int lastResultTextureIndex = 0;
 
-noperspective in vec2 texUv;
+in vec2 texUv;
 
 layout(location = 0) out vec4 fragColor;
 

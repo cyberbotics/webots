@@ -48,6 +48,7 @@ public:
   // external window
   virtual int textureGLId() const;
   virtual int backgroundTextureGLId() const;
+  virtual int maskTextureGLId() const;
   virtual int foregroundTextureGLId() const;
   virtual void enableExternalWindow(bool enabled);
 
@@ -63,13 +64,13 @@ public:
   static WbRenderingDevice *fromMousePosition(int x, int y);
   static QList<WbRenderingDevice *> renderingDevices() { return cRenderingDevices; }
 
+  enum TextureRole { BACKGROUND_TEXTURE = 0, MAIN_TEXTURE, MASK_TEXTURE, FOREGROUND_TEXTURE };
+
 signals:
   void overlayVisibilityChanged(bool visible);
   void overlayStatusChanged(bool enabled);
   void textureUpdated();
-  void textureIdUpdated(int textureGLID);
-  void backgroundTextureIdUpdated(int backgroungTextureGLID);
-  void foregroundTextureIdUpdated(int foregroungTextureGLID);
+  void textureIdUpdated(int textureGLID, TextureRole role);
   void restoreWindowPerspective(const WbRenderingDevice *device, const QStringList &perspective);
   void closeWindow();
 

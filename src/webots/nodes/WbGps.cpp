@@ -21,7 +21,7 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -270,15 +270,10 @@ bool WbGps::refreshSensorIfNeeded() {
     double altitude = reference[2];
     double north = mUTMConverter->getNorth();
     double east = mUTMConverter->getEast();
-    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
-      reference[0] = east;
-      reference[1] = north;
-      reference[2] = altitude;
-    } else {  // NUE
-      reference[0] = north;
-      reference[1] = altitude;
-      reference[2] = east;
-    }
+    const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
+    reference[coordinateSystem.indexOf('E')] = east;
+    reference[coordinateSystem.indexOf('N')] = north;
+    reference[coordinateSystem.indexOf('U')] = altitude;
   }
 
   for (int i = 0; i < 3; ++i)  // get exact position
@@ -301,18 +296,12 @@ bool WbGps::refreshSensorIfNeeded() {
 
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
     // convert position from X-Y UTM coordinates into lat-long
-    // if we are using 'WGS84' coordinate system with a "ENU" coordinate system, we need to swap coordinates
-    double altitude, x, y;
-    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
-      y = mMeasuredPosition[0];
-      x = mMeasuredPosition[1];
-      altitude = mMeasuredPosition[2];
-    } else {
-      x = mMeasuredPosition[0];
-      altitude = mMeasuredPosition[1];
-      y = mMeasuredPosition[2];
-    }
-    mUTMConverter->computeLatitudeLongitude(x, y);
+    // we need to swap coordinates according to the world coordinate system
+    const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
+    const double north = mMeasuredPosition[coordinateSystem.indexOf('N')];
+    const double east = mMeasuredPosition[coordinateSystem.indexOf('E')];
+    const double altitude = mMeasuredPosition[coordinateSystem.indexOf('U')];
+    mUTMConverter->computeLatitudeLongitude(north, east);
     mMeasuredPosition[0] = mUTMConverter->getLatitude();
     mMeasuredPosition[1] = mUTMConverter->getLongitude();
     mMeasuredPosition[2] = altitude;

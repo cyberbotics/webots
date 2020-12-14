@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -284,6 +284,7 @@ Robot {
       recognition DEF RECOGNITION Recognition {
         maxRange 5
         occlusion FALSE
+        segmentation TRUE
       }
     }
     TestSuiteEmitter {

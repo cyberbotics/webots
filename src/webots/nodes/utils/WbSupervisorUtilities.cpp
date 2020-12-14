@@ -16,6 +16,7 @@
 
 #include "WbAbstractCamera.hpp"
 #include "WbApplication.hpp"
+#include "WbDevice.hpp"
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
@@ -49,7 +50,7 @@
 #endif
 
 #include "../../../include/controller/c/webots/supervisor.h"
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <ode/ode.h>
 
@@ -274,13 +275,13 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
   mFoundFieldIsInternal = false;
-  mGetSelectedNode = false;
-  mGetFromId = false;
+  mGetNodeRequest = 0;
   mNeedToResetSimulation = false;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
   mNodeGetContactPoints = NULL;
+  mGetContactPointsIncludeDescendants = false;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
   mIsProtoRegenerated = false;
@@ -321,8 +322,6 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
   switch (supervisorMode) {
     case WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME:
       return WbSimulationState::REALTIME;
-    case WB_SUPERVISOR_SIMULATION_MODE_RUN:
-      return WbSimulationState::RUN;
     case WB_SUPERVISOR_SIMULATION_MODE_FAST:
       return WbSimulationState::FAST;
     default:
@@ -608,10 +607,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const WbBaseNode *node = dynamic_cast<const WbBaseNode *>(WbNode::findNode(id));
       if (node) {
         // since 8.6 -> each message has its own mechanism
-        mGetFromId = true;
+        mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_ID;
         mCurrentDefName = node->defName();
         mFoundNodeUniqueId = node->uniqueId();
         mFoundNodeType = node->nodeType();
+        const WbDevice *device = dynamic_cast<const WbDevice *>(node);
+        mFoundNodeTag = (device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1;
         mFoundNodeModelName = node->modelName();
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
@@ -632,6 +633,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         baseNode = NULL;
       mFoundNodeUniqueId = baseNode ? baseNode->uniqueId() : 0;
       mFoundNodeType = baseNode ? baseNode->nodeType() : 0;
+      const WbDevice *device = dynamic_cast<const WbDevice *>(baseNode);
+      mFoundNodeTag = (device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1;
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
       mFoundNodeIsProtoInternal = false;
       if (baseNode) {
@@ -649,15 +652,48 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
+    case C_SUPERVISOR_NODE_GET_FROM_TAG: {
+      int tag;
+      stream >> tag;
+
+      mFoundNodeUniqueId = -1;
+      const WbDevice *device = mRobot->findDevice(tag);
+      if (!device)
+        return;
+      const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(device);
+      assert(baseNode);
+      mFoundNodeIsProtoInternal =
+        baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
+      if (mFoundNodeIsProtoInternal)
+        return;
+      mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
+      mCurrentDefName = baseNode->defName();
+      mFoundNodeUniqueId = baseNode->uniqueId();
+      mFoundNodeType = baseNode->nodeType();
+      mFoundNodeTag = tag;
+      mFoundNodeModelName = baseNode->modelName();
+      if (baseNode->parentNode()) {
+        if (baseNode->parentNode() != WbWorld::instance()->root())
+          mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
+        else
+          mFoundNodeParentUniqueId = 0;
+      }
+      mFoundNodeIsProto = baseNode->isProtoInstance();
+      connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
+      return;
+    }
     case C_SUPERVISOR_NODE_GET_SELECTED: {
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(WbSelection::instance()->selectedNode());
       if (baseNode) {
-        mGetSelectedNode = true;
+        mGetNodeRequest = C_SUPERVISOR_NODE_GET_SELECTED;
         mCurrentDefName = baseNode->defName();
         mFoundNodeUniqueId = baseNode->uniqueId();
         mFoundNodeType = baseNode->nodeType();
+        const WbDevice *device = dynamic_cast<const WbDevice *>(baseNode);
+        mFoundNodeTag = (device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1;
         mFoundNodeModelName = baseNode->modelName();
         mFoundNodeParentUniqueId = -1;
+        mFoundNodeIsProtoInternal = false;
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
             mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
@@ -706,12 +742,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
       unsigned int id;
+      unsigned char includeDescendants;
 
       stream >> id;
+      stream >> includeDescendants;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
+      mGetContactPointsIncludeDescendants = includeDescendants == 1;
       if (!solid)
         mRobot->warn(
           tr("wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively "
@@ -1329,6 +1368,8 @@ void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *bas
   assert(baseNode);
   stream << (int)baseNode->uniqueId();
   stream << (int)baseNode->nodeType();
+  const WbDevice *device = dynamic_cast<const WbDevice *>(baseNode);
+  stream << (int)((device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1);
   stream << (int)(baseNode->parentNode() ? baseNode->parentNode()->uniqueId() : -1);
   stream << (unsigned char)baseNode->isProtoInstance();
   const QByteArray &modelName = baseNode->modelName().toUtf8();
@@ -1351,32 +1392,29 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     }
     mUpdatedNodeIds.clear();
   }
-  if (mGetFromId || mGetSelectedNode) {
-    mGetFromId = false;
+  if (mGetNodeRequest > 0) {
     stream << (short unsigned int)0;
-    if (mGetSelectedNode) {
-      mGetSelectedNode = false;
-      stream << (unsigned char)C_SUPERVISOR_NODE_GET_SELECTED;
-    } else
-      stream << (unsigned char)C_SUPERVISOR_NODE_GET_FROM_ID;
+    stream << (unsigned char)mGetNodeRequest;
     stream << (int)mFoundNodeUniqueId;
     stream << (int)mFoundNodeType;
+    stream << (int)mFoundNodeTag;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
-    if (mGetFromId)
-      stream << (unsigned char)mFoundNodeIsProtoInternal;
+    stream << (unsigned char)mFoundNodeIsProtoInternal;
     const QByteArray &modelName = mFoundNodeModelName.toUtf8();
     const QByteArray &defName = mCurrentDefName.toUtf8();
     stream.writeRawData(modelName.constData(), modelName.size() + 1);
     stream.writeRawData(defName.constData(), defName.size() + 1);
     mFoundNodeUniqueId = -1;
     mCurrentDefName.clear();
+    mGetNodeRequest = 0;
   }
   if (mFoundNodeUniqueId != -1) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_FROM_DEF;
     stream << (int)mFoundNodeUniqueId;
     stream << (int)mFoundNodeType;
+    stream << (int)mFoundNodeTag;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
     QByteArray s = mFoundNodeModelName.toUtf8();
@@ -1441,7 +1479,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mNodeGetCenterOfMass = NULL;
   }
   if (mNodeGetContactPoints) {
-    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints();
+    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints(mGetContactPointsIncludeDescendants);
+    const QVector<const WbSolid *> &solids = mNodeGetContactPoints->computedSolidPerContactPoints();
     const int size = contactPoints.size();
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
@@ -1451,6 +1490,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       stream << (double)v.x();
       stream << (double)v.y();
       stream << (double)v.z();
+      stream << (int)(mGetContactPointsIncludeDescendants ? solids.at(i)->uniqueId() : mNodeGetContactPoints->uniqueId());
     }
     mNodeGetContactPoints = NULL;
   }

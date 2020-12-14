@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 uniform sampler2D inputTextures[1];
 
@@ -13,7 +15,7 @@ float luma(vec3 color) {
 
 void main() {
   vec4 color = texture(inputTextures[0], texUv);
-  vec2 textureSize = textureSize(inputTextures[0], 0);
+  vec2 textureSize = vec2(textureSize(inputTextures[0], 0));
 
   float totalLuma = luma(color.rgb);
 
@@ -27,7 +29,7 @@ void main() {
   totalLuma += luma(texture(inputTextures[0], texUv + vec2(-1, 1) / textureSize).rgb);
   totalLuma += luma(texture(inputTextures[0], texUv + vec2(-1, -1) / textureSize).rgb);
 
-  totalLuma /= 9;
+  totalLuma /= 9.0;
 
   if (isnan(totalLuma) || totalLuma < threshold)
     fragColor = vec4(vec3(0.0), 1.0);

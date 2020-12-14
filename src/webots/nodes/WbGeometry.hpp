@@ -32,6 +32,7 @@ class WbMatrix4;
 class WbMatter;
 class WbWrenMeshBuffers;
 class WbRay;
+class WbRgb;
 class WbWrenAbstractResizeManipulator;
 struct dMass;
 
@@ -147,6 +148,7 @@ protected:
   // Wren
   WrMaterial *mWrenMaterial;
   WrMaterial *mWrenEncodeDepthMaterial;
+  WrMaterial *mWrenSegmentationMaterial;
   WrStaticMesh *mWrenMesh;
   WrRenderable *mWrenRenderable;
   WrTransform *mWrenScaleTransform;
@@ -189,6 +191,7 @@ private:
   void init();
 
   void applyVisibilityFlagToWren(bool selected);
+  void setSegmentationColor(const WbRgb &color);
   virtual void createResizeManipulator() {}
 
   // ODE info

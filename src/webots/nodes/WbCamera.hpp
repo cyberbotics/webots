@@ -47,6 +47,9 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset() override;
+  void resetSharedMemory() override;
+  bool isEnabled() const override;
+  void updateTextureUpdateNotifications() override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);
@@ -59,6 +62,8 @@ public:
 
 protected:
   void setup() override;
+  void render() override;
+  bool needToRender() const override;
 
 private:
   WbSFNode *mFocus;
@@ -83,7 +88,7 @@ private:
   WbCamera &operator=(const WbCamera &);  // non copyable
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -112,10 +117,21 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  // smart camera segmentation
+  void initializeSegmentationSharedMemory();
+  void createSegmentationCamera();
+  bool mSegmentationEnabled;
+  bool mSegmentationChanged;
+  WbWrenCamera *mSegmentationCamera;
+  WbSharedMemory *mSegmentationShm;
+  bool mHasSegmentationSharedMemoryChanged;
+  bool mSegmentationImageChanged;
+  bool mSegmentationImageReady;
 
 private slots:
   void updateFocus();
   void updateRecognition();
+  void updateSegmentation();
   void updateNear();
   void updateFar();
   void updateExposure();
@@ -125,8 +141,11 @@ private slots:
   void updateLensFlare();
   void applyFocalSettingsToWren();
   void applyFarToWren();
+  void applyNearToWren() override;
+  void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
+  void updateOverlayMaskTexture();
 };
 
 #endif  // WB_CAMERA_HPP

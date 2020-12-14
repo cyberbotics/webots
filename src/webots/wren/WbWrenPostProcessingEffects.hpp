@@ -41,7 +41,7 @@ namespace WbWrenPostProcessingEffects {
                                WrTexture *normalTexture, bool halfRes);
   WrPostProcessingEffect *bloom(float width, float height, WrTextureInternalFormat textureFormat);
   WrPostProcessingEffect *hdrResolve(float width, float height);
-
+  WrPostProcessingEffect *passThrough(float width, float height);
 };  // namespace WbWrenPostProcessingEffects
 
 #endif

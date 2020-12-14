@@ -30,15 +30,10 @@ USE_C_API = true
 
 ifneq ($(OPENCV_DIR),)
 INCLUDE = -I$(OPENCV_DIR)/include/opencv4
-ifeq ($(OSTYPE),windows)
-OPENCV_VERSION := $(subst .,,$(shell $(OPENCV_DIR)/bin/opencv_version.exe))
-LIBRARIES = -L$(OPENCV_DIR)/lib -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
-else
 LIBRARIES = -L"$(OPENCV_DIR)/lib" -lopencv_core -lopencv_imgproc
-endif
 # Do not modify the following: this includes Webots global Makefile.include
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 else
 release debug profile clean:
-	@+echo "# opencv not installed, skipping vision controller."
+	@+echo "# OPENCV_DIR not set, skipping vision controller."
 endif

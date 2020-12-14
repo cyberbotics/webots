@@ -1,5 +1,5 @@
-#VRML_SIM R2020b utf8
-WorldInfo {
+#VRML_SIM R2021a utf8
+DEF WORLD_INFO WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
@@ -16,7 +16,7 @@ PointLight {
   intensity 0
 }
 Robot {
-  rotation 0 1 0 0.392699
+  rotation 0 1 0 0.916298
   children [
     Compass {
       rotation 0 1 0 0.392699
@@ -29,6 +29,7 @@ Robot {
     }
   ]
   controller "compass"
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

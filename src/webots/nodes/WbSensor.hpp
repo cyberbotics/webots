@@ -24,7 +24,6 @@ class WbRobot;
 class WbSensor : public QObject {
   Q_OBJECT
 public:
-  // destructor
   WbSensor();
   virtual ~WbSensor() {}
 

@@ -19,21 +19,21 @@ timestep = int(robot.getBasicTimeStep())
 
 print('Move forward and avoid obstabcles.')
 
-leftMotor = robot.getMotor('left motor')
-robot.getLED('left motor led').set(0xFFFF00)
+leftMotor = robot.getDevice('left motor')
+robot.getDevice('left motor led').set(0xFFFF00)
 leftMotor.setPosition(float('inf'))  # Velocity control mode.
-rightMotor = robot.getMotor('right motor')
-robot.getLED('right motor led').set(0x00FFFF)
+rightMotor = robot.getDevice('right motor')
+robot.getDevice('right motor led').set(0x00FFFF)
 rightMotor.setPosition(float('inf'))  # Velocity control mode.
 maxSpeed = leftMotor.getMaxVelocity()
 cruisingSpeed = 0.5 * maxSpeed
 
-leftDistanceSensor = robot.getDistanceSensor('left distance sensor')
+leftDistanceSensor = robot.getDevice('left distance sensor')
 leftDistanceSensor.enable(timestep)
-robot.getLED('left distance sensor led').set(0xFF0000)
-rightDistanceSensor = robot.getDistanceSensor('right distance sensor')
+robot.getDevice('left distance sensor led').set(0xFF0000)
+rightDistanceSensor = robot.getDevice('right distance sensor')
 rightDistanceSensor.enable(timestep)
-robot.getLED('right distance sensor led').set(0x00FF00)
+robot.getDevice('right distance sensor led').set(0x00FF00)
 
 while robot.step(timestep) != -1:
     # Invert the TinkerbotsDistanceSensor.lookupTable to have an appoximation of the distance in meters.

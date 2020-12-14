@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -677,6 +677,7 @@ Solid {
         ccw FALSE
         creaseAngle 1.1
       }
+      castShadows FALSE
     }
   ]
   name "solid(2)"

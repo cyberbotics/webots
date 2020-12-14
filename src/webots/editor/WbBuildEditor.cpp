@@ -25,6 +25,8 @@
 #include "WbTextBuffer.hpp"
 #include "WbWorld.hpp"
 
+#include "../../../include/controller/c/webots/utils/ansi_codes.h"
+
 #include <QtWidgets/QAction>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
@@ -101,12 +103,6 @@ void WbBuildEditor::createActions() {
   bar->widgetForAction(mBuildAction)->setObjectName("editorButton");
   bar->addAction(mCleanAction);
   bar->widgetForAction(mCleanAction)->setObjectName("editorButton");
-  /*
-    bar->addAction(mCrossCompileAction);
-    bar->widgetForAction(mCrossCompileAction)->setObjectName("menuButton");
-    bar->addAction(mCleanCrossCompilationAction);
-    bar->widgetForAction(mCleanCrossCompilationAction)->setObjectName("menuButton");
-  */
 }
 
 void WbBuildEditor::updateBuildButtons() {
@@ -178,6 +174,7 @@ void WbBuildEditor::build() {
 void WbBuildEditor::clean() {
   unmarkError();
   mIsCleaning = true;
+  WbLog::appendStdout(ANSI_CLEAR_SCREEN, WbLog::COMPILATION);
   make("clean");
 }
 
@@ -195,6 +192,7 @@ void WbBuildEditor::crossCompile() {
 void WbBuildEditor::cleanCrossCompilation() {
   unmarkError();
   mIsCleaning = true;
+  WbLog::appendStdout(ANSI_CLEAR_SCREEN, WbLog::COMPILATION);
   make("-f " + mCrossCompileMakefile + " clean");
 }
 

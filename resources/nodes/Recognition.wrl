@@ -7,4 +7,5 @@ Recognition {
   field SFBool     occlusion      TRUE    # should occlusions between the radar and the target be checked
   field SFColor    frameColor     1 0 0   # color of the objects frame in the overlay
   field SFInt32    frameThickness 1       # thickness of the objects frame in the overlay
+  field SFBool     segmentation   FALSE   # generate segmented ground truth camera image
 }

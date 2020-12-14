@@ -1,5 +1,5 @@
-#ifndef WR_SKELETON_BONE
-#define WR_SKELETON_BONE
+#ifndef WR_SKELETON_BONE_H
+#define WR_SKELETON_BONE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,4 +20,4 @@ void wr_skeleton_bone_get_orientation(const WrSkeletonBone *bone, bool absolute,
 }
 #endif
 
-#endif  // WR_SKELETON_BONE
+#endif  // WR_SKELETON_BONE_H

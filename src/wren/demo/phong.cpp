@@ -113,26 +113,9 @@ static void initMaterialToPhong(WrMaterial *material) {
   if (!wr_shader_program_get_gl_name(phongStencilDiffuseSpecularProgram))
     printf("Compilation failed: %s\n", wr_shader_program_get_compilation_log(phongStencilDiffuseSpecularProgram));
 
-  WrShaderProgram *phongStencilClampProgram = wr_shader_program_new();
-  wr_shader_program_use_uniform(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);  // main texture
-  wr_shader_program_use_uniform(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);  // pen texture
-  wr_shader_program_use_uniform(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);  // background texture
-  wr_shader_program_use_uniform(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
-  wr_shader_program_use_uniform(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
-  wr_shader_program_use_uniform_buffer(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
-  wr_shader_program_use_uniform_buffer(phongStencilClampProgram, WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
-  wr_shader_program_set_vertex_shader_path(phongStencilClampProgram,
-                                           "../../../resources/wren/shaders/phong_stencil_clamp.vert");
-  wr_shader_program_set_fragment_shader_path(phongStencilClampProgram,
-                                             "../../../resources/wren/shaders/phong_stencil_clamp.frag");
-  wr_shader_program_setup(phongStencilClampProgram);
-  if (!wr_shader_program_get_gl_name(phongStencilClampProgram))
-    printf("Compilation failed: %s\n", wr_shader_program_get_compilation_log(phongStencilClampProgram));
-
   wr_material_set_default_program(material, phongProgram);
   wr_material_set_stencil_ambient_emissive_program(material, phongStencilAmbientEmissiveProgram);
   wr_material_set_stencil_diffuse_specular_program(material, phongStencilDiffuseSpecularProgram);
-  wr_material_set_stencil_clamp_program(material, phongStencilClampProgram);
 }
 
 // Create the WREN scene.
@@ -155,9 +138,9 @@ static void create_wren_scene() {
 
   WrTransform *root = wr_scene_get_root(wr_scene_get_instance());
 
-  printf("Loading:\n");
   for (int i = 0; i < 100; ++i) {
-    printf("  %d%%\n", i);
+    printf("\33[2K\rLoading: %d%%", i);
+    fflush(stdout);
 
     WrRenderable *sphereRenderable = wr_renderable_new();
     WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
@@ -175,12 +158,15 @@ static void create_wren_scene() {
     wr_transform_set_position(sphereTransform, sphere_position);
     wr_transform_attach_child(root, WR_NODE(sphereTransform));
   }
+  printf("\n");
 }
 
 // Render function.
 static void render() {
-  printf("render\n");
-  wr_scene_render(wr_scene_get_instance(), NULL);
+  static int i = 0;
+  printf("\33[2K\rrendering iteration %d", i++);
+  fflush(stdout);
+  wr_scene_render(wr_scene_get_instance(), NULL, true);
   glutSwapBuffers();
 }
 

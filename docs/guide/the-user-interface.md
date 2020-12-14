@@ -289,12 +289,12 @@ The **Simulation** menu is used to control the simulation mode.
 The duration of this step is defined in the **basicTimeStep** field of the [WorldInfo](../reference/worldinfo.md) node, and can be adjusted in the scene tree window to suit your needs.
 
 - ![](images/realtime-button.png =26x26) The **Real-time** menu item (and button) runs the simulation at real-time until it is interrupted by `Pause` or `Step`.
-In run mode, the 3D display of the scene is refreshed every *n* basic time steps, where *n* is defined in the `displayRefresh` field of the [WorldInfo](../reference/worldinfo.md) node.
+In fast mode, the 3D display of the scene is refreshed every *n* basic time steps, where *n* is defined in the `displayRefresh` field of the [WorldInfo](../reference/worldinfo.md) node.
 
-- ![](images/run-button.png =26x26) The **Run** menu item (and button) is like `Real-time`, except that it runs as fast as possible.
+- ![](images/fast-button.png =26x26) The **Fast** menu item (and button) is like `Real-time`, except that it runs as fast as possible.
 
-- ![](images/fast-button.png =26x26) The **Fast** menu item (and button) is like `Run`, except that no graphical rendering is performed.
-As the graphical rendering is disabled (black screen) this allows for a faster simulation and therefore is well suited for cpu-intensive simulations (genetic algorithms, vision, learning, etc.).
+- ![](images/rendering-button.png =26x26) The **Rendering** menu item (and button) disables or enables graphical rendering.
+Disabled (black screen) graphical rendering allows for a faster simulation and therefore is well suited for cpu-intensive simulations (genetic algorithms, vision, learning, etc.).
 
 ### Build Menu
 

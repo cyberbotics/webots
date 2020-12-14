@@ -68,6 +68,7 @@ public:
   bool isWaitingForUserInputEvent() const;
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
+  void addNewlyInsertedDevice(WbNode *node);
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
@@ -251,6 +252,8 @@ private:
   QList<WbDevice *> mDevices;
   QList<WbRenderingDevice *> mRenderingDevices;
   QList<WbAbstractCamera *> mActiveCameras;
+  QList<WbDevice *> mNewlyAddedDevices;
+  int mNextTag;
 
   QList<int> mPressedKeys;
 
@@ -258,7 +261,10 @@ private:
   WbNode *clone() const override { return new WbRobot(*this); }
   void init();
   void addDevices(WbNode *node);
-  void assignDeviceTags();
+  // if reset is TRUE reassign tags to devices (when device config changed)
+  // if reset is FALSE, only tag of newly added devices will be assigned
+  void assignDeviceTags(bool reset);
+  void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
   void pinToStaticEnvironment(bool pin);

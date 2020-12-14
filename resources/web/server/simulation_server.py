@@ -249,7 +249,10 @@ class Client:
             global config
             world = self.project_instance_path + '/worlds/' + self.world
             port = client.streaming_server_port
-            command = config['webots'] + ' --batch --mode=pause --minimize '
+            command = config['webots'] + ' --batch --mode=pause '
+            # the MJPEG stream won't work if the Webots window is minimized
+            if not hasattr(self, 'mode') or self.mode == 'x3d':
+                command += '--minimize '
             command += '--stream="port=' + str(port) + ';monitorActivity'
             if hasattr(self, 'mode'):
                 command += ';mode=' + self.mode
@@ -283,7 +286,7 @@ class Client:
             protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
-            message = 'webots:' + protocol + '//' + hostname + separator + str(port) + '/'
+            message = 'webots:' + protocol + '//' + hostname + separator + str(port)
             client.client_websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()

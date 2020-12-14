@@ -191,6 +191,7 @@ Then, after closing the window, the overlay will be automatically restored.
 
 When the [recognition mode](#wb_camera_has_recognition) is enabled, rectangles surround the recognized objects.
 If the mouse cursor is over one of these rectangles and the simulator is paused, then a complete description of the recognized object is displayed in red, as shown in [the following figure](#display-of-a-recognized-object).
+If the [Recognition](recognition.md).`segmentation` field is also set to TRUE, a mask representing the segmentation ground truth image is applied on the camera image displayed in the overlay.
 
 %figure "Display of a recognized object."
 
@@ -400,6 +401,94 @@ These functions allow the controller to get and set the value for the field of v
 The original value for this field of view is defined in the [Camera](#camera) node, as `fieldOfView`.
 Note that changing the field of view using the `wb_camera_set_fov` function is possible only if the camera device has a [Zoom](zoom.md) node defined in its `zoom` field.
 The minimum and maximum values for the field of view are defined in this [Zoom](zoom.md) node, if the zoom is not defined, then the `wb_camera_get_min_fov` and `wb_camera_get_max_fov` functions will return the camera's field of view.
+
+---
+
+#### `wb_camera_get_exposure`
+#### `wb_camera_set_exposure`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/camera.h>
+
+double wb_camera_get_exposure(WbDeviceTag tag);
+void wb_camera_set_exposure(WbDeviceTag tag, double exposure);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Camera.hpp>
+
+namespace webots {
+  class Camera : public Device {
+    double getExposure() const;
+    virtual void setExposure(double exposure);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Camera
+
+class Camera (Device):
+    def getExposure(self):
+    def setExposure(self, exposure):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Camera;
+
+public class Camera extends Device {
+  public double getExposure();
+  public void setExposure(double exposure);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+exposure = wb_camera_get_exposure(tag)
+wb_camera_set_exposure(tag, exposure)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/<device_name>/get_exposure` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
+| `/<device_name>/set_exposure` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+*get and set exposure of a camera*
+
+These functions allow the controller to get and set the value of the exposure of a camera.
+The original value for this exposure is defined in the [Camera](#camera) node, as `exposure`.
 
 ---
 
@@ -844,8 +933,8 @@ This `string` is closely related to the `const char *` of the C API.
 > gray = Camera.imageGetGray(cameraData, camera.getWidth(), 5, 10)
 > ```
 
-> Another way to use the camera in Python is to get the image by the `getImageArray` function which returns a `list<list<list<int>>>`.
-This three dimensional list can be directly used for accessing the RGB pixels value.
+> Another way to get the camera image in Python is to use the `getImageArray` method which returns a `list<list<list<int>>>`.
+This three dimensional list can be directly used for accessing the RGB pixels value. However, this method runs significantly slower than the `getImage` method.
 Here is an example:
 
 > ```python
@@ -987,6 +1076,11 @@ It is -1 in case of failure (unable to open the specified file or unrecognized i
 #### `wb_camera_recognition_get_sampling_period`
 #### `wb_camera_recognition_get_number_of_objects`
 #### `wb_camera_recognition_get_objects`
+#### `wb_camera_recognition_has_segmentation`
+#### `wb_camera_recognition_enable_segmentation`
+#### `wb_camera_recognition_disable_segmentation`
+#### `wb_camera_recognition_get_segmentation_image`
+#### `wb_camera_recognition_save_segmentation_image`
 
 %tab-component "language"
 
@@ -1001,6 +1095,12 @@ void wb_camera_recognition_disable(WbDeviceTag tag);
 int wb_camera_recognition_get_sampling_period(WbDeviceTag tag);
 int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag);
 const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag tag);
+bool wb_camera_recognition_has_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_enable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_disable_segmentation(WbDeviceTag tag);
+void wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
+const unsigned char* wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
+int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 ```
 
 %tab-end
@@ -1018,6 +1118,12 @@ namespace webots {
     int getRecognitionSamplingPeriod() const;
     int getRecognitionNumberOfObjects() const;
     const CameraRecognitionObject *getRecognitionObjects() const;
+    bool hasRecognitionSegmentation() const;
+    void enableRecognitionSegmentation();
+    void disableRecognitionSegmentation();
+    bool isRecognitionSegmentationEnabled() const;
+    const unsigned char *getRecognitionSegmentationImage() const;
+    int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     // ...
   }
 }
@@ -1037,6 +1143,13 @@ class Camera (Device):
     def getRecognitionSamplingPeriod(self):
     def getRecognitionNumberOfObjects(self):
     def getRecognitionObjects(self):
+    def hasRecognitionSegmentation(self):
+    def enableRecognitionSegmentation(self):
+    def disableRecognitionSegmentation(self):
+    def isRecognitionSegmentationEnabled(self):
+    def getRecognitionSegmentationImage(self):
+    def getRecognitionSegmentationImageArray(self):
+    def saveRecognitionSegmentationImage(self, filename, quality):
     # ...
 ```
 
@@ -1054,6 +1167,12 @@ public class Camera extends Device {
   public int getRecognitionSamplingPeriod();
   public int getRecognitionNumberOfObjects();
   public CameraRecognitionObject[] getRecognitionObjects();
+  public boolean hasRecognitionSegmentation();
+  public void enableRecognitionSegmentation();
+  public void disableRecognitionSegmentation();
+  public boolean isRecognitionSegmentationEnabled();
+  public int[] getRecognitionSegmentationImage();
+  public int saveRecognitionSegmentationImage(String filename, int quality);
   // ...
 }
 ```
@@ -1069,6 +1188,12 @@ wb_camera_recognition_enable(tag, sampling_period)
 number = wb_camera_recognition_get_number_of_objects(tag)
 objects = wb_camera_recognition_get_objects(tag)
 period = wb_camera_recognition_get_sampling_period(tag)
+value = wb_camera_recognition_has_segmentation(tag)
+wb_camera_recognition_enable_segmentation(tag)
+wb_camera_recognition_disable_segmentation(tag)
+wb_camera_recognition_is_segmentation_enabled(tag)
+image = wb_camera_recognition_get_segmentation_image(tag)
+success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality)
 ```
 
 %tab-end
@@ -1081,6 +1206,12 @@ period = wb_camera_recognition_get_sampling_period(tag)
 | `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
 | `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
 | `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObject` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `relative_position`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `relative_orientation`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `position_on_image`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `size_on_image`<br/>`int32 numberofcolors`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html)`[]` `colors`<br/>`String model`<br/><br/>Note: the z value of `position_on_image` and `size_on_image` should be ignored |
+| `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
+| `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
+| `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1102,6 +1233,30 @@ The `wb_camera_recognition_disable` function turns off the recognition, saving c
 The `wb_camera_recognition_get_sampling_period` function returns the period given to the `wb_camera_recognition_enable` function, or 0 if the recognition is disabled.
 
 The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get_objects` functions allow the user to get the current number of recognized objects and the objects array.
+
+*camera recognition segmentation functions*
+
+If a [Recognition](recognition.md) node is present in the `recognition` field and the [Recognition](recognition.md).`segmentation` field is set to TRUE, the camera generates a segmentation ground truth image corresponding to the camera image.
+The segmented image is generated at the same sampling period as the recognition objects.
+For the segmentation to work it is necessary to enable the recognition, but it is not necessary to enable the camera.
+Even if the [Recognition](recognition.md).`segmentation` field is TRUE, the generation of the segmented image is not automatically enabled when calling the [`wb_camera_recognition_enable`](#wb_camera_recognition_enable) function and it is necessary to call explicitly the [`wb_camera_recognition_enable_segmentation`](#wb_camera_recognition_enable_segmentation).
+
+The `wb_camera_recognition_has_segmentation` function can be used to check if the [Recognition](recognition.md).`segmentation` field is set to TRUE.
+If the [Recognition](recognition.md) node is not defined, the function returns FALSE.
+
+The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
+Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
+
+The `wb_camera_recognition_is_segmentation_enabled` function returns TRUE if the generation of the segmented image is enabled and FALSE otherwise.
+If the recognition functionality is disabled, the segmentation functionality will be disabled as well.
+
+The `wb_camera_recognition_get_segmentation_image` reads the last generated segmentation image.
+The segmentation image has the exact same properties as the camera image retrieved using the [`wb_camera_get_image`](#wb_camera_get_image).
+It is also possible to extract the different channels using the [`wb_camera_image_get_red`](#wb_camera_image_get_red), [`wb_camera_image_get_green`](#wb_camera_image_get_green), [`wb_camera_image_get_blue`](#wb_camera_image_get_blue) and [`wb_camera_image_get_gray`](#wb_camera_image_get_gray) functions.
+Sample code showing how to use the returned segmentation image object in the different programming languages can be find in the [`wb_camera_get_image`](#wb_camera_get_image) function description.
+
+The `wb_camera_recognition_save_segmentation_image` function allows the user to save the latest segmentation image.
+Further details about the arguments and the return value can be found in the description of the [`wb_camera_save_image`](#wb_camera_save_image) function.
 
 ##### Camera Recognition Object
 

@@ -9,7 +9,7 @@ Device {
 
 ### Description
 
-This abstract node (not instanciable) represents a robot device (actuator and/or sensor).
+This abstract node (that cannot be instantiated) represents a robot device (actuator and/or sensor).
 
 ### Device Functions
 
