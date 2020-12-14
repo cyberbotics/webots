@@ -9,4 +9,4 @@ orthographicViewHeight: 1
 textFiles: 0 "controllers/autonomous_vehicle/autonomous_vehicle.c"
 consoles: Console:All:All
 renderingDevicePerspectives: vehicle:camera;1;2;0;0
-renderingDevicePerspectives: vehicle:display;1;1;0.503685;0.464789
+renderingDevicePerspectives: vehicle:display;1;1;0;0.464789

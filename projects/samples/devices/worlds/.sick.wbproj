@@ -8,4 +8,4 @@ orthographicViewHeight: 1
 textFiles: 0 "controllers/sick/sick.c"
 globalOptionalRendering: LidarRaysPaths
 consoles: Console:All:All
-renderingDevicePerspectives: robot:display;1;1;0.651724;0.605634
+renderingDevicePerspectives: robot:display;1;1;0;0
