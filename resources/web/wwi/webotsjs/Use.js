@@ -2,6 +2,7 @@ import {WbBaseNode} from "./WbBaseNode.js";
 import {WbShape} from "./WbShape.js";
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
+import {WbTransform} from "./WbTransform.js"
 
 
 class Use extends WbBaseNode {
@@ -14,7 +15,7 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable;
     this.wrenTextureTransform;
-    this.wrenMaterial;
+    this.wrenMaterial = [];
     this.wrenMesh;
   }
 
@@ -27,8 +28,7 @@ class Use extends WbBaseNode {
     let temp2 = this.def.wrenRenderable;
     this.def.wrenRenderable = undefined;
 
-    let temp3 = this.def.wrenMaterial;
-    this.def.wrenMaterial = undefined;
+    let temp3 = this.replaceWrenMaterial(this.def);
 
     let temp4 = this.def.wrenMesh;
     this.def.wrenMesh = undefined;
@@ -40,8 +40,16 @@ class Use extends WbBaseNode {
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
 
-    this.wrenMaterial = this.def.wrenMaterial;
-    this.def.wrenMaterial = temp3;
+    //TODO replace back wrenmaterial also in recursion. But check that it is usefull to replace back.
+    if (this.def instanceof WbTransform && typeof this.def.children !== 'undefined') {
+      for (let i = 0; i < this.def.children.length; i++){
+        this.wrenMaterial[i] = this.def.children[i].wrenMaterial;
+        this.def.children[i].wrenMaterial = temp3.push(this.def.children[i].wrenMaterial);
+      }
+    } else {
+      temp3 = this.def.wrenMaterial;
+      this.def.wrenMaterial = undefined;
+    }
 
     this.wrenMesh = this.def.wrenMesh;
     this.def.wrenMesh = temp4;
@@ -109,6 +117,23 @@ class Use extends WbBaseNode {
 
   computeCastShadows(castShadows){
     this.def.computeCastShadows(castShadows);
+  }
+
+  replaceWrenMaterial(node){
+    let temp = [];
+    if (node instanceof WbTransform && typeof node.children !== 'undefined') {
+      for (let i = 0; i < node.children.length; i++){
+        if (node.children[i] instanceof WbTransform && typeof node.children !== 'undefined')
+          this.replaceWrenMaterial(node.children[i]);
+        temp.push(node.children[i].wrenMaterial);
+        node.children[i].wrenMaterial = undefined;
+      }
+    } else {
+      temp = node.wrenMaterial;
+      node.wrenMaterial = undefined;
+    }
+
+    return temp;
   }
 }
 

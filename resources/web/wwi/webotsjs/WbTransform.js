@@ -8,6 +8,8 @@ class WbTransform extends WbGroup {
     this.translation = translation;
     this.scale = scale;
     this.rotation = rotation;
+
+    this.children = [];
   }
 
   createWrenObjects() {

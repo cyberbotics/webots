@@ -17,9 +17,8 @@ class WbShape extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-    if (typeof this.appearance !== 'undefined'){
+    if (typeof this.appearance !== 'undefined')
       this.appearance.createWrenObjects();
-    }
     if (typeof this.geometry !== 'undefined'){
       this.geometry.createWrenObjects();
       //not sure of the place
