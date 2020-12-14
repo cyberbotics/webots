@@ -246,7 +246,7 @@ for proto in prioritaryProtoList + fileList:
                             image = thumbnailPath
                         files.append(image)
                 if files:
-                    files.sort()  # alphapetically ordered
+                    files.sort()  # alphabetically ordered
                     file.write(u'%figure\n\n')
                     file.write(u'|     |     |\n')
                     file.write(u'|:---:|:---:|\n')
