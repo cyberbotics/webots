@@ -1,6 +1,6 @@
 # Version R2021a Released
 
-<p id="publish-data">By Darko Lukic - **XX**th December 2020</p>
+<p id="publish-data">By Darko Lukic - 15th December 2020</p>
 
 ---
 
