@@ -49,7 +49,7 @@ Check [the playlist](https://www.youtube.com/playlist?list=PLt69C9MnPchkP0ZXZOqm
 - We also significantly enhanced and refactored our documentation for the [webots\_ros2](https://github.com/cyberbotics/webots\_ros2) package.
 References, examples, and tutorials, are now gathered to [a single place](https://github.com/cyberbotics/webots\_ros2/wiki) with a clear overview.
 - We improved the performance of the [Lidar](https://cyberbotics.com/doc/reference/lidar) node by over 7 times.
-- The InertialUnit node now returns quaternions making it easier to use in ROS2 nodes.
+- The [InertialUnit](https://cyberbotics.com/doc/reference/inertialunit) node now returns quaternions making it easier to use in ROS2 nodes.
 
 ---
 
