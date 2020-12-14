@@ -342,6 +342,7 @@ resources/web/wwi/request_methods.js
 resources/web/wwi/webots.min.js
 resources/web/wwi/wwi.css
 resources/web/wwi/images/
+resources/web/wwi/images/*.gif
 resources/web/wwi/images/*.png
 resources/web/wwi/images/documentation/
 resources/web/wwi/images/documentation/*.png
