@@ -241,6 +241,9 @@ for proto in prioritaryProtoList + fileList:
                 files = []
                 for image in availableImages:
                     if re.match(regex, image):
+                        thumbnailPath = image.replace('.png', '.thumbnail.png')
+                        if os.path.isfile(thumbnailPath):
+                            image = thumbnailPath
                         files.append(image)
                 if files:
                     files.sort()  # alphapetically ordered
@@ -248,10 +251,11 @@ for proto in prioritaryProtoList + fileList:
                     file.write(u'|     |     |\n')
                     file.write(u'|:---:|:---:|\n')
                     for i in range(len(files)):
+                        image = os.path.basename(files[i]).replace('.thumbnail.', '.')
                         if i % 2 == 0:
-                            file.write(u'| ![%s](%s) |' % (os.path.basename(files[i]), files[i]))
+                            file.write(u'| ![%s](%s) |' % (image, files[i]))
                         else:
-                            file.write(u'![%s](%s) |\n' % (os.path.basename(files[i]), files[i]))
+                            file.write(u'![%s](%s) |\n' % (image, files[i]))
                     if not len(files) % 2 == 0:
                         file.write(u' |\n')
                     file.write(u'\n%end\n\n')
