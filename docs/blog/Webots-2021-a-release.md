@@ -87,7 +87,7 @@ Webots now supports Python 3.9 on all platforms (Windows, Linux, and macOS).
 Devices added during the simulation run are available in the robot controller.
 We believe this feature will be especially interesting for deep learning applications.
 
-We also added [exposure control](camera.md#wb_camera_get_exposure) to the [Camera](https://cyberbotics.com/doc/reference/camera) node.
+We also added [exposure control](https://cyberbotics.com/doc/reference/camera#wb_camera_get_exposure) to the [Camera](https://cyberbotics.com/doc/reference/camera) node.
 
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2021a today, so you don't miss out on all these great new features!**
