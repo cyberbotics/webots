@@ -5,7 +5,7 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 ## January
 
 ##### Shanaka 01/02/2020 08:15:57
-I'm shanaka currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot. 
+I'm shanaka currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot.
 
 
 
@@ -13,11 +13,11 @@ I modified the end-tool of the manipulator by replacing the Pioneer gripper
 
 
 
-I  control this entire manipulator (with new gripper) by modifying puma560.motion file and puma560.c file. 
+I  control this entire manipulator (with new gripper) by modifying puma560.motion file and puma560.c file.
 
 
 
-But I need to add dynamics and individual joint controllers to this simulation with the idea of implementation in real world. So i check puma560.c file and there I found  functions called 
+But I need to add dynamics and individual joint controllers to this simulation with the idea of implementation in real world. So i check puma560.c file and there I found  functions called
 
 
 
@@ -25,11 +25,11 @@ wbu\_motion\_new("puma560\_1.motion");
 
 wbu\_motion\_play(motion);
 
-but I was not able to find the definition of these functions anywhere. ( I checked motion.h Motion.hpp Motion.cpp files.) Although I can find the function definitions inside the above-mentioned files, still I was not able to find function definitions and how the given angles fed to motors in the manipulator by wbu\_motion\_play() function. 
+but I was not able to find the definition of these functions anywhere. ( I checked motion.h Motion.hpp Motion.cpp files.) Although I can find the function definitions inside the above-mentioned files, still I was not able to find function definitions and how the given angles fed to motors in the manipulator by wbu\_motion\_play() function.
 
 
 
-The final target is to implement the controller in the real world using Raspberry pi or FPGA microcontrollers. So by using wbu\_motion\_play() functions how can I do it? Where can I find the function description? If this method is impossible, it will be great if you can give guidance to make it a success. 
+The final target is to implement the controller in the real world using Raspberry pi or FPGA microcontrollers. So by using wbu\_motion\_play() functions how can I do it? Where can I find the function description? If this method is impossible, it will be great if you can give guidance to make it a success.
 
 
 
@@ -240,7 +240,7 @@ Do you provide binary-tar-ball for macos?
 ##### David Mansolino [Cyberbotics] 02/14/2020 07:43:43
 > Can I move HsWebots-project into cyberbotics? If you have any concerns, please feel free to contact me.
 
-`@junjihashimoto` 
+`@junjihashimoto`
 
 Thanks for this, we will discuss this internally ant let you know.
 
@@ -323,7 +323,7 @@ because i try a lot but failed in coding
 and i have very less time
 
 
-I want the behaviour such that my robot go in direction of light and then stop near the light 
+I want the behaviour such that my robot go in direction of light and then stop near the light
 
 
 
@@ -581,7 +581,7 @@ Hey, I want to use a ship mast in my simulation,  which basically has a tower li
 
 So the problem is,  I dont know how to make the part moving in the manner I need.  
 
-There's another interesting problem,  that the whole mast should move in a sinusoidal manner (basically, the way it moves in the sea). How could these things be done?! 
+There's another interesting problem,  that the whole mast should move in a sinusoidal manner (basically, the way it moves in the sea). How could these things be done?!
 
 Thank you!
 
@@ -604,11 +604,11 @@ Did you follow our tutorials? If not I would strongly advice to follow tutorials
 Sure,  I will look into them and let you know if it helps! 😊
 
 
-Hey, I tried importing a door hinge as a VRML97 file, which was converted from Solidworks model. 
+Hey, I tried importing a door hinge as a VRML97 file, which was converted from Solidworks model.
 
-The problem is, it is considering each part of the hinge, like screws, doors as separate individual. (As in the scene tree, it is showing each part differently with same name - "transform") 
+The problem is, it is considering each part of the hinge, like screws, doors as separate individual. (As in the scene tree, it is showing each part differently with same name - "transform")
 
-Neither it is considered as other objects in the world's, because while I tried to click on the hinge, it won't click and show it's origin and all. 
+Neither it is considered as other objects in the world's, because while I tried to click on the hinge, it won't click and show it's origin and all.
 
 What must be the problem here?
 
@@ -936,7 +936,7 @@ oh lordy 😅
 I'll give it a try
 
 ##### ContrastNull 05/13/2020 16:43:42
-Hey, could you tell me how to multi-select things in scene-tree? 
+Hey, could you tell me how to multi-select things in scene-tree?
 
 I can't find a way to. I imported a VRML97 model into Webots, the model was quite large, and it's difficult to select, cut and paste each 'transform' object into a robot node's children attribute.
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Simon Steinmann [Moderator] 05/14/2020 12:48:46
 > `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@PymZoR` 
+`@PymZoR`
 
 
 
@@ -1275,7 +1275,7 @@ We plan to add a new feature which will allow to link joint together and which m
 Hi, `@David Mansolino` , To make a rack and pinion arrangement, i require more kind of joints than those that are available in the documentation. Can i model my own basic joints?
 
 ##### David Mansolino [Cyberbotics] 06/09/2020 11:35:20
-You can either use physics plugins: 
+You can either use physics plugins:
 
 [https://cyberbotics.com/doc/reference/physics-plugin](https://cyberbotics.com/doc/reference/physics-plugin)
 
@@ -1492,7 +1492,7 @@ You're welcome 😉
 ##### Clara Cardoso Ferreira 06/24/2020 19:00:41
 > `@Clara Cardoso Ferreira` to reset the terrain from the proto file is indeed possible, unfortunately it is not possible to move the robot from there, but you can move it then at the first step of the simulation with a Supervisor controller.
 
-`@David Mansolino` 
+`@David Mansolino`
 
 
 
@@ -1771,7 +1771,7 @@ I have an e-puck robot in Webots simulations, and I wanted to detect when it hit
 read out the appropiate sensor
 
 ##### Lukulus 07/29/2020 10:33:21
-Hello I am trying to use multiple threads for different tasks for an robot. 
+Hello I am trying to use multiple threads for different tasks for an robot.
 
 But it seems like calling the robot->step() funktion in diffenrent threads leads to stop the Simulation.
 
@@ -1807,7 +1807,7 @@ Hi David,
 For ROS 1
 
 ##### David Mansolino [Cyberbotics] 07/31/2020 08:29:32
-Ok, yes in that case the default ros controller does implement an interface for any kind of lidars: 
+Ok, yes in that case the default ros controller does implement an interface for any kind of lidars:
 
   - [https://www.cyberbotics.com/doc/guide/using-ros#standard-ros-controller](https://www.cyberbotics.com/doc/guide/using-ros#standard-ros-controller)
 
@@ -1996,7 +1996,7 @@ It worked, but needed to specify no-cache. For anyone else who wants to use the 
 pip install --no-cache-dir --upgrade urdf2webots
 
 
-I ran into an issue, where 
+I ran into an issue, where
 
 robot.getBasicTimeStep()
 
@@ -2012,7 +2012,7 @@ robot.setBasicTimeStep
 Yes, this is a known issue.
 
 ##### Simon Steinmann [Moderator] 08/07/2020 13:34:36
-or add it to the supervisor and have 
+or add it to the supervisor and have
 
 robot.getBasicTimeStep()
 
@@ -2022,7 +2022,7 @@ grab the value directly from the world instance
 It's pretty rare to dynamically change the time step of a simulation. Why do your need to do that?
 
 ##### Simon Steinmann [Moderator] 08/07/2020 13:35:21
-benchmark runs at different timesteps. I worked around it, by not using 
+benchmark runs at different timesteps. I worked around it, by not using
 
 robot.getBasicTimeStep()  for steps, but the manually set interval
 
@@ -2102,7 +2102,7 @@ okay done. Accepted all changes except 2 minor ones
 Thanks. I will check it tomorrow.
 
 ##### MarioAndres7 08/12/2020 23:14:33
-Hello Im new. Does anyone knows if exists and example of a movile robot? i want to give it 
+Hello Im new. Does anyone knows if exists and example of a movile robot? i want to give it
 
 coordinates
 
@@ -2617,7 +2617,7 @@ I think there is an issue:
 n = getSFNode(child, name)  = > n = getNode(child, name)
 
 ##### Simon Steinmann [Moderator] 08/18/2020 10:44:32
-root = proto.getProtoFromDef('MY\_ROBOT\_ROOT') 
+root = proto.getProtoFromDef('MY\_ROBOT\_ROOT')
 
 this is not a valid function
 
@@ -2645,9 +2645,9 @@ would have to install 2020b, With the tar install, I just have to extract and ch
 Yes exactly
 
 ##### Simon Steinmann [Moderator] 08/18/2020 10:54:40
-for ubuntu 18.04 and up I take 
+for ubuntu 18.04 and up I take
 
-webots-R2020b-rev1-x86-64.tar.bz2 
+webots-R2020b-rev1-x86-64.tar.bz2
 
 right?
 
@@ -3213,9 +3213,9 @@ you can check out my model in the PR above. I'd recommend using it, as it is sup
 yeah, will see if I can do that tomorrow. I also plan to export my gripper to a proto file again
 
 ##### Simon Steinmann [Moderator] 08/21/2020 10:54:52
-`@David Mansolino` Could you tell me why [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462) this condition is needed? I created a batch-convertion, automatically converting a whole nested directory of urdf files (with options defined in .json configs). And for some reason, this line stops SOME, but not all Mesh protos to be created. I spent 5 hours yesterday trying to figure that out.  Setting this line to 
+`@David Mansolino` Could you tell me why [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462) this condition is needed? I created a batch-convertion, automatically converting a whole nested directory of urdf files (with options defined in .json configs). And for some reason, this line stops SOME, but not all Mesh protos to be created. I spent 5 hours yesterday trying to figure that out.  Setting this line to
 
-if True: 
+if True:
 
 fixes this issue. My question is, why is it needed?
 
@@ -3912,7 +3912,7 @@ As I understand, the ground sensors functions are only available on C language b
 
 
 
-How can I add the python functions for the ground sensors in my code please ? 
+How can I add the python functions for the ground sensors in my code please ?
 
 
 
@@ -4228,7 +4228,7 @@ line 110 is the old one, line 120 my implementation
 in some edge cases the current implementation produced wrong values
 
 
-rotationFromMatrix([-1, 0, 0, 0, 0, 1, 0, 1, 0]) 
+rotationFromMatrix([-1, 0, 0, 0, 0, 1, 0, 1, 0])
 
 this was my test, or where I noticed an issue
 
@@ -4772,7 +4772,7 @@ can you point me to that portion of code?
 Sure, let me look for it
 
 
-Actually, I just found that this is possible 😂 
+Actually, I just found that this is possible 😂
 
 You have to right click on the node either in the scene-tree either in the 3D view, then change the extension of the filename to save to '.wrl', and that's it 🙂
 
@@ -5133,7 +5133,7 @@ the problem is the conversion, writing the proto
 yeah, i'll investigate more
 
 
-created a new PR for urdf2webots, small but important fix. 
+created a new PR for urdf2webots, small but important fix.
 
 [https://github.com/cyberbotics/urdf2webots/pull/81](https://github.com/cyberbotics/urdf2webots/pull/81)
 
@@ -5567,7 +5567,7 @@ np 🙂
 I think I found a way to install ikfast solvers with pip. And it should be possible to have them natively in c++ too. With that I'd need some help though.
 
 
-can some try to build this. In linux it's 
+can some try to build this. In linux it's
 
 pip install .
 
@@ -5996,17 +5996,17 @@ I noticed something: when having a world with <extern> controller and setting th
 `@Simon Steinmann` Yes, Webots uses 100% because it tries to run as fast as possible but it is blocked by the missing extern controller.  In this case, the simulation IS running internally. In fact if you click on the pause button, then the process usage immediately decrease. We will check if there is way to improve it. Please open an issue on GitHub ([https://github.com/cyberbotics/webots/issues/new/choose](https://github.com/cyberbotics/webots/issues/new/choose)).
 
 ##### XZbot 09/21/2020 07:01:19
-Hi, I am trying to use the latest Webots docker image within Kubernetes. I put 
+Hi, I am trying to use the latest Webots docker image within Kubernetes. I put
 
         image: cyberbotics/webots:lastest
 
-inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error? 
+inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error?
 
 
 
-Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put 
+Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put
 
-        command: ["/bin/bash", "-c"] 
+        command: ["/bin/bash", "-c"]
 
         args: ["xvfb-run webots --stdout --stderr --batch --mode=fast /path/to/persistentVolumeClaim/worldFile"]
 
@@ -6021,17 +6021,17 @@ Many thanks!
 (`@Stefania Pedrazzi`  I have deleted my message in the news channel and reposted here. Sorry about that.)
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 07:02:40
-> Hi, I am trying to use the latest Webots docker image within Kubernetes. I put 
+> Hi, I am trying to use the latest Webots docker image within Kubernetes. I put
 
 >         image: cyberbotics/webots:lastest
 
-> inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error? 
+> inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error?
 
-> 
+>
 
-> Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put 
+> Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put
 
->         command: ["/bin/bash", "-c"] 
+>         command: ["/bin/bash", "-c"]
 
 >         args: ["xvfb-run webots --stdout --stderr --batch --mode=fast /path/to/persistentVolumeClaim/worldFile"]
 
@@ -6689,7 +6689,7 @@ no, the GUI is part of the Webots core application
 okay, but thx, this helped. gonna test if it works in docker too
 
 ##### Justin Fisher 10/02/2020 14:08:37
-Currently Webots seems to restrict each controller to reading only those sensors that are descended from its own robot node.  This makes sense for ordinary controllers.  But supervisor controllers are near-omniscient.  Is there any reason not to let supervisors also read the other sensors in the world? 
+Currently Webots seems to restrict each controller to reading only those sensors that are descended from its own robot node.  This makes sense for ordinary controllers.  But supervisor controllers are near-omniscient.  Is there any reason not to let supervisors also read the other sensors in the world?
 
 
 
@@ -6834,7 +6834,7 @@ Also note that the `boundingObjects` nodes are normal nodes. So you should be ab
 
 
 
-You can similarly use getPosition() to find the position of the other solid you're interested in, and then you can compute the distance between those two positions with the good old fashioned Pythagorean theorem. 
+You can similarly use getPosition() to find the position of the other solid you're interested in, and then you can compute the distance between those two positions with the good old fashioned Pythagorean theorem.
 
 
 
@@ -6868,7 +6868,7 @@ I usually rely on the print() function to debug my Python controllers. However, 
 ok thank you Mr
 
 ##### götz 10/20/2020 17:10:25
-I'll give up with getting my RestAPI embedded in a Python controller to work. Last try, maybe somebody can spot anything obviously wrong  here. 
+I'll give up with getting my RestAPI embedded in a Python controller to work. Last try, maybe somebody can spot anything obviously wrong  here.
 ```def robotstep():
     robot.step(32)
 
@@ -6880,7 +6880,7 @@ if __name__ == '__main__':
 ```
 
 
-It's working and I get the "OK" back from here 
+It's working and I get the "OK" back from here
 ```class ForwardHandler(tornado.web.RequestHandler):
     def get(self):
         leftMotor.setVelocity(3)
@@ -6901,7 +6901,7 @@ Can you write some print() statement in the robotstep() function to assess it ac
 Good point... just gave it a try, gets called a lot. 🙂
 
 
-And when I change robotstep() to 
+And when I change robotstep() to
 ```def robotstep():
     leftMotor.setVelocity(3)
     rightMotor.setVelocity(3)
@@ -7109,7 +7109,7 @@ Is anyone able to advise on going from the rpy readings of an inertial unit to t
 So if
 
 ```
-double roll = inertial->getRollPitchYaw()[0]; 
+double roll = inertial->getRollPitchYaw()[0];
 double pitch = inertial->getRollPitchYaw()[1];
 double yaw = inertial->getRollPitchYaw()[2];
 ```
@@ -7120,22 +7120,22 @@ I think the matrix for that should be
 ` R = Ry(yaw) * Rx(pitch) * Rz(roll)`
 
 
-```Ry = 
+```Ry =
 [ cos(y)    0     sin(y)
     0       1      0
  -sin(y)    0     cos(y) ]
 ```
 
 
-```Rx = 
+```Rx =
 [   1       0      0
     0     cos(p) -sin(p)
     0     sin(p)  cos(p) ]
 ```
 
 
-```Rz = 
-[ cos(r) -sin(r)   0 
+```Rz =
+[ cos(r) -sin(r)   0
   sin(r)  cos(r)   0
     0       0      1 ]
 ```
@@ -7158,7 +7158,7 @@ it's tantilisingly close, but if I give an example of the resulting matrices
 this is the output from the above
 
 
-```rpyMatrix = 
+```rpyMatrix =
 0.878361 -0.005254 0.477970
 -0.062284 0.990156 0.125343
 -0.473923 -0.139866 0.869387
@@ -7168,7 +7168,7 @@ this is the output from the above
 and this is matrix as pulled off the device using the supervisor
 
 
-```devicematrix = 
+```devicematrix =
 0.487706 0.079376 -0.869392
 0.062286 0.990156 0.125342
 0.870783 -0.115281 0.477962
@@ -7202,7 +7202,7 @@ while robot.step(timestep) != -1:
     rpy = imu_device.getRollPitchYaw()
     matrix = transforms3d.euler.euler2mat(rpy[2], rpy[1], rpy[0], axes='ryzx')
     # matrix = transforms3d.euler.euler2mat(rpy[0], rpy[1], rpy[2], axes='sxzy')
-    
+
     print(matrix)
 
     # Print as supervisor
@@ -7285,7 +7285,7 @@ const RPY c { cos(inertial->getRollPitchYaw()[0]),
               cos(inertial->getRollPitchYaw()[1]),
               cos(inertial->getRollPitchYaw()[2]) };
 
-const std::array<double,9> matrix 
+const std::array<double,9> matrix
 {
     c.roll*c.yaw,
     s.pitch*s.yaw - c.pitch*s.roll*c.yaw,
@@ -7294,7 +7294,7 @@ const std::array<double,9> matrix
     s.roll,
     c.pitch*c.roll,
     s.pitch*(-c.roll),
-    
+
     (-c.roll)*s.yaw,
     c.pitch*s.roll*s.yaw + s.pitch*c.yaw,
     c.pitch*c.yaw - s.pitch*s.roll*s.yaw      
@@ -8070,4 +8070,3 @@ I just added write access to the cyberbotics committers group, so that you shoul
 
 ##### Simon Steinmann [Moderator] 12/07/2020 14:06:22
 works
-

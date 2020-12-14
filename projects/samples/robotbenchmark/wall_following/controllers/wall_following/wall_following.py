@@ -26,8 +26,8 @@ robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 
 # Get pointer to the robot wheels motors.
-leftWheel = robot.getMotor('left wheel')
-rightWheel = robot.getMotor('right wheel')
+leftWheel = robot.getDevice('left wheel')
+rightWheel = robot.getDevice('right wheel')
 
 # We will use the velocity parameter of the wheels, so we need to
 # set the target position to infinity.
@@ -35,9 +35,9 @@ leftWheel.setPosition(float('inf'))
 rightWheel.setPosition(float('inf'))
 
 # Get and enable the distance sensors.
-frontSensor = robot.getDistanceSensor("so3")
+frontSensor = robot.getDevice("so3")
 frontSensor.enable(timestep)
-sideSensor = robot.getDistanceSensor("so0")
+sideSensor = robot.getDevice("so0")
 sideSensor.enable(timestep)
 
 # Move forward until we are 50 cm away from the wall.

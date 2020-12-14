@@ -137,6 +137,7 @@ private:
   float mMaxRange;
   float mFieldOfView;
   char mType;
+  bool mIsColor;
   bool mAntiAliasing;
   bool mIsSpherical;
   bool mFirstRenderingCall;
@@ -162,6 +163,7 @@ private:
 
   QVector<WrPostProcessingEffect *> mPostProcessingEffects;
   WrPostProcessingEffect *mSphericalPostProcessingEffect;
+  WrPostProcessingEffect *mUpdateTextureFormatEffect;
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 

@@ -102,6 +102,7 @@ enum SHADER {
   SHADER_PICKING,
   SHADER_POINT_SET,
   SHADER_RANGE_NOISE,
+  SHADER_SEGMENTATION,
   SHADER_SHADOW_VOLUME,
   SHADER_SIMPLE,
   SHADER_SKYBOX,
@@ -786,9 +787,10 @@ WrShaderProgram *WbWrenShaders::overlayShader() {
 
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);       // background
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);       // main
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);       // foreground
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);       // close button
-    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);       // resize button
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);       // mask
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE3);       // foreground
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);       // close button
+    wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);       // resize button
     wr_shader_program_use_uniform(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_CHANNEL_COUNT);  // color channel count
 
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_OVERLAY], WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY);
@@ -1020,11 +1022,35 @@ WrShaderProgram *WbWrenShaders::rangeNoiseShader() {
     wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "intensity", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
                                             reinterpret_cast<const char *>(&intensity));
 
+    float minRange = 0.0f;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "minRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+                                            reinterpret_cast<const char *>(&minRange));
+
+    float maxRange = 0.0f;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_RANGE_NOISE], "maxRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+                                            reinterpret_cast<const char *>(&maxRange));
+
     ::buildShader(gShaders[SHADER_RANGE_NOISE], QFileInfo("gl:shaders/range_noise.vert"),
                   QFileInfo("gl:shaders/range_noise.frag"));
   }
 
   return gShaders[SHADER_RANGE_NOISE];
+}
+
+WrShaderProgram *WbWrenShaders::segmentationShader() {
+  if (!gShaders[SHADER_SEGMENTATION]) {
+    gShaders[SHADER_SEGMENTATION] = wr_shader_program_new();
+
+    wr_shader_program_use_uniform(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+
+    wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+    wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+    ::buildShader(gShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
+                  QFileInfo("gl:shaders/segmentation.frag"));
+  }
+
+  return gShaders[SHADER_SEGMENTATION];
 }
 
 WrShaderProgram *WbWrenShaders::shadowVolumeShader() {

@@ -1,0 +1,326 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "Example use of a color Camera device with recognition capability."
+  ]
+  title "Camera Image Recognition"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.021463168085729945 -0.8906247857295742 -0.45423212508570304 3.188205650395308
+  position 0.029244403639071485 1.783690170573626 -1.2321933387076835
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 1.5 1.5
+}
+Can {
+  translation -0.29020133 0.06 -0.26762583
+}
+Can {
+  translation 0.341474 0.06 0.326272
+  name "can(1)"
+}
+Apple {
+  translation -0.22946 0.05 0.260886
+}
+Apple {
+  translation -0.56252 0.05 0.621889
+  name "apple(1)"
+}
+DEF ORANGE Solid {
+  translation 0.063045 -4.44089e-16 0.00218798
+  children [
+    Orange {
+      translation -0.182317 0.05 0.187654
+    }
+  ]
+  name "orange"
+  recognitionColors [
+    0.988235 0.686275 0.243137
+  ]
+}
+DEF ORANGE Solid {
+  translation 0.503005 1.11022e-15 -0.0858069
+  children [
+    Orange {
+      translation -0.182317 0.05 0.187654
+    }
+  ]
+  name "orange(1)"
+  recognitionColors [
+    0.988235 0.686275 0.243137
+  ]
+}
+JamJar {
+  translation -0.0787751 -1.77636e-15 0.33681
+  rotation 0 1 0 4.692820414042842e-06
+  mass 0
+}
+JamJar {
+  translation 0.28829817 0 -0.31403324
+  rotation 0 1 0 2.0943951
+  name "jam jar(1)"
+  mass 0
+}
+CerealBox {
+  translation -0.194464 -1.11022e-15 0.43865
+  rotation 0 1 0 -2.094395307179586
+}
+CerealBox {
+  translation -0.4153 0 0.450259
+  rotation 0 1 0 -2.3561953071795863
+  name "cereal box(1)"
+}
+OilBarrel {
+  translation 0.211927 0.07 0.28712
+  height 0.14
+  radius 0.06
+}
+OilBarrel {
+  translation 0.485864 0.07 0.240466
+  name "oil barrel(1)"
+  height 0.14
+  radius 0.06
+}
+OilBarrel {
+  translation 0.437183 0.07 0.464787
+  name "oil barrel(2)"
+  height 0.14
+  radius 0.06
+}
+BiscuitBox {
+  translation 0.274668 0.04 -0.538412
+  rotation 0.9351132545462786 -0.25056206820525934 0.25056306820553154 1.63784
+}
+RubberDuck {
+  translation -0.384468 0.01 0.243817
+  rotation 0 -1 0 -0.785395307179586
+}
+Robot {
+  translation -0.000516413 -4.44089e-16 -0.0851798
+  rotation 0 1 0 2
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/mybot.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.015 0.038 -0.041
+            0.015 0.023 -0.041
+            0 0.023 -0.0455
+            -0.015 0.023 -0.041
+            -0.015 0.038 -0.041
+            0 0.038 -0.0455
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.5 0
+            1 0
+            1 1
+            0.5 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 5, -1, 5, 2, 3, 4, -1
+        ]
+        texCoordIndex [
+          5, 0, 1, 4, -1, 4, 1, 2, 3, -1
+        ]
+        creaseAngle 0.9
+      }
+    }
+    Camera {
+      translation 0 0.0915 -0.04
+      rotation 0 0 -1 0
+      children [
+        Transform {
+          translation 0 0 0.015
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 1.0472
+      width 256
+      height 128
+      antiAliasing TRUE
+      recognition Recognition {
+        frameColor 0.929412 0.831373 0
+        frameThickness 3
+        segmentation TRUE
+      }
+    }
+    Display {
+      name "segmented image display"
+      width 256
+      height 128
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "camera_segmentation"
+}

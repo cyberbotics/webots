@@ -15,27 +15,23 @@
 #include "WbInertialUnit.hpp"
 
 #include "WbFieldChecker.hpp"
-#include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbMatrix3.hpp"
+#include "WbRandom.hpp"
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
 #include <cassert>
 
 void WbInertialUnit::init() {
-  mValues[0] = 0.0;
-  mValues[1] = 0.0;
-  mValues[2] = 0.0;
-  mLut = NULL;
   mSensor = NULL;
 
-  mLookupTable = findMFVector3("lookupTable");
+  mNoise = findSFDouble("noise");
   mXAxis = findSFBool("xAxis");
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
@@ -57,31 +53,22 @@ WbInertialUnit::WbInertialUnit(const WbNode &other) : WbSolidDevice(other) {
 }
 
 WbInertialUnit::~WbInertialUnit() {
-  delete mLut;
   delete mSensor;
 }
 
 void WbInertialUnit::preFinalize() {
   WbSolidDevice::preFinalize();
   mSensor = new WbSensor();
-  updateLookupTable();
+  updateNoise();
 }
 
 void WbInertialUnit::postFinalize() {
   WbSolidDevice::postFinalize();
-  connect(mLookupTable, &WbMFVector3::changed, this, &WbInertialUnit::updateLookupTable);
   connect(mResolution, &WbSFDouble::changed, this, &WbInertialUnit::updateResolution);
+  connect(mNoise, &WbMFVector3::changed, this, &WbInertialUnit::updateNoise);
 }
 
-void WbInertialUnit::updateLookupTable() {
-  mValues[0] = 0.0;
-  mValues[1] = 0.0;
-  mValues[2] = 0.0;
-
-  // create the lookup table
-  delete mLut;
-  mLut = new WbLookupTable(*mLookupTable);
-
+void WbInertialUnit::updateNoise() {
   mNeedToReconfigure = true;
 }
 
@@ -108,7 +95,7 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_INERTIAL_UNIT_DATA;
-    stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
+    stream << (double)mQuaternion.x() << (double)mQuaternion.y() << (double)mQuaternion.z() << (double)mQuaternion.w();
 
     mSensor->resetPendingValue();
   }
@@ -120,12 +107,7 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
 void WbInertialUnit::addConfigure(QDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
-  stream << (int)mLookupTable->size();
-  for (int i = 0; i < mLookupTable->size(); i++) {
-    stream << (double)mLookupTable->item(i).x();
-    stream << (double)mLookupTable->item(i).y();
-    stream << (double)mLookupTable->item(i).z();
-  }
+  stream << (double)mNoise->value();
   mNeedToReconfigure = false;
 }
 
@@ -145,27 +127,36 @@ bool WbInertialUnit::refreshSensorIfNeeded() {
 void WbInertialUnit::computeValue() {
   // get north and -gravity in global coordinate systems
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const WbVector3 &north = wi->coordinateSystem() == "ENU" ? WbVector3(0, 1, 0) : WbVector3(1, 0, 0);  // "NUE"
+  const WbVector3 &north = wi->northVector();
   WbVector3 minusGravity = -wi->gravityUnitVector();
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
-  const WbMatrix3 &e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
-  const double roll = atan2(-e(1, 2), e(1, 1));
-  const double pitch = asin(e(1, 0));
-  assert(!std::isnan(pitch));
-  const double yaw = -atan2(e(2, 0), e(0, 0));
+  WbMatrix3 e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
 
-  mValues[0] = mXAxis->isTrue() ? mLut->lookup(roll) : NAN;
-  mValues[1] = mZAxis->isTrue() ? mLut->lookup(pitch) : NAN;
-  mValues[2] = mYAxis->isTrue() ? mLut->lookup(yaw) : NAN;
+  if (mNoise->value() != 0.0) {
+    const double noise = mNoise->value() * M_PI;
+    e *= WbMatrix3(noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian(), noise * WbRandom::nextGaussian());
+  }
+
+  if (!mXAxis->isTrue() || !mYAxis->isTrue() || !mZAxis->isTrue()) {
+    WbAxisAngle aa = e.toAxisAngle();
+    if (!mXAxis->isTrue())
+      aa.axis().setX(0);
+    if (!mYAxis->isTrue())
+      aa.axis().setZ(0);
+    if (!mZAxis->isTrue())
+      aa.axis().setY(0);
+    aa.axis().normalize();
+    e = WbMatrix3(aa.axis(), aa.angle());
+  }
+
+  mQuaternion = e.toQuaternion();
 
   // apply resolution if needed
   if (mResolution->value() != -1.0) {
-    if (mXAxis->isTrue())
-      mValues[0] = WbMathsUtilities::discretize(mValues[0], mResolution->value());
-    if (mYAxis->isTrue())
-      mValues[1] = WbMathsUtilities::discretize(mValues[1], mResolution->value());
-    if (mZAxis->isTrue())
-      mValues[2] = WbMathsUtilities::discretize(mValues[2], mResolution->value());
+    mQuaternion.setX(WbMathsUtilities::discretize(mQuaternion.x(), mResolution->value()));
+    mQuaternion.setY(WbMathsUtilities::discretize(mQuaternion.y(), mResolution->value()));
+    mQuaternion.setZ(WbMathsUtilities::discretize(mQuaternion.z(), mResolution->value()));
+    mQuaternion.setW(WbMathsUtilities::discretize(mQuaternion.w(), mResolution->value()));
   }
 }

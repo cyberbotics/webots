@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;
@@ -81,7 +83,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
     // A single irradiance map is used for the diffuse and specular reflections:
     // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6.0).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;

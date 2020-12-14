@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 uniform sampler2D inputTextures[2];
 uniform vec2 viewportSize;

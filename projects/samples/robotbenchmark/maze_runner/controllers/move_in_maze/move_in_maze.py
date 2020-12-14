@@ -12,15 +12,15 @@ timeStep = int(robot.getBasicTimeStep())
 maxMotorVelocity = 6
 
 # Get left and right wheel motors.
-leftMotor = robot.getMotor("motor.left")
-rightMotor = robot.getMotor("motor.right")
+leftMotor = robot.getDevice("motor.left")
+rightMotor = robot.getDevice("motor.right")
 
 # Frontal distance sensors that can be use to detect the walls.
-outerLeftSensor = robot.getDistanceSensor("prox.horizontal.0")
-centralLeftSensor = robot.getDistanceSensor("prox.horizontal.1")
-centralSensor = robot.getDistanceSensor("prox.horizontal.2")
-centralRightSensor = robot.getDistanceSensor("prox.horizontal.3")
-outerRightSensor = robot.getDistanceSensor("prox.horizontal.4")
+outerLeftSensor = robot.getDevice("prox.horizontal.0")
+centralLeftSensor = robot.getDevice("prox.horizontal.1")
+centralSensor = robot.getDevice("prox.horizontal.2")
+centralRightSensor = robot.getDevice("prox.horizontal.3")
+outerRightSensor = robot.getDevice("prox.horizontal.4")
 
 # Enable sensors.
 outerLeftSensor.enable(timeStep)
@@ -30,8 +30,8 @@ centralRightSensor.enable(timeStep)
 outerRightSensor.enable(timeStep)
 
 # Get and enable ground sensors to detect the black circles.
-# groundLeftSensor = robot.getDistanceSensor("prox.ground.0")
-# groundRightSensor = robot.getDistanceSensor("prox.ground.1")
+# groundLeftSensor = robot.getDevice("prox.ground.0")
+# groundRightSensor = robot.getDevice("prox.ground.1")
 # groundLeftSensor.enable(timeStep)
 # groundRightSensor.enable(timeStep)
 

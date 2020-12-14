@@ -22,7 +22,9 @@
 #include <webots_ros/camera_get_info.h>
 #include <webots_ros/camera_get_zoom_info.h>
 #include <webots_ros/get_bool.h>
+#include <webots_ros/get_float.h>
 #include <webots_ros/save_image.h>
+#include <webots_ros/set_bool.h>
 #include <webots_ros/set_float.h>
 
 using namespace webots;
@@ -41,29 +43,46 @@ public:
   bool saveImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
   bool setFovCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
   bool setFocalDistanceCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
+  bool setExposureCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
+  bool getExposureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool recognitionEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool recognitionSamplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool hasRecognitionCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool hasRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool enableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool disableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool isRecognitionSegmentationEnabledCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
+  bool saveRecognitionSegmentationImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
 
   void rosEnable(int samplingPeriod) override { mCamera->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mCamera->getSamplingPeriod(); }
 
 private:
+  ros::Publisher createImagePublisher(const std::string &name);
   void cleanup() { mCamera->disable(); }
+
+  bool mIsRecognitionSegmentationEnabled;
 
   Camera *mCamera;
   ros::Publisher mRecognitionObjectsPublisher;
-  std::string mColorTopic;
+  ros::Publisher mRecognitionSegmentationPublisher;
   ros::ServiceServer mInfoServer;
   ros::ServiceServer mFocusInfoServer;
   ros::ServiceServer mZoomInfoServer;
   ros::ServiceServer mImageServer;
   ros::ServiceServer mSetFovServer;
   ros::ServiceServer mSetFocalDistanceServer;
+  ros::ServiceServer mSetExposureServer;
+  ros::ServiceServer mGetExposureServer;
   ros::ServiceServer mRecognitionEnableServer;
   ros::ServiceServer mRecognitionSamplingPeriodServer;
   ros::ServiceServer mHasRecognitionServer;
+  ros::ServiceServer mHasRecognitionSegmentationServer;
+  ros::ServiceServer mEnableRecognitionSegmentationServer;
+  ros::ServiceServer mIsRecognitionSegmentationEnabledServer;
+  ros::ServiceServer mDisableRecognitionSegmentationServer;
+  ros::ServiceServer mSaveRecognitionSegmentationImageServer;
 };
 
 #endif  // ROS_CAMERA_HPP

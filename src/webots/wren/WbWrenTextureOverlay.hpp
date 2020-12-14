@@ -55,11 +55,14 @@ public:
   WrTexture *texture() const { return mWrenTexture; }
   WrTexture *foregroundTexture() const { return mWrenForegroundTexture; }
   void setBackgroundTexture(WrTexture *backgroundTexture);
-  void unsetBackgroundTexture();
+  void unsetBackgroundTexture() { setBackgroundTexture(NULL); }
+  void setMaskTexture(WrTexture *texture);
+  void unsetMaskTexture() { setMaskTexture(NULL); }
   WrTexture2d *createForegroundTexture();
   void deleteForegroundTexture(bool restoreMainTexture = false);
   int textureGLId() const;
   int backgroundTextureGLId() const;
+  int maskTextureGLId() const;
   int foregroundTextureGLId() const;
   bool isInside(int x, int y) const;
   bool isInsideResizeArea(int x, int y) const;
@@ -128,6 +131,7 @@ private:
 
   WrTexture *mWrenTexture;
   WrTexture *mWrenBackgroundTexture;  // never owned by overlay
+  WrTexture *mWrenMaskTexture;        // never owned by overlay
   WrTexture *mWrenForegroundTexture;  // always owned by overlay
   WrTexture2d *mWrenCloseIconTexture;
   WrTexture2d *mWrenResizeIconTexture;

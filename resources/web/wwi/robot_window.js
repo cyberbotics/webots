@@ -8,14 +8,25 @@ class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     this.panel.id = name;
     this.panel.className = 'webotsTabContainer';
 
-    var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 400, height: 400});
+    var clampedSize = DialogWindow.clampDialogSize({
+      left: 5,
+      top: 5,
+      width: 400,
+      height: 400
+    });
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
-    this.params.position = {at: 'left+5 top+5', my: 'left top', of: this.parent};
+    this.params.position = {
+      at: 'left+5 top+5',
+      my: 'left top',
+      of: this.parent
+    };
     this.params.title = 'Robot Window';
 
-    $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
+    $(this.panel).dialog(this.params).dialogExtend({
+      maximizable: !mobile
+    });
   }
 
   setProperties(properties) {
@@ -74,6 +85,22 @@ class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   receive(message, robot) { // to be overriden
+    // buffering the message until it gets overriden
+    if (!this.message)
+      this.message = [];
+    this.message.push({
+      robot: robot,
+      message: message
+    });
     console.log("Robot window '" + this.name + "' received message from Robot '" + robot + "': " + message);
+  }
+
+  init(func) { // immediately initialize a robot window upon load of the javascript
+    func();
+    if (this.message) { // flush messages received before initialization if any
+      for (let i = 0; i < this.message.length; i++)
+        this.receive(this.message[i].message, this.message[i].robot);
+      delete this.message;
+    }
   }
 }

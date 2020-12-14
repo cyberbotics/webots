@@ -21,7 +21,7 @@
 #include <QtCore/QDataStream>
 #include <cassert>
 #include "../../../include/plugins/radio.h"
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 static QList<WbRadio *> radioList;  // list of radio nodes
 static bool pluginLoadFailed = false;

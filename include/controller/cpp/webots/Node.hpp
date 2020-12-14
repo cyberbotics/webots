@@ -133,7 +133,8 @@ namespace webots {
     const double *getOrientation() const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
-    int getNumberOfContactPoints() const;
+    Node *getContactPointNode(int index) const;
+    int getNumberOfContactPoints(bool includeDescendants = false) const;
     bool getStaticBalance() const;
     const double *getVelocity() const;
 

@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   int pu = -1, pl = -1;
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    const int number_of_contacts = wb_supervisor_node_get_number_of_contact_points(red_cylinder);
+    const int number_of_contacts = wb_supervisor_node_get_number_of_contact_points(red_cylinder, false);
     const double *const position = wb_supervisor_node_get_position(red_cylinder);
     const double *const rotation = wb_supervisor_node_get_orientation(red_cylinder);
     int n;

@@ -25,7 +25,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -168,12 +168,13 @@ void WbLidar::updateOptionalRendering(int option) {
   }
 }
 
-void WbLidar::initializeSharedMemory() {
-  WbAbstractCamera::initializeSharedMemory();
+void WbLidar::initializeImageSharedMemory() {
+  WbAbstractCamera::initializeImageSharedMemory();
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = lidarImage();
-    for (int i = 0; i < width() * actualNumberOfLayers(); i++)
+    const int size = width() * actualNumberOfLayers();
+    for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];

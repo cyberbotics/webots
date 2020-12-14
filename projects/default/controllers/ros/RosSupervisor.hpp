@@ -28,6 +28,7 @@
 #include <webots_ros/save_image.h>
 #include <webots_ros/supervisor_get_from_def.h>
 #include <webots_ros/supervisor_get_from_id.h>
+#include <webots_ros/supervisor_get_from_string.h>
 #include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
@@ -37,6 +38,7 @@
 #include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
+#include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -117,6 +119,8 @@ public:
   bool getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                           webots_ros::supervisor_get_from_def::Response &res);
   bool getFromIdCallback(webots_ros::supervisor_get_from_id::Request &req, webots_ros::supervisor_get_from_id::Response &res);
+  bool getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                             webots_ros::supervisor_get_from_string::Response &res);
   bool getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res);
 
   bool nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
@@ -136,6 +140,8 @@ public:
                                             webots_ros::node_get_number_of_contact_points::Response &res);
   bool nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
                                    webots_ros::node_get_contact_point::Response &res);
+  bool nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
+                                       webots_ros::node_get_contact_point_node::Response &res);
   bool nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
@@ -213,6 +219,7 @@ private:
   ros::ServiceServer mGetSelfServer;
   ros::ServiceServer mGetFromDefServer;
   ros::ServiceServer mGetFromIdServer;
+  ros::ServiceServer mGetFromDeviceServer;
   ros::ServiceServer mGetSelectedServer;
   ros::ServiceServer mVirtualRealityHeadsetGetOrientationServer;
   ros::ServiceServer mVirtualRealityHeadsetGetPositionServer;
@@ -230,6 +237,7 @@ private:
   ros::ServiceServer mNodeGetCenterOfMassServer;
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
+  ros::ServiceServer mNodeGetContactPointNodeServer;
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;

@@ -52,6 +52,7 @@ private:
   QString mStartWorldName;
   WbSimulationState::Mode mStartupMode;
   WbMainWindow *mMainWindow;
+  bool mShouldDoRendering;
 
   Task mTask;
   QString mTaskArgument;
@@ -66,6 +67,7 @@ private:
   void setSplashMessage(const QString &);
   void closeSplashScreenIfNeeded();
   WbSimulationState::Mode startupModeFromPreferences() const;
+  bool renderingFromPreferences() const;
   void loadInitialWorld();
 
   void udpateStyleSheet();

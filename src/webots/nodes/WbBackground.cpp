@@ -66,7 +66,7 @@ static int gCoordinateSystemSwap(int i) {
   static const int enu_swap[] = {5, 4, 0, 1, 3, 2};
   if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
     return enu_swap[i];
-  else
+  else  // "NUE" or "EUN"
     return i;
 }
 
@@ -74,7 +74,7 @@ static int gCoordinateSystemRotate(int i) {
   static const int enu_rotate[] = {90, -90, 0, 180, -90, -90};
   if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
     return enu_rotate[i];
-  else
+  else  // "NUE" or "EUN"
     return 0;
 }
 

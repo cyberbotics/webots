@@ -50,7 +50,7 @@
 #include "../../../include/controller/c/webots/keyboard.h"
 #include "../../../include/controller/c/webots/robot.h"
 #include "../../../include/controller/c/webots/supervisor.h"
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
@@ -100,6 +100,7 @@ void WbRobot::init() {
   mUserInputEventTimer = NULL;
   mJoyStickLastValue = NULL;
   mMouse = NULL;
+  mNextTag = 0;
 
   mNeedToWriteUrdf = false;
   mControllerStarted = false;
@@ -386,6 +387,7 @@ void WbRobot::updateDevicesAfterDestruction() {
 void WbRobot::updateDevicesAfterInsertion() {
   clearDevices();
   addDevices(this);
+  assignDeviceTags(false);
 }
 
 void WbRobot::pinToStaticEnvironment(bool pin) {
@@ -600,11 +602,16 @@ void WbRobot::removeRenderingDevice() {
   mRenderingDevices.removeOne(static_cast<WbRenderingDevice *>(sender()));
 }
 
-// reassign tags to devices (when device config changed)
-void WbRobot::assignDeviceTags() {
-  int i = 1;  // device tag 0 is reserved for the robot
-  foreach (WbDevice *const device, mDevices)
-    device->setTag(i++);
+void WbRobot::assignDeviceTags(bool reset) {
+  int i = reset ? 1 : mNextTag;  // device tag 0 is reserved for the robot
+  foreach (WbDevice *const device, mDevices) {
+    if (reset || !device->hasTag()) {
+      device->setTag(i++);
+      if (!reset)
+        mNewlyAddedDevices << device;
+    }
+  }
+  mNextTag = i;
 }
 
 double WbRobot::currentEnergy() const {
@@ -715,6 +722,22 @@ void WbRobot::keyReleased(int key) {
   emit keyboardChanged();
 }
 
+void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const {
+  QListIterator<WbDevice *> it(devices);
+  while (it.hasNext()) {
+    const WbDevice *device = it.next();
+    stream << (short int)device->deviceNodeType();
+    QByteArray n(device->deviceName().toUtf8());
+    stream.writeRawData(n.constData(), n.size() + 1);
+    const WbSolidDevice *solidDevice = dynamic_cast<const WbSolidDevice *>(device);
+    if (solidDevice)
+      n = solidDevice->model().toUtf8();
+    else
+      n = "";
+    stream.writeRawData(n.constData(), n.size() + 1);
+  }
+}
+
 void WbRobot::writeConfigure(QDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
@@ -728,17 +751,8 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   QByteArray n = name().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
 
-  foreach (WbDevice *const device, mDevices) {
-    stream << (short int)device->deviceNodeType();
-    n = device->deviceName().toUtf8();
-    stream.writeRawData(n.constData(), n.size() + 1);
-    WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(device);
-    if (solidDevice)
-      n = solidDevice->model().toUtf8();
-    else
-      n = "";
-    stream.writeRawData(n.constData(), n.size() + 1);
-  }
+  writeDeviceConfigure(mDevices, stream);
+
   stream << (double)WbWorld::instance()->basicTimeStep();
 
   QString projectPath = WbProject::current()->path();
@@ -1021,20 +1035,22 @@ void WbRobot::handleMessage(QDataStream &stream) {
 
 void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
   if (mConfigureRequest) {
-    assignDeviceTags();
+    assignDeviceTags(true);
     writeConfigure(stream);
     if (includeDevices) {
       foreach (WbDevice *const device, mDevices) {
-        if (device->hasTag())
-          device->writeConfigure(stream);
+        assert(device->hasTag());
+        device->writeConfigure(stream);
       }
     }
+    mNewlyAddedDevices.clear();
   } else {
     writeAnswer(stream);
     if (includeDevices) {
-      foreach (WbDevice *const device, mDevices)
-        if (device->hasTag())
-          device->writeAnswer(stream);
+      foreach (WbDevice *const device, mDevices) {
+        assert(device->hasTag());
+        device->writeAnswer(stream);
+      }
     }
   }
 }
@@ -1092,6 +1108,20 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream.writeRawData(n.constData(), n.size() + 1);
 
     mModelNeedToWriteAnswer = false;
+  }
+
+  if (!mNewlyAddedDevices.isEmpty()) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_ROBOT_NEW_DEVICE;
+    stream << (short int)mNewlyAddedDevices.size();
+    writeDeviceConfigure(mNewlyAddedDevices, stream);
+    QListIterator<WbDevice *> it(mNewlyAddedDevices);
+    while (it.hasNext()) {
+      WbDevice *device = it.next();
+      assert(device->hasTag());
+      device->writeConfigure(stream);
+    }
+    mNewlyAddedDevices.clear();
   }
 
   int userInputEvents = 0;
@@ -1454,8 +1484,6 @@ int WbRobot::computeSimulationMode() {
   switch (state->mode()) {
     case WbSimulationState::REALTIME:
       return WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME;
-    case WbSimulationState::RUN:
-      return WB_SUPERVISOR_SIMULATION_MODE_RUN;
     case WbSimulationState::FAST:
       return WB_SUPERVISOR_SIMULATION_MODE_FAST;
     default:

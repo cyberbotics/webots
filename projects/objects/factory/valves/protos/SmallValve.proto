@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Small Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
@@ -56,12 +56,12 @@ PROTO SmallValve [
                 roughness 0.4
                 baseColorMap ImageTexture {
                   url [
-                    "../textures/valve_handle.jpg"
+                    "textures/valve_handle.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "../textures/valve_handle_normal.jpg"
+                    "textures/valve_handle_normal.jpg"
                   ]
                 }
                 normalMapFactor 0.65

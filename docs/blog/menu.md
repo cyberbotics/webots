@@ -8,3 +8,4 @@
 - [Webots R2019b](Webots-2019-b-release.md)
 - [Webots R2020a](Webots-2020-a-release.md)
 - [Webots R2020b](Webots-2020-b-release.md)
+- [Webots R2021a](Webots-2021-a-release.md)

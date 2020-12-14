@@ -63,6 +63,7 @@ namespace WbWrenShaders {
   WrShaderProgram *pickingShader();
   WrShaderProgram *pointSetShader();
   WrShaderProgram *rangeNoiseShader();
+  WrShaderProgram *segmentationShader();
   WrShaderProgram *shadowVolumeShader();
   WrShaderProgram *simpleShader();
   WrShaderProgram *skyboxShader();

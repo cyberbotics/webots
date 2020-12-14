@@ -55,11 +55,11 @@ class TestClangFormat(unittest.TestCase):
             'include/controller',
             'projects',
             'resources/projects',
-            'resources/languages/cpp',
             'resources/wren/shaders',
             'tests',
             'include/wren',
-            'src/Controller',
+            'src/controller/c',
+            'src/controller/cpp',
             'src/license/sign',
             'src/webots',
             'src/wren'

@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 const int sourceTextureIndex = 0;
 const int blurTextureIndex = 1;

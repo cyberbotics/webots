@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 const int sourceTextureIndex = 0;
 const int blurTextureIndex = 1;
@@ -65,8 +67,8 @@ vec4 convolveVertically(vec2 textureSizeBlur) {
 }
 
 void main() {
-  vec2 textureSizeSource = textureSize(inputTextures[sourceTextureIndex], 0);
-  vec2 textureSizeBlur = textureSize(inputTextures[blurTextureIndex], 0);
+  vec2 textureSizeSource = vec2(textureSize(inputTextures[sourceTextureIndex], 0));
+  vec2 textureSizeBlur = vec2(textureSize(inputTextures[blurTextureIndex], 0));
   if (iterationNumber % 2 == 0)
     result = convolveHorizontally(textureSizeSource, textureSizeBlur);
   else

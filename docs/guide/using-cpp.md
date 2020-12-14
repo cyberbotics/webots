@@ -21,4 +21,4 @@ This directory is automatically included when the C++ controller is compiled.
 For users who want to use a third-party development environment, it is useful to know that the shared library ("CppController.dll, libCppController.so", or "libCppController.dylib") is located in the "lib" subdirectory of your Webots directory.
 This directory is automatically included when the C++ controller is linked.
 
-For advanced users who want to modify the C++ API, the C++ sources and the Makefile are located in the "resources/languages/cpp" directory.
+Advanced users may want to modify the C++ API from the [C++ sources](https://github.com/omichel/webots/tree/master/src/controller/cpp/).

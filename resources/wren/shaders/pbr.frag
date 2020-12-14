@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -164,7 +166,7 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection) {
     // A single irradiance map is used for the diffuse and specular reflections:
     // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6.0).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;
@@ -412,6 +414,6 @@ void main() {
       fogFactor = (fogEnd - z) * fogInverseScale;
     fogFactor = clamp(fogFactor, 0.0, 1.0);
 
-    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1 - fogFactor, 2.2)), fragColor.w);
+    fragColor = vec4(mix(fragColor.xyz, fog.color.xyz, pow(1.0 - fogFactor, 2.2)), fragColor.w);
   }
 }

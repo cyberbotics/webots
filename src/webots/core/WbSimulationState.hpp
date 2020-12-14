@@ -29,16 +29,17 @@ public:
   static WbSimulationState *instance() { return cInstance ? cInstance : new WbSimulationState(); };
 
   // simulation mode
-  enum Mode { NONE, PAUSE, STEP, REALTIME, RUN, FAST };
+  enum Mode { NONE, PAUSE, STEP, REALTIME, FAST };
   void setMode(Mode mode);
+  void setRendering(bool show);
   void undoMode() { setMode(mPreviousMode); }
   Mode mode() const { return mEnabled ? mMode : PAUSE; }
   Mode previousMode() const { return mEnabled ? mPreviousMode : PAUSE; }
   bool isPaused() const { return mMode == PAUSE; }
   bool isStep() const { return mMode == STEP; }
   bool isRealTime() const { return mMode == REALTIME; }
-  bool isRunning() const { return mMode == RUN; }
   bool isFast() const { return mMode == FAST; }
+  bool isRendering() const { return mPerformRendering; }
   // pause/resume simulation for executing application dialogs
   void pauseSimulation();
   void resumeSimulation();
@@ -61,6 +62,7 @@ public:
 signals:
   // the simulation mode has changed
   void modeChanged();
+  void renderingStateChanged();
   void enabledChanged(bool);
 
   // steps execution
@@ -80,6 +82,8 @@ protected:
 private:
   static WbSimulationState *cInstance;
   Mode mMode, mPreviousMode;
+
+  bool mPerformRendering;
   bool mEnabled;
   double mTime;
 

@@ -69,6 +69,7 @@ private:
   WbRobot *mRobot;
   int mFoundNodeUniqueId;
   int mFoundNodeType;
+  int mFoundNodeTag;
   QString mFoundNodeModelName;
   QString mCurrentDefName;
   int mFoundNodeParentUniqueId;
@@ -78,14 +79,14 @@ private:
   int mFoundFieldType;
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
-  bool mGetSelectedNode;
-  bool mGetFromId;
+  int mGetNodeRequest;
   bool mNeedToResetSimulation;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
+  bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
   bool mIsProtoRegenerated;

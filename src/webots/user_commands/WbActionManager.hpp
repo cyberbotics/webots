@@ -43,6 +43,8 @@ public:
 
   static void setActionEnabledSilently(QAction *action, bool enabled);
 
+  void updateRenderingButton();
+
 signals:
   void userConsoleEditCommandReceived(WbAction::WbActionKind action);
   void userDocumentationEditCommandReceived(WbAction::WbActionKind action);

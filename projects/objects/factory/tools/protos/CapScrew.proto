@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -13,7 +13,7 @@ PROTO CapScrew [
   field SFFloat    screwLength           0.05         # Defines the length of the screw.
   field SFString   contactMaterial       "default"    # Is `Solid.contactMaterial`.
   field SFBool     enablePhysics         TRUE         # Defines whether the screw should have physics.
-  field SFBool     enableBoundingObject  TRUE         # Defines whether the fire manhole should have a bounding object.
+  field SFBool     enableBoundingObject  TRUE         # Defines whether the screw should have a bounding object.
 ]
 {
   %{

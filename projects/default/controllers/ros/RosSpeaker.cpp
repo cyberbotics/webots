@@ -28,10 +28,10 @@ RosSpeaker::RosSpeaker(Speaker *speaker, Ros *ros) : RosDevice(speaker, ros) {
   mSpeakServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
   mPlayServer =
     RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
-  mIsSpeakingServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing",
-                                                     &RosSpeaker::isSpeakingCallback);
+  mIsSpeakingServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
   mIsPlayingServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isPlayingCallback);
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
   mSpeaker = speaker;
 }
 
