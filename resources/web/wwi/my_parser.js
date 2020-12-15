@@ -14,6 +14,7 @@ import {WbSphere} from "./webotsjs/WbSphere.js";
 import {WbCone} from "./webotsjs/WbCone.js";
 import {WbIndexedFaceSet} from "./webotsjs/WbIndexedFaceSet.js";
 import {WbIndexedLineSet} from "./webotsjs/WbIndexedLineSet.js";
+import {WbElevationGrid} from "./webotsjs/WbElevationGrid.js"
 
 import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
@@ -481,6 +482,8 @@ class MyParser {
       geometry = this.parseIndexedFaceSet(node);
     else if (node.tagName === 'IndexedLineSet')
       geometry = this.parseIndexedLineSet(node);
+    else if (node.tagName === 'ElevationGrid')
+      geometry = this.parseElevationGrid(node);
     else {
       console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
@@ -633,6 +636,26 @@ class MyParser {
     World.instance.nodes[ils.id] = ils;
 
     return ils;
+  }
+
+  parseElevationGrid(node) {
+    let id = getNodeAttribute(node, 'id');
+    let heightStr = getNodeAttribute(node, 'height', undefined);
+    let xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
+    let xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
+    let zDimension = parseInt(getNodeAttribute(node, 'zDimension', '0'));
+    let zSpacing = parseFloat(getNodeAttribute(node, 'zSpacing', '1'));
+    let thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
+
+    let height;
+    if(typeof heightStr !== 'undefined')
+      height = heightStr.split(' ').map(Number);
+
+
+    let eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
+    World.instance.nodes[eg.id] = eg;
+
+    return eg;
   }
 
   async parseAppearance(node) {
