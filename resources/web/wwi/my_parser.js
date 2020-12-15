@@ -14,7 +14,8 @@ import {WbSphere} from "./webotsjs/WbSphere.js";
 import {WbCone} from "./webotsjs/WbCone.js";
 import {WbIndexedFaceSet} from "./webotsjs/WbIndexedFaceSet.js";
 import {WbIndexedLineSet} from "./webotsjs/WbIndexedLineSet.js";
-import {WbElevationGrid} from "./webotsjs/WbElevationGrid.js"
+import {WbElevationGrid} from "./webotsjs/WbElevationGrid.js";
+import {WbPointSet} from "./webotsjs/WbPointSet.js";
 
 import {WbMaterial} from "./webotsjs/WbMaterial.js";
 import {WbTextureTransform} from "./webotsjs/WbTextureTransform.js";
@@ -484,6 +485,8 @@ class MyParser {
       geometry = this.parseIndexedLineSet(node);
     else if (node.tagName === 'ElevationGrid')
       geometry = this.parseElevationGrid(node);
+    else if (node.tagName === 'PointSet')
+      geometry = this.parsePointSet(node);
     else {
       console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
@@ -641,21 +644,60 @@ class MyParser {
   parseElevationGrid(node) {
     let id = getNodeAttribute(node, 'id');
     let heightStr = getNodeAttribute(node, 'height', undefined);
+    if(typeof heightStr === 'undefined')
+      return;
+
     let xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
     let xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
     let zDimension = parseInt(getNodeAttribute(node, 'zDimension', '0'));
     let zSpacing = parseFloat(getNodeAttribute(node, 'zSpacing', '1'));
     let thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    let height;
-    if(typeof heightStr !== 'undefined')
-      height = heightStr.split(' ').map(Number);
+    let height = heightStr.split(' ').map(Number);
 
 
     let eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
     World.instance.nodes[eg.id] = eg;
 
     return eg;
+  }
+
+  parsePointSet(node) {
+    let id = getNodeAttribute(node, 'id');
+    let coordinate = node.getElementsByTagName('Coordinate')[0];
+
+    if(typeof coordinate === 'undefined')
+      return;
+
+    let coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+
+    if(typeof coordStrArray === 'undefined')
+      return;
+
+    let coordArray = coordStrArray.map(Number);
+    let coord = [];
+    for(let i = 0; i < coordArray.length; i+=3 ){
+      coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]))
+    }
+
+    let colorNode = node.getElementsByTagName('Color')[0];
+    let color = undefined;
+    if (typeof colorNode !== 'undefined') {
+      let colorStrArray = getNodeAttribute(colorNode, 'color', '').trim().split(/\s/);
+        if (typeof colorStrArray !== 'undefined'){
+          let colorArray = colorStrArray.map(Number);
+          color = [];
+          for(let i = 0; i < colorArray.length; i+=3 ){
+            color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]))
+          }
+        }
+    }
+
+
+    let ps = new WbPointSet(id, coord, color);
+    World.instance.nodes[ps.id] = ps;
+
+    return ps;
   }
 
   async parseAppearance(node) {
