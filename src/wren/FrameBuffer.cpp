@@ -109,7 +109,10 @@ namespace wren {
     std::vector<unsigned int> drawBuffers;
     for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
       if (mOutputDrawBuffers[i].mIsEnabled)
-        drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+        if (i >= 1) {
+          drawBuffers.push_back(GL_NONE);
+        } else
+          drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
       else
         drawBuffers.push_back(GL_NONE);
     }
