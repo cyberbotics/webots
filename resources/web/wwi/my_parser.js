@@ -568,13 +568,13 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     let isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
 
-    let coordIndexStr = getNodeAttribute(node, 'coordIndex', '').split(/\s/);
+    let coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);;
     let coordIndex = coordIndexStr.map(Number);
 
-    let normalIndexStr = getNodeAttribute(node, 'normalIndex', '').split(/\s/);
+    let normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
     let normalIndex = normalIndexStr.map(Number);
 
-    let texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').split(/\s/);
+    let texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/);;
     let texCoordIndex = texCoordIndexStr.map(Number);
 
     let coordArray = [];
