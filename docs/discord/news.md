@@ -4,6 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Soft\_illusion 12/01/2020 16:33:04
+We are back with the 8th episode of the Webots ROS2 video tutorial series. Video 8: RQT\_graph, ROS2 topic echo | Debugging tools [https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s](https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s) Stay tuned for more upcoming interesting episodes.
+
+Special Thanks to webots team for their support.
+
+##### AngelAyala 11/26/2020 19:06:19
+I'm glad to contribute, there was some missing aspect in the comparison, but still was accepted in a very good conference
+
+##### Soft\_illusion 11/25/2020 18:28:50
+We are back with the 7th episode of the Webots ROS2 video tutorial series . Video 7: Tutorial on Basics and Advance features of Rviz2 [https://www.youtube.com/watch?v=L9lD4QQJ8Cw](https://www.youtube.com/watch?v=L9lD4QQJ8Cw) Stay tuned for more upcoming interesting episodes.  
+
+Special Thanks to Webots Team for their guidance. 👏
+
 ##### KajalGada 11/22/2020 03:06:28
 Back with another tutorial: How to use Position sensor in Webots to compute robot odometry. Code is in Python.
 
@@ -28,7 +41,7 @@ Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutoria
 `@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 
 ##### Soft\_illusion 11/07/2020 02:08:52
-We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone
 
 Special Thanks to Webots Team for their guidance.
 
@@ -140,7 +153,7 @@ We are happy to annouce the release of #Webots "R2020b revision 1".
 
 
 
-This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS. 
+This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS.
 
 
 
@@ -215,7 +228,7 @@ Together with you, we are committed  to provide high quality, free and open sour
 Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
 
 ##### amitsaini 07/24/2020 15:35:03
-Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots.
 
 [https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
 

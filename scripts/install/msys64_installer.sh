@@ -16,6 +16,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-libgd"    # Webots
   "liblzma"                   # Webots
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
+  "mingw-w64-x86_64-dlfcn"    # dependency of ffmpeg
 )
 
 declare -a OPTIONAL_PACKAGES=(

@@ -97,11 +97,11 @@ Okey, thank you
 You're welcome
 
 ##### NaoTeam28 09/23/2019 08:36:37
-Hello Guys, 
+Hello Guys,
 
 
 
-we got a problem. 
+we got a problem.
 
 
 
@@ -277,12 +277,12 @@ When the rays hit objects, the rays are rejected if the angle between the ray an
 Is it more clear?
 
 ##### BlackPearl 10/17/2019 10:14:42
-Ah ok, yes 
+Ah ok, yes
 
 Thank you very much
 
 ##### HiguchiNakamura 10/27/2019 15:41:02
-Hi. I think the inertial unit section  (function getRollPitchYaw) has wrong information. 
+Hi. I think the inertial unit section  (function getRollPitchYaw) has wrong information.
 
 
 
@@ -310,7 +310,7 @@ then , for pitch and roll the description also specified that this is only true 
 How would you create a custom chassy
 
 ##### Stefania Pedrazzi [Cyberbotics] 10/28/2019 07:11:24
-`@dreamerz` what do you mean exactly? a complete one including wheels or just a solid piece? 
+`@dreamerz` what do you mean exactly? a complete one including wheels or just a solid piece?
 
 Did you already look at the tutorials? [https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
 
@@ -327,7 +327,7 @@ Thanks
 and you can find a simple example in the distributed samples folder `projects/samples/devices/worlds/track.wbt`
 
 ##### JoanGerard 10/28/2019 17:25:02
-Hello, I was trying to run an external robot controller but there is no <external> option while selecting the controller of my robot. I have the Webots R2019a version. 
+Hello, I was trying to run an external robot controller but there is no <external> option while selecting the controller of my robot. I have the Webots R2019a version.
 
 Maybe this options is not available any more?
 %figure
@@ -540,7 +540,7 @@ Thank you so much 🙂
 You're welcome
 
 ##### İchigogo 01/30/2020 00:48:26
-Hi! Sorry for disturbing you again. I converted the data and made the image progressing. I want to show it with display screen. I have something like 
+Hi! Sorry for disturbing you again. I converted the data and made the image progressing. I want to show it with display screen. I have something like
 
 <<
 
@@ -548,7 +548,7 @@ Hi! Sorry for disturbing you again. I converted the data and made the image prog
 
  display.imagePaste(ref,0,0,blend=false)
 
- >> 
+ >>
 
  when I use cv2 to show I can see the processed image  but when I use display it shows somewhere else in the simulation with 90° rotation where I'm doing wrong? And I'm really sorry for asking too many questions I really tried for days but couldn't solve.
 
@@ -608,9 +608,9 @@ Just posted on stack, thanks
 Thank you, I will have a look at this today.
 
 ##### Ptosidis\_opendr 02/11/2020 10:04:16
-Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question). 
+Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question).
 
-I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work. 
+I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work.
 
 Any insights on how to find all devices by name, or better the names of all devices on a robot?
 
@@ -917,7 +917,7 @@ which corresponds to 60°
 Oh I understand now thank you so much
 
 ##### davisUndergrad 05/06/2020 17:21:50
-Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm\_ik function provided in the arm.c 
+Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm\_ik function provided in the arm.c
 
 library is located. Is this documented somewhere?
 
@@ -957,16 +957,16 @@ Thanks David 👍 I will make a PR on it soon
 ##### David Mansolino [Cyberbotics] 05/12/2020 09:04:01
 You're welcome, looking forward to see your PR!
 
-##### Chaytànya 05/12/2020 22:11:15
+##### Rum\_Guru 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 06:37:58
-Hi `@Chaytànya`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
+Hi `@Rum_Guru`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
 
-##### Chaytànya 05/13/2020 06:46:52
+##### Rum\_Guru 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
 ##### İchigogo 05/13/2020 08:00:17
@@ -1322,7 +1322,7 @@ which is the correct branch for R2021a?
 develop?
 
 
-[https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots](https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots) pretty sure that should say 
+[https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots](https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots) pretty sure that should say
 
 "For example, type make -j12 on a CPU with six cores and hyper-threading." and not "four cores"
 
@@ -1534,3 +1534,130 @@ Thanks `@KajalGada`
 ##### KajalGada 11/25/2020 01:16:49
 That is smart, thank you for the explaination Olivier 🙂
 
+##### j-ub 12/03/2020 13:30:30
+Hi there! I'm trying to control a quadricopter iin webots by using ROS and extern controller from VisualStudio code. I previously made the controller in C and runned it from the webots interface but I'm bit lost about how to face the new requirements (extern controller+ROS). I got how the . launch file is running the .wbt file but i don't know the way the .cpp node is joining with the quadricopter (mavic2pro) in the simulation and providing it of a controller. So.. I have few question i would be glad if someone could guide me a bit through.. 1st.- Is this the only way to work with webots+extern\_controller+ROS?.. It is necessary to use the .cpp file in src folder?, 2nd.- Could the .cpp file be replaced for a .py file so i won't have to C++ programming? and 3rd.- If the answer of 2nd question is a "no".. there is some documentation explaining the complete\_test.cpp file or at least the robot\_information\_parser file? The code looks bit wide and complex for me.. Thank in advance:)
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 13:48:12
+Hello `@j-ub`
+
+>  Is this the only way to work with webots+extern\_controller+ROS
+
+If you use ROS1, you can choose the `ros` controller instead of `<extern>` and it will create a ROS interface. In that way you avoid using the external controller.
+
+
+
+> It is necessary to use the .cpp file in src folder?
+
+No, you can use e.g. Python as well. Check this file out:
+
+[https://github.com/cyberbotics/webots\_ros/blob/master/launch/webots\_ros\_python.launch](https://github.com/cyberbotics/webots_ros/blob/master/launch/webots_ros_python.launch)
+
+
+
+Let me know if this covers 3rd question as well 🙂
+
+##### j-ub 12/03/2020 14:10:37
+well.. first of all thank you for your quick answer:) . Maybe I didin't explain myself good enought in the 3rd question xd, It could be changed for the following "Is it some documentation wider than the one that become inside the complete\_test and the robot\_information\_parser file?" But for the moment, I think I'm going to investigate deeper about how to use the ros controller instead the <extern> one and .py files so your answer is good enought for me. Thanks a lot!
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 14:38:40
+Maybe these tutorials:
+
+[http://wiki.ros.org/webots](http://wiki.ros.org/webots)
+
+[http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
+
+[https://cyberbotics.com/doc/guide/tutorial-8-using-ros](https://cyberbotics.com/doc/guide/tutorial-8-using-ros)
+
+
+
+And each Webots node has a `ROS` tab that serves as a ROS API reference, e.g.:
+
+[https://cyberbotics.com/doc/reference/distancesensor?tab-language=ros#distancesensor-functions](https://cyberbotics.com/doc/reference/distancesensor?tab-language=ros#distancesensor-functions)
+
+
+
+In case you choose to switch to ROS2 the documentation is here:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki](https://github.com/cyberbotics/webots_ros2/wiki)
+
+##### j-ub 12/03/2020 15:33:48
+I have already made the tutorials anyway I guess I should dedicate a bit more time understanding how those examples work.. The biggest problem I have I think is I don't really understand how all is "inter-connected". For example, could you tell me how the nodes ros\_controller.py and ros\_python.py work together and why in this case the controller is setted up as a extern controller? And.. sorry.., last question:) could I set in this example (webots\_ros\_python) the controller field as ros controller and make it work somehow? P.S.: I think I am fine with ROS1.
+
+
+probably the questions need a wide explanation.. maybe due to my lack of knowledge in this subject.. anyway whatever info or ideas for a better understanding will be gladly taken. thanks again
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 15:41:06
+> For example, could you tell me how the nodes ros\_controller.py and ros\_python.py work together
+
+`ros_controller.py` is an example of a ROS node, not relavant to Webots. It just makes the robot do something.
+
+ `ros_python.py` is a ROS driver for Webots. It "converts" a Webots API (a part of the API relavant to your robot) to a ROS interface.
+
+
+> could I set in this example (webots\_ros\_python) the controller field as ros controller and make it work somehow?
+
+Yes. Just make sure the ROS client libraries can be included (`rospy`, `std_msgs` and similar).
+
+
+Under-the-hood it looks something like this:
+
+```md
+             `ros_controller.py`
+                      |
+               (TCPROS/UDPROS)
+                      |      
+               `ros_python.py`
+                      |
+(Webots protocol based on a shared memory and pipes)
+                      |
+               Webots simulator
+```
+
+##### j-ub 12/03/2020 16:00:51
+Ok, that was very revealing. thanks `@Darko Lukić` for clarifying those many doubts, now I have some work waiting for me 😉
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 16:03:23
+Great, let us know if we can help you with something else 🙂
+
+##### j-ub 12/03/2020 16:05:58
+Sure, I will. Have a nice evening!
+
+##### Darko Lukić [Cyberbotics] 12/03/2020 17:18:36
+Thanks, have a nice evening!
+
+##### j-ub 12/04/2020 14:18:04
+Hello! I’m here again luckily faster than I guessed. I figured how to make it work as a .py node launched with ROS+ extern controller. I made a simple controller for the mavic2pro robot which is only setting the propellers velocity and getting the imu values which i want to print in the console (webots console or ubuntu terminal..)
+
+
+The point is when I’m trying to print anything (before the main loop or inside the main loop) I can’t see it nowhere and I guess it is been printed somewhere.. Could I have some help about this matter?
+
+
+
+Thanks in advance
+
+##### Darko Lukić [Cyberbotics] 12/04/2020 15:31:29
+The external Webots controller doesn't print to Webots console, but to the terminal from which it is launched. Then you should check whether the standard output is redirected to `screen`:
+
+```
+output="screen"
+```
+
+[http://wiki.ros.org/roslaunch/XML/node](http://wiki.ros.org/roslaunch/XML/node)
+
+##### j-ub 12/04/2020 15:48:49
+Oh! That is just way easier than the thing i was trying to do. Thanks again `@Darko Lukić`
+
+
+I was trying to make the .launch file openning another .py script that could print all in a new terminal.. So.. thanks:)
+
+##### Diego Rojas 12/07/2020 19:26:28
+Is it possible to change a robot end effector dynamically during a running simulation? I currently have three end effectors for my robot and I need those three tools to complete a robot repair in simulation. I want to change the robot tool while the simulation is running to demonstrate a complete robotic repair. Currently, I have to restart the simulation and load a new end effector with controller every time I want to switch EE.
+
+##### Olivier Michel [Cyberbotics] 12/08/2020 06:36:15
+Yes, this is possible using a supervisor to remove the node corresponding to the tool from the tool slot and add a new node corresponding to the new tool in the tool slot. You will however need to use the latest nightly builds of Webots R2021a.
+
+##### Diego Rojas 12/08/2020 06:43:07
+`@Olivier Michel` Sounds great! This may be a silly question, but is Webots R2021a passing on Ros2 foxy? I have ros2, moveit2, working with the universal packages in webots R2019b. Are the ros2\_universal\_robot packages the same in R2021a?
+
+##### Olivier Michel [Cyberbotics] 12/08/2020 06:46:09
+Yes, exactly the same.
