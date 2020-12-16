@@ -136,17 +136,17 @@ namespace wren {
       checkError(GL_INVALID_ENUM);
 #else
 
-      // if (GLAD_GL_NVX_gpu_memory_info)
-      // glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
-      // else {
-      // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
-      // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
-      int array[4];
-      array[0] = -1;
-      glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
-      cGpuMemory = array[0];
-      checkError(GL_INVALID_ENUM);             // check errors skipping any possible GL_INVALID_ENUM error
-                                               //}
+      if (GLAD_GL_NVX_gpu_memory_info)
+        glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
+      else {
+        // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
+        // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
+        int array[4];
+        array[0] = -1;
+        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+        cGpuMemory = array[0];
+        checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
+      }
 #endif
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
@@ -826,7 +826,7 @@ bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 #ifdef __EMSCRIPTEN__
   return false;
 #else
-  return false;  // static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
+  return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
 #endif
 }
 

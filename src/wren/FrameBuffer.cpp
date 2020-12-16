@@ -185,7 +185,7 @@ namespace wren {
 
 #ifdef __EMSCRIPTEN__
 #else
-    // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
+    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
 #endif
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
