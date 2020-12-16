@@ -167,7 +167,7 @@ void WbNodeEditor::apply() {
   QString newDef = mDefEdit->text();
   const QString &previousDef = mNode->defName();
 
-  if (!mNode || newDef == previousDef)
+  if (newDef == previousDef)
     return;
 
   // block duplicated WbNodeEditor::apply call triggered by focusOutEvent

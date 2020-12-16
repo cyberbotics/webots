@@ -150,10 +150,8 @@ int main() {
     previous_error = error;
 
     if (error == 0.0 || sign != previous_sign) {
-      ++number_of_sign_changes;
       previous_sign = sign;
-      number_of_sign_changes %= 2;
-      if (number_of_sign_changes == 0) {
+      if (++number_of_sign_changes % 2 == 0) {
         t_u = time - t_0;
         t_0 = time;
         amplitude_u = max - min;
