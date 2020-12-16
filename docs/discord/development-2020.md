@@ -5,7 +5,7 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 ## January
 
 ##### Shanaka 01/02/2020 08:15:57
-I'm shanaka currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot. 
+I'm shanaka currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot.
 
 
 
@@ -13,11 +13,11 @@ I modified the end-tool of the manipulator by replacing the Pioneer gripper
 
 
 
-I  control this entire manipulator (with new gripper) by modifying puma560.motion file and puma560.c file. 
+I  control this entire manipulator (with new gripper) by modifying puma560.motion file and puma560.c file.
 
 
 
-But I need to add dynamics and individual joint controllers to this simulation with the idea of implementation in real world. So i check puma560.c file and there I found  functions called 
+But I need to add dynamics and individual joint controllers to this simulation with the idea of implementation in real world. So i check puma560.c file and there I found  functions called
 
 
 
@@ -25,11 +25,11 @@ wbu\_motion\_new("puma560\_1.motion");
 
 wbu\_motion\_play(motion);
 
-but I was not able to find the definition of these functions anywhere. ( I checked motion.h Motion.hpp Motion.cpp files.) Although I can find the function definitions inside the above-mentioned files, still I was not able to find function definitions and how the given angles fed to motors in the manipulator by wbu\_motion\_play() function. 
+but I was not able to find the definition of these functions anywhere. ( I checked motion.h Motion.hpp Motion.cpp files.) Although I can find the function definitions inside the above-mentioned files, still I was not able to find function definitions and how the given angles fed to motors in the manipulator by wbu\_motion\_play() function.
 
 
 
-The final target is to implement the controller in the real world using Raspberry pi or FPGA microcontrollers. So by using wbu\_motion\_play() functions how can I do it? Where can I find the function description? If this method is impossible, it will be great if you can give guidance to make it a success. 
+The final target is to implement the controller in the real world using Raspberry pi or FPGA microcontrollers. So by using wbu\_motion\_play() functions how can I do it? Where can I find the function description? If this method is impossible, it will be great if you can give guidance to make it a success.
 
 
 
@@ -240,7 +240,7 @@ Do you provide binary-tar-ball for macos?
 ##### David Mansolino [Cyberbotics] 02/14/2020 07:43:43
 > Can I move HsWebots-project into cyberbotics? If you have any concerns, please feel free to contact me.
 
-`@junjihashimoto` 
+`@junjihashimoto`
 
 Thanks for this, we will discuss this internally ant let you know.
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Simon Steinmann [Moderator] 05/14/2020 12:48:46
 > `@Simon Steinmann` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@PymZoR` 
+`@PymZoR`
 
 
 

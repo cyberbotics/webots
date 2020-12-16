@@ -12,8 +12,8 @@ timestep = int(robot.getBasicTimeStep())
 
 # You should insert a getDevice-like function in order to get the
 # instance of a device of the robot. Something like:
-#  motor = robot.getMotor('motorname')
-#  ds = robot.getDistanceSensor('dsname')
+#  motor = robot.getDevice('motorname')
+#  ds = robot.getDevice('dsname')
 #  ds.enable(timestep)
 
 # Main loop:
