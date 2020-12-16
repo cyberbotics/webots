@@ -39,7 +39,6 @@ class WbViewpoint extends WbBaseNode {
     super.createWrenObjects();
 
     this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
-    //wr_viewport_set_visibility_mask(wrenViewport, WbWrenRenderingContext::instance()->optionalRenderingsMask());
 
     _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.0, 0.0, 0.0));
     this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);

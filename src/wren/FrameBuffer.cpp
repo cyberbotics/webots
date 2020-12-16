@@ -29,8 +29,8 @@
 #endif
 
 #include <algorithm>
+#include <iostream>
 #include <numeric>
-
 namespace wren {
 
   void FrameBuffer::deleteFrameBuffer(FrameBuffer *frameBuffer) {
@@ -49,6 +49,19 @@ namespace wren {
 
     mOutputDrawBuffers.push_back(DrawBuffer(false, mOutputTextures.size()));
     mOutputTextures.push_back(texture);
+    // std::cout << "Index : " << mOutputDrawBuffers.size() << '\n';
+    // if (mOutputDrawBuffers.size() > 1)
+    // mOutputDrawBuffers[mOutputDrawBuffers.size() - 1].mIsEnabled = false;
+  }
+
+  void FrameBuffer::appendOutputTextureD(TextureRtt *texture) {
+    assert(mOutputDrawBuffers.size() <= static_cast<size_t>(glstate::maxFrameBufferDrawBuffers()));
+
+    mOutputDrawBuffers.push_back(DrawBuffer(false, mOutputTextures.size()));
+    mOutputTextures.push_back(texture);
+    std::cout << "Index : " << mOutputDrawBuffers.size() << '\n';
+    if (mOutputDrawBuffers.size() > 1)
+      mOutputDrawBuffers[mOutputDrawBuffers.size() - 1].mIsEnabled = false;
   }
 
   void FrameBuffer::appendOutputRenderBuffer(WrTextureInternalFormat format) {
@@ -87,7 +100,6 @@ namespace wren {
 
   void FrameBuffer::enableDrawBuffer(size_t index, bool enable) {
     assert(index < mOutputDrawBuffers.size());
-
     mOutputDrawBuffers[index].mIsEnabled = enable;
   }
 
@@ -104,19 +116,30 @@ namespace wren {
   }
 
   void FrameBuffer::bind() {
+    static int x = 0;
+    static int z = 0;
     glstate::bindFrameBuffer(mGlName);
 
     std::vector<unsigned int> drawBuffers;
     for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
       if (mOutputDrawBuffers[i].mIsEnabled)
-        if (i >= 1) {
-          drawBuffers.push_back(GL_NONE);
-        } else
-          drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+        /*if (i >= 1) {
+            std::cout << "messge
+          " << i << '\n';
+            drawBuffers.push_back(GL_NONE);
+        x++;
+      }
+      else {
+        if (i >= 1)
+          x++;
+        */
+        drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+      //}
       else
         drawBuffers.push_back(GL_NONE);
     }
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
+    std::cout << x << '\n';
   }
 
   void FrameBuffer::blitToScreen() {
@@ -342,6 +365,10 @@ void wr_frame_buffer_delete(WrFrameBuffer *frame_buffer) {
 
 void wr_frame_buffer_append_output_texture(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {
   reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->appendOutputTexture(reinterpret_cast<wren::TextureRtt *>(texture));
+}
+
+void wr_frame_buffer_append_output_texture_disable(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {
+  reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->appendOutputTextureD(reinterpret_cast<wren::TextureRtt *>(texture));
 }
 
 void wr_frame_buffer_set_depth_texture(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {

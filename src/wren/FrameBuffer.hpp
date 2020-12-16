@@ -53,6 +53,7 @@ namespace wren {
     static void deleteFrameBuffer(FrameBuffer *frameBuffer);
 
     void appendOutputTexture(TextureRtt *texture);
+    void appendOutputTextureD(TextureRtt *texture);
     void appendOutputRenderBuffer(WrTextureInternalFormat format);
     void setDepthTexture(TextureRtt *texture) { mDepthTexture = texture; }
     void enableDepthBuffer(bool enable) { mIsDepthBufferEnabled = enable; }
