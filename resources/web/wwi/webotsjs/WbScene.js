@@ -48,7 +48,6 @@ class WbScene {
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
     _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
     _wr_frame_buffer_append_output_texture_disable(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
     _wr_frame_buffer_enable_depth_buffer(this.wrenMainFrameBuffer, true);

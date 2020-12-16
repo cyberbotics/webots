@@ -49,9 +49,6 @@ namespace wren {
 
     mOutputDrawBuffers.push_back(DrawBuffer(false, mOutputTextures.size()));
     mOutputTextures.push_back(texture);
-    // std::cout << "Index : " << mOutputDrawBuffers.size() << '\n';
-    // if (mOutputDrawBuffers.size() > 1)
-    // mOutputDrawBuffers[mOutputDrawBuffers.size() - 1].mIsEnabled = false;
   }
 
   void FrameBuffer::appendOutputTextureD(TextureRtt *texture) {
@@ -59,9 +56,8 @@ namespace wren {
 
     mOutputDrawBuffers.push_back(DrawBuffer(false, mOutputTextures.size()));
     mOutputTextures.push_back(texture);
-    std::cout << "Index : " << mOutputDrawBuffers.size() << '\n';
-    if (mOutputDrawBuffers.size() > 1)
-      mOutputDrawBuffers[mOutputDrawBuffers.size() - 1].mIsEnabled = false;
+
+    mOutputDrawBuffers[mOutputDrawBuffers.size() - 1].mIsEnabled = false;
   }
 
   void FrameBuffer::appendOutputRenderBuffer(WrTextureInternalFormat format) {
@@ -116,30 +112,16 @@ namespace wren {
   }
 
   void FrameBuffer::bind() {
-    static int x = 0;
-    static int z = 0;
     glstate::bindFrameBuffer(mGlName);
 
     std::vector<unsigned int> drawBuffers;
     for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
       if (mOutputDrawBuffers[i].mIsEnabled)
-        /*if (i >= 1) {
-            std::cout << "messge
-          " << i << '\n';
-            drawBuffers.push_back(GL_NONE);
-        x++;
-      }
-      else {
-        if (i >= 1)
-          x++;
-        */
         drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
-      //}
       else
         drawBuffers.push_back(GL_NONE);
     }
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
-    std::cout << x << '\n';
   }
 
   void FrameBuffer::blitToScreen() {
