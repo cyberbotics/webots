@@ -104,7 +104,7 @@
     </message>
     <message>
         <source>No active network adapter found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun adattatore di rete trovato.</translation>
     </message>
     <message>
         <source>An active network adapter is required to run Webots.</source>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <source>Tessellation Error: the result of the tesselation is not a multiple of 3.</source>
-        <translation>Errore di tassellatura: il risultato della tassellature non è un multiplo di 3. </translation>
+        <translation>Errore di tassellatura: il risultato della tassellature non è un multiplo di 3.</translation>
     </message>
     <message>
         <source>dWebotsGetGeomFromDEF(): invalid NULL or empty DEF argument.</source>
@@ -196,35 +196,35 @@
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished">Domanda</translation>
+        <translation>Domanda</translation>
     </message>
     <message>
         <source>edit</source>
-        <translation type="unfinished"></translation>
+        <translation>edita</translation>
     </message>
     <message>
         <source>add item</source>
-        <translation type="unfinished"></translation>
+        <translation>aggiungi elemento</translation>
     </message>
     <message>
         <source>remove item</source>
-        <translation type="unfinished"></translation>
+        <translation>rimuovi elemento</translation>
     </message>
     <message>
         <source>reset</source>
-        <translation type="unfinished"></translation>
+        <translation>reset</translation>
     </message>
     <message>
         <source>rescale</source>
-        <translation type="unfinished"></translation>
+        <translation>riscala</translation>
     </message>
     <message>
         <source>Internal error: the Webots version is not computable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore interno: la versione di Webots non è calcolabile.</translation>
     </message>
     <message>
         <source>Webots cannot compute inertia for ElevationGrid objects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Webots non può calcolare l&apos;inerzia di oggetti ElevationGrid.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Transform has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
@@ -244,11 +244,11 @@
     </message>
     <message>
         <source>Please specify &apos;geometry&apos; (of Shape placed in &apos;boundingObject&apos;).</source>
-        <translation type="unfinished">Specificare il campo &apos;geometry&apos; (di un Shape posizionato all&apos;interno di un &apos;boundingObject&apos;).</translation>
+        <translation>Specificare il campo &apos;geometry&apos; (di un Shape posizionato all&apos;interno di un &apos;boundingObject&apos;).</translation>
     </message>
     <message>
         <source>Ignoring illegal &quot;%1&quot; node in &apos;boundingObject&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nodo illegale &quot;%1&quot; ignorato in &apos;boundingObject&apos;.</translation>
     </message>
     <message>
         <source>: the corresponding added mass defaults to 1kg, the added inertia matrix defaults to the identity matrix.</source>
@@ -316,7 +316,7 @@
     </message>
     <message>
         <source>Expected field type but found &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto tipo di campo ma trovato &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Expected hidden field identifier but found &apos;%2&apos;</source>
@@ -328,7 +328,7 @@
     </message>
     <message>
         <source>Expected &apos;%1&apos; but found &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto &apos;%1&apos; ma trovato &apos;%2&apos;</translation>
     </message>
     <message>
         <source>End of file reached while a token is expected</source>
@@ -340,7 +340,7 @@
     </message>
     <message>
         <source>Cannot insert %1 node in &apos;%2&apos; field of %3 node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è possibile inserire il nodo %1 nel campo &apos;%2&apos; del nodo %3.</translation>
     </message>
     <message>
         <source>Cannot insert %1 node in &apos;%2&apos; field of %3 node, because a trio of slot is not allowed.</source>
@@ -376,7 +376,7 @@
     </message>
     <message>
         <source>Expected %1, found %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto %1, trovato %2</translation>
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; node or PROTO</source>
@@ -384,7 +384,7 @@
     </message>
     <message>
         <source>field name or &apos;}&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>nome del campo oppure &apos;}&apos;</translation>
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; field in %2 node</source>
@@ -396,7 +396,7 @@
     </message>
     <message>
         <source>parameter name or &apos;}&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>nome del parametro oppure &apos;}&apos;</translation>
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; parameter in %2 PROTO</source>
@@ -420,7 +420,7 @@
     </message>
     <message>
         <source>Invalid escaped character</source>
-        <translation type="unfinished"></translation>
+        <translation>Carattere di fuga invalido</translation>
     </message>
     <message>
         <source>Unclosed string literal</source>
@@ -432,11 +432,11 @@
     </message>
     <message>
         <source>&apos;%1&apos;:%2:%3: error: %4.</source>
-        <translation type="unfinished">&apos;%1&apos;:%2:%3: errore: %4. {1&apos;?} {2:%3:?}</translation>
+        <translation>&apos;%1&apos;:%2:%3: errore: %4.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: error: %2.</source>
-        <translation type="unfinished">&apos;%1&apos;: errore %2. {1&apos;?}</translation>
+        <translation>&apos;%1&apos;: errore: %2.</translation>
     </message>
     <message>
         <source>BallJointParameters nodes cannot be USEd.</source>
@@ -456,7 +456,7 @@
     </message>
     <message>
         <source>types &apos;%1&apos; and &apos;%2&apos; are not matching.</source>
-        <translation type="unfinished"></translation>
+        <translation>tipi &apos;%1&apos; e &apos;%2&apos; non corrispondono.</translation>
     </message>
     <message>
         <source>%1 node cannot be inserted at the top level of the node hierarchy.</source>
@@ -464,11 +464,11 @@
     </message>
     <message>
         <source>heaviest solid</source>
-        <translation type="unfinished"></translation>
+        <translation>solido più pesante</translation>
     </message>
     <message>
         <source>lightest solid</source>
-        <translation type="unfinished"></translation>
+        <translation>solido più leggero</translation>
     </message>
     <message>
         <source>Cannot create the Webots temporary directory &quot;%1&quot;</source>
@@ -480,7 +480,7 @@
     </message>
     <message>
         <source>Deprecated &apos;%1&apos;, please use &apos;%2&apos; node instead</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; è deprecato, utilizza piuttosto un nodo &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Webots has not been started regularly. Some features may not work. Please start Webots from its launcher.</source>
@@ -492,11 +492,11 @@
     </message>
     <message>
         <source>To run Matlab controllers, you need to install a 64-bit version of Matlab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per utilizzare controllori Matlab devi installare una versione 64-bit di Matlab.</translation>
     </message>
     <message>
         <source>To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available from the DOS CMD.EXE console.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per utilizzare controllori Matlab devi installare una versione 64-bit di Matlab e assicurarti che sia disponibile dalla console DOS CMD.EXE.</translation>
     </message>
     <message>
         <source>Unknown key in perspective file: %1 (ignored).</source>
@@ -504,15 +504,15 @@
     </message>
     <message>
         <source>First item of &apos;%1&apos; field is empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il primo elemento del campo &apos;%1&apos; è vuoto.</translation>
     </message>
     <message>
         <source>Missing &apos;%1&apos; value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore &apos;%1&apos; mancante.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; not found.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; non trovato.</translation>
     </message>
     <message>
         <source>A resource file can be defined relatively to the worlds directory of the current project, relatively to the worlds directory of the default project, relatively to its protos directory (if defined in a PROTO), or absolutely.</source>
@@ -520,7 +520,7 @@
     </message>
     <message>
         <source>Unknown WAVE format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato WAVE sconosciuto</translation>
     </message>
     <message>
         <source>Cannot find OpenAL default device</source>
@@ -552,15 +552,15 @@
     </message>
     <message>
         <source>File doesn&apos;t exist</source>
-        <translation type="unfinished"></translation>
+        <translation>File non esiste</translation>
     </message>
     <message>
         <source>Unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato del file non supportato</translation>
     </message>
     <message>
         <source>Cannot open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire il file</translation>
     </message>
     <message>
         <source>Cannot read chunk</source>
@@ -580,7 +580,7 @@
     </message>
     <message>
         <source>Cannot allocate data memory</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile allocare memoria dati</translation>
     </message>
     <message>
         <source>Cannot read data chunk</source>
@@ -588,15 +588,15 @@
     </message>
     <message>
         <source>Texture export fails, because too much textures are sharing the same name: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esportazione della texture fallita perché troppe texture condividono lo stesso nome: %1.</translation>
     </message>
     <message>
         <source>Problem while saving file: &apos;%1&apos;</source>
-        <translation type="unfinished">Errore durante il salvataggio del file: &apos;%1&apos;</translation>
+        <translation>Errore durante il salvataggio del file: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Supported image formats:</source>
-        <translation type="unfinished">Formati di immagine supportati:</translation>
+        <translation>Formati di immagine supportati:</translation>
     </message>
     <message>
         <source>Previous DEF node cannot be used to replace the current USE node; USE node turned into DEF node.</source>
@@ -608,27 +608,27 @@
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: x is set to 1.0.</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: x is set to abs(x).</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a abs(x).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a abs(x).</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: y is set to 1.0.</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: y is set to abs(y).</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a abs(y).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a abs(y).</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: z is set to 1.0.</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: z is set to abs(z).</source>
-        <translation type="unfinished">Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a abs(z).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a abs(z).</translation>
     </message>
     <message>
         <source>&apos;scale&apos; were changed so that x = z because of physics constraints inside a &apos;boundingObject&apos;.</source>
@@ -640,23 +640,23 @@
     </message>
     <message>
         <source>TextToSpeech error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>TextToSpeech errore: %1</translation>
     </message>
     <message>
         <source>Could not open generated sound from &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stato possibile aprire il suono generato da &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Boolean values for &apos;ImageTexture.filtering&apos; field are deprecated from Webots 8.6 onwards; the value has been converted automatically. Please update your PROTO and world files accordingly.</source>
-        <translation type="unfinished"></translation>
+        <translation>I valori booleani del campo &apos;ImageTexture.filtering&apos; sono deprecati da Webots 8.6 e successivi; il valore è stato convertito automaticamente. Per favore aggiorna il PROTO e lo scenario di conseguenza.</translation>
     </message>
     <message>
         <source>%1.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1.</translation>
     </message>
     <message>
         <source>The language &apos;%1&apos; stored in preferences is not supported. Resetting to the language default (English).</source>
-        <translation type="unfinished"></translation>
+        <translation>Il linguaggio &apos;%1&apos; registrato nelle preferenze non è supportato. Ripristino del linguaggio di default (Inglese).</translation>
     </message>
     <message>
         <source>Non-admissible USE %1 node inside first child of %2 node.
@@ -665,15 +665,15 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>First item of &apos;%1&apos; field expected to be a file but is a directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il primo elemento del campo &apos;%1&apos; è supposto essere un file ma è invece una directory.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; expected to be a file but is a directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; previsto essere un file ma è una directory.</translation>
     </message>
     <message>
         <source>Expected VRML97 type but found &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto un tipo VRML97 ma trovato &apos;%2&apos;</translation>
     </message>
     <message>
         <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; or &apos;hiddenField&apos; keywords</source>
@@ -681,12 +681,13 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>Please modify the first line of &apos;%1&apos; to &quot;#%2 %3 utf8&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore modifica la prima linea di &apos;%1&apos; con &quot;#%2 %3 utf8&quot;.</translation>
     </message>
     <message>
         <source>&quot;%1&quot; was not found.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; non trovato.
+</translation>
     </message>
     <message>
         <source>&quot;%1&quot; 64 bit was not found, but the 32 bit version was found.
@@ -695,7 +696,7 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>Only a single %1 node can be inserted in the &apos;%2&apos; field of a %3 node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo un singolo nodo %1 può essere inserito nel campo &apos;%2&apos; di un nodo %3.</translation>
     </message>
     <message>
         <source>Duplicate vertices detected while triangulating mesh. Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.</source>
@@ -719,7 +720,7 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>In plugin &apos;%1&apos;, webots_physics_draw(int, const char*) is deprecated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nel plugin &apos;%1&apos;, webots_physics_draw(int, const char*) è deprecato.</translation>
     </message>
     <message>
         <source>Overlays</source>
@@ -727,11 +728,11 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>Optional Rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendering Opzionale</translation>
     </message>
     <message>
         <source>Transform To...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trasforma in...</translation>
     </message>
     <message>
         <source>About</source>
@@ -743,7 +744,7 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>The default value of field &apos;%1&apos; is not in the list of accepted values</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore predefinito del campo &apos;%1&apos; non è incluso nella lista di valori autorizzati</translation>
     </message>
     <message>
         <source> Nightly Build %1 %2</source>
@@ -768,7 +769,7 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
     </message>
     <message>
         <source>Follow Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Segui Oggetto</translation>
     </message>
     <message>
         <source>Webots requires Python version 3.x9, 3.8, 3.7 or 2.7 (64 bit) from python.org in your current PATH.
@@ -808,11 +809,11 @@ To fix the problem, you should:
     <name>WbAbstractCamera</name>
     <message>
         <source>Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of your OS is probably full. Please check your shared memory setup.</source>
-        <translation type="unfinished">Impossibile allocare la memoria condivisa necessaria per le videocamere. La memoria condivisa del vostro sistema operativo è probabilmente piena. Verificate le impostazioni della memoria condivisa.</translation>
+        <translation>Impossibile allocare la memoria condivisa necessaria per le videocamere. La memoria condivisa del vostro sistema operativo è probabilmente piena. Verificate le impostazioni della memoria condivisa.</translation>
     </message>
     <message>
         <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido di &apos;fieldOfView&apos; cambiato a 0.7854. Il campo visivo è limitato a pi se il campo &apos;spherical&apos;è FALSO.</translation>
     </message>
 </context>
 <context>
@@ -826,31 +827,31 @@ To fix the problem, you should:
     <name>WbActionManager</name>
     <message>
         <source>&amp;New World</source>
-        <translation type="unfinished">&amp;Nuovo Scenario</translation>
+        <translation>&amp;Nuovo Scenario</translation>
     </message>
     <message>
         <source>&amp;Open World...</source>
-        <translation type="unfinished">Apri Scenario...</translation>
+        <translation>&amp;Apri Scenario...</translation>
     </message>
     <message>
         <source>&amp;Save World</source>
-        <translation type="unfinished">&amp;Salva Scenario</translation>
+        <translation>&amp;Salva Scenario</translation>
     </message>
     <message>
         <source>Save World &amp;As...</source>
-        <translation type="unfinished">Salva Scenario Con Nome...</translation>
+        <translation>Salva Scenario Con &amp;Nome...</translation>
     </message>
     <message>
         <source>Save the current world file with a new name.</source>
-        <translation type="unfinished">Salva lo scenario corrente con un nuovo nome.</translation>
+        <translation>Salva lo scenario corrente con un nuovo nome.</translation>
     </message>
     <message>
         <source>Real-&amp;time</source>
-        <translation type="unfinished">&amp;Tempo reale</translation>
+        <translation>&amp;Tempo reale</translation>
     </message>
     <message>
         <source>&amp;Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pausa</translation>
     </message>
     <message>
         <source>St&amp;ep</source>
@@ -858,11 +859,11 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Veloce</translation>
     </message>
     <message>
         <source>&amp;Undo</source>
-        <translation type="unfinished">Ann&amp;ulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Redo</source>
@@ -874,127 +875,127 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation type="unfinished">&amp;Copia</translation>
+        <translation>&amp;Copia</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
-        <translation type="unfinished">Incolla</translation>
+        <translation>&amp;Incolla</translation>
     </message>
     <message>
         <source>&amp;Add New</source>
-        <translation type="unfinished">&amp;Aggiungi Nuovo</translation>
+        <translation>&amp;Aggiungi Nuovo</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation>&amp;Elimina</translation>
     </message>
     <message>
         <source>Select &amp;All</source>
-        <translation type="unfinished">Seleziona Tutto</translation>
+        <translation>Seleziona &amp;Tutto</translation>
     </message>
     <message>
         <source>&amp;New Text File</source>
-        <translation type="unfinished">&amp;Nuovo Documento di Testo</translation>
+        <translation>&amp;Nuovo File di Testo</translation>
     </message>
     <message>
         <source>Create a new text file.</source>
-        <translation type="unfinished">Crea nuovo file di testo.</translation>
+        <translation>Crea nuovo file di testo.</translation>
     </message>
     <message>
         <source>&amp;Open Text File...</source>
-        <translation type="unfinished">Apri Documento di Testo...</translation>
+        <translation>&amp;Apri File di Testo...</translation>
     </message>
     <message>
         <source>Open an existing text file.</source>
-        <translation type="unfinished">Apri file di testo esistente.</translation>
+        <translation>Apri file di testo esistente.</translation>
     </message>
     <message>
         <source>&amp;Save Text File</source>
-        <translation type="unfinished">&amp;Salva Documento di Testo</translation>
+        <translation>&amp;Salva File di Testo</translation>
     </message>
     <message>
         <source>Save the current text file.</source>
-        <translation type="unfinished">Salva il file di testo corrente.</translation>
+        <translation>Salva il file di testo corrente.</translation>
     </message>
     <message>
         <source>Save Text File &amp;As...</source>
-        <translation type="unfinished">Salva Documento di Testo Come...</translation>
+        <translation>Salva File di Testo &amp;Come...</translation>
     </message>
     <message>
         <source>Save the current text file with a new name.</source>
-        <translation type="unfinished">Salva il file di testo corrente con un nuovo nuome.</translation>
+        <translation>Salva il file di testo corrente con un nuovo nome.</translation>
     </message>
     <message>
         <source>Save All Text Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva Tutti i File di Testo</translation>
     </message>
     <message>
         <source>Save all the opened text files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva tutti i file di testo aperti.</translation>
     </message>
     <message>
         <source>&amp;Revert Text File</source>
-        <translation type="unfinished">&amp;Ripristina Documento di Testo</translation>
+        <translation>&amp;Ripristina File di Testo</translation>
     </message>
     <message>
         <source>Revert the current text file.</source>
-        <translation type="unfinished">Ripristina il file di testo corrente.</translation>
+        <translation>Ripristina il file di testo corrente.</translation>
     </message>
     <message>
         <source>&amp;Find...</source>
-        <translation type="unfinished">Trova...</translation>
+        <translation>&amp;Trova...</translation>
     </message>
     <message>
         <source>Find text in current file.</source>
-        <translation type="unfinished">Trova il testo nel file corrente.</translation>
+        <translation>Trova il testo nel file corrente.</translation>
     </message>
     <message>
         <source>Find &amp;Next</source>
-        <translation type="unfinished">Trova Successivo</translation>
+        <translation>Trova &amp;Successivo</translation>
     </message>
     <message>
         <source>Find next occurence of search string in current file.</source>
-        <translation type="unfinished">Trova la prossima occorrenza del testo cercato nel file corrente.</translation>
+        <translation>Trova la prossima occorrenza della stringa nel file corrente.</translation>
     </message>
     <message>
         <source>Find &amp;Previous</source>
-        <translation type="unfinished">Trova &amp;Precedente</translation>
+        <translation>Trova &amp;Precedente</translation>
     </message>
     <message>
         <source>Find previous occurence of search string in current file.</source>
-        <translation type="unfinished">Trova l&apos;occorrenza precedente del testo cercato nel file corrente.</translation>
+        <translation>Trova l&apos;occorrenza precedente della stringa nel file corrente.</translation>
     </message>
     <message>
         <source>&amp;Replace...</source>
-        <translation type="unfinished">Sostituisci...</translation>
+        <translation>&amp;Sostituisci...</translation>
     </message>
     <message>
         <source>Replace text in current file.</source>
-        <translation type="unfinished">Sostituisci il testo nel file corrente.</translation>
+        <translation>Sostituisci il testo nel file corrente.</translation>
     </message>
     <message>
         <source>&amp;Go to line...</source>
-        <translation type="unfinished">Vai alla riga...</translation>
+        <translation>&amp;Vai alla riga...</translation>
     </message>
     <message>
         <source>Go to specified line number.</source>
-        <translation type="unfinished">Vai alla riga specificata.</translation>
+        <translation>Vai alla riga specificata.</translation>
     </message>
     <message>
         <source>&amp;Toggle Line Comment</source>
-        <translation type="unfinished">A&amp;ttiva/Disattiva Commento</translation>
+        <translation>&amp;Attiva/Disattiva Commento</translation>
     </message>
     <message>
         <source>Toggle comment of selected lines.</source>
-        <translation type="unfinished">Attiva/Disattivai il commento delle righe selezionate.</translation>
+        <translation>Attiva/Disattiva il commento nelle righe selezionate.</translation>
     </message>
     <message>
         <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">Duplica Riga o Selezione</translation>
+        <translation>&amp;Duplica Riga o Selezione</translation>
     </message>
     <message>
         <source>Duplicate current line or selected text.</source>
-        <translation type="unfinished">Duplica la linea corrente o il testo selzionato.</translation>
+        <translation>Duplica la linea corrente o il testo selezionato.</translation>
     </message>
     <message>
         <source>&amp;Transpose Current Line</source>
@@ -1002,47 +1003,47 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Invert the current line and its previous line.</source>
-        <translation type="unfinished">Inverti la linea corrente con la precedente.</translation>
+        <translation>Inverti la linea corrente e la precedente.</translation>
     </message>
     <message>
         <source>&amp;Print...</source>
-        <translation type="unfinished">Stampa...</translation>
+        <translation>&amp;Stampa...</translation>
     </message>
     <message>
         <source>Print text file.</source>
-        <translation type="unfinished">Stampa documento di testo.</translation>
+        <translation>Stampa file di testo.</translation>
     </message>
     <message>
         <source>&amp;Print Preview...</source>
-        <translation type="unfinished">Anteprima di Stampa...</translation>
+        <translation>&amp;Anteprima di Stampa...</translation>
     </message>
     <message>
         <source>Preview of printed text file.</source>
-        <translation type="unfinished">Mostra l&apos;anteprima del documento di testo da stampare.</translation>
+        <translation>Mostra l&apos;anteprima del file di testo da stampare.</translation>
     </message>
     <message>
         <source>&amp;Open Sample World...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Apri Scenario Predefinito...</translation>
     </message>
     <message>
         <source>Open a sample world.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri uno scenario predefinito.</translation>
     </message>
     <message>
         <source>&amp;Unmute sound</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Riattiva suono</translation>
     </message>
     <message>
         <source>Unmute the sound on the main audio device of the computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Riattiva il suono nel dispositivo audio principale del computer.</translation>
     </message>
     <message>
         <source>&amp;Mute sound</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Disattiva suono</translation>
     </message>
     <message>
         <source>Mute the sound on the main audio device of the computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Disattiva il suono nel dispositivo audio principale del computer.</translation>
     </message>
     <message>
         <source>Disable selection change from 3D view.</source>
@@ -1050,23 +1051,23 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Create a new simulation world. (%1+Shift+N)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea nuovo scenario di simulazione. (%1+Shift+N)</translation>
     </message>
     <message>
         <source>Open an existing world file. (%1+Shift+O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri uno scenario esistente. (%1+Shift+O)</translation>
     </message>
     <message>
         <source>Save the current world file. (%1+Shift+S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva lo scenario corrente. (%1+Shift+S)</translation>
     </message>
     <message>
         <source>Run the simulation in real-time. (%1+2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancia la simulazione in tempo reale. (%1+2)</translation>
     </message>
     <message>
         <source>Pause the simulation. (%1+0)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausa la simulazione. (%1+0)</translation>
     </message>
     <message>
         <source>Execute one simulation step. (%1+1)</source>
@@ -1078,19 +1079,19 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Add a new object or import an object. (%1+Shift+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un nuovo oggetto o importa un oggetto. (%1+Shift+A)</translation>
     </message>
     <message>
         <source>Delete the selected object. (Del)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella l&apos;oggetto selezionato. (Del)</translation>
     </message>
     <message>
         <source>Cut object at the selected line. (%1+X)</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia l&apos;oggetto alla linea selezionata. (%1+X)</translation>
     </message>
     <message>
         <source>Copy object at the selected line. (%1+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia l&apos;oggetto alla linea selezionata. (%1+C)</translation>
     </message>
     <message>
         <source>Paste or insert the clipboard object. (%1+V)</source>
@@ -1098,7 +1099,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Select all text. (%1+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona tutto il testo. (%1+A)</translation>
     </message>
     <message>
         <source>Undo manual modification to the simulation world and edited text. (%1+Z)</source>
@@ -1114,7 +1115,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Change View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cambia Vista</translation>
     </message>
     <message>
         <source>Open standard Viewpoint positions menu.</source>
@@ -1122,7 +1123,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Front View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista &amp;Frontale</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the front.</source>
@@ -1130,7 +1131,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Back View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista &amp;Posteriore</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the back.</source>
@@ -1154,7 +1155,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Top View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vista dall&apos;Alto</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the top.</source>
@@ -1162,7 +1163,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Bottom View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vista dal Basso</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the bottom.</source>
@@ -1170,11 +1171,11 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Take Screenshot...</source>
-        <translation type="unfinished">Cattura Schermata...</translation>
+        <translation>&amp;Cattura Schermata...</translation>
     </message>
     <message>
         <source>Save the current image of the simulation. (%1 + SHIFT + P)</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva l&apos;immagine corrente della simulazione. (%1 + SHIFT + P)</translation>
     </message>
     <message>
         <source>Move viewpoint to selected object. (ALT + 5)</source>
@@ -1182,12 +1183,13 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Reload World</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ricarica Scenario</translation>
     </message>
     <message>
         <source>Reload World.
 Reload the current world file and restart the simulation. (%1+Shift+R)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricarica Scenario.
+Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</translation>
     </message>
     <message>
         <source>Reset Simulation</source>
@@ -1227,11 +1229,11 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Show &amp;Coordinate System</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Sistema di &amp;Coordinate</translation>
     </message>
     <message>
         <source>Show coordinate system.</source>
-        <translation type="unfinished">Mostra il sistema di coordinate.</translation>
+        <translation>Mostra il sistema di coordinate.</translation>
     </message>
     <message>
         <source>Show All &amp;Bounding Objects</source>
@@ -1243,11 +1245,11 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Show Contact &amp;Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra &amp;Punti di Contatto</translation>
     </message>
     <message>
         <source>Show contact points and polygons.</source>
-        <translation type="unfinished">Mostra i punti e i poligoni di contatto</translation>
+        <translation>Mostra i punti e i poligoni di contatto.</translation>
     </message>
     <message>
         <source>Show Connector &amp;Axes</source>
@@ -1263,7 +1265,7 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Show joint axes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra gli assi delle articolazioni.</translation>
     </message>
     <message>
         <source>Show Range&amp;Finder Frustums</source>
@@ -1339,19 +1341,19 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Show Center of &amp;Mass</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Centro di &amp;Massa</translation>
     </message>
     <message>
         <source>Show the center of mass of a solid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra il centro di massa di un solido.</translation>
     </message>
     <message>
         <source>Show S&amp;upport Polygon</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Poligono di &amp;Supporto</translation>
     </message>
     <message>
         <source>Show the center of mass and the support polygon of a solid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra il centro di massa e il poligono di supporto di un solido.</translation>
     </message>
     <message>
         <source>Show S&amp;kin Skeleton</source>
@@ -1387,7 +1389,7 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Disable Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Disattiva Selezione</translation>
     </message>
     <message>
         <source>Lock Viewpoint</source>
@@ -1435,7 +1437,7 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>&amp;Enable</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Attiva</translation>
     </message>
     <message>
         <source>View simulation in a virtual reality headset.</source>
@@ -1459,19 +1461,19 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>View left eye</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza occhio sinistro</translation>
     </message>
     <message>
         <source>View the left eye image in the main 3D window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza l&apos;immagine dell&apos;occhio sinistro nella finestra 3D principale.</translation>
     </message>
     <message>
         <source>View right eye</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza occhio destro</translation>
     </message>
     <message>
         <source>View the right eye image in the main 3D window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza l&apos;immagine dell&apos;occhio destro nella finestra 3D principale.</translation>
     </message>
     <message>
         <source>Empty view</source>
@@ -1483,19 +1485,19 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Anti-aliasing</source>
-        <translation type="unfinished"></translation>
+        <translation>Anti-aliasing</translation>
     </message>
     <message>
         <source>Enable the anti-aliasing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita l&apos;anti-aliasing.</translation>
     </message>
     <message>
         <source>Edit &amp;Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica &amp;Controllore</translation>
     </message>
     <message>
         <source>Edit controller source code.</source>
-        <translation type="unfinished">Modifica il codice sorgente del programma di controllo.</translation>
+        <translation>Modifica il codice sorgente del programma di controllo.</translation>
     </message>
     <message>
         <source>Show Robot &amp;Window</source>
@@ -1507,11 +1509,11 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>&amp;Help...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aiuto...</translation>
     </message>
     <message>
         <source>Open &amp;documentation for this node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri &amp;documentazione per questo nodo.</translation>
     </message>
     <message>
         <source>&amp;Reset to Default Value</source>
@@ -1523,7 +1525,7 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>&amp;Export</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Esporta</translation>
     </message>
     <message>
         <source>Export this scene object.</source>
@@ -1531,15 +1533,15 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>&amp;View PROTO Source</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualizza Sorgente PROTO</translation>
     </message>
     <message>
         <source>Open the PROTO file in Text Editor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri file PROTO nell&apos;Editore di Testo.</translation>
     </message>
     <message>
         <source>View Generated &amp;PROTO Node</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza Nodo &amp;PROTO Generato</translation>
     </message>
     <message>
         <source>Open the temporary file generated by the template engine in Text Editor.</source>
@@ -1559,7 +1561,7 @@ Reload the current world file and restart the simulation. (%1+Shift+R)</source>
     </message>
     <message>
         <source>Do not follow the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non seguire l&apos;oggetto.</translation>
     </message>
     <message>
         <source>&amp;Tracking Shot</source>
@@ -1679,28 +1681,29 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <name>WbAddInertiaMatrixDialog</name>
     <message>
         <source>Add inertia matrix</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi matrice di inerzia</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancella</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
-        <source>Insert the identity matrix 
+        <source>Insert the identity matrix
  [ 1 1 1, 0 0 0]</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci la matrice identità
+ [ 1 1 1, 0 0 0]</translation>
     </message>
     <message>
         <source>If no center of mass is currently specified, a zero 3D vector will be inserted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se nessun centro di massa è specificato, un vettore 3D nullo verrà inserito.</translation>
     </message>
     <message>
         <source>The density will be set as -1 and if the mass is negative or zero, it will be set as 1.</source>
-        <translation type="unfinished"></translation>
+        <translation>La densità sarà impostata a -1, se la massa è negativa o zero verrà impostata a 1.</translation>
     </message>
     <message>
         <source>The inertia matrix is computed using the solid bounding object and the frame obtained by translating solid&apos;s frame to bounding object&apos;s center of mass.</source>
@@ -1716,11 +1719,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>No info available.</source>
-        <translation type="unfinished">Nessuna informazione disponibile.</translation>
+        <translation>Nessuna informazione disponibile.</translation>
     </message>
     <message>
         <source>Identity matrix</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrice identità</translation>
     </message>
     <message>
         <source>Bounding object based</source>
@@ -1755,27 +1758,27 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa...</translation>
     </message>
     <message>
         <source>Import Webots Object</source>
-        <translation type="unfinished">Importa Oggetto Webots</translation>
+        <translation>Importa Oggetto Webots</translation>
     </message>
     <message>
         <source>Files (*.wbo *.WBO)</source>
-        <translation type="unfinished"></translation>
+        <translation>File (*.wbo *.WBO)</translation>
     </message>
     <message>
         <source>The &quot;%1&quot; icon should have a dimension of 128x128 pixels.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;icona &quot;%1&quot; dovrebbe avere una dimensione di 128x128 pixels.</translation>
     </message>
     <message>
         <source>This folder lists all suitable PROTO nodes from the local &apos;protos&apos; directory: &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa cartella elenca tutti i nodi PROTO idonei della directory locale &apos;protos&apos;: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>This folder lists all suitable PROTO nodes provided by Webots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa cartella elenca tutti i nodi PROTO idonei forniti da Webots.</translation>
     </message>
     <message>
         <source>The icon file &apos;%1&apos; does not exactly match the PROTO name. Expected &apos;%2.png&apos;</source>
@@ -1783,7 +1786,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>Trova:</translation>
     </message>
     <message>
         <source>Filter node names. Only the node names containing the given string are displayed in the tree below. Regular expressions can be used.</source>
@@ -1795,11 +1798,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source> &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;More information.&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;Maggiori informazioni.&lt;/a&gt;</translation>
     </message>
     <message>
         <source>License: </source>
-        <translation type="unfinished"></translation>
+        <translation>Licenza: </translation>
     </message>
     <message>
         <source>Base nodes</source>
@@ -1807,7 +1810,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Documentation: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Documentazione: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</translation>
     </message>
     <message>
         <source>This folder lists all suitable PROTO nodes from the extra projects located in: &apos;%1&apos;.</source>
@@ -1815,11 +1818,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>PROTO nodes (Current Project)</source>
-        <translation type="unfinished"></translation>
+        <translation>nodi PROTO (Progetto Corrente)</translation>
     </message>
     <message>
         <source>PROTO nodes (Extra Projects)</source>
-        <translation type="unfinished"></translation>
+        <translation>nodi PROTO (Progetti Aggiuntivi)</translation>
     </message>
     <message>
         <source>Node not available because another project PROTO model with the same name already exists in your local project.</source>
@@ -1838,7 +1841,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Error when stopping the HTML5 animation recording: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nel interrompere la registrazione dell&apos;animazione HTML5: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>HTML5 animation recorder is enabled.</source>
@@ -1846,16 +1849,17 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Cannot open HTML5 animation file &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire animazione HTML5 del file &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Start HTML5 animation export
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia esportazione animazione HTML5
+</translation>
     </message>
     <message>
         <source>HTML5 export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>esportazione HTML5 fallita</translation>
     </message>
     <message>
         <source>Error when starting the HTML5 animation recording: &apos;%1&apos;</source>
@@ -1864,11 +1868,12 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <message>
         <source>HTML5 animation successfully exported in &apos;%1&apos;
 </source>
-        <translation type="unfinished"></translation>
+        <translation>animazione HTML5 esportata con successo in &apos;%1&apos;
+</translation>
     </message>
     <message>
         <source>Make HTML5 Animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea Animazione HTML5</translation>
     </message>
     <message>
         <source>The animation has been created:&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Do you want to view it locally now?&lt;br&gt;&lt;br&gt;Note: please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/web-scene#remarks-on-the-used-technologies-and-their-limitations&apos;&gt;User Guide&lt;/a&gt; if your browser prevents local files CORS requests.</source>
@@ -1879,11 +1884,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <name>WbApplication</name>
     <message>
         <source>Could not open file: &apos;%1&apos;.</source>
-        <translation type="unfinished">Impossibile aprile il file: &apos;%1&apos;.</translation>
+        <translation>Impossibile aprile il file: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Could not create a symbolic link of dynamic library: &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile creare link simbolico della libreria dinamica: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: Failed to load due to invalid token(s).</source>
@@ -1910,7 +1915,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <name>WbBackground</name>
     <message>
         <source>Only one Background node is allowed. The current node won&apos;t be taken into account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo un nodo Background é permesso. Il nodo corrente non verrà preso in considerazione.</translation>
     </message>
     <message>
         <source>Incomplete cubemap</source>
@@ -1918,34 +1923,34 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>The texture &apos;%1&apos; is not a square image (its width doesn&apos;t equal its height).</source>
-        <translation type="unfinished"></translation>
+        <translation>La texture &apos;%1&apos; non è un&apos;immagine quadrata (la larghezza non corrisponde all&apos;altezza).</translation>
     </message>
     <message>
         <source>Texture dimension mismatch between &apos;%1&apos; and &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Le dimensioni non combaciano fra le texture &apos;%1&apos; e &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Alpha channel mismatch between &apos;%1&apos; and &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Il canale alpha non corrisponde fra &apos;%1&apos; e &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Cannot load texture &apos;%1&apos;: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile caricare texture &apos;%1&apos;: %2.</translation>
     </message>
 </context>
 <context>
     <name>WbBallJoint</name>
     <message>
         <source>The lower limit of the motor associated to the second axis shouldn&apos;t be smaller than -pi/2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il limite inferiore del motore associato al secondo asse non dovrebbe essere inferiore a -pi/2.</translation>
     </message>
     <message>
         <source>The upper limit of the motor associated to the second axis shouldn&apos;t be greater than pi/2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il limite superiore del motore associato al secondo asse non dovrebbe essere superiore a pi/2.</translation>
     </message>
     <message>
         <source>Axes are aligned: using x and z axes instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gli assi sono allineati: utilizzo gli assi x e z invece.</translation>
     </message>
     <message>
         <source>Exporting &apos;BallJoint&apos; nodes to URDF is currently not supported</source>
@@ -2001,7 +2006,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>C&amp;lean</source>
-        <translation type="unfinished">Pulisci</translation>
+        <translation>&amp;Pulisci</translation>
     </message>
     <message>
         <source>Cr&amp;oss-compile</source>
@@ -2009,11 +2014,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Cross-compilation cl&amp;ean</source>
-        <translation type="unfinished">Pulisci Compilazione Incrociata</translation>
+        <translation>&amp;Pulisci Compilazione Incrociata</translation>
     </message>
     <message>
         <source>Remove intermediate cross-compilation files.</source>
-        <translation type="unfinished">Cancella i files intermedi della compilazione incrociata,</translation>
+        <translation type="unfinished">Cancella i file^ intermedi della compilazione incrociata.</translation>
     </message>
     <message>
         <source>Compilation successful</source>
@@ -2033,11 +2038,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Make JAR file</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea file JAR</translation>
     </message>
     <message>
         <source>Create a JAR executable file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un file JAR eseguibile.</translation>
     </message>
     <message>
         <source>Installation problem: could not start &apos;%1&apos;.
@@ -2089,45 +2094,52 @@ The path to this Webots project contains non 8-bit characters. Webots won&apos;t
     <message>
         <source>
 Id: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Id: %1</translation>
     </message>
     <message>
         <source>
 Relative position: %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Posizione relativa: %1 %2 %3</translation>
     </message>
     <message>
         <source>
 Relative orientation: %1 %2 %3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Orientazione relativa: %1 %2 %3 %4</translation>
     </message>
     <message>
         <source>
 Size: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Dimensione: %1 %2</translation>
     </message>
     <message>
         <source>
 Position on the image: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Posizione nell&apos;immagine: %1 %2</translation>
     </message>
     <message>
         <source>
 Size on the image: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Dimensione nell&apos;immagine: %1 %2</translation>
     </message>
     <message>
         <source>
 Color %1: %2 %3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>&apos;near&apos; is greater than &apos;far&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;near&apos; è superiore a &apos;far&apos;. Imposto &apos;near&apos; a %1.</translation>
     </message>
     <message>
         <source>&apos;far&apos; is less than &apos;near&apos;. Setting &apos;far&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;far&apos; è inferiore a &apos;near&apos;. Imposto &apos;far&apos; a %1.</translation>
     </message>
     <message>
         <source>Lens flare cannot be applied to spherical cameras.</source>
@@ -2214,7 +2226,7 @@ Color %1: %2 %3 %4</source>
     <name>WbConsole</name>
     <message>
         <source>Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Console</translation>
     </message>
     <message>
         <source>Console Name</source>
@@ -2229,15 +2241,15 @@ Color %1: %2 %3 %4</source>
     <name>WbContactProperties</name>
     <message>
         <source>If not set to -1 (infinity), &apos;coulombFriction&apos; must be non-negative. Field value reset to 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Se non impostato a -1 (infinito), &apos;coulombFriction&apos; deve essere positivo. Valore del campo rimesso a 1</translation>
     </message>
     <message>
         <source>&apos;coulombFriction&apos; must have between one and four elements</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;coulombFriction&apos; deve avere fra uno e quattro elementi</translation>
     </message>
     <message>
         <source>&apos;forceDependentSlip&apos; must have between one and four elements</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;forceDependentSlip&apos; deve avere fra uno e quattro elementi</translation>
     </message>
 </context>
 <context>
@@ -2335,31 +2347,31 @@ Color %1: %2 %3 %4</source>
     </message>
     <message>
         <source>Expected either: %1, %2, %3, %4, or %5</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevedevo: %1, %2, %3, %4, oppure %5</translation>
     </message>
     <message>
         <source>Try to compile the C/C++ source code, to get a new executable file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prova a compilare il codice sorgente C/C++ per ottenere un nuovo file eseguibile.</translation>
     </message>
     <message>
         <source>Try to compile the Java source code, to get a new .class or .jar file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prova a compilare il codice sorgente Java per ottenere un nuovo file .class o .jar.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; controller exited successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; controllore terminato con successo.</translation>
     </message>
     <message>
         <source>Unknown key: %1 in java section</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiave: %1 sconosciuta nella sezione java</translation>
     </message>
     <message>
         <source>Unknown key: %1 in python section</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiave: %1 sconosciuta nella sezione python</translation>
     </message>
     <message>
         <source>Unknown key: %1 in matlab section</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiave: %1 sconosciuta nella sezione matlab</translation>
     </message>
     <message>
         <source>&apos;%1&apos;
@@ -2373,7 +2385,7 @@ Starts the void controller instead.</source>
     </message>
     <message>
         <source>%1: Forced termination (because process didn&apos;t terminate itself after 1 second).</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Terminazione forzata (il processo non si è terminato da solo dopo 1 secondo).</translation>
     </message>
     <message>
         <source>Unable to find the &apos;%1&apos; executable in the current PATH. Please check your %1 installation. It should be possible to launch %1 from a terminal by typing &apos;%1&apos;. It may be necessary to add the %1 bin directory to your PATH environment variable. More information about the %1 installation is available in Webots&apos; User guide.</source>
@@ -2385,7 +2397,7 @@ Starts the void controller instead.</source>
     </message>
     <message>
         <source>Could not create the runtime.ini file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stato possibile create il file runtime.ini.</translation>
     </message>
     <message>
         <source>A BotStudio controller was detected, but the &apos;window&apos; field of the Robot node is not set to &quot;botstudio&quot;. The controller probably won&apos;t work as expected.</source>
@@ -2436,11 +2448,11 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&apos;linear&apos; must be less than or equal to one.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;linear&apos; deve essere inferiore o uguale a uno.</translation>
     </message>
     <message>
         <source>&apos;angular&apos; must be less than or equal to one.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;angular&apos; deve essere inferiore o uguale a uno.</translation>
     </message>
 </context>
 <context>
@@ -2485,11 +2497,11 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbDisplay</name>
     <message>
         <source>Error while generating character &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nel generare il carattere &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; font.</source>
-        <translation type="unfinished"></translation>
+        <translation>Font &apos;%1&apos; invalido.</translation>
     </message>
 </context>
 <context>
@@ -2503,30 +2515,30 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbDockTitleBar</name>
     <message>
         <source>Maximize the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Massimizza il pannello.</translation>
     </message>
     <message>
         <source>Close the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi il pannello.</translation>
     </message>
     <message>
         <source>Undock the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sgancia il pannello.</translation>
     </message>
     <message>
         <source>Minimize the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimizza il pannello.</translation>
     </message>
 </context>
 <context>
     <name>WbElevationGrid</name>
     <message>
         <source>&apos;height&apos; contains %1 ignored extra value(s).</source>
-        <translation>&apos;height&apos; contiene %1 valore(i)  ingorato(i).</translation>
+        <translation>&apos;height&apos; contiene %1 valore(i) ingorato(i).</translation>
     </message>
     <message>
         <source>&apos;height&apos; must be positive when used in a &apos;boundingObject&apos;.</source>
-        <translation type="unfinished">&apos;height&apos; deve essere positivo se usato in un &apos;boundingObject&apos;.</translation>
+        <translation>&apos;height&apos; deve essere positivo se usato in un &apos;boundingObject&apos;.</translation>
     </message>
     <message>
         <source>Cannot create the associated physics object.</source>
@@ -2553,14 +2565,14 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&apos;range&apos; must be less than or equal to &apos;maxRange&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;range&apos; deve essere inferiore o uguale a &apos;maxRange&apos;.</translation>
     </message>
 </context>
 <context>
     <name>WbExtendedStringEditor</name>
     <message>
         <source>Controller choice</source>
-        <translation type="unfinished">Scelta del programma di controllo</translation>
+        <translation>Scelta del programma di controllo</translation>
     </message>
     <message>
         <source>Please select a controller from the list
@@ -2569,28 +2581,29 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Physics plugins choice</source>
-        <translation type="unfinished">Scelta del plugin fisico</translation>
+        <translation>Scelta del plugin fisico</translation>
     </message>
     <message>
         <source>Please select a plugin from the list
 (takes effect only after you save and reload the world)</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore seleziona un plugin dalla lista
+(ha effetto solo dopo aver salvato e ricaricato lo scenario)</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Modifica</translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <source>Select...</source>
-        <translation type="unfinished">Seleziona...</translation>
+        <translation>Seleziona...</translation>
     </message>
     <message>
         <source>The file does not exist, or has an extension which is not supported.</source>
-        <translation type="unfinished">Il file non esiste o l&apos;estensione non è supportata.</translation>
+        <translation>Il file non esiste o l&apos;estensione non è supportata.</translation>
     </message>
     <message>
         <source>Impossible to edit the file: no file defined.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile modificare il file: nessun file definito.</translation>
     </message>
     <message>
         <source>Robot window plugins choice</source>
@@ -2621,16 +2634,17 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Select controller program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona programma di controllo</translation>
     </message>
     <message>
         <source>Fluid choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Scelta del fluido</translation>
     </message>
     <message>
         <source>Please select a fluid from the list
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore seleziona un fluido dalla lista
+</translation>
     </message>
     <message>
         <source>Reference area choice</source>
@@ -2643,22 +2657,22 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Solid choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Scelta del solido</translation>
     </message>
     <message>
         <source>Open %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri %1</translation>
     </message>
     <message>
         <source>%1 files (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 files (%2)</translation>
     </message>
 </context>
 <context>
     <name>WbField</name>
     <message>
         <source>Duplicate field value.</source>
-        <translation type="unfinished">Lo stesso campo è stato definito più volte.</translation>
+        <translation>Lo stesso campo è stato definito più volte.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be in the list: {%3}.</source>
@@ -2720,11 +2734,11 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbFindReplaceDialog</name>
     <message>
         <source>&amp;Search for:</source>
-        <translation>Cerca:</translation>
+        <translation>&amp;Cerca:</translation>
     </message>
     <message>
         <source>Replace &amp;with:</source>
-        <translation>Sostituisci con:</translation>
+        <translation>Sostituisci &amp;con:</translation>
     </message>
     <message>
         <source>Use regular &amp;expressions</source>
@@ -2732,11 +2746,11 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>W&amp;hole words</source>
-        <translation>Solo parole intere</translation>
+        <translation>&amp;Parole intere</translation>
     </message>
     <message>
         <source>&amp;Match case</source>
-        <translation>Ricerca esatta</translation>
+        <translation>&amp;Ricerca esatta</translation>
     </message>
     <message>
         <source>&amp;Close</source>
@@ -2744,7 +2758,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&amp;Next</source>
-        <translation>Prossimo</translation>
+        <translation>&amp;Prossimo</translation>
     </message>
     <message>
         <source>&amp;Previous</source>
@@ -2752,11 +2766,11 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&amp;Replace</source>
-        <translation>Sostituisci</translation>
+        <translation>&amp;Sostituisci</translation>
     </message>
     <message>
         <source>Replace &amp;All</source>
-        <translation>Sostituisci Tutto</translation>
+        <translation>Sostituisci &amp;Tutto</translation>
     </message>
     <message>
         <source>&quot;%1&quot; was not found.</source>
@@ -2768,33 +2782,33 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Replace in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sostituisci in %1</translation>
     </message>
     <message>
         <source>Find in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca in %1</translation>
     </message>
 </context>
 <context>
     <name>WbFluid</name>
     <message>
         <source>&apos;density&apos; must be greater than or equal to zero. Reset to default value 1000 kg/m^3</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;density&apos; deve essere superiore o uguale a zero. Ripristinato il valore di default 1000 kg/m^3</translation>
     </message>
     <message>
         <source>&apos;viscosity&apos; must be greater than or equal to zero. Reset to default value 0.001 kg/(ms)</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;viscosity&apos; deve essere superiore o uguale a zero. Ripristinato il valore di default 0.001 kg/m^3</translation>
     </message>
 </context>
 <context>
     <name>WbFocus</name>
     <message>
         <source>Invalid &apos;minFocalDistance&apos; changed to %1. The value should be smaller or equal to &apos;maxFocalDistance&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica invalida di &apos;minFocalDistance&apos; a %1. Il valore deve essere minore o uguale a &apos;maxFocalDistance&apos;.</translation>
     </message>
     <message>
         <source>Invalid &apos;maxFocalDistance&apos; changed to %1. The value should be bigger or equal to &apos;minFocalDistance&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica invalida di &apos;maxFocalDistance&apos; a %1. Il valore deve essere superiore o uguale a &apos;minFocalDistance&apos;.</translation>
     </message>
 </context>
 <context>
@@ -2823,7 +2837,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Starting up...</source>
-        <translation type="unfinished"></translation>
+        <translation>Avviando...</translation>
     </message>
     <message>
         <source>Loading world...</source>
@@ -2835,7 +2849,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Try &apos;webots --help&apos; for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prova &apos;webots --help&apos; per ulteriori informazioni.</translation>
     </message>
     <message>
         <source>webots: too many arguments.</source>
@@ -2843,7 +2857,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>The &apos;--mode=stop&apos; option is deprecated. Please use &apos;--mode=pause&apos; instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;opzione &apos;--mode=stop&apos; è deprecata. Utilizza piuttosto &apos;--mode=pause&apos;.</translation>
     </message>
     <message>
         <source>webots: invalid option : &apos;--log-performance&apos;: log file path is missing.</source>
@@ -2851,7 +2865,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Copyright © 1998 - %1 Cyberbotics Ltd.</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright © 1998 - %1 Cyberbotics Ltd.</translation>
     </message>
     <message>
         <source>webots: invalid &apos;port&apos; option: &apos;%1&apos; in --stream</source>
@@ -2890,7 +2904,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>The tour will take you through many examples and will give you an overview of Webots features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il tour ti guida attraverso diversi esempi dandoti una visione generale delle caratteristiche di Webots.</translation>
     </message>
     <message>
         <source>Check [Auto] or press [Next] to start...</source>
@@ -2898,7 +2912,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -2918,7 +2932,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>The Guided Tour is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il Tour Guidato non è disponibile.</translation>
     </message>
     <message>
         <source>Webots Guided Tour</source>
@@ -2926,11 +2940,11 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>That&apos;s all Folks!</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo è tutto gente!</translation>
     </message>
     <message>
         <source>Thanks for viewing the Webots Guided Tour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Grazie per aver visualizzato il Tour Guidato di Webots.</translation>
     </message>
     <message>
         <source>Press [Close] to terminate...</source>
@@ -2990,41 +3004,41 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbHingeJointParameters</name>
     <message>
         <source>&apos;axis&apos; must be non zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;axis&apos; deve essere diverso da zero.</translation>
     </message>
     <message>
         <source>&apos;SuspensionAxis&apos; must be non zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;SuspensionAxis&apos; deve essere diverso da zero.</translation>
     </message>
     <message>
         <source>&apos;Hinge2JointParameters&apos; is deprecated, please use &apos;HingeJointParameters&apos; instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;Hinge2JointParameters&apos; è deprecato, per favore usa piuttosto &apos;HingeJointParameters&apos;.</translation>
     </message>
 </context>
 <context>
     <name>WbHtmlExportDialog</name>
     <message>
         <source>X3D Shadow Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametri Ombre X3D</translation>
     </message>
     <message>
         <source>File name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome del file:</translation>
     </message>
     <message>
         <source>HTML Files (*.html *.HTML)</source>
-        <translation type="unfinished"></translation>
+        <translation>Files HTML (*.html *.HTML)</translation>
     </message>
 </context>
 <context>
     <name>WbImageTexture</name>
     <message>
         <source>Cannot load texture &apos;%1&apos;: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile caricare texture &apos;%1&apos;: %2.</translation>
     </message>
     <message>
         <source>Texture image size of &apos;%1&apos; is not a power of two: rescaling it from %2x%3 to %4x%5.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le dimensioni della texture &apos;%1&apos; non sono una potenza di due: ridimensionato da %2x%3 a %4x%5.</translation>
     </message>
     <message>
         <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
@@ -3035,35 +3049,35 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbImmersionProperties</name>
     <message>
         <source>&apos;cx&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;cx&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;cy&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;cy&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;cz&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;cz&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;tx&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;tx&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;ty&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;ty&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;tz&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;tz&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;viscousResistanceForceCoefficient&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;viscousResistanceForceCoefficient&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;viscousResistanceTorqueCoefficient&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;viscousResistanceTorqueCoefficient&apos; deve essere superiore o uguale a zero.</translation>
     </message>
 </context>
 <context>
@@ -3171,49 +3185,49 @@ The following file formats are supported:
     </message>
     <message>
         <source>A &apos;Coordinate&apos; node should be present in the &apos;coord&apos; field with at least two items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un nodo &apos;Coordinate&apos; deve essere presente nel campo &apos;coord&apos; con almeno due elementi.</translation>
     </message>
     <message>
         <source>The &apos;coordIndex&apos; field should have at least two items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il campo &apos;coordindex&apos; dovrebbe avere almeno due elementi.</translation>
     </message>
 </context>
 <context>
     <name>WbJointParameters</name>
     <message>
         <source>&apos;springConstant&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished">&apos;springConstant&apos;deve essere maggiore o uguale a zero.</translation>
+        <translation>&apos;springConstant&apos;deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;dampingConstant&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished">&apos;dampingConstant&apos; deve essere maggiore o uguale a zero.</translation>
+        <translation>&apos;dampingConstant&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;staticFriction&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;staticFriction&apos; deve essere superiore o uguale a zero.</translation>
     </message>
     <message>
         <source>&apos;axis&apos; must be non zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;axis&apos; deve essere diverso da zero.</translation>
     </message>
     <message>
         <source>&apos;minStop&apos; must be less than or equal to &apos;position&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minStop&apos; deve essere inferiore o uguale a &apos;position&apos;.</translation>
     </message>
     <message>
         <source>&apos;maxStop&apos; must be greater than or equal to &apos;position&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxStop&apos; deve essere superiore o uguale a &apos;position&apos;.</translation>
     </message>
 </context>
 <context>
     <name>WbJoystickInterface</name>
     <message>
         <source>No free joystick found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun joystick libero trovato.</translation>
     </message>
     <message>
         <source>Joystick not accessible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Joystick non accessibile.</translation>
     </message>
 </context>
 <context>
@@ -3231,42 +3245,42 @@ The following file formats are supported:
     <name>WbLens</name>
     <message>
         <source>Invalid &apos;center.x&apos; changed to 0. The value should be in the range [0;1].</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;center.x&apos; invalido modificato a 0. Il valore deve essere nell&apos;intervallo [0;1].</translation>
     </message>
     <message>
         <source>Invalid &apos;center.y&apos; changed to 0. The value should be in the range [0;1].</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;center.y&apos; invalido modificato a 0. Il valore deve essere nell&apos;intervallo [0;1].</translation>
     </message>
     <message>
         <source>Invalid &apos;center.x&apos; changed to 1. The value should be in the range [0;1].</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;center.x&apos; invalido modificato a 1. Il valore deve essere nell&apos;intervallo [0;1].</translation>
     </message>
     <message>
         <source>Invalid &apos;center.y&apos; changed to 1. The value should be in the range [0;1].</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;center.y&apos; invalido modificato a 1. Il valore deve essere nell&apos;intervallo [0;1].</translation>
     </message>
 </context>
 <context>
     <name>WbLidar</name>
     <message>
         <source>&apos;type&apos; should either be &apos;fixed&apos; or &apos;rotating&apos;, reset to &apos;fixed&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&apos;type&apos; deve essere &apos;fixed&apos; oppure &apos;rotating&apos;, rimesso a &apos;fixed&apos;^</translation>
     </message>
     <message>
         <source>&apos;minFrequency&apos; should be smaller or equal to &apos;maxFrequency&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minFrequency&apos; deve essere inferiore o uguale a &apos;maxFrequency&apos;.</translation>
     </message>
     <message>
         <source>&apos;maxFrequency&apos; should be bigger or equal to &apos;minFrequency&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxFrequency&apos; deve essere superiore o uguale a &apos;minFrequency&apos;.</translation>
     </message>
     <message>
         <source>&apos;defaultFrequency&apos; should be bigger or equal to &apos;minFrequency&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;defaultFrequency&apos; deve essere superiore o uguale a &apos;minFrequency&apos;.</translation>
     </message>
     <message>
         <source>&apos;defaultFrequency&apos; should be bigger or equal to &apos;maxFrequency&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;defaultFrequency&apos; deve essere superiore o uguale a &apos;maxFrequency&apos;.</translation>
     </message>
     <message>
         <source>Impossible to have a so small &apos;horizontalResolution&apos; unsing this &apos;numberOfLayers&apos; and &apos;verticalFieldOfView&apos;. &apos;horizontalResolution&apos; should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. &apos;horizontalResolution&apos; set to %1.</source>
@@ -3290,7 +3304,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&apos;near&apos; is greater than to &apos;minRange&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;near&apos; è superiore a &apos;minRange&apos;. Modifico &apos;near&apos; a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is less than &apos;near&apos;. Setting &apos;minRange&apos; to %1.</source>
@@ -3376,7 +3390,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Schermo intero</translation>
     </message>
     <message>
         <source>Show the simulation view in fullscreen mode.</source>
@@ -3396,7 +3410,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Tools</source>
-        <translation>S&amp;trumenti</translation>
+        <translation>&amp;Strumenti</translation>
     </message>
     <message>
         <source>Restore &amp;Layout</source>
@@ -3464,7 +3478,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished">Domanda</translation>
+        <translation>Domanda</translation>
     </message>
     <message>
         <source>This simulation does not currently use a physics plugin.</source>
@@ -3492,7 +3506,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Do you want to save this modified world?</source>
-        <translation type="unfinished"></translation>
+        <translation>Desideri salvare questo scenario modificato?</translation>
     </message>
     <message>
         <source>Save World File</source>
@@ -4001,15 +4015,15 @@ The following file formats are supported:
     <name>WbMotor</name>
     <message>
         <source>&apos;controlP&apos; (currently %1) must be positive.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;controlP&apos;.(attualmente %1) deve essere positivo.</translation>
     </message>
     <message>
         <source>&apos;controlI&apos; (currently %1) must be non-negative.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;controlI&apos; (attualmente %1) deve essere positivo.</translation>
     </message>
     <message>
         <source>&apos;controlD&apos; (currently %1) must be non-negative.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;controlD&apos; (attualmente %1) deve essere positivo.</translation>
     </message>
     <message>
         <source>wb_motor_enable_force_feedback(): cannot be invoked for a Joint with no end point.</source>
@@ -4396,7 +4410,7 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4527,11 +4541,11 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>mass:</source>
-        <translation type="unfinished"></translation>
+        <translation>massa:</translation>
     </message>
     <message>
         <source>density:</source>
-        <translation type="unfinished"></translation>
+        <translation>densità:</translation>
     </message>
     <message>
         <source>Coordinates relative to selected&apos;s solid frame</source>
@@ -4539,11 +4553,11 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>relative</source>
-        <translation type="unfinished"></translation>
+        <translation>relativo</translation>
     </message>
     <message>
         <source>absolute</source>
-        <translation type="unfinished"></translation>
+        <translation>assoluto</translation>
     </message>
     <message>
         <source>Inertia matrix:</source>
