@@ -80,16 +80,6 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.previousInverseViewMatrix = inverseViewMatrix;
   }
 
-  detachFromViewport() {
-    if (this.wrenViewport) {
-      _wr_viewport_set_ambient_occlusion_effect(this.wrenViewport, null);
-      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
-      this.wrenPostProcessingEffect = null;
-      this.wrenViewport = null;
-      this.hasBeenSetup = false;
-    }
-  }
-
   setup(viewport) {
     if (this.wrenPostProcessingEffect) {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first

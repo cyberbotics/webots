@@ -41,7 +41,7 @@ class WbWrenPostProcessingEffects {
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
 
     let gtaoEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(gtaoEffect, 0);//enum
+    _wr_post_processing_effect_set_drawing_index(gtaoEffect, 1);//enum
 
     let colorPassThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, "colorPassThrough"]);
@@ -193,7 +193,7 @@ class WbWrenPostProcessingEffects {
 
   static bloom(width, height, textureFormat) {
     let bloomEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(bloomEffect, 4); //enum
+    _wr_post_processing_effect_set_drawing_index(bloomEffect, 5); //enum
 
     let colorPassThrough =_wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, "colorPassThrough"]);
@@ -277,6 +277,69 @@ class WbWrenPostProcessingEffects {
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
 
     return bloomEffect;
+  }
+
+  static smaa(width, height, textureFormat) {
+    let smaaEffect = _wr_post_processing_effect_new();
+    _wr_post_processing_effect_set_drawing_index(smaaEffect, 13);
+
+    let passThrough = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [passThrough, "LensFlarePassToBlend"]);
+    _wr_post_processing_effect_pass_set_program(passThrough, WbWrenShaders.passThroughShader());
+    _wr_post_processing_effect_pass_set_output_size(passThrough, width, height);
+    _wr_post_processing_effect_pass_set_input_texture_count(passThrough, 1);
+    _wr_post_processing_effect_pass_set_alpha_blending(passThrough, false);
+    _wr_post_processing_effect_pass_set_output_texture_count(passThrough, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    _wr_post_processing_effect_append_pass(smaaEffect, passThrough);
+
+    let edgeDetection = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [edgeDetection, "EdgeDetect"]);
+    _wr_post_processing_effect_pass_set_program(edgeDetection, WbWrenShaders.smaaEdgeDetectionShader());
+    _wr_post_processing_effect_pass_set_output_size(edgeDetection, width, height);
+    _wr_post_processing_effect_pass_set_input_texture_count(edgeDetection, 1);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(edgeDetection, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_clear_before_draw(edgeDetection, true);
+    _wr_post_processing_effect_pass_set_output_texture_count(edgeDetection, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(edgeDetection, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RG8);
+    _wr_post_processing_effect_append_pass(smaaEffect, edgeDetection);
+
+    let weightCalculation = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [weightCalculation, "WeightCalculation"]);
+    _wr_post_processing_effect_pass_set_program(weightCalculation, WbWrenShaders.smaaBlendingWeightCalculationShader());
+    _wr_post_processing_effect_pass_set_output_size(weightCalculation, width, height);
+    _wr_post_processing_effect_pass_set_input_texture_count(weightCalculation, 3);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture(weightCalculation, 1, WbWrenPostProcessingEffects.smaaAreaTexture);
+    _wr_post_processing_effect_pass_set_input_texture(weightCalculation, 2, WbWrenPostProcessingEffects.smaaSearchTexture);
+    _wr_post_processing_effect_pass_set_input_texture_interpolation(weightCalculation, 2, false);
+    _wr_post_processing_effect_pass_set_clear_before_draw(weightCalculation, true);
+    _wr_post_processing_effect_pass_set_alpha_blending(weightCalculation, false);
+    _wr_post_processing_effect_pass_set_output_texture_count(weightCalculation, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(weightCalculation, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    _wr_post_processing_effect_append_pass(smaaEffect, weightCalculation);
+
+    let finalBlend = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [finalBlend, "FinalBlend"]);
+    _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.smaaFinalBlendShader());
+    _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
+    _wr_post_processing_effect_pass_set_alpha_blending(finalBlend, false);
+    _wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 2);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_output_texture_count(finalBlend, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+    _wr_post_processing_effect_append_pass(smaaEffect, finalBlend);
+
+    _wr_post_processing_effect_connect(smaaEffect, passThrough, 0, finalBlend, 0);
+    _wr_post_processing_effect_connect(smaaEffect, edgeDetection, 0, weightCalculation, 0);
+    _wr_post_processing_effect_connect(smaaEffect, weightCalculation, 0, finalBlend, 1);
+
+    _wr_post_processing_effect_set_result_program(smaaEffect, WbWrenShaders.passThroughShader());
+
+    return smaaEffect;
   }
 }
 

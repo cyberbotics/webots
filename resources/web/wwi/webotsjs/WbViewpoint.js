@@ -16,7 +16,8 @@ import {WbBaseNode} from "./WbBaseNode.js";
 import {WbWrenHdr} from "./WbWrenHdr.js";
 import {WbWrenGtao} from "./WbWrenGtao.js";
 import {WbWrenBloom} from "./WbWrenBloom.js";
-import {GTAO_LEVEL} from "./WbPreferences.js";
+import {WbWrenSmaa} from "./WbWrenSmaa.js";
+import {GTAO_LEVEL, disableAntiAliasing} from "./WbPreferences.js";
 
 
 import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
@@ -45,6 +46,7 @@ class WbViewpoint extends WbBaseNode {
     this.wrenHdr = new WbWrenHdr();
     this.wrenGtao = new WbWrenGtao();
     this.wrenBloom = new WbWrenBloom();
+    this.wrenSmaa = new WbWrenSmaa();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
   }
@@ -159,8 +161,6 @@ class WbViewpoint extends WbBaseNode {
     this.updateFieldOfViewY();
 
     this.applyFieldOfViewToWren();
-
-    //emit cameraParametersChanged();
   }
 
   updatePostProcessingEffects(){
@@ -171,10 +171,12 @@ class WbViewpoint extends WbBaseNode {
      this.lensFlare.setup(this.wrenViewport);
 
     if (this.wrenSmaa) {
-     /*if (WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool())
+     if (disableAntiAliasing)
        this.wrenSmaa.detachFromViewport();
-     else
-       this.wrenSmaa.setup(mWrenViewport);*/
+     else{
+       console.log("ON");
+       this.wrenSmaa.setup(this.wrenViewport);
+     }
     }
 
     if (this.wrenHdr) {

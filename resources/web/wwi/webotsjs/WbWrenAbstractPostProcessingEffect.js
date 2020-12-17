@@ -21,4 +21,14 @@ class WbWrenAbstractPostProcessingEffect {
 
     this.hasBeenSetup = false;
   }
+
+  detachFromViewport() {
+    if (this.wrenViewport) {
+      _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+      this.wrenPostProcessingEffect = undefined;
+      this.wrenViewport = undefined;
+      this.hasBeenSetup = false;
+    }
+  }
 }

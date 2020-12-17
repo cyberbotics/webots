@@ -477,21 +477,64 @@ class WbWrenShaders {
   }
 
   static lineSetShader() {
-  if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET]) {
-    WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET] = _wr_shader_program_new();
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET] = _wr_shader_program_new();
 
-    _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
-    _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_COLOR_PER_VERTEX);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_COLOR_PER_VERTEX);
 
-    _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
-    _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-    WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], "../../../resources/wren/shaders/line_set.vert", "../../../resources/wren/shaders/line_set.frag");
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET], "../../../resources/wren/shaders/line_set.vert", "../../../resources/wren/shaders/line_set.frag");
 
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET];
   }
 
-  return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_LINE_SET];
-}
+  static smaaEdgeDetectionShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
+
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS], "../../../resources/wren/shaders/smaa_edge_detect.vert", "../../../resources/wren/shaders/smaa_edge_detect.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_EDGE_DETECT_PASS];
+  }
+
+  static smaaBlendingWeightCalculationShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS], "../../../resources/wren/shaders/smaa_blending_weights.vert", "../../../resources/wren/shaders/smaa_blending_weights.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS];
+  }
+
+  static smaaFinalBlendShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS], "../../../resources/wren/shaders/smaa_final_blend.vert", "../../../resources/wren/shaders/smaa_final_blend.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_SMAA_FINAL_BLEND_PASS];
+  }
 }
 
 //gShaders static variable
