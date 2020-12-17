@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot performing a Shiko dance (sumo)."
