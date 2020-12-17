@@ -386,10 +386,13 @@ namespace wren {
     void enablePointSize(bool enable) {
       if (cPointSize != enable) {
         cPointSize = enable;
+#ifdef __EMSCRIPTEN__
+#else
         if (enable)
           glEnable(GL_PROGRAM_POINT_SIZE);
         else
           glDisable(GL_PROGRAM_POINT_SIZE);
+#endif
       }
     }
 

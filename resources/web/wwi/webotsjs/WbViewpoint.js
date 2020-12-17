@@ -174,7 +174,6 @@ class WbViewpoint extends WbBaseNode {
      if (disableAntiAliasing)
        this.wrenSmaa.detachFromViewport();
      else{
-       console.log("ON");
        this.wrenSmaa.setup(this.wrenViewport);
      }
     }

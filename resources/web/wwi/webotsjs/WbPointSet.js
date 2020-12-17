@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbGeometry} from "./WbGeometry.js"
+import {WbWrenShaders} from "./WbWrenShaders.js"
 import {arrayXPointerFloat} from "./WbUtils.js"
 
 class WbPointSet extends WbGeometry {
@@ -24,7 +25,7 @@ class WbPointSet extends WbGeometry {
 
   createWrenObjects() {
     super.createWrenObjects();
-    //_wr_config_enable_point_size(true);
+    _wr_config_enable_point_size(true);
     this.updateCoord();
     this.buildWrenMesh();
   }
@@ -33,8 +34,8 @@ class WbPointSet extends WbGeometry {
     if (!this.sanitizeFields())
       return;
 
-    //if (this.wrenObjectsCreatedCalled)
-      //this.buildWrenMesh();
+    if (this.wrenObjectsCreatedCalled)
+      this.buildWrenMesh();
 
     if (this.boundingSphere)
       this.boundingSphere.setOwnerSizeChanged();
@@ -55,6 +56,17 @@ class WbPointSet extends WbGeometry {
     }
 
     return true;
+  }
+
+  setWrenMaterial(material, castShadows) {
+    super.setWrenMaterial(material, castShadows);
+    if (typeof material !== 'undefined') {
+      _wr_material_set_default_program(material, WbWrenShaders.pointSetShader());
+      if (this.color !== 'undefined')
+        _wr_phong_material_set_color_per_vertex(material, true);
+      else
+        _wr_phong_material_set_color_per_vertex(material, false);
+    }
   }
 
   buildWrenMesh() {
