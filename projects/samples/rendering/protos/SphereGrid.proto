@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # A grid of spheres for testing material properties.
 
 PROTO SphereGrid [
