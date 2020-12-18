@@ -40,12 +40,6 @@ class WbGeometry extends WbBaseNode {
 
     this.wrenRenderable = _wr_renderable_new();
 
-    // used for rendering range finder camera
-    if (!this.wrenEncodeDepthMaterial) {
-      this.wrenEncodeDepthMaterial = _wr_phong_material_new();
-      _wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
-    }
-
     _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
