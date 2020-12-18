@@ -30,31 +30,11 @@ showdown.extension('wbVariables', function() {
   var vars = {
     webots: {
       version: {
-        major: 'R2021a',
+        major: 'R2021b',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-<<<<<<< .merge_file_Fp9tXk
-<<<<<<< .merge_file_NVClp3
-<<<<<<< .merge_file_KhvR4N
-<<<<<<< .merge_file_zzzjYZ
-        full: 'R2021a',
-        package: 'R2021a'
-=======
-        full: 'R2021a revision 1',
-        package: 'R2021a-rev1'
->>>>>>> .merge_file_5Num76
-=======
-        full: 'R2021a revision 1',
-        package: 'R2021a-rev1'
->>>>>>> .merge_file_8Heb4S
-=======
-        full: 'R2021a revision 1',
-        package: 'R2021a-rev1'
->>>>>>> .merge_file_oHkD56
-=======
-        full: 'R2021a revision 1',
-        package: 'R2021a-rev1'
->>>>>>> .merge_file_WODX0r
+        full: 'R2021b',
+        package: 'R2021b'
       }
     },
     date: {

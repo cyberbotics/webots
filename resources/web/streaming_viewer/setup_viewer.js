@@ -40,40 +40,13 @@ function connect() {
   view.broadcast = broadcast.checked;
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-<<<<<<< .merge_file_bC4Wjy
-<<<<<<< .merge_file_twjA5C
-<<<<<<< .merge_file_7c6ldo
-<<<<<<< .merge_file_mOAfy0
-  view.open('ws://' + ipInput.value + ':' + portInput.value, streamingMode);
-=======
   view.open(ipInput.value, streamingMode);
->>>>>>> .merge_file_qLeKX6
-=======
-  view.open(ipInput.value, streamingMode);
->>>>>>> .merge_file_kn6A6s
-=======
-  view.open(ipInput.value, streamingMode);
->>>>>>> .merge_file_OtUZyI
-=======
-  view.open(ipInput.value, streamingMode);
->>>>>>> .merge_file_OwHqBB
+
   view.onquit = disconnect;
   connectButton.value = 'Disconnect';
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
-<<<<<<< .merge_file_bC4Wjy
-<<<<<<< .merge_file_twjA5C
-<<<<<<< .merge_file_7c6ldo
-<<<<<<< .merge_file_mOAfy0
-  portInput.disabled = true;
-=======
->>>>>>> .merge_file_qLeKX6
-=======
->>>>>>> .merge_file_kn6A6s
-=======
->>>>>>> .merge_file_OtUZyI
-=======
->>>>>>> .merge_file_OwHqBB
+
   modeSelect.disabled = true;
   broadcast.disabled = true;
 }
@@ -86,19 +59,7 @@ function disconnect() {
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
   ipInput.disabled = false;
-<<<<<<< .merge_file_bC4Wjy
-<<<<<<< .merge_file_twjA5C
-<<<<<<< .merge_file_7c6ldo
-<<<<<<< .merge_file_mOAfy0
-  portInput.disabled = false;
-=======
->>>>>>> .merge_file_qLeKX6
-=======
->>>>>>> .merge_file_kn6A6s
-=======
->>>>>>> .merge_file_OtUZyI
-=======
->>>>>>> .merge_file_OwHqBB
+
   modeSelect.disabled = false;
   broadcast.disabled = false;
 }
