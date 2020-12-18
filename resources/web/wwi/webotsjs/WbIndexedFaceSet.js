@@ -30,9 +30,6 @@ class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.creaseAngle = creaseAngle;
     this.ccw = ccw;
     this.normalPerVertex = normalPerVertex;
-
-    console.log(this.normal);
-    console.log(this.normalIndex);
   }
 
   updateTriangleMesh() {

@@ -370,16 +370,25 @@ class WbTriangleMesh {
     }
 
     assert(this.tmpTriangleNormals.length === this.numberOfTriangles);
-
     // 2. compute the map coordIndex->triangleIndex
     for (let t = 0; t < this.numberOfTriangles; ++t) {
       const k = 3 * t;
+
       let index = this.coordIndices[k];
-      this.tmpVertexToTriangle[index] = t;
+
+      if(typeof this.tmpVertexToTriangle[index] === 'undefined')
+        this.tmpVertexToTriangle[index] = [];
+      this.tmpVertexToTriangle[index].push(t);
+
       index = this.coordIndices[k + 1];
-      this.tmpVertexToTriangle[index] = t;
+      if(typeof this.tmpVertexToTriangle[index] === 'undefined')
+        this.tmpVertexToTriangle[index] = [];
+      this.tmpVertexToTriangle[index].push(t);
+
       index = this.coordIndices[k + 2];
-      this.tmpVertexToTriangle[index] = t;
+      if(typeof this.tmpVertexToTriangle[index] === 'undefined')
+        this.tmpVertexToTriangle[index] = [];
+      this.tmpVertexToTriangle[index].push(t);
     }
 
     return;
@@ -442,10 +451,12 @@ class WbTriangleMesh {
           const faceNormal = this.tmpTriangleNormals[t];
           const linkedTriangles = this.tmpVertexToTriangle[indexCoord];
           const ltSize = linkedTriangles.length;
+
           // stores the normals of the linked triangles which are already used.
           const linkedTriangleNormals = [];
           let creasedLinkedTriangleNumber = 0;
           let linkedTriangleNormalsIndex = 0;
+
           for (let i = 0; i < ltSize; ++i) {
             const linkedTriangleIndex = linkedTriangles[i];
             if (linkedTriangleIndex >= 0 && linkedTriangleIndex < this.numberOfTriangles) {
@@ -465,7 +476,7 @@ class WbTriangleMesh {
                   }
                 }
                 if (!found) {
-                  triangleNormal += linkedTriangleNormal;
+                  triangleNormal = triangleNormal.add(linkedTriangleNormal);
                   linkedTriangleNormals[linkedTriangleNormalsIndex] = linkedTriangleNormal;
                   linkedTriangleNormalsIndex++;
                 }
@@ -518,10 +529,6 @@ class WbTriangleMesh {
     assert(this.isNormalCreased.length === 3 * this.numberOfTriangles);
     assert(this.textureCoordinates.length === 0 || this.textureCoordinates.length === 2 * 3 * this.numberOfTriangles);
     assert(this.nonRecursiveTextureCoordinates.length === 0 || this.nonRecursiveTextureCoordinates.length === 2 * 3 * this.numberOfTriangles);
-    console.log("build");
-    console.log(this.normals);
-    console.log(this.tmpNormalIndices);
-
   }
 
   setDefaultTextureCoordinates(coord) {
