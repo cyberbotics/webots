@@ -64,4 +64,3 @@ Released on December 15th, 2020.
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
     - **Stopped releasing Webots packages compatible with Ubuntu 16.04.** To run Webots on Ubuntu 16.04, please [compile from sources](https://github.com/cyberbotics/webots/wiki/Linux-installation) ([#2473](https://github.com/cyberbotics/webots/pull/2473)).
     - Updated the Thymio II Aseba controller to Aseba 1.3.3 ([#2518](https://github.com/cyberbotics/webots/pull/2518)).
-

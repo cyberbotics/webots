@@ -41,12 +41,10 @@ function connect() {
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   view.open(ipInput.value, streamingMode);
-
   view.onquit = disconnect;
   connectButton.value = 'Disconnect';
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
-
   modeSelect.disabled = true;
   broadcast.disabled = true;
 }
@@ -59,7 +57,6 @@ function disconnect() {
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
   ipInput.disabled = false;
-
   modeSelect.disabled = false;
   broadcast.disabled = false;
 }
