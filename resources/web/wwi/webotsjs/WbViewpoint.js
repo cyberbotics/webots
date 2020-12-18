@@ -43,10 +43,10 @@ class WbViewpoint extends WbBaseNode {
 
     this.inverseViewMatrix;
 
-    this.wrenHdr = new WbWrenHdr();
-    this.wrenGtao = new WbWrenGtao();
+    //this.wrenHdr = new WbWrenHdr();
+    //this.wrenGtao = new WbWrenGtao();
     this.wrenBloom = new WbWrenBloom();
-    this.wrenSmaa = new WbWrenSmaa();
+    //this.wrenSmaa = new WbWrenSmaa();
     this.wrenViewport = undefined;
     this.wrenCamera = undefined;
   }
