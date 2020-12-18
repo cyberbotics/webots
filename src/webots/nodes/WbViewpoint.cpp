@@ -115,7 +115,7 @@ void WbViewpoint::init() {
   mRotationCenter = WbVector3(mPosition->value());
 
   mWrenViewport = NULL;
-  mWrenSmaa = NULL;  // new WbWrenSmaa();
+  mWrenSmaa = new WbWrenSmaa();
   mWrenHdr = new WbWrenHdr();
   mWrenGtao = new WbWrenGtao();
   mWrenBloom = new WbWrenBloom();
