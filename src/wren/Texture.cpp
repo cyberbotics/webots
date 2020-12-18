@@ -40,13 +40,7 @@ namespace wren {
 #else
     GlFormatParams(GL_RGB8, GL_BGR, GL_UNSIGNED_BYTE, 3, 3),
     GlFormatParams(GL_RGBA8, GL_BGRA, GL_UNSIGNED_BYTE, 4, 4),
-<<<<<<< .merge_file_C8NzZo
-<<<<<<< .merge_file_1uxVQh
 #endif
-=======
->>>>>>> .merge_file_UJd1ro
-=======
->>>>>>> .merge_file_KBO2et
     GlFormatParams(GL_R16F, GL_RED, GL_HALF_FLOAT, 2, 1),
     GlFormatParams(GL_RGB16F, GL_RGB, GL_HALF_FLOAT, 6, 3),
     GlFormatParams(GL_RGBA16F, GL_RGBA, GL_HALF_FLOAT, 8, 4),

@@ -147,6 +147,7 @@ function addDevice(device) {
   if (document.getElementById(device.htmlName))
     return; // check if already exists
 
+<<<<<<< .merge_file_g09DPi
 <<<<<<< .merge_file_lNKZ96
 <<<<<<< .merge_file_cPxnjQ
   var div = '<div id="' + device.htmlName + '" class="device">';
@@ -156,6 +157,9 @@ function addDevice(device) {
 =======
   let div = '<div id="' + device.htmlName + '" class="device">';
 >>>>>>> .merge_file_yT7W0b
+=======
+  let div = '<div id="' + device.htmlName + '" class="device">';
+>>>>>>> .merge_file_n2doAo
   div += '<h2>';
   if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')
     div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="checkboxCallback(this)" />';

@@ -1,6 +1,7 @@
 # Webots R2021 Change Log
 
 ## Webots R2021a
+<<<<<<< .merge_file_zfvF1Q
 <<<<<<< .merge_file_ycIJwD
 <<<<<<< .merge_file_S2O3Bj
 Released on December XXth, 2020.
@@ -10,17 +11,23 @@ Released on December 15th, 2020.
 =======
 Released on December 15th, 2020.
 >>>>>>> .merge_file_YXHvQI
+=======
+Released on December 15th, 2020.
+>>>>>>> .merge_file_qGbmaV
 
   - New Features
     - Added the `wb_supervisor_node_get_from_device` function to retrieve the node's handle of a device ([#2074](https://github.com/cyberbotics/webots/pull/2074)).
     - Devices added during simulation run are now available in the robot controller ([#2237](https://github.com/cyberbotics/webots/pull/2237)).
     - Added the `wb_connector_is_locked` function to returns the current *isLocked* state of a [Connector](connector.md) ([#2087](https://github.com/cyberbotics/webots/pull/2087)).
     - Added the possibility to use an EUN (East-Up-North) coordinate system in the `coordinateSystem` field of the [WorldInfo](worldinfo.md) node ([#2228](https://github.com/cyberbotics/webots/pull/2228)).
+<<<<<<< .merge_file_zfvF1Q
 <<<<<<< .merge_file_ycIJwD
 <<<<<<< .merge_file_S2O3Bj
 =======
 =======
 >>>>>>> .merge_file_YXHvQI
+=======
+>>>>>>> .merge_file_qGbmaV
     - Added the possibility to disable rendering in the `realtime` mode ([#2286](https://github.com/cyberbotics/webots/pull/2286)).
     - **Added a new argument to the [Supervisor](supervisor.md) [`wb_supervisor_node_get_number_of_contact_points`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) API function to retrieve the number of contact points including those of the desendant nodes ([#2228](https://github.com/cyberbotics/webots/pull/2228)).**
     - Added a new [`wb_supervisor_node_get_contact_point_node`](supervisor.md#wb_supervisor_node_get_contact_point_node) [Supervisor](supervisor.md) API function to get the node reference associated to a given contact point ([#2228](https://github.com/cyberbotics/webots/pull/2228)).
@@ -77,7 +84,10 @@ Released on December 15th, 2020.
     - Upgraded to Qt 5.15.1 on Windows ([#2312](https://github.com/cyberbotics/webots/pull/2312)).
     - **Stopped releasing Webots packages compatible with Ubuntu 16.04.** To run Webots on Ubuntu 16.04, please [compile from sources](https://github.com/cyberbotics/webots/wiki/Linux-installation) ([#2473](https://github.com/cyberbotics/webots/pull/2473)).
     - Updated the Thymio II Aseba controller to Aseba 1.3.3 ([#2518](https://github.com/cyberbotics/webots/pull/2518)).
+<<<<<<< .merge_file_zfvF1Q
 <<<<<<< .merge_file_ycIJwD
 >>>>>>> .merge_file_A3S4xs
 =======
 >>>>>>> .merge_file_YXHvQI
+=======
+>>>>>>> .merge_file_qGbmaV
