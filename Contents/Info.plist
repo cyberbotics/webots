@@ -35,11 +35,15 @@
 	<key>CFBundleExecutable</key>
 	<string>webots</string>
 	<key>CFBundleGetInfoString</key>
+<<<<<<< .merge_file_ienjd3
 <<<<<<< .merge_file_Z5UeE2
 	<string>Webots R2021a, Copyright 1998-2021 Cyberbotics Ltd.</string>
 =======
 	<string>Webots R2021a revision 1, Copyright 1998-2021 Cyberbotics Ltd.</string>
 >>>>>>> .merge_file_mZMS09
+=======
+	<string>Webots R2021a revision 1, Copyright 1998-2021 Cyberbotics Ltd.</string>
+>>>>>>> .merge_file_XhbLm4
 	<key>CFBundleIconFile</key>
 	<string>webots_icon</string>
 	<key>CFBundleIdentifier</key>
@@ -51,6 +55,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
+<<<<<<< .merge_file_ienjd3
 <<<<<<< .merge_file_Z5UeE2
 	<string>R2021a</string>
 	<key>CFBundleSignature</key>
@@ -64,6 +69,13 @@
 	<key>CFBundleVersion</key>
 	<string>R2021a revision 1</string>
 >>>>>>> .merge_file_mZMS09
+=======
+	<string>R2021a revision 1</string>
+	<key>CFBundleSignature</key>
+	<string>wbt </string>
+	<key>CFBundleVersion</key>
+	<string>R2021a revision 1</string>
+>>>>>>> .merge_file_XhbLm4
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>

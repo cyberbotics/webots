@@ -33,6 +33,7 @@ showdown.extension('wbVariables', function() {
         major: 'R2021a',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
+<<<<<<< .merge_file_KhvR4N
 <<<<<<< .merge_file_zzzjYZ
         full: 'R2021a',
         package: 'R2021a'
@@ -40,6 +41,10 @@ showdown.extension('wbVariables', function() {
         full: 'R2021a revision 1',
         package: 'R2021a-rev1'
 >>>>>>> .merge_file_5Num76
+=======
+        full: 'R2021a revision 1',
+        package: 'R2021a-rev1'
+>>>>>>> .merge_file_8Heb4S
       }
     },
     date: {
