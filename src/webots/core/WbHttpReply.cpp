@@ -53,23 +53,8 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
-<<<<<<< .merge_file_JJOiyx
-<<<<<<< .merge_file_CiAdKh
-<<<<<<< .merge_file_MRyMaf
-  reply.append(QString("Content-Type: %1\r\n").arg(mimeType));
-  reply.append(QString("Content-Length: %1\r\n").arg(data.length()));
-=======
   reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
   reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
->>>>>>> .merge_file_XP91mm
-=======
-  reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
-  reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
->>>>>>> .merge_file_1XGZUl
-=======
-  reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
-  reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
->>>>>>> .merge_file_N89WsA
   reply.append("\r\n");
   reply.append(data);
 

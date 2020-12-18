@@ -116,10 +116,6 @@ static void initMaterialToPhong(WrMaterial *material) {
   wr_material_set_default_program(material, phongProgram);
   wr_material_set_stencil_ambient_emissive_program(material, phongStencilAmbientEmissiveProgram);
   wr_material_set_stencil_diffuse_specular_program(material, phongStencilDiffuseSpecularProgram);
-=======
->>>>>>> .merge_file_dwjeGR
-=======
->>>>>>> .merge_file_7i3kj7
 }
 
 // Create the WREN scene.
@@ -170,16 +166,6 @@ static void render() {
   static int i = 0;
   printf("\33[2K\rrendering iteration %d", i++);
   fflush(stdout);
-=======
-  static int i = 0;
-  printf("\33[2K\rrendering iteration %d", i++);
-  fflush(stdout);
->>>>>>> .merge_file_dwjeGR
-=======
-  static int i = 0;
-  printf("\33[2K\rrendering iteration %d", i++);
-  fflush(stdout);
->>>>>>> .merge_file_7i3kj7
   wr_scene_render(wr_scene_get_instance(), NULL, true);
   glutSwapBuffers();
 }

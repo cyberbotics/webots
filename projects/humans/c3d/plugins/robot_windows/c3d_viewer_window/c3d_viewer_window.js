@@ -132,6 +132,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
         let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
           .AutoRangeType.STRETCH, {
+<<<<<<< .merge_file_sQmFfr
 <<<<<<< .merge_file_YxxfaT
 <<<<<<< .merge_file_Qup5XE
 <<<<<<< .merge_file_AW6Gtl
@@ -146,12 +147,15 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 >>>>>>> .merge_file_YXMKbJ
 =======
 >>>>>>> .merge_file_1jjFMV
+=======
+>>>>>>> .merge_file_0yIsIw
           'min': -1,
           'max': 1
         }, {
           'x': 'Time [s]',
           'y': '[' + unit + ']'
         }, null);
+<<<<<<< .merge_file_sQmFfr
 <<<<<<< .merge_file_YxxfaT
 <<<<<<< .merge_file_Qup5XE
 >>>>>>> .merge_file_hf0mDp
@@ -159,6 +163,8 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 >>>>>>> .merge_file_YXMKbJ
 =======
 >>>>>>> .merge_file_1jjFMV
+=======
+>>>>>>> .merge_file_0yIsIw
         let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 1
@@ -239,6 +245,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
 
+<<<<<<< .merge_file_sQmFfr
 <<<<<<< .merge_file_YxxfaT
 <<<<<<< .merge_file_Qup5XE
 <<<<<<< .merge_file_AW6Gtl
@@ -247,6 +254,8 @@ webots.window('c3d_viewer_window').init(function() {
 >>>>>>> .merge_file_YXMKbJ
 =======
 >>>>>>> .merge_file_1jjFMV
+=======
+>>>>>>> .merge_file_0yIsIw
   document.getElementById('upload_file').addEventListener('change', function(event) {
     let files = event.target.files;
     let f = files[0];
@@ -260,6 +269,7 @@ webots.window('c3d_viewer_window').init(function() {
     reader.readAsDataURL(f); // perform base64 encoding suitable for sending text through the wwi interface
   });
 
+<<<<<<< .merge_file_sQmFfr
 <<<<<<< .merge_file_YxxfaT
 <<<<<<< .merge_file_Qup5XE
 >>>>>>> .merge_file_hf0mDp
@@ -267,6 +277,8 @@ webots.window('c3d_viewer_window').init(function() {
 >>>>>>> .merge_file_YXMKbJ
 =======
 >>>>>>> .merge_file_1jjFMV
+=======
+>>>>>>> .merge_file_0yIsIw
   function enableGraphs(event) {
     let checkbox = event.target;
     robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked, 'c3d_viewer');
