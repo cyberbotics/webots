@@ -61,16 +61,14 @@ namespace wren {
     }
 
     void setBackgroundColor(const glm::vec4 color);
-    void setBorderActive(bool isBorderActive) { mParams.mActiveFlags.w = isBorderActive ? 1.0f : 0.0f; }
+    void setBorderActive(bool isBorderActive) { mParams.mActiveFlags.y = isBorderActive ? 1u : 0u; }
     void setBorderColor(const glm::vec4 color) { mParams.mBorderColor = color; }
     void setBorderSize(float sizeHorizontal, float sizeVertical) {
       mParams.mBorderSize = glm::vec2(sizeHorizontal, sizeVertical);
     }
 
-    void setTexture(Texture *texture);
+    void setTexture(Texture *texture, int role);
     void setTextureFlipVertical(bool flip) { mParams.mTextureFlags.x = flip ? 1.0f : 0.0f; }
-    void setBackgroundTexture(Texture *texture);
-    void setForegroundTexture(Texture *texture);
     void addAdditionalTexture(Texture *texture);
     void setProgram(ShaderProgram *program) { mProgram = program; }
 
@@ -102,9 +100,7 @@ namespace wren {
     bool mShowDefaultSize;
     bool mPremultipliedAlpha;
 
-    Texture *mTexture;
-    Texture *mBackgroundTexture;
-    Texture *mForegroundTexture;
+    std::vector<Texture *> mTextures;
     std::vector<Texture *> mAdditionalTextures;
     Texture::UsageParams mTextureParams;
 
