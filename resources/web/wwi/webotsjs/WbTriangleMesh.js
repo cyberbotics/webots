@@ -479,9 +479,9 @@ class WbTriangleMesh {
             triangleNormal.normalize();
 
           // populate the remaining two final arrays
-          this.normals.push(triangleNormal[0]);
-          this.normals.push(triangleNormal[1]);
-          this.normals.push(triangleNormal[2]);
+          this.normals.push(triangleNormal.x);
+          this.normals.push(triangleNormal.y);
+          this.normals.push(triangleNormal.z);
           this.isNormalCreased.push(creasedLinkedTriangleNumber === ltSize);
         } else {  // normal already defined per vertex
           const indexNormal = this.tmpNormalIndices[index];
@@ -518,6 +518,10 @@ class WbTriangleMesh {
     assert(this.isNormalCreased.length === 3 * this.numberOfTriangles);
     assert(this.textureCoordinates.length === 0 || this.textureCoordinates.length === 2 * 3 * this.numberOfTriangles);
     assert(this.nonRecursiveTextureCoordinates.length === 0 || this.nonRecursiveTextureCoordinates.length === 2 * 3 * this.numberOfTriangles);
+    console.log("build");
+    console.log(this.normals);
+    console.log(this.tmpNormalIndices);
+
   }
 
   setDefaultTextureCoordinates(coord) {
