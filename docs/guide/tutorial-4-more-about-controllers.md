@@ -309,13 +309,13 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > // modify speeds according to obstacles
 > if (left_obstacle) {
 >   // turn right
->   left_speed  += 0.5 * MAX_SPEED;
->   right_speed -= 0.5 * MAX_SPEED;
+>   left_speed  = 0.5 * MAX_SPEED;
+>   right_speed = -0.5 * MAX_SPEED;
 > }
 > else if (right_obstacle) {
 >   // turn left
->   left_speed  -= 0.5 * MAX_SPEED;
->   right_speed += 0.5 * MAX_SPEED;
+>   left_speed  = -0.5 * MAX_SPEED;
+>   right_speed = 0.5 * MAX_SPEED;
 > }
 > // write actuators inputs
 > wb_motor_set_velocity(left_motor, left_speed);
@@ -380,13 +380,13 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > // modify speeds according to obstacles
 > if (left_obstacle) {
 >   // turn right
->   leftSpeed  += 0.5 * MAX_SPEED;
->   rightSpeed -= 0.5 * MAX_SPEED;
+>   leftSpeed  = 0.5 * MAX_SPEED;
+>   rightSpeed = -0.5 * MAX_SPEED;
 > }
 > else if (right_obstacle) {
 >   // turn left
->   leftSpeed  -= 0.5 * MAX_SPEED;
->   rightSpeed += 0.5 * MAX_SPEED;
+>   leftSpeed  = -0.5 * MAX_SPEED;
+>   rightSpeed = 0.5 * MAX_SPEED;
 > }
 > // write actuators inputs
 > leftMotor->setVelocity(leftSpeed);
@@ -409,13 +409,13 @@ Reload the world.
 > ]
 >
 > for i in range(8):
->     ps.append(robot.getDistanceSensor(psNames[i]))
+>     ps.append(robot.getDevice(psNames[i]))
 >     ps[i].enable(TIME_STEP)
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
-> leftMotor = robot.getMotor('left wheel motor')
-> rightMotor = robot.getMotor('right wheel motor')
+> leftMotor = robot.getDevice('left wheel motor')
+> rightMotor = robot.getDevice('right wheel motor')
 > leftMotor.setPosition(float('inf'))
 > rightMotor.setPosition(float('inf'))
 > leftMotor.setVelocity(0.0)
@@ -444,12 +444,12 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > # modify speeds according to obstacles
 > if left_obstacle:
 >     # turn right
->     leftSpeed  += 0.5 * MAX_SPEED
->     rightSpeed -= 0.5 * MAX_SPEED
+>     leftSpeed  = 0.5 * MAX_SPEED
+>     rightSpeed = -0.5 * MAX_SPEED
 > elif right_obstacle:
 >     # turn left
->     leftSpeed  -= 0.5 * MAX_SPEED
->     rightSpeed += 0.5 * MAX_SPEED
+>     leftSpeed  = -0.5 * MAX_SPEED
+>     rightSpeed = 0.5 * MAX_SPEED
 > # write actuators inputs
 > leftMotor.setVelocity(leftSpeed)
 > rightMotor.setVelocity(rightSpeed)
@@ -511,13 +511,13 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > // modify speeds according to obstacles
 > if (left_obstacle) {
 >   // turn right
->   leftSpeed  += 0.5 * MAX_SPEED;
->   rightSpeed -= 0.5 * MAX_SPEED;
+>   leftSpeed  = 0.5 * MAX_SPEED;
+>   rightSpeed = -0.5 * MAX_SPEED;
 > }
 > else if (right_obstacle) {
 >   // turn left
->   leftSpeed  -= 0.5 * MAX_SPEED;
->   rightSpeed += 0.5 * MAX_SPEED;
+>   leftSpeed  = -0.5 * MAX_SPEED;
+>   rightSpeed = 0.5 * MAX_SPEED;
 > }
 > // write actuators inputs
 > leftMotor.setVelocity(leftSpeed);
@@ -574,12 +574,12 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > % modify speeds according to obstacles
 > if left_obstacle
 >   % turn right
->   left_speed  = left_speed + 0.5 * MAX_SPEED;
->   right_speed = right_speed - 0.5 * MAX_SPEED;
+>   left_speed  = 0.5 * MAX_SPEED;
+>   right_speed = -0.5 * MAX_SPEED;
 > elseif right_obstacle
 >   % turn left
->   left_speed  = left_speed - 0.5 * MAX_SPEED;
->   right_speed = right_speed + 0.5 * MAX_SPEED;
+>   left_speed  = -0.5 * MAX_SPEED;
+>   right_speed = 0.5 * MAX_SPEED;
 > end
 > % write actuators inputs
 > wb_motor_set_velocity(left_motor, left_speed);
@@ -658,13 +658,13 @@ int main(int argc, char **argv) {
     // modify speeds according to obstacles
     if (left_obstacle) {
       // turn right
-      left_speed  += 0.5 * MAX_SPEED;
-      right_speed -= 0.5 * MAX_SPEED;
+      left_speed  = 0.5 * MAX_SPEED;
+      right_speed = -0.5 * MAX_SPEED;
     }
     else if (right_obstacle) {
       // turn left
-      left_speed  -= 0.5 * MAX_SPEED;
-      right_speed += 0.5 * MAX_SPEED;
+      left_speed  = -0.5 * MAX_SPEED;
+      right_speed = 0.5 * MAX_SPEED;
     }
 
     // write actuators inputs
@@ -740,13 +740,13 @@ int main(int argc, char **argv) {
     // modify speeds according to obstacles
     if (left_obstacle) {
       // turn right
-      leftSpeed  += 0.5 * MAX_SPEED;
-      rightSpeed -= 0.5 * MAX_SPEED;
+      leftSpeed  = 0.5 * MAX_SPEED;
+      rightSpeed = -0.5 * MAX_SPEED;
     }
     else if (right_obstacle) {
       // turn left
-      leftSpeed  -= 0.5 * MAX_SPEED;
-      rightSpeed += 0.5 * MAX_SPEED;
+      leftSpeed  = -0.5 * MAX_SPEED;
+      rightSpeed = 0.5 * MAX_SPEED;
     }
     // write actuators inputs
     leftMotor->setVelocity(leftSpeed);
@@ -779,11 +779,11 @@ psNames = [
 ]
 
 for i in range(8):
-    ps.append(robot.getDistanceSensor(psNames[i]))
+    ps.append(robot.getDevice(psNames[i]))
     ps[i].enable(TIME_STEP)
 
-leftMotor = robot.getMotor('left wheel motor')
-rightMotor = robot.getMotor('right wheel motor')
+leftMotor = robot.getDevice('left wheel motor')
+rightMotor = robot.getDevice('right wheel motor')
 leftMotor.setPosition(float('inf'))
 rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
@@ -806,12 +806,12 @@ while robot.step(TIME_STEP) != -1:
     # modify speeds according to obstacles
     if left_obstacle:
         # turn right
-        leftSpeed  += 0.5 * MAX_SPEED
-        rightSpeed -= 0.5 * MAX_SPEED
+        leftSpeed  = 0.5 * MAX_SPEED
+        rightSpeed = -0.5 * MAX_SPEED
     elif right_obstacle:
         # turn left
-        leftSpeed  -= 0.5 * MAX_SPEED
-        rightSpeed += 0.5 * MAX_SPEED
+        leftSpeed  = -0.5 * MAX_SPEED
+        rightSpeed = 0.5 * MAX_SPEED
     # write actuators inputs
     leftMotor.setVelocity(leftSpeed)
     rightMotor.setVelocity(rightSpeed)
@@ -877,13 +877,13 @@ public class EPuckAvoidCollision {
       // modify speeds according to obstacles
       if (left_obstacle) {
         // turn right
-        leftSpeed  += 0.5 * MAX_SPEED;
-        rightSpeed -= 0.5 * MAX_SPEED;
+        leftSpeed  = 0.5 * MAX_SPEED;
+        rightSpeed = -0.5 * MAX_SPEED;
       }
       else if (right_obstacle) {
         // turn left
-        leftSpeed  -= 0.5 * MAX_SPEED;
-        rightSpeed += 0.5 * MAX_SPEED;
+        leftSpeed  = -0.5 * MAX_SPEED;
+        rightSpeed = 0.5 * MAX_SPEED;
       }
       // write actuators inputs
       leftMotor.setVelocity(leftSpeed);
@@ -935,12 +935,12 @@ while wb_robot_step(TIME_STEP) ~= -1
   % modify speeds according to obstacles
   if left_obstacle
     % turn right
-    left_speed   = left_speed + 0.5 * MAX_SPEED;
-    right_speed  = right_speed - 0.5 * MAX_SPEED;
+    left_speed   = 0.5 * MAX_SPEED;
+    right_speed  = -0.5 * MAX_SPEED;
   elseif right_obstacle
     % turn left
-    left_speed  = left_speed - 0.5 * MAX_SPEED;
-    right_speed = right_speed + 0.5 * MAX_SPEED;
+    left_speed  = -0.5 * MAX_SPEED;
+    right_speed = 0.5 * MAX_SPEED;
   end
   % write actuators inputs
   wb_motor_set_velocity(left_motor, left_speed);

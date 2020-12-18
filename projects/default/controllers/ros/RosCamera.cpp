@@ -19,6 +19,8 @@
 #include "webots_ros/RecognitionObject.h"
 
 RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), camera, ros) {
+  mIsRecognitionSegmentationEnabled = false;
+
   mCamera = camera;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mInfoServer =
@@ -33,14 +35,33 @@ RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), ca
     RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_fov", &RosCamera::setFovCallback);
   mSetFocalDistanceServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_focal_distance",
                                                            &RosCamera::setFocalDistanceCallback);
+  mSetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_exposure", &RosCamera::setExposureCallback);
+  mGetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_exposure", &RosCamera::getExposureCallback);
   mHasRecognitionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/has_recognition",
                                                          &RosCamera::hasRecognitionCallback);
+
+  mHasRecognitionSegmentationServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + fixedDeviceName + "/recognition_has_segmentation", &RosCamera::hasRecognitionSegmentationCallback);
   if (camera->hasRecognition()) {
     mRecognitionEnableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_enable",
                                                               &RosCamera::recognitionEnableCallback);
     mRecognitionSamplingPeriodServer =
       RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_get_sampling_period",
                                      &RosCamera::recognitionSamplingPeriodCallback);
+    mEnableRecognitionSegmentationServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_enable_segmentation",
+                                     &RosCamera::enableRecognitionSegmentationCallback);
+    mDisableRecognitionSegmentationServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_disable_segmentation",
+                                     &RosCamera::disableRecognitionSegmentationCallback);
+    mIsRecognitionSegmentationEnabledServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_is_segmentation_enabled",
+                                     &RosCamera::isRecognitionSegmentationEnabledCallback);
+    mSaveRecognitionSegmentationImageServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_save_segmentation_image",
+                                     &RosCamera::saveRecognitionSegmentationImageCallback);
   }
 }
 
@@ -52,10 +73,13 @@ RosCamera::~RosCamera() {
   mSetFovServer.shutdown();
   mSetFocalDistanceServer.shutdown();
   mHasRecognitionServer.shutdown();
+  mSetExposureServer.shutdown();
+  mGetExposureServer.shutdown();
   if (mCamera->hasRecognition()) {
     mRecognitionEnableServer.shutdown();
     mRecognitionSamplingPeriodServer.shutdown();
     mRecognitionObjectsPublisher.shutdown();
+    mRecognitionSegmentationPublisher.shutdown();
   }
   cleanup();
 }
@@ -63,15 +87,17 @@ RosCamera::~RosCamera() {
 // creates a publisher for camera image with
 // a [4 x ImageWidth x ImageHeight] {unsigned char} array
 ros::Publisher RosCamera::createPublisher() {
+  return createImagePublisher("image");
+}
+
+ros::Publisher RosCamera::createImagePublisher(const std::string &name) {
   sensor_msgs::Image type;
   type.height = mCamera->getHeight();
   type.width = mCamera->getWidth();
   type.encoding = sensor_msgs::image_encodings::BGRA8;
   // type.is_bigendian = 0;
   type.step = sizeof(char) * 4 * mCamera->getWidth();
-
-  mColorTopic = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/image";
-  return RosDevice::rosAdvertiseTopic(mColorTopic, type);
+  return RosDevice::rosAdvertiseTopic(mRos->name() + '/' + RosDevice::fixedDeviceName() + "/" + name, type);
 }
 
 // get image from the Camera and publish it
@@ -97,7 +123,7 @@ void RosCamera::publishAuxiliaryValue() {
     const CameraRecognitionObject *objects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObject object;
     object.header.stamp = ros::Time::now();
-    object.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    object.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
     for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
       object.position.x = objects[i].position[0];
       object.position.y = objects[i].position[1];
@@ -117,6 +143,22 @@ void RosCamera::publishAuxiliaryValue() {
         object.colors.push_back(color);
       }
       mRecognitionObjectsPublisher.publish(object);
+    }
+
+    if (mIsRecognitionSegmentationEnabled) {
+      const unsigned char *colorImage = mCamera->getRecognitionSegmentationImage();
+      sensor_msgs::Image image;
+      image.header.stamp = ros::Time::now();
+      image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+      image.height = mCamera->getHeight();
+      image.width = mCamera->getWidth();
+      image.encoding = sensor_msgs::image_encodings::BGRA8;
+      // image.is_bigendian = 0;
+      image.step = sizeof(char) * 4 * mCamera->getWidth();
+      image.data.resize(4 * mCamera->getWidth() * mCamera->getHeight());
+      memcpy(&image.data[0], colorImage, sizeof(char) * 4 * mCamera->getWidth() * mCamera->getHeight());
+
+      mRecognitionSegmentationPublisher.publish(image);
     }
   }
 }
@@ -166,6 +208,19 @@ bool RosCamera::setFocalDistanceCallback(webots_ros::set_float::Request &req, we
   return true;
 }
 
+bool RosCamera::setExposureCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res) {
+  assert(mCamera);
+  mCamera->setExposure(req.value);
+  res.success = true;
+  return true;
+}
+
+bool RosCamera::getExposureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
+  assert(mCamera);
+  res.value = mCamera->getExposure();
+  return true;
+}
+
 bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res) {
   if (req.value == 0) {
     res.success = true;
@@ -195,9 +250,54 @@ bool RosCamera::recognitionSamplingPeriodCallback(webots_ros::get_int::Request &
 
 bool RosCamera::hasRecognitionCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res) {
   assert(mCamera);
-  if (mCamera->hasRecognition())
+  res.value = mCamera->hasRecognition();
+  return true;
+}
+
+bool RosCamera::hasRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res) {
+  assert(mCamera);
+  res.value = mCamera->hasRecognitionSegmentation();
+  return true;
+}
+
+bool RosCamera::enableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res) {
+  assert(mCamera);
+  if (mCamera->hasRecognition()) {
+    mCamera->enableRecognitionSegmentation();
+    if (!mRecognitionSegmentationPublisher && mCamera->hasRecognitionSegmentation() &&
+        mCamera->getRecognitionSamplingPeriod() > 0) {
+      mRecognitionSegmentationPublisher = createImagePublisher("recognition_segmentation_image");
+      mIsRecognitionSegmentationEnabled = true;
+    }
     res.value = true;
-  else
+  } else
     res.value = false;
+  return true;
+}
+
+bool RosCamera::disableRecognitionSegmentationCallback(webots_ros::get_bool::Request &req,
+                                                       webots_ros::get_bool::Response &res) {
+  assert(mCamera);
+  if (mCamera->hasRecognition()) {
+    mCamera->disableRecognitionSegmentation();
+    mRecognitionSegmentationPublisher.shutdown();
+    mIsRecognitionSegmentationEnabled = false;
+    res.value = true;
+  } else
+    res.value = false;
+  return true;
+}
+
+bool RosCamera::isRecognitionSegmentationEnabledCallback(webots_ros::get_bool::Request &req,
+                                                         webots_ros::get_bool::Response &res) {
+  assert(mCamera);
+  res.value = mCamera->isRecognitionSegmentationEnabled();
+  return true;
+}
+
+bool RosCamera::saveRecognitionSegmentationImageCallback(webots_ros::save_image::Request &req,
+                                                         webots_ros::save_image::Response &res) {
+  assert(mCamera);
+  res.success = 1 + mCamera->saveRecognitionSegmentationImage(req.filename, req.quality);
   return true;
 }

@@ -32,7 +32,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <wren/config.h>
 #include <wren/dynamic_mesh.h>
@@ -451,7 +451,7 @@ void WbDistanceSensor::setSensorRays() {
 }
 
 void WbDistanceSensor::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
   setSensorRays();
 }
 
@@ -480,7 +480,7 @@ bool WbDistanceSensor::refreshSensorIfNeeded() {
 
 void WbDistanceSensor::reset() {
   WbSolidDevice::reset();
-  wr_node_set_visible(WR_NODE(mTransform), false);
+  updateOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS);
 }
 
 void WbDistanceSensor::computeValue() {

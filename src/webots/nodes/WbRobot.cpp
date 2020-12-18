@@ -50,7 +50,7 @@
 #include "../../../include/controller/c/webots/keyboard.h"
 #include "../../../include/controller/c/webots/robot.h"
 #include "../../../include/controller/c/webots/supervisor.h"
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
@@ -689,27 +689,17 @@ void WbRobot::powerOn(bool e) {
     device->powerOn(e);
 }
 
-void WbRobot::keyPressed(const QString &text, int key, int modifiers) {
-  int pressedKeys = modifiers;
-
-  if (gSpecialKeys.contains(key))
-    // special key
-    pressedKeys += gSpecialKeys.value(key);
-  else if (!text.isEmpty())
-    // normal key
-    pressedKeys += key & WB_KEYBOARD_KEY;
-  else
-    // unknown key
-    return;
+void WbRobot::keyPressed(int key, int modifiers) {
+  const int pressedKeys = modifiers + (gSpecialKeys.contains(key) ? gSpecialKeys.value(key) : key & WB_KEYBOARD_KEY);
 
   if (pressedKeys && !mPressedKeys.contains(pressedKeys)) {
-    mPressedKeys.append(pressedKeys);
+    mPressedKeys.prepend(pressedKeys);
     mKeyboardHasChanged = true;
     emit keyboardChanged();
   }
 }
 
-void WbRobot::keyReleased(const QString &text, int key) {
+void WbRobot::keyReleased(int key) {
   bool reset = true;
   QMutableListIterator<int> it(mPressedKeys);
   while (it.hasNext()) {
@@ -718,12 +708,10 @@ void WbRobot::keyReleased(const QString &text, int key) {
       // remove all sequences containing the released special key
       it.remove();
       reset = false;
-    } else if (!text.isEmpty()) {
-      if ((i & 0xffff) == (key & 0xffff)) {
-        // remove all sequences containing the released key
-        it.remove();
-        reset = false;
-      }
+    } else if ((i & 0xffff) == (key & 0xffff)) {
+      // remove all sequences containing the released key
+      it.remove();
+      reset = false;
     }
   }
 
@@ -1496,8 +1484,6 @@ int WbRobot::computeSimulationMode() {
   switch (state->mode()) {
     case WbSimulationState::REALTIME:
       return WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME;
-    case WbSimulationState::RUN:
-      return WB_SUPERVISOR_SIMULATION_MODE_RUN;
     case WbSimulationState::FAST:
       return WB_SUPERVISOR_SIMULATION_MODE_FAST;
     default:

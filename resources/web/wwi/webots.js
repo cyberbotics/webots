@@ -584,6 +584,7 @@ webots.View = class View {
     if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
+    this.onrobotwindowsdestroy();
   }
 
   editController(controller) {

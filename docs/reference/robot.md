@@ -369,7 +369,7 @@ controller.run()
 
 %tab-end
 
-%tab "java"
+%tab "Java"
 
 ```java
 import com.cyberbotics.webots.controller.Robot;
@@ -400,7 +400,7 @@ public class MyController extends Robot {
   private DistanceSensor distanceSensor;
   private Led led;
 
-  // main java program
+  // main Java program
   public static void main(String[] args) {
     MyController controller = new MyController();
     controller.run();
@@ -410,7 +410,7 @@ public class MyController extends Robot {
 
 %tab-end
 
-%tab "matlab"
+%tab "MATLAB"
 
 ```MATLAB
 
@@ -497,6 +497,12 @@ namespace webots {
 from controller import Robot
 
 class Robot:
+    def getDevice(self, name):
+    def getJoystick(self):
+    def getKeyboard(self):
+    def getMouse(self):
+
+    # deprecated methods (replaced by getDevice):
     def getAccelerometer(self, name):
     def getBrake(self, name):
     def getCamera(self, name):
@@ -508,13 +514,10 @@ class Robot:
     def getGPS(self, name):
     def getGyro(self, name):
     def getInertialUnit(self, name):
-    def getJoystick(self):
-    def getKeyboard(self):
     def getLED(self, name):
     def getLidar(self, name):
     def getLightSensor(self, name):
     def getMotor(self, name):
-    def getMouse(self):
     def getPen(self, name):
     def getPositionSensor(self, name):
     def getRadar(self, name):
@@ -599,6 +602,7 @@ If the specified device is not found, the function returns `NULL` in C++, `null`
 ---
 
 #### `wb_robot_get_device_by_index`
+#### `wb_robot_get_number_of_devices`
 
 %tab-component "language"
 

@@ -53,6 +53,7 @@ int WbGeometry::maxIndexNumberToCastShadows() {
 void WbGeometry::init() {
   mWrenMaterial = NULL;
   mWrenEncodeDepthMaterial = NULL;
+  mWrenSegmentationMaterial = NULL;
   mWrenMesh = NULL;
   mWrenRenderable = NULL;
   mWrenScaleTransform = NULL;
@@ -99,6 +100,19 @@ void WbGeometry::postFinalize() {
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
             &WbGeometry::updateBoundingObjectVisibility);
+  else {
+    const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
+    while (solid) {
+      if (solid->recognitionColorSize() > 0) {
+        setSegmentationColor(solid->recognitionColor(0));
+        break;
+      }
+      solid = WbNodeUtilities::findUpperSolid(solid);
+    }
+
+    if (!solid)
+      setSegmentationColor(WbRgb(0.0, 0.0, 0.0));
+  }
 }
 
 void WbGeometry::destroyOdeObjects() {
@@ -180,6 +194,14 @@ void WbGeometry::setPickable(bool pickable) {
 
   mPickable = pickable && isShadedGeometryPickable();
   WbWrenPicker::setPickable(mWrenRenderable, uniqueId(), pickable);
+}
+
+void WbGeometry::setSegmentationColor(const WbRgb &color) {
+  if (!mWrenRenderable || !mWrenSegmentationMaterial || isInBoundingObject())
+    return;
+
+  const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
+  wr_phong_material_set_linear_diffuse(mWrenSegmentationMaterial, segmentationColor);
 }
 
 ///////////////////
@@ -314,8 +336,14 @@ void WbGeometry::computeWrenRenderable() {
     mWrenEncodeDepthMaterial = wr_phong_material_new();
     wr_material_set_default_program(mWrenEncodeDepthMaterial, WbWrenShaders::encodeDepthShader());
   }
-
   wr_renderable_set_material(mWrenRenderable, mWrenEncodeDepthMaterial, "encodeDepth");
+
+  // used for rendering segmentation camera
+  if (!mWrenSegmentationMaterial) {
+    mWrenSegmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(mWrenSegmentationMaterial, WbWrenShaders::segmentationShader());
+  }
+  wr_renderable_set_material(mWrenRenderable, mWrenSegmentationMaterial, "segmentation");
 
   wr_transform_attach_child(mWrenScaleTransform, WR_NODE(mWrenRenderable));
 
@@ -336,6 +364,10 @@ void WbGeometry::deleteWrenRenderable() {
     // Delete encode depth material
     wr_material_delete(mWrenEncodeDepthMaterial);
     mWrenEncodeDepthMaterial = NULL;
+
+    // Delete camera segmentation material
+    wr_material_delete(mWrenSegmentationMaterial);
+    mWrenSegmentationMaterial = NULL;
 
     // Delete picking material
     wr_material_delete(wr_renderable_get_material(mWrenRenderable, "picking"));
@@ -467,7 +499,7 @@ void WbGeometry::computeCastShadows(bool enabled) {
 
 void WbGeometry::setOdePosition(const WbVector3 &translation) {
   mOdePositionSet = translation;
-  mOdeOffsetTranslation = translation + mOdeOffsetRotation.toMatrix3() * mLocalOdeGeomOffsetPosition;
+  mOdeOffsetTranslation = translation + mOdeOffsetRotation * mLocalOdeGeomOffsetPosition;
 
   if (mOdeGeom == NULL)
     return;
@@ -478,9 +510,8 @@ void WbGeometry::setOdePosition(const WbVector3 &translation) {
     dGeomSetOffsetWorldPosition(mOdeGeom, mOdeOffsetTranslation.x(), mOdeOffsetTranslation.y(), mOdeOffsetTranslation.z());
 }
 
-void WbGeometry::setOdeRotation(const WbRotation &rotation) {
+void WbGeometry::setOdeRotation(const WbMatrix3 &rotation) {
   mOdeOffsetRotation = rotation;
-  mOdeOffsetRotation.normalize();
 
   if (!mLocalOdeGeomOffsetPosition.isNull())
     // the position should be recomputed because the local offset is influenced by the global rotation
@@ -488,15 +519,24 @@ void WbGeometry::setOdeRotation(const WbRotation &rotation) {
 
   if (mIs90DegreesRotated) {
     // append 90 deg rotation
-    static WbQuaternion localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toQuaternion();
-    mOdeOffsetRotation.fromQuaternion(mOdeOffsetRotation.toQuaternion() * localRotation);
+    static const WbMatrix3 localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toMatrix3();
+    mOdeOffsetRotation *= localRotation;
   }
 
   if (mOdeGeom == NULL)
     return;
 
   dMatrix3 m;
-  dRFromAxisAndAngle(m, mOdeOffsetRotation.x(), mOdeOffsetRotation.y(), mOdeOffsetRotation.z(), mOdeOffsetRotation.angle());
+  m[0] = mOdeOffsetRotation(0, 0);
+  m[1] = mOdeOffsetRotation(0, 1);
+  m[2] = mOdeOffsetRotation(0, 2);
+  m[4] = mOdeOffsetRotation(1, 0);
+  m[5] = mOdeOffsetRotation(1, 1);
+  m[6] = mOdeOffsetRotation(1, 2);
+  m[8] = mOdeOffsetRotation(2, 0);
+  m[9] = mOdeOffsetRotation(2, 1);
+  m[10] = mOdeOffsetRotation(2, 2);
+
   if (dGeomGetBody(mOdeGeom) == NULL)
     dGeomSetRotation(mOdeGeom, m);
   else

@@ -229,11 +229,11 @@ void WbSimulationWorld::step() {
   if (mPhysicsPlugin)
     mPhysicsPlugin->stepEnd();
 
-  emit physicsStepEnded();
-
   // call postPhysicsStep on all Solids to assign new coordinates
   foreach (WbSolid *const solid, l)
     solid->postPhysicsStep();
+
+  emit physicsStepEnded();
 
   WbSimulationState::instance()->increaseTime(timeStep);
   viewpoint()->updateFollowUp();
@@ -255,8 +255,18 @@ void WbSimulationWorld::step() {
   }
 }
 
+void WbSimulationWorld::pauseStepTimer() {
+  mTimer->stop();
+}
+
+void WbSimulationWorld::restartStepTimer() {
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  if (!mTimer->isActive() && (mode == WbSimulationState::REALTIME || mode == WbSimulationState::FAST))
+    mTimer->start();
+}
+
 void WbSimulationWorld::modeChanged() {
-  WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
     case WbSimulationState::PAUSE:
       mTimer->stop();
@@ -272,7 +282,6 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       mTimer->start(mSleepRealTime);
       break;
-    case WbSimulationState::RUN:
     case WbSimulationState::FAST:
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(true);
@@ -291,14 +300,13 @@ void WbSimulationWorld::propagateBoundingObjectMaterialUpdate(bool onMenuAction)
 }
 
 void WbSimulationWorld::checkNeedForBoundingMaterialUpdate() {
-  const int mode = WbSimulationState::instance()->mode();
   const WbWrenRenderingContext *const context = WbWrenRenderingContext::instance();
   const int showAllBoundingObjects = context->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS);
 
-  if (!showAllBoundingObjects && mode == WbSimulationState::FAST)
+  if (!showAllBoundingObjects && !WbSimulationState::instance()->isRendering())
     return;
 
-  if (showAllBoundingObjects && mode != WbSimulationState::FAST) {
+  if (showAllBoundingObjects && WbSimulationState::instance()->isRendering()) {
     connect(this, &WbSimulationWorld::physicsStepEnded, this, &WbSimulationWorld::propagateBoundingObjectUpdate,
             Qt::UniqueConnection);
     propagateBoundingObjectMaterialUpdate(true);

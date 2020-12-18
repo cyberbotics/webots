@@ -16,7 +16,7 @@
 
 #include <QtCore/QDataStream>
 #include <cassert>
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_BRAKE_SET_DAMPING_CONSTANT and C_CONFIGURE
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_BRAKE_SET_DAMPING_CONSTANT and C_CONFIGURE
 
 WbBrake::WbBrake(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
   init();

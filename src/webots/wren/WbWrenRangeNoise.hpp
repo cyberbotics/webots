@@ -24,12 +24,16 @@ public:
   void setup(WrViewport *viewport) override;
   void setTime(float time);
   void setIntensity(float intensity);
+  void setMinRange(float minRange);
+  void setMaxRange(float maxRange);
 
 private:
   void applyParametersToWren() override;
 
   float mTime;
   float mIntensity;
+  float mMinRange;
+  float mMaxRange;
 };
 
 #endif  // WB_WREN_RANGE_NOISE_HPP

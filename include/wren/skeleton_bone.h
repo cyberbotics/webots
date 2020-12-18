@@ -20,4 +20,4 @@ void wr_skeleton_bone_get_orientation(const WrSkeletonBone *bone, bool absolute,
 }
 #endif
 
-#endif  // WR_SKELETON_BONE
+#endif  // WR_SKELETON_BONE_H

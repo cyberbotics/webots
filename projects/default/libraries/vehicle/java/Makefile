@@ -49,7 +49,7 @@ LIBRARY       = $(WEBOTS_CONTROLLER_LIB_PATH)/java/vehicle.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
-JAVA_INCLUDES = -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
+JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin" -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
 CFLAGS1 = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wl,-rpath,@loader_path/../../..
 CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wno-unused-function
 LIBRARY = $(WEBOTS_CONTROLLER_LIB_PATH)/java/libvehicle.jnilib
@@ -80,7 +80,7 @@ $(JAVA_SOURCES): $(WRAPPER)
 
 $(WRAPPER): $(INTERFACE) $(SOURCE_HEADERS)
 	@mkdir -p $(SWIG_OUTPUT)
-	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/resources/languages/java/ $(INCLUDES) -o $@ $<
+	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/src/controller/java/ $(INCLUDES) -o $@ $<
 
 $(WRAPPER_OBJECT): $(WRAPPER)
 	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"

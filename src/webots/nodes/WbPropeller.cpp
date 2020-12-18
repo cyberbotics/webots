@@ -46,6 +46,9 @@ void WbPropeller::init() {
   mHelixType = SLOW_HELIX;
   mHelix = NULL;
 
+  mCurrentThrust = 0.0;
+  mCurrentTorque = 0.0;
+
   // WREN
   mTransform = NULL;
   mRenderable = NULL;
@@ -185,6 +188,9 @@ void WbPropeller::updateShaftAxis() {
 }
 
 void WbPropeller::prePhysicsStep(double ms) {
+  mCurrentThrust = 0.0;
+  mCurrentTorque = 0.0;
+
   WbRotationalMotor *const m = motor();
   if (m == NULL)
     return;
@@ -212,19 +218,19 @@ void WbPropeller::prePhysicsStep(double ms) {
     const double V = dCalcVectorDot3(vp, mNormalizedAxis.ptr());
 
     const WbVector2 &tcs = mTorqueConstants->value();
-    double torque = tcs.x() * velocity * absoluteVelocity - tcs.y() * absoluteVelocity * V;
+    mCurrentTorque = tcs.x() * velocity * absoluteVelocity - tcs.y() * absoluteVelocity * V;
     const double mt = m->maxForceOrTorque();
-    if (fabs(torque) > mt)
-      torque = torque > 0.0 ? mt : -mt;
+    if (fabs(mCurrentTorque) > mt)
+      mCurrentTorque = mCurrentTorque > 0.0 ? mt : -mt;
 
     const WbVector2 &fcs = mThrustConstants->value();
-    const double thrust = fcs.x() * velocity * absoluteVelocity - fcs.y() * absoluteVelocity * V;
+    mCurrentThrust = fcs.x() * velocity * absoluteVelocity - fcs.y() * absoluteVelocity * V;
 
     // Applies thrust and torque
     const WbMatrix3 &m3 = ut->rotationMatrix();
     const WbVector3 &axis = m3 * mNormalizedAxis;
-    const WbVector3 &thrustVector = thrust * axis;
-    const WbVector3 &torqueVector = -torque * axis;
+    const WbVector3 &thrustVector = mCurrentThrust * axis;
+    const WbVector3 &torqueVector = -mCurrentTorque * axis;
     if (sm && !sm->isBodyArtificiallyDisabled())
       dBodyEnable(b);
     dBodyAddForceAtPos(b, thrustVector.x(), thrustVector.y(), thrustVector.z(), cot.x(), cot.y(), cot.z());

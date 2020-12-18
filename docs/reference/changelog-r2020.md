@@ -1,21 +1,11 @@
 # Webots R2020 Change Log
 
-## Webots R2020b Revision 2
-Released on XXX YYY, 2020.
-
-  - Bug fixes
-    - Fixed [Lidar](lidar.md) and [RangeFinder](rangefinder.md) memory leak when the robot-window is opened ([#2210](https://github.com/cyberbotics/webots/pull/2210)).
-    - Fixed noise generation for [Camera](camera.md), [Lidar](lidar.md) and [RangeFinder](rangefinder.md) producing fixed patterns on some GPUs (like the NVIDIA GeForce RTX series)([#2215](https://github.com/cyberbotics/webots/pull/2215)).
-    - Fixed re-initialization of external camera window if recognition is enabled ([#2196](https://github.com/cyberbotics/webots/pull/2196)).
-    - Fixed the `inverse_kinematics` controller ([#2211](https://github.com/cyberbotics/webots/pull/2211)).
-    - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
-
 ## Webots R2020b Revision 1
 Released on September 1st, 2020.
 
   - Enhancements
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
-    - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
+    - macOS: Added support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
     - Added a warning in case a [PBRAppearance](pbrappearance.md) is used in a [Shape](shape.md) containing a [PointSet](pointset.md) or [IndexedLineSet](indexedlineset.md) geometry ([#2142](https://github.com/cyberbotics/webots/pull/2142)).
     - Removed all the assertions of ODE to speed up simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).

@@ -38,7 +38,7 @@
 #include <cassert>
 #include <cmath>
 
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
 
 QList<const WbMotor *> WbMotor::cMotors;
 
@@ -338,6 +338,10 @@ void WbMotor::powerOn(bool e) {  // called when running out of energy with e=fal
     mMotorForceOrTorque = mMaxForceOrTorque->value();
 }
 
+bool WbMotor::isConfigureDone() const {
+  return robot()->isConfigureDone();
+}
+
 /////////////
 // Control //
 /////////////
@@ -354,6 +358,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mControlPID->value().x();
   stream << (double)mControlPID->value().y();
   stream << (double)mControlPID->value().z();
+  stream << (double)mTargetPosition;
   mNeedToConfigure = false;
 }
 

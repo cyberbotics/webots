@@ -39,6 +39,40 @@ Note that Webots have to be installed on all the machines where a simulation ser
 
 %end
 
+
+#### Quick Start
+This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
+We assume you use Ubuntu 18.04 or newer.
+
+First, you need to install dependencies:
+```bash
+sudo apt install subversion firejail python3-tornado python3-pynvml
+```
+
+Then, start a session and simulation servers:
+```bash
+cd $WEBOTS_HOME/resources/web/server
+./server.sh start default
+```
+The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). 
+A task of the simulation server is to start a Webots instance with the correct world.
+
+To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
+In the user interface, find a `Connect to` field, and type for example:
+```
+ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
+```
+Click the `Connect` button to initiate the streaming.
+Webots will clone the `example.wbt` simulation from GitHub and start it.
+
+If you want to stop the session and simulation servers run:
+```
+cd $WEBOTS_HOME/resources/web/server
+./server.sh stop
+```
+
+Further in the document, you will find more details on how to start multiple simulation servers, how to monitor servers, how to rewrite the ports, and more.
+
 #### Protocol
 
 When a web client needs to know whether it may start a simulation, it will open a WebSocket connection to the session server to monitor the availability of simulation servers.
@@ -323,6 +357,64 @@ This procedure should be automated in a startup script, so that the servers are 
 This folder also contains a `server.sh` utility script to automatically start and stop `session_server.py` and `simulation_server.py` with a given configuration file.
 
 Please make sure that the `WEBOTS_HOME` variable is set before running the simulation and session server scripts.
+
+#### Using Docker
+
+The simulation server can also be run in a Docker container.
+In this section we provide a sample Docker setup that could be used to run the simulation on localhost.
+
+You can use the following `Dockerfile` to build your Docker image.
+```
+FROM cyberbotics/webots:latest
+
+RUN apt update
+RUN apt install -y firejail python3-pip
+RUN pip3 install tornado pynvml psutil requests distro
+ENV DISPLAY=:99
+COPY server/config /usr/local/webots/resources/web/server/config
+COPY server/key /usr/local/webots/resources/web/server/key
+COPY server.sh /usr/local/server.sh
+RUN chmod 654 /usr/local/server.sh
+CMD ["/usr/local/server.sh", ""]
+```
+
+To correctly setup and automatically run the simulation server, you should provide the following files:
+* `server/config`: a folder containing the simulation and session configuration files.
+    The current example `server.sh` the local configuration by default, i.e. you should provide the `server/config/session/local.json` and `server/config/simulation/local.json` files or specify the configuration files to be used.
+    For example, `server/config/session/local.json`
+    ```
+    {
+      "port": 1999,
+      "server": "localhost",
+      "simulationServers": [
+        "localhost:2000"
+      ]
+    }
+    ```
+    and `server/config/simulation/local.json`
+    ```
+    {
+      "port": 2000
+    }
+    ```
+* `server/key`: a folder containing your website host keys needed for validation (see [Session server](#session-server) section).
+* `server.sh`: a script that configures the virtual screen and starts the simulation and session servers.
+    ```bash
+    #!/bin/sh
+    Xvfb :99 -screen 0 1024x768x16 &
+    cd $WEBOTS_HOME/resources/web/server
+    python3 simulation_server.py config/simulation/local.json >/dev/null &
+    python3 session_server.py config/session/local.json >/dev/null
+    ```
+
+Then, you can open in a terminal the directory containing the Dockerfile to build and run the Docker container:
+```bash
+docker build -t webots-simulation-server .
+sudo docker run -p 1999-2100:1999-2100 -it webots-simulation-server
+```
+
+This example runs the simulation server on localhost.
+If you want to publish the simulation server on the web, then you may need to setup a web server, such as the Apache web server.
 
 ### Website Host
 

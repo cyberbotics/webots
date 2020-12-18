@@ -126,7 +126,7 @@ private:
   WbLidar &operator=(const WbLidar &);  // non copyable
   WbNode *clone() const override { return new WbLidar(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
 
   int size() const override {
     return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();

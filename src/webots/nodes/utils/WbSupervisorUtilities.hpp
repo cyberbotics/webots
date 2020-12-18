@@ -44,7 +44,7 @@ public:
   void handleMessage(QDataStream &stream);
   void writeAnswer(QDataStream &stream);
   void writeConfigure(QDataStream &stream);
-  void processImmediateMessages();
+  void processImmediateMessages(bool blockRegeneration = false);
   void postPhysicsStep();
   void reset();
 
@@ -86,6 +86,7 @@ private:
   WbTransform *mNodeGetOrientation;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
+  bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
   bool mIsProtoRegenerated;

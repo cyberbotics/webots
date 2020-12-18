@@ -55,7 +55,6 @@ typedef enum {
 typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_PAUSE = 0,
   WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME,
-  WB_SUPERVISOR_SIMULATION_MODE_RUN,
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
 
@@ -104,7 +103,8 @@ const char *wb_supervisor_node_get_base_type_name(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node);
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 bool wb_supervisor_node_get_static_balance(WbNodeRef node);

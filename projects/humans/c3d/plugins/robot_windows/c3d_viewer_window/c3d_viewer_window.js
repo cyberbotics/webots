@@ -132,12 +132,21 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
         let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
           .AutoRangeType.STRETCH, {
+<<<<<<< .merge_file_AW6Gtl
             'min': -1,
             'max': 1
           }, {
             'x': 'Time [s]',
             'y': '[' + unit + ']'
           }, null);
+=======
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'Time [s]',
+          'y': '[' + unit + ']'
+        }, null);
+>>>>>>> .merge_file_hf0mDp
         let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 1
@@ -207,6 +216,10 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         });
       }
     }
+  } else if (message === 'reset') {
+    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
+      element.parentNode.removeChild(element);
+    });
   } else
     console.log('Unknown message received: "' + message + '"');
 };
@@ -214,6 +227,22 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
 
+<<<<<<< .merge_file_AW6Gtl
+=======
+  document.getElementById('upload_file').addEventListener('change', function(event) {
+    let files = event.target.files;
+    let f = files[0];
+    let reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        const message = 'c3dfile:' + e.target.result.slice(e.target.result.indexOf(';base64,') + 8); // remove the "*;base64," header
+        robotWindow.send(message, 'c3d_viewer');
+      };
+    })(f);
+    reader.readAsDataURL(f); // perform base64 encoding suitable for sending text through the wwi interface
+  });
+
+>>>>>>> .merge_file_hf0mDp
   function enableGraphs(event) {
     let checkbox = event.target;
     robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked, 'c3d_viewer');

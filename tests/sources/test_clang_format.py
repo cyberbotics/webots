@@ -35,10 +35,7 @@ class TestClangFormat(unittest.TestCase):
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
-        clangFormatCommand = 'clang-format'
-        if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
-            clangFormatCommand = 'clang-format-6.0'
-        return subprocess.check_output([clangFormatCommand, '-style=file', f])
+        return subprocess.check_output(['clang-format', '-style=file', f])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
@@ -58,11 +55,11 @@ class TestClangFormat(unittest.TestCase):
             'include/controller',
             'projects',
             'resources/projects',
-            'resources/languages/cpp',
             'resources/wren/shaders',
             'tests',
             'include/wren',
-            'src/Controller',
+            'src/controller/c',
+            'src/controller/cpp',
             'src/license/sign',
             'src/webots',
             'src/wren'

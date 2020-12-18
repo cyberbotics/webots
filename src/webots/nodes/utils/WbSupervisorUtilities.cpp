@@ -50,7 +50,7 @@
 #endif
 
 #include "../../../include/controller/c/webots/supervisor.h"
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <ode/ode.h>
 
@@ -281,6 +281,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
   mNodeGetContactPoints = NULL;
+  mGetContactPointsIncludeDescendants = false;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
   mIsProtoRegenerated = false;
@@ -321,8 +322,6 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
   switch (supervisorMode) {
     case WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME:
       return WbSimulationState::REALTIME;
-    case WB_SUPERVISOR_SIMULATION_MODE_RUN:
-      return WbSimulationState::RUN;
     case WB_SUPERVISOR_SIMULATION_MODE_FAST:
       return WbSimulationState::FAST;
     default:
@@ -330,7 +329,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
   }
 }
 
-void WbSupervisorUtilities::processImmediateMessages() {
+void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   int n = mFieldSetRequests.size();
   if (n == 0)
     return;
@@ -343,6 +342,8 @@ void WbSupervisorUtilities::processImmediateMessages() {
     delete r;
   }
   mFieldSetRequests.clear();
+  if (blockRegeneration)
+    return;
   WbTemplateManager::instance()->blockRegeneration(false);
   emit worldModified();
 }
@@ -525,7 +526,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> size;
       stream >> color;
       const QString &text = readString(stream);
-      const QString font = readString(stream);
+      const QString &font = readString(stream);
 
       bool fileFound = false;
       QString filename = WbStandardPaths::fontsPath() + font + ".ttf";
@@ -741,12 +742,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
       unsigned int id;
+      unsigned char includeDescendants;
 
       stream >> id;
+      stream >> includeDescendants;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
+      mGetContactPointsIncludeDescendants = includeDescendants == 1;
       if (!solid)
         mRobot->warn(
           tr("wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively "
@@ -1101,6 +1105,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
       WbNode *const node = WbNode::findNode(nodeId);
       WbField *field = node->field(fieldId);
 
@@ -1204,6 +1211,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           assert(0);
       }
 
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }
@@ -1214,6 +1222,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
       const QString nodeString = readString(stream);
+
+      // apply queued set field operations
+      processImmediateMessages(true);
 
       int importedNodesNumber;
       WbNodeOperations::OperationResult operationResult =
@@ -1227,6 +1238,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mImportedNodesNumber = -1;
       } else if (operationResult != WbNodeOperations::FAILURE)
         mImportedNodesNumber = importedNodesNumber;
+
+      WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
       return;
     }
@@ -1251,6 +1264,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> index;
 
+      // apply queued set field operations
+      processImmediateMessages(true);
+
+      bool modified = false;
       WbNode *parentNode = WbNode::findNode(nodeId);
       WbField *field = parentNode->field(fieldId);
       switch (field->type()) {  // remove value
@@ -1265,7 +1282,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(field->value());
           assert(multipleValue->size() > index);
           multipleValue->removeItem(index);
-          emit worldModified();
+          modified = true;
           break;
         }
         case WB_MF_NODE: {
@@ -1286,7 +1303,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(node, true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1298,7 +1315,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               mShouldRemoveNode = true;
             else {
               WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-              emit worldModified();
+              modified = true;
             }
           }
           break;
@@ -1306,6 +1323,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         default:
           assert(0);
       }
+
+      WbTemplateManager::instance()->blockRegeneration(false);
+      if (modified)
+        emit worldModified();
 
       return;
     }
@@ -1458,7 +1479,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mNodeGetCenterOfMass = NULL;
   }
   if (mNodeGetContactPoints) {
-    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints();
+    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints(mGetContactPointsIncludeDescendants);
+    const QVector<const WbSolid *> &solids = mNodeGetContactPoints->computedSolidPerContactPoints();
     const int size = contactPoints.size();
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
@@ -1468,6 +1490,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       stream << (double)v.x();
       stream << (double)v.y();
       stream << (double)v.z();
+      stream << (int)(mGetContactPointsIncludeDescendants ? solids.at(i)->uniqueId() : mNodeGetContactPoints->uniqueId());
     }
     mNodeGetContactPoints = NULL;
   }
@@ -1715,6 +1738,14 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
   stream.writeRawData(ba.constData(), ba.size() + 1);
+
+  if (WbWorld::instance()->isVideoRecording()) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_MOVIE_STATUS;
+    stream << (unsigned char)WB_SUPERVISOR_MOVIE_RECORDING;
+    delete mMovieStatus;
+    mMovieStatus = NULL;
+  }
 }
 
 void WbSupervisorUtilities::movieStatusChanged(int status) {

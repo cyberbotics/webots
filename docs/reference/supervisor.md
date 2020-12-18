@@ -983,7 +983,7 @@ com = wb_supervisor_node_get_center_of_mass(node)
 
 *get the global position of a solid's center of mass*
 
-The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node expressed in the global (world) coordinate system.
+The `wb_supervisor_node_get_center_of_mass` function returns the position of the center of mass of a Solid node (including its descendant Solid nodes) expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
@@ -995,6 +995,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 ---
 
 #### `wb_supervisor_node_get_contact_point`
+#### `wb_supervisor_node_get_contact_point_node`
 #### `wb_supervisor_node_get_number_of_contact_points`
 
 %tab-component "language"
@@ -1005,7 +1006,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 #include <webots/supervisor.h>
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 ```
 
 %tab-end
@@ -1018,7 +1020,8 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node);
 namespace webots {
   class Node {
     const double *getContactPoint(int index) const;
-    int getNumberOfContactPoints() const;
+    Node *getContactPointNode(int index) const;
+    int getNumberOfContactPoints(bool includeDescendants = false) const;
     // ...
   }
 }
@@ -1033,7 +1036,8 @@ from controller import Node
 
 class Node:
     def getContactPoint(self, index):
-    def getNumberOfContactPoints(self):
+    def getContactPointNode(self, index):
+    def getNumberOfContactPoints(self, includeDescendants=False):
     # ...
 ```
 
@@ -1046,7 +1050,8 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public double[] getContactPoint(int index);
-  public int getNumberOfContactPoints();
+  public Node getContactPointNode(int index);
+  public int getNumberOfContactPoints(boolean includeDescendants);
   // ...
 }
 ```
@@ -1057,7 +1062,8 @@ public class Node {
 
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_point(node, index)
-number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
+node = wb_supervisor_node_get_contact_point_node(node, index);
+number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, include_descendants)
 ```
 
 %tab-end
@@ -1066,8 +1072,9 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`---`<br/>`int32 numberOfContactPoints` |
+| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
 | `/supervisor/node/get_contact_point` | `service` | `webots_ros::node_get_contact_point` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) point |
+| `/supervisor/node/get_contact_point_node` | `service` | `webots_ros::node_get_contact_point_node` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>`uint64 node`` |
 
 %tab-end
 
@@ -1080,12 +1087,15 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
 The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
 Contact points are expressed in the global (world) coordinate system.
-If the index is less than the number of contact points, then the x (resp. y, z) coordinate of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
+If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
 Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
 
+The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
+
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
+The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
 
 The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
@@ -1990,7 +2000,6 @@ int main(int argc, char *argv[]) {
 typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_PAUSE,
   WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME,
-  WB_SUPERVISOR_SIMULATION_MODE_RUN,
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
 
@@ -2008,7 +2017,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode);
 namespace webots {
   class Supervisor : public Robot {
     typedef enum {
-      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+      SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
     } SimulationMode;
 
     SimulationMode simulationGetMode() const;
@@ -2026,7 +2035,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST
+    SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST
 
     def simulationGetMode(self):
     def simulationSetMode(self, mode):
@@ -2041,7 +2050,7 @@ class Supervisor (Robot):
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class Supervisor extends Robot {
-  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_RUN, SIMULATION_MODE_FAST;
+  public final static int SIMULATION_MODE_PAUSE, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST;
 
   public int simulationGetMode();
   public void simulationSetMode(int mode);
@@ -2054,7 +2063,7 @@ public class Supervisor extends Robot {
 %tab "MATLAB"
 
 ```MATLAB
-WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_RUN, WB_SUPERVISOR_SIMULATION_MODE_FAST
+WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST
 
 mode = wb_supervisor_simulation_get_mode()
 wb_supervisor_simulation_set_mode(mode)
@@ -2084,7 +2093,7 @@ The value returned by this function is updated during the previous function call
 The `wb_supervisor_simulation_set_mode` function allows to set the simulation mode.
 Note that if the `WB_SUPERVISOR_SIMULATION_MODE_PAUSE` is set by the current supervisor, then calling the `wb_robot_step(time_step)` function with a `time_step` argument different from 0 will make the controller wait until the simulation is resumed.
 Calling `wb_robot_step(0)` could be useful to send information to Webots when it is paused (such as modifying, moving, adding or deleting objects).
-The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_RUN)`.
+The simulation can then go on by calling for example `wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_FAST)`.
 
 The current simulation mode can also be modified by the Webots user, when he's clicking on the corresponding buttons in the user interface.
 
@@ -2094,7 +2103,6 @@ The current simulation mode can also be modified by the Webots user, when he's c
 | -------------------------------------------- | ------------------------------------------------------------------------------- |
 | `WB_SUPERVISOR_SIMULATION_MODE_PAUSE`        | The simulation is paused.                                                       |
 | `WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME`    | The simulation is running as close as possible to the real-time.                |
-| `WB_SUPERVISOR_SIMULATION_MODE_RUN`          | The simulation is running as fast as possible with the graphical renderings.    |
 | `WB_SUPERVISOR_SIMULATION_MODE_FAST`         | The simulation is running as fast as possible without the graphical renderings. |
 
 %end
@@ -2722,7 +2730,8 @@ namespace webots {
   class Field {
     typedef enum {
       SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-      SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+      SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+      MF_STRING, MF_NODE
     } Type;
 
     Type getType() const;
@@ -2742,7 +2751,8 @@ from controller import Field
 
 class Field:
     SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-    SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+    SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+    MF_STRING, MF_NODE
 
     def getType(self):
     def getTypeName(self):
@@ -2759,8 +2769,8 @@ import com.cyberbotics.webots.controller.Field;
 
 public class Field {
   public final static int SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION,
-    SF_COLOR, SF_STRING, SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR,
-    MF_STRING, MF_NODE;
+    SF_COLOR, SF_STRING, SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F,
+    MF_ROTATION, MF_COLOR, MF_STRING, MF_NODE;
 
   public int getType();
   public String getTypeName();
@@ -2775,8 +2785,8 @@ public class Field {
 
 ```MATLAB
 WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, WB_SF_COLOR,
-WB_SF_STRING, WB_SF_NODE, WB_MF, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
-WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
+WB_SF_STRING, WB_SF_NODE, WB_MF, WB_BOOL, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
+WB_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
@@ -2804,6 +2814,7 @@ count = wb_supervisor_field_get_count(field)
 The `wb_supervisor_field_get_type` function returns the data type of a field found previously from the `wb_supervisor_node_get_field` function, as a symbolic value.
 If the argument is NULL, the function returns 0.
 Field types are defined in "webots/supervisor.h" and include for example: `WB_SF_FLOAT`, `WB_MF_NODE`, `WB_SF_STRING`, etc.
+The `WB_MF` value doesn't represent a type but it is a *bit mask* value that can be used to check if the type represents a single field (SF) or a multiple field (MF).
 
 The `wb_supervisor_field_get_type_name` function returns a text string corresponding to the data type of a field found previously from the `wb_supervisor_node_get_field` function.
 Field type names are defined in the VRML97 specifications and include for example: `"SFFloat"`, `"MFNode"`, `"SFString"`, etc.
@@ -2813,7 +2824,7 @@ The `wb_supervisor_field_get_count` function returns the number of items of a mu
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
 
-> **Note** [C++, Java, Python]: In the oriented-object APIs, the WB\_*F\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
+> **Note** [C++, Java, Python]: In the oriented-object APIs, the SF\_* and MF\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
 These integers can be directly compared with the output of the `Field::getType` function.
 
 ---
@@ -3011,7 +3022,11 @@ Default values are defined as `0` and `0.0` for integer and double values, `fals
 
 The `wb_supervisor_field_get_mf_*` functions work the same way as the `wb_supervisor_field_get_sf_*` functions but with multiple `field` argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field (MF).
-The type of the field has to match the name of the function used and the index should be comprised between 0 and the total number of item minus one, otherwise the return value is undefined (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
+Using a negative index starts the count from the last element of the field until the first one.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 > **Note**: If a `wb_supervisor_field_set_*` function is executed just before a corresponding `wb_supervisor_field_get_*` function, in the same time step, the controller library will not send the query to Webots, but answer directly with the value that has just been set before.
 
@@ -3195,9 +3210,11 @@ The type of the field has to match with the name of the function used, otherwise
 
 The `wb_supervisor_field_set_mf_*` functions work the same way as the `wb_supervisor_field_set_sf_*` functions but with a multiple `field` (MF) argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field.
-The type of the field has to match with the name of the function used and the index should be comprised between minus the total number of items and the total number of items minus one, otherwise the value of the field remains unchanged (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
 Using a negative index starts the count from the last element of the field until the first one.
-Index -1 represents the last item and the first item is represented by index 0 or minus number of items.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 The set operations are received by Webots from possibly several supervisors running concurrently.
 In order to ensure reproducible simulation results, they are executed only once all set operations are received, just before advancing the simulation time.
@@ -3205,6 +3222,15 @@ The order of execution of the set operations is defined by the order of the [Rob
 As a consequence, if a supervisor sets the translation field of a node and immediately retrieves the absolute position of the same node using the `wb_supervisor_node_get_position` function, it will actually get the previous position of the node.
 This is because the execution of the set operation is postponed to the beginning of the next simulation step.
 In order to retrieve the new position of the node, a `wb_robot_step` function call with a non-zero argument should be executed before calling the `wb_supervisor_node_get_position` function.
+
+An exception to this rule applies if one of the following functions is executed:
+- [`wb_supervisor_field_insert_mf_*`](#wb_supervisor_field_insert_mf_bool)
+- [`wb_supervisor_field_import_mf_*`](#wb_supervisor_field_import_mf_node)
+- [`wb_supervisor_field_import_sf_*`](#wb_supervisor_field_import_sf_node)
+- [`wb_supervisor_field_remove_mf`](#wb_supervisor_field_remove_mf)
+- [`wb_supervisor_field_remove_sf`](#wb_supervisor_field_remove_sf)
+
+In this case, the set operations queued in the current step of this controller only are executed just before the insert, import or remove operation.
 
 > **Note**: Since Webots 7.4.4, the inertia of a solid is no longer automatically reset when changing its translation or rotation using `wb_supervisor_field_set_sf_vec2f` and `wb_supervisor_field_set_sf_rotation` functions.
 If needed, the user has to explicitly call [this section](#wb_supervisor_node_reset_physics) function.
@@ -3519,9 +3545,6 @@ int main(int argc, char **argv) {
 ```
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
-
-> **Note**: Note that these functions are still limited in the actual Webots version.
-For example, a device imported into a Robot node doesn't reset the Robot, so the device cannot be get by using the `wb_robot_get_device` function.
 
 ---
 

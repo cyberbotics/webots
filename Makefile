@@ -78,7 +78,7 @@ clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
-	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -fv -- {} \;
+	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned...";
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
@@ -116,8 +116,8 @@ endif
 	@+make --silent -C src/wren $(TARGET)
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
-	@+echo "#"; echo "# * libController *"; echo "#"
-	@+make --silent -C src/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+echo "#"; echo "# * controller library *"; echo "#"
+	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
@@ -166,9 +166,9 @@ help:
 	@+echo -e "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
 	@+echo -e "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
 	@+echo -e "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
-	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# cleanu-up the compilation output"
+	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
 	@+echo -e "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
-	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exits"
+	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exit"
 	@+echo
 	@+echo -e "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
 	@+echo -e "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."

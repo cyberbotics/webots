@@ -28,8 +28,10 @@ class WbWrenCamera;
 
 #ifdef _WIN32
 class QSharedMemory;
+#define WbSharedMemory QSharedMemory
 #else
 class WbPosixSharedMemory;
+#define WbSharedMemory WbPosixSharedMemory
 #endif
 
 class QDataStream;
@@ -52,11 +54,11 @@ public:
   void writeConfigure(QDataStream &) override;
   void reset() override;
 
-  void updateCameraTexture();
+  virtual void updateCameraTexture();
 
   void setNodeVisibility(WbBaseNode *node, bool visible);
 
-  bool isEnabled() { return mSensor ? mSensor->isEnabled() : false; }
+  virtual bool isEnabled() const { return mSensor ? mSensor->isEnabled() : false; }
 
   // external window
   void enableExternalWindow(bool enabled) override;
@@ -67,7 +69,7 @@ public:
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
   virtual double fieldOfView() const { return mFieldOfView->value(); }
 
-  void resetSharedMemory();
+  virtual void resetSharedMemory();
 
   // static functions
   static int cCameraNumber;
@@ -81,6 +83,8 @@ signals:
 
 protected:
   void setup() override;
+  virtual void render(){};
+  virtual bool needToRender() const;
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
@@ -101,9 +105,10 @@ protected:
   virtual WbRgb disabledCameraFrustrumColor() const { return WbRgb(0.5f, 0.5f, 0.5f); }
 
   void init();
-  virtual void initializeSharedMemory();
+  virtual void initializeImageSharedMemory();
+  WbSharedMemory *initializeSharedMemory();
   virtual void computeValue();
-  void copyImageToSharedMemory();
+  void copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -113,9 +118,9 @@ protected:
   virtual void createWrenCamera();
   void createWrenOverlay() override;
   void deleteWren();
-  void applyNearToWren();
   virtual bool isFrustumEnabled() const { return false; }
-  void applyFieldOfViewToWren();
+  virtual void applyNearToWren();
+  virtual void applyFieldOfViewToWren();
   void applyMotionBlurToWren();
   void applyNoiseToWren();
 
@@ -138,11 +143,7 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-#ifdef _WIN32
-  QSharedMemory *mImageShm;
-#else
-  WbPosixSharedMemory *mImageShm;
-#endif
+  WbSharedMemory *mImageShm;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
@@ -156,7 +157,7 @@ protected:
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();
-  void updateTextureUpdateNotifications();
+  virtual void updateTextureUpdateNotifications();
 
 public slots:
   void updateAntiAliasing();

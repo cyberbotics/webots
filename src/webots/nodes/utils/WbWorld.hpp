@@ -69,6 +69,8 @@ public:
   void setIsCleaning(bool cleaning) { mIsCleaning = cleaning; }
   bool wasWorldLoadingCanceled() { return mWorldLoadingCanceled; }
 
+  bool isVideoRecording() const { return mIsVideoRecording; }
+
   static QString defaultX3dFrustumCullingParameter() { return "true"; }
   static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
   static bool isX3DStreaming() { return cX3DStreaming; }
@@ -149,6 +151,9 @@ signals:
 
 public slots:
   void awake();
+  void updateVideoRecordingStatus(int status) {
+    mIsVideoRecording = (status == WB_SUPERVISOR_MOVIE_RECORDING || status == WB_SUPERVISOR_MOVIE_SAVING);
+  }
 
 protected:
   // collecting contact and immersion geometries
@@ -184,6 +189,7 @@ private:
   double mLastAwakeningTime;
   bool mIsLoading;
   bool mIsCleaning;
+  bool mIsVideoRecording;
 
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;

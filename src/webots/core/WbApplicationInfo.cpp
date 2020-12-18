@@ -24,7 +24,11 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
+<<<<<<< .merge_file_x9TnLF
     static QString webotsVersionString = "R2021a";  // updated by script
+=======
+    static QString webotsVersionString = "R2021a revision 1";  // updated by script
+>>>>>>> .merge_file_5GaAsL
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));

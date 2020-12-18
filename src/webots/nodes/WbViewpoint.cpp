@@ -511,7 +511,7 @@ void WbViewpoint::createWrenObjects() {
           &WbViewpoint::updateRenderingMode);
 
   const bool coordinateSystemIsVisible =
-    !WbSimulationState::instance()->isFast() &&
+    WbSimulationState::instance()->isRendering() &&
     WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
   if (coordinateSystemIsVisible)
     createCoordinateSystem();
@@ -750,9 +750,12 @@ void WbViewpoint::updateFollowUp() {
       mPosition->setValue(mFollowedSolid->position() + solidRotation * mReferenceOffset);
     } else if (type == FOLLOW_TRACKING) {
       mEquilibriumVector += delta;
-
-      const double mass =
-        ((mFollowSmoothness->value() < 0.05) ? 0.0 : (mFollowSmoothness->value() > 1.0) ? 1.0 : mFollowSmoothness->value());
+      // clang-format off
+      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
+      const double mass = ((mFollowSmoothness->value() < 0.05) ? 0.0 :
+                           (mFollowSmoothness->value() > 1.0)  ? 1.0 :
+                                                                 mFollowSmoothness->value());
+      // clang-format on
       // If mass is 0, we instantly move the viewpoint to its equilibrium position.
       if (mass == 0.0) {
         // Moves the rotation point if a drag rotating the viewpoint is active
@@ -892,7 +895,7 @@ void WbViewpoint::applyOptionalRenderingToWren(int optionalRendering) {
       break;
     case WbWrenRenderingContext::VF_COORDINATE_SYSTEM: {
       const bool visible =
-        !WbSimulationState::instance()->isFast() &&
+        WbSimulationState::instance()->isRendering() &&
         WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
       showCoordinateSystem(visible);
       wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->visibilityMask());
@@ -910,7 +913,7 @@ void WbViewpoint::applyOptionalRenderingToWren() {
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM)) {
     const bool visible =
-      !WbSimulationState::instance()->isFast() &&
+      WbSimulationState::instance()->isRendering() &&
       WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_COORDINATE_SYSTEM);
     showCoordinateSystem(visible);
   }

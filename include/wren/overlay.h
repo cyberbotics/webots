@@ -42,6 +42,7 @@ void wr_overlay_set_border_size(WrOverlay *overlay, float size_horizontal, float
 void wr_overlay_set_texture(WrOverlay *overlay, WrTexture *texture);
 void wr_overlay_set_texture_flip_vertical(WrOverlay *overlay, bool flip);
 void wr_overlay_set_background_texture(WrOverlay *overlay, WrTexture *texture);
+void wr_overlay_set_mask_texture(WrOverlay *overlay, WrTexture *texture);
 void wr_overlay_set_foreground_texture(WrOverlay *overlay, WrTexture *texture);
 void wr_overlay_add_additional_texture(WrOverlay *overlay, WrTexture *texture);
 void wr_overlay_set_program(WrOverlay *overlay, WrShaderProgram *program);

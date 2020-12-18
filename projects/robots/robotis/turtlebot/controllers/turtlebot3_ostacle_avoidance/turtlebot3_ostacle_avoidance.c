@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
     wb_motor_set_velocity(right_motor, right_speed);
   };
 
+  free(braitenberg_coefficients);
   wb_robot_cleanup();
 
   return 0;

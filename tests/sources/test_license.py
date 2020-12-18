@@ -80,13 +80,13 @@ class TestLicense(unittest.TestCase):
     def setUp(self):
         """Get all the source files which require a license check."""
         directories = [
-            'src/Controller',
+            'src/controller/c',
+            'src/controller/cpp',
             'src/webots',
             'src/wren',
             'projects',
             'include/controller',
             'include/plugins',
-            'resources/languages/cpp',
             'scripts'
         ]
 

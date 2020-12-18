@@ -1,6 +1,7 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
   title "C3D viewer"
+  window "c3d_viewer_window"
   coordinateSystem "NUE"
   window "c3d_viewer_window"
 }
@@ -17,5 +18,5 @@ RectangleArena {
   wallHeight 0.001
 }
 C3dViewer {
-  c3dFile "EB015PI.c3d"
+  c3dFile "default.c3d"
 }

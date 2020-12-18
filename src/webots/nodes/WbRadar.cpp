@@ -29,7 +29,7 @@
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QVector>
@@ -302,7 +302,7 @@ void WbRadar::postPhysicsStep() {
 }
 
 void WbRadar::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
 
   // compute the radar position, rotation, axis and plane
   const WbVector3 radarPosition = matrix().translation();
@@ -313,7 +313,7 @@ void WbRadar::updateRaysSetupIfNeeded() {
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
   foreach (WbRadarTarget *target, mRadarTargets) {
-    target->object()->updateTransformAfterPhysicsStep();
+    target->object()->updateTransformForPhysicsStep();
     bool valid = target->recomputeRayDirection(this, radarPosition, radarRotation, radarInverseRotation, frustumPlanes);
     if (valid)
       valid =

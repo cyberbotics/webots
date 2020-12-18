@@ -24,7 +24,7 @@
 #include "WbWorld.hpp"
 
 #include <webots/receiver.h>  // for WB_CHANNEL_BROADCAST
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -71,7 +71,7 @@ public:
   void recomputeRayDirection(const WbVector3 &receiverTranslation) {
     // compute ray direction and length
     WbEmitter *e = mPacket->emitter();
-    e->updateTransformAfterPhysicsStep();
+    e->updateTransformForPhysicsStep();
     const WbVector3 &te = e->matrix().translation();
     WbVector3 dir = receiverTranslation - te;
     dGeomRaySetLength(mGeom, dir.length());
@@ -242,7 +242,7 @@ void WbReceiver::prePhysicsStep(double ms) {
 }
 
 void WbReceiver::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
   const WbVector3 position = matrix().translation();
   // update receiver position in pending packets
   foreach (Transmission *t, mTransmissionList)

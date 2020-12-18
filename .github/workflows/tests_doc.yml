@@ -2,27 +2,42 @@ name: Test Doc
 
 on:
   pull_request:
-    paths:
-    - 'docs/**'
-    - '.github/workflows/**'
+  schedule:
+    - cron:  '0 22 * * *'
 
 defaults:
   run:
     shell: bash
 
 jobs:
+  job-skipper:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v2.1.0
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          paths: '["docs/**"]'
+          concurrent_skipping: 'false'
+
   test-doc:
+    needs: job-skipper
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+      if: needs.job-skipper.outputs.should_skip != 'true'
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
+      if: needs.job-skipper.outputs.should_skip != 'true'
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Tests
+      if: needs.job-skipper.outputs.should_skip != 'true'
       run: |
         pip install -r docs/tests/requirements.txt
         export WEBOTS_HOME=$PWD

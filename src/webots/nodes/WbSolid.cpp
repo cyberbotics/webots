@@ -104,7 +104,7 @@ void WbSolid::init() {
   mUseInertiaMatrix = false;
   mIsPermanentlyKinematic = false;
   mIsKinematic = false;
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
 
@@ -465,6 +465,7 @@ void WbSolid::postFinalize() {
   disconnectFieldNotification(rotationFieldValue());
   disconnectFieldNotification(translationFieldValue());
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbSolid::onSimulationModeChanged);
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbSolid::onSimulationModeChanged);
   connect(this, &WbSolid::massPropertiesChanged, this, &WbSolid::displayWarning);
   connect(mPhysics, &WbSFNode::changed, this, &WbSolid::updatePhysics);
   connect(mRadarCrossSection, &WbSFDouble::changed, this, &WbSolid::updateRadarCrossSection);
@@ -1942,23 +1943,33 @@ void WbSolid::applyToOdeScale() {
   resetJoints();
 }
 
-void WbSolid::updateTransformAfterPhysicsStep() {
-  if (mUpdatedAfterStep)
+void WbSolid::updateTransformForPhysicsStep() {
+  if (mUpdatedInStep)
     return;
 
   applyPhysicsTransform();
 
+  QList<WbSolid *> reversedList;
+  reversedList << this;
   WbSolid *s = NULL;
   WbNode *p = parentNode();
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
-      s->applyPhysicsTransform();
-      s->mUpdatedAfterStep = true;
+      if (s->mUpdatedInStep)
+        break;  // ancestor nodes already updated
+      reversedList.prepend(s);
     }
     p = p->parentNode();
   }
-  mUpdatedAfterStep = true;
+
+  // update transform from root to current node as applyPhysicsTransform uses the upper transform matrix
+  QListIterator<WbSolid *> it(reversedList);
+  while (it.hasNext()) {
+    s = it.next();
+    s->applyPhysicsTransform();
+    s->mUpdatedInStep = true;
+  }
 }
 
 void WbSolid::applyPhysicsTransform() {
@@ -2080,7 +2091,7 @@ void WbSolid::prePhysicsStep(double ms) {
   for (i = 0; i < mPropellerChildren.size(); ++i)
     mPropellerChildren.at(i)->prePhysicsStep(ms);
 
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
 }
 
 ////////////
@@ -2433,6 +2444,13 @@ const QVector<WbVector3> &WbSolid::computedContactPoints(bool includeDescendants
   return includeDescendants ? mGlobalListOfContactPoints : mListOfContactPoints;
 }
 
+const QVector<const WbSolid *> &WbSolid::computedSolidPerContactPoints() {
+  extractContactPoints();
+  connect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this, &WbSolid::resetContactPoints,
+          Qt::UniqueConnection);
+  return mSolidPerContactPoints;
+}
+
 void WbSolid::extractContactPoints() {
   if (mHasExtractedContactPoints)
     return;
@@ -2458,6 +2476,10 @@ void WbSolid::extractContactPoints() {
       const double *const pos = cg.pos;
       const WbVector3 v(pos[0], pos[1], pos[2]);
       mGlobalListOfContactPoints.append(v);
+      if (s1->topSolid() == this)
+        mSolidPerContactPoints.append(s1);
+      else
+        mSolidPerContactPoints.append(s2);
       // stores the smallest y-coordinate of all contact points
       const double downProjection = v.dot(world->worldInfo()->upVector());
       if (downProjection < mY)
@@ -2586,7 +2608,7 @@ bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
                  &WbSolid::refreshSupportPolygonRepresentation);
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,
                  &WbSolid::resetContactPointsAndSupportPolygon);
-      if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast())
+      if (WbSimulationState::instance()->isFast() || !WbSimulationState::instance()->isRendering())
         deleteSupportPolygonRepresentation();
       else {
         mSupportPolygonRepresentation->show(false);
@@ -2705,6 +2727,7 @@ unsigned char WbSolid::staticBalance() {
 
 void WbSolid::resetContactPointsAndSupportPolygon() {
   mGlobalListOfContactPoints.resize(0);
+  mSolidPerContactPoints.resize(0);
   mY = numeric_limits<double>::max();
   mSupportPolygonNeedsUpdate = true;
   mHasExtractedContactPoints = false;
@@ -2713,6 +2736,7 @@ void WbSolid::resetContactPointsAndSupportPolygon() {
 void WbSolid::resetContactPoints() {
   mListOfContactPoints.resize(0);
   mGlobalListOfContactPoints.resize(0);
+  mSolidPerContactPoints.resize(0);
   mHasExtractedContactPoints = false;
   disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this, &WbSolid::resetContactPoints);
 }
@@ -2724,7 +2748,7 @@ void WbSolid::resetImmersions() {
 }
 
 void WbSolid::onSimulationModeChanged() {
-  if (WbSimulationState::instance()->isRunning() || WbSimulationState::instance()->isFast()) {
+  if (WbSimulationState::instance()->isFast() || !WbSimulationState::instance()->isRendering()) {
     if (mSupportPolygonRepresentation && !mSupportPolygonRepresentationIsEnabled) {
       deleteSupportPolygonRepresentation();
       disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,

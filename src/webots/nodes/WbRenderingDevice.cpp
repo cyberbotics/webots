@@ -244,6 +244,13 @@ int WbRenderingDevice::backgroundTextureGLId() const {
   return 0;
 }
 
+int WbRenderingDevice::maskTextureGLId() const {
+  assert(mOverlay);
+  if (mOverlay)
+    return mOverlay->maskTextureGLId();
+  return 0;
+}
+
 int WbRenderingDevice::foregroundTextureGLId() const {
   assert(mOverlay);
   if (mOverlay)

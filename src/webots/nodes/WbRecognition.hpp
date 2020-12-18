@@ -41,6 +41,12 @@ public:
   bool occlusion() const { return mOcclusion->value(); }
   const WbRgb frameColor() const { return mFrameColor->value(); }
   int frameThickness() const { return mFrameThickness->value(); }
+  bool segmentation() const { return mSegmentation->value(); }
+
+  void setSegmentation(bool value) { mSegmentation->setValue(value); }
+
+signals:
+  void segmentationChanged();
 
 private:
   WbRecognition &operator=(const WbRecognition &);  // non copyable
@@ -53,6 +59,7 @@ private:
   WbSFBool *mOcclusion;
   WbSFColor *mFrameColor;
   WbSFInt *mFrameThickness;
+  WbSFBool *mSegmentation;
 
 private slots:
   void updateMaxRange();

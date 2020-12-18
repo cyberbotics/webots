@@ -10,7 +10,7 @@ ContactProperties {
   SFFloat  bounceVelocity     0.01                 # [0, inf)
   MFFloat  forceDependentSlip 0                    # [0, inf)
   SFFloat  softERP            0.2                  # [0, 1]
-  SFFloat  softCFM            0.001                # [0, inf)
+  SFFloat  softCFM            0.001                # (0, inf)
   SFString bumpSound          "sounds/bump.wav"    # any string
   SFString rollSound          "sounds/roll.waw"    # any string
   SFString SlideSound         "sounds/slide.wav"   # any string

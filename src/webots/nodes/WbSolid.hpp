@@ -115,6 +115,7 @@ public:
     return includeDescendants ? mGlobalListOfContactPoints : mListOfContactPoints;
   }
   const QVector<WbVector3> &computedContactPoints(bool includeDescendants = false);
+  const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
   // accessors to stored fields
   const WbVector3 &translationFromFile() const { return mTranslationLoadedFromFile; }
@@ -198,9 +199,9 @@ public:
   // ODE positioning
   void resetJointsToLinkedSolids();  // reset joint to any linked solid to this one
 
-  // update the node tranform matrix based on the newly computed ODE transform matrix
+  // update the node transform matrix based on the newly computed ODE transform matrix
   // it loops through all the ancestor Solid nodes with a body and updates them
-  void updateTransformAfterPhysicsStep();
+  void updateTransformForPhysicsStep();
 
   // Density
   double volume() const;
@@ -338,7 +339,7 @@ private:
 
   // ODE
   dJointID mJoint;
-  bool mUpdatedAfterStep;
+  bool mUpdatedInStep;  // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
   void computePlaneParams(WbTransform *transform, WbVector3 &n, double &d) const;
@@ -408,7 +409,9 @@ private:
 
   // Contact points
   QVector<WbVector3> mListOfContactPoints;
-  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants needed for the support polygon
+  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants
+  // defines the colliding Solid for each for the contact point in mGlobalListOfContactPoints
+  QVector<const WbSolid *> mSolidPerContactPoints;
   bool mHasExtractedContactPoints;
   void extractContactPoints();  // populates both local and global lists
 

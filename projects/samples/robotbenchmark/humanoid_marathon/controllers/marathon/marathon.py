@@ -35,13 +35,13 @@ motionManager = RobotisOp2MotionManager(robot)
 timestep = int(robot.getBasicTimeStep())
 
 # Retrieve devices.
-headLed = robot.getLED('HeadLed')
-eyeLed = robot.getLED('EyeLed')
-gyro = robot.getGyro('Gyro')
+headLed = robot.getDevice('HeadLed')
+eyeLed = robot.getDevice('EyeLed')
+gyro = robot.getDevice('Gyro')
 
 # Enable all the position sensors and populate the 'positionSensor' list.
 for i in range(0, len(positionSensorNames)):
-    positionSensors.append(robot.getPositionSensor(positionSensorNames[i] + 'S'))
+    positionSensors.append(robot.getDevice(positionSensorNames[i] + 'S'))
     positionSensors[i].enable(basicTimeStep)
 
 # Initialize the LED devices.

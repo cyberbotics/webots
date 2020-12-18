@@ -23,7 +23,7 @@
 #include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>

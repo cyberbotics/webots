@@ -14,23 +14,23 @@
 
 #include "RosInertialUnit.hpp"
 #include "sensor_msgs/Imu.h"
+#include "tf2/LinearMath/Quaternion.h"
 
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosInertialUnit::getLookupTable);
+  mNoiseServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_noise",
+                                                &RosInertialUnit::getNoise);
 }
 
 RosInertialUnit::~RosInertialUnit() {
-  mLookupTableServer.shutdown();
   cleanup();
 }
 
 // creates a publisher for InertialUnit values with a sensor_msgs/Imu as message type
 ros::Publisher RosInertialUnit::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/roll_pitch_yaw";
+  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/quaternion";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -42,19 +42,14 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
 
   // switch roll and pitch axes because the Webots and ROS coordinate systems are not equivalent
   // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top
-  double halfYaw = mInertialUnit->getRollPitchYaw()[1] * 0.5;
-  double halfPitch = mInertialUnit->getRollPitchYaw()[0] * 0.5;
-  double halfRoll = mInertialUnit->getRollPitchYaw()[2] * 0.5;
-  double cosYaw = cos(halfYaw);
-  double sinYaw = sin(halfYaw);
-  double cosPitch = cos(halfPitch);
-  double sinPitch = sin(halfPitch);
-  double cosRoll = cos(halfRoll);
-  double sinRoll = sin(halfRoll);
-  value.orientation.x = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
-  value.orientation.y = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
-  value.orientation.z = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw;
-  value.orientation.w = cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw;
+  tf2::Quaternion orientation(mInertialUnit->getQuaternion()[0], mInertialUnit->getQuaternion()[1],
+                              mInertialUnit->getQuaternion()[2], mInertialUnit->getQuaternion()[3]);
+  tf2::Quaternion orientationRosFix(0.5, 0.5, 0.5, 0.5);
+  orientation = orientation * orientationRosFix;
+  value.orientation.x = orientation.getX();
+  value.orientation.y = orientation.getY();
+  value.orientation.z = orientation.getZ();
+  value.orientation.w = orientation.getW();
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.orientation_covariance[i] = 0;
   value.angular_velocity.x = 0.0;
@@ -68,9 +63,8 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
   publisher.publish(value);
 }
 
-bool RosInertialUnit::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+bool RosInertialUnit::getNoise(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
   assert(mInertialUnit);
-  const double *values = mInertialUnit->getLookupTable();
-  res.value.assign(values, values + mInertialUnit->getLookupTableSize() * 3);
+  res.value = mInertialUnit->getNoise();
   return true;
 }

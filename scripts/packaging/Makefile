@@ -33,6 +33,8 @@ endif
 ifeq ($(OSTYPE),darwin)
 WEBOTS_DISTRO_EXE = webots_distro
 WEBOTS = $(WEBOTS_HOME_PATH)/webots
+# we want to avoid a deprecation warning related to the MD5 library
+CFLAGS = -Wno-deprecated-declarations
 endif
 
 ifeq ($(OSTYPE),linux)
@@ -51,7 +53,7 @@ endif
 endif
 
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
-ifeq ($(TRAVIS),)
+ifeq ($(DISPLAY),)
 export DISPLAY = :99
 XVFB = xvfb
 endif

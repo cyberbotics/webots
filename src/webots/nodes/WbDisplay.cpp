@@ -35,7 +35,7 @@
 #include <climits>
 #include <cmath>
 #include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
 
@@ -1079,7 +1079,7 @@ void WbDisplay::createWrenOverlay() {
   else
     mOverlay->setVisible(true, areOverlaysEnabled());
 
-  emit textureIdUpdated(mOverlay->textureGLId());
+  emit textureIdUpdated(mOverlay->textureGLId(), MAIN_TEXTURE);
 
   WbWrenOpenGlContext::doneWren();
 }
@@ -1116,7 +1116,7 @@ void WbDisplay::attachCamera(WbDeviceTag cameraTag) {
     foreach (WbImageTexture *imageTexture, mImageTextures)
       imageTexture->setBackgroundTexture(texture);
 
-    emit backgroundTextureIdUpdated(mOverlay->backgroundTextureGLId());
+    emit textureIdUpdated(mOverlay->backgroundTextureGLId(), BACKGROUND_TEXTURE);
     // clear the alpha channel so that the background image is visible
     const int size = width() * height();
     for (int i = 0; i < size; i++) {
@@ -1136,7 +1136,7 @@ void WbDisplay::detachCamera() {
       imageTexture->unsetBackgroundTexture();
 
     mAttachedCamera = NULL;
-    emit backgroundTextureIdUpdated(0);
+    emit textureIdUpdated(0, BACKGROUND_TEXTURE);
   }
 }
 

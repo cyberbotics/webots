@@ -29,4 +29,4 @@ void wr_skeleton_update_offset(WrSkeleton *skeleton);
 }
 #endif
 
-#endif  // WR_SKELETON
+#endif  // WR_SKELETON_H
