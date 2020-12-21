@@ -45,9 +45,7 @@ namespace wren {
     mFrameBuffer = FrameBuffer::createFrameBuffer();
     mFrameBuffer->setSize(mOutputWidth, mOutputHeight);
     // TODO: C'est fait aussi pour inputOutput et la taille est de 1
-    std::cerr << "/* error message */" << '\n';
     for (size_t i = 0; i < mOutputTextureFormat.size(); ++i) {
-      std::cout << "ZZZ" << '\n';
       TextureRtt *outputTexture = TextureRtt::createTextureRtt();
       outputTexture->setInternalFormat(mOutputTextureFormat[i]);
       mFrameBuffer->appendOutputTexture(outputTexture);
@@ -58,7 +56,6 @@ namespace wren {
     // as a color attachment by the framebuffer, a copy of the texture is created and one texture
     // is sampled while the other is written to. The roles are then alternated every frame.
     for (InputOutputTexture &inputOutput : mInputOutputTextures) {
-      std::cout << "setup" << '\n';
       inputOutput.mTextureEven = mFrameBuffer->outputTexture(inputOutput.mOutputTextureIndexEven);
       inputOutput.mTextureOdd = TextureRtt::copyTextureRtt(inputOutput.mTextureEven);
       inputOutput.mOutputTextureIndexOdd = mFrameBuffer->outputTextures().size();
@@ -97,7 +94,7 @@ namespace wren {
       glUniform2f(locationViewportSize, mFrameBuffer->width(), mFrameBuffer->height());
 
     for (int iteration = 0; iteration < mIterationCount; ++iteration) {
-      // swapInputOutputTextures();
+      swapInputOutputTextures();
 
       // this call also sets the drawbuffers, so it must happen after swapInputOutputTextures
       mFrameBuffer->bind();
