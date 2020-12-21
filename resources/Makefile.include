@@ -487,8 +487,8 @@ FUNCTIONS_TO_EXPORT=$(file < $(FILE))
 
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
-	###$(SILENT) emcc -s WASM=0 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders --preload-file ../../projects/default/worlds/textures -0 $(OBJECTS) -s EXPORTED_FUNCTIONS='[$(FUNCTIONS_TO_EXPORT)]' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o ../../resources/web/streaming_viewer/a.out.js
-	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+	$(SILENT) emcc -s WASM=0 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders --preload-file ../../projects/default/worlds/textures -0 $(OBJECTS) -s EXPORTED_FUNCTIONS='[$(FUNCTIONS_TO_EXPORT)]' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o ../../resources/web/streaming_viewer/a.out.js
+	###$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 endif
 ### End ifdef MAIN_TARGET
@@ -537,8 +537,8 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
-	###$(SILENT)emcc -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)emcc -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	###$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory
 ###-----------------------------------------------------------------------------

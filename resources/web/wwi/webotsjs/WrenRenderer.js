@@ -28,9 +28,11 @@ class WrenRenderer {
       return;
 
     try {
+      console.time('startID')
       World.instance.viewpoint.updatePostProcessingParameters();
 
       _wr_scene_render(_wr_scene_get_instance(), null, true);
+      console.timeEnd('startID')
       console.log("render");
     }
     catch(error) {

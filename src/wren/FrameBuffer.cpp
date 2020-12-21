@@ -256,6 +256,10 @@ namespace wren {
       return mOutputTextures[mOutputDrawBuffers[index].mStorageIndex]->glFormatParams();
   }
 
+  void FrameBuffer::swapTexture(TextureRtt *texture) {
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->glName(), 0);
+  }
+
   void FrameBuffer::prepareGl() {
     assert(!mGlName);
     assert(mWidth && mHeight);
@@ -283,7 +287,8 @@ namespace wren {
         } else
           assert(texture->width() == mWidth && texture->height() == mHeight);
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, texture->glName(), 0);
+        if (mOutputDrawBuffers[i].mIsEnabled)
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, texture->glName(), 0);
       }
     }
 

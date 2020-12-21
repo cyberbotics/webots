@@ -59,6 +59,7 @@ namespace wren {
     void enableDepthBuffer(bool enable) { mIsDepthBufferEnabled = enable; }
     void enableCopying(size_t index, bool enable);
     void enableDrawBuffer(size_t index, bool enable);
+    void swapTexture(TextureRtt *texture);
     void disableAllDrawBuffers();
     void setSize(int width, int height) {
       mWidth = width;
