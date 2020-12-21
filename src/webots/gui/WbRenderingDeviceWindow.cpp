@@ -387,8 +387,6 @@ void WbRenderingDeviceWindow::updateTextureGLId(int id, WbRenderingDevice::Textu
 
 void WbRenderingDeviceWindow::listenToBackgroundImageChanges(const WbRenderingDevice *previousAttachedDevice,
                                                              const WbRenderingDevice *newAttachedDevice) {
-  const WbDisplay *display = dynamic_cast<WbDisplay *>(mDevice);
-  assert(display);
   if (previousAttachedDevice)
     disconnect(previousAttachedDevice, &WbRenderingDevice::textureUpdated, this, &WbRenderingDeviceWindow::requestUpdate);
   if (newAttachedDevice)
