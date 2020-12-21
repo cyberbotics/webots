@@ -887,11 +887,11 @@ void WbCamera::updateOverlayMaskTexture() {
   emit textureIdUpdated(mOverlay->maskTextureGLId(), MASK_TEXTURE);
 }
 
-void WbCamera::updateTextureUpdateNotifications() {
-  WbAbstractCamera::updateTextureUpdateNotifications();
+void WbCamera::updateTextureUpdateNotifications(bool enabled) {
+  WbAbstractCamera::updateTextureUpdateNotifications(enabled);
   if (!mWrenCamera || !mSegmentationCamera)
     return;
-  if (mExternalWindowEnabled)
+  if (enabled && mExternalWindowEnabled)
     connect(mSegmentationCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated, Qt::UniqueConnection);
   else
     disconnect(mSegmentationCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated);
@@ -995,7 +995,7 @@ void WbCamera::createSegmentationCamera() {
   }
   updateOverlayMaskTexture();
   if (mExternalWindowEnabled)
-    updateTextureUpdateNotifications();
+    updateTextureUpdateNotifications(mExternalWindowEnabled);
 }
 
 void WbCamera::updateLensFlare() {

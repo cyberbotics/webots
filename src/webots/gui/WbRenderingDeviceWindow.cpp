@@ -15,6 +15,8 @@
 #include "WbRenderingDeviceWindow.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbCamera.hpp"
+#include "WbDisplay.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbRenderingDevice.hpp"
@@ -120,6 +122,11 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   connect(mDevice, &WbRenderingDevice::closeWindow, this, &WbRenderingDeviceWindow::closeFromMainWindow);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::mainRenderingEnded, this,
           &WbRenderingDeviceWindow::renderNow);
+  const WbDisplay *display = dynamic_cast<WbDisplay *>(mDevice);
+  if (display) {
+    connect(display, &WbDisplay::attachedCameraChanged, this, &WbRenderingDeviceWindow::listenToBackgroundImageChanges);
+    listenToBackgroundImageChanges(NULL, display->attachedCamera());
+  }
 
   // set initial size
   double pixelSize = mDevice->pixelSize();
@@ -376,6 +383,16 @@ void WbRenderingDeviceWindow::updateTextureGLId(int id, WbRenderingDevice::Textu
   }
   mUpdateRequested = true;
   mInitialized = false;
+}
+
+void WbRenderingDeviceWindow::listenToBackgroundImageChanges(const WbRenderingDevice *previousAttachedDevice,
+                                                             const WbRenderingDevice *newAttachedDevice) {
+  const WbDisplay *display = dynamic_cast<WbDisplay *>(mDevice);
+  assert(display);
+  if (previousAttachedDevice)
+    disconnect(previousAttachedDevice, &WbRenderingDevice::textureUpdated, this, &WbRenderingDeviceWindow::requestUpdate);
+  if (newAttachedDevice)
+    connect(newAttachedDevice, &WbRenderingDevice::textureUpdated, this, &WbRenderingDeviceWindow::requestUpdate);
 }
 
 QStringList WbRenderingDeviceWindow::perspective() const {
