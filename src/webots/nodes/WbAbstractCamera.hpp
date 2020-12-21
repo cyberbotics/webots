@@ -56,6 +56,8 @@ public:
 
   virtual void updateCameraTexture();
 
+  void enableExternalWindowForAttachedCamera(bool enabled);
+
   void setNodeVisibility(WbBaseNode *node, bool visible);
 
   virtual bool isEnabled() const { return mSensor ? mSensor->isEnabled() : false; }
@@ -157,7 +159,7 @@ protected:
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();
-  virtual void updateTextureUpdateNotifications();
+  virtual void updateTextureUpdateNotifications(bool enabled);
 
 public slots:
   void updateAntiAliasing();
