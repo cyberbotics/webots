@@ -108,7 +108,7 @@
     </message>
     <message>
         <source>An active network adapter is required to run Webots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un adattore di rete attivo è richiesto per eseguire Webots.</translation>
     </message>
     <message>
         <source>The input values of a lookup table must be sorted in increasing order.</source>
@@ -212,7 +212,7 @@
     </message>
     <message>
         <source>reset</source>
-        <translation>reset</translation>
+        <translation>resetta</translation>
     </message>
     <message>
         <source>rescale</source>
@@ -228,15 +228,15 @@
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Transform has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;boundingObject&apos; invalido (un nodo Transform non ha il campo &apos;geometry&apos;): la matrice di inerzia non può essere calcolata.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Transform, or a Shape within a Transform, has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;boundingObject&apos; invalido (un nodo Transform, o un Shape all&apos;interno di Transform, non ha il campo &apos;geometry&apos;): la matrice di inerzia non può essere calcolata.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Shape&apos;s &apos;geometry&apos; field is not set): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;boundingObject&apos; invalido (il campo &apos;geometry&apos; di Shape non è impostato): la matrice di inerzia non può essere calcolata.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (Group with no child set): the inertia matrix cannot be calculated.</source>
@@ -252,19 +252,19 @@
     </message>
     <message>
         <source>: the corresponding added mass defaults to 1kg, the added inertia matrix defaults to the identity matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation>: la massa corrispondente predefinita è 1kg, la matrice di inertia predefinita è la matrice identità.</translation>
     </message>
     <message>
         <source>Use a positive radius to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa un raggio positivo per un&apos;impostazione corretta della massa</translation>
     </message>
     <message>
         <source>Use a positive radius and a positive height to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa un raggio ed un&apos;altezza positiva per un&apos;impostazione corretta della massa</translation>
     </message>
     <message>
         <source>Use positive dimensions to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa dimensioni positive per un&apos;impostazione corretta della massa</translation>
     </message>
     <message>
         <source>Mass properties computation failed for this IndexedFaceSet</source>
@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Please replace this non-admissible USE node by an expanded DEF node in your proto file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore sostituisci questo nodo USE non amissibile con un nodo DEF nel tuo file proto.</translation>
     </message>
     <message>
         <source>Unexpected template statement opening. Expected=&apos;%1&apos;, Received=&apos;%2&apos;</source>
@@ -320,11 +320,11 @@
     </message>
     <message>
         <source>Expected hidden field identifier but found &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto identificatore di campo nascosto ma ottenuto &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Expected &apos;%1&apos; but reached the end of the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto &apos;%1&apos; ma raggiunto la fine del file</translation>
     </message>
     <message>
         <source>Expected &apos;%1&apos; but found &apos;%2&apos;</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>End of file reached while a token is expected</source>
-        <translation type="unfinished"></translation>
+        <translation>Fine del file raggiunta sebbene un token sia previsto</translation>
     </message>
     <message>
         <source>The mass ratio between the heaviest solid (&apos;%1&apos; - mass = %2 kg) and the lightest solid (&apos;%3&apos; - mass = %4 kg) is huge. This is a source of physics instabilities.</source>
@@ -348,7 +348,7 @@
     </message>
     <message>
         <source>Cannot insert duplicated %1 node: only one instance is allowed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile inserire il nodo duplicato %1: una sola istanza è permessa.</translation>
     </message>
     <message>
         <source>%1 node can only be inserted at the top level of the node hierarchy.</source>
@@ -380,7 +380,7 @@
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; node or PROTO</source>
-        <translation type="unfinished"></translation>
+        <translation>Saltato nodo o PROTO sconosciuto &apos;%1&apos;</translation>
     </message>
     <message>
         <source>field name or &apos;}&apos;</source>
@@ -388,11 +388,11 @@
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; field in %2 node</source>
-        <translation type="unfinished"></translation>
+        <translation>Saltato campo &apos;%1&apos; sconosciuto nel nodo %2</translation>
     </message>
     <message>
         <source>&apos;IS&apos; keyword is only allowed in .proto files</source>
-        <translation type="unfinished"></translation>
+        <translation>la parola chiave &apos;IS&apos; è permessa solo in files .proto</translation>
     </message>
     <message>
         <source>parameter name or &apos;}&apos;</source>
@@ -400,23 +400,23 @@
     </message>
     <message>
         <source>Skipped unknown &apos;%1&apos; parameter in %2 PROTO</source>
-        <translation type="unfinished"></translation>
+        <translation>Saltato parametro sconosciuto &apos;%1&apos; nel PROTO %2</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: error: Missing header.</source>
-        <translation type="unfinished"></translation>
+        <translation>errore &apos;%1&apos;: Intestazione mancante.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: This file was created by Webots %2 while you are using Webots %3. Forward compatibility may not work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &apos;%1&apos; è stato creato da Webots %2 e stai usando Webots %3. Compatibilità con versioni successive potrebbe non funzionare.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: Invalid header.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos;: Intestazione invalida.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: Missing header.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos;: Intestazione mancante.</translation>
     </message>
     <message>
         <source>Invalid escaped character</source>
@@ -428,7 +428,7 @@
     </message>
     <message>
         <source>Invalid token &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Token &quot;%1&quot; invalido</translation>
     </message>
     <message>
         <source>&apos;%1&apos;:%2:%3: error: %4.</source>
@@ -460,7 +460,7 @@
     </message>
     <message>
         <source>%1 node cannot be inserted at the top level of the node hierarchy.</source>
-        <translation type="unfinished"></translation>
+        <translation>il nodo %1 non può essere inserito al livello superiore della gerarchia dei nodi.</translation>
     </message>
     <message>
         <source>heaviest solid</source>
@@ -472,11 +472,11 @@
     </message>
     <message>
         <source>Cannot create the Webots temporary directory &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile creare la directory temporanea Webots &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Cannot create a directory in the Webots temporary directory &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile creare una directory nella directory temporanea di Webots &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Deprecated &apos;%1&apos;, please use &apos;%2&apos; node instead</source>
@@ -484,7 +484,7 @@
     </message>
     <message>
         <source>Webots has not been started regularly. Some features may not work. Please start Webots from its launcher.</source>
-        <translation type="unfinished"></translation>
+        <translation>Webots non è stato lanciato in modo regolare. Alcune funzionalità potrebbero non funzionare. Per favore lancia Webots dal suo programma di avvio.</translation>
     </message>
     <message>
         <source>Cannot insert %1 node in &apos;%2&apos; field of %3 node that doesn&apos;t have a Solid ancestor.</source>
@@ -524,7 +524,7 @@
     </message>
     <message>
         <source>Cannot find OpenAL default device</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare il dispositivo OpenAL predefinito</translation>
     </message>
     <message>
         <source>Cannot initialize OpenAL default device &apos;%1&apos;</source>
@@ -677,7 +677,7 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; or &apos;hiddenField&apos; keywords</source>
-        <translation type="unfinished"></translation>
+        <translation>parole chiave &apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; oppure &apos;hiddenField&apos;</translation>
     </message>
     <message>
         <source>Please modify the first line of &apos;%1&apos; to &quot;#%2 %3 utf8&quot;.</source>
@@ -855,7 +855,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>St&amp;ep</source>
-        <translation type="unfinished">Passo</translation>
+        <translation>&amp;Passo</translation>
     </message>
     <message>
         <source>&amp;Fast</source>
@@ -871,7 +871,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>C&amp;ut</source>
-        <translation type="unfinished">Taglia</translation>
+        <translation>&amp;Taglia</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
@@ -999,7 +999,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Transpose Current Line</source>
-        <translation type="unfinished">Inver&amp;ti la riga corrente</translation>
+        <translation>&amp;Inverti la riga corrente</translation>
     </message>
     <message>
         <source>Invert the current line and its previous line.</source>
@@ -1071,11 +1071,11 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Execute one simulation step. (%1+1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui un passo della simulazione. (%1+1)</translation>
     </message>
     <message>
         <source>Run the simulation as fast as possible. (%1+3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui la simulazione il più velocemente possibile. (%1+3)</translation>
     </message>
     <message>
         <source>Add a new object or import an object. (%1+Shift+A)</source>
@@ -1127,7 +1127,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Move Viewpoint to see object from the front.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto dal davanti.</translation>
     </message>
     <message>
         <source>&amp;Back View</source>
@@ -1135,23 +1135,23 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Move Viewpoint to see object from the back.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto dal dietro.</translation>
     </message>
     <message>
         <source>&amp;Left View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista &amp;Sinistra</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the left.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto da sinistra.</translation>
     </message>
     <message>
         <source>&amp;Right View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista &amp;Destra</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto da destra.</translation>
     </message>
     <message>
         <source>&amp;Top View</source>
@@ -1159,7 +1159,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Move Viewpoint to see object from the top.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto dal sopra.</translation>
     </message>
     <message>
         <source>&amp;Bottom View</source>
@@ -1167,7 +1167,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Move Viewpoint to see object from the bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il Punto di Vista per vedere l&apos;oggetto dal sotto.</translation>
     </message>
     <message>
         <source>&amp;Take Screenshot...</source>
@@ -1179,7 +1179,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Move viewpoint to selected object. (ALT + 5)</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il punto di vista verso l&apos;oggetto selezionato. (ALT + 5)</translation>
     </message>
     <message>
         <source>&amp;Reload World</source>
@@ -1193,11 +1193,11 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Reset Simulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetta Simulazione</translation>
     </message>
     <message>
         <source>&amp;Perspective Projection</source>
-        <translation type="unfinished">Proiezione Prospettica</translation>
+        <translation>Proiezione &amp;Prospettica</translation>
     </message>
     <message>
         <source>Perspective viewing projection.</source>
@@ -1205,7 +1205,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>&amp;Orthographic Projection</source>
-        <translation type="unfinished">Proiezione Ortogonale</translation>
+        <translation>Proiezione &amp;Ortogonale</translation>
     </message>
     <message>
         <source>Orthographic viewing projection.</source>
@@ -1405,7 +1405,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Restore &amp;Viewpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Restora &amp;Punto di Vista</translation>
     </message>
     <message>
         <source>Restore the initial Viewpoint position and orientation. (CTRL + SHIFT + V)</source>
@@ -1806,7 +1806,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Base nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Nodi base</translation>
     </message>
     <message>
         <source>Documentation: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</source>
@@ -1837,7 +1837,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <name>WbAnimationRecorder</name>
     <message>
         <source>Streaming server already initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>Server di streaming già inizializzato.</translation>
     </message>
     <message>
         <source>Error when stopping the HTML5 animation recording: &apos;%1&apos;</source>
@@ -1863,7 +1863,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Error when starting the HTML5 animation recording: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nel cominciare la registrazione dell&apos;animazione HTML5: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>HTML5 animation successfully exported in &apos;%1&apos;
@@ -1900,7 +1900,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Reading world file </source>
-        <translation type="unfinished"></translation>
+        <translation>Lettura del scenario</translation>
     </message>
     <message>
         <source>Parsing world</source>
@@ -1908,7 +1908,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Could not open file: &apos;%1&apos;. The world file extension must be &apos;.wbt&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire il file &apos;%1&apos;. Il file del scenario deve avere estensione &apos;.wbt&apos;.</translation>
     </message>
 </context>
 <context>
@@ -2018,7 +2018,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Remove intermediate cross-compilation files.</source>
-        <translation type="unfinished">Cancella i file^ intermedi della compilazione incrociata.</translation>
+        <translation>Cancella i file intermedi della compilazione incrociata.</translation>
     </message>
     <message>
         <source>Compilation successful</source>
@@ -2066,11 +2066,11 @@ The path to this Webots project contains non 8-bit characters. Webots won&apos;t
     </message>
     <message>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricarica</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetta</translation>
     </message>
 </context>
 <context>
@@ -2135,11 +2135,11 @@ Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>&apos;near&apos; is greater than &apos;far&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation>&apos;near&apos; è superiore a &apos;far&apos;. Imposto &apos;near&apos; a %1.</translation>
+        <translation>&apos;near&apos; è superiore a &apos;far&apos;. &apos;near&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;far&apos; is less than &apos;near&apos;. Setting &apos;far&apos; to %1.</source>
-        <translation>&apos;far&apos; è inferiore a &apos;near&apos;. Imposto &apos;far&apos; a %1.</translation>
+        <translation>&apos;far&apos; è inferiore a &apos;near&apos;. &apos;far&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>Lens flare cannot be applied to spherical cameras.</source>
@@ -2260,7 +2260,7 @@ Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>Cannot cleanup the local server (server name = &quot;%1&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile ripulire il server locale (nome server = &quot;%1&quot;).</translation>
     </message>
     <message>
         <source>Starting extern controller for robot &quot;%1&quot;.</source>
@@ -2276,11 +2276,11 @@ Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>Terminating extern controller for robot &quot;%1&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Termine del controllore esterno per il robot &quot;%1&quot;.</translation>
     </message>
     <message>
         <source>Terminating controller &quot;%1&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Termine del controllore &quot;%1&quot;.</translation>
     </message>
 </context>
 <context>
@@ -2343,7 +2343,7 @@ Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>Could not find controller file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stato possibile trovare il file del controllore:</translation>
     </message>
     <message>
         <source>Expected either: %1, %2, %3, %4, or %5</source>
@@ -2577,7 +2577,8 @@ Please close any running instances of the controller and reload the world.</sour
     <message>
         <source>Please select a controller from the list
 (it will start at the next time step)</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore seleziona un controllore dalla lista
+(comincerà al prossimo passo temporale)</translation>
     </message>
     <message>
         <source>Physics plugins choice</source>
@@ -2634,7 +2635,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Select controller program.</source>
-        <translation>Seleziona programma di controllo</translation>
+        <translation>Seleziona programma di controllo.</translation>
     </message>
     <message>
         <source>Fluid choice</source>
@@ -2687,47 +2688,47 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbFieldChecker</name>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be positive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere positivo.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be in range [%3, %4].</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere nell&apos;intervallo [%3, %4].</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be in range ]%3, %4[.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere nell&apos;intervallo ]%3, %4[.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2.</source>
-        <translation type="unfinished">&apos;%1&apos; non valido è stato cambiato in &apos;%2&apos;.</translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2.</translation>
     </message>
     <message>
         <source>Invalid item %1 of &apos;%2&apos; changed to %3.</source>
-        <translation type="unfinished">L&apos;objet %1 de &apos;%2&apos; non è valido ed è stato cambiato in %3.</translation>
+        <translation>Elemento invalido %1 di &apos;%2&apos; è stato modificato a %3.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be non-negative.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere positivo.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be either %3 or non-negative.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere %3 oppure positivo.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be in either %3 or in range [%4, %5].</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere %3 oppure nell&apos;intervallo [%4, %5].</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be %3 or greater.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere %3 o superiore.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be %3 or less.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere %3 o inferiore.</translation>
     </message>
     <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be either %3 or positive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido &apos;%1&apos; è stato modificato a %2. Il valore deve essere %3 o positivo.</translation>
     </message>
 </context>
 <context>
@@ -2985,19 +2986,19 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbHingeJoint</name>
     <message>
         <source>HingeJoint &apos;minStop&apos; must be greater than -pi to be effective.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore &apos;minStop&apos; di HingeJoint deve essere superiore a -pi per essere efficace.</translation>
     </message>
     <message>
         <source>HingeJoint &apos;maxStop&apos; must be less than pi to be effective.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore &apos;maxStop&apos; di HingeJoint deve essere inferiore a pi per essere efficace.</translation>
     </message>
     <message>
         <source>HingeJoint &apos;minStop&apos; must be less or equal to RotationalMotor &apos;minPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore &apos;minStop&apos; di HingeJoint deve essere inferiore o uguale a &apos;minPosition&apos; di RotationalMotor.</translation>
     </message>
     <message>
         <source>HingeJoint &apos;maxStop&apos; must be greater or equal to RotationalMotor &apos;maxPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore &apos;maxStop&apos; di HingeJoint deve essere superiore o uguale a &apos;maxPosition&apos; di RotationalMotor.</translation>
     </message>
 </context>
 <context>
@@ -3304,19 +3305,19 @@ The following file formats are supported:
     </message>
     <message>
         <source>&apos;near&apos; is greater than to &apos;minRange&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation>&apos;near&apos; è superiore a &apos;minRange&apos;. Modifico &apos;near&apos; a %1.</translation>
+        <translation>&apos;near&apos; è superiore a &apos;minRange&apos;. &apos;near&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is less than &apos;near&apos;. Setting &apos;minRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è inferiore a &apos;near&apos;. &apos;minRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is greater or equal to &apos;maxRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è superiore o uguale a &apos;maxRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;maxRange&apos; is less or equal to &apos;minRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostatto a %1.</translation>
     </message>
     <message>
         <source>Impossible to have a so big &apos;numberOfLayers&apos; unsing this &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * M_PI). &apos;numberOfLayers&apos; set to %1.</source>
@@ -3324,19 +3325,19 @@ The following file formats are supported:
     </message>
     <message>
         <source>&apos;fieldOfView&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;fieldOfView&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
     <message>
         <source>&apos;horizontalResolution&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;horizontalResolution&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
     <message>
         <source>&apos;verticalFieldOfView&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;verticalFieldOfView&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
     <message>
         <source>&apos;numberOfLayers&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;numberOfLayers&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
 </context>
 <context>
@@ -3382,7 +3383,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>Modifica</translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message>
         <source>&amp;View</source>
@@ -3394,11 +3395,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>Show the simulation view in fullscreen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la simulazione in modalità schermo intero.</translation>
     </message>
     <message>
         <source>&amp;Optional Rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendering &amp;Opzionale</translation>
     </message>
     <message>
         <source>&amp;Simulation</source>
@@ -3406,7 +3407,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Build</source>
-        <translation type="unfinished">&amp;Costruisci</translation>
+        <translation>&amp;Costruisci</translation>
     </message>
     <message>
         <source>&amp;Tools</source>
@@ -3446,11 +3447,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>&amp;About...</source>
-        <translation>Informazioni su Webots...</translation>
+        <translation>&amp;Informazioni su Webots...</translation>
     </message>
     <message>
         <source>Webots &amp;Guided Tour...</source>
@@ -3458,7 +3459,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>How do I &amp;navigate in 3D?</source>
-        <translation>Come muoversi all&apos;interno della scena 3D?</translation>
+        <translation>Come &amp;navigare all&apos;interno della scena 3D?</translation>
     </message>
     <message>
         <source>How do I &amp;move an object?</source>
@@ -3470,11 +3471,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Bug Report...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Segnala Errore...</translation>
     </message>
     <message>
         <source>Cyberbotics &amp;Website...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sito Web Cyberbotics...</translation>
     </message>
     <message>
         <source>Question</source>
@@ -3482,19 +3483,19 @@ The following file formats are supported:
     </message>
     <message>
         <source>This simulation does not currently use a physics plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa simulazione non usa attualmente un plugin fisico.</translation>
     </message>
     <message>
         <source>Would you like to create one?</source>
-        <translation type="unfinished"></translation>
+        <translation>Desideri crearne uno?</translation>
     </message>
     <message>
         <source>Could not find the source file of the &apos;%1&apos; physics plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare il file sorgente del plugin fisico &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Open World File</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri File Scenario</translation>
     </message>
     <message>
         <source>The simulation has run!</source>
@@ -3554,51 +3555,51 @@ The following file formats are supported:
     </message>
     <message>
         <source>How do I &amp;apply a force or a torque to an object?</source>
-        <translation type="unfinished"></translation>
+        <translation>Come posso &amp;applicare una forza o un momento ad un oggetto?</translation>
     </message>
     <message>
         <source>How do I apply a force or a torque to an object?</source>
-        <translation type="unfinished"></translation>
+        <translation>Come posso applicare una forza o un momento ad un oggetto?</translation>
     </message>
     <message>
         <source>Open the Preferences window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri la finestra delle Preferenze.</translation>
     </message>
     <message>
         <source>Create a new project directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un nuovo progetto.</translation>
     </message>
     <message>
         <source>Create a new controller program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un nuovo controllore.</translation>
     </message>
     <message>
         <source>Create a new physics plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un nuovo plugin fisico.</translation>
     </message>
     <message>
         <source>Start a guided tour demonstrating Webots capabilities.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancia il tour guidato che dimostra le capacità di Webots.</translation>
     </message>
     <message>
         <source>Show information about navigation in the 3D window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni sulla navigazione nella finestra 3D.</translation>
     </message>
     <message>
         <source>Show information about moving an object in the 3D window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni sullo spostamento di oggetti nella finestra 3D.</translation>
     </message>
     <message>
         <source>Show information about applying a force or a torque to an object in the 3D window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni su come applicare forze e momenti a oggetti nella finestra 3D.</translation>
     </message>
     <message>
         <source>Show information about the current OpenGL hardware and driver.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra le informazioni sull&apos;hardware e il driver OpenGL correnti.</translation>
     </message>
     <message>
         <source>Open the Cyberbotics website.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri il sito web di Cyberbotics.</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key, the Control key (Ctrl) and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key, the Control key (Ctrl) and the right mouse button together while dragging the mouse.</source>
@@ -3614,11 +3615,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Open Recent World</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Apri Scenario Recente</translation>
     </message>
     <message>
         <source>&amp;Check for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cerca aggiornamenti...</translation>
     </message>
     <message>
         <source>Open the Webots update dialog.</source>
@@ -3626,23 +3627,23 @@ The following file formats are supported:
     </message>
     <message>
         <source>World Files (*.wbt *.WBT)</source>
-        <translation type="unfinished"></translation>
+        <translation>Files Scenario (*.wbt *.WBT)</translation>
     </message>
     <message>
         <source>Opening world file</source>
-        <translation type="unfinished"></translation>
+        <translation>Apertura del scenario</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancella</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Loading world</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento scenario</translation>
     </message>
     <message>
         <source>&amp;Export HTML5 Model...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Esporta Modello HTML5...</translation>
     </message>
     <message>
         <source>Export the whole Scene Tree as an HTML5 file.</source>
@@ -3658,7 +3659,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Export HTML5 Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta Modello HTML5</translation>
     </message>
     <message>
         <source>Show &apos;%1&apos; overlay</source>
@@ -3682,23 +3683,23 @@ The following file formats are supported:
     </message>
     <message>
         <source>Export as HTML5 animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta come animazione HTML5</translation>
     </message>
     <message>
         <source>Stop HTML5 &amp;Animation...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferma &amp;Animazione HTML5...</translation>
     </message>
     <message>
         <source>Stop HTML5 animation recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferma registrazione animazione HTML5.</translation>
     </message>
     <message>
         <source>Make HTML5 &amp;Animation...</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea &amp;Animazione HTML5...</translation>
     </message>
     <message>
         <source>Start HTML5 animation recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia registrazione animazione HTML5.</translation>
     </message>
     <message>
         <source>%1: Terminating.</source>
@@ -3706,31 +3707,31 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;User Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Guida Utente</translation>
     </message>
     <message>
         <source>Open the Webots user guide online.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri la guida utente Webots online.</translation>
     </message>
     <message>
         <source>&amp;Reference manual</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Manuale di riferimento</translation>
     </message>
     <message>
         <source>Open the Webots reference manual online.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri il manuale di riferimento Webots online.</translation>
     </message>
     <message>
         <source>&amp;Webots for automobiles</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Webots per automobili</translation>
     </message>
     <message>
         <source>Open the Webots for automobiles book online.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri il libro online di Webots per automobili.</translation>
     </message>
     <message>
         <source>&amp;Offline documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Documentazione offline</translation>
     </message>
     <message>
         <source>Open the Webots user guide in the documentation tool.</source>
@@ -3746,15 +3747,15 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Virtual Reality Headset</source>
-        <translation type="unfinished"></translation>
+        <translation>Visore Realtà &amp;Virtuale</translation>
     </message>
     <message>
         <source>Please install SteamVR to use a virtual reality headset.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore installa SteamVR per usare il visore di realtà virtuale.</translation>
     </message>
     <message>
         <source>No virtual reality headset connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun visore per realtà virtuale connesso.</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:
@@ -3763,67 +3764,67 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Export VRML97...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Esporta VRML97...</translation>
     </message>
     <message>
         <source>VRML97 Files (*.wrl *.WRL)</source>
-        <translation type="unfinished"></translation>
+        <translation>File VRML97 (*.wrl *.WRL)</translation>
     </message>
     <message>
         <source>Export World as VRML97</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta Scenario come VRML97</translation>
     </message>
     <message>
         <source>You are entering fullscreen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stai entrando in modalità schermo intero.</translation>
     </message>
     <message>
         <source>Press ESC to quit fullscreen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi ESC per uscire dalla modalità schermo intero.</translation>
     </message>
     <message>
         <source>Press ESC to stop recording the movie and quit fullscreen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi ESC per interrompere la registrazione e uscire dalla modalità schermo intero.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Ctrl+0&lt;/i&gt; to pause the simulation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Ctrl+0&lt;/i&gt; per interrompere la simulazione.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Ctrl+1&lt;/i&gt; to execute one basic time step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Ctrl+1&lt;/i&gt; per avanzare di un passo temporale.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Ctrl+2&lt;/i&gt; to run the simulation in real time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Ctrl+2&lt;/i&gt; per eseguire la simulazione in tempo reale.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Ctrl+3&lt;/i&gt; to run the simulation as fast as possible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Ctrl+3&lt;/i&gt; per eseguire la simulazione a velocità massima.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Cmd+0&lt;/i&gt; to pause the simulation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Cmd+0&lt;/i&gt; per interrompere la simulazione.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Cmd+1&lt;/i&gt; to execute one basic time step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Cmd+1&lt;/i&gt; per avanzare di un passo temporale.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Cmd+2&lt;/i&gt; to run the simulation in real time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Cmd+2&lt;/i&gt; per eseguire la simulazione in tempo reale.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Cmd+3&lt;/i&gt; to run the simulation as fast as possible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Cmd+3&lt;/i&gt; per eseguire la simulazione a velocità massima.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Ctrl+Shift+P&lt;/i&gt; to take a screenshot of the 3D screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Ctrl+Shift+P&lt;/i&gt; per acquisire uno screenshot della schermata 3D.</translation>
     </message>
     <message>
         <source>Press &lt;i&gt;Cmd+Shift+P&lt;/i&gt; to take a screenshot of the 3D screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi &lt;i&gt;Cmd+Shift+P&lt;/i&gt; per acquisire uno screenshot della schermata 3D.</translation>
     </message>
     <message>
         <source>&lt;b&gt;Note:&lt;/b&gt; When taking a screenshot in fullscreen mode, the resulting screenshot&apos;s save path will be chosen automatically.</source>
@@ -3831,11 +3832,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>Screenshots will be saved in &lt;i&gt;%1&lt;/i&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Screenshots saranno salvati in &lt;i&gt;%1&lt;/i&gt;.</translation>
     </message>
     <message>
         <source>Fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modalità schermo intero</translation>
     </message>
     <message>
         <source>Change View</source>
@@ -3847,11 +3848,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Esci</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <source>&amp;Overlays</source>
@@ -3863,23 +3864,23 @@ The following file formats are supported:
     </message>
     <message>
         <source>Display information about Webots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni su Webots.</translation>
     </message>
     <message>
         <source>Available GPU memory: </source>
-        <translation type="unfinished"></translation>
+        <translation>Memoria GPU disponibile: </translation>
     </message>
     <message>
         <source>%1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bytes</translation>
     </message>
     <message>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <source>&amp;GitHub repository...</source>
-        <translation type="unfinished"></translation>
+        <translation>Repository &amp;Github...</translation>
     </message>
     <message>
         <source>Open the Webots git repository on GitHub.</source>
@@ -3891,51 +3892,51 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Keep informed</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tieniti informato</translation>
     </message>
     <message>
         <source>Subscribe to the &amp;Newsletter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iscriviti alla &amp;Newsletter...</translation>
     </message>
     <message>
         <source>Keep informed about the latest Webots news with the Webots newsletter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tieniti informato sulle ultime novità Webots grazie alla newsletter Webots.</translation>
     </message>
     <message>
         <source>Join the &amp;Discord channel...</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisciti al canale &amp;Discord...</translation>
     </message>
     <message>
         <source>Join our live community on Discord.</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisciti alla nostra comunità su Discord.</translation>
     </message>
     <message>
         <source>Follow Webots on &amp;Twitter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segui Webots su &amp;Twitter...</translation>
     </message>
     <message>
         <source>Keep informed about the latest Webots news on Twitter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tieniti informato sulle ultime novità Webots su Twitter.</translation>
     </message>
     <message>
         <source>Watch the latest Webots movies on YouTube.</source>
-        <translation type="unfinished"></translation>
+        <translation>Guarda gli ultimi video Webots su YouTube.</translation>
     </message>
     <message>
         <source>Follow Cyberbotics on &amp;LinkedIn...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segui Cyberbotics su &amp;LinkedIn...</translation>
     </message>
     <message>
         <source>Follow Cyberbotics on LinkedIn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Segui Cyberbotics su LinkedIn.</translation>
     </message>
     <message>
         <source>&amp;Follow Object</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Segui Oggetto</translation>
     </message>
     <message>
         <source>Subscribe to the Webots &amp;YouTube channel...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iscriviti al canale &amp;Youtube di Webots...</translation>
     </message>
     <message>
         <source>The HTML5 model has been created:&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Do you want to view it locally now?&lt;br&gt;&lt;br&gt;Note: please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/web-scene#remarks-on-the-used-technologies-and-their-limitations&apos;&gt;User Guide&lt;/a&gt; if your browser prevents local files CORS requests.</source>
@@ -4055,15 +4056,15 @@ The following file formats are supported:
     </message>
     <message>
         <source>The requested velocity %1 exceeds &apos;maxVelocity&apos; = %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>La velocità richiesta %1 supera &apos;maxVelocity&apos; = %2.</translation>
     </message>
     <message>
         <source>The requested motor torque %1 exceeds &apos;maxTorque&apos; = %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Il momento richiesto al motore %1 supera &apos;maxTorque&apos; = %2</translation>
     </message>
     <message>
         <source>The requested motor force %1 exceeds &apos;maxForce&apos; = %2</source>
-        <translation type="unfinished"></translation>
+        <translation>La forza richiesta al motore %1 supera &apos;maxForce&apos; = %2</translation>
     </message>
     <message>
         <source>The requested available motor torque %1 exceeds &apos;maxTorque&apos; = %2</source>
@@ -4105,7 +4106,7 @@ The following file formats are supported:
     <name>WbMuscle</name>
     <message>
         <source>&apos;maxRadius&apos; field is deprecated, please use the &apos;volume&apos; field instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il campo &apos;maxRadius&apos; è deprecato, per favore usa piuttosto il campo &apos;volume&apos;.</translation>
     </message>
 </context>
 <context>
@@ -4156,31 +4157,31 @@ The following file formats are supported:
     </message>
     <message>
         <source>Please choose the language for your controller program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore seleziona il linguaggio per il tuo controllore.</translation>
     </message>
     <message>
         <source>IDE selection</source>
-        <translation type="unfinished"></translation>
+        <translation>selezione IDE</translation>
     </message>
     <message>
         <source>Please choose the Integrated Development Environment (IDE) for your controller program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore scegli l&apos;Ambiente di Sviluppo Integrato (IDE) per il tuo controllore.</translation>
     </message>
     <message>
         <source>Webots (gcc / Makefile)</source>
-        <translation type="unfinished"></translation>
+        <translation>Webots (gcc / Makefile)</translation>
     </message>
     <message>
         <source>Microsoft Visual Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>Microsoft Visual Studio</translation>
     </message>
     <message>
         <source>Please choose a name for your controller program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore scegli un nome per il tuo controllore.</translation>
     </message>
     <message>
         <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri &apos;%1.sln&apos; in Microsoft Visual Studio (il controllore deve essere impostato come &lt;&lt;extern&gt;&gt; per poter essere lanciato da Microsoft Visual Studio)</translation>
     </message>
 </context>
 <context>
@@ -4294,46 +4295,46 @@ The following file formats are supported:
     </message>
     <message>
         <source>Please sepecify a world name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Specifica un nome per il scenario.</translation>
     </message>
     <message>
         <source>Invalid new world name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome scenario invalido</translation>
     </message>
     <message>
         <source>World settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni scenario</translation>
     </message>
     <message>
         <source>Please choose a name for the new world and select the features you want:</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore scegli un nome per lo scenario e seleziona le caratteristiche che desideri:</translation>
     </message>
 </context>
 <context>
     <name>WbNewVersionDialog</name>
     <message>
         <source>Welcome to Webots %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto in Webots %1</translation>
     </message>
     <message>
         <source>Themes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Temi:</translation>
     </message>
     <message>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anteprima:</translation>
     </message>
     <message>
         <source>Start Webots with the selected theme.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancia Webots con il tema selezionato.</translation>
     </message>
     <message>
         <source>More details about Webots %1 are listed &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/blog/Webots-%2-%3-release&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulteriori dettagli su Webots %1 sono elencati &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/blog/Webots-%2-%3-release&apos;&gt;qui&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Telemetry:</source>
-        <translation type="unfinished"></translation>
+        <translation>Telemetria:</translation>
     </message>
     <message>
         <source>Allow to send lightweight anonymous technical data to Webots developers.</source>
@@ -4360,19 +4361,19 @@ The following file formats are supported:
     </message>
     <message>
         <source> Skipped node in PROTO parameter &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation> Nodo saltato nel parametro PROTO &apos;%1&apos;.</translation>
     </message>
     <message>
         <source> Skipped node: </source>
-        <translation type="unfinished"></translation>
+        <translation> Nodo saltato: </translation>
     </message>
     <message>
         <source>Skipped node: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nodo saltato: </translation>
     </message>
     <message>
         <source>Parameter %1 not supported in PROTO %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametro %1 non supportato nel PROTO %2</translation>
     </message>
     <message>
         <source> Using &apos;Slot&apos; nodes mechanism.</source>
@@ -4380,7 +4381,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Duplicated definition of field %1 in the instance of PROTO %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Definizione duplicata del campo %1 nell&apos;istanza del PROTO %2</translation>
     </message>
     <message>
         <source>Wrong order of fields in the instance of PROTO %1: USE nodes might refer to the wrong DEF nodes</source>
@@ -4399,7 +4400,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>3D tools:</source>
-        <translation type="unfinished"></translation>
+        <translation>strumenti 3D:</translation>
     </message>
     <message>
         <source>show resize handles</source>
@@ -4444,73 +4445,73 @@ Do you want to continue?</source>
     <name>WbOpenSampleWorldDialog</name>
     <message>
         <source>Open Sample World</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri Scenario Predefinito</translation>
     </message>
     <message>
         <source>Find :</source>
-        <translation type="unfinished"></translation>
+        <translation>Trova:</translation>
     </message>
     <message>
         <source>Filter world names. Only the world names containing the given string are displayed in the tree below. Regular expressions can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtra nomi scenario. Solo gli scenari che contengono la stringa fornita sono visualizzati nell&apos;albero sottostante. Espressioni regolari possono essere usate.</translation>
     </message>
 </context>
 <context>
     <name>WbPhysics</name>
     <message>
         <source>&apos;inertiaMatrix&apos; must have exactly 0 or 2 lines. Second line inserted.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;inertiaMatrix&apos; deve avere esattamente 0 o 2 linee. Seconda linea inserita.</translation>
     </message>
     <message>
         <source>&apos;inertiaMatrix&apos; must have exactly 0 or 2 lines. Extra lines skipped.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;inertiaMatrix&apos; deve avere esattamente 0 o 2 linee. Extra linee saltate.</translation>
     </message>
     <message>
         <source>Either the &apos;mass&apos; or the &apos;density&apos; must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>È necessario specificare &apos;mass&apos; oppure &apos;density&apos;.</translation>
     </message>
     <message>
         <source>The center of mass must also be specified when using a custom inertia matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il centro di massa deve essere specificato quando si utilizza una matrice inerziale.</translation>
     </message>
     <message>
         <source>&apos;centerOfMass&apos; must have exactly 0 or 1 line. Extra lines skipped.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;centerOfMass&apos; deve avere esattamente 0 o 1 linea. Extra linee saltate.</translation>
     </message>
     <message>
         <source>The first line of &apos;inertiaMatrix&apos; (principal moments of inertia) must have only positive values.</source>
-        <translation type="unfinished"></translation>
+        <translation>La prima linea di &apos;inertiaMatrix&apos; (momenti di inerzia principali) deve avere solo valori positivi.</translation>
     </message>
     <message>
         <source>&apos;inertiaMatrix&apos; must be positive definite.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;inertiaMatrix&apos; deve essere definita positiva.</translation>
     </message>
     <message>
         <source>&apos;centerOfmass&apos; must also be specified when using an inertia matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;centerOfmass&apos; deve essere specificato quando si usa una matrice di inerzia.</translation>
     </message>
     <message>
         <source>&apos;mass&apos; must be positive when using an inertia matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;mass&apos; deve essere positivo quando si usa una matrice di inerzia.</translation>
     </message>
     <message>
         <source>Both &apos;density&apos; and &apos;mass&apos; specified: the &apos;density&apos; will be ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sia &apos;density&apos; che &apos;mass&apos; sono specificati: &apos;density&apos; sarà ignorato.</translation>
     </message>
     <message>
         <source>You must also specify the &apos;centerOfMass&apos; when specifying the &apos;inertiaMatrix&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Devi pure specificare &apos;centerOfMass&apos; quando si specifica &apos;inertiaMatrix&apos;</translation>
     </message>
     <message>
         <source>You must also set the &apos;mass&apos; to a positive value when specifying the &apos;inertiaMatrix&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Devi pure impostare un valore positivo per &apos;mass&apos; quando si specifica &apos;inertiaMatrix&apos;.</translation>
     </message>
 </context>
 <context>
     <name>WbPhysicsPlugin</name>
     <message>
         <source>Could not find physics_special_init() in &apos;%1&apos; plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare physics_special_init() nel plugin &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Can&apos;t find plugin directory: &apos;%1&apos;.</source>
@@ -4525,7 +4526,7 @@ Do you want to continue?</source>
     <name>WbPhysicsViewer</name>
     <message>
         <source>inertia matrix:</source>
-        <translation type="unfinished"></translation>
+        <translation>matrice di inerzia:</translation>
     </message>
     <message>
         <source>excluding descendants</source>
@@ -4561,7 +4562,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Inertia matrix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrice di inerzia:</translation>
     </message>
     <message>
         <source>Coordinates with respect to selected&apos;s solid frame</source>
@@ -4611,7 +4612,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Plugin &apos;%1&apos; not found. Search in:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin &apos;%1&apos; non trovato. Cerca in:</translation>
     </message>
 </context>
 <context>
@@ -4633,53 +4634,53 @@ Do you want to continue?</source>
     <name>WbPointSet</name>
     <message>
         <source>A non-empty &apos;Coordinate&apos; node should be present in the &apos;coord&apos; field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un nodo &apos;Coordinate&apos; configurato deve essere presente nel campo &apos;coord&apos;.</translation>
     </message>
     <message>
         <source>If a &apos;Color&apos; node is present in the &apos;color&apos; field, it should have the same number of component as the &apos;Coordinate&apos; node in the &apos;coord&apos; field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se un nodo &apos;Color&apos; è presente nel campo &apos;color&apos;, deve avere lo stesso numero di componenti come il nodo &apos;Coordinate&apos; nel campo &apos;coord&apos;.</translation>
     </message>
     <message>
         <source>Only the %1 first points will be drawn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo i primi %1 punti saranno disegnati.</translation>
     </message>
 </context>
 <context>
     <name>WbPositionViewer</name>
     <message>
         <source>Select relatively to which solid the position should be measured</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona il solido relativo al quale la posizione deve essere misurata</translation>
     </message>
     <message>
         <source>Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione:</translation>
     </message>
     <message>
         <source>Rotation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotazione:</translation>
     </message>
     <message>
         <source>Absolute</source>
-        <translation type="unfinished"></translation>
+        <translation>Assoluto</translation>
     </message>
     <message>
         <source>Relative to %1 (depth level %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Relativo a %1 (profondità %2)</translation>
     </message>
     <message>
         <source>Relative to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Relativo a %1</translation>
     </message>
 </context>
 <context>
     <name>WbPreferences</name>
     <message>
         <source>Errors when accessing the preferences file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante l&apos;accesso al file delle preferenze.</translation>
     </message>
     <message>
         <source>If the error persists, please check your access rights on file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Se l&apos;errore persiste, controlla i diritti di accesso al file:</translation>
     </message>
     <message>
         <source>
@@ -4688,7 +4689,12 @@ Any change to the current settings won&apos;t be restored at next Webots start.
 
 Please check the write permissions on file:
 &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Il file delle preferenze non può essere sovrascritto.
+Qualsiasi modifica apportata alle preferenze sarà ignorata al prossimo avvio di Webots.
+
+Per favore controlla di avere il permesso di scrittura sul file:
+&quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -4727,27 +4733,27 @@ Please check the write permissions on file:
     </message>
     <message>
         <source>OpenGL</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenGL</translation>
     </message>
     <message>
         <source>Number of threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero di thread:</translation>
     </message>
     <message>
         <source>Warnings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvertimenti:</translation>
     </message>
     <message>
         <source>(recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>(raccomandato)</translation>
     </message>
     <message>
         <source>Check for Webots updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca aggiornamenti all&apos;avvio di Webots</translation>
     </message>
     <message>
         <source>Update policy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Criterio aggiornamento:</translation>
     </message>
     <message>
         <source>Display save warning only for scene tree edit</source>
@@ -4756,7 +4762,8 @@ Please check the write permissions on file:
     <message>
         <source>If this option is enabled, Webots will check if a new version is available for download
 at every startup. If available, it will inform you about it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa opzione è abilitata, Webots cercherà se una nuova versione è disponibile per il download
+ad ogni avvio. Se disponibile, ne sarai informato.</translation>
     </message>
     <message>
         <source>Physics multi-threading is enabled. This can have a noticeable impact on the simulation speed (negative or positive depending on the simulated world). In case of multi-threading, simulation replicability is not guaranteed. </source>
@@ -4764,23 +4771,23 @@ at every startup. If available, it will inform you about it.</source>
     </message>
     <message>
         <source>Python command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando python:</translation>
     </message>
     <message>
         <source>Network Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy Rete</translation>
     </message>
     <message>
         <source>You have changed some settings which require Webots to be restarted. Restart Webots Now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hai modificato delle impostazioni che richiedono il riavvio di Webots. Riavvia Webots Ora?</translation>
     </message>
     <message>
         <source>Restart Now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvia Ora?</translation>
     </message>
     <message>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema:</translation>
     </message>
     <message>
         <source>If this option is enabled, Webots will not display any warning when you quit, reload
@@ -4791,7 +4798,7 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilitato</translation>
     </message>
     <message>
         <source>SOCKS v5</source>
@@ -4827,43 +4834,43 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Send technical data to Webots developers</source>
-        <translation type="unfinished"></translation>
+        <translation>Invia dati tecnici agli sviluppatori Webots</translation>
     </message>
     <message>
         <source>Low</source>
-        <translation type="unfinished"></translation>
+        <translation>Basso</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Medio</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="unfinished"></translation>
+        <translation>Alto</translation>
     </message>
     <message>
         <source>Ultra</source>
-        <translation type="unfinished"></translation>
+        <translation>Ultra</translation>
     </message>
     <message>
         <source>Ambient Occlusion:</source>
-        <translation type="unfinished"></translation>
+        <translation>Occlusione Ambientale:</translation>
     </message>
     <message>
         <source>Texture Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation>Qualità Texture:</translation>
     </message>
     <message>
         <source>Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Progetti extra possono includere PROTOs, controllori, plugin, etc che puoi usare nel progetto corrente.</translation>
     </message>
     <message>
         <source>Extra projects path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso progetti extra:</translation>
     </message>
     <message>
         <source>Disable anti-aliasing</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita anti-aliasing</translation>
     </message>
     <message>
         <source>built-in python (snap), see &lt;a href=&quot;https://cyberbotics.com/doc/guide/running-extern-robot-controllers&quot;&gt;extern controllers&lt;/a&gt; for alternatives.</source>
@@ -4995,18 +5002,18 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Include all PROTO files</source>
-        <translation type="unfinished"></translation>
+        <translation>Includi tutti i file PROTO</translation>
     </message>
     <message>
         <source>Include all plugins files</source>
-        <translation type="unfinished"></translation>
+        <translation>Includi tutti i file dei plugins</translation>
     </message>
 </context>
 <context>
     <name>WbPropeller</name>
     <message>
         <source>&apos;shaftAxis&apos;cannot be zero. Defaults to %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;shaftAxis&apos; non può essere zero. Valore predefinito %1 %2 %3</translation>
     </message>
     <message>
         <source>Adds a Physics node to Solid ancestors to enable thrust and torque effect.</source>
@@ -5049,7 +5056,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Cannot create the &apos;%1&apos; PROTO</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile creare il PROTO &apos;%1&apos;</translation>
     </message>
     <message>
         <source>PROTO has unknown base type</source>
@@ -5076,64 +5083,64 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     <name>WbRadar</name>
     <message>
         <source>&apos;minRange&apos; is greater or equal to &apos;maxRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è superiore o uguale a &apos;maxRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is greater or equal to &apos;maxRange&apos;. Setting &apos;minRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è superiore o uguale a &apos;maxRange&apos;. &apos;minRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;maxRange&apos; is less or equal to &apos;minRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;maxRadialSpeed&apos; is less than or equal to &apos;minRadialSpeed&apos;. Setting &apos;maxRadialSpeed&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxRadialSpeed&apos; è inferiore o uguale a &apos;minRadialSpeed&apos;. &apos;maxRadialSpeed&apos; impostato a %1.</translation>
     </message>
 </context>
 <context>
     <name>WbRangeFinder</name>
     <message>
         <source>&apos;near&apos; is greater than to &apos;minRange&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;near&apos; è superiore a &apos;minRange&apos;. &apos;near&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is less than &apos;near&apos;. Setting &apos;minRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è inferiore a &apos;near&apos;. &apos;minRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is greater or equal to &apos;maxRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è superiore o uguale a &apos;maxRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;minRange&apos; is greater or equal to &apos;maxRange&apos;. Setting &apos;minRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minRange&apos; è superiore o uguale a &apos;maxRange&apos;. &apos;minRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;maxRange&apos; is less or equal to &apos;minRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
 </context>
 <context>
     <name>WbReceiver</name>
     <message>
         <source>Unknown &apos;type&apos;: &quot;%1&quot;.</source>
-        <translation type="unfinished">&apos;type&apos; sconosciuto: &quot;%1&quot;.</translation>
+        <translation>&apos;type&apos; sconosciuto: &quot;%1&quot;.</translation>
     </message>
 </context>
 <context>
     <name>WbRenderingDevice</name>
     <message>
         <source>Invalid &apos;width&apos;: changed to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;width&apos; invalido: modificato a 1.</translation>
     </message>
     <message>
         <source>Invalid &apos;height&apos;: changed to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;height&apos; invalido: modificato a 1.</translation>
     </message>
     <message>
         <source>&apos;windowPosition&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;windowPosition&apos; è deprecato.</translation>
     </message>
     <message>
         <source>The position of the overlay will be automatically stored after moving it from the 3D view.</source>
@@ -5141,7 +5148,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>&apos;pixelSize&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;pixelSize&apos; è deprecato.</translation>
     </message>
     <message>
         <source>The size of the overlay will be automatically stored after resizing it from the 3D view.</source>
@@ -5149,11 +5156,11 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>&apos;width&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;width&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
     <message>
         <source>&apos;height&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;height&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
 </context>
 <context>
@@ -5180,7 +5187,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>The controller directory has not been found, searched the following locations:</source>
-        <translation type="unfinished"></translation>
+        <translation>La directory del controllore non è stata trovata, ho cercato nei luoghi seguenti:</translation>
     </message>
     <message>
         <source>The robot &apos;window&apos; cannot be modified after the controller is initialized.</source>
@@ -5188,7 +5195,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>&apos;remoteControl&apos; cannot be modified after the controller is initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;remoteControl&apos; non può essere modificato dopo aver inizializzato il controllore.</translation>
     </message>
     <message>
         <source>This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior.</source>
@@ -5219,7 +5226,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Unable to load %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile caricare %1.</translation>
     </message>
 </context>
 <context>
@@ -5244,86 +5251,86 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     <name>WbSFBool</name>
     <message>
         <source>Expected boolean value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore booleano, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFColor</name>
     <message>
         <source>Expected floating point value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFDouble</name>
     <message>
         <source>Expected floating point value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFInt</name>
     <message>
         <source>Expected integer value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore intero, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFRotation</name>
     <message>
         <source>Expected floating point value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFString</name>
     <message>
         <source>Expected string value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto stringa, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFVector2</name>
     <message>
         <source>Expected floating point value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSFVector3</name>
     <message>
         <source>Expected floating point value, found %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
     </message>
 </context>
 <context>
     <name>WbSaveWarningDialog</name>
     <message>
         <source>Save before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvare prima di chiudere?</translation>
     </message>
     <message>
         <source>The &apos;%1&apos; file is not saved. Do you want to save it before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &apos;%1&apos; non è salvato. Desideri salvarlo prima di chiudere?</translation>
     </message>
     <message>
         <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Non mostrare più questa finestra di dialogo(puoi riattivarla nelle preferenze)</translation>
     </message>
     <message>
         <source>Save before reloading the world?</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva prima di ricaricare lo scenario?</translation>
     </message>
     <message>
         <source>The &apos;%1&apos; file is not saved. Do you want to save it before reloading the world?</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &apos;%1&apos; non è salvato. Desideri salvarlo prima di ricaricare lo scenario?</translation>
     </message>
 </context>
 <context>
     <name>WbSceneTree</name>
     <message>
         <source>Transformation aborted: impossible to create a node of type %1.</source>
-        <translation type="unfinished">Trasformazione interrotta: impossibile acreare un nodo di tipo %1.</translation>
+        <translation>Trasformazione interrotta: impossibile creare un nodo di tipo %1.</translation>
     </message>
     <message>
         <source>New node creation failed: node with DEF name %1 does not exist.</source>
@@ -5335,11 +5342,11 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>A positive mass is mandatory when using inertiaMatrix. &apos;mass&apos; set to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Una massa positiva è necessaria quando si usa inertiaMatrix. &apos;mass&apos; impostato a 1.</translation>
     </message>
     <message>
         <source>A center of mass is mandatory when using inertiaMatrix. Default center of mass inserted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un centro di massa è necessario quando si usa inertiaMatrix. Centro di massa predefinito inserito.</translation>
     </message>
     <message>
         <source>DEF node deletion</source>
@@ -5347,11 +5354,11 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Warning: Transforming a %1 into a %2 node will loose some information.</source>
-        <translation type="unfinished">Attenzione: durante la trasformazione di %1 in un nodo %2 verranno pese alcune informazione.</translation>
+        <translation>Attenzione: durante la trasformazione di %1 in un nodo %2 verranno perse alcune informazioni.</translation>
     </message>
     <message>
         <source>Do you still want to proceed?</source>
-        <translation type="unfinished">Vuoi procedere in ogni caso?</translation>
+        <translation>Vuoi procedere in ogni caso?</translation>
     </message>
     <message>
         <source>This field contains a DEF node on which at least one external USE node depends. Deleting it will turn its first USE node into a DEF node.
@@ -5365,7 +5372,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Export Webots Object</source>
-        <translation type="unfinished">Esporta Oggetto Webots</translation>
+        <translation>Esporta Oggetto Webots</translation>
     </message>
     <message>
         <source>All files(*.wbo *.WBO *.wrl *.WRL *.urdf *.URDF);;Webots object (*.wbo *.WBO);;VRML (*.wrl *.WRL);;URDF (*.urdf *.URDF)</source>
@@ -5392,14 +5399,14 @@ Do you want to continue?</source>
     <name>WbShape</name>
     <message>
         <source>Please specify &apos;geometry&apos; field (of Shape placed in &apos;boundingObject&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore specifica il campo &apos;geometry&apos; (del Shape presente in &apos;boundingObject&apos;).</translation>
     </message>
 </context>
 <context>
     <name>WbSimulationView</name>
     <message>
         <source>Make &amp;Movie...</source>
-        <translation>Crea Video...</translation>
+        <translation>Crea &amp;Video...</translation>
     </message>
     <message>
         <source>Save as...</source>
@@ -5407,47 +5414,47 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Stop &amp;Movie...</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrompi &amp;Video...</translation>
     </message>
     <message>
         <source>Stop video recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrompi registrazione video.</translation>
     </message>
     <message>
         <source>Start video recording of the current simulation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia registrazione video della simulazione corrente.</translation>
     </message>
     <message>
         <source>Simulation View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista Simulazione</translation>
     </message>
     <message>
         <source>Images (*.png *.jpg *.jpeg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagini (*.png *.jpg *.jpeg)</translation>
     </message>
     <message>
         <source>Missing file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato file mancante</translation>
     </message>
     <message>
         <source>Unable to save screenshot because the file format is missing. Please use the &apos;.png&apos;, &apos;.jpg&apos; or &apos;.jpeg&apos; file extension to set the file format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile salvare lo screenshot perchè manca il formato del file. Per favore usa un&apos;estensione &apos;.png&apos;, &apos;.jpg&apos; o &apos;.jpeg&apos; per definire il formato.</translation>
     </message>
     <message>
         <source>Unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato file non supportato</translation>
     </message>
     <message>
         <source>Unable to save screenshot because the &apos;.%1&apos; format is unsupported. Please use only the &apos;.png&apos;, &apos;.jpg&apos; or &apos;.jpeg&apos; file extension.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile salvare lo screenshot perchè il formato &apos;%1&apos; non è supportato. Per favore usa solo un&apos;estensione &apos;.png&apos;, &apos;.jpg&apos; o &apos;.jpeg&apos;.</translation>
     </message>
     <message>
         <source>PNG (*.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>PNG (*.png)</translation>
     </message>
     <message>
         <source>JPEG (*.jpg *.jpeg)</source>
-        <translation type="unfinished"></translation>
+        <translation>JPEG (*.jpg *.jpeg)</translation>
     </message>
     <message>
         <source>Hide the Scene Tree side bar.</source>
@@ -5459,7 +5466,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>3D View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista 3D</translation>
     </message>
     <message>
         <source>Scene Tree</source>
@@ -5470,11 +5477,14 @@ Do you want to continue?</source>
 %1
 
 Do you want to open it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo screenshot è stato catturato:
+%1
+
+Desideri aprirlo ora?</translation>
     </message>
     <message>
         <source>Take Screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Cattura Screenshot</translation>
     </message>
     <message>
         <source>Impossible to record a movie while rendering is turned off.</source>
@@ -5485,94 +5495,94 @@ Do you want to open it now?</source>
     <name>WbSimulationWorld</name>
     <message>
         <source>Loading plugins (if any)</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento plugins (se presente)</translation>
     </message>
     <message>
         <source>Finalizing nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Finalizza nodi</translation>
     </message>
     <message>
         <source>Initializing plugins (if any)</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizializzazione plugins (se presente)</translation>
     </message>
 </context>
 <context>
     <name>WbSingleTaskApplication</name>
     <message>
         <source>Webots version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Webots: %1</translation>
     </message>
     <message>
         <source>Usage: webots [options] [worldfile]</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa: webots [opzioni] [filescenario]</translation>
     </message>
     <message>
         <source>Options:</source>
-        <translation type="unfinished">Opzioni:</translation>
+        <translation>Opzioni:</translation>
     </message>
     <message>
         <source>System: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema: %1</translation>
     </message>
     <message>
         <source>OpenGL vendor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fornitore OpenGL: %1</translation>
     </message>
     <message>
         <source>OpenGL renderer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Renderer OpenGL: %1</translation>
     </message>
     <message>
         <source>OpenGL version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione OpenGL: %1</translation>
     </message>
     <message>
         <source>Invalid file: a PROTO file with suffix &apos;.proto&apos; is expected.</source>
-        <translation type="unfinished"></translation>
+        <translation>File invalido: un file PROTO con suffisso &apos;.proto&apos; è richiesto.</translation>
     </message>
     <message>
         <source>Folder &apos;%1&apos; doesn&apos;t contain any valid PROTO file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartella &apos;%1&apos; non contiene nessun file PROTO valido.</translation>
     </message>
     <message>
         <source>    Display this help message and exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Visualizza questo messaggio di aiuto ed esci.</translation>
     </message>
     <message>
         <source>    Display version information and exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Visualizza informazioni sulla versione ed esci.</translation>
     </message>
     <message>
         <source>    Display information about the system and exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Visualizza informazioni sul sistema ed esci.</translation>
     </message>
     <message>
         <source>    Choose the startup mode, overriding application preferences. The &lt;mode&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>    Scegli la modalità di avvio sovrascrivendo le preferenze dell&apos;applicazione. Il &lt;mode&gt;</translation>
     </message>
     <message>
         <source>    Start Webots in fullscreen.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Avvia Webots a schermo intero.</translation>
     </message>
     <message>
         <source>    Minimize the Webots window on startup.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Minimizza la finestra Webots all&apos;avvio.</translation>
     </message>
     <message>
         <source>    Prevent Webots from creating blocking pop-up windows.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Impedisci a Webots di creare finestre pop-up bloccanti.</translation>
     </message>
     <message>
         <source>    Redirect the stdout of the controllers to the terminal.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Reindirizza stdout dei controllori al terminale.</translation>
     </message>
     <message>
         <source>    Redirect the stderr of the controllers to the terminal.</source>
-        <translation type="unfinished"></translation>
+        <translation>    Reindirizza stderr dei controllori al terminale.</translation>
     </message>
     <message>
         <source>    given as an option:</source>
-        <translation type="unfinished"></translation>
+        <translation>    dato come opzione:</translation>
     </message>
     <message>
         <source>      port=1234          - Start the streaming server on port 1234.</source>
@@ -5604,19 +5614,19 @@ Do you want to open it now?</source>
     </message>
     <message>
         <source>Processor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Processore: %1</translation>
     </message>
     <message>
         <source>Number of cores: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero di cores: %1</translation>
     </message>
     <message>
         <source>OpenGL vendor: %1 (0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fornitore OpenGL: %1 (0x%2)</translation>
     </message>
     <message>
         <source>OpenGL renderer: %1 (0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Renderer OpenGL: %1 (0x%2)</translation>
     </message>
     <message>
         <source>    Start the Webots streaming server. Parameters may be</source>
@@ -5691,18 +5701,18 @@ Do you want to open it now?</source>
     <name>WbSliderJoint</name>
     <message>
         <source>SliderJoint &apos;minStop&apos; must be less or equal to LinearMotor &apos;minPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;minStop&apos; di SliderJoint deve essere inferiore o uguale a &apos;minPosition&apos; di LinearMotor.</translation>
     </message>
     <message>
         <source>SliderJoint &apos;maxStop&apos; must be greater or equal to LinearMotor &apos;maxPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;maxStop&apos; di SliderJoint deve essere superiore o uguale a &apos;maxPosition&apos; di LinearMotor.</translation>
     </message>
 </context>
 <context>
     <name>WbSlot</name>
     <message>
         <source>Invalid &apos;type&apos; changed to &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;type&apos; invalido modificato a &apos;%1&apos;:%2</translation>
     </message>
 </context>
 <context>
@@ -5804,7 +5814,7 @@ Please save the current world to get rid of this message.</source>
     <name>WbSpeaker</name>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile cambiare directory a: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Sound file &apos;%1&apos; not found. The sound file should be defined relatively to the controller, the PROTO or absolutely.
@@ -5832,19 +5842,19 @@ Please save the current world to get rid of this message.</source>
     <name>WbSpotLight</name>
     <message>
         <source>&apos;ambientIntensity&apos; and &apos;attenuation&apos; cannot differ from their default values at the same time. &apos;ambientIntensity&apos; was changed to 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;ambientIntensitiy&apos; e &apos;attenuation&apos; non possono essere entrambi diversi dai loro valori predefiniti contemporaneamente. &apos;ambientIntensity&apos; modificato a 0.</translation>
     </message>
     <message>
         <source>Invalid &apos;beamWidth&apos; changed to %1. The value should be less than or equal to &apos;cutOffAngle&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;beamWidth&apos; invalido modificato a %1. Il valore deve essere inferiore o uguale a &apos;cutOffAngle&apos;.</translation>
     </message>
     <message>
         <source>Maximum number of active spotlights (%1) has been reached, newly added lights won&apos;t be rendered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il numero massimo di riflettori attivi (%1) è stato raggiunto, luci addizionali non verranno renderizzate.</translation>
     </message>
     <message>
         <source>A quadratic &apos;attenuation&apos; should be preferred to have a realistic simulation of light. Only the third component of the &apos;attenuation&apos; field should be greater than 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un &apos;attenuation&apos; quadratico è preferibile per ottenere una simulazione realistica della luce. Solo il terzo componente del campo &apos;attenuation&apos; dovrebbe essere superiore a 0.</translation>
     </message>
 </context>
 <context>
@@ -5930,27 +5940,27 @@ Please save the current world to get rid of this message.</source>
     <name>WbSupervisorUtilities</name>
     <message>
         <source>wb_supervisor_set_label() called with an invalid &apos;%1&apos; font, &apos;Arial&apos; used instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_set_label() chiamato con il font invalido &apos;%1&apos;, rimpiazzato con &apos;Arial&apos;.</translation>
     </message>
     <message>
         <source>wb_supervisor_set_label() is out of range. The supported range is [0, %1].</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_set_label() è fuori portata. I valori limite sono [0, %1].</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_position() can exclusively be used with Transform (or derived).</source>
-        <translation type="unfinished">wb_supervisor_node_get_position() può essere usata esclusivamente con nodi di tipo Transform (o derivati).</translation>
+        <translation>wb_supervisor_node_get_position() può essere usato esclusivamente con nodi di tipo Transform (o derivati).</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived).</source>
-        <translation type="unfinished">wb_supervisor_node_get_orientation() può essere usata esclusivamente con nodi di tipo Transform (o derivati).</translation>
+        <translation>wb_supervisor_node_get_orientation() può essere usato esclusivamente con nodi di tipo Transform (o derivati).</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_center_of_mass() can exclusively be used with Solid</source>
-        <translation type="unfinished">wb_supervisor_node_get_center_of_mass() può essere usata esclusivamente con nodi di tipo Solid.</translation>
+        <translation>wb_supervisor_node_get_center_of_mass() può essere usato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_get_number_of_contact_points() e wb_supervisor_node_get_contact_point() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid</source>
@@ -5958,19 +5968,19 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_get_velocity() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_get_velocity() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_set_velocity() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_set_velocity() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_reset_physics() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_reset_physics() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_restart_controller() can exclusively be used with a Robot</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_restart_controller() può essere utilizzato esclusivamente con nodi di tipo Robot</translation>
     </message>
     <message>
         <source>wb_supervisor_field_remove_mf() called with the &apos;index&apos; argument referring to a Viewpoint or WorldInfo node.</source>
@@ -5978,11 +5988,11 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_virtual_reality_headset_get_position() called but no virtual reality headset is currently in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_virtual_reality_headset_get_position() invocato ma nessun visore di realtà virtuale è attualmente in uso.</translation>
     </message>
     <message>
         <source>wb_supervisor_virtual_reality_headset_get_orientation() called but no virtual reality headset is currently in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_virtual_reality_headset_get_orientation() invocato ma nessun visore di realtà virtuale è attualmente in uso.</translation>
     </message>
     <message>
         <source>wb_supervisor_node_add_force() can&apos;t be used with a kinematic Solid</source>
@@ -5990,7 +6000,7 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_add_force() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_add_force() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_add_force_with_offset() can&apos;t be used with a kinematic Solid</source>
@@ -5998,7 +6008,7 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_add_force_with_offset() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_add_force_with_offset() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_add_torque() can&apos;t be used with a kinematic Solid</source>
@@ -6006,22 +6016,22 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_add_torque() can exclusively be used with a Solid</source>
-        <translation type="unfinished"></translation>
+        <translation>wb_supervisor_node_add_torque() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
 </context>
 <context>
     <name>WbTemplateEngine</name>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile cambiare directory a: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Installation error: Lua resources are not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore di installazione: risorse Lua non trovate</translation>
     </message>
     <message>
         <source>luaL_dostring error : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>luaL_dostring errore : %1</translation>
     </message>
 </context>
 <context>
@@ -6039,23 +6049,23 @@ Please save the current world to get rid of this message.</source>
     <name>WbTextBuffer</name>
     <message>
         <source>Revert to saved file? Changes will be lost.</source>
-        <translation type="unfinished">Ricaricare il file originale? Tutte le modifiche verranno perse.</translation>
+        <translation>Ricaricare il file originale? Tutte le modifiche verranno perse.</translation>
     </message>
     <message>
         <source>Text editor asks for reverting file</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;editore di testo chiede di ricaricare il file</translation>
     </message>
     <message>
         <source>Text editor has detected file deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;editore di testo ha rivelato l&apos;eliminazione del file</translation>
     </message>
     <message>
         <source>The file &quot;%1&quot; open in the Webots text editor was modified by an external action. Would you like to revert the text editor buffer (Any modification will be lost)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &quot;%1&quot; aperto nell&apos;editore di testo Webots è stato modificato da un&apos;azione esterna. Desideri ricaricare il contenuto del buffer (Qualsiasi modifica verrà persa)?</translation>
     </message>
     <message>
         <source>The file &quot;%1&quot; open in the Webots text editor was deleted by an external action.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &quot;%1&quot; aperto nell&apos;editore di testo Webots è stato eliminato da un&apos;azione esterna.</translation>
     </message>
 </context>
 <context>
@@ -6079,15 +6089,16 @@ Please save the current world to get rid of this message.</source>
     <message>
         <source>The file &apos;%1&apos; is not saved.
 Do you want to save it before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Il file &apos;%1&apos; non è salvato.
+Desideri salvarlo prima di chiudere?</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished">Domanda</translation>
+        <translation>Domanda</translation>
     </message>
     <message>
         <source>Text Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editore Testo</translation>
     </message>
 </context>
 <context>
@@ -6098,7 +6109,7 @@ Do you want to save it before closing?</source>
     </message>
     <message>
         <source>Unknown &apos;type&apos;: &quot;%1&quot;. Set to &quot;bumper&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;type&apos; sconosciuto: &quot;%1&quot;. Impostato a &quot;bumper&quot;</translation>
     </message>
 </context>
 <context>
@@ -6158,70 +6169,70 @@ Do you want to save it before closing?</source>
     <name>WbVelocityViewer</name>
     <message>
         <source>Select relatively to which solid the velocity should be measured</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona relativo a quale solido la velocità deve essere misurata</translation>
     </message>
     <message>
         <source>Linear velocity:</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocità lineare:</translation>
     </message>
     <message>
         <source>Angular velocity:</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocità angolare:</translation>
     </message>
     <message>
         <source>Absolute</source>
-        <translation type="unfinished"></translation>
+        <translation>Assoluto</translation>
     </message>
     <message>
         <source>Relative to %1 (depth level %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Relativo a %1 (profondità %2)</translation>
     </message>
     <message>
         <source>Relative to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Relativo a %1</translation>
     </message>
 </context>
 <context>
     <name>WbVideoRecorder</name>
     <message>
         <source>Video recording starts when you run a simulation...</source>
-        <translation type="unfinished">La registrazione del video inizierà quando la simulazione verrà lanciata...</translation>
+        <translation>La registrazione del video inizia quando la simulazione verrà lanciata...</translation>
     </message>
     <message>
         <source>Creating video...</source>
-        <translation type="unfinished">Creazione del video in corso...</translation>
+        <translation>Creazione del video in corso...</translation>
     </message>
     <message>
         <source>Save Video</source>
-        <translation type="unfinished">Salva video</translation>
+        <translation>Salva video</translation>
     </message>
     <message>
         <source>Videos (*%1)</source>
-        <translation type="unfinished">Video (*%1)</translation>
+        <translation>Video (*%1)</translation>
     </message>
     <message>
         <source>Make Movie</source>
-        <translation type="unfinished">Crea Film</translation>
+        <translation>Crea Video</translation>
     </message>
     <message>
         <source>Video creation finished.</source>
-        <translation type="unfinished">Creazione del video completata.</translation>
+        <translation>Creazione del video completata.</translation>
     </message>
     <message>
         <source>Temporary directory &apos;%1&apos; does not exist.</source>
-        <translation type="unfinished">La cartella temporanea &apos;%1&apos; non esiste.</translation>
+        <translation>La cartella temporanea &apos;%1&apos; non esiste.</translation>
     </message>
     <message>
         <source>Impossible to delete temporary file: &apos;%1&apos;</source>
-        <translation type="unfinished">Impossibile cancellare il file temporaneo: &apos;%1&apos;</translation>
+        <translation>Impossibile cancellare il file temporaneo: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Impossible to write file: &apos;%1&apos;.</source>
-        <translation type="unfinished">Impossibile scrivere il file: &apos;%1&apos;.</translation>
+        <translation>Impossibile scrivere il file: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Video generation failed.</source>
-        <translation type="unfinished">La creazione del video non è riuscita.</translation>
+        <translation>La creazione del video non è riuscita.</translation>
     </message>
     <message>
         <source>Video encoding stage 1... </source>
@@ -6229,7 +6240,7 @@ Do you want to save it before closing?</source>
     </message>
     <message>
         <source>please wait</source>
-        <translation type="unfinished"></translation>
+        <translation>per favore attendi</translation>
     </message>
     <message>
         <source>Video encoding stage 2... </source>
@@ -6237,7 +6248,7 @@ Do you want to save it before closing?</source>
     </message>
     <message>
         <source>Video creation canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Creazione del video cancellata.</translation>
     </message>
     <message>
         <source>Video generation failed due to an encoding problem
@@ -6254,11 +6265,15 @@ Do you want to save it before closing?</source>
 
 Do you want to play it back?
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Il video è stato creato:
+%1
+
+Desideri mostrarlo?
+</translation>
     </message>
     <message>
         <source>Recording at %1 FPS, %2 bit/s.</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione a %1 FPS, %2 bit/s.</translation>
     </message>
 </context>
 <context>
@@ -6277,11 +6292,11 @@ Do you want to play it back?
     </message>
     <message>
         <source>Video acceleration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Accelerazione video:</translation>
     </message>
     <message>
         <source>Video caption:</source>
-        <translation type="unfinished"></translation>
+        <translation>Didascalia video:</translation>
     </message>
 </context>
 <context>
@@ -6304,7 +6319,7 @@ Do you want to play it back?
     </message>
     <message>
         <source>You can try to re-activate some OpenGL features from the Webots preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi tentare di riattivare alcune caratteristiche OpenGL nelle preferenze Webots.</translation>
     </message>
     <message>
         <source>If there are some 3D rendering issues, you can try to reduce some OpenGL features from the Webots preferences.</source>
@@ -6312,31 +6327,31 @@ Do you want to play it back?
     </message>
     <message>
         <source>System below the minimal requirements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema al di sotto dei requisiti minimi.</translation>
     </message>
     <message>
         <source>Shadows have been deactivated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le ombre sono state disattivate.</translation>
     </message>
     <message>
         <source>Anisotropic texture filtering is not supported by the GPU.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtraggio anisotropico delle texture non è supportato dalla GPU.</translation>
     </message>
     <message>
         <source>Loading world</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento scenario</translation>
     </message>
     <message>
         <source>Webots has detected that your GPU vendor is &apos;%1&apos;. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation type="unfinished"></translation>
+        <translation>Webots ha rilevato che il fornitore della tua GPU è &apos;%1&apos;. Un adattore grafico NVIDIA o AMD recente è vivamente consigliato per eseguire Webots senza problemi. </translation>
     </message>
     <message>
         <source>Webots has detected that your system features an Intel GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation type="unfinished"></translation>
+        <translation>Webots ha rilevato che il tuo sistema utilizza una GPU Intel. Un adattore grafico NVIDIA o AMD recente è vivamente cosigliato per eseguire Webots senza problemi. </translation>
     </message>
     <message>
         <source>Webots has detected that you are using an old AMD GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation type="unfinished"></translation>
+        <translation>Webots ha rilevato che stai usando una GPU AMD antiquata. Un adattore grafico NVIDIA o AMD recente è vivamente consigliato per eseguire Webots senza problemi. </translation>
     </message>
     <message>
         <source>Main 3D view global ambient occlusion has been de-activated.</source>
@@ -6344,15 +6359,15 @@ Do you want to play it back?
     </message>
     <message>
         <source>Texture quality has been reduced.</source>
-        <translation type="unfinished"></translation>
+        <translation>La qualità delle texture è stata ridotta.</translation>
     </message>
     <message>
         <source>Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb of memory is recommended to use high-resolution textures. </source>
-        <translation type="unfinished"></translation>
+        <translation>Webots ha rilevato che la tua GPU ha meno di 2Gb di memoria. Un minimo di 2Gb di memoria è raccomandato per utilizzare texture ad alta risoluzione. </translation>
     </message>
     <message>
         <source>Anti-aliasing has been deactivated.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;anti-aliasing è stato disattivato.</translation>
     </message>
     <message>
         <source>Texture maximum filtering has been reduced due to GPU limitations.</source>
@@ -6378,11 +6393,11 @@ Do you want to play it back?
     <name>WbVirtualRealityHeadset</name>
     <message>
         <source>Cannot find virtual reality headset. Please install SteamVR, launch it, and check virtual reality headset USB and HDMI connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare visore a realtà virtuale. Per favore installa SteamVR, lancialo, e controlla la connessione USB e HDMI del visore a realtà virtuale.</translation>
     </message>
     <message>
         <source>Error while initializing the virtual reality headset: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nell&apos;inizializzare il visore a realtà virtuale: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Error while initializing the virtual reality headset compositor system.</source>
@@ -6397,30 +6412,30 @@ Do you want to play it back?
     <name>WbWebotsUpdateDialog</name>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca aggiornamenti</translation>
     </message>
     <message>
         <source>Check for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca aggiornamenti...</translation>
     </message>
     <message>
         <source>Your version of Webots (%1) is up-to-date.</source>
-        <translation type="unfinished"></translation>
+        <translation>La tua versione di Webots (%1) è aggiornata.</translation>
     </message>
     <message>
         <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
-        <translation type="unfinished"></translation>
+        <translation>Non mostrare più questa finestra di dialogo(puoi riattivarla nelle preferenze)</translation>
     </message>
     <message>
         <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Una nuova versione di Webots è disponibile.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 è disponibile per il download (stai usando attualmente Webots %2).&lt;br/&gt;Scarica la nuova versione: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>WbWebotsUpdateManager</name>
     <message>
         <source>Cannot get the Webots current version due to: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stato possibile ottenere la versione attuale di Webots a causa di: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Invalid answer from the GitHub REST API.</source>
@@ -6431,15 +6446,15 @@ Do you want to play it back?
     <name>WbWorld</name>
     <message>
         <source>&apos;%1&apos;: found duplicate %2 node.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos;: trovato nodo %2 duplicato.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: added missing %2 node.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos;: aggiunto nodo %2 mancante.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: %2 node should be preferably included at position %3 instead of position %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos;: nodo %2 dovrebbe essere preferibilmente incluso alla posizione %3 invece che alla posizione %4.</translation>
     </message>
     <message>
         <source>Parsing nodes</source>
@@ -6447,19 +6462,19 @@ Do you want to play it back?
     </message>
     <message>
         <source>Creating nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Creazione nodi</translation>
     </message>
     <message>
         <source>Cannot export the x3d file to &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile esportare il file x3d a &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Cannot export html: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile esportare html: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Cannot copy &apos;x3d_playback.html&apos; to &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile copiare &apos;x3d_playback.html&apos; a &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -6470,7 +6485,7 @@ Do you want to play it back?
     </message>
     <message>
         <source>A limit of &apos;%1&apos; threads is set in the preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un limite di &apos;%1&apos; thread è impostato nelle preferenze.</translation>
     </message>
     <message>
         <source>&apos;gpsCoordinateSystem&apos; must either be &apos;local&apos; or &apos;WGS84&apos;. Reset to default value &apos;local&apos;.</source>
@@ -6501,7 +6516,7 @@ Do you want to play it back?
     </message>
     <message>
         <source>Cannot load %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile caricare %1: %2</translation>
     </message>
 </context>
 <context>
@@ -6550,11 +6565,11 @@ Please do also check that your graphics hardware meets the requirements specifie
     <name>WbZoom</name>
     <message>
         <source>Invalid &apos;minFieldOfView&apos; changed to %1. The value should be smaller or equal to &apos;maxFieldOfView&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido di &apos;minFieldOfView&apos; modificato a %1. Il valore deve essere inferiore o uguale a &apos;maxFieldOfView&apos;.</translation>
     </message>
     <message>
         <source>Invalid &apos;maxFieldOfView&apos; changed to %1. The value should be bigger or equal to &apos;minFieldOfView&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore invalido di &apos;maxFieldOfView&apos; modificato a %1. Il valore deve essere inferiore o uguale a &apos;minFieldOfView&apos;.</translation>
     </message>
 </context>
 </TS>
