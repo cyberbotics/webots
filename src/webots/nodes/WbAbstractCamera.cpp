@@ -466,7 +466,7 @@ void WbAbstractCamera::createWrenCamera() {
   applyNoiseToWren();
 
   if (mExternalWindowEnabled)
-    updateTextureUpdateNotifications();
+    updateTextureUpdateNotifications(mExternalWindowEnabled);
 }
 
 void WbAbstractCamera::updateBackground() {
@@ -848,18 +848,24 @@ void WbAbstractCamera::updateFrustumDisplay() {
   wr_node_set_visible(WR_NODE(mFrustumDisplayTransform), true);
 }
 
-void WbAbstractCamera::updateTextureUpdateNotifications() {
+void WbAbstractCamera::updateTextureUpdateNotifications(bool enabled) {
   assert(mWrenCamera);
-  if (mExternalWindowEnabled)
+  if (enabled)
     connect(mWrenCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated, Qt::UniqueConnection);
   else
     disconnect(mWrenCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated);
-  mWrenCamera->enableTextureUpdateNotifications(mExternalWindowEnabled);
+  mWrenCamera->enableTextureUpdateNotifications(enabled);
+}
+
+void WbAbstractCamera::enableExternalWindowForAttachedCamera(bool enabled) {
+  if (mExternalWindowEnabled)
+    return;
+  updateTextureUpdateNotifications(enabled);
 }
 
 void WbAbstractCamera::enableExternalWindow(bool enabled) {
   WbRenderingDevice::enableExternalWindow(enabled);
   mExternalWindowEnabled = enabled;
   if (mWrenCamera)
-    updateTextureUpdateNotifications();
+    updateTextureUpdateNotifications(mExternalWindowEnabled);
 }

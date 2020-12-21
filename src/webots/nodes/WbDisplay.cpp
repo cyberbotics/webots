@@ -1109,6 +1109,12 @@ void WbDisplay::attachCamera(WbDeviceTag cameraTag) {
   assert(camera);
   WrTexture *texture = camera->getWrenTexture();
   if (texture != NULL && mAttachedCamera != camera) {
+    if (isWindowActive()) {
+      if (mAttachedCamera)
+        mAttachedCamera->enableExternalWindowForAttachedCamera(false);
+      camera->enableExternalWindowForAttachedCamera(true);
+    }
+    emit attachedCameraChanged(mAttachedCamera, camera);
     mAttachedCamera = camera;
     connect(mAttachedCamera, &WbCamera::destroyed, this, &WbDisplay::detachCamera);
     mOverlay->setBackgroundTexture(texture);
@@ -1135,9 +1141,19 @@ void WbDisplay::detachCamera() {
     foreach (WbImageTexture *imageTexture, mImageTextures)
       imageTexture->unsetBackgroundTexture();
 
-    mAttachedCamera = NULL;
+    if (isWindowActive()) {
+      mAttachedCamera->enableExternalWindowForAttachedCamera(false);
+      emit attachedCameraChanged(mAttachedCamera, NULL);
+    }
     emit textureIdUpdated(0, BACKGROUND_TEXTURE);
+    mAttachedCamera = NULL;
   }
+}
+
+void WbDisplay::enableExternalWindow(bool enabled) {
+  if (mAttachedCamera)
+    mAttachedCamera->enableExternalWindowForAttachedCamera(enabled);
+  WbRenderingDevice::enableExternalWindow(enabled);
 }
 
 int WbDisplay::shiftedChannel(int x, int y, int shift) const {
