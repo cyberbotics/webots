@@ -18,6 +18,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbDownloader.hpp"
 #include "WbLog.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbParser.hpp"
@@ -99,6 +100,7 @@ WbApplication::WbApplication() {
 #endif
 
   qputenv("WEBOTS_DISABLE_BINARY_COPY", "True");
+  WbDownloader::test();
 }
 
 WbApplication::~WbApplication() {

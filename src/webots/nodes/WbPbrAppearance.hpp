@@ -34,6 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PBR_APPEARANCE; }
+  void downloadResources() override;
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;

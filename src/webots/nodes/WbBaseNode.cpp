@@ -27,6 +27,8 @@
 
 #include <wren/scene.h>
 
+#include <QtCore/QDebug>
+
 void WbBaseNode::init() {
   mPreFinalizeCalled = false;
   mPostFinalizeCalled = false;
@@ -63,6 +65,10 @@ WbBaseNode::~WbBaseNode() {
   emit isBeingDestroyed(this);
   if (mPostFinalizeCalled && !defName().isEmpty() && !WbWorld::instance()->isCleaning() && !WbTemplateManager::isRegenerating())
     WbDictionary::instance()->removeNodeFromDictionary(this);
+}
+
+void WbBaseNode::downloadResources() {
+  qDebug() << "Downloading resources for" << fullName();
 }
 
 void WbBaseNode::finalize() {

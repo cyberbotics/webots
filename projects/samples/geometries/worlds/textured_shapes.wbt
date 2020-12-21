@@ -21,7 +21,7 @@ DEF CONE Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/tagged_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 0.5

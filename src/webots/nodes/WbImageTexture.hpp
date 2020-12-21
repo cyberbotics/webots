@@ -40,6 +40,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_IMAGE_TEXTURE; }
+  void downloadResources() override;
   void preFinalize() override;
   void postFinalize() override;
 

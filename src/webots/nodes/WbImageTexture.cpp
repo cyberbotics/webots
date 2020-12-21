@@ -15,6 +15,7 @@
 #include "WbImageTexture.hpp"
 
 #include "WbAbstractAppearance.hpp"
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbImage.hpp"
@@ -74,6 +75,15 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 
 WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
+}
+
+void WbImageTexture::downloadResources() {
+  WbBaseNode::downloadResources();
+  const QString &url(mUrl->item(0));
+  if (url.startsWith("https://")) {
+    WbDownloader *d = new WbDownloader(QUrl(url));  // FIXME: memory leak
+    d->start();
+  }
 }
 
 void WbImageTexture::preFinalize() {
@@ -384,6 +394,8 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
 }
 
 QString WbImageTexture::path() {
+  if (mUrl->item(0).startsWith("https://"))
+    return WbDownloader::cache(mUrl->item(0));
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 

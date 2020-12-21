@@ -60,6 +60,12 @@ WbShape::~WbShape() {
     wr_material_delete(mWrenMaterial);
 }
 
+void WbShape::downloadResources() {
+  WbBaseNode::downloadResources();
+  if (abstractAppearance())
+    abstractAppearance()->downloadResources();
+  // if (geometry()) geometry()->downloadResources(); FIXME: for Meshes
+}
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 

@@ -54,6 +54,10 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   mSimulationHasRunAfterSave(false) {
   if (mWorldLoadingCanceled)
     return;
+
+  emit worldLoadingStatusHasChanged(tr("Downloading resources"));
+  root()->downloadResources();
+
   mSleepRealTime = basicTimeStep();
 
   WbSimulationState::instance()->resetTime();

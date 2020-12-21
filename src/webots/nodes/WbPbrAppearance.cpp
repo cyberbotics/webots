@@ -78,6 +78,12 @@ WbPbrAppearance::~WbPbrAppearance() {
   }
 }
 
+void WbPbrAppearance::downloadResources() {
+  WbBaseNode::downloadResources();
+  if (baseColorMap())
+    baseColorMap()->downloadResources();
+}
+
 void WbPbrAppearance::preFinalize() {
   WbAbstractAppearance::preFinalize();
 
