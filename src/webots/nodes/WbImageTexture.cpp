@@ -196,7 +196,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
         cQualityChangedTexturesList.insert(path());
       else
         warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
-      qDebug() << "Saved in" << tmpFileName;
     }
   }
 

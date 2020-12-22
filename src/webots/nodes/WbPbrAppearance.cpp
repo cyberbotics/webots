@@ -82,6 +82,21 @@ void WbPbrAppearance::downloadAssets() {
   WbBaseNode::downloadAssets();
   if (baseColorMap())
     baseColorMap()->downloadAssets();
+
+  if (roughnessMap())
+    roughnessMap()->downloadAssets();
+
+  if (metalnessMap())
+    metalnessMap()->downloadAssets();
+
+  if (normalMap())
+    normalMap()->downloadAssets();
+
+  if (occlusionMap())
+    occlusionMap()->downloadAssets();
+
+  if (emissiveColorMap())
+    emissiveColorMap()->downloadAssets();
 }
 
 void WbPbrAppearance::preFinalize() {

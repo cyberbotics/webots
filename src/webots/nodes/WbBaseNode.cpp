@@ -68,7 +68,7 @@ WbBaseNode::~WbBaseNode() {
 }
 
 void WbBaseNode::downloadAssets() {
-  qDebug() << "Downloading resources for" << fullName();
+  // qDebug() << "Downloading resources for" << fullName();
 }
 
 void WbBaseNode::finalize() {
