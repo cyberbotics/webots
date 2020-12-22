@@ -39,6 +39,8 @@
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
 
+#include <QtCore/QDebug>
+
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 
 void WbImageTexture::init() {
@@ -54,6 +56,8 @@ void WbImageTexture::init() {
   mWrenTextureIndex = 0;
   mIsMainTextureTransparent = true;
   mRole = "";
+  mDownloader = NULL;
+  mLoadTextureIODevice = NULL;
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -74,6 +78,8 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 }
 
 WbImageTexture::~WbImageTexture() {
+  if (mLoadTextureIODevice)
+    mLoadTextureIODevice->deleteLater();
   destroyWrenTexture();
 }
 
@@ -81,8 +87,9 @@ void WbImageTexture::downloadAssets() {
   WbBaseNode::downloadAssets();
   const QString &url(mUrl->item(0));
   if (url.startsWith("https://")) {
-    WbDownloader *d = new WbDownloader(QUrl(url));  // FIXME: memory leak
-    d->start();
+    mDownloader = new WbDownloader(QUrl(url));
+    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::loadTextureIODevice);
+    mDownloader->start();
   }
 }
 
@@ -108,12 +115,31 @@ void WbImageTexture::postFinalize() {
     emit changed();
 }
 
-bool WbImageTexture::loadTextureData() {
-  QString filePath(path());
+void WbImageTexture::loadTextureIODevice(QIODevice *device) {
+  mLoadTextureIODevice = device;
+}
+
+bool WbImageTexture::loadTexture() {
+  if (mLoadTextureIODevice) {
+    const bool r = loadTextureData(mLoadTextureIODevice);
+    mLoadTextureIODevice->deleteLater();
+    mLoadTextureIODevice = NULL;
+    delete mDownloader;
+    return r;
+  }
+  const QString filePath(path());
   if (filePath.isEmpty())
     return false;
+  QFile file(filePath);
+  if (!file.open(QIODevice::ReadOnly))
+    return false;
+  const bool r = loadTextureData(&file);
+  file.close();
+  return r;
+}
 
-  QImageReader imageReader(filePath);
+bool WbImageTexture::loadTextureData(QIODevice *device) {
+  QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();
   const int imageHeight = textureSize.height();
@@ -121,7 +147,7 @@ bool WbImageTexture::loadTextureData() {
   int height = WbMathsUtilities::nextPowerOf2(imageHeight);
   if (width != imageWidth || height != imageHeight)
     WbLog::warning(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
-                     .arg(filePath)
+                     .arg(path())
                      .arg(imageWidth)
                      .arg(imageHeight)
                      .arg(width)
@@ -141,7 +167,7 @@ bool WbImageTexture::loadTextureData() {
   mImage = new QImage();
 
   if (!imageReader.read(mImage)) {
-    warn(tr("Cannot load texture '%1': %2.").arg(filePath).arg(imageReader.errorString()));
+    warn(tr("Cannot load texture '%1': %2.").arg(path()).arg(imageReader.errorString()));
     return false;
   }
 
@@ -165,9 +191,10 @@ bool WbImageTexture::loadTextureData() {
     mImage->swap(tmp);
 
     if (WbWorld::isX3DStreaming()) {
-      const QString &tmpFileName = WbStandardPaths::webotsTmpPath() + QFileInfo(filePath).fileName();
+      const QString &tmpFileName =
+        WbStandardPaths::webotsTmpPath() + QFileInfo(path()).fileName();  // FIXME: this is broken if path starts with https://
       if (mImage->save(tmpFileName))
-        cQualityChangedTexturesList.insert(filePath);
+        cQualityChangedTexturesList.insert(path());
       else
         warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
     }
@@ -186,7 +213,7 @@ void WbImageTexture::updateWrenTexture() {
   // Only load the image from disk if the texture isn't already in the cache
   WrTexture2d *texture = wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
   if (!texture) {
-    if (loadTextureData()) {
+    if (loadTexture()) {
       WbWrenOpenGlContext::makeWrenCurrent();
 
       texture = wr_texture_2d_new();
@@ -360,7 +387,7 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
   } else if (mImage)
     data = mImage->bits();
   else {
-    if (loadTextureData() && mImage)
+    if (loadTexture() && mImage)
       data = mImage->bits();
     else {
       pickedColor.setValue(1.0, 1.0, 1.0);
@@ -395,7 +422,7 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
 
 QString WbImageTexture::path() {
   if (mUrl->item(0).startsWith("https://"))
-    return WbDownloader::cache(mUrl->item(0));
+    return mUrl->item(0);
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 

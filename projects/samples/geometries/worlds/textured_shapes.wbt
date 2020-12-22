@@ -165,7 +165,7 @@ DEF CAPSULE Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/chessboard.jpg"
+            "textures/chessboard.jpg"
           ]
         }
         roughness 0.5

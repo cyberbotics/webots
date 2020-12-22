@@ -21,6 +21,7 @@
 #include <QtCore/QSet>
 
 class WbRgb;
+class WbDownloader;
 
 class QImage;
 
@@ -75,8 +76,6 @@ protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 
-  bool loadTextureData();
-
 private:
   // user accessible fields
   WbMFString *mUrl;
@@ -100,6 +99,8 @@ private:
   int mUsedFiltering;
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
+  WbDownloader *mDownloader;
+  QIODevice *mLoadTextureIODevice;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
@@ -107,6 +108,8 @@ private:
   void updateWrenTexture();
   void applyTextureParams();
   void destroyWrenTexture();
+  bool loadTexture();
+  bool loadTextureData(QIODevice *device);
 
   static QSet<QString> cQualityChangedTexturesList;
 
@@ -115,6 +118,7 @@ private slots:
   void updateRepeatS();
   void updateRepeatT();
   void updateFiltering();
+  void loadTextureIODevice(QIODevice *device);
 };
 
 #endif

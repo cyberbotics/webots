@@ -40,6 +40,8 @@
 #include <QtCore/QTimer>
 #include <QtCore/QtGlobal>
 
+#include <QtCore/QDebug>
+
 #include <cassert>
 
 WbSimulationWorld *WbSimulationWorld::instance() {
@@ -57,6 +59,7 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
     return;
 
   emit worldLoadingStatusHasChanged(tr("Downloading assets"));
+  emit worldLoadingHasProgressed(0);
   WbDownloader::reset();
   root()->downloadAssets();
   int progress = WbDownloader::progress();

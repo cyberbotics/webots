@@ -18,21 +18,18 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-class QNetworkReply;
+class QIODevice;
 
 class WbDownloader : public QObject {
   Q_OBJECT
 public:
   explicit WbDownloader(const QUrl &url);
-  ~WbDownloader();
   void start();
   const QUrl &url() { return mUrl; }
-  static const QString cache(const QUrl &url);
-  static void clearCache();
   static int progress();
   static void reset();
 signals:
-  void complete();
+  void complete(QIODevice *reply);
   void progress(float progress);
 
 private:

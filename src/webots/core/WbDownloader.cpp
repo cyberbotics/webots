@@ -17,21 +17,11 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QDir>
-#include <QtCore/QStandardPaths>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
-static QString gCacheLocation;
 static int gCount = 0;
 static int gComplete = 0;
-
-void WbDownloader::clearCache() {
-  QDir(gCacheLocation).removeRecursively();
-}
-
-const QString WbDownloader::cache(const QUrl &url) {
-  return gCacheLocation + "/" + url.scheme() + "/" + url.host() + url.path();
-}
 
 int WbDownloader::progress() {
   return gCount == 0 ? 100 : 100 * gComplete / gCount;
@@ -43,25 +33,10 @@ void WbDownloader::reset() {
 }
 
 WbDownloader::WbDownloader(const QUrl &url) : mUrl(url) {
-  if (gCacheLocation.isEmpty()) {  // initialize cache folder if needed
-    gCacheLocation = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    QDir cache(gCacheLocation);
-    if (!cache.exists())
-      cache.mkpath(".");
-  }
   gCount++;
 }
 
-WbDownloader::~WbDownloader() {
-}
-
 void WbDownloader::start() {
-  const QString cacheFile = cache(mUrl);
-  if (QFile::exists(cacheFile)) {
-    gComplete++;
-    emit complete();
-    return;
-  }
   QNetworkRequest request;
   request.setUrl(mUrl);
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
@@ -78,16 +53,6 @@ void WbDownloader::finished() {
     return;
   }
   disconnect(reply, &QNetworkReply::finished, this, &WbDownloader::finished);
-
-  QFile file(cache(mUrl));
-  QFileInfo(file).dir().mkpath(".");
-  if (!file.open(QIODevice::WriteOnly)) {
-    qDebug() << "Cannot write into cache file" << cache(mUrl);
-    return;
-  }
-  file.write(reply->readAll());
-  file.close();
-  reply->deleteLater();
-  emit complete();
   gComplete++;
+  emit complete(reply);
 }
