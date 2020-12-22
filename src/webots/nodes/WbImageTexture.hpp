@@ -118,7 +118,7 @@ private slots:
   void updateRepeatS();
   void updateRepeatT();
   void updateFiltering();
-  void loadTextureIODevice(QIODevice *device);
+  void setLoadTextureIODevice(QIODevice *device);
 };
 
 #endif

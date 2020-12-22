@@ -88,7 +88,7 @@ void WbImageTexture::downloadAssets() {
   const QString &url(mUrl->item(0));
   if (url.startsWith("https://")) {
     mDownloader = new WbDownloader(QUrl(url));
-    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::loadTextureIODevice);
+    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::setLoadTextureIODevice);
     mDownloader->start();
   }
 }
@@ -115,7 +115,7 @@ void WbImageTexture::postFinalize() {
     emit changed();
 }
 
-void WbImageTexture::loadTextureIODevice(QIODevice *device) {
+void WbImageTexture::setLoadTextureIODevice(QIODevice *device) {
   mLoadTextureIODevice = device;
 }
 
