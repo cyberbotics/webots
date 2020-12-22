@@ -21,6 +21,12 @@ class WbDirectionalLight extends WbLight {
     this.direction = direction;
   }
 
+  delete(){
+    super.delete();
+    if (this.wrenObjectsCreatedCalled)
+      _wr_node_delete(this.wrenLight);
+  }
+
   createWrenObjects() {
     this.wrenLight = _wr_directional_light_new();
     super.createWrenObjects();

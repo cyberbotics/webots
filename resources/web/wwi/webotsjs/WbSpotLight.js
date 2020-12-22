@@ -30,6 +30,14 @@ class WbSpotLight extends WbLight {
       this.parent = parent.id;
   }
 
+  delete() {
+    super.delete();
+    if (this.wrenObjectsCreatedCalled) {
+      this.detachFromUpperTransform();
+      _wr_node_delete(this.wrenLight);
+    }
+  }
+
   createWrenObjects() {
     this.wrenLight = _wr_spot_light_new();
     super.createWrenObjects();
@@ -89,6 +97,13 @@ class WbSpotLight extends WbLight {
 
   applyLightShadowsToWren() {
     _wr_spot_light_set_cast_shadows(this.wrenLight, this.castShadows);
+  }
+
+  detachFromUpperTransform() {
+    let node = this.wrenLight;
+    let parent = _wr_node_get_parent(node);
+    if (typeof parent !== 'undefined')
+      _wr_transform_detach_child(parent, node);
   }
 }
 

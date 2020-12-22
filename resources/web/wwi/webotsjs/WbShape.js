@@ -29,6 +29,11 @@ class WbShape extends WbBaseNode {
     this.wrenMaterial = undefined;
   }
 
+  delete() {
+    if (typeof this.wrenMaterial !== 'undefined')
+      _wr_material_delete(this.wrenMaterial);
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
     if (typeof this.appearance !== 'undefined')

@@ -23,6 +23,13 @@ class WbCylinder extends WbGeometry {
     this.bottom = bottom;
     this.side = side;
     this.top = top;
+
+    this.wrenMesh = undefined
+  }
+
+  delete(){
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
   }
 
   createWrenObjects() {
@@ -36,9 +43,9 @@ class WbCylinder extends WbGeometry {
 
     this.computeWrenRenderable();
 
-    let wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
+    this.wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
     let scale = _wrjs_color_array(this.radius, this.height, this.radius);
     _wr_transform_set_scale(this.wrenNode, scale);

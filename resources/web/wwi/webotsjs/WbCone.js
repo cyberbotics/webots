@@ -22,6 +22,13 @@ class WbCone extends WbGeometry {
     this.subdivision = subdivision;
     this.side = side;
     this.bottom = bottom;
+
+    this.wrenMesh = undefined;
+  }
+
+  delete(){
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
   }
 
   createWrenObjects() {
@@ -32,9 +39,9 @@ class WbCone extends WbGeometry {
 
     this.computeWrenRenderable();
 
-    let wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side , this.bottom);
+    this.wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side , this.bottom);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
     let scale = _wrjs_color_array(this.bottomRadius, this.height, this.bottomRadius);
     _wr_transform_set_scale(this.wrenNode, scale);

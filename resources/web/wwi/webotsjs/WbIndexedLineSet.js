@@ -20,6 +20,13 @@ class WbIndexedLineSet extends WbGeometry {
     super(id);
     this.coord = coord;
     this.coordIndex = coordIndex;
+
+    this.wrenMesh = undefined;
+  }
+
+  delete(){
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
   }
 
   createWrenObjects() {

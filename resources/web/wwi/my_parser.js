@@ -236,7 +236,7 @@ class MyParser {
     let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     WbBackground.instance = background;
 
-    World.instance.nodes[background.id] = background;
+    World.instance.nodes.set(background.id, background);
 
     return background;
   }
@@ -247,10 +247,10 @@ class MyParser {
       return;
 
     let id = getNodeAttribute(node, 'id');
-    let result = World.instance.nodes[use];
+    let result = World.instance.nodes.get(use);
     if(typeof result === 'undefined'){
       use = 'n' + use
-      result = World.instance.nodes[use];
+      result = World.instance.nodes.get(use);
     }
 
     if(typeof result === 'undefined')
@@ -267,7 +267,7 @@ class MyParser {
     if(typeof World.instance.defUse[use] === 'undefined')
       World.instance.defUse[use] = new Array();
 
-    World.instance.nodes[id] = useNode;
+    World.instance.nodes.set(id, useNode);
     World.instance.defUse[use].push(id);
 
     return useNode;
@@ -287,7 +287,7 @@ class MyParser {
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
-    World.instance.nodes[transform.id] = transform;
+    World.instance.nodes.set(transform.id, transform);
 
     await this.parseChildren(node, transform);
 
@@ -307,7 +307,7 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     let group = new WbGroup(id);
 
-    World.instance.nodes[group.id] = group;
+    World.instance.nodes.set(group.id, group);
     await this.parseChildren(node, group);
 
     if(typeof currentNode !== 'undefined'){
@@ -374,7 +374,7 @@ class MyParser {
       appearance.parent = shape.id;
     }
 
-    World.instance.nodes[shape.id] = shape;
+    World.instance.nodes.set(shape.id, shape);
 
     return shape;
   }
@@ -399,7 +399,7 @@ class MyParser {
       dirLight.parent = currentNode.id;
     }
 
-    World.instance.nodes[dirLight.id] = dirLight;
+    World.instance.nodes.set(dirLight.id, dirLight);
 
     return dirLight;
   }
@@ -425,7 +425,7 @@ class MyParser {
       currentNode.children.push(pointLight);
     }
 
-    World.instance.nodes[pointLight.id] = pointLight;
+    World.instance.nodes.set(pointLight, pointLight);
 
     return pointLight;
 
@@ -455,7 +455,7 @@ class MyParser {
       currentNode.children.push(spotLight);
     }
 
-    World.instance.nodes[spotLight.id] = spotLight;
+    World.instance.nodes.set(spotLight.id, spotLight);
 
     return spotLight;
   }
@@ -468,7 +468,7 @@ class MyParser {
 
     let fog = new WbFog(id, color, visibilityRange, fogType);
 
-    World.instance.nodes[fog.id] = fog;
+    World.instance.nodes.set(fog.id, fog);
 
     if(typeof fog !== 'undefined')
       this.fog = true;
@@ -519,8 +519,7 @@ class MyParser {
     let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     let box = new WbBox(id, size);
-
-    World.instance.nodes[box.id] = box;
+    World.instance.nodes.set(box.id, box);
     return box;
   }
 
@@ -532,7 +531,7 @@ class MyParser {
 
     let sphere = new WbSphere(id, radius, ico, subdivision);
 
-    World.instance.nodes[sphere.id] = sphere;
+    World.instance.nodes.set(sphere.id, sphere);
 
     return sphere;
   }
@@ -547,7 +546,7 @@ class MyParser {
 
     let cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
 
-    World.instance.nodes[cone.id] = cone;
+    World.instance.nodes.set(cone.id, cone);
 
     return cone;
   }
@@ -563,7 +562,7 @@ class MyParser {
 
     let cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
 
-    World.instance.nodes[cylinder.id] = cylinder;
+    World.instance.nodes.set(cylinder.id, cylinder);
 
     return cylinder;
   }
@@ -574,7 +573,7 @@ class MyParser {
 
     let plane = new WbPlane(id, size);
 
-    World.instance.nodes[plane.id] = plane;
+    World.instance.nodes.set(plane.id, plane);
 
     return plane;
   }
@@ -627,7 +626,7 @@ class MyParser {
     let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
 
     let ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
-    World.instance.nodes[ifs.id] = ifs;
+    World.instance.nodes.set(ifs.id, ifs);
 
     return ifs;
   }
@@ -651,7 +650,7 @@ class MyParser {
     let coordIndex = indicesStr.map(Number);
 
     let ils = new WbIndexedLineSet(id, coord, coordIndex);
-    World.instance.nodes[ils.id] = ils;
+    World.instance.nodes.set(ils.id, ils);
 
     return ils;
   }
@@ -672,7 +671,7 @@ class MyParser {
 
 
     let eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
-    World.instance.nodes[eg.id] = eg;
+    World.instance.nodes.set(eg.id, eg);
 
     return eg;
   }
@@ -710,7 +709,7 @@ class MyParser {
 
 
     let ps = new WbPointSet(id, coord, color);
-    World.instance.nodes[ps.id] = ps;
+    World.instance.nodes.set(ps.id, ps);
 
     return ps;
   }
@@ -758,7 +757,7 @@ class MyParser {
           transform.parent = appearance.id;
     }
 
-    World.instance.nodes[appearance.id] = appearance;
+    World.instance.nodes.set(appearance.id, appearance);
 
     return appearance;
   }
@@ -778,7 +777,7 @@ class MyParser {
 
     let material = new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
 
-    World.instance.nodes[material.id] = material;
+    World.instance.nodes.set(material.id, material);
 
     return material;
   }
@@ -810,7 +809,7 @@ class MyParser {
     }
 
     if(typeof imageTexture !== 'undefined'){
-      World.instance.nodes[imageTexture.id] = imageTexture;
+      World.instance.nodes.set(imageTexture.id, imageTexture);
     }
 
     return imageTexture;
@@ -901,7 +900,7 @@ class MyParser {
           emissiveColorMap.parent = pbrAppearance.id;
     }
 
-    World.instance.nodes[pbrAppearance.id] = pbrAppearance;
+    World.instance.nodes.set(pbrAppearance.id, pbrAppearance);
 
     return pbrAppearance;
   }
@@ -919,7 +918,7 @@ class MyParser {
 
     let textureTransform = new WbTextureTransform(id, center, rotation, scale, translation);
 
-    World.instance.nodes[textureTransform.id] = textureTransform;
+    World.instance.nodes.set(textureTransform.id, textureTransform);
 
     return textureTransform;
   }

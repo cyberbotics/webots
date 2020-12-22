@@ -38,6 +38,11 @@ class WbImageTexture extends WbBaseNode {
     this.externalTextureRatio = glm.vec2(1.0,1.0);
   }
 
+  delete(){
+    super.delete();
+    this.destroyWrenTexture();
+  }
+
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
@@ -51,7 +56,7 @@ class WbImageTexture extends WbBaseNode {
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering , this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
 
-      if (this.externalTexture && ! World.instance.nodes[this.parent].textureTransform) {
+      if (this.externalTexture && ! World.instance.nodes.get(this.parent).textureTransform) {
         _wr_texture_transform_delete(this.wrenTextureTransform);
         this.wrenTextureTransform = _wr_texture_transform_new();
         _wr_texture_transform_set_scale(this.wrenTextureTransform, this.externalTextureRatio.x, this.externalTextureRatio.y);

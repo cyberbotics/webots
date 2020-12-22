@@ -24,6 +24,14 @@ class WbElevationGrid extends WbGeometry {
     this.zDimension = zDimension;
     this.zSpacing = zSpacing;
     this.thickness = thickness;
+
+    this.wrenMesh = undefined;
+  }
+
+  delete() {
+    super.delete();
+
+    _wr_static_mesh_delete(this.wrenMesh);
   }
 
   createWrenObjects() {

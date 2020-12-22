@@ -29,7 +29,7 @@ class WbBaseNode {
     this.wrenObjectsCreatedCalled = true;
 
     if (typeof this.parent !== 'undefined') {
-      this.wrenNode = World.instance.nodes[this.parent].wrenNode;
+      this.wrenNode = World.instance.nodes.get(this.parent).wrenNode;
     } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
@@ -55,6 +55,8 @@ class WbBaseNode {
   postFinalize() {
     this.isPostFinalizeCalled = true;
   }
+
+  delete(){}
 }
 
 export{WbBaseNode}

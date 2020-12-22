@@ -41,6 +41,35 @@ class WbBackground extends WbBaseNode {
     this.irradianceCubeTexture = undefined;
   }
 
+  delete(){
+    super.delete();
+    this.destroySkyBox();
+
+    this.skyColor = new glm.vec3(0, 0, 0);
+    this.applyColourToWren();
+
+    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), null);
+    // Delete skybox
+    // Shader program is not deleted, a singleton instance is kept in WbWrenShaders
+    _wr_node_delete(this.skyboxRenderable);
+
+    if (typeof this.skyboxMaterial !== 'undefined')
+      _wr_material_delete(this.skyboxMaterial);
+
+    _wr_node_delete(this.skyboxTransform);
+    _wr_static_mesh_delete(this.skyboxMesh);
+
+    _wr_node_delete(this.hdrClearRenderable);
+    this.hdrClearRenderable = null;
+    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
+
+    if (typeof this.hdrClearMaterial !== 'undefined')
+      _wr_material_delete(this.hdrClearMaterial);
+
+    _wr_node_delete(this.hdrClearTransform);
+    _wr_static_mesh_delete(this.hdrClearMesh);
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
 

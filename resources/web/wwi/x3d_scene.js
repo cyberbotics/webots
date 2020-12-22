@@ -6,8 +6,10 @@ import {webots} from "./../wwi/webots.js";
 import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
 import {WbTransform} from "./webotsjs/WbTransform.js";
 import {World} from "./webotsjs/World.js"
+import {WbAbstractAppearance} from "./webotsjs/WbAbstractAppearance.js"
 import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js"
 import {WbMaterial} from "./webotsjs/WbMaterial.js"
+import {WbGeometry} from "./webotsjs/WbGeometry.js"
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
@@ -146,6 +148,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   destroyWorld() {
+
+    //iterate nodes or sceneTree
+    //delete viewpoint
+    //reset shaders
+
     /*
     this.selector.clearSelection();
     if (!this.scene)
@@ -170,7 +177,38 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //this.onSceneUpdate();
   }
 
-  deleteObject(id) {/*
+  deleteObject(id) {
+    console.log(id);
+    let object = World.instance.nodes.get('n' + id);
+    console.log(object);
+    if(typeof object === 'undefined')
+      return;
+
+    object.delete();
+
+    let parentId = object.parent
+    if (typeof parentId === 'undefined'){
+      console.log(World.instance.sceneTree.splice(object, 1));
+    }
+    else{
+      let parent = World.instance.nodes.get(parentId);
+      if (typeof parent !== 'undefined') {
+        if (object instanceof WbGeometry)
+          parent.geometry = undefined;
+        else if (object instanceof WbAbstractAppearance)
+          parent.appearance = undefined;
+        else if (object instanceof WbMaterial)
+          parent.material = undefined;
+        else if (object instanceof WbAppearance && parent instanceof WbAppearance)
+          parent.texture = undefined
+        //TODO PBR
+        else
+          parent.children.slice(object, 1);
+      }
+    }
+
+    World.instance.nodes.delete('n' + id);
+    /*
     let context = {};
     let object = this.getObjectById('n' + id, false, 'scene', context);
     if (typeof object !== 'undefined') {
@@ -192,8 +230,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
         this._updateUseNodesIfNeeded(parent, parent.name.split(';'));
     }
     if (object === this.root)
-      this.root = undefined;
-    this.onSceneUpdate();*/
+      this.root = undefined;*/
+    this.onSceneUpdate();
+    console.log(World.instance);
   }
 
   loadWorldFile(url, onLoad) {
@@ -249,7 +288,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   applyPose(pose) {
     let id = pose.id;
     let fields = [];
-    let object = World.instance.nodes['n' + id];
+    let object = World.instance.nodes.get('n' + id);
 
     if(typeof object === 'undefined')
       return;
@@ -279,9 +318,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
           object.emissiveColor = convertStringToVec3(pose[key]);
 
         if(object instanceof WbMaterial)
-          World.instance.nodes[World.instance.nodes[object.parent].parent].updateAppearance();
+          World.instance.nodes.get(World.instance.nodes.get(object.parent).parent).updateAppearance();
         else{
-          World.instance.nodes[object.parent].updateAppearance();
+          World.instance.nodes.get(object.parent).updateAppearance();
         }
       }
     }

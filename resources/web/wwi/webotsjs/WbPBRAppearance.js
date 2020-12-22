@@ -18,7 +18,6 @@ import {WbBackground} from "./WbBackground.js";
 import {array3Pointer} from "./WbUtils.js";
 import {textureQuality} from "./WbPreferences.js";
 
-
 class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
     IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
@@ -39,6 +38,18 @@ class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveColorMap = emissiveColorMap;
     this.emissiveIntensity = emissiveIntensity;
     this.textureTransform = textureTransform;
+  }
+
+  delete(){
+    super.delete();
+    
+    if (isPostFinalizedCalled())
+      --WbPBRAppearance.cInstanceCounter;
+
+    if (WbPBRAppearance.cInstanceCounter == 0) {
+      _wr_texture_delete(WbPBRAppearance.cBrdfTexture);
+      WbPBRAppearance.cBrdfTexture = undefined;
+    }
   }
 
   createWrenObjects(){

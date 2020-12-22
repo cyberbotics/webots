@@ -26,6 +26,11 @@ class WbTransform extends WbGroup {
     this.children = [];
   }
 
+  delete(){
+    if (this.wrenObjectsCreatedCalled)
+      _wr_node_delete(this.wrenNode);
+  }
+
   createWrenObjects() {
     super.createWrenObjects(true);
     let transform = _wr_transform_new();

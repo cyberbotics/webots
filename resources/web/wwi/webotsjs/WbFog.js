@@ -24,6 +24,13 @@ class WbFog extends WbBaseNode {
     this.wrenFogType = undefined;
   }
 
+  delete() {
+    super.delete();
+
+    if (this.wrenObjectsCreatedCalled)
+      _wr_scene_set_fog(_wr_scene_get_instance(), ENUM.WR_SCENE_FOG_TYPE_NONE, ENUM.WR_SCENE_FOG_DEPTH_TYPE_PLANE, null, 1.0, 0.0, 1.0);
+  }
+
   createWrenObjects(){
     super.createWrenObjects();
 

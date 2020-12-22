@@ -26,6 +26,12 @@ class WbGeometry extends WbBaseNode {
     this.wrenMesh = undefined;
   }
 
+  delete(){
+    super.delete()
+    if (this.wrenObjectsCreatedCalled)
+      this.deleteWrenRenderable();
+  }
+
   computeWrenRenderable() {
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();

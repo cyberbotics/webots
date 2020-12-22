@@ -30,6 +30,14 @@ class WbTriangleMeshGeometry extends WbGeometry {
     this.normalsRenderable = undefined;
   }
 
+  delete() {
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    this.deleteWrenRenderable();
+  }
+
+
   createWrenObjects() {
     //TODO
     //if (!mTriangleMeshError.isEmpty())

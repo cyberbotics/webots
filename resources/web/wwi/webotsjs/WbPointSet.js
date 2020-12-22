@@ -23,6 +23,11 @@ class WbPointSet extends WbGeometry {
     this.color = color;
   }
 
+  delete() {
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
+  }
+  
   createWrenObjects() {
     super.createWrenObjects();
     _wr_config_enable_point_size(true);

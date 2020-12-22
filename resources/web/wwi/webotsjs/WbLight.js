@@ -26,6 +26,14 @@ class WbLight extends WbBaseNode {
     this.castShadows = castShadows;
   }
 
+  delete(){
+    super.delete();
+    if (this.wrenObjectsCreatedCalled) {
+      WbLight.lights.splice(this, 1);
+      this.applySceneAmbientColorToWren();
+    }
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
 

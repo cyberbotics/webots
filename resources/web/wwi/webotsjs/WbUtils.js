@@ -136,7 +136,7 @@ function findUpperTransform(node) {
   if (typeof node === 'undefined')
     return undefined;
 
-  let n = World.instance.nodes[node.parent];
+  let n = World.instance.nodes.get(node.parent);
   while (typeof n !== 'undefined') {
     if (n instanceof WbTransform)
       return n;

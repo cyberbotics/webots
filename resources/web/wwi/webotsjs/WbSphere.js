@@ -22,6 +22,11 @@ class WbSphere extends WbGeometry {
     this.subdivision = subdivision;
   }
 
+  delete() {
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
     super.computeWrenRenderable();

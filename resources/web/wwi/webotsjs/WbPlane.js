@@ -20,6 +20,11 @@ class WbPlane extends WbGeometry{
     this.size = size;
   }
 
+  delete() {
+    super.delete();
+    _wr_static_mesh_delete(this.wrenMesh);
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
 

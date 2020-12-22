@@ -24,6 +24,11 @@ class WbTextureTransform extends WbBaseNode{
     this.wrenTextureTransform;
   }
 
+  delete(){
+    super.delete();
+    this.destroyWrenObjects();
+  }
+
   modifyWrenMaterial(wrenMaterial) {
     this.destroyWrenObjects();
 
