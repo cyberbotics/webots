@@ -23,7 +23,7 @@ class QNetworkReply;
 class WbDownloader : public QObject {
   Q_OBJECT
 public:
-  WbDownloader(const QUrl &url);
+  explicit WbDownloader(const QUrl &url);
   ~WbDownloader();
   void start();
   const QUrl &url() { return mUrl; }
