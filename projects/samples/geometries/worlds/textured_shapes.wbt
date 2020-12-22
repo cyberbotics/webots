@@ -42,7 +42,18 @@ DEF BOX Solid {
   translation 0.4 0 0
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/asphalt.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry Box {
         size 0.2 0.2 0.2
       }
@@ -54,7 +65,18 @@ DEF SPHERE Solid {
   translation 0 0 0.4
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/carpet.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry Sphere {
         radius 0.1
         subdivision 3
@@ -67,7 +89,18 @@ DEF CYLINDER Solid {
   translation 0.4 0 0.4
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/checkered_marble.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry Cylinder {
         height 0.2
         radius 0.1
@@ -80,7 +113,18 @@ DEF INDEXEDFACESET Solid {
   translation -0.1 -0.1 0.7
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/checkered_parquetry.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
@@ -117,7 +161,18 @@ DEF CAPSULE Solid {
   translation 0.4 0 0.8
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/chessboard.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry Capsule {
         height 0.2
         radius 0.1
@@ -130,7 +185,19 @@ DEF ELEVATION_GRID Solid {
   translation -1.7 -0.2 -0.5
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+             "https://effigis.com/wp-content/themes/effigis_2014/img/RapidEye_RapidEye_5m_RGB_Altotting_Germany_Agriculture_and_Forestry_2009MAY17_8bits_sub_r_2.jpg"
+#            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/desktop_wood.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry ElevationGrid {
         xDimension 10
         xSpacing 0.2
@@ -145,7 +212,19 @@ DEF PLANE Solid {
   translation 1.2 -0.2 0.4
   children [
     Shape {
-      appearance USE APP
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://effigis.com/wp-content/uploads/2015/02/Airbus_Pleiades_50cm_8bit_RGB_Yogyakarta.jpg"
+            # "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
       geometry Plane {
         size 1.8 1.8
       }
