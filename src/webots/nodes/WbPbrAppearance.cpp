@@ -78,10 +78,10 @@ WbPbrAppearance::~WbPbrAppearance() {
   }
 }
 
-void WbPbrAppearance::downloadResources() {
-  WbBaseNode::downloadResources();
+void WbPbrAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
   if (baseColorMap())
-    baseColorMap()->downloadResources();
+    baseColorMap()->downloadAssets();
 }
 
 void WbPbrAppearance::preFinalize() {

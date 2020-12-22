@@ -67,7 +67,7 @@ WbBaseNode::~WbBaseNode() {
     WbDictionary::instance()->removeNodeFromDictionary(this);
 }
 
-void WbBaseNode::downloadResources() {
+void WbBaseNode::downloadAssets() {
   qDebug() << "Downloading resources for" << fullName();
 }
 

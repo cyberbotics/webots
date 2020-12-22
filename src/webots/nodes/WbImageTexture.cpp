@@ -77,8 +77,8 @@ WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
 }
 
-void WbImageTexture::downloadResources() {
-  WbBaseNode::downloadResources();
+void WbImageTexture::downloadAssets() {
+  WbBaseNode::downloadAssets();
   const QString &url(mUrl->item(0));
   if (url.startsWith("https://")) {
     WbDownloader *d = new WbDownloader(QUrl(url));  // FIXME: memory leak

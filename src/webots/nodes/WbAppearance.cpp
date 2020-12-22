@@ -50,10 +50,10 @@ WbAppearance::WbAppearance(const WbNode &other) : WbAbstractAppearance(other) {
 WbAppearance::~WbAppearance() {
 }
 
-void WbAppearance::downloadResources() {
-  WbBaseNode::downloadResources();
+void WbAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
   if (texture())
-    texture()->downloadResources();
+    texture()->downloadAssets();
 }
 
 void WbAppearance::preFinalize() {
