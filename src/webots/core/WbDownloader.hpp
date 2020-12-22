@@ -27,9 +27,10 @@ public:
   ~WbDownloader();
   void start();
   const QUrl &url() { return mUrl; }
-  static void test();
   static const QString cache(const QUrl &url);
   static void clearCache();
+  static int progress();
+  static void reset();
 signals:
   void complete();
   void progress(float progress);

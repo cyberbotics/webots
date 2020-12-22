@@ -15,6 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbOdeContact.hpp"
@@ -41,6 +42,8 @@
 
 #include <cassert>
 
+#include <QtCore/QDebug>
+
 WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
@@ -55,8 +58,18 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   if (mWorldLoadingCanceled)
     return;
 
-  emit worldLoadingStatusHasChanged(tr("Downloading resources"));
+  emit worldLoadingStatusHasChanged(tr("Downloading assets"));
+  WbDownloader::reset();
   root()->downloadAssets();
+  int progress = WbDownloader::progress();
+  while (progress < 100) {
+    QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    int newProgress = WbDownloader::progress();
+    if (newProgress != progress) {
+      progress = newProgress;
+      emit worldLoadingHasProgressed(progress);
+    }
+  }
 
   mSleepRealTime = basicTimeStep();
 

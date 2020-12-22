@@ -16,13 +16,14 @@
 
 #include "WbNetwork.hpp"
 
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
 static QString gCacheLocation;
+static int gCount = 0;
+static int gComplete = 0;
 
 void WbDownloader::clearCache() {
   QDir(gCacheLocation).removeRecursively();
@@ -32,15 +33,13 @@ const QString WbDownloader::cache(const QUrl &url) {
   return gCacheLocation + "/" + url.scheme() + "/" + url.host() + url.path();
 }
 
-static void downloadComplete() {
-  qDebug() << "download complete";
+int WbDownloader::progress() {
+  return gCount == 0 ? 100 : 100 * gComplete / gCount;
 }
 
-void WbDownloader::test() {
-  WbDownloader *d = new WbDownloader(QUrl("https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/"
-                                          "protos/textures/bakelite_plastic/bakelite_plastic_base_color_braun.jpg"));
-  connect(d, &WbDownloader::complete, &downloadComplete);
-  d->start();
+void WbDownloader::reset() {
+  gCount = 0;
+  gComplete = 0;
 }
 
 WbDownloader::WbDownloader(const QUrl &url) : mUrl(url) {
@@ -49,8 +48,8 @@ WbDownloader::WbDownloader(const QUrl &url) : mUrl(url) {
     QDir cache(gCacheLocation);
     if (!cache.exists())
       cache.mkpath(".");
-    qDebug() << gCacheLocation;
   }
+  gCount++;
 }
 
 WbDownloader::~WbDownloader() {
@@ -59,6 +58,7 @@ WbDownloader::~WbDownloader() {
 void WbDownloader::start() {
   const QString cacheFile = cache(mUrl);
   if (QFile::exists(cacheFile)) {
+    gComplete++;
     emit complete();
     return;
   }
@@ -78,6 +78,7 @@ void WbDownloader::finished() {
     return;
   }
   disconnect(reply, &QNetworkReply::finished, this, &WbDownloader::finished);
+
   QFile file(cache(mUrl));
   QFileInfo(file).dir().mkpath(".");
   if (!file.open(QIODevice::WriteOnly)) {
@@ -88,4 +89,5 @@ void WbDownloader::finished() {
   file.close();
   reply->deleteLater();
   emit complete();
+  gComplete++;
 }
