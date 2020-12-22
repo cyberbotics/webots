@@ -124,7 +124,7 @@
     </message>
     <message>
         <source>Out-of-range index in: %1.</source>
-        <translation>Indice fuori misura: %1.</translation>
+        <translation>Indice fuori limite: %1.</translation>
     </message>
     <message>
         <source>Tessellation Error: the contour of a face must not self-intersect.</source>
@@ -168,7 +168,7 @@
     </message>
     <message>
         <source>field type name</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>end of file</source>
@@ -184,7 +184,7 @@
     </message>
     <message>
         <source>Could not open file: &apos;%1&apos;.</source>
-        <translation>Impossibile aprile il file: &apos;%1&apos;.</translation>
+        <translation>Impossibile aprire il file: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>File is empty: &apos;%1&apos;.</source>
@@ -252,7 +252,7 @@
     </message>
     <message>
         <source>: the corresponding added mass defaults to 1kg, the added inertia matrix defaults to the identity matrix.</source>
-        <translation>: la massa corrispondente predefinita è 1kg, la matrice di inertia predefinita è la matrice identità.</translation>
+        <translation>: la massa corrispondente predefinita è 1kg, la matrice di inerzia predefinita è la matrice identità.</translation>
     </message>
     <message>
         <source>Use a positive radius to allow proper mass settings</source>
@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Please replace this non-admissible USE node by an expanded DEF node in your proto file.</source>
-        <translation>Per favore sostituisci questo nodo USE non amissibile con un nodo DEF nel tuo file proto.</translation>
+        <translation>Per favore sostituisci, nel tuo file proto, questo nodo USE non ammissibile con un nodo DEF.</translation>
     </message>
     <message>
         <source>Unexpected template statement opening. Expected=&apos;%1&apos;, Received=&apos;%2&apos;</source>
@@ -608,27 +608,27 @@
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: x is set to 1.0.</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è modificato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: x is set to abs(x).</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è assegnato a abs(x).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: x è modificato a abs(x).</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: y is set to 1.0.</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è modificato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: y is set to abs(y).</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è assegnato a abs(y).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: y è modificato a abs(y).</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: z is set to 1.0.</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a 1.0.</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è modificato a 1.0.</translation>
     </message>
     <message>
         <source>All &apos;scale&apos; coordinates must be positive: z is set to abs(z).</source>
-        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è assegnato a abs(z).</translation>
+        <translation>Tutte le coordinate &apos;scale&apos; devono essere positive: z è modificato a abs(z).</translation>
     </message>
     <message>
         <source>&apos;scale&apos; were changed so that x = z because of physics constraints inside a &apos;boundingObject&apos;.</source>
@@ -1155,7 +1155,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Top View</source>
-        <translation>&amp;Vista dall&apos;Alto</translation>
+        <translation>&amp;Vista Sopra</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the top.</source>
@@ -1163,7 +1163,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Bottom View</source>
-        <translation>&amp;Vista dal Basso</translation>
+        <translation>&amp;Vista Sotto</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the bottom.</source>
@@ -1915,7 +1915,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <name>WbBackground</name>
     <message>
         <source>Only one Background node is allowed. The current node won&apos;t be taken into account.</source>
-        <translation>Solo un nodo Background é permesso. Il nodo corrente non verrà preso in considerazione.</translation>
+        <translation>Solo un nodo Background è permesso. Il nodo corrente non verrà preso in considerazione.</translation>
     </message>
     <message>
         <source>Incomplete cubemap</source>
@@ -2081,7 +2081,7 @@ The path to this Webots project contains non 8-bit characters. Webots won&apos;t
     </message>
     <message>
         <source>wb_camera_set_fov() cannot be applied to this camera: missing &apos;zoom&apos;.</source>
-        <translation>wb_camera_set_fov() non può essere applicata a questa videocamera: il campo &apos;zoom&apos; non è statoc ompletato.</translation>
+        <translation>wb_camera_set_fov() non può essere applicata a questa videocamera: il campo &apos;zoom&apos; non è stato completato.</translation>
     </message>
     <message>
         <source>wb_camera_set_focal_distance(%1) out of focus range [%2, %3].</source>
@@ -2534,7 +2534,7 @@ Please close any running instances of the controller and reload the world.</sour
     <name>WbElevationGrid</name>
     <message>
         <source>&apos;height&apos; contains %1 ignored extra value(s).</source>
-        <translation>&apos;height&apos; contiene %1 valore(i) ingorato(i).</translation>
+        <translation>&apos;height&apos; contiene %1 valore(i) ignorato(i).</translation>
     </message>
     <message>
         <source>&apos;height&apos; must be positive when used in a &apos;boundingObject&apos;.</source>
@@ -3880,7 +3880,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;GitHub repository...</source>
-        <translation>Repository &amp;Github...</translation>
+        <translation>&amp;Github repository...</translation>
     </message>
     <message>
         <source>Open the Webots git repository on GitHub.</source>
@@ -4196,7 +4196,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Physics creation failed</source>
-        <translation>la creazione del pligin fisico non è riuscita</translation>
+        <translation>Creazione plugin fisico non riuscita</translation>
     </message>
     <message>
         <source>Some directories or files could not be created.</source>
@@ -4228,7 +4228,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Plugin name:</source>
-        <translation>Node del plugin:</translation>
+        <translation>Nome del plugin:</translation>
     </message>
     <message>
         <source>Conclusion</source>
@@ -4608,7 +4608,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Could not close dynamic library: &apos;%1&apos;</source>
-        <translation>Impossibile chiudera la libreria dinamica: &apos;%1&apos;</translation>
+        <translation>Impossibile chiudere la libreria dinamica: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Plugin &apos;%1&apos; not found. Search in:</source>
@@ -4725,7 +4725,7 @@ Per favore controlla di avere il permesso di scrittura sul file:
     </message>
     <message>
         <source>Editor font:</source>
-        <translation>Font dell&apos;Editor di Testo:</translation>
+        <translation>Font dell&apos;editore di testo:</translation>
     </message>
     <message>
         <source>Options:</source>
@@ -4926,7 +4926,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Could not create target directory.</source>
-        <translation>Impossible creare la cartella di destinazione.</translation>
+        <translation>Impossibile creare la cartella di destinazione.</translation>
     </message>
     <message>
         <source>Make sure that you have write access at this location.</source>
@@ -5618,7 +5618,7 @@ Desideri aprirlo ora?</translation>
     </message>
     <message>
         <source>Number of cores: %1</source>
-        <translation>Numero di cores: %1</translation>
+        <translation>Numero di core: %1</translation>
     </message>
     <message>
         <source>OpenGL vendor: %1 (0x%2)</source>
