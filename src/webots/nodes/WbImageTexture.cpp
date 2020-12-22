@@ -191,12 +191,12 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
     mImage->swap(tmp);
 
     if (WbWorld::isX3DStreaming()) {
-      const QString &tmpFileName =
-        WbStandardPaths::webotsTmpPath() + QFileInfo(path()).fileName();  // FIXME: this is broken if path starts with https://
+      const QString &tmpFileName = WbStandardPaths::webotsTmpPath() + QFileInfo(path()).fileName();
       if (mImage->save(tmpFileName))
         cQualityChangedTexturesList.insert(path());
       else
         warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
+      qDebug() << "Saved in" << tmpFileName;
     }
   }
 
