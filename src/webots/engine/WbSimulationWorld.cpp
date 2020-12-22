@@ -42,8 +42,6 @@
 
 #include <cassert>
 
-#include <QtCore/QDebug>
-
 WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
