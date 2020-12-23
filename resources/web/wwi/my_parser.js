@@ -49,9 +49,9 @@ import {Use} from "./webotsjs/Use.js";
 import {WbVector3} from "./webotsjs/utils/WbVector3.js";
 
 class MyParser {
-  constructor() {
-      this.prefix = "http://localhost:1234/";
-      this.irradiancePrefix = "/projects/default/worlds/"
+  constructor(localTexture=false) {
+      this.prefix = localTexture ?  '' : "http://localhost:1234/";
+      this.irradiancePrefix = localTexture ? '' : "/projects/default/worlds/"
       let world = new World();
       this.fog = false;
   }
@@ -83,6 +83,11 @@ class MyParser {
         this.parseNode(scene);
       }
     }
+  }
+
+  parsefile(file) {
+    let scene = file.getElementsByTagName('Scene')[0];
+    this.parseNode(scene);
   }
 
   async parseNode(node, currentNode) {
@@ -924,24 +929,25 @@ class MyParser {
   }
 
   async loadTextureData(url, bgra) {
-   let context = document.getElementById('canvas2').getContext('2d');
-   let img = await this.loadImage(url);
-   canvas2.width = img.width;
-   canvas2.height = img.height;
-   context.drawImage(img, 0, 0);
-   let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-   let data = new Uint8ClampedArray(dataBGRA.length);
+    let canvas2 = document.createElement('canvas')
+    let context =  canvas2.getContext('2d');
+    let img = await this.loadImage(url);
+    canvas2.width = img.width;
+    canvas2.height = img.height;
+    context.drawImage(img, 0, 0);
+    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+    let data = new Uint8ClampedArray(dataBGRA.length);
 
-   data = dataBGRA;
+    data = dataBGRA;
 
 
-   let image = new WbImage();
+    let image = new WbImage();
 
-   image.bits = data;
-   image.width = img.width;
-   image.height = img.height;
-   image.url = url;
-   return image;
+    image.bits = data;
+    image.width = img.width;
+    image.height = img.height;
+    image.url = url;
+    return image;
  }
 
  loadImage(src){

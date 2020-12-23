@@ -38,8 +38,8 @@ class Animation { // eslint-disable-line no-unused-vars
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
     // Automatically start the animation only when all the textures are loaded.
-    if (this.gui === 'real_time' && TextureLoader.hasPendingData())
-      this.gui = 'play_on_load'; // wait for textures loading
+    //if (this.gui === 'real_time' && TextureLoader.hasPendingData())
+      //this.gui = 'play_on_load'; // wait for textures loading
 
     // Create play bar.
     var div = document.createElement('div');
@@ -49,7 +49,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
+    //this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
@@ -116,7 +116,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this._updateAnimationState(requestedStep);
   }
 
-  _updateAnimationState(requestedStep = undefined) {
+  async _updateAnimationState(requestedStep = undefined) {
     var automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
@@ -179,7 +179,7 @@ class Animation { // eslint-disable-line no-unused-vars
     x3dScene.viewpoint.notifyCameraParametersChanged();
   }
 
-  _updateAnimation() {
+  async _updateAnimation() {
     if (this.gui === 'real_time' && !this.sliding) {
       this._updateAnimationState();
       window.requestAnimationFrame(() => { this._updateAnimation(); });
@@ -194,3 +194,5 @@ class Animation { // eslint-disable-line no-unused-vars
     return this.gui === 'real_time' ? 'real_time' : 'pause';
   }
 }
+
+export {Animation}

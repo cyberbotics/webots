@@ -8,7 +8,7 @@ import {DefaultUrl} from "./default_url.js";
 import {Toolbar} from "./toolbar.js";
 import {Stream} from "./stream.js";
 import {DialogWindow} from "./dialog_window.js";
-
+import {Animation} from "./animation.js"
 
 
 /*

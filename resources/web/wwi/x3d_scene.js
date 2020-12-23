@@ -90,7 +90,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //this.composer.addPass(this.hdrResolvePass);
     //let fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     //this.composer.addPass(fxaaPass);
-
     this.resize();
 
     this.destroyWorld();
@@ -235,6 +234,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadWorldFile(url, onLoad) {
+    let request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.onload = async function () {
+        let doc = request.responseXML;
+        console.log(doc);
+        let loader = new MyParser(true);
+        console.log(doc.getElementsByTagName('Scene')[0]);
+        await loader.parsefile(doc);
+        onLoad();
+    };
+
+    request.send(null)
     /*
     this.objectsIdCache = {};
     //let loader = new THREE.X3DLoader(this);
