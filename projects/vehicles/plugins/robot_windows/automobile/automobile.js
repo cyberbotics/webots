@@ -378,8 +378,6 @@ function configure(data) {
     return;
   }
 
-  // Add default vehicle tabs
-  addTab('Overview');
   // Speed tab
   addTab('Speed');
   appendNewElement('Speed-layout', '<h2><span id="target-speed-label" style="color:red"></span></h2>');
@@ -435,14 +433,15 @@ function configure(data) {
   });
 
   // Set the focus on the first deviceType menu.
-  if (deviceTypes.length > 0) {
+  // TODO to be updated
+  /*if (deviceTypes.length > 0) {
     menuTabCallback(deviceTypes[0]);
     openMenu();
     document.getElementById('no-controller-label').style.display = 'none';
   } else {
     document.getElementById('no-controller-label').innerHTML = 'No devices supported in the robot window.';
     closeMenu();
-  }
+  }*/
 }
 
 function applyToUntouchedCheckbox(checkbox, state) {
@@ -558,6 +557,19 @@ function receive(message, _robot) {
     }
     if (data)
       configure(data);
+  } else if (message.indexOf('configure-vehicle ') === 0) {
+    try {
+      data = JSON.parse(message.substring(17));
+    } catch (e) {
+      console.log('C to JS protocol error:');
+      console.log(e);
+      console.log(message);
+    }
+    if (data) {
+      this.overviewWidget = new OverviewWidget(document.getElementById('overview'));
+      this.overviewWidget.setStaticInformation(data);
+      this.overviewWidget.resize();
+    }
   } else if (message.indexOf('update ') === 0) {
     try {
       data = JSON.parse(message.substring(7));
