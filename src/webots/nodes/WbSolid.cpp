@@ -2216,16 +2216,7 @@ void WbSolid::reset() {
   if (p)
     p->reset();
 
-  int parentJointNumber = mJointParents.size();
-  bool hasBallJoint = false;
-  for (int i = 0; i < parentJointNumber; ++i) {
-    if (mJointParents.at(i)->nodeType() == WB_NODE_BALL_JOINT) {
-      hasBallJoint = true;
-      break;
-    }
-  }
-  if (parentJointNumber == 0 || hasBallJoint) {
-    // if the Solid is connected to the parent with a joint (other than ballJoint), the joint will restore the position
+  if (mJointParents.size() == 0) {
     setTranslation(mTranslationLoadedFromFile);
     setRotation(mRotationLoadedFromFile);
   }

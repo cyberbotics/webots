@@ -42,7 +42,7 @@ Options:
 
   --mode=<mode>
     Choose the startup mode, overriding application preferences. The <mode>
-    argument must be either pause, realtime, run or fast.
+    argument must be either pause, realtime or fast.
 
   --fullscreen
     Start Webots in fullscreen.
