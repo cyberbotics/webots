@@ -27,8 +27,6 @@ The `init` and `cleanup` functions are called automatically from the constructor
 >
 > You have to define the `CLASSPATH` environment variable and point it to `${WEBOTS_HOME}/lib/controller/java/vehicle.jar`.
 > There is an example on how to add the `CLASSPATH` environment variable to `Makefile` and `runtime.ini` in [WEBOTS\_HOME/projects/vehicles/controllers/VehicleDriver](https://github.com/cyberbotics/webots/tree/master/projects/vehicles/controllers/VehicleDriver).
-<br />
-<br />
 
 > **Note** [Python]: The following program shows how to set the cruising speed and the steering angle in Python:
 
