@@ -42,8 +42,8 @@ class WbPBRAppearance extends WbAbstractAppearance {
 
   delete(){
     super.delete();
-    
-    if (isPostFinalizedCalled())
+
+    if (this.isPostFinalizedCalled)
       --WbPBRAppearance.cInstanceCounter;
 
     if (WbPBRAppearance.cInstanceCounter == 0) {

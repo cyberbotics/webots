@@ -56,7 +56,9 @@ class WbBaseNode {
     this.isPostFinalizeCalled = true;
   }
 
-  delete(){}
+  delete(){
+    World.instance.nodes.delete(this.id);
+  }
 }
 
 export{WbBaseNode}

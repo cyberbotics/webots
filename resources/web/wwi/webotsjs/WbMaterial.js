@@ -13,6 +13,8 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js";
+import {World} from "./World.js"
+
 import {array3Pointer} from "./WbUtils.js";
 
 class WbMaterial extends WbBaseNode {
@@ -24,6 +26,27 @@ class WbMaterial extends WbBaseNode {
     this.emissiveColor = emissiveColor;
     this.shininess = shininess;
     this.transparency = transparency;
+  }
+
+  delete(){
+    let parent = World.instance.nodes.get(this.parent);
+
+    if (typeof parent !== 'undefined') {
+      let shape = World.instance.nodes.get(parent.parent);
+
+      if (typeof shape !== 'undefined') {
+        this.ambientIntensity = 0.2;
+        this.diffuseColor = glm.vec3(0.8, 0.8, 0.8);
+        this.specularColor = glm.vec3(1, 1, 1);
+        this.emissiveColor = glm.vec3(1, 1, 1);
+        this.shininess = 0.2;
+        this.transparency = 0;
+
+        parent.modifyWrenMaterial(shape.wrenMaterial);
+      }
+    }
+
+    super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial, textured) {

@@ -23,19 +23,29 @@ class WbAppearance extends WbAbstractAppearance {
     this.texture = texture;
   }
 
+  delete(){
+    if (typeof this.material !== 'undefined')
+      this.material.delete();
+
+    if (typeof this.texture !== 'undefined')
+      this.texture.delete();
+
+    super.delete();
+  }
+
   createWrenObjects(){
     super.createWrenObjects();
-    if(typeof this.material !== 'undefined') {
+    if (typeof this.material !== 'undefined') {
       this.material.createWrenObjects();
     }
 
-    if(typeof this.texture !== 'undefined') {
+    if (typeof this.texture !== 'undefined') {
       this.texture.createWrenObjects();
     }
   }
 
   modifyWrenMaterial(wrenMaterial) {
-    if(typeof this.material !== 'undefined') {
+    if (typeof this.material !== 'undefined') {
       _wr_material_set_default_program(wrenMaterial, WbWrenShaders.phongShader());
       _wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders.phongStencilAmbientEmissiveShader());
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());

@@ -186,7 +186,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     object.delete();
 
-    let parentId = object.parent
+    /*let parentId = object.parent
     if (typeof parentId === 'undefined'){
       console.log(World.instance.sceneTree.splice(object, 1));
     }
@@ -205,9 +205,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
         else
           parent.children.slice(object, 1);
       }
-    }
+    }*/
 
-    World.instance.nodes.delete('n' + id);
     /*
     let context = {};
     let object = this.getObjectById('n' + id, false, 'scene', context);

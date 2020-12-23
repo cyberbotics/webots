@@ -39,8 +39,10 @@ class WbImageTexture extends WbBaseNode {
   }
 
   delete(){
-    super.delete();
     this.destroyWrenTexture();
+    super.delete();
+
+    this.image = undefined;
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
@@ -103,17 +105,13 @@ class WbImageTexture extends WbBaseNode {
   }
 
   destroyWrenTexture() {
-    if (typeof this.externalTexture != 'undefined')
+    if (!this.externalTexture)
       _wr_texture_delete(this.wrenTexture);
 
     _wr_texture_transform_delete(this.wrenTextureTransform);
 
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
-
-    //TODO see how to delete js image
-    //delete mImage;
-    //this.image = undefined;
   }
 
   preFinalize() {
