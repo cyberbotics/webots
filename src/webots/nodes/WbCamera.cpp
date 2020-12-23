@@ -16,6 +16,7 @@
 
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
@@ -129,6 +130,8 @@ void WbCamera::init() {
   mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
+  mDownloadNoiseMaskIODevice = NULL;
+  mDownloader = NULL;
 }
 
 WbCamera::WbCamera(WbTokenizer *tokenizer) : WbAbstractCamera("Camera", tokenizer) {
@@ -150,6 +153,22 @@ WbCamera::~WbCamera() {
 
   delete mSegmentationCamera;
   delete mSegmentationShm;
+  delete mDownloader;
+  if (mDownloadNoiseMaskIODevice)
+    mDownloadNoiseMaskIODevice->deleteLater();
+}
+
+void WbCamera::downloadAssets() {
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  if (WbUrl::isWeb(noiseMaskUrl)) {
+    mDownloader = new WbDownloader(QUrl(noiseMaskUrl));
+    connect(mDownloader, WbDownloader::complete, this, WbCamera::setDownloadNoiseMaskIODevice);
+    mDownloader->start();
+  }
+}
+
+void WbCamera::setDownloadNoiseMaskIODevice(QIODevice *device) {
+  mDownloadNoiseMaskIODevice = device;
 }
 
 void WbCamera::preFinalize() {
@@ -1074,8 +1093,7 @@ void WbCamera::updateNoiseMaskUrl() {
     return;
 
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {
-    // use custom noise mask
+  if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     const QString fileName(WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl));
     if (!fileName.isEmpty()) {
       const QString error = mWrenCamera->setNoiseMask(fileName.toUtf8().constData());

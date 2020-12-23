@@ -20,12 +20,15 @@
 struct WrTexture;
 
 class WbAffinePlane;
+class WbDownloader;
 class WbFocus;
 class WbLensFlare;
 class WbWrenLabelOverlay;
 class WbRecognition;
 class WbRecognizedObject;
 class WbZoom;
+
+class QIODevice;
 
 class WbCamera : public WbAbstractCamera {
   Q_OBJECT
@@ -38,6 +41,7 @@ public:
   virtual ~WbCamera();
 
   // reimplemented public functions
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
@@ -127,6 +131,9 @@ private:
   bool mHasSegmentationSharedMemoryChanged;
   bool mSegmentationImageChanged;
   bool mSegmentationImageReady;
+  // URL downloader
+  WbDownloader *mDownloader;
+  QIODevice *mDownloadNoiseMaskIODevice;
 
 private slots:
   void updateFocus();
@@ -146,6 +153,7 @@ private slots:
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
+  void setDownloadNoiseMaskIODevice(QIODevice *device);
 };
 
 #endif  // WB_CAMERA_HPP
