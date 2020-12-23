@@ -37,6 +37,7 @@ PROTO BmwX5 [
   field SFFloat      outerWindowTransparency  0.4
   field SFFloat      innerWindowTransparency  0.7
   field SFBool       innerWindowDust          FALSE
+  field SFString     window                   "automobile"
 ]
 {
   %{
@@ -638,5 +639,6 @@ PROTO BmwX5 [
         0 0 -846.89
       ]
     }
+    window IS window
   }
 }

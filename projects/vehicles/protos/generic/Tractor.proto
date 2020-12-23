@@ -15,6 +15,7 @@ PROTO Tractor [
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
+  field     SFString   window            "automobile"
 ]
 {
 Car {
@@ -1182,5 +1183,6 @@ Car {
   }
   type "4x4"
   time0To100 20
+  window IS window
 }
 }

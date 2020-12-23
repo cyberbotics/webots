@@ -22,6 +22,7 @@ PROTO Truck [
   field     MFNode     sensorsSlotRear   [ ]               # Extends the truck with new nodes in the rear slot.
   field     MFNode     sensorsSlotTop    [ ]               # Extends the truck with new nodes in the top slot.
   field     MFNode     sensorsSlotCenter [ ]               # Extends the truck with new nodes in the center slot.
+  field     SFString   window            "automobile"
 ]
 {
   %{
@@ -168,5 +169,6 @@ PROTO Truck [
     %{ else }%
       time0To100 18
     %{ end }%
+    window IS window
   }
 }

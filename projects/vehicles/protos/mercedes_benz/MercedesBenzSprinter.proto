@@ -19,6 +19,7 @@ PROTO MercedesBenzSprinter [
   field MFNode       sensorsSlotTop           [ ]
   field MFNode       sensorsSlotCenter        [ ]
   field SFBool       interior                 FALSE
+  field SFString     window                   "automobile"
 ]
 {
   Car {
@@ -115,5 +116,6 @@ PROTO MercedesBenzSprinter [
     maxVelocity 29.18
     engineMinRPM 800
     engineMaxRPM 4000
+    window IS window
   }
 }

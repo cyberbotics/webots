@@ -22,6 +22,7 @@ PROTO TeslaModel3 [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -217,5 +218,6 @@ PROTO TeslaModel3 [
         2.33023e-5 0.000158947 -3204.91
       ]
     }
+    window IS window
   }
 }

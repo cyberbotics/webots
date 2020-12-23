@@ -22,6 +22,7 @@ PROTO RangeRoverSportSVR [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -412,5 +413,6 @@ PROTO RangeRoverSportSVR [
         0 0.2 1.6 # estimated roughly
       ]
     }
+    window IS window
   }
 }

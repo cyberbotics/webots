@@ -135,5 +135,6 @@ Car {
   }
   brakeCoefficient 3500
   time0To100 25
+  window IS window
 }
 }

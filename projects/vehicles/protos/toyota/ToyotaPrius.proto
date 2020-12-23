@@ -23,6 +23,7 @@ PROTO ToyotaPrius [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -195,5 +196,6 @@ PROTO ToyotaPrius [
         0 0 -300
       ]
     }
+    window IS window
   }
 }
