@@ -21,6 +21,7 @@ PROTO LincolnMKZ [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -366,5 +367,6 @@ PROTO LincolnMKZ [
         0 0.2 1.6 # estimated roughly
       ]
     }
+    window IS window
   }
 }

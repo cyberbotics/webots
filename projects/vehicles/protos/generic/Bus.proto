@@ -19,6 +19,7 @@ PROTO Bus [
   field     MFNode     sensorsSlotRear   [ ]
   field     MFNode     sensorsSlotTop    [ ]
   field     MFNode     sensorsSlotCenter [ ]
+  field     SFString   window            "automobile"
 ]
 {
 Car {

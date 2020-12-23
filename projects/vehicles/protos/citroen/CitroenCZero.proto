@@ -205,5 +205,6 @@ PROTO CitroenCZero [
         0 0 0
       ]
     }
+    window IS window
   }
 }
