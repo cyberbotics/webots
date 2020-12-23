@@ -80,6 +80,8 @@ private slots:
   void renderNow();
   void requestUpdate();
   void updateTextureGLId(int id, WbRenderingDevice::TextureRole);
+  void listenToBackgroundImageChanges(const WbRenderingDevice *previousAttachedDevice,
+                                      const WbRenderingDevice *newAttachedDevice);
   void closeFromMainWindow();
 };
 

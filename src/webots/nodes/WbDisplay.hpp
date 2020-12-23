@@ -43,6 +43,12 @@ public:
   void createWrenObjects() override;
   void postPhysicsStep() override;
   void reset() override;
+  void enableExternalWindow(bool enabled) override;
+
+  WbCamera *const attachedCamera() const { return mAttachedCamera; }
+
+signals:
+  void attachedCameraChanged(const WbRenderingDevice *previousAttachedDevice, const WbRenderingDevice *newAttachedDevice);
 
 protected:
   void setup() override;

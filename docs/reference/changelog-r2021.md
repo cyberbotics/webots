@@ -1,5 +1,12 @@
 # Webots R2021 Change Log
 
+## Webots R2021a Revision 1
+Released on XX Xth, 2021.
+
+  - Bug fixes
+    - Fix Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
+    - Fix reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
+
 ## Webots R2021a
 Released on December 15th, 2020.
 

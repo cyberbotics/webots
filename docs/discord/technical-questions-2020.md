@@ -42811,7 +42811,7 @@ I would strongly adive following our tutorials, in particular this one about con
 ##### David Mansolino [Cyberbotics] 10/22/2020 13:21:10
 You're welcome
 
-##### götz 10/22/2020 16:45:48
+##### Götz 10/22/2020 16:45:48
 Hi all, I want to give users access to a simulation via web stream for viewing and an API controller I‘m building only. This is all working fine so far using the Webots container version, the only missing piece is: I obviously need to give them a way to pause/end/reset the simulation. Is there a way to do this w/o the main GUI, using the web player or maybe even from the controller code?
 
 ##### Simon Steinmann [Moderator] 10/22/2020 16:47:28
@@ -42820,7 +42820,7 @@ Hi all, I want to give users access to a simulation via web stream for viewing a
 
 specifically the functions from here and below: [https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_simulation\_set\_mode](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_simulation_set_mode)
 
-##### götz 10/22/2020 17:11:30
+##### Götz 10/22/2020 17:11:30
 Ah okay, I didn‘t really understand the supervisor option. So in my case I would enable it and then incorporate the calls into my controller?
 
 ##### Simon Steinmann [Moderator] 10/22/2020 17:13:26
@@ -42843,7 +42843,7 @@ but you can do things like:
 
 you have to enable the robot to be a supervisor though, by either editing the proto file, or clicking the checkbox, when selecting the robot in webots
 
-##### götz 10/22/2020 17:18:01
+##### Götz 10/22/2020 17:18:01
 Awesome software, great community! Thanks!
 
 
@@ -42852,7 +42852,7 @@ Just so I go it right: Instead of ˋimport Robotˋ and ˋrobot = Robot()ˋ I use
 ##### Simon Steinmann [Moderator] 10/22/2020 17:30:03
 yes
 
-##### götz 10/22/2020 17:30:11
+##### Götz 10/22/2020 17:30:11
 👍
 
 ##### Adivote 10/22/2020 21:02:15
@@ -43147,7 +43147,7 @@ created a PR with documentation update
 
 the formatting is bad, as the mmpeg stuff was mentioned in a note before
 
-##### götz 10/23/2020 14:44:00
+##### Götz 10/23/2020 14:44:00
 > but you can do things like:
 
 > `robot.simulationReset()`
@@ -43164,7 +43164,7 @@ This is what I call to reset.
 ##### David Mansolino [Cyberbotics] 10/23/2020 15:07:23
 Maybe you want to restart the controller of your robot too?
 
-##### götz 10/23/2020 15:11:05
+##### Götz 10/23/2020 15:11:05
 Can I do this from the controller?
 
 
@@ -43173,7 +43173,7 @@ I guess my understanding of what reset/restart means is still limited...
 ##### David Mansolino [Cyberbotics] 10/23/2020 15:14:20
 Yes from a supervisor: [https://www.cyberbotics.com/doc/reference/supervisor?version=develop&tab-language=python#wb\_supervisor\_node\_restart\_controller](https://www.cyberbotics.com/doc/reference/supervisor?version=develop&tab-language=python#wb_supervisor_node_restart_controller)
 
-##### götz 10/23/2020 15:36:06
+##### Götz 10/23/2020 15:36:06
 Thanks! And it's all there... excuse all the newbie questions. Just have to understand how to call it from the Tornado class...
 
 ##### Huey 10/24/2020 04:29:42
@@ -44088,7 +44088,7 @@ I got this resolved by upgrading
 ##### Darko Lukić [Cyberbotics] 10/28/2020 14:23:06
 Perfect, I am glad you managed to resolve the error!
 
-##### götz 10/28/2020 14:26:25
+##### Götz 10/28/2020 14:26:25
 Hi all, looks like I can't get my head around this... so my robot has supervisor enabled and I would like to develop a function to restart the simulation from the beginning. This is what I tried:
 
 ```robot = Supervisor()
@@ -44107,18 +44107,18 @@ and then
 Gives `AttributeError: 'function' object has no attribute 'restartController'`. I tried a couple of things but am obviously missing something.
 
 ##### David Mansolino [Cyberbotics] 10/28/2020 14:28:01
-Hi `@götz`,
+Hi `@Götz`,
 
 `robot_node = robot.getSelf` => `robot_node = robot.getSelf()`
 
-##### götz 10/28/2020 14:28:34
+##### Götz 10/28/2020 14:28:34
 Argh...
 
 ##### MumsDad 10/28/2020 14:29:50
 hey, i tried googling this. How can i set the background to a blank white canvas / have no background?
 
-##### götz 10/28/2020 14:33:41
-> Hi `@götz`,
+##### Götz 10/28/2020 14:33:41
+> Hi `@Götz`,
 
 > `robot_node = robot.getSelf` => `robot_node = robot.getSelf()`
 
@@ -44135,7 +44135,7 @@ Works only when I comment the line out...
 ##### David Mansolino [Cyberbotics] 10/28/2020 14:35:13
 No, unless you want to pause after restarting the simulation
 
-##### götz 10/28/2020 14:35:50
+##### Götz 10/28/2020 14:35:50
 Ah okay, no. it's actually an API just waiting for calls...
 
 ##### Pedro Gonçalves 10/28/2020 15:03:35
@@ -48043,4 +48043,914 @@ okay thank you so much
 
 ##### MartinG 12/16/2020 09:41:32
 I figured as much. Thanks once again.
+
+##### nmg 12/16/2020 15:03:20
+Hello, everyone.
+
+I am having problems when I use the supervisor.simulationReset(), the camera freezes after the reset. I can see the updated image in the overlay but my controller receives an static image prior to the reset.
+
+Have anyone experienced it? Any idea?
+
+##### owongcho 12/16/2020 15:46:09
+Hi, can Webots simulate the effect of an impact, like cars collision?
+
+##### Olivier Michel [Cyberbotics] 12/16/2020 15:49:49
+It uses a rigid body simulation, so the car will bounce on impact but not crash: no implosion or any other deformation.
+
+##### nmg 12/16/2020 16:01:55
+Tested on R2020b-rev1 and R2021a with the same result.
+
+##### Olivier Michel [Cyberbotics] 12/16/2020 16:07:27
+Can you please report this in an issue with all the necessary details so that we can reproduce it?
+
+##### culurciello 12/16/2020 16:16:47
+Does anyone have a working inverse kinematics IK example for a UR-10? I was able to make a ur-5 work, but not the UR-10. Here are working files for ur-5
+> **Attachment**: [ur5\_ik\_test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/788801813989163028/ur5_ik_test.wbt)
+
+
+
+> **Attachment**: [ur5\_ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/788801854087757824/ur5_ik_test.py)
+
+##### Darko Lukić [Cyberbotics] 12/16/2020 16:19:46
+`@culurciello` I believe `@Simon Steinmann` is an expert in IK and Webots robotic arms. He may already have a working example for UR-10.
+
+
+`@culurciello` You don't have to specify the ikpy chain manually, you can use `getUrdf()`:
+
+[https://github.com/cyberbotics/webots/blob/671849daaa2a16202af4636103480e43747072c5/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py#L41](https://github.com/cyberbotics/webots/blob/671849daaa2a16202af4636103480e43747072c5/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py#L41)
+
+##### culurciello 12/16/2020 16:46:21
+`@Darko Lukić` thanks a lot, if you guys can help it is really a great Xmas present`@Simon Steinmann` - my current not working status is:
+> **Attachment**: [ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/788809254777651200/ik_test.py)
+
+
+
+> **Attachment**: [ur10-ik.wbt](https://cdn.discordapp.com/attachments/565154703139405824/788809282195161108/ur10-ik.wbt)
+
+
+`@Darko Lukić` thansk a lot, have tried that before with no success, btu will try again now
+
+
+
+> **Attachment**: [ik\_test2.py](https://cdn.discordapp.com/attachments/565154703139405824/788822161929404446/ik_test2.py)
+
+
+
+> **Attachment**: [ur10-ik.wbt](https://cdn.discordapp.com/attachments/565154703139405824/788822190283423754/ur10-ik.wbt)
+
+
+DOes not work for me even with the example `@Darko Lukić` `@Simon Steinmann`
+
+##### row 12/17/2020 04:40:41
+Hello all, I am using webots with Mac OS and how do I select my own anaconda python environment to run my controller?
+
+
+The console output shows that I am using the default Python 2.7 that comes with Mac OS (instead of python 3.7 from my custom anaconda environment)
+
+
+Never mind, I have solved the problem by directly adding anaconda python path into "Python command" in Webots' preference page. But I have the following error message:
+
+
+"Traceback (most recent call last):
+
+  File "my\_mavic\_controller.py", line 5, in <module>
+
+    from controller import Robot, GPS, InertialUnit, Compass, Gyro
+
+  File "/Applications/Webots.app/lib/controller/python38/controller.py", line 31, in <module>
+
+    import \_controller
+
+ImportError: dlopen(/Applications/Webots.app/lib/controller/python38/\_controller.so, 2): Library not loaded: /Library/Frameworks/Python.framework/Versions/3.8/Python
+
+  Referenced from: /Applications/Webots.app/lib/controller/python38/\_controller.so
+
+  Reason: image not found
+
+WARNING: 'my\_mavic\_controller' controller exited with status: 1."
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 06:52:35
+Webots doesn't include native support for all Python versions and if you want to use Anaconda Python, you will have to recompile the Python binding as explained here: [https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version](https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version)
+
+
+But Webots does support natively Python 2.7, 3.7, 3.8 and 3.9 from the official Python distribution ([https://python.org](https://python.org)) and from HomeBrew ([https://brew.sh](https://brew.sh)).
+
+##### row 12/17/2020 06:54:32
+Thanks!
+
+##### hugos 12/17/2020 10:07:56
+Hello everyone, I come back to my problem from last week about the custom physics plugin and boundingObject Groups, where we cannot handle custom collisions for boundingObject Groups
+
+I installed version 2021a, but the problem is not solved in it
+
+Do you have any ideas to work around this problem (keeping the boundingObject groups) ? Thanks !
+
+##### Darko Lukić [Cyberbotics] 12/17/2020 10:48:11
+`@hugos`, I have just tested and I cannot reproduce the issue. Here is the world example that shows a working physics plugin that handles Group-(other node) collision:
+
+[https://github.com/cyberbotics/webots/files/5465323/physics\_callback\_bug.zip](https://github.com/cyberbotics/webots/files/5465323/physics_callback_bug.zip)
+
+posted here:
+
+[https://github.com/cyberbotics/webots/issues/2420](https://github.com/cyberbotics/webots/issues/2420)
+
+
+Could you please share a minimal example so we can reproduce the issue?
+
+##### hugos 12/17/2020 10:50:03
+I send you all the elements in private msgs
+
+##### Justin Fisher 12/17/2020 11:40:07
+Why do you think you have a time delay?  It doesn't show up in the code you posted.  It's important to remember that in Webots, nothing happens in the simulation except when you call robot.step, and when you call robot.step the simulation only advances about 1/60th of a second (with default timestep 16ms).  So if you're expecting to see your robot turn, you'll need to have called timestep repeatedly with the wheels turning at different speeds.
+
+
+**And a question of my own.**  I've been struggling with using supervisor functions in multiple controllers to watch a group node that initially starts childless.  I would like one supervisor, call it the Breeder, to add children to this group, and the other supervisors, call them the Watchers, to be able to see the children that are added.  Things seem to work fine from the perspective of the Breeder who adds the children, since the children appear at the right times in the scene tree and the simulation.  However, the children often do not show up for the Watchers, e.g. when they use getCount or getMFNode on the children field.  
+
+
+
+It looks like the first time I use getField to get the children field in a controller, it somehow caches the length of that field and never updates it to match reality except when that controller itself changes the contents of the field?  At any rate, if I have a Watcher wait to getField, they'll get the current length of the field at the time they first did getField, but won't be able to see any additional children that the Breeder adds, even if they do getField again (i.e., getCount continues to show the count at the time of the first getField, not an up-to-date count, and getMFNode throws an error if you try to access a higher index than that frozen getCount number, even when the field actually does have children with higher indices).  Any ideas what's going on here, and how I can get the Watchers to be able to see all the children the Breeder adds?
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 12:25:47
+This might be a bug... Can you reduce your simulation to the simplest example still exhibiting this buggy behavior and open an issue about it with all the details?
+
+##### Lucifer2 12/17/2020 13:19:19
+Hello, I am trying to access camera for 4-Wheels robot using python and gone through the documentation and tried ("Cam = Camera.enable(name, samplingPeriod) couldn't able to access it. Could any one help me out where exactly I am doing  wrong
+
+
+
+%figure
+![IMG20201217184844.jpg](https://cdn.discordapp.com/attachments/565154703139405824/789119668765851688/IMG20201217184844.jpg)
+%end
+
+##### MartinG 12/17/2020 13:20:28
+First instantiate the a robot (you've already imported the class) with something like robot = Robot()
+
+
+then you can do camera = robot.getCamera('camera') and camera.enable(timestep)
+
+
+timestep = int(robot.getBasicTimestep())
+
+
+make sure you get the timestep before you enable the camera
+
+##### Lucifer2 12/17/2020 13:24:25
+Thank you `@MartinG`
+
+##### MartinG 12/17/2020 13:25:07
+All good bud, have fun!
+
+##### Götz 12/17/2020 13:35:08
+Hi guys, I'm trying to get the gopigo3 robot into Webots. I'm still in the beginning stages with Webots so modeling it myself seems to be a daunting task (I've started it, but mostly I learn what I still don't know/understand about Webots ;). There is already a URDF/XACRO gopigo3 package for ROS. I tried the naive way by just trying urdf2webots but this gives errors, I guess the XACRO has to be converted to plain URDF first?
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 13:36:03
+Yes.
+
+##### Götz 12/17/2020 13:36:45
+Argh, so I have to install ROS first... 😰
+
+
+So I might carry on modeling it in Webots, might be easier then installing ROS... LOL
+
+
+Is converting URDF a viable way or does it make sense to model directly in Webots?
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 13:40:41
+It is a viable way and works usually pretty well, depending on the complexity of the model. An alternative to this is to reuse the meshes from the XACRO model and integrate them directly in Webots using the Webots Mesh node.
+
+
+I guess you have meshes in DAE or OBJ format?
+
+##### Götz 12/17/2020 13:41:44
+Your talking to a newbie... it's here: [https://github.com/ros-gopigo3/gopigo3](https://github.com/ros-gopigo3/gopigo3)
+
+
+Says mlp and stl AFAICS...
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 13:46:34
+That will work for STL files.
+
+
+[https://cyberbotics.com/doc/reference/mesh](https://cyberbotics.com/doc/reference/mesh)
+
+##### Götz 12/17/2020 13:47:46
+Cool, thanks, I'll give it a try. So at least I won't get bored over Christmas...
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 13:48:07
+Maybe you will have to convert the MLP files (I never heard of this format before).
+
+##### Götz 12/17/2020 13:50:29
+So when I get the STL into Webots this will result in one single object?
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 13:54:09
+Yes.
+
+
+The Mesh node will be at the geometry level (inside a Shape node).
+
+
+I guess there is one mesh for the body of the robot and another mesh for the wheel (to be used twice).
+
+
+The MLP files are meshlab project files, you can ignore them. The model seems to be very rough (no colors, no textures). You will have to work on it if you want to make look nice in Webots. You can use Blender to create texture mapping on the meshes.
+
+##### Götz 12/17/2020 14:01:01
+Second, my bad
+
+
+So yes, I got it as a shape node into a world. But it's huge, with a strange orientation to my floor and I can't move it around...
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/789133275629223976/unknown.png)
+%end
+
+
+The small brown rectangle is my 5x5 floor...
+
+##### DrakerDG 12/17/2020 14:17:39
+`@Götz` is normal but you can change the orietation
+
+##### Götz 12/17/2020 14:18:09
+I'll give it a try, thanks. At least it is there..
+
+
+I can't figure out how to change the orientation and scale/size of the mesh node (it's at the geometry level of a shape node in a robot child node)... if anybody got a hint for me...
+
+##### Olivier Michel [Cyberbotics] 12/17/2020 15:05:17
+You should put the Shape node containing the Mesh node inside a Transform node and you will be able to scale it down and rotate it.
+
+##### Götz 12/17/2020 15:22:52
+Ahhh... thanks.
+
+##### benko.boi 12/17/2020 15:23:11
+would anyone be able to help me with webots and matlab? i am struggling to use any functions or global variables
+
+##### dimple.bhuta 12/17/2020 21:10:54
+hello I am getting the following error
+
+
+Error message
+%figure
+![error_msg.png](https://cdn.discordapp.com/attachments/565154703139405824/789238293640249344/error_msg.png)
+%end
+
+
+I am not really sure about what this error means
+
+
+I will appreciate any help. Thank you
+
+##### pk1jk1 12/17/2020 21:23:47
+Let me know if you have something that is working on your end
+
+##### Joel\_Uchiha 12/17/2020 23:15:30
+Hi im trying to load a webot file but it keeps showing this loading dialogue
+
+
+
+%figure
+![image0.jpg](https://cdn.discordapp.com/attachments/565154703139405824/789269581201801226/image0.jpg)
+%end
+
+##### pk1jk1 12/17/2020 23:23:45
+Anyone know why I keep getting this error? Just tried to run this command: `ros2 launch webots_ros2_epuck robot_launch.py`
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/789271650637053952/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 12/17/2020 23:27:32
+Could you tell us a bit more about your GPU? What is the model of the GPU, what driver version do you use? Can you run Webots independent from ROS2?
+
+
+Which world are trying to load? To be on the safe side I recommend you to update Webots to R2021a
+
+##### pk1jk1 12/18/2020 00:06:44
+I am running it on Parallel's desktop (Ubuntu 20.04 VM) on my Macbook pro. GPU is  Radeon Pro 555X 4 GB Intel UHD Graphics 630 1536 MB, and not sure if I can run it independently
+
+##### MartinG 12/18/2020 01:50:27
+I've looked into path planning a bit more and it looks like it's very use case specific. Check out [https://github.com/AtsushiSakai/PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics) . There's a lot of great examples that can help you understand what you can do for your project.
+
+##### hugos 12/18/2020 08:12:29
+Good morning all,
+
+do you know how to call an external python program which defines the setPositionSync function?
+
+I tried to import my file but it says "AttributeError: 'Motor' object has no attribute 'setPositionSync'"
+
+
+my setPositionSync.py file :
+
+`from controller import Device
+
+class Motor(Device):
+
+  def setPositionSync(self, target, delay):
+
+    DELTA = 0.001  # max tolerated difference
+
+    motor.setPosition(target)
+
+    motor.getPositionSensor().enable(timeStep)
+
+    effective = 0  # effective position
+
+    while True:
+
+      if (step(TIME\_STEP) == -1):
+
+        break
+
+      delay -= TIME\_STEP
+
+      effective = motor.getPositionSensor().getValue()
+
+      while True:
+
+          if(fabs(target - effective) > DELTA and delay > 0):
+
+              break
+
+    motor.getPositionSensor().disable()`
+
+
+and in my controller, i did : import setPositionSync, and call motors[1].setPositionSync(1,0.1) for a try
+
+##### Alessia Valle 12/18/2020 08:46:17
+Good morning, I am running Ubuntu 18.04 on a virtual machine installed on my windows computer. Since I am new to Linux, can you suggest me which path should I follow among the ones suggested in the Cyberbotics official documentation? Thanks in advance
+
+##### Darko Lukić [Cyberbotics] 12/18/2020 08:55:03
+Thank you for the specification details. Just open Webots (search for Webots in Ubuntu) and in `File > Open Sample World...` choose some world
+
+
+You should do something like this:
+
+```python
+class A:
+    pass
+a = A()
+def foo(self): # Have to add self since this will become a method
+    print('hello world!')
+setattr(A, 'foo', foo)
+a.foo() # hello world!
+```
+
+##### hugos 12/18/2020 11:54:25
+Ok i'll try that thanks !;)
+
+##### culurciello 12/18/2020 17:19:58
+Is there an easy and quick way to modify robot initial pos from def: DEF ARM UR5e {
+
+  hidden position\_0\_0 0
+
+  hidden rotation\_1 0 0 -1 0
+
+  hidden position\_1\_0 -0.25137094580582836
+
+  hidden rotation\_2 0 -1 0 0.25137094580582764
+
+  hidden position\_2\_0 -1.005338993663453
+
+  hidden rotation\_3 0 -1 0 1.0053389936634527
+
+  hidden position\_3\_0 -1.2566469548953756
+
+  hidden rotation\_4 -4.292122580921746e-05 -0.9999999985927139 -3.118237546026085e-05 1.2565845914613933
+
+  hidden position\_4\_0 6.12716655302702e-068
+
+  hidden rotation\_5 -5.374279986558457e-08 0.01785745090540067 0.9998405430103133 6.020732998833995e-06
+
+  hidden position\_5\_0 -0.1256659945529821
+
+  hidden rotation\_6 0 -1 0 0.125665994552983
+
+  translation 0.54 0.74 0.18
+
+  rotation -0.9999999999793323 3.598409999925629e-07 6.41919999986733e-06 1.57079
+
+  controller "<extern>"
+
+  supervisor TRUE
+
+  toolSlot [
+
+    DEF DSENSOR DistanceSensor {
+
+      rotation 0 0 1 1.570796
+
+    }
+
+  ]
+
+}
+
+
+what do the numbers in hidden pos and rotation mean?
+
+##### Darko Lukić [Cyberbotics] 12/18/2020 17:24:14
+Hidden fields mean that the simulation state is saved during the simulation run. You should avoid saving the world during the run as it may lead to the undesired behavior afterwards. I suggest you to delete all hidden fields.
+
+##### culurciello 12/18/2020 17:36:40
+Thankss `@Darko Lukić` how do you set a robot arm position for example?
+
+##### Rishi 12/19/2020 06:30:40
+Folks quick question, if a field name isn't specified in the PROTO it sets to its* default right?
+
+[https://cyberbotics.com/doc/reference/positionsensor#description](https://cyberbotics.com/doc/reference/positionsensor#description)
+
+For example here if the noise field is not specified in the PROTO, it will be taken as 0 which is the default specified? Same with the res, nothing specified is -1?
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:01:07
+`@Rishi` Yes, if nothing is specified, the default is taken
+
+##### Rishi 12/19/2020 15:01:31
+Cheers thanks!
+
+
+BTW would you all recommend running simple simulations in asynchronous mode so as to make programming easier, I'm teaching diff drive robots to school kids new to Python, in the Synchronous mode one has to take care to avoid stuff that is blocking right, as in a function if it takes a bit too long to execute that'll mess up the sim right?
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:04:00
+keep it synchronous, otherwise you'll get much more problems
+
+
+in synchronous mode, the simulation will just run slower if a function is slow
+
+
+the important thing is, that robot.step() has to be called for the simulation to calculate a step. Usually done in a main loop, but can be called from different functions
+
+##### Rishi 12/19/2020 15:07:14
+Yes I know
+
+What are the expected probs in async mode? My results were the same for simple tasks like object avoidance
+
+I am asking because I am going to teach them IP soon where there is a chance that they'll face probs if they don't take into account that they've to regularly call robot.step
+
+
+
+Plus I find the async method a bit more natural, essentially it becomes like a controller for a control system
+
+
+coding* with the async method ***
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:08:05
+[https://cyberbotics.com/doc/reference/robot?tab-language=python#synchronous-versus-asynchronous-controllers](https://cyberbotics.com/doc/reference/robot?tab-language=python#synchronous-versus-asynchronous-controllers)
+
+##### Rishi 12/19/2020 15:08:42
+Yes I have gone through this, thanks for sharing though
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:08:49
+you'll run into big problems if you cannot easily reach your desired realtime factor, or if you want to run it as fast as possible
+
+
+e.g. Reinforcement learning
+
+
+you can always have different threads or processes running
+
+##### Rishi 12/19/2020 15:09:49
+I started my question with simple tasks with diff drive bots, I'm teaching middle schoolers
+
+Sorry if that was not more clear
+
+
+Hence for me the main distinction is the style of coding associated with each method
+
+
+So would you not recommend async for such simple tasks as well?
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:10:54
+if you can easily hit a realtime factor of 1 and you dont need to run it faster, then it should not matter mch
+
+
+I just dont really see the need for it. If your python function is that slow that it creates problems, you have other issues I think :p
+
+##### Rishi 12/19/2020 15:12:04
+Okay thank you! I'll go ahead with async mode then
+
+What I like is that now the robot,step becomes just another call to update the controller's info
+
+
+Yeah, the thing* is IDK the ways in which kids will mess up
+
+And then introducing this additional factor of having to call robot.step for advancing the simulation is an additional overhead on top of that
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:14:07
+each approach brings its own challenges. I personally find synchronous much easier
+
+
+things can't get out of order
+
+##### Rishi 12/19/2020 15:14:58
+Uh hmm
+
+That is true
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:15:45
+With async I can forsee issues, where control loops run WAY too fast, spamming the console. Requiring artificial sleep code
+
+##### Rishi 12/19/2020 15:16:36
+Oh okay thanks for the heads up, I hadn't thought of this, will need to run everything at a rate then like ROS, thanks for the insight
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:16:43
+and I think serial is generally easier to understand than parallel in most things
+
+
+with sync you do 4 steps:
+
+1. get sensor data
+
+2. do calculations
+
+3. set control commands
+
+4. step simulation
+
+
+however, if you plan to transition into ROS, perhaps async could be a good way to go, as topic pubs and subs are async as well
+
+
+as well as actions
+
+
+that would be the biggest argument for async for me
+
+##### Rishi 12/19/2020 15:21:31
+Yes, I've started out with teaching them using synchronous mode itself
+
+But I find that having to call robot.step() every time to advance the sim takes away part of the "realness"
+
+These kids don't have access to hardware, so I'm aiming to give them like an immersive exp while coding, so the robot does its things & you're there controlling it (like riding a horse vs. hopping forward on a pogo stick)
+
+
+
+With async, where robot.step just becomes an update controller data command, that's a better explanation and workflow IMO
+
+
+
+and no plans to transition to ROS yet!
+
+
+You know what, maybe I'll tell them all of this and leave it up to them to decide, my grader will work in either case 😛
+
+
+Thanks again for your inputs!
+
+##### Simon Steinmann [Moderator] 12/19/2020 15:25:06
+I think that's the right call 🙂
+
+
+oh and btw, I can highly recommend Raspberry PIs for Python. Last year in canada while doing my Masters Thesis in Robotics and AI, there was a middle school girl who was super curious during an "university visit day". I built a remote controlled car with her, powered by raspberri pi, with camera attached. Controlled from a laptop over wifi with video feed. All in Python. But much simpler things can be done too. It's just fun having the real world feedback of something working
+
+
+[https://www.raspberrypi.org/products/raspberry-pi-zero-w/](https://www.raspberrypi.org/products/raspberry-pi-zero-w/) this thing is like 10 bucks and has wifi. Linux could be a barrier though
+
+##### Rishi 12/19/2020 15:30:31
+That is true indeed! There's a whole world of things folks can do with Raspberry Pi's! I had not thought of it for this lot, but maybe after all of their tasks are over we could give them PIs, N20 motors, 2S batteries and a webcam/Pi cam & some sensors and have tons of fun!
+
+Like a ePuck2 or Thymio but lower cost, small like a micromouse
+
+
+Maybe the next step would be introducing ROS on Pi4s
+
+Cheers for your suggestions, all the best to your endeavors
+
+##### Ragemor 12/19/2020 15:56:07
+Im trying to use receiver/emitter with e-pucks. When try to run my simulation "self.emitter.send(message.decode('utf-8'))" this code doesnt work.  self.emitter.send(message.decode('utf-8'))
+
+AttributeError: 'NoneType' object has no attribute 'send' anyone can help me ?
+
+##### Simon Steinmann [Moderator] 12/19/2020 16:15:47
+You need to set a handle to the receiver / emitter like this:
+
+
+
+`emitter = robot.getEmitter('name')
+
+emitter.send(message.decode('utf-8'))`
+
+##### Ragemor 12/19/2020 16:46:53
+But i want to control different e-pucks with an emitter. This emitter is not an e-puck. And ı try this but doesnt matter. Still same error.
+
+##### Simon Steinmann [Moderator] 12/19/2020 16:47:59
+you first have to get the robot handle and of course you need to use the correct name for the emitter
+
+
+from Controller import Robot
+
+robot = Robot()
+
+##### Ragemor 12/19/2020 17:06:44
+Can you take a look webots sample projects languages\python. I try to make a simulation like that with e-pucks.
+
+
+I changed the receiver and emitter channel and problem fixed. I have no idea about that but its working with same code atm. Thanks for the help.
+
+##### Justin Fisher 12/19/2020 18:48:51
+`@Rishi`  I've been teaching Webots with university students rather than middle schoolers, but they seemed to understand pretty easily that whenever their controller says robot.step(timestep) that's the indicator that they've done as much responding to the current situation as they're planning to, and that they're ready to let the simulation step forward another step so they can get more info about how well their plan worked.
+
+
+
+I don't think there's any advantage, as far as understandability is concerned, to making it asynchronous.  From the perspective of the controller, everything is still pretty much the same:  you take in sensory inputs, do some processing, send some motor commands, and call robot.next(timestep) so you can let the simulation play out a bit and start that process again.  The only thing that's different is that, if your controller runs too slow, a few steps of the simulation might have passed while you were doing your processing, rather than just one, so it makes things a bit harder to predict and understand.  My suggestion would be to stick with synchronous, unless you have people writing controllers that are so slow/complex that they slow down a synchronous simulation too much, and then shift to asynchronous and/or help people fix whatever was so slow about their controllers.   
+
+
+
+I think the biggest challenge in this ballpark is helping students figure out how to get their robot to engage in a time-consuming project, like detouring around an obstacle that they won't necessarily retain sight of throughout the maneuver.  So somehow they need to maintain a memory that they've seen this obstacle, and condition their later behavior upon whether they remember seeing an obstacle recently, which is an extra layer of complexity beyond simple Braitenburg-style response to immediate inputs.
+
+##### Rishi 12/19/2020 19:25:52
+Thanks a ton for your inputs, for spending the time, effort and mindshare.
+
+
+
+I raised this whole topic because the sync mode to me feels a bit like prodding the robot while coding, as opposed to like controlling a dynamical system that's responding to your inputs. The folks testing this have been adding robot.step all over the place with all sorts of timestep values, literal prodding of the sim! Kids are likely to do the same too. Besides, in other projects I've had nightmares developing logic in Lua scripts for V-REP, those scripts operate in a broadly similar manner, they slightly color my perception too. So ultimately, I'd like it to be a bit like ROS with the input & output stream like structure; where the robot.step is just updates the info the controller has, hence async, even when we're scheduled to introduce OpenCV in a couple of weeks, it's not really the technical reasons, but the approach.
+
+
+
+I'll give this whole thing a bit of thought time & take a considered decision, in any case I have planned to make a video explaining the differences already.
+
+
+
+Moving beyond Braitenburg-style responses should be doable with either mode using A* & similar algorithms I reckon as they still fit into that input, process, output paradigm, but with sync there's always this mental thing of don't forget to prod it! I'd like to abstract that away & hence the discussion. Cheers for engaging, we hope to be able to demonstrate our stuff to the community soon!
+
+##### Joel\_Uchiha 12/19/2020 20:42:10
+Hi Darko, it was 2020 version, thanks I will try installing 2021 and check now 🙂
+
+##### Justin Fisher 12/19/2020 23:09:50
+`@Rishi`  I started off my students with sample code that had robot.step(timestep) as part of the main loop exit condition, briefly explained why it was there, but did not suggest that as something they might ever want to change.  That did pretty well to keep them from doing the things you've mentioned your testers doing, like putting more copies of robot.step elsewhere, or with different timesteps.  Instead, for us, the robot.step(timestep) part of the loop kind of just faded into the background, and the main thing we/they would think about is just trying to figure out what the current optimal motor speeds should be at the current time, given current sensor readings and remembered information.
+
+
+
+I actually think the frequent calls to robot.step make it feel more like a dynamical system to me, since all your controller ever does is basically nudge the motor speeds in a desired direction, but then it loops back to get new sensory inputs and the chance to send updated motor commands even before the preceding commands have fully taken effect.   The trickier challenge, for us, has been shifting from an intuitive serial procedural mindset (first do A, then do B, then do C...) to a mindset that involves more "living in the now" and figuring out at each timestep what the best thing to do at that moment is.
+
+
+
+I also think it helped a lot starting them out with Braitenburg vehicles, since that is a rewarding way to get interesting behavior from a simple setup, and since that helps to engender this sort of "living in the now" mindset, so that when you advance to doing more complex tasks, you're thinking about your controller's role in the right way.
+
+##### adiagr 12/20/2020 07:06:31
+Hello everyone. Is there a way I can use a pyc file for a controller.
+
+Theoretically, I believe, running the following two commands should have the same effect
+
+python controller.py
+
+python controller.pyc
+
+
+
+But webots specifically looks for the py extension as far as I know.
+
+
+
+Does anyone know a workaround to this? Thanks in advance!
+
+##### nelsondmmg 12/20/2020 10:47:37
+Hi, is it possible to change the acceleration of a vehicle when the cruising speed is being used to control it (which is calculated using the time0to100 constant in the PROTO file) ? I did not found any function in the driver and car objects to do it. Would it be possible to create such function ?
+
+##### rash 12/20/2020 16:54:50
+Hi there, so I review multiple webots world files. Some of the worlds when clicked on automatically spawn the webots app while the others dont spawn the application. Is there a reason as to why this happens?
+
+
+Could I advise the indviduals sending in the files to do something so that I can simply open their webots app by just clicking on their world ?
+
+##### Lucifer2 12/21/2020 07:55:19
+Hi, Is it possible to access the webots camera using opevCV library? If possible how?
+
+##### Darko Lukić [Cyberbotics] 12/21/2020 08:01:57
+`@Lucifer2` Here are two examples implemented in Python:
+
+
+
+Lane follower with Tesla:
+
+[https://github.com/lukicdarkoo/webots-example-lane-follower](https://github.com/lukicdarkoo/webots-example-lane-follower)
+
+
+
+Visual tracking with TurtleBot:
+
+[https://github.com/lukicdarkoo/webots-example-visual-tracking](https://github.com/lukicdarkoo/webots-example-visual-tracking)
+
+
+
+This is the part of the code you are interested in:
+
+[https://github.com/lukicdarkoo/webots-example-lane-follower/blob/a9515f3dea9c5867428b03ff2870f654beef9b15/controllers/lane\_follower/lane\_follower.py#L17-L18](https://github.com/lukicdarkoo/webots-example-lane-follower/blob/a9515f3dea9c5867428b03ff2870f654beef9b15/controllers/lane_follower/lane_follower.py#L17-L18)
+
+##### Lucifer2 12/21/2020 08:23:35
+Thank you `@Darko Lukić`
+
+##### Stefania Pedrazzi [Cyberbotics] 12/21/2020 08:54:18
+The Driver library currently doesn't contain any function to change the acceleration. It should not be difficult for you to add this new API function but note that the maximum acceleration is limited by the Motor acceleration field value of the car model that is set using the `time0To100` value.
+
+Another option would be to edit the car PROTO model so that the `time0To100` field is visible in the scene tree and then modify it using the Supervisor API. This however will regenerate the car object and would probably not be the best option if the car is moving.
+
+
+Webots currently only detects and runs `.py` files. But you can run your `.pyc` controller file using the "Extern controller" functionality:
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+
+There should not be any reason why some files works difference, and if the default application is correctly set then double-clicking on any Webots WBT file should automatically open the Webots application. Maybe you should check on your system which is the default application set for the specific world file and/or change the settings of your system so that the WBT extension is always open with Webots.
+
+##### Götz 12/21/2020 15:49:43
+Hi all, I've decided to try modelling the GoPiGo3 robot myself for use in Webots. Being fairly new to 3D stuff I'm using Shapr3d which is pretty amazing for non-experts I'd say. So I've got a pretty decent looking model now and just need to get it into Webots. Well... exporting as OBJ and then using as mesh in Webots works fine... but without any colors I used while creating it. Dooh. So could anybody give a hand about what the best format/way would be to get the models into Webots w/o loosing coloring? Shapr can export to a number of formats like STL, OBJ, USDZ, STEP, IGES. But I don't really know which format would be most suited...
+
+
+Yes, should have tested before I spent hours on 3d-modelling...
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:21:30
+I would recommend you to export OBJ files for the shapes and then to use PBR appearances in Webots for materials (plastic parts, metallic parts, etc.). You may create your own PBR appearance nodes if you need something specific to the robot. By the way can you post a screenshot of the 3D model you have?
+
+##### Götz 12/21/2020 16:23:09
+But then I have to separate objects, right? Like the (to be) black tire into one OBJ and the (to be) yellow rim into another?
+
+
+
+%figure
+![IMG_001.jpg](https://cdn.discordapp.com/attachments/565154703139405824/790616764064464906/IMG_001.jpg)
+%end
+
+
+Still stuff missing, but it's kind of fun...
+
+
+Here I've used a couple of separate OBJ's. This is fine for the larger parts but e.g. the Raspi would be a nightmare...:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/790617322200104970/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:31:01
+Yes, in that case, you would have to separate objects which have different materials (likes the pneumatic from the yellowish wheel structure)
+
+
+Can you post a screenshot of the Raspberry Pi details?
+
+
+You could group all the objects with the same material (i.e., IC) into a single object.
+
+
+You can also create a texture with bump mapping for the Raspberry (PBC part)
+
+##### Götz 12/21/2020 16:34:06
+
+%figure
+![IMG_001_1.jpg](https://cdn.discordapp.com/attachments/565154703139405824/790618110796365824/IMG_001_1.jpg)
+%end
+
+
+Got this one from Thingyverse or something.
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:34:48
+I believe you can group all the grey parts (connectors) into a single object.
+
+
+And use a metallic appearance on it.
+
+##### Götz 12/21/2020 16:35:39
+Okay, so I take it there is no easy way to "just get the colors with the object" format? 😉
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:35:59
+Not sure...
+
+##### Götz 12/21/2020 16:36:42
+Thanks a lot, I guess I'll start separating obejcts.
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:42:34
+You might want to use a PRB texture like this one for the PCB: [https://www.textures.com/download/pbr0311/134394](https://www.textures.com/download/pbr0311/134394)
+
+
+Or use an model already textured like this one: [https://sketchfab.com/3d-models/raspberry-pi-3-2d308283fc0f4d27b81f17a2793c5c4d](https://sketchfab.com/3d-models/raspberry-pi-3-2d308283fc0f4d27b81f17a2793c5c4d)
+
+##### Götz 12/21/2020 16:53:17
+Okay, so all this 3d-looking surface is a texture? And will stay looking like this in Webots rendering?
+
+
+Have to learn about textures next, so...
+
+##### Olivier Michel [Cyberbotics] 12/21/2020 16:54:10
+Yes, Webots has PBR materials, which makes that those textures will look very nice in Webots.
+
+
+See [https://cyberbotics.com/doc/guide/appearances#pcb](https://cyberbotics.com/doc/guide/appearances#pcb) for example.
+
+
+This one should be easy to reuse, but won't match exactly the PCB of the Raspberry Pi.
+
+##### EmmetExplorer 12/21/2020 21:09:59
+Hi, I have a question (more a problem). I'm working on Ubuntu 18.04 and I have a partition shared with Windows and Ubuntu. In such partition there's a project of mine that I can run with no problems on Windows, but on Ubuntu I can't access to (says permission denied) How could I set Webots permissions to access the files in such partition?
+
+##### row 12/22/2020 01:24:20
+Hi! I am trying to simulate an environment with multiple robots. Is it possible for me to implement a timer for each robot? I want to log how much time has passed for each robot for certain triggered events. The timers need to be independent of each other.
+
+
+Can getTime() be used to satisfy this requirement?  It is a method for each robot object.
+
+
+Assume your windows partition is not encrypted by bit locker, I think you need to install a driver on Ubuntu to read NTFS format in order to perform read and write.
+
+
+An alternative method is to install Dropbox on both windows and Ubuntu and let the cloud to sync the folder. I use this method for my Mac and windows computers.
+
+##### Olivier Michel [Cyberbotics] 12/22/2020 06:30:39
+Yes `getTime()` should do the trick to implement independent timers on each robot.
+
+##### Master.L 12/22/2020 07:12:23
+Can I run the actual robot test and then load the saved data into the simulation for data analysis?
+
+I want to proceed by creating a robot window or a external gui.
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 07:40:16
+`@Master.L` You can load the saved data into the simulation. You can give us more details, so we can give you guidelines
+
+##### Master.L 12/22/2020 08:59:48
+Hi! Darko Lukić 
+
+I found the motion editor in the robotics op example.
+
+The motion editor is like a gui made based on qt.
+
+Can I customiz the motion editor using qtcreator?
+
+
+I would like to implement a similar function to the motion editor tab.
+
+The angle value of each joint of the actual robot is saved as a file of a specific format and loaded in the motion editor to reproduce the movement of the time I want in the simulation.
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 09:09:22
+Anything will work. Depending on your use-case it may be even easier to develop an external controller with GUI. If you want well integrated GUI into Webots I would recommend you to write a robot window based on HTML5/JavaScript.
+
+##### Master.L 12/22/2020 09:11:58
+How can I connect with webots if i develop external controller with qtcreator?
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 09:29:46
+You code the external controller in same way as the controller in Webots. You only need to make sure the Webots header files and libraries are included in your project:
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=c++](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=c++)
+
+##### Master.L 12/22/2020 09:32:56
+Thank you Darko Lukić!, I'll try it and ask again if there's anything I don't know.
+
+##### Wesztman 12/22/2020 16:01:18
+<#565154703139405824> Hi everyone! 
+
+
+
+I´m new to Webots and have been sitting today trying out the windows application with Python.
+
+
+
+I however would prefer to do my programming in VSCode and start my python program in WSL, while being able to visualize the result in Webots on the Windows side 🙂 is there any possibility to do this?
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 16:04:11
+`@Wesztman` Does something like this work for you? [https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242)
+
+##### Wesztman 12/22/2020 16:13:05
+Maybe that together with this [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=python&tab-os=linux](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=python&tab-os=linux) would be able to handle it? 🤔  Someone with VSCode extension knowledge should come and write an extension which connects to a remote Webots GUI window and gives you the play, pause, reset buttons directly in VSCode on the WSL side 😉
+
+
+Maybe I can do it directly with extern controller 🤔  since I have direct access to my WSL root folder in windows I could make a webots project folder there and open the world file in windows while running the program in WSL
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 16:21:17
+In some cases, it is possible to run controller independent from Webots (external controller), but you need to be able to share files and memory. However, I am not sure whether it is possible to do that with WSL
+
+##### Wesztman 12/22/2020 16:22:03
+l'll try it out and report back if I can get it to work 😉
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 16:22:41
+It would be a great contribution! You can use the supervisor controller for that
+
+##### Master.L 12/22/2020 16:54:32
+I would like to implement delta robot simulation with webots. How can I make a delta robot model? Do you have any examples of delta robots?
+
+##### Olivier Michel [Cyberbotics] 12/22/2020 16:55:51
+Not really, but it should be doable. The closest thing to a delta robot we currently have is the Steward Platform from which you can take inspiration.
+
+
+[https://cyberbotics.com/doc/guide/samples-demos#stewart\_platform-wbt](https://cyberbotics.com/doc/guide/samples-demos#stewart_platform-wbt)
+
+##### Master.L 12/22/2020 17:01:14
+Thanks Olivier Michel!, I will refer to that example
+
+Also I want to convert the delta robot's .urdf file to a .proto file. We know that of the urdf joint types continuous is not supported by proto. Is there a way?
+
+##### EmmetExplorer 12/22/2020 20:11:11
+I don't think is a driver issue for Ubuntu as I can access such partition through other programs, as well as save and edit files directly from such partition in NTFS. I have had scenarios in the past in which if I hibernated the PC while on Windows (or there was a windows update running), such partition is read-only, but it's not the case.
+
+
+I thought about that, but I prefer to remain independent of cloud syncing as partition sharing has always worked (except for Webots). I thought it could be a permission issue, but that's a little bit over my Linux expertise
+
+##### owongcho 12/22/2020 20:13:13
+hello everyone, could you please provide suggestions on how to model a vacuum gripper in Webots?
+
+##### Jeff K 12/22/2020 21:55:56
+Did anyone resolve this thread regarding python on mac os.  I am stuck where this person left off on 11/19/2020:
+
+prophile11/19/2020
+
+Python 3 is installed via Homebrew so there is nothing in /Library/Frameworks/Python.framework/Versions/3.8
+
+prophile11/19/2020
+
+I am unsure how best to proceed from here
 

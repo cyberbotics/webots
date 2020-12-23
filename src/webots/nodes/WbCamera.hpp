@@ -49,7 +49,7 @@ public:
   void reset() override;
   void resetSharedMemory() override;
   bool isEnabled() const override;
-  void updateTextureUpdateNotifications() override;
+  void updateTextureUpdateNotifications(bool enabled) override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);
