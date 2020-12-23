@@ -18,6 +18,7 @@
 #include "WbBaseNode.hpp"
 #include "WbSFDouble.hpp"
 
+class WbDownloader;
 class WbRgb;
 
 struct WrTextureCubeMap;
@@ -41,6 +42,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_BACKGROUND; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -74,6 +76,7 @@ private:
   bool isFirstInstance() { return cBackgroundList.first() == this; }
   // make this the WbBackground instance in use
   void activate();
+  void downloadAsset(const QString &url, int index);
 
   // user accessible fields
   WbMFColor *mSkyColor;
@@ -98,10 +101,14 @@ private:
   WrTextureCubeMap *mCubeMapTexture;
   WrTextureCubeMap *mIrradianceCubeTexture;
 
+  WbDownloader *mDownloader[12];
+  QIODevice *mDownloadTextureIODevice[12];
+
 private slots:
   void updateColor();
   void updateCubemap();
   void updateLuminosity();
+  void setDownloadTextureIODevice(QIODevice *);
 };
 
 #endif

@@ -182,3 +182,7 @@ QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int
   return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
                        writer.relativeTexturesPath(), writer);
 }
+
+bool WbUrl::isWeb(const QString &url) {
+  return url.startsWith("https://") || url.startsWith("http://");
+}

@@ -100,7 +100,7 @@ private:
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
   WbDownloader *mDownloader;
-  QIODevice *mLoadTextureIODevice;
+  QIODevice *mDownloadTextureIODevice;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
@@ -118,7 +118,7 @@ private slots:
   void updateRepeatS();
   void updateRepeatT();
   void updateFiltering();
-  void setLoadTextureIODevice(QIODevice *device);
+  void setDownloadTextureIODevice(QIODevice *device);
 };
 
 #endif

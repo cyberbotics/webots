@@ -14,6 +14,7 @@
 
 #include "WbBackground.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbGroup.hpp"
@@ -85,7 +86,10 @@ void WbBackground::init() {
     mUrlFields[i] = findMFString(gUrlNames(i));
     mIrradianceUrlFields[i] = findMFString(gIrradianceUrlNames(i));
   }
-
+  for (int i = 0; i < 12; ++i) {
+    mDownloader[i] = NULL;
+    mDownloadTextureIODevice[i] = NULL;
+  }
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
   mSkyboxMaterial = NULL;
@@ -158,6 +162,39 @@ WbBackground::~WbBackground() {
 
   wr_node_delete(WR_NODE(mHdrClearTransform));
   wr_static_mesh_delete(mHdrClearMesh);
+
+  for (int i = 0; i < 12; ++i) {
+    if (mDownloadTextureIODevice[i])
+      mDownloadTextureIODevice[i]->deleteLater();
+  }
+}
+
+void WbBackground::downloadAsset(const QString &url, int index) {
+  if (!WbUrl::isWeb(url))
+    return;
+  mDownloader[index] = new WbDownloader(QUrl(url));
+  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::setDownloadTextureIODevice);
+  mDownloader[index]->start();
+}
+
+void WbBackground::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  for (size_t i = 0; i < 6; i++) {
+    if (mUrlFields[i]->size())
+      downloadAsset(mUrlFields[i]->item(0), i);
+    if (mIrradianceUrlFields[i]->size())
+      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6);
+  }
+}
+
+void WbBackground::setDownloadTextureIODevice(QIODevice *device) {
+  WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
+  assert(d);
+  for (size_t i = 0; i < 12; i++)
+    if (d == mDownloader[i]) {
+      mDownloadTextureIODevice[i] = device;
+      break;
+    }
 }
 
 void WbBackground::preFinalize() {
@@ -295,7 +332,7 @@ void WbBackground::applySkyBoxToWren() {
   int edgeLength = 0;
   QString lastFile;
 
-  QString textureUrls[6];
+  QIODevice *textureUrlDevices[6];
   QVector<float *> hdrImageData;
   // 1. Load the background.
   mCubeMapTexture = wr_texture_cubemap_new();
@@ -308,12 +345,17 @@ void WbBackground::applySkyBoxToWren() {
     for (int i = 0; i < 6; ++i) {
       if (mUrlFields[i]->size() == 0) {
         allUrlDefined = false;
-        textureUrls[i] = "";
+        textureUrlDevices[i] = NULL;
         continue;
       } else
         atLeastOneUrlDefined = true;
-
-      textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+      if (mDownloadTextureIODevice[i])
+        textureUrlDevices[i] = mDownloadTextureIODevice[i];
+      else {
+        textureUrlDevices[i] = new QFile(WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false));
+        if (!textureUrlDevices[i]->open(QIODevice::ReadOnly))
+          throw tr("Texture file not found: '%1'").arg(mUrlFields[i]->item(0));
+      }
     }
 
     if (!allUrlDefined)
@@ -323,7 +365,7 @@ void WbBackground::applySkyBoxToWren() {
 
     bool alpha = false;
     for (int i = 0; i < 6; i++) {
-      QImageReader imageReader(textureUrls[gCoordinateSystemSwap(i)]);
+      QImageReader imageReader(textureUrlDevices[gCoordinateSystemSwap(i)]);
       QSize textureSize = imageReader.size();
 
       if (textureSize.width() != textureSize.height())
@@ -359,6 +401,11 @@ void WbBackground::applySkyBoxToWren() {
 
       lastFile = imageReader.fileName();
     }
+    for (int i = 0; i < 6; i++)
+      if (!mDownloadTextureIODevice[i]) {
+        textureUrlDevices[i]->close();
+        delete textureUrlDevices[i];
+      }
   } catch (QString &error) {
     if (error.length() > 0)
       parsingWarn(error);
@@ -395,12 +442,25 @@ void WbBackground::applySkyBoxToWren() {
     // Actually load the irradiance map.
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
-      QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[gCoordinateSystemSwap(i)]->item(0), false);
-      if (url.isEmpty())
-        throw QString();
-
+      const int j = gCoordinateSystemSwap(i);
+      QIODevice *device = mDownloadTextureIODevice[j + 6];
+      bool shouldDelete = false;
+      if (!device) {
+        QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
+        if (url.isEmpty())
+          throw QString();
+        device = new QFile(url);
+        shouldDelete = true;
+        if (!device->open(QIODevice::ReadOnly))
+          throw tr("Texture file not found: '%1'").arg(mIrradianceUrlFields[j]->item(0));
+      }
+      const QByteArray content = device->readAll();
+      if (shouldDelete) {
+        device->close();
+        delete device;
+      }
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-      float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
+      float *data = stbi_loadf_from_memory((const unsigned char *)content.data(), content.size(), &w, &h, &components, 0);
       const int rotate = gCoordinateSystemRotate(i);
       // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
       if (rotate != 0) {
@@ -480,6 +540,15 @@ void WbBackground::applySkyBoxToWren() {
 
   while (hdrImageData.size() > 0)
     stbi_image_free(hdrImageData.takeFirst());
+
+  for (int i = 0; i < 12; i++) {
+    delete mDownloader[i];
+    mDownloader[i] = NULL;
+    if (mDownloadTextureIODevice[i]) {
+      mDownloadTextureIODevice[i]->deleteLater();
+      mDownloadTextureIODevice[i] = NULL;
+    }
+  }
 }
 
 WbRgb WbBackground::skyColor() const {
