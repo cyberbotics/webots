@@ -1092,11 +1092,18 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!hasBeenSetup())
     return;
 
-  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  QString noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
-    const QString fileName(WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl));
-    if (!fileName.isEmpty()) {
-      const QString error = mWrenCamera->setNoiseMask(fileName.toUtf8().constData());
+    QIODevice *device;
+    if (WbUrl::isWeb(noiseMaskUrl)) {
+      assert(mDownloadNoiseMaskIODevice);
+      device = mDownloadNoiseMaskIODevice;
+    } else {
+      noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+      device = NULL;
+    }
+    if (!noiseMaskUrl.isEmpty()) {
+      const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
       if (!error.isEmpty())
         parsingWarn(error);
     }
