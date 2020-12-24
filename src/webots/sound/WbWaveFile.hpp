@@ -20,6 +20,7 @@
 class WbWaveFile {
 public:
   explicit WbWaveFile(const QString &filename);
+  explicit WbWaveFile(const QString &url, const QByteArray *fileByteArray);
   WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate);
   virtual ~WbWaveFile();
 
@@ -43,7 +44,7 @@ public:
 
 private:
   QString mFilename;
-
+  const QByteArray *mFileByteArray;
   qint16 *mBuffer;
   qint64 mBufferSize;  // number of 'qint16' in the buffer
 

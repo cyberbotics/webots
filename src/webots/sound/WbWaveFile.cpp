@@ -45,6 +45,18 @@ namespace {
 
 WbWaveFile::WbWaveFile(const QString &filename) :
   mFilename(filename),
+  mFileByteArray(NULL),
+  mBuffer(NULL),
+  mBufferSize(0),
+  mNChannels(0),
+  mBitsPerSample(0),
+  mRate(0),
+  mOwnBuffer(false) {
+}
+
+WbWaveFile::WbWaveFile(const QString &url, const QByteArray *fileByteArray) :
+  mFilename(url),
+  mFileByteArray(fileByteArray),
   mBuffer(NULL),
   mBufferSize(0),
   mNChannels(0),
@@ -54,7 +66,8 @@ WbWaveFile::WbWaveFile(const QString &filename) :
 }
 
 WbWaveFile::WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate) :
-  mFilename(""),
+  mFilename(),
+  mFileByteArray(NULL),
   mBuffer(buffer),
   mBufferSize(bufferSize),
   mNChannels(channelNumber),
@@ -200,9 +213,9 @@ void WbWaveFile::loadConvertedFile(int side) {
 }
 
 void WbWaveFile::loadFromFile(int side) {
-  QFileInfo fi(mFilename);
+  const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
 
-  if (fi.suffix() == "wav") {
+  if (suffix == "wav") {
     loadConvertedFile(side);
     return;
   }
@@ -219,21 +232,22 @@ void WbWaveFile::loadFromFile(int side) {
   static QString percentageChar = "%%";
 #endif
 
-  QString outputFilename = WbStandardPaths::webotsTmpPath() + fi.baseName() + ".wav";
+  const QString outputFilename = WbStandardPaths::webotsTmpPath() + "converted_sound.wav";
+  const QString inputFilename = mFilename;
   const QStringList arguments = QStringList() << "-y"
-                                              << "-i" << mFilename << outputFilename << "-sample_fmt"
+                                              << "-i" << inputFilename << outputFilename << "-sample_fmt"
                                               << "s16"
                                               << "-loglevel"
                                               << "quiet";
-  mFilename = outputFilename;
 
   QProcess *conversionProcess = new QProcess();
   conversionProcess->execute(ffmpeg, arguments);
   conversionProcess->waitForFinished(-1);
-
-  loadConvertedFile(side);
   delete conversionProcess;
-  QFile::remove(mFilename);
+
+  mFilename = outputFilename;
+  loadConvertedFile(side);
+  QFile::remove(outputFilename);
 }
 
 void WbWaveFile::convertToMono(double balance) {

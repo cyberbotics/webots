@@ -14,6 +14,7 @@
 
 #include "WbContactProperties.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbUrl.hpp"
@@ -52,6 +53,21 @@ WbContactProperties::WbContactProperties(const WbNode &other) : WbBaseNode(other
 
 WbContactProperties::~WbContactProperties() {
 }
+
+void WbContactProperties::downloadAsset(const QString &url, int index) {
+  if (!WbUrl::isWeb(url))
+    return;
+  mDownloader[index] = new WbDownloader(QUrl(url));
+  connect(mDownloader[index], WbDownloader::complete, this, WbContactProperties::setDownloadIODevice);
+  mDownloader[index]->start();
+}
+
+void WbContactProperties::downloadAssets() {
+  downloadAsset(mBumpSound->value(), 0);
+  downloadAsset(mRollSound->value(), 1);
+  downloadAsset(mSlideSound->value(), 2);
+}
+
 void WbContactProperties::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -63,6 +79,16 @@ void WbContactProperties::preFinalize() {
   updateBumpSound();
   updateRollSound();
   updateSlideSound();
+}
+
+void WbContactProperties::setDownloadIODevice(QIODevice *device) {
+  WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
+  assert(d);
+  for (size_t i = 0; i < 3; i++)
+    if (d == mDownloader[i]) {
+      mDownloadIODevice[i] = device;
+      break;
+    }
 }
 
 void WbContactProperties::postFinalize() {
@@ -169,7 +195,7 @@ void WbContactProperties::updateBumpSound() {
   if (sound.isEmpty())
     mBumpSoundClip = NULL;
   else
-    mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));
+    mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));  // FIXME: , mDownloadIODevice[0]);
   WbSoundEngine::clearAllContactSoundSources();
 }
 

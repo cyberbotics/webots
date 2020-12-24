@@ -22,6 +22,7 @@
 #include "WbSFVector2.hpp"
 
 class WbSoundClip;
+class WbDownloader;
 
 class WbContactProperties : public WbBaseNode {
   Q_OBJECT
@@ -35,6 +36,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONTACT_PROPERTIES; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
 
@@ -75,9 +77,12 @@ private:
   WbSoundClip *mBumpSoundClip;
   WbSoundClip *mRollSoundClip;
   WbSoundClip *mSlideSoundClip;
+  WbDownloader *mDownloader[3];
+  QIODevice *mDownloadIODevice[3];
   WbContactProperties &operator=(const WbContactProperties &);  // non copyable
   WbNode *clone() const override { return new WbContactProperties(*this); }
   void init();
+  void downloadAsset(const QString &url, int index);
 
 private slots:
   void updateCoulombFriction();
@@ -91,6 +96,7 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
+  void setDownloadIODevice(QIODevice *);
 };
 
 #endif

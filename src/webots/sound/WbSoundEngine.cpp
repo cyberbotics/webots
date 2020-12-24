@@ -188,7 +188,7 @@ void WbSoundEngine::updateAfterPhysicsStep() {
   WbMotorSoundManager::update();
 }
 
-WbSoundClip *WbSoundEngine::sound(const QString &filename, double balance, int side) {
+WbSoundClip *WbSoundEngine::sound(const QString &filename, double balance, int side, const QByteArray *data) {
   if (filename.isEmpty())
     return NULL;
   init();

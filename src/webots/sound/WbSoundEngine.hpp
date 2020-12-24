@@ -19,8 +19,10 @@
 // Description: manage sounds
 //
 
-class WbWorld;
 class QString;
+class QByteArray;
+
+class WbWorld;
 class WbSoundClip;
 class WbSoundSource;
 
@@ -35,7 +37,7 @@ namespace WbSoundEngine {
   void deleteSource(WbSoundSource *);
   void stopAllSources();
   // 0: both sides, -1: left only, 1: right only
-  WbSoundClip *sound(const QString &filename, double balance = 0.0, int side = 0);
+  WbSoundClip *sound(const QString &url, double balance = 0.0, int side = 0, const QByteArray *data = 0);
   WbSoundClip *soundFromText(const QString &text, const QString &engine, const QString &language);
   void clearAllMotorSoundSources();
   void clearAllContactSoundSources();
