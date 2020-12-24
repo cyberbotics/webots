@@ -81,7 +81,7 @@ WbWaveFile::~WbWaveFile() {
     free(mBuffer);
 }
 
-void WbWaveFile::loadConvertedFile(int side) {
+void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   FILE *soundFile = NULL;
 
   if (mBuffer != NULL)
@@ -94,7 +94,7 @@ void WbWaveFile::loadConvertedFile(int side) {
   mRate = 0;
 
   try {
-    QFileInfo fi(mFilename);
+    QFileInfo fi(filename);
 
     if (!fi.exists())
       throw QObject::tr("File doesn't exist");
@@ -102,7 +102,7 @@ void WbWaveFile::loadConvertedFile(int side) {
     if (fi.suffix() != "wav")
       throw QObject::tr("Unsupported file format").arg(fi.suffix());
 
-    soundFile = fopen(mFilename.toUtf8(), "rb");
+    soundFile = fopen(filename.toUtf8(), "rb");
     if (!soundFile)
       throw QObject::tr("Cannot open file");
 
@@ -216,7 +216,7 @@ void WbWaveFile::loadFromFile(int side) {
   const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
 
   if (suffix == "wav") {
-    loadConvertedFile(side);
+    loadConvertedFile(side, mFilename);
     return;
   }
 
@@ -232,8 +232,16 @@ void WbWaveFile::loadFromFile(int side) {
   static QString percentageChar = "%%";
 #endif
 
-  const QString outputFilename = WbStandardPaths::webotsTmpPath() + "converted_sound.wav";
-  const QString inputFilename = mFilename;
+  const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";
+  QString inputFilename;
+  if (mFileByteArray) {
+    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + suffix;
+    QFile input(inputFilename);
+    input.open(QFile::WriteOnly);
+    input.write(*mFileByteArray);
+    input.close();
+  } else
+    inputFilename = mFilename;
   const QStringList arguments = QStringList() << "-y"
                                               << "-i" << inputFilename << outputFilename << "-sample_fmt"
                                               << "s16"
@@ -245,8 +253,10 @@ void WbWaveFile::loadFromFile(int side) {
   conversionProcess->waitForFinished(-1);
   delete conversionProcess;
 
-  mFilename = outputFilename;
-  loadConvertedFile(side);
+  if (mFileByteArray)
+    QFile::remove(inputFilename);
+
+  loadConvertedFile(side, outputFilename);
   QFile::remove(outputFilename);
 }
 

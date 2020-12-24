@@ -26,7 +26,7 @@ public:
 
   void loadFromFile(int side = 0);
 
-  void loadConvertedFile(int side);
+  void loadConvertedFile(int side, const QString &filename);
 
   // balance: -1 = only left, +1 = only right
   void convertToMono(double balance = 0);
