@@ -460,7 +460,7 @@ void WbBackground::applySkyBoxToWren() {
         delete device;
       }
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-      float *data = stbi_loadf_from_memory((const unsigned char *)content.data(), content.size(), &w, &h, &components, 0);
+      float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &w, &h, &components, 0);
       const int rotate = gCoordinateSystemRotate(i);
       // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
       if (rotate != 0) {

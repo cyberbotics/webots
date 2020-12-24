@@ -64,7 +64,8 @@ void WbShape::downloadAssets() {
   WbBaseNode::downloadAssets();
   if (abstractAppearance())
     abstractAppearance()->downloadAssets();
-  // if (geometry()) geometry()->downloadAssets(); FIXME: for Meshes
+  if (geometry())
+    geometry()->downloadAssets();
 }
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();

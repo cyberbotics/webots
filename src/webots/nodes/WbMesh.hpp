@@ -17,6 +17,7 @@
 
 #include "WbTriangleMeshGeometry.hpp"
 
+class WbDownloader;
 class WbMFString;
 
 class WbMesh : public WbTriangleMeshGeometry {
@@ -33,6 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MESH; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createResizeManipulator() override;
@@ -48,6 +50,8 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbDownloader *mDownloader;
+  QIODevice *mDownloadIODevice;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
@@ -55,6 +59,7 @@ private:
 
 private slots:
   void updateUrl();
+  void setDownloadIODevice(QIODevice *device);
 };
 
 #endif

@@ -94,6 +94,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return "";
   }
 
+  if (WbUrl::isWeb(url))
+    return url;
+
   // check if the url is an absolute path
   if (QDir::isAbsolutePath(url)) {
     const QString path = QDir::cleanPath(url);

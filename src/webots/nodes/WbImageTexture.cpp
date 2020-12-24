@@ -78,6 +78,7 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 }
 
 WbImageTexture::~WbImageTexture() {
+  delete mDownloader;
   if (mDownloadIODevice)
     mDownloadIODevice->deleteLater();
   destroyWrenTexture();

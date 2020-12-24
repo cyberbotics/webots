@@ -14,6 +14,7 @@
 
 #include "WbMesh.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
@@ -25,8 +26,9 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
-
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
+  mDownloader = NULL;
+  mDownloadIODevice = NULL;
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -42,6 +44,24 @@ WbMesh::WbMesh(const WbNode &other) : WbTriangleMeshGeometry(other) {
 }
 
 WbMesh::~WbMesh() {
+  delete mDownloader;
+  if (mDownloadIODevice)
+    mDownloadIODevice->deleteLater();
+}
+
+void WbMesh::downloadAssets() {
+  if (mUrl->size() == 0)
+    return;
+  const QString &url(mUrl->item(0));
+  if (WbUrl::isWeb(url)) {
+    mDownloader = new WbDownloader(QUrl(url));
+    connect(mDownloader, WbDownloader::complete, this, WbMesh::setDownloadIODevice);
+    mDownloader->start();
+  }
+}
+
+void WbMesh::setDownloadIODevice(QIODevice *device) {
+  mDownloadIODevice = device;
 }
 
 void WbMesh::preFinalize() {
@@ -69,9 +89,20 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS |
                                                         aiComponent_MATERIALS);
-  const aiScene *scene = importer.ReadFile(
-    filePath.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
+  const aiScene *scene;
+  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+  if (WbUrl::isWeb(filePath)) {
+    assert(mDownloadIODevice);
+    const QByteArray data = mDownloadIODevice->readAll();
+    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+    mDownloadIODevice->deleteLater();
+    mDownloadIODevice = NULL;
+    delete mDownloader;
+    mDownloader = NULL;
+  } else
+    scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
