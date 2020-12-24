@@ -130,7 +130,7 @@ void WbCamera::init() {
   mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
-  mDownloadNoiseMaskIODevice = NULL;
+  mDownloadIODevice = NULL;
   mDownloader = NULL;
 }
 
@@ -154,21 +154,21 @@ WbCamera::~WbCamera() {
   delete mSegmentationCamera;
   delete mSegmentationShm;
   delete mDownloader;
-  if (mDownloadNoiseMaskIODevice)
-    mDownloadNoiseMaskIODevice->deleteLater();
+  if (mDownloadIODevice)
+    mDownloadIODevice->deleteLater();
 }
 
 void WbCamera::downloadAssets() {
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
     mDownloader = new WbDownloader(QUrl(noiseMaskUrl));
-    connect(mDownloader, WbDownloader::complete, this, WbCamera::setDownloadNoiseMaskIODevice);
+    connect(mDownloader, WbDownloader::complete, this, WbCamera::setDownloadIODevice);
     mDownloader->start();
   }
 }
 
-void WbCamera::setDownloadNoiseMaskIODevice(QIODevice *device) {
-  mDownloadNoiseMaskIODevice = device;
+void WbCamera::setDownloadIODevice(QIODevice *device) {
+  mDownloadIODevice = device;
 }
 
 void WbCamera::preFinalize() {
@@ -1096,8 +1096,8 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     QIODevice *device;
     if (WbUrl::isWeb(noiseMaskUrl)) {
-      assert(mDownloadNoiseMaskIODevice);
-      device = mDownloadNoiseMaskIODevice;
+      assert(mDownloadIODevice);
+      device = mDownloadIODevice;
     } else {
       noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
       device = NULL;

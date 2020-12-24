@@ -133,7 +133,7 @@ private:
   bool mSegmentationImageReady;
   // URL downloader
   WbDownloader *mDownloader;
-  QIODevice *mDownloadNoiseMaskIODevice;
+  QIODevice *mDownloadIODevice;
 
 private slots:
   void updateFocus();
@@ -153,7 +153,7 @@ private slots:
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
-  void setDownloadNoiseMaskIODevice(QIODevice *device);
+  void setDownloadIODevice(QIODevice *device);
 };
 
 #endif  // WB_CAMERA_HPP

@@ -88,7 +88,7 @@ void WbBackground::init() {
   }
   for (int i = 0; i < 12; ++i) {
     mDownloader[i] = NULL;
-    mDownloadTextureIODevice[i] = NULL;
+    mDownloadIODevice[i] = NULL;
   }
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
@@ -164,8 +164,8 @@ WbBackground::~WbBackground() {
   wr_static_mesh_delete(mHdrClearMesh);
 
   for (int i = 0; i < 12; ++i) {
-    if (mDownloadTextureIODevice[i])
-      mDownloadTextureIODevice[i]->deleteLater();
+    if (mDownloadIODevice[i])
+      mDownloadIODevice[i]->deleteLater();
   }
 }
 
@@ -173,7 +173,7 @@ void WbBackground::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url))
     return;
   mDownloader[index] = new WbDownloader(QUrl(url));
-  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::setDownloadTextureIODevice);
+  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::setDownloadIODevice);
   mDownloader[index]->start();
 }
 
@@ -187,12 +187,12 @@ void WbBackground::downloadAssets() {
   }
 }
 
-void WbBackground::setDownloadTextureIODevice(QIODevice *device) {
+void WbBackground::setDownloadIODevice(QIODevice *device) {
   WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
   assert(d);
   for (size_t i = 0; i < 12; i++)
     if (d == mDownloader[i]) {
-      mDownloadTextureIODevice[i] = device;
+      mDownloadIODevice[i] = device;
       break;
     }
 }
@@ -349,8 +349,8 @@ void WbBackground::applySkyBoxToWren() {
         continue;
       } else
         atLeastOneUrlDefined = true;
-      if (mDownloadTextureIODevice[i])
-        textureUrlDevices[i] = mDownloadTextureIODevice[i];
+      if (mDownloadIODevice[i])
+        textureUrlDevices[i] = mDownloadIODevice[i];
       else {
         textureUrlDevices[i] = new QFile(WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false));
         if (!textureUrlDevices[i]->open(QIODevice::ReadOnly))
@@ -402,7 +402,7 @@ void WbBackground::applySkyBoxToWren() {
       lastFile = imageReader.fileName();
     }
     for (int i = 0; i < 6; i++)
-      if (!mDownloadTextureIODevice[i]) {
+      if (!mDownloadIODevice[i]) {
         textureUrlDevices[i]->close();
         delete textureUrlDevices[i];
       }
@@ -443,7 +443,7 @@ void WbBackground::applySkyBoxToWren() {
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
       const int j = gCoordinateSystemSwap(i);
-      QIODevice *device = mDownloadTextureIODevice[j + 6];
+      QIODevice *device = mDownloadIODevice[j + 6];
       bool shouldDelete = false;
       if (!device) {
         QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
@@ -544,9 +544,9 @@ void WbBackground::applySkyBoxToWren() {
   for (int i = 0; i < 12; i++) {
     delete mDownloader[i];
     mDownloader[i] = NULL;
-    if (mDownloadTextureIODevice[i]) {
-      mDownloadTextureIODevice[i]->deleteLater();
-      mDownloadTextureIODevice[i] = NULL;
+    if (mDownloadIODevice[i]) {
+      mDownloadIODevice[i]->deleteLater();
+      mDownloadIODevice[i] = NULL;
     }
   }
 }
