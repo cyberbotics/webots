@@ -178,7 +178,6 @@ void WbBackground::downloadAsset(const QString &url, int index) {
 }
 
 void WbBackground::downloadAssets() {
-  WbBaseNode::downloadAssets();
   for (size_t i = 0; i < 6; i++) {
     if (mUrlFields[i]->size())
       downloadAsset(mUrlFields[i]->item(0), i);
