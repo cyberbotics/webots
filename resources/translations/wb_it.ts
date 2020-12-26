@@ -212,7 +212,7 @@
     </message>
     <message>
         <source>reset</source>
-        <translation>resetta</translation>
+        <translation>ripristina</translation>
     </message>
     <message>
         <source>rescale</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>End of file reached while a token is expected</source>
-        <translation>Fine del file raggiunta sebbene un token sia previsto</translation>
+        <translation>Fine del file raggiunta sebbene un simbolo sia previsto</translation>
     </message>
     <message>
         <source>The mass ratio between the heaviest solid (&apos;%1&apos; - mass = %2 kg) and the lightest solid (&apos;%3&apos; - mass = %4 kg) is huge. This is a source of physics instabilities.</source>
@@ -392,7 +392,7 @@
     </message>
     <message>
         <source>&apos;IS&apos; keyword is only allowed in .proto files</source>
-        <translation>la parola chiave &apos;IS&apos; è permessa solo in files .proto</translation>
+        <translation>la parola chiave &apos;IS&apos; è permessa solo in file .proto</translation>
     </message>
     <message>
         <source>parameter name or &apos;}&apos;</source>
@@ -404,11 +404,11 @@
     </message>
     <message>
         <source>&apos;%1&apos;: error: Missing header.</source>
-        <translation>errore &apos;%1&apos;: Intestazione mancante.</translation>
+        <translation>&apos;%1&apos;: errore : Intestazione mancante.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: This file was created by Webots %2 while you are using Webots %3. Forward compatibility may not work.</source>
-        <translation>Il file &apos;%1&apos; è stato creato da Webots %2 e stai usando Webots %3. Compatibilità con versioni successive potrebbe non funzionare.</translation>
+        <translation>Il file &apos;%1&apos; è stato creato da Webots %2 e stai usando Webots %3. La compatibilità con versioni successive potrebbe non funzionare.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: Invalid header.</source>
@@ -428,7 +428,7 @@
     </message>
     <message>
         <source>Invalid token &quot;%1&quot;</source>
-        <translation>Token &quot;%1&quot; invalido</translation>
+        <translation>Simbolo &quot;%1&quot; invalido</translation>
     </message>
     <message>
         <source>&apos;%1&apos;:%2:%3: error: %4.</source>
@@ -460,7 +460,7 @@
     </message>
     <message>
         <source>%1 node cannot be inserted at the top level of the node hierarchy.</source>
-        <translation>il nodo %1 non può essere inserito al livello superiore della gerarchia dei nodi.</translation>
+        <translation>Il nodo %1 non può essere inserito al livello superiore della gerarchia dei nodi.</translation>
     </message>
     <message>
         <source>heaviest solid</source>
@@ -472,11 +472,11 @@
     </message>
     <message>
         <source>Cannot create the Webots temporary directory &quot;%1&quot;</source>
-        <translation>Impossibile creare la directory temporanea Webots &quot;%1&quot;</translation>
+        <translation>Impossibile creare la cartella temporanea Webots &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Cannot create a directory in the Webots temporary directory &quot;%1&quot;</source>
-        <translation>Impossibile creare una directory nella directory temporanea di Webots &quot;%1&quot;</translation>
+        <translation>Impossibile creare una cartella nella cartella temporanea di Webots &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Deprecated &apos;%1&apos;, please use &apos;%2&apos; node instead</source>
@@ -665,15 +665,15 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
     </message>
     <message>
         <source>First item of &apos;%1&apos; field expected to be a file but is a directory.</source>
-        <translation>Il primo elemento del campo &apos;%1&apos; è supposto essere un file ma è invece una directory.</translation>
+        <translation>Il primo elemento del campo &apos;%1&apos; deve essere un file ma è invece una cartella.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; expected to be a file but is a directory.</source>
-        <translation>&apos;%1&apos; previsto essere un file ma è una directory.</translation>
+        <translation>&apos;%1&apos; previsto essere un file ma è una cartella.</translation>
     </message>
     <message>
         <source>Expected VRML97 type but found &apos;%2&apos;</source>
-        <translation>Previsto un tipo VRML97 ma trovato &apos;%2&apos;</translation>
+        <translation>Previsto formato VRML97 ma trovato &apos;%2&apos;</translation>
     </message>
     <message>
         <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; or &apos;hiddenField&apos; keywords</source>
@@ -813,7 +813,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
-        <translation>Valore invalido di &apos;fieldOfView&apos; cambiato a 0.7854. Il campo visivo è limitato a pi se il campo &apos;spherical&apos;è FALSO.</translation>
+        <translation>Valore invalido di &apos;fieldOfView&apos; cambiato a 0.7854. Il campo visivo è limitato a pi se il campo &apos;spherical&apos; è FALSO.</translation>
     </message>
 </context>
 <context>
@@ -1067,7 +1067,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Pause the simulation. (%1+0)</source>
-        <translation>Pausa la simulazione. (%1+0)</translation>
+        <translation>Metti in pausa la simulazione. (%1+0)</translation>
     </message>
     <message>
         <source>Execute one simulation step. (%1+1)</source>
@@ -1193,7 +1193,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Reset Simulation</source>
-        <translation>Resetta Simulazione</translation>
+        <translation>Azzera Simulazione</translation>
     </message>
     <message>
         <source>&amp;Perspective Projection</source>
@@ -1405,7 +1405,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Restore &amp;Viewpoint</source>
-        <translation>Restora &amp;Punto di Vista</translation>
+        <translation>Ripristina &amp;Punto di Vista</translation>
     </message>
     <message>
         <source>Restore the initial Viewpoint position and orientation. (CTRL + SHIFT + V)</source>
@@ -1774,11 +1774,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>This folder lists all suitable PROTO nodes from the local &apos;protos&apos; directory: &apos;%1&apos;.</source>
-        <translation>Questa cartella elenca tutti i nodi PROTO idonei della directory locale &apos;protos&apos;: &apos;%1&apos;.</translation>
+        <translation>Questa sezione elenca tutti i nodi PROTO idonei della cartella locale &apos;protos&apos;: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>This folder lists all suitable PROTO nodes provided by Webots.</source>
-        <translation>Questa cartella elenca tutti i nodi PROTO idonei forniti da Webots.</translation>
+        <translation>Questa sezione elenca tutti i nodi PROTO idonei forniti da Webots.</translation>
     </message>
     <message>
         <source>The icon file &apos;%1&apos; does not exactly match the PROTO name. Expected &apos;%2.png&apos;</source>
@@ -1818,11 +1818,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>PROTO nodes (Current Project)</source>
-        <translation>nodi PROTO (Progetto Corrente)</translation>
+        <translation>Nodi PROTO (Progetto Corrente)</translation>
     </message>
     <message>
         <source>PROTO nodes (Extra Projects)</source>
-        <translation>nodi PROTO (Progetti Aggiuntivi)</translation>
+        <translation>Nodi PROTO (Progetti Aggiuntivi)</translation>
     </message>
     <message>
         <source>Node not available because another project PROTO model with the same name already exists in your local project.</source>
@@ -1841,7 +1841,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Error when stopping the HTML5 animation recording: &apos;%1&apos;</source>
-        <translation>Errore nel interrompere la registrazione dell&apos;animazione HTML5: &apos;%1&apos;</translation>
+        <translation>Errore nell&apos;interrompere la registrazione dell&apos;animazione HTML5: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>HTML5 animation recorder is enabled.</source>
@@ -1859,7 +1859,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>HTML5 export failed</source>
-        <translation>esportazione HTML5 fallita</translation>
+        <translation>Esportazione HTML5 fallita</translation>
     </message>
     <message>
         <source>Error when starting the HTML5 animation recording: &apos;%1&apos;</source>
@@ -1868,7 +1868,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     <message>
         <source>HTML5 animation successfully exported in &apos;%1&apos;
 </source>
-        <translation>animazione HTML5 esportata con successo in &apos;%1&apos;
+        <translation>Animazione HTML5 esportata con successo in &apos;%1&apos;
 </translation>
     </message>
     <message>
@@ -1888,7 +1888,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Could not create a symbolic link of dynamic library: &apos;%1&apos;.</source>
-        <translation>Impossibile creare link simbolico della libreria dinamica: &apos;%1&apos;.</translation>
+        <translation>Impossibile creare un link simbolico della libreria dinamica: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>&apos;%1&apos;: Failed to load due to invalid token(s).</source>
@@ -1900,7 +1900,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Reading world file </source>
-        <translation>Lettura del scenario</translation>
+        <translation>Lettura dello scenario</translation>
     </message>
     <message>
         <source>Parsing world</source>
@@ -1908,7 +1908,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Could not open file: &apos;%1&apos;. The world file extension must be &apos;.wbt&apos;.</source>
-        <translation>Impossibile aprire il file &apos;%1&apos;. Il file del scenario deve avere estensione &apos;.wbt&apos;.</translation>
+        <translation>Impossibile aprire il file &apos;%1&apos;. Il file dello scenario deve avere l&apos;estensione &apos;.wbt&apos;.</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1950,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Axes are aligned: using x and z axes instead.</source>
-        <translation>Gli assi sono allineati: utilizzo gli assi x e z invece.</translation>
+        <translation>Gli assi sono allineati: verranno utilizzati gli assi x e z.</translation>
     </message>
     <message>
         <source>Exporting &apos;BallJoint&apos; nodes to URDF is currently not supported</source>
@@ -2070,7 +2070,7 @@ The path to this Webots project contains non 8-bit characters. Webots won&apos;t
     </message>
     <message>
         <source>Reset</source>
-        <translation>Resetta</translation>
+        <translation>Azzera</translation>
     </message>
 </context>
 <context>
@@ -2107,7 +2107,7 @@ Posizione relativa: %1 %2 %3</translation>
         <source>
 Relative orientation: %1 %2 %3 %4</source>
         <translation>
-Orientazione relativa: %1 %2 %3 %4</translation>
+Orientamento relativo: %1 %2 %3 %4</translation>
     </message>
     <message>
         <source>
@@ -2241,7 +2241,7 @@ Colore %1: %2 %3 %4</translation>
     <name>WbContactProperties</name>
     <message>
         <source>If not set to -1 (infinity), &apos;coulombFriction&apos; must be non-negative. Field value reset to 1</source>
-        <translation>Se non impostato a -1 (infinito), &apos;coulombFriction&apos; deve essere positivo. Valore del campo rimesso a 1</translation>
+        <translation>Se non impostato a -1 (infinito), &apos;coulombFriction&apos; deve essere positivo o zero. Valore del campo rimesso a 1</translation>
     </message>
     <message>
         <source>&apos;coulombFriction&apos; must have between one and four elements</source>
@@ -2276,11 +2276,11 @@ Colore %1: %2 %3 %4</translation>
     </message>
     <message>
         <source>Terminating extern controller for robot &quot;%1&quot;.</source>
-        <translation>Termine del controllore esterno per il robot &quot;%1&quot;.</translation>
+        <translation>Interruzione del controllore esterno per il robot &quot;%1&quot;.</translation>
     </message>
     <message>
         <source>Terminating controller &quot;%1&quot;.</source>
-        <translation>Termine del controllore &quot;%1&quot;.</translation>
+        <translation>Interruzione del controllore &quot;%1&quot;.</translation>
     </message>
 </context>
 <context>
@@ -2385,7 +2385,7 @@ Starts the void controller instead.</source>
     </message>
     <message>
         <source>%1: Forced termination (because process didn&apos;t terminate itself after 1 second).</source>
-        <translation>%1: Terminazione forzata (il processo non si è terminato da solo dopo 1 secondo).</translation>
+        <translation>%1: Interruzione forzata (il processo non è terminato da solo dopo 1 secondo).</translation>
     </message>
     <message>
         <source>Unable to find the &apos;%1&apos; executable in the current PATH. Please check your %1 installation. It should be possible to launch %1 from a terminal by typing &apos;%1&apos;. It may be necessary to add the %1 bin directory to your PATH environment variable. More information about the %1 installation is available in Webots&apos; User guide.</source>
@@ -3265,7 +3265,7 @@ The following file formats are supported:
     <name>WbLidar</name>
     <message>
         <source>&apos;type&apos; should either be &apos;fixed&apos; or &apos;rotating&apos;, reset to &apos;fixed&apos;</source>
-        <translation type="unfinished">&apos;type&apos; deve essere &apos;fixed&apos; oppure &apos;rotating&apos;, rimesso a &apos;fixed&apos;^</translation>
+        <translation type="unfinished">&apos;type&apos; deve essere &apos;fixed&apos; oppure &apos;rotating&apos;, rimesso a &apos;fixed&apos;</translation>
     </message>
     <message>
         <source>&apos;minFrequency&apos; should be smaller or equal to &apos;maxFrequency&apos;.</source>
@@ -3317,7 +3317,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&apos;maxRange&apos; is less or equal to &apos;minRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
-        <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostatto a %1.</translation>
+        <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>Impossible to have a so big &apos;numberOfLayers&apos; unsing this &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * M_PI). &apos;numberOfLayers&apos; set to %1.</source>
@@ -3411,7 +3411,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Tools</source>
-        <translation>&amp;Strumenti</translation>
+        <translation>S&amp;trumenti</translation>
     </message>
     <message>
         <source>Restore &amp;Layout</source>
@@ -3631,7 +3631,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Opening world file</source>
-        <translation>Apertura del scenario</translation>
+        <translation>Apertura dello scenario</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3755,7 +3755,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>No virtual reality headset connected.</source>
-        <translation>Nessun visore per realtà virtuale connesso.</translation>
+        <translation>Nessun visore di realtà virtuale connesso.</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:
@@ -3920,7 +3920,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Watch the latest Webots movies on YouTube.</source>
-        <translation>Guarda gli ultimi video Webots su YouTube.</translation>
+        <translation>Guarda gli ultimi video di Webots su YouTube.</translation>
     </message>
     <message>
         <source>Follow Cyberbotics on &amp;LinkedIn...</source>
@@ -4020,11 +4020,11 @@ The following file formats are supported:
     </message>
     <message>
         <source>&apos;controlI&apos; (currently %1) must be non-negative.</source>
-        <translation>&apos;controlI&apos; (attualmente %1) deve essere positivo.</translation>
+        <translation>&apos;controlI&apos; (attualmente %1) deve essere positivo o zero.</translation>
     </message>
     <message>
         <source>&apos;controlD&apos; (currently %1) must be non-negative.</source>
-        <translation>&apos;controlD&apos; (attualmente %1) deve essere positivo.</translation>
+        <translation>&apos;controlD&apos; (attualmente %1) deve essere positivo o zero.</translation>
     </message>
     <message>
         <source>wb_motor_enable_force_feedback(): cannot be invoked for a Joint with no end point.</source>
@@ -4161,7 +4161,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>IDE selection</source>
-        <translation>selezione IDE</translation>
+        <translation>Selezione IDE</translation>
     </message>
     <message>
         <source>Please choose the Integrated Development Environment (IDE) for your controller program.</source>
@@ -4181,7 +4181,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
-        <translation>Apri &apos;%1.sln&apos; in Microsoft Visual Studio (il controllore deve essere impostato come &lt;&lt;extern&gt;&gt; per poter essere lanciato da Microsoft Visual Studio)</translation>
+        <translation>Apri &apos;%1.sln&apos; in Microsoft Visual Studio (il controllore deve essere impostato come &lt;&lt;extern&gt;&gt; per poter essere lanciato da Microsoft Visual Studio).</translation>
     </message>
 </context>
 <context>
@@ -4295,7 +4295,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Please sepecify a world name.</source>
-        <translation>Specifica un nome per il scenario.</translation>
+        <translation>Specifica un nome per lo scenario.</translation>
     </message>
     <message>
         <source>Invalid new world name</source>
@@ -4400,7 +4400,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>3D tools:</source>
-        <translation>strumenti 3D:</translation>
+        <translation>Strumenti 3D:</translation>
     </message>
     <message>
         <source>show resize handles</source>
@@ -4464,7 +4464,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>&apos;inertiaMatrix&apos; must have exactly 0 or 2 lines. Extra lines skipped.</source>
-        <translation>&apos;inertiaMatrix&apos; deve avere esattamente 0 o 2 linee. Extra linee saltate.</translation>
+        <translation>&apos;inertiaMatrix&apos; deve avere esattamente 0 o 2 linee. Le linee aggiuntive saranno saltate.</translation>
     </message>
     <message>
         <source>Either the &apos;mass&apos; or the &apos;density&apos; must be specified.</source>
@@ -4476,7 +4476,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>&apos;centerOfMass&apos; must have exactly 0 or 1 line. Extra lines skipped.</source>
-        <translation>&apos;centerOfMass&apos; deve avere esattamente 0 o 1 linea. Extra linee saltate.</translation>
+        <translation>&apos;centerOfMass&apos; deve avere esattamente 0 o 1 linea. Le linee aggiuntive saranno saltate.</translation>
     </message>
     <message>
         <source>The first line of &apos;inertiaMatrix&apos; (principal moments of inertia) must have only positive values.</source>
@@ -4771,7 +4771,7 @@ ad ogni avvio. Se disponibile, ne sarai informato.</translation>
     </message>
     <message>
         <source>Python command:</source>
-        <translation>Comando python:</translation>
+        <translation>Comando Python:</translation>
     </message>
     <message>
         <source>Network Proxy</source>
@@ -4834,7 +4834,7 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Send technical data to Webots developers</source>
-        <translation>Invia dati tecnici agli sviluppatori Webots</translation>
+        <translation>Invia dati tecnici agli sviluppatori di Webots</translation>
     </message>
     <message>
         <source>Low</source>
@@ -4862,7 +4862,7 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project.</source>
-        <translation>Progetti extra possono includere PROTOs, controllori, plugin, etc che puoi usare nel progetto corrente.</translation>
+        <translation>Progetti extra possono includere PROTO, controllori, plugin, ecc. che puoi usare nel progetto corrente.</translation>
     </message>
     <message>
         <source>Extra projects path:</source>
@@ -5187,7 +5187,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>The controller directory has not been found, searched the following locations:</source>
-        <translation>La directory del controllore non è stata trovata, ho cercato nei luoghi seguenti:</translation>
+        <translation>La cartella del controllore non è stata trovata, ho cercato nei luoghi seguenti:</translation>
     </message>
     <message>
         <source>The robot &apos;window&apos; cannot be modified after the controller is initialized.</source>
@@ -5315,7 +5315,7 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
-        <translation type="unfinished">Non mostrare più questa finestra di dialogo(puoi riattivarla nelle preferenze)</translation>
+        <translation type="unfinished">Non mostrare più questa finestra di dialogo (puoi riattivarla nelle preferenze)</translation>
     </message>
     <message>
         <source>Save before reloading the world?</source>
@@ -5542,7 +5542,7 @@ Desideri aprirlo ora?</translation>
     </message>
     <message>
         <source>Folder &apos;%1&apos; doesn&apos;t contain any valid PROTO file.</source>
-        <translation>Cartella &apos;%1&apos; non contiene nessun file PROTO valido.</translation>
+        <translation>La cartella &apos;%1&apos; non contiene nessun file PROTO valido.</translation>
     </message>
     <message>
         <source>    Display this help message and exit.</source>
@@ -5814,7 +5814,7 @@ Please save the current world to get rid of this message.</source>
     <name>WbSpeaker</name>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
-        <translation>Impossibile cambiare directory a: &apos;%1&apos;</translation>
+        <translation>Impossibile cambiare cartella a: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Sound file &apos;%1&apos; not found. The sound file should be defined relatively to the controller, the PROTO or absolutely.
@@ -5960,7 +5960,7 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively be used with a Solid</source>
-        <translation>wb_supervisor_node_get_number_of_contact_points() e wb_supervisor_node_get_contact_point() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
+        <translation>wb_supervisor_node_get_number_of_contact_points() e wb_supervisor_node_get_contact_point() possono essere utilizzati esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
         <source>wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid</source>
@@ -6023,7 +6023,7 @@ Please save the current world to get rid of this message.</source>
     <name>WbTemplateEngine</name>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
-        <translation>Impossibile cambiare directory a: &apos;%1&apos;</translation>
+        <translation>Impossibile cambiare cartella a: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Installation error: Lua resources are not found</source>
@@ -6098,7 +6098,7 @@ Desideri salvarlo prima di chiudere?</translation>
     </message>
     <message>
         <source>Text Editor</source>
-        <translation>Editore Testo</translation>
+        <translation>Editor di Testo</translation>
     </message>
 </context>
 <context>
@@ -6169,7 +6169,7 @@ Desideri salvarlo prima di chiudere?</translation>
     <name>WbVelocityViewer</name>
     <message>
         <source>Select relatively to which solid the velocity should be measured</source>
-        <translation>Seleziona relativo a quale solido la velocità deve essere misurata</translation>
+        <translation>Seleziona relativamente a quale solido la velocità deve essere misurata</translation>
     </message>
     <message>
         <source>Linear velocity:</source>
@@ -6196,7 +6196,7 @@ Desideri salvarlo prima di chiudere?</translation>
     <name>WbVideoRecorder</name>
     <message>
         <source>Video recording starts when you run a simulation...</source>
-        <translation>La registrazione del video inizia quando la simulazione verrà lanciata...</translation>
+        <translation>La registrazione del video inizia quando la simulazione viene eseguita...</translation>
     </message>
     <message>
         <source>Creating video...</source>
@@ -6204,7 +6204,7 @@ Desideri salvarlo prima di chiudere?</translation>
     </message>
     <message>
         <source>Save Video</source>
-        <translation>Salva video</translation>
+        <translation>Salva Video</translation>
     </message>
     <message>
         <source>Videos (*%1)</source>
@@ -6319,7 +6319,7 @@ Desideri mostrarlo?
     </message>
     <message>
         <source>You can try to re-activate some OpenGL features from the Webots preferences.</source>
-        <translation>Puoi tentare di riattivare alcune caratteristiche OpenGL nelle preferenze Webots.</translation>
+        <translation>Puoi tentare di riattivare alcune opzioni OpenGL nelle preferenze Webots.</translation>
     </message>
     <message>
         <source>If there are some 3D rendering issues, you can try to reduce some OpenGL features from the Webots preferences.</source>
@@ -6393,11 +6393,11 @@ Desideri mostrarlo?
     <name>WbVirtualRealityHeadset</name>
     <message>
         <source>Cannot find virtual reality headset. Please install SteamVR, launch it, and check virtual reality headset USB and HDMI connection.</source>
-        <translation>Impossibile trovare visore a realtà virtuale. Per favore installa SteamVR, lancialo, e controlla la connessione USB e HDMI del visore a realtà virtuale.</translation>
+        <translation>Impossibile trovare visore di realtà virtuale. Per favore installa SteamVR, lancialo, e controlla la connessione USB e HDMI del visore di realtà virtuale.</translation>
     </message>
     <message>
         <source>Error while initializing the virtual reality headset: &apos;%1&apos;</source>
-        <translation>Errore nell&apos;inizializzare il visore a realtà virtuale: &apos;%1&apos;</translation>
+        <translation>Errore nell&apos;inizializzare il visore di realtà virtuale: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Error while initializing the virtual reality headset compositor system.</source>
@@ -6424,11 +6424,11 @@ Desideri mostrarlo?
     </message>
     <message>
         <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
-        <translation>Non mostrare più questa finestra di dialogo(puoi riattivarla nelle preferenze)</translation>
+        <translation>Non mostrare più questa finestra di dialogo (puoi riattivarla nelle preferenze)</translation>
     </message>
     <message>
         <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</source>
-        <translation>&lt;b&gt;Una nuova versione di Webots è disponibile.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 è disponibile per il download (stai usando attualmente Webots %2).&lt;br/&gt;Scarica la nuova versione: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</translation>
+        <translation>&lt;b&gt;Una nuova versione di Webots è disponibile.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 è disponibile per il download (stai usando attualmente Webots %2).&lt;br/&gt;Scarica la nuova versione: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Controlla il changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
