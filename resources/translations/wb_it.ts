@@ -839,7 +839,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Save World &amp;As...</source>
-        <translation>Salva Scenario Con &amp;Nome...</translation>
+        <translation>&amp;Salva Scenario Con Nome...</translation>
     </message>
     <message>
         <source>Save the current world file with a new name.</source>
@@ -855,7 +855,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>St&amp;ep</source>
-        <translation>&amp;Passo</translation>
+        <translation>Pa&amp;sso</translation>
     </message>
     <message>
         <source>&amp;Fast</source>
@@ -895,7 +895,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;New Text File</source>
-        <translation>&amp;Nuovo File di Testo</translation>
+        <translation>Nuovo &amp;File di Testo</translation>
     </message>
     <message>
         <source>Create a new text file.</source>
@@ -903,7 +903,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Open Text File...</source>
-        <translation>&amp;Apri File di Testo...</translation>
+        <translation>Apri File di &amp;Testo...</translation>
     </message>
     <message>
         <source>Open an existing text file.</source>
@@ -919,7 +919,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Save Text File &amp;As...</source>
-        <translation>Salva File di Testo &amp;Come...</translation>
+        <translation>Salva File di Testo C&amp;ome...</translation>
     </message>
     <message>
         <source>Save the current text file with a new name.</source>
@@ -935,7 +935,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Revert Text File</source>
-        <translation>&amp;Ripristina File di Testo</translation>
+        <translation>Ripristina Fi&amp;le di Testo</translation>
     </message>
     <message>
         <source>Revert the current text file.</source>
@@ -967,7 +967,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Replace...</source>
-        <translation>&amp;Sostituisci...</translation>
+        <translation>S&amp;ostituisci...</translation>
     </message>
     <message>
         <source>Replace text in current file.</source>
@@ -1007,7 +1007,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Print...</source>
-        <translation>&amp;Stampa...</translation>
+        <translation>Sta&amp;mpa...</translation>
     </message>
     <message>
         <source>Print text file.</source>
@@ -1015,7 +1015,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Print Preview...</source>
-        <translation>&amp;Anteprima di Stampa...</translation>
+        <translation>Anteprima &amp;di Stampa...</translation>
     </message>
     <message>
         <source>Preview of printed text file.</source>
@@ -1023,7 +1023,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Open Sample World...</source>
-        <translation>&amp;Apri Scenario Predefinito...</translation>
+        <translation>Apri Scenario &amp;Predefinito...</translation>
     </message>
     <message>
         <source>Open a sample world.</source>
@@ -1155,7 +1155,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Top View</source>
-        <translation>&amp;Vista Sopra</translation>
+        <translation>Vista S&amp;opra</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the top.</source>
@@ -1163,7 +1163,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Bottom View</source>
-        <translation>&amp;Vista Sotto</translation>
+        <translation>Vista So&amp;tto</translation>
     </message>
     <message>
         <source>Move Viewpoint to see object from the bottom.</source>
@@ -1171,7 +1171,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Take Screenshot...</source>
-        <translation>&amp;Cattura Schermata...</translation>
+        <translation>Catt&amp;ura Schermata...</translation>
     </message>
     <message>
         <source>Save the current image of the simulation. (%1 + SHIFT + P)</source>
@@ -1183,7 +1183,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Reload World</source>
-        <translation>&amp;Ricarica Scenario</translation>
+        <translation>Ri&amp;carica Scenario</translation>
     </message>
     <message>
         <source>Reload World.
@@ -1197,7 +1197,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>&amp;Perspective Projection</source>
-        <translation>Proiezione &amp;Prospettica</translation>
+        <translation>Proiezione Prospe&amp;ttica</translation>
     </message>
     <message>
         <source>Perspective viewing projection.</source>
@@ -1229,7 +1229,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Show &amp;Coordinate System</source>
-        <translation>Mostra Sistema di &amp;Coordinate</translation>
+        <translation>&amp;Mostra Sistema di Coordinate</translation>
     </message>
     <message>
         <source>Show coordinate system.</source>
@@ -1405,7 +1405,7 @@ Ricarica lo scenario corrente e ricomincia la simulazione. (%1+Shift+R)</transla
     </message>
     <message>
         <source>Restore &amp;Viewpoint</source>
-        <translation>Ripristina &amp;Punto di Vista</translation>
+        <translation>Ripristina Punto di &amp;Vista</translation>
     </message>
     <message>
         <source>Restore the initial Viewpoint position and orientation. (CTRL + SHIFT + V)</source>
@@ -2014,7 +2014,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Cross-compilation cl&amp;ean</source>
-        <translation>&amp;Pulisci Compilazione Incrociata</translation>
+        <translation>Pulisci Compilazione &amp;Incrociata</translation>
     </message>
     <message>
         <source>Remove intermediate cross-compilation files.</source>
@@ -2767,7 +2767,7 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&amp;Replace</source>
-        <translation>&amp;Sostituisci</translation>
+        <translation>S&amp;ostituisci</translation>
     </message>
     <message>
         <source>Replace &amp;All</source>
@@ -3391,7 +3391,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Fullscreen</source>
-        <translation>&amp;Schermo intero</translation>
+        <translation>Sc&amp;hermo intero</translation>
     </message>
     <message>
         <source>Show the simulation view in fullscreen mode.</source>
@@ -3399,7 +3399,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Optional Rendering</source>
-        <translation>Rendering &amp;Opzionale</translation>
+        <translation>Rendering Op&amp;zionale</translation>
     </message>
     <message>
         <source>&amp;Simulation</source>
@@ -3419,7 +3419,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Edit &amp;Physics Plugin</source>
-        <translation>Modifica &amp;Plugin Fisico</translation>
+        <translation>&amp;Modifica Plugin Fisico</translation>
     </message>
     <message>
         <source>Open this simulation&apos;s physics plugin in the text editor.</source>
@@ -3455,7 +3455,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Webots &amp;Guided Tour...</source>
-        <translation>Tour &amp;Guidato di Webots...</translation>
+        <translation>&amp;Tour Guidato di Webots...</translation>
     </message>
     <message>
         <source>How do I &amp;navigate in 3D?</source>
@@ -3471,7 +3471,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Bug Report...</source>
-        <translation>&amp;Segnala Errore...</translation>
+        <translation>Segnala &amp;Errore...</translation>
     </message>
     <message>
         <source>Cyberbotics &amp;Website...</source>
@@ -3615,7 +3615,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Open Recent World</source>
-        <translation>&amp;Apri Scenario Recente</translation>
+        <translation>Apri Scenario &amp;Recente</translation>
     </message>
     <message>
         <source>&amp;Check for updates...</source>
@@ -3643,7 +3643,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Export HTML5 Model...</source>
-        <translation>&amp;Esporta Modello HTML5...</translation>
+        <translation>Esporta Modello &amp;HTML5...</translation>
     </message>
     <message>
         <source>Export the whole Scene Tree as an HTML5 file.</source>
@@ -3695,7 +3695,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>Make HTML5 &amp;Animation...</source>
-        <translation>Crea &amp;Animazione HTML5...</translation>
+        <translation>Crea Anima&amp;zione HTML5...</translation>
     </message>
     <message>
         <source>Start HTML5 animation recording.</source>
@@ -3715,7 +3715,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Reference manual</source>
-        <translation>&amp;Manuale di riferimento</translation>
+        <translation>Manuale di &amp;riferimento</translation>
     </message>
     <message>
         <source>Open the Webots reference manual online.</source>
@@ -3880,7 +3880,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;GitHub repository...</source>
-        <translation>&amp;Github repository...</translation>
+        <translation>Git&amp;hub repository...</translation>
     </message>
     <message>
         <source>Open the Webots git repository on GitHub.</source>
@@ -3892,7 +3892,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Keep informed</source>
-        <translation>&amp;Tieniti informato</translation>
+        <translation>Tieniti in&amp;formato</translation>
     </message>
     <message>
         <source>Subscribe to the &amp;Newsletter...</source>
@@ -3932,7 +3932,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Follow Object</source>
-        <translation>&amp;Segui Oggetto</translation>
+        <translation>S&amp;egui Oggetto</translation>
     </message>
     <message>
         <source>Subscribe to the Webots &amp;YouTube channel...</source>
