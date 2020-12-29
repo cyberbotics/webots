@@ -625,9 +625,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (isRayGeom1) {
     WbDistanceSensor *const ds = dynamic_cast<WbDistanceSensor *>(s1);
     if (ds) {
-      int ix = 0; // index of the closest contact
+      int ix = 0;  // index of the closest contact
       for (int i = 1; i < n; ++i)
-        if(contact[i].geom.depth < contact[ix].geom.depth)
+        if (contact[i].geom.depth < contact[ix].geom.depth)
           ix = i;
       // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide call-back
       // function of ODE. Should we be worried?
