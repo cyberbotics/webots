@@ -957,16 +957,16 @@ Thanks David 👍 I will make a PR on it soon
 ##### David Mansolino [Cyberbotics] 05/12/2020 09:04:01
 You're welcome, looking forward to see your PR!
 
-##### Rum\_Guru 05/12/2020 22:11:15
+##### Chaytanya 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 06:37:58
-Hi `@Rum_Guru`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
+Hi `@Chaytanya`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
 
-##### Rum\_Guru 05/13/2020 06:46:52
+##### Chaytanya 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
 ##### ♥花怜♥ 05/13/2020 08:00:17

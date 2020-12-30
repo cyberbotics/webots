@@ -48954,3 +48954,567 @@ prophile11/19/2020
 
 I am unsure how best to proceed from here
 
+##### KajalGada 12/24/2020 00:04:27
+I am trying to run ros2 and webots on ubuntu 20. I already installed webots 2021a and webots\_ros2 package. I also set the WEBOTS\_HOME environmental variable.
+
+
+
+When I try to run a ros2\_webots example, it asks for webots 2020b.
+
+
+
+Is webots 2021a not supported with ros2?
+
+
+`@Jeff K` I am assuming you are trying to use Python3 for webots on Mac.
+
+
+
+Firstly check which all versions of python and python3 you have installed. Command: brew info python
+
+
+
+Next decide which version you want to use. Note Python3.9 doesn't work. Based on your messages, I am assuming you want to use Python3.8.
+
+
+
+brew info python should show if you have python3.8 on your computer or not.
+
+
+
+If not, install. Then proceed.
+
+
+
+Find out where it is installed. Command: brew info python@3.8
+
+
+
+Look for "Python has been installed as". This will give you the exact path where your Python 3.8 is installed and copy this path.
+
+
+
+For me it looks like this: /usr/local/opt/python@3.8/bin/python3
+
+
+
+In webots, go to webots > Preferences > python command. Here paste your Python3.8 path and it should work.
+
+
+
+Reason being if you have another version of python3 that might be installed in /usr/local/python3 but webots needs exact path to know which version to use.
+
+
+
+Hope this helps
+
+##### yash 12/24/2020 06:08:40
+Hello !
+
+I am working on robot grasping , I wanted to know if there is any way to get the contact points when a gripper grasps an object.
+
+##### Olivier Michel [Cyberbotics] 12/24/2020 06:35:03
+Yes, from a supervisor program: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_contact\_point](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_contact_point)
+
+##### Master.L 12/24/2020 06:54:28
+I am trying to convert a 3d model from solidworks to .wrl and import it into webots.
+
+However, the following error occurs. Is there a workaround?
+
+error: Skipped unknown 'Separator' node or PROTO.
+
+##### Olivier Michel [Cyberbotics] 12/24/2020 06:56:31
+This is not a fatal error and shouldn't prevent you from importing the model. You can however get rid of it by editing the .wrl file in a text editor and removing the Separator node.
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 08:06:14
+We released Webots R2021a after Foxy sync, so we have to wait another Foxy sync to publish `webots_ros2` that is compatible with Webots R2021a. If you really need Webots R2021a, you can compile `webots_ros2` from source from the `master` branch:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Build-and-Install](https://github.com/cyberbotics/webots_ros2/wiki/Build-and-Install)
+
+##### Miller 12/24/2020 09:53:56
+Hello all, I'm trying to connect epuck2 to webots using wifi, the simulation freezes when connecting to epuck, when conected, ros controller crashes with error 'abort: api/remote\_control.c:375: Error bad request : tag 0, type -1, command 79'. Do you have any idea what might be causing the issue? Thanks!
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/791604666784808970/unknown.png)
+%end
+
+
+`@Darko Lukić` `@Olivier Michel`
+
+##### yash 12/24/2020 10:13:14
+> Yes, from a supervisor program: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_contact\_point](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_contact_point)
+
+`@Olivier Michel`  thanks !
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 13:03:51
+Hello `@Miller` , I am not sure what are you trying to achieve? Why are you trying to connect epuck2 to Webots when using ROS? You can connect to epuck2 directly using ROS:
+
+[https://www.gctronic.com/doc/index.php/E-Puck#ROS](https://www.gctronic.com/doc/index.php/E-Puck#ROS)
+
+##### Ragemor 12/24/2020 14:28:37
+How can i move my robot to defined coordinate point or clicked by mouse?
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 14:32:52
+`@Ragemor`, there is no such example provided in Webots. You have to implement the algorithm by itself, Webots is just a robot simulator. Check something like this:
+
+[https://github.com/AtsushiSakai/PythonRobotics#path-planning](https://github.com/AtsushiSakai/PythonRobotics#path-planning)
+
+##### Ragemor 12/24/2020 15:00:27
+Thank you. I was looking for something like this.
+
+##### KajalGada 12/24/2020 15:44:02
+Thank you Darko, I will try that. 
+
+
+
+When I am running ros2 with R2020b, I get the following error: 
+
+
+
+Cannot open file: /tmp/webots-2514-H4tpBR/WEBOTS\_SERVER. 
+
+
+
+Do you know anything about it?
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 15:48:16
+`@KajalGada` Could you please share the full log (including commands)?
+
+##### KajalGada 12/24/2020 16:38:28
+Command: ros2 launch webots\_ros2ros2\_demos armed\_robots.launch.py
+
+
+
+> **Attachment**: [output.txt](https://cdn.discordapp.com/attachments/565154703139405824/791706625458307100/output.txt)
+
+
+I manually killed the program cause otherwise my computer hangs
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 16:42:27
+Are you running ROS2+Webots in a virtual machine?
+
+##### KajalGada 12/24/2020 16:43:15
+No, I am running it on my computer where I freshly installed Ubuntu 20
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 16:45:59
+```
+Cannot open file: /tmp/webots-4285-VSxnYk/WEBOTS_SERVER (retrying in 2 seconds)
+```
+
+This means that the controller is looking for Webots instance and that Webots is not up and running. Therefore, your computer may not be able to run the example.
+
+
+
+To verify, you can try to run:
+
+```
+webots /opt/ros/foxy/share/webots_ros2_demos/worlds/armed_robots.wbt --batch --mode=realtime
+```
+
+If it takes too long, it may be the cause of the problem.
+
+##### KajalGada 12/24/2020 17:01:05
+Was able to run it, did get the following error: OpenGL error: GL\_INVALID\_OPERATION
+
+
+I installed 2020b\_rev1 and was able to get it working. The robots didnt load so I will have dig deeper to find out why the robots didn’t show up. If you have any suggestions, do tell. 
+
+
+
+Also thank you for helping out so far 🙂
+
+##### Darko Lukić [Cyberbotics] 12/24/2020 17:16:00
+> The robots didnt load
+
+The robot don't appear or the controller doesn't work?
+
+##### KajalGada 12/24/2020 17:54:23
+The robot didnt appear
+
+##### Moha 12/26/2020 11:43:17
+hi guys
+
+
+
+I have a problem with using Matlab in Webots.
+
+When I try to open Webots sample projects for this purpose like nao\_matlab or e\_puck, it gives the following error. 
+
+
+
+This is while I added MATLAB to  PATH environment variable and also studied the Webots' User guide (Matlab section) and did other things like installing  MATLAB MinGW-w64 C/C++ Compiler, but I still get this error.
+
+
+
+nobody knows the solution to solve this ?
+%figure
+![Untitled.jpg](https://cdn.discordapp.com/attachments/565154703139405824/792356861654466570/Untitled.jpg)
+%end
+
+##### DDaniel 12/26/2020 12:17:15
+Which version of MATLAB are you using? I take that you can launch MATLAB from cmd without issue?
+
+##### Moha 12/26/2020 12:18:09
+hi, R2020a. Yes it runs by cmd without any problem
+
+##### DDaniel 12/26/2020 13:11:29
+`@Moha` If you also launch webots from the terminal rather than the icon, does it still fail?
+
+##### Moha 12/26/2020 13:32:22
+`@DDaniel` Yes, it fails too
+
+##### ilTac 12/27/2020 12:46:08
+Hi guys, i'm wrtiting my thesis for my degree and i would like to use Webots for some simulation but i'm facing some problems, can someone help me? I'm trying to understand the software making some simple simulation but when i add the e-puck robot e start the simulation this error appears:  The application was unable to start correctly (0xc000007b). click OK to close the application
+
+
+and then this in the console:
+%figure
+![controller_crushed.jpg](https://cdn.discordapp.com/attachments/565154703139405824/792735180002557952/controller_crushed.jpg)
+%end
+
+
+same error appears if i try to run the sample simulation of C++
+
+
+plus i always have this error when try to work with java
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/792755636538310666/unknown.png)
+%end
+
+
+I'm very sorry for all the questions but i really need help for my thesis. I would like to use java since is the language i know the most
+
+
+with Python, for now, i have no problem
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:10:12
+[https://www.cyberbotics.com/doc/guide/language-setup](https://www.cyberbotics.com/doc/guide/language-setup)
+
+
+give this a read
+
+
+you usually have to set system PATH variables and such
+
+##### ilTac 12/27/2020 14:11:47
+already done all of this sadly, plus i saw almost all the post here from previous year of people having the same issues but nothing worked on me
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:13:16
+it says something about 32 bit in your error message. Perhaps install the 64bit versions of Java
+
+
+and Java is added in your PATH variable?
+
+##### ilTac 12/27/2020 14:16:01
+
+%figure
+![path.jpg](https://cdn.discordapp.com/attachments/565154703139405824/792757687648518224/path.jpg)
+%end
+
+
+
+%figure
+![versione_java.jpg](https://cdn.discordapp.com/attachments/565154703139405824/792757692968075294/versione_java.jpg)
+%end
+
+
+the java error in English (i didn't notice it was in Italian): javacontroller.dll: %1 is not a valid Win32 application
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:19:49
+I'd suggest reinstalling java and as 64 bit
+
+
+or is it 64 already?
+
+
+maybe webots requires 32 bit... that would be a problem
+
+
+> In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 1.8 or later.
+
+
+[https://www.oracle.com/java/technologies/javase-jdk15-downloads.html](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html)
+
+##### ilTac 12/27/2020 14:23:04
+yes i have this version, i download windowx x64 installer
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:23:37
+can you launch "java" in the command line?
+
+
+nvm, you posted that already
+
+
+did you restart webots after installing all that?
+
+##### ilTac 12/27/2020 14:32:56
+yes i did, i restarted the pc as well but the error still appears
+
+
+the only thing i cannot understand in the guide you posted is this
+
+
+If your default java command points to a 32-bit version of Java, Webots may display an error message that looks like this:
+
+
+
+Native code library failed to load. See the chapter on Dynamic Linking
+
+Problems in the SWIG Java documentation for help.
+
+
+maybe my default java command points to a 32-bit version on Java? i don't know how to check that but i'm sure i have the latest java version (installed from the link you also posted here)
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:37:43
+maybe there is a seperate java variable in the system PATH (not the user PATH)
+
+
+down here
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/792763376224436224/unknown.png)
+%end
+
+##### ilTac 12/27/2020 14:40:52
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/792763941221695509/unknown.png)
+%end
+
+
+there is this
+
+
+should i try to delete?
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:42:31
+yeah, that might be your culprit
+
+##### ilTac 12/27/2020 14:53:02
+sadly the problem still persist
+
+
+that file is the problem
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/792767061386330142/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 12/27/2020 14:54:04
+Maybe one of the devs can help. I'm not familiar with java
+
+##### ilTac 12/27/2020 14:54:52
+Ok i'll wait and see if anyone can help! Thank you for your time!!
+
+##### Chernayaten 12/27/2020 20:24:32
+Hello, can someone explain how the lidar point cloud works? From what I understand it is supposed to show the "points" (when using the optional rendering option), but even in the lidar.wbt example it does it only for a little bit. Shouldn't it be doing it constantly?
+
+##### ouur 12/28/2020 19:28:23
+Hi. I have multiple robot and i want to control them with only one supervisor controller. So i created a cube  as a supervisor robot and set true to it's supervisor field. But if i don't add my controller to every robots they don't not move. Any idea? Thank you for your time.
+
+##### Simon Steinmann [Moderator] 12/28/2020 19:37:16
+You should have a controller per robot, much easier that way
+
+##### DDaniel 12/28/2020 19:37:21
+The robots still needs to have controllers, what you can do is use emitters/receivers to exchange information between the supervisor and the single robots in order to make their behavior "unique".
+
+##### ouur 12/28/2020 19:50:19
+Thanks. The other problem with that when i add same controller to every robot its going to same direction but direction is determined with random function. So what is the problem you think?
+
+##### Simon Steinmann [Moderator] 12/28/2020 20:04:24
+depends on how you implemented your random function
+
+
+there is a seed field in the world info that affects random things in webots
+
+##### DDaniel 12/28/2020 20:26:03
+Just tested with 2 robots and a srand(time(NULL)) seed, and both controllers generate the same numbers. So once again it'd be better to have just the supervisor come up with the directions and having them sent out to the robots. You can look up the advanced\_particle\_swarm\_optimization.wbt example for inspiration, it covers both your questions
+
+##### Simon Steinmann [Moderator] 12/28/2020 20:29:19
+perhaps rework your randomization
+
+##### ouur 12/28/2020 21:17:32
+okey i will read that. thanks for help!
+
+##### Çağrı Kaymak 12/29/2020 06:43:24
+Hi everyone, In Robotis-OP2, gyroscope and accelerometer data were read from ADC in 10bit. But in Robotis-OP3 the accelerometer data is of type m/s^2, and this is quite understandable. But when I look at the gyroscope data, it reads the unit as rad/m^2. This is a very meaningless unit. I'm so confused. Do you have any idea? Thanks in advance
+
+
+
+%figure
+![gyro.PNG](https://cdn.discordapp.com/attachments/565154703139405824/793368595811401769/gyro.PNG)
+%end
+
+##### Olivier Michel [Cyberbotics] 12/29/2020 09:54:20
+Since time(NULL) returns the UNIX epoch (time since 1970 expressed in second), it is very likely all controllers will get the same value as they are likely started during the same second. Hence, they will generate the exact same random number sequence.
+
+
+If you want a different sequence for each controller, you should pass each controller a different value (using the `Robot.controllerArgs` parameter) that will be used to seed the random number generator. This will create a reproducible simulation (the same sequences will be generated at each simulation run).
+
+
+If you want non-reproducible simulations, simply add `time(NULL)` to the seed (assuming that you launch a new simulation at least one second after the previous one).
+
+
+Alternatively, you may use a system function that returns milliseconds or nanoseconds instead of seconds.
+
+##### ouur 12/29/2020 10:16:32
+Thank you. Now i understand the problem better.
+
+##### Simon Steinmann [Moderator] 12/29/2020 11:08:22
+The unit for the gyro sensor should be rad/s. Maybe the units are simply labeled incorrectly.
+
+##### Çağrı Kaymak 12/29/2020 13:17:45
+Many thanks
+
+##### Olivier Michel [Cyberbotics] 12/29/2020 13:59:46
+This should be fixed here: [https://github.com/cyberbotics/webots/pull/2609](https://github.com/cyberbotics/webots/pull/2609)
+
+##### harunkurt00 12/29/2020 16:24:01
+Hi everyone, I have two question about ikpy library but how I don't know to solve this problem. I use to ikpy library inside DHLink class but there is mistake about it.  I did add my code but it is giving a mistake ***link.py", line 208, in \_\_init\_\_
+
+    Link.\_\_init\_\_(self, use\_symbolic\_matrix)*** . How do I solve this problem ? Other problem, I use the ikpy library on URDFLink but I don't understand **translation\_vector**. how do we calculate it ?
+
+##### Simon Steinmann [Moderator] 12/29/2020 16:26:30
+`@harunkurt00` ikpy is very slow, cannot fully solve orientation and often has bad solutions. I'd recommend IKFast if you have a 6 DOF robotic arm. `@Darko Lukić` has created a fantastic docker based solver generator and I made a very solid python implementation. What robot are you using?
+
+##### harunkurt00 12/29/2020 16:34:44
+I don't know the IKFast but I may learn this library. I using BCN3D Moveo robot arm.
+
+##### Simon Steinmann [Moderator] 12/29/2020 16:35:32
+how many DOF does it have?
+
+
+DOF = degrees of freedom = number of joints
+
+##### harunkurt00 12/29/2020 16:37:48
+it has 5 dof but I don't know how to improve this library.
+
+##### Simon Steinmann [Moderator] 12/29/2020 16:37:49
+with normal hingejoints that is
+
+
+what exactly is it that you want to do?
+
+##### harunkurt00 12/29/2020 16:40:39
+I am improving mobil robot like kuka youbot but I don't understand the library.
+
+##### Simon Steinmann [Moderator] 12/29/2020 16:41:35
+I'll pm you
+
+##### brettle 12/29/2020 18:15:11
+Hi all. I'd like to be able to use the GUI or a PROTO to attach some configuration info to devices such that the info can be accessed by a non-supervising robot controller. Any suggestions on how to achieve that? It looks like a non-supervising robot controller can't access any fields of a device. Is there some other mechanism for attaching config info to devices which the controller can access?
+
+##### Simon Steinmann [Moderator] 12/29/2020 18:16:42
+`@brettle` use the customData Field
+
+
+[https://www.cyberbotics.com/doc/reference/robot#wb\_robot\_get\_custom\_data](https://www.cyberbotics.com/doc/reference/robot#wb_robot_get_custom_data)
+
+
+`PROTO myRobot [
+
+  field SFString   customData      "you default config data"                    # Is `Robot.customData`.`
+
+
+put this in the header of the proto file
+
+##### brettle 12/29/2020 18:25:10
+But that's customData associated with the robot as a whole, not with a particular device.
+
+##### Simon Steinmann [Moderator] 12/29/2020 18:26:27
+what exactly do you want to accomplish?
+
+##### brettle 12/29/2020 18:32:56
+I want the user to be able to add a device (probably via a PROTO), configure it with some info (presumably via fields), and then have the controller be able to access that info. For example, the configuration info might indicate that this particular device would be connected to PWM port 3 on the roboRIO embedded computer that the controller is attempting to emulate.
+
+##### Simon Steinmann [Moderator] 12/29/2020 18:34:11
+you can put anything you want into the custom data field and have your controller translate it. I dont think it is trivial to add that functionality
+
+##### brettle 12/29/2020 18:35:04
+But again, that custom data field is attached to the Robot node, not each Device node.
+
+##### Simon Steinmann [Moderator] 12/29/2020 18:35:18
+but you can edit it from the GUI
+
+
+what device and settings are we talking about?
+
+##### brettle 12/29/2020 18:35:54
+Can I use the "model" string to do what I want? How is it represented in the wbt?
+
+##### Simon Steinmann [Moderator] 12/29/2020 18:36:08
+Iwas just looking at that
+
+
+might work
+
+
+the device needs a 'model' field
+
+
+\webots\projects\devices
+
+
+take a look at the protos in this location
+
+
+maybe you can use those as a guide
+
+
+I still think you should do it via the Robot though. A device is a building block, how you connect and controll it, is usually defined in the robot
+
+##### brettle 12/29/2020 19:06:11
+If I could declare PROTO fields that are arrays or maps, that would be more practical. But as it stands, it looks like the user would need to edit a specially formatted string that specified all the connections. By attaching the connection info to the device, that isn't needed.
+
+
+If I'm reading the docs right, the 'model' approach will only work for `SolidDevice`s. Unfortunately, most of the devices I'm interested (`Motor`s, `PositionSensor`s, etc) are `Device`s but not `SolidDevice`s.
+
+
+So far, the best I can come up with is using a PROTO to mangle the names of encapsulated `Device`s such that they contain the config info, but that seems pretty ugly.
+
+##### Simon Steinmann [Moderator] 12/29/2020 19:46:25
+a "solid" device is the general one, it can have other devices such as cameras, laser sensors etc included
+
+
+think of them as a robot part you can attach
+
+##### Jeff K 12/30/2020 00:30:47
+Yay!!  Works now. The problem was that python3.8.2 was installed in some system directory on my Mac and the path was not valid for Webots.  I took your advice and re-installed python3: "brew install python@3.8". Then the path "/usr/local/opt/python@3.8/bin/python3" was valid.  Thank you for your help.
+
+##### brettle 12/30/2020 00:40:57
+But I don't see how to create a PROTO derived from an Device that isn't a SolidDevice but allows me to access a model. For example, I tried this:
+
+```
+#VRML_SIM R2021a utf8
+
+PROTO MotorWithModel [
+    unconnectedField SFString model "my model"
+] {
+    RotationalMotor {
+        name "motor"
+    }
+}
+```
+
+and `getModel()`  did not return `my model` for any devices.
+
+
+More specifically, I want to be able to attach my PROTO to a `HingeJoint`s instead of the built-in `RotationalMotor`. That means that my PROTO needs to inherit from `RotationalMotor`, but since `RotationalMotor` is not a `SolidDevice` I can't associate a model with it.
+
+##### Miller 12/30/2020 03:55:36
+`@Darko Lukić` Hello, I'm trying to connect to epuck via wifi and once connected I got this error. I'm using ROS to get supervisor service at the same time, is it possible that there is confliction between supuvisior service and the webots wifi connection api? Also where can I find the remote\_control.c file? Thanks!
+%figure
+![connected_to_epuck.png](https://cdn.discordapp.com/attachments/565154703139405824/793688716241272832/connected_to_epuck.png)
+%end
+
+
+This is error I got from ROS
+%figure
+![Screenshot_from_2020-12-30_11-55-42.png](https://cdn.discordapp.com/attachments/565154703139405824/793688894368907314/Screenshot_from_2020-12-30_11-55-42.png)
+%end
+
+##### yash 12/30/2020 06:46:29
+hello ! I am using the supervisor function ----def getContactPoint(self, index): to get the contact point. What does the index specify here ? And how to define the solid whose contact point I want ?     
+
+ And is it necessary that the solid whose contact point I want to get should not have another soild node as a parent.?
+

@@ -62,7 +62,7 @@ Here is new nice video tutorial teaching you how to create a robot model from sc
 ##### Soft\_illusion 11/02/2020 07:06:45
 We are back with the fourth episode of the Webots ROS2 video tutorial series . Video 4: Tutorial on Publishers in ROS2 with Webots [https://www.youtube.com/watch?v=-owqJOH3Des](https://www.youtube.com/watch?v=-owqJOH3Des) Stay tuned for more upcoming interesting episodes. @everyone
 
-##### Siddhi 10/28/2020 17:46:29
+##### Siddhi(IT 3rd Year) 10/28/2020 17:46:29
 Machines have never ceased to amaze us with the ways they have found a place in our lives. Do you also want to build a machine that will fascinatingly mimic life? *Innerve'20*✨ presents You this competition to put your creation to a trial. You will *simulate your robots to follow a standardised pathway*🤖🤖 set by us in the most accurate way possible. *The platform is Webots.* So get your robots ready now for this exciting battle!👾
 
 
