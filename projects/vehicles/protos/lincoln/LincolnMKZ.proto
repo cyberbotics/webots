@@ -242,7 +242,7 @@ PROTO LincolnMKZ [
             appearance PBRAppearance {
               baseColor 0.560784 0.113725 0.113725
               metalness 0
-              emissiveIntensity 10
+              emissiveIntensity 30
             }
             geometry LincolnMKZBrakingLightsMesh {
             }

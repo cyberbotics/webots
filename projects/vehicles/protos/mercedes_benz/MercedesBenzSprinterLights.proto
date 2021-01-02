@@ -37,6 +37,7 @@ PROTO MercedesBenzSprinterLights [
           baseColor 0.870405 0.411917 0.147555
           roughness 1
           metalness 0
+          emissiveIntensity 30
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -61,6 +62,7 @@ PROTO MercedesBenzSprinterLights [
           baseColor 0.870405 0.411917 0.147555
           roughness 1
           metalness 0
+          emissiveIntensity 30
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -87,6 +89,7 @@ PROTO MercedesBenzSprinterLights [
               baseColor 0.4275 0.0431 0.0431
               roughness 1
               metalness 0
+              emissiveIntensity 30
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -1424,6 +1427,7 @@ PROTO MercedesBenzSprinterLights [
           baseColor 0.4275 0.0431 0.0431
           roughness 1
           metalness 0
+          emissiveIntensity 30
         }
         geometry IndexedFaceSet {
           coord Coordinate {
