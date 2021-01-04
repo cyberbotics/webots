@@ -200,7 +200,7 @@
     </message>
     <message>
         <source>edit</source>
-        <translation>edita</translation>
+        <translation>modifica</translation>
     </message>
     <message>
         <source>add item</source>
@@ -835,7 +835,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Save World</source>
-        <translation>&amp;Salva Scenario</translation>
+        <translation>Salva Sc&amp;enario</translation>
     </message>
     <message>
         <source>Save World &amp;As...</source>
@@ -863,7 +863,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Undo</source>
-        <translation>&amp;Annulla</translation>
+        <translation>A&amp;nnulla</translation>
     </message>
     <message>
         <source>Redo</source>
@@ -871,7 +871,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>C&amp;ut</source>
-        <translation>&amp;Taglia</translation>
+        <translation>Ta&amp;glia</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
@@ -891,7 +891,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Select &amp;All</source>
-        <translation>Seleziona &amp;Tutto</translation>
+        <translation>Sele&amp;ziona Tutto</translation>
     </message>
     <message>
         <source>&amp;New Text File</source>
@@ -911,7 +911,7 @@ To fix the problem, you should:
     </message>
     <message>
         <source>&amp;Save Text File</source>
-        <translation>&amp;Salva File di Testo</translation>
+        <translation>Salva F&amp;ile di Testo</translation>
     </message>
     <message>
         <source>Save the current text file.</source>
@@ -3764,7 +3764,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Export VRML97...</source>
-        <translation>&amp;Esporta VRML97...</translation>
+        <translation>Esporta VRML&amp;97...</translation>
     </message>
     <message>
         <source>VRML97 Files (*.wrl *.WRL)</source>
@@ -3952,7 +3952,7 @@ The following file formats are supported:
     </message>
     <message>
         <source>&amp;Import 3D Model...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa Modello &amp;3D...</translation>
     </message>
     <message>
         <source>Add a 3D object to the Scene Tree.</source>
