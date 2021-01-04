@@ -241,7 +241,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
         console.log(doc);
         let loader = new MyParser(true);
         console.log(doc.getElementsByTagName('Scene')[0]);
-        await loader.parsefile(doc);
+        await loader.parseFile(doc);
         onLoad();
     };
 

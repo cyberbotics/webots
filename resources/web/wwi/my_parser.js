@@ -85,9 +85,9 @@ class MyParser {
     }
   }
 
-  parsefile(file) {
+  async parseFile(file) {
     let scene = file.getElementsByTagName('Scene')[0];
-    this.parseNode(scene);
+    await this.parseNode(scene);
   }
 
   async parseNode(node, currentNode) {
