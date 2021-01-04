@@ -54,6 +54,7 @@ class MyParser {
       this.irradiancePrefix = localTexture ? '' : "/projects/default/worlds/"
       let world = new World();
       this.fog = false;
+      this.undefinedID = 900000;
   }
 
   parse(text){
@@ -310,6 +311,11 @@ class MyParser {
       return use;
 
     let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined') {
+      console.error("ID undefined");
+      id = "n" + this.undefinedID;
+      this.undefinedID++;
+    }
     let group = new WbGroup(id);
 
     World.instance.nodes.set(group.id, group);
