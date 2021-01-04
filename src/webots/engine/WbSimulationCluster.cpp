@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -625,10 +625,14 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (isRayGeom1) {
     WbDistanceSensor *const ds = dynamic_cast<WbDistanceSensor *>(s1);
     if (ds) {
+      int ix = 0;  // index of the closest contact
+      for (int i = 1; i < n; ++i)
+        if (contact[i].geom.depth < contact[ix].geom.depth)
+          ix = i;
       // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide call-back
       // function of ODE. Should we be worried?
-      assert(o1 == contact[0].geom.g1 && o2 == contact[0].geom.g2);
-      ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[0].geom);
+      assert(o1 == contact[ix].geom.g1 && o2 == contact[ix].geom.g2);
+      ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[ix].geom);
       return;
     }
 
