@@ -13,24 +13,29 @@
     <div ondragstart="return false">
       <div id="menu">
         <button id="menu-close-button" onclick="closeMenu()">&times;</button>
-        <button id="overview-menu-button" class="menu-button tablink" onclick="menuTabCallback('overview')">Overview</button>
       </div>
       <div id="content">
         <button id="menu-open-button" onclick="openMenu()">&#9776;</button>
-        <div id="overview" class="devices-container animate-left">
-          <h1>Overview</h1>
-          <section id="overview-layout" class="devices-layout">
+        <p id="no-controller-label">No controller.</p>
+        <div id="overview" class="devices-container animate-left" style="display:none">
+          <h1 style="display:inline-block;">
+              <input type="checkbox" title="Enable/disable the overview." id="overview-enable-checkbox" device="Overview" onclick="vehicleCheckboxCallback(this)"/>
+              Overview
+            </h1>
+          <section id="overview-layout" class="devices-layout" style="display:none">
             <div>
               <canvas id="overview-canvas"/>
             </div>
-            <div class="overview-labels">
-              <div class="red-label" style="text-align:center;font-size:20px;">
+            <div id="overview-labels">
+              <div class="red-label">
                 Speed: <span id="overview-speed-label">0</span> km/h
+              </div>
+              <div class="red-label">
+                Steering angle: <span id="overview-steering-label">0</span> rad
               </div>
               <div class="green-label"><span id="overview-front-track-label">0</span> m</div>
               <div class="green-label"><span id="overview-rear-track-label">0</span> m</div>
-              <div class="green-label"><span id="overview-wheel-base-label">0</span> m</div>
-              <div class="red-label">Steering angle: &nbsp;&nbsp;&nbsp;&nbsp;<span id="overview-steering-label">0</span> rad</div>
+              <div class="rotated-label green-label"><span id="overview-wheel-base-label">0</span> m</div>
               <div class="green-label">Radius: <span id="overview-wheel1-radius-label">0</span> m</div>
               <div class="green-label">Radius: <span id="overview-wheel2-radius-label">0</span> m</div>
               <div class="green-label">Radius: <span id="overview-wheel3-radius-label">0</span> m</div>
@@ -42,7 +47,7 @@
              <div class="black-label">
                <div>RPM: <span id="overview-rpm-label">0</span> g</div>
                <div>Engaged gear: <span id="overview-gearbox-label"></span> / <span id="overview-gear-number-label">0</span></div>
-               <div>Target Speed: <span id="overview-speed-label">0</span> km/h</div>
+               <div>Target Speed: <span id="overview-target-speed-label">0</span> km/h</div>
             </div>
             <div class="black-label">
               <div>Speed: <span id="overview-wheel1-speed-label">0</span> rad/s</div>

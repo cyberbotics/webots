@@ -27,16 +27,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "string_utils.h"
 
 static int time_step = 0;
 static double max_speed = 0.0;
+clock_t last_update_time = 0;
 
 enum DriverInfo { NONE = 0, OVERVIEW_INFO = 1, SPEED_INFO, STEERING_INFO, ENCODERS_INFO, BRAKE_INFO, THROTTLE_INFO, RPM_INFO, COUNT };
 static bool driverInfoEnabled[COUNT];
 
 static enum DriverInfo driver_info_from_string(const char *s) {
+  if (strcmp(s, "Overview") == 0)
+    return OVERVIEW_INFO;
   if (strcmp(s, "Speed") == 0)
     return SPEED_INFO;
   if (strcmp(s, "Steering") == 0)
@@ -161,6 +165,7 @@ static void apply_command(const char *command) {
         if (info == NONE)
           tag = wb_robot_get_device(name);
       }
+      fprintf(stderr, "info %d tag %d\n", info, tag);
       free(name);
       free(name0);
     } else if (strcmp(token, "enable") == 0) {
@@ -296,7 +301,12 @@ void wb_robot_window_step(int time_step) {
     return;
 
   wbu_default_robot_window_update();
-
+  
+  clock_t current_time = clock();
+  double time_spent = (double)(current_time - last_update_time) / CLOCKS_PER_SEC;
+  if (last_update_time != 0 && time_spent < 0.004)
+    return;
+  last_update_time = current_time;
   bool vehicle_message = false;
   char buf[32];
   buffer_append("update { \"vehicle\": {");
@@ -412,7 +422,7 @@ void wb_robot_window_step(int time_step) {
     }
     for (int i = WBU_CAR_WHEEL_FRONT_RIGHT; i < WBU_CAR_WHEEL_NB; ++i) {
       buffer_append(",\"wheel");
-      snprintf(buf, 32, "%d", i);
+      snprintf(buf, 32, "%d", i+1);
       buffer_append(buf);
       buffer_append("\": { \"speed\": ");
       snprintf(buf, 32, "%.17g", wbu_car_get_wheel_speed(i));

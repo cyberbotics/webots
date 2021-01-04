@@ -2,6 +2,7 @@
 /* global PlotWidget: false */
 /* global RadarWidget: false */
 /* global TimeplotWidget: false */
+/* global OverviewWidget: false */
 /* exported motorSetPosition */
 /* exported motorUnsetPosition */
 /* exported differentialWheelsSetSpeedTag */
@@ -24,6 +25,7 @@ var supportedDeviceTypes = [
 const DRIVER_SPEED_MODE = 0;
 const DRIVER_TORQUE_MODE = 1;
 var driverControlMode = DRIVER_SPEED_MODE;
+var overviewWidget = null;
 
 function menuTabCallback(deviceType) {
   let i, x, tablinks;
@@ -55,6 +57,28 @@ function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
+}
+
+function vehicleCheckboxCallback(checkbox) {
+  if (checkbox.checked) {
+    commands.push(checkbox.getAttribute('device') + ':enable');
+    /*if (driverControlMode === DRIVER_SPEED_MODE) {
+      if (checkbox.getAttribute('device') === 'Throttle')
+        document.getElementById('throttle-label').textContent = 'No engine model in speed control';
+      else if (checkbox.getAttribute('device') === 'RPM')
+        document.getElementById('rpm-label').textContent = 'No engine model in speed control';
+    }*/
+  } else {
+    commands.push(checkbox.getAttribute('device') + ':disable');
+    /*if (checkbox.getAttribute('device') === 'Speed')
+      document.getElementById('target-speed-label').textContent = 'Target speed: -';
+    else if (driverControlMode === DRIVER_SPEED_MODE) {
+      if (checkbox.getAttribute('device') === 'Throttle')
+        document.getElementById('throttle-label').textContent = '';
+      else if (checkbox.getAttribute('device') === 'RPM')
+        document.getElementById('rpm-label').textContent = '';
+    }*/
+  }
 }
 
 function checkboxCallback(checkbox) {
@@ -378,6 +402,11 @@ function configure(data) {
     return;
   }
 
+  document.getElementById('no-controller-label').style.display = 'none';
+
+  // Overview tab
+  overviewWidget = new OverviewWidget(document.getElementById('overview'));
+
   // Speed tab
   addTab('Speed');
   appendNewElement('Speed-layout', '<h2><span id="target-speed-label" style="color:red"></span></h2>');
@@ -432,16 +461,9 @@ function configure(data) {
     }
   });
 
-  // Set the focus on the first deviceType menu.
-  // TODO to be updated
-  /*if (deviceTypes.length > 0) {
-    menuTabCallback(deviceTypes[0]);
-    openMenu();
-    document.getElementById('no-controller-label').style.display = 'none';
-  } else {
-    document.getElementById('no-controller-label').innerHTML = 'No devices supported in the robot window.';
-    closeMenu();
-  }*/
+  // Set the focus on the Overview tab
+  menuTabCallback('overview');
+  openMenu();
 }
 
 function applyToUntouchedCheckbox(checkbox, state) {
@@ -468,7 +490,9 @@ function update(data) {
       if (!checkbox || !checkbox.checked)
         return;
 
-      if (key === 'speed') {
+      if (key === 'overview') {
+        overviewWidget.updateInformation(data.vehicle.overview);
+      } else if (key === 'speed') {
         Object.keys(data.vehicle.speed).forEach(function(attribute) {
           const attributeValue = data.vehicle.speed[attribute];
           attribute = attribute.replace(/&quot;/g, '"');
@@ -566,9 +590,8 @@ function receive(message, _robot) {
       console.log(message);
     }
     if (data) {
-      this.overviewWidget = new OverviewWidget(document.getElementById('overview'));
-      this.overviewWidget.setStaticInformation(data);
-      this.overviewWidget.resize();
+      overviewWidget.setStaticInformation(data);
+      overviewWidget.resize();
     }
   } else if (message.indexOf('update ') === 0) {
     try {
