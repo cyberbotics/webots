@@ -4,6 +4,17 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Olivier Michel [Cyberbotics] 12/15/2020 16:30:40
+**Webots R2021a released!**
+
+With camera segmentation feature, improved ROS2 integration, new API functions, new models, many bug fixes and improvements. See official announcement at [[https://cyberbotics.com](https://cyberbotics.com)/doc/blog/Webots-2021-a-release]([https://cyberbotics.com](https://cyberbotics.com)/doc/blog/Webots-2021-a-release). Get it now from [https://cyberbotics.com](https://cyberbotics.com) or [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+%figure
+![R2021a.png](https://cdn.discordapp.com/attachments/568354695513374730/788442918821429248/R2021a.png)
+%end
+
+
+We recently opened a GitHub Discussions page, so that you can open discussion threads there to share ideas and get your questions answered by the community, including the developers of Webots. Feel free to post messages there, we are eager to see the first posts coming in 😉 [https://github.com/cyberbotics/webots/discussions](https://github.com/cyberbotics/webots/discussions)
+
 ##### Soft\_illusion 12/01/2020 16:33:04
 We are back with the 8th episode of the Webots ROS2 video tutorial series. Video 8: RQT\_graph, ROS2 topic echo | Debugging tools [https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s](https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s) Stay tuned for more upcoming interesting episodes.
 

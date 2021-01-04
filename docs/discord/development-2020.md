@@ -618,7 +618,7 @@ Hi `@ContrastNull`, the VRML import does indeed import only the visual meshes of
 
 Note also that a customizable door is already available in Webots: [https://cyberbotics.com/doc/guide/object-apartment-structure#door](https://cyberbotics.com/doc/guide/object-apartment-structure#door)
 
-##### İchigogo 04/14/2020 15:06:31
+##### ♥花怜♥ 04/14/2020 15:06:31
 hello! sorry for disturbing again. I don't know why but my simulation looks like lagging (I don't know if its correct word to explain but ) it's happens in some sample projects too I tried changing fps and time step but it didn't change too much thing in simulation.is there any other way to solve this ?
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 15:08:50
@@ -627,7 +627,7 @@ Hi, you may try reducing the OpenGl features to speed up the simulation speed: [
 
 You can also find some tips to speed up your simulation here: [https://cyberbotics.com/doc/guide/speed-performance](https://cyberbotics.com/doc/guide/speed-performance)
 
-##### İchigogo 04/14/2020 15:09:24
+##### ♥花怜♥ 04/14/2020 15:09:24
 okay thank you so much :)
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 15:13:36
@@ -6840,13 +6840,13 @@ You can similarly use getPosition() to find the position of the other solid you'
 
 If you're most interested in whether the objects are *colliding*, you may find it useful to use the supervisor get\_contact\_point functions, though I think those only tell you *where* on your solid the collision happened, not *which* other solid it collided with.
 
-##### götz 10/19/2020 10:36:38
+##### Götz 10/19/2020 10:36:38
 Hi there, hope this is the right place for this question, let me know if not. I just started to look into Webots and it seems to be what we're looking for: a great simulator that could replace our raspi-based robots in a robot hackathon event we have to convert to virtual now. Sigh. So my question: Our hackathon was based on robots students would control via RESTful API calls. I gave the tcpip controller a test and then tried Python with Flask as a controller to implement a REST interface. But as Flask is not returning (because it's listening itself) the process is killed. Is there a way to implement a RESTful controller API on a higher level directly in Webots I'm overlooking? Or would I have to implement it on a socket-devel base ("low-level" like tcpip controller example) and then interface it with a REST service running "outside" of Webots?
 
 ##### Olivier Michel [Cyberbotics] 10/19/2020 10:41:19
-Hi `@götz`, yes this is possible and should be very easy to implement as a Python controller. However, your controller should remain responsive and call the Robot.step() function regularly. This is configurable with most Python HTTP servers, like in tornado for example. I don't have any experience with Flask, but I doubt it wouldn't be possible. Alternatively, you may run the REST server in a separate thread of your Python controller.
+Hi `@Götz`, yes this is possible and should be very easy to implement as a Python controller. However, your controller should remain responsive and call the Robot.step() function regularly. This is configurable with most Python HTTP servers, like in tornado for example. I don't have any experience with Flask, but I doubt it wouldn't be possible. Alternatively, you may run the REST server in a separate thread of your Python controller.
 
-##### götz 10/19/2020 11:07:41
+##### Götz 10/19/2020 11:07:41
 Hey `@Olivier Michel` thanks for the quick reply, sounds good! So I just have to make sure to call Robot.step() regularly from Flask of whatever and it would not get killed? Nice, I'll give it a try. I'd like to avoid getting into thread development, programming not really being in my main skill set... 😉
 
 ##### black\_hammer\_67 10/20/2020 16:03:54
@@ -6867,7 +6867,7 @@ I usually rely on the print() function to debug my Python controllers. However, 
 ##### black\_hammer\_67 10/20/2020 16:18:58
 ok thank you Mr
 
-##### götz 10/20/2020 17:10:25
+##### Götz 10/20/2020 17:10:25
 I'll give up with getting my RestAPI embedded in a Python controller to work. Last try, maybe somebody can spot anything obviously wrong  here.
 ```def robotstep():
     robot.step(32)
@@ -6897,7 +6897,7 @@ Sigh.
 ##### Olivier Michel [Cyberbotics] 10/20/2020 17:47:10
 Can you write some print() statement in the robotstep() function to assess it actually is called?
 
-##### götz 10/20/2020 17:53:32
+##### Götz 10/20/2020 17:53:32
 Good point... just gave it a try, gets called a lot. 🙂
 
 
@@ -7968,20 +7968,20 @@ will do
 
 Partially figured it out [https://github.com/cyberbotics/webots/issues/2503](https://github.com/cyberbotics/webots/issues/2503)
 
-##### Steven37 12/06/2020 07:53:23
+##### Vu Nam Nguyen 12/06/2020 07:53:23
 Hi, I just want to ask a simple question that how can I attach a sensor, for example, the lidar LMS 291 to a robot existing in Webots, Pioneer3 for instance? Can anyone show me, please?
 
 ##### Whizbuzzer 12/06/2020 07:59:16
 Some robots have an additional spot for that e.g. E-puck has a turret slot where you can add additional nodes. Check out the Pioneer3 documentation
 
-##### Steven37 12/06/2020 08:16:26
+##### Vu Nam Nguyen 12/06/2020 08:16:26
 I saw this picture in the pioneer3's document so how can I attach the lidar like that?
 %figure
 ![pioneer3at_avoidance.png](https://cdn.discordapp.com/attachments/565155651395780609/785057048277811200/pioneer3at_avoidance.png)
 %end
 
 ##### Simon Steinmann [Moderator] 12/06/2020 13:39:18
-`@Steven37` select the extensionSlot, click on the plus on top and select whatever you want to attach
+`@Vu Nam Nguyen` select the extensionSlot, click on the plus on top and select whatever you want to attach
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138302314610698/unknown.png)
 %end
@@ -7992,7 +7992,7 @@ you can use the "Find" function in the top right of the window to search for "li
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138891249811456/unknown.png)
 %end
 
-##### Steven37 12/06/2020 13:50:21
+##### Vu Nam Nguyen 12/06/2020 13:50:21
 `@Simon Steinmann` thank you so so much!
 
 ##### Simon Steinmann [Moderator] 12/07/2020 11:18:48
@@ -8070,3 +8070,20 @@ I just added write access to the cyberbotics committers group, so that you shoul
 
 ##### Simon Steinmann [Moderator] 12/07/2020 14:06:22
 works
+
+##### Wesztman 12/22/2020 16:45:51
+<#565155651395780609>
+
+
+
+I´ve added the following idea to the discussion on Github :)
+
+
+
+[https://github.com/cyberbotics/webots/discussions/2596](https://github.com/cyberbotics/webots/discussions/2596)
+
+
+`@Darko Lukić`
+
+##### Darko Lukić [Cyberbotics] 12/22/2020 16:48:27
+Nice, thank you!
