@@ -14,11 +14,13 @@
 import {webots} from "./../wwi/webots.js";
 
 function init() {
-    let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
-    let view = new webots.View(document.getElementById("view3d"));
+  document.getElementById('PlayButton').style.display = 'block';
+  this.style.display = 'none'
 
-    view.open(name + ".x3d");
-    view.setAnimation(name + ".json", "play", true);
+  let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
+  let view = new webots.View(document.getElementById("view3d"));
+  view.open(name + ".x3d");
+  view.setAnimation(name + ".json", "play", true);
 }
 
 document.getElementById('PlayButton').addEventListener('click', init);
