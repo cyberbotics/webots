@@ -65,18 +65,18 @@ Of course if you don't need to have lights you can safely remove the `VehicleLig
 ```
 VehicleLights {
   MFNode    front           [ ]
-  MFColor   frontColor      [ 0.8 0.8 0.8 ]
+  MFColor   frontColor      [ 0.5 0.5 0.5 ]
   MFNode    rightIndicator  [ ]
   MFNode    leftIndicator   [ ]
-  MFColor   indicatorColor  [ 1 0.7 0.1 ]
+  MFColor   indicatorColor  [ 0.8 0.35 0 ]
   MFNode    antifog         [ ]
   MFColor   antifogColor    [ 0.8 0.8 0.8 ]
   MFNode    braking         [ ]
-  MFColor   brakingColor    [ 0.7 0.12 0.12 ]
+  MFColor   brakingColor    [ 0.3 0 0 ]
   MFNode    rear            [ ]
-  MFColor   rearColor       [ 0.8 0.8 0.8 ]
+  MFColor   rearColor       [ 0.3 0 0 ]
   MFNode    backwards       [ ]
-  MFColor   backwardsColor  [ 0.7 0.12 0.12 ]
+  MFColor   backwardsColor  [ 0.5 0.5 0.5 ]
 }
 ```
 
