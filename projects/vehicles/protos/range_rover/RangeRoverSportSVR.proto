@@ -154,7 +154,7 @@ PROTO RangeRoverSportSVR [
         rear [
           Shape {
             appearance PBRAppearance {
-              baseColor 0.702 0.702 0.702
+              baseColor 0.560784 0.113725 0.113725
               metalness 0
               roughness 0.35
               emissiveIntensity 10
@@ -166,7 +166,7 @@ PROTO RangeRoverSportSVR [
         rightIndicator [
           DEF INDICATOR_RIGHT Shape {
             appearance PBRAppearance {
-              baseColor 0.702 0.702 0.702
+              baseColor 0.870405 0.411917 0.147555
               metalness 0
               roughness 0.35
               emissiveIntensity 30
@@ -178,7 +178,7 @@ PROTO RangeRoverSportSVR [
         leftIndicator [
           DEF INDICATOR_LEFT Shape {
             appearance PBRAppearance {
-              baseColor 0.702 0.702 0.702
+              baseColor 0.870405 0.411917 0.147555
               metalness 0
               roughness 0.35
               emissiveIntensity 30
@@ -196,6 +196,18 @@ PROTO RangeRoverSportSVR [
               emissiveIntensity 30
             }
             geometry RangeRoverSportSVRBrakingLightsMesh {
+            }
+          }
+        ]
+        antifogColor [ 0.3 0 0 ]
+        antifog [
+          DEF REAR_ANTIFOG_LIGHT Shape {
+            appearance DEF REAR_ANTIFOG_LIGHT_APP PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 10
+            }
+            geometry RangeRoverSportSVRAntifogLightsMesh {
             }
           }
         ]
