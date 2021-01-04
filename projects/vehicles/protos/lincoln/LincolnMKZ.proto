@@ -227,22 +227,40 @@ PROTO LincolnMKZ [
           }
         ]
         rear [
-          Transform {
-            translation 0 -0.35 1.44
-            rotation 0 1 0 3.14159
-            children [
-              DEF BRAKE_LIGHT Shape {
-                appearance DEF BREAKING_LIGHT_APP PBRAppearance {
-                  baseColor 0.560784 0.113725 0.113725
-                  metalness 0
-                  emissiveIntensity 10
-                }
-                geometry LincolnMKZBackLightsMesh {
-                }
-              }
-            ]
+          DEF TAIL_LIGHT Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 10
+            }
+            geometry LincolnMKZTailLightsMesh {
+            }
           }
         ]
+        braking [
+          DEF BRAKING_LIGHTS Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 30
+            }
+            geometry LincolnMKZBrakingLightsMesh {
+            }
+          }
+        ]
+        antifogColor [ 0.3 0 0 ]
+        antifog [
+          DEF ANTIFOG_LIGHTS Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 10
+            }
+            geometry LincolnMKZRearAntifogLightsMesh {
+            }
+          }
+        ]
+        
       }
       # vehicle shape
       DEF COACHWORK Shape {
