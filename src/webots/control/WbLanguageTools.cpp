@@ -140,7 +140,7 @@ const QString &WbLanguageTools::matlabCommand() {
     }
     if (gMatlabCommand.isEmpty()) {
       WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                   "from the DOS CMD.EXE console."));
+                                 "from the DOS CMD.EXE console."));
       gMatlabCommand = "!";
     }
 #else
