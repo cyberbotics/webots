@@ -16,6 +16,7 @@
 
 #include "WbMacAddress.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtGui/QOpenGLFunctions>
 
@@ -496,6 +497,32 @@ bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
     id == 0x7300 || id == 0xaac8 || id == 0xaad8 || id == 0xaae8)
     return true;
   return false;
+}
+
+#else
+
+bool WbSysInfo::isLowEndGpu() {
+  static char lowEndGpu = -1;  // not yet determined
+  if (lowEndGpu == -1) {       // based on the telemetry data from https://cyberbotics.com/telemetry
+    lowEndGpu = 0;
+    const QString &renderer = openGLRenderer();
+    if (renderer.contains("Intel") && renderer.contains(" HD Graphics ")) {
+      // we support only recent Intel GPUs from about 2015
+      if (renderer.contains("Ivybridge") || renderer.contains("Sandybridge") || renderer.contains("Haswell") ||
+          renderer.contains("Ironlake"))
+        lowEndGpu = 1;
+      else {
+        const QRegularExpression re(" HD Graphics P{0,1}([\\d]{3,4})");
+        const QRegularExpressionMatch match = re.match(renderer);
+        const int number = match.hasMatch() ? match.captured(1).toInt() : 0;
+        qDebug() << number;
+        if ((number >= 2000 && number <= 6000) || (number >= 100 && number < 500))
+          lowEndGpu = 1;
+      }
+    } else if (renderer.contains("Radeon HD") || renderer.contains("Radeon(TM) HD"))
+      lowEndGpu = 1;  // We don't support old AMD Radeon HD cards
+  }
+  return (bool)lowEndGpu;
 }
 
 #endif

@@ -1231,25 +1231,31 @@ void WbView3D::checkRendererCapabilities() {
     reduceTextureQuality = 1;
   }
 
-  if (mWrenRenderingContext->isIntelRenderer()) {
-    message += tr("Webots has detected that your system features an Intel GPU. "
-                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
-    message += '\n';
-
 #ifdef _WIN32
+  if (mWrenRenderingContext->isIntelRenderer()) {
     int gpuGeneration = WbSysInfo::intelGPUGeneration(WbWrenOpenGlContext::instance()->functions());
     if (gpuGeneration < 5) {
+      message += tr("Webots has detected that your system features an old unsupported Intel GPU. "
+                    "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+      message += '\n';
       disableShadows = true;
       disableAntiAliasing = true;
     }
-#endif
-  }
-#ifdef _WIN32
-  else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
-    message += tr("Webots has detected that you are using an old AMD GPU. "
+  } else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+    message += tr("Webots has detected that you are using an old unsupported AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     disableAntiAliasing = true;
     disableGTAO = true;
+    reduceTextureQuality = 1;
+  }
+#else
+  if (WbSysInfo::isLowEndGpu()) {
+    message += tr("Webots has detected that your system features an old unsupported GPU. "
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+    message += '\n';
+    disableAntiAliasing = true;
+    disableGTAO = true;
+    disableShadows = true;
     reduceTextureQuality = 1;
   }
 #endif
@@ -1260,17 +1266,19 @@ void WbView3D::checkRendererCapabilities() {
   while (maxHardwareAfLevel >>= 1)
     ++maxTextureFiltering;
 
-  // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
-  if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
+  // check GPU memory on NVIDIA GPU
+  // (not for Intel GPU, because the texture size has no impact on the rendring speed)
+  // (not for AMD GPU, because the GPU memory cannot be retrieved accurately)
+  if (mWrenRenderingContext->isNvidiaRenderer()) {
     if (wr_gl_state_get_gpu_memory() == 2097152)
       WbPreferences::instance()->setValue("OpenGL/limitBakingResolution", true);
-    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
+    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2 GB of GPU memory
       if (message.isEmpty()) {
-        message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
-                      "A minimum of 2Gb of memory is recommended to use high-resolution textures. ");
+        message += tr("Webots has detected that your GPU has less than 2 GB of memory. "
+                      "A minimum of 2 GB of memory is recommended to use high-resolution textures. ");
         message += '\n';
       }
-      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
+      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1 GB of GPU memory
         reduceTextureQuality = 2;
       else
         reduceTextureQuality = 1;
