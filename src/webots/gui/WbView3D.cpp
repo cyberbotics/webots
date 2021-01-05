@@ -1255,6 +1255,7 @@ void WbView3D::checkRendererCapabilities() {
     message += '\n';
     disableAntiAliasing = true;
     disableGTAO = true;
+    disableShadows = true;
     reduceTextureQuality = 1;
   }
 #endif
