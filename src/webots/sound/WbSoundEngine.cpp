@@ -198,7 +198,7 @@ WbSoundClip *WbSoundEngine::sound(const QString &filename, double balance, int s
   }
   WbSoundClip *sound = new WbSoundClip;
   try {
-    sound->load(filename, balance, side);
+    sound->load(filename, balance, side, data);
     gSounds << sound;
     return sound;
   } catch (const QString &e) {

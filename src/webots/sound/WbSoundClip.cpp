@@ -28,7 +28,7 @@ WbSoundClip::~WbSoundClip() {
     alDeleteBuffers(1, &mBuffer);
 }
 
-void WbSoundClip::load(const QString &filename, double balance, int side) {
+void WbSoundClip::load(const QString &filename, double balance, int side, const QByteArray *data) {
   WbWaveFile wave(filename);
   wave.loadFromFile(side);
   if (wave.nChannels() > 1)
