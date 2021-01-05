@@ -12,7 +12,7 @@ ContactProperties {
   SFFloat  softERP            0.2                  # [0, 1]
   SFFloat  softCFM            0.001                # (0, inf)
   SFString bumpSound          "sounds/bump.wav"    # any string
-  SFString rollSound          "sounds/roll.waw"    # any string
+  SFString rollSound          "sounds/roll.wav"    # any string
   SFString slideSound         "sounds/slide.wav"   # any string
 }
 ```
