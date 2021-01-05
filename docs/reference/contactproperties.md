@@ -13,7 +13,7 @@ ContactProperties {
   SFFloat  softCFM            0.001                # (0, inf)
   SFString bumpSound          "sounds/bump.wav"    # any string
   SFString rollSound          "sounds/roll.waw"    # any string
-  SFString SlideSound         "sounds/slide.wav"   # any string
+  SFString slideSound         "sounds/slide.wav"   # any string
 }
 ```
 
