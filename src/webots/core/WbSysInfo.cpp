@@ -498,4 +498,35 @@ bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
   return false;
 }
 
+#else
+
+bool WbSysInfo::isLowEndGpu() {
+  static char lowEndGpu = -1;  // not yet determined
+  if (lowEndGpu == -1) {       // based on the telemetry data from https://cyberbotics.com/telemetry
+    lowEndGpu = 0;
+    const QString &renderer = openGLRenderer();
+    if (renderer.contains("Intel") && renderer.contains(" HD Graphics ")) {
+      // we support only recent Intel GPUs from about 2015
+      const int modelIndex = renderer.indexOf(" HD Graphics ") + 13;
+      if (renderer.contains("Ivybridge") || renderer.contains("Sandybridge") || renderer.contains("Haswell") ||
+          renderer.contains("Ironlake"))
+        lowEndGpu = 1;
+      else {
+        QString model = renderer.mid(modelIndex, renderer.indexOf(" ", modelIndex));
+        if (model.startsWith("P"))
+          model = model.mid(1);
+        else if (model.startsWith("("))
+          model = "-1";
+        if (model.contains("/"))
+          model = model.left(model.indexOf("/"));
+        const int number = model.toInt();
+        if ((number >= 2000 && number <= 6000) || (number >= 100 && number < 500))
+          lowEndGpu = 1;
+      }
+    } else if (renderer.contains("Radeon HD") || renderer.contains("Radeon(TM) HD"))
+      lowEndGpu = 1;  // We don't support old AMD Radeon HD cards
+  }
+  return (bool)lowEndGpu;
+}
+
 #endif

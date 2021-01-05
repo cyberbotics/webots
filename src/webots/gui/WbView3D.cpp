@@ -1231,30 +1231,28 @@ void WbView3D::checkRendererCapabilities() {
     reduceTextureQuality = 1;
   }
 
-  if (mWrenRenderingContext->isIntelRenderer()) {
 #ifdef _WIN32
+  if (mWrenRenderingContext->isIntelRenderer()) {
     int gpuGeneration = WbSysInfo::intelGPUGeneration(WbWrenOpenGlContext::instance()->functions());
     if (gpuGeneration < 5) {
-      message += tr("Webots has detected that your system features an old Intel GPU. "
+      message += tr("Webots has detected that your system features an old unsupported Intel GPU. "
                     "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
       message += '\n';
       disableShadows = true;
       disableAntiAliasing = true;
     }
-#else
-    message += tr("Webots has detected that your system features an Intel GPU. "
-                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
-    message += '\n';
-#endif
-
-  }
-#ifdef _WIN32
-  else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
-    message += tr("Webots has detected that you are using an old AMD GPU. "
+  } else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+    message += tr("Webots has detected that you are using an old unsupported AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     disableAntiAliasing = true;
     disableGTAO = true;
     reduceTextureQuality = 1;
+  }
+#else
+  if (WbSysInfo::isLowEndGpu()) {
+    message += tr("Webots has detected that your system features an old unsupported GPU. "
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+    message += '\n';
   }
 #endif
 
