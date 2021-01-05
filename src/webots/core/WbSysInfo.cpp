@@ -515,7 +515,7 @@ bool WbSysInfo::isLowEndGpu() {
         const QRegularExpression re(" HD Graphics P{0,1}([\\d]{3,4})");
         const QRegularExpressionMatch match = re.match(renderer);
         const int number = match.hasMatch() ? match.captured(1).toInt() : 0;
-        qDebug() << number;
+
         if ((number >= 2000 && number <= 6000) || (number >= 100 && number < 500))
           lowEndGpu = 1;
       }
