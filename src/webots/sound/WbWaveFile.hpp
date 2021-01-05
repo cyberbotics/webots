@@ -15,17 +15,18 @@
 #ifndef WB_WAVE_FILE_HPP
 #define WB_WAVE_FILE_HPP
 
+#include <QtCore/QIODevice>
 #include <QtCore/QString>
 
 class WbWaveFile {
 public:
-  explicit WbWaveFile(const QString &filename);
-  explicit WbWaveFile(const QString &url, const QByteArray *fileByteArray);
+  explicit WbWaveFile(const QString &filename, QIODevice *device);
   WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate);
   virtual ~WbWaveFile();
 
   void loadFromFile(int side = 0);
 
+  void loadConvertedFile(int side);
   void loadConvertedFile(int side, const QString &filename);
 
   // balance: -1 = only left, +1 = only right
@@ -44,7 +45,7 @@ public:
 
 private:
   QString mFilename;
-  const QByteArray *mFileByteArray;
+  QIODevice *mDevice;
   qint16 *mBuffer;
   qint64 mBufferSize;  // number of 'qint16' in the buffer
 

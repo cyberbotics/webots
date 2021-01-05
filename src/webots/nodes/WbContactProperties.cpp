@@ -199,15 +199,16 @@ void WbContactProperties::updateBumpSound() {
   if (sound.isEmpty())
     mBumpSoundClip = NULL;
   else {
-    if (mDownloadIODevice[0]) {
-      const QByteArray e = mDownloadIODevice[0]->readAll();
-      mBumpSoundClip = WbSoundEngine::sound(sound, 0, 0, &e);
+    if (!mDownloader[0]) {
+      mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));
+    } else {
+      assert(mDownloadIODevice[0]);
+      mBumpSoundClip = WbSoundEngine::sound(sound, mDownloadIODevice[0]);
       mDownloadIODevice[0]->deleteLater();
       delete mDownloader[0];
       mDownloadIODevice[0] = NULL;
       mDownloader[0] = NULL;
-    } else
-      mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));
+    }
   }
   WbSoundEngine::clearAllContactSoundSources();
 }

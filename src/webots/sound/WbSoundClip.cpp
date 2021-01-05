@@ -20,7 +20,7 @@
 
 #include <AL/al.h>
 
-WbSoundClip::WbSoundClip() : mFilename(), mBuffer(0), mSide(0), mBalance(0.0) {
+WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
 }
 
 WbSoundClip::~WbSoundClip() {
@@ -28,14 +28,15 @@ WbSoundClip::~WbSoundClip() {
     alDeleteBuffers(1, &mBuffer);
 }
 
-void WbSoundClip::load(const QString &filename, double balance, int side, const QByteArray *data) {
-  WbWaveFile wave(filename);
+void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
+  WbWaveFile wave(filename, device);
   wave.loadFromFile(side);
   if (wave.nChannels() > 1)
     wave.convertToMono(balance);
   mFilename = wave.filename();
   mSide = side;
   mBalance = balance;
+  mDevice = device;
   load(&wave);
 }
 

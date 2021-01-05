@@ -100,6 +100,14 @@ WbWorldInfo::~WbWorldInfo() {
   delete mPhysicsReceiver;
 }
 
+void WbWorldInfo::downloadAssets() {
+  const int size = mContactProperties->size();
+  for (int i = 0; i < size; ++i) {
+    WbContactProperties *const cp = static_cast<WbContactProperties *>(mContactProperties->item(i));
+    cp->downloadAssets();
+  }
+}
+
 void WbWorldInfo::preFinalize() {
   WbBaseNode::preFinalize();
 
