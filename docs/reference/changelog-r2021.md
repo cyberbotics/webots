@@ -9,6 +9,7 @@ Released on XX Xth, 2021.
     - Fix Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
     - Fix reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
     - Fix in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
+    - Fix a strategy to find a MATLAB executable in `PATH` ([#2624](https://github.com/cyberbotics/webots/pull/2624)).
 
 ## Webots R2021a
 Released on December 15th, 2020.
