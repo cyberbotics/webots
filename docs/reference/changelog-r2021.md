@@ -4,6 +4,7 @@
 Released on XX Xth, 2021.
 
   - Enhancements
+    - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
   - Bug fixes
     - Fix Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
