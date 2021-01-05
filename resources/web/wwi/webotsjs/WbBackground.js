@@ -15,7 +15,7 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbViewpoint} from "./WbViewpoint.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
-import {arrayXPointer} from "./WbUtils.js";
+import {arrayXPointer, arrayXPointerFloat} from "./WbUtils.js";
 
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
@@ -149,7 +149,6 @@ class WbBackground extends WbBaseNode {
   applySkyBoxToWren() {
     this.destroySkyBox();
 
-    let hdrImageData = [];
     // 1. Load the background.
     if(this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
@@ -177,30 +176,21 @@ class WbBackground extends WbBaseNode {
 
     // 2. Load the irradiance map.
     let cm = _wr_texture_cubemap_new();
-
+    let hdrImageData = [];
     if(this.irradianceCubeArray.length === 6) {
-      let w = 0;
-      let data = new Uint32Array([w]);
-      let nDataBytes = data.length * data.BYTES_PER_ELEMENT;
-      let dataPtr = Module._malloc(nDataBytes);
-      let dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
-      dataHeap.set(new Uint8Array(data.buffer));
 
       for (let i = 0; i < 6; ++i) {
         _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-        let data = Module.ccall('wrjs_load_hdr_file', null, ['number','string'], [dataHeap.byteOffset, this.irradianceCubeArray[i]]);
-        w = Module.getValue(dataHeap.byteOffset,'i32');
-        // TODO Check if some rotations are needed for ENU
-        _wr_texture_cubemap_set_data(cm, data, i);
-        hdrImageData[i] = data;
+
+        hdrImageData[i] = arrayXPointerFloat(this.irradianceCubeArray[i].bits);
+        _wr_texture_cubemap_set_data(cm, hdrImageData[i], i);
       }
 
-      //hdr must be square? if not change also in wrjs_load_hdr_file
-      _wr_texture_set_size(cm, w, w);
+      _wr_texture_set_size(cm, this.irradianceCubeArray[0].width, this.irradianceCubeArray[0].height);
       _wr_texture_set_texture_unit(cm, 13);
       _wr_texture_setup(cm);
 
-      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), w);
+      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width,);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
       if (this.irradianceCubeTexture) {
@@ -219,7 +209,7 @@ class WbBackground extends WbBaseNode {
 
 
     for(let i = 0; i < hdrImageData.length; ++i)
-      _wrjs_free_hdr_file(hdrImageData[i]);
+      _free(hdrImageData[i]);
   }
 
   preFinalize() {

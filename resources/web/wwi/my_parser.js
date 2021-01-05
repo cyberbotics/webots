@@ -47,11 +47,11 @@ import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
 import {WbVector3} from "./webotsjs/utils/WbVector3.js";
+import {RGBELoader} from "./hdrLoader.js"
 
 class MyParser {
   constructor(localTexture=false) {
       this.prefix = localTexture ?  '' : "http://localhost:1234/";
-      this.irradiancePrefix = localTexture ? '' : "/projects/default/worlds/"
       let world = new World();
       this.fog = false;
       this.undefinedID = 900000;
@@ -146,13 +146,13 @@ class MyParser {
 
   async parseScene(node) {
     let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await this.loadTextureData("/resources/wren/textures/lens_flare.png", true);
+    let lensFlareLenTexture = await this.loadTextureData("/resources/wren/textures/lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
-    let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png", true);
+    let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png");
     smaaAreaTexture.isTranslucent = false;
-    let smaaSearchTexture = await this.loadTextureData("/resources/wren/textures/smaa_search_texture.png", true);
+    let smaaSearchTexture = await this.loadTextureData("/resources/wren/textures/smaa_search_texture.png");
     smaaSearchTexture.isTranslucent = false;
-    let gtaoNoiseTexture = await this.loadTextureData("/resources/wren/textures/gtao_noise_texture.png", true);
+    let gtaoNoiseTexture = await this.loadTextureData("/resources/wren/textures/gtao_noise_texture.png");
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
@@ -201,7 +201,6 @@ class MyParser {
       rightUrl = rightUrl.slice(1, rightUrl.length-1);
       topUrl = topUrl.slice(1, topUrl.length-1);
 
-
       cubeImages[5] = await this.loadTextureData(this.prefix + backUrl);
       cubeImages[3] = await this.loadTextureData(this.prefix + bottomUrl);
       cubeImages[4] = await this.loadTextureData(this.prefix + frontUrl);
@@ -229,12 +228,12 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      irradianceCubeURL[5] = this.irradiancePrefix + backIrradianceUrl;
-      irradianceCubeURL[3] = this.irradiancePrefix + bottomIrradianceUrl;
-      irradianceCubeURL[4] = this.irradiancePrefix + frontIrradianceUrl;
-      irradianceCubeURL[1] = this.irradiancePrefix + leftIrradianceUrl;
-      irradianceCubeURL[0] = this.irradiancePrefix + rightIrradianceUrl;
-      irradianceCubeURL[2] = this.irradiancePrefix + topIrradianceUrl;
+      irradianceCubeURL[2] = await this.loadTextureData(this.prefix + topIrradianceUrl, true);
+      irradianceCubeURL[5] = await this.loadTextureData(this.prefix + backIrradianceUrl, true);
+      irradianceCubeURL[3] = await this.loadTextureData(this.prefix + bottomIrradianceUrl, true);
+      irradianceCubeURL[4] = await this.loadTextureData(this.prefix + frontIrradianceUrl, true);
+      irradianceCubeURL[1] = await this.loadTextureData(this.prefix + leftIrradianceUrl, true);
+      irradianceCubeURL[0] = await this.loadTextureData(this.prefix + rightIrradianceUrl, true);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
@@ -934,25 +933,34 @@ class MyParser {
     return textureTransform;
   }
 
-  async loadTextureData(url, bgra) {
+  async loadTextureData(url, isHdr) {
     let canvas2 = document.createElement('canvas')
     let context =  canvas2.getContext('2d');
-    let img = await this.loadImage(url);
-    canvas2.width = img.width;
-    canvas2.height = img.height;
-    context.drawImage(img, 0, 0);
-    let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-    let data = new Uint8ClampedArray(dataBGRA.length);
-
-    data = dataBGRA;
-
 
     let image = new WbImage();
 
-    image.bits = data;
-    image.width = img.width;
-    image.height = img.height;
-    image.url = url;
+    if(isHdr){
+      let img = await this.loadHDRImage(url);
+      image.bits = img.data;
+      image.width = img.width;
+      image.height = img.height;
+      image.url = url;
+    }
+    else {
+      let img = await this.loadImage(url);
+      canvas2.width = img.width;
+      canvas2.height = img.height;
+      context.drawImage(img, 0, 0);
+      let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+      let data = new Uint8ClampedArray(dataBGRA.length);
+      data = dataBGRA;
+
+      image.bits = data
+      image.width = img.width;
+      image.height = img.height;
+      image.url = url;
+    }
+
     return image;
  }
 
@@ -965,6 +973,12 @@ class MyParser {
      img.onerror = () => console.log("Error in loading : " + src);
      img.setAttribute('crossOrigin', ''); //TODO Check if we want to let it
      img.src = src;
+   })
+ }
+ loadHDRImage(src){
+   return new Promise((resolve, reject) => {
+     let loader = new RGBELoader;
+     loader.load(src, function(img){resolve(img)});
    })
  }
 }
