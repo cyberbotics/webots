@@ -129,10 +129,8 @@ const QString &WbLanguageTools::matlabCommand() {
     // and with the termination of the QProcess.
     QString PATH = qgetenv("PATH");
     QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
-    bool matlabFound = false;
     foreach (QString dir, dirs) {
-      if (dir.contains("matlab", Qt::CaseInsensitive)) {
-        matlabFound = QDir(dir).exists();
+      if (QDir(dir).exists()) {
         QString file = dir + "\\win64\\MATLAB.exe";
         if (QFile::exists(file)) {
           gMatlabCommand = file;
@@ -141,11 +139,8 @@ const QString &WbLanguageTools::matlabCommand() {
       }
     }
     if (gMatlabCommand.isEmpty()) {
-      if (matlabFound)
-        WbLog::warning(QObject::tr("To run Matlab controllers, you need to install a 64-bit version of Matlab."));
-      else
-        WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                   "from the DOS CMD.EXE console."));
+      WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
+                                 "from the DOS CMD.EXE console."));
       gMatlabCommand = "!";
     }
 #else
