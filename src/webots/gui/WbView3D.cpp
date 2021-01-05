@@ -1253,6 +1253,9 @@ void WbView3D::checkRendererCapabilities() {
     message += tr("Webots has detected that your system features an old unsupported GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     message += '\n';
+    disableAntiAliasing = true;
+    disableGTAO = true;
+    reduceTextureQuality = 1;
   }
 #endif
 
