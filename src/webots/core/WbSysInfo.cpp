@@ -507,11 +507,11 @@ bool WbSysInfo::isLowEndGpu() {
     const QString &renderer = openGLRenderer();
     if (renderer.contains("Intel") && renderer.contains(" HD Graphics ")) {
       // we support only recent Intel GPUs from about 2015
-      const int modelIndex = renderer.indexOf(" HD Graphics ") + 13;
       if (renderer.contains("Ivybridge") || renderer.contains("Sandybridge") || renderer.contains("Haswell") ||
           renderer.contains("Ironlake"))
         lowEndGpu = 1;
       else {
+        const int modelIndex = renderer.indexOf(" HD Graphics ") + 13;
         QString model = renderer.mid(modelIndex, renderer.indexOf(" ", modelIndex));
         if (model.startsWith("P"))
           model = model.mid(1);
