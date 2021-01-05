@@ -38,6 +38,7 @@ class WbBasicJoint : public WbBaseNode {
 public:
   virtual ~WbBasicJoint();
 
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createOdeObjects() override;
