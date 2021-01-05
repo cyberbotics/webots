@@ -1,5 +1,6 @@
 /* global DefaultUrl, TextureLoader */
 'use strict';
+import {DefaultUrl} from "./default_url.js"
 
 class Animation { // eslint-disable-line no-unused-vars
   constructor(url, scene, view, gui, loop) {
@@ -42,14 +43,16 @@ class Animation { // eslint-disable-line no-unused-vars
       //this.gui = 'play_on_load'; // wait for textures loading
 
     // Create play bar.
-    var div = document.createElement('div');
-    div.id = 'playBar';
-    this.view.view3D.appendChild(div);
+    //var div = document.createElement('div');
+    //div.id = 'playBar';
+    //this.view.view3D.appendChild(div);
+    this.view.view3D.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
+    let div = document.getElementById("playBar");
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
-    //this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
