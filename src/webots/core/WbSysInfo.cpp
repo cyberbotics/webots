@@ -16,6 +16,7 @@
 
 #include "WbMacAddress.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtGui/QOpenGLFunctions>
 
@@ -511,15 +512,10 @@ bool WbSysInfo::isLowEndGpu() {
           renderer.contains("Ironlake"))
         lowEndGpu = 1;
       else {
-        const int modelIndex = renderer.indexOf(" HD Graphics ") + 13;
-        QString model = renderer.mid(modelIndex, renderer.indexOf(" ", modelIndex));
-        if (model.startsWith("P"))
-          model = model.mid(1);
-        else if (model.startsWith("("))
-          model = "-1";
-        if (model.contains("/"))
-          model = model.left(model.indexOf("/"));
-        const int number = model.toInt();
+        const QRegularExpression re(" HD Graphics P{0,1}([\\d]{3,4})");
+        const QRegularExpressionMatch match = re.match(renderer);
+        const int number = match.hasMatch() ? match.captured(1).toInt() : 0;
+        qDebug() << number;
         if ((number >= 2000 && number <= 6000) || (number >= 100 && number < 500))
           lowEndGpu = 1;
       }
