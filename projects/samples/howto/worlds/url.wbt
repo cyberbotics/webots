@@ -5,15 +5,17 @@ WorldInfo {
   ]
   title "Camera Noise Mask"
   coordinateSystem "NUE"
-  contactProperties ContactProperties {
-    bumpSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/bump.wav"
-    rollSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/roll.wav"
-    slideSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/slide.wav"
-  }
+  contactProperties [
+    ContactProperties {
+      bumpSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/bump.wav"
+      rollSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/roll.wav"
+      slideSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/slide.wav"
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.9930653087866981 0.11145355915093857 -0.037408510221181586 5.807895861697431
-  position 0.07841652608578589 0.2148923765023849 0.3253250805520264
+  orientation 0.9967333044074052 0.05404317077674064 -0.06001712736786901 5.860170157800567
+  position -0.09759292378665785 0.7143473564879417 1.2833810451863323
 }
 Background {
   backUrl [
@@ -152,6 +154,24 @@ DEF RED_BOX Solid {
     }
     geometry USE BOX3
   }
+}
+DEF MESH Transform {
+  translation -0.09 0.11 -0.3
+  scale 0.1 0.1 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.45333 0.288273 0.281071
+        roughness 0.2
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
+        ]
+      }
+    }
+  ]
 }
 Robot {
   translation 0.15 0 0
