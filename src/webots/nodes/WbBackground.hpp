@@ -104,6 +104,7 @@ private:
 
   WbDownloader *mDownloader[12];
   QIODevice *mDownloadIODevice[12];
+  bool mDownloadAgain[12];
 
 private slots:
   void updateColor();
