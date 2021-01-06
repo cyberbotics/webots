@@ -127,6 +127,7 @@ bool WbImageTexture::loadTexture() {
     mDownloadIODevice->deleteLater();
     mDownloadIODevice = NULL;
     delete mDownloader;
+    mDownloader = NULL;
     return r;
   }
   const QString filePath(path());
