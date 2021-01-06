@@ -10,8 +10,9 @@ var DefaultUrl = {
         var src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
-        if (src.endsWith('webots.js') || src.endsWith('webots.min.js') || src.endsWith('webots.debug.js') || src.endsWith('webots.mjpeg.js')) {
-          src = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
+        if (src.endsWith('setup_viewer.js') || src.endsWith('init_animation,js')) {
+          src = src.substring(0, src.lastIndexOf('/')); // remove "webots.js"
+          this._wwiUrl = src.substring(0, src.lastIndexOf('/') + 1); // remove "streaming_viewer"
           break;
         }
 
@@ -21,7 +22,14 @@ var DefaultUrl = {
   },
 
   wwiImagesUrl: function(name) {
-    return "../wwi/" + 'images/';
+    return this.wwiUrl() + 'wwi/images/';
+  },
+
+
+  wrenImagesUrl: function() {
+    let url = this._wwiUrl.substring(0, this._wwiUrl.length - 1);
+    url= url.substring(0, url.lastIndexOf('/') + 1); // remove "web"
+    return url + "wren/textures/";
   },
 
   currentScriptUrl: function() {
