@@ -71,6 +71,8 @@ void WbMotor::init() {
   mMaxVelocity = findSFDouble("maxVelocity");
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
+  mDownloader = NULL;
+  mDownloadIODevice = NULL;
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
