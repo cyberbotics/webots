@@ -51,7 +51,7 @@ import {RGBELoader} from "./hdrLoader.js"
 
 class MyParser {
   constructor(localTexture=false) {
-      this.prefix = localTexture ?  '' : "http://localhost:1234/";
+      this.prefix = localTexture ?  '' : "http://localhost:1234/"; //TODO don't hardcode
       let world = new World();
       this.fog = false;
       this.undefinedID = 900000;
@@ -146,7 +146,7 @@ class MyParser {
 
   async parseScene(node) {
     let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await this.loadTextureData("/resources/wren/textures/lens_flare.png");
+    let lensFlareLenTexture = await this.loadTextureData("./../../wren/textures/lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
     let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png");
     smaaAreaTexture.isTranslucent = false;
