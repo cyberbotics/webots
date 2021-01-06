@@ -12,4 +12,4 @@
 	url = https://github.com/nothings/stb.git
 [submodule "resources/webots_ros"]
 	path = resources/webots_ros
-	url = https://github.com/cyberbotics/webots_ros
+	url = https://github.com/cyberbotics/webots_ros/tree/8b17bf4e83b001a13b6c1d0cd3e313261af3e027
