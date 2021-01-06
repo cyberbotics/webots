@@ -1102,10 +1102,14 @@ void WbCamera::updateNoiseMaskUrl() {
       noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
       device = NULL;
     }
-    if (!noiseMaskUrl.isEmpty()) {
-      const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
-      if (!error.isEmpty())
-        parsingWarn(error);
+    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
+    if (!error.isEmpty())
+      parsingWarn(error);
+    if (mDownloadIODevice) {
+      mDownloadIODevice->deleteLater();
+      mDownloadIODevice = NULL;
+      delete mDownloader;
+      mDownloader = NULL;
     }
   }
 }
