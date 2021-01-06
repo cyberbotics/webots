@@ -90,6 +90,9 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 WbMotor::~WbMotor() {
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
+  delete mDownloader;
+  if (mDownloadIODevice)
+    mDownloadIODevice->deleteLater();
 }
 
 void WbMotor::downloadAssets() {
@@ -238,6 +241,10 @@ void WbMotor::updateSound() {
   else {
     assert(mDownloadIODevice);
     mSoundClip = WbSoundEngine::sound(sound, mDownloadIODevice);
+    mDownloadIODevice->deleteLater();
+    mDownloadIODevice = NULL;
+    delete mDownloader;
+    mDownloader = NULL;
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }
