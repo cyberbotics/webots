@@ -1662,3 +1662,11 @@ Yes, this is possible using a supervisor to remove the node corresponding to the
 ##### Olivier Michel [Cyberbotics] 12/08/2020 06:46:09
 Yes, exactly the same.
 
+## 2021
+
+##### pnaraltnsk 01/02/2021 21:48:12
+Hi, I am using webots for my graduation project and I am working on the Nao robot. I am trying to add pen node to my robot to mark the robot's walking path but for some reason, the pen node doesn't write. I added pen node to my robot's leftFootSlot and exactly like in pen.wbt example. Could you please help me out with this situation? Or do you know any other ways to mark the robot's walking path?
+
+##### Stefania Pedrazzi [Cyberbotics] 01/04/2021 07:12:22
+`@pnaraltnsk` your question has already been answered in the `technical-questions` channel.
+

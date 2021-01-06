@@ -2,6 +2,26 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2021
+
+##### aleena 01/01/2021 07:56:16
+Happy New Year everyone 🎉 🥳
+
+##### Soft\_illusion 01/01/2021 07:50:51
+[https://youtu.be/-88UzHYHrxg](https://youtu.be/-88UzHYHrxg)
+
+
+
+🤖 Happy New Year !!! 🤖
+
+💥🎂🎼🎉🥳
+
+
+
+Let’s take a moment and celebrate a new year with the community.
+
+So we have a setup a small Robot show do checkout and share the video
+
 ## 2020
 
 ##### Olivier Michel [Cyberbotics] 12/15/2020 16:30:40

@@ -4851,11 +4851,11 @@ How I want to extract translation and rotation value while it's autonomously mov
 
        rotat = robotRotationField.getSFRotation()
 
-##### Valtteri Bottas 02/25/2020 22:55:23
+##### Noob Saibot 02/25/2020 22:55:23
 I have a general question. What is the most accurate value for columb friction to simulate?
 
 ##### David Mansolino [Cyberbotics] 02/26/2020 06:44:00
-`@Valtteri Bottas`, it depends on the surface, there is no 'correct' global value for the columb friction.
+`@Noob Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
 
 
 `@coderrr`, no. You should set the aperture from the scene-tree you can't change it from the API.
@@ -14408,7 +14408,7 @@ Not to a transform, but to a Solid node yes, the Supervisor can do this: [https:
 
 Thank you 👌, it was also one of my intuitions but was not sure if webots disable something to record videos.
 
-##### Алексей\_Александрович 05/12/2020 10:30:58
+##### Евклит 05/12/2020 10:30:58
 Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
 ##### jomell310 05/12/2020 11:20:46
@@ -14419,7 +14419,7 @@ Hello, I am programming robots in the Webots simulator. There is an example of a
 ##### David Mansolino [Cyberbotics] 05/12/2020 11:39:53
 > Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
-`@Алексей_Александрович` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
+`@Евклит` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
 
 
 > `@David Mansolino` Okay, so I do I need to setup anything? Because right now even if I run the sample project obstacle\_avoidance the simulation doesn't stop after the robot has crossed the line or crashed into something. In the console it says that the supervisor has been started though but It's not doing anything else
@@ -49517,4 +49517,37 @@ This is error I got from ROS
 hello ! I am using the supervisor function ----def getContactPoint(self, index): to get the contact point. What does the index specify here ? And how to define the solid whose contact point I want ?     
 
  And is it necessary that the solid whose contact point I want to get should not have another soild node as a parent.?
+
+##### nelsondmmg 12/30/2020 14:19:56
+Sorry, I only had time to look around this question now. When the set\_cruising\_speed is used it changes the speed for each motor in each wheel. The motor object itself has a set\_acceleration method, which I could just add a new call inside the driver object but I would like to understand how the proto file is being interpreted to configure the vehicle (more specifically how the time0to100 is used). Can I just create this function call to  wb\_motor\_set\_accelerationackerm to each wheel assuming that the acceleration in time0to100 is called only in the initialization ? Thanks
+
+##### Çağrı Kaymak 12/31/2020 10:08:06
+Hi everyone, I get the gyroscope and accelerometer data of Robotis OP2 in float data type (like 511.98) in Webots environment, while I get int data type (like 512) in real robot. For 10 bit ADC, I could not understand why the data was taken in float type. If anyone knows the reason, I would be glad if it helps. Thank you in advance for your interest.
+
+##### Simon Steinmann [Moderator] 12/31/2020 11:45:13
+The controller is probably just rounding. You could either just round the value, or change the resolution of the sensor. Most sensor data is a float by default.
+
+##### Çağrı Kaymak 12/31/2020 13:26:55
+Ok, many thanks👍
+
+##### RoboCoder 12/31/2020 21:38:56
+Hi everyone, I keep getting this error when trying to run the "pedestrian" example: WARNING: "python.exe" was not found.
+
+Webots requires Python version 3.9, 3.8, 3.7 or 2.7 (64 bit) from python.org in your current PATH.
+
+To fix the problem, you should:
+
+1. Check the Python command set in the Webots preferences.
+
+2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
+
+3. Fix your PATH environment variable to use the required Python 64 bit version (if available).
+
+4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.
+
+
+how can I fix this? Adding an environment variable with Python.exe doesn't seem to work.
+
+##### Chernayaten 12/31/2020 21:46:23
+What version is your python?
 
