@@ -74,15 +74,16 @@ private:
   WbSFString *mBumpSound;
   WbSFString *mRollSound;
   WbSFString *mSlideSound;
-  WbSoundClip *mBumpSoundClip;
-  WbSoundClip *mRollSoundClip;
-  WbSoundClip *mSlideSoundClip;
+  const WbSoundClip *mBumpSoundClip;
+  const WbSoundClip *mRollSoundClip;
+  const WbSoundClip *mSlideSoundClip;
   WbDownloader *mDownloader[3];
   QIODevice *mDownloadIODevice[3];
   WbContactProperties &operator=(const WbContactProperties &);  // non copyable
   WbNode *clone() const override { return new WbContactProperties(*this); }
   void init();
   void downloadAsset(const QString &url, int index);
+  const WbSoundClip *loadSound(int index, const QString &sound, const QString &name);
 
 private slots:
   void updateCoulombFriction();
