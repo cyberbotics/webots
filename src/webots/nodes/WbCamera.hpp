@@ -134,6 +134,7 @@ private:
   // URL downloader
   WbDownloader *mDownloader;
   QIODevice *mDownloadIODevice;
+  bool mDownloadAgain;
 
 private slots:
   void updateFocus();

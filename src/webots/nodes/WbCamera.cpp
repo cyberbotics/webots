@@ -132,6 +132,7 @@ void WbCamera::init() {
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
   mDownloadIODevice = NULL;
   mDownloader = NULL;
+  mDownloadAgain = false;
 }
 
 WbCamera::WbCamera(WbTokenizer *tokenizer) : WbAbstractCamera("Camera", tokenizer) {
@@ -169,6 +170,10 @@ void WbCamera::downloadAssets() {
 
 void WbCamera::setDownloadIODevice(QIODevice *device) {
   mDownloadIODevice = device;
+  if (mDownloadAgain) {
+    mDownloadAgain = false;
+    updateNoiseMaskUrl();
+  }
 }
 
 void WbCamera::preFinalize() {
@@ -1096,6 +1101,11 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     QIODevice *device;
     if (WbUrl::isWeb(noiseMaskUrl)) {
+      if (mDownloader == NULL) {
+        downloadAssets();
+        mDownloadAgain = true;
+        return;
+      }
       assert(mDownloadIODevice);
       device = mDownloadIODevice;
     } else {
