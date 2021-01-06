@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import argparse
 import rospy
 
 from controller import Robot
-from joint_state_publisher import JointStatePublisher
-from trajectory_follower import TrajectoryFollower
+from ur_e_webots.joint_state_publisher import JointStatePublisher
+from ur_e_webots.trajectory_follower import TrajectoryFollower
 from rosgraph_msgs.msg import Clock
 
 
@@ -56,5 +56,5 @@ while robot.step(timestep) != -1 and not rospy.is_shutdown():
     time = robot.getTime()
     msg.clock.secs = int(time)
     # round prevents precision issues that can cause problems with ROS timers
-    msg.clock.nsecs = round(1000 * (time - msg.clock.secs)) * 1.0e+6
+    msg.clock.nsecs = int(round(1000 * (time - msg.clock.secs)) * 1.0e+6)
     clockPublisher.publish(msg)
