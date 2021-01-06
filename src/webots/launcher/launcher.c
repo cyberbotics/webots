@@ -99,6 +99,8 @@ int main(int argc, char *argv[]) {
   if (!SetEnvironmentVariable("PATH", new_path))
     fail("SetEnvironmentVariable", new_path);
   free(new_path);
+  if (!SetEnvironmentVariable("QT_ENABLE_HIGHDPI_SCALING", "1"))
+    fail("SetEnvironmentVariable", "QT_ENABLE_HIGHDPI_SCALING=1");
 
   // start the webots-bin.exe process, wait for completion and return exit code
   STARTUPINFO info = {sizeof(info)};
