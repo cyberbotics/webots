@@ -214,11 +214,11 @@ void WbContactProperties::updateBumpSound() {
 }
 
 void WbContactProperties::updateRollSound() {
-  mRollSoundClip = loadSound(0, mRollSound->value(), "rollSound");
+  mRollSoundClip = loadSound(1, mRollSound->value(), "rollSound");
 }
 
 void WbContactProperties::updateSlideSound() {
-  mSlideSoundClip = loadSound(0, mSlideSound->value(), "slideSound");
+  mSlideSoundClip = loadSound(2, mSlideSound->value(), "slideSound");
 }
 
 void WbContactProperties::enableBodies() {
