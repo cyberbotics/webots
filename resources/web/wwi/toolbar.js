@@ -8,8 +8,12 @@ class Toolbar { // eslint-disable-line no-unused-vars
   constructor(parent, view) {
     this.view = view;
 
-    this.domElement = document.createElement('div');
-    this.domElement.id = 'toolBar';
+    //this.domElement = document.createElement('div');
+    //this.domElement.id = 'toolBar';
+
+    parent.insertAdjacentHTML('afterend', "<div id='toolBar'></div>");
+    this.domElement = document.getElementById("toolBar");
+
     this.domElement.left = document.createElement('div');
     this.domElement.left.className = 'toolBarLeft';
 
@@ -81,7 +85,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
     this.domElement.appendChild(this.domElement.left);
     this.domElement.appendChild(this.domElement.right);
-    parent.appendChild(this.domElement);
+    //parent.appendChild(this.domElement);
 
     this.enableToolBarButtons(false);
     if (this.view.broadcast && this.quitButton) {
