@@ -203,8 +203,8 @@ const WbSoundClip *WbContactProperties::loadSound(int index, const QString &soun
   assert(mDownloadIODevice[index]);
   const WbSoundClip *clip = WbSoundEngine::sound(sound, mDownloadIODevice[index]);
   mDownloadIODevice[index]->deleteLater();
-  delete mDownloader[index];
   mDownloadIODevice[index] = NULL;
+  delete mDownloader[index];
   mDownloader[index] = NULL;
   return clip;
 }
