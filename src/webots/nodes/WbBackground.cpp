@@ -163,9 +163,17 @@ WbBackground::~WbBackground() {
   wr_node_delete(WR_NODE(mHdrClearTransform));
   wr_static_mesh_delete(mHdrClearMesh);
 
-  for (int i = 0; i < 12; ++i) {
-    if (mDownloadIODevice[i])
+  deleteDownloaders();
+}
+
+void WbBackground::deleteDownloaders() {
+  for (int i = 0; i < 12; i++) {
+    delete mDownloader[i];
+    mDownloader[i] = NULL;
+    if (mDownloadIODevice[i]) {
       mDownloadIODevice[i]->deleteLater();
+      mDownloadIODevice[i] = NULL;
+    }
   }
 }
 
@@ -540,14 +548,7 @@ void WbBackground::applySkyBoxToWren() {
   while (hdrImageData.size() > 0)
     stbi_image_free(hdrImageData.takeFirst());
 
-  for (int i = 0; i < 12; i++) {
-    delete mDownloader[i];
-    mDownloader[i] = NULL;
-    if (mDownloadIODevice[i]) {
-      mDownloadIODevice[i]->deleteLater();
-      mDownloadIODevice[i] = NULL;
-    }
-  }
+  deleteDownloaders();
 }
 
 WbRgb WbBackground::skyColor() const {

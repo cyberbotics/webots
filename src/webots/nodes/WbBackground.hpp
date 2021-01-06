@@ -77,6 +77,7 @@ private:
   // make this the WbBackground instance in use
   void activate();
   void downloadAsset(const QString &url, int index);
+  void deleteDownloaders();
 
   // user accessible fields
   WbMFColor *mSkyColor;
