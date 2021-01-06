@@ -27,6 +27,7 @@
 #include "WbSFBool.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
 
@@ -38,8 +39,6 @@
 #include <wren/texture.h>
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
-
-#include <QtCore/QDebug>
 
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 
@@ -58,6 +57,7 @@ void WbImageTexture::init() {
   mRole = "";
   mDownloader = NULL;
   mDownloadIODevice = NULL;
+  mDownloadAgain = false;
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -97,6 +97,12 @@ void WbImageTexture::downloadAssets() {
 
 void WbImageTexture::setDownloadIODevice(QIODevice *device) {
   mDownloadIODevice = device;
+  if (mDownloadAgain) {
+    mDownloadAgain = false;
+    updateWrenTexture();
+    emit changed();
+    WbWorld::instance()->viewpoint()->emit refreshRequired();
+  }
 }
 
 void WbImageTexture::preFinalize() {
@@ -252,6 +258,12 @@ void WbImageTexture::updateUrl() {
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
+  }
+  const QString &url = mUrl->item(0);
+  if (WbUrl::isWeb(url) && mDownloader == NULL) {  // url was changed from the scene tree or supervisor
+    downloadAssets();
+    mDownloadAgain = true;
+    return;
   }
 
   updateWrenTexture();

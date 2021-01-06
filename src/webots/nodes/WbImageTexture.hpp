@@ -101,6 +101,7 @@ private:
   QString mRole;  // Role in a PBR appearance.
   WbDownloader *mDownloader;
   QIODevice *mDownloadIODevice;
+  bool mDownloadAgain;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
