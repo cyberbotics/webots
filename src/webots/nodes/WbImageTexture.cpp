@@ -99,8 +99,7 @@ void WbImageTexture::setDownloadIODevice(QIODevice *device) {
   mDownloadIODevice = device;
   if (mDownloadAgain) {
     mDownloadAgain = false;
-    updateWrenTexture();
-    emit changed();
+    updateUrl();
     WbWorld::instance()->viewpoint()->emit refreshRequired();
   }
 }
