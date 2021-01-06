@@ -40513,12 +40513,12 @@ Thats an awesome idea `@Justin Fisher` , do you mind pointing me to the code for
 It can be a bit tricky to figure out the first time though, so let me paste in a Python example
 
 
-```    newCoinString = f"""DEF COIN{coinCounter.value} GoldCoin {{
+```    newCoinString = f"""DEF COIN{coinCounter.value} GoldCoin {
                           translation {pos.x} {pos.y + 0.5} {pos.z}
                           velocity {cVel.x} {cVel.y} {cVel.z}  
                           angularVelocity {cAng.x} {cAng.y} {cAng.z}
                           name "coin{coinCounter.value}"
-                        }}"""
+                        }"""
     COINS\_field.importMFNodeFromString( -1, newCoinString )
 ```
 
