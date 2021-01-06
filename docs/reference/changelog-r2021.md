@@ -7,6 +7,7 @@ Released on XX Xth, 2021.
     - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
   - Bug fixes
+    - Fix high DPI support on Windows ([#2631](https://github.com/cyberbotics/webots/pull/2631)).
     - Fix Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
     - Fix reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
     - Fix in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
