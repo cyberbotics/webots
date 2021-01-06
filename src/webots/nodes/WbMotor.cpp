@@ -18,6 +18,7 @@
 
 #include "WbMotor.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
@@ -34,6 +35,7 @@
 #include <ode/ode.h>
 
 #include <QtCore/QDataStream>
+#include <QtCore/QUrl>
 
 #include <cassert>
 #include <cmath>
@@ -86,6 +88,19 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 WbMotor::~WbMotor() {
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
+}
+
+void WbMotor::downloadAssets() {
+  const QString &sound = mSound->value();
+  if (WbUrl::isWeb(sound)) {
+    mDownloader = new WbDownloader(QUrl(sound));
+    connect(mDownloader, WbDownloader::complete, this, WbMotor::setDownloadIODevice);
+    mDownloader->start();
+  }
+}
+
+void WbMotor::setDownloadIODevice(QIODevice *device) {
+  mDownloadIODevice = device;
 }
 
 void WbMotor::preFinalize() {
@@ -216,8 +231,12 @@ void WbMotor::updateSound() {
   const QString &sound = mSound->value();
   if (sound.isEmpty())
     mSoundClip = NULL;
-  else
+  else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
+  else {
+    assert(mDownloadIODevice);
+    mSoundClip = WbSoundEngine::sound(sound, mDownloadIODevice);
+  }
   WbSoundEngine::clearAllMotorSoundSources();
 }
 

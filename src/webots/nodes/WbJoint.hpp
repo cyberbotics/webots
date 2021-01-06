@@ -32,6 +32,7 @@ class WbJoint : public WbBasicJoint {
 public:
   virtual ~WbJoint();
 
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;

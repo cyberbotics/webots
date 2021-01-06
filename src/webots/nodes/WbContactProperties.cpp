@@ -37,6 +37,10 @@ void WbContactProperties::init() {
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
   mSlideSoundClip = NULL;
+  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++) {
+    mDownloader[i] = NULL;
+    mDownloadIODevice[i] = NULL;
+  }
 }
 
 WbContactProperties::WbContactProperties(WbTokenizer *tokenizer) : WbBaseNode("ContactProperties", tokenizer) {
@@ -194,8 +198,18 @@ void WbContactProperties::updateBumpSound() {
   const QString &sound = mBumpSound->value();
   if (sound.isEmpty())
     mBumpSoundClip = NULL;
-  else
-    mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));  // FIXME: , mDownloadIODevice[0]);
+  else {
+    if (!mDownloader[0]) {
+      mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));
+    } else {
+      assert(mDownloadIODevice[0]);
+      mBumpSoundClip = WbSoundEngine::sound(sound, mDownloadIODevice[0]);
+      mDownloadIODevice[0]->deleteLater();
+      delete mDownloader[0];
+      mDownloadIODevice[0] = NULL;
+      mDownloader[0] = NULL;
+    }
+  }
   WbSoundEngine::clearAllContactSoundSources();
 }
 
