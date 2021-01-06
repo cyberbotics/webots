@@ -1,3 +1,10 @@
+#menu {
+  z-index: 3;
+}
+.overview-content {
+  position: relative;
+  overflow: visible;
+}
 #overview-canvas {
   position: absolute;
   top: 0px;
@@ -16,6 +23,12 @@
   width:120px;
 }
 .black-label {
+  position: absolute;
+  z-index: 2;
+  width:150px;
+  text-align: left;
+}
+.black-long-label {
   position: absolute;
   z-index: 2;
   width:200px;

@@ -7,7 +7,7 @@
 
 /* global basicTimeStep: false */
 
-function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device) {
+function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device, decimals = 3) {
   this.container = container;
   this.basicTimeStep = basicTimeStep;
   this.autoRange = autoRange;
@@ -15,6 +15,7 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.initialYRange = yRange;
   this.labels = labels;
   this.device = device;
+  this.decimals = decimals;
 
   this.slider = null;
   this.label = null;
@@ -97,8 +98,8 @@ TimeplotWidget.prototype.initialize = function() {
   this.xMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-max">0.0</p>');
 
   this.yLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y">' + this.labels['y'] + '</p>');
-  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-min">' + roundLabel(this.yRange['min']) + '</p>');
-  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-max">' + roundLabel(this.yRange['max']) + '</p>');
+  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-min">' + roundLabel(this.yRange['min'], this.decimals) + '</p>');
+  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-max">' + roundLabel(this.yRange['max'], this.decimals) + '</p>');
 
   if (this.slider) {
     this.slider.setAttribute('min', this.yRange['min']);
@@ -138,7 +139,7 @@ TimeplotWidget.prototype.refresh = function() {
     this.canvasContext.fillStyle = '#059';
     if (Array.isArray(value.y)) {
       for (var j = 0; j < value.y.length; ++j) {
-        this.canvasContext.fillStyle = (j === 0) ? '#A44' : ((j === 1) ? '#4A4' : '#44A');
+        this.canvasContext.fillStyle = this.colorByIndex(j);
         this.canvasContext.beginPath();
         this.canvasContext.arc(this.canvasWidth - 1, this.convertYCoordToCanvas(value.y[j]), 1.25, 0, 2.0 * Math.PI);
         this.canvasContext.fill();
@@ -205,8 +206,8 @@ TimeplotWidget.prototype.updateRange = function() {
   this.updateGridConstants();
 
   if (this.yMinLabel && this.yMaxLabel) {
-    this.yMinLabel.textContent = roundLabel(this.yRange['min']);
-    this.yMaxLabel.textContent = roundLabel(this.yRange['max']);
+    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
+    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
   }
 
   this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -258,22 +259,56 @@ TimeplotWidget.prototype.refreshLabels = function() {
     return;
 
   if (this.xMinLabel.textContent === '0.0') // Blitting didn't started: the labels are constant.
-    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth);
+    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth, this.decimals);
   if (this.lastLabelRefresh !== this.lastX) {
     // Blitting started: update the x labels.
-    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth);
-    this.xMaxLabel.textContent = roundLabel(this.lastX);
+    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth, this.decimals);
+    this.xMaxLabel.textContent = roundLabel(this.lastX, this.decimals);
   }
   if (this.slider && !this.blockSliderUpdateFlag)
     this.slider.value = this.lastY;
   if (this.label) {
     var v = this.lastY;
-    if (Array.isArray(v))
-      this.label.textContent = ': [' + roundLabel(v[0]) + ', ' + roundLabel(v[1]) + ', ' + roundLabel(v[2]) + ']';
-    else
-      this.label.textContent = ': ' + roundLabel(v);
+    if (Array.isArray(v)) {
+      const legend = this.labels['legend'];
+      let text = ': [';
+      for (let i = 0; i < v.length; i++) {
+        if (i > 0)
+          text += ', ';
+        if (legend)
+          text += '<br>&emsp;&emsp;';
+        text += '<span style="color:' + this.labelColorByIndex(i) + '">';
+        if (legend && legend.length > i)
+          text += ' ' + legend[i] + ': ';
+        text += roundLabel(v[i], this.decimals) + '</span>';
+      }
+      if (legend)
+        text += '<br>&emsp;';
+      this.label.innerHTML = text + '&emsp;]';
+    } else
+      this.label.textContent = ': ' + roundLabel(v, this.decimals);
   }
   this.lastLabelRefresh = this.lastX;
+};
+
+TimeplotWidget.prototype.colorByIndex = function(i) {
+  if (i === 0)
+    return '#A44';
+  if (i === 1)
+    return '#4A4';
+  if (i === 2)
+    return '#44A';
+  return '#444';
+};
+
+TimeplotWidget.prototype.labelColorByIndex = function(i) {
+  if (i === 0)
+    return 'red';
+  if (i === 1)
+    return 'green';
+  if (i === 2)
+    return 'blue';
+  return 'black';
 };
 
 TimeplotWidget.prototype.appendChildToContainer = function(child) {
