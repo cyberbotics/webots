@@ -24,9 +24,11 @@
 #include <webots/camera.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
+#include <webots/supervisor.h>
 
 int main() {
   WbDeviceTag camera, left_motor, right_motor;
+  int counter = 0;
   wb_robot_init();
   const int time_step = wb_robot_get_basic_time_step();
 
@@ -44,6 +46,14 @@ int main() {
     wb_camera_get_image(camera);
     wb_motor_set_velocity(left_motor, 1);
     wb_motor_set_velocity(right_motor, 1);
+    if (counter++ == 80) {
+      WbNodeRef image_texture = wb_supervisor_node_get_from_def("IMAGE_TEXTURE");
+      WbFieldRef url = wb_supervisor_node_get_field(image_texture, "url");
+      wb_supervisor_field_set_mf_string(url, 0,
+                                        "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/"
+                                        "protos/textures/brushed_steel/brushed_steel_base_color.jpg");
+      printf("The texture URL of the robot body was changed from the supervisor.\n");
+    }
   }
 
   wb_robot_cleanup();

@@ -14,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.9967333044074052 0.05404317077674064 -0.06001712736786901 5.860170157800567
-  position -0.09759292378665785 0.7143473564879417 1.2833810451863323
+  orientation 0.7651535124241243 -0.6076646380997724 -0.2127998825847844 5.595405205014521
+  position 0.1399278248128099 0.5050148445772569 0.50099123721846
 }
 Background {
   backUrl [
@@ -157,7 +157,7 @@ DEF RED_BOX Solid {
 }
 DEF MESH Transform {
   translation -0.09 0.11 -0.3
-  scale 0.1 0.1 0.1
+  scale 0.05 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -167,13 +167,15 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
+#        "https://raw.githubusercontent.com/revarbat/snappy-reprap/master/STLs/adjustment_screw_parts.stl"
+         "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }
   ]
 }
 Robot {
+  supervisor TRUE
   translation 0.15 0 0
   rotation 0 1 0 1
   children [
@@ -183,7 +185,7 @@ Robot {
         Shape {
           appearance PBRAppearance {
             baseColor 0.8039 0.6745 0.5764
-            baseColorMap ImageTexture {
+            baseColorMap DEF IMAGE_TEXTURE ImageTexture {
               url [
                 "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
               ]
