@@ -145,7 +145,8 @@ class MyParser {
   }
 
   async parseScene(node) {
-    var prefix = typeof prefix !== "undefined" ? prefix + "resources" : "../.."
+    let prefix = typeof window.imagePrefix !== "undefined" ? window.imagePrefix + "resources" : "../.."
+    console.log(window.imagePrefix);
     let id = getNodeAttribute(node, 'id');
     let lensFlareLenTexture = await this.loadTextureData(prefix + "/wren/textures/lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
