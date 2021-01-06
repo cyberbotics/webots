@@ -503,7 +503,7 @@ namespace wren {
           mesh->addCoord(glm::vec3(x, -h, y));
           mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
           mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
-          mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, -0.25f * y + 0.25));
+          mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.25f, -0.25f * y + 0.75));
         }
 
         // connect bottom circle points
