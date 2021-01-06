@@ -146,13 +146,13 @@ class MyParser {
 
   async parseScene(node) {
     let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await this.loadTextureData("./../../wren/textures/lens_flare.png");
+    let lensFlareLenTexture = await this.loadTextureData("../../wren/textures/lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
-    let smaaAreaTexture = await this.loadTextureData("/resources/wren/textures/smaa_area_texture.png");
+    let smaaAreaTexture = await this.loadTextureData("../../wren/textures/smaa_area_texture.png");
     smaaAreaTexture.isTranslucent = false;
-    let smaaSearchTexture = await this.loadTextureData("/resources/wren/textures/smaa_search_texture.png");
+    let smaaSearchTexture = await this.loadTextureData("../../wren/textures/smaa_search_texture.png");
     smaaSearchTexture.isTranslucent = false;
-    let gtaoNoiseTexture = await this.loadTextureData("/resources/wren/textures/gtao_noise_texture.png");
+    let gtaoNoiseTexture = await this.loadTextureData("../../wren/textures/gtao_noise_texture.png");
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
