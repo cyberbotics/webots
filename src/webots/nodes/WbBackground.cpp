@@ -203,14 +203,20 @@ void WbBackground::setDownloadIODevice(QIODevice *device) {
   for (size_t i = 0; i < 12; i++) {
     if (!mDownloader[i])
       continue;
-    shouldDownloadAgain = true;
     if (mDownloader[i] == d)
       mDownloadIODevice[i] = device;
-    else if (mDownloadAgain[i] && !mDownloadIODevice[i])
-      allDownloadAgainAreComplete = false;
+    if (mDownloadAgain[i]) {
+      shouldDownloadAgain = true;
+      if (mDownloadIODevice[i])
+        mDownloadAgain[i] = false;
+      else
+        allDownloadAgainAreComplete = false;
+    }
   }
-  if (shouldDownloadAgain && allDownloadAgainAreComplete)
+  if (shouldDownloadAgain && allDownloadAgainAreComplete) {
     updateCubemap();
+    WbWorld::instance()->viewpoint()->emit refreshRequired();
+  }
 }
 
 void WbBackground::preFinalize() {
