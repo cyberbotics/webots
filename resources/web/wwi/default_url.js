@@ -10,7 +10,7 @@ var DefaultUrl = {
         var src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
-        if (src.endsWith('setup_viewer.js') || src.endsWith('init_animation,js')) {
+        if (src.endsWith('setup_viewer.js') || src.endsWith('init_animation.js')) {
           console.log(src);
           src = src.substring(0, src.lastIndexOf('/')); // remove "webots.js"
           this._wwiUrl = src.substring(0, src.lastIndexOf('/') + 1); // remove "streaming_viewer"
