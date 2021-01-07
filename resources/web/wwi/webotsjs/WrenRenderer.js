@@ -16,11 +16,18 @@ import {World} from "./World.js"
 
 class WrenRenderer {
   constructor () {
+    this.canvas = document.createElement('canvas');
+    this.canvas.id = 'canvas';
+    let div = document.getElementById('playerDiv');
+
+    if(typeof div === 'undefined' || div === null)
+      div = document.getElementById('view3d');
+    div.insertBefore(this.canvas, div.firstChild);
   }
 
   setSize ( width, height ) {
-    canvas.width = width;
-    canvas.height = height;
+    this.canvas.width = width;
+    this.canvas.height = height;
   }
 
   render() {

@@ -455,6 +455,7 @@ webots.View = class View {
       this.x3dScene.domElement.appendChild(param);
     }
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined'){
+      let canvas = document.getElementById('canvas');
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, canvas, this.mobileDevice);
     }
     if (typeof this.console === 'undefined')
