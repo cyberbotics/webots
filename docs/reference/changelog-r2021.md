@@ -13,6 +13,7 @@ Released on XX Xth, 2021.
     - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
     - Fixed in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
     - Fixed a strategy used to find a MATLAB executable in the `PATH` environment variable ([#2624](https://github.com/cyberbotics/webots/pull/2624)).
+    - Fixed external force/torque logic such that the closest dynamic Solid ancestor is picked if the selected one lacks it ([#2635](https://github.com/cyberbotics/webots/pull/2635)).
 
 ## Webots R2021a
 Released on December 15th, 2020.

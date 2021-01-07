@@ -1943,9 +1943,21 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_FORCE_AND_TORQUE, false))
       // user interaction disabled
       return;
-    WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(mPickedMatter);
-    if (!selectedSolid || selectedSolid->bodyMerger() == NULL)
+
+    WbNode *node = dynamic_cast<WbNode *>(mPickedMatter);
+    if (!node)
       return;
+    WbSolid *selectedSolid;
+    while (1) {
+      selectedSolid = dynamic_cast<WbSolid *>(node);
+      if (selectedSolid && selectedSolid->bodyMerger() != NULL)
+        break;
+
+      node = node->parentNode();
+      if (!node || node->level() < 1)  // abort the search at the top of this node chain
+        return;
+    }
+
     Qt::MouseButtons buttons = event->buttons();
     bool forceButtonPressed = buttons == Qt::LeftButton;
 #ifdef __APPLE__
