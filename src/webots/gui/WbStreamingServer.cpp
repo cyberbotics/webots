@@ -599,7 +599,6 @@ void WbStreamingServer::propagateSimulationStateChange() const {
 }
 
 void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
-  /*
   if (mPauseTimeout < 0 || WbSimulationState::instance()->time() < mPauseTimeout)
     return;
 
@@ -610,7 +609,6 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
           &WbStreamingServer::propagateSimulationStateChange);
   client->sendTextMessage(QString("pause: %1").arg(WbSimulationState::instance()->time()));
   fflush(stdout);
-  */
 }
 
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
