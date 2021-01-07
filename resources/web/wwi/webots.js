@@ -445,6 +445,7 @@ webots.View = class View {
       };
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
+      this.x3dDiv.id = "view3d";
       this.x3dDiv.className = 'webots3DView';
       this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
