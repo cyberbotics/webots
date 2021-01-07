@@ -198,11 +198,19 @@ void WbBackground::downloadAssets() {
 void WbBackground::setDownloadIODevice(QIODevice *device) {
   WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
   assert(d);
-  for (size_t i = 0; i < 12; i++)
-    if (d == mDownloader[i]) {
+  bool shouldDownloadAgain = false;
+  bool allDownloadAgainAreComplete = true;
+  for (size_t i = 0; i < 12; i++) {
+    if (!mDownloader[i])
+      continue;
+    shouldDownloadAgain = true;
+    if (mDownloader[i] == d)
       mDownloadIODevice[i] = device;
-      break;
-    }
+    else if (mDownloadAgain[i] && !mDownloadIODevice[i])
+      allDownloadAgainAreComplete = false;
+  }
+  if (shouldDownloadAgain && allDownloadAgainAreComplete)
+    updateCubemap();
 }
 
 void WbBackground::preFinalize() {
@@ -318,9 +326,8 @@ void WbBackground::updateCubemap() {
         postpone = true;
       }
     }
-    if (postpone)
-      return;
-    applySkyBoxToWren();
+    if (!postpone)
+      applySkyBoxToWren();
   }
 }
 
