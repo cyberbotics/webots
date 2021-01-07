@@ -318,20 +318,21 @@ void WbBackground::updateCubemap() {
   if (areWrenObjectsInitialized()) {
     // if some textures are to be downloaded again, postpone the applySkyBoxToWren
     bool postpone = false;
-    for (int i = 0; i < 6; i++) {
-      const QString &url = mUrlFields[i]->item(0);
-      if (WbUrl::isWeb(url) && mDownloader[i] == NULL) {
-        downloadAsset(url, i);
-        mDownloadAgain[i] = true;
-        postpone = true;
+    if (!isPostFinalizedCalled())
+      for (int i = 0; i < 6; i++) {
+        const QString &url = mUrlFields[i]->item(0);
+        if (WbUrl::isWeb(url) && mDownloader[i] == NULL) {
+          downloadAsset(url, i);
+          mDownloadAgain[i] = true;
+          postpone = true;
+        }
+        const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
+        if (WbUrl::isWeb(irradianceUrl) && mDownloader[i + 6] == NULL) {
+          downloadAsset(irradianceUrl, i + 6);
+          mDownloadAgain[i + 6] = true;
+          postpone = true;
+        }
       }
-      const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-      if (WbUrl::isWeb(irradianceUrl) && mDownloader[i + 6] == NULL) {
-        downloadAsset(irradianceUrl, i + 6);
-        mDownloadAgain[i + 6] = true;
-        postpone = true;
-      }
-    }
     if (!postpone)
       applySkyBoxToWren();
   }

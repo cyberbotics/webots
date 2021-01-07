@@ -19,16 +19,21 @@
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
+#include "WbWorld.hpp"
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
+
+#include <QtCore/QDebug>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
   mDownloadIODevice = NULL;
+  mDownloadAgain = false;
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -62,6 +67,11 @@ void WbMesh::downloadAssets() {
 
 void WbMesh::setDownloadIODevice(QIODevice *device) {
   mDownloadIODevice = device;
+  if (mDownloadAgain) {
+    mDownloadAgain = false;
+    updateUrl();
+    WbWorld::instance()->viewpoint()->emit refreshRequired();
+  }
 }
 
 void WbMesh::preFinalize() {
@@ -432,6 +442,13 @@ void WbMesh::updateUrl() {
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
+  }
+
+  if (isPostFinalizedCalled() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
+    // url was changed from the scene tree or supervisor
+    downloadAssets();
+    mDownloadAgain = true;
+    return;
   }
 
   if (areWrenObjectsInitialized())

@@ -259,7 +259,8 @@ void WbImageTexture::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
   const QString &url = mUrl->item(0);
-  if (WbUrl::isWeb(url) && mDownloader == NULL) {  // url was changed from the scene tree or supervisor
+  if (!isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
+    // url was changed from the scene tree or supervisor
     downloadAssets();
     mDownloadAgain = true;
     return;

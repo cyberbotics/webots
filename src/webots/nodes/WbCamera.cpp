@@ -1101,7 +1101,8 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     QIODevice *device;
     if (WbUrl::isWeb(noiseMaskUrl)) {
-      if (mDownloader == NULL) {
+      if (!isPostFinalizedCalled() && mDownloader == NULL) {
+        // url was changed from the scene tree or supervisor
         downloadAssets();
         mDownloadAgain = true;
         return;
