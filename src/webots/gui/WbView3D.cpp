@@ -1945,8 +1945,10 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       return;
 
     WbNode *node = dynamic_cast<WbNode *>(mPickedMatter);
-    WbSolid *selectedSolid = NULL;
-    while (node) {
+    if (!node)
+      return;
+    WbSolid *selectedSolid;
+    while (1) {
       selectedSolid = dynamic_cast<WbSolid *>(node);
       if (selectedSolid && selectedSolid->bodyMerger() != NULL)
         break;
@@ -1955,8 +1957,6 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       if (!node || node->level() < 1)  // abort the search at the top of this node chain
         return;
     }
-    if (!selectedSolid)
-      return;
 
     Qt::MouseButtons buttons = event->buttons();
     bool forceButtonPressed = buttons == Qt::LeftButton;
