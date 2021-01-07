@@ -52,7 +52,7 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
       url: currentUrl + 'help.php' + query,
       success: (data) => {
         // Fix the img src relative URLs.
-        var html = data.replace(/ src="images/g, ' src="' + currentUrl + '/images');
+        var html = data.replace(/ src="images/g, ' src="' + currentUrl + 'images');
         var header = document.createElement('li');
         header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';
         $(this.tabsHeader).prepend(header);

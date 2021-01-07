@@ -42,7 +42,7 @@ var DefaultUrl = {
       if(typeof src === 'undefined')
         continue;
       var index = src.indexOf('?');
-      console.log(src);
+
       if (index > 0)
         src = src.substring(0, index); // remove query string
       if (!src.endsWith('setup_viewer.js') && !src.endsWith('init_animation.js') && !src.endsWith('a.out.js'))

@@ -54,6 +54,9 @@ function disconnect() {
   view = null;
   let playerDiv = document.getElementById('playerDiv');
   playerDiv.innerHTML = null;
+  let toolbar = document.getElementById('toolBar');
+  if(toolbar !== 'undefined' || toolbar !== null)
+    toolbar.parentNode.removeChild(toolbar);
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
   ipInput.disabled = false;
