@@ -10,7 +10,6 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
     //this.domElement = document.createElement('div');
     //this.domElement.id = 'toolBar';
-
     parent.insertAdjacentHTML('afterend', "<div id='toolBar'></div>");
     this.domElement = document.getElementById("toolBar");
 

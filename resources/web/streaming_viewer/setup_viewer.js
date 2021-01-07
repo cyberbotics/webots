@@ -32,6 +32,9 @@ function init() {
 }
 
 function connect() {
+  if(connectButton.value !== 'Connect')
+    return;
+
   // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
   // For any other use, please refer to the documentation:
   // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
@@ -55,8 +58,10 @@ function disconnect() {
   let playerDiv = document.getElementById('playerDiv');
   playerDiv.innerHTML = null;
   let toolbar = document.getElementById('toolBar');
-  if(toolbar !== 'undefined' || toolbar !== null)
-    toolbar.parentNode.removeChild(toolbar);
+  if(toolbar !== 'undefined' && toolbar !== null){
+      toolbar.parentNode.removeChild(toolbar);
+  }
+
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
   ipInput.disabled = false;
