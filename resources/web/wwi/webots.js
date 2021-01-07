@@ -2,7 +2,6 @@ import {SystemInfo} from "./system_info.js";
 import {ContextMenu} from "./context_menu.js";
 import {X3dScene} from "./x3d_scene.js";
 import {MouseEvents} from "./mouse_events.js";
-import {Console} from "./console.js";
 import {Editor} from "./editor.js";
 import {DefaultUrl} from "./default_url.js";
 import {Toolbar} from "./toolbar.js";
@@ -33,7 +32,7 @@ import {Animation} from "./animation.js"
  */
 
 /* global webots */
-/* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
+/* global Animation, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
 /* global Server, Stream, SystemInfo, Toolbar, MultimediaClient, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
@@ -459,8 +458,6 @@ webots.View = class View {
       let canvas = document.getElementById('canvas');
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, canvas, this.mobileDevice);
     }
-    if (typeof this.console === 'undefined')
-      this.console = new Console(this.view3D, this.mobileDevice);
 
     if (typeof this.editor === 'undefined')
       this.editor = new Editor(this.view3D, this.mobileDevice, this);

@@ -67,9 +67,6 @@ class Toolbar { // eslint-disable-line no-unused-vars
     div.appendChild(timeout);
     this.domElement.left.appendChild(div);
 
-    this.domElement.left.appendChild(this.createToolBarButton('console', 'Open the console window'));
-    this.consoleButton.onclick = () => { this.toggleConsole(); };
-
     this.domElement.right = document.createElement('div');
     this.domElement.right.className = 'toolBarRight';
     this.domElement.right.appendChild(this.createToolBarButton('help', 'Get help on the simulator'));
@@ -110,17 +107,6 @@ class Toolbar { // eslint-disable-line no-unused-vars
     } else {
       this.view.infoWindow.open();
       this.infoButton.classList.add('toolBarButtonActive');
-    }
-  }
-
-  toggleConsole() {
-    this.view.contextMenu.hide();
-    if ($('#webotsConsole').is(':visible')) {
-      $('#webotsConsole').dialog('close');
-      this.consoleButton.classList.remove('toolBarButtonActive');
-    } else {
-      $('#webotsConsole').dialog('open');
-      this.consoleButton.classList.add('toolBarButtonActive');
     }
   }
 
@@ -285,10 +271,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   enableToolBarButtons(enabled) {
-    var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.consoleButton, this.worldSelect];
+    var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
-        if (enabled && (!this.view.broadcast || buttons[i] === this.consoleButton)) {
+        if (enabled && (!this.view.broadcast)) {
           buttons[i].disabled = false;
           buttons[i].classList.remove('toolBarButtonDisabled');
         } else {
