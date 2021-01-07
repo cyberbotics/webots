@@ -1,6 +1,6 @@
 import {webots} from "./../wwi/webots.js";
 import {DefaultUrl} from "./default_url.js";
-
+import {HelpWindow} from "./help_window.js";
 
 /* global webots, DialogWindow, HelpWindow, DefaultUrl */
 

@@ -1,5 +1,9 @@
 /* global DialogWindow, DefaultUrl, webots */
 'use strict';
+import {DialogWindow} from "./dialog_window.js";
+import {DefaultUrl} from "./default_url.js";
+import {webots} from "./../wwi/webots.js";
+
 
 class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
   constructor(parent, mobile, webotsDocUrl) {
@@ -67,3 +71,5 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     });
   }
 }
+
+export {HelpWindow}

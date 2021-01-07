@@ -61,10 +61,6 @@ class Stream { // eslint-disable-line no-unused-vars
         let line = lines[i];
         if (line === '') // FIXME: should not happen
           continue;
-        if (line.startsWith('stdout:'))
-          this.view.console.stdout(line.substring(7));
-        else if (line.startsWith('stderr:'))
-          this.view.console.stderr(line.substring(7));
         else if (line.startsWith('robot:')) {
           let robot, message;
           try {

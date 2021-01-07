@@ -39,13 +39,18 @@ var DefaultUrl = {
     var scripts = document.querySelectorAll('script[src]');
     for (let i in scripts) {
       var src = scripts[i].src;
+      if(typeof src === 'undefined')
+        continue;
       var index = src.indexOf('?');
+      console.log(src);
       if (index > 0)
         src = src.substring(0, index); // remove query string
-      if (!src.endsWith('webots.js') && !src.endsWith('webots.min.js') && !src.endsWith('webots.mjpeg.js'))
+      if (!src.endsWith('setup_viewer.js') && !src.endsWith('init_animation.js') && !src.endsWith('a.out.js'))
         continue;
       index = src.lastIndexOf('/');
-      return src.substring(0, index + 1);
+      src = src.substring(0, index); //remove name of file;
+      src = src.substring(0, src.lastIndexOf('/') + 1) + "wwi/";
+      return src;
     }
     return '';
   }
