@@ -195,7 +195,10 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
     return;
   }
-  *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
+  if (!mDownloader[index]->error().isEmpty())
+    warn(mDownloader[index]->error());
+  else
+    *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
   delete mDownloader[index];
   mDownloader[index] = NULL;
 }

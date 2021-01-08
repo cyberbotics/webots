@@ -235,7 +235,12 @@ void WbMotor::updateSound() {
   } else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
   else {
-    mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+    if (mDownloader->error().isEmpty())
+      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+    else {
+      mSoundClip = NULL;
+      warn(mDownloader->error());
+    }
     delete mDownloader;
     mDownloader = NULL;
   }

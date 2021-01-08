@@ -88,6 +88,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   if (filePath.isEmpty())
     return;
 
+  if (mDownloader && !mDownloader->error().isEmpty()) {
+    warn(mDownloader->error());
+    return;
+  }
+
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS |

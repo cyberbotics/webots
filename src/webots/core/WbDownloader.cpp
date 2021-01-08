@@ -51,10 +51,8 @@ void WbDownloader::download(const QUrl &url) {
 
 void WbDownloader::finished() {
   assert(mNetworkReply);
-  if (mNetworkReply->error()) {
-    qDebug() << tr("Cannot download file from %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
-    return;
-  }
+  if (mNetworkReply->error())
+    mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
   disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
   gComplete++;
   mFinished = true;

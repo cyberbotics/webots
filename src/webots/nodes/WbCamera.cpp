@@ -1096,6 +1096,12 @@ void WbCamera::updateNoiseMaskUrl() {
         return;
       }
       assert(mDownloader);
+      if (!mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
       device = mDownloader->device();
       assert(device);
     } else {

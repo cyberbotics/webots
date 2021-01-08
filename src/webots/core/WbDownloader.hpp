@@ -28,6 +28,7 @@ public:
   const QUrl &url() { return mUrl; }
   QIODevice *device() { return dynamic_cast<QIODevice *>(mNetworkReply); }
   bool hasFinished() { return mFinished; }
+  const QString &error() { return mError; }
   static int progress();
   static void reset();
 signals:
@@ -38,6 +39,7 @@ private:
   QUrl mUrl;
   QNetworkReply *mNetworkReply;
   bool mFinished;
+  QString mError;
 
 private slots:
   void finished();

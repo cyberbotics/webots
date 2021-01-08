@@ -121,10 +121,12 @@ void WbImageTexture::postFinalize() {
 
 bool WbImageTexture::loadTexture() {
   if (mDownloader) {
-    const bool r = loadTextureData(mDownloader->device());
-    delete mDownloader;
-    mDownloader = NULL;
-    return r;
+    assert(mDownloader->device());
+    if (!mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());
+      return false;
+    }
+    return loadTextureData(mDownloader->device());
   }
   const QString filePath(path());
   if (filePath.isEmpty())
@@ -145,12 +147,12 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   int width = WbMathsUtilities::nextPowerOf2(imageWidth);
   int height = WbMathsUtilities::nextPowerOf2(imageHeight);
   if (width != imageWidth || height != imageHeight)
-    WbLog::warning(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
-                     .arg(path())
-                     .arg(imageWidth)
-                     .arg(imageHeight)
-                     .arg(width)
-                     .arg(height));
+    warn(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
+           .arg(path())
+           .arg(imageWidth)
+           .arg(imageHeight)
+           .arg(width)
+           .arg(height));
 
   const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
   const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
@@ -227,6 +229,8 @@ void WbImageTexture::updateWrenTexture() {
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
 
   mWrenTexture = WR_TEXTURE(texture);
+  delete mDownloader;
+  mDownloader = NULL;
 }
 
 void WbImageTexture::destroyWrenTexture() {

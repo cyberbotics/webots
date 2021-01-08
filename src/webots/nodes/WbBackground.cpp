@@ -167,8 +167,10 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
     return;
   delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
-  if (postpone)
+  if (postpone) {
+    qDebug() << "connecting" << url;
     connect(mDownloader[index], WbDownloader::complete, this, WbBackground::downloadUpdate);
+  }
   mDownloader[index]->download(QUrl(url));
 }
 
@@ -183,9 +185,11 @@ void WbBackground::downloadAssets() {
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
+  qDebug() << "downloadUpdate 1";
   for (int i = 0; i < 12; i++)
     if (mDownloader[i] && !mDownloader[i]->hasFinished())
       return;
+  qDebug() << "downloadUpdate 2";
   updateCubemap();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -290,19 +294,28 @@ void WbBackground::updateCubemap() {
     // if some textures are to be downloaded again (changed from the scene tree or supervisor)
     // we should postpone the applySkyBoxToWren
     bool postpone = false;
-    if (isPostFinalizedCalled())
+    if (isPostFinalizedCalled()) {
+      const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
+      if (urlField)
+        qDebug() << urlField->item(0);
       for (int i = 0; i < 6; i++) {
         const QString &url = mUrlFields[i]->item(0);
         if (WbUrl::isWeb(url) && mDownloader[i] == NULL) {
-          downloadAsset(url, i, true);
-          postpone = true;
+          if (urlField == mUrlFields[i]) {
+            downloadAsset(url, i, true);
+            postpone = true;
+          }
         }
         const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
         if (WbUrl::isWeb(irradianceUrl) && mDownloader[i + 6] == NULL) {
-          downloadAsset(irradianceUrl, i + 6, true);
-          postpone = true;
+          if (urlField == mIrradianceUrlFields[i]) {
+            downloadAsset(irradianceUrl, i + 6, true);
+            postpone = true;
+          }
         }
       }
+    }
+    qDebug() << "postpone" << postpone;
     if (!postpone)
       applySkyBoxToWren();
   }
@@ -361,6 +374,12 @@ void WbBackground::applySkyBoxToWren() {
       } else
         atLeastOneUrlDefined = true;
       if (mDownloader[i]) {
+        if (!mDownloader[i]->error().isEmpty()) {
+          delete mDownloader[i];
+          mDownloader[i] = NULL;
+          qDebug() << "Error" << mDownloader[i]->error();
+          throw mDownloader[i]->error();
+        }
         assert(mDownloader[i]->device());
         textureUrlDevices[i] = mDownloader[i]->device();
       } else {
@@ -455,9 +474,16 @@ void WbBackground::applySkyBoxToWren() {
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
       const int j = gCoordinateSystemSwap(i);
-      QIODevice *device = mDownloader[j + 6] ? mDownloader[j + 6]->device() : NULL;
+      const int k = j + 6;
+      QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
       bool shouldDelete = false;
-      if (!device) {
+      if (device) {
+        if (!mDownloader[k]->error().isEmpty()) {
+          delete mDownloader[k];
+          mDownloader[k] = NULL;
+          throw mDownloader[k]->error();
+        }
+      } else {
         QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
         if (url.isEmpty())
           throw QString();
