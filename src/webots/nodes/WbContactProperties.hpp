@@ -82,7 +82,7 @@ private:
   WbNode *clone() const override { return new WbContactProperties(*this); }
   void init();
   void downloadAsset(const QString &url, int index);
-  const WbSoundClip *loadSound(int index, const QString &sound, const QString &name);
+  void loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip);
 
 private slots:
   void updateCoulombFriction();
@@ -96,7 +96,6 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
-  void downloadComplete();
 };
 
 #endif

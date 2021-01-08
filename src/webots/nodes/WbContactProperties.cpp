@@ -60,7 +60,6 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url))
     return;
   mDownloader[index] = new WbDownloader(this);
-  connect(mDownloader[index], WbDownloader::complete, this, WbContactProperties::downloadComplete);
   mDownloader[index]->download(QUrl(url));
 }
 
@@ -68,9 +67,6 @@ void WbContactProperties::downloadAssets() {
   downloadAsset(mBumpSound->value(), 0);
   downloadAsset(mRollSound->value(), 1);
   downloadAsset(mSlideSound->value(), 2);
-}
-
-void WbContactProperties::downloadComplete() {
 }
 
 void WbContactProperties::preFinalize() {
@@ -185,28 +181,35 @@ void WbContactProperties::updateSoftErp() {
   emit needToEnableBodies();
 }
 
-const WbSoundClip *WbContactProperties::loadSound(int index, const QString &sound, const QString &name) {
+void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
+  if (isPostFinalizedCalled() && WbUrl::isWeb(name) && mDownloader[index] == NULL) {
+    downloadAsset(name, index);
+    return;
+  }
   WbSoundEngine::clearAllContactSoundSources();
-  if (sound.isEmpty())
-    return NULL;
-  if (!mDownloader[index])
-    return WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
-  const WbSoundClip *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
+  if (sound.isEmpty()) {
+    *clip = NULL;
+    return;
+  }
+  if (!mDownloader[index]) {
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
+    return;
+  }
+  *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
   delete mDownloader[index];
   mDownloader[index] = NULL;
-  return clip;
 }
 
 void WbContactProperties::updateBumpSound() {
-  mBumpSoundClip = loadSound(0, mBumpSound->value(), "bumpSound");
+  loadSound(0, mBumpSound->value(), "bumpSound", &mBumpSoundClip);
 }
 
 void WbContactProperties::updateRollSound() {
-  mRollSoundClip = loadSound(1, mRollSound->value(), "rollSound");
+  loadSound(1, mRollSound->value(), "rollSound", &mRollSoundClip);
 }
 
 void WbContactProperties::updateSlideSound() {
-  mSlideSoundClip = loadSound(2, mSlideSound->value(), "slideSound");
+  loadSound(2, mSlideSound->value(), "slideSound", &mSlideSoundClip);
 }
 
 void WbContactProperties::enableBodies() {

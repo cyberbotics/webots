@@ -95,12 +95,10 @@ void WbMotor::downloadAssets() {
   const QString &sound = mSound->value();
   if (WbUrl::isWeb(sound)) {
     mDownloader = new WbDownloader(this);
-    connect(mDownloader, WbDownloader::complete, this, WbMotor::downloadComplete);
+    if (isPostFinalizedCalled())
+      connect(mDownloader, WbDownloader::complete, this, WbMotor::updateSound);
     mDownloader->download(QUrl(sound));
   }
-}
-
-void WbMotor::downloadComplete() {
 }
 
 void WbMotor::preFinalize() {
@@ -231,7 +229,10 @@ void WbMotor::updateSound() {
   const QString &sound = mSound->value();
   if (sound.isEmpty())
     mSoundClip = NULL;
-  else if (!mDownloader)
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+    downloadAssets();
+    return;
+  } else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
   else {
     mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());

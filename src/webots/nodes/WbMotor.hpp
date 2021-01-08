@@ -141,7 +141,6 @@ private slots:
   void updateMaxAcceleration();
   void updateControlPID();
   void updateMuscles();
-  void downloadComplete();
 };
 
 #endif
