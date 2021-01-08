@@ -88,6 +88,7 @@ void wrjs_init_context(int width, int height) {
   emscripten_set_canvas_element_size("#canvas", width, height);
 
   emscripten_webgl_make_context_current(ctx);
+  emscripten_webgl_enable_extension(ctx, "EXT_float_blend");
 }
 
 const char *wrjs_load_hdr_file(int *w, char *url) {
