@@ -103,14 +103,12 @@ private:
   WrTextureCubeMap *mIrradianceCubeTexture;
 
   WbDownloader *mDownloader[12];
-  QIODevice *mDownloadIODevice[12];
-  bool mDownloadAgain[12];
 
 private slots:
   void updateColor();
   void updateCubemap();
   void updateLuminosity();
-  void setDownloadIODevice(QIODevice *);
+  void downloadComplete();
 };
 
 #endif

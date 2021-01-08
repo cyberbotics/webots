@@ -56,8 +56,6 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
-  mDownloadIODevice = NULL;
-  mDownloadAgain = false;
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -78,9 +76,6 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 }
 
 WbImageTexture::~WbImageTexture() {
-  delete mDownloader;
-  if (mDownloadIODevice)
-    mDownloadIODevice->deleteLater();
   destroyWrenTexture();
 }
 
@@ -89,16 +84,15 @@ void WbImageTexture::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
-    mDownloader = new WbDownloader(QUrl(url));
-    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::setDownloadIODevice);
-    mDownloader->start();
+    mDownloader = new WbDownloader(this);
+    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::downloadComplete);
+    mDownloader->download(QUrl(url));
   }
 }
 
-void WbImageTexture::setDownloadIODevice(QIODevice *device) {
-  mDownloadIODevice = device;
-  if (mDownloadAgain) {
-    mDownloadAgain = false;
+void WbImageTexture::downloadComplete() {
+  if (mDownloader->again()) {
+    mDownloader->setAgain(false);
     updateUrl();
     WbWorld::instance()->viewpoint()->emit refreshRequired();
   }
@@ -127,10 +121,8 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  if (mDownloadIODevice) {
-    const bool r = loadTextureData(mDownloadIODevice);
-    mDownloadIODevice->deleteLater();
-    mDownloadIODevice = NULL;
+  if (mDownloader) {
+    const bool r = loadTextureData(mDownloader->device());
     delete mDownloader;
     mDownloader = NULL;
     return r;
@@ -262,7 +254,7 @@ void WbImageTexture::updateUrl() {
   if (!isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
-    mDownloadAgain = true;
+    mDownloader->setAgain(true);
     return;
   }
 

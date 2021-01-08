@@ -86,11 +86,8 @@ void WbBackground::init() {
     mUrlFields[i] = findMFString(gUrlNames(i));
     mIrradianceUrlFields[i] = findMFString(gIrradianceUrlNames(i));
   }
-  for (int i = 0; i < 12; ++i) {
+  for (int i = 0; i < 12; ++i)
     mDownloader[i] = NULL;
-    mDownloadIODevice[i] = NULL;
-    mDownloadAgain[i] = false;
-  }
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
   mSkyboxMaterial = NULL;
@@ -171,19 +168,15 @@ void WbBackground::deleteDownloaders() {
   for (int i = 0; i < 12; i++) {
     delete mDownloader[i];
     mDownloader[i] = NULL;
-    if (mDownloadIODevice[i]) {
-      mDownloadIODevice[i]->deleteLater();
-      mDownloadIODevice[i] = NULL;
-    }
   }
 }
 
 void WbBackground::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url))
     return;
-  mDownloader[index] = new WbDownloader(QUrl(url));
-  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::setDownloadIODevice);
-  mDownloader[index]->start();
+  mDownloader[index] = new WbDownloader(this);
+  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::downloadComplete);
+  mDownloader[index]->download(QUrl(url));
 }
 
 void WbBackground::downloadAssets() {
@@ -195,20 +188,17 @@ void WbBackground::downloadAssets() {
   }
 }
 
-void WbBackground::setDownloadIODevice(QIODevice *device) {
-  WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
+void WbBackground::downloadComplete() {
   assert(d);
   bool shouldDownloadAgain = false;
   bool allDownloadAgainAreComplete = true;
   for (size_t i = 0; i < 12; i++) {
     if (!mDownloader[i])
       continue;
-    if (mDownloader[i] == d)
-      mDownloadIODevice[i] = device;
-    if (mDownloadAgain[i]) {
+    if (mDownloader[i]->again()) {
       shouldDownloadAgain = true;
-      if (mDownloadIODevice[i])
-        mDownloadAgain[i] = false;
+      if (mDownloader[i]->device())
+        mDownloader[i]->setAgain(false);
       else
         allDownloadAgainAreComplete = false;
     }
@@ -323,13 +313,13 @@ void WbBackground::updateCubemap() {
         const QString &url = mUrlFields[i]->item(0);
         if (WbUrl::isWeb(url) && mDownloader[i] == NULL) {
           downloadAsset(url, i);
-          mDownloadAgain[i] = true;
+          mDownloader[i]->setAgain(true);
           postpone = true;
         }
         const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
         if (WbUrl::isWeb(irradianceUrl) && mDownloader[i + 6] == NULL) {
           downloadAsset(irradianceUrl, i + 6);
-          mDownloadAgain[i + 6] = true;
+          mDownloader[i + 6]->setAgain(true);
           postpone = true;
         }
       }
@@ -390,9 +380,10 @@ void WbBackground::applySkyBoxToWren() {
         continue;
       } else
         atLeastOneUrlDefined = true;
-      if (mDownloadIODevice[i])
-        textureUrlDevices[i] = mDownloadIODevice[i];
-      else {
+      if (mDownloader[i]) {
+        assert(mDownloader[i]->device());
+        textureUrlDevices[i] = mDownloader[i]->device();
+      } else {
         textureUrlDevices[i] = new QFile(WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false));
         if (!textureUrlDevices[i]->open(QIODevice::ReadOnly))
           throw tr("Texture file not found: '%1'").arg(mUrlFields[i]->item(0));
@@ -443,7 +434,7 @@ void WbBackground::applySkyBoxToWren() {
       lastFile = imageReader.fileName();
     }
     for (int i = 0; i < 6; i++)
-      if (!mDownloadIODevice[i]) {
+      if (!mDownloader[i]->device()) {
         textureUrlDevices[i]->close();
         delete textureUrlDevices[i];
       }
@@ -484,7 +475,7 @@ void WbBackground::applySkyBoxToWren() {
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
       const int j = gCoordinateSystemSwap(i);
-      QIODevice *device = mDownloadIODevice[j + 6];
+      QIODevice *device = mDownloader[j + 6]->device();
       bool shouldDelete = false;
       if (!device) {
         QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);

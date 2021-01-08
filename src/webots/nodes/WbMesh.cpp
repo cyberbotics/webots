@@ -32,8 +32,6 @@ void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
-  mDownloadIODevice = NULL;
-  mDownloadAgain = false;
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -49,9 +47,6 @@ WbMesh::WbMesh(const WbNode &other) : WbTriangleMeshGeometry(other) {
 }
 
 WbMesh::~WbMesh() {
-  delete mDownloader;
-  if (mDownloadIODevice)
-    mDownloadIODevice->deleteLater();
 }
 
 void WbMesh::downloadAssets() {
@@ -59,16 +54,15 @@ void WbMesh::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
-    mDownloader = new WbDownloader(QUrl(url));
-    connect(mDownloader, WbDownloader::complete, this, WbMesh::setDownloadIODevice);
-    mDownloader->start();
+    mDownloader = new WbDownloader(this);
+    connect(mDownloader, WbDownloader::complete, this, WbMesh::downloadComplete);
+    mDownloader->download(QUrl(url));
   }
 }
 
-void WbMesh::setDownloadIODevice(QIODevice *device) {
-  mDownloadIODevice = device;
-  if (mDownloadAgain) {
-    mDownloadAgain = false;
+void WbMesh::downloadComplete() {
+  if (mDownloader->again()) {
+    mDownloader->setAgain(false);
     updateUrl();
     WbWorld::instance()->viewpoint()->emit refreshRequired();
   }
@@ -103,12 +97,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
-    assert(mDownloadIODevice);
-    const QByteArray data = mDownloadIODevice->readAll();
+    const QByteArray data = mDownloader->device()->readAll();
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-    mDownloadIODevice->deleteLater();
-    mDownloadIODevice = NULL;
     delete mDownloader;
     mDownloader = NULL;
   } else
@@ -447,7 +438,7 @@ void WbMesh::updateUrl() {
   if (isPostFinalizedCalled() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
-    mDownloadAgain = true;
+    mDownloader->setAgain(true);
     return;
   }
 

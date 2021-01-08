@@ -72,7 +72,6 @@ void WbMotor::init() {
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
   mDownloader = NULL;
-  mDownloadIODevice = NULL;
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
@@ -90,22 +89,18 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 WbMotor::~WbMotor() {
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
-  delete mDownloader;
-  if (mDownloadIODevice)
-    mDownloadIODevice->deleteLater();
 }
 
 void WbMotor::downloadAssets() {
   const QString &sound = mSound->value();
   if (WbUrl::isWeb(sound)) {
-    mDownloader = new WbDownloader(QUrl(sound));
-    connect(mDownloader, WbDownloader::complete, this, WbMotor::setDownloadIODevice);
-    mDownloader->start();
+    mDownloader = new WbDownloader(this);
+    connect(mDownloader, WbDownloader::complete, this, WbMotor::downloadComplete);
+    mDownloader->download(QUrl(sound));
   }
 }
 
-void WbMotor::setDownloadIODevice(QIODevice *device) {
-  mDownloadIODevice = device;
+void WbMotor::downloadComplete() {
 }
 
 void WbMotor::preFinalize() {
@@ -239,10 +234,7 @@ void WbMotor::updateSound() {
   else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
   else {
-    assert(mDownloadIODevice);
-    mSoundClip = WbSoundEngine::sound(sound, mDownloadIODevice);
-    mDownloadIODevice->deleteLater();
-    mDownloadIODevice = NULL;
+    mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
     delete mDownloader;
     mDownloader = NULL;
   }

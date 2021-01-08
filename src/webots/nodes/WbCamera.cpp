@@ -130,9 +130,7 @@ void WbCamera::init() {
   mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
-  mDownloadIODevice = NULL;
   mDownloader = NULL;
-  mDownloadAgain = false;
 }
 
 WbCamera::WbCamera(WbTokenizer *tokenizer) : WbAbstractCamera("Camera", tokenizer) {
@@ -154,24 +152,20 @@ WbCamera::~WbCamera() {
 
   delete mSegmentationCamera;
   delete mSegmentationShm;
-  delete mDownloader;
-  if (mDownloadIODevice)
-    mDownloadIODevice->deleteLater();
 }
 
 void WbCamera::downloadAssets() {
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
-    mDownloader = new WbDownloader(QUrl(noiseMaskUrl));
-    connect(mDownloader, WbDownloader::complete, this, WbCamera::setDownloadIODevice);
-    mDownloader->start();
+    mDownloader = new WbDownloader(this);
+    connect(mDownloader, WbDownloader::complete, this, WbCamera::downloadComplete);
+    mDownloader->download(QUrl(noiseMaskUrl));
   }
 }
 
-void WbCamera::setDownloadIODevice(QIODevice *device) {
-  mDownloadIODevice = device;
-  if (mDownloadAgain) {
-    mDownloadAgain = false;
+void WbCamera::downloadComplete() {
+  if (mDownloader->again()) {
+    mDownloader->setAgain(false);
     updateNoiseMaskUrl();
   }
 }
@@ -1104,11 +1098,12 @@ void WbCamera::updateNoiseMaskUrl() {
       if (!isPostFinalizedCalled() && mDownloader == NULL) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
-        mDownloadAgain = true;
+        mDownloader->setAgain(true);
         return;
       }
-      assert(mDownloadIODevice);
-      device = mDownloadIODevice;
+      assert(mDownloader);
+      device = mDownloader->device();
+      assert(device);
     } else {
       noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
       device = NULL;
@@ -1116,12 +1111,8 @@ void WbCamera::updateNoiseMaskUrl() {
     const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
     if (!error.isEmpty())
       parsingWarn(error);
-    if (mDownloadIODevice) {
-      mDownloadIODevice->deleteLater();
-      mDownloadIODevice = NULL;
-      delete mDownloader;
-      mDownloader = NULL;
-    }
+    delete mDownloader;
+    mDownloader = NULL;
   }
 }
 

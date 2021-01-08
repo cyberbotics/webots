@@ -32,27 +32,34 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(const QUrl &url) : mUrl(url) {
+WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mAgain(false) {
   gCount++;
 }
 
-void WbDownloader::start() {
+WbDownloader::~WbDownloader() {
+  mNetworkReply->deleteLater();
+}
+
+void WbDownloader::download(const QUrl &url) {
+  mUrl = url;
   QNetworkRequest request;
-  request.setUrl(mUrl);
-  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
-  connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+  request.setUrl(url);
+  mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
+  connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
 }
 
 void WbDownloader::finished() {
-  QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
-  assert(reply);
-  if (!reply)
-    return;
-  if (reply->error()) {
-    qDebug() << tr("Cannot download file from %1: %2").arg(mUrl.toString()).arg(reply->errorString());
+  assert(mNetworkReply);
+  if (mNetworkReply->error()) {
+    qDebug() << tr("Cannot download file from %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
     return;
   }
-  disconnect(reply, &QNetworkReply::finished, this, &WbDownloader::finished);
+  disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
   gComplete++;
-  emit complete(reply);
+  emit complete();
+}
+
+void WbDownloader::done() {
+  mNetworkReply->deleteLater();
+  mNetworkReply = NULL;
 }

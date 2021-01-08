@@ -17,23 +17,30 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
-
-class QIODevice;
+#include <QtNetwork/QNetworkReply>
 
 class WbDownloader : public QObject {
   Q_OBJECT
 public:
-  explicit WbDownloader(const QUrl &url);
-  void start();
+  WbDownloader(QObject *parent = NULL);
+  ~WbDownloader();
+  void download(const QUrl &url);
   const QUrl &url() { return mUrl; }
+  QIODevice *device() { return dynamic_cast<QIODevice *>(mNetworkReply); }
+  void setAgain(bool again) { mAgain = again; }
+  bool again() { return mAgain; }
+  void done();
   static int progress();
   static void reset();
 signals:
-  void complete(QIODevice *reply);
+  void complete();
   void progress(float progress);
 
 private:
   QUrl mUrl;
+  QNetworkReply *mNetworkReply;
+  bool mAgain;
+
 private slots:
   void finished();
 };

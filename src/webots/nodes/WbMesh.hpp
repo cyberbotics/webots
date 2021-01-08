@@ -51,8 +51,6 @@ private:
   // user accessible fields
   WbMFString *mUrl;
   WbDownloader *mDownloader;
-  QIODevice *mDownloadIODevice;
-  bool mDownloadAgain;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
@@ -60,7 +58,7 @@ private:
 
 private slots:
   void updateUrl();
-  void setDownloadIODevice(QIODevice *device);
+  void downloadComplete();
 };
 
 #endif

@@ -78,7 +78,6 @@ private:
   const WbSoundClip *mRollSoundClip;
   const WbSoundClip *mSlideSoundClip;
   WbDownloader *mDownloader[3];
-  QIODevice *mDownloadIODevice[3];
   WbContactProperties &operator=(const WbContactProperties &);  // non copyable
   WbNode *clone() const override { return new WbContactProperties(*this); }
   void init();
@@ -97,7 +96,7 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
-  void setDownloadIODevice(QIODevice *);
+  void downloadComplete();
 };
 
 #endif

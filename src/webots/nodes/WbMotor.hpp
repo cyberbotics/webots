@@ -134,7 +134,6 @@ private:
   QList<WbJointDevice *> mChangedAssociatedDevices;
   WbDeviceTag *mRequestedDeviceTag;
   WbDownloader *mDownloader;
-  QIODevice *mDownloadIODevice;
 
 private slots:
   void updateSound();
@@ -142,7 +141,7 @@ private slots:
   void updateMaxAcceleration();
   void updateControlPID();
   void updateMuscles();
-  void setDownloadIODevice(QIODevice *device);
+  void downloadComplete();
 };
 
 #endif

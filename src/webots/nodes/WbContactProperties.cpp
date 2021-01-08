@@ -37,10 +37,8 @@ void WbContactProperties::init() {
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
   mSlideSoundClip = NULL;
-  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++) {
+  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++)
     mDownloader[i] = NULL;
-    mDownloadIODevice[i] = NULL;
-  }
 }
 
 WbContactProperties::WbContactProperties(WbTokenizer *tokenizer) : WbBaseNode("ContactProperties", tokenizer) {
@@ -61,15 +59,18 @@ WbContactProperties::~WbContactProperties() {
 void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url))
     return;
-  mDownloader[index] = new WbDownloader(QUrl(url));
-  connect(mDownloader[index], WbDownloader::complete, this, WbContactProperties::setDownloadIODevice);
-  mDownloader[index]->start();
+  mDownloader[index] = new WbDownloader(this);
+  connect(mDownloader[index], WbDownloader::complete, this, WbContactProperties::downloadComplete);
+  mDownloader[index]->download(QUrl(url));
 }
 
 void WbContactProperties::downloadAssets() {
   downloadAsset(mBumpSound->value(), 0);
   downloadAsset(mRollSound->value(), 1);
   downloadAsset(mSlideSound->value(), 2);
+}
+
+void WbContactProperties::downloadComplete() {
 }
 
 void WbContactProperties::preFinalize() {
@@ -83,16 +84,6 @@ void WbContactProperties::preFinalize() {
   updateBumpSound();
   updateRollSound();
   updateSlideSound();
-}
-
-void WbContactProperties::setDownloadIODevice(QIODevice *device) {
-  WbDownloader *d = dynamic_cast<WbDownloader *>(sender());
-  assert(d);
-  for (size_t i = 0; i < 3; i++)
-    if (d == mDownloader[i]) {
-      mDownloadIODevice[i] = device;
-      break;
-    }
 }
 
 void WbContactProperties::postFinalize() {
@@ -200,10 +191,7 @@ const WbSoundClip *WbContactProperties::loadSound(int index, const QString &soun
     return NULL;
   if (!mDownloader[index])
     return WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
-  assert(mDownloadIODevice[index]);
-  const WbSoundClip *clip = WbSoundEngine::sound(sound, mDownloadIODevice[index]);
-  mDownloadIODevice[index]->deleteLater();
-  mDownloadIODevice[index] = NULL;
+  const WbSoundClip *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
   delete mDownloader[index];
   mDownloader[index] = NULL;
   return clip;
