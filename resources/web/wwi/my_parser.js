@@ -96,7 +96,7 @@ class MyParser {
   async parseNode(node, currentNode) {
     let result;
     if(node.tagName === 'Scene') {
-      await this.parseScene(node);
+      World.instance.scene = await this.parseScene(node);
       await this.parseChildren(node, currentNode)
       console.log(World.instance);
       World.instance.viewpoint.finalize();

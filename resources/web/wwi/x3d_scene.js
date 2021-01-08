@@ -151,8 +151,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //iterate nodes or sceneTree
     //delete viewpoint
     //reset shaders
+    if(typeof World.instance !== 'undefined' && typeof World.instance.scene !== 'undefined')
+      World.instance.scene.destroy();
 
-    /*
+    World.instance = undefined;
     this.selector.clearSelection();
     if (!this.scene)
       return;
@@ -161,8 +163,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    //this.scene.background = new Module.cwrap('wr_color_new','bonjour',[0, 0, 0]);
-    //console.log(new Module.cwrap('wr_color_r', 'number',[this.scene.background]));
 
     /*
     // Code to debug bloom passes.

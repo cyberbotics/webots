@@ -23,6 +23,24 @@ class WbWrenPostProcessingEffects {
     WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture);
   }
 
+  static clearResources() {
+    if(WbWrenPostProcessingEffects.lensFlareLenTexture !== null)
+      _wr_texture_delete(WbWrenPostProcessingEffects.lensFlareLenTexture);
+
+    if(WbWrenPostProcessingEffects.smaaAreaTexture !== null)
+      _wr_texture_delete(WbWrenPostProcessingEffects.smaaAreaTexture);
+
+    if(WbWrenPostProcessingEffects.smaaSearchTexture !== null)
+      _wr_texture_delete(WbWrenPostProcessingEffects.smaaSearchTexture);
+
+    if(WbWrenPostProcessingEffects.gtaoNoiseTexture !== null)
+      _wr_texture_delete(WbWrenPostProcessingEffects.gtaoNoiseTexture);
+
+    WbWrenPostProcessingEffects.lensFlareLenTexture = null;
+    WbWrenPostProcessingEffects.smaaAreaTexture = null;
+    WbWrenPostProcessingEffects.smaaSearchTexture = null;
+    WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
+  }
   static loadImage(image){
     let targetTexture = _wr_texture_2d_new();
     _wr_texture_set_translucent(targetTexture, true);
@@ -272,7 +290,7 @@ class WbWrenPostProcessingEffects {
      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
    }
-   
+
    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
     return bloomEffect;
   }

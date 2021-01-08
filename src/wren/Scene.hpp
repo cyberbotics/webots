@@ -47,7 +47,10 @@ namespace wren {
     enum FogDepthType { FOG_DEPTH_TYPE_PLANE, FOG_DEPTH_TYPE_POINT };
 
     static Scene *instance();
-    static void destroy() { delete cInstance; }
+    static void destroy() {
+      delete cInstance;
+      cInstance = NULL;
+    }
 
     static void init();
     void reset();

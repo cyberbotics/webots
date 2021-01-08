@@ -15,6 +15,8 @@
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
 
+import {World} from "./World.js";
+
 
 class WbScene {
   constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -23,7 +25,6 @@ class WbScene {
     this.wrenMainFrameBufferTexture = null;
     this.wrenNormalFrameBufferTexture = null;
     this.wrenDepthFrameBufferTexture = null;
-
 
     //_wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     //To have the same display size as in webots
@@ -78,6 +79,34 @@ class WbScene {
 
   updateWrenViewportDimensions() {
     _wr_viewport_set_pixel_ratio(_wr_scene_get_viewport(_wr_scene_get_instance()), 1);// TODO get the right pixel ratio
+  }
+
+  destroy() {
+    WbWrenPostProcessingEffects.clearResources();
+
+    if (this.wrenMainFrameBuffer !== 'undefined')
+      _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
+
+    if (this.wrenMainFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenMainFrameBufferTexture);
+
+    if (this.wrenNormalFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenNormalFrameBufferTexture);
+
+    if (this.wrenDepthFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenDepthFrameBufferTexture);
+
+    this.wrenMainFrameBuffer = undefined;
+    this.wrenMainFrameBufferTexture = undefined;
+    this.wrenNormalFrameBufferTexture = undefined;
+    this.wrenDepthFrameBufferTexture = undefined;
+
+    _wr_scene_destroy();
+
+    // delete shaders on exit
+    WbWrenShaders.deleteShaders();
+
+    World.instance.scene = undefined;
   }
 }
 

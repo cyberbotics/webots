@@ -35,6 +35,15 @@ class WbWrenShaders {
     }
   }
 
+  static deleteShaders(){
+    for (let i = 0; i < WbWrenShaders.SHADER.SHADER_COUNT; ++i) {
+      if (WbWrenShaders.gShaders[i] !== 'undefined') {
+        _wr_shader_program_delete(WbWrenShaders.gShaders[i]);
+        WbWrenShaders.gShaders[i] = undefined;
+      }
+    }
+  }
+
   static defaultShader() {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEFAULT] = _wr_shader_program_new();
