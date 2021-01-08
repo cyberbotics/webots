@@ -160,53 +160,34 @@ WbBackground::~WbBackground() {
 
   wr_node_delete(WR_NODE(mHdrClearTransform));
   wr_static_mesh_delete(mHdrClearMesh);
-
-  deleteDownloaders();
 }
 
-void WbBackground::deleteDownloaders() {
-  for (int i = 0; i < 12; i++) {
-    delete mDownloader[i];
-    mDownloader[i] = NULL;
-  }
-}
-
-void WbBackground::downloadAsset(const QString &url, int index) {
+void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   if (!WbUrl::isWeb(url))
     return;
+  delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
-  connect(mDownloader[index], WbDownloader::complete, this, WbBackground::downloadComplete);
+  if (postpone)
+    connect(mDownloader[index], WbDownloader::complete, this, WbBackground::downloadUpdate);
   mDownloader[index]->download(QUrl(url));
 }
 
 void WbBackground::downloadAssets() {
   for (size_t i = 0; i < 6; i++) {
     if (mUrlFields[i]->size())
-      downloadAsset(mUrlFields[i]->item(0), i);
+      downloadAsset(mUrlFields[i]->item(0), i, false);
     if (mIrradianceUrlFields[i]->size())
-      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6);
+      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
 
-void WbBackground::downloadComplete() {
-  assert(d);
-  bool shouldDownloadAgain = false;
-  bool allDownloadAgainAreComplete = true;
-  for (size_t i = 0; i < 12; i++) {
-    if (!mDownloader[i])
-      continue;
-    if (mDownloader[i]->again()) {
-      shouldDownloadAgain = true;
-      if (mDownloader[i]->device())
-        mDownloader[i]->setAgain(false);
-      else
-        allDownloadAgainAreComplete = false;
-    }
-  }
-  if (shouldDownloadAgain && allDownloadAgainAreComplete) {
-    updateCubemap();
-    WbWorld::instance()->viewpoint()->emit refreshRequired();
-  }
+void WbBackground::downloadUpdate() {
+  // we need that all downloads are complete before proceeding with the update of the cube map
+  for (int i = 0; i < 12; i++)
+    if (mDownloader[i] && !mDownloader[i]->hasFinished())
+      return;
+  updateCubemap();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbBackground::preFinalize() {
@@ -306,20 +287,19 @@ void WbBackground::updateColor() {
 
 void WbBackground::updateCubemap() {
   if (areWrenObjectsInitialized()) {
-    // if some textures are to be downloaded again, postpone the applySkyBoxToWren
+    // if some textures are to be downloaded again (changed from the scene tree or supervisor)
+    // we should postpone the applySkyBoxToWren
     bool postpone = false;
-    if (!isPostFinalizedCalled())
+    if (isPostFinalizedCalled())
       for (int i = 0; i < 6; i++) {
         const QString &url = mUrlFields[i]->item(0);
         if (WbUrl::isWeb(url) && mDownloader[i] == NULL) {
-          downloadAsset(url, i);
-          mDownloader[i]->setAgain(true);
+          downloadAsset(url, i, true);
           postpone = true;
         }
         const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
         if (WbUrl::isWeb(irradianceUrl) && mDownloader[i + 6] == NULL) {
-          downloadAsset(irradianceUrl, i + 6);
-          mDownloader[i + 6]->setAgain(true);
+          downloadAsset(irradianceUrl, i + 6, true);
           postpone = true;
         }
       }
@@ -434,7 +414,7 @@ void WbBackground::applySkyBoxToWren() {
       lastFile = imageReader.fileName();
     }
     for (int i = 0; i < 6; i++)
-      if (!mDownloader[i]->device()) {
+      if (!mDownloader[i]) {
         textureUrlDevices[i]->close();
         delete textureUrlDevices[i];
       }
@@ -475,7 +455,7 @@ void WbBackground::applySkyBoxToWren() {
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
       const int j = gCoordinateSystemSwap(i);
-      QIODevice *device = mDownloader[j + 6]->device();
+      QIODevice *device = mDownloader[j + 6] ? mDownloader[j + 6]->device() : NULL;
       bool shouldDelete = false;
       if (!device) {
         QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
@@ -573,7 +553,10 @@ void WbBackground::applySkyBoxToWren() {
   while (hdrImageData.size() > 0)
     stbi_image_free(hdrImageData.takeFirst());
 
-  deleteDownloaders();
+  for (int i = 0; i < 12; i++) {
+    delete mDownloader[i];
+    mDownloader[i] = NULL;
+  }
 }
 
 WbRgb WbBackground::skyColor() const {

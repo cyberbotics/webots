@@ -76,8 +76,7 @@ private:
   bool isFirstInstance() { return cBackgroundList.first() == this; }
   // make this the WbBackground instance in use
   void activate();
-  void downloadAsset(const QString &url, int index);
-  void deleteDownloaders();
+  void downloadAsset(const QString &url, int index, bool postpone);
 
   // user accessible fields
   WbMFColor *mSkyColor;
@@ -108,7 +107,7 @@ private slots:
   void updateColor();
   void updateCubemap();
   void updateLuminosity();
-  void downloadComplete();
+  void downloadUpdate();
 };
 
 #endif

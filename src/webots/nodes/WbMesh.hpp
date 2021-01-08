@@ -58,7 +58,7 @@ private:
 
 private slots:
   void updateUrl();
-  void downloadComplete();
+  void downloadUpdate();
 };
 
 #endif

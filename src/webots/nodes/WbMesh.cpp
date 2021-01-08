@@ -54,18 +54,17 @@ void WbMesh::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
+    delete mDownloader;
     mDownloader = new WbDownloader(this);
-    connect(mDownloader, WbDownloader::complete, this, WbMesh::downloadComplete);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, WbDownloader::complete, this, WbMesh::downloadUpdate);
     mDownloader->download(QUrl(url));
   }
 }
 
-void WbMesh::downloadComplete() {
-  if (mDownloader->again()) {
-    mDownloader->setAgain(false);
-    updateUrl();
-    WbWorld::instance()->viewpoint()->emit refreshRequired();
-  }
+void WbMesh::downloadUpdate() {
+  updateUrl();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbMesh::preFinalize() {
@@ -438,7 +437,6 @@ void WbMesh::updateUrl() {
   if (isPostFinalizedCalled() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
-    mDownloader->setAgain(true);
     return;
   }
 

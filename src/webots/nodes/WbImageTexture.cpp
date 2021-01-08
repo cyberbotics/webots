@@ -84,18 +84,17 @@ void WbImageTexture::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
+    delete mDownloader;
     mDownloader = new WbDownloader(this);
-    connect(mDownloader, WbDownloader::complete, this, WbImageTexture::downloadComplete);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, WbDownloader::complete, this, WbImageTexture::downloadUpdate);
     mDownloader->download(QUrl(url));
   }
 }
 
-void WbImageTexture::downloadComplete() {
-  if (mDownloader->again()) {
-    mDownloader->setAgain(false);
-    updateUrl();
-    WbWorld::instance()->viewpoint()->emit refreshRequired();
-  }
+void WbImageTexture::downloadUpdate() {
+  updateUrl();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbImageTexture::preFinalize() {
@@ -251,10 +250,9 @@ void WbImageTexture::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
   const QString &url = mUrl->item(0);
-  if (!isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
+  if (isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
-    mDownloader->setAgain(true);
     return;
   }
 

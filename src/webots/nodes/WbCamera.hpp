@@ -152,7 +152,6 @@ private slots:
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
-  void downloadComplete();
 };
 
 #endif  // WB_CAMERA_HPP

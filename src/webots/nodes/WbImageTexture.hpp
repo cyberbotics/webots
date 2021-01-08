@@ -117,7 +117,7 @@ private slots:
   void updateRepeatS();
   void updateRepeatT();
   void updateFiltering();
-  void downloadComplete();
+  void downloadUpdate();
 };
 
 #endif

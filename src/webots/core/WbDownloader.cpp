@@ -32,7 +32,7 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mAgain(false) {
+WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false) {
   gCount++;
 }
 
@@ -44,6 +44,7 @@ void WbDownloader::download(const QUrl &url) {
   mUrl = url;
   QNetworkRequest request;
   request.setUrl(url);
+  mFinished = false;
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
 }
@@ -56,10 +57,6 @@ void WbDownloader::finished() {
   }
   disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
   gComplete++;
+  mFinished = true;
   emit complete();
-}
-
-void WbDownloader::done() {
-  mNetworkReply->deleteLater();
-  mNetworkReply = NULL;
 }

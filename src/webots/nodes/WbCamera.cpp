@@ -157,16 +157,11 @@ WbCamera::~WbCamera() {
 void WbCamera::downloadAssets() {
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
+    delete mDownloader;
     mDownloader = new WbDownloader(this);
-    connect(mDownloader, WbDownloader::complete, this, WbCamera::downloadComplete);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, WbDownloader::complete, this, WbCamera::updateNoiseMaskUrl);
     mDownloader->download(QUrl(noiseMaskUrl));
-  }
-}
-
-void WbCamera::downloadComplete() {
-  if (mDownloader->again()) {
-    mDownloader->setAgain(false);
-    updateNoiseMaskUrl();
   }
 }
 
@@ -1095,10 +1090,9 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     QIODevice *device;
     if (WbUrl::isWeb(noiseMaskUrl)) {
-      if (!isPostFinalizedCalled() && mDownloader == NULL) {
+      if (isPostFinalizedCalled() && mDownloader == NULL) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
-        mDownloader->setAgain(true);
         return;
       }
       assert(mDownloader);

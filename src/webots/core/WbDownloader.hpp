@@ -22,14 +22,12 @@
 class WbDownloader : public QObject {
   Q_OBJECT
 public:
-  WbDownloader(QObject *parent = NULL);
+  explicit WbDownloader(QObject *parent = NULL);
   ~WbDownloader();
   void download(const QUrl &url);
   const QUrl &url() { return mUrl; }
   QIODevice *device() { return dynamic_cast<QIODevice *>(mNetworkReply); }
-  void setAgain(bool again) { mAgain = again; }
-  bool again() { return mAgain; }
-  void done();
+  bool hasFinished() { return mFinished; }
   static int progress();
   static void reset();
 signals:
@@ -39,7 +37,7 @@ signals:
 private:
   QUrl mUrl;
   QNetworkReply *mNetworkReply;
-  bool mAgain;
+  bool mFinished;
 
 private slots:
   void finished();
