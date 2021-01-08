@@ -8,6 +8,8 @@ import {Toolbar} from "./toolbar.js";
 import {Stream} from "./stream.js";
 import {DialogWindow} from "./dialog_window.js";
 import {Animation} from "./animation.js"
+import {MultimediaClient} from "./multimedia_client.js"
+import {RobotWindow} from "./robot_window.js"
 
 
 /*

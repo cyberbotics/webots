@@ -1,6 +1,7 @@
 /* global webots, SystemInfo */
 
 'use strict';
+import {SystemInfo} from "./system_info.js";
 
 class MultimediaClient { // eslint-disable-line no-unused-vars
   constructor(view, parentObject, contextMenu) {
@@ -385,3 +386,5 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     this.lastMousePosition = {x: event.offsetX, y: event.offsetY};
   }
 }
+
+export {MultimediaClient}

@@ -1,5 +1,7 @@
 /* global webots, DialogWindow */
 'use strict';
+import {DialogWindow} from "./dialog_window.js";
+
 
 class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
   constructor(parent, mobile, name) {
@@ -104,3 +106,5 @@ class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     }
   }
 }
+
+export {RobotWindow}
