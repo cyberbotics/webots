@@ -108,7 +108,7 @@ class WbScene {
 
     World.instance.scene = undefined;
 
-    _wrjs_exit();
+    //_wrjs_exit();
   }
 }
 
