@@ -302,7 +302,7 @@ If brew is not already installed on your computer, install it with the following
 
 Webots can then be installed with:
 ```
-brew cask install webots
+brew install --cask webots
 ```
 
 #### Working around macOS Gatekeeper
