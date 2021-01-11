@@ -29,6 +29,9 @@ namespace WbUrl {
   QString exportTexture(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeTexturesPath,
                         const WbVrmlWriter &writer);
   QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer);
+  const QString missing(const QString &url);
+  const QString missingTexture();
+  const QString missingHdrTexture();
   bool isWeb(const QString &url);
 };  // namespace WbUrl
 

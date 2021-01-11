@@ -73,6 +73,24 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   return searchPaths;
 }
 
+const QString WbUrl::missingTexture() {
+  return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+}
+
+const QString WbUrl::missingHdrTexture() {
+  return WbStandardPaths::resourcesPath() + "images/missing_texture.hdr";
+}
+
+const QString WbUrl::missing(const QString &url) {
+  QString suffix = QFileInfo(url).suffix();
+  QStringList textureSuffixes = {"png", "jpg", "jpeg"};
+  if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
+    return missingTexture();
+  if (suffix.compare("hdr", Qt::CaseInsensitive) == 0)
+    return missingHdrTexture();
+  return "";
+}
+
 QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
   // check if mUrl is empty
   if (urlField->size() < 1)
@@ -91,10 +109,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
       WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
-    return "";
+    return missing(url);
   }
 
-  if (WbUrl::isWeb(url))
+  if (isWeb(url))
     return url;
 
   // check if the url is an absolute path
@@ -107,7 +125,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       node->parsingWarn(error);
     else
       WbLog::warning(error, false, WbLog::PARSING);
-    return "";
+    return missing(url);
   }
 
   // check if the url is defined relatively
@@ -131,7 +149,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       WbLog::warning(warning, false, WbLog::PARSING);
   }
 
-  return "";
+  return missing(url);
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
