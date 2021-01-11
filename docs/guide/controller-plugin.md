@@ -68,7 +68,7 @@ Robot windows are implemented in HTML and provide the following features:
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 3. They are web-ready and could be used to display robot windows on web pages.
 
-A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto#custom_robot_window_simple-wbt) and it demonstrates how to establish two-way communication between a robot window and Python controller.
+A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt) and it demonstrates how to establish two-way communication between a robot window and Python controller.
 To create a similar robot window for your project follow these steps:
 1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
 2. The file is a typical HTML document that can contain JavaScript and CSS.
@@ -80,7 +80,7 @@ If you double click on the robot, your `<robot window name>` will open.
 4. To send and receive data inside the controller you have to use `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 A very simple Python example is given in `projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`.
 
-An example of a reusable HTML robot window is given in [`projects/samples/howto/custom\_robot\_window`](samples-howto#custom_robot_window-wbt).
+An example of a reusable HTML robot window is given in [`projects/samples/howto/custom\_robot\_window`](samples-howto.md#custom_robot_window-wbt).
 While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in `plugins/robot_windows/custom_robot_window/custom_robot_window.c`.
 Therefore, the robot window in this case can be reused in different simulations.
 
