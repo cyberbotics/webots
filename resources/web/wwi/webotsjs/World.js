@@ -22,7 +22,7 @@ class World {
     this.sceneTree = [];
 
     //All the nodes are included here so it is easier to retrieve them for update
-    //dict from id to node
+    //map from id to node
     this.nodes = new Map();
     this.defUse = {}
     World.instance = this;

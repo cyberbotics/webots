@@ -36,13 +36,16 @@ class WbImageTexture extends WbBaseNode {
     this.wrenBackgroundTexture = undefined;
     this.externalTexture = false;
     this.externalTextureRatio = glm.vec2(1.0,1.0);
+
+    this.type; //use in pbr appearance to know what is the role of this image
   }
 
   delete(){
     this.destroyWrenTexture();
-    super.delete();
 
     this.image = undefined;
+
+    super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {

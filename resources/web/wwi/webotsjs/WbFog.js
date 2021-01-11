@@ -25,10 +25,14 @@ class WbFog extends WbBaseNode {
   }
 
   delete() {
-    super.delete();
+    if (typeof this.parent === 'undefined'){
+      World.instance.sceneTree.splice(object, 1);
+    }
 
     if (this.wrenObjectsCreatedCalled)
       _wr_scene_set_fog(_wr_scene_get_instance(), ENUM.WR_SCENE_FOG_TYPE_NONE, ENUM.WR_SCENE_FOG_DEPTH_TYPE_PLANE, null, 1.0, 0.0, 1.0);
+
+    super.delete();
   }
 
   createWrenObjects(){

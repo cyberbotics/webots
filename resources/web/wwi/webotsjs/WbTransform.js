@@ -27,8 +27,14 @@ class WbTransform extends WbGroup {
   }
 
   delete(){
+    if (typeof this.parent === 'undefined'){
+      World.instance.sceneTree.splice(object, 1);
+    }
+
     if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenNode);
+
+    super.delete();
   }
 
   createWrenObjects() {

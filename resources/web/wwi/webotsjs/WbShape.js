@@ -30,8 +30,14 @@ class WbShape extends WbBaseNode {
   }
 
   delete() {
+    if (typeof this.parent === 'undefined'){
+      World.instance.sceneTree.splice(object, 1);
+    }
+
     if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);
+
+    super.delete();
   }
 
   createWrenObjects() {

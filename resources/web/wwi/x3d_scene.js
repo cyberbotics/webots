@@ -188,11 +188,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
       return;
 
     object.delete();
-
-    /*let parentId = object.parent
-    if (typeof parentId === 'undefined'){
-      console.log(World.instance.sceneTree.splice(object, 1));
-    }
+    /*
+    let parentId = object.parent
     else{
       let parent = World.instance.nodes.get(parentId);
       if (typeof parent !== 'undefined') {
@@ -202,13 +199,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
           parent.appearance = undefined;
         else if (object instanceof WbMaterial)
           parent.material = undefined;
-        else if (object instanceof WbAppearance && parent instanceof WbAppearance)
+        else if (object instanceof WbImageTexture && parent instanceof WbAppearance)
+          if ()
           parent.texture = undefined
         //TODO PBR
         else
           parent.children.slice(object, 1);
       }
-    }*/
+    }
 
     /*
     let context = {};

@@ -13,9 +13,12 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js";
+import {World} from "./World.js"
 import {WbViewpoint} from "./WbViewpoint.js";
+import {WbPBRAppearance} from "./WbPBRAppearance.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {arrayXPointer, arrayXPointerFloat} from "./WbUtils.js";
+import {WbVector3} from "./utils/WbVector3.js";
 
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
@@ -42,10 +45,13 @@ class WbBackground extends WbBaseNode {
   }
 
   delete(){
-    super.delete();
+    if (typeof this.parent === 'undefined'){
+      World.instance.sceneTree.splice(this, 1);
+    }
+
     this.destroySkyBox();
 
-    this.skyColor = new glm.vec3(0, 0, 0);
+    this.skyColor = new WbVector3(0, 0, 0);
     this.applyColourToWren();
 
     _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), null);
@@ -68,6 +74,17 @@ class WbBackground extends WbBaseNode {
 
     _wr_node_delete(this.hdrClearTransform);
     _wr_static_mesh_delete(this.hdrClearMesh);
+
+    World.instance.nodes.forEach((value, key, map) => {
+      if(value instanceof WbPBRAppearance && typeof value.parent !== 'undefined'){
+        let parent = World.instance.nodes.get(value.parent);
+        if(typeof parent !== 'undefined')
+          parent.applyMaterialToGeometry();
+      }
+    });
+
+
+    super.delete();
   }
 
   createWrenObjects() {

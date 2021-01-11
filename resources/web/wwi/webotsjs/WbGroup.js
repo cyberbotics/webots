@@ -20,6 +20,14 @@ class WbGroup extends WbBaseNode{
     this.children = [];
   }
 
+  delete() {
+    if (typeof this.parent === 'undefined'){
+      World.instance.sceneTree.splice(object, 1);
+    }
+
+    super.delete();
+  }
+
   createWrenObjects(isTransform){
     super.createWrenObjects();
 

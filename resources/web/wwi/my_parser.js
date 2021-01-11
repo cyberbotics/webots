@@ -861,18 +861,25 @@ class MyParser {
     for (let i = 0; i < imageTextures.length; i++) {
       let imageTexture = imageTextures[i];
       let type = getNodeAttribute(imageTexture, 'type', undefined);
-      if (type === 'baseColor')
+      if (type === 'baseColor'){
         baseColorMap = await this.parseImageTexture(imageTexture, true);
-      else if (type === 'roughness')
+        baseColorMap.type = "baseColor";
+      } else if (type === 'roughness'){
         roughnessMap = await this.parseImageTexture(imageTexture, true);
-      else if (type === 'metalness')
+        roughnessMap.type = "roughnessMap";
+      } else if (type === 'metalness'){
         metalnessMap = await this.parseImageTexture(imageTexture, true);
-      else if (type === 'normal')
+        metalnessMap.type = "metalnessMap";
+      } else if (type === 'normal'){
         normalMap = await this.parseImageTexture(imageTexture, true);
-      else if (type === 'occlusion')
+        normalMap.type = "normal";
+      } else if (type === 'occlusion') {
         occlusionMap = await this.parseImageTexture(imageTexture, true);
-      else if (type === 'emissiveColor')
+        occlusionMap.type = "occlusionMap";
+      } else if (type === 'emissiveColor'){
         emissiveColorMap = await this.parseImageTexture(imageTexture, true);
+        emissiveColorMap.type = "emissiveColorMap";
+      }
     }
 
     let pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
