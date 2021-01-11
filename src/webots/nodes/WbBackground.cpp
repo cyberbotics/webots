@@ -349,6 +349,16 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
   }
 }
 
+/*
+void WbBackground::applyTexture(int i) {
+  QString url;
+  if (mUrlFields[i]->size() == 0) {
+    warn(tr("Missing Background.url[%1].").arg(i));
+    url = WbUrl::missingTexture();
+  }
+}
+*/
+
 void WbBackground::applySkyBoxToWren() {
   destroySkyBox();
 
@@ -378,13 +388,14 @@ void WbBackground::applySkyBoxToWren() {
         if (!mDownloader[i]->error().isEmpty()) {
           delete mDownloader[i];
           mDownloader[i] = NULL;
-          qDebug() << "Error" << mDownloader[i]->error();
-          throw mDownloader[i]->error();
+          warn(tr("Cannot not retrieve '%1': %2").arg(mUrlFields[i]->item(0)).arg(mDownloader[i]->error()));
+          textureUrlDevices[i] = new QFile(WbUrl::missingTexture());
+        } else {
+          assert(mDownloader[i]->device());
+          textureUrlDevices[i] = mDownloader[i]->device();
         }
-        assert(mDownloader[i]->device());
-        textureUrlDevices[i] = mDownloader[i]->device();
       } else {
-        const QString url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+        const QString url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[i]->item(0), false);
         if (url == WbUrl::missingTexture())
           warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
         textureUrlDevices[i] = new QFile(url);
@@ -488,7 +499,8 @@ void WbBackground::applySkyBoxToWren() {
           throw mDownloader[k]->error();
         }
       } else {
-        const QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
+        const QString url =
+          WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
         if (url.isEmpty())
           throw QString();
         if (url == WbUrl::missingHdrTexture())
