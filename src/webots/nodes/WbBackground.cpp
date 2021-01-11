@@ -24,6 +24,7 @@
 #include "WbNodeOperations.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFNode.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -383,9 +384,12 @@ void WbBackground::applySkyBoxToWren() {
         assert(mDownloader[i]->device());
         textureUrlDevices[i] = mDownloader[i]->device();
       } else {
-        textureUrlDevices[i] = new QFile(WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false));
+        const QString url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+        if (url == WbUrl::missingTexture())
+          warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
+        textureUrlDevices[i] = new QFile(url);
         if (!textureUrlDevices[i]->open(QIODevice::ReadOnly))
-          throw tr("Texture file not found: '%1'").arg(mUrlFields[i]->item(0));
+          throw tr("Cannot open texture file: '%1'").arg(mUrlFields[i]->item(0));
       }
     }
 
@@ -484,13 +488,15 @@ void WbBackground::applySkyBoxToWren() {
           throw mDownloader[k]->error();
         }
       } else {
-        QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
+        const QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[j]->item(0), false);
         if (url.isEmpty())
           throw QString();
+        if (url == WbUrl::missingHdrTexture())
+          warn(tr("HDR texture not found: '%1'").arg(mUrlFields[i]->item(0)));
         device = new QFile(url);
         shouldDelete = true;
         if (!device->open(QIODevice::ReadOnly))
-          throw tr("Texture file not found: '%1'").arg(mIrradianceUrlFields[j]->item(0));
+          throw tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[j]->item(0));
       }
       const QByteArray content = device->readAll();
       if (shouldDelete) {
