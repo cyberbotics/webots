@@ -4,7 +4,7 @@
   <script>
     window.onload = () => {
       // Initialize the robot window
-      const robotWindow = webots.window();
+      const robotWindow = webots.window('e-puck');
 
       // Receive messages from the controller and show them in the robot window
       robotWindow.receive = (message) => {
