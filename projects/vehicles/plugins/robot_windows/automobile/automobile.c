@@ -1,3 +1,21 @@
+// Copyright 1996-2021 Cyberbotics Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ * Description:  Defines the entry point of the robot window library
+ */
+
 #include <webots/robot.h>
 #include <webots/robot_wwi.h>
 #include <webots/utils/default_robot_window.h>
@@ -26,7 +44,6 @@ enum DriverInfo {
 };
 static bool driverInfoEnabled[COUNT];
 
-static clock_t last_update_time = 0;
 static char *buffer = NULL;
 static int buffer_size = 0;
 
@@ -51,8 +68,10 @@ static void buffer_append(const char *string) {
     return;
   }
   buffer = realloc(buffer, buffer_size + l);
-  // if (buffer == NULL)
-  //  throw_realloc_error();
+  if (buffer == NULL) {
+    fprintf(stderr, "Error creating message to be sent to the robot window: not enough memory.\n");
+    exit(EXIT_FAILURE);
+  }
   memcpy(&buffer[buffer_size - 1], string, l + 1);
   buffer_size += l;
 }
@@ -321,7 +340,6 @@ void wb_robot_window_step(int time_step) {
 
   wbu_default_robot_window_update();
 
-  bool vehicle_message = false;
   char buf[32];
   buffer_append("update { \"vehicle\": {");
   buffer_append("\"control-mode\": ");
@@ -340,15 +358,8 @@ void wb_robot_window_step(int time_step) {
     append_brake_data();
   if (driverInfoEnabled[ENCODERS_INFO])
     append_encoders_data();
-  if (driverInfoEnabled[OVERVIEW_INFO]) {
-    // refresh rate 0.004
-    clock_t current_time = clock();
-    const double time_spent = (double)(current_time - last_update_time) / CLOCKS_PER_SEC;
-    if (last_update_time == 0 || time_spent > 0.004) {
-      last_update_time = current_time;
-      append_overview_data(control_mode);
-    }
-  }
+  if (driverInfoEnabled[OVERVIEW_INFO])
+    append_overview_data(control_mode);
   buffer_append("}}");
   wb_robot_wwi_send_text(buffer);
   free_buffer();

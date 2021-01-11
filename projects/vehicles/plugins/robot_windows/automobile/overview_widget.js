@@ -19,7 +19,21 @@ function OverviewWidget(container) {
   appendNewElement('menu',
     '<button id="overview-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'overview\')">Overview</button>'
   );
+
+  this.refreshLabelsRate = 3; // [Hz]
+  this.refreshInterval = null;
+  this.modified = true;
+  this.start();
 }
+
+OverviewWidget.prototype.pause = function() {
+  clearInterval(this.refreshInterval);
+  this.refreshInterval = null;
+};
+
+OverviewWidget.prototype.start = function() {
+  this.refreshInterval = setInterval(() => { this.update(); }, 1000 / this.refreshLabelsRate);
+};
 
 OverviewWidget.prototype.initialize = function() {
   this.initialized = true;
@@ -114,7 +128,9 @@ OverviewWidget.prototype.resize = function() {
 };
 
 OverviewWidget.prototype.paint = function() {
-  // TODO check if visible
+  // Do nothing if the div is hidden.
+  if (this.container.offsetParent === null)
+    return;
 
   if (!this.initialized)
     this.initialize();
@@ -135,6 +151,8 @@ OverviewWidget.prototype.paint = function() {
   this.drawRotatedRectangle(ctx, this.frontAxisLeftPosition[0] + startX, this.frontAxisLeftPosition[1] + startY, 20, 50, this.steering[2]);
   this.drawRotatedRectangle(ctx, this.rearAxisRightPosition[0] + startX, this.rearAxisRightPosition[1] + startY, 20, 50, 0);
   this.drawRotatedRectangle(ctx, this.rearAxisLeftPosition[0] + startX, this.rearAxisLeftPosition[1] + startY, 20, 50, 0);
+
+  this.modified = false;
 };
 
 OverviewWidget.prototype.setStaticInformation = function(data) {
@@ -146,38 +164,42 @@ OverviewWidget.prototype.setStaticInformation = function(data) {
   document.getElementById('overview-transmission-label').textContent = data.transmission;
   document.getElementById('overview-gear-number-label').textContent = roundLabel(data['gear-number'], 1);
   document.getElementById('overview-front-track-label').textContent = roundLabel(data['front-track'], 3);
-  document.getElementById('overview-rear-track-label').textContent = roundLabel(data['rear_track'], 3);
+  document.getElementById('overview-rear-track-label').textContent = roundLabel(data['rear-track'], 3);
   document.getElementById('overview-wheelbase-label').textContent = roundLabel(data['wheelbase'], 3);
   this.resize();
 };
 
 OverviewWidget.prototype.updateInformation = function(data) {
-  if (!data)
+  this.data = data;
+  this.modified = true;
+};
+
+OverviewWidget.prototype.update = function() {
+  if (!this.modified || !this.data)
     return;
   if (!this.initialized)
     this.initialize();
 
   const firstCall = this.steering === [0, 0, 0];
-  this.steering = data.steering;
-  document.getElementById('overview-speed-label').textContent = roundLabel(data.speed, 2);
-  document.getElementById('overview-steering-label').textContent = roundLabel(data.steering[0], 4);
-  document.getElementById('overview-rpm-label').textContent = roundLabel(data.rpm, 3);
-  document.getElementById('overview-gearbox-label').textContent = roundLabel(data.gearbox, 1);
-  document.getElementById('overview-target-speed-label').textContent = roundLabel(data['target-speed'], 3);
-  document.getElementById('overview-wheel1-speed-label').textContent = roundLabel(data.wheel1.speed, 1);
-  document.getElementById('overview-wheel1-encoder-label').textContent = data.wheel1.encoder.toExponential(1);
-  document.getElementById('overview-wheel1-angle-label').textContent = roundLabel(data.steering[1], 4);
-  document.getElementById('overview-wheel2-speed-label').textContent = roundLabel(data.wheel2.speed, 1);
-  document.getElementById('overview-wheel2-encoder-label').textContent = data.wheel2.encoder.toExponential(1);
-  document.getElementById('overview-wheel2-angle-label').textContent = roundLabel(data.steering[2], 4);
-  document.getElementById('overview-wheel3-speed-label').textContent = roundLabel(data.wheel3.speed, 1);
-  document.getElementById('overview-wheel3-encoder-label').textContent = data.wheel3.encoder.toExponential(1);
-  document.getElementById('overview-wheel4-speed-label').textContent = roundLabel(data.wheel4.speed, 1);
-  document.getElementById('overview-wheel4-encoder-label').textContent = data.wheel4.encoder.toExponential(1);
+  this.steering = this.data.steering;
+  document.getElementById('overview-speed-label').textContent = roundLabel(this.data.speed, 2);
+  document.getElementById('overview-steering-label').textContent = roundLabel(this.data.steering[0], 4);
+  document.getElementById('overview-rpm-label').textContent = roundLabel(this.data.rpm, 3);
+  document.getElementById('overview-gearbox-label').textContent = roundLabel(this.data.gearbox, 1);
+  document.getElementById('overview-target-speed-label').textContent = roundLabel(this.data['target-speed'], 3);
+  document.getElementById('overview-wheel1-speed-label').textContent = roundLabel(this.data.wheel1.speed, 1);
+  document.getElementById('overview-wheel1-encoder-label').textContent = this.data.wheel1.encoder.toExponential(1);
+  document.getElementById('overview-wheel1-angle-label').textContent = roundLabel(this.data.steering[1], 4);
+  document.getElementById('overview-wheel2-speed-label').textContent = roundLabel(this.data.wheel2.speed, 1);
+  document.getElementById('overview-wheel2-encoder-label').textContent = this.data.wheel2.encoder.toExponential(1);
+  document.getElementById('overview-wheel2-angle-label').textContent = roundLabel(this.data.steering[2], 4);
+  document.getElementById('overview-wheel3-speed-label').textContent = roundLabel(this.data.wheel3.speed, 1);
+  document.getElementById('overview-wheel3-encoder-label').textContent = this.data.wheel3.encoder.toExponential(1);
+  document.getElementById('overview-wheel4-speed-label').textContent = roundLabel(this.data.wheel4.speed, 1);
+  document.getElementById('overview-wheel4-encoder-label').textContent = this.data.wheel4.encoder.toExponential(1);
   if (firstCall)
     this.resize();
-  else
-    this.paint();
+  this.paint();
 };
 
 OverviewWidget.prototype.updateControlMode = function(isSpeedMode) {

@@ -124,7 +124,6 @@ TimeplotWidget.prototype.initialize = function() {
 
   // Let the canvas size match with the element size (-2 because of the border), otherwise
   // the sizes are not matching causing a aliased zoom-like effect.
-  console.log('this.canvas.offsetWidth', this.canvas.offsetWidth, 'this.canvas.offsetHeight', this.canvas.offsetHeight);
   this.canvas.width = this.canvas.offsetWidth - 2;
   this.canvas.height = this.canvas.offsetHeight - 2;
 
@@ -134,8 +133,6 @@ TimeplotWidget.prototype.initialize = function() {
   this.yOffset['ratio'] = (this.canvasHeight - this.yOffset['offset']) / this.canvasHeight;
 
   this.canvasContext = this.canvas.getContext('2d');
-  console.assert(this.canvasWidth === this.canvas.width);
-  console.assert(this.canvasHeight === this.canvas.height);
 
   this.xLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-x plot-axis-label-x">' + this.labels['x'] + '</p>');
   this.xMinLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-x-min plot-axis-label-x-min">0.0</p>');
@@ -232,6 +229,7 @@ TimeplotWidget.prototype.stretchRange = function(y) {
       }
     }
   } else {
+    console.log('isNumber2', isNumber(y));
     console.assert(isNumber(y));
     if (y < this.yRange['min']) {
       this.yRange['min'] = increaseFactor * y;

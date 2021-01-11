@@ -55,7 +55,6 @@ function addDriverInfo(device, label, min, max) {
 
   let div = '<div id="' + device.name + '" class="vehicle-device device">';
   div += '<h2>';
-  console.log('addDriverInfo ' + device.name.toLowerCase() + '-enable-checkbox');
   div += '<input type="checkbox" title="Enable/disable this plot." id="' + device.name.toLowerCase() + '-enable-checkbox" device="' + device.name + '" onclick="vehicleCheckboxCallback(this)" />';
   div += device.name + '<span id="' + device.name + '-label"></span></h2>';
   div += '<div id="' + device.name + '-content" class="vehicle-device-content device-content"/>';
