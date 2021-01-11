@@ -2,7 +2,7 @@
 
 This section gives various examples of complex behaviors and/or functionalities.
 
-### [asymmetric\_friction1.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction1/worlds/asymmetric_friction1.wbt)
+### [asymmetric\_friction1.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction/worlds/asymmetric_friction1.wbt)
 
 **Keywords**: [ContactProperties](../reference/contactproperties.md), asymmetric friction
 
@@ -11,7 +11,7 @@ A small box slides on two leaning fixed boxes.
 Each of the boxes are striped with black lines.
 There is a smaller friction along the black lines, therefore the box is sliding along the black lines.
 
-### [asymmetric\_friction2.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction2/worlds/asymmetric_friction2.wbt)
+### [asymmetric\_friction2.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction/worlds/asymmetric_friction2.wbt)
 
 **Keywords**: [ContactProperties](../reference/contactproperties.md), asymmetric friction
 
