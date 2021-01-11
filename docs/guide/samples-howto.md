@@ -2,7 +2,7 @@
 
 This section gives various examples of complex behaviors and/or functionalities.
 
-### [asymmetric\_friction1.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction1/worlds/asymmetric_friction1.wbt)
+### [asymmetric\_friction1.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/asymmetric_friction1/howto/asymmetric_friction1/worlds/asymmetric_friction1.wbt)
 
 **Keywords**: [ContactProperties](../reference/contactproperties.md), asymmetric friction
 
