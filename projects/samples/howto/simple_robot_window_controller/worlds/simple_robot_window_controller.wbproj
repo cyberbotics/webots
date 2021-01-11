@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000a801000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "plugins/robot_windows/simple_robot_window/simple_robot_window.html" "controllers/simple_robot_window_controller/simple_robot_window_controller.py"
+textFiles: 0 "plugins/robot_windows/simple_robot_window/simple_robot_window.html" "controllers/simple_robot_window/simple_robot_window.py"
 robotWindow: e-puck
 consoles: Console:All:All
 renderingDevicePerspectives: e-puck:camera;0;0.820513;0.0162866;0.00867679
