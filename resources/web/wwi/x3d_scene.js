@@ -10,6 +10,7 @@ import {WbAbstractAppearance} from "./webotsjs/WbAbstractAppearance.js"
 import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js"
 import {WbMaterial} from "./webotsjs/WbMaterial.js"
 import {WbGeometry} from "./webotsjs/WbGeometry.js"
+import {WbLight} from "./webotsjs/WbLight.js"
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
@@ -155,14 +156,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
       World.instance.scene.destroy();
 
     World.instance = undefined;
-    this.selector.clearSelection();
+    WbLight.lights = [];
+    WbPBRAppearance.cBrdfTexture = undefined;
+    WbPBRAppearance.cInstanceCounter = 0;
+    /*this.selector.clearSelection();
     if (!this.scene)
       return;
     for (let i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
     this.useNodeCache = {};
-    this.root = undefined;
+    this.root = undefined;*/
 
     /*
     // Code to debug bloom passes.

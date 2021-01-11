@@ -90,6 +90,10 @@ void wrjs_init_context(int width, int height) {
   emscripten_webgl_enable_extension(ctx, "EXT_float_blend");
 }
 
+void wrjs_exit() {
+  exit(0);
+}
+
 const char *wrjs_load_hdr_file(int *w, char *url) {
   int h, components;
   float *data = stbi_loadf(url, w, &h, &components, 0);

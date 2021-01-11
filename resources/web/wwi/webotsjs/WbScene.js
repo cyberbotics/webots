@@ -107,6 +107,8 @@ class WbScene {
     WbWrenShaders.deleteShaders();
 
     World.instance.scene = undefined;
+
+    _wrjs_exit();
   }
 }
 

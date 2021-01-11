@@ -29,7 +29,7 @@ char *wrjs_pointerOnFloat(float nbr);
 char *wrjs_dummy_texture();
 
 void wrjs_init_context(int width, int height);
-const char *wrjs_load_hdr_file(int *w, char *url);
+void wrjs_exit();
 const char *wrjs_load_hdr_file(int *w, char *url);
 void wrjs_free_hdr_file(char *pointer);
 #ifdef __cplusplus

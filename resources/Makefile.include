@@ -487,7 +487,7 @@ FUNCTIONS_TO_EXPORT=$(file < $(FILE))
 
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
-	$(SILENT) emcc -O3 -s WASM=0 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders -0 $(OBJECTS) -s EXPORTED_FUNCTIONS='[$(FUNCTIONS_TO_EXPORT)]' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o ../../resources/web/streaming_viewer/a.out.js
+	$(SILENT) emcc -O3 -s WASM=0 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders -0 $(OBJECTS) -s EXPORTED_FUNCTIONS='[$(FUNCTIONS_TO_EXPORT)]' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o ../../resources/web/streaming_viewer/a.out.js
 	###$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 endif
