@@ -19,6 +19,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	console/controllers/console.Makefile \
 	custom_robot_window/plugins/robot_windows/custom_robot_window.Makefile \
 	cylinder_stack/controllers/contact_points_supervisor.Makefile \
+	enu_coordinate_system/controllers/four_wheels.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
 	inverted_pendulum/controllers/inverted_pendulum.Makefile \
@@ -32,6 +33,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \
 	texture_change/controllers/texture_change.Makefile \
 	texture_change/controllers/texture_robot.Makefile \
+	vision/controllers/vision.Makefile \
 	ziegler_nichols/controllers/ziegler_nichols.Makefile
 
 .PHONY: release debug profile clean
