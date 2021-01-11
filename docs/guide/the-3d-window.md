@@ -32,8 +32,7 @@ If you click on the background, the camera will rotate around its own position.
 Dragging the mouse horizontally will rotate the camera around the viewing axis.
 Alternatively, the mouse wheel alone can also be used for zooming.
 
-> **Note**: If you are a Mac user with a single button mouse, hold the Alt key and press the mouse button to translate the camera according to the mouse motion.
-Hold the control key (Ctrl) down and press the mouse button to zoom / rotate the camera.
+> **Note**: If you are a Mac user with a single button mouse, hold the control key and press the mouse button to translate the camera according to the mouse motion.
 
 ### Moving a Solid Object
 
