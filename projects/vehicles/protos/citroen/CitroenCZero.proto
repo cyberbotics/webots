@@ -137,6 +137,10 @@ PROTO CitroenCZero [
           }
         ]
         rear [
+          CitroenCZeroTailLight {
+          }
+        ]
+        braking [
           CitroenCZeroBrakeLight {
           }
         ]

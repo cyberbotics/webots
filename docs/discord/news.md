@@ -2,7 +2,38 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2021
+
+##### aleena 01/01/2021 07:56:16
+Happy New Year everyone 🎉 🥳
+
+##### Soft\_illusion 01/01/2021 07:50:51
+[https://youtu.be/-88UzHYHrxg](https://youtu.be/-88UzHYHrxg)
+
+
+
+🤖 Happy New Year !!! 🤖
+
+💥🎂🎼🎉🥳
+
+
+
+Let’s take a moment and celebrate a new year with the community.
+
+So we have a setup a small Robot show do checkout and share the video
+
 ## 2020
+
+##### Olivier Michel [Cyberbotics] 12/15/2020 16:30:40
+**Webots R2021a released!**
+
+With camera segmentation feature, improved ROS2 integration, new API functions, new models, many bug fixes and improvements. See official announcement at [[https://cyberbotics.com](https://cyberbotics.com)/doc/blog/Webots-2021-a-release]([https://cyberbotics.com](https://cyberbotics.com)/doc/blog/Webots-2021-a-release). Get it now from [https://cyberbotics.com](https://cyberbotics.com) or [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+%figure
+![R2021a.png](https://cdn.discordapp.com/attachments/568354695513374730/788442918821429248/R2021a.png)
+%end
+
+
+We recently opened a GitHub Discussions page, so that you can open discussion threads there to share ideas and get your questions answered by the community, including the developers of Webots. Feel free to post messages there, we are eager to see the first posts coming in 😉 [https://github.com/cyberbotics/webots/discussions](https://github.com/cyberbotics/webots/discussions)
 
 ##### Soft\_illusion 12/01/2020 16:33:04
 We are back with the 8th episode of the Webots ROS2 video tutorial series. Video 8: RQT\_graph, ROS2 topic echo | Debugging tools [https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s](https://www.youtube.com/watch?v=xLthJMv7QYA&t=11s) Stay tuned for more upcoming interesting episodes.
@@ -41,7 +72,7 @@ Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutoria
 `@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 
 ##### Soft\_illusion 11/07/2020 02:08:52
-We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
 
 Special Thanks to Webots Team for their guidance.
 
@@ -51,7 +82,7 @@ Here is new nice video tutorial teaching you how to create a robot model from sc
 ##### Soft\_illusion 11/02/2020 07:06:45
 We are back with the fourth episode of the Webots ROS2 video tutorial series . Video 4: Tutorial on Publishers in ROS2 with Webots [https://www.youtube.com/watch?v=-owqJOH3Des](https://www.youtube.com/watch?v=-owqJOH3Des) Stay tuned for more upcoming interesting episodes. @everyone
 
-##### Siddhi 10/28/2020 17:46:29
+##### Siddhi(IT 3rd Year) 10/28/2020 17:46:29
 Machines have never ceased to amaze us with the ways they have found a place in our lives. Do you also want to build a machine that will fascinatingly mimic life? *Innerve'20*✨ presents You this competition to put your creation to a trial. You will *simulate your robots to follow a standardised pathway*🤖🤖 set by us in the most accurate way possible. *The platform is Webots.* So get your robots ready now for this exciting battle!👾
 
 
@@ -153,7 +184,7 @@ We are happy to annouce the release of #Webots "R2020b revision 1".
 
 
 
-This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS.
+This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS. 
 
 
 
@@ -228,7 +259,7 @@ Together with you, we are committed  to provide high quality, free and open sour
 Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
 
 ##### amitsaini 07/24/2020 15:35:03
-Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots.
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
 
 [https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
 
@@ -542,3 +573,4 @@ Demonstration of a Universal Robot UR5e with grippers: [https://youtu.be/WIY9ebq
 
 ##### Olivier Michel [Cyberbotics] 04/18/2019 08:39:15
 Short story about robotbenchmark: [https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace](https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace)
+
