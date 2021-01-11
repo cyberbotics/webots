@@ -108,7 +108,7 @@ function addDevice(device) {
   else if (device.type === 'GPS')
     createGeneric1DDevice(device, TimeplotWidget.prototype.AutoRangeType.STRETCH, -1.0, 1.0, '[m]');
   else if (device.type === 'Gyro')
-    createGeneric3DDevice(device, TimeplotWidget.prototype.AutoRangeType.STRETCH, -20.0, 20.0, '[rad/m^2]');
+    createGeneric3DDevice(device, TimeplotWidget.prototype.AutoRangeType.STRETCH, -20.0, 20.0, '[rad/s]');
   else if (device.type === 'InertialUnit')
     createGeneric3DDevice(device, TimeplotWidget.prototype.AutoRangeType.NONE, -Math.PI, Math.PI, '[rad]');
   else if (device.type === 'Lidar')
