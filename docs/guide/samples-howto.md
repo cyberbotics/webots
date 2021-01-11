@@ -77,6 +77,7 @@ Here, the purpose is to demonstrate the usage of the `wb_motor_set_force` functi
 In this example, the `wb_motor_set_force` function is used to simulate the effect of a spring and a damper between the two boxes.
 When the simulation starts, the motor force is used to move the boxes apart.
 Then, the motor force is turned off and the boxes oscillate for a while, according to the spring and damping equations programmed in the controller.
+In addition, there is an equivalent version of a MATLAB controller `force_control_matlab` that you can switch to.
 
 ### [four\_wheels.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/four_wheels/worlds/four_wheels.wbt)
 
