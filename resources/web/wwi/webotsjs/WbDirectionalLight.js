@@ -22,10 +22,6 @@ class WbDirectionalLight extends WbLight {
   }
 
   delete(){
-    if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(object, 1);
-    }
-
     if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenLight);
 

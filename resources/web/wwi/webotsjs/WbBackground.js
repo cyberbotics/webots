@@ -75,6 +75,8 @@ class WbBackground extends WbBaseNode {
     _wr_node_delete(this.hdrClearTransform);
     _wr_static_mesh_delete(this.hdrClearMesh);
 
+    WbBackground.instance = undefined;
+    
     this.updatePBRs();
 
     super.delete();
@@ -243,5 +245,7 @@ class WbBackground extends WbBaseNode {
     });
   }
 }
+
+WbBackground.instance = undefined;
 
 export{WbBackground}

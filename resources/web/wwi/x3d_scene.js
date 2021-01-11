@@ -11,6 +11,7 @@ import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js"
 import {WbMaterial} from "./webotsjs/WbMaterial.js"
 import {WbGeometry} from "./webotsjs/WbGeometry.js"
 import {WbLight} from "./webotsjs/WbLight.js"
+import {WbBackground} from "./webotsjs/WbBackground.js"
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
@@ -156,9 +157,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       World.instance.scene.destroy();
 
     World.instance = undefined;
-    WbLight.lights = [];
-    WbPBRAppearance.cBrdfTexture = undefined;
-    WbPBRAppearance.cInstanceCounter = 0;
+
     /*this.selector.clearSelection();
     if (!this.scene)
       return;
@@ -181,9 +180,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   deleteObject(id) {
-    console.log(id);
     let object = World.instance.nodes.get('n' + id);
-    console.log(object);
     if(typeof object === 'undefined')
       return;
 
@@ -193,8 +190,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     else{
       let parent = World.instance.nodes.get(parentId);
       if (typeof parent !== 'undefined') {
-        if (object instanceof WbGeometry)
-          parent.geometry = undefined;
         else if (object instanceof WbAbstractAppearance)
           parent.appearance = undefined;
         else if (object instanceof WbMaterial)
@@ -550,6 +545,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   processServerMessage(data, view) {
+    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);

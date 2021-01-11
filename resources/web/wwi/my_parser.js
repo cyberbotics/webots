@@ -863,7 +863,7 @@ class MyParser {
       let type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor'){
         baseColorMap = await this.parseImageTexture(imageTexture, true);
-        baseColorMap.type = "baseColor";
+        baseColorMap.type = "baseColorMap";
       } else if (type === 'roughness'){
         roughnessMap = await this.parseImageTexture(imageTexture, true);
         roughnessMap.type = "roughnessMap";
@@ -872,7 +872,7 @@ class MyParser {
         metalnessMap.type = "metalnessMap";
       } else if (type === 'normal'){
         normalMap = await this.parseImageTexture(imageTexture, true);
-        normalMap.type = "normal";
+        normalMap.type = "normalMap";
       } else if (type === 'occlusion') {
         occlusionMap = await this.parseImageTexture(imageTexture, true);
         occlusionMap.type = "occlusionMap";

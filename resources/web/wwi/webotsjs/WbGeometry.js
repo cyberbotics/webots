@@ -15,6 +15,7 @@
 import {WbBaseNode} from "./WbBaseNode.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js"
+import {World} from "./World.js";
 
 
 class WbGeometry extends WbBaseNode {
@@ -27,9 +28,16 @@ class WbGeometry extends WbBaseNode {
   }
 
   delete(){
-    super.delete()
+    if(typeof this.parent !== 'undefined'){
+      let parent = World.instance.nodes.get(this.parent);
+      if(typeof parent !== 'undefined')
+        parent.geometry = undefined;
+    }
+
     if (this.wrenObjectsCreatedCalled)
       this.deleteWrenRenderable();
+
+    super.delete()
   }
 
   computeWrenRenderable() {

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {World} from "./World.js"
 import {WbBaseNode} from "./WbBaseNode.js"
 import {WbPointSet} from "./WbPointSet.js"
 import {WbAppearance} from "./WbAppearance.js"
@@ -31,7 +32,7 @@ class WbShape extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(object, 1);
+      World.instance.sceneTree.splice(this, 1);
     }
 
     if (typeof this.wrenMaterial !== 'undefined')

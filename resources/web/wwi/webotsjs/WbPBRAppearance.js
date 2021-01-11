@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import {World} from "./World.js";
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbBackground} from "./WbBackground.js";
@@ -22,6 +22,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
     IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
     super(id, textureTransform);
+
     this.baseColor = baseColor;
     this.baseColorMap = baseColorMap;
     this.transparency = transparency;
@@ -41,15 +42,33 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 
   delete(){
-    super.delete();
-
-    if (this.isPostFinalizedCalled)
-      --WbPBRAppearance.cInstanceCounter;
+    if (this.isPostFinalizeCalled)
+      WbPBRAppearance.cInstanceCounter--;
 
     if (WbPBRAppearance.cInstanceCounter == 0) {
       _wr_texture_delete(WbPBRAppearance.cBrdfTexture);
       WbPBRAppearance.cBrdfTexture = undefined;
     }
+
+    if (typeof this.baseColorMap !== 'undefined')
+      this.baseColorMap.delete();
+
+    if (typeof this.roughnessMap !== 'undefined')
+      this.roughnessMap.delete();
+
+    if (typeof this.metalnessMap !== 'undefined')
+      this.metalnessMap.delete();
+
+    if (typeof this.normalMap !== 'undefined')
+      this.normalMap.delete();
+
+    if (typeof this.occlusionMap !== 'undefined')
+      this.occlusionMap.delete();
+
+    if (typeof this.emissiveColorMap !== 'undefined')
+      this.emissiveColorMap.delete();
+
+    super.delete();
   }
 
   createWrenObjects(){

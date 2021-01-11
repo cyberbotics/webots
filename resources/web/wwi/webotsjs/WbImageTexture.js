@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
+import {WbBaseNode} from "./WbBaseNode.js";
+import {World} from "./World.js";
+import {WbAppearance} from "./WbAppearance.js";
 import {arrayXPointer} from "./WbUtils.js";
 import {textureFiltering} from "./WbPreferences.js";
 
@@ -45,6 +47,37 @@ class WbImageTexture extends WbBaseNode {
 
     this.image = undefined;
 
+    if (typeof this.parent !== 'undefined') {
+      let parent = World.instance.nodes.get(this.parent);
+      if (typeof parent !== 'undefined') {
+        if (parent instanceof WbAppearance)
+          parent.texture = undefined;
+        else {
+          switch (this.type) {
+            case "baseColorMap":
+              parent.baseColorMap = undefined;
+              break;
+            case "roughnessMap":
+              parent.roughnessMap = undefined;
+              break;
+            case "metalnessMap":
+              parent.metalnessMap = undefined;
+              break;
+            case "normalMap":
+              parent.normalMap = undefined;
+              break;
+            case "occlusionMap":
+              parent.occlusionMap = undefined;
+              break;
+            case "emissiveColorMap":
+              parent.emissiveColorMap = undefined;
+              break;
+            default:
+              console.error("unknow imageTexture: " + this.id);
+          }
+        }
+      }
+    }
     super.delete();
   }
 

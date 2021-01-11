@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js"
+import {World} from "./World.js";
 
 class WbLight extends WbBaseNode {
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
@@ -27,11 +28,21 @@ class WbLight extends WbBaseNode {
   }
 
   delete(){
-    super.delete();
+    if (typeof this.parent === 'undefined') {
+      World.instance.sceneTree.splice(this, 1);
+    } else {
+      let parent = World.instance.nodes.get(this.parent);
+      if (typeof parent !== 'undefined') {
+        parent.children.splice(this, 1);
+      }
+    }
+
     if (this.wrenObjectsCreatedCalled) {
       WbLight.lights.splice(this, 1);
       this.applySceneAmbientColorToWren();
     }
+
+    super.delete();
   }
 
   createWrenObjects() {

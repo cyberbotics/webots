@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbGroup} from "./WbGroup.js"
+import {World} from "./World.js";
 
 //Is also used to represent a solid
 class WbTransform extends WbGroup {

@@ -11,12 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import {World} from "./World.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
-
-import {World} from "./World.js";
-
 
 class WbScene {
   constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -108,6 +105,7 @@ class WbScene {
 
     World.instance.scene = undefined;
 
+    //only if we want to quit entirely
     //_wrjs_exit();
   }
 }

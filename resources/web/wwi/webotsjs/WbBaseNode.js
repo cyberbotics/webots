@@ -42,7 +42,7 @@ class WbBaseNode {
     if (!this.wrenObjectsCreatedCalled)
       this.createWrenObjects();
 
-    if (!this.isPostFinalizedCalled)
+    if (!this.isPostFinalizeCalled)
       this.postFinalize();
 
     //emit finalizationCompleted(this);

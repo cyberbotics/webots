@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js"
+import {World} from "./World.js";
 
 class WbGroup extends WbBaseNode{
   constructor(id){
@@ -22,8 +23,18 @@ class WbGroup extends WbBaseNode{
 
   delete() {
     if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(object, 1);
+      World.instance.sceneTree.splice(this, 1);
+    } else {
+      let parent = World.instance.nodes.get(this.parent);
+      if(typeof parent !== 'undefined') {
+        parent.children.splice(this, 1);
+      }
     }
+
+    this.children.forEach(child => {
+      child.delete();
+    });
+
 
     super.delete();
   }

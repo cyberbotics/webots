@@ -28,13 +28,8 @@ class WbPointLight extends WbLight {
   }
 
   delete() {
-    if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(object, 1);
-    }
-
     if (this.wrenObjectsCreatedCalled) {
-      this.
-      detachFromUpperTransform();
+      this.detachFromUpperTransform();
       _wr_node_delete(this.wrenLight);
     }
 

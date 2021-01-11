@@ -18,13 +18,13 @@ class WbBox extends WbGeometry {
   constructor(id, size) {
     super(id);
     this.size = size;
-    
+
     this.wrenMesh = undefined;
   }
 
   delete() {
-    super.delete();
     _wr_static_mesh_delete(this.wrenMesh);
+    super.delete();
   }
 
   createWrenObjects() {

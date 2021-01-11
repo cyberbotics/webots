@@ -51,8 +51,9 @@ class WbAppearance extends WbAbstractAppearance {
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());
 
       this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
-    } else
+    } else {
       wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
+    }
 
 
     if (this.texture)
@@ -74,8 +75,8 @@ class WbAppearance extends WbAbstractAppearance {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_phong_material_new();
     }
-    //Replace default by phongShader
-    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.phongShader());
+
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
     return wrenMaterial;
   }
 

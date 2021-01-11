@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js"
+import {World} from "./World.js";
 
 class WbFog extends WbBaseNode {
   constructor(id, color, visibilityRange, fogType) {
@@ -26,7 +27,7 @@ class WbFog extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(object, 1);
+      World.instance.sceneTree.splice(this, 1);
     }
 
     if (this.wrenObjectsCreatedCalled)

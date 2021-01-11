@@ -26,6 +26,7 @@ class WbAbstractAppearance extends WbBaseNode {
       let parent = World.instance.nodes.get(this.parent);
       if(typeof parent !== 'undefined'){
         parent.appearance = undefined;
+        parent.wrenMaterial = undefined;
         parent.updateAppearance();
       }
     }
