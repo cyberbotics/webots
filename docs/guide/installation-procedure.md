@@ -219,7 +219,7 @@ rm ~/.cache/fontconfig/*
 
 #### Server Edition
 
-Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/scripts/install/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
+Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/released/scripts/install/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
 
 Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
 ```
@@ -297,7 +297,7 @@ A [Homebrew package](https://formulae.brew.sh/cask/webots) is available for Webo
 
 If brew is not already installed on your computer, install it with the following command in a terminal:
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/released/install.sh)"
 ```
 
 Webots can then be installed with:
