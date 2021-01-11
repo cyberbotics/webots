@@ -53,12 +53,12 @@ function addDriverInfo(device, label, min, max) {
   if (document.getElementById(name))
     return; // check if already exists
 
-  let div = '<div id="' + device.name + '" class="device">';
+  let div = '<div id="' + device.name + '" class="vehicle-device device">';
   div += '<h2>';
   console.log('addDriverInfo ' + device.name.toLowerCase() + '-enable-checkbox');
   div += '<input type="checkbox" title="Enable/disable this plot." id="' + device.name.toLowerCase() + '-enable-checkbox" device="' + device.name + '" onclick="vehicleCheckboxCallback(this)" />';
   div += device.name + '<span id="' + device.name + '-label"></span></h2>';
-  div += '<div id="' + device.name + '-content" class="device-content"/>';
+  div += '<div id="' + device.name + '-content" class="vehicle-device-content device-content"/>';
   div += '</div>';
 
   appendNewElement(device.name + '-layout', div);
@@ -74,6 +74,7 @@ function addDriverInfo(device, label, min, max) {
   }
 
   const widget = new TimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': min, 'max': max}, plotLabels, device, decimals);
+  widget.vehicleStyle = true;
   widget.setLabel(document.getElementById(device.name + '-label'));
   widgets[device.name.toLowerCase()] = [widget];
 }
@@ -104,18 +105,18 @@ function configure(data) {
   addDriverInfo({name: 'Steering'}, '[rad]', -0.001, 0.001);
 
   addTab('Encoders');
-  addDriverInfo({name: 'Encoders'}, '[%]', 0.0, 0.0);
+  addDriverInfo({name: 'Encoders'}, '[%]', 0, 0.001);
 
   addTab('Brake');
-  addDriverInfo({name: 'Brake'}, '[%]', 0.0, 0.0);
+  addDriverInfo({name: 'Brake'}, '[%]', 0, 0.001);
 
   addTab('Throttle');
   appendNewElement('Throttle-layout', '<h2><span id="throttle-label"></span></h2>');
-  addDriverInfo({name: 'Throttle'}, '[%]', 0.0, 0.0);
+  addDriverInfo({name: 'Throttle'}, '[%]', 0, 0.001);
 
   addTab('RPM');
   appendNewElement('RPM-layout', '<h2><span id="rpm-label"></span></h2>');
-  addDriverInfo({name: 'RPM'}, '[RPM]', 0.0, 0.0);
+  addDriverInfo({name: 'RPM'}, '[RPM]', 0, 0.001);
 
   // Parse the devices once to prepare the device type list.
   configureDevices(data);

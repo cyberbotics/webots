@@ -16,13 +16,14 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.labels = labels;
   this.device = device;
   this.decimals = decimals;
+  this.vehicleStyle = false;
 
   this.slider = null;
   this.label = null;
 
-  // Should be hard coded correctly!
-  this.canvasWidth = 320;
-  this.canvasHeight = 200;
+  // Computed during initialization
+  this.canvasWidth = undefined;
+  this.canvasHeight = undefined;
 
   this.values = [];
   this.lastX = 0;
@@ -45,8 +46,7 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   // Compute vertical grid steps.
   this.updateGridConstants();
 
-  var that = this;
-  setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
+  this.start();
 }
 
 TimeplotWidget.prototype.AutoRangeType = {
@@ -67,6 +67,14 @@ TimeplotWidget.prototype.addValue = function(value) {
     this.jumpToRange(value.y);
 };
 
+TimeplotWidget.prototype.pause = function() {
+  clearInterval(this.refreshInterval);
+};
+
+TimeplotWidget.prototype.start = function() {
+  this.refreshInterval = setInterval(() => { this.refreshLabels(); }, 1000 / this.refreshLabelsRate);
+};
+
 TimeplotWidget.prototype.setSlider = function(slider) {
   this.slider = slider;
 };
@@ -79,27 +87,63 @@ TimeplotWidget.prototype.blockSliderUpdate = function(block) {
   this.blockSliderUpdateFlag = block;
 };
 
+TimeplotWidget.prototype.applyVechileStyle = function(container) {
+  const legend = this.labels['legend'];
+  if (!legend)
+    return;
+  const labelsHeight = 20 * legend.length;
+  let classes = [
+    {'name': '.device', 'heightOffset': labelsHeight},
+    {'name': '.device-content', 'heightOffset': labelsHeight},
+    {'name': '.plot-canvas', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-x', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-x-min', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-x-max', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y-min', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y-max', 'topOffset': labelsHeight}
+  ];
+  const layout = document.getElementById(this.device.name + '-layout');
+  for (let c = 0; c < classes.length; c++) {
+    let element = layout.querySelector(classes[c].name);
+    if (classes[c].heightOffset) {
+      const height = parseFloat(window.getComputedStyle(element).getPropertyValue('height').replace(/px$/g, ''));
+      element.style.height = (height + classes[c].heightOffset) + 'px';
+    }
+    if (classes[c].topOffset) {
+      const top = parseFloat(window.getComputedStyle(element).getPropertyValue('top').replace(/px$/g, ''));
+      element.style.top = (top + classes[c].topOffset) + 'px';
+    }
+  }
+};
+
 TimeplotWidget.prototype.initialize = function() {
   var id = this.container.getAttribute('id');
 
-  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
+  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="vehicle-plot-canvas plot-canvas" />');
 
   // Let the canvas size match with the element size (-2 because of the border), otherwise
   // the sizes are not matching causing a aliased zoom-like effect.
+  console.log('this.canvas.offsetWidth', this.canvas.offsetWidth, 'this.canvas.offsetHeight', this.canvas.offsetHeight);
   this.canvas.width = this.canvas.offsetWidth - 2;
   this.canvas.height = this.canvas.offsetHeight - 2;
+
+  // Update canvas size
+  this.canvasWidth = this.canvas.width;
+  this.canvasHeight = this.canvas.height;
+  this.yOffset['ratio'] = (this.canvasHeight - this.yOffset['offset']) / this.canvasHeight;
 
   this.canvasContext = this.canvas.getContext('2d');
   console.assert(this.canvasWidth === this.canvas.width);
   console.assert(this.canvasHeight === this.canvas.height);
 
-  this.xLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x">' + this.labels['x'] + '</p>');
-  this.xMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-min">0.0</p>');
-  this.xMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-max">0.0</p>');
+  this.xLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-x plot-axis-label-x">' + this.labels['x'] + '</p>');
+  this.xMinLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-x-min plot-axis-label-x-min">0.0</p>');
+  this.xMaxLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-x-max plot-axis-label-x-max">0.0</p>');
 
-  this.yLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y">' + this.labels['y'] + '</p>');
-  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-min">' + roundLabel(this.yRange['min'], this.decimals) + '</p>');
-  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-max">' + roundLabel(this.yRange['max'], this.decimals) + '</p>');
+  this.yLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-y plot-axis-label-y">' + this.labels['y'] + '</p>');
+  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-y-min plot-axis-label-y-min">' + roundLabel(this.yRange['min'], this.decimals) + '</p>');
+  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label vechile-plot-axis-label-y-max plot-axis-label-y-max">' + roundLabel(this.yRange['max'], this.decimals) + '</p>');
 
   if (this.slider) {
     this.slider.setAttribute('min', this.yRange['min']);
@@ -110,6 +154,9 @@ TimeplotWidget.prototype.initialize = function() {
   this.displayHorizontalGrid(0, this.canvasWidth);
 
   this.initialized = true;
+
+  if (this.vehicleStyle)
+    this.applyVechileStyle();
 
   this.show(this.shown);
 };

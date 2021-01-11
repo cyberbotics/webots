@@ -53,3 +53,26 @@
 .alignright {
   float: right;
 }
+.vehicle-device {
+  width: 450px;
+  height: 450px;
+}
+.vehicle-device-content {
+  width: 450px;
+  height: 430px;
+}
+.vehicle-plot-canvas {
+  width: 420px;
+  height: 400px;
+}
+.vechile-plot-axis-label-x,
+.vechile-plot-axis-label-x-min,
+.vechile-plot-axis-label-x-max {
+  top: 400px;
+  width: 420px;
+}
+.vechile-plot-axis-label-y,
+.vechile-plot-axis-label-y-min,
+.vechile-plot-axis-label-y-max {
+  height: 402px;
+}

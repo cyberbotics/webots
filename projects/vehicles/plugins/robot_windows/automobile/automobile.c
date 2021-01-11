@@ -138,7 +138,7 @@ static void configure_automobile_robot_window() {
   buffer_append(",\"rear-track\": ");
   snprintf(buf, 32, "%.4g", wbu_car_get_track_rear());
   buffer_append(buf);
-  buffer_append(",\"wheel-base\": ");
+  buffer_append(",\"wheelbase\": ");
   snprintf(buf, 32, "%.4g", wbu_car_get_wheelbase());
   buffer_append(buf);
   buffer_append(",\"front-wheel-radius\": ");
@@ -196,7 +196,7 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     buffer_append(",\"gearbox\": ");
     snprintf(buf, 32, "%d", wbu_driver_get_gear());
     buffer_append(buf);
-    buffer_append("],\"target-speed\": 0");
+    buffer_append(",\"target-speed\": 0");
   } else {
     buffer_append("],\"rpm\": 0, \"gearbox\": 0");
     buffer_append(",\"target-speed\": ");
@@ -245,7 +245,7 @@ static void append_steering_data() {
   buffer_append(buf);
   snprintf(buf, 32, "%.17g,", wbu_car_get_right_steering_angle());
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g", wbu_car_get_right_steering_angle());
+  snprintf(buf, 32, "%.17g", wbu_car_get_left_steering_angle());
   buffer_append(buf);
   buffer_append("]}");
 }
@@ -285,20 +285,17 @@ static void append_brake_data() {
 
 static void append_encoders_data() {
   char buf[32];
-  double encoder[WBU_CAR_WHEEL_NB];
-  for (int i = WBU_CAR_WHEEL_FRONT_RIGHT; i < WBU_CAR_WHEEL_NB; ++i)
-    encoder[i] = wbu_car_get_wheel_encoder(i);
   buffer_append(", \"encoders\": {\"time\": ");
   snprintf(buf, 32, "%.17g", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": [");
-  snprintf(buf, 32, "%.17g,", encoder[WBU_CAR_WHEEL_FRONT_RIGHT]);
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g,", encoder[WBU_CAR_WHEEL_FRONT_LEFT]);
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_LEFT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g,", encoder[WBU_CAR_WHEEL_REAR_RIGHT]);
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g", encoder[WBU_CAR_WHEEL_REAR_LEFT]);
+  snprintf(buf, 32, "%.17g", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_LEFT));
   buffer_append(buf);
   buffer_append("]}");
 }

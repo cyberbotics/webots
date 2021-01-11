@@ -71,7 +71,7 @@ OverviewWidget.prototype.resize = function() {
   label.parentNode.parentNode.style.left = ((this.centerPosition[0] + 2 * this.frontAxisRightPosition[0]) / 3) + 'px';
 
   label = document.getElementById('overview-rpm-label');
-  label.parentNode.parentNode.style.top = (this.centerPosition[1] - this.fontSize) + 'px';
+  label.parentNode.parentNode.style.top = this.centerPosition[1] + 'px';
   label.parentNode.parentNode.style.left = (this.centerPosition[0] - 200) + 'px';
 
   label = document.getElementById('overview-front-track-label');
@@ -82,7 +82,7 @@ OverviewWidget.prototype.resize = function() {
   label.parentNode.style.top = (this.rearAxisCenterPosition[1] + 5) + 'px';
   label.parentNode.style.left = (this.rearAxisCenterPosition[0] - 10) + 'px';
 
-  label = document.getElementById('overview-wheel-base-label');
+  label = document.getElementById('overview-wheelbase-label');
   label.parentNode.style.top = this.centerPosition[1] + 'px';
   label.parentNode.style.left = this.centerPosition[0] + 'px';
 
@@ -147,7 +147,7 @@ OverviewWidget.prototype.setStaticInformation = function(data) {
   document.getElementById('overview-gear-number-label').textContent = roundLabel(data['gear-number'], 1);
   document.getElementById('overview-front-track-label').textContent = roundLabel(data['front-track'], 3);
   document.getElementById('overview-rear-track-label').textContent = roundLabel(data['rear_track'], 3);
-  document.getElementById('overview-wheel-base-label').textContent = roundLabel(data['wheel-base'], 3);
+  document.getElementById('overview-wheelbase-label').textContent = roundLabel(data['wheelbase'], 3);
   this.resize();
 };
 
@@ -181,22 +181,15 @@ OverviewWidget.prototype.updateInformation = function(data) {
 };
 
 OverviewWidget.prototype.updateControlMode = function(isSpeedMode) {
-  // TODO
   this.isSpeedMode = isSpeedMode;
   if (isSpeedMode) {
-    console.log('OverviewWidget.updateControlMode', isSpeedMode);
-    console.log('A');
-    document.getElementById('overview-rpm-label').parentNode.style.visibility = 'hiden';
-    console.log('B');
-    document.getElementById('overview-gearbox-label').parentNode.style.visibility = 'hiden';
-    console.log('C');
-    document.getElementById('overview-target-speed-label').parentNode.style.visibility = 'visible';
-    console.log('D');
+    document.getElementById('overview-rpm-label').parentNode.style.display = 'none';
+    document.getElementById('overview-gearbox-label').parentNode.style.display = 'none';
+    document.getElementById('overview-target-speed-label').parentNode.style.display = 'block';
   } else {
-    console.log('OverviewWidget.updateControlMode NOT', isSpeedMode);
-    document.getElementById('overview-rpm-label').parentNode.style.visibility = 'visible';
-    document.getElementById('overview-gearbox-label').parentNode.style.visibility = 'visible';
-    document.getElementById('overview-target-speed-label').parentNode.style.visibility = 'hiden';
+    document.getElementById('overview-rpm-label').parentNode.style.display = 'block';
+    document.getElementById('overview-gearbox-label').parentNode.style.display = 'block';
+    document.getElementById('overview-target-speed-label').parentNode.style.display = 'none';
   }
 };
 
