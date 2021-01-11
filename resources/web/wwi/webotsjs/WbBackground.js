@@ -75,14 +75,7 @@ class WbBackground extends WbBaseNode {
     _wr_node_delete(this.hdrClearTransform);
     _wr_static_mesh_delete(this.hdrClearMesh);
 
-    World.instance.nodes.forEach((value, key, map) => {
-      if(value instanceof WbPBRAppearance && typeof value.parent !== 'undefined'){
-        let parent = World.instance.nodes.get(value.parent);
-        if(typeof parent !== 'undefined')
-          parent.applyMaterialToGeometry();
-      }
-    });
-
+    this.updatePBRs();
 
     super.delete();
   }
@@ -121,7 +114,7 @@ class WbBackground extends WbBaseNode {
     this.hdrClearTransform = _wr_transform_new();
     _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
 
-    this.applyColourToWren();
+    this.applyColourToWren();$
   }
 
   applyColourToWren() {
@@ -237,6 +230,17 @@ class WbBackground extends WbBaseNode {
     super.postFinalize();
 
     this.applySkyBoxToWren();
+    this.updatePBRs();
+  }
+
+  updatePBRs(){
+    World.instance.nodes.forEach((value, key, map) => {
+      if(value instanceof WbPBRAppearance && typeof value.parent !== 'undefined'){
+        let parent = World.instance.nodes.get(value.parent);
+        if(typeof parent !== 'undefined')
+          parent.applyMaterialToGeometry();
+      }
+    });
   }
 }
 
