@@ -1355,7 +1355,7 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
   - Clear screen (same as issuing `clear` command in your terminal)
   - Reset (colors and styles)
 
-To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/console/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/console/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console/console.c)".
+To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/console/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/console/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/console/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/console/controllers/console/console.c)".
 
 The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
 
