@@ -428,7 +428,7 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
   // printf("pickedColor (u=%f, v=%f): (r=%f g=%f b=%f)\n", u, v, pickedColor.red(), pickedColor.green(), pickedColor.blue());
 }
 
-QString WbImageTexture::path() {
+const QString WbImageTexture::path() const {
   if (mUrl->item(0).startsWith("https://"))
     return mUrl->item(0);
   return WbUrl::computePath(this, "url", mUrl, 0);
