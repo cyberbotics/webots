@@ -44,11 +44,19 @@ The inertia of the heavy mass lets the robot base turn round.
 The overall center of mass of the robot is changing.
 This can be visualized with the `View / Optional Rendering / Show Center of Mass...` or `mass` tab of in the node editor when the robot is selected.
 
-### [custom\_html\_robot\_window.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_html_robot_window/worlds/custom_html_robot_window.wbt)
+### [custom\_robot\_window\_simple.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window_simple/worlds/custom_robot_window_simple.wbt)
+
+**Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, JavaScript
+
+![custom_robot_window_simple.png](images/samples/custom_robot_window.thumbnail.jpg) This example shows a minimal two way communication between a simple robot window and controller.
+The JavaScript and Python files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
+
+
+### [custom\_robot\_window.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window/worlds/custom_robot_window.wbt)
 
 **Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, JavaScript, CSS
 
-![custom_html_robot_window.png](images/samples/custom_html_robot_window.thumbnail.jpg) This example shows a simple custom robot window.
+![custom_html_robot_window.png](images/samples/custom_robot_window.thumbnail.jpg) This example shows a simple custom robot window.
 The HTML file contains the page content.
 The CSS file contains the page style.
 The JavaScript and C files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.

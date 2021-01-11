@@ -11,8 +11,8 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 E-puck {
-  controller "simple_robot_window"
-  window "simple_robot_window"
+  controller "custom_robot_window_simple"
+  window "custom_robot_window_simple"
 }
 RectangleArena {
 }

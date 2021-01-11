@@ -11,7 +11,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 E-puck {
-  window "custom_html_robot_window"
+  window "custom_robot_window"
   turretSlot [
     DEF TARGET Transform {
       translation 0 0.005 0

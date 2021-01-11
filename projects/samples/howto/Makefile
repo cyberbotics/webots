@@ -17,7 +17,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	center_of_mass/controllers/center_of_mass.Makefile \
 	center_of_mass/controllers/rotation.Makefile \
 	console/controllers/console.Makefile \
-	custom_html_robot_window/plugins/robot_windows/custom_html_robot_window.Makefile \
+	custom_robot_window/plugins/robot_windows/custom_robot_window.Makefile \
 	cylinder_stack/controllers/contact_points_supervisor.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
