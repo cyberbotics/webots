@@ -25,6 +25,20 @@ class WbBaseNode {
     this.isPostFinalizeCalled = false;
   }
 
+
+  delete(){
+    //check if it is a DEF node
+    let uses = World.instance.defUse[this.id];
+    if (typeof uses !== 'undefined') {
+      if (uses.size !== 0) {
+
+      }
+      delete World.instance.defUse[this.id];
+    }
+
+    World.instance.nodes.delete(this.id);
+  }
+
   createWrenObjects() {
     this.wrenObjectsCreatedCalled = true;
 
@@ -54,10 +68,6 @@ class WbBaseNode {
 
   postFinalize() {
     this.isPostFinalizeCalled = true;
-  }
-
-  delete(){
-    World.instance.nodes.delete(this.id);
   }
 }
 

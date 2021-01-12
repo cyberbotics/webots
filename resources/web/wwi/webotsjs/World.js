@@ -24,6 +24,8 @@ class World {
     //All the nodes are included here so it is easier to retrieve them for update
     //map from id to node
     this.nodes = new Map();
+
+    //Dict containing the ids of the DEF node and a corresponding array of id of USE nodes
     this.defUse = {}
     World.instance = this;
   }

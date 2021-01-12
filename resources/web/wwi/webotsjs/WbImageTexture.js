@@ -15,8 +15,10 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {World} from "./World.js";
 import {WbAppearance} from "./WbAppearance.js";
+
 import {arrayXPointer} from "./WbUtils.js";
 import {textureFiltering} from "./WbPreferences.js";
+import {WbVector2} from "./utils/WbVector2.js"
 
 
 class WbImageTexture extends WbBaseNode {
@@ -37,7 +39,7 @@ class WbImageTexture extends WbBaseNode {
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
     this.externalTexture = false;
-    this.externalTextureRatio = glm.vec2(1.0,1.0);
+    this.externalTextureRatio = new WbVector2(1.0,1.0);
 
     this.type; //use in pbr appearance to know what is the role of this image
   }

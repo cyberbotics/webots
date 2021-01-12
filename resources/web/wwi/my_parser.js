@@ -46,7 +46,7 @@ import {WbLight} from "./webotsjs/WbLight.js";
 import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
-//import {WbVector2} from "./webotsjs/utils/WbVector2.js";
+import {WbVector2} from "./webotsjs/utils/WbVector2.js";
 import {WbVector3} from "./webotsjs/utils/WbVector3.js";
 import {WbVector4} from "./webotsjs/utils/WbVector4.js";
 import {RGBELoader} from "./hdrLoader.js"
@@ -279,6 +279,9 @@ class MyParser {
 
     World.instance.nodes.set(id, useNode);
     World.instance.defUse[use].push(id);
+
+    console.log(World.instance.defUse);
+
 
     return useNode;
   }
@@ -622,7 +625,7 @@ class MyParser {
       let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
       let texCoord  = texcoordsStr.map(el => parseFloat(el));
       for(let i = 0; i < texCoord.length; i = i + 2) {
-        texCoordArray.push(new glm.vec2(texCoord[i], texCoord[i + 1]));
+        texCoordArray.push(new WbVector2(texCoord[i], texCoord[i + 1]));
       }
     }
 
@@ -1004,7 +1007,7 @@ function getNodeAttribute(node, attributeName, defaultValue) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  let v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
+  let v = new WbVector2(parseFloat(s[0]), parseFloat(s[1]));
   return v;
 }
 

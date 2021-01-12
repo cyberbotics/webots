@@ -31,7 +31,7 @@ class WbVector2 {
   }
 
   div(number) {
-    return new WbVector2(this.x / number, this.y / number;
+    return new WbVector2(this.x / number, this.y / number);
   }
 
   equal(v) {
