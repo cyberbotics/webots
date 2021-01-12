@@ -33,10 +33,21 @@ class WbShape extends WbBaseNode {
   delete() {
     if (typeof this.parent === 'undefined'){
       World.instance.sceneTree.splice(this, 1);
+    } else {
+      let parent = World.instance.nodes.get(this.parent);
+      if(typeof parent !== 'undefined') {
+        parent.children.splice(this, 1);
+      }
     }
 
     if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);
+
+    if (typeof this.appearance !== 'undefined')
+      this.appearance.delete();
+      
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.delete();
 
     super.delete();
   }

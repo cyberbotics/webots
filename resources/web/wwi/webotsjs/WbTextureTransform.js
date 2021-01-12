@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbBaseNode} from "./WbBaseNode.js"
+import {World} from "./World.js"
 
 class WbTextureTransform extends WbBaseNode{
   constructor(id, center, rotation, scale, translation){
@@ -25,8 +26,15 @@ class WbTextureTransform extends WbBaseNode{
   }
 
   delete(){
-    super.delete();
+    if(typeof this.parent !== 'undefined'){
+      let parent = World.instance.nodes.get(this.parent);
+      if(typeof parent !== 'undefined')
+        parent.textureTransform = undefined;
+    }
+
     this.destroyWrenObjects();
+
+    super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial) {

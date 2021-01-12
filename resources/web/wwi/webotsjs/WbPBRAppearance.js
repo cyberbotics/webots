@@ -38,7 +38,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveColor = emissiveColor;
     this.emissiveColorMap = emissiveColorMap;
     this.emissiveIntensity = emissiveIntensity;
-    this.textureTransform = textureTransform;
   }
 
   delete(){

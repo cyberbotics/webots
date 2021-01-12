@@ -150,13 +150,22 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   destroyWorld() {
 
-    //iterate nodes or sceneTree
-    //delete viewpoint
-    //reset shaders
-    if(typeof World.instance !== 'undefined' && typeof World.instance.scene !== 'undefined')
-      World.instance.scene.destroy();
 
-    World.instance = undefined;
+
+
+    if (typeof World.instance !== 'undefined') {
+      World.instance.sceneTree.forEach( child => {
+        child.delete();
+      });
+
+      if (typeof World.instance.viewpoint !== 'undefined')
+        World.instance.viewpoint.delete();
+
+      if (typeof World.instance.scene !== 'undefined')
+        World.instance.scene.destroy();
+
+      World.instance = undefined;
+    }
 
     /*this.selector.clearSelection();
     if (!this.scene)
@@ -166,15 +175,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;*/
-
-    /*
-    // Code to debug bloom passes.
-    let geometry = new THREE.PlaneGeometry(5, 5);
-    let material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
-    this.bloomPass.debugMaterial = material;
-    let plane = new THREE.Mesh(geometry, material);
-    this.scene.add(plane);
-    */
 
     //this.onSceneUpdate();
   }
