@@ -70,7 +70,9 @@ private:
   WbBackground &operator=(const WbBackground &);  // non copyable
   void init();
   void destroySkyBox();
-  void applyColourToWren(const WbRgb &color);
+  void applyColorToWren(const WbRgb &color);
+  bool loadTexture(int i);
+  bool loadIrradianceTexture(int i);
   void applySkyBoxToWren();
 
   bool isFirstInstance() { return cBackgroundList.first() == this; }
@@ -83,6 +85,14 @@ private:
   WbMFString *mUrlFields[6];
   WbMFString *mIrradianceUrlFields[6];
   WbSFDouble *mLuminosity;
+
+  // texture loading fields
+  QImage *mTexture[6];
+  bool mTextureHasAlpha;
+  int mTextureSize;
+  float *mIrradianceTexture[6];
+  int mIrradianceWidth;
+  int mIrradianceHeight;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;

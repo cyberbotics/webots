@@ -128,7 +128,7 @@ bool WbImageTexture::loadTexture() {
     }
     return loadTextureData(mDownloader->device());
   }
-  const QString filePath(path());
+  const QString filePath(path(true));
   if (filePath.isEmpty())
     return false;
   QFile file(filePath);
@@ -428,10 +428,10 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) {
   // printf("pickedColor (u=%f, v=%f): (r=%f g=%f b=%f)\n", u, v, pickedColor.red(), pickedColor.green(), pickedColor.blue());
 }
 
-const QString WbImageTexture::path() const {
+const QString WbImageTexture::path(bool warning) const {
   if (mUrl->item(0).startsWith("https://"))
     return mUrl->item(0);
-  return WbUrl::computePath(this, "url", mUrl, 0);
+  return WbUrl::computePath(this, "url", mUrl, 0, warning);
 }
 
 void WbImageTexture::write(WbVrmlWriter &writer) const {

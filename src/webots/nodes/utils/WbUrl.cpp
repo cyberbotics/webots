@@ -77,21 +77,15 @@ const QString WbUrl::missingTexture() {
   return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
 }
 
-const QString WbUrl::missingHdrTexture() {
-  return WbStandardPaths::resourcesPath() + "images/missing_texture.hdr";
-}
-
 const QString WbUrl::missing(const QString &url) {
   QString suffix = QFileInfo(url).suffix();
   QStringList textureSuffixes = {"png", "jpg", "jpeg"};
   if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
     return missingTexture();
-  if (suffix.compare("hdr", Qt::CaseInsensitive) == 0)
-    return missingHdrTexture();
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warning) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
@@ -99,7 +93,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   // get the url at specified index
   const QString &url = urlField->item(index);
 
-  return computePath(node, field, url);
+  return computePath(node, field, url, warning);
 }
 
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning) {

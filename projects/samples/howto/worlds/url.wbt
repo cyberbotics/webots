@@ -22,7 +22,7 @@ Background {
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_back.png"
   ]
   bottomUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_bottom.png"
+    "textures/cubic/mountains_bottom.png"
   ]
   frontUrl [
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.png"
