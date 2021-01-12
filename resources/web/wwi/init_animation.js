@@ -13,14 +13,31 @@
 // limitations under the License.
 import {webots} from "./../wwi/webots.js";
 
+let view = null;
+
 function init() {
-  document.getElementById('PlayButton').style.display = 'block';
-  this.style.display = 'none'
+  //document.getElementById('PlayButton').style.display = 'block';
+  //this.style.display = 'none'
+  let playButton = document.getElementById('PlayButton');
+  playButton.removeEventListener('click', init);
+  playButton.addEventListener('click', remove);
+  playButton.value = "Quit";
 
   let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
-  let view = new webots.View(document.getElementById("view3d"));
+  view = new webots.View(document.getElementById("view3d"));
   view.open(name + ".x3d");
   view.setAnimation(name + ".json", "play", true);
+}
+
+function remove() {
+  view.animation._triggerPlayPauseButton();
+  view.removeLabels();
+  view.x3dScene.destroyWorld();
+
+  let toolBar = document.getElementById("playBar");
+  if (toolBar) {
+    toolBar.parentNode.removeChild(toolBar);
+  }
 }
 
 document.getElementById('PlayButton').addEventListener('click', init);

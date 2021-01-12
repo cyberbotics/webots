@@ -12,48 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import{M_PI} from "./../WbConstants.js"
-
-class WbVector3 {
-  constructor(x = 0.0, y = 0.0, z = 0.0){
+class WbVector2 {
+  constructor(x = 0.0, y = 0.0){
     this.x = x;
     this.y = y;
-    this.z = z;
   }
 
   add(vec){
-    return new WbVector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+    return new WbVector2(this.x + vec.x, this.y + vec.y);
   }
 
   sub(vec) {
-    return new WbVector3(this.x - vec.x, this.y - vec.y, this.z -  vec.z);
+    return new WbVector2(this.x - vec.x, this.y - vec.y);
   }
 
   mul(number) {
-    return new WbVector3(this.x * number, this.y * number, this.z * number);
+    return new WbVector2(this.x * number, this.y * number);
   }
 
   div(number) {
-    return new WbVector3(this.x / number, this.y / number, this.z / number);
-  }
-  // cross product
-  cross(v) {
-    return new WbVector3(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
-  }
-
-  almostEquals(v, tolerance) {
-    return Math.abs(this.x - v.x) < tolerance && Math.abs(this.y - v.y) < tolerance && Math.abs(this.z - v.z) < tolerance;
+    return new WbVector2(this.x / number, this.y / number;
   }
 
   equal(v) {
-    return this.x === v.x && this.y === v.y && this.z === v.z;
+    return this.x === v.x && this.y === v.y;
   }
 
   normalize() {
     let result = this.div(this.length());
     this.x = result.x;
     this.y = result.y;
-    this.z = result.z;
   }
 
   normalized() {
@@ -61,21 +49,21 @@ class WbVector3 {
   }
 
   length() {
-     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
   length2() {
-    return this.x * this.x + this.y * this.y + this.z * this.z;
+    return this.x * this.x + this.y * this.y;
   }
-  
+
   // dot product
   dot(v) {
-     return this.x * v.x + this.y * v.y + this.z * v.z;
+     return this.x * v.x + this.y * v.y;
    }
 
    // null test
   isNull() {
-    return this.x == 0.0 && this.y == 0.0 && this.z == 0.0;
+    return this.x == 0.0 && this.y == 0.0;
   }
 
   // angle between two vectors (in radians)
@@ -90,8 +78,6 @@ class WbVector3 {
       return this.x;
     else if(index === 1)
       return this.y;
-    else if (index === 2)
-      return this.z;
   }
 }
-export {WbVector3}
+export {WbVector2}
