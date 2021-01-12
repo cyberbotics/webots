@@ -46,7 +46,9 @@ import {WbLight} from "./webotsjs/WbLight.js";
 import {WbFog} from "./webotsjs/WbFog.js"
 
 import {Use} from "./webotsjs/Use.js";
+//import {WbVector2} from "./webotsjs/utils/WbVector2.js";
 import {WbVector3} from "./webotsjs/utils/WbVector3.js";
+import {WbVector4} from "./webotsjs/utils/WbVector4.js";
 import {RGBELoader} from "./hdrLoader.js"
 
 import {DefaultUrl} from "./default_url.js"
@@ -1008,13 +1010,13 @@ function convertStringToVec2(s) {
 
 function convertStringToVec3(s) {
   s = s.split(/\s/);
-  let v = new glm.vec3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+  let v = new WbVector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
   return v;
 }
 
 function convertStringToQuaternion(s) {
   let pos = s.split(/\s/);
-  let q = new glm.vec4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
+  let q = new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
   return q;
 }
 

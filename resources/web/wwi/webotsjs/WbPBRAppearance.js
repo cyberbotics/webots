@@ -15,6 +15,8 @@ import {World} from "./World.js";
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbBackground} from "./WbBackground.js";
+
+import {WbVector3} from "./utils/WbVector3.js";
 import {array3Pointer} from "./WbUtils.js";
 import {textureQuality} from "./WbPreferences.js";
 
@@ -154,7 +156,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
     let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
 
-    let backgroundColor = glm.vec3(0.0, 0.0, 0.0);
+    let backgroundColor = new WbVector3(0.0, 0.0, 0.0);
 
     if (typeof background !== 'undefined') {
       backgroundColor.x = background.skyColor.x;

@@ -15,6 +15,8 @@
 import {WbBaseNode} from "./WbBaseNode.js"
 import {World} from "./World.js";
 
+import {WbVector3} from "./utils/WbVector3.js";
+
 class WbLight extends WbBaseNode {
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
     super(id);
@@ -65,7 +67,7 @@ class WbLight extends WbBaseNode {
   }
 
   computeAmbientLight() {
-    let rgb = glm.vec3(0.0, 0.0, 0.0);
+    let rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach (light => {
       if (light.on) {

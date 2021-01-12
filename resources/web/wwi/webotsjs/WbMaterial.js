@@ -16,6 +16,7 @@ import {WbBaseNode} from "./WbBaseNode.js";
 import {World} from "./World.js"
 
 import {array3Pointer} from "./WbUtils.js";
+import {WbVector3} from "./utils/WbVector3.js";
 
 class WbMaterial extends WbBaseNode {
   constructor(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency) {
@@ -44,17 +45,17 @@ class WbMaterial extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, textured) {
     let ambient, diffuse, specular, shininess;
 
-    ambient = glm.vec3(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity);
+    ambient = new WbVector3(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity);
 
     if (textured) {
-      diffuse = glm.vec3(1.0, 1.0, 1.0);
-      specular = glm.vec3(1.0, 1.0, 1.0);
+      diffuse = new WbVector3(1.0, 1.0, 1.0);
+      specular = new WbVector3(1.0, 1.0, 1.0);
       shininess = 0.0;
     } else {
-      ambient = glm.vec3(this.ambientIntensity * this.diffuseColor.x,this.ambientIntensity * this.diffuseColor.y,
+      ambient = new WbVector3(this.ambientIntensity * this.diffuseColor.x,this.ambientIntensity * this.diffuseColor.y,
                        this.ambientIntensity * this.diffuseColor.z);
-      diffuse = glm.vec3(this.diffuseColor.x, this.diffuseColor.y, this.diffuseColor.z);
-      specular = glm.vec3(this.specularColor.x, this.specularColor.y, this.specularColor.z);
+      diffuse = new WbVector3(this.diffuseColor.x, this.diffuseColor.y, this.diffuseColor.z);
+      specular = new WbVector3(this.specularColor.x, this.specularColor.y, this.specularColor.z);
       shininess = this.shininess;
     }
 

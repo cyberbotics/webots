@@ -13,6 +13,9 @@
 // limitations under the License.
 
 import {M_PI} from "./WbConstants.js"
+import {WbVector3} from "./utils/WbVector3.js";
+import {WbVector4} from "./utils/WbVector4.js";
+
 import {World} from "./World.js"
 import {WbTransform} from "./WbTransform.js"
 
@@ -70,19 +73,19 @@ function pointerOnFloat(float) {
 function direction(vec4)  {
   let c = Math.cos(vec4.w), s = Math.sin(vec4.w), t = 1 - c;
   let tTimesZ = t * vec4.z;
-  return glm.vec3(tTimesZ * vec4.x + s * vec4.y, tTimesZ * vec4.y - s * vec4.x, tTimesZ * vec4.z + c);
+  return new WbVector3(tTimesZ * vec4.x + s * vec4.y, tTimesZ * vec4.y - s * vec4.x, tTimesZ * vec4.z + c);
 }
 
 function right(vec4) {
   let c = Math.cos(vec4.w), s = Math.sin(vec4.w), t = 1 - c;
   let tTimesX = t * vec4.x;
-  return glm.vec3(tTimesX * vec4.x + c, tTimesX * vec4.w + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
+  return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.w + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
 }
 
 function up(vec4) {
   let c = Math.cos(vec4.w), s = Math.sin(vec4.w), t = 1 - c;
   let tTimesY = t * vec4.y;
-  return glm.vec3(tTimesY * vec4.x - s * vec4.z, tTimesY * vec4.y + c, tTimesY * vec4.z + s * vec4.x);
+  return new WbVector3(tTimesY * vec4.x - s * vec4.z, tTimesY * vec4.y + c, tTimesY * vec4.z + s * vec4.x);
 }
 
 function length(vec3) {
@@ -110,11 +113,11 @@ function quaternionToVec4(quat) {
   let y = quat.y * inv;
   let z = quat.z * inv;
 
-  return glm.vec4(x, y, z, angle)
+  return new WbVector4(x, y, z, angle)
 }
 
 function fromAxisAngle(x, y, z, angle) {
-  let result = glm.vec4();
+  let result = new WbVector4();
   let l = x * x + y * y + z * z;
   if (l > 0.0) {
     angle *= 0.5;
