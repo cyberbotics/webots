@@ -48,7 +48,7 @@ This can be visualized with the `View / Optional Rendering / Show Center of Mass
 
 **Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, JavaScript
 
-![custom_robot_window_simple.png](images/samples/custom_robot_window_simple.thumbnail.jpg) This example shows a minimal two way communication between a simple robot window and controller.
+![custom_robot_window_simple.png](images/samples/custom_robot_window_simple.thumbnail.jpg) This example shows a minimal two way communication between a simple robot window and a robot controller.
 The JavaScript and Python files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
 
 
