@@ -972,7 +972,6 @@ class MyParser {
       image.height = img.height;
       image.url = url;
     }
-
     return image;
  }
 

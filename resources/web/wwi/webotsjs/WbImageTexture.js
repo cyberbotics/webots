@@ -132,10 +132,9 @@ class WbImageTexture extends WbBaseNode {
       _wr_texture_set_translucent(texture, this.isTransparent);
       let bitsPointer = arrayXPointer(this.image.bits);
       _wr_texture_2d_set_data(texture, bitsPointer);
-      _free(bitsPointer);
       Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
       _wr_texture_setup(texture);
-
+      _free(bitsPointer);
     } else
       this.isTransparent = _wr_texture_is_translucent(texture);
 

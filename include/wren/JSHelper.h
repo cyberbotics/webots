@@ -27,6 +27,7 @@ char *wrjs_array4_char(float element0, float element1, float element2, float ele
 int *wrjs_pointerOnInt(int nbr);
 char *wrjs_pointerOnFloat(float nbr);
 char *wrjs_dummy_texture();
+char *wrjs_dummy_small_texture();
 
 void wrjs_init_context(int width, int height);
 void wrjs_exit();
