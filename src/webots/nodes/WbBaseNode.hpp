@@ -38,7 +38,7 @@ public:
   // destructor
   virtual ~WbBaseNode();
 
-  virtual void downloadAssets();
+  virtual void downloadAssets() {}
   // finalize() assumes that the whole world node/field structure is complete
   void finalize();
   virtual void preFinalize() {
