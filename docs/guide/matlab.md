@@ -53,7 +53,7 @@ Then MATLAB opens your controller m-file in its editor and indicates that the ex
 After that, the controller m-file can be debugged interactively, i.e., it is possible to continue the execution step-by-step, set break points, watch variable, etc.
 While debugging, the current values of the controller variables are shown in the MATLAB workspace.
 It is possible to *continue* the execution of the controller by typing `return` at the `K>>` prompt.
-Finally the execution of the controller can be terminated with `Ctrl-C` key combination.
+Finally the execution of the controller can be terminated with <kbd>ctrl<kbd>-<kbd>C<kbd> key combination.
 
 Once the controller is terminated, the connection with Webots remains active.
 Therefore it becomes possible to issue Webots commands directly on the MATLAB prompt, for example you can interactively issue commands to query the sensors, etc.:
