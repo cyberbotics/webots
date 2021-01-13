@@ -78,8 +78,6 @@ class WbViewpoint extends WbBaseNode {
     this.applyNearToWren();
     this.applyFarToWren();
     this.applyFieldOfViewToWren();
-    //applyOrthographicViewHeightToWren();
-    //updateLensFlare();
     this.updatePostProcessingEffects();
     this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
 
