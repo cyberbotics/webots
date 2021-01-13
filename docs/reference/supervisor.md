@@ -2472,11 +2472,6 @@ The `filename` parameter should specify a valid (absolute or relative) file name
 In fact, a temporary file is first saved, and then renamed to the requested `filename`.
 This avoids having a temporary unfinished (and hence corrupted) file for webcam applications.
 
-##### Example
-
-The "projects/samples/howto/worlds/supervisor.wbt" world provides an example on how to use the `wb_supervisor_export_image` function.
-In this example, the [Supervisor](#supervisor) controller takes a snapshot image each time a goal is scored.
-
 ---
 
 #### `wb_supervisor_movie_start_recording`
@@ -3237,7 +3232,7 @@ If needed, the user has to explicitly call [this section](#wb_supervisor_node_re
 
 ##### Examples
 
-The "texture\_change.wbt" world, located in the "projects/samples/howto/worlds" directory, shows how to change a texture from the supervisor while the simulation is running.
+The "texture\_change.wbt" world, located in the "projects/samples/howto/texture\_change/worlds" directory, shows how to change a texture from the supervisor while the simulation is running.
 The "soccer.wbt" world, located in the "projects/samples/demos/worlds" directory, provides a simple example for getting and setting fields with the above described functions.
 
 ---
