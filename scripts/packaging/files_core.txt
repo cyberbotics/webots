@@ -218,7 +218,6 @@ resources/icons/light/
 resources/icons/light/*.png
 resources/images/
 resources/images/*.png
-resources/images/*.hdr
 resources/images/splash_images/
 resources/images/splash_images/*.jpg
 resources/images/themes/
