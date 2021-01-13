@@ -34,6 +34,10 @@ Alternatively, the mouse wheel alone can also be used for zooming.
 
 > **Note**: If you are a Mac user with a single button mouse, hold the <kbd>⌥ option</kbd> key (<kbd>⌥ alt</kbd> on some keyboards) and press the mouse button to translate the camera according to the mouse motion.
 Hold the <kbd>ctrl</kbd> key down and press the mouse button to zoom in and out and rotate the camera.
+If you are you are on a MacBook, you can use trackpad to navigate in scene:
+- **Camera rotation**: click with one finger and drag.
+- **Camera translation**: click with two fingers and drag.
+- **Camera zoom**: slide two fingers (without clicking) downwards to zoom in and upwards to zoom out.
 
 ### Moving a Solid Object
 
@@ -74,7 +78,7 @@ Hold the <kbd>⇧ shift</kbd> key and the <kbd>⌘ command</kbd> key down and pr
 ### Applying a Force to a Solid Object with Physics
 
 To apply a force to an object, place the mouse pointer where the force will apply, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and left mouse button together while dragging the mouse.
-Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Mac keyboards).
+Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 This way your are drawing a 3D-vector whose end is located on the plane parallel to the view which passes through the point of application.
 The intensity of the applied force is directly proportional to the cube of the length of this vector.
 
