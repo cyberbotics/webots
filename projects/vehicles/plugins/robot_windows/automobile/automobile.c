@@ -352,7 +352,7 @@ void wb_robot_window_step(int time_step) {
   if (message) {
     if (strncmp(message, "configure", 9) == 0) {
       configure_generic_robot_window(message);
-      configure_automobile_robot_window(message);
+      configure_automobile_robot_window();
       configured = true;
     } else
       apply_commands(message);
