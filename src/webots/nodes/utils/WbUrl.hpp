@@ -24,9 +24,8 @@ class WbVrmlWriter;
 namespace WbUrl {
   // return search path ordered by decreasing priority
   QStringList orderedSearchPaths(const WbNode *node);
-  QString computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning = true);
-  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index,
-                      bool displayWarning = true);
+  QString computePath(const WbNode *node, const QString &field, const QString &url, bool warn = true);
+  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
   QString exportTexture(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeTexturesPath,
                         const WbVrmlWriter &writer);
   QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer);

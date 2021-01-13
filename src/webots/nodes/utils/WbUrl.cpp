@@ -85,7 +85,7 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
@@ -93,10 +93,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   // get the url at specified index
   const QString &url = urlField->item(index);
 
-  return computePath(node, field, url, warning);
+  return computePath(node, field, url, warn);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool warn) {
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
@@ -131,7 +131,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       return checkIsFile(node, field, QDir::cleanPath(dir.absoluteFilePath(url)));
   }
 
-  if (displayWarning) {
+  if (warn) {
     const QString warning =
       QObject::tr("'%1' not found.").arg(url) + "\n" +
       QObject::tr(
