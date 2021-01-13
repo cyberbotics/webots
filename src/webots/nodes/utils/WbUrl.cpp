@@ -78,8 +78,8 @@ const QString WbUrl::missingTexture() {
 }
 
 const QString WbUrl::missing(const QString &url) {
-  QString suffix = QFileInfo(url).suffix();
-  QStringList textureSuffixes = {"png", "jpg", "jpeg"};
+  const QString suffix = QFileInfo(url).suffix();
+  const QStringList textureSuffixes = {"png", "jpg", "jpeg"};
   if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
     return missingTexture();
   return "";
