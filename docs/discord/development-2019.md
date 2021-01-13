@@ -781,11 +781,11 @@ Webots cannot simulation soft robotics because ODE (the Webots physics engine) d
 
 However there are some tricks to transform a soft robot model into an hard model that could help in simulating soft robotics application.
 
-##### rekt 09/29/2019 10:08:43
+##### ScoobyDooby 09/29/2019 10:08:43
 how to integrate webots with an ide in macOS?
 
 ##### Fabien Rohrer [Moderator] 09/30/2019 06:35:35
-`@rekt` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
+`@ScoobyDooby` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
 
 ##### David Mansolino [Cyberbotics] 09/30/2019 06:40:07
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
