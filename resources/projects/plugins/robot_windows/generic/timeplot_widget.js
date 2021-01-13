@@ -294,10 +294,13 @@ TimeplotWidget.prototype.displayHorizontalGrid = function(fromX, nX) {
   }
 };
 
-function roundLabel(value) {
+function roundLabel(value, decimals = 3) {
   console.assert(isNumber(value) || value === 'Inf' || value === '-Inf' || value === 'NaN');
+  let factor = 1;
+  for (let i = 0; i < decimals; i++)
+    factor *= 10;
   if (isNumber(value))
-    return Math.round(value * 100) / 100; // keeps 2 decimals at max.
+    return Math.round(value * factor) / factor; // select number of decimals.
   else
     return value;
 }
