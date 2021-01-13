@@ -8,7 +8,7 @@ These lines turn pink if the solid is colliding with another one and blue when t
 Double-clicking on a [Robot](../reference/robot.md) opens the Robot Window.
 
 If an object has a solid subpart, then it is also possible to select only this subpart by clicking on it once the whole object is already selected, or by clicking on it while holding down the Alt key.
-Linux users should also hold down the Control key (Ctrl) together with the Alt key.
+Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key.
 
 #### Context Menu
 
