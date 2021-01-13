@@ -159,7 +159,7 @@ So, it is necessary to rotate the distance sensor to point their x-axis outside 
 
 %spoiler "**Reminder**: How to know the orientation of the distance sensor?"
 
-As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut <kbd>ctrl</kbd>-<kbd>F10</kbd>)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut <kbd>ctrl</kbd>-<kbd>F10</kbd> or `View / Optional Rendering / Show DistanceSensor Rays`.
 
 %end
 
