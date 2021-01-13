@@ -17,7 +17,6 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QDir>
-#include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
 static int gCount = 0;
