@@ -20,7 +20,7 @@ LegoLargeMotor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/objects/lego/protos/LegoLargeMotor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/lego/protos/LegoLargeMotor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -45,7 +45,7 @@ LegoWheel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/objects/lego/protos/LegoWheel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/lego/protos/LegoWheel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -26,11 +26,11 @@ TiagoTitanium {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/protos/TiagoTitanium.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/protos/TiagoTitanium.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto)"
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago_titanium/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago_titanium/worlds)".
 
 #### tiago\_titanium.wbt
 

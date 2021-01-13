@@ -33,7 +33,7 @@ Robotino3 {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/festo/robotino3/protos/Robotino3.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/festo/robotino3/protos/Robotino3.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/festo/robotino3/protos/Robotino3.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/festo/robotino3/protos/Robotino3.proto)"
 
 #### Robotino 3 Field Summary
 
@@ -47,7 +47,7 @@ Robotino3 {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/festo/robotino3/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/festo/robotino3/worlds)".
 
 > **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](../reference/contactproperties.md) should be added in the `contactProperties` field of the [WorldInfo](../reference/worldinfo.md) node:
 ```

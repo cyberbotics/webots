@@ -29,7 +29,7 @@ TiagoBase {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/protos/TiagoBase.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/protos/TiagoBase.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto)"
 
 #### TiagoBase Field Summary
 
@@ -38,7 +38,7 @@ TiagoBase {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/worlds](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago_base/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago_base/worlds)".
 
 #### tiago\_base.wbt
 

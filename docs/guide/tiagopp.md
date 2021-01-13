@@ -31,7 +31,7 @@ Tiago++ {
   MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
 
 #### Tiago++ Field Summary
 
@@ -40,7 +40,7 @@ Tiago++ {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/pal_robotics/tiago++/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/pal_robotics/tiago++/worlds)".
 
 #### tiago++.wbt
 

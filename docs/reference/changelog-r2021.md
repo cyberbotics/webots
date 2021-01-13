@@ -16,7 +16,7 @@ Released on XX Xth, 2021.
     - Fixed external force/torque logic such that the closest dynamic Solid ancestor is picked if the selected one lacks it ([#2635](https://github.com/cyberbotics/webots/pull/2635)).
     - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Cleanup
-    - Changed structure of the [projects/samples/howto](https://github.com/cyberbotics/webots/tree/{version}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
+    - Changed structure of the [projects/samples/howto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
 
 ## Webots R2021a
 Released on December 15th, 2020.

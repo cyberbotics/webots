@@ -25,7 +25,7 @@ PROTO P-Rob3 [
 ]
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/protos/P-Rob3.proto](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/protos/P-Rob3.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto)"
 
 #### P-Rob3 Field Summary
 
@@ -49,7 +49,7 @@ The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be a
 
 ### Samples
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/worlds](https://github.com/cyberbotics/webots/tree/{version}/projects/robots/fp_robotics/p-rob3/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/fp_robotics/p-rob3/worlds)".
 
 #### p-rob3.wbt
 
