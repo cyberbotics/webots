@@ -125,8 +125,8 @@ Because we won't need it, you can actually close it.
 
 Now, while the simulation is running, let's play with the physics:
 
-> **Hands-on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing *Alt + left-click + drag*.
-On Linux, you should also press the *Ctrl* key in addition to *Alt + left-click + drag*.
+> **Hands-on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing <kbd>alt</kbd> *+ left-click + drag*.
+On Linux, you should also press the <kbd>ctrl</kbd> key in addition to <kbd>alt</kbd> *+ left-click + drag*.
 It is not possible to apply a force to a `WoodenBox` node, because by default, they have no mass and are considered as glued on the floor.
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
 Once this is done, should be able to apply a force on them as well.
