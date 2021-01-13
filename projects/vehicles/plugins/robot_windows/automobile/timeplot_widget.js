@@ -13,6 +13,7 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.autoRange = autoRange;
   this.yRange = yRange;
   this.initialYRange = yRange;
+  this.delta = this.initialYRange['max'] - this.initialYRange['min'];
   this.labels = labels;
   this.device = device;
   this.decimals = decimals;
@@ -86,7 +87,6 @@ TimeplotWidget.prototype.setLabel = function(label) {
 TimeplotWidget.prototype.blockSliderUpdate = function(block) {
   this.blockSliderUpdateFlag = block;
 };
-
 
 TimeplotWidget.prototype.initialize = function() {
   var id = this.container.getAttribute('id');
@@ -171,10 +171,31 @@ TimeplotWidget.prototype.refresh = function() {
 
 // Jump to a new y range based on the initial range and the new y value.
 TimeplotWidget.prototype.jumpToRange = function(y) {
-  console.assert(isNumber(y));
-  if (y > this.yRange['max'] || y < this.yRange['min']) {
-    var delta = this.initialYRange['max'] - this.initialYRange['min'];
-    var rangeLevel = Math.floor(0.5 * Math.floor(y / (0.5 * delta) + 1.0));
+  let delta, value;
+  if (Array.isArray(y)) {
+    let max = y[0];
+    let min = max;
+    for (let i = 1; i < y.length; i++) {
+      if (y[i] < min)
+        min = y[i];
+      else if (y[i] > max)
+        max = y[i];
+    }
+    if (max > this.yRange['max'])
+      value = max;
+    else if (min < this.yRange['min'])
+      value = min;
+    if (value) {
+      if (this.delta < (max - min))
+        this.delta = (max - min) * 2;
+    }
+  } else {
+    console.assert(isNumber(y));
+    if (y > this.yRange['max'] || y < this.yRange['min'])
+      value = y;
+  }
+  if (value) {
+    const rangeLevel = Math.floor(0.5 * Math.floor(value / (0.5 * this.delta) + 1.0));
     this.yRange['min'] = delta * rangeLevel - 0.5 * delta;
     this.yRange['max'] = delta * rangeLevel + 0.5 * delta;
     this.updateRange();

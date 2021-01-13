@@ -1,5 +1,6 @@
 /* global webots: false */
 /* global TimeplotWidget: false */
+/* global VehicleTimeplotWidget: false */
 /* global OverviewWidget: false */
 /* global appendNewElement: false */
 /* global openMenu: false */
@@ -62,15 +63,17 @@ function addDriverInfo(device, label, min, max) {
 
   let decimals = 3;
   let plotLabels = {'x': 'Time [s]', 'y': label};
+  let autoRange = TimeplotWidget.prototype.AutoRangeType.STRETCH;
   if (device.name.toLowerCase() === 'steering') {
     plotLabels['legend'] = ['steering angle', 'right steering angle', 'left steering angle'];
     decimals = 4;
   } else if (device.name.toLowerCase() === 'encoders') {
     plotLabels['legend'] = ['front right', 'front left', 'rear right', 'rear left'];
     decimals = 1;
+    autoRange = TimeplotWidget.prototype.AutoRangeType.JUMP;
   }
 
-  const widget = new VehicleTimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': min, 'max': max}, plotLabels, device, decimals);
+  const widget = new VehicleTimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, autoRange, {'min': min, 'max': max}, plotLabels, device, decimals);
   widget.setLabel(document.getElementById(device.name + '-label'));
   widgets[device.name.toLowerCase()] = [widget];
 }
@@ -101,7 +104,7 @@ function configure(data) {
   addDriverInfo({name: 'Steering'}, '[rad]', -0.001, 0.001);
 
   addTab('Encoders');
-  addDriverInfo({name: 'Encoders'}, '[%]', 0, 0.001);
+  addDriverInfo({name: 'Encoders'}, '[%]', 0, 200);
 
   addTab('Brake');
   addDriverInfo({name: 'Brake'}, '[%]', 0, 0.001);
