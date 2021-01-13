@@ -84,6 +84,8 @@ An example of a reusable HTML robot window is given in [`projects/samples/howto/
 While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in [`plugins/robot_windows/custom_robot_window/custom_robot_window.c`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.c).
 Therefore, the robot window in this case can be reused in different simulations.
 
+<br />
+
 The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
 If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.
 
