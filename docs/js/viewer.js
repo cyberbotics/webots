@@ -139,11 +139,9 @@ function redirectUrls(node) {
       continue;
     else if (href.startsWith('#'))
       addDynamicAnchorEvent(a); // on firefox, the second click on the anchor is not dealt cleanly
-    else if (href.startsWith('http')) {
-      // open external links in a new window
+    else if (href.startsWith('http')) // open external links in a new window
       a.setAttribute('target', '_blank');
-      a.setAttribute('href', href.replaceAll('{version}', localSetup.branch));
-    } else if (href.endsWith('.md') || href.indexOf('.md#') > -1) {
+    else if (href.endsWith('.md') || href.indexOf('.md#') > -1) {
       var match, newPage, anchor;
       if (href.startsWith('../')) { // Cross-book hyperlink case.
         match = /^..\/([\w-]+)\/([\w-]+).md(#[\w-]+)?$/.exec(href);

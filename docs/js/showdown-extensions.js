@@ -39,7 +39,8 @@ showdown.extension('wbVariables', function() {
     },
     date: {
       year: 2021
-    }
+    },
+    setup: setup
   };
 
   // compute debian package version format by removing initial 'R'

@@ -73,7 +73,7 @@ To create a similar robot window for your project follow these steps:
 1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
 2. The file is a typical HTML document that can contain JavaScript and CSS.
 However, in addition to the standard JavaScript library, a `webots` object is injected that exposes an interface to allow communication with a robot controller.
-Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`](https://github.com/cyberbotics/webots/tree/{version}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
+Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
 3. The robot window needs to be registered in the robot's node.
 Find your robot in the scene tree, select a `window` field, click select and choose `<robot window name>`.
 If you double click on the robot, your `<robot window name>` will open.
