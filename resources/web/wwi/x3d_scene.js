@@ -128,6 +128,26 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderingTimeout = null;
   }
 
+  renderMinimal() {
+    // Set maximum rendering frequency.
+    // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
+    // and the rendering is performed only at a given maximum frequency.
+    // To be sure that no rendering request is lost, a timeout is set.
+    const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
+    let currentTime = (new Date()).getTime();
+    if (this.nextRenderingTime && this.nextRenderingTime > currentTime) {
+      if (!this.renderingTimeout)
+        this.renderingTimeout = setTimeout(() => this.render(), this.nextRenderingTime - currentTime);
+      return;
+    }
+
+    this.renderer.renderMinimal();//this.composer.render();
+
+    this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
+    clearTimeout(this.renderingTimeout);
+    this.renderingTimeout = null;
+  }
+
   resize() {
     let width = this.domElement.clientWidth;
     let height = this.domElement.clientHeight;
@@ -149,10 +169,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   destroyWorld() {
-
-
-
-
     if (typeof World.instance !== 'undefined') {
       World.instance.sceneTree.forEach( child => {
         child.delete();
@@ -167,6 +183,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       World.instance = undefined;
     }
 
+    this.renderMinimal();
     /*this.selector.clearSelection();
     if (!this.scene)
       return;
@@ -175,8 +192,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;*/
-
-    //this.onSceneUpdate();
   }
 
   deleteObject(id) {

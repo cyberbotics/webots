@@ -280,9 +280,6 @@ class MyParser {
     World.instance.nodes.set(id, useNode);
     World.instance.defUse[use].push(id);
 
-    console.log(World.instance.defUse);
-
-
     return useNode;
   }
 

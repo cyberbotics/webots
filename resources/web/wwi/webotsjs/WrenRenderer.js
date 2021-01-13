@@ -46,6 +46,18 @@ class WrenRenderer {
       console.log("No Context");
     }
   }
+
+  renderMinimal() {
+    if(!_wr_gl_state_is_initialized())
+      return;
+
+    try {
+      _wr_scene_render(_wr_scene_get_instance(), null, true);
+    }
+    catch(error) {
+      console.log("No Context");
+    }
+  }
 }
 
 export {WrenRenderer}
