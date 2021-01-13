@@ -94,7 +94,8 @@ See [WorldInfo](worldinfo.md) for a description of the ERP concept.
 [WorldInfo](worldinfo.md) for a description of the CFM concept.
 
 - The `bumpSound`, `rollSound` and `slideSound` fields define the URLs to WAVE files that are used to render the sounds of contacts.
-These URLs are expressed relatively to the world or PROTO file containing the `ContactProperties` node.
+If the `*Sound` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise, these URLs are expressed relatively to the world or PROTO file containing the `ContactProperties` node.
 `bumpSound` is the sound produced by the impact of a collision.
 Its gain is modulated by the energy involved in the collision.
 `rollSound` is the sound produced by a rolling object.
