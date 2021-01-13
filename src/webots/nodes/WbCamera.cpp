@@ -160,7 +160,7 @@ void WbCamera::downloadAssets() {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, WbDownloader::complete, this, WbCamera::updateNoiseMaskUrl);
+      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
     mDownloader->download(QUrl(noiseMaskUrl));
   }
 }

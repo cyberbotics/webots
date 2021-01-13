@@ -17,6 +17,7 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QDir>
+#include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
 static int gCount = 0;
@@ -37,6 +38,10 @@ WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NUL
 
 WbDownloader::~WbDownloader() {
   mNetworkReply->deleteLater();
+}
+
+QIODevice *WbDownloader::device() const {
+  return dynamic_cast<QIODevice *>(mNetworkReply);
 }
 
 void WbDownloader::download(const QUrl &url) {

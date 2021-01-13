@@ -17,7 +17,9 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
-#include <QtNetwork/QNetworkReply>
+
+class QNetworkReply;
+class QIODevice;
 
 class WbDownloader : public QObject {
   Q_OBJECT
@@ -25,10 +27,10 @@ public:
   explicit WbDownloader(QObject *parent = NULL);
   ~WbDownloader();
   void download(const QUrl &url);
-  const QUrl &url() { return mUrl; }
-  QIODevice *device() { return dynamic_cast<QIODevice *>(mNetworkReply); }
-  bool hasFinished() { return mFinished; }
-  const QString &error() { return mError; }
+  const QUrl &url() const { return mUrl; }
+  QIODevice *device() const;
+  bool hasFinished() const { return mFinished; }
+  const QString &error() const { return mError; }
   static int progress();
   static void reset();
 signals:

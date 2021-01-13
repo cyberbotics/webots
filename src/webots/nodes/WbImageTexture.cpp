@@ -87,7 +87,7 @@ void WbImageTexture::downloadAssets() {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, WbDownloader::complete, this, WbImageTexture::downloadUpdate);
+      connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
     mDownloader->download(QUrl(url));
   }
 }

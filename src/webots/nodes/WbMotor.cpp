@@ -96,7 +96,7 @@ void WbMotor::downloadAssets() {
   if (WbUrl::isWeb(sound)) {
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())
-      connect(mDownloader, WbDownloader::complete, this, WbMotor::updateSound);
+      connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
     mDownloader->download(QUrl(sound));
   }
 }
