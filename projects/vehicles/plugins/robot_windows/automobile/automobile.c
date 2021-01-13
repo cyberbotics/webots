@@ -95,10 +95,7 @@ static long int current_time() {
 #else
   struct timeval tim;
   gettimeofday(&tim, NULL);
-   //   fprintf(stderr, "tim.tv_sec %ld tim.tv_usec %ld \n", tim.tv_sec, tim.tv_usec);
-
   return ((tim.tv_sec) * 1000 + tim.tv_usec / 1000.0) + 0.5;
-
 #endif
 }
 
@@ -363,7 +360,7 @@ void wb_robot_window_step(int time_step) {
 
   if (!configured)
     return;
-  
+
   long int update_time = current_time();
   if (last_update_time != 0 && (update_time - last_update_time) < 40)
     return;
