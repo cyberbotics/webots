@@ -81,7 +81,7 @@ If you double click on the robot, your `<robot window name>` will open.
 A very simple Python example is given in [`projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py).
 
 An example of a reusable HTML robot window is given in [`projects/samples/howto/custom_robot_window`](samples-howto.md#custom_robot_window-wbt).
-While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in `plugins/robot_windows/custom_robot_window/custom_robot_window.c`.
+While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in [`plugins/robot_windows/custom_robot_window/custom_robot_window.c`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.c).
 Therefore, the robot window in this case can be reused in different simulations.
 
 The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
