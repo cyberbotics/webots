@@ -1454,7 +1454,7 @@ Hi DAvid , Thanks.  I did not undestand the sentence  Do you have one specific p
 
 Are you using the latest version of Webots (we fixed some issues with the reset in R2020a).
 
-##### Gautier A. 01/21/2020 13:14:16
+##### Gautier 01/21/2020 13:14:16
 Hello !
 
 
@@ -1464,9 +1464,9 @@ I have a problem : I try to get the value of a field (the "rotation" field)  fro
 What I mean by "It doesn't works" is that I have to save the simulation and reset it for the value to be actualized
 
 ##### David Mansolino [Cyberbotics] 01/21/2020 13:18:32
-Hi `@Gautier A.`, do you have a simple example / procedure to share?
+Hi `@Gautier`, do you have a simple example / procedure to share?
 
-##### Gautier A. 01/21/2020 13:24:13
+##### Gautier 01/21/2020 13:24:13
 Sure, here is the corresponding code I use :
 
 
@@ -1507,13 +1507,13 @@ Ok, I will try it soon
 thank you
 
 
-`@Gautier A.` I juste tried with this controller and world and I can't reproduce the issue:
+`@Gautier` I juste tried with this controller and world and I can't reproduce the issue:
 
 [https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764](https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764)
 
 It has a one step delay between the value displayed in the scene-tree and the one in the console but this is normal. Can you reproduce the same bahavior too?
 
-##### Gautier A. 01/21/2020 14:22:06
+##### Gautier 01/21/2020 14:22:06
 `@David Mansolino`  Thank you for your response
 
 
@@ -1535,9 +1535,9 @@ Ok thank you for the precision, I will try to reproduce this.
 Have you set the contactmaterial parameter?
 
 ##### David Mansolino [Cyberbotics] 01/21/2020 14:34:27
-`@Gautier A.` ok I can reproduce with this slightly modified version of the sample: [https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764](https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764)
+`@Gautier` ok I can reproduce with this slightly modified version of the sample: [https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764](https://gist.github.com/DavidMansolino/a2006549cb834f312b9ebdb830006764)
 
-##### Gautier A. 01/21/2020 14:41:19
+##### Gautier 01/21/2020 14:41:19
 `@David Mansolino` yes, that's the bug !
 
 
@@ -1550,7 +1550,7 @@ Unfortunately no, But I will open a bug report and we will try to fix this as so
 Hi `@David Mansolino`, thanks for the platform - really great. Im running lower requirement GPU (2012 Mac Pro/12GB RAM). Application seems to lag quite abit. Any advice? Thanks
 
 ##### David Mansolino [Cyberbotics] 01/21/2020 14:59:43
-`@Gautier A.` this is now done here (any progress will be posted on the issue): [https://github.com/cyberbotics/webots/issues/1290](https://github.com/cyberbotics/webots/issues/1290)
+`@Gautier` this is now done here (any progress will be posted on the issue): [https://github.com/cyberbotics/webots/issues/1290](https://github.com/cyberbotics/webots/issues/1290)
 
 
 `@Angerbot` you're welcome, happy to see you like it.
@@ -2294,25 +2294,25 @@ Hi. I just updated webots from 2019b to 2020a and my vehicle controller crashes 
 ##### nelsondmmg 02/03/2020 07:47:14
 `@Fabien Rohrer` ah, you are absolutely right, I did not updated the LD\_LIBRARY\_PATH. Thanks 👍🏻
 
-##### Gautier A. 02/03/2020 10:49:57
+##### Gautier 02/03/2020 10:49:57
 Hello, I would like to know if that's possible to change the value of a custom field of a proto using lua in procedural protos nodes ?
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 10:51:10
-Hi `@Gautier A.` you mean you want a procedural PROTO to change the value of its own field visible in the scene tree or change the value of one of its internal fields?
+Hi `@Gautier` you mean you want a procedural PROTO to change the value of its own field visible in the scene tree or change the value of one of its internal fields?
 
-##### Gautier A. 02/03/2020 10:52:18
+##### Gautier 02/03/2020 10:52:18
 Hi David, I would like it to change the value of its own field, visible in the scene tree (the value we access through "fields.variableName.value")
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 10:53:11
 You can change the `fields.variableName.value` value, but unfortunately this will not be visible in the scene-tree (this possibility is not yet implemented).
 
-##### Gautier A. 02/03/2020 10:53:47
+##### Gautier 02/03/2020 10:53:47
 But the change will be taken "into account" when the proto is being generated ?
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 10:54:16
 For this iteration yes, but not for the next regeneration.
 
-##### Gautier A. 02/03/2020 10:54:36
+##### Gautier 02/03/2020 10:54:36
 Basically, I want to use a lua library to load a config file when the proto is being loaded, but I want the user to be able to modify its value later
 
 
@@ -2324,13 +2324,13 @@ Thank you
 ##### David Mansolino [Cyberbotics] 02/03/2020 10:57:08
 Just for information, here is an example of PROTO reding a 'configuration file': [https://github.com/cyberbotics/webots/blob/master/projects/objects/trees/protos/Forest.proto#L99](https://github.com/cyberbotics/webots/blob/master/projects/objects/trees/protos/Forest.proto#L99)
 
-##### Gautier A. 02/03/2020 11:06:36
+##### Gautier 02/03/2020 11:06:36
 Ok, I'm gonna take a look ! Thank you !
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 11:06:51
 You're welcome
 
-##### Gautier A. 02/03/2020 13:25:33
+##### Gautier 02/03/2020 13:25:33
 Hi again, I have memories leak in my controller, and I'm not sure if that come from my controller (in itself) or webots ?
 
 
@@ -2345,7 +2345,7 @@ and the resulting message in webots (compiled with the option -fsanitize=address
 ##### David Mansolino [Cyberbotics] 02/03/2020 13:32:58
 Thank it may indeed come from the libcontroller (even if we are regularly checking for memory leaks). Would it be possible for you to use the development environment of Webots to recompile webots in debug mode in order to try to get more information on where exactly is the leak? (I can send you the procedure).
 
-##### Gautier A. 02/03/2020 13:34:49
+##### Gautier 02/03/2020 13:34:49
 I can try !
 
 
@@ -2354,13 +2354,13 @@ I'm currently running webots R2020a on a docker image of ubuntu 16.04
 ##### David Mansolino [Cyberbotics] 02/03/2020 13:35:53
 Oh if you are on ubuntu 16.04, then I can send you directly the debug version, give me 5 minutes
 
-##### Gautier A. 02/03/2020 13:36:37
+##### Gautier 02/03/2020 13:36:37
 The dockers run on ubuntu 16.04, but my current "linux distro" is ubuntu 18.04 😅
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 13:37:24
 It will work for both 😉
 
-##### Gautier A. 02/03/2020 13:41:36
+##### Gautier 02/03/2020 13:41:36
 Ahah, ok ! 😄
 
 ##### David Mansolino [Cyberbotics] 02/03/2020 14:23:50
@@ -2370,7 +2370,7 @@ Sorry it tooks a bit longer than expected.
 
 You just have to replace your folder (do not forget to make a backup first) WEBOTS\_HOME/lib/controller by this one.
 
-##### Gautier A. 02/03/2020 15:11:57
+##### Gautier 02/03/2020 15:11:57
 No worries
 
 
@@ -2427,7 +2427,7 @@ Thank you
 ##### David Mansolino [Cyberbotics] 02/03/2020 16:12:01
 > I just tried it, there is still some leaks, but there is a noticable improvement
 
-`@Gautier A.` 
+`@Gautier` 
 
 Thank you, the line number will help you checking this.
 
@@ -2574,13 +2574,13 @@ Yes, that's also a great thing.
 
 `@SimonDK` thank for the feedback. If you want to use another distribution of Python you can recompile the python wrapper for your specific distribution, here is the mekfaile that need to be adjusted: [https://github.com/cyberbotics/webots/blob/master/resources/languages/python/Makefile](https://github.com/cyberbotics/webots/blob/master/resources/languages/python/Makefile)
 
-##### Gautier A. 02/05/2020 12:59:42
+##### Gautier 02/05/2020 12:59:42
 Hello ! Might I ask a question ?
 
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:14:11
-Hi `@Gautier A.` yes of course!
+Hi `@Gautier` yes of course!
 
-##### Gautier A. 02/05/2020 13:24:15
+##### Gautier 02/05/2020 13:24:15
 Hi `@David Mansolino`  !
 
 
@@ -2592,7 +2592,7 @@ I tried to put the children field as a "" visible field "" of the proto with som
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:29:58
 You want to get the field using the supervisor API right?
 
-##### Gautier A. 02/05/2020 13:30:17
+##### Gautier 02/05/2020 13:30:17
 Yes, that's right !
 
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:30:55
@@ -2604,7 +2604,7 @@ In the meantime, I would recomment to convert your PROTO temporarly to base node
 
 And you can follow the progress of [https://github.com/cyberbotics/webots/issues/1310](https://github.com/cyberbotics/webots/issues/1310)
 
-##### Gautier A. 02/05/2020 13:33:21
+##### Gautier 02/05/2020 13:33:21
 Ok, that's good new, thank you a lot !
 
 
@@ -2613,7 +2613,7 @@ Is there any way to convert automatically the proto in base node (through superv
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:35:59
 Unfortunately this is not available through the Supervisor API.
 
-##### Gautier A. 02/05/2020 13:37:38
+##### Gautier 02/05/2020 13:37:38
 Understood, thank you for the help !
 
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:38:18
@@ -3063,7 +3063,7 @@ After that, I would be able to put a robot node into it? Thanks, will try that.
 ##### David Mansolino [Cyberbotics] 02/10/2020 13:26:39
 Yes you can add a Robot 'inside' another Robot node
 
-##### Gautier A. 02/10/2020 16:19:20
+##### Gautier 02/10/2020 16:19:20
 Hello !
 
 
@@ -3085,9 +3085,9 @@ Hello
 Hi `@elkelkmuh`
 
 
-Hi `@Gautier A.`, unfortunately this is not possible, a robot can't get the value of devices of another robot.
+Hi `@Gautier`, unfortunately this is not possible, a robot can't get the value of devices of another robot.
 
-##### Gautier A. 02/11/2020 08:24:50
+##### Gautier 02/11/2020 08:24:50
 Hi `@David Mansolino`, understood. Thank you for your response !
 
 ##### David Mansolino [Cyberbotics] 02/11/2020 08:25:08
@@ -3417,7 +3417,7 @@ You should probabyl get insipration from the installation steps from the README 
 ##### elkelkmuh 02/12/2020 09:25:42
 `@David Mansolino`  Thank you. I started to review the file.  I will do it all step by step. hope it works.
 
-##### Gautier A. 02/12/2020 09:39:31
+##### Gautier 02/12/2020 09:39:31
 Hello
 
 
@@ -3427,9 +3427,9 @@ Is it possible to import the library "os" when using lua inside a generated prot
 (I need this library to import an environnement variable)
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 09:43:09
-Hi `@Gautier A.`, yes of course, this is done for example here: [https://github.com/cyberbotics/webots/blob/69202baee3c0974f69f0e72d3412d19ed69feaad/projects/objects/floors/protos/UnevenTerrain.proto#L29](https://github.com/cyberbotics/webots/blob/69202baee3c0974f69f0e72d3412d19ed69feaad/projects/objects/floors/protos/UnevenTerrain.proto#L29)
+Hi `@Gautier`, yes of course, this is done for example here: [https://github.com/cyberbotics/webots/blob/69202baee3c0974f69f0e72d3412d19ed69feaad/projects/objects/floors/protos/UnevenTerrain.proto#L29](https://github.com/cyberbotics/webots/blob/69202baee3c0974f69f0e72d3412d19ed69feaad/projects/objects/floors/protos/UnevenTerrain.proto#L29)
 
-##### Gautier A. 02/12/2020 10:08:27
+##### Gautier 02/12/2020 10:08:27
 It works !
 
 
@@ -5948,7 +5948,7 @@ Is there an example of motor control using torque?
 I want to measure the torque applied to the motor in this situation.
 > **Attachment**: [bandicam\_2020-03-08\_13-11-55-245.mp4](https://cdn.discordapp.com/attachments/565154703139405824/686524026729791504/bandicam_2020-03-08_13-11-55-245.mp4)
 
-##### Gautier A. 03/09/2020 10:46:12
+##### Gautier 03/09/2020 10:46:12
 Hey ! I'm currently working on the bounding box of a robot. How do you make sure that the robot doesn't collide with itself when the bounding box of the different joints are a little bit overlaped ?
 
 ##### jinu061353 03/09/2020 10:48:01
@@ -5957,7 +5957,7 @@ Hey ! I'm currently working on the bounding box of a robot. How do you make sure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/686525696616431646/unknown.png)
 %end
 
-##### Gautier A. 03/09/2020 10:48:40
+##### Gautier 03/09/2020 10:48:40
 For example, here's the bounding box of the Universal Robot URE5e, 2 joints collides at the beginning
 
 
@@ -5973,7 +5973,7 @@ but the self collision is enabled
 %end
 
 ##### Olivier Michel [Cyberbotics] 03/09/2020 10:49:15
-`@Gautier A.`: there no collision detection for consecutive joints.
+`@Gautier`: there no collision detection for consecutive joints.
 
 
 Also, collision detection can be disabled from within the same robot by setting Robot.selfCollision to FALSE.
@@ -5981,7 +5981,7 @@ Also, collision detection can be disabled from within the same robot by setting 
 
 (default value)
 
-##### Gautier A. 03/09/2020 10:50:37
+##### Gautier 03/09/2020 10:50:37
 `@Olivier Michel` Understood, thank you a lot !
 
 ##### Olivier Michel [Cyberbotics] 03/09/2020 10:54:51
@@ -6564,7 +6564,7 @@ If you want that the message is sent to any Receiver device you can set the Emit
 ##### nelsondmmg 03/17/2020 10:00:25
 Ah, thanks. Sorry for the confusion 😄
 
-##### Gautier A. 03/17/2020 10:20:46
+##### Gautier 03/17/2020 10:20:46
 Hello, is it possible to retrieve the number of entry in a Field ?
 
 
@@ -6573,7 +6573,7 @@ I'm thinking about retrieving the number of children of a certain node
 ##### David Mansolino [Cyberbotics] 03/17/2020 10:23:10
 Yes this is possible thanks to the `wb_supervisor_field_get_count`([https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_get\_count](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_count)) function
 
-##### Gautier A. 03/17/2020 10:23:46
+##### Gautier 03/17/2020 10:23:46
 Ok, thanks, I'm gonna take a look ! 😁
 
 ##### Simon Steinmann [Moderator] 03/17/2020 12:59:07
@@ -12412,13 +12412,13 @@ If you want one central control then one single robot is better. But if you want
 ##### David Mansolino [Cyberbotics] 04/29/2020 11:42:30
 You're welcome!
 
-##### Gautier A. 04/29/2020 14:03:11
+##### Gautier 04/29/2020 14:03:11
 Hey ! Might I ask a question ?
 
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:03:25
 Hi, yes of course.
 
-##### Gautier A. 04/29/2020 14:03:35
+##### Gautier 04/29/2020 14:03:35
 Thank you !
 
 
@@ -12430,13 +12430,13 @@ I can retrieve the correct "pointer" on that field, but when I try to modify its
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:05:25
 From the Supervisor you want to change this field, right?
 
-##### Gautier A. 04/29/2020 14:06:02
+##### Gautier 04/29/2020 14:06:02
 Yes, from a supervisor
 
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:06:22
 When you said ''a proto inside a proto", is the children PROTO in a field of the parent PROTO or is it internal to the parent PROTO ?
 
-##### Gautier A. 04/29/2020 14:07:09
+##### Gautier 04/29/2020 14:07:09
 Here is the supervisor: [https://pastebin.com/d60jTWYM](https://pastebin.com/d60jTWYM), and here is the output of the supervisor: [https://pastebin.com/phc3QfPs](https://pastebin.com/phc3QfPs)
 
 
@@ -12445,7 +12445,7 @@ The "interesting proto" is in a children node of another proto, it's not interna
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:08:22
 Are you using a beta of Webots R2020b ?
 
-##### Gautier A. 04/29/2020 14:08:46
+##### Gautier 04/29/2020 14:08:46
 Here is the scene tree
 
 
@@ -12460,13 +12460,13 @@ Yes, we're using a beta version of Webots R2020b. We compile it from source beca
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:09:48
 Ok, let me check your supervisor code and the outputs to try to understand the problem
 
-##### Gautier A. 04/29/2020 14:11:06
+##### Gautier 04/29/2020 14:11:06
 ok, thank you !
 
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:15:38
 Have you tried replacing ``getFromProtoDef`` by ``getFromDef``? The field you are trying to get is indeed in a PROTO but it is visible in the scene-tree (and is therefore not internal).
 
-##### Gautier A. 04/29/2020 14:17:42
+##### Gautier 04/29/2020 14:17:42
 Yes, I get the same exact result and same exact output
 
 
@@ -12475,7 +12475,7 @@ Yes, I get the same exact result and same exact output
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:20:48
 OK, in that case that looks indeed like a bug. Can you check what you get if you try to get the value of this field from the supervisor (i.e. ``std::cout<<"Hello "<< isLockedTileContainer->getMFBool(i); <<", " << i <<std::endl;``) ?
 
-##### Gautier A. 04/29/2020 14:23:51
+##### Gautier 04/29/2020 14:23:51
 I get that output: [https://pastebin.com/3uSUpzbE](https://pastebin.com/3uSUpzbE) ,
 
 
@@ -12490,7 +12490,7 @@ Corresponding c++ code :
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:26:19
 Looks very strange, it seems you get always true whereas the fields are all set to false from the picture of the scene-tree you sent us.
 
-##### Gautier A. 04/29/2020 14:26:59
+##### Gautier 04/29/2020 14:26:59
 We're using the version of webots from the commit " fe5893b968e160447a52cc4619ad68a8f41f8022 " , compiled from the git
 
 
@@ -12510,13 +12510,13 @@ It looks indeed like a bug, can you please try to simplify at maximum your PROTO
 
 Thank you
 
-##### Gautier A. 04/29/2020 14:34:33
+##### Gautier 04/29/2020 14:34:33
 Sure thing ! Thank you for your time
 
 ##### David Mansolino [Cyberbotics] 04/29/2020 14:39:39
 You're welcome, thank you for the bug report!
 
-##### Gautier A. 04/29/2020 14:49:28
+##### Gautier 04/29/2020 14:49:28
 Excuse me, it's me again... I tried to reproduce the bug, and what you told me to do... And know, it's still "buggy", but I have a different output 😅
 
 
@@ -18662,7 +18662,7 @@ Does WeBots account for lateral slip in vehicle's tires (is there a lateral cont
 ##### David Mansolino [Cyberbotics] 06/10/2020 08:45:10
 By default friction is symetric, in both direction, but you can of course change the contact properties of your simulation world to make them asymetric, see the contact properties doc for more information: [https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)
 
-##### Gautier A. 06/10/2020 08:48:21
+##### Gautier 06/10/2020 08:48:21
 Hello ! I have a little question on the utilization of the standard ros controller on camera
 
 ##### nelsondmmg 06/10/2020 08:48:33
@@ -18676,7 +18676,7 @@ Hi, yes what is your question?
 
 `@nelsondmmg` you're welcome
 
-##### Gautier A. 06/10/2020 08:48:54
+##### Gautier 06/10/2020 08:48:54
 So, I have a robot with the default ros controller with just a camera inside.
 
 
@@ -18697,13 +18697,13 @@ So my question would be : does the default ros controller really publish (by def
 ##### David Mansolino [Cyberbotics] 06/10/2020 08:54:22
 It will depend on the time step of the simulation and the speed at which run the simulation, but yes it is possible that it publishes at 125Hz. To reduce it, when you call the `/camera/enable` service, you should assigne a `value` to the service that is bigger (the value indicates the refresh period).
 
-##### Gautier A. 06/10/2020 08:57:06
+##### Gautier 06/10/2020 08:57:06
 So, the publish rate expressed with 'rostopic hz ' is relative to the simulation time instead of ros time ? The timeStep is 8ms, and the simulation runs at 0.10x, so that would means that the topic is updated at around 12.5 hz ?
 
 ##### David Mansolino [Cyberbotics] 06/10/2020 08:59:01
 It all depends if `rostopic hz` is configured to use sim time or not, but in your case it seems to be the case since 1000ms / 8ms = 125Hz (if it was based on the real time it would be indeed 12.5Hz if your simulation runs at 0.1x)
 
-##### Gautier A. 06/10/2020 09:02:37
+##### Gautier 06/10/2020 09:02:37
 Ok, i understand. Thank you a lot !
 
 ##### David Mansolino [Cyberbotics] 06/10/2020 09:03:10
@@ -26489,13 +26489,13 @@ there exist a library named aruco ([https://docs.opencv.org/trunk/d5/dae/tutoria
 ##### Olivier Michel [Cyberbotics] 07/23/2020 10:39:08
 Yes, certainly.
 
-##### Gautier A. 07/23/2020 13:29:10
+##### Gautier 07/23/2020 13:29:10
 Hello, might I ask you something ?
 
 ##### David Mansolino [Cyberbotics] 07/23/2020 13:29:43
 hi, yes sure!
 
-##### Gautier A. 07/23/2020 13:29:51
+##### Gautier 07/23/2020 13:29:51
 Hi David, thank you !
 
 
@@ -26519,13 +26519,13 @@ Is there a way to desactivate it by default ?
 ##### David Mansolino [Cyberbotics] 07/23/2020 13:31:36
 You can close them manually using the small cross on the top right of the box. Or disable all of them at once from the 'Overlays' menu.
 
-##### Gautier A. 07/23/2020 13:33:13
+##### Gautier 07/23/2020 13:33:13
 Is there a way to do it automitcally when loading the world ?
 
 ##### David Mansolino [Cyberbotics] 07/23/2020 13:34:24
 Unfortunately not, but if you use the 'Overlays' menu, this will be saved for all the world files 'forever'.
 
-##### Gautier A. 07/23/2020 13:35:56
+##### Gautier 07/23/2020 13:35:56
 Understood, thank you a lot !
 
 ##### David Mansolino [Cyberbotics] 07/23/2020 13:36:02
@@ -29872,7 +29872,7 @@ created request
 ##### David Mansolino [Cyberbotics] 08/06/2020 11:07:29
 Thank you
 
-##### Gautier A. 08/06/2020 11:36:37
+##### Gautier 08/06/2020 11:36:37
 Hey !
 
 
@@ -29881,7 +29881,7 @@ Is it possible to retrieve the state of a connector (locked/unlocked) through a 
 ##### David Mansolino [Cyberbotics] 08/06/2020 11:37:56
 No, but you can check if another connector is present in front of the connector: [https://cyberbotics.com/doc/reference/connector#wb\_connector\_get\_presence\_sampling\_period](https://cyberbotics.com/doc/reference/connector#wb_connector_get_presence_sampling_period)
 
-##### Gautier A. 08/06/2020 11:40:46
+##### Gautier 08/06/2020 11:40:46
 Ok, thank you !
 
 ##### Jeremy Jiang 08/06/2020 13:21:07
@@ -39143,7 +39143,7 @@ Sounds great, thank you very much!
 ##### aozdemir 09/24/2020 13:21:52
 Hi guys, this is a newbie question but bugging me for days. I have a copy of myBot and modifying certain properties of it (camera, body to box). Whilst sometimes I can make it actually "move forward", sometimes all of sudden it just do not move at all using the same controller. I can see the wheels are rotating but the body do not move. Any idea on why this is happening?
 
-##### jj2244 09/24/2020 13:44:32
+##### jj2244/mejo/alex 09/24/2020 13:44:32
 `@aozdemir` 
 
 It was a long time ago, i used Webots. Check if the body is rotating or only the grafics, as i recall these are seperate things.
