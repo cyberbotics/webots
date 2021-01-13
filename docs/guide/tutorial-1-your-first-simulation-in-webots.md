@@ -77,7 +77,7 @@ Double-click on it in the scene tree to open its fields.
 2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
 Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
 3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
-4. Select the box and press Ctrl-C, Ctrl-V (Windows, Linux) or Cmd-C, Cmd-V (macOS) to copy and paste it.
+4. Select the box and press <kbd>ctrl</kbd>-<kbd>C</kbd>, <kbd>ctrl</kbd>-<kbd>V</kbd> (Windows, Linux) or <kbd>⌘ command</kbd>-<kbd>C</kbd>, <kbd>⌘ command</kbd>-<kbd>V</kbd> (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 5. Move the boxes, so that no box is at the center of the arena.
