@@ -96,7 +96,7 @@ Select the `appearance` field of the [Shape](../reference/shape.md) node and use
 %end
 
 When the simulation is started, the ball hits the floor.
-You can move the ball by [applying a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to it (Ctrl + Alt + left-click + drag).
+You can move the ball by [applying a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to it (<kbd>ctrl</kbd> + <kbd>alt</kbd> + left-click + drag).
 The contact points between the ball and the floor can be displayed as cyan lines by enabling the `View / Optional Rendering / Show Contact Points` menu item.
 
 ### Geometries
