@@ -87,8 +87,8 @@ Webots offers several rendering modes available in the `View` menu.
 Then restore the plain rendering mode: `View / Plain Rendering`.
 
 Others rendering features can be helpful:
-- View Coordinates systems: `View / Optional Rendering / Show Coordinates System (Ctrl + F1)`.
-- View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`.
+- View Coordinates systems: `View / Optional Rendering / Show Coordinates System (<kbd>ctrl</kbd>-<kbd>F1</kbd>)`.
+- View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays (<kbd>ctrl</kbd>-<kbd>F10</kbd>)`.
 
 ### Solution: World File
 
