@@ -161,7 +161,7 @@ The function can be called up to 7 times to detect up to 7 simultaneous keys pre
 The `wb_keyboard_disable` function should be used to stop the keyboard readings.
 
 > **Note** [C++]: The keyboard predefined values are located into a (static) enumeration of the Keyboard class.
-For example, `Keyboard.CONTROL` corresponds to the <kbd>Ctrl</kbd> key stroke.
+For example, `Keyboard.CONTROL` corresponds to the <kbd>ctrl</kbd> key stroke.
 
 <!-- -->
 
