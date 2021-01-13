@@ -2,8 +2,6 @@
 /* global TimeplotWidget: false */
 /* global OverviewWidget: false */
 /* global appendNewElement: false */
-/* global createGeneric1DDevice: false */
-/* global createGeneric3DDevice: false */
 /* global openMenu: false */
 /* global closeMenu: false */
 /* global menuTabCallback: false */
@@ -72,8 +70,7 @@ function addDriverInfo(device, label, min, max) {
     decimals = 1;
   }
 
-  const widget = new TimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': min, 'max': max}, plotLabels, device, decimals);
-  widget.vehicleStyle = true;
+  const widget = new VehicleTimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': min, 'max': max}, plotLabels, device, decimals);
   widget.setLabel(document.getElementById(device.name + '-label'));
   widgets[device.name.toLowerCase()] = [widget];
 }

@@ -65,14 +65,14 @@
   width: 420px;
   height: 400px;
 }
-.vechile-plot-axis-label-x,
-.vechile-plot-axis-label-x-min,
-.vechile-plot-axis-label-x-max {
+.vehicle-plot-axis-label-x,
+.vehicle-plot-axis-label-x-min,
+.vehicle-plot-axis-label-x-max {
   top: 400px;
   width: 420px;
 }
-.vechile-plot-axis-label-y,
-.vechile-plot-axis-label-y-min,
-.vechile-plot-axis-label-y-max {
+.vehicle-plot-axis-label-y,
+.vehicle-plot-axis-label-y-min,
+.vehicle-plot-axis-label-y-max {
   height: 402px;
 }

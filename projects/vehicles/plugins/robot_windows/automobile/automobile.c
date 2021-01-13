@@ -30,6 +30,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
 #include "generic.h"
 #include "string_utils.h"
 
@@ -76,6 +83,23 @@ static void buffer_append(const char *string) {
   }
   memcpy(&buffer[buffer_size - 1], string, l + 1);
   buffer_size += l;
+}
+
+static long int last_update_time = 0;
+
+static long int current_time() {
+#ifdef _WIN32
+  SYSTEMTIME tim;
+  GetSystemTime(&tim);
+  return (((tim.wHour * 60 + tim.wMinute) * 60 + tim.wSecond) * 1000 + tim.wMilliseconds) + 0.5;
+#else
+  struct timeval tim;
+  gettimeofday(&tim, NULL);
+   //   fprintf(stderr, "tim.tv_sec %ld tim.tv_usec %ld \n", tim.tv_sec, tim.tv_usec);
+
+  return ((tim.tv_sec) * 1000 + tim.tv_usec / 1000.0) + 0.5;
+
+#endif
 }
 
 static enum DriverInfo driver_info_from_string(const char *s) {
@@ -339,6 +363,11 @@ void wb_robot_window_step(int time_step) {
 
   if (!configured)
     return;
+  
+  long int update_time = current_time();
+  if (last_update_time != 0 && (update_time - last_update_time) < 40)
+    return;
+  last_update_time = update_time;
 
   wbu_default_robot_window_update();
 
