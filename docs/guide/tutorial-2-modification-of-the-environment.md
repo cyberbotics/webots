@@ -22,7 +22,7 @@ The default `RectangleArena` PROTO defines a simple floor pinned on the static e
 Other pre-built floors are available in the Webots objects library.
 We will now delete the `RectangleArena` node and add a simple floor that we will manually surround with walls later in this tutorial.
 
-> **Hands-on #2**: To remove the `RectangleArena`, select it either in the 3D view or in the scene tree view with a left click and press the `Delete` key on your keyboard.
+> **Hands-on #2**: To remove the `RectangleArena`, select it either in the 3D view or in the scene tree view with a left click and press the <kbd>del</kbd> key on your keyboard.
 Alternatively, you can right click on it in the 3D view and select `Delete` in the context menu (you can also use the context menu directly in the scene tree view).
 Select the `TexturedBackgroundLight` node and click on the `Add` button.
 In the open dialog box, and choose `PROTO nodes (Webots Projects) / objects / floors / Floor (Solid)`.
