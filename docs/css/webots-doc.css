@@ -264,6 +264,20 @@ body {
 .webots-doc hr {
   margin: 40px 0px;
 }
+.webots-doc kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: normal;
+  line-height: 10px;
+  color: #777;
+  vertical-align: middle;
+  background-color: #eee;
+  border-bottom-color: #333;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 #333;
+}
 .webots-doc h1,
 .webots-doc h2,
 .webots-doc h3,
