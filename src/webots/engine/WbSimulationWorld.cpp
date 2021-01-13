@@ -40,8 +40,6 @@
 #include <QtCore/QTimer>
 #include <QtCore/QtGlobal>
 
-#include <QtCore/QDebug>
-
 #include <cassert>
 
 WbSimulationWorld *WbSimulationWorld::instance() {
