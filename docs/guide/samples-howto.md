@@ -119,7 +119,7 @@ It goes down the slope with a smooth motion simply because of its shape and its 
 **Keywords**: Pedal racer, apply a force, mechanical loop, [SolidReference](../reference/solidreference.md)
 
 ![pedal_racer.png](images/samples/pedal_racer.thumbnail.jpg) This example shows the mouse interaction with a complex model.
-You can apply a force to the pedals using `Alt + mouse left click.`.
+You can apply a force to the pedals using <kbd>alt</kbd> + mouse left click.
 
 ### [physics.wbt](https://github.com/cyberbotics/webots/tree/released/projects/samples/howto/worlds/physics.wbt)
 
@@ -154,7 +154,7 @@ A [Supervisor](../reference/supervisor.md) controller applies the scan depth out
 **Keywords**: Spinner, chessboard, chess pieces, apply a torque
 
 ![spinning_top.png](images/samples/spinning_top.thumbnail.jpg) This example shows rotating objects, in order to play with the torque application feature.
-To apply a torque on the spinner, use the `Alt + mouse right click` sequence.
+To apply a torque on the spinner, use the <kbd>alt</kbd> + mouse right click sequence.
 
 ### [supervisor\_draw\_trail.wbt](https://github.com/cyberbotics/webots/tree/released/projects/samples/howto/worlds/supervisor_draw_trail.wbt)
 

@@ -161,12 +161,12 @@ The function can be called up to 7 times to detect up to 7 simultaneous keys pre
 The `wb_keyboard_disable` function should be used to stop the keyboard readings.
 
 > **Note** [C++]: The keyboard predefined values are located into a (static) enumeration of the Keyboard class.
-For example, `Keyboard.CONTROL` corresponds to the *Control* key stroke.
+For example, `Keyboard.CONTROL` corresponds to the <kbd>ctrl</kbd> key stroke.
 
 <!-- -->
 
 > **Note** [Java]: The keyboard predefined values are final integers located in the Keyboard class.
-For example, *Ctrl+B* can be tested like this:
+For example, <kbd>ctrl</kbd>-<kbd>B</kbd> can be tested like this:
 
 > ```java
 > int key=keyboard.getKey()
@@ -177,7 +177,7 @@ For example, *Ctrl+B* can be tested like this:
 <!-- -->
 
 > **Note** [Python]: The keyboard predefined values are integers located into the Keyboard class.
-For example, *Ctrl+B* can be tested like this:
+For example, <kbd>ctrl</kbd>-<kbd>B</kbd> can be tested like this:
 
 > ```python
 > key=keyboard.getKey()
