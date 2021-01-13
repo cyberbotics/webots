@@ -37,7 +37,7 @@ Alternatively, the mouse wheel alone can also be used for zooming.
 - **Camera translation**: click with two fingers and drag.
 - **Camera zoom**: slide two fingers (without clicking) downwards to zoom in and upwards to zoom out.
 
-> **Note**: If you are on a desktop Mac with a single button mouse, hold the <kbd>⌥ option</kbd> key (<kbd>⌥ alt</kbd> on some keyboards) and press the mouse button to translate the camera according to the mouse motion.
+> If you are on a desktop Mac with a single button mouse, hold the <kbd>⌥ option</kbd> key (<kbd>⌥ alt</kbd> on some keyboards) and press the mouse button to translate the camera according to the mouse motion.
 Hold the <kbd>ctrl</kbd> key down and press the mouse button to zoom in and out and rotate the camera.
 
 ### Moving a Solid Object
