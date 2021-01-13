@@ -316,7 +316,7 @@ You will need administrator privileges to be able to install Webots.
 
 %end
 
-You should <kbd>Ctrl</kbd> + click (or right-click) on the Webots icon, and select the `Open` menu item.
+You should <kbd>ctrl</kbd> + click (or right-click) on the Webots icon, and select the `Open` menu item.
 Then, macOS should propose to open the application anyway (see [this figure](#unidentified-developer-dialog)).
 
 %figure "Open Webots anyway"
