@@ -28,8 +28,6 @@ class WbRecognition;
 class WbRecognizedObject;
 class WbZoom;
 
-class QIODevice;
-
 class WbCamera : public WbAbstractCamera {
   Q_OBJECT
 

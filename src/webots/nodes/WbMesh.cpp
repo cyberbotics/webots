@@ -26,8 +26,6 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
-#include <QtCore/QDebug>
-
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
