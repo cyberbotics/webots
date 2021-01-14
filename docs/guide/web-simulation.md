@@ -29,7 +29,7 @@ GPU instances are strongly recommended for performance reasons, especially if th
 
 In order to run Webots in the cloud, you need to run at least one session server and one or more simulation servers.
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
-Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/web/server/)".
+Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/server/)".
 
 Note that Webots have to be installed on all the machines where a simulation server is running.
 
@@ -54,7 +54,7 @@ Then, start a session and simulation servers:
 cd $WEBOTS_HOME/resources/web/server
 ./server.sh start default
 ```
-The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). 
+The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
 To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
@@ -433,7 +433,7 @@ The host where the client website is running should have a `ajax` named folder a
   * `filename`: name of the file to be uploaded.
   * `content`: content of the file to be stored.
 
-Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/web/templates/)".
+Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/templates/)".
 
 #### `start` Simulation Data Download (Experimental)
 

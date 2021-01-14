@@ -8088,3 +8088,26 @@ I´ve added the following idea to the discussion on Github :)
 ##### Darko Lukić [Cyberbotics] 12/22/2020 16:48:27
 Nice, thank you!
 
+##### Simon Steinmann [Moderator] 12/30/2020 16:16:24
+The import from url of the Mesh node needs some work. For example, it does not seem to import the creaseAngle of a x3d file. Also the geometry looks slightly different to when I import the same file through the webots gui as a solid.
+
+
+left is original, right is using Mesh with .x3d files linked.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/793875355092910130/unknown.png)
+%end
+
+
+I exportet the tall middle link of both as a .wrl file. There is some obvious differences. Might point in the right direction. I'm guessing, that the automatic normal generation of the Mesh node has some issue
+
+
+
+> **Attachment**: [Shape\_left.wrl](https://cdn.discordapp.com/attachments/565155651395780609/793877246863474688/Shape_left.wrl)
+
+
+
+> **Attachment**: [Shape\_right.wrl](https://cdn.discordapp.com/attachments/565155651395780609/793877250230845494/Shape_right.wrl)
+
+##### DrakerDG 12/30/2020 19:30:31
+🥰 👍
+
