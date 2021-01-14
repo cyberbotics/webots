@@ -7,8 +7,8 @@ The bounding object of a selected solid is represented by white lines.
 These lines turn pink if the solid is colliding with another one and blue when the solid is idle, i.e., it comes to rest and it does not interact with any other active solid.
 Double-clicking on a [Robot](../reference/robot.md) opens the Robot Window.
 
-If an object has a solid subpart, then it is also possible to select only this subpart by clicking on it once the whole object is already selected, or by clicking on it while holding down the Alt key.
-Linux users should also hold down the Control key (Ctrl) together with the Alt key.
+If an object has a solid subpart, then it is also possible to select only this subpart by clicking on it once the whole object is already selected, or by clicking on it while holding down the <kbd>alt</kbd> key.
+Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key.
 
 #### Context Menu
 
@@ -32,8 +32,13 @@ If you click on the background, the camera will rotate around its own position.
 Dragging the mouse horizontally will rotate the camera around the viewing axis.
 Alternatively, the mouse wheel alone can also be used for zooming.
 
-> **Note**: If you are a Mac user with a single button mouse, hold the Alt key and press the mouse button to translate the camera according to the mouse motion.
-Hold the control key (Ctrl) down and press the mouse button to zoom / rotate the camera.
+> **Note**: If you are on a MacBook, you can use trackpad to navigate in scene:
+- **Camera rotation**: click with one finger and drag.
+- **Camera translation**: click with two fingers and drag.
+- **Camera zoom**: slide two fingers (without clicking) downwards to zoom in and upwards to zoom out.
+
+> If you are on a desktop Mac with a single button mouse, hold the <kbd>⌥ option</kbd> key (<kbd>⌥ alt</kbd> on some keyboards) and press the mouse button to translate the camera according to the mouse motion.
+Hold the <kbd>ctrl</kbd> key down and press the mouse button to zoom in and out and rotate the camera.
 
 ### Moving a Solid Object
 
@@ -46,7 +51,7 @@ These handles can be used to translate and rotate the object along the correspon
 For moving the object you can simply click on the handle and drag it to the desired position.
 A label will show the currect relative translation or rotation during the movement, as shown in [this figure](#labels-displaying-relative-translation-and-rotation-when-moving-objects-with-handles).
 
-If the Control key (Ctrl) is pressed, the handles for resizing the solid object will be displayed instead of translation and rotation handles.
+If the <kbd>ctrl</kbd> key is pressed, the handles for resizing the solid object will be displayed instead of translation and rotation handles.
 These resize handles can also be enabled from the Field Editor.
 
 %figure "Axis-aligned handles to move solid objects"
@@ -63,26 +68,26 @@ These resize handles can also be enabled from the Field Editor.
 
 #### Translation Using Keyboard Shortcuts
 
-- **Translation**: To move an object parallel to the ground: hold down the Shift key, press the left mouse button and drag.
-- **Rotation**: To rotate an object around the world's vertical axis: hold down the Shift key, press the right mouse button and drag.
-- **Lift**: To raise or lower an object: hold down the Shift key, press both left and right mouse buttons (or the middle button) and drag.
-Alternatively, the mouse wheel combined with the Shift key can also be used.
+- **Translation**: To move an object parallel to the ground: hold down the <kbd>⇧ shift</kbd> key, press the left mouse button and drag.
+- **Rotation**: To rotate an object around the world's vertical axis: hold down the <kbd>⇧ shift</kbd> key, press the right mouse button and drag.
+- **Lift**: To raise or lower an object: hold down the <kbd>⇧ shift</kbd> key, press both left and right mouse buttons (or the middle button) and drag.
+Alternatively, the mouse wheel combined with the <kbd>⇧ shift</kbd> key can also be used.
 
-> **Note**: If you are a Mac user with a single button mouse, hold the Shift key and the Control key (Ctrl) down and press the mouse button to rotate the selected object according to mouse motion.
-Hold the Shift key and the Command key (key with Apple symbol) down and press the mouse button to lift the selected object according to mouse motion.
+> **Note**: If you are a Mac user with a single button mouse, hold the <kbd>⇧ shift</kbd> key and the <kbd>ctrl</kbd> key down and press the mouse button to rotate the selected object according to mouse motion.
+Hold the <kbd>⇧ shift</kbd> key and the <kbd>⌘ command</kbd> key down and press the mouse button to lift the selected object according to mouse motion.
 
 ### Applying a Force to a Solid Object with Physics
 
-To apply a force to an object, place the mouse pointer where the force will apply, hold down the Alt key and left mouse button together while dragging the mouse.
-Linux users should also hold down the Control key (Ctrl) together with the Alt key.
+To apply a force to an object, place the mouse pointer where the force will apply, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and left mouse button together while dragging the mouse.
+Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 This way your are drawing a 3D-vector whose end is located on the plane parallel to the view which passes through the point of application.
 The intensity of the applied force is directly proportional to the cube of the length of this vector.
 
 ### Applying a Torque to a Solid Object with Physics
 
-To apply a torque to an object, place the mouse pointer on it, hold down the Alt key and right mouse button together while dragging the mouse.
-Linux users should also hold down the Control key (Ctrl) together with the Alt key.
-Also, macOS users with a one-button mouse should hold down the Control key (Ctrl) to emulate the right mouse button.
+To apply a torque to an object, place the mouse pointer on it, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and right mouse button together while dragging the mouse.
+Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
+Also, macOS users with a one-button mouse should hold down the <kbd>ctrl</kbd> key to emulate the right mouse button.
 This way your are drawing a 3D-vector with origin the center of mass and whose end is located on the plane parallel to the view which passes through this center.
 The object is prompted to turn around the vector direction, the intensity of the applied torque is directly proportional to the product of the mass by the length of the 3D-vector.
 

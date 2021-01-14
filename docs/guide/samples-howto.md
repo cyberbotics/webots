@@ -1,6 +1,8 @@
 ## How To
 
 This section gives various examples of complex behaviors and/or functionalities.
+The world files are located in the "[WEBOTS\_HOME/projects/samples/howto/worlds](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/)" directory, and their controllers in the "[WEBOTS\_HOME/projects/samples/howto/controllers](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/)" directory.
+For each, the world file and its corresponding controller are named according to the behavior they exemplify.
 
 ### [asymmetric\_friction1.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/asymmetric_friction/worlds/asymmetric_friction1.wbt)
 
@@ -126,7 +128,7 @@ It goes down the slope with a smooth motion simply because of its shape and its 
 **Keywords**: Pedal racer, apply a force, mechanical loop, [SolidReference](../reference/solidreference.md)
 
 ![pedal_racer.png](images/samples/pedal_racer.thumbnail.jpg) This example shows the mouse interaction with a complex model.
-You can apply a force to the pedals using `Alt + mouse left click.`.
+You can apply a force to the pedals using <kbd>alt</kbd> + mouse left click.
 
 ### [physics.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/physics/worlds/physics.wbt)
 
@@ -161,7 +163,7 @@ A [Supervisor](../reference/supervisor.md) controller applies the scan depth out
 **Keywords**: Spinner, chessboard, chess pieces, apply a torque
 
 ![spinning_top.png](images/samples/spinning_top.thumbnail.jpg) This example shows rotating objects, in order to play with the torque application feature.
-To apply a torque on the spinner, use the `Alt + mouse right click` sequence.
+To apply a torque on the spinner, use the <kbd>alt</kbd> + mouse right click sequence.
 
 ### [supervisor\_draw\_trail.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/supervisor_draw_trail/worlds/supervisor_draw_trail.wbt)
 
