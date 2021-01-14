@@ -117,7 +117,7 @@ class MyParser {
     else if (node.tagName === 'Shape')
       result = await this.parseShape(node, currentNode);
     else if (node.tagName === 'Switch')
-      result = undefined;
+      result = await this.parseSwitch(node, currentNode);
     else if (node.tagName === 'DirectionalLight')
       result = await this.parseDirectionalLight(node, currentNode);
     else if (node.tagName === 'PointLight')
@@ -290,6 +290,8 @@ class MyParser {
       return use;
 
     let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined')
+      id = 'n' + this.undefinedID++;
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -315,11 +317,9 @@ class MyParser {
       return use;
 
     let id = getNodeAttribute(node, 'id');
-    if(typeof id === 'undefined') {
-      console.error("ID undefined");
-      id = "n" + this.undefinedID;
-      this.undefinedID++;
-    }
+    if(typeof id === 'undefined')
+      id = "n" + this.undefinedID++;
+
     let group = new WbGroup(id);
 
     World.instance.nodes.set(group.id, group);
@@ -339,6 +339,9 @@ class MyParser {
       return use;
 
     let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined')
+      id = 'n' + this.undefinedID++;
+
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
     let geometry;
@@ -498,25 +501,29 @@ class MyParser {
       return use;
     }
 
+    let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined')
+      id = 'n' + this.undefinedID++;
+
     let geometry;
     if(node.tagName === 'Box')
-      geometry = this.parseBox(node);
+      geometry = this.parseBox(node, id);
     else if (node.tagName === 'Sphere')
-      geometry = this.parseSphere(node);
+      geometry = this.parseSphere(node, id);
     else if (node.tagName === 'Cone')
-      geometry = this.parseCone(node);
+      geometry = this.parseCone(node, id);
     else if (node.tagName === 'Plane')
-      geometry = this.parsePlane(node);
+      geometry = this.parsePlane(node, id);
     else if (node.tagName === 'Cylinder')
-      geometry = this.parseCylinder(node);
+      geometry = this.parseCylinder(node, id);
     else if (node.tagName === 'IndexedFaceSet')
-      geometry = this.parseIndexedFaceSet(node);
+      geometry = this.parseIndexedFaceSet(node, id);
     else if (node.tagName === 'IndexedLineSet')
-      geometry = this.parseIndexedLineSet(node);
+      geometry = this.parseIndexedLineSet(node, id);
     else if (node.tagName === 'ElevationGrid')
       geometry = this.parseElevationGrid(node);
     else if (node.tagName === 'PointSet')
-      geometry = this.parsePointSet(node);
+      geometry = this.parsePointSet(node, id);
     else {
       console.log("Not a recognized geometry : " + node.tagName);
       geometry = undefined
@@ -529,8 +536,7 @@ class MyParser {
     return geometry;
   }
 
-  parseBox(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseBox(node, id) {
     let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     let box = new WbBox(id, size);
@@ -538,8 +544,7 @@ class MyParser {
     return box;
   }
 
-  parseSphere(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseSphere(node, id) {
     let radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
     let ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true'
     let subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
@@ -551,8 +556,7 @@ class MyParser {
     return sphere;
   }
 
-  parseCone(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseCone(node, id) {
     let bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
     let height = getNodeAttribute(node, 'height', '2');
     let subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -566,8 +570,7 @@ class MyParser {
     return cone;
   }
 
-  parseCylinder(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseCylinder(node, id) {
     let radius = getNodeAttribute(node, 'radius', '1');
     let height = getNodeAttribute(node, 'height', '2');
     let subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -582,8 +585,7 @@ class MyParser {
     return cylinder;
   }
 
-  parsePlane(node) {
-    let id = getNodeAttribute(node, 'id');
+  parsePlane(node, id) {
     let size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
     let plane = new WbPlane(id, size);
@@ -593,8 +595,7 @@ class MyParser {
     return plane;
   }
 
-  parseIndexedFaceSet(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseIndexedFaceSet(node, id) {
     let isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
 
     let coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);;
@@ -646,8 +647,7 @@ class MyParser {
     return ifs;
   }
 
-  parseIndexedLineSet(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseIndexedLineSet(node, id) {
     let coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if (typeof coordinate === 'undefined')
@@ -670,8 +670,7 @@ class MyParser {
     return ils;
   }
 
-  parseElevationGrid(node) {
-    let id = getNodeAttribute(node, 'id');
+  parseElevationGrid(node, id) {
     let heightStr = getNodeAttribute(node, 'height', undefined);
     if(typeof heightStr === 'undefined')
       return;
@@ -691,8 +690,7 @@ class MyParser {
     return eg;
   }
 
-  parsePointSet(node) {
-    let id = getNodeAttribute(node, 'id');
+  parsePointSet(node, id) {
     let coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if(typeof coordinate === 'undefined')
@@ -729,12 +727,42 @@ class MyParser {
     return ps;
   }
 
+  async parseSwitch(node, parent) {
+    if(typeof parent === 'undefined')
+      return;
+
+    let child = node.childNodes[0];
+
+    let boundingObject = undefined
+    if (child.tagName === 'Shape')
+      boundingObject = await this.parseShape(child);
+    else if (child.tagName === 'Transform')
+      boundingObject = await this.parseTransform(child);
+    else if (child.tagName === 'Group')
+      boundingObject = await this.parseGroup(child)
+    else {
+      console.error("Unknown boundingObject: " + child.tagName);
+    }
+
+    if (typeof boundingObject === 'undefined')
+      return
+
+    boundingObject.id = "n" + this.undefinedID;
+    this.undefinedID++;
+    boundingObject.parent = parent.id;
+    parent.boundingObject = boundingObject;
+
+    return boundingObject;
+  }
+
   async parseAppearance(node) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
 
     let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined')
+      id = 'n' + this.undefinedID++;
 
     // Get the Material tag.
     let materialNode = node.getElementsByTagName('Material')[0];
@@ -783,6 +811,9 @@ class MyParser {
       return use;
 
     let id = getNodeAttribute(node, 'id');
+    if(typeof id === 'undefined')
+      id = 'n' + this.undefinedID++;
+      
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
     diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
     specularColor = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0')),

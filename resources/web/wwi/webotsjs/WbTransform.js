@@ -25,11 +25,15 @@ class WbTransform extends WbGroup {
     this.rotation = rotation;
 
     this.children = [];
+    this.boundingObject = undefined;
   }
 
   delete(){
     if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenNode);
+
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.delete()
 
     super.delete();
   }
@@ -44,6 +48,9 @@ class WbTransform extends WbGroup {
     this.children.forEach(child => {
       child.createWrenObjects()
     });
+
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.createWrenObjects()
 
     this.applyTranslationToWren();
     this.applyRotationToWren();
@@ -65,7 +72,19 @@ class WbTransform extends WbGroup {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  //TODO add children (in group)
+  preFinalize() {
+    super.preFinalize();
+
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.preFinalize()
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.postFinalize()
+  }
 }
 
 export {WbTransform}
