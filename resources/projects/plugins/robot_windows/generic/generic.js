@@ -486,12 +486,13 @@ window.onload = function() {
   const deviceContentHeight = window.getComputedStyle(document.body.lastChild).getPropertyValue('height').replace(/px$/g, '');
   document.body.removeChild(document.body.lastChild);
 
+  windowIsHidden = document.visibilityState === 'hidden';
+
   window.robotWindow = webots.window();
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
-  window.robotWindow.send('configure { "imageMaxWidth": ' + deviceContentWidth + ', "imageMaxHeight": ' + deviceContentHeight + ' }');
+  window.robotWindow.send('configure { "imageMaxWidth": ' + deviceContentWidth + ', "imageMaxHeight": ' + deviceContentHeight + ', "hidden": ' + (windowIsHidden ? 1 : 0) + ' }');
 
-  windowIsHidden = document.visibilityState === 'hidden';
   document.addEventListener('visibilitychange', function() {
     windowIsHidden = document.visibilityState === 'hidden';
     window.robotWindow.send('window ' + (windowIsHidden ? 'hidden' : 'visible'));

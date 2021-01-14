@@ -161,12 +161,14 @@ void wb_robot_window_step(int time_step) {
     if (strncmp(message, "configure", 9) == 0) {
       int max_image_height = -1;
       int max_image_width = -1;
-      if (sscanf(message, "configure { \"imageMaxWidth\": %d, \"imageMaxHeight\": %d }", &max_image_width, &max_image_height) !=
-          2) {
+      int hidden = 1;
+      if (sscanf(message, "configure { \"imageMaxWidth\": %d, \"imageMaxHeight\": %d, \"hidden\": %d }", &max_image_width, &max_image_height, &hidden) !=
+          3) {
         fprintf(stderr, "Wrong 'configure' message received from the robot window.\n");
         assert(0);
         return;
       }
+      is_hidden = hidden == 0 ? false : true;
       wbu_default_robot_window_set_images_max_size(max_image_width, max_image_height);
       wbu_default_robot_window_configure();
       configured = true;
