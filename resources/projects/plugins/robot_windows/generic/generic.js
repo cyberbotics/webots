@@ -8,6 +8,7 @@
 /* exported differentialWheelsResetSpeedTag */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
+var windowIsHidden;
 var basicTimeStep = -1;
 var robotName = '';
 var widgets = {}; // Dictionary {deviceName -> [TimeplotWidget0, PlotWidget0, PlotWidget1, ...] }
@@ -449,7 +450,9 @@ function receive(message, _robot) {
     }
     if (data)
       configure(data);
-  } else if (message.indexOf('update ') === 0) {
+  } else if (windowIsHidden)
+    return;
+  else if (message.indexOf('update ') === 0) {
     try {
       data = JSON.parse(message.substring(7));
     } catch (e) {
@@ -487,4 +490,10 @@ window.onload = function() {
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
   window.robotWindow.send('configure { "imageMaxWidth": ' + deviceContentWidth + ', "imageMaxHeight": ' + deviceContentHeight + ' }');
+
+  windowIsHidden = document.visibilityState === 'hidden';
+  document.addEventListener('visibilitychange', function() {
+    windowIsHidden = document.visibilityState === 'hidden';
+    window.robotWindow.send('window ' + (windowIsHidden ? 'hidden' : 'visible'));
+  });
 };
