@@ -314,6 +314,10 @@ void WbBackground::updateCubemap() {
     if (isPostFinalizedCalled()) {
       const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
       for (int i = 0; i < 6; i++) {
+        if (mUrlFields[i]->size() == 0) {
+          postpone = true;
+          continue;
+        }
         const QString &url = mUrlFields[i]->item(0);
         if (WbUrl::isWeb(url)) {
           if (mDownloader[i] == NULL) {
