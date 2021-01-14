@@ -369,7 +369,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(canvas, event.clientX, event.clientY);
     this.intersection = this.scene.pick(relativePosition, screenPosition);
-
+    console.log(this.intersection);
+    console.log("yo");
     if (this.intersection && this.intersection.object)
       this.moveParams.pickPosition = this.intersection.point;
     else
@@ -409,9 +410,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _selectAndHandleClick() {
+    console.log("select");
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       var object;
       if (this.intersection) {
+        console.log(this.intersection);
         object = this.intersection.object;
         if (object)
           object = this.scene.getTopX3dNode(object);

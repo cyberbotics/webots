@@ -1,0 +1,139 @@
+import {WbVector3} from "./utils/WbVector3.js";
+
+class WbWrenPicker {
+  constructor() {
+    this.selectedId = -1
+    this.coordinates = new WbVector3();
+    this.width = 0;
+    this.height = 0;
+
+    this.frameBuffer = undefined;
+    this.outputTexture = undefined;
+    this.viewport = _wr_viewport_new();
+
+    const colorPointer = _wrjs_array4(0.0, 0.0, 0.0, 0.0);
+    _wr_viewport_set_clear_color_rgba(this.viewport, color);
+
+    this.setup();
+  }
+
+  delete() {
+    this.cleanup();
+    _wr_viewport_delete(this.viewport);
+  }
+
+  cleanup() {
+    _wr_texture_delete(this.outputTexture));
+    _wr_frame_buffer_delete(this.frameBuffer);
+  }
+
+  setup() {
+    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    this.width = _wr_viewport_get_width(viewport);
+    this.height = wr_viewport_get_height(viewport);
+    _wr_viewport_set_size(this.viewport, this.width, this.height);
+
+    this.frameBuffer = _wr_frame_buffer_new();
+    this.outputTexture = _wr_texture_rtt_new();
+
+    _wr_frame_buffer_set_size(this.frameBuffer, this.width, this.height);
+    _wr_frame_buffer_enable_depth_buffer(this.frameBuffer, true);
+    _wr_frame_buffer_append_output_texture(this.frameBuffer, this.outputTexture);
+    _wr_frame_buffer_enable_copying(this.frameBuffer, 0, true);
+    _wr_frame_buffer_setup(this.frameBuffer);
+
+    _wr_viewport_set_frame_buffer(this.viewport, this.frameBuffer);
+    _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
+  }
+
+  // Setup & attach picking material, based on the unique ID
+  // ID is encoded in the following way:
+  // Most significant word: red and green channels of ambient color
+  // Least signigicant word: red and green channels of diffuse color
+  // These are combined in RGBA channels in the picking fragment shader
+  static setPickable(renderable, uniqueId, pickable) {
+    let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
+
+    if (!material) {
+      material = _wr_phong_material_new();
+      _wr_material_set_default_program(material, WbWrenShaders.pickingShader());
+
+      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, "picking"])
+    }
+
+    let encodedId = [];
+
+    if (pickable) {
+      // ID is incremented since a 0 value would mean that no object was picked
+      // (ID = 0 is valid)
+      let id = uniqueId + 1;
+
+      for (let i = 4; i >= 0; --i) {
+        if (i == 2)
+          continue;
+
+        encodedId[i] = (id & 0x000000FF) / 255.0;
+        id >>= 8;
+      }
+    }
+
+    _wr_phong_material_set_linear_ambient(material, encodedId);
+    _wr_phong_material_set_linear_diffuse(material, encodedId + 3);
+  }
+
+  hasSizeChanged() {
+    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    const width = _wr_viewport_get_width(viewport);
+    const height = _wr_viewport_get_height(viewport);
+
+    if (this.width != width || this.height != height) {
+      this.width = width;
+      this.height = height;
+      return true;
+    }
+    return false;
+  }
+
+
+  pick(x, y) {
+    this.coordinates.setXyz(0.0, 0.0, 0.0);
+    this.selectedId = -1;
+
+    // Recreate framebuffer and textures if viewport's size has changed
+    if (this.hasSizeChanged()) {
+      this.cleanup();
+      this.setup();
+    }
+
+    // Check if object was picked & decode ID
+    let scene = _wr_scene_get_instance();
+    _wr_viewport_enable_skybox(this.viewport, false);
+    _wr_scene_enable_translucence(scene, false);
+    _wr_scene_enable_depth_reset(scene, false);
+    _wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true);//TODO
+    _wr_scene_enable_depth_reset(scene, true);
+    _wr_viewport_enable_skybox(this.viewport, true);
+    _wr_scene_enable_translucence(scene, true);
+
+    let data = [];//TODO
+    _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, data, true);
+
+    unsigned char *data2 = reinterpret_cast<unsigned char *>(data);
+    int id = (data2[0] << 24) | (data2[1] << 16) | (data2[2] << 8) | data2[3];
+
+    if (id === 0)
+      return false;
+    else
+      this.selectedId = id - 1;
+
+    // Compute coordinates
+    let depth;
+    let depthPointer = _wrjs_pointerOnFloat(depth);
+    _wr_frame_buffer_copy_depth_pixel(this.frameBuffer, x, y, depthPointer, true);
+
+    this.coordinates = new WbVector3(x, this.height - y - 1, depth);
+
+    return true;
+  }
+
+}

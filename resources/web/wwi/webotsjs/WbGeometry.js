@@ -25,6 +25,7 @@ class WbGeometry extends WbBaseNode {
     this.wrenRenderable = undefined;
     this.wrenEncodeDepthMaterial = undefined;
     this.wrenMesh = undefined;
+    this.isShadedGeometryPickable = true;
   }
 
   delete(){
@@ -38,6 +39,14 @@ class WbGeometry extends WbBaseNode {
       this.deleteWrenRenderable();
 
     super.delete()
+  }
+
+  setPickable(pickable) {
+    if (!this.wrenRenderable || this.isInBoundingObject)
+      return;
+
+    this.pickable = pickable && this.isShadedGeometryPickable;
+    WbWrenPicker.setPickable(this.wrenRenderable, this.id, pickable);
   }
 
   computeWrenRenderable() {
@@ -54,7 +63,7 @@ class WbGeometry extends WbBaseNode {
 
     this.wrenRenderable = _wr_renderable_new();
 
-    _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
+    Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth"])
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 

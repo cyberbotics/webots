@@ -21,6 +21,8 @@ class WbPointSet extends WbGeometry {
     super(id);
     this.coord = coord;
     this.color = color;
+    
+    this.isShadedGeometryPickable = false;
   }
 
   delete() {

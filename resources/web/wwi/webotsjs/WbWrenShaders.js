@@ -561,6 +561,21 @@ class WbWrenShaders {
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_POINT_SET];
   }
+
+  static pickingShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING] = _wr_shader_program_new();
+
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING], "../../../resources/wren/shaders/picking.vert", "../../../resources/wren/shaders/picking.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING];
+  }
 }
 
 //gShaders static variable

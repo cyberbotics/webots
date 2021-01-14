@@ -67,7 +67,7 @@ class WbVector3 {
   length2() {
     return this.x * this.x + this.y * this.y + this.z * this.z;
   }
-  
+
   // dot product
   dot(v) {
      return this.x * v.x + this.y * v.y + this.z * v.z;
@@ -92,6 +92,12 @@ class WbVector3 {
       return this.y;
     else if (index === 2)
       return this.z;
+  }
+
+  setXyz(x, y, z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 }
 export {WbVector3}

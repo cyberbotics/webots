@@ -813,7 +813,7 @@ class MyParser {
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
       id = 'n' + this.undefinedID++;
-      
+
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
     diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
     specularColor = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0')),
