@@ -25,6 +25,8 @@
 
 #include "string_utils.h"
 
+static double refresh_rate = 0.032;  // s
+static double last_update_time = 0;  // s
 static int time_step = 0;
 static double max_speed = 0.0;
 static bool is_hidden = false;
@@ -162,8 +164,8 @@ void wb_robot_window_step(int time_step) {
       int max_image_height = -1;
       int max_image_width = -1;
       int hidden = 1;
-      if (sscanf(message, "configure { \"imageMaxWidth\": %d, \"imageMaxHeight\": %d, \"hidden\": %d }", &max_image_width, &max_image_height, &hidden) !=
-          3) {
+      if (sscanf(message, "configure { \"imageMaxWidth\": %d, \"imageMaxHeight\": %d, \"hidden\": %d }", &max_image_width,
+                 &max_image_height, &hidden) != 3) {
         fprintf(stderr, "Wrong 'configure' message received from the robot window.\n");
         assert(0);
         return;
@@ -172,15 +174,24 @@ void wb_robot_window_step(int time_step) {
       wbu_default_robot_window_set_images_max_size(max_image_width, max_image_height);
       wbu_default_robot_window_configure();
       configured = true;
+    } else if (strncmp(message, "refresh-rate", 12) == 0) {
+      int rate = -1;
+      if (sscanf(message, "refresh-rate %d", &rate) != 1) {
+        fprintf(stderr, "Wrong 'refresh-rate' message received from the robot window.\n");
+        assert(0);
+        return;
+      }
+      refresh_rate = 0.001 * rate;
     } else if (strncmp(message, "window", 6) == 0)
       is_hidden = strstr(message, "hidden") != NULL;
     else
       apply_commands(message);
   }
 
-  if (!configured || is_hidden)
+  if (!configured || is_hidden || (refresh_rate > 0 && (wb_robot_get_time() - last_update_time) < refresh_rate))
     return;
 
+  last_update_time = wb_robot_get_time();
   wbu_default_robot_window_update();
 }
 

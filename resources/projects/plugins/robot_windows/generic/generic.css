@@ -9,6 +9,10 @@ h1 {
 h2 {
   font-size: 0.8em;
 }
+.settings-content {
+  font-size: 0.8em;
+  margin: 10px;
+}
 #content {
   margin-left: 200px; /* This value is adjusted by the JS when creating/showing/hiding the menu. */
 }
@@ -117,6 +121,20 @@ h2 {
   height: 230px;
   margin: 0px;
   padding: 0px;
+}
+.device-buttons {
+  display: inline;
+  margin: 10px;
+}
+.device-button {
+  width: 150px;
+  margin-right: 20px;
+  background-color: lightgrey;
+  padding: 4px;
+  border-radius: 4px;
+}
+.device-button:focus {
+  outline: 0;
 }
 .motor-slider {
   position: absolute;

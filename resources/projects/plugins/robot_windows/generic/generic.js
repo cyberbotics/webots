@@ -55,6 +55,20 @@ function closeMenu() {
   document.getElementById('content').style.marginLeft = '0px';
 }
 
+function enableAllCallback(deviceType, enabled) {
+  Object.keys(widgets).forEach(function(deviceName) {
+    widgets[deviceName].forEach(function(widget) {
+      if (!deviceType || widget.device.type === deviceType) {
+        let checkbox = document.getElementById(widget.device.htmlName + '-enable-checkbox');
+        if (checkbox && checkbox.checked !== enabled) {
+          checkbox.checked = enabled;
+          checkboxCallback(checkbox);
+        }
+      }
+    });
+  });
+}
+
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
     commands.push(checkbox.getAttribute('device') + ':enable');
@@ -129,13 +143,22 @@ function appendNewElement(id, newElement) {
   return container.childNodes[container.childNodes.length - 1];
 }
 
-function addDeviceType(type) {
+function addTab(type, isDevice = true) {
   if (document.getElementById(type))
     return; // check if already exists
 
+  var buttonsDiv;
+  if (isDevice && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
+    buttonsDiv = '<div id="' + type + '-buttons" class="device-buttons">' +
+      '<input type="button" value="Disable all" id="' + type + '-disable-button" class="device-button" onclick="enableAllCallback(\'' + type + '\', false)"/>' +
+      '<input type="button" value="Enable all" id="' + type + '-enable-button" class="device-button" onclick="enableAllCallback(\'' + type + '\', true)"/>' +
+    '</div>';
+  } else
+    buttonsDiv = '';
+
   appendNewElement('content',
     '<div id="' + type + '" class="devices-container animate-left">' +
-      '<h1>' + type + '</h1>' +
+      '<h1>' + type + '</h1>' + buttonsDiv +
       '<section id="' + type + '-layout" class="devices-layout"/>' +
     '</div>'
   );
@@ -312,6 +335,19 @@ function createDifferentialWheels(device) {
   });
 }
 
+function addSettingsTab() {
+  addTab('Settings', false);
+  let div = '<div id="settings" class="settings">';
+  div += '<h2>Generic robot window settings</h2>';
+  div += '<div class="settings-content">Refresh rate: <input type="number" id="refresh-rate-number" value="32" min="2" max="2000" step="8"> ms</div>';
+  div += '<div class="settings-content"><input type="button" value="Disable all devices" id="disable-all-button" class="device-button" onclick="enableAllCallback(null, false)"/></div>';
+  div += '</div>';
+  appendNewElement('Settings-layout', div);
+  document.getElementById('refresh-rate-number').addEventListener('input', function(e) {
+    window.robotWindow.send('refresh-rate ' + e.target.value);
+  });
+}
+
 // Protect all the character instances in the string by prefixing a '\' character.
 function protect(str, chars) {
   let protectedStr = str;
@@ -359,7 +395,7 @@ function configure(data) {
 
   // Create a device type container per device types.
   deviceTypes.forEach(function(deviceType) {
-    addDeviceType(deviceType);
+    addTab(deviceType);
   });
 
   // Create a device container per device.
@@ -373,6 +409,8 @@ function configure(data) {
       addDevice(device);
     }
   });
+
+  addSettingsTab();
 
   // Set the focus on the first deviceType menu.
   if (deviceTypes.length > 0) {
