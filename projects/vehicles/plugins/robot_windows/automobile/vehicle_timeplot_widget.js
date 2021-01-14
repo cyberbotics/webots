@@ -136,7 +136,6 @@ TimeplotWidget.prototype.jumpToRange = function(y) {
   }
   if (value) {
     const rangeLevel = Math.floor(value / (0.5 * this.delta) + 0.5);
-    console.log('rangeLevel', rangeLevel);
     this.yRange['min'] = 0.5 * this.delta * (rangeLevel - 1.0);
     this.yRange['max'] = 0.5 * this.delta * (rangeLevel + 1.0);
     this.updateRange();
