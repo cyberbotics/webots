@@ -485,7 +485,7 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab-end
 %end
 
-The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
+The robot will now move (the wheels will rotate at a speed of 0.2 radian per second) and never stop.
 If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or clicking on the gear icon ![](images/build-button.png =26x26) above the code area.
 Compilation errors are displayed in red in the console.
 If there are any, fix them and retry to compile.
