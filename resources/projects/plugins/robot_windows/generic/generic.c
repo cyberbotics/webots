@@ -27,6 +27,7 @@
 
 static int time_step = 0;
 static double max_speed = 0.0;
+static bool is_hidden = false;
 
 static void enable_device(WbDeviceTag tag, bool enable) {
   WbNodeType type = wb_device_get_node_type(tag);
@@ -169,11 +170,13 @@ void wb_robot_window_step(int time_step) {
       wbu_default_robot_window_set_images_max_size(max_image_width, max_image_height);
       wbu_default_robot_window_configure();
       configured = true;
-    } else
+    } else if (strncmp(message, "window", 6) == 0)
+      is_hidden = strstr(message, "hidden") != NULL;
+    else
       apply_commands(message);
   }
 
-  if (!configured)
+  if (!configured || is_hidden)
     return;
 
   wbu_default_robot_window_update();
