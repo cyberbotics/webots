@@ -249,6 +249,8 @@ void WbImageTexture::destroyWrenTexture() {
 void WbImageTexture::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   int n = mUrl->size();
+  if (n==0)
+    return;
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
