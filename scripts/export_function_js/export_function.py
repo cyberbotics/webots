@@ -34,11 +34,12 @@ functionName = map(lambda name : "_"+ name + ", ", functionName)
 if os.path.exists("../../src/wren/functionsToExport.txt"):
   os.remove("../../src/wren/functionsToExport.txt")
 
-functionName = list(functionName)
-lastIndex= len(functionName) - 1
-lastName = functionName[lastIndex];
-lastName = lastName[:len(lastName)-2]
-functionName[lastIndex] = lastName;
+functionName = list(functionName) + ["_wr_config_enable_point_size"]
+#The next lines are not needed as long as we add manually a last function
+#lastIndex= len(functionName) - 1
+#lastName = functionName[lastIndex];
+#lastName = lastName[:len(lastName)-2]
+#functionName[lastIndex] = lastName;
 
 f = open("../../src/wren/functionsToExport.txt", 'x')
 

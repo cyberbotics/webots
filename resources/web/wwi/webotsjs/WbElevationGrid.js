@@ -54,8 +54,8 @@ class WbElevationGrid extends WbGeometry {
     super.computeWrenRenderable();
 
 
-    // Restore pickable state
-    //setPickable(isPickable());
+    //Restore pickable state
+    this.setPickable(this.isPickable);
 
     // convert height values to float, pad with zeroes if necessary
     let numValues = this.xDimension * this.zDimension;
@@ -85,6 +85,29 @@ class WbElevationGrid extends WbGeometry {
   updateScale() {
     let scalePointer = _wrjs_color_array(this.xSpacing, 1.0, this.zSpacing);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
+  }
+
+  updateLineScale() {
+    if (this.isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+
+    let scalePointer = _wrjs_color_array(this.xSpacing, 1.0 + offset, this.zSpacing);
+
+    _wr_transform_set_scale(this.wrenNode, scalePointer);
+  }
+
+  isSuitableForInsertionInBoundingObject() {
+    const invalidDimensions = this.xDimension < 2 || this.zDimension < 2;
+    const invalidSpacings = this.xSpacing <= 0.0 || this.zSpacing < 0.0;
+    const invalid = invalidDimensions || invalidSpacings;
+
+    return !invalid;
+  }
+
+  isAValidBoundingObject() {
+    return thisisSuitableForInsertionInBoundingObject() && super.isAValidBoundingObject();
   }
 }
 
