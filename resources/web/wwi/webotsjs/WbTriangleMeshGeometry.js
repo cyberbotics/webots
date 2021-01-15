@@ -63,13 +63,13 @@ class WbTriangleMeshGeometry extends WbGeometry {
   buildWrenMesh(updateCache) {
 
     this.deleteWrenRenderable();
-   _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this.wrenMesh);
     this.wrenMesh = undefined;
 
     if (!this.triangleMesh.isValid)
       return;
 
-    const createOutlineMesh = false;//TODO isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject;
 
     this.computeWrenRenderable();
 

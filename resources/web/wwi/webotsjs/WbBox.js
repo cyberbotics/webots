@@ -31,7 +31,8 @@ class WbBox extends WbGeometry {
     super.createWrenObjects();
     super.computeWrenRenderable();
 
-    this.wrenMesh = _wr_static_mesh_unit_box_new(false);
+    const createOutlineMesh = this.isInBoundingObject;
+    this.wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
@@ -39,8 +40,21 @@ class WbBox extends WbGeometry {
   }
 
   updateSize() {
+    if (this.isInBoundingObject)
+      this.updateLineScale();
+    else
       _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
   }
+
+  updateLineScale() {
+    if (!isAValidBoundingObject())
+      return;
+
+    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x + offset, this.size.y + offset, this.size.z + offset));
+  }
+
+
 
   static findIntersectedFace(minBound, maxBound, intersectionPoint) {
     const TOLERANCE = 1e-9;

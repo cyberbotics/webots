@@ -34,7 +34,7 @@ functionName = map(lambda name : "_"+ name + ", ", functionName)
 if os.path.exists("../../src/wren/functionsToExport.txt"):
   os.remove("../../src/wren/functionsToExport.txt")
 
-functionName = list(functionName) + ["_wr_config_enable_point_size"]
+functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale"]
 #The next lines are not needed as long as we add manually a last function
 #lastIndex= len(functionName) - 1
 #lastName = functionName[lastIndex];
