@@ -2,6 +2,32 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2021
+
+##### Olivier Michel [Cyberbotics] 01/13/2021 08:16:38
+Here is a very nice project allowing you to program robots in Webots using Google Blockly graphical programming interface: [https://www.stormingrobots.com/prod/dev2.html](https://www.stormingrobots.com/prod/dev2.html)
+
+
+I would like to congratulate `@Soft_illusion` team for their achievement in the Google Season of Docs project. The successful project is described on the official Google page: [https://developers.google.com/season-of-docs/docs/participants](https://developers.google.com/season-of-docs/docs/participants) (search for Webots). A nice report is available here: [https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view](https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view). Finally, the playlist is here: [https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V). We are planning to apply to Google Summer of Code and to a new Google Season of Docs, so stay tuned.
+
+##### aleena 01/01/2021 07:56:16
+Happy New Year everyone 🎉 🥳
+
+##### Soft\_illusion 01/01/2021 07:50:51
+[https://youtu.be/-88UzHYHrxg](https://youtu.be/-88UzHYHrxg)
+
+
+
+🤖 Happy New Year !!! 🤖
+
+💥🎂🎼🎉🥳
+
+
+
+Let’s take a moment and celebrate a new year with the community.
+
+So we have a setup a small Robot show do checkout and share the video
+
 ## 2020
 
 ##### Olivier Michel [Cyberbotics] 12/15/2020 16:30:40
@@ -62,7 +88,7 @@ Here is new nice video tutorial teaching you how to create a robot model from sc
 ##### Soft\_illusion 11/02/2020 07:06:45
 We are back with the fourth episode of the Webots ROS2 video tutorial series . Video 4: Tutorial on Publishers in ROS2 with Webots [https://www.youtube.com/watch?v=-owqJOH3Des](https://www.youtube.com/watch?v=-owqJOH3Des) Stay tuned for more upcoming interesting episodes. @everyone
 
-##### Siddhi 10/28/2020 17:46:29
+##### Siddhi(IT 3rd Year) 10/28/2020 17:46:29
 Machines have never ceased to amaze us with the ways they have found a place in our lives. Do you also want to build a machine that will fascinatingly mimic life? *Innerve'20*✨ presents You this competition to put your creation to a trial. You will *simulate your robots to follow a standardised pathway*🤖🤖 set by us in the most accurate way possible. *The platform is Webots.* So get your robots ready now for this exciting battle!👾
 
 

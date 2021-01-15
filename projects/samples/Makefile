@@ -16,9 +16,7 @@ TARGETS = curriculum/controllers.Makefile \
 	demos/controllers.Makefile \
 	devices/controllers.Makefile \
 	geometries/controllers.Makefile \
-	howto/controllers.Makefile \
-	howto/plugins/physics.Makefile \
-	howto/plugins/robot_windows.Makefile \
+	howto.Makefile \
 	mybot/controllers.Makefile \
 	rendering/controllers.Makefile \
 	tutorials/controllers.Makefile \

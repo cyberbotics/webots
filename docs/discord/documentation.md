@@ -957,16 +957,16 @@ Thanks David 👍 I will make a PR on it soon
 ##### David Mansolino [Cyberbotics] 05/12/2020 09:04:01
 You're welcome, looking forward to see your PR!
 
-##### Rum\_Guru 05/12/2020 22:11:15
+##### Chaytanya 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 06:37:58
-Hi `@Rum_Guru`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
+Hi `@Chaytanya`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
 
-##### Rum\_Guru 05/13/2020 06:46:52
+##### Chaytanya 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
 ##### ♥花怜♥ 05/13/2020 08:00:17
@@ -1661,4 +1661,18 @@ Yes, this is possible using a supervisor to remove the node corresponding to the
 
 ##### Olivier Michel [Cyberbotics] 12/08/2020 06:46:09
 Yes, exactly the same.
+
+## 2021
+
+##### pnaraltnsk 01/02/2021 21:48:12
+Hi, I am using webots for my graduation project and I am working on the Nao robot. I am trying to add pen node to my robot to mark the robot's walking path but for some reason, the pen node doesn't write. I added pen node to my robot's leftFootSlot and exactly like in pen.wbt example. Could you please help me out with this situation? Or do you know any other ways to mark the robot's walking path?
+
+##### Stefania Pedrazzi [Cyberbotics] 01/04/2021 07:12:22
+`@pnaraltnsk` your question has already been answered in the `technical-questions` channel.
+
+##### AdityaDutt 01/12/2021 15:37:04
+are there any debugging tools available in webots? Like step through code, etc.
+
+##### Olivier Michel [Cyberbotics] 01/12/2021 16:41:00
+Yes, you can use gdb (although it's not fully integrated into Webots).
 

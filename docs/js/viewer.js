@@ -119,7 +119,7 @@ function setupUrl(url) {
 }
 
 function computeTargetPath() {
-  var branch = 'master';
+  var branch = 'released';
   var targetPath = '';
   if (localSetup.branch)
     branch = localSetup.branch;
@@ -441,7 +441,7 @@ function addContributionBanner() {
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
                                                  'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/master/docs"> ' +
+                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
                                                  'Contribute on GitHub!' +
                                                  '<span class=github-logo />' +
                                                  '</a>' +
@@ -459,7 +459,7 @@ function addContributionBanner() {
 function updateContributionBannerUrl() {
   var contributionBanner = document.querySelector('.contribution-banner-url');
   if (contributionBanner)
-    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/master/docs/' + localSetup.book + '/' + localSetup.page + '.md';
+    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/released/docs/' + localSetup.book + '/' + localSetup.page + '.md';
 }
 
 function addNavigationToBlogIfNeeded() {
@@ -1510,7 +1510,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!localSetup.anchor)
       localSetup.anchor = window.location.hash.substring(1);
     if (!localSetup.branch)
-      localSetup.branch = getGETQueryValue('branch', 'master');
+      localSetup.branch = getGETQueryValue('branch', 'released');
     if (!localSetup.tabs)
       localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
     // backward compatibility <= R2019b revision 1
