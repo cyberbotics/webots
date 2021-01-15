@@ -127,7 +127,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
         _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
         _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
         _wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
-        _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, false, 0);
+        _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 0);
         _wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);
       } else
         _wr_material_set_texture_cubemap(wrenMaterial, null, 0);
