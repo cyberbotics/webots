@@ -343,7 +343,7 @@ class MyParser {
       id = 'n' + this.undefinedID++;
 
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-
+    let isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     let geometry;
     let appearance;
 
@@ -381,7 +381,7 @@ class MyParser {
       console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
 
-    let shape = new WbShape(id, castShadows, geometry, appearance);
+    let shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if(typeof currentNode !== 'undefined') {
       currentNode.children.push(shape);

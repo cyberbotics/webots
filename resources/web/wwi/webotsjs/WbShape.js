@@ -21,9 +21,11 @@ import {WbWrenShaders} from "./WbWrenShaders.js"
 import {Use} from "./Use.js"
 
 class WbShape extends WbBaseNode {
-  constructor(id, castShadow, geometry, appearance) {
+  constructor(id, castShadow, isPickable, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
+    this.isPickable = isPickable;
+
     this.appearance = appearance;
     this.geometry = geometry;
 
@@ -45,7 +47,7 @@ class WbShape extends WbBaseNode {
 
     if (typeof this.appearance !== 'undefined')
       this.appearance.delete();
-      
+
     if (typeof this.geometry !== 'undefined')
       this.geometry.delete();
 
@@ -122,7 +124,10 @@ class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    this.updateCastShadows();
+    if(!this.isInBoundingObject) {
+      this.updateCastShadows();
+      this.updateIsPickable();
+    }
   }
 
   updateAppearance() {
@@ -136,6 +141,14 @@ class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined') {
       this.geometry.computeCastShadows(this.castShadow)
     }
+  }
+
+  updateIsPickable() {
+    if(this.isInBoundingObject)
+      return;
+
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.setPickable(this.isPickable);
   }
 }
 

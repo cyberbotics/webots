@@ -110,16 +110,18 @@ class WbWrenPicker {
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    _wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true);//TODO
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this.viewport), "picking", true]) //TODO: check if correct
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this.viewport, true);
     _wr_scene_enable_translucence(scene, true);
 
-    let data = [];//TODO
+    let data = [0,0,0,0];
+    let dataPointer = arrayXPointer(data);
     _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, data, true);
 
-    unsigned char *data2 = reinterpret_cast<unsigned char *>(data);
-    int id = (data2[0] << 24) | (data2[1] << 16) | (data2[2] << 8) | data2[3];
+    data = Module.getValue(dataPointer, 'i8');
+    _free(dataPointer);
+    let id = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
 
     if (id === 0)
       return false;
@@ -127,9 +129,11 @@ class WbWrenPicker {
       this.selectedId = id - 1;
 
     // Compute coordinates
-    let depth;
+    let depth = 0;
     let depthPointer = _wrjs_pointerOnFloat(depth);
     _wr_frame_buffer_copy_depth_pixel(this.frameBuffer, x, y, depthPointer, true);
+    depth = Module.getValue(depthPointer, 'float')
+    _free(depthPointer);
 
     this.coordinates = new WbVector3(x, this.height - y - 1, depth);
 

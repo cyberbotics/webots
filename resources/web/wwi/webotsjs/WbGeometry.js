@@ -25,6 +25,8 @@ class WbGeometry extends WbBaseNode {
     this.wrenRenderable = undefined;
     this.wrenEncodeDepthMaterial = undefined;
     this.wrenMesh = undefined;
+
+    this.pickable = false;
     this.isShadedGeometryPickable = true;
   }
 
