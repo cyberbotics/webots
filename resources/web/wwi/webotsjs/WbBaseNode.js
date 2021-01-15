@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {World} from "./World.js"
+import {findUpperTransform} from "./WbUtils.js"
 
 class WbBaseNode {
   constructor(id){
@@ -23,6 +24,9 @@ class WbBaseNode {
     this.wrenObjectsCreatedCalled = false;
     this.isPreFinalizeCalled = false;
     this.isPostFinalizeCalled = false;
+
+    this.upperTransformFirstTimeSearch = true;
+    this.upperTransform = undefined;
   }
 
 
@@ -47,6 +51,16 @@ class WbBaseNode {
     } else{
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
     }
+  }
+
+  upperTransform() {
+    if (this.upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.upperTransformFirstTimeSearch = false;
+    }
+
+    return this.upperTransform;
   }
 
   finalize() {

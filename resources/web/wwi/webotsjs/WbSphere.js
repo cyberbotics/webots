@@ -30,13 +30,38 @@ class WbSphere extends WbGeometry {
 
   createWrenObjects() {
     super.createWrenObjects();
+    this.buildWrenMesh();
+  }
+
+  buildWrenMesh() {
+    super.deleteWrenRenderable();
+
+    _wr_static_mesh_delete(this.wrenMesh);
+    this.wrenMesh = undefined;
+
     super.computeWrenRenderable();
 
-    let wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
+    const createOutlineMesh = this.isInBoundingObject;
+    this.wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+    // Restore pickable state
+    this.setPickable(this.isPickable);
 
-    this.updateScale();
+    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+
+    if (createOutlineMesh)
+      this.updateLineScale();
+    else
+      this.updateScale();
+  }
+
+  updateLineScale() {
+    if (!this.isAValidBoundingObject())
+      return;
+
+   const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+   const scaledRadius = this.radius * (1.0 + offset);
+   _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }
 
   updateScale() {
@@ -47,6 +72,10 @@ class WbSphere extends WbGeometry {
 
   postFinalize() {
     super.postFinalize();
+  }
+
+  isAValidBoundingObject() {
+    return super.isAValidBoundingObject() && this.radius > 0;
   }
 
 }

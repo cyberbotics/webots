@@ -28,6 +28,8 @@ class WbGeometry extends WbBaseNode {
 
     this.pickable = false;
     this.isShadedGeometryPickable = true;
+
+    this.LINE_SCALE_FACTOR = 250.0;
   }
 
   delete(){
@@ -130,6 +132,17 @@ class WbGeometry extends WbBaseNode {
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
     } else
       _wr_renderable_set_cast_shadows(this.wrenRenderable, enabled);
+  }
+
+  isAValidBoundingObject() {
+    if (!this.isInBoundingObject)
+      return false;
+
+    let ut = this.upperTransform();
+    if (typeof ut !== 'undefined' && ut.isInBoundingObject && ut.geometry!== this)
+      return false;
+
+    return true;
   }
 }
 
