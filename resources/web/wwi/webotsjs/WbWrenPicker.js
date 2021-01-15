@@ -1,4 +1,5 @@
 import {WbVector3} from "./utils/WbVector3.js";
+import {arrayXPointerInt, arrayXPointerFloat} from "./WbUtils.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
 
 class WbWrenPicker {
@@ -13,7 +14,7 @@ class WbWrenPicker {
     this.viewport = _wr_viewport_new();
 
     const colorPointer = _wrjs_array4(0.0, 0.0, 0.0, 0.0);
-    _wr_viewport_set_clear_color_rgba(this.viewport, color);
+    _wr_viewport_set_clear_color_rgba(this.viewport, colorPointer);
 
     this.setup();
   }
@@ -31,7 +32,7 @@ class WbWrenPicker {
   setup() {
     let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     this.width = _wr_viewport_get_width(viewport);
-    this.height = wr_viewport_get_height(viewport);
+    this.height = _wr_viewport_get_height(viewport);
     _wr_viewport_set_size(this.viewport, this.width, this.height);
 
     this.frameBuffer = _wr_frame_buffer_new();
@@ -53,6 +54,8 @@ class WbWrenPicker {
   // Least signigicant word: red and green channels of diffuse color
   // These are combined in RGBA channels in the picking fragment shader
   static setPickable(renderable, uniqueId, pickable) {
+    uniqueId = parseFloat(uniqueId.substring(1));
+
     let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
 
     if (!material) {
@@ -62,7 +65,7 @@ class WbWrenPicker {
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, "picking"])
     }
 
-    let encodedId = [];
+    let encodedId = [0,0,0,0,0,0];
 
     if (pickable) {
       // ID is incremented since a 0 value would mean that no object was picked
@@ -78,8 +81,12 @@ class WbWrenPicker {
       }
     }
 
-    _wr_phong_material_set_linear_ambient(material, encodedId);
-    _wr_phong_material_set_linear_diffuse(material, encodedId + 3);
+    let encodedIdPointer = arrayXPointerFloat(encodedId);
+    let encodedIdPointerSecondHalf = arrayXPointerFloat([encodedId[3], encodedId[4], encodedId[5]])
+    _wr_phong_material_set_linear_ambient(material, encodedIdPointer);
+    _wr_phong_material_set_linear_diffuse(material, encodedIdPointerSecondHalf);
+    _free(encodedIdPointer);
+    _free(encodedIdPointerSecondHalf);
   }
 
   hasSizeChanged() {
@@ -117,11 +124,15 @@ class WbWrenPicker {
     _wr_scene_enable_translucence(scene, true);
 
     let data = [0,0,0,0];
-    let dataPointer = arrayXPointer(data);
-    _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, data, true);
+    let dataPointer = arrayXPointerInt(data);
+    _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, dataPointer, true);
 
-    data = Module.getValue(dataPointer, 'i8');
+    data[0] = Module.getValue(dataPointer, 'i8');
+    data[1] = Module.getValue(dataPointer + 1, 'i8');
+    data[2] = Module.getValue(dataPointer + 2, 'i8');
+    data[3] = Module.getValue(dataPointer + 3, 'i8');
     _free(dataPointer);
+
     let id = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
 
     if (id === 0)
@@ -129,6 +140,7 @@ class WbWrenPicker {
     else
       this.selectedId = id - 1;
 
+    /* Try to not use it as it is not trivial in webgl
     // Compute coordinates
     let depth = 0;
     let depthPointer = _wrjs_pointerOnFloat(depth);
@@ -136,7 +148,7 @@ class WbWrenPicker {
     depth = Module.getValue(depthPointer, 'float')
     _free(depthPointer);
 
-    this.coordinates = new WbVector3(x, this.height - y - 1, depth);
+    this.coordinates = new WbVector3(x, this.height - y - 1, depth);*/
 
     return true;
   }

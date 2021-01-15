@@ -1,6 +1,7 @@
 import {SystemInfo} from "./system_info.js";
 import {webots} from "./../wwi/webots.js";
 import {World} from "./webotsjs/World.js"
+import {WbWrenPicker} from "./webotsjs/WbWrenPicker.js"
 
 import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from "./webotsjs/WbUtils.js"
 
@@ -40,9 +41,13 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     // Prevent '#playerDiv' to raise the context menu of the browser.
     // This bug has been seen on Windows 10 / Firefox only.
     domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+    this.picker = undefined
   }
 
   _onMouseDown(event) {
+    if(typeof this.picker === 'undefined')
+      this.picker = new WbWrenPicker();
+
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
@@ -353,6 +358,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _initMouseMove(event) {
+    console.log("event");
     this.state.x = event.clientX;
     this.state.y = event.clientY;
     this.state.initialX = null;
@@ -369,8 +375,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(canvas, event.clientX, event.clientY);
     this.intersection = this.scene.pick(relativePosition, screenPosition);
-    console.log(this.intersection);
-    console.log("yo");
     if (this.intersection && this.intersection.object)
       this.moveParams.pickPosition = this.intersection.point;
     else
@@ -410,8 +414,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _selectAndHandleClick() {
-    console.log("select");
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
+      let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
+      this.picker.pick(pos.x,pos.y);
       var object;
       if (this.intersection) {
         console.log(this.intersection);

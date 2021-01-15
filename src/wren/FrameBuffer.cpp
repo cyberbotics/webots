@@ -24,6 +24,7 @@
 #ifdef __EMSCRIPTEN__
 #include <GL/gl.h>
 #include <GLES3/gl3.h>
+#include <emscripten.h>
 #else
 #include <glad/glad.h>
 #endif
@@ -189,6 +190,10 @@ namespace wren {
     const int rowIndex = flipY ? (mHeight - 1 - y) : y;
 
 #ifdef __EMSCRIPTEN__
+    // TODO: Resolve warning
+    int offset = params.mPixelSize * (rowIndex * mWidth + x);
+    EM_ASM_({ Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
+            params.mPixelSize, offset);
 #else
     glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
 #endif
