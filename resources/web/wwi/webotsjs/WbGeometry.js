@@ -16,7 +16,7 @@ import {WbBaseNode} from "./WbBaseNode.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js"
 import {World} from "./World.js";
-
+import {WbWrenPicker} from "./WbWrenPicker.js"
 
 class WbGeometry extends WbBaseNode {
   constructor(id) {

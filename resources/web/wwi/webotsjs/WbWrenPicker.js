@@ -1,4 +1,5 @@
 import {WbVector3} from "./utils/WbVector3.js";
+import {WbWrenShaders} from "./WbWrenShaders.js";
 
 class WbWrenPicker {
   constructor() {
@@ -23,7 +24,7 @@ class WbWrenPicker {
   }
 
   cleanup() {
-    _wr_texture_delete(this.outputTexture));
+    _wr_texture_delete(this.outputTexture);
     _wr_frame_buffer_delete(this.frameBuffer);
   }
 
@@ -139,5 +140,6 @@ class WbWrenPicker {
 
     return true;
   }
-
 }
+
+export {WbWrenPicker}
