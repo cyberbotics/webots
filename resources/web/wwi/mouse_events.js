@@ -358,7 +358,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _initMouseMove(event) {
-    console.log("event");
     this.state.x = event.clientX;
     this.state.y = event.clientY;
     this.state.initialX = null;
@@ -416,10 +415,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-      this.picker.pick(pos.x,pos.y);
+      console.log(this.picker.pick(pos.x,pos.y));
       var object;
       if (this.intersection) {
-        console.log(this.intersection);
         object = this.intersection.object;
         if (object)
           object = this.scene.getTopX3dNode(object);

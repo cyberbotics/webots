@@ -150,6 +150,19 @@ class Use extends WbBaseNode {
 
     return temp;
   }
+
+  setPickable(pickable){
+    let temp = this.def.id;
+    let temp2 = this.def.wrenRenderable;
+    this.def.id = this.id;
+    this.def.wrenRenderable = this.wrenRenderable;
+
+    this.def.setPickable(pickable);
+
+    this.def.id = temp;
+    this.wrenRenderable = this.def.wrenRenderable;
+    this.def.wrenRenderable = temp2;
+  }
 }
 
 export{Use}

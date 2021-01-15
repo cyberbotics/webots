@@ -54,6 +54,7 @@ class WbWrenPicker {
   // Least signigicant word: red and green channels of diffuse color
   // These are combined in RGBA channels in the picking fragment shader
   static setPickable(renderable, uniqueId, pickable) {
+    console.log(uniqueId);
     uniqueId = parseFloat(uniqueId.substring(1));
 
     let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
