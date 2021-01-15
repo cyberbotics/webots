@@ -170,6 +170,10 @@ class WbPBRAppearance extends WbAbstractAppearance {
       this.transparency, this.roughness, this.metalness, backgroundLuminosity * this.IBLStrength,this.normalMapFactor,
       this.occlusionMapStrength, emissiveColorPointer,this.emissiveIntensity);
 
+    _free(baseColorPointer);
+    _free(emissiveColorPointer);
+    _free(backgroundColorPointer)
+
     return wrenMaterial;
   }
 
