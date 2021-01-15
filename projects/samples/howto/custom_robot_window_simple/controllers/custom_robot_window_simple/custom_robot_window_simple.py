@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-null :=
-space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+from controller import Robot
 
-DIRECTORIES=$(subst force_control_matlab,,$(subst Makefile,,$(shell ls)))
-TARGETS = $(DIRECTORIES:=.Makefile)
 
-.PHONY: release debug profile clean
+robot = Robot()
+timestep = int(robot.getBasicTimeStep())
 
-release debug profile clean: $(TARGETS)
+while robot.step(timestep) != -1:
+    # Receive a message from the robot window
+    message = robot.wwiReceiveText()
 
-%.Makefile:
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+    if message:
+        # Print the message if not None
+        print(message)
+
+        # Send a message back to the robot window
+        robot.wwiSendText(message)

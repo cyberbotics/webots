@@ -68,7 +68,7 @@ Once the break point is reached, you will be able to query variables, setup new 
 Then, the `cont` command will instruct the debugger to resume the execution of the process.
 You may also use the `step` function to proceed step-by-step.
 
-The controller's execution can be interrupted at any time (Ctrl-C), in order to query variables, set up break points, etc.
+The controller's execution can be interrupted at any time (<kbd>ctrl</kbd>-<kbd>C</kbd>), in order to query variables, set up break points, etc.
 When a crash occurs, `gdb` prints a diagnostic message similar to this:
 
 ```

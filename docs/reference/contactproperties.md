@@ -12,8 +12,8 @@ ContactProperties {
   SFFloat  softERP            0.2                  # [0, 1]
   SFFloat  softCFM            0.001                # (0, inf)
   SFString bumpSound          "sounds/bump.wav"    # any string
-  SFString rollSound          "sounds/roll.waw"    # any string
-  SFString SlideSound         "sounds/slide.wav"   # any string
+  SFString rollSound          "sounds/roll.wav"    # any string
+  SFString slideSound         "sounds/slide.wav"   # any string
 }
 ```
 
@@ -54,11 +54,11 @@ Finally, with four values, both solids use asymmetric coefficients, first two fo
 The two friction directions are defined for each faces of the geometric primitives and match with the U and V components used in the texture mapping.
 Only the `Box`, `Plane` and `Cylinder` primitives support asymmetric friction.
 If another primitive is used, only the first value will be used for symetric friction.
-WEBOTS\_HOME/projects/sample/howto/worlds/asymmetric\_friction1.wbt contains an example of fully asymmetric friction.
+WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction1.wbt contains an example of fully asymmetric friction.
 
 - The `frictionRotation` allows the user to rotate the friction directions used in case of asymmetric `coulombFriction` and/or asymmetric `forceDependentSlip`.
 By default, the directions are the same than the ones used for texture mapping (this can ease defining an asymmetric friction for a textured surface matching the rotation field of the corresponding TextureTransform node).
-WEBOTS\_HOME/projects/sample/howto/worlds/asymmetric\_friction2.wbt illustrates the use of this field.
+WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction2.wbt illustrates the use of this field.
 
 - The `bounce` field is the coefficient of restitution (COR) between 0 and 1.
 The coefficient of restitution (COR), or *bounciness* of an object is a fractional value representing the ratio of speeds after and before an impact.
