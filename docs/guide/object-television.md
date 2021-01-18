@@ -26,7 +26,7 @@ Television {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/television/protos/Television.proto]({{ github_webots_home }}/projects/objects/television/protos/Television.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/television/protos/Television.proto]({{ url.github_tree  }}/projects/objects/television/protos/Television.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

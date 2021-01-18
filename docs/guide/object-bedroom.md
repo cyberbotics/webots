@@ -24,7 +24,7 @@ Bed {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto]({{ github_webots_home }}/projects/objects/bedroom/protos/Bed.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto]({{ url.github_tree  }}/projects/objects/bedroom/protos/Bed.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

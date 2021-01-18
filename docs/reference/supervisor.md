@@ -901,7 +901,7 @@ box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3))
 
 %end
 
-The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ github_webots_home }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
+The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree  }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
 
@@ -988,7 +988,7 @@ The `node` argument must be a [Solid](solid.md) node (or a derived node), otherw
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
 
-The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_mass.wbt]({{ github_webots_home }}/projects/samples/howto/center_of_mass/worlds/center_of_mass.wbt)" simulation shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_mass.wbt]({{ url.github_tree  }}/projects/samples/howto/center_of_mass/worlds/center_of_mass.wbt)" simulation shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 
@@ -1097,7 +1097,7 @@ The `wb_supervisor_node_get_number_of_contact_points` function returns the numbe
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
 The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
 
-The "[WEBOTS\_HOME/projects/samples/howto/cylinder_stack/worlds/cylinder\_stack.wbt]({{ github_webots_home }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/cylinder_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree  }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 

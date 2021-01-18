@@ -40,7 +40,9 @@ showdown.extension('wbVariables', function() {
     date: {
       year: 2021
     },
-    github_webots_home: `https://github.com/cyberbotics/webots/tree/${setup.branch}`
+    url: { 
+      github_tree: `https://github.com/cyberbotics/webots/tree/${setup.branch}`
+    }
   };
 
   // compute debian package version format by removing initial 'R'

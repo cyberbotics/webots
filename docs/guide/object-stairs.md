@@ -30,7 +30,7 @@ StraightStairs {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto]({{ github_webots_home }}/projects/objects/stairs/protos/StraightStairs.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto]({{ url.github_tree  }}/projects/objects/stairs/protos/StraightStairs.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -86,7 +86,7 @@ StraightStairsLanding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto]({{ github_webots_home }}/projects/objects/stairs/protos/StraightStairsLanding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto]({{ url.github_tree  }}/projects/objects/stairs/protos/StraightStairsLanding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -142,7 +142,7 @@ StraightStairsRail {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto]({{ github_webots_home }}/projects/objects/stairs/protos/StraightStairsRail.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto]({{ url.github_tree  }}/projects/objects/stairs/protos/StraightStairsRail.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
