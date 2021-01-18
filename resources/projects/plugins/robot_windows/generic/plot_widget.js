@@ -30,15 +30,15 @@ function PlotWidget(container, autoRange, indices, xRange, yRange, labels, devic
 
 // @param value: format `{'x': 0.1, 'y': [0.2, 0.3, 0.5]}`.
 PlotWidget.prototype.addValue = function(value) {
-  var x = value.y[this.indices['x']];
-  var y = value.y[this.indices['y']];
+  const x = value.y[this.indices['x']];
+  const y = value.y[this.indices['y']];
   this.values.push([x, y]);
   while (this.autoRange && (x > this.xRange['max'] || x < this.xRange['min'] || y > this.yRange['max'] || y < this.yRange['min']))
     this.doubleRange();
 };
 
 PlotWidget.prototype.initialize = function() {
-  var id = this.container.getAttribute('id');
+  const id = this.container.getAttribute('id');
 
   this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
   this.xLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x">' + this.labels['x'] + '</p>');
@@ -94,14 +94,14 @@ PlotWidget.prototype.doubleRange = function() {
   this.yMaxLabel.textContent = roundLabel(this.yRange['max']);
 
   // downscale the current image at the center.
-  var srcWidth = this.canvasWidth;
-  var srcImg = this.canvasContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-  var dstWidth = 0.5 * this.canvasWidth;
-  var dstHeight = 0.5 * this.canvasHeight;
-  var dstImg = this.canvasContext.createImageData(dstWidth, dstHeight);
-  for (var y = 0; y < dstHeight; ++y) {
-    for (var x = 0; x < dstWidth; ++x) {
-      for (var c = 0; c < 4; ++c)
+  const srcWidth = this.canvasWidth;
+  const srcImg = this.canvasContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+  const dstWidth = 0.5 * this.canvasWidth;
+  const dstHeight = 0.5 * this.canvasHeight;
+  let dstImg = this.canvasContext.createImageData(dstWidth, dstHeight);
+  for (let y = 0; y < dstHeight; ++y) {
+    for (let x = 0; x < dstWidth; ++x) {
+      for (let c = 0; c < 4; ++c)
         dstImg.data[4 * (x + y * dstWidth) + c] = srcImg.data[8 * (x + y * srcWidth) + c];
     }
   }
@@ -115,23 +115,14 @@ PlotWidget.prototype.show = function(show) {
   this.shown = show;
   if (!this.initialized)
     return;
-  if (show) {
-    this.canvas.style.visibility = 'visible';
-    this.xLabel.style.visibility = 'visible';
-    this.xMinLabel.style.visibility = 'visible';
-    this.xMaxLabel.style.visibility = 'visible';
-    this.yLabel.style.visibility = 'visible';
-    this.yMinLabel.style.visibility = 'visible';
-    this.yMaxLabel.style.visibility = 'visible';
-  } else {
-    this.canvas.style.visibility = 'hidden';
-    this.xLabel.style.visibility = 'hidden';
-    this.xMinLabel.style.visibility = 'hidden';
-    this.xMaxLabel.style.visibility = 'hidden';
-    this.yLabel.style.visibility = 'hidden';
-    this.yMinLabel.style.visibility = 'hidden';
-    this.yMaxLabel.style.visibility = 'hidden';
-  }
+  const visibility = this.shown ? 'visible' : 'hidden';
+  this.canvas.style.visibility = visibility;
+  this.xLabel.style.visibility = visibility;
+  this.xMinLabel.style.visibility = visibility;
+  this.xMaxLabel.style.visibility = visibility;
+  this.yLabel.style.visibility = visibility;
+  this.yMinLabel.style.visibility = visibility;
+  this.yMaxLabel.style.visibility = visibility;
 };
 
 PlotWidget.prototype.convertXCoordToCanvas = function(x) {
@@ -143,7 +134,7 @@ PlotWidget.prototype.convertYCoordToCanvas = function(y) {
 };
 
 PlotWidget.prototype.appendChildToContainer = function(child) {
-  var tmp = document.createElement('tmp');
+  let tmp = document.createElement('tmp');
   tmp.innerHTML = child;
   this.container.appendChild(tmp.firstChild);
   return this.container.childNodes[this.container.childNodes.length - 1];

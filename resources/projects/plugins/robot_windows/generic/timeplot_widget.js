@@ -79,7 +79,7 @@ TimeplotWidget.prototype.blockSliderUpdate = function(block) {
 };
 
 TimeplotWidget.prototype.initialize = function() {
-  var id = this.container.getAttribute('id');
+  const id = this.container.getAttribute('id');
 
   this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
 
@@ -123,11 +123,11 @@ TimeplotWidget.prototype.refresh = function() {
     this.initialize();
 
   while (this.values.length > 0) { // foreach point to draw.
-    var value = this.values.shift(); // pop first item
-    var skip = Math.round((value.x - this.lastX) / basicTimeStep); // number of pixels to skip.
+    const value = this.values.shift(); // pop first item
+    const skip = Math.round((value.x - this.lastX) / basicTimeStep); // number of pixels to skip.
 
     // blit
-    var imageData = this.canvasContext.getImageData(skip, 0, this.canvasWidth - skip, this.canvasHeight);
+    const imageData = this.canvasContext.getImageData(skip, 0, this.canvasWidth - skip, this.canvasHeight);
     this.canvasContext.putImageData(imageData, 0, 0);
     this.canvasContext.clearRect(this.canvasWidth - skip, 0, skip, this.canvasHeight);
 
@@ -137,7 +137,7 @@ TimeplotWidget.prototype.refresh = function() {
     // draw the new coordinate.
     this.canvasContext.fillStyle = '#059';
     if (Array.isArray(value.y)) {
-      for (var j = 0; j < value.y.length; ++j) {
+      for (let j = 0; j < value.y.length; ++j) {
         this.canvasContext.fillStyle = (j === 0) ? '#A44' : ((j === 1) ? '#4A4' : '#44A');
         this.canvasContext.beginPath();
         this.canvasContext.arc(this.canvasWidth - 1, this.convertYCoordToCanvas(value.y[j]), 1.25, 0, 2.0 * Math.PI);
@@ -160,8 +160,8 @@ TimeplotWidget.prototype.refresh = function() {
 TimeplotWidget.prototype.jumpToRange = function(y) {
   console.assert(isNumber(y));
   if (y > this.yRange['max'] || y < this.yRange['min']) {
-    var delta = this.initialYRange['max'] - this.initialYRange['min'];
-    var rangeLevel = Math.floor(0.5 * Math.floor(y / (0.5 * delta) + 1.0));
+    const delta = this.initialYRange['max'] - this.initialYRange['min'];
+    const rangeLevel = Math.floor(0.5 * Math.floor(y / (0.5 * delta) + 1.0));
     this.yRange['min'] = delta * rangeLevel - 0.5 * delta;
     this.yRange['max'] = delta * rangeLevel + 0.5 * delta;
     this.updateRange();
@@ -173,8 +173,8 @@ TimeplotWidget.prototype.stretchRange = function(y) {
   var increaseFactor = 1.5; // Increase 50% more than targeted to reduce plot redraws.
   var changed = false;
   if (Array.isArray(y)) {
-    for (var i = 0; i < y.length; ++i) {
-      var v = y[i];
+    for (let i = 0; i < y.length; ++i) {
+      const v = y[i];
       if (v < this.yRange['min']) {
         this.yRange['min'] = increaseFactor * v;
         changed = true;
@@ -219,9 +219,9 @@ TimeplotWidget.prototype.updateRange = function() {
 };
 
 TimeplotWidget.prototype.updateGridConstants = function() {
-  var delta = this.yRange['max'] - this.yRange['min'];
+  let delta = this.yRange['max'] - this.yRange['min'];
   delta *= 0.999; // in order to decrease the order of magnitude if delta is a perfect divider of the increment
-  var orderOfMagnitude = Math.floor(Math.log(delta) / Math.LN10);
+  const orderOfMagnitude = Math.floor(Math.log(delta) / Math.LN10);
   this.verticalGridSteps = Math.pow(10, orderOfMagnitude);
 };
 
@@ -229,27 +229,16 @@ TimeplotWidget.prototype.show = function(show) {
   this.shown = show;
   if (!this.initialized)
     return;
-  if (show) {
-    this.canvas.style.visibility = 'visible';
-    this.xLabel.style.visibility = 'visible';
-    this.xMinLabel.style.visibility = 'visible';
-    this.xMaxLabel.style.visibility = 'visible';
-    this.yLabel.style.visibility = 'visible';
-    this.yMinLabel.style.visibility = 'visible';
-    this.yMaxLabel.style.visibility = 'visible';
-    if (this.slider)
-      this.slider.style.visibility = 'visible';
-  } else {
-    this.canvas.style.visibility = 'hidden';
-    this.xLabel.style.visibility = 'hidden';
-    this.xMinLabel.style.visibility = 'hidden';
-    this.xMaxLabel.style.visibility = 'hidden';
-    this.yLabel.style.visibility = 'hidden';
-    this.yMinLabel.style.visibility = 'hidden';
-    this.yMaxLabel.style.visibility = 'hidden';
-    if (this.slider)
-      this.slider.style.visibility = 'hidden';
-  }
+  const visibility = this.shown ? 'visible' : 'hidden';
+  this.canvas.style.visibility = visibility;
+  this.xLabel.style.visibility = visibility;
+  this.xMinLabel.style.visibility = visibility;
+  this.xMaxLabel.style.visibility = visibility;
+  this.yLabel.style.visibility = visibility;
+  this.yMinLabel.style.visibility = visibility;
+  this.yMaxLabel.style.visibility = visibility;
+  if (this.slider)
+    this.slider.style.visibility = visibility;
 };
 
 TimeplotWidget.prototype.refreshLabels = function() {
@@ -267,7 +256,7 @@ TimeplotWidget.prototype.refreshLabels = function() {
   if (this.slider && !this.blockSliderUpdateFlag)
     this.slider.value = this.lastY;
   if (this.label) {
-    var v = this.lastY;
+    const v = this.lastY;
     if (Array.isArray(v))
       this.label.textContent = ': [' + roundLabel(v[0]) + ', ' + roundLabel(v[1]) + ', ' + roundLabel(v[2]) + ']';
     else
@@ -277,7 +266,7 @@ TimeplotWidget.prototype.refreshLabels = function() {
 };
 
 TimeplotWidget.prototype.appendChildToContainer = function(child) {
-  var tmp = document.createElement('tmp');
+  let tmp = document.createElement('tmp');
   tmp.innerHTML = child;
   this.container.appendChild(tmp.firstChild);
   return this.container.childNodes[this.container.childNodes.length - 1];
@@ -288,7 +277,7 @@ TimeplotWidget.prototype.convertYCoordToCanvas = function(y) {
 };
 
 TimeplotWidget.prototype.displayHorizontalGrid = function(fromX, nX) {
-  for (var i = Math.ceil(this.yRange['min'] / this.verticalGridSteps); i < Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1; ++i) {
+  for (let i = Math.ceil(this.yRange['min'] / this.verticalGridSteps); i < Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1; ++i) {
     this.canvasContext.fillStyle = (i === 0) ? '#AAAAAA' : '#DDDDDD';
     this.canvasContext.fillRect(fromX, this.convertYCoordToCanvas(i * this.verticalGridSteps), nX, 1);
   }

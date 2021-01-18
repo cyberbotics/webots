@@ -147,7 +147,7 @@ function addTab(type, isDevice = true) {
   if (document.getElementById(type))
     return; // check if already exists
 
-  var buttonsDiv;
+  let buttonsDiv;
   if (isDevice && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
     buttonsDiv = '<div id="' + type + '-buttons" class="device-buttons">' +
       '<input type="button" value="Disable all" id="' + type + '-disable-button" class="device-button" onclick="enableAllCallback(\'' + type + '\', false)"/>' +

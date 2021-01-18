@@ -21,7 +21,7 @@ RadarWidget.prototype.addTarget = function(x, y) {
 };
 
 RadarWidget.prototype.initialize = function() {
-  var id = this.container.getAttribute('id');
+  const id = this.container.getAttribute('id');
 
   this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
 
@@ -39,9 +39,9 @@ RadarWidget.prototype.initialize = function() {
 
 RadarWidget.prototype.drawBackground = function() {
   this.canvasContext.fillStyle = '#000';
-  var radius = 0.5 * Math.min(this.canvasWidth, this.canvasHeight);
-  var centerX = 0.5 * this.canvasWidth;
-  var centerY = 0.5 * this.canvasHeight;
+  const radius = 0.5 * Math.min(this.canvasWidth, this.canvasHeight);
+  const centerX = 0.5 * this.canvasWidth;
+  const centerY = 0.5 * this.canvasHeight;
 
   this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
@@ -70,12 +70,12 @@ RadarWidget.prototype.refreshTargets = function(targets) {
 
   this.drawBackground();
 
-  var centerX = 0.5 * this.canvasWidth;
-  var centerY = 0.5 * this.canvasHeight;
-  var radius = 0.5 * Math.min(this.canvasWidth, this.canvasHeight);
+  const centerX = 0.5 * this.canvasWidth;
+  const centerY = 0.5 * this.canvasHeight;
+  const radius = 0.5 * Math.min(this.canvasWidth, this.canvasHeight);
   this.canvasContext.fillStyle = '#059';
-  for (var t = 0; t < targets.length; t++) {
-    var target = targets[t];
+  for (let t = 0; t < targets.length; t++) {
+    const target = targets[t];
     this.canvasContext.beginPath();
     this.canvasContext.arc(
       centerX + radius * Math.sin(target.azimuth) * target.distance / this.maxRange,
@@ -99,7 +99,7 @@ RadarWidget.prototype.refresh = function() {
 };
 
 RadarWidget.prototype.appendChildToContainer = function(child) {
-  var tmp = document.createElement('tmp');
+  let tmp = document.createElement('tmp');
   tmp.innerHTML = child;
   this.container.appendChild(tmp.firstChild);
   return this.container.childNodes[this.container.childNodes.length - 1];

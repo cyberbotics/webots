@@ -33,7 +33,7 @@ static bool is_hidden = false;
 
 static void enable_device(WbDeviceTag tag, bool enable) {
   WbNodeType type = wb_device_get_node_type(tag);
-  int enableRate = enable ? time_step : 0;
+  const int enableRate = enable ? time_step : 0;
   switch (type) {
     case WB_NODE_ACCELEROMETER:
       wb_accelerometer_enable(tag, enableRate);
