@@ -58,7 +58,7 @@ class MyParser {
       this.prefix = localTexture ?  '' : "http://localhost:1234/"; //TODO don't hardcode
       let world = new World();
       this.fog = false;
-      this.undefinedID = 900000;
+      this.undefinedID = 90000;
   }
 
   parse(text){
@@ -521,7 +521,7 @@ class MyParser {
     else if (node.tagName === 'IndexedLineSet')
       geometry = this.parseIndexedLineSet(node, id);
     else if (node.tagName === 'ElevationGrid')
-      geometry = this.parseElevationGrid(node);
+      geometry = this.parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this.parsePointSet(node, id);
     else {

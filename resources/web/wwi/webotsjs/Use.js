@@ -163,6 +163,10 @@ class Use extends WbBaseNode {
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
   }
+
+  updateBoundingObjectVisibility() {
+    this.def.updateBoundingObjectVisibility();
+  }
 }
 
 export{Use}

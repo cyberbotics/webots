@@ -133,7 +133,8 @@ class WbWrenPicker {
     data[3] = Module.getValue(dataPointer + 3, 'i8');
     _free(dataPointer);
 
-    let id = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+    console.log(data[1]+ " " + data[2] + " " + data[0] + " " +data[3]);
+    let id = (data[1] << 24) | (data[2] << 16) | (data[0] << 8) | data[3];
 
     if (id === 0)
       return false;

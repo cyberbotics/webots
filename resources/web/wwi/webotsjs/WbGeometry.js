@@ -52,6 +52,7 @@ class WbGeometry extends WbBaseNode {
       return;
 
     this.pickable = pickable && this.isShadedGeometryPickable;
+
     WbWrenPicker.setPickable(this.wrenRenderable, this.id, pickable);
   }
 
