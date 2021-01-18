@@ -29,7 +29,7 @@ class WbViewpoint extends WbBaseNode {
     this.orientation = orientation;
     this.position = position;
 
-    WbViewpoint.exposure = exposure;
+    this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
     this.zNear = zNear;
     this.far = far;
@@ -257,7 +257,7 @@ class WbViewpoint extends WbBaseNode {
     //if (WbFieldChecker::resetDoubleIfNegative(this, this.exposure, 1.0))
       //return;
     if (this.wrenObjectsCreatedCalled && this.wrenHdr)
-      this.wrenHdr.setExposure(WbViewpoint.exposure);
+      this.wrenHdr.setExposure(this.exposure);
   }
 
   updatePosition() {
@@ -295,7 +295,5 @@ class WbViewpoint extends WbBaseNode {
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
-//TODO: remove this global value once we have a scenetree;
-WbViewpoint.exposure = 1;
 
 export{WbViewpoint}

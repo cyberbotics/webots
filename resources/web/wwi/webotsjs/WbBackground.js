@@ -14,7 +14,6 @@
 
 import {WbBaseNode} from "./WbBaseNode.js";
 import {World} from "./World.js"
-import {WbViewpoint} from "./WbViewpoint.js";
 import {WbPBRAppearance} from "./WbPBRAppearance.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {arrayXPointer, arrayXPointerFloat} from "./WbUtils.js";
@@ -76,7 +75,7 @@ class WbBackground extends WbBaseNode {
     _wr_static_mesh_delete(this.hdrClearMesh);
 
     WbBackground.instance = undefined;
-    
+
     this.updatePBRs();
 
     super.delete();
@@ -131,7 +130,7 @@ class WbBackground extends WbBaseNode {
       let hdrColor = [Math.pow(this.skyColor.x, 2.2), Math.pow(this.skyColor.y, 2.2), Math.pow(this.skyColor.z, 2.2)];
       //TODO get rid of the gloabl variable
       // reverse tone map
-      let exposure = WbViewpoint.exposure;
+      let exposure = World.instance.viewpoint.exposure;
       for (let i = 0; i < 3; ++i)
         hdrColor[i] = -Math.log(1.000000001 - hdrColor[i]) / exposure;
 
