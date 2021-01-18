@@ -37,9 +37,10 @@ class WbViewpoint extends WbBaseNode {
     this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
+    this.ambientOcclusionRadius = ambientOcclusionRadius;
+    
     this.followsmoothness = followsmoothness;
     this.followedId = followedId;
-    this.ambientOcclusionRadius = ambientOcclusionRadius;
 
     this.inverseViewMatrix;
 
