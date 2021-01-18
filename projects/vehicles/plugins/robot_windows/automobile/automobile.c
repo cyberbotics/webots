@@ -172,6 +172,8 @@ static void apply_commands(const char *commands) {
 }
 
 static void configure_automobile_robot_window() {
+  wbu_driver_init();
+
   // send vehicle config data
   char buf[32];
   buffer_append("configure-vehicle { \"front-track\": ");
@@ -253,8 +255,12 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     snprintf(buf, 32, "%.4g", wbu_car_get_wheel_speed(i));
     buffer_append(buf);
     buffer_append(", \"encoder\": ");
-    snprintf(buf, 32, "%.4g", wbu_car_get_wheel_encoder(i));
-    buffer_append(buf);
+    const double encoder_value = wbu_car_get_wheel_encoder(i);
+    if (encoder_value == encoder_value) {
+      snprintf(buf, 32, "%.4g", encoder_value);
+      buffer_append(buf);
+    } else // NaN
+      buffer_append("0");
     buffer_append("}");
   }
   buffer_append("}");
