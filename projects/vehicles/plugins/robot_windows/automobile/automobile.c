@@ -259,7 +259,7 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     if (encoder_value == encoder_value) {
       snprintf(buf, 32, "%.4g", encoder_value);
       buffer_append(buf);
-    } else // NaN
+    } else  // NaN
       buffer_append("0");
     buffer_append("}");
   }
