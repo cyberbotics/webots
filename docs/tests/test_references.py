@@ -127,8 +127,8 @@ class TestReferences(unittest.TestCase):
                         )
                         continue
                     # 5. variable (the variable should be in format `url.something`)
-                    if ref.startswith('{{{{'):
-                        if re.match(r'{{{{\s{0,}url\..*}}}}', ref) is not None:
+                    if ref.startswith('{{'):
+                        if re.match(r'{{\s{0,}url\..*}}', ref) is not None:
                             continue
                     # 6. link to another MD file
                     link = ''
