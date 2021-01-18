@@ -12,11 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=plugins/physics.Makefile libraries/qt_utils.Makefile plugins/robot_windows/generic.Makefile plugins/robot_windows/generic_window.Makefile controllers/void.Makefile
+TARGETS=plugins/physics.Makefile libraries/robot_window_utils.Makefile libraries/qt_utils.Makefile plugins/robot_windows/generic.Makefile plugins/robot_windows/generic_window.Makefile controllers/void.Makefile
 
 .PHONY: release debug profile clean
 
 release debug profile clean: $(TARGETS)
+
+plugins/robot_windows/generic.Makefile: libraries/robot_window_utils.Makefile
 
 plugins/robot_windows/generic_window.Makefile: libraries/qt_utils.Makefile
 

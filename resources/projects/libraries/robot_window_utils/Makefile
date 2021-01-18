@@ -17,8 +17,8 @@
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
+WEBOTS_LIBRARY = 1
 C_SOURCES = $(wildcard *.c)
-LIBRARIES = -lrobot_window_utils
 
 null :=
 space := $(null) $(null)
