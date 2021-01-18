@@ -72,6 +72,13 @@ class WbTransform extends WbGroup {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
+  updateBoundingObjectVisibility() {
+    super.updateBoundingObjectVisibility();
+
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.updateBoundingObjectVisibility();
+  }
+
   preFinalize() {
     super.preFinalize();
 

@@ -2,7 +2,7 @@ import {SystemInfo} from "./system_info.js";
 import {webots} from "./../wwi/webots.js";
 import {World} from "./webotsjs/World.js"
 import {WbWrenPicker} from "./webotsjs/WbWrenPicker.js"
-
+import {Selector} from "./webotsjs/Selector.js"
 import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from "./webotsjs/WbUtils.js"
 
 /* global webots, SystemInfo */
@@ -415,7 +415,15 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-      console.log(this.picker.pick(pos.x,pos.y));
+      this.picker.pick(pos.x,pos.y)
+      Selector.select(this.picker.selectedId);
+      console.log(Selector.selectedId);
+      if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
+        World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
+
+      if(typeof World.instance.nodes.get(Selector.previousId) !== 'undefined')
+        World.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
+
       var object;
       if (this.intersection) {
         object = this.intersection.object;

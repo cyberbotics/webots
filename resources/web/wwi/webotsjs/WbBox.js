@@ -31,7 +31,7 @@ class WbBox extends WbGeometry {
     super.createWrenObjects();
     super.computeWrenRenderable();
 
-    const createOutlineMesh = this.isInBoundingObject;
+    const createOutlineMesh = super.isInBoundingObject();
     this.wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
@@ -40,7 +40,7 @@ class WbBox extends WbGeometry {
   }
 
   updateSize() {
-    if (this.isInBoundingObject)
+    if (super.isInBoundingObject())
       this.updateLineScale();
     else
       _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));

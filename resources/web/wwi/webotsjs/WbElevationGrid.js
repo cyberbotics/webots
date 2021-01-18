@@ -65,7 +65,7 @@ class WbElevationGrid extends WbGeometry {
     for (let i = 0; i < availableValues; ++i)
       heightData[i] = this.height[i];
 
-    const createOutlineMesh = this.isInBoundingObject;
+    const createOutlineMesh = super.isInBoundingObject();
 
     let heightDataPointer = arrayXPointerFloat(heightData);
     this.wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);

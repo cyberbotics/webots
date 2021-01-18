@@ -149,4 +149,30 @@ function findUpperTransform(node) {
   return undefined;
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform}
+function nodeIsInBoundingObject(node) {
+  if (typeof node === 'undefined' || typeof node.parent === 'undefined')
+    return false;
+
+  const parent = World.instance.nodes.get(node.parent);
+  if (typeof parent !== 'undefined') {
+    if (parent instanceof WbTransform && typeof parent.boundingObject !== 'undefined')
+      return parent.boundingObject === node;
+    else if (typeof parent.parent !== 'undefined')
+      return nodeIsInBoundingObject(parent)
+  }
+
+  return false;
+}
+
+function getAncestor(node) {
+  if (typeof node !== 'undefined' && typeof node.parent !== 'undefined'){
+    let parent = World.instance.nodes.get(node.parent)
+
+    if (typeof parent !== undefined)
+      return getAncestor(parent);
+  }
+
+  return node;
+}
+
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor}

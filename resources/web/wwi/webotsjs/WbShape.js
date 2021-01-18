@@ -124,7 +124,7 @@ class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    if(!this.isInBoundingObject) {
+    if(!super.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }
@@ -136,7 +136,7 @@ class WbShape extends WbBaseNode {
   }
 
   updateCastShadows() {
-    assert(!this.isInBoundingObject);
+    assert(!super.isInBoundingObject());
 
     if (typeof this.geometry !== 'undefined') {
       this.geometry.computeCastShadows(this.castShadow)
@@ -144,11 +144,16 @@ class WbShape extends WbBaseNode {
   }
 
   updateIsPickable() {
-    if(this.isInBoundingObject)
+    if(super.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
       this.geometry.setPickable(this.isPickable);
+  }
+
+  updateBoundingObjectVisibility() {
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.updateBoundingObjectVisibility();
   }
 }
 

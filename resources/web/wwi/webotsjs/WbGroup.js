@@ -49,6 +49,12 @@ class WbGroup extends WbBaseNode{
     }
   }
 
+  updateBoundingObjectVisibility() {
+    this.children.forEach(child => {
+      child.updateBoundingObjectVisibility();
+    });
+  }
+
   preFinalize() {
     super.preFinalize();
 

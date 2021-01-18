@@ -41,7 +41,7 @@ class WbSphere extends WbGeometry {
 
     super.computeWrenRenderable();
 
-    const createOutlineMesh = this.isInBoundingObject;
+    const createOutlineMesh = super.isInBoundingObject();
     this.wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
 
     // Restore pickable state

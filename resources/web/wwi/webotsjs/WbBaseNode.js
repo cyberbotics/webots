@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import {World} from "./World.js"
-import {findUpperTransform} from "./WbUtils.js"
+import {findUpperTransform, nodeIsInBoundingObject} from "./WbUtils.js"
 
 class WbBaseNode {
   constructor(id){
@@ -26,7 +26,10 @@ class WbBaseNode {
     this.isPostFinalizeCalled = false;
 
     this.upperTransformFirstTimeSearch = true;
-    this.upperTransform = undefined;
+    this.upperTransform = false;
+
+    this.boundingObjectFirstTimeSearch = true;
+    this.isInBoundingObject = false;
   }
 
 
@@ -62,6 +65,17 @@ class WbBaseNode {
 
     return this.upperTransform;
   }
+
+  isInBoundingObject() {
+    if (this.boundingObjectFirstTimeSearch) {
+      this.isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.isInBoundingObject;
+  }
+
 
   finalize() {
     if (!this.isPreFinalizeCalled)

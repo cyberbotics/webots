@@ -31,7 +31,7 @@ class WbPlane extends WbGeometry{
 
     this.computeWrenRenderable();
 
-    let createOutlineMesh = this.isInBoundingObject;
+    let createOutlineMesh = super.isInBoundingObject();
     let wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
@@ -40,7 +40,7 @@ class WbPlane extends WbGeometry{
   }
 
   updateSize() {
-    if(this.isInBoundingObject)
+    if(super.isInBoundingObject())
       updateLineScale();
     else
       this.updateScale();

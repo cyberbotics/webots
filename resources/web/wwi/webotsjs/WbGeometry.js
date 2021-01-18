@@ -17,6 +17,8 @@ import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js"
 import {World} from "./World.js";
 import {WbWrenPicker} from "./WbWrenPicker.js"
+import {Selector} from "./Selector.js"
+import {WbWrenRenderingContext} from "./WbWrenRenderingContext.js"
 
 class WbGeometry extends WbBaseNode {
   constructor(id) {
@@ -46,7 +48,7 @@ class WbGeometry extends WbBaseNode {
   }
 
   setPickable(pickable) {
-    if (!this.wrenRenderable || this.isInBoundingObject)
+    if (!this.wrenRenderable || super.isInBoundingObject())
       return;
 
     this.pickable = pickable && this.isShadedGeometryPickable;
@@ -71,17 +73,29 @@ class WbGeometry extends WbBaseNode {
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
-    this.applyVisibilityFlagToWren();
+    this.applyVisibilityFlagToWren(this.isSelected());
 
     this.computeCastShadows(true);
   }
 
-  applyVisibilityFlagToWren() {
+  applyVisibilityFlagToWren(selected) {
     if (!this.wrenScaleTransform)
       return;
 
-    _wr_renderable_set_visibility_flags(this.wrenRenderable, 0xFFF00000);
-    _wr_node_set_visible(this.wrenScaleTransform, true);
+    if (super.isInBoundingObject()) {
+      if (selected) {
+        _wr_renderable_set_visibility_flags(this.wrenRenderable, WbWrenRenderingContext.VF_SELECTED_OUTLINE);
+        _wr_node_set_visible(this.wrenScaleTransform, true);
+      } else if (_wr_node_get_parent(this.wrenScaleTransform))
+        _wr_node_set_visible(this.wrenScaleTransform, false);
+    } else {
+      _wr_renderable_set_visibility_flags(this.wrenRenderable, WbWrenRenderingContext.VM_REGULAR);
+      _wr_node_set_visible(this.wrenScaleTransform, true);
+    }
+  }
+
+  updateBoundingObjectVisibility() {
+    this.applyVisibilityFlagToWren(this.isSelected());
   }
 
   setWrenMaterial(material, castShadows) {
@@ -120,14 +134,14 @@ class WbGeometry extends WbBaseNode {
     if (verticesCount <= 0 || indicesCount <= 0)
       return undefined;
 
-    return new WbWrenMeshBuffers(verticesCount, indicesCount, 2, 0); //isInBoundingObject() ? 0 : 2 3rd arg
+    return new WbWrenMeshBuffers(verticesCount, indicesCount, super.isInBoundingObject() ? 0 : 2, 0);
   }
 
   computeCastShadows(enabled) {
     if (typeof this.wrenRenderable === 'undefined')
       return;
 
-    if (this.isInBoundingObject) {
+    if (super.isInBoundingObject()) {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
     } else
@@ -135,14 +149,22 @@ class WbGeometry extends WbBaseNode {
   }
 
   isAValidBoundingObject() {
-    if (!this.isInBoundingObject)
+    if (!super.isInBoundingObject())
       return false;
 
     let ut = this.upperTransform();
-    if (typeof ut !== 'undefined' && ut.isInBoundingObject && ut.geometry!== this)
+    if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry!== this)
       return false;
 
     return true;
+  }
+
+  isSelected() {
+    if(Selector.selectedId === this.id)
+      return true;
+    else if (typeof this.parent !== 'undefined')
+      return Selector.checkIfParentisSelected(this);
+    return false;
   }
 }
 
