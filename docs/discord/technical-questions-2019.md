@@ -1173,7 +1173,7 @@ Hi all. I have a problem with Webots 8.6.2. I have a license purchased from Webo
 ##### Fabien Rohrer [Moderator] 04/25/2019 13:35:58
 Please contact info@cyberbotics.com explaining your issue and giving your license ID. We will see what we can do.
 
-##### El\_Samu\_El 04/25/2019 13:51:59
+##### el\_samu\_el 04/25/2019 13:51:59
 Hello people! Does anybody know how run multiple robots or webots instances in parallel to speed to the learning process (for a reinforcement learning algorithm)?  What is the best way to do that in your experience?
 
 
@@ -1200,7 +1200,7 @@ This many advantages, this is very easy to setup.
 
 The main drawback is that launching Webots takes time; this offset may be annoying.
 
-##### El\_Samu\_El 04/25/2019 13:57:58
+##### el\_samu\_el 04/25/2019 13:57:58
 I like that idea too, it is just not clear to me how the CPU ressources  are used in this way. And because there would be around 6-12 instances in parallel opening and closing webots GUIs every second.
 
 
@@ -1230,7 +1230,7 @@ A bit more difficult to setup, but it's more efficient in your case.
 
 I hope this will help you.
 
-##### El\_Samu\_El 04/25/2019 14:13:00
+##### el\_samu\_el 04/25/2019 14:13:00
 Yeah It does, thanks! But how can the main script reload the world and read data from the supervisor controller? I have no experience setting up IPCs. I'll see if anybody else did something similar before, otherwise I'll try to figure out how to do that. Any tips are welcomes 😃
 
 ##### Fabien Rohrer [Moderator] 04/25/2019 14:14:13
@@ -1239,7 +1239,7 @@ A simple approach is the following:
 
 ... hum just a question: do you need to change the world, or it's just a matter of training a controller in the same world?
 
-##### El\_Samu\_El 04/25/2019 14:16:49
+##### el\_samu\_el 04/25/2019 14:16:49
 later on I will change the world, but for the most iterations it is the same world
 
 
@@ -1248,7 +1248,7 @@ it is about locomotion learning
 ##### Fabien Rohrer [Moderator] 04/25/2019 14:18:03
 and in which language? Python?
 
-##### El\_Samu\_El 04/25/2019 14:18:49
+##### el\_samu\_el 04/25/2019 14:18:49
 Python yes. There will be a curriculum in which the terrain on which the robot walk becomes more challenging.
 
 
@@ -1260,7 +1260,7 @@ one iteration corresponds to walking until it falls, which is in real time from 
 ##### Fabien Rohrer [Moderator] 04/25/2019 14:27:57
 A good approach would be that your main script starts an IPC server, and several instances of Webots on a single world containing a Supervisor listenening as a client on this IPC. The IPC can be a local TCPIP server, this is easy to setup in Python. There are many modules to do similar things. The main script may send events to the supervisor. Mainly it's about to evaluate some fitness, with data (neuron weights or so). In this case, the supervisor may reset the simulation typically by reseting the object position, or reloading the entire world (it's the purpose of a supervisor), and evaluate the fitness, and give the result back to the main script through the IPC.
 
-##### El\_Samu\_El 04/25/2019 14:30:45
+##### el\_samu\_el 04/25/2019 14:30:45
 That sounds like something I was looking for. I will take some time to set this up and if it works I'll share this approach on github.
 
 
@@ -2659,13 +2659,13 @@ We provide examples of remote-control libraries built with gcc and Makefile, but
 
 See the documentation here: [https://www.cyberbotics.com/doc/guide/transfer-to-your-own-robot#developing-a-remote-control-plugin](https://www.cyberbotics.com/doc/guide/transfer-to-your-own-robot#developing-a-remote-control-plugin)
 
-##### El\_Samu\_El 05/15/2019 09:18:23
+##### el\_samu\_el 05/15/2019 09:18:23
 When I start ubuntu with ' webots --minimize --stdout' ion ubuntu, it still opens the GUI and prints partly some messages on terminal and on webots console. Is this a known bug or am I doing something wrong?
 
 ##### Karl 05/15/2019 09:18:49
 Thank you `@Olivier Michel`! I got it to work with cmake.
 
-##### El\_Samu\_El 05/15/2019 09:18:51
+##### el\_samu\_el 05/15/2019 09:18:51
 When I start webots with ' webots --minimize --stdout' on ubuntu, it still opens the GUI and prints partly some messages on terminal and on webots console. Is this a known bug or am I doing something wrong?
 
 
@@ -2674,7 +2674,7 @@ When I start webots with ' webots --minimize --stdout' on ubuntu, it still opens
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:19:40
 Could you try to add `--batch` option?
 
-##### El\_Samu\_El 05/15/2019 09:20:02
+##### el\_samu\_el 05/15/2019 09:20:02
 yes
 
 
@@ -2683,7 +2683,7 @@ does not change anything really
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:20:26
 Webots requires the GUI, it's currently not possible to run Webots without GUI
 
-##### El\_Samu\_El 05/15/2019 09:20:58
+##### el\_samu\_el 05/15/2019 09:20:58
 that's fine, but I need the output on the console
 
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:21:07
@@ -2692,7 +2692,7 @@ But normally, most messages should be redirected  on the console.
 
 which messages are not redirected?
 
-##### El\_Samu\_El 05/15/2019 09:21:21
+##### el\_samu\_el 05/15/2019 09:21:21
 because webots tends to print in the wrong order or does not at all if the program isn't terminating
 
 
@@ -2704,7 +2704,7 @@ while print statements are shown in the terminal
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:23:38
 Ok. Could I kindly ask you to fill a bug report here: [https://github.com/omichel/webots/issues](https://github.com/omichel/webots/issues) mentionning your OS, the Webots version, and an example of a message not working (screenshot)? We will help you there.
 
-##### El\_Samu\_El 05/15/2019 09:23:51
+##### el\_samu\_el 05/15/2019 09:23:51
 Okay!
 
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:24:01
@@ -2716,19 +2716,19 @@ thank you
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:25:40
 👍
 
-##### El\_Samu\_El 05/15/2019 09:27:52
+##### el\_samu\_el 05/15/2019 09:27:52
 No, I missed stderr. Thanks! But that --minimize is not working is known, right?
 
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:28:51
 It's supposed to work. On which OS are you working?
 
-##### El\_Samu\_El 05/15/2019 09:29:04
+##### el\_samu\_el 05/15/2019 09:29:04
 Ubuntu 18.04
 
 ##### Fabien Rohrer [Moderator] 05/15/2019 09:32:29
 This option is supposed to launch Webots but minimized. Do you see the window in such case?
 
-##### El\_Samu\_El 05/15/2019 09:34:33
+##### el\_samu\_el 05/15/2019 09:34:33
 yes, it opens in exactly the same position and layout as when I opened it the last time normally
 
 ##### Stefania Pedrazzi [Cyberbotics] 05/15/2019 09:34:57
@@ -2744,21 +2744,21 @@ I'm opening issue
 [https://github.com/omichel/webots/issues/453](https://github.com/omichel/webots/issues/453)
 
 
-`@El_Samu_El` please follow this issue to be aware about its resolution.
+`@el_samu_el` please follow this issue to be aware about its resolution.
 
-##### El\_Samu\_El 05/15/2019 10:00:43
+##### el\_samu\_el 05/15/2019 10:00:43
 So the other issue is that webots print statements are somewhat delayed in the execution order. If my program does not terminate, then they are not printed at all. This makes debugging really hard.
 
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:03:17
 Do you get this even with the --stdout and --stderr options?
 
-##### El\_Samu\_El 05/15/2019 10:03:37
+##### el\_samu\_el 05/15/2019 10:03:37
 yes, the output is  the same as in the webots console
 
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:03:43
 Did you try to call fflush(stdout) after printfs?
 
-##### El\_Samu\_El 05/15/2019 10:03:48
+##### el\_samu\_el 05/15/2019 10:03:48
 i am using python
 
 
@@ -2770,7 +2770,7 @@ Did you try to set the PYTHONUNBUFFERED environment variable?
 
 See [https://stackoverflow.com/questions/107705/disable-output-buffering](https://stackoverflow.com/questions/107705/disable-output-buffering)
 
-##### El\_Samu\_El 05/15/2019 10:04:48
+##### el\_samu\_el 05/15/2019 10:04:48
 no, I didn't read about that
 
 
@@ -2785,13 +2785,13 @@ setting PYTHONUNBUFFERED does not help either
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:15:53
 Oops... Can you try writing into a file?
 
-##### El\_Samu\_El 05/15/2019 10:31:09
+##### el\_samu\_el 05/15/2019 10:31:09
 yeah that works perfectly
 
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:36:35
 This is strange, I don't understand why you can't get the same on stdout/stderr...
 
-##### El\_Samu\_El 05/15/2019 10:49:52
+##### el\_samu\_el 05/15/2019 10:49:52
 it just outputs "controller\_name": Starting: "python3 -u "filename.py"
 
 
@@ -2803,7 +2803,7 @@ keyboard interrupt doesn't help with showing what is printed
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:58:02
 Do you mean the print in the Terminal (with --stderr --stdout) or in the Webots console?
 
-##### El\_Samu\_El 05/15/2019 10:58:20
+##### el\_samu\_el 05/15/2019 10:58:20
 both is equivalent
 
 ##### Olivier Michel [Cyberbotics] 05/15/2019 10:58:28
@@ -4477,7 +4477,7 @@ but I have two graphics cards in my system
 
 each at 8GB each
 
-##### El\_Samu\_El 06/11/2019 14:54:31
+##### el\_samu\_el 06/11/2019 14:54:31
 I'm always getting this error when trying to get a node from DEF with a supervisor. I had this issue before, but I can't remember how it got solved. The error message isn't helpful at all. Error: [tcpip\_client]   File "/home/samuel/webots/lib/python36/controller.py", line 2679, in <lambda>
 
 [tcpip\_client]     \_\_getattr\_\_ = lambda self, name: \_swig\_getattr(self, Supervisor, name)
@@ -4507,7 +4507,7 @@ I assigned the name robot to my DEF node and the supervisor node is set to TRUE
 <@302517149359144962> Ok it seems to work better on Windows then ^^ The warning is "regular": it appears when Webots detects low-end GPU (including VM).
 
 
-`@El_Samu_El` getFromDev does not exits.
+`@el_samu_el` getFromDev does not exits.
 
 
 is it a typo?
@@ -4518,19 +4518,19 @@ is it a typo?
 
 The error is indeed cryptic
 
-##### El\_Samu\_El 06/11/2019 15:04:07
+##### el\_samu\_el 06/11/2019 15:04:07
 yeah but the error is still there
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 15:04:28
 It's because we use SWIG to generate the Python library
 
-##### El\_Samu\_El 06/11/2019 15:04:29
+##### el\_samu\_el 06/11/2019 15:04:29
 wait nvm
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 15:05:05
 but the lines shown in the error should help you
 
-##### El\_Samu\_El 06/11/2019 15:05:35
+##### el\_samu\_el 06/11/2019 15:05:35
 Thanks !
 
 ##### JustDN 06/11/2019 15:50:34
@@ -4689,7 +4689,7 @@ Just select your Robot.children field, and click on the "+" button, the sick sen
 ![Capture_decran_2019-06-13_a_14.28.44.png](https://cdn.discordapp.com/attachments/565154703139405824/588706383541567489/Capture_decran_2019-06-13_a_14.28.44.png)
 %end
 
-##### El\_Samu\_El 06/13/2019 14:28:56
+##### el\_samu\_el 06/13/2019 14:28:56
 Hey guys, is there a possibility to pass arguments to the controller when starting webots from the command line?
 
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:29:07
@@ -4698,7 +4698,7 @@ Hi
 
 Yes sure, see Robot.controllerArgs field
 
-##### El\_Samu\_El 06/13/2019 14:29:38
+##### el\_samu\_el 06/13/2019 14:29:38
 Ah, is that also possible with python?
 
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:29:45
@@ -4707,7 +4707,7 @@ yes
 
 you can retrieve them with sys.argv in the controller
 
-##### El\_Samu\_El 06/13/2019 14:30:16
+##### el\_samu\_el 06/13/2019 14:30:16
 okay, I'll have a look. Thanks again Fabien !
 
 
@@ -4716,7 +4716,7 @@ Ah but as I understand this it just get's arguments from the .wbt file
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:34:21
 😃 I was sure of this
 
-##### El\_Samu\_El 06/13/2019 14:34:36
+##### el\_samu\_el 06/13/2019 14:34:36
 or does it also work in some way like "webots --mode=fast "example.wbt" "controllerArg"
 
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:34:51
@@ -4731,7 +4731,7 @@ So you can for example create a file before launching Webots, and read it in the
 
 Or, to create a template.wbt, and forge it before launching Webots on it (and change controllerArgs for example)
 
-##### El\_Samu\_El 06/13/2019 14:37:29
+##### el\_samu\_el 06/13/2019 14:37:29
 That's true, but if I want to startup multiple webots processes with different controllers, but the same world file?
 
 
@@ -4749,13 +4749,13 @@ For example, the script launching Webots could also have a TCP server, the Webot
 
 Does this make sense for your expectations?
 
-##### El\_Samu\_El 06/13/2019 14:49:04
+##### el\_samu\_el 06/13/2019 14:49:04
 I made that TCP server already, but there were some issues with it.
 
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:49:27
 It's a good starting point for sure
 
-##### El\_Samu\_El 06/13/2019 14:49:41
+##### el\_samu\_el 06/13/2019 14:49:41
 So I was trying to workaround this by simply starting several processes and restarting them as often as it is written in a file
 
 
@@ -4767,7 +4767,7 @@ Ok
 
 then probably the template thing is the best
 
-##### El\_Samu\_El 06/13/2019 14:51:10
+##### el\_samu\_el 06/13/2019 14:51:10
 would you use the selector module for TCP in python?
 
 ##### Fabien Rohrer [Moderator] 06/13/2019 14:51:24
@@ -4776,7 +4776,7 @@ you could forge a world with a different name for each instance.
 
 I'm not sure exactly about how to implement the TCP client-server, sorry.
 
-##### El\_Samu\_El 06/13/2019 14:54:08
+##### el\_samu\_el 06/13/2019 14:54:08
 Okay, yeah I am new to networking and related stuff in general.  But gave it anyway a try. It's not that easy I think. (For someone with experience it probably is)
 
 
@@ -5081,7 +5081,7 @@ Probably better like this? [https://github.com/omichel/webots/pull/585](https://
 ##### Karl 06/18/2019 12:06:51
 Yes thats perfect!
 
-##### El\_Samu\_El 06/18/2019 12:06:56
+##### el\_samu\_el 06/18/2019 12:06:56
 I'm not really understanding this error code. Isn't the first argument here "self" and thus a Supervisor. My class is inheriting SV. Why the type error?
 %figure
 ![Screenshot_from_2019-06-18_13-00-51.png](https://cdn.discordapp.com/attachments/565154703139405824/590512773780340766/Screenshot_from_2019-06-18_13-00-51.png)
@@ -5094,7 +5094,7 @@ self.getFromDef("motorname")
 `@Karl` ok, it will be released with the new release, coming soon.
 
 
-`@El_Samu_El` The error is more related with the argument passed to getFromDef
+`@el_samu_el` The error is more related with the argument passed to getFromDef
 
 
 A Python String is expected, and something else is given
@@ -5102,7 +5102,7 @@ A Python String is expected, and something else is given
 
 Could you "print(n)" just before line 26? This should be a string, but it is certainly not.
 
-##### El\_Samu\_El 06/18/2019 12:17:39
+##### el\_samu\_el 06/18/2019 12:17:39
 yeah it is a string
 
 
@@ -5111,7 +5111,7 @@ this error does not happen when I create a supervisor instance and then use this
 ##### Fabien Rohrer [Moderator] 06/18/2019 12:18:18
 oh sorry, I'm maybe wrong
 
-##### El\_Samu\_El 06/18/2019 12:18:20
+##### el\_samu\_el 06/18/2019 12:18:20
 can't share the picture right now in discord
 
 
@@ -5120,7 +5120,7 @@ but I printed it
 ##### Fabien Rohrer [Moderator] 06/18/2019 12:19:14
 you're right, it's an issue with the Supervisor class
 
-##### El\_Samu\_El 06/18/2019 12:19:18
+##### el\_samu\_el 06/18/2019 12:19:18
 I can get around this error by just creating a single supervisor instance, but I wonder why inheritance does not work.
 
 
@@ -5144,7 +5144,7 @@ In Python 2 it's: "Robot\_Environment.\_\_init\_\_(self)"
 
 [https://stackoverflow.com/questions/576169/understanding-python-super-with-init-methods](https://stackoverflow.com/questions/576169/understanding-python-super-with-init-methods)
 
-##### El\_Samu\_El 06/18/2019 12:26:45
+##### el\_samu\_el 06/18/2019 12:26:45
 [RL\_controller]     super().init()
 
 [RL\_controller] AttributeError: 'super' object has no attribute 'init'
@@ -5155,13 +5155,13 @@ Sorry, Discord has formated my answer:
 
 init is prefixed and suffixed by 2 `_`
 
-##### El\_Samu\_El 06/18/2019 12:28:27
+##### el\_samu\_el 06/18/2019 12:28:27
 you were right, this solves it. I assumed python calls \_\_init\_\_ automatically.
 
 ##### Fabien Rohrer [Moderator] 06/18/2019 12:28:42
 Great
 
-##### El\_Samu\_El 06/18/2019 12:29:31
+##### el\_samu\_el 06/18/2019 12:29:31
 thanks again !
 
 ##### Akash 06/19/2019 00:05:05
@@ -5521,7 +5521,7 @@ I will try.
 ##### Olivier Michel [Cyberbotics] 06/21/2019 12:25:16
 And try to print the received string instead of trying to convert it to float (for now).
 
-##### El\_Samu\_El 06/21/2019 12:27:59
+##### el\_samu\_el 06/21/2019 12:27:59
 Hi is there any way to turn off sound for webots? I am getting a lot of error messaging from ALSA at every startup when using a VM.
 
 ##### Olivier Michel [Cyberbotics] 06/21/2019 12:28:38
@@ -5550,19 +5550,19 @@ printf should be %s, not %f
 ##### nisuunn 06/21/2019 12:30:44
 ah yeah the 1st line was char *emitterData; , the copy didn't work properly for some reason.
 
-##### El\_Samu\_El 06/21/2019 12:30:48
+##### el\_samu\_el 06/21/2019 12:30:48
 Yeah the sound is turned off. I think it complains because there isn't any sound card.
 
 ##### nisuunn 06/21/2019 12:31:46
 I still crash
 
 ##### Olivier Michel [Cyberbotics] 06/21/2019 12:31:59
-`@El_Samu_El`: in that case, you should probably recompile Webots from the sources and disable the sound functions (initialization, etc.).
+`@el_samu_el`: in that case, you should probably recompile Webots from the sources and disable the sound functions (initialization, etc.).
 
 
 (or ignore the warnings, or install a virtual sound card on your VM).
 
-##### El\_Samu\_El 06/21/2019 12:35:26
+##### el\_samu\_el 06/21/2019 12:35:26
 how do I ignore the warnings that webots outputs on starting from the terminal?
 
 ##### nisuunn 06/21/2019 13:06:02
@@ -7091,7 +7091,7 @@ How can i  read a character from the keyboard as an example of the 's'?
 
 In the `projects/languages` folder you can find an example of controller written in C++, Java, and Python. For a C example please look at the `samples/devices/worlds/gps.wbt` simulation.
 
-##### El\_Samu\_El 07/03/2019 10:14:05
+##### el\_samu\_el 07/03/2019 10:14:05
 I have a question about parallel execution of several webots instances. It seems like parallel execution does not really give any significant speedup. I have access to a cloud instance with 96 cores and around 360 GB RAM. When I launch 40 webots instances to run 100 timesteps each, then this is not (significantly) faster then running 4000 timesteps on a single instance on my local 8GB machine.  I open the instances via the subprocess module of python. They do in fact all run in parallel, but the more instances I start, the slower each of them gets. Where is the bottleneck? Do all of them use shared ressources?
 
 
@@ -7100,7 +7100,7 @@ It is run on Ubuntu 18.04 without a gpu
 ##### Olivier Michel [Cyberbotics] 07/03/2019 10:18:38
 It could be the graphics.
 
-##### El\_Samu\_El 07/03/2019 10:18:41
+##### el\_samu\_el 07/03/2019 10:18:41
 the controllers are basically just getting observations from the sensors, feeding this through a tensorflow graph and then actuating the motors
 
 
@@ -7115,7 +7115,7 @@ If your cloud has no graphics hardware acceleration, this could be the bottlenec
 
 Did you try to run the simulation in fast mode?
 
-##### El\_Samu\_El 07/03/2019 10:19:36
+##### el\_samu\_el 07/03/2019 10:19:36
 yes, they all are run in fast mode
 
 ##### Olivier Michel [Cyberbotics] 07/03/2019 10:19:58
@@ -7124,7 +7124,7 @@ Do you use camera, lidar or range finders in your simulations?
 
 All these rely on OpenGL acceleration.
 
-##### El\_Samu\_El 07/03/2019 10:20:29
+##### el\_samu\_el 07/03/2019 10:20:29
 I use accelerometer, imu, gyro, position sensors, force sensors and 3 type of motors
 
 
@@ -7136,7 +7136,7 @@ OK, so it shouldn't be the problem.
 
 So, I have no clue on what could be the bottleneck, you should investigate it on your cluster.
 
-##### El\_Samu\_El 07/03/2019 10:22:41
+##### el\_samu\_el 07/03/2019 10:22:41
 does in your experience parallelization work fine?
 
 
@@ -7145,7 +7145,7 @@ before I jump into that
 ##### Olivier Michel [Cyberbotics] 07/03/2019 10:23:32
 We don't have much experience in running Webots on such computer clusters.
 
-##### El\_Samu\_El 07/03/2019 10:23:51
+##### el\_samu\_el 07/03/2019 10:23:51
 okay I understand, thanks Olivier
 
 ##### nisuunn 07/03/2019 11:30:25
@@ -14599,7 +14599,7 @@ nevertheless you should be able to set the position of the joint, the same as yo
 ##### Lars 10/10/2019 13:57:39
 `@David Mansolino` Since implementing the `getValue` function to obtain the motor position it just keeps reading `[nan]` at the start of the program or `[0]` after moving the motors into a new position. I didn't have these issues when I initially did the tutorials for distance sensor and neither when I replicated it again.
 
-##### Gautier A. 10/11/2019 07:35:48
+##### Gautier 10/11/2019 07:35:48
 Hello, Is there a way to change the geometry of an object using supervisor in a "fast way" ?
 
 
@@ -14623,7 +14623,7 @@ I want to simulate deformation on a mesh, I've used supervisor to change the poi
 Is there anything preventing me from doing this using robot() rather than supervisor()?
 
 ##### Olivier Michel [Cyberbotics] 10/11/2019 09:20:47
-`@Gautier A.`: I believe the demo you are mentioning (waves) was achieved about the same way, but instead of changing the coordinates directly, the supervisor changes some field of a procedural PROTO node which in turn will recompute its internal coordinate values accordingly. This might be faster than changing the coordinates directly, not sure.
+`@Gautier`: I believe the demo you are mentioning (waves) was achieved about the same way, but instead of changing the coordinates directly, the supervisor changes some field of a procedural PROTO node which in turn will recompute its internal coordinate values accordingly. This might be faster than changing the coordinates directly, not sure.
 
 
 `@Lars`: you should be able to read this information from any robot, no need for a supervisor. Are you sure your device tags are non-null and the corresponding devices are properly enabled? Do you get any warning in the Webots console?
@@ -14665,7 +14665,7 @@ while robot.step(timeStep) != 1:
 
 Would that work better?
 
-##### Gautier A. 10/11/2019 11:24:07
+##### Gautier 10/11/2019 11:24:07
 `@Olivier Michel`  Ok, thank  you !
 
 
@@ -14717,7 +14717,7 @@ Is the motor actually moving?
 ##### Olivier Michel [Cyberbotics] 10/11/2019 11:33:56
 When you open the robot window, can you see the position sensor values in the graphical user interface?
 
-##### Gautier A. 10/11/2019 11:34:55
+##### Gautier 10/11/2019 11:34:55
 `@Olivier Michel`  I think I see. So, for exemple, I can create a new value "coefficient" in my proto, and multiply the points in the field "coordinate" by that coefficient ?
 
 ##### Lars 10/11/2019 11:35:51
@@ -14726,14 +14726,14 @@ When you open the robot window, can you see the position sensor values in the gr
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/632179555171434526/unknown.png)
 %end
 
-##### Gautier A. 10/11/2019 11:35:57
+##### Gautier 10/11/2019 11:35:57
 (here is my proto : [https://pastebin.com/WYnj7u2E](https://pastebin.com/WYnj7u2E) , I want to modify some of the "z" coordinate" of some points )
 
 ##### Olivier Michel [Cyberbotics] 10/11/2019 12:04:00
 `@Lars`: I mean the robot window. Double-click on the robot and the robot window should open, then you should see a tab with position sensors.
 
 
-`@Gautier A.`: it should be a procedural proto.
+`@Gautier`: it should be a procedural proto.
 
 
 [https://www.cyberbotics.com/doc/reference/procedural-proto-nodes](https://www.cyberbotics.com/doc/reference/procedural-proto-nodes)
@@ -14794,7 +14794,7 @@ Yeah that was my plan B if my current controller couldn't be salvaged. I have a 
 
 Anyway thanks so much for the help. 😀
 
-##### Gautier A. 10/11/2019 12:28:38
+##### Gautier 10/11/2019 12:28:38
 `@Olivier Michel`  Thank you for your response !
 
 
@@ -15904,16 +15904,16 @@ thank you guys
 
 `@JustDN` unfortunately no, but you might use invere kinematic to do this.
 
-##### Gautier A. 10/28/2019 12:56:04
+##### Gautier 10/28/2019 12:56:04
 Hello
 
 
 I have a problem  : I'm trying to understand how a robot with multiple other robots inside its children node (with, for each one, a different control) behaves, but I can't really make sense of the simulation I just did
 
 ##### David Mansolino [Cyberbotics] 10/28/2019 12:57:32
-Hi `@Gautier A.` what is the behavior that doesn't make sense for you?
+Hi `@Gautier` what is the behavior that doesn't make sense for you?
 
-##### Gautier A. 10/28/2019 12:58:05
+##### Gautier 10/28/2019 12:58:05
 I tried to run a puma robotic arm on a pioner, but even when the puma doesn't have any controller, a part of the robot "glitches" and there is some kind of offset between its links
 > **Attachment**: [show-2019-10-28\_12.07.26](https://cdn.discordapp.com/attachments/565154703139405824/638360842689183754/show-2019-10-28_12.07.26)
 
@@ -15925,7 +15925,7 @@ The behavior is indeed not the expected one!
 
 Are you shure all your Solid/robot nodes in the hierarchy have both a bounding object and a physics defined?
 
-##### Gautier A. 10/28/2019 13:16:00
+##### Gautier 10/28/2019 13:16:00
 Thank you, you were right, a bonding box was missing
 
 
@@ -15934,7 +15934,7 @@ The behavior seems more coherent now
 ##### David Mansolino [Cyberbotics] 10/28/2019 13:24:34
 Perfect! thank you for the feedback 🙂
 
-##### Gautier A. 10/28/2019 13:26:01
+##### Gautier 10/28/2019 13:26:01
 So, I modified as you said. But there's still a thing I can't understand. The robot to behaves likes the "puma arm" was very heavy, when I explicitely defined all the masses as 0.1kg (and the mass of the pioneer of something like 50kg). It's especially wired when it seems that the change of direction of the Puma seems to impact the inertia force of the "whole robot" (which is good and excepted !)
 > **Attachment**: [show-2019-10-28\_14.22.21](https://cdn.discordapp.com/attachments/565154703139405824/638367874502885416/show-2019-10-28_14.22.21)
 
@@ -15948,7 +15948,7 @@ Here is the complete archive if you want to take a look 😅 I'm sorry to annoy 
 ##### David Mansolino [Cyberbotics] 10/28/2019 13:29:02
 What you are changing there, is the center mass of the base segment of the robot, but all the children segment still have their center of mass up.
 
-##### Gautier A. 10/28/2019 13:30:14
+##### Gautier 10/28/2019 13:30:14
 Yes, I agree. But because I set a masse of the pionner 500x time superior than the masses of the Puma, the Puma should have a negligible impact, shouldn't it ?
 
 
@@ -15966,7 +15966,7 @@ the pioneer should be the rrot robot and the puma a direct children of the pione
 
 Additionnally, the total mass of the pioneer is 42.3kg and of the puma 27.4, therefore the difference is not so big
 
-##### Gautier A. 10/28/2019 13:41:56
+##### Gautier 10/28/2019 13:41:56
 Thank you !
 
 
@@ -15984,7 +15984,7 @@ If you select any Robot/Solid node in the scene-tree you can then go to the node
 ![12.png](https://cdn.discordapp.com/attachments/565154703139405824/638373015230480391/12.png)
 %end
 
-##### Gautier A. 10/28/2019 14:02:14
+##### Gautier 10/28/2019 14:02:14
 Ok, thank you a lot !
 
 
@@ -16023,13 +16023,13 @@ check this link as an example for what I am looking for and thanks in advance
 
 `@POTATO_CHIP`, unfortunately the cross-compilation is supported only for the e-puck version 1 for now.
 
-##### Gautier A. 10/28/2019 15:52:42
+##### Gautier 10/28/2019 15:52:42
 Hey, sorry to bother you again, but I have a question. A solid, that has another solid has a children, would "inherit" the boundingObject of its children (in addition to his own) ?
 
 ##### David Mansolino [Cyberbotics] 10/28/2019 15:59:16
 Yes, if it's a direct children (no joint between them) the two solids will kind of 'merge' and form on solid only.
 
-##### Gautier A. 10/28/2019 16:00:19
+##### Gautier 10/28/2019 16:00:19
 Ok, thank you !
 
 ##### threeal 10/28/2019 17:30:24
@@ -16078,7 +16078,7 @@ Is there any method publishing sensor\_msgs::PointCloud2? instead of PointCloud?
 
 In this function you should be able to extend to `sensor_msgs::PointCloud2` and then you have to recompile the `ros` controller (let me know if you have any issue doing so).
 
-##### Gautier A. 10/29/2019 08:44:09
+##### Gautier 10/29/2019 08:44:09
 Concerning the implicit solid merging indicated on that page ([https://cyberbotics.com/doc/reference/physics](https://cyberbotics.com/doc/reference/physics)), does that mean that the upper (most high parent in the node hiearchy) retains all the information of mass and bounding box of all its children solid ?
 
 
@@ -16091,13 +16091,13 @@ Concerning the implicit solid merging indicated on that page ([https://cyberboti
 
 No each solid should have it's own mass and boundign box informations, then they masses and bounding boxes are just merged together.
 
-##### Gautier A. 10/29/2019 08:54:14
+##### Gautier 10/29/2019 08:54:14
 But, what I mean is that the "upper parent" parents is going to have its own boundingbox/masses, which will be the sum of the information in its own physics node, and its children physics node ?
 
 ##### David Mansolino [Cyberbotics] 10/29/2019 08:55:25
 Yes exactly.
 
-##### Gautier A. 10/29/2019 08:55:43
+##### Gautier 10/29/2019 08:55:43
 Thank you !
 
 ##### David Mansolino [Cyberbotics] 10/29/2019 08:55:56
@@ -16251,7 +16251,7 @@ I am using the rock10cm proto to make a custom environment. I wanted a bigger ro
 
 `@Sohil`, can you please check (and even send us a screenshot) of the contact points between the rock and the ground. You can enable contact points visualization from the 'View / Optional Rendering / Show Contact Points' menu.
 
-##### Gautier A. 10/30/2019 08:08:09
+##### Gautier 10/30/2019 08:08:09
 Hello, I want to modelise the behavior of Reaction Wheel in Webots. It's basically this comportement. Do you have any suggestion on how to proceed  ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/639012656359145472/unknown.png)
@@ -16260,7 +16260,7 @@ Hello, I want to modelise the behavior of Reaction Wheel in Webots. It's basical
 ##### Fabien Rohrer [Moderator] 10/30/2019 08:10:20
 Hi Gautier
 
-##### Gautier A. 10/30/2019 08:10:32
+##### Gautier 10/30/2019 08:10:32
 I was thinking about doing some variation of the motor using the source of webots, but I'm not sure if that approach is wise
 
 
@@ -16287,7 +16287,7 @@ but the algorithm should be written by yourself.
 
 Is it a satisfying answer?
 
-##### Gautier A. 10/30/2019 08:16:02
+##### Gautier 10/30/2019 08:16:02
 Yes, thank you a lot !
 
 
@@ -16296,7 +16296,7 @@ I've already tried some little experiments with rotationnal motors and position 
 ##### Fabien Rohrer [Moderator] 10/30/2019 08:24:23
 Indeed, the PID control we provide does not propose an anti-windup. But in theory, this could be implemented in the controller. I'm wondering why you get this saturation? Did you play with the maxTorque field? Normally this field should allow you to increase the motor torque.
 
-##### Gautier A. 10/30/2019 08:35:58
+##### Gautier 10/30/2019 08:35:58
 It's more because of the caracteristic of the wheel itself. The torque is very low in the "datasheet" of the constructor
 
 
@@ -16308,7 +16308,7 @@ Ok I see, this sounds good then.
 
 Are you interested on modeling a satellite in Webots? This is definitively something I would like to see 🙂
 
-##### Gautier A. 10/30/2019 08:44:23
+##### Gautier 10/30/2019 08:44:23
 Ahaha, more or less. I'm experimenting with webots for the moment 🙂
 
 
@@ -19162,13 +19162,13 @@ Calling `(super, Robot).step()` vs `(super, CustomEnv).step()` you should be abl
 ##### Dorteel 11/25/2019 08:37:33
 Thank you very much `@Stefania Pedrazzi` I'll try that!
 
-##### Gautier A. 11/25/2019 10:08:03
+##### Gautier 11/25/2019 10:08:03
 Hello, I have a problems with a proto I exported from Blender
 
 ##### Fabien Rohrer [Moderator] 11/25/2019 10:08:53
-`@Gautier A.` Hi. Could you add precisions? Do you use the blenderToWebots addon?
+`@Gautier` Hi. Could you add precisions? Do you use the blenderToWebots addon?
 
-##### Gautier A. 11/25/2019 10:11:04
+##### Gautier 11/25/2019 10:11:04
 `@Fabien Rohrer` Hi, thank you for your response. Sorry I was uploading the video on youtube because I wasn't able to put it on the discord
 
 
@@ -19192,13 +19192,13 @@ To do so, simply open your image in Gimp, and select the "Layer / Transparency /
 
 voila
 
-##### Gautier A. 11/25/2019 10:15:11
+##### Gautier 11/25/2019 10:15:11
 Ok, I'm gonna try that ! Thank you !
 
 ##### Fabien Rohrer [Moderator] 11/25/2019 10:15:14
 (do this for all your textures)
 
-##### Gautier A. 11/25/2019 10:20:16
+##### Gautier 11/25/2019 10:20:16
 It worked, thank you a lot !
 
 
@@ -19216,7 +19216,7 @@ This is good enough to render simple cases (rectangular glasses, etc.) but not t
 
 we currently do not provide better solution. But it would be possible to change our rendering engine to optionnaly sort polygons (but we should see a big interest in this topic, which is currently not the case).
 
-##### Gautier A. 11/25/2019 10:33:38
+##### Gautier 11/25/2019 10:33:38
 Ok, I totally understand your point of view
 
 
@@ -19228,7 +19228,7 @@ I have another question on a different topic, if I might ? 😅
 ##### Fabien Rohrer [Moderator] 11/25/2019 10:53:13
 😄 Please ask!
 
-##### Gautier A. 11/25/2019 10:53:29
+##### Gautier 11/25/2019 10:53:29
 Thank you !
 
 
@@ -19244,7 +19244,7 @@ Could I modelize the "docking" of these differents object on Webots (and the nec
 ##### Fabien Rohrer [Moderator] 11/25/2019 11:02:01
 (I definitvely have to add a new background of space for such 0 gravity areas 🙂 )
 
-##### Gautier A. 11/25/2019 11:02:58
+##### Gautier 11/25/2019 11:02:58
 It's the fact that it's treated as a "big object", instead of little small objects, in prescence of force that I would like to correct
 > **Attachment**: [HowTo2-2019-11-25\_12.00.34.mp4](https://cdn.discordapp.com/attachments/565154703139405824/648478732285116426/HowTo2-2019-11-25_12.00.34.mp4)
 
@@ -19275,7 +19275,7 @@ I'm testing this right now.
 ##### Stefania Pedrazzi [Cyberbotics] 11/25/2019 11:12:45
 probably not,  just the Solid nodes
 
-##### Gautier A. 11/25/2019 11:13:56
+##### Gautier 11/25/2019 11:13:56
 Both are very good idea ! I'm gonna test them out !
 
 
@@ -19297,10 +19297,10 @@ Hi again guys, I run into a problem when trying to import some libraries from st
 Do you have any suggestions?
 
 ##### Fabien Rohrer [Moderator] 11/25/2019 11:20:47
-`@Gautier A.` `@Stefania Pedrazzi` I confirm that a Group does not solve the issue, because currently a Robot cannot be inserted in it (but a Solid can).
+`@Gautier` `@Stefania Pedrazzi` I confirm that a Group does not solve the issue, because currently a Robot cannot be inserted in it (but a Solid can).
 
 
-`@Gautier A.` I would say that a slot is more a matter on how two protos are connected together.
+`@Gautier` I would say that a slot is more a matter on how two protos are connected together.
 
 
 If you go in the way I suggest about to use a Supervisor to assembly the tiles, slots could be use to facilitate their assembly (cf. the tinkerbots examples)
@@ -19308,7 +19308,7 @@ If you go in the way I suggest about to use a Supervisor to assembly the tiles, 
 
 [https://cyberbotics.com/doc/guide/tinkerbots](https://cyberbotics.com/doc/guide/tinkerbots)
 
-##### Gautier A. 11/25/2019 11:22:57
+##### Gautier 11/25/2019 11:22:57
 Ok, I'm gonna try that !
 
 
@@ -19374,13 +19374,13 @@ Meanwhile, I can only advise you to use the heavy wb\_supervisor\_simulation\_re
 ##### JoanGerard 11/26/2019 12:29:37
 ok, thank you and good luck solving the issue!
 
-##### Gautier A. 11/27/2019 09:25:31
+##### Gautier 11/27/2019 09:25:31
 Hello !
 
 ##### David Mansolino [Cyberbotics] 11/27/2019 09:26:04
 Hi
 
-##### Gautier A. 11/27/2019 09:26:37
+##### Gautier 11/27/2019 09:26:37
 So, I have a little problem I can't really make sense off
 
 
@@ -19389,7 +19389,7 @@ I would be very gratefull if you helped me understand the "unexpected behavior"
 ##### David Mansolino [Cyberbotics] 11/27/2019 09:27:16
 Yes of course, what is this behavior?
 
-##### Gautier A. 11/27/2019 09:28:28
+##### Gautier 11/27/2019 09:28:28
 I have a world in Webots that consists in a rail (a solid that can move in one axis compared to another solid in reference) and a connector is fixed to the end of the rail
 
 
@@ -19417,7 +19417,7 @@ Here is the associated world, too
 ##### David Mansolino [Cyberbotics] 11/27/2019 09:31:28
 Ok thank you, I will check your world and let you know
 
-##### Gautier A. 11/27/2019 09:32:03
+##### Gautier 11/27/2019 09:32:03
 (for the video, sorry I recorded a little too much, skip to 0:50 for unepexcted behavior)
 
 
@@ -19440,7 +19440,7 @@ You should try to:
 
 2. make sure all your Solids nodes (maybe except the root one) have both bounding object and physics set
 
-##### Gautier A. 11/27/2019 09:54:26
+##### Gautier 11/27/2019 09:54:26
 Ok, that was a problem of physic node lacking 😄
 
 
@@ -19452,7 +19452,7 @@ But, by the way, Is it really necessary for the root node (robot) to have a boud
 ##### David Mansolino [Cyberbotics] 11/27/2019 09:55:09
 You're welcome
 
-##### Gautier A. 11/27/2019 09:55:17
+##### Gautier 11/27/2019 09:55:17
 It inherit the bouding object from its children, doesn't it ?
 
 
@@ -19461,7 +19461,7 @@ inherits*
 ##### David Mansolino [Cyberbotics] 11/27/2019 09:55:46
 Yes it does if you have direct chidrens (not linked with a joint)
 
-##### Gautier A. 11/27/2019 09:55:57
+##### Gautier 11/27/2019 09:55:57
 understood !
 
 
@@ -19479,13 +19479,13 @@ Yes
 
 You can import it using these functions: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_import\_mf\_node](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_mf_node)
 
-##### Gautier A. 11/27/2019 15:23:56
+##### Gautier 11/27/2019 15:23:56
 Thank you
 
 ##### David Mansolino [Cyberbotics] 11/27/2019 15:24:06
 You're welcome
 
-##### Gautier A. 11/27/2019 15:24:13
+##### Gautier 11/27/2019 15:24:13
 I tried again, but I can import a ".wbo" file but not a ".proto"
 
 
@@ -19499,7 +19499,7 @@ You can use the 'wb\_supervisor\_field\_import\_mf\_node\_from\_string' function
 
 "MyProtoName { translation 0 0.5 0 ...}"
 
-##### Gautier A. 11/27/2019 15:26:07
+##### Gautier 11/27/2019 15:26:07
 Ohhh, I see
 
 
@@ -19508,7 +19508,7 @@ Thank you !
 ##### David Mansolino [Cyberbotics] 11/27/2019 15:26:22
 You're welcome
 
-##### Gautier A. 11/27/2019 16:06:44
+##### Gautier 11/27/2019 16:06:44
 I'm sorry to bother you again, but it doesn't seems to work 😅
 
 
@@ -19521,7 +19521,7 @@ You should call the file "MyProtoName.proto", and put it in "yourWebotsProject/p
 
 Naming it Solid.proto is a bad idea 😉
 
-##### Gautier A. 11/27/2019 16:09:39
+##### Gautier 11/27/2019 16:09:39
 Ok !
 
 
@@ -20833,7 +20833,7 @@ Hi `@Hayden Woodger` which version of blender are you using ?
 ##### Fabien Rohrer [Moderator] 12/10/2019 07:57:17
 `@Hayden Woodger` I confirm that the plugin is supposed to work with Blender 2.79. In Blender 2.80, the plugin API has changed, our source code should be updated. [https://github.com/cyberbotics/blender-webots-exporter/blob/master/\_\_init\_\_.py#L19](https://github.com/cyberbotics/blender-webots-exporter/blob/master/__init__.py#L19)
 
-##### Gautier A. 12/10/2019 08:59:43
+##### Gautier 12/10/2019 08:59:43
 Hey everyone !
 
 
@@ -20849,7 +20849,7 @@ Here is a video of the instanciation with the lock :
 And here is a video when the connector doesn't try to "lock": [https://youtu.be/iCPuJ1ZjQm0](https://youtu.be/iCPuJ1ZjQm0)
 
 ##### Fabien Rohrer [Moderator] 12/10/2019 09:02:47
-`@Gautier A.` Hi Gautier
+`@Gautier` Hi Gautier
 
 ##### nap 12/10/2019 09:03:15
 Hi everyone
@@ -20859,10 +20859,10 @@ I have a project from Webots 7 that I'm migrating into Webots 2019b r1.
 I have a number of 'Solid' objects which have a texture applied to them, but the rendered texture appears 'washed out' compared to the original texture.  Any tips on how to fix this please?
 
 ##### Fabien Rohrer [Moderator] 12/10/2019 09:04:20
-`@Gautier A.` Could it be that the Connector are badly oriented? Normally, it's z-axis forwards, y-axis upwards.
+`@Gautier` Could it be that the Connector are badly oriented? Normally, it's z-axis forwards, y-axis upwards.
 
 
-`@Gautier A.` I'm contacting you with a private message, we have things to discuss 😉
+`@Gautier` I'm contacting you with a private message, we have things to discuss 😉
 
 
 `@nap` Good choice 😉
@@ -21062,7 +21062,7 @@ installed through the Ubuntu software store
 
 R2019b revision 1
 
-##### Gautier A. 12/10/2019 10:10:40
+##### Gautier 12/10/2019 10:10:40
 `@Fabien Rohrer`  I think the axis are "correct". I delted the shape of the connector and just have the "connector" in the Tree object to show only its coordinate system
 %figure
 ![test_supervisor_tile_container_2.png](https://cdn.discordapp.com/attachments/565154703139405824/653901392230088714/test_supervisor_tile_container_2.png)
@@ -21087,10 +21087,10 @@ here are some specific instructions for the snap package in case: [https://www.c
 `@nap` thank you for the feedback, I also advise you to use our PROTO to manage floors and walls, typically the RectangleArena PROTO: [https://www.cyberbotics.com/doc/guide/object-floors#rectanglearena](https://www.cyberbotics.com/doc/guide/object-floors#rectanglearena) It is simple to set, and more robust on long term.
 
 
-`@Gautier A.` Ok, the axis seems indeed to be correct. So the next step is to dig into the Connector fields.
+`@Gautier` Ok, the axis seems indeed to be correct. So the next step is to dig into the Connector fields.
 
 
-`@Gautier A.` About the supervisor instantiation, why not directly set the translation/rotation when calling the import function? It seems simpler and more robust. (Do you understand what I'm speaking about?)
+`@Gautier` About the supervisor instantiation, why not directly set the translation/rotation when calling the import function? It seems simpler and more robust. (Do you understand what I'm speaking about?)
 
 ##### nap 12/10/2019 10:25:13
 `@Fabien Rohrer` : Yes, I'm using a RectangleArena (and its default proto) with FloorAppearance and WallAppearance stanzas that have the PBR code.
@@ -21107,7 +21107,7 @@ here are some specific instructions for the snap package in case: [https://www.c
 ##### Fabien Rohrer [Moderator] 12/10/2019 10:50:46
 `@nap` thank you for the advise. The Webots documentation is a "hand-made" system, based on GitHub and Markdown. Inspiring a search system on the Doxygen one is definitively a good idea.
 
-##### Gautier A. 12/10/2019 12:16:44
+##### Gautier 12/10/2019 12:16:44
 `@Fabien Rohrer`  Thank you a lot ! It works now ! It was indeed a problem because the object was instanciated through the supervisor at the "orign point", which might have posed problems with ODE
 
 ##### Hayden Woodger 12/10/2019 12:45:46
@@ -22611,7 +22611,7 @@ alright i think that is all for tonight, good night and thank you again, having 
 ##### Stefania Pedrazzi [Cyberbotics] 12/12/2019 09:45:00
 you're welcome
 
-##### Gautier A. 12/12/2019 10:52:51
+##### Gautier 12/12/2019 10:52:51
 Hello, I have a question on the execution scheme
 
 
@@ -22624,9 +22624,9 @@ And does this execution scheme is gonna change between webots 2019b and 2020a ?
 (I'm mainly interested on the wb\_supervisor\_node\_add\_force function that are gonna be available in Webots 2020, and I want to understand how it interacts with ODE and, for exemple, if they (ODE and the controller) are "executed and synchronized" at the same timestamp)
 
 ##### David Mansolino [Cyberbotics] 12/12/2019 10:58:00
-Hi `@Gautier A.` yes they are synchronized, let me check for the exact order.
+Hi `@Gautier` yes they are synchronized, let me check for the exact order.
 
-##### Gautier A. 12/12/2019 11:00:47
+##### Gautier 12/12/2019 11:00:47
 Hi `@David Mansolino` , thank you
 
 ##### David Mansolino [Cyberbotics] 12/12/2019 11:03:26
@@ -22642,7 +22642,7 @@ Ok it works in this order (to summarize), at each step:
 
 Of course this is in the case where the controller and simulation steps are the same.
 
-##### Gautier A. 12/12/2019 11:05:25
+##### Gautier 12/12/2019 11:05:25
 Ok, so the controller are executed before the physics (from ODE ?)
 
 
@@ -22651,7 +22651,7 @@ Ok, so the controller are executed before the physics (from ODE ?)
 ##### David Mansolino [Cyberbotics] 12/12/2019 11:05:54
 Yes.
 
-##### Gautier A. 12/12/2019 11:07:36
+##### Gautier 12/12/2019 11:07:36
 Therefore, if understand correctly, the execution of the controller at time T is based on the data he retrieved from the timestamp T-1 during its execution at T ?
 
 
@@ -22672,7 +22672,7 @@ No
 
 Yes
 
-##### Gautier A. 12/12/2019 11:10:27
+##### Gautier 12/12/2019 11:10:27
 Ok, thank you a lot for your responses. They are gonna be very usefull. 😄
 
 ##### David Mansolino [Cyberbotics] 12/12/2019 11:10:35
@@ -22903,13 +22903,13 @@ Very good news !
 
 What is your compilation issue? Did you define correctly WEBOTS\_HOME before trying to compile ?
 
-##### Gautier A. 12/13/2019 09:19:42
+##### Gautier 12/13/2019 09:19:42
 Hey, Might I ask you something ?
 
 ##### David Mansolino [Cyberbotics] 12/13/2019 09:19:51
 Of course
 
-##### Gautier A. 12/13/2019 09:19:57
+##### Gautier 12/13/2019 09:19:57
 Thank you ! `@David Mansolino`
 
 
@@ -22941,7 +22941,7 @@ Can you reproduce similar behavior simply by adding torque/force manually?
 
 [https://cyberbotics.com/doc/guide/the-3d-window#applying-a-force-to-a-solid-object-with-physics](https://cyberbotics.com/doc/guide/the-3d-window#applying-a-force-to-a-solid-object-with-physics)
 
-##### Gautier A. 12/13/2019 09:49:41
+##### Gautier 12/13/2019 09:49:41
 Yes, of course
 
 
@@ -22953,7 +22953,7 @@ The two solid are considered "one" even though there is an hinge joint between t
 ##### David Mansolino [Cyberbotics] 12/13/2019 09:51:53
 Ok, this is kind of reassuring at least the behavior is the same in both cases.
 
-##### Gautier A. 12/13/2019 09:52:21
+##### Gautier 12/13/2019 09:52:21
 Here is the scene tree, Maybe I did an error in it ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654983945150136337/unknown.png)
@@ -22965,7 +22965,7 @@ Yeah, I agree
 ##### David Mansolino [Cyberbotics] 12/13/2019 09:52:35
 Just to make sure, you have a motor in the joint lonking the two solid ?
 
-##### Gautier A. 12/13/2019 09:52:52
+##### Gautier 12/13/2019 09:52:52
 Yes
 
 
@@ -22974,7 +22974,7 @@ Do you want me to send my world and controller ?
 ##### David Mansolino [Cyberbotics] 12/13/2019 09:53:40
 Ok, then this is probably the cause of the issue, the motor is applying some torque to make sure the joint remains at the 0 position. Can you try the same without the motor ?
 
-##### Gautier A. 12/13/2019 09:57:46
+##### Gautier 12/13/2019 09:57:46
 [https://youtu.be/8SqgdZr4MTQ](https://youtu.be/8SqgdZr4MTQ)
 
 
@@ -23008,13 +23008,13 @@ Yes, that's probabyl the best solution.
 
 If you want to keep the motor, to disable it you can probably call the `wb_motor_set_available_torque` with a zero torque ([https://www.cyberbotics.com/doc/reference/motor#motor-functions](https://www.cyberbotics.com/doc/reference/motor#motor-functions))
 
-##### Gautier A. 12/13/2019 10:11:20
+##### Gautier 12/13/2019 10:11:20
 Ok, thank you a lot !
 
 ##### David Mansolino [Cyberbotics] 12/13/2019 10:11:49
 You're welcome
 
-##### Gautier A. 12/13/2019 10:11:54
+##### Gautier 12/13/2019 10:11:54
 😄
 
 ##### nap 12/13/2019 12:31:00

@@ -180,8 +180,8 @@ The first technique consists in using an on-board [GPS](../reference/gps.md) dev
 The second method uses a [Supervisor](../reference/supervisor.md) controller that reads and transmits the position info to the robot.
 Note that a [Supervisor](../reference/supervisor.md) controller can read (or change) the position of any object in the simulation at any time.
 This example implements both techniques, and you can choose either one or the other with the keyboard.
-The `G` key prints the robot's [GPS](../reference/gps.md) device position.
-The `S` key prints the position read by the [Supervisor](../reference/supervisor.md) controller.
+The <kbd>G</kbd> key prints the robot's [GPS](../reference/gps.md) device position.
+The <kbd>S</kbd> key prints the position read by the [Supervisor](../reference/supervisor.md) controller.
 
 ### [gps\_lat\_long.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/devices/worlds/gps_lat_long.wbt)
 

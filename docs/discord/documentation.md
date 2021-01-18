@@ -1670,3 +1670,9 @@ Hi, I am using webots for my graduation project and I am working on the Nao robo
 ##### Stefania Pedrazzi [Cyberbotics] 01/04/2021 07:12:22
 `@pnaraltnsk` your question has already been answered in the `technical-questions` channel.
 
+##### AdityaDutt 01/12/2021 15:37:04
+are there any debugging tools available in webots? Like step through code, etc.
+
+##### Olivier Michel [Cyberbotics] 01/12/2021 16:41:00
+Yes, you can use gdb (although it's not fully integrated into Webots).
+
