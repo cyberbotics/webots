@@ -14,16 +14,24 @@
 
 import {World} from "./World.js"
 import {getAncestor} from "./WbUtils.js"
+import {WbTransform} from "./WbTransform.js"
 
 class Selector {
   static select(id) {
+    let node = World.instance.nodes.get('n' + id)
+
+    if (typeof node === 'undefined')
+      return;
+
     Selector.previousId = Selector.selectedId;
-    if ('n' + id === Selector.selectedId) {
-        if (typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
-        Selector.selectedId = getAncestor(World.instance.nodes.get(Selector.selectedId)).id;
-    }
+
+    if ('n' + id === Selector.preciseId)
+      Selector.selectedId = Selector.firstSolidId(node)
     else
-      Selector.selectedId = 'n' + id;
+      Selector.selectedId = getAncestor(node).id;
+
+
+    Selector.preciseId = 'n' + id;
   }
 
   static checkIfParentisSelected(node) {
@@ -37,8 +45,19 @@ class Selector {
 
     return false;
   }
+
+  static firstSolidId(node) {
+    if (typeof node !== 'undefined') {
+      if(node instanceof WbTransform && node.isSolid)
+        return node.id;
+      else if (typeof node.parent !== 'undefined' && typeof World.instance.nodes.get(node.parent) !== 'undefined')
+        return Selector.firstSolidId(World.instance.nodes.get(node.parent));
+    }
+    return -1;
+  }
 }
 
 Selector.selectedId = "n-1"
 Selector.previousId = "n-1"
+Selector.preciseId = "n-1"
 export {Selector}
