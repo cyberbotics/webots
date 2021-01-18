@@ -92,7 +92,7 @@ jobs:
     - name: Install Webots
       run: |
         cd artifact
-        webots-R2020b-rev2_setup.exe //VERYSILENT //SUPRESSMSGBOXES //ALLUSERS
+        webots-*_setup.exe //VERYSILENT //SUPRESSMSGBOXES //ALLUSERS
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
