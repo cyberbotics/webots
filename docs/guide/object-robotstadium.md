@@ -23,7 +23,7 @@ RobotstadiumGoal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/robotstadium/protos/RobotstadiumGoal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto]({{ github_webots_home }}/projects/objects/robotstadium/protos/RobotstadiumGoal.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -60,7 +60,7 @@ RobotstadiumSoccerField {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto]({{ github_webots_home }}/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

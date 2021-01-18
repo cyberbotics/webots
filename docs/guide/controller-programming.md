@@ -1355,9 +1355,9 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
   - Clear screen (same as issuing `clear` command in your terminal)
   - Reset (colors and styles)
 
-To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/console/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/howto/console/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/console/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/howto/console/controllers/console/console.c)".
+To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/console/worlds/console.wbt]({{ github_webots_home }}/projects/samples/howto/console/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/console/controllers/console/console.c]({{ github_webots_home }}/projects/samples/howto/console/controllers/console/console.c)".
 
-The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
+The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h]({{ github_webots_home }}/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
 
 %tab-component "language"
 
@@ -1418,9 +1418,9 @@ If the console output is altered because of a previous escape code use without r
 Creating shared libraries can be very useful to share code between controllers and/or plugins.
 There are several ways to do so, but we recommend to place them into a subdirectory of the `libraries` directory of your project.
 Indeed the environment variables of the controllers are modified to include these paths into your [[DY]LD\_LIBRARY\_]PATH environment variable (depending on the OS).
-Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
+Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include]({{ github_webots_home }}/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
 
-A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/resources/projects/libraries/qt_utils)".
+A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils]({{ github_webots_home }}/resources/projects/libraries/qt_utils)".
 
 If for some reason shared libraries cannot be in the `libraries` directory, the `WEBOTS_LIBRARY_PATH` environment variable will be very helpful.
 The paths it contains will be added at the beginning of the library search path([[DY]LD\_LIBRARY\_]PATH) when starting the controller.

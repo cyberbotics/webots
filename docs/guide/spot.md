@@ -35,7 +35,7 @@ Spot {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/protos/Spot.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/boston_dynamics/spot/protos/Spot.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/protos/Spot.proto]({{ github_webots_home }}/projects/robots/boston_dynamics/spot/protos/Spot.proto)"
 
 #### Spot Field Summary
 
@@ -43,9 +43,9 @@ Spot {
 
 ### Samples
 
-You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/boston_dynamics/spot/worlds)"
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds]({{ github_webots_home }}/projects/robots/boston_dynamics/spot/worlds)"
 
-### [spot.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
+### [spot.wbt]({{ github_webots_home }}/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
 ![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows a Spot robot in a simple environment.
 The robot is saying hello with its right leg.

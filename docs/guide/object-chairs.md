@@ -22,7 +22,7 @@ Chair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/chairs/protos/Chair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto]({{ github_webots_home }}/projects/objects/chairs/protos/Chair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -56,7 +56,7 @@ OfficeChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/OfficeChair.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/chairs/protos/OfficeChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/OfficeChair.proto]({{ github_webots_home }}/projects/objects/chairs/protos/OfficeChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -93,7 +93,7 @@ SimpleChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/chairs/protos/SimpleChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto]({{ github_webots_home }}/projects/objects/chairs/protos/SimpleChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -128,7 +128,7 @@ WoodenChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/chairs/protos/WoodenChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto]({{ github_webots_home }}/projects/objects/chairs/protos/WoodenChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

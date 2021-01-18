@@ -2,13 +2,13 @@
 
 This section shows some of the possible environments and objects available in Webots inside composed scenes.
 Webots objects are modular and parametrizable, so other environments can be created simply, starting from these examples.
-The world files for these examples are located in the "[WEBOTS\_HOME/projects/sample/environments/](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/)" directory.
+The world files for these examples are located in the "[WEBOTS\_HOME/projects/sample/environments/]({{ github_webots_home }}/projects/samples/environments/)" directory.
 
-Outdoor and urban environments located in the "[WEBOTS\_HOME/projects/vehicles/worlds](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/vehicles/worlds)" and are not shown here.
+Outdoor and urban environments located in the "[WEBOTS\_HOME/projects/vehicles/worlds]({{ github_webots_home }}/projects/vehicles/worlds)" and are not shown here.
 
 In this directory, you will find the following world files:
 
-### [apartment.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/indoor/worlds/apartment.wbt)
+### [apartment.wbt]({{ github_webots_home }}/projects/samples/environments/indoor/worlds/apartment.wbt)
 
 **Keywords**: Apartment, domestic environment, furniture
 
@@ -28,7 +28,7 @@ This means that a robot could open a drawer, leave an object inside it, and clos
 Light objects such as the books on the shelf or the fruits in the basket can be grabbed by a robot.
 An e-puck robot patrols on the table and an iRobot Create robot cleans the ground.
 
-### [break\_room.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/indoor/worlds/break_room.wbt)
+### [break\_room.wbt]({{ github_webots_home }}/projects/samples/environments/indoor/worlds/break_room.wbt)
 
 **Keywords**: Break room, domestic environment, furniture
 
@@ -46,7 +46,7 @@ These objects are Webots PROTO nodes, and can be easily moved and resized to cre
 Doors are interactive.
 This means that a robot can open a drawer, leave an object inside it, and close it.
 
-### [complete\_apartment.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
+### [complete\_apartment.wbt]({{ github_webots_home }}/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
 
 **Keywords**: Apartment, household environment, furniture
 
@@ -63,7 +63,7 @@ This example is similar to the previous one but the apartement is more complete,
 
 > **Note**: This model was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU
 
-### [factory.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/factory/worlds/factory.wbt)
+### [factory.wbt]({{ github_webots_home }}/projects/samples/environments/factory/worlds/factory.wbt)
 
 **Keywords**: Factory, workbench, tools, industrial pipes, industrial stairs
 
@@ -80,7 +80,7 @@ These objects are Webots PROTO nodes, and can be easily moved and resized to cre
 The tools and valves are interactive.
 This means that a robot could grab a hammer, or turn a valve handle.
 
-### [hall.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/factory/worlds/hall.wbt)
+### [hall.wbt]({{ github_webots_home }}/projects/samples/environments/factory/worlds/hall.wbt)
 
 **Keywords**: hall, workbench, tools, industrial pipes, industrial stairs
 
@@ -100,7 +100,7 @@ This means that a robot could grab a hammer, turn a valve handle, climb the stai
 
 This environment is sponsored by the [ROSin european project](http://rosin-project.eu/ftp/cross-platform-ros-simulation-for-mobile-manipulators).
 
-### [kitchen.wbt](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/samples/environments/indoor/worlds/kitchen.wbt)
+### [kitchen.wbt]({{ github_webots_home }}/projects/samples/environments/indoor/worlds/kitchen.wbt)
 
 **Keywords**: kitchen, utensil
 

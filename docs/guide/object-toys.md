@@ -30,7 +30,7 @@ PaperBoat {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/toys/protos/PaperBoat.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto]({{ github_webots_home }}/projects/objects/toys/protos/PaperBoat.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -73,7 +73,7 @@ RubberDuck {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto](https://github.com/cyberbotics/webots/tree/{{ setup.branch }}/projects/objects/toys/protos/RubberDuck.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto]({{ github_webots_home }}/projects/objects/toys/protos/RubberDuck.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
