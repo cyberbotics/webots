@@ -417,7 +417,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
       this.picker.pick(pos.x,pos.y)
       Selector.select(this.picker.selectedId);
-      console.log(Selector.selectedId);
+
       if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
         World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 

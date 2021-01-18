@@ -18,18 +18,26 @@ import {WbTransform} from "./WbTransform.js"
 
 class Selector {
   static select(id) {
+    Selector.previousId = Selector.selectedId;
+    Selector.selectedId = "n-1"; //in case we select nothing
+
     let node = World.instance.nodes.get('n' + id)
 
-    if (typeof node === 'undefined')
+    if (typeof node === 'undefined'){
+      Selector.preciseId = 'n' + id;
       return;
+    }
 
-    Selector.previousId = Selector.selectedId;
 
-    if ('n' + id === Selector.preciseId)
-      Selector.selectedId = Selector.firstSolidId(node)
-    else
+    if (Selector.previousAncestor === getAncestor(node).id && (!Selector.local || Selector.preciseId !== 'n' + id)) {
+      Selector.selectedId = Selector.firstSolidId(node);
+      Selector.local = true;
+    }
+    else {
       Selector.selectedId = getAncestor(node).id;
-
+      Selector.previousAncestor = Selector.selectedId;
+      Selector.local = false;
+    }
 
     Selector.preciseId = 'n' + id;
   }
@@ -59,5 +67,6 @@ class Selector {
 
 Selector.selectedId = "n-1"
 Selector.previousId = "n-1"
-Selector.preciseId = "n-1"
+Selector.previousAncestor = "n-1"
+Selector.local = false;
 export {Selector}
