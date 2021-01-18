@@ -70,7 +70,7 @@ jobs:
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
       with:
         name: build-${{ matrix.os }}
         path: |
