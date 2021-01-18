@@ -97,7 +97,7 @@ OverviewWidget.prototype.resize = function() {
   label.parentNode.style.left = (this.rearAxisCenterPosition[0] - 10) + 'px';
 
   label = document.getElementById('overview-wheelbase-label');
-  label.parentNode.style.top = this.centerPosition[1] + 'px';
+  label.parentNode.style.top = (this.centerPosition[1] - 30) + 'px';
   label.parentNode.style.left = this.centerPosition[0] + 'px';
 
   label = document.getElementById('overview-speed-label');
