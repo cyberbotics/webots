@@ -84,7 +84,7 @@ class Mesh:
                 print("coordIndex and normalIndex mismatch")
         else:
             self.normal = []
-        self.creaseAngle = creaseAngle
+        self.creaseAngle = float(creaseAngle)
 
     def apply_crease_angle(self):
         if self.creaseAngle == 0:
@@ -93,11 +93,11 @@ class Mesh:
             return
         if self.type[-1] == 'n':
             return
-        counter = 0
-        for face in self.coordIndex:
+        faceNormal = []
+        for counter, face in enumerate(self.coordIndex):
             size = len(face)
             if size < 3:
-                print('Bad face: ' + str(size))
+                print('Bad face with ' + str(size) + ' vertices.')
                 continue
             p0 = [self.coord[face[0]][0], self.coord[face[0]][1], self.coord[face[0]][2]]
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
@@ -108,7 +108,30 @@ class Mesh:
             self.normalIndex.append([])
             for i in range(size):
                 self.normalIndex[counter].append(counter)
-            counter += 1
+                faceNormal.append(counter)
+
+        # for counter, face in enumerate(self.coordIndex):
+        #     print('face ' + str(counter))
+        #     n1 = faceNormal[counter]
+        #     for c, index in enumerate(face):
+        #         addCount = 0
+        #         normal = n1
+        #         for counter2, face2 in enumerate(self.coordIndex):
+        #             if counter2 == counter:
+        #                 continue
+        #             if index not in face2:
+        #                 continue
+        #             n2 = faceNormal[counter2]
+        #             angle = np.arccos(np.clip(np.dot(n1, n2), -1.0, 1.0))
+        #             if angle > self.creaseAngle:
+        #                 continue
+        #             normal = np.add(normal, n2)
+        #             addCount += 1
+        #         if addCount > 0:  # vertex was smoothed
+        #             normal = normal / np.sqrt(np.sum(normal**2))
+        #             self.normalIndex[counter][c] = len(self.normal)
+        #             self.normal.append(normal)
+
         self.type += 'n'
         self.creaseAngle = 0
 
