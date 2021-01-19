@@ -48,10 +48,69 @@ import os
 import optparse
 import shutil
 import numpy as np
-import trimesh
 
 
-class proto2multi:
+class Mesh:
+    def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
+        self.name = name
+        self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3)
+        faces = coordIndex.replace(',', '').split('-1')
+        self.n_faces = len(faces)
+        self.type = 'v'
+        self.coordIndex = []
+        for face in faces:
+            self.coordIndex.append(np.array(face.split(), dtype=int))
+        self.texCoordIndex = []
+        if texCoord is not None:
+            self.type += 't'
+            self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2)
+            faces = texCoordIndex.replace(',', '').split('-1')
+            for face in faces:
+                self.texCoordIndex.append(np.array(face.split(), dtype=int))
+            if len(self.texCoordIndex) != self.n_faces:
+                print("coordIndex and texCoordIndex mismatch")
+        else:
+            self.texCoord = []
+        self.normalIndex = []
+        if normal is not None:
+            self.type += 'n'
+            self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3)
+            faces = normalIndex.replace(',', '').split('-1')
+            for face in faces:
+                self.normalIndex.append(np.array(face.split, dtype=int))
+            if len(self.normalIndex) != self.n_faces:
+                print("coordIndex and normalIndex mismatch")
+        else:
+            self.normal = []
+        self.creaseAngle = creaseAngle
+
+    def write_obj(self, file):
+        file.write("o " + self.name + '\n')
+        for vertex in self.coord:
+            file.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
+        # texture coordinates
+        for vt in self.texCoord:
+            file.write('vt {} {}\n'.format(vt[0], 1 - vt[1]))
+        # normal coordinates
+        for vn in self.normal:
+            file.write('vn {} {} {}\n'.format(vn[0], vn[1], vn[2]))
+        for n in range(self.n_faces):
+            size = len(self.coordIndex[n])
+            file.write('f')
+            for i in range(size):
+                if self.type == 'v':
+                    file.write(' {}'.format(self.coordIndex[n][i] + 1))
+                if self.type == 'vt':
+                    file.write(' {}/{}'.format(self.coordIndex[n][i] + 1, self.texCoordIndex[n][i] + 1))
+                if self.type == 'vn':
+                    file.write(' {}//{}'.format(self.coordIndex[n][i] + 1, self.normalIndex[n][i] + 1))
+                if self.type == 'vtn':
+                    file.write(' {}/{}/{}'.format(self.coordIndex[n][i] + 1, self.texCoordIndex[n][i] + 1,
+                                                  self.normalIndex[n][i] + 1))
+            file.write('\n')
+
+
+class proto2mesh:
     def __init__(self):
         print("Proto 2 multi-file proto converter by Simon Steinmann")
 
@@ -83,7 +142,7 @@ class proto2multi:
         self.pf = open(outFile, "w")
         self.shapeIndex = 0
         parentDefName = None
-        meshData = {}
+        meshes = {}
         meshID = 0
         indent = "  "
         level = 0
@@ -100,7 +159,7 @@ class proto2multi:
                 if eof > 10:
                     self.f.close()
                     self.cleanup(inFile)
-                    self.writeOBJ(meshData)
+                    self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
                     self.pf.close()
                     return
@@ -109,11 +168,11 @@ class proto2multi:
                 if name == "IS":
                     name = "base_link"
                 counter = 0
-                for k, v in meshData.items():
-                    if v[-1] is None:
+                for k, v in meshes.items():
+                    if v.name is None:
                         mlvl = int(k.split('_')[0])
                         if mlvl in [level + 2, level + 4]:
-                            v[-1] = name + "_" + str(counter)
+                            v.name = name + "_" + str(counter)
                             counter += 1
             if "DEF" in ln:
                 if "Group" in ln or "Transform" in ln or "Shape" in ln:
@@ -156,7 +215,7 @@ class proto2multi:
                     if "{" in ln:
                         shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
-                meshData[key] = [coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle, name]
+                meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
                 self.protoFileString += indent * level + "geometry " + defString + ' Mesh {\n'
                 self.protoFileString += indent * (level + 1) + "url MeshID_" + key + '_placeholder\n'
@@ -211,86 +270,20 @@ class proto2multi:
         shutil.copytree(sourcePath, newDirPath)
         return newDirPath
 
-    def writeOBJ(self, meshData):
-        counter = 0
-        for k, v in meshData.items():
-            # print(np.array(v[1].split(','), dtype=int))
-            name = v[-1] if v[-1] is not None else "base_link" + str(counter)
+    def compute_normals(self, meshes):
+        return
+
+    def write_obj(self, meshes):
+        for k, mesh in meshes.items():
             # Replace the placholder ID of the generated .obj meshes with their path
             searchString = "MeshID_" + k + "_placeholder"
-            replaceString = '"' + self.robotName + '_meshes/' + name + '.obj"'
+            replaceString = '"' + self.robotName + '_meshes/' + mesh.name + '.obj"'
             self.protoFileString = self.protoFileString.replace(searchString, replaceString)
             # Create a new .obj mesh file
-            filepath = "{}/{}.obj".format(self.meshFilesPath, name)
-            filepath2 = "{}/{}_SMOOTH.obj".format(self.meshFilesPath, name)
+            filepath = "{}/{}.obj".format(self.meshFilesPath, mesh.name)
             f = open(filepath, "w")
-            f.write("o " + name + '\n')
-            # vertices
-            verticies = np.array(v[0].replace(',', '').split(), dtype=float).reshape(-1, 3)
-            print(name)
-            vertexIndex = v[1].replace(',', '').split('-1')
-            for vertex in verticies:
-                f.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
-            faceType = "v"
-            # texture coordinates
-            if v[2] is not None:
-                texCoords = np.array(v[2].replace(',', '').split(), dtype=float).reshape(-1, 2)
-                texIndex = v[3].replace(',', '').split('-1')
-                for vt in texCoords:
-                    f.write('vt {} {}\n'.format(vt[0], 1- vt[1]))
-                faceType += "t"
-            # normal coordinates
-            if v[4] is not None:
-                normals = np.array(v[4].replace(',', '').split(), dtype=float).reshape(-1, 3)
-                normalIndex = v[5].replace(',', '').split('-1')
-                for vn in normals:
-                    f.write('vn {} {} {}\n'.format(vn[0], vn[1], vn[2]))
-                faceType += "n"
-
-            # faces
-            for n in range(len(vertexIndex)):
-                vIndices = np.array(vertexIndex[n].split(), dtype=int)
-                size = len(vIndices)
-                v_i = vIndices + [1] * size
-                if v[2] is not None:
-                    tIndices = np.array(texIndex[n].split(), dtype=int)
-                    t_i = tIndices + [1] * size
-                if v[4] is not None:
-                    nIndices = np.array(normalIndex[n].split(), dtype=int)
-                    n_i = nIndices + [1] * size
-
-                # if size < 3:
-                #    break
-                f.write('f')
-                for i in range(size):
-                    if faceType == "v":
-                        f.write(' {}'.format(v_i[i]))
-                    if faceType == "vt":
-                        f.write(' {}/{}'.format(v_i[i], t_i[i]))
-                    if faceType == "vn":
-                        f.write(' {}//{}'.format(v_i[i], n_i[i]))
-                    if faceType == "vtn":
-                        f.write(' {}/{}/{}'.format(v_i[i], t_i[i], n_i[i]))
-                f.write('\n')
-            counter += 1
+            mesh.write_obj(f)
             f.close()
-            mesh = trimesh.exchange.load.load(filepath)
-
-            mesh = mesh.process(validate=False)
-            mesh.remove_unreferenced_vertices()
-            mesh.remove_duplicate_faces()
-            mesh = mesh.smoothed(angle=float(v[-2]))
-            print('creaseAngle: ' + v[-2])
-            mesh.vertex_normals = mesh.vertex_normals
-            # print(mesh.visual)
-
-            exportStr = trimesh.exchange.obj.export_obj(mesh)
-            # for i in range(5):
-            #     exportStr = exportStr.replace('0 ', ' ')#.replace('0\n', '\n')
-            f = open(filepath2, "w")
-            f.write(exportStr)
-            f.close
-            # trimesh.exchange.export.export_mesh(mesh, filepath2)
 
 
 if __name__ == "__main__":
@@ -304,7 +297,7 @@ if __name__ == "__main__":
     options, args = optParser.parse_args()
     inPath = options.inPath
     if inPath is not None:
-        p2m = proto2multi()
+        p2m = proto2mesh()
         if os.path.splitext(inPath)[1] == ".proto":
             p2m.convert(inPath)
             print("Multi-file extraction done")
