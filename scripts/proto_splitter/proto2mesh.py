@@ -84,6 +84,32 @@ class Mesh:
             self.normal = []
         self.creaseAngle = creaseAngle
 
+    def apply_crease_angle(self):
+        if self.creaseAngle == 0:
+            return
+        if len(self.normal) > 0:
+            return
+        if self.type[-1] == 'n':
+            return
+        counter = 0
+        for face in self.coordIndex:
+            size = len(face)
+            if size < 3:
+                print('Bad face: ' + str(size))
+                continue
+            p0 = [self.coord[face[0]][0], self.coord[face[0]][1], self.coord[face[0]][2]]
+            p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
+            p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
+            n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
+            normalized = n / np.sqrt(np.sum(n**2))
+            self.normal.append(normalized)
+            self.normalIndex.append([])
+            for i in range(size):
+                self.normalIndex[counter].append(counter)
+            counter += 1
+        self.type += 'n'
+        self.creaseAngle = 0
+
     def write_obj(self, file):
         file.write("o " + self.name + '\n')
         for vertex in self.coord:
@@ -159,6 +185,8 @@ class proto2mesh:
                 if eof > 10:
                     self.f.close()
                     self.cleanup(inFile)
+                    for mesh in meshes.values():
+                        mesh.apply_crease_angle()
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
                     self.pf.close()
