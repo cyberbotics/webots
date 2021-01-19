@@ -4,7 +4,7 @@
 Released on June, Xth, 2021.
 
   - New Features:
-    - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
+    - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
 
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
