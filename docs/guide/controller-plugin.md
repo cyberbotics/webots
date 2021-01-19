@@ -73,15 +73,15 @@ To create a similar robot window for your project follow these steps:
 1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
 2. The file is a typical HTML document that can contain JavaScript and CSS.
 However, in addition to the standard JavaScript library, a `webots` object is injected that exposes an interface to allow communication with a robot controller.
-Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
+Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree  }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
 3. The robot window needs to be registered in the robot's node.
 Find your robot in the scene tree, select a `window` field, click select and choose `<robot window name>`.
 If you double click on the robot, your `<robot window name>` will open.
 4. To send and receive data inside the controller you have to use `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
-A very simple Python example is given in [`projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py).
+A very simple Python example is given in [`projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`]({{ url.github_tree  }}/projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py).
 
 An example of a reusable HTML robot window is given in [`projects/samples/howto/custom_robot_window`](samples-howto.md#custom_robot_window-wbt).
-While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in [`plugins/robot_windows/custom_robot_window/custom_robot_window.c`](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.c).
+While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in [`plugins/robot_windows/custom_robot_window/custom_robot_window.c`]({{ url.github_tree  }}/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.c).
 Therefore, the robot window in this case can be reused in different simulations.
 
 <br />

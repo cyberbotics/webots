@@ -21,7 +21,7 @@ Asphalt {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Asphalt.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto]({{ url.github_tree  }}/projects/appearances/protos/Asphalt.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -56,7 +56,7 @@ BakelitePlastic {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/BakelitePlastic.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto]({{ url.github_tree  }}/projects/appearances/protos/BakelitePlastic.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -89,7 +89,7 @@ BlanketFabric {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BlanketFabric.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/BlanketFabric.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BlanketFabric.proto]({{ url.github_tree  }}/projects/appearances/protos/BlanketFabric.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -122,7 +122,7 @@ BrushedAluminium {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/BrushedAluminium.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto]({{ url.github_tree  }}/projects/appearances/protos/BrushedAluminium.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -155,7 +155,7 @@ BrushedSteel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedSteel.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/BrushedSteel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedSteel.proto]({{ url.github_tree  }}/projects/appearances/protos/BrushedSteel.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -192,7 +192,7 @@ CarpetFibers {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CarpetFibers.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto]({{ url.github_tree  }}/projects/appearances/protos/CarpetFibers.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -227,7 +227,7 @@ CementTiles {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CementTiles.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CementTiles.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CementTiles.proto]({{ url.github_tree  }}/projects/appearances/protos/CementTiles.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -259,7 +259,7 @@ Copper {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Copper.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Copper.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Copper.proto]({{ url.github_tree  }}/projects/appearances/protos/Copper.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -290,7 +290,7 @@ CorrodedMetal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CorrodedMetal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto]({{ url.github_tree  }}/projects/appearances/protos/CorrodedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -323,7 +323,7 @@ CorrugatedMetal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CorrugatedMetal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto]({{ url.github_tree  }}/projects/appearances/protos/CorrugatedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -356,7 +356,7 @@ CorrugatedPlates {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPlates.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CorrugatedPlates.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPlates.proto]({{ url.github_tree  }}/projects/appearances/protos/CorrugatedPlates.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -389,7 +389,7 @@ CorrugatedPvc {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPvc.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/CorrugatedPvc.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPvc.proto]({{ url.github_tree  }}/projects/appearances/protos/CorrugatedPvc.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -422,7 +422,7 @@ DamascusSteel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/DamascusSteel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto]({{ url.github_tree  }}/projects/appearances/protos/DamascusSteel.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -454,7 +454,7 @@ DryMud {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DryMud.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/DryMud.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DryMud.proto]({{ url.github_tree  }}/projects/appearances/protos/DryMud.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -485,7 +485,7 @@ ElectricConduit {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ElectricConduit.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto]({{ url.github_tree  }}/projects/appearances/protos/ElectricConduit.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -518,7 +518,7 @@ FlexibleAluminiumDuct {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/FlexibleAluminiumDuct.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto]({{ url.github_tree  }}/projects/appearances/protos/FlexibleAluminiumDuct.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -550,7 +550,7 @@ FormedConcrete {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FormedConcrete.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/FormedConcrete.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FormedConcrete.proto]({{ url.github_tree  }}/projects/appearances/protos/FormedConcrete.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -581,7 +581,7 @@ GalvanizedMetal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/GalvanizedMetal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto]({{ url.github_tree  }}/projects/appearances/protos/GalvanizedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -614,7 +614,7 @@ GlossyPaint {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/GlossyPaint.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto]({{ url.github_tree  }}/projects/appearances/protos/GlossyPaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -651,7 +651,7 @@ Grass {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Grass.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Grass.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Grass.proto]({{ url.github_tree  }}/projects/appearances/protos/Grass.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -686,7 +686,7 @@ HammeredCopper {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/HammeredCopper.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto]({{ url.github_tree  }}/projects/appearances/protos/HammeredCopper.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -724,7 +724,7 @@ Leather {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Leather.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Leather.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Leather.proto]({{ url.github_tree  }}/projects/appearances/protos/Leather.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -762,7 +762,7 @@ LedStrip {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/LedStrip.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/LedStrip.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/LedStrip.proto]({{ url.github_tree  }}/projects/appearances/protos/LedStrip.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -797,7 +797,7 @@ Marble {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Marble.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Marble.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Marble.proto]({{ url.github_tree  }}/projects/appearances/protos/Marble.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -830,7 +830,7 @@ MarbleTiles {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MarbleTiles.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/MarbleTiles.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MarbleTiles.proto]({{ url.github_tree  }}/projects/appearances/protos/MarbleTiles.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -863,7 +863,7 @@ MattePaint {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/MattePaint.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto]({{ url.github_tree  }}/projects/appearances/protos/MattePaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -895,7 +895,7 @@ MetalPipePaint {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/MetalPipePaint.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto]({{ url.github_tree  }}/projects/appearances/protos/MetalPipePaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -925,7 +925,7 @@ MetalStainlessSteelCable {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalStainlessSteelCable.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/MetalStainlessSteelCable.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalStainlessSteelCable.proto]({{ url.github_tree  }}/projects/appearances/protos/MetalStainlessSteelCable.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -956,7 +956,7 @@ OldPlywood {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/OldPlywood.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto]({{ url.github_tree  }}/projects/appearances/protos/OldPlywood.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -989,7 +989,7 @@ OldSteel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/OldSteel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto]({{ url.github_tree  }}/projects/appearances/protos/OldSteel.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1022,7 +1022,7 @@ OsbWood {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/OsbWood.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto]({{ url.github_tree  }}/projects/appearances/protos/OsbWood.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1055,7 +1055,7 @@ PaintedWood {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/PaintedWood.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto]({{ url.github_tree  }}/projects/appearances/protos/PaintedWood.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1094,7 +1094,7 @@ Parquetry {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Parquetry.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto]({{ url.github_tree  }}/projects/appearances/protos/Parquetry.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1136,7 +1136,7 @@ Pavement {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pavement.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Pavement.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pavement.proto]({{ url.github_tree  }}/projects/appearances/protos/Pavement.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1170,7 +1170,7 @@ Pcb {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pcb.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Pcb.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pcb.proto]({{ url.github_tree  }}/projects/appearances/protos/Pcb.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1201,7 +1201,7 @@ PerforatedMetal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PerforatedMetal.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/PerforatedMetal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PerforatedMetal.proto]({{ url.github_tree  }}/projects/appearances/protos/PerforatedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1234,7 +1234,7 @@ Plaster {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plaster.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Plaster.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plaster.proto]({{ url.github_tree  }}/projects/appearances/protos/Plaster.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1270,7 +1270,7 @@ Plastic {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plastic.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Plastic.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plastic.proto]({{ url.github_tree  }}/projects/appearances/protos/Plastic.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1305,7 +1305,7 @@ PorcelainChevronTiles {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PorcelainChevronTiles.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/PorcelainChevronTiles.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PorcelainChevronTiles.proto]({{ url.github_tree  }}/projects/appearances/protos/PorcelainChevronTiles.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1337,7 +1337,7 @@ RedBricks {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RedBricks.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto]({{ url.github_tree  }}/projects/appearances/protos/RedBricks.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1372,7 +1372,7 @@ ReflectiveSurface {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ReflectiveSurface.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ReflectiveSurface.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ReflectiveSurface.proto]({{ url.github_tree  }}/projects/appearances/protos/ReflectiveSurface.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1405,7 +1405,7 @@ RoughConcrete {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RoughConcrete.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto]({{ url.github_tree  }}/projects/appearances/protos/RoughConcrete.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1438,7 +1438,7 @@ RoughOak {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RoughOak.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto]({{ url.github_tree  }}/projects/appearances/protos/RoughOak.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1471,7 +1471,7 @@ RoughPine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RoughPine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto]({{ url.github_tree  }}/projects/appearances/protos/RoughPine.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1504,7 +1504,7 @@ RoughPolymer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPolymer.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RoughPolymer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPolymer.proto]({{ url.github_tree  }}/projects/appearances/protos/RoughPolymer.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1537,7 +1537,7 @@ Roughcast {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Roughcast.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto]({{ url.github_tree  }}/projects/appearances/protos/Roughcast.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1573,7 +1573,7 @@ Rubber {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Rubber.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto]({{ url.github_tree  }}/projects/appearances/protos/Rubber.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1608,7 +1608,7 @@ RustyMetal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/RustyMetal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto]({{ url.github_tree  }}/projects/appearances/protos/RustyMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1642,7 +1642,7 @@ Sand {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Sand.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Sand.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Sand.proto]({{ url.github_tree  }}/projects/appearances/protos/Sand.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1673,7 +1673,7 @@ SandyGround {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/SandyGround.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto]({{ url.github_tree  }}/projects/appearances/protos/SandyGround.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1707,7 +1707,7 @@ ScratchedPaint {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScratchedPaint.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ScratchedPaint.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScratchedPaint.proto]({{ url.github_tree  }}/projects/appearances/protos/ScratchedPaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1742,7 +1742,7 @@ ScrewThread {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ScrewThread.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto]({{ url.github_tree  }}/projects/appearances/protos/ScrewThread.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1775,7 +1775,7 @@ ShinyLeather {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ShinyLeather.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto]({{ url.github_tree  }}/projects/appearances/protos/ShinyLeather.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1811,7 +1811,7 @@ Soil {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Soil.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/Soil.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Soil.proto]({{ url.github_tree  }}/projects/appearances/protos/Soil.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1843,7 +1843,7 @@ SolarCell {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SolarCell.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/SolarCell.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SolarCell.proto]({{ url.github_tree  }}/projects/appearances/protos/SolarCell.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1878,7 +1878,7 @@ ThreadMetalPlate {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/ThreadMetalPlate.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto]({{ url.github_tree  }}/projects/appearances/protos/ThreadMetalPlate.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1916,7 +1916,7 @@ TireRubber {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/TireRubber.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/TireRubber.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/TireRubber.proto]({{ url.github_tree  }}/projects/appearances/protos/TireRubber.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1949,7 +1949,7 @@ VarnishedPine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/VarnishedPine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto]({{ url.github_tree  }}/projects/appearances/protos/VarnishedPine.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1982,7 +1982,7 @@ WireFence {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WireFence.proto](https://github.com/cyberbotics/webots/tree/released/projects/appearances/protos/WireFence.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WireFence.proto]({{ url.github_tree  }}/projects/appearances/protos/WireFence.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)

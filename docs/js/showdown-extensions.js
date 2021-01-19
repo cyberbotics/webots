@@ -39,6 +39,9 @@ showdown.extension('wbVariables', function() {
     },
     date: {
       year: 2021
+    },
+    url: { 
+      github_tree: `https://github.com/cyberbotics/webots/tree/${setup.branch}`
     }
   };
 
