@@ -167,15 +167,13 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-#        "https://raw.githubusercontent.com/revarbat/snappy-reprap/master/STLs/adjustment_screw_parts.stl"
-         "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
+          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }
   ]
 }
 Robot {
-  supervisor TRUE
   translation 0.15 0 0
   rotation 0 1 0 1
   children [
@@ -392,6 +390,7 @@ Robot {
     mass 0.5
   }
   controller "url"
+  supervisor TRUE
 }
 SoccerBall {
   translation 0.04 0.1 -0.06
