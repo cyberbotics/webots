@@ -237,7 +237,7 @@ class proto2multi:
                 texCoords = np.array(v[2].replace(',', '').split(), dtype=float).reshape(-1, 2)
                 texIndex = v[3].replace(',', '').split('-1')
                 for vt in texCoords:
-                    f.write('vt {} {}\n'.format(vt[0], vt[1]))
+                    f.write('vt {} {}\n'.format(vt[0], 1- vt[1]))
                 faceType += "t"
             # normal coordinates
             if v[4] is not None:
