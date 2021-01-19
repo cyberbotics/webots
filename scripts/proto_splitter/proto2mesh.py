@@ -55,11 +55,13 @@ class Mesh:
         self.name = name
         self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3)
         faces = coordIndex.replace(',', '').split('-1')
-        self.n_faces = len(faces)
         self.type = 'v'
         self.coordIndex = []
         for face in faces:
             self.coordIndex.append(np.array(face.split(), dtype=int))
+        if len(self.coordIndex[-1]) == 0:
+            self.coordIndex.pop()
+        self.n_faces = len(self.coordIndex)
         self.texCoordIndex = []
         if texCoord is not None:
             self.type += 't'
