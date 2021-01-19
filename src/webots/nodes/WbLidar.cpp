@@ -441,6 +441,8 @@ void WbLidar::displayPointCloud() {
       }
       for (int l = 0; l < resolution; ++l) {
         const float *vertex = &pointArray()[k * resolution + l].x;
+        if (isinf(vertex[0]) || isinf(vertex[1]) || isinf(vertex[2]))
+          continue;
 
         wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex);
         wr_dynamic_mesh_add_color(mLidarPointsMesh, color);
