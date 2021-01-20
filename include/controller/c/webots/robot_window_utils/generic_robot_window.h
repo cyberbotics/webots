@@ -27,7 +27,8 @@
 extern "C" {
 #endif
 
-void parse_device_command(char *token, WbDeviceTag *tag, bool *robot);
+void parse_device_command(char *token, char *tokens);
+bool parse_device_control_command(char *token, char *tokens);
 bool handle_generic_robot_window_messages(const char *message);
 void init_robot_window();
 void update_robot_window();
