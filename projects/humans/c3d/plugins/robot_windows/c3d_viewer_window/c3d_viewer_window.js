@@ -1,5 +1,6 @@
 /* global webots */
 /* global PlotWidget, TimeplotWidget */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotWindow = null;
 var basicTimeStep = 0.032;
@@ -74,7 +75,7 @@ function changeRadius(virtual, radius) {
   robotWindow.send(message, 'c3d_viewer');
 }
 
-webots.window('c3d_viewer_window').receive = function(message, robot) {
+webots.window('c3d_viewer_window').receive = function(message, _robot) {
   if (message.startsWith('configure:')) {
     var values = message.split(':');
     basicTimeStep = 0.001 * values[1];
@@ -208,7 +209,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       }
     }
   } else if (message === 'reset') {
-    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
+    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, _index, _array) {
       element.parentNode.removeChild(element);
     });
   } else
@@ -222,7 +223,7 @@ webots.window('c3d_viewer_window').init(function() {
     let files = event.target.files;
     let f = files[0];
     let reader = new FileReader();
-    reader.onload = (function(theFile) {
+    reader.onload = (function(_theFile) {
       return function(e) {
         const message = 'c3dfile:' + e.target.result.slice(e.target.result.indexOf(';base64,') + 8); // remove the "*;base64," header
         robotWindow.send(message, 'c3d_viewer');
