@@ -757,9 +757,9 @@ class AnsiCodes(object):
 
   PyObject *__getRangeImageList() {
     const float *im = $self->getRangeImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
-    int len = width * height;
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
+    const int len = width * height;
     if (im) {
       PyObject *ret = PyList_New(len);
       for (int x = 0; x < len; ++x)
