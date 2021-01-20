@@ -5,8 +5,6 @@
 // @param labels: format `{'x': "x-axis", 'y': "y-axis"}`.
 // @param device: attached device reference.
 
-/* global basicTimeStep: false */
-
 function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device) {
   this.container = container;
   this.basicTimeStep = basicTimeStep;
@@ -124,7 +122,7 @@ TimeplotWidget.prototype.refresh = function() {
 
   while (this.values.length > 0) { // foreach point to draw.
     const value = this.values.shift(); // pop first item
-    const skip = Math.round((value.x - this.lastX) / basicTimeStep); // number of pixels to skip.
+    const skip = Math.round((value.x - this.lastX) / this.basicTimeStep); // number of pixels to skip.
 
     // blit
     const imageData = this.canvasContext.getImageData(skip, 0, this.canvasWidth - skip, this.canvasHeight);
