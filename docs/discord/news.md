@@ -4,6 +4,39 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [Cyberbotics] 01/15/2021 08:42:05
+We are happy to announce the first **ROS 2 and Webots Community Meeting** to be held on **January 25th, 2021 at 8am PST** (5pm CET).
+
+
+
+**Agenda**:
+
+- Introduction to Webots and ROS 2 support [`@Olivier Michel`, Cyberbotics Ltd, Switzerland, 10 minutes]
+
+- Contributions to the URDF2Webots converter [`@Simon Steinmann`, DLR, Germany, 15 minutes + 5 minutes for questions]
+
+- Roadmap for Webots and ROS 2 [`@Darko Lukić`, Cyberbotics Ltd., Switzerland, 10 minutes]
+
+- Round table and QA session [all, 20 minutes]
+
+
+
+Total duration of the meeting: 60 minutes.
+
+
+
+Meeting ID: [https://meet.google.com/xpc-ugcq-fah](https://meet.google.com/xpc-ugcq-fah) (we will share a video of the meeting afterwards)
+
+
+
+Looking forward to your participation!
+
+##### Soft\_illusion 01/14/2021 19:35:02
+Thank you for the appreciation and motivational words. The Google Season of Docs was a great experience for our team as well. This achievement would surely have not been possible without the Webots team. Special thanks to `@Olivier Michel` `@Darko Lukić` and `@David Mansolino` . Looking forward for more collaborative work. 😇
+
+##### KajalGada 01/14/2021 19:24:45
+A tutorial video to make a wall following robot using e-puck in Webots. It is a good project to understand the use of sensors and actuators. Code in Python. Link: [https://youtu.be/tHENC-HEIW8](https://youtu.be/tHENC-HEIW8)
+
 ##### Olivier Michel [Cyberbotics] 01/13/2021 08:16:38
 Here is a very nice project allowing you to program robots in Webots using Google Blockly graphical programming interface: [https://www.stormingrobots.com/prod/dev2.html](https://www.stormingrobots.com/prod/dev2.html)
 
