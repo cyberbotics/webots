@@ -188,11 +188,18 @@ class proto2mesh:
         # make a dir called 'x_meshes'
         os.makedirs(outFile.replace(".proto", "") + "_meshes", exist_ok=True)
         self.meshFilesPath = outFile.replace(".proto", "") + "_meshes"
+        # The input PROTO file we are converting
         self.f = open(inFile)
         self.protoFileString = ""
+        # The new proto file, with meshes extracted
         self.pf = open(outFile, "w")
         self.shapeIndex = 0
+        # Stores the DEF of the closest related parentnode of Type 'Group', 'Transform' or 'Shape'.
+        # If a mesh has no name, this is used instead.
         parentDefName = None
+        # A dictionary, which will get filled with all meshes of the PROTO file. Each
+        #  mesh has a key "<level>_<meshID>" level is the indent, meshID is unique
+        #  number, counting up from 0. The value is an instance of the Mesh class.
         meshes = {}
         meshID = 0
         indent = "  "
@@ -223,7 +230,7 @@ class proto2mesh:
                 counter = 0
                 for k, v in meshes.items():
                     if v.name is None:
-                        mlvl = int(k.split('_')[0])
+                        mlvl = int(k.split('_')[0]) 
                         if mlvl in [level + 2, level + 4]:
                             v.name = name + "_" + str(counter)
                             counter += 1
@@ -236,7 +243,7 @@ class proto2mesh:
                 if "DEF" in ln:
                     defString = "DEF " + ln[ln.index("DEF") + 1]
                     name = ln[ln.index("DEF") + 1]
-                if parentDefName is not None:
+                elif parentDefName is not None:
                     name = parentDefName.split("_")[1]
                 shapeLevel = 1
                 meshID += 1
@@ -281,6 +288,7 @@ class proto2mesh:
                             parentDefName = None
                 elif "{" in ln or "[" in ln:
                     level += 1
+                # Write the whole line from input to output file, without changes
                 self.protoFileString += line
 
     def cleanup(self, inFile, outFile=None):
@@ -290,7 +298,7 @@ class proto2mesh:
             os.remove(outFile)
 
     def convert_all(self, sourcePath):
-        outPath = self.create_multiProtoDir(sourcePath)
+        outPath = self.create_outputDir(sourcePath)
         os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
@@ -312,8 +320,8 @@ class proto2mesh:
             inFile = inFile + "_temp"
             self.convert(inFile, outFile)
 
-    def create_multiProtoDir(self, sourcePath):
-        # Create a backup of the folder we are converting
+    def create_outputDir(self, sourcePath):
+        # Create a new directory, where the convrted files will be stored.
         newDirName = os.path.basename(sourcePath) + "_multiProto_0"
         newDirPath = os.path.dirname(sourcePath) + "/" + newDirName
         n = 0
