@@ -182,6 +182,16 @@ Then at each simulation step, it uses the target node position to update the `In
 The robot watches the panel with its [Camera](../reference/camera.md).
 Meanwhile a [Supervisor](../reference/supervisor.md) controller switches the image displayed on the panel.
 
+### [url.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/url/worlds/url.wbt)
+
+**Keywords**: url, asset, download, [Background](../reference/background.md), [Camera](../reference/camera.md), [ContactProperties](../reference/contactproperties.md), [ImageTexture](../reference/imagetexture.md), [Mesh](../reference/mesh.md), [Motor](../reference/motor.md)
+
+![url.png](images/samples/url.thumbnail.jpg) This example shows how to specify textures, meshes and sounds using URLs instead of local files.
+Nodes supporting asset download are the [Background](../reference/background.md), [Camera](../reference/camera.md), [ContactProperties](../reference/contactproperties.md), [ImageTexture](../reference/imagetexture.md), [Mesh](../reference/mesh.md) and [Motor](../reference/motor.md).
+The URL for the asset is defined in the world file using either the `https://` or `http://` protocol.
+It can be changed from the graphical user interface in the scene tree and also from a [supervisor](../reference/supervisor.md) process as demonstrated in this example.
+If a texture is not found, it is replaced with a default image as shown on the picture.
+
 ### [vision.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/vision/worlds/vision.wbt)
 
 **Keywords**: [OpenCV](https://opencv.org), color filter
