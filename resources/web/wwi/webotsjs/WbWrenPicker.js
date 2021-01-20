@@ -40,6 +40,11 @@ class WbWrenPicker {
 
     _wr_frame_buffer_set_size(this.frameBuffer, this.width, this.height);
     _wr_frame_buffer_enable_depth_buffer(this.frameBuffer, true);
+
+    this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
+    _wr_frame_buffer_set_depth_texture(this.frameBuffer, this.wrenDepthFrameBufferTexture);
+
     _wr_frame_buffer_append_output_texture(this.frameBuffer, this.outputTexture);
     _wr_frame_buffer_enable_copying(this.frameBuffer, 0, true);
     _wr_frame_buffer_setup(this.frameBuffer);
@@ -63,6 +68,15 @@ class WbWrenPicker {
       _wr_material_set_default_program(material, WbWrenShaders.pickingShader());
 
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, "picking"])
+    }
+
+    let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "depth"])
+
+    if (!depthMaterial) {
+      depthMaterial = _wr_phong_material_new();
+      _wr_material_set_default_program(material, WbWrenShaders.depthOnlyShader());
+
+      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
     }
 
     let encodedId = [0,0,0,0,0,0];

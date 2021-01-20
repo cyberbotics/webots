@@ -576,6 +576,20 @@ class WbWrenShaders {
 
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING];
   }
+
+  static depthOnlyShader() {
+  if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY]) {
+    WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY] = _wr_shader_program_new();
+
+    _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+
+    _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+    WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], "../../../resources/wren/shaders/web_depth.vert", "../../../resources/wren/shaders/web_depth.frag");
+  }
+
+  return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY];
+}
 }
 
 //gShaders static variable
