@@ -591,6 +591,8 @@ void WbBackground::applySkyBoxToWren() {
   if (!mIrradianceTexture[0]) {
     // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
     cm = NULL;
+    if (!mCubeMapTexture)
+      mCubeMapTexture = wr_texture_cubemap_new();
     mIrradianceCubeTexture =
       wr_texture_cubemap_bake_specular_irradiance(mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 64);
   } else {
