@@ -61,6 +61,9 @@ $CURRENT_DIR/new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" $
 if [ $new_version_year -ne $old_version_year ]; then
   $CURRENT_DIR/new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year $WEBOTS_HOME/docs/js/showdown-extensions.js
 fi
+# projects
+$CURRENT_DIR/new_version_file.sh $old_package $new_package $WEBOTS_HOME/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window/c3d_viewer_window.html
+
 
 if [ $new_version_without_revision != $old_version_without_revision ];
 then

@@ -12,6 +12,8 @@ include/controller/
 include/controller/c/
 include/controller/c/webots/
 include/controller/c/webots/*.h
+include/controller/c/webots/robot_windows/
+include/controller/c/webots/robot_windows/*.h
 include/controller/c/webots/utils/
 include/controller/c/webots/utils/*.h
 include/controller/c/webots/vehicle/
