@@ -243,7 +243,7 @@ class proto2mesh:
                 if "DEF" in ln:
                     defString = "DEF " + ln[ln.index("DEF") + 1]
                     name = ln[ln.index("DEF") + 1]
-                if parentDefName is not None:
+                elif parentDefName is not None:
                     name = parentDefName.split("_")[1]
                 shapeLevel = 1
                 meshID += 1
