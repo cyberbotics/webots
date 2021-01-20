@@ -33,6 +33,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \
 	texture_change/controllers/texture_change.Makefile \
 	texture_change/controllers/texture_robot.Makefile \
+	url/controllers/url.Makefile \
 	vision/controllers/vision.Makefile \
 	ziegler_nichols/controllers/ziegler_nichols.Makefile
 
