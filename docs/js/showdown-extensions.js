@@ -27,6 +27,7 @@ function wbSlugify(obj) {
 showdown.extension('wbVariables', function() {
   // static variables to maintain
   // TODO: could be computed
+  const branch = (setup !== undefined && setup.branch !== undefined) ? setup.branch : 'released';
   var vars = {
     webots: {
       version: {
@@ -41,7 +42,7 @@ showdown.extension('wbVariables', function() {
       year: 2021
     },
     url: { 
-      github_tree: `https://github.com/cyberbotics/webots/tree/${setup.branch}`
+      github_tree: `https://github.com/cyberbotics/webots/tree/${branch}`
     }
   };
 
