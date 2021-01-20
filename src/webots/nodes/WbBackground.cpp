@@ -311,24 +311,27 @@ void WbBackground::updateCubemap() {
     // if some textures are to be downloaded again (changed from the scene tree or supervisor)
     // we should postpone the applySkyBoxToWren
     bool postpone = false;
+    int urlCount = 0;
+    for (int i = 0; i < 6; i++)
+      if (mUrlFields[i]->size())
+        urlCount++;
+    const bool hasCompleteBackground = urlCount == 6;
     if (isPostFinalizedCalled()) {
       const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
       for (int i = 0; i < 6; i++) {
-        if (mUrlFields[i]->size() == 0) {
-          postpone = true;
-          continue;
-        }
-        const QString &url = mUrlFields[i]->item(0);
-        if (WbUrl::isWeb(url)) {
-          if (mDownloader[i] == NULL) {
-            if (urlField == mUrlFields[i]) {
-              downloadAsset(url, i, true);
-              postpone = true;
+        if (hasCompleteBackground) {
+          const QString &url = mUrlFields[i]->item(0);
+          if (WbUrl::isWeb(url)) {
+            if (mDownloader[i] == NULL) {
+              if (urlField == mUrlFields[i]) {
+                downloadAsset(url, i, true);
+                postpone = true;
+              }
             }
+          } else {
+            delete mTexture[i];
+            mTexture[i] = 0;
           }
-        } else {
-          delete mTexture[i];
-          mTexture[i] = 0;
         }
         const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
         if (WbUrl::isWeb(irradianceUrl)) {
@@ -345,9 +348,10 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
-      for (int i = 0; i < 6; i++)
-        if (!loadTexture(i))
-          return;
+      if (hasCompleteBackground)
+        for (int i = 0; i < 6; i++)
+          if (!loadTexture(i))
+            return;
       for (int i = 0; i < 6; i++)
         if (!loadIrradianceTexture(i))
           return;
@@ -400,10 +404,8 @@ bool WbBackground::loadTexture(int i) {
     assert(mDownloader[i]->device());
     device = mDownloader[i]->device();
   } else {
-    if (mUrlFields[i]->size() == 0) {
-      warn(tr("Missing %1Url.").arg(gDirections[i]));
+    if (mUrlFields[i]->size() == 0)
       return false;
-    }
     url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[i]->item(0), false);
     if (url == WbUrl::missingTexture()) {
       warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
@@ -563,21 +565,24 @@ void WbBackground::applySkyBoxToWren() {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  // 1. Load the background.
-  mCubeMapTexture = wr_texture_cubemap_new();
-  wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-  for (int i = 0; i < 6; i++)
-    wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(mTexture[i]->bits()),
-                                static_cast<WrTextureOrientation>(i));
-  wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), mTexture[0]->width(), mTexture[0]->height());
-  wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
-  wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
-  wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+  // 1. Load the background if present
+  if (mTexture[0]) {
+    mCubeMapTexture = wr_texture_cubemap_new();
+    wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-  // 2. Load the irradiance map.
+    for (int i = 0; i < 6; i++)
+      wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(mTexture[i]->bits()),
+                                  static_cast<WrTextureOrientation>(i));
+
+    wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), mTexture[0]->width(), mTexture[0]->height());
+    wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
+    wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
+    wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+  }
+  // 2. Load the irradiance map
   WrTextureCubeMap *cm;
   if (!mIrradianceTexture[0]) {
     // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
