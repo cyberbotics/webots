@@ -2025,3 +2025,666 @@ OK, I merged it. Thank you.
 
 I sent you a GitHub invitation to become "Committer" on this repo with write access.
 
+##### AngelAyala 01/14/2021 12:53:23
+Hi, I'm currently using a Reinforcement Learning algorithm with webots, and therefore it ia necessary to reset the simulation to its initiql state. A strange thing happens sometimes whe I'm testing the algorithm but webots start to use a huge memory amount reaching 5GB and it increases when the simulation is reset. I'm currently running three robots nodes and one is the supervisor as the agent interface, anyone else had been experiencing this or maybe you have any idea why it is happening?
+
+
+On robot includes uses two display nodeeO
+
+
+The other one is controlling the Mavic drone
+
+##### Darko Lukić [Cyberbotics] 01/14/2021 12:57:13
+Are you sure that Webots uses all that memory and not the controllers?
+
+
+It would be great to isolate the issue and report it:
+
+[https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### AngelAyala 01/14/2021 12:58:49
+In the system monitor it appears assigned to the webots - bin process
+
+
+Any controller is executed isolated from main process right?
+
+##### Darko Lukić [Cyberbotics] 01/14/2021 12:59:18
+Yes
+
+##### AngelAyala 01/14/2021 13:01:13
+Ok I will poste there
+
+##### Kirlin 01/14/2021 19:44:08
+Hi, can someone help me about boundingObject Box ? I'm using a Free 3D Butter Stick model in a simulation (that will be part of a robotics immersion week in college), but the mesh has probably some internal conflicts, so if I use it as the boundingObject Box the Solid will actually tilt out of the screen.
+
+My solution is use a box shape as the bounding box, since I dont need the object to be precisely cut. Anyway, when I put the Box as the boundingObject Box, it wont go to the center of the object, and, no matter how I change the dimensions of the Box, it wont fit the object as wished. So, here is my question: Can I move the "center" (in relation to the object)  of a boundingObject Box ?
+
+
+here is the pic of the uncentered boundingObject Box
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/799363474299420732/unknown.png)
+%end
+
+
+PS: I'm on Ubuntu
+
+##### Darko Lukić [Cyberbotics] 01/14/2021 19:55:04
+You can add the `Box` node in a `Transform` node.
+
+##### Kirlin 01/14/2021 19:56:45
+Can you describe more how I do this ? I've never used a Transform node
+
+##### Darko Lukić [Cyberbotics] 01/14/2021 19:59:54
+It should be `boundingObject > Transform > children > Box`
+
+
+
+[https://cyberbotics.com/doc/reference/transform](https://cyberbotics.com/doc/reference/transform)
+
+##### Kirlin 01/14/2021 20:06:42
+Wow, this is so useful, helped me pretty out, thanks so much!!
+
+##### Wasabi Fan 01/15/2021 02:32:14
+I'm taking a look at this in more depth, and now realize one part of my desired functionality is that I know \_what\_ the projectile hit. There is a particular surface on the robot (at the moment, I'm enclosing it in a TouchSensor boundary) which is being aimed at, and other parts of the robot (or elements of the surroundings) \_aren't\_ something I want to detect. In fact, at these speeds, there's some risk of going \_through\_ the robot and seeing the other target on the back of that robot.
+
+
+
+I think this could be solved if there is a way to know what object the distance sensor is seeing -- is this a possibility? One option we see is to add a `Recognition` on a camera, with small FOV, pointing in the same direction as the distance sensor, and use that to disambiguate. I think it \_should\_ work, minus approximation error for the bounding boxes and any perf hit. Is there a more sensible way?
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 08:19:14
+Yes, this should work but it looks a bit overkill. Instead of this, you could add `TouchSensor` nodes in the walls and when you move back the bullet into the wall, this touch sensor would be activated so that you know which wall was hit.
+
+##### MartinG 01/15/2021 08:37:13
+`@Wasabi Fan` I'd recommend taking a more mathematical approach to this, it would execute quite a bit faster than using all kinds of sensors and what not. If you can get the current position of both the projectile and your robot and you know the size of both of them, it's as easy as a couple if conditions to check for a collision.
+
+
+There's a ton of information on collision detection online, however if you have any specific issue, I'd be glad to help.
+
+##### Simon Steinmann [Moderator] 01/15/2021 08:58:34
+Perhaps try running it without the displays. That is a lot of memory. Sounds to me like a lot of visual data is cumulatively buffered. You could also share your project (you can pm me too) and I'll have a look.
+
+
+Oh and I have some experience with RL and Webots too, just fyi 🙂
+
+##### yash 01/15/2021 09:02:55
+this happens when I use the function---  addTorque()
+%figure
+![Screenshot_from_2021-01-15_14-31-59.png](https://cdn.discordapp.com/attachments/565154703139405824/799564262326272000/Screenshot_from_2021-01-15_14-31-59.png)
+%end
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:08:49
+In the Webots source code there is CCD functionality (Continuous collision detection). This would probably solve this problem. `@Olivier Michel` Is it possible to use that collision detection method? Either through a plugin or custom compile?
+
+##### MartinG 01/15/2021 09:13:26
+Where can I find it? I'd like to look through it.
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:14:13
+[https://github.com/cyberbotics/webots/tree/master/src/ode](https://github.com/cyberbotics/webots/tree/master/src/ode)
+
+
+libccd is the library
+
+
+[https://github.com/danfis/libccd](https://github.com/danfis/libccd)
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 09:14:35
+This might be possible but would certainly require a significant development effort.
+
+##### MartinG 01/15/2021 09:14:54
+Thanks.
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:17:42
+I suspected as much. I hope something along these lines is somewhere on the roadmap. This is one of the few areas, where Webots is behind its competition: The low level control of physic engine settings and choice of different collision detection methods.
+
+
+But I understand that it is not the highest priority and a lot of work
+
+##### DrakerDG 01/15/2021 09:27:45
+Hey, I tried to install webots on ubuntu but it tells me that it can't download the .deb file, apparently it can't find it. Does anyone know how to solve this problem?
+%figure
+![Screenshot_from_2021-01-15_03-23-15.png](https://cdn.discordapp.com/attachments/565154703139405824/799570511645376522/Screenshot_from_2021-01-15_03-23-15.png)
+%end
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:30:02
+what command did you use?
+
+
+did you follow these steps? [https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt](https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt)
+
+##### DrakerDG 01/15/2021 09:32:55
+Yes:
+
+
+
+wget -qO- [https://cyberbotics.com/Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) | sudo apt-key add -
+
+sudo apt-add-repository 'deb [https://cyberbotics.com/debian/](https://cyberbotics.com/debian/) binary-amd64/'
+
+sudo apt-get update
+
+sudo apt-get install webots
+
+##### mjc87 01/15/2021 09:34:28
+`@DrakerDG` I noticed that there is a mistake in the install script it should be releases/download/R2021a/webots\_2021a\_amd64.deb I think
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:34:48
+maybe download it manually. The version just changed to 2021. **[https://github.com/cyberbotics/webots/releases/tag/R2021a](https://github.com/cyberbotics/webots/releases/tag/R2021a)**
+
+
+`@Olivier Michel` I think you should take a look and make sure the script is correct
+
+##### DrakerDG 01/15/2021 09:35:43
+Ok, I will try
+
+##### MartinG 01/15/2021 09:36:28
+What's the exact command you entered to download it? Can you copy it from your console?
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:36:42
+he did
+
+##### MartinG 01/15/2021 09:36:53
+Oh, sorry I didn't see.
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 09:48:37
+Which script are you referring to?
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:52:04
+I dont know how apt works, but It looks for the wrong file. Read the last 4 lines of his console screenshot
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 09:53:27
+Yes, I saw that, but there is no script about it.
+
+##### Simon Steinmann [Moderator] 01/15/2021 09:53:57
+what could cause this issue?
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 09:54:10
+I don't know. I am investigating...
+
+##### mjc87 01/15/2021 09:54:45
+Yes, thats what I was referring, I also have very little knowledge of apt
+
+##### yash 01/15/2021 09:55:35
+I am facing an issue where my controller is crashing when I use the supervisor function - addTorque()
+%figure
+![Screenshot_from_2021-01-15_14-31-59.png](https://cdn.discordapp.com/attachments/565154703139405824/799577517596868608/Screenshot_from_2021-01-15_14-31-59.png)
+%end
+
+##### MartinG 01/15/2021 09:56:06
+I think seeing your code and world would be helpful to get a better idea of what might be wrong.
+
+##### yash 01/15/2021 09:56:38
+sure
+
+
+
+> **Attachment**: [force\_control.py](https://cdn.discordapp.com/attachments/565154703139405824/799578002249089053/force_control.py)
+
+
+this is the controller code
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 09:58:21
+Are you on Ubuntu 20.04?
+
+##### MartinG 01/15/2021 10:00:58
+I think that the problem is in your last line of code, f=Node.addForce(hf,force,relative=False)
+
+##### yash 01/15/2021 10:01:15
+yes but how to rectify it
+
+##### MartinG 01/15/2021 10:01:22
+You're calling addForce from the Node object instead of on the node that you want it to be executed on.
+
+
+actually no
+
+
+try changing f to hf
+
+
+I saw that you defined the foot as hf before the while loop
+
+
+That is most likely your problem.
+
+##### yash 01/15/2021 10:04:06
+so should I define hf=robot.getFromDef("human\_foot")   in the while loop ?
+
+##### MartinG 01/15/2021 10:04:31
+No, in your last line just put an h before f
+
+
+hf=Node.addForce(hf,force,relative=False)
+
+
+I’m not sure that will work, but f doesn’t exist prior to that so it’s a likely cause.
+
+##### yash 01/15/2021 10:05:46
+its the same issue still, didnt work
+
+##### MartinG 01/15/2021 10:06:05
+Okay, give me five minutes.
+
+
+I'll message you privately to not crowd the chat here.
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 10:38:38
+I believe the problem is now fixed (it was due to a misconfiguration of our debian server). Can you try again and report and success or failure?
+
+##### DrakerDG 01/15/2021 10:46:47
+`@Olivier Michel` Ok, at the moment you are downloading the binary file
+
+##### mjc87 01/15/2021 10:46:57
+`@Simon Steinmann` I've seen you've done some domain randomisation in the past, is it possible to introduce randomness to world descriptions so that blocks appear in a different place each time a simulation is started?
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 10:56:24
+Great, let me know if that finally works.
+
+##### Simon Steinmann [Moderator] 01/15/2021 10:57:59
+`@mjc87` [https://drive.google.com/file/d/1Z2332YFU1Um1NCwx3PoTcOE2jdu6QUxP/view?usp=sharing](https://drive.google.com/file/d/1Z2332YFU1Um1NCwx3PoTcOE2jdu6QUxP/view?usp=sharing) I did this a while back. Domain Randomization to create cv training dataset
+
+##### mjc87 01/15/2021 10:59:55
+Thanks, please could you give me a pointer how you implemented it? I'm trying to generate a student robot challenge where some 'targets' are randomly placed
+
+##### Simon Steinmann [Moderator] 01/15/2021 11:00:40
+let me see if I can find that project
+
+
+`@mjc87` [https://drive.google.com/file/d/1vp4ZzyA44JpcGbI5NEUsCNZ7eRFrYd4g/view?usp=sharing](https://drive.google.com/file/d/1vp4ZzyA44JpcGbI5NEUsCNZ7eRFrYd4g/view?usp=sharing) take a look at this
+
+
+the large size is due to the textures
+
+##### DrakerDG 01/15/2021 12:22:32
+It is works 😆 thank you)
+
+
+
+%figure
+![Screenshot_from_2021-01-15_05-53-32.png](https://cdn.discordapp.com/attachments/565154703139405824/799614996047986708/Screenshot_from_2021-01-15_05-53-32.png)
+%end
+
+
+
+%figure
+![Screenshot_from_2021-01-15_05-55-28.png](https://cdn.discordapp.com/attachments/565154703139405824/799615195914960906/Screenshot_from_2021-01-15_05-55-28.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 01/15/2021 13:03:56
+Nice! Thank you for the feedback.
+
+##### R\_ 01/15/2021 13:57:14
+[https://stackoverflow.com/questions/64875476/reinforcement-learning-webots-simulator](https://stackoverflow.com/questions/64875476/reinforcement-learning-webots-simulator)
+
+##### valeria 01/15/2021 14:49:49
+Hello, can anyone help me out? This is my very first time using webots and I'm using VS to write my Java code, however when I saved the file some "import errors" appeared. I have installed JDK and I use macOS then I don't understand why I have this. I also tried to clean the workspace but didn't work. Does anyone if I need to install something else in order to make it work?
+%figure
+![Screenshot_2021-01-15_at_15.48.25.png](https://cdn.discordapp.com/attachments/565154703139405824/799651562208755773/Screenshot_2021-01-15_at_15.48.25.png)
+%end
+
+##### Simon Steinmann [Moderator] 01/15/2021 18:27:02
+`@valeria` [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=macos&tab-language=java](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=macos&tab-language=java) This may help. You have to set up some environment variables when using extern controllers (your own IDE like VC)
+
+##### devindu 01/16/2021 15:58:04
+I am trying to create a keyboard controller to my robot but it says INFO: my\_controller3: Starting controller: python.exe -u my\_controller3.py
+
+WARNING: my\_controller3: The process crashed some time after starting successfully.
+
+WARNING: 'my\_controller3' controller crashed.
+%figure
+![Cnt1.JPG](https://cdn.discordapp.com/attachments/565154703139405824/800031127715708938/Cnt1.JPG)
+%end
+
+
+
+%figure
+![cnt2.JPG](https://cdn.discordapp.com/attachments/565154703139405824/800031139582574592/cnt2.JPG)
+%end
+
+
+Can anyone help me
+
+##### Apashe 01/16/2021 17:59:25
+Hello, What is the diameter of the wheels at iRobot's Create??
+
+##### Chernayaten 01/16/2021 18:56:12
+" Note [Python]: In C++, Python and Java the keyboard functions are in a dedicated class called Keyboard. In order to get the Keyboard instance, you should call the getKeyboard function of the Robot class. "
+
+
+This is what I read about the Keyboard class, whereas in your code you do kb = Keyboard()
+
+
+I believe it is 0.062
+
+##### Apashe 01/17/2021 14:04:46
+in general, where can I see all the data on the robot iRobot's Create as on the E-puck robot?
+
+Can I have a link?
+
+##### Chernayaten 01/17/2021 15:22:10
+Robots are located under \Webots\projects\robots . From there you can navigate to the robot you can and find the protos folder (if there is one) and find the proto file you want. So for example the Create robot proto file for me is located under "C:\Program Files\Webots\projects\robots\irobot\create\protos" and the e-puck one under " C:\Program Files\Webots\projects\robots\gctronic\e-puck\protos" 
+
+
+
+You can read some more on the PROTO mechanism here: [https://cyberbotics.com/doc/reference/proto](https://cyberbotics.com/doc/reference/proto)
+
+
+`@Apashe`
+
+##### Tahir [Moderator] 01/18/2021 11:00:32
+Hello,
+
+How can we access individual value inside the SFVEC3F in proto files?
+
+
+For example:
+
+position IS frontRightLeg.x
+
+Or
+
+position IS frontRightLeg[0]
+
+
+These both gave errors
+
+##### Olivier Michel [Cyberbotics] 01/18/2021 11:02:58
+You cannot based on the `IS` keyword. Instead, you should rely on Lua scripting to extract the individual components of a `SFVec3f`.
+
+##### Tahir [Moderator] 01/18/2021 11:04:34
+OK than instead 
+
+position IS frontRightLegHip
+
+
+Where frontRightLegHip is SFFLOAT
+
+
+This should work
+
+
+?
+
+##### Olivier Michel [Cyberbotics] 01/18/2021 11:08:55
+Yes, see an example of this page: [https://cyberbotics.com/doc/reference/procedural-proto-nodes](https://cyberbotics.com/doc/reference/procedural-proto-nodes)
+
+
+In particular `fields.stepSize.value.x` to extract X component from `SFVec2f stepSize`.
+
+##### Tahir [Moderator] 01/18/2021 11:19:30
+OK thanks alot
+
+##### ahforoughi 01/18/2021 11:58:50
+Hi guys, How can we use openai gym in this platform? i want to simulate and train a robotic arm
+
+##### MartinG 01/18/2021 11:59:48
+I'll go ahead and guess that the Supervisor functionality is going to be your best friend for that.
+
+##### Darko Lukić [Cyberbotics] 01/18/2021 13:04:02
+You may find the following project relevant:
+
+[https://github.com/aidudezzz/deepbots](https://github.com/aidudezzz/deepbots)
+
+##### John520 01/18/2021 17:11:34
+Hi guys, would it be possible to create a crop field, for example a canola field, and a tractor can go inside the field to harvest? Thank you very much for your help!
+
+##### Simon Steinmann [Moderator] 01/18/2021 17:13:46
+Probably depends on how visually accurate you want it. The simplest method I can imagine, is using a texture of the field, and then paining with the Pen node on top of that picture, where the tractor has harvested
+
+
+[https://cyberbotics.com/doc/reference/pen](https://cyberbotics.com/doc/reference/pen)
+
+
+that would probably have the least performance impact
+
+##### John520 01/18/2021 17:26:36
+Thank you very much for your help, `@Simon Steinmann` ! Except for creating a field of canola, I would also like to use a Lidar sensor to measure the height of the canola so that the harvesting header in front of the tractor can adjust its height accordingly for better harvesting. Is it possible to do so? Thanks a lot.
+
+
+In other words, could the canola field be created with different heights?
+
+##### Simon Steinmann [Moderator] 01/18/2021 17:31:01
+[https://cyberbotics.com/doc/reference/elevationgrid?tab-language=python](https://cyberbotics.com/doc/reference/elevationgrid?tab-language=python)
+
+
+perhaps this
+
+
+I dont know how you would harvest it though
+
+##### John520 01/18/2021 17:40:51
+Thank you, `@Simon Steinmann`. Can the tractor go inside the field created by the elevationGrid? Can a lidar sensor detect the field?
+
+##### Simon Steinmann [Moderator] 01/18/2021 18:45:07
+it should be possible. You can disable collision and only have the visual Grid
+
+##### John520 01/18/2021 20:56:29
+Thank you `@Simon Steinmann`. Sounds great! I am going to try it out. Would it be possible to model a simple header (like a rectangular shape) and attach it to the tractor?
+
+##### Homeralf 01/18/2021 23:56:27
+Hi guys,
+
+
+
+I would like to thank the team for this great simulator, the API and documentation are so great. 
+
+I'm a hobbyist trying to develop a muscle-based robot and I've encountered a couple of issues.
+
+
+
+I want to carry a simulation from a single python process.
+
+As far as I know, each robot's external controller must be contained in its own process, so I spawn multiple processes from the main process (with the corresponding environment variables).
+
+The actual problem comes when sharing data among processes. The objects I try to share can't be pickled (serialized) because they contain SwigPyObjects. I can solve this but is cumbersome and not idiomatic.
+
+
+
+So I have a couple of questions I hope you can help me with:
+
+Is there a way to run controllers without spawning additional processes?
+
+I guess the serialization problem can't be solved because of Swig, however, I think an update on the python API is on the roadmap. It is possible this may solve this issue?
+
+
+
+
+
+Thanks in advance!
+
+##### Simon Steinmann [Moderator] 01/19/2021 08:19:41
+`@Homeralf` Taking a step back, why do you want it to run from the same process? What data do you want to share?
+
+
+In general [https://docs.python.org/3/library/multiprocessing.html](https://docs.python.org/3/library/multiprocessing.html) can work really well for parallel processing and data sharing. Then there is middlewares such as ROS. Webots itself has the Transmitter and Receiver node, which you can use to send data between Robots
+
+##### Darko Lukić [Cyberbotics] 01/19/2021 08:45:08
+Hello `@Homeralf`. I am glad you like Webots. As you mentioned, the objects cannot be serialized because of SWIG. If you saw PR with objective to move away from SWIG in favor of Python native bindings then I believe that will not solve your problem. Maybe we can do something like this:
+
+[https://stackoverflow.com/questions/9310053/how-to-make-my-swig-extension-module-work-with-pickle](https://stackoverflow.com/questions/9310053/how-to-make-my-swig-extension-module-work-with-pickle)
+
+
+You cannot run the controllers in the same process
+
+##### Simon Steinmann [Moderator] 01/19/2021 09:29:02
+You also might want to take a look at pyro5. Could be exactly what you need
+
+##### Homeralf 01/19/2021 09:42:57
+Hello `@Simon Steinmann`
+
+
+
+I want to run it from the same process because among other things I want to automate multiple simulations based on evolutionary algorithms.
+
+The controllers must receive input from higher abstractions like the activations of the muscles, where the robot should be headed, the target speed of a solid, etc.
+
+
+
+Yes, I was using the BaseManager from multiprocessing to share the data. However, it wouldn't work because the objects can't be serialized.
+
+I would like to keep the project as lean as possible and I think using ROS may be a little bit overkill for now but I will consider it if things get complicated (I may be wrong).
+
+Transceiver and receiver nodes seem like a good solution among robots.
+
+Didn't know about pyro5, looks promising! I will give it a try!
+
+
+
+Thanks for your time Simon, really appreciated it.
+
+
+Hi `@Darko Lukić`,
+
+
+
+Yes, that was the PR I saw.
+
+Nice, looks exactly like the solution. I will try to implement it as soon as I get back from work.
+
+
+
+Thanks for answering the questions, you've helped me a lot.
+
+##### gaitt 01/19/2021 10:20:48
+Hi guys, 
+
+I'm building a tutorial for our software. The tutorial use Webots and ROS2. So far, so good. 
+
+Basically, I have a scene with a UR5e robot and some objects. We execute some trajectories with the followJointTrajectory action.
+
+I would like now to go further and to do so, I need to know the position of some Webots objects in ROS2. For example, the robot move a bottle and I would like to get the bottle position to be published in ROS2 through a geometry\_msgs::Pose. 
+
+Any idea how I can achieve this using C++/ROS2 API?
+
+##### Darko Lukić [Cyberbotics] 01/19/2021 10:29:20
+`@gaitt` You can use Supervisor:
+
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_position](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_position)
+
+
+
+Do you use the `webots_ros2` package or you created your own interface?
+
+##### Simon Steinmann [Moderator] 01/19/2021 10:31:16
+If you want positions of objects relative to others (your robot for example), then you can use this script I made. Or you can at least take inspiration from it and create it in c++
+> **Attachment**: [get\_relative\_position.py](https://cdn.discordapp.com/attachments/565154703139405824/801036050230673468/get_relative_position.py)
+
+##### gaitt 01/19/2021 10:31:26
+Yes I already use the  `webots_ros2` package.
+
+##### Simon Steinmann [Moderator] 01/19/2021 10:32:11
+The supervisor only gives you absolute (world) coordinates. For inverse kinematics you usually need it realtive to the robot base
+
+
+If you end up creating something like this in c++, it would be nice if you could share
+
+##### gaitt 01/19/2021 10:38:43
+Thanks `@Simon Steinmann`, well absolute position is what I need.
+
+
+I was thinking there was an easier solution that writing a new ROS2 node.
+
+##### Simon Steinmann [Moderator] 01/19/2021 10:40:46
+You need a supervisor controller (can be your ur5e). It can then get and publish the positions of anything in the simulation
+
+##### yash 01/19/2021 11:39:11
+Hi ! I am using wb\_motor\_get\_torque\_feedback(),  to get torque of motors for a 2R manipulator. But the function returns me the same value of torque for all the motors ? What could be the issue ?
+
+##### Simon Steinmann [Moderator] 01/19/2021 11:47:41
+can you post your code or controller file?
+
+##### yash 01/19/2021 11:48:01
+alright
+
+
+
+> **Attachment**: [force\_control.py](https://cdn.discordapp.com/attachments/565154703139405824/801055822753955870/force_control.py)
+
+##### Simon Steinmann [Moderator] 01/19/2021 11:53:24
+line 104-108
+
+
+you use the same motor
+
+
+that might be it 😉
+
+##### yash 01/19/2021 11:58:30
+shit yes ! thanks a lot , very silly thing.
+
+##### Simon Steinmann [Moderator] 01/19/2021 11:58:50
+it happens :p
+
+##### yash 01/19/2021 11:58:57
+I would like to plot these values , how can it be done ?
+
+##### Simon Steinmann [Moderator] 01/19/2021 11:59:24
+double click on the robot, it should be plotted there
+
+
+the robot window
+
+##### yash 01/19/2021 12:06:07
+No, but these are values that give torque feedback and doesn’t take any sensor into Accout
+
+
+account*
+
+##### Simon Steinmann [Moderator] 01/19/2021 12:06:56
+then you have to either make a custom robot window, or plot it yourself with a python library
+
+
+or use external IDEs
+
+##### yash 01/19/2021 12:08:01
+understood, I am using matplotlib, but I plot them with respect to time right i.e robot.step(timestep)?
+
+##### Simon Steinmann [Moderator] 01/19/2021 12:08:51
+time = robot.getTime()
+
+##### yash 01/19/2021 12:09:06
+oh okay
+
+##### Simon Steinmann [Moderator] 01/19/2021 12:09:17
+that is the simulation time you see in Webots
+
+
+which is increased by the timestep amount every step
+
+##### yash 01/19/2021 12:11:29
+ok, thank you very much
+
+##### The\_Filthy\_Weeb 01/19/2021 14:59:32
+hello is there any tutorials on how to creat a snake like robot in webots as i know you have the yamor but i need to make an orrigonal one but its my first time using the software]
+
+##### gaitt 01/19/2021 15:07:29
+Can I retrieve a Supervisor from an already running instance of webots?
+
+##### Simon Steinmann [Moderator] 01/19/2021 15:23:29
+A supervisor is used like the robot node. So you have to start a controller of a robot, which has supervisor = true checkmark in the scene tree
+
+
+And instead of robot =Robot() you do robot = Supervisor()
+
+##### gaitt 01/19/2021 15:37:11
+Ok I managed to get it! It look likes, if webots is running I can't get the handle. I need first to create the supervisor and then launch webots to get the handle properly. Now let see how to parse the rootNode ...
+
+##### Simon Steinmann [Moderator] 01/20/2021 08:49:55
+`@gaitt` A supervisor needs to be initialized. For that a robot controller needs to be launched. Usually all robots controllers are launched, when the simulation starts. Through the use of a supervisor controller, you can start and stop other controllers. But I dont think you can start your first supervisor controller later on in the simulation.
+
+
+You should also always have this open in a tab: [https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python)
+
+You'll have to reference it constantly. Luckily it is very detailed. Also remember, that the `Supervisor() `also has all the functionality of `Robot()`. So you dont have to change any of your existing code, should you chose to turn your ur5e into a supervisor. All motor / sensor controls work the same
+
+##### Majanao 01/20/2021 11:31:45
+Hi all, I would like to balance the camera of the DJI Mavic. Is it possible to rotate it through a python script or do I have to add two motors to the drone model?
+
+##### Olivier Michel [Cyberbotics] 01/20/2021 11:33:53
+Sure, this is possible. You will have to edit the drone model (PROTO file) to add this capability.
+
+
+In fact, you don't need to edit the drone model. Instead you should create a pan tilt camera proto and add it in the `cameraSlot` of the Mavic2Pro model so that it is used instead of the default `Camera` node.
+
+##### Majanao 01/20/2021 11:53:47
+Thanks a lot. I'll try that.
+
