@@ -27,7 +27,7 @@ function wbSlugify(obj) {
 showdown.extension('wbVariables', function() {
   // static variables to maintain
   // TODO: could be computed
-  const branch = (setup !== undefined && setup.branch !== undefined) ? setup.branch : 'released';
+  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined') ? setup.branch : 'released';
   var vars = {
     webots: {
       version: {
