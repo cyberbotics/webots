@@ -30,6 +30,7 @@ h2 {
   border: none;
   background-color: transparent;
   outline: none;
+  font-size: 18px;
 }
 #menu-open-button:hover {
   background-color: #AAF;
@@ -40,6 +41,8 @@ h2 {
   outline: none;
   color: white;
   text-align: right;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 #menu-close-button:hover {
   color: #AAF;
