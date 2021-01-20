@@ -8,6 +8,7 @@ function DeviceWidget(basicTimeStep, device) {
   this.basicTimeStep = basicTimeStep;
   this.plots = null;
   this.image = null;
+  this.firstUpdate = true;
   this.initialize(device);
 }
 
@@ -28,7 +29,7 @@ DeviceWidget.prototype.initialize = function(device) {
 
   let div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
-  if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')
+  if (device.type !== 'DifferentialWheels')
     div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="DeviceWidget.checkboxCallback(this)" />';
   div += device.htmlName + '<span id="' + device.htmlName + '-label"></span></h2>';
   if (device.type === 'Camera' && device.recognition === 1) {
@@ -119,6 +120,7 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
     ' class="motor-slider"' + customStyle +
     ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +
+    ' disabled=true' +
     '>');
   slider.oninput = function() { DeviceWidget.motorSetPosition(device.name, slider.value); };
   slider.onmousedown = function() { DeviceWidget.motorSetPosition(device.name, slider.value); };
@@ -211,12 +213,19 @@ DeviceWidget.createWidget = function(basicTimeStep, device) {
   DeviceWidget.widgets[device.name] = widget;
 };
 
+DeviceWidget.updateMotorSlider = function(deviceName, enabled) {
+  const motorSlider = document.getElementById(deviceName + '-slider');
+  if (motorSlider)
+    motorSlider.disabled = !enabled;
+};
+
 DeviceWidget.checkboxCallback = function(checkbox) {
   if (checkbox.checked)
     DeviceWidget.commands.push(checkbox.getAttribute('device') + ':enable');
   else
     DeviceWidget.commands.push(checkbox.getAttribute('device') + ':disable');
   DeviceWidget.touchedCheckboxes.push(checkbox);
+  DeviceWidget.updateMotorSlider(checkbox.getAttribute('device'), checkbox.checked);
 };
 
 DeviceWidget.cameraRecognitionCheckboxCallback = function(checkbox) {
@@ -286,8 +295,10 @@ DeviceWidget.updateDeviceWidgets = function(data) {
 
     const checkbox = document.getElementById(key + '-enable-checkbox');
     const widget = DeviceWidget.widgets[key];
-    if (!widget)
+    if (!widget || !(widget.firstUpdate || checkbox.checked))
       return;
+
+    widget.firstUpdate = false;
 
     if (value.update !== undefined && widget.plots) {
       widget.plots.forEach(function(plot) {
@@ -331,6 +342,7 @@ DeviceWidget.applyToUntouchedCheckbox = function(checkbox, state) {
     DeviceWidget.touchedCheckboxes.splice(checkboxIndex, 1);
   else
     checkbox.checked = state;
+  DeviceWidget.updateMotorSlider(checkbox.getAttribute('device'), state);
 };
 
 DeviceWidget.pushDeviceCommands = function(robotName) {

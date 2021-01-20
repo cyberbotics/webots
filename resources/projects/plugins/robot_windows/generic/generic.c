@@ -10,39 +10,18 @@ void wb_robot_window_init() {
   init_robot_window();
 }
 
-// JavaScript -> C protocol description:
-//   [deviceName:commandTag[=commadState][,]]*
-// example:
-//   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
-static void apply_command(const char *command) {
-  char *tokens = strdup(command);
-  char *token = NULL;
-
-  WbDeviceTag tag = 0;
-  bool robot = false;
-  while ((token = string_utils_strsep(&tokens, ":"))) {
-    if (tag == 0 && !robot) {  // first token = device or robot name
-      char *name0 = string_utils_replace(token, "\\:", ":");
-      char *name = string_utils_replace(name0, "\\,", ",");
-      if (strcmp(name, wb_robot_get_name()) == 0)
-        robot = true;
-      else
-        tag = wb_robot_get_device(name);
-      free(name);
-      free(name0);
-    } else
-      parse_device_command(token, &tag, &robot);
-  }
-}
-
 void wb_robot_window_step(int time_step) {
   const char *message = wb_robot_wwi_receive_text();
   if (message) {
     if (!handle_generic_robot_window_messages(message)) {
       char *tokens = strdup(message);
       char *token = NULL;
-      while ((token = string_utils_strsep(&tokens, ",")))
-        apply_command(token);
+      while ((token = string_utils_strsep(&tokens, ","))) {
+        char *command = strdup(token);
+        char *first_word = string_utils_strsep(&command, ":");
+        if (!parse_device_control_command(first_word, command))
+          parse_device_command(first_word, command);
+      }
     }
   }
 

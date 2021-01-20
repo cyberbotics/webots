@@ -8,6 +8,7 @@
 /* exported parseJSONMessage */
 /* exported enableAllDevicesCallback */
 /* exported setupWindow */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var windowIsHidden;
 var widgets = {}; // Dictionary {deviceName -> DeviceWidget }
@@ -51,13 +52,23 @@ function appendNewElement(id, newElement) {
   return container.childNodes[container.childNodes.length - 1];
 }
 
-function addTab(type, isDevice = true) {
+function addTab(type, isDevice, deviceSwitch) {
   if (document.getElementById(type))
     return; // check if already exists
 
-  let buttonsDiv;
-  if (isDevice && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
-    buttonsDiv = '<div id="' + type + '-buttons" class="device-buttons">' +
+  let buttonsDiv = '';
+  if (deviceSwitch && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
+    buttonsDiv += '<div class="device-mode-switch">' +
+      '<div>Control devices' +
+      '<label id="' + type + '-switch" class="switch">' +
+        '<input id="' + type + '-mode-checkbox" type="checkbox" onclick="setDeviceModeCallback(this, \'' + type + '\')">' +
+        '<span class="device-mode-slider"></span>' +
+      '</label></div>' +
+      '<div>If enabled, robot devices will be enabled/disabled with the device checkbox</div>' +
+      '</div>';
+  }
+  if (isDevice && type !== 'DifferentialWheels') {
+    buttonsDiv += '<div id="' + type + '-buttons" class="device-buttons">' +
       '<input type="button" value="Disable all" id="' + type + '-disable-button" class="device-button" onclick="enableAllDevicesCallback(\'' + type + '\', false)"/>' +
       '<input type="button" value="Enable all" id="' + type + '-enable-button" class="device-button" onclick="enableAllDevicesCallback(\'' + type + '\', true)"/>' +
     '</div>';
@@ -75,6 +86,10 @@ function addTab(type, isDevice = true) {
   );
 }
 
+function setDeviceModeCallback(_checkbox, _deviceType) {
+  // to be overriden
+}
+
 function enableAllDevicesCallback(deviceType, enabled) {
   Object.keys(widgets).forEach(function(deviceName) {
     if (!deviceType || widgets[deviceName].device.type === deviceType)
@@ -82,7 +97,7 @@ function enableAllDevicesCallback(deviceType, enabled) {
   });
 };
 
-function configureDevices(data) {
+function configureDevices(data, controlDevices) {
   if (data.devices == null) {
     document.getElementById('no-controller-label').innerHTML = 'No devices.';
     closeMenu();
@@ -103,7 +118,7 @@ function configureDevices(data) {
 
   // Create a device type container per device types.
   deviceTypes.forEach(function(deviceType) {
-    addTab(deviceType);
+    addTab(deviceType, true, controlDevices);
   });
 
   // Create a device container per device.

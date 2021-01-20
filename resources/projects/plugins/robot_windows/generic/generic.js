@@ -3,8 +3,31 @@
 /* global menuTabCallback, openMenu, closeMenu, addSettingsTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* global widgets */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotName = '';
+var commands = [];
+
+function setDeviceModeCallback(switchButton, deviceType) {
+  const messageHeader = 'device-control-mode:' + deviceType;
+  const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
+  for (let i = 0; i < commands.length; ++i) {
+    if (commands[i].startsWith(messageHeader)) {
+      commands[i] = message;
+      return;
+    }
+  }
+  commands.push(message);
+
+  // force widgets refresh when they are shown.
+  Object.keys(widgets).forEach(function(deviceName) {
+    const widget = widgets[deviceName];
+    if (widget && widget.device.type === deviceType) {
+      const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
+      DeviceWidget.checkboxCallback(checkbox);
+    }
+  });
+}
 
 function configure(data) {
   robotName = data.name;
@@ -17,7 +40,7 @@ function configure(data) {
   }
 
   // Parse the devices once to prepare the device type list.
-  const deviceTypes = configureDevices(data);
+  const deviceTypes = configureDevices(data, true);
 
   addSettingsTab();
 
@@ -49,9 +72,11 @@ function receive(message, _robot) {
 
   DeviceWidget.pushDeviceCommands();
 
-  if (Object.keys(DeviceWidget.commands).length !== 0) {
-    window.robotWindow.send(DeviceWidget.commands.join());
+  commands = commands.concat(DeviceWidget.commands);
+  if (commands.length !== 0) {
+    window.robotWindow.send(commands.join());
     DeviceWidget.commands = [];
+    commands = [];
   }
 }
 

@@ -48,9 +48,65 @@ static double max_speed = 0.0;
 static bool is_hidden = false;
 static double refresh_rate = 0.032;  // s
 static double last_update_time = 0;  // s
+static bool isDeviceTypeControlEnabled[WB_NODE_TOUCH_SENSOR - WB_NODE_ACCELEROMETER];
+
+static WbNodeType stringToDeviceType(const char *typeString) {
+  if (strcmp(typeString, "Accelerometer") == 0)
+    return WB_NODE_ACCELEROMETER;
+  if (strcmp(typeString, "Brake") == 0)
+    return WB_NODE_BRAKE;
+  if (strcmp(typeString, "Camera") == 0)
+    return WB_NODE_CAMERA;
+  if (strcmp(typeString, "Compass") == 0)
+    return WB_NODE_COMPASS;
+  if (strcmp(typeString, "Connector") == 0)
+    return WB_NODE_CONNECTOR;
+  if (strcmp(typeString, "Display") == 0)
+    return WB_NODE_DISPLAY;
+  if (strcmp(typeString, "DistanceSensor") == 0)
+    return WB_NODE_DISTANCE_SENSOR;
+  if (strcmp(typeString, "Emitter") == 0)
+    return WB_NODE_EMITTER;
+  if (strcmp(typeString, "GPS") == 0)
+    return WB_NODE_GPS;
+  if (strcmp(typeString, "Gyro") == 0)
+    return WB_NODE_GYRO;
+  if (strcmp(typeString, "InertialUnit") == 0)
+    return WB_NODE_INERTIAL_UNIT;
+  if (strcmp(typeString, "LED") == 0)
+    return WB_NODE_LED;
+  if (strcmp(typeString, "Lidar") == 0)
+    return WB_NODE_LIDAR;
+  if (strcmp(typeString, "LightSensor") == 0)
+    return WB_NODE_LIGHT_SENSOR;
+  if (strcmp(typeString, "LinearMotor") == 0)
+    return WB_NODE_LINEAR_MOTOR;
+  if (strcmp(typeString, "Pen") == 0)
+    return WB_NODE_PEN;
+  if (strcmp(typeString, "PositionSensor") == 0)
+    return WB_NODE_POSITION_SENSOR;
+  if (strcmp(typeString, "Propeller") == 0)
+    return WB_NODE_PROPELLER;
+  if (strcmp(typeString, "Radar") == 0)
+    return WB_NODE_RADAR;
+  if (strcmp(typeString, "RangeFinder") == 0)
+    return WB_NODE_RANGE_FINDER;
+  if (strcmp(typeString, "Receiver") == 0)
+    return WB_NODE_RECEIVER;
+  if (strcmp(typeString, "RotationalMotor") == 0)
+    return WB_NODE_ROTATIONAL_MOTOR;
+  if (strcmp(typeString, "Speaker") == 0)
+    return WB_NODE_SPEAKER;
+  if (strcmp(typeString, "TouchSensor") == 0)
+    return WB_NODE_TOUCH_SENSOR;
+  return WB_NODE_NO_NODE;
+}
 
 static void enable_device(WbDeviceTag tag, bool enable) {
   WbNodeType type = wb_device_get_node_type(tag);
+  if (!isDeviceTypeControlEnabled[type - WB_NODE_ACCELEROMETER])
+    return;
+
   const int enableRate = enable ? time_step : 0;
   switch (type) {
     case WB_NODE_ACCELEROMETER:
@@ -101,55 +157,87 @@ static void enable_device(WbDeviceTag tag, bool enable) {
 //   [deviceName:commandTag[=commadState][,]]*
 // example:
 //   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
-void parse_device_command(char *token, WbDeviceTag *tag, bool *robot) {
-  if (*tag == 0 && !*robot) {  // first token = device or robot name
-    char *name0 = string_utils_replace(token, "\\:", ":");
-    char *name = string_utils_replace(name0, "\\,", ",");
-    if (strcmp(name, wb_robot_get_name()) == 0)
-      *robot = true;
+void parse_device_command(char *token, char *tokens) {
+  WbDeviceTag tag = 0;
+  bool robot = false;
+
+  while (token && token[0] != '\0') {
+    if (tag == 0 && !robot) {  // first token = device or robot name
+      char *name0 = string_utils_replace(token, "\\:", ":");
+      char *name = string_utils_replace(name0, "\\,", ",");
+      if (strcmp(name, wb_robot_get_name()) == 0)
+        robot = true;
+      else
+        tag = wb_robot_get_device(name);
+      free(name);
+      free(name0);
+    } else if (strcmp(token, "enable") == 0)
+      enable_device(tag, true);
+    else if (strcmp(token, "disable") == 0)
+      enable_device(tag, false);
+    else if (strcmp(token, "stop") == 0 && robot)
+      wb_differential_wheels_set_speed(0.0, 0.0);
+    else if (strcmp(token, "forward") == 0 && robot)
+      wb_differential_wheels_set_speed(max_speed, max_speed);
+    else if (strcmp(token, "backward") == 0 && robot)
+      wb_differential_wheels_set_speed(-max_speed, -max_speed);
+    else if (strcmp(token, "left") == 0 && robot)
+      wb_differential_wheels_set_speed(-0.5 * max_speed, 0.5 * max_speed);
+    else if (strcmp(token, "left_forward") == 0 && robot)
+      wb_differential_wheels_set_speed(0.5 * max_speed, max_speed);
+    else if (strcmp(token, "left_backward") == 0 && robot)
+      wb_differential_wheels_set_speed(-0.5 * max_speed, -max_speed);
+    else if (strcmp(token, "right") == 0 && robot)
+      wb_differential_wheels_set_speed(0.5 * max_speed, -0.5 * max_speed);
+    else if (strcmp(token, "right_forward") == 0 && robot)
+      wb_differential_wheels_set_speed(max_speed, 0.5 * max_speed);
+    else if (strcmp(token, "right_backward") == 0 && robot)
+      wb_differential_wheels_set_speed(-max_speed, -0.5 * max_speed);
+    else if (strncmp(token, "position=", 9) == 0 && tag > 0) {
+      double position = atof(&token[9]);
+      wb_motor_set_position(tag, position);
+    } else if (strcmp(token, "recognitionEnable") == 0)
+      wb_camera_recognition_enable(tag, time_step);
+    else if (strcmp(token, "recognitionDisable") == 0)
+      wb_camera_recognition_disable(tag);
+    else if (strcmp(token, "segmentationEnable") == 0)
+      wb_camera_recognition_enable_segmentation(tag);
+    else if (strcmp(token, "segmentationDisable") == 0)
+      wb_camera_recognition_disable_segmentation(tag);
+    else if (strcmp(token, "pointCloudEnable") == 0)
+      wb_lidar_enable_point_cloud(tag);
+    else if (strcmp(token, "pointCloudDisable") == 0)
+      wb_lidar_disable_point_cloud(tag);
     else
-      *tag = wb_robot_get_device(name);
-    free(name);
-    free(name0);
-  } else if (strcmp(token, "enable") == 0)
-    enable_device(*tag, true);
-  else if (strcmp(token, "disable") == 0)
-    enable_device(*tag, false);
-  else if (strcmp(token, "stop") == 0 && *robot)
-    wb_differential_wheels_set_speed(0.0, 0.0);
-  else if (strcmp(token, "forward") == 0 && *robot)
-    wb_differential_wheels_set_speed(max_speed, max_speed);
-  else if (strcmp(token, "backward") == 0 && *robot)
-    wb_differential_wheels_set_speed(-max_speed, -max_speed);
-  else if (strcmp(token, "left") == 0 && *robot)
-    wb_differential_wheels_set_speed(-0.5 * max_speed, 0.5 * max_speed);
-  else if (strcmp(token, "left_forward") == 0 && *robot)
-    wb_differential_wheels_set_speed(0.5 * max_speed, max_speed);
-  else if (strcmp(token, "left_backward") == 0 && *robot)
-    wb_differential_wheels_set_speed(-0.5 * max_speed, -max_speed);
-  else if (strcmp(token, "right") == 0 && *robot)
-    wb_differential_wheels_set_speed(0.5 * max_speed, -0.5 * max_speed);
-  else if (strcmp(token, "right_forward") == 0 && *robot)
-    wb_differential_wheels_set_speed(max_speed, 0.5 * max_speed);
-  else if (strcmp(token, "right_backward") == 0 && *robot)
-    wb_differential_wheels_set_speed(-max_speed, -0.5 * max_speed);
-  else if (strncmp(token, "position=", 9) == 0 && *tag > 0) {
-    double position = atof(&token[9]);
-    wb_motor_set_position(*tag, position);
-  } else if (strcmp(token, "recognitionEnable") == 0)
-    wb_camera_recognition_enable(*tag, time_step);
-  else if (strcmp(token, "recognitionDisable") == 0)
-    wb_camera_recognition_disable(*tag);
-  else if (strcmp(token, "segmentationEnable") == 0)
-    wb_camera_recognition_enable_segmentation(*tag);
-  else if (strcmp(token, "segmentationDisable") == 0)
-    wb_camera_recognition_disable_segmentation(*tag);
-  else if (strcmp(token, "pointCloudEnable") == 0)
-    wb_lidar_enable_point_cloud(*tag);
-  else if (strcmp(token, "pointCloudDisable") == 0)
-    wb_lidar_disable_point_cloud(*tag);
-  else
-    assert(0);  // protocol issue
+      assert(0);  // protocol issue
+
+    token = string_utils_strsep(&tokens, ":");
+  };
+}
+
+bool parse_device_control_command(char *token, char *tokens) {
+  if (strcmp(token, "device-control-mode") != 0)
+    return false;
+  WbNodeType type = WB_NODE_NO_NODE;
+  while ((token = string_utils_strsep(&tokens, ":"))) {
+    if (type == WB_NODE_NO_NODE) {
+      type = stringToDeviceType(token);
+      if (type == WB_NODE_NO_NODE) {
+        assert(0);  // protocol issue
+        return false;
+      }
+    } else {
+      if (strcmp(token, "1") == 0) {
+        isDeviceTypeControlEnabled[type - WB_NODE_ACCELEROMETER] = true;
+        return true;
+      } else if (strcmp(token, "0") == 0) {
+        isDeviceTypeControlEnabled[type - WB_NODE_ACCELEROMETER] = false;
+        return true;
+      }
+    }
+  }
+  assert(0);  // protocol issue
+  return false;
 }
 
 void init_robot_window() {
@@ -157,6 +245,10 @@ void init_robot_window() {
   WbNodeType robot_type = wb_device_get_node_type(0);
   if (robot_type == WB_NODE_DIFFERENTIAL_WHEELS)
     max_speed = wb_differential_wheels_get_max_speed() / wb_differential_wheels_get_speed_unit();
+
+  const int device_size = WB_NODE_TOUCH_SENSOR - WB_NODE_ACCELEROMETER;
+  for (int i = 0; i < device_size; ++i)
+    isDeviceTypeControlEnabled[i] = false;
 }
 
 bool handle_generic_robot_window_messages(const char *message) {
