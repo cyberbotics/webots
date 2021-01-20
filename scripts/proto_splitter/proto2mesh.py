@@ -230,7 +230,7 @@ class proto2mesh:
                 counter = 0
                 for k, v in meshes.items():
                     if v.name is None:
-                        mlvl = int(k.split('_')[0]) 
+                        mlvl = int(k.split('_')[0])
                         if mlvl in [level + 2, level + 4]:
                             v.name = name + "_" + str(counter)
                             counter += 1
