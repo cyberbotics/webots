@@ -333,17 +333,19 @@ void WbBackground::updateCubemap() {
             mTexture[i] = 0;
           }
         }
-        const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-        if (WbUrl::isWeb(irradianceUrl)) {
-          if (mDownloader[i + 6] == NULL) {
-            if (urlField == mIrradianceUrlFields[i]) {
-              downloadAsset(irradianceUrl, i + 6, true);
-              postpone = true;
+        if (mIrradianceUrlFields[i]->size() > 0) {
+          const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
+          if (WbUrl::isWeb(irradianceUrl)) {
+            if (mDownloader[i + 6] == NULL) {
+              if (urlField == mIrradianceUrlFields[i]) {
+                downloadAsset(irradianceUrl, i + 6, true);
+                postpone = true;
+              }
             }
+          } else {
+            stbi_image_free(mIrradianceTexture[i]);
+            mIrradianceTexture[i] = NULL;
           }
-        } else {
-          stbi_image_free(mIrradianceTexture[i]);
-          mIrradianceTexture[i] = NULL;
         }
       }
     }
@@ -480,6 +482,8 @@ bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceTexture[i])
     return true;
   const int j = gCoordinateSystemSwap(i);
+  if (mIrradianceUrlFields[j]->size() == 0)
+    return true;
   const int k = j + 6;
   QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
   bool shouldDelete = false;
