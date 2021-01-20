@@ -12,6 +12,7 @@ import {WbMaterial} from "./webotsjs/WbMaterial.js"
 import {WbGeometry} from "./webotsjs/WbGeometry.js"
 import {WbLight} from "./webotsjs/WbLight.js"
 import {WbBackground} from "./webotsjs/WbBackground.js"
+import {WbGroup} from "./webotsjs/WbGroup.js"
 
 /* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
@@ -345,6 +346,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
           World.instance.nodes.get(object.parent).updateAppearance();
         }
       }
+    }
+
+    if (typeof object.parent !== 'undefined') {
+      let parent = World.instance.nodes.get(object.parent);
+      if(typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== 'n' +id)
+        parent.switchHelix('n' + id);
     }
     /*
     let fields = appliedFields;

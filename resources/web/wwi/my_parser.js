@@ -320,7 +320,9 @@ class MyParser {
     if(typeof id === 'undefined')
       id = "n" + this.undefinedID++;
 
-    let group = new WbGroup(id);
+    let isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+
+    let group = new WbGroup(id, isPropeller);
 
     World.instance.nodes.set(group.id, group);
     await this.parseChildren(node, group);

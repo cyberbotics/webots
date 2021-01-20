@@ -16,9 +16,12 @@ import {WbBaseNode} from "./WbBaseNode.js"
 import {World} from "./World.js";
 
 class WbGroup extends WbBaseNode{
-  constructor(id){
+  constructor(id,isPropeller){
     super(id);
     this.children = [];
+
+    this.isPropeller = isPropeller;
+    this.currentHelix = -1; //to switch between fast and slow helix
   }
 
   delete() {
@@ -65,6 +68,27 @@ class WbGroup extends WbBaseNode{
     super.postFinalize();
 
     this.children.forEach( child => child.postFinalize());
+
+    if (this.isPropeller === true) {
+      if (typeof this.children[1] !== 'undefined')
+        this.currentHelix = this.children[1].id;
+      else if (typeof this.children[0] !== 'undefined')
+        this.currentHelix = this.children[0].id;
+      this.switchHelix(this.currentHelix, true);
+    }
+  }
+
+  switchHelix(id, force) {
+    if (id !== this.currentHelix || force) {
+      this.currentHelix = id;
+      this.children.forEach(child => {
+        if(child.id === this.currentHelix)
+          _wr_node_set_visible(child.wrenNode, true);
+        else
+          _wr_node_set_visible(child.wrenNode, false);
+      });
+
+    }
   }
 }
 
