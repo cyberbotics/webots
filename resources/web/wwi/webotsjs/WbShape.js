@@ -152,10 +152,8 @@ class WbShape extends WbBaseNode {
   }
 
   updateBoundingObjectVisibility() {
-    if (typeof this.geometry !== 'undefined') {
-      console.log(this.geometry);
+    if (typeof this.geometry !== 'undefined')
       this.geometry.updateBoundingObjectVisibility();
-    }
   }
 }
 

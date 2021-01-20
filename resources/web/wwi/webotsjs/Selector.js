@@ -22,7 +22,6 @@ class Selector {
     Selector.selectedId = "n-1"; //in case we select nothing
 
     let node = World.instance.nodes.get('n' + id)
-    console.log(id);
     if (typeof node === 'undefined'){
       Selector.preciseId = 'n' + id;
       return;
