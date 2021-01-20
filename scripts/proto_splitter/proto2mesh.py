@@ -69,8 +69,10 @@ class Mesh:
             faces = texCoordIndex.replace(',', '').split('-1')
             for face in faces:
                 self.texCoordIndex.append(np.array(face.split(), dtype=int))
+            if len(self.texCoordIndex[-1]) == 0:
+                self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                print("coordIndex and texCoordIndex mismatch")
+                print("coordIndex and texCoordIndex mismatch: " + str(len(self.texCoordIndex)) + " != " + str(self.n_faces))
         else:
             self.texCoord = []
         self.normalIndex = []
@@ -80,6 +82,8 @@ class Mesh:
             faces = normalIndex.replace(',', '').split('-1')
             for face in faces:
                 self.normalIndex.append(np.array(face.split, dtype=int))
+            if len(self.normalIndex[-1]) == 0:
+                self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
                 print("coordIndex and normalIndex mismatch")
         else:
