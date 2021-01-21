@@ -31,6 +31,7 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.refreshLabelsRate = 3; // [Hz]
   this.lastLabelRefresh = 0; // [simulated seconds]
   this.blockSliderUpdateFlag = false;
+  this.pendingSliderPositionUpdate = false;
 
   // Compute y-axis offset.
   // This is used to avoid that points touches the top or bottom bounds of the plot in order to improve the plot readability.
@@ -70,6 +71,10 @@ TimeplotWidget.prototype.addValue = function(value) {
 };
 
 TimeplotWidget.prototype.setSlider = function(slider) {
+  if (slider !== null && this.slider === null) {
+    let that = this;
+    window.addEventListener('resize', function() { that.resize(); });
+  }
   this.slider = slider;
 };
 
@@ -157,6 +162,9 @@ TimeplotWidget.prototype.refresh = function() {
     this.lastX = value.x;
     this.lastY = value.y;
   }
+
+  if (this.pendingSliderPositionUpdate)
+    this.updateSliderPosition();
 };
 
 // Jump to a new y range based on the initial range and the new y value.
@@ -316,6 +324,30 @@ TimeplotWidget.prototype.labelColorByIndex = function(i) {
   if (i === 2)
     return 'blue';
   return 'black';
+};
+
+TimeplotWidget.prototype.updateSliderPosition = function() {
+  let parentSection = this.container;
+  while (parentSection.className !== 'devices-layout') {
+    parentSection = parentSection.parentElement;
+    if (!parentSection)
+      return;
+  }
+  if (parentSection.offsetWidth < (this.canvasWidth + 30))
+    this.slider.classList.add('motor-slider-right');
+  else
+    this.slider.classList.remove('motor-slider-right');
+  this.pendingSliderPositionUpdate = false;
+};
+
+TimeplotWidget.prototype.resize = function() {
+  if (!this.slider)
+    return;
+  // Mode slider immediately only if the container is visible.
+  if (!this.container.offsetParent)
+    this.pendingSliderPositionUpdate = true;
+  else
+    this.updateSliderPosition();
 };
 
 function roundLabel(value, decimals = 3) {

@@ -228,6 +228,10 @@ h2 {
   height: 209px;
   -webkit-appearance: slider-vertical;
 }
+.motor-slider-right {
+  right: auto;
+  left: 13px;
+}
 .motor-slider::-webkit-slider-runnable-track {
   -webkit-appearance: slider-vertical;
 }
@@ -276,7 +280,7 @@ h2 {
   /* Fill the overall left part of the plot, use `justify-content` to align text. */
   -webkit-writing-mode: vertical-lr;
   top: 15px;
-  left: -10px;
+  left: -15px;
   width: 16px;
   height: 202px;
 }

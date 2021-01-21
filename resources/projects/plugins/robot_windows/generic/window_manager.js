@@ -36,12 +36,20 @@ function openMenu() {
   document.getElementById('menu').style.display = 'flex';
   document.getElementById('menu-open-button').style.display = 'none';
   document.getElementById('content').style.marginLeft = document.getElementById('menu').offsetWidth + 'px';
+  resizeWidgets();
 }
 
 function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
+  resizeWidgets();
+}
+
+function resizeWidgets() {
+  Object.keys(widgets).forEach(function(deviceName) {
+    widgets[deviceName].resize();
+  });
 }
 
 function appendNewElement(id, newElement) {

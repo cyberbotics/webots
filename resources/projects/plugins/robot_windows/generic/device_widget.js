@@ -208,6 +208,15 @@ DeviceWidget.prototype.refresh = function() {
   }
 };
 
+DeviceWidget.prototype.resize = function() {
+  if (this.plots) {
+    this.plots.forEach(function(widget) {
+      if (typeof widget.resize === 'function')
+        widget.resize();
+    });
+  }
+};
+
 DeviceWidget.createWidget = function(basicTimeStep, device) {
   const widget = new DeviceWidget(basicTimeStep, device);
   DeviceWidget.widgets[device.name] = widget;
