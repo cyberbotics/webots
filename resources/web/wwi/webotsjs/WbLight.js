@@ -81,6 +81,7 @@ class WbLight extends WbBaseNode {
   }
 
   preFinalize() {
+    super.preFinalize();
     WbLight.lights.push(this);
   }
 }

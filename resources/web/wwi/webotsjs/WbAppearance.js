@@ -76,7 +76,7 @@ class WbAppearance extends WbAbstractAppearance {
       wrenMaterial = _wr_phong_material_new();
     }
 
-    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.depthOnlyShader());
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
     return wrenMaterial;
   }
 

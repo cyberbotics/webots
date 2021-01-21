@@ -18,6 +18,7 @@ import {WbShape} from "./WbShape.js";
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbTransform} from "./WbTransform.js"
+import {WbLight} from "./WbLight.js"
 
 
 class Use extends WbBaseNode {
@@ -124,6 +125,8 @@ class Use extends WbBaseNode {
 
   preFinalize(){
     this.isPreFinalizeCalled = true;
+    if(this.def instanceof WbLight)
+      this.def.preFinalize();
   }
 
   postFinalize(){
