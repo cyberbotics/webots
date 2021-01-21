@@ -114,6 +114,12 @@ class Mesh:
                 self.normalIndex[counter].append(counter)
                 faceNormal.append(counter)
 
+        faceIndex = []
+        for i in range(len(self.coord)):
+            faceIndex[i] = []
+        for counter, face in enumerate(self.coordIndex):
+            faceIndex[face].append(counter)
+
         # for counter, face in enumerate(self.coordIndex):
         #     print('face ' + str(counter))
         #     n1 = faceNormal[counter]
