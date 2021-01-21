@@ -76,8 +76,7 @@ class WbPointLight extends WbLight {
   applyLightVisibilityToWren() {
     _wr_point_light_set_on(this.wrenLight, this.on);
 
-    //FIXME : Verify if this check is still needed or if we can get rid of it
-    const maxCount = undefined;//wr_config_get_max_active_point_light_count();
+    const maxCount = _wr_config_get_max_active_point_light_count();
     const activeCount = _wr_scene_get_active_point_light_count(_wr_scene_get_instance());
     if (activeCount == maxCount)
       console.log("Maximum number of active point lights has been reached, newly added lights won't be rendered.");
