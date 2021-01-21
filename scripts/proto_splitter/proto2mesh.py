@@ -53,22 +53,22 @@ import numpy as np
 class Mesh:
     def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
         self.name = name
-        self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3)
+        self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
         faces = coordIndex.replace(',', '').split('-1')
         self.type = 'v'
         self.coordIndex = []
         for face in faces:
-            self.coordIndex.append(np.array(face.split(), dtype=int))
+            self.coordIndex.append(np.array(face.split(), dtype=int).tolist())
         if len(self.coordIndex[-1]) == 0:
             self.coordIndex.pop()
         self.n_faces = len(self.coordIndex)
         self.texCoordIndex = []
         if texCoord is not None:
             self.type += 't'
-            self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2)
+            self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
             faces = texCoordIndex.replace(',', '').split('-1')
             for face in faces:
-                self.texCoordIndex.append(np.array(face.split(), dtype=int))
+                self.texCoordIndex.append(np.array(face.split(), dtype=int).tolist())
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
@@ -78,10 +78,10 @@ class Mesh:
         self.normalIndex = []
         if normal is not None:
             self.type += 'n'
-            self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3)
+            self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
             faces = normalIndex.replace(',', '').split('-1')
             for face in faces:
-                self.normalIndex.append(np.array(face.split, dtype=int))
+                self.normalIndex.append(np.array(face.split, dtype=int).tolist())
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
@@ -89,6 +89,22 @@ class Mesh:
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
+
+    def remove_duplicate_texture_coordinates(self):
+        newTexCoord = []
+        for i, texCoord in enumerate(self.texCoord):
+            try:
+                j = self.texCoord.index(texCoord, i + 1)
+                for index in self.texCoordIndex:
+                    for k, v in enumerate(index):
+                        if v == j:
+                            index[k] = i
+                        elif v > j:
+                            index[k] = v - 1
+            except ValueError:
+                newTexCoord.append(texCoord)
+                continue
+        self.texCoord = newTexCoord
 
     def apply_crease_angle(self):
         if self.creaseAngle == 0:
@@ -224,6 +240,7 @@ class proto2mesh:
                     self.f.close()
                     self.cleanup(inFile)
                     for mesh in meshes.values():
+                        # mesh.remove_duplicate_texture_coordinates()
                         mesh.apply_crease_angle()
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
