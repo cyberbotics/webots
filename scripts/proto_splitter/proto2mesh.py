@@ -121,37 +121,24 @@ class Mesh:
             for j in face:
                 n = faceNormal[i]
                 smooth = True
+                creased = False
                 if smooth:
                     for k in faceIndex[j]:
                         if k == i:
                             continue
-                        n = np.add(n, faceNormal[k])
-                n = n / np.sqrt(np.sum(n**2))
-                self.normal.append(n)
-                self.normalIndex[i].append(counter)
-                counter += 1
-
-        # for counter, face in enumerate(self.coordIndex):
-        #     print('face ' + str(counter))
-        #     n1 = faceNormal[counter]
-        #     for c, index in enumerate(face):
-        #         addCount = 0
-        #         normal = n1
-        #         for counter2, face2 in enumerate(self.coordIndex):
-        #             if counter2 == counter:
-        #                 continue
-        #             if index not in face2:
-        #                 continue
-        #             n2 = faceNormal[counter2]
-        #             angle = np.arccos(np.clip(np.dot(n1, n2), -1.0, 1.0))
-        #             if angle > self.creaseAngle:
-        #                 continue
-        #             normal = np.add(normal, n2)
-        #             addCount += 1
-        #         if addCount > 0:  # vertex was smoothed
-        #             normal = normal / np.sqrt(np.sum(normal**2))
-        #             self.normalIndex[counter][c] = len(self.normal)
-        #             self.normal.append(normal)
+                        angle = np.arccos(np.clip(np.dot(faceNormal[i], faceNormal[k]), -1.0, 1.0))
+                        if angle < self.creaseAngle:
+                            n = np.add(n, faceNormal[k])
+                            creased = True
+                if creased:
+                    n = n / np.sqrt(np.sum(n**2))
+                try:
+                    index = self.normal.index(n.tolist())
+                    self.normalIndex[i].append(index)
+                except ValueError:
+                    self.normal.append(n.tolist())
+                    self.normalIndex[i].append(counter)
+                    counter += 1
 
         self.type += 'n'
         self.creaseAngle = 0
