@@ -108,17 +108,28 @@ class Mesh:
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
             normalized = n / np.sqrt(np.sum(n**2))
-            self.normal.append(normalized)
-            self.normalIndex.append([])
-            for i in range(size):
-                self.normalIndex[counter].append(counter)
-                faceNormal.append(counter)
+            faceNormal.append(normalized)
 
-        faceIndex = []
-        for i in range(len(self.coord)):
-            faceIndex[i] = []
+        faceIndex = [[] for _ in range(len(self.coord))]
         for counter, face in enumerate(self.coordIndex):
-            faceIndex[face].append(counter)
+            for index in face:
+                faceIndex[index].append(counter)
+
+        counter = 0
+        for i, face in enumerate(self.coordIndex):
+            self.normalIndex.append([])
+            for j in face:
+                n = faceNormal[i]
+                smooth = True
+                if smooth:
+                    for k in faceIndex[j]:
+                        if k == i:
+                            continue
+                        n = np.add(n, faceNormal[k])
+                n = n / np.sqrt(np.sum(n**2))
+                self.normal.append(n)
+                self.normalIndex[i].append(counter)
+                counter += 1
 
         # for counter, face in enumerate(self.coordIndex):
         #     print('face ' + str(counter))
