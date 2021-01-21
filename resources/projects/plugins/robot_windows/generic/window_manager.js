@@ -1,5 +1,5 @@
 /* global robotName: false */
-/* global DeviceWidget: false */
+/* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget */
 /* exported menuTabCallback */
 /* exported openMenu */
 /* exported closeMenu */
@@ -144,12 +144,19 @@ function addSettingsTab() {
   let div = '<div id="settings" class="settings">';
   div += '<h2>Generic robot window settings</h2>';
   div += '<div class="settings-content">Refresh rate: <input type="number" id="refresh-rate-number" value="32" min="2" max="2000" step="8"> ms</div>';
+  div += '<div class="settings-content"><input type="checkbox" title="Record data when plot is hidden." id="background-data-checkbox" onclick="backgroundDataCheckboxCallback(this)"/>Record data when plot is hidden</div>';
   div += '<div class="settings-content"><input type="button" value="Disable all devices" id="disable-all-button" class="device-button" onclick="enableAllDevicesCallback(null, false)"/></div>';
   div += '</div>';
   appendNewElement('Settings-layout', div);
   document.getElementById('refresh-rate-number').addEventListener('input', function(e) {
     window.robotWindow.send('refresh-rate ' + e.target.value);
   });
+}
+
+function backgroundDataCheckboxCallback(checkbox) {
+  TimeplotWidget.recordDataInBackground = checkbox.checked;
+  PlotWidget.recordDataInBackground = checkbox.checked;
+  RadarWidget.recordDataInBackground = checkbox.checked;
 }
 
 function setupWindow() {

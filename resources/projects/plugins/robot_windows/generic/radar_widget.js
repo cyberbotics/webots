@@ -16,7 +16,12 @@ function RadarWidget(container, device) {
   this.canvasContext = null;
 }
 
+RadarWidget.recordDataInBackground = false;
+
 RadarWidget.prototype.addTarget = function(x, y) {
+  if (!RadarWidget.recordDataInBackground && this.container.offsetParent === null)
+    return;
+
   this.Targets.push([x, y]);
 };
 

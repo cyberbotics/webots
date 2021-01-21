@@ -28,8 +28,13 @@ function PlotWidget(container, autoRange, indices, xRange, yRange, labels, devic
   this.canvasContext = null;
 }
 
+PlotWidget.recordDataInBackground = false;
+
 // @param value: format `{'x': 0.1, 'y': [0.2, 0.3, 0.5]}`.
 PlotWidget.prototype.addValue = function(value) {
+  if (!PlotWidget.recordDataInBackground && this.container.offsetParent === null)
+    return;
+
   const x = value.y[this.indices['x']];
   const y = value.y[this.indices['y']];
   this.values.push([x, y]);

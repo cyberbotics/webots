@@ -46,6 +46,8 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
 }
 
+TimeplotWidget.recordDataInBackground = false;
+
 TimeplotWidget.prototype.AutoRangeType = {
   NONE: 1, // Fixed range whatever the input data.
   STRETCH: 2, // If the input data is out of the range, then strech the range to see everything.
@@ -54,6 +56,9 @@ TimeplotWidget.prototype.AutoRangeType = {
 
 // @param value: format `{'x': 0.1, 'y': 0.2}` or `{'x': 0.1, 'y': [0.2, 0.3, 0.5]}`.
 TimeplotWidget.prototype.addValue = function(value) {
+  if (!TimeplotWidget.recordDataInBackground && this.container.offsetParent === null)
+    return;
+
   this.values.push(value);
   if (this.values.length > this.canvasWidth)
     this.values.shift();
