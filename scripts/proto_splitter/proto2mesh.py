@@ -120,16 +120,14 @@ class Mesh:
             self.normalIndex.append([])
             for j in face:
                 n = faceNormal[i]
-                smooth = True
                 creased = False
-                if smooth:
-                    for k in faceIndex[j]:
-                        if k == i:
-                            continue
-                        angle = np.arccos(np.clip(np.dot(faceNormal[i], faceNormal[k]), -1.0, 1.0))
-                        if angle < self.creaseAngle:
-                            n = np.add(n, faceNormal[k])
-                            creased = True
+                for k in faceIndex[j]:
+                    if k == i:
+                        continue
+                    angle = np.arccos(np.clip(np.dot(faceNormal[i], faceNormal[k]), -1.0, 1.0))
+                    if angle < self.creaseAngle:
+                        n = np.add(n, faceNormal[k])
+                        creased = True
                 if creased:
                     n = n / np.sqrt(np.sum(n**2))
                 try:
