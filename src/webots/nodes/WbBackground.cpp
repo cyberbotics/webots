@@ -590,11 +590,27 @@ void WbBackground::applySkyBoxToWren() {
   WrTextureCubeMap *cm;
   if (!mIrradianceTexture[0]) {
     // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
-    cm = NULL;
-    if (!mCubeMapTexture)
-      mCubeMapTexture = wr_texture_cubemap_new();
+    int size;
+    if (mCubeMapTexture) {  // if a cubemap is available, use it
+      cm = mCubeMapTexture;
+      size = 64;
+    } else {  // otherwise, use a small white texture
+      cm = wr_texture_cubemap_new();
+      size = 2;
+      const int size2 = size * size;
+      wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+      unsigned int data[size2];
+      for (int i = 0; i < size2; i++)
+        data[i] = 0x00ffffff;  // white color
+      for (int i = 0; i < 6; i++)
+        wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
+      wr_texture_set_size(WR_TEXTURE(cm), size, size);
+      wr_texture_setup(WR_TEXTURE(cm));
+    }
     mIrradianceCubeTexture =
-      wr_texture_cubemap_bake_specular_irradiance(mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 64);
+      wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), size);
+    if (!mCubeMapTexture)
+      wr_texture_delete(WR_TEXTURE(cm));
   } else {
     cm = wr_texture_cubemap_new();
     wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
@@ -606,10 +622,9 @@ void WbBackground::applySkyBoxToWren() {
     wr_texture_setup(WR_TEXTURE(cm));
     mIrradianceCubeTexture =
       wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), mIrradianceWidth);
+    wr_texture_delete(WR_TEXTURE(cm));
   }
   wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
-  if (cm)
-    wr_texture_delete(WR_TEXTURE(cm));
 
   WbWrenOpenGlContext::doneWren();
 
