@@ -258,6 +258,7 @@ class MyParser {
 
     let id = getNodeAttribute(node, 'id');
     let result = World.instance.nodes.get(use);
+
     if(typeof result === 'undefined'){
       use = 'n' + use
       result = World.instance.nodes.get(use);
@@ -445,7 +446,7 @@ class MyParser {
       currentNode.children.push(pointLight);
     }
 
-    World.instance.nodes.set(pointLight, pointLight);
+    World.instance.nodes.set(pointLight.id, pointLight);
 
     return pointLight;
 
