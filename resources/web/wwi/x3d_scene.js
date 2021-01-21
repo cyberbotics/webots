@@ -353,6 +353,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if(typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== 'n' +id)
         parent.switchHelix('n' + id);
     }
+
+    if (typeof World.instance.viewpoint.followedId !== 'undefined' && World.instance.viewpoint.followedId === 'n' + id)
+      World.instance.viewpoint.updateFollowUp();
+      
     /*
     let fields = appliedFields;
     for (let key in pose) {

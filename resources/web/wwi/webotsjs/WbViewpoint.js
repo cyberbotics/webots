@@ -18,13 +18,15 @@ import {WbWrenGtao} from "./WbWrenGtao.js";
 import {WbWrenBloom} from "./WbWrenBloom.js";
 import {WbWrenSmaa} from "./WbWrenSmaa.js";
 import {GTAO_LEVEL, disableAntiAliasing} from "./WbPreferences.js";
+import {WbVector3} from "./utils/WbVector3.js"
+import {World} from "./World.js"
 
 
 import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
 
 
 class WbViewpoint extends WbBaseNode {
-  constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness, followedId, ambientOcclusionRadius) {
+  constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
     super(id);
     this.orientation = orientation;
     this.position = position;
@@ -38,9 +40,12 @@ class WbViewpoint extends WbBaseNode {
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
     this.ambientOcclusionRadius = ambientOcclusionRadius;
-    
-    this.followsmoothness = followsmoothness;
+
+    this.followSmoothness = followSmoothness;
     this.followedId = followedId;
+    this.followedSolidPreviousPosition = new WbVector3();
+    this.equilibriumVector = new WbVector3();
+    this.velocity = new WbVector3();
 
     this.inverseViewMatrix;
 
@@ -262,15 +267,68 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updatePosition() {
-    if (this.wrenObjectsCreatedCalled) {
+    if (this.wrenObjectsCreatedCalled)
       this.applyPositionToWren();
-    }
   }
 
   updateOrientation() {
-    if (this.wrenObjectsCreatedCalled) {
+    if (this.wrenObjectsCreatedCalled)
       this.applyOrientationToWren();
+  }
+
+  updateFollowUp() {
+    if (typeof this.followedId === 'undefined' || typeof World.instance.nodes.get(this.followedId) === 'undefined')
+      return;
+
+    let followedSolid = World.instance.nodes.get(this.followedId)
+    let followedSolidPosition = followedSolid.translation;
+    let delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
+    this.followedSolidPreviousPosition = followedSolidPosition;
+
+    this.equilibriumVector = this.equilibriumVector.add(delta);
+    const mass = ((this.followSmoothness < 0.05) ? 0.0 : ((this.followSmoothness > 1.0)  ? 1.0 : this.followSmoothness));
+
+    // If mass is 0, we instantly move the viewpoint to its equilibrium position.
+    if (mass === 0.0) {
+      this.position = this.position.add(this.equilibriumVector);
+      this.velocity.setXyz(0.0, 0.0, 0.0);
+      this.equilibriumVector.setXyz(0.0, 0.0, 0.0);
+    } else {  // Otherwise we apply a force and let physics do the rest.
+      const timeStep = 8 / 1000.0; //TODO get the real timeStep
+      const acceleration = this.equilibriumVector.div(mass);
+      this.velocity = this.velocity.add(acceleration.mul(timeStep));
+
+      const viewPointScalarVelocity = this.velocity.length();
+      let followedObjectScalarVelocity;
+      let followedObjectVelocity = new WbVector3;
+      if (delta.length() > 0.0) {
+        followedObjectVelocity = (delta.div(timeStep));
+        followedObjectScalarVelocity = followedObjectVelocity.dot(this.velocity) / viewPointScalarVelocity;
+      } else {
+        followedObjectVelocity.setXyz(0.0, 0.0, 0.0);
+        followedObjectScalarVelocity = 0.0;
+      }
+
+      // If the viewpoint is going faster than the followed object, we slow it down to avoid oscillations
+      if (viewPointScalarVelocity > followedObjectScalarVelocity) {
+        const relativeSpeed = viewPointScalarVelocity - followedObjectScalarVelocity;
+        if (relativeSpeed < 0.0001)
+          this.velocity = this.velocity.mul(followedObjectScalarVelocity / viewPointScalarVelocity);
+        else {
+          let friction = 0.05 / mass;
+          if (friction > 1.0)
+            friction = 1.0;
+          this.velocity = this.velocity.mul((viewPointScalarVelocity - relativeSpeed * friction) / viewPointScalarVelocity);
+        }
+      }
+
+      const deltaPosition = (this.velocity.mul(timeStep));
+      this.position = this.position.add(deltaPosition);
+      // Moves the rotation point if a drag rotating the viewpoint is active
+
+      this.equilibriumVector = this.equilibriumVector.sub(deltaPosition);
     }
+      this.updatePosition();
   }
 
   preFinalize() {

@@ -174,11 +174,11 @@ class MyParser {
     let bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
     let far = parseFloat(getNodeAttribute(node, 'far', '2000'));
     let zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
-    let followsmoothness = parseFloat(getNodeAttribute(node, 'followsmoothness'));
+    let followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
     let followedId = getNodeAttribute(node, 'followedId');
     let ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followsmoothness, followedId, ambientOcclusionRadius);
+    let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
 
     return viewpoint
   }
