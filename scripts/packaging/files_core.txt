@@ -12,8 +12,8 @@ include/controller/
 include/controller/c/
 include/controller/c/webots/
 include/controller/c/webots/*.h
-include/controller/c/webots/robot_windows/
-include/controller/c/webots/robot_windows/*.h
+include/controller/c/webots/robot_window_utils/
+include/controller/c/webots/robot_window_utils/*.h
 include/controller/c/webots/utils/
 include/controller/c/webots/utils/*.h
 include/controller/c/webots/vehicle/
@@ -90,6 +90,8 @@ lib/controller/CppDriver [dll]
 lib/controller/driver [dll]
 lib/controller/car.lib [windows]
 lib/controller/driver.lib [windows]
+
+lib/controller/robot_window_utils [dll]
 
 lib/controller/python27/
 lib/controller/python27/*.py
@@ -267,6 +269,9 @@ resources/projects/controllers/void/Makefile
 resources/projects/controllers/void/void [exe]
 resources/projects/controllers/void/void.c
 resources/projects/libraries/
+resources/projects/libraries/robot_window_utils/
+resources/projects/libraries/robot_window_utils/Makefile
+resources/projects/libraries/robot_window_utils/*.c
 resources/projects/libraries/qt_utils/
 resources/projects/libraries/qt_utils/qt_utils [dll]
 resources/projects/libraries/qt_utils/icons/
