@@ -136,7 +136,7 @@ TimeplotWidget.prototype.refresh = function() {
     this.canvasContext.fillStyle = '#059';
     if (Array.isArray(value.y)) {
       for (let j = 0; j < value.y.length; ++j) {
-        this.canvasContext.fillStyle = (j === 0) ? '#A44' : ((j === 1) ? '#4A4' : '#44A');
+        this.canvasContext.fillStyle = this.colorByIndex(j);
         this.canvasContext.beginPath();
         this.canvasContext.arc(this.canvasWidth - 1, this.convertYCoordToCanvas(value.y[j]), 1.25, 0, 2.0 * Math.PI);
         this.canvasContext.fill();
@@ -255,9 +255,21 @@ TimeplotWidget.prototype.refreshLabels = function() {
     this.slider.value = this.lastY;
   if (this.label) {
     const v = this.lastY;
-    if (Array.isArray(v))
-      this.label.textContent = ': [' + roundLabel(v[0]) + ', ' + roundLabel(v[1]) + ', ' + roundLabel(v[2]) + ']';
-    else
+    if (Array.isArray(v)) {
+      const legend = this.labels['legend'];
+      let text = ':' + (legend ? ' ' : '<br>&emsp;&emsp;') + '[ ';
+      for (let i = 0; i < v.length; i++) {
+        if (i > 0)
+          text += ', ';
+        if (legend)
+          text += '<br>&emsp;&emsp;';
+        text += '<span style="color:' + this.labelColorByIndex(i) + '">';
+        if (legend && legend.length > i)
+          text += ' ' + legend[i] + ': ';
+        text += roundLabel(v[i], this.decimals) + '</span>';
+      }
+      this.label.innerHTML = text + (legend ? '<br>&emsp;&emsp;]' : ' ]');
+    } else
       this.label.textContent = ': ' + roundLabel(v);
   }
   this.lastLabelRefresh = this.lastX;
@@ -279,6 +291,26 @@ TimeplotWidget.prototype.displayHorizontalGrid = function(fromX, nX) {
     this.canvasContext.fillStyle = (i === 0) ? '#AAAAAA' : '#DDDDDD';
     this.canvasContext.fillRect(fromX, this.convertYCoordToCanvas(i * this.verticalGridSteps), nX, 1);
   }
+};
+
+TimeplotWidget.prototype.colorByIndex = function(i) {
+  if (i === 0)
+    return '#A44';
+  if (i === 1)
+    return '#4A4';
+  if (i === 2)
+    return '#44A';
+  return '#444';
+};
+
+TimeplotWidget.prototype.labelColorByIndex = function(i) {
+  if (i === 0)
+    return 'red';
+  if (i === 1)
+    return 'green';
+  if (i === 2)
+    return 'blue';
+  return 'black';
 };
 
 function roundLabel(value, decimals = 3) {

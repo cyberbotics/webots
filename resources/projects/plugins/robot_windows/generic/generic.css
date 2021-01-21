@@ -104,7 +104,7 @@ h2 {
   padding: 10px;
   margin: 10px;
   width: 350px;
-  height: 250px;
+  height: 255px;
   display: inline-block;
   background-color: lightgrey;
   overflow: hidden;
@@ -121,7 +121,7 @@ h2 {
   top: 30px;
   left: 10px;
   width: 350px;
-  height: 230px;
+  height: 240px;
   margin: 0px;
   padding: 0px;
 }
@@ -223,7 +223,7 @@ h2 {
   position: absolute;
   z-index: 1;
   width: 10px;
-  top: 0px;
+  top: 10px;
   right: 0px;
   height: 209px;
   -webkit-appearance: slider-vertical;
@@ -241,7 +241,7 @@ h2 {
 }
 .plot-canvas {
   position: absolute;
-  top: 5px;
+  top: 15px;
   left: 20px;
   width: 320px;
   height: 200px;
@@ -256,7 +256,7 @@ h2 {
 .plot-axis-label-x,
 .plot-axis-label-x-min,
 .plot-axis-label-x-max {
-  top: 200px;
+  top: 210px;
   left: 21px;
   width: 320px;
   height: 16px;
@@ -275,7 +275,7 @@ h2 {
 .plot-axis-label-y-max {
   /* Fill the overall left part of the plot, use `justify-content` to align text. */
   -webkit-writing-mode: vertical-lr;
-  top: 5px;
+  top: 15px;
   left: -10px;
   width: 16px;
   height: 202px;
