@@ -254,14 +254,18 @@ class proto2mesh:
         print('Proto 2 mesh proto converter by Simon Steinmann & Olivier Michel', flush=True)
 
     def get_data_from_field(self, ln):
+        line = ' '.join(ln)
+        while '[' not in line:
+            line = self.f.readline()
+            ln = line.split()
         i = ln.index('[')
         data = ' '.join(ln[i:])
-        while ']' not in ln:
+        while ']' not in line:
             line = self.f.readline()
             ln = line.split()
             data += line
         data = ' '.join(data.split())
-        data = data.replace('[', '').replace(']', '')
+        data = data.replace("[", '').replace("]", '')
         return ln, data
 
     def convert(self, inFile, outFile=None):
