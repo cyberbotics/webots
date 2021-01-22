@@ -19,7 +19,7 @@ void main() {
 
   vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
 
-  fragmentPosition = vCoordTransformed.xy*0.5;
+  fragmentPosition = vCoordTransformed.xy;
 
   gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
 }
