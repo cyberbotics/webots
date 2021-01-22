@@ -92,6 +92,46 @@ class Mesh:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
 
+    def remove_duplicate_coordinates(self):
+        if len(self.coord) == 0:
+            return
+        print('    Removing duplicate coordinates', flush=True)
+        # first pass: remove indices to duplicate values
+        removed = 0
+        for i, coord in enumerate(self.coord):
+            try:
+                j = self.coord.index(coord)
+                if j == i:
+                    continue
+                removed += 1
+                for index in self.coordIndex:
+                    for k, v in enumerate(index):
+                        if v == j:
+                            index[k] = i
+            except ValueError:
+                continue
+        print(f'    Removed {removed} duplicate coordinate indices', flush=True)
+        # second pass: remove unused vertices and adjust indexes
+        newCoord = []
+        newCoordIndex = copy.deepcopy(self.coordIndex)
+        removed = 0
+        for i, coord in enumerate(self.coord):
+            found = False
+            for index in self.coordIndex:
+                if i in index:
+                    newCoord.append(coord)
+                    found = True
+                    break
+            if not found:
+                removed += 1
+                for index in newCoordIndex:
+                    for k, v in enumerate(index):
+                        if v > i - removed:
+                            index[k] = v - 1
+        self.coord = newCoord
+        self.coordIndex = newCoordIndex
+        print(f'    Removed {removed} duplicate coordinates', flush=True)
+
     def remove_duplicate_texture_coordinates(self):
         if len(self.texCoord) == 0:
             return
@@ -267,6 +307,7 @@ class proto2mesh:
                     self.cleanup(inFile)
                     for mesh in meshes.values():
                         print('  Processing mesh ' + mesh.name, flush=True)
+                        mesh.remove_duplicate_coordinates()
                         mesh.remove_duplicate_texture_coordinates()
                         mesh.apply_crease_angle()
                     self.write_obj(meshes)
