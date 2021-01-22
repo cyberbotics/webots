@@ -72,7 +72,7 @@ class Mesh:
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                print("coordIndex and texCoordIndex mismatch: " + str(len(self.texCoordIndex)) + " != " + str(self.n_faces))
+                print('coordIndex and texCoordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
         self.normalIndex = []
@@ -85,7 +85,7 @@ class Mesh:
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
-                print("coordIndex and normalIndex mismatch")
+                print('coordIndex and normalIndex mismatch')
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
@@ -158,7 +158,7 @@ class Mesh:
         self.creaseAngle = 0
 
     def write_obj(self, file):
-        file.write("o " + self.name + '\n')
+        file.write('o ' + self.name + '\n')
         for vertex in self.coord:
             file.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
         # texture coordinates
@@ -185,7 +185,7 @@ class Mesh:
 
 class proto2mesh:
     def __init__(self):
-        print("Proto 2 multi-file proto converter by Simon Steinmann")
+        print('Proto 2 multi-file proto converter by Simon Steinmann')
 
     def get_data_from_field(self, ln):
         i = ln.index('[')
@@ -195,36 +195,36 @@ class proto2mesh:
             ln = line.split()
             data += line
         data = ' '.join(data.split())
-        data = data.replace("[", '').replace("]", '')
+        data = data.replace('[', '').replace(']', '')
         return ln, data
 
     def convert(self, inFile, outFile=None):
         path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         if outFile is None:
-            newPath = "{}/{}_multifile".format(path, self.robotName)
-            outFile = "{}/{}.proto".format(newPath, self.robotName)
+            newPath = '{}/{}_multifile'.format(path, self.robotName)
+            outFile = '{}/{}.proto'.format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
         os.makedirs(newPath, exist_ok=True)
         # make a dir called 'x_meshes'
-        os.makedirs(outFile.replace(".proto", "") + "_meshes", exist_ok=True)
-        self.meshFilesPath = outFile.replace(".proto", "") + "_meshes"
+        os.makedirs(outFile.replace('.proto', '') + '_meshes', exist_ok=True)
+        self.meshFilesPath = outFile.replace('.proto', '') + '_meshes'
         # The input PROTO file we are converting
         self.f = open(inFile)
-        self.protoFileString = ""
+        self.protoFileString = ''
         # The new proto file, with meshes extracted
-        self.pf = open(outFile, "w")
+        self.pf = open(outFile, 'w')
         self.shapeIndex = 0
         # Stores the DEF of the closest related parentnode of Type 'Group', 'Transform' or 'Shape'.
         # If a mesh has no name, this is used instead.
         parentDefName = None
         # A dictionary, which will get filled with all meshes of the PROTO file. Each
-        #  mesh has a key "<level>_<meshID>" level is the indent, meshID is unique
+        #  mesh has a key '<level>_<meshID>' level is the indent, meshID is unique
         #  number, counting up from 0. The value is an instance of the Mesh class.
         meshes = {}
         meshID = 0
-        indent = "  "
+        indent = '  '
         level = 0
         while True:
             line = self.f.readline()
@@ -246,28 +246,28 @@ class proto2mesh:
                     self.pf.write(self.protoFileString)
                     self.pf.close()
                     return
-            if "name" in ln:
-                name = ln[ln.index("name") + 1].replace('"', "")
-                if name == "IS":
-                    name = "base_link"
+            if 'name' in ln:
+                name = ln[ln.index('name') + 1].replace('"', '')
+                if name == 'IS':
+                    name = 'base_link'
                 counter = 0
                 for k, v in meshes.items():
                     if v.name is None:
                         mlvl = int(k.split('_')[0])
                         if mlvl in [level + 2, level + 4]:
-                            v.name = name + "_" + str(counter)
+                            v.name = name + '_' + str(counter)
                             counter += 1
-            if "DEF" in ln:
-                if "Group" in ln or "Transform" in ln or "Shape" in ln:
-                    parentDefName = str(level) + "_" + ln[ln.index("DEF") + 1]
-            if "IndexedFaceSet" in ln:
+            if 'DEF' in ln:
+                if 'Group' in ln or 'Transform' in ln or 'Shape' in ln:
+                    parentDefName = str(level) + '_' + ln[ln.index('DEF') + 1]
+            if 'IndexedFaceSet' in ln:
                 coord = coordIndex = texCoord = texCoordIndex = normal = normalIndex = creaseAngle = name = None
-                defString = ""
-                if "DEF" in ln:
-                    defString = "DEF " + ln[ln.index("DEF") + 1]
-                    name = ln[ln.index("DEF") + 1]
+                defString = ''
+                if 'DEF' in ln:
+                    defString = 'DEF ' + ln[ln.index('DEF') + 1] + ' '
+                    name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
-                    name = parentDefName.split("_")[1]
+                    name = parentDefName.split('_')[1]
                 shapeLevel = 1
                 meshID += 1
                 while shapeLevel > 0:
@@ -290,32 +290,32 @@ class proto2mesh:
                     if 'normalIndex' in ln:
                         ln, normalIndex = self.get_data_from_field(ln)
                     if 'creaseAngle' in ln:
-                        creaseAngle = ln[ln.index("creaseAngle") + 1]
+                        creaseAngle = ln[ln.index('creaseAngle') + 1]
                     line = self.f.readline()
                     ln = line.split()
-                    if "}" in ln:
+                    if '}' in ln:
                         shapeLevel -= 1
-                    if "{" in ln:
+                    if '{' in ln:
                         shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
                 meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
-                self.protoFileString += indent * level + "geometry " + defString + ' Mesh {\n'
-                self.protoFileString += indent * (level + 1) + "url MeshID_" + key + '_placeholder\n'
-                self.protoFileString += indent * level + "}\n"
+                self.protoFileString += indent * (level + 1) + 'geometry ' + defString + 'Mesh {\n'
+                self.protoFileString += indent * (level + 2) + 'url MeshID_' + key + '_placeholder\n'
+                self.protoFileString += indent * (level + 1) + '}\n'
             else:
-                if "}" in ln or "]" in ln:
+                if '}' in ln or ']' in ln:
                     level -= 1
                     if parentDefName is not None:
-                        if level < int(parentDefName.split("_")[0]):
+                        if level < int(parentDefName.split('_')[0]):
                             parentDefName = None
-                elif "{" in ln or "[" in ln:
+                elif '{' in ln or '[' in ln:
                     level += 1
                 # Write the whole line from input to output file, without changes
                 self.protoFileString += line
 
     def cleanup(self, inFile, outFile=None):
-        if inFile.endswith("_temp"):
+        if inFile.endswith('_temp'):
             os.remove(inFile)
         if outFile is not None:
             os.remove(outFile)
@@ -327,26 +327,26 @@ class proto2mesh:
         os.chdir(sourcePath)
         # Walk the tree.
         protoFiles = []  # List of the full filepaths.
-        for root, directories, files in os.walk("./"):
+        for root, directories, files in os.walk('./'):
             for filename in files:
                 # Join the two strings in order to form the full filepath.
-                if filename.endswith(".proto"):
+                if filename.endswith('.proto'):
                     filepath = os.path.join(root, filename)
                     filepath = filepath[1:]
                     protoFiles.append(filepath)
         for proto in protoFiles:
             inFile = sourcePath + proto
             outFile = outPath + proto
-            print("converting " + outFile)
+            print('converting ' + outFile)
             # make a copy of our inFile, which will be read and later deleted
-            shutil.copy(inFile, inFile + "_temp")
-            inFile = inFile + "_temp"
+            shutil.copy(inFile, inFile + '_temp')
+            inFile = inFile + '_temp'
             self.convert(inFile, outFile)
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
-        newDirName = os.path.basename(sourcePath) + "_multiProto_0"
-        newDirPath = os.path.dirname(sourcePath) + "/" + newDirName
+        newDirName = os.path.basename(sourcePath) + '_multiProto_0'
+        newDirPath = os.path.dirname(sourcePath) + '/' + newDirName
         n = 0
         while os.path.isdir(newDirPath):
             n += 1
@@ -360,38 +360,38 @@ class proto2mesh:
     def write_obj(self, meshes):
         for k, mesh in meshes.items():
             # Replace the placholder ID of the generated .obj meshes with their path
-            searchString = "MeshID_" + k + "_placeholder"
+            searchString = 'MeshID_' + k + '_placeholder'
             replaceString = '"' + self.robotName + '_meshes/' + mesh.name + '.obj"'
             self.protoFileString = self.protoFileString.replace(searchString, replaceString)
             # Create a new .obj mesh file
-            filepath = "{}/{}.obj".format(self.meshFilesPath, mesh.name)
-            f = open(filepath, "w")
+            filepath = '{}/{}.obj'.format(self.meshFilesPath, mesh.name)
+            f = open(filepath, 'w')
             mesh.write_obj(f)
             f.close()
 
 
-if __name__ == "__main__":
-    optParser = optparse.OptionParser(usage="usage: %prog  [options]")
+if __name__ == '__main__':
+    optParser = optparse.OptionParser(usage='usage: %prog  [options]')
     optParser.add_option(
-        "--input",
-        dest="inPath",
+        '--input',
+        dest='inPath',
         default=None,
-        help="Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.",
+        help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
     options, args = optParser.parse_args()
     inPath = options.inPath
     if inPath is not None:
         p2m = proto2mesh()
-        if os.path.splitext(inPath)[1] == ".proto":
+        if os.path.splitext(inPath)[1] == '.proto':
             p2m.convert(inPath)
-            print("Multi-file extraction done")
+            print('Multi-file extraction done')
         elif os.path.isdir(inPath):
             inPath = os.path.abspath(inPath)
             p2m.convert_all(inPath)
-            print("Multi-file extraction done")
+            print('Multi-file extraction done')
         else:
-            print("ERROR: --input has to be a .proto file or directory!")
+            print('ERROR: --input has to be a .proto file or directory!')
     else:
         print(
-            "Mandatory argument --input=<path> missing!\nSpecify a .proto file or directory path."
+            'Mandatory argument --input=<path> missing!\nSpecify a .proto file or directory path.'
         )
