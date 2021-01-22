@@ -336,6 +336,8 @@ class proto2mesh:
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
+                if name is None:
+                    name = "Mesh" + str(meshID)    
                 shapeLevel = 1
                 meshID += 1
                 while shapeLevel > 0:
@@ -359,6 +361,8 @@ class proto2mesh:
                         ln, normalIndex = self.get_data_from_field(ln)
                     if 'creaseAngle' in ln:
                         creaseAngle = ln[ln.index('creaseAngle') + 1]
+                    else:
+                        creaseAngle = 0
                     line = self.f.readline()
                     ln = line.split()
                     if '}' in ln:
