@@ -191,6 +191,7 @@ class Mesh:
                         creased = True
                 if creased:
                     n = n / np.sqrt(np.sum(n**2))
+                n = np.around(n, 4)
                 try:
                     index = self.normal.index(n.tolist())
                     self.normalIndex[i].append(index)
