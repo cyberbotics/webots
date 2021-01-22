@@ -106,7 +106,6 @@ class Mesh:
             if len(coordIndex) != 0:
                 sys.exit(f'Error: wrong {type} index')
             return
-        print(f'    Removing duplicate {type} coordinates', flush=True)
         # first pass: remove indices to duplicate values
         removed = 0
         for i, c in enumerate(coord):
@@ -121,7 +120,8 @@ class Mesh:
                             index[k] = i
             except ValueError:
                 continue
-        print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
+        if removed > 0:
+            print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
         # second pass: remove unused vertices and adjust indexes
         newCoord = []
         newCoordIndex = copy.deepcopy(coordIndex)
@@ -139,7 +139,8 @@ class Mesh:
                     for k, v in enumerate(index):
                         if v > i - removed:
                             index[k] = v - 1
-        print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+        if removed > 0:
+            print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
         if type == 'vertex':
             self.coord = newCoord
             self.coordIndex = newCoordIndex
