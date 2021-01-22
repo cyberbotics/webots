@@ -17,11 +17,9 @@ import {arrayXPointer} from "./WbUtils.js";
 class WbWrenShaders {
 
   static buildShader(shader, vertexShaderPath, fragmentShaderpath) {
-    //WbWrenOpenGlContext::makeWrenCurrent();
     Module.ccall('wr_shader_program_set_vertex_shader_path', null, ['number', 'string'], [shader, vertexShaderPath]);
     Module.ccall('wr_shader_program_set_fragment_shader_path', null, ['number', 'string'], [shader, fragmentShaderpath]);
     _wr_shader_program_setup(shader);
-    //WbWrenOpenGlContext::doneWren();
 
     if (!_wr_shader_program_get_gl_name(shader)) {
       console.error("Shader Error");

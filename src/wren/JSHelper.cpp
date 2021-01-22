@@ -63,6 +63,12 @@ int *wrjs_pointerOnInt(int nbr) {
   static int number = nbr;
   return reinterpret_cast<int *>(&number);
 }
+
+int *wrjs_pointerOnIntBis(int nbr) {
+  static int number = nbr;
+  return reinterpret_cast<int *>(&number);
+}
+
 // helper function to debug textures
 char *wrjs_dummy_texture() {
   static char data[256 * 256 * 4];

@@ -206,11 +206,21 @@ namespace wren {
     const unsigned int currentReadFrameBuffer = glstate::boundReadFrameBuffer();
 
     glstate::bindReadFrameBuffer(mGlName);
+
+#ifdef __EMSCRIPTEN__
+    glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_RGBA, GL_FLOAT, data);
+    std::cout << ((float *)data)[0] << " " << ((float *)data)[1] << " " << ((float *)data)[2] << " " << ((float *)data)[3]
+              << '\n';
+#else
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+    std::cout << ((float *)data)[0] << '\n';
+#endif
     if (config::requiresDepthBufferDistortion()) {
       GLfloat *fData = (GLfloat *)data;
       fData[0] = fData[0] * fData[0];
     }
+    // std::cout << +((float *)data)[0] << " " << +((float *)data)[1] << " " << +((float *)data)[2] << " " << +((float
+    // *)data)[3] << '\n';
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);
   }
 

@@ -1,6 +1,7 @@
 import {WbVector3} from "./utils/WbVector3.js";
-import {arrayXPointerInt, arrayXPointerFloat} from "./WbUtils.js"
+import {arrayXPointerInt, arrayXPointer, arrayXPointerFloat} from "./WbUtils.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
+import {World} from "./World.js"
 
 class WbWrenPicker {
   constructor() {
@@ -12,6 +13,7 @@ class WbWrenPicker {
     this.frameBuffer = undefined;
     this.outputTexture = undefined;
     this.viewport = _wr_viewport_new();
+    this.viewportDepth = _wr_viewport_new();
 
     const colorPointer = _wrjs_array4(0.0, 0.0, 0.0, 0.0);
     _wr_viewport_set_clear_color_rgba(this.viewport, colorPointer);
@@ -22,11 +24,14 @@ class WbWrenPicker {
   delete() {
     this.cleanup();
     _wr_viewport_delete(this.viewport);
+    _wr_viewport_delete(this.viewportDepth);
   }
 
   cleanup() {
     _wr_texture_delete(this.outputTexture);
     _wr_frame_buffer_delete(this.frameBuffer);
+    _wr_texture_delete(this.outputTextureDepth);
+    _wr_frame_buffer_delete(this.frameBufferDepth);
   }
 
   setup() {
@@ -41,16 +46,43 @@ class WbWrenPicker {
     _wr_frame_buffer_set_size(this.frameBuffer, this.width, this.height);
     _wr_frame_buffer_enable_depth_buffer(this.frameBuffer, true);
 
-    this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
-    _wr_frame_buffer_set_depth_texture(this.frameBuffer, this.wrenDepthFrameBufferTexture);
-
     _wr_frame_buffer_append_output_texture(this.frameBuffer, this.outputTexture);
     _wr_frame_buffer_enable_copying(this.frameBuffer, 0, true);
     _wr_frame_buffer_setup(this.frameBuffer);
 
     _wr_viewport_set_frame_buffer(this.viewport, this.frameBuffer);
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
+
+
+    //DEPTH
+    let viewportDepth = _wr_scene_get_viewport(_wr_scene_get_instance());
+    this.width = _wr_viewport_get_width(viewportDepth);
+    this.height = _wr_viewport_get_height(viewportDepth);
+    _wr_viewport_set_size(this.viewportDepth, this.width, this.height);
+
+    this.frameBufferDepth = _wr_frame_buffer_new();
+    this.outputTextureDepth = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.outputTextureDepth, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA32F);
+
+    this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+
+    _wr_frame_buffer_set_size(this.frameBufferDepth, this.width, this.height);
+    _wr_frame_buffer_enable_depth_buffer(this.frameBufferDepth, true);
+    _wr_frame_buffer_append_output_texture(this.frameBufferDepth, this.outputTextureDepth);
+    _wr_frame_buffer_append_output_texture_disable(this.frameBufferDepth, this.wrenNormalFrameBufferTexture);
+
+    //TODO DELETE CORRECTLY
+    this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
+    _wr_frame_buffer_set_depth_texture(this.frameBufferDepth, this.wrenDepthFrameBufferTexture);
+
+    //_wr_frame_buffer_enable_copying(this.frameBufferDepth, 0, true);
+    _wr_frame_buffer_setup(this.frameBufferDepth);
+
+    _wr_viewport_set_frame_buffer(this.viewportDepth, this.frameBufferDepth);
+
+    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewportDepth));
   }
 
   // Setup & attach picking material, based on the unique ID
@@ -74,7 +106,7 @@ class WbWrenPicker {
 
     if (!depthMaterial) {
       depthMaterial = _wr_phong_material_new();
-      _wr_material_set_default_program(material, WbWrenShaders.depthOnlyShader());
+      _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthOnlyShader());
 
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
     }
@@ -132,7 +164,7 @@ class WbWrenPicker {
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this.viewport), "picking", true]) //TODO: check if correct
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this.viewport), "picking", true])
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this.viewport, true);
     _wr_scene_enable_translucence(scene, true);
@@ -140,11 +172,11 @@ class WbWrenPicker {
     let data = [0,0,0,0];
     let dataPointer = arrayXPointerInt(data);
     _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, dataPointer, true);
-
     data[0] = Module.getValue(dataPointer, 'i8');
     data[1] = Module.getValue(dataPointer + 1, 'i8');
     data[2] = Module.getValue(dataPointer + 2, 'i8');
     data[3] = Module.getValue(dataPointer + 3, 'i8');
+
     _free(dataPointer);
 
     data[0] = data[0] >= 0 ? data[0] : 256 + data[0];
@@ -159,15 +191,39 @@ class WbWrenPicker {
     else
       this.selectedId = id - 1;
 
+    scene = _wr_scene_get_instance();
+    _wr_viewport_enable_skybox(this.viewportDepth, false);
+    _wr_scene_enable_translucence(scene, false);
+    _wr_scene_enable_depth_reset(scene, false);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this.viewportDepth), "depth", true])
+    _wr_scene_enable_depth_reset(scene, true);
+    _wr_viewport_enable_skybox(this.viewportDepth, true);
+    _wr_scene_enable_translucence(scene, true);
+
+    data = [0,0,0,0];
+    dataPointer = arrayXPointerFloat(data);
+    _wr_frame_buffer_copy_depth_pixel(this.frameBufferDepth, x, y, dataPointer, true);
+
+    //let gl = canvas.getContext('webgl2');
+    //data = new Uint8Array(4);
+    //gl.readPixels(x, y,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data);
+
+    data[0] = Module.getValue(dataPointer, 'float');
+    data[1] = Module.getValue(dataPointer + 4, 'float');
+    data[2] = Module.getValue(dataPointer + 8, 'float');
+    data[3] = Module.getValue(dataPointer + 12, 'float');
+    console.log(data);
+    _free(dataPointer);
+
     /* Try to not use it as it is not trivial in webgl
     // Compute coordinates
     let depth = 0;
     let depthPointer = _wrjs_pointerOnFloat(depth);
     _wr_frame_buffer_copy_depth_pixel(this.frameBuffer, x, y, depthPointer, true);
     depth = Module.getValue(depthPointer, 'float')
-    _free(depthPointer);
+    _free(depthPointer);*/
 
-    this.coordinates = new WbVector3(x, this.height - y - 1, depth);*/
+    this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
     return true;
   }
 }

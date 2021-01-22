@@ -2,10 +2,10 @@
 
 precision highp float;
 
-in vec4 fragmentPosition;
+in vec2 fragmentPosition;
 
 out vec4 depth;
 
 void main() {
-  depth = vec4(abs(fragmentPosition.b)/10.0, 0.0, 0.0, 1.0);
+  depth = vec4(gl_FragCoord.z, 0.0, 0.0, 1.0);
 }

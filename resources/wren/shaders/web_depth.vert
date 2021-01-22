@@ -2,7 +2,7 @@
 
 layout(location = 0) in vec3 vCoord;
 
-out vec4 fragmentPosition;
+out vec2 fragmentPosition;
 
 uniform mat4 modelTransform;
 
@@ -19,7 +19,7 @@ void main() {
 
   vec4 vCoordTransformed = modelView * vec4(vCoord, 1.0);
 
-  fragmentPosition = vec4(vCoordTransformed.xyz,1.0);
+  fragmentPosition = vCoordTransformed.xy*0.5;
 
   gl_Position = cameraTransforms.infiniteProjection * vCoordTransformed;
 }

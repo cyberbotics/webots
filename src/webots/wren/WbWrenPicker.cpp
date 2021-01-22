@@ -19,7 +19,7 @@
 
 #include <wren/material.h>
 #include <wren/scene.h>
-
+#include <iostream>
 // Setup & attach picking material, based on the unique ID
 // ID is encoded in the following way:
 // Most significant word: red and green channels of ambient color
@@ -187,7 +187,7 @@ bool WbWrenPicker::pick(int x, int y) {
   wr_frame_buffer_copy_depth_pixel(mFrameBuffer, x, y, &depth, true);
 
   WbWrenOpenGlContext::doneWren();
-
+  std::cout << depth << '\n';
   mCoordinates = WbVector3(x, mHeight - y - 1, depth);
 
   return true;
