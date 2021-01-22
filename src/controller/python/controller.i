@@ -753,19 +753,29 @@ class AnsiCodes(object):
 //  RangeFinder
 //----------------------------------------------------------------------------------------------
 
-%typemap(out) float * {
-  int width = arg1->getWidth();
-  int height = arg1->getHeight();
-  int len = width * height;
-  if ($1) {
-    $result = PyList_New(len);
-    for (int x = 0; x < len; ++x)
-      PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
-  } else
-    $result = Py_None;
-}
-
 %extend webots::RangeFinder {
+
+  PyObject *__getRangeImageList() {
+    const float *im = $self->getRangeImage();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
+    const int len = width * height;
+    if (im) {
+      PyObject *ret = PyList_New(len);
+      for (int x = 0; x < len; ++x)
+        PyList_SetItem(ret, x, PyFloat_FromDouble(im[x]));
+      return ret;
+    } else {
+      return Py_None;
+    }
+  }
+
+  PyObject *__getRangeImageBuffer() {
+    const float *im = $self->getRangeImage();
+    const char *im_bytes = (const char *)im;
+    const int size = $self->getWidth() * $self->getHeight() * sizeof(float);
+    return PyBytes_FromStringAndSize(im_bytes, size);
+  }
 
   PyObject *getRangeImageArray() {
     const float *im = $self->getRangeImage();
@@ -785,6 +795,17 @@ class AnsiCodes(object):
     }
     return ret;
   }
+
+  %pythoncode %{
+    def getRangeImage(self, data_type='list'):
+      if data_type == 'list':
+        return self.__getRangeImageList()
+      elif data_type == 'buffer':
+        return self.__getRangeImageBuffer()
+      else:
+        print("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(data_type), file=sys.stderr)
+        return None
+  %}
 
   static PyObject *rangeImageGetValue(PyObject *im, double minRange, double maxRange, int width, int x, int y) {
     if (!PyList_Check(im)) {
