@@ -440,9 +440,14 @@ void WbLidar::displayPointCloud() {
         color[2] = 1.0f - color[0];
       }
       for (int l = 0; l < resolution; ++l) {
-        const float *vertex = &pointArray()[k * resolution + l].x;
+        const float *vertex_x = &pointArray()[k * resolution + l].x;
+        const float *vertex_y = &pointArray()[k * resolution + l].y;
+        const float *vertex_z = &pointArray()[k * resolution + l].z;
 
-        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex);
+        if (isinf(*vertex_x) || isinf(*vertex_y) || isinf(*vertex_z))
+          continue;
+
+        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex_x);
         wr_dynamic_mesh_add_color(mLidarPointsMesh, color);
         wr_dynamic_mesh_add_index(mLidarPointsMesh, pointsIndex++);
         // Ray
@@ -451,7 +456,7 @@ void WbLidar::displayPointCloud() {
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
 
-          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex);
+          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex_x);
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
         }
