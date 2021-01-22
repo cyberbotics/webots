@@ -44,6 +44,7 @@
 #
 
 
+import copy
 import os
 import optparse
 import shutil
@@ -92,20 +93,44 @@ class Mesh:
         self.creaseAngle = float(creaseAngle)
 
     def remove_duplicate_texture_coordinates(self):
-        newTexCoord = []
+        if len(self.texCoord) == 0:
+            return
+        print('    Removing duplicate texture coordinates', flush=True)
+        # first pass: remove indices to duplicate values
+        removed = 0
         for i, texCoord in enumerate(self.texCoord):
             try:
-                j = self.texCoord.index(texCoord, i + 1)
+                j = self.texCoord.index(texCoord)
+                if j == i:
+                    continue
+                removed += 1
                 for index in self.texCoordIndex:
                     for k, v in enumerate(index):
                         if v == j:
                             index[k] = i
-                        elif v > j:
-                            index[k] = v - 1
             except ValueError:
-                newTexCoord.append(texCoord)
                 continue
+        print(f'    Removed {removed} duplicate texture coordinate indices', flush=True)
+        # second pass: remove unused vertices and adjust indexes
+        newTexCoord = []
+        newTexCoordIndex = copy.deepcopy(self.texCoordIndex)
+        removed = 0
+        for i, texCoord in enumerate(self.texCoord):
+            found = False
+            for index in self.texCoordIndex:
+                if i in index:
+                    newTexCoord.append(texCoord)
+                    found = True
+                    break
+            if not found:
+                removed += 1
+                for index in newTexCoordIndex:
+                    for k, v in enumerate(index):
+                        if v > i - removed:
+                            index[k] = v - 1
         self.texCoord = newTexCoord
+        self.texCoordIndex = newTexCoordIndex
+        print(f'    Removed {removed} duplicate texture coordinates', flush=True)
 
     def apply_crease_angle(self):
         if self.creaseAngle == 0:
@@ -115,6 +140,7 @@ class Mesh:
         if self.type[-1] == 'n':
             return
         faceNormal = []
+        print('    Computing normals from creaseAngle', flush=True)
         for counter, face in enumerate(self.coordIndex):
             size = len(face)
             if size < 3:
@@ -241,7 +267,7 @@ class proto2mesh:
                     self.cleanup(inFile)
                     for mesh in meshes.values():
                         print('  Processing mesh ' + mesh.name, flush=True)
-                        # mesh.remove_duplicate_texture_coordinates()
+                        mesh.remove_duplicate_texture_coordinates()
                         mesh.apply_crease_angle()
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
