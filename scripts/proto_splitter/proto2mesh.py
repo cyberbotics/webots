@@ -92,34 +92,45 @@ class Mesh:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
 
-    def remove_duplicate_coordinates(self):
-        if len(self.coord) == 0:
+    def remove_duplicate(self, type):
+        if type == 'vertex':
+            coord = self.coord
+            coordIndex = self.coordIndex
+        elif type == 'texture':
+            coord = self.texCoord
+            coordIndex = self.texCoordIndex
+        elif type == 'normal':
+            coord = self.normal
+            coordIndex = self.normalIndex
+        if len(coord) == 0:
+            if len(coordIndex) != 0:
+                sys.exit(f'Error: wrong {type} index')
             return
-        print('    Removing duplicate coordinates', flush=True)
+        print(f'    Removing duplicate {type} coordinates', flush=True)
         # first pass: remove indices to duplicate values
         removed = 0
-        for i, coord in enumerate(self.coord):
+        for i, c in enumerate(coord):
             try:
-                j = self.coord.index(coord)
+                j = coord.index(c)
                 if j == i:
                     continue
                 removed += 1
-                for index in self.coordIndex:
+                for index in coordIndex:
                     for k, v in enumerate(index):
                         if v == j:
                             index[k] = i
             except ValueError:
                 continue
-        print(f'    Removed {removed} duplicate coordinate indices', flush=True)
+        print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
         # second pass: remove unused vertices and adjust indexes
         newCoord = []
-        newCoordIndex = copy.deepcopy(self.coordIndex)
+        newCoordIndex = copy.deepcopy(coordIndex)
         removed = 0
-        for i, coord in enumerate(self.coord):
+        for i, c in enumerate(coord):
             found = False
-            for index in self.coordIndex:
+            for index in coordIndex:
                 if i in index:
-                    newCoord.append(coord)
+                    newCoord.append(c)
                     found = True
                     break
             if not found:
@@ -128,49 +139,16 @@ class Mesh:
                     for k, v in enumerate(index):
                         if v > i - removed:
                             index[k] = v - 1
-        self.coord = newCoord
-        self.coordIndex = newCoordIndex
-        print(f'    Removed {removed} duplicate coordinates', flush=True)
-
-    def remove_duplicate_texture_coordinates(self):
-        if len(self.texCoord) == 0:
-            return
-        print('    Removing duplicate texture coordinates', flush=True)
-        # first pass: remove indices to duplicate values
-        removed = 0
-        for i, texCoord in enumerate(self.texCoord):
-            try:
-                j = self.texCoord.index(texCoord)
-                if j == i:
-                    continue
-                removed += 1
-                for index in self.texCoordIndex:
-                    for k, v in enumerate(index):
-                        if v == j:
-                            index[k] = i
-            except ValueError:
-                continue
-        print(f'    Removed {removed} duplicate texture coordinate indices', flush=True)
-        # second pass: remove unused vertices and adjust indexes
-        newTexCoord = []
-        newTexCoordIndex = copy.deepcopy(self.texCoordIndex)
-        removed = 0
-        for i, texCoord in enumerate(self.texCoord):
-            found = False
-            for index in self.texCoordIndex:
-                if i in index:
-                    newTexCoord.append(texCoord)
-                    found = True
-                    break
-            if not found:
-                removed += 1
-                for index in newTexCoordIndex:
-                    for k, v in enumerate(index):
-                        if v > i - removed:
-                            index[k] = v - 1
-        self.texCoord = newTexCoord
-        self.texCoordIndex = newTexCoordIndex
-        print(f'    Removed {removed} duplicate texture coordinates', flush=True)
+        print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+        if type == 'vertex':
+            self.coord = newCoord
+            self.coordIndex = newCoordIndex
+        elif type == 'texture':
+            self.texCoord = newCoord
+            self.texCoordIndex = newCoordIndex
+        elif type == 'normal':
+            self.normal = newCoord
+            self.normalIndex = newCoordIndex
 
     def apply_crease_angle(self):
         if self.creaseAngle == 0:
@@ -311,8 +289,9 @@ class proto2mesh:
                     self.cleanup(inFile)
                     for mesh in meshes.values():
                         print('  Processing mesh ' + mesh.name, flush=True)
-                        mesh.remove_duplicate_coordinates()
-                        mesh.remove_duplicate_texture_coordinates()
+                        mesh.remove_duplicate('vertex')
+                        mesh.remove_duplicate('normal')
+                        mesh.remove_duplicate('texture')
                         mesh.apply_crease_angle()
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
