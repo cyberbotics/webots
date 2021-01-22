@@ -4,6 +4,7 @@ import {World} from "./webotsjs/World.js"
 import {WbWrenPicker} from "./webotsjs/WbWrenPicker.js"
 import {Selector} from "./webotsjs/Selector.js"
 import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from "./webotsjs/WbUtils.js"
+import {WbVector3} from "./webotsjs/utils/WbVector3.js"
 
 /* global webots, SystemInfo */
 'use strict';
@@ -47,6 +48,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   _onMouseDown(event) {
     if(typeof this.picker === 'undefined')
       this.picker = new WbWrenPicker();
+
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
+    this.picker.pick(pos.x,pos.y)
+    Selector.select(this.picker.selectedId);
 
     this.state.wheelFocus = true;
     this._initMouseMove(event);
@@ -119,7 +124,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
       let halfPitchAngle = -0.005 * this.moveParams.dy;
       let halfYawAngle = -0.005 * this.moveParams.dx;
-      if (!false) {//TODO modify with isObjectPicked
+      if (this.picker.selectedId === -1) {
         halfPitchAngle /= -8;
         halfYawAngle /= -8;
       }
@@ -131,10 +136,12 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
 
       // Updates camera's position and orientation
+      let rotationCenter = glm.vec3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+      console.log(rotationCenter);
       let deltaRotation = yawRotation.mul(pitchRotation);
-      let currentPosition = position;//TODO update according to what is selected(deltaRotation * (position->value() - rotationCenter) + rotationCenter);
+      let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter)).add(rotationCenter);
       let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
-      World.instance.viewpoint.position = currentPosition;
+      World.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
       World.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
       World.instance.viewpoint.updatePosition();
       World.instance.viewpoint.updateOrientation();
@@ -414,10 +421,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
-      let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-      this.picker.pick(pos.x,pos.y)
-      Selector.select(this.picker.selectedId);
-
       if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
         World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 

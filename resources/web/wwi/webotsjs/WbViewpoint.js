@@ -19,6 +19,8 @@ import {WbWrenBloom} from "./WbWrenBloom.js";
 import {WbWrenSmaa} from "./WbWrenSmaa.js";
 import {GTAO_LEVEL, disableAntiAliasing} from "./WbPreferences.js";
 import {WbVector3} from "./utils/WbVector3.js"
+import {WbMatrix4} from "./utils/WbMatrix4.js"
+import {direction, up} from "./WbUtils.js"
 import {World} from "./World.js"
 
 
@@ -331,6 +333,38 @@ class WbViewpoint extends WbBaseNode {
       this.updatePosition();
   }
 
+  // Converts screen coordinates to world coordinates
+  toWorld(pos) {
+  let worldCoord;
+
+  if (this.far == 0)
+    this.far = WbViewpoint.DEFAULT_FAR;
+
+  let projection = new WbMatrix4();
+  projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, this.far / (this.zNear - this.far), -(this.far * this.zNear) / (this.far - this.zNear), 0, 0, -1, 0);
+
+  let eye = new WbVector3(this.position)
+  let center = eye.add(direction(this.orientation))
+  let up = up(this.orientation);
+
+  let f = (center.sub(eye)).normalized();
+  let s = f.cross(up).normalized();
+  let u = s.cross(f);
+
+  let view = WbMatrix4();
+  view.set(-s.x, -s.y -s.z, s.dot(eye), u.x u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
+
+  let inverse = projection.mul(view);
+  //TODO
+  if (!inverse.inverse())
+    return;
+
+  WbVector4 screen(pos.x(), pos.y(), pos.z(), 1.0);
+  screen = inverse * screen;
+  screen /= screen.w();
+  P.setXyz(screen.ptr());
+}
+
   preFinalize() {
     super.preFinalize();
 
@@ -347,8 +381,6 @@ class WbViewpoint extends WbBaseNode {
     this.updatePostProcessingEffects();
     if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();
-
-    //startFollowUpFromField();
   }
 
 }

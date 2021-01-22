@@ -21,7 +21,7 @@
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/camera.h>
-
+#include <iostream>
 // WbDragViewpointEvent constructor
 WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinematicsEvent(viewpoint) {
 }
@@ -102,6 +102,7 @@ void WbRotateViewpointEvent::applyToViewpoint(const QPoint &delta, const WbVecto
   const WbQuaternion yawRotation(cos(halfYawAngle), sinusYaw * worldUpVector.x(), sinusYaw * worldUpVector.y(),
                                  sinusYaw * worldUpVector.z());
   // Updates camera's position and orientation
+  std::cout << "rotationCenter " << rotationCenter.x() << " " << rotationCenter.y() << " " << rotationCenter.z() << '\n';
   const WbQuaternion deltaRotation(yawRotation * pitchRotation);
   const WbVector3 currentPosition(deltaRotation * (position->value() - rotationCenter) + rotationCenter);
   const WbQuaternion currentOrientation(deltaRotation * orientationValue.toQuaternion());

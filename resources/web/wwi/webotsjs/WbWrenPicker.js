@@ -175,7 +175,7 @@ class WbWrenPicker {
       return false;
     else
       this.selectedId = id - 1;
-
+      console.log(this.selectedId);
     scene = _wr_scene_get_instance();
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
@@ -193,6 +193,7 @@ class WbWrenPicker {
     _free(dataPointer);
 
     this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
+    console.log(this.coordinates);
     return true;
   }
 }
