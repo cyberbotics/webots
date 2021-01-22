@@ -265,7 +265,7 @@ class proto2mesh:
             ln = line.split()
             data += line
         data = ' '.join(data.split())
-        data = data.replace("[", '').replace("]", '')
+        data = data.replace('[', '').replace(']', '')
         return ln, data
 
     def convert(self, inFile, outFile=None):
@@ -341,7 +341,7 @@ class proto2mesh:
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
                 if name is None:
-                    name = "Mesh" + str(meshID)    
+                    name = 'Mesh' + str(meshID)
                 shapeLevel = 1
                 meshID += 1
                 while shapeLevel > 0:
