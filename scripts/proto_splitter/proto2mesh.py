@@ -48,6 +48,7 @@ import os
 import optparse
 import shutil
 import numpy as np
+import sys
 
 
 class Mesh:
@@ -72,7 +73,7 @@ class Mesh:
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                print('coordIndex and texCoordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
+                sys.exit('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
         self.normalIndex = []
@@ -85,7 +86,7 @@ class Mesh:
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
-                print('coordIndex and normalIndex mismatch')
+                sys.exit('normalIndex and coordIndex mismatch: ' + str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
@@ -117,8 +118,7 @@ class Mesh:
         for counter, face in enumerate(self.coordIndex):
             size = len(face)
             if size < 3:
-                print('Bad face with ' + str(size) + ' vertices.')
-                continue
+                sys.exit('Bad face with ' + str(size) + ' vertices.')
             p0 = [self.coord[face[0]][0], self.coord[face[0]][1], self.coord[face[0]][2]]
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
@@ -185,7 +185,7 @@ class Mesh:
 
 class proto2mesh:
     def __init__(self):
-        print('Proto 2 multi-file proto converter by Simon Steinmann')
+        print('Proto 2 mesh proto converter by Simon Steinmann & Olivier Michel', flush=True)
 
     def get_data_from_field(self, ln):
         i = ln.index('[')
@@ -240,6 +240,7 @@ class proto2mesh:
                     self.f.close()
                     self.cleanup(inFile)
                     for mesh in meshes.values():
+                        print('  Processing mesh ' + mesh.name, flush=True)
                         # mesh.remove_duplicate_texture_coordinates()
                         mesh.apply_crease_angle()
                     self.write_obj(meshes)
@@ -337,7 +338,7 @@ class proto2mesh:
         for proto in protoFiles:
             inFile = sourcePath + proto
             outFile = outPath + proto
-            print('converting ' + outFile)
+            print('Converting ' + outFile, flush=True)
             # make a copy of our inFile, which will be read and later deleted
             shutil.copy(inFile, inFile + '_temp')
             inFile = inFile + '_temp'
@@ -384,14 +385,12 @@ if __name__ == '__main__':
         p2m = proto2mesh()
         if os.path.splitext(inPath)[1] == '.proto':
             p2m.convert(inPath)
-            print('Multi-file extraction done')
+            print('Done')
         elif os.path.isdir(inPath):
             inPath = os.path.abspath(inPath)
             p2m.convert_all(inPath)
-            print('Multi-file extraction done')
+            print('Done')
         else:
-            print('ERROR: --input has to be a .proto file or directory!')
+            sys.exit('Error: --input has to be a .proto file or directory!')
     else:
-        print(
-            'Mandatory argument --input=<path> missing!\nSpecify a .proto file or directory path.'
-        )
+        sys.error('Error: Mandatory argument --input=<path> is missing! It should specify a .proto file or directory path.')
