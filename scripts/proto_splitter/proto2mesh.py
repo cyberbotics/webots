@@ -263,7 +263,7 @@ class proto2mesh:
         self.f = open(inFile)
         self.protoFileString = ''
         # The new proto file, with meshes extracted
-        self.pf = open(outFile, 'w')
+        self.pf = open(outFile, 'w', newline='\n')
         self.shapeIndex = 0
         # Stores the DEF of the closest related parentnode of Type 'Group', 'Transform' or 'Shape'.
         # If a mesh has no name, this is used instead.
@@ -421,7 +421,7 @@ class proto2mesh:
             self.protoFileString = self.protoFileString.replace(searchString, replaceString)
             # Create a new .obj mesh file
             filepath = '{}/{}.obj'.format(self.meshFilesPath, mesh.name)
-            f = open(filepath, 'w')
+            f = open(filepath, 'w', newline='\n')
             mesh.write_obj(f)
             f.close()
 
