@@ -381,7 +381,7 @@ class proto2mesh:
         outPath = self.create_outputDir(sourcePath)
         os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
-        os.chdir(sourcePath)
+        os.chdir(outPath)
         # Walk the tree.
         protoFiles = []  # List of the full filepaths.
         for root, directories, files in os.walk('./'):
@@ -392,7 +392,7 @@ class proto2mesh:
                     filepath = filepath[1:]
                     protoFiles.append(filepath)
         for proto in protoFiles:
-            inFile = sourcePath + proto
+            inFile = outPath + proto
             outFile = outPath + proto
             print('Converting ' + outFile, flush=True)
             # make a copy of our inFile, which will be read and later deleted
