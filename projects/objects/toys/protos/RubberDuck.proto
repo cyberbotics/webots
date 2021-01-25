@@ -43,7 +43,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "RubberDuck_meshes/BEAK.obj"
+              url "RubberDuck/beak.obj"
             }
           }
         ]
@@ -57,7 +57,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "RubberDuck_meshes/GEOM.obj"
+              url "RubberDuck/body.obj"
             }
           }
         ]
@@ -70,14 +70,14 @@ PROTO RubberDuck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/duck_eye.jpg"
+                  "RubberDuck/eye.jpg"
                 ]
               }
               metalness 0
               roughness 0.4
             }
             geometry Mesh {
-              url "RubberDuck_meshes/EYE.obj"
+              url "RubberDuck/eye.obj"
             }
           }
         ]

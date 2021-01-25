@@ -37,7 +37,7 @@
 #   - searches for every .proto file in the duplicated <path> recursively and:
 #       - ignores .proto file with either no header or a 'hidden' tag
 #       - replaces the file with a version, where meshes are extracted and put
-#         into a "<filename>_meshes" folder.
+#         into a "<protoname>/" folder.
 #       - the mesh proto files in the subfolder have the same header as the
 #         original file, with the additional 'hidden' tag added.
 #
@@ -257,9 +257,9 @@ class proto2mesh:
         else:
             newPath = os.path.dirname(outFile)
         os.makedirs(newPath, exist_ok=True)
-        # make a dir called 'x_meshes'
-        os.makedirs(outFile.replace('.proto', '') + '_meshes', exist_ok=True)
-        self.meshFilesPath = outFile.replace('.proto', '') + '_meshes'
+        # make a directory to store meshes with the same name as the proto
+        os.makedirs(outFile.replace('.proto', ''), exist_ok=True)
+        self.meshFilesPath = outFile.replace('.proto', '')
         # The input PROTO file we are converting
         self.f = open(inFile)
         self.protoFileString = ''
@@ -355,6 +355,7 @@ class proto2mesh:
                     if '{' in ln:
                         shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
+                name = name.lower()
                 meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
                 self.protoFileString += indent * (level + 1) + 'geometry ' + defString + 'Mesh {\n'
@@ -381,7 +382,7 @@ class proto2mesh:
         outPath = self.create_outputDir(sourcePath)
         os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
-        os.chdir(outPath)
+        os.chdir(sourcePath)
         # Walk the tree.
         protoFiles = []  # List of the full filepaths.
         for root, directories, files in os.walk('./'):
@@ -392,7 +393,7 @@ class proto2mesh:
                     filepath = filepath[1:]
                     protoFiles.append(filepath)
         for proto in protoFiles:
-            inFile = outPath + proto
+            inFile = sourcePath + proto
             outFile = outPath + proto
             print('Converting ' + outFile, flush=True)
             # make a copy of our inFile, which will be read and later deleted
@@ -418,7 +419,7 @@ class proto2mesh:
         for k, mesh in meshes.items():
             # Replace the placholder ID of the generated .obj meshes with their path
             searchString = 'MeshID_' + k + '_placeholder'
-            replaceString = '"' + self.robotName + '_meshes/' + mesh.name + '.obj"'
+            replaceString = '"' + self.robotName + '/' + mesh.name + '.obj"'
             self.protoFileString = self.protoFileString.replace(searchString, replaceString)
             # Create a new .obj mesh file
             filepath = '{}/{}.obj'.format(self.meshFilesPath, mesh.name)
