@@ -111,9 +111,9 @@ Such a computation assumes a uniform mass distribution in the primitives composi
 Note that the center of mass of the [Solid](#solid) does not depend on its `boundingObject`.
 The center of mass is specified by the `centerOfMass` field of the [Physics](physics.md) node (in coordinates relative to the center of the [Solid](#solid)).
 
-The outline `boundingObject` of the selected object is displayed in the 3D view.
-Otherwise, if the `View|Optional Rendering|Show ALl Bounding Objects` option is enabled, all the `boundingObjects` in the scene will be visible.
-The color of the `boundingObject` outline indicates if the object is colliding:
+The `boundingObject` of the selected object is displayed in the 3D view by depicting the outline of the `boundingObject` shapes.
+Additionally, if the `View|Optional Rendering|Show ALl Bounding Objects` option is enabled, all the `boundingObjects` in the scene will be visible.
+The color of the `boundingObject` outline indicates the status of the object:
 usually the outline is represented by white lines, but these lines turn pink if the solid is colliding with another object and blue when the solid is idle, i.e., it comes to rest and it does not interact with any other active solid.
 
 ### Unique Solid Name
