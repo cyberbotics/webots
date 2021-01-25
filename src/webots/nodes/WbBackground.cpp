@@ -515,6 +515,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
     shouldDelete = true;
     if (!device->open(QIODevice::ReadOnly)) {
       warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[j]->item(0)));
+      delete device;
       return false;
     }
   }
