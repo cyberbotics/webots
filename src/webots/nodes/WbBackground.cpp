@@ -350,7 +350,10 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
-      if (hasCompleteBackground)
+      if (!hasCompleteBackground) {
+        warn(tr("Incomplete background cubemap"));
+        return;
+      } else
         for (int i = 0; i < 6; i++)
           if (!loadTexture(i))
             return;
@@ -409,7 +412,7 @@ bool WbBackground::loadTexture(int i) {
     if (mUrlFields[i]->size() == 0)
       return false;
     url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[i]->item(0), false);
-    if (url == WbUrl::missingTexture()) {
+    if (url == WbUrl::missingTexture() || url.isEmpty()) {
       warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
       return false;
     }
@@ -509,6 +512,10 @@ bool WbBackground::loadIrradianceTexture(int i) {
       WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
     if (url.isEmpty()) {
       warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
+      return false;
+    }
+    if (url.isEmpty()) {
+      warn(tr("%1IrradianceUrl is empty").arg(gDirections[1]));
       return false;
     }
     device = new QFile(url);
