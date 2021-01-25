@@ -398,7 +398,7 @@ bool WbBackground::loadTexture(int i) {
   if (mDownloader[i]) {
     url = mUrlFields[i]->item(0);
     if (!mDownloader[i]->error().isEmpty()) {
-      warn(tr("Cannot not retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
+      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
       delete mDownloader[i];
       mDownloader[i] = NULL;
       return false;
