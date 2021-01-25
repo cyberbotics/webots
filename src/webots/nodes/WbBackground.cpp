@@ -350,10 +350,9 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
-      if (!hasCompleteBackground) {
+      if (!hasCompleteBackground)
         warn(tr("Incomplete background cubemap"));
-        return;
-      } else
+      else
         for (int i = 0; i < 6; i++)
           if (!loadTexture(i))
             return;
@@ -423,7 +422,6 @@ bool WbBackground::loadTexture(int i) {
       return false;
     }
   }
-  // int k = gCoordinateSystemSwap(i);
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
 
@@ -514,10 +512,6 @@ bool WbBackground::loadIrradianceTexture(int i) {
       warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
       return false;
     }
-    if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl is empty").arg(gDirections[1]));
-      return false;
-    }
     device = new QFile(url);
     shouldDelete = true;
     if (!device->open(QIODevice::ReadOnly)) {
@@ -603,6 +597,7 @@ void WbBackground::applySkyBoxToWren() {
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
+
   // 2. Load the irradiance map
   WrTextureCubeMap *cm;
   if (!mIrradianceTexture[0]) {
