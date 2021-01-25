@@ -3,7 +3,7 @@ WorldInfo {
   info [
     "Example uses of assets download from a URL, including sounds, textures and meshes."
   ]
-  title "Camera Noise Mask"
+  title "Assets Download"
   coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
