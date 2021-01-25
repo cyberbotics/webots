@@ -53,6 +53,7 @@ import sys
 import multiprocessing
 import signal
 
+
 class Mesh:
     def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
         self.name = name
@@ -428,9 +429,11 @@ class proto2mesh:
             mesh.write_obj(f)
             f.close()
 
+
 def initializer():
     """Ignore CTRL+C in the worker process."""
     signal.signal(signal.SIGINT, signal.SIG_IGN)
+
 
 if __name__ == '__main__':
     optParser = optparse.OptionParser(usage='usage: %prog  [options]')
