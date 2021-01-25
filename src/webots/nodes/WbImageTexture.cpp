@@ -248,18 +248,18 @@ void WbImageTexture::destroyWrenTexture() {
 
 void WbImageTexture::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-  int n = mUrl->size();
-  if (n == 0)
-    return;
+  const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
   }
-  const QString &url = mUrl->item(0);
-  if (isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
-    // url was changed from the scene tree or supervisor
-    downloadAssets();
-    return;
+  if (n > 0) {
+    const QString &url = mUrl->item(0);
+    if (isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
+      // url was changed from the scene tree or supervisor
+      downloadAssets();
+      return;
+    }
   }
 
   updateWrenTexture();
