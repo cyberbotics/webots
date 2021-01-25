@@ -453,7 +453,7 @@ if __name__ == '__main__':
             if os.path.splitext(inPath)[1] == '.proto':
                 p2m.convert(inPath)
                 print('Done')
-            elif os.path.isdir(inPath):            
+            elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
                 p2m.convert_all(pool, inPath)
                 pool.close()
@@ -468,4 +468,3 @@ if __name__ == '__main__':
         pool.terminate()
         pool.join()
         sys.exit("KeyboardInterrupt! Terminating running processes.")
-
