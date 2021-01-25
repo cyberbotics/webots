@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "Example use of 'noiseMaskUrl' field of a color Camera device."
+    "Example uses of assets download from a URL, including sounds, textures and meshes."
   ]
   title "Camera Noise Mask"
   coordinateSystem "NUE"
