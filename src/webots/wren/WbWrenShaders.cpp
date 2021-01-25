@@ -285,8 +285,7 @@ WrShaderProgram *WbWrenShaders::depthOnlyShader() {
 
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_DEPTH_ONLY], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-    ::buildShader(gShaders[SHADER_DEPTH_ONLY], QFileInfo("gl:shaders/depth_only.vert"),
-                  QFileInfo("gl:shaders/depth_only.frag"));
+    ::buildShader(gShaders[SHADER_DEPTH_ONLY], QFileInfo("gl:shaders/web_depth.vert"), QFileInfo("gl:shaders/web_depth.frag"));
   }
 
   return gShaders[SHADER_DEPTH_ONLY];

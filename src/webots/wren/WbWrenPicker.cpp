@@ -19,6 +19,7 @@
 
 #include <wren/material.h>
 #include <wren/scene.h>
+#include <iomanip>
 #include <iostream>
 // Setup & attach picking material, based on the unique ID
 // ID is encoded in the following way:
@@ -50,9 +51,17 @@ void WbWrenPicker::setPickable(WrRenderable *renderable, int uniqueId, bool pick
       id >>= 8;
     }
   }
-
   wr_phong_material_set_linear_ambient(material, encodedId);
   wr_phong_material_set_linear_diffuse(material, encodedId + 3);
+
+  WrMaterial *depthMaterial = wr_renderable_get_material(renderable, "depth");
+
+  if (!depthMaterial) {
+    depthMaterial = wr_phong_material_new();
+    wr_material_set_default_program(depthMaterial, WbWrenShaders::depthOnlyShader());
+
+    wr_renderable_set_material(renderable, depthMaterial, "depth");
+  }
 }
 
 WbWrenPicker::WbWrenPicker() :
@@ -63,6 +72,7 @@ WbWrenPicker::WbWrenPicker() :
   mPickedScale(0),
   mPickedResize(0) {
   mViewport = wr_viewport_new();
+  mViewportDepth = wr_viewport_new();
 
   const float color[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   wr_viewport_set_clear_color_rgba(mViewport, color);
@@ -73,6 +83,7 @@ WbWrenPicker::WbWrenPicker() :
 WbWrenPicker::~WbWrenPicker() {
   cleanup();
   wr_viewport_delete(mViewport);
+  wr_viewport_delete(mViewportDepth);
 }
 
 void WbWrenPicker::setup() {
@@ -95,6 +106,21 @@ void WbWrenPicker::setup() {
   wr_viewport_set_frame_buffer(mViewport, mFrameBuffer);
   wr_viewport_set_camera(mViewport, wr_viewport_get_camera(viewport));
 
+  // DEPTH
+  wr_viewport_set_size(mViewportDepth, mWidth, mHeight);
+
+  mFrameBufferDepth = wr_frame_buffer_new();
+  mOutputTextureDepth = wr_texture_rtt_new();
+  wr_texture_set_internal_format(WR_TEXTURE(mOutputTextureDepth), WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+
+  wr_frame_buffer_set_size(mFrameBufferDepth, mWidth, mHeight);
+  wr_frame_buffer_enable_depth_buffer(mFrameBufferDepth, true);
+
+  wr_frame_buffer_append_output_texture(mFrameBufferDepth, mOutputTextureDepth);
+  wr_frame_buffer_setup(mFrameBufferDepth);
+
+  wr_viewport_set_frame_buffer(mViewportDepth, mFrameBufferDepth);
+  wr_viewport_set_camera(mViewportDepth, wr_viewport_get_camera(viewport));
   WbWrenOpenGlContext::doneWren();
 }
 
@@ -104,6 +130,8 @@ void WbWrenPicker::cleanup() {
   wr_texture_delete(WR_TEXTURE(mOutputTexture));
   wr_frame_buffer_delete(mFrameBuffer);
 
+  wr_texture_delete(WR_TEXTURE(mOutputTextureDepth));
+  wr_frame_buffer_delete(mFrameBufferDepth);
   WbWrenOpenGlContext::doneWren();
 }
 
@@ -121,6 +149,12 @@ bool WbWrenPicker::hasSizeChanged() {
 }
 
 bool WbWrenPicker::pick(int x, int y) {
+  // x = 500;
+  // y = 518;
+
+  x = 620;
+  y = 391;
+
   WbWrenOpenGlContext::makeWrenCurrent();
   mCoordinates.setXyz(0.0, 0.0, 0.0);
   mSelectedId = -1;
@@ -182,12 +216,23 @@ bool WbWrenPicker::pick(int x, int y) {
     return true;
   }
 
-  // Compute coordinates
-  float depth;
-  wr_frame_buffer_copy_depth_pixel(mFrameBuffer, x, y, &depth, true);
+  // depth
+  wr_viewport_enable_skybox(mViewportDepth, false);
+  wr_scene_enable_translucence(scene, false);
+  wr_scene_enable_depth_reset(scene, false);
+  wr_scene_render_to_viewports(scene, 1, &mViewportDepth, "depth", true);
+  wr_scene_enable_depth_reset(scene, true);
+  wr_viewport_enable_skybox(mViewportDepth, true);
+  wr_scene_enable_translucence(scene, true);
 
+  float *depth = new float[4];
+  wr_frame_buffer_copy_depth_pixel(mFrameBufferDepth, x, y, depth, true);
+  // Compute coordinates
+  // float depth;
+  // wr_frame_buffer_copy_depth_pixel(mFrameBuffer, x, y, &depth, true);
   WbWrenOpenGlContext::doneWren();
-  mCoordinates = WbVector3(x, mHeight - y - 1, depth);
-  std::cout << "mCoordinates " << mCoordinates.x() << " " << mCoordinates.y() << " " << mCoordinates.z() << '\n';
+  mCoordinates = WbVector3(x, mHeight - y - 1, depth[0]);
+  std::cout << std::setprecision(10) << "mCoordinates " << depth[0] << " " << depth[1] << " " << depth[2] << " " << depth[3]
+            << '\n';
   return true;
 }

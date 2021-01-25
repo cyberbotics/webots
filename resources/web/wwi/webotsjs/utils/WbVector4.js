@@ -19,5 +19,9 @@ class WbVector4 {
     this.z = z;
     this.w = w;
   }
+
+  div(number) {
+    return new WbVector4(this.x / number, this.y / number, this.z / number, this.w / number);
+  }
 }
 export {WbVector4}

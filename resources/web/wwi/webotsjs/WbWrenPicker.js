@@ -58,7 +58,11 @@ class WbWrenPicker {
 
     this.frameBufferDepth = _wr_frame_buffer_new();
     this.outputTextureDepth = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.outputTextureDepth, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA32F);
+    _wr_texture_set_internal_format(this.outputTextureDepth, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+
+    //this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
+    //_wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
+    //_wr_frame_buffer_set_depth_texture(this.frameBufferDepth, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_set_size(this.frameBufferDepth, this.width, this.height);
     _wr_frame_buffer_enable_depth_buffer(this.frameBufferDepth, true);
@@ -135,6 +139,11 @@ class WbWrenPicker {
 
 
   pick(x, y) {
+    //x = 500;
+    //y = 518;
+
+    x = 620;
+    y = 391
     this.coordinates.setXyz(0.0, 0.0, 0.0);
     this.selectedId = -1;
 
@@ -176,7 +185,8 @@ class WbWrenPicker {
     else
       this.selectedId = id - 1;
       console.log(this.selectedId);
-    scene = _wr_scene_get_instance();
+
+    //scene = _wr_scene_get_instance();
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
@@ -190,10 +200,14 @@ class WbWrenPicker {
     _wr_frame_buffer_copy_depth_pixel(this.frameBufferDepth, x, y, dataPointer, true);
 
     data[0] = Module.getValue(dataPointer, 'float');
+    data[1] = Module.getValue(dataPointer + 4, 'float');
+    data[2] = Module.getValue(dataPointer + 8, 'float');
+    data[3] = Module.getValue(dataPointer + 12, 'float');
+    //let depth = data[0] * (1 - World.instance.viewpoint.zNear) + World.instance.viewpoint.zNear;
     _free(dataPointer);
 
     this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
-    console.log(this.coordinates);
+    console.log(data);
     return true;
   }
 }

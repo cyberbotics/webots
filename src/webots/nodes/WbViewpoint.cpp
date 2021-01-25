@@ -53,6 +53,7 @@
 #include <wren/viewport.h>
 
 #include <QtCore/QVariantAnimation>
+#include <iostream>
 
 #define ANIMATION_DURATION 1000
 
@@ -1062,6 +1063,8 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
 
   WbVector4 screen(pos.x(), pos.y(), pos.z(), 1.0);
   screen = inverse * screen;
+  std::cout << "screen " << screen.x() << " " << screen.y() << " " << screen.z() << " " << screen.w() << '\n';
+
   screen /= screen.w();
   P.setXyz(screen.ptr());
 }

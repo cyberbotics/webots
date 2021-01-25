@@ -19,6 +19,7 @@ import {WbWrenBloom} from "./WbWrenBloom.js";
 import {WbWrenSmaa} from "./WbWrenSmaa.js";
 import {GTAO_LEVEL, disableAntiAliasing} from "./WbPreferences.js";
 import {WbVector3} from "./utils/WbVector3.js"
+import {WbVector4} from "./utils/WbVector4.js"
 import {WbMatrix4} from "./utils/WbMatrix4.js"
 import {direction, up} from "./WbUtils.js"
 import {World} from "./World.js"
@@ -335,35 +336,33 @@ class WbViewpoint extends WbBaseNode {
 
   // Converts screen coordinates to world coordinates
   toWorld(pos) {
-  let worldCoord;
+    if (this.far === 0)
+      this.far = WbViewpoint.DEFAULT_FAR;
 
-  if (this.far == 0)
-    this.far = WbViewpoint.DEFAULT_FAR;
+    this.applyFarToWren();//TODO is it needed?
+    let projection = new WbMatrix4();
+    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, this.far / (this.zNear - this.far), -(this.far * this.zNear) / (this.far - this.zNear), 0, 0, -1, 0);
+    let eye = new WbVector3(this.position.x, this.position.y, this.position.z)
+    let center = eye.add(direction(this.orientation))
+    let upVec = up(this.orientation);
 
-  let projection = new WbMatrix4();
-  projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, this.far / (this.zNear - this.far), -(this.far * this.zNear) / (this.far - this.zNear), 0, 0, -1, 0);
+    let f = (center.sub(eye)).normalized();
+    let s = f.cross(upVec).normalized();
+    let u = s.cross(f);
 
-  let eye = new WbVector3(this.position)
-  let center = eye.add(direction(this.orientation))
-  let up = up(this.orientation);
+    let view = new WbMatrix4();
+    view.set(-s.x, -s.y, -s.z, s.dot(eye), u.x, u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
 
-  let f = (center.sub(eye)).normalized();
-  let s = f.cross(up).normalized();
-  let u = s.cross(f);
+    let inverse = projection.mul(view);
+    if (!inverse.inverse())
+      return;
 
-  let view = WbMatrix4();
-  view.set(-s.x, -s.y -s.z, s.dot(eye), u.x u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
 
-  let inverse = projection.mul(view);
-  //TODO
-  if (!inverse.inverse())
-    return;
-
-  WbVector4 screen(pos.x(), pos.y(), pos.z(), 1.0);
-  screen = inverse * screen;
-  screen /= screen.w();
-  P.setXyz(screen.ptr());
-}
+    let screenCoord = new WbVector4(pos.x, pos.y, pos.z, 1.0);
+    screenCoord = inverse.mulByVec4(screenCoord);
+    console.log(screenCoord);
+    return screenCoord.div(screenCoord.w);
+  }
 
   preFinalize() {
     super.preFinalize();
@@ -386,5 +385,5 @@ class WbViewpoint extends WbBaseNode {
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
-
+WbViewpoint.z = -1;
 export{WbViewpoint}

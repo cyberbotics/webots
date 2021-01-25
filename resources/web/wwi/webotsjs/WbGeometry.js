@@ -56,12 +56,9 @@ class WbGeometry extends WbBaseNode {
     WbWrenPicker.setPickable(this.wrenRenderable, this.id, pickable);
   }
 
-  computeWrenRenderable() {
+  /*computeWrenRenderable() {
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
-
-    //assert(wrenScaleTransform == NULL);
-    //assert(wrenRenderable == NULL);
 
     this.wrenScaleTransform = _wr_transform_new();
     _wr_transform_attach_child(this.wrenNode, this.wrenScaleTransform);
@@ -71,6 +68,43 @@ class WbGeometry extends WbBaseNode {
     this.wrenRenderable = _wr_renderable_new();
 
     Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth"])
+
+    _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
+
+    this.applyVisibilityFlagToWren(this.isSelected());
+
+    this.computeCastShadows(true);
+  }*/
+
+  computeWrenRenderable() {
+    if (!this.wrenObjectsCreatedCalled)
+      super.createWrenObjects();
+
+    this.wrenScaleTransform = _wr_transform_new();
+    _wr_transform_attach_child(this.wrenNode, this.wrenScaleTransform);
+    this.wrenNode = this.wrenScaleTransform;
+
+    this.wrenRenderable = _wr_renderable_new();
+
+    if (super.isInBoundingObject()) {
+      if (!this.wrenMaterial) {
+        this.wrenMaterial = _wr_phong_material_new();
+        _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.lineSetShader());
+      }
+
+      _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
+      _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
+      _wr_renderable_set_drawing_mode(this.renRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+
+      this.setWrenMaterial(this.wrenMaterial, false);
+    }
+
+    // used for rendering range finder camera
+    if (!this.wrenEncodeDepthMaterial) {
+      this.wrenEncodeDepthMaterial = _wr_phong_material_new();
+      _wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
+    }
+    _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 

@@ -14,6 +14,7 @@
 
 #include "WbMatrix4.hpp"
 
+#include <iostream>
 #include "WbMatrix3.hpp"
 #include "WbRotation.hpp"
 
@@ -123,6 +124,20 @@ WbMatrix4 WbMatrix4::dotTransposed(const WbMatrix4 &m) const {
 }
 
 WbVector4 WbMatrix4::operator*(const WbVector4 &v) const {
+  /*std::cout << "v " << mM[0] * v.x() + mM[1] * v.y() + mM[2] * v.z() + mM[3] * v.w() << '\n';
+  std::cout << mM[0] << '\n';
+  std::cout << mM[1] << '\n';
+  std::cout << mM[2] << '\n';
+  std::cout << mM[3] << '\n';
+  std::cout << v.x() << '\n';
+  std::cout << v.y() << '\n';
+  std::cout << v.z() << '\n';
+  std::cout << v.w() << '\n';
+
+  /*std::cout << "mat4 "
+            << " " << mM[0] << " " << mM[1] << " " << mM[2] << " " << mM[3] << " " << mM[4] << " " << mM[5] << " " << mM[6]
+            << " " << mM[7] << " " << mM[8] << " " << mM[9] << " " << mM[10] << " " << mM[11] << " " << mM[12] << " " << mM[13]
+            << " " << mM[14] << " " << mM[15] << '\n';*/
   return WbVector4(mM[0] * v.x() + mM[1] * v.y() + mM[2] * v.z() + mM[3] * v.w(),
                    mM[4] * v.x() + mM[5] * v.y() + mM[6] * v.z() + mM[7] * v.w(),
                    mM[8] * v.x() + mM[9] * v.y() + mM[10] * v.z() + mM[11] * v.w(),
