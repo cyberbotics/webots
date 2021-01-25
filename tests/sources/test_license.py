@@ -17,7 +17,6 @@
 """Test that checks that all the source files have the Apache 2 license."""
 
 import unittest
-import datetime
 import os
 import fnmatch
 
