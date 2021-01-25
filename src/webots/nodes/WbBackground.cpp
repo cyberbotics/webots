@@ -416,6 +416,7 @@ bool WbBackground::loadTexture(int i) {
     device = new QFile(url);
     if (!device->open(QIODevice::ReadOnly)) {
       warn(tr("Cannot open texture file: '%1'").arg(url));
+      delete device;
       return false;
     }
   }
@@ -425,6 +426,8 @@ bool WbBackground::loadTexture(int i) {
 
   if (textureSize.width() != textureSize.height()) {
     warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
+    if (!mDownloader[i])
+      delete device;
     return false;
   }
   for (int j = 0; j < 6; j++)
@@ -433,6 +436,8 @@ bool WbBackground::loadTexture(int i) {
         break;
       else {
         warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
+        if (!mDownloader[i])
+          delete device;
         return false;
       }
     }
@@ -440,6 +445,8 @@ bool WbBackground::loadTexture(int i) {
   mTexture[i] = new QImage;
   if (!imageReader.read(mTexture[i])) {
     warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
+    if (!mDownloader[i])
+      delete device;
     return false;
   }
 
@@ -450,6 +457,8 @@ bool WbBackground::loadTexture(int i) {
       warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
       delete mTexture[i];
       mTexture[i] = NULL;
+      if (!mDownloader[i])
+        delete device;
       return false;
     }
   }
