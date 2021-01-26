@@ -350,9 +350,10 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
-      if (!hasCompleteBackground)
-        warn(tr("Incomplete background cubemap"));
-      else
+      if (!hasCompleteBackground) {
+        if (urlCount > 0)
+          warn(tr("Incomplete background cubemap"));
+      } else
         for (int i = 0; i < 6; i++)
           if (!loadTexture(i))
             return;
