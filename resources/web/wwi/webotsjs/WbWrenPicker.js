@@ -142,8 +142,8 @@ class WbWrenPicker {
     //x = 500;
     //y = 518;
 
-    x = 620;
-    y = 391
+    //x = 620;
+    //y = 391
     this.coordinates.setXyz(0.0, 0.0, 0.0);
     this.selectedId = -1;
 
@@ -179,12 +179,13 @@ class WbWrenPicker {
     data[3] = data[3] >= 0 ? data[3] : 256 + data[3];
 
     let id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
-
-    if (id === 0)
+    console.log(x + " " + y);
+    console.log(id);
+    if (id === 0){
       return false;
+    }
     else
       this.selectedId = id - 1;
-      console.log(this.selectedId);
 
     //scene = _wr_scene_get_instance();
     _wr_viewport_enable_skybox(this.viewportDepth, false);

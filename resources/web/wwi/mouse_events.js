@@ -49,10 +49,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if(typeof this.picker === 'undefined')
       this.picker = new WbWrenPicker();
 
-    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-    this.picker.pick(pos.x,pos.y)
-    Selector.select(this.picker.selectedId);
-
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
@@ -423,6 +419,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
+      let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
+      this.picker.pick(pos.x,pos.y)
+      Selector.select(this.picker.selectedId);
+      
       if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
         World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 

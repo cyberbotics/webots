@@ -24,10 +24,12 @@ class Selector {
     let node = World.instance.nodes.get('n' + id)
     if (typeof node === 'undefined'){
       Selector.preciseId = 'n' + id;
+      Selector.previousAncestor = "n-1";
       return;
     }
 
     if (Selector.previousAncestor === getAncestor(node).id && (!Selector.local || Selector.preciseId !== 'n' + id)) {
+      console.log("local");
       Selector.selectedId = Selector.firstSolidId(node);
       Selector.local = true;
     }
