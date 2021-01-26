@@ -350,17 +350,29 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
+      bool destroy = false;
       if (!hasCompleteBackground) {
-        if (urlCount > 0)
+        if (urlCount > 0) {
           warn(tr("Incomplete background cubemap"));
+          destroy = true;
+        }
       } else
         for (int i = 0; i < 6; i++)
-          if (!loadTexture(i))
-            return;
+          if (!loadTexture(i)) {
+            destroy = true;
+            break;
+          }
       for (int i = 0; i < 6; i++)
-        if (!loadIrradianceTexture(i))
-          return;
-      applySkyBoxToWren();
+        if (!loadIrradianceTexture(i)) {
+          destroy = true;
+          break;
+        }
+      if (destroy) {
+        destroySkyBox();
+        applyColorToWren(skyColor());
+        emit WbWrenRenderingContext::instance()->backgroundColorChanged();
+      } else if (hasCompleteBackground)
+        applySkyBoxToWren();
     }
   }
 }
