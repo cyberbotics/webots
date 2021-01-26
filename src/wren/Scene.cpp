@@ -49,8 +49,8 @@
 #endif
 
 #include <algorithm>
+#include <iostream>
 #include <memory>
-
 #define INVERSE_LOG2 1.442695
 
 namespace wren {
@@ -236,13 +236,13 @@ namespace wren {
       listener();
 
     DEBUG("\nScene::renderToViewports: viewports.size()=" << viewports.size());
-
     prepareRender();
 
     for (Viewport *viewport : viewports) {
       mCurrentViewport = viewport;
 
       glstate::setDefaultState();
+
       mCurrentViewport->updateUniforms();
       mCurrentViewport->bind();
       mCurrentViewport->clear();

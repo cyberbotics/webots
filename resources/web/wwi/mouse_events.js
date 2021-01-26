@@ -378,7 +378,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.moveParams = {};
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(canvas, event.clientX, event.clientY);
-    this.intersection = this.scene.pick(relativePosition, screenPosition);
+
     if (this.intersection && this.intersection.object)
       this.moveParams.pickPosition = this.intersection.point;
     else
@@ -422,7 +422,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
       this.picker.pick(pos.x,pos.y)
       Selector.select(this.picker.selectedId);
-      
+
       if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
         World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 
@@ -430,11 +430,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         World.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
 
       var object;
-      if (this.intersection) {
-        object = this.intersection.object;
-        if (object)
-          object = this.scene.getTopX3dNode(object);
-      }
+
       this.scene.selector.select(object);
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&

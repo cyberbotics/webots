@@ -38,14 +38,6 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    // Automatically start the animation only when all the textures are loaded.
-    //if (this.gui === 'real_time' && TextureLoader.hasPendingData())
-      //this.gui = 'play_on_load'; // wait for textures loading
-
-    // Create play bar.
-    //var div = document.createElement('div');
-    //div.id = 'playBar';
-    //this.view.view3D.appendChild(div);
     this.view.view3D.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
     let div = document.getElementById("playBar");
 

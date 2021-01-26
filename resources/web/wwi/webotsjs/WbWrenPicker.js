@@ -54,7 +54,7 @@ class WbWrenPicker {
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
 
     //DEPTH
-    _wr_viewport_set_size(this.viewportDepth, this.width, this.height);
+    /*_wr_viewport_set_size(this.viewportDepth, this.width, this.height);
 
     this.frameBufferDepth = _wr_frame_buffer_new();
     this.outputTextureDepth = _wr_texture_rtt_new();
@@ -71,7 +71,7 @@ class WbWrenPicker {
     _wr_frame_buffer_setup(this.frameBufferDepth);
 
     _wr_viewport_set_frame_buffer(this.viewportDepth, this.frameBufferDepth);
-    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));*/
   }
 
   // Setup & attach picking material, based on the unique ID
@@ -80,6 +80,7 @@ class WbWrenPicker {
   // Least signigicant word: red and green channels of diffuse color
   // These are combined in RGBA channels in the picking fragment shader
   static setPickable(renderable, uniqueId, pickable) {
+    console.log("SET");
     uniqueId = parseFloat(uniqueId.substring(1));
 
     let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
@@ -91,14 +92,14 @@ class WbWrenPicker {
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, "picking"])
     }
 
-    let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "depth"])
+    /*let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "depth"])
 
     if (!depthMaterial) {
       depthMaterial = _wr_phong_material_new();
       _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthOnlyShader());
 
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
-    }
+    }*/
 
     let encodedId = [0,0,0,0,0,0];
 
@@ -155,6 +156,7 @@ class WbWrenPicker {
 
     // Check if object was picked & decode ID
     let scene = _wr_scene_get_instance();
+    console.log(this.viewport);
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
@@ -187,7 +189,7 @@ class WbWrenPicker {
     else
       this.selectedId = id - 1;
 
-    //scene = _wr_scene_get_instance();
+    /*//scene = _wr_scene_get_instance();
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
@@ -208,7 +210,7 @@ class WbWrenPicker {
     _free(dataPointer);
 
     this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
-    console.log(data);
+    console.log(data);*/
     return true;
   }
 }

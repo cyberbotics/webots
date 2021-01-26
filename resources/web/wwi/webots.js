@@ -217,12 +217,6 @@ webots.View = class View {
     var finalizeWorld = () => {
       $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
       if (typeof this.x3dScene !== 'undefined') {
-        if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
-          this.x3dScene.viewpoint.initFollowParameters();
-        else
-          // Reset follow parameters.
-          this.x3dScene.viewpoint.follow(this.x3dScene.viewpoint.followedObjectId);
-
         if (!this.isWebSocketProtocol) { // skip robot windows initialization
           if (this.animation != null)
             this.animation.init(loadFinalize);
@@ -526,8 +520,6 @@ webots.View = class View {
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
-      if (typeof this.x3dScene !== 'undefined')
-        this.x3dScene.viewpoint.resetFollow();
       this.onrobotwindowsdestroy();
       $('#webotsProgressMessage').html('Loading ' + this.toolBar.worldSelect.value + '...');
       $('#webotsProgress').show();
@@ -567,8 +559,6 @@ webots.View = class View {
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
     else
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-    if (typeof this.x3dScene !== 'undefined')
-      this.x3dScene.viewpoint.reset(this.time);
   }
 
   quitSimulation() {
@@ -586,6 +576,10 @@ webots.View = class View {
       this.x3dScene.destroyWorld();
     this.removeLabels();
     this.onrobotwindowsdestroy();
+    if(typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
+      this.mouseEvents.picker.delete();
+      this.mouseEvents.picker = undefined;
+    }
   }
 
   editController(controller) {
