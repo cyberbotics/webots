@@ -575,19 +575,19 @@ class WbWrenShaders {
     return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PICKING];
   }
 
-  static depthOnlyShader() {
-  if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY]) {
-    WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY] = _wr_shader_program_new();
+  static depthPixelShader() {
+    if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL]) {
+      WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL] = _wr_shader_program_new();
 
-    _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+      _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL], ENUM.WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
 
-    _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+      _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-    WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY], "../../../resources/wren/shaders/web_depth.vert", "../../../resources/wren/shaders/web_depth.frag");
+      WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL], "../../../resources/wren/shaders/web_depth.vert", "../../../resources/wren/shaders/web_depth.frag");
+    }
+
+    return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_PIXEL];
   }
-
-  return WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_DEPTH_ONLY];
-}
 }
 
 //gShaders static variable
@@ -645,7 +645,8 @@ WbWrenShaders.SHADER = {
     SHADER_SMAA_EDGE_DETECT_PASS : 49,
     SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS : 50,
     SHADER_SMAA_FINAL_BLEND_PASS : 51,
-    SHADER_COUNT : 52
+    SHADER_COUNT : 52,
+    SHADER_DEPTH_PIXEL: 53
   };
 
 export {WbWrenShaders}

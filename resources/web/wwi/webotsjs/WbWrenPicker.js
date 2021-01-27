@@ -95,7 +95,7 @@ class WbWrenPicker {
 
     if (!depthMaterial) {
       depthMaterial = _wr_phong_material_new();
-      _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthOnlyShader());
+      _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthPixelShader());
 
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
     }

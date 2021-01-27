@@ -117,6 +117,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     let orientation = World.instance.viewpoint.orientation;
     let position = World.instance.viewpoint.position;
 
+    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
+
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
       let halfPitchAngle = -0.005 * this.moveParams.dy;
       let halfYawAngle = -0.005 * this.moveParams.dx;
@@ -132,10 +136,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
 
       // Updates camera's position and orientation
-      let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-      rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
-      // /console.log(rotationCenter);
-      rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
       let deltaRotation = yawRotation.mul(pitchRotation);
       let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter)).add(rotationCenter);
       let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
@@ -146,8 +146,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.scene.render();
     } else {
       let distanceToPickPosition = 0.001;
-      if (false)//TODO modify with isObjectPicked
+      if (this.picker.selectedId !== -1){
         distanceToPickPosition = length(position.sub(rotationCenter));
+      }
       else
         distanceToPickPosition = length(position);
 
@@ -225,9 +226,25 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       return;
     }
 
+    let distanceToPickPosition;
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
     let position = World.instance.viewpoint.position;
-    let rollVector = direction(World.instance.viewpoint.orientation);
-    let zDisplacement = rollVector.mul(event.deltaY * 0.001);
+
+    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
+
+    if (this.picker.selectedId !== -1)
+      distanceToPickPosition = length(position.sub(rotationCenter));
+    else
+      distanceToPickPosition = length(position);
+
+    if (distanceToPickPosition < 0.001)
+      distanceToPickPosition = 0.001;
+
+    let direct = direction(World.instance.viewpoint.orientation);
+    const scaleFactor = 0.02 * (event.deltaY < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const zDisplacement = direct.mul(scaleFactor);
     World.instance.viewpoint.position = position.add(zDisplacement);
     World.instance.viewpoint.updatePosition();
 
