@@ -1,7 +1,7 @@
 ## How To
 
 This section gives various examples of complex behaviors and/or functionalities.
-The world files are located in the "[WEBOTS\_HOME/projects/samples/howto/worlds]({{ url.github_tree  }}/projects/samples/howto/worlds/)" directory, and their controllers in the "[WEBOTS\_HOME/projects/samples/howto/controllers](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/)" directory.
+The world files are located in the "[WEBOTS\_HOME/projects/samples/howto/worlds]({{ url.github_tree  }}/projects/samples/howto/worlds/)" directory, and their controllers in the "[WEBOTS\_HOME/projects/samples/howto/controllers]({{ url.github_tree  }}/projects/samples/howto/controllers/)" directory.
 For each, the world file and its corresponding controller are named according to the behavior they exemplify.
 
 ### [asymmetric\_friction1.wbt]({{ url.github_tree  }}/projects/samples/howto/asymmetric_friction/worlds/asymmetric_friction1.wbt)

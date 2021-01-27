@@ -45,7 +45,7 @@ The meaning of *q1* and *q2* is pretty similar to the one of *t1* and *t2*.
 
 More details about the above formulae can be found in "Guidance and Control of Ocean Vehicles" from Thor I. Fossen ([ISBN: 9780471941132](https://en.wikipedia.org/wiki/Special:BookSources?isbn=9780471941132)) and "Helicopter Performance, Stability, and Control" from Raymond W. Prouty ([ISBN: 9781575242095](https://en.wikipedia.org/wiki/Special:BookSources?isbn=9781575242095)).
 
-The [propeller.wbt](https://github.com/cyberbotics/webots/blob/released/projects/samples/devices/worlds/propeller.wbt) example shows three different helicopters modeled with [Propeller](#propeller) nodes.
+The [propeller.wbt]({{ url.github_tree  }}/projects/samples/devices/worlds/propeller.wbt) example shows three different helicopters modeled with [Propeller](#propeller) nodes.
 
 ### Field Summary
 
