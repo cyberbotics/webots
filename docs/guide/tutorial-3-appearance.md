@@ -63,9 +63,9 @@ A texture on a rolling object can help to appreciate its movement.
 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 2. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
 3. Then set the value of the newly added `url` item using the "Select" button.
-4. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg]({{ url.github_tree  }}/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
+4. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg]({{ url.github_tree }}/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
 
-The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`]({{ url.github_tree  }}/projects/default/worlds).
+The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`]({{ url.github_tree }}/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.
 
 Open the `red_brick_wall.jpg` texture in an image viewer while you observe how it is mapped onto the [Sphere](../reference/sphere.md) node in Webots.
@@ -93,7 +93,7 @@ Others rendering features can be helpful:
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution]({{ url.github_tree  }}/projects/samples/tutorials/worlds/appearance.wbt) as the others is located in the [solution directory]({{ url.github_tree  }}/projects/samples/tutorials/worlds/).
+[This solution]({{ url.github_tree }}/projects/samples/tutorials/worlds/appearance.wbt) as the others is located in the [solution directory]({{ url.github_tree }}/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

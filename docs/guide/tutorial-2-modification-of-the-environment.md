@@ -181,7 +181,7 @@ The expected result is shown in [this figure](#the-simulation-state-at-the-end-o
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution]({{ url.github_tree  }}/projects/samples/tutorials/worlds/obstacles.wbt) as the others is located in the [solution directory]({{ url.github_tree  }}/projects/samples/tutorials/worlds/).
+[This solution]({{ url.github_tree }}/projects/samples/tutorials/worlds/obstacles.wbt) as the others is located in the [solution directory]({{ url.github_tree }}/projects/samples/tutorials/worlds/).
 
 %figure "The simulation state at the end of this second tutorial."
 
