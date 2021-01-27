@@ -87,13 +87,13 @@ Webots offers several rendering modes available in the `View` menu.
 Then restore the plain rendering mode: `View / Plain Rendering`.
 
 Others rendering features can be helpful:
-- View Coordinates systems: `View / Optional Rendering / Show Coordinates System` <kbd>ctrl</kbd>-<kbd>F1</kbd>
-- View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays` <kbd>ctrl</kbd>-<kbd>F10</kbd>
+- View Coordinates systems: `View / Optional Rendering / Show Coordinates System (Ctrl + F1)`.
+- View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`.
 
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution](https://github.com/cyberbotics/webots/blob/released/projects/samples/tutorials/worlds/appearance.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/released/projects/samples/tutorials/worlds/).
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/appearance.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

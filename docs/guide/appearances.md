@@ -1775,7 +1775,7 @@ ShinyLeather {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto]({{ url.github_tree  }}/projects/appearances/protos/ShinyLeather.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/ShinyLeather.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1949,7 +1949,7 @@ VarnishedPine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto]({{ url.github_tree  }}/projects/appearances/protos/VarnishedPine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/VarnishedPine.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
