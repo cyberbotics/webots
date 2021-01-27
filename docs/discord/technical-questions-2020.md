@@ -14408,7 +14408,7 @@ Not to a transform, but to a Solid node yes, the Supervisor can do this: [https:
 
 Thank you 👌, it was also one of my intuitions but was not sure if webots disable something to record videos.
 
-##### Евклит 05/12/2020 10:30:58
+##### Алексей Александрович 05/12/2020 10:30:58
 Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
 ##### jomell310 05/12/2020 11:20:46
@@ -14419,7 +14419,7 @@ Hello, I am programming robots in the Webots simulator. There is an example of a
 ##### David Mansolino [Cyberbotics] 05/12/2020 11:39:53
 > Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
-`@Евклит` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
+`@Алексей Александрович` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
 
 
 > `@David Mansolino` Okay, so I do I need to setup anything? Because right now even if I run the sample project obstacle\_avoidance the simulation doesn't stop after the robot has crossed the line or crashed into something. In the console it says that the supervisor has been started though but It's not doing anything else
@@ -45010,7 +45010,7 @@ Thank you `@Darko Lukić`  Yes indeed the complex bounding object was creating p
 ##### Eddysanoli 11/11/2020 18:25:01
 Hello! I'm trying to use the distance sensors on the pioneer 3DX to detect other pioneer 3DX robots, but I seem to get odd sensor readings. For example: When I place a robot right in front of the other, the sensor of the robot behind the other starts to flicker and after moving towards the front robot, it hits a blind spot where it doesnt detect anything. Is this because of the sensor being a "sonar"?
 
-##### geflowers 11/12/2020 05:15:58
+##### Deleted User 11/12/2020 05:15:58
 Hi everyone! I'm pretty new to webots and have been working on a spring leg for a project but can't quite get it right. I've tried using the SolidReference node as an endpoint for a slider joint to create these spring properties but it seems I haven't quite gotten its functionality. I think there's a specific way to do this, any advice or thoughts on how to obtain this result?
 %figure
 ![Spring_Leg.SlideJoint_Location.PNG](https://cdn.discordapp.com/attachments/565154703139405824/776314327032004608/Spring_Leg.SlideJoint_Location.PNG)
@@ -45026,9 +45026,9 @@ The only thing that seemed to create this sort of spring was defining the solid 
 `@Eddysanoli`: did you try to change the type of sensor to "generic" instead of "sonar"?
 
 
-`@geflowers`: what you are trying to do should be possible. Please check the examples using the SolidReference to understand how it works and how these simulation models differ from yours: `webots/samples/demos/worlds/stewart_platform.wbt`, `webots/projects/robots/bluebotics/shrimp/protos/Shrimp.proto`.
+`@Deleted User`: what you are trying to do should be possible. Please check the examples using the SolidReference to understand how it works and how these simulation models differ from yours: `webots/samples/demos/worlds/stewart_platform.wbt`, `webots/projects/robots/bluebotics/shrimp/protos/Shrimp.proto`.
 
-##### geflowers 11/12/2020 07:38:18
+##### Deleted User 11/12/2020 07:38:18
 Awesome! Thank you so much! will definitely check it out and hopefully solves my problem.
 
 ##### Eddysanoli 11/12/2020 07:41:13

@@ -43,7 +43,7 @@ This format allows to have light intensities bigger than 1.0.
 
 HDR backgrounds can be found easily on the internet.
 They often come as single files using an equirectangular projection.
-This [set of image tools](https://github.com/cyberbotics/webots/blob/released/scripts/image_tools) provides basic conversion tools to transform your background resources to Webots ones.
+This [set of image tools]({{ url.github_tree }}/scripts/image_tools) provides basic conversion tools to transform your background resources to Webots ones.
 Several image editors such as [Gimp](https://www.gimp.org) support this format.
 
 The `luminosity` specifies a scale factor to be applied to the light contribution of the [Background](background.md) node on [Shape](shape.md) nodes using the [PBRAppearance](pbrappearance.md).
