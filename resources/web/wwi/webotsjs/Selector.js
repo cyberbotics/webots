@@ -29,7 +29,6 @@ class Selector {
     }
 
     if (Selector.previousAncestor === getAncestor(node).id && (!Selector.local || Selector.preciseId !== 'n' + id)) {
-      console.log("local");
       Selector.selectedId = Selector.firstSolidId(node);
       Selector.local = true;
     }

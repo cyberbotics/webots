@@ -5,6 +5,7 @@ import {World} from "./World.js"
 
 class WbWrenPicker {
   constructor() {
+    console.log("new");
     this.selectedId = -1
     this.coordinates = new WbVector3();
     this.width = 0;
@@ -30,8 +31,8 @@ class WbWrenPicker {
   cleanup() {
     _wr_texture_delete(this.outputTexture);
     _wr_frame_buffer_delete(this.frameBuffer);
-    _wr_texture_delete(this.outputTextureDepth);
-    _wr_frame_buffer_delete(this.frameBufferDepth);
+    //_wr_texture_delete(this.outputTextureDepth);
+    //_wr_frame_buffer_delete(this.frameBufferDepth);
   }
 
   setup() {
@@ -54,7 +55,7 @@ class WbWrenPicker {
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
 
     //DEPTH
-    _wr_viewport_set_size(this.viewportDepth, this.width, this.height);
+  /*  _wr_viewport_set_size(this.viewportDepth, this.width, this.height);
 
     this.frameBufferDepth = _wr_frame_buffer_new();
     this.outputTextureDepth = _wr_texture_rtt_new();
@@ -71,7 +72,7 @@ class WbWrenPicker {
     _wr_frame_buffer_setup(this.frameBufferDepth);
 
     _wr_viewport_set_frame_buffer(this.viewportDepth, this.frameBufferDepth);
-    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));*/
   }
 
   // Setup & attach picking material, based on the unique ID
@@ -93,12 +94,12 @@ class WbWrenPicker {
 
     let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "depth"])
 
-    if (!depthMaterial) {
+    /*if (!depthMaterial) {
       depthMaterial = _wr_phong_material_new();
       _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthPixelShader());
 
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
-    }
+    }*/
 
     let encodedId = [0,0,0,0,0,0];
 
@@ -174,14 +175,14 @@ class WbWrenPicker {
     data[3] = data[3] >= 0 ? data[3] : 256 + data[3];
 
     let id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
+    console.log(id);
     if (id === 0){
       return false;
     }
     else
       this.selectedId = id - 1;
 
-    //scene = _wr_scene_get_instance();
-    _wr_viewport_enable_skybox(this.viewportDepth, false);
+    /*_wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
     Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this.viewportDepth), "depth", true])
@@ -196,7 +197,7 @@ class WbWrenPicker {
     data[0] = Module.getValue(dataPointer, 'float');
     _free(dataPointer);
 
-    this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
+    this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);*/
     return true;
   }
 }

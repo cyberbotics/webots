@@ -27,7 +27,8 @@ class WbFog extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(this, 1);
+      let index = World.instance.sceneTree.indexOf(this)
+      World.instance.sceneTree.splice(index, 1);
     }
 
     if (this.wrenObjectsCreatedCalled)

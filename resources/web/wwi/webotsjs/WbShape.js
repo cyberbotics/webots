@@ -34,11 +34,13 @@ class WbShape extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined'){
-      World.instance.sceneTree.splice(this, 1);
+      let index = World.instance.sceneTree.indexOf(this)
+      World.instance.sceneTree.splice(index, 1);
     } else {
       let parent = World.instance.nodes.get(this.parent);
       if(typeof parent !== 'undefined') {
-        parent.children.splice(this, 1);
+        let index = parent.children.indexOf(this)
+        parent.children.splice(index, 1);
       }
     }
 

@@ -29,11 +29,13 @@ class WbTransform extends WbGroup {
   }
 
   delete(){
-    if (this.wrenObjectsCreatedCalled)
+    if (this.wrenObjectsCreatedCalled){
       _wr_node_delete(this.wrenNode);
+    }
 
-    if(typeof this.boundingObject !== 'undefined')
+    if(typeof this.boundingObject !== 'undefined'){
       this.boundingObject.delete()
+    }
 
     super.delete();
   }

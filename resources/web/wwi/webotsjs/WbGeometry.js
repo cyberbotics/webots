@@ -25,7 +25,6 @@ class WbGeometry extends WbBaseNode {
     super(id);
     this.wrenScaleTransform = undefined;
     this.wrenRenderable = undefined;
-    this.wrenEncodeDepthMaterial = undefined;
     this.wrenMesh = undefined;
 
     this.pickable = false;
@@ -67,8 +66,6 @@ class WbGeometry extends WbBaseNode {
 
     this.wrenRenderable = _wr_renderable_new();
 
-    Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth"])
-
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
     this.applyVisibilityFlagToWren(this.isSelected());
@@ -98,13 +95,6 @@ class WbGeometry extends WbBaseNode {
 
       this.setWrenMaterial(this.wrenMaterial, false);
     }
-
-    // used for rendering range finder camera
-    if (!this.wrenEncodeDepthMaterial) {
-      this.wrenEncodeDepthMaterial = _wr_phong_material_new();
-      _wr_material_set_default_program(this.wrenEncodeDepthMaterial, WbWrenShaders.encodeDepthShader());
-    }
-    _wr_renderable_set_material(this.wrenRenderable, this.wrenEncodeDepthMaterial, "encodeDepth");
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
@@ -148,10 +138,6 @@ class WbGeometry extends WbBaseNode {
       // Delete outline material
       _wr_material_delete(this.wrenMaterial);
       this.wrenMaterial = undefined;
-
-      // Delete encode depth material
-      _wr_material_delete(this.wrenEncodeDepthMaterial);
-      this.wrenEncodeDepthMaterial = undefined;
 
       // Delete picking material
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "picking"]));
