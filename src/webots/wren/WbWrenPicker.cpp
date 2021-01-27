@@ -149,11 +149,11 @@ bool WbWrenPicker::hasSizeChanged() {
 }
 
 bool WbWrenPicker::pick(int x, int y) {
-  // x = 500;
-  // y = 518;
+  x = 500;
+  y = 518;
 
-  x = 620;
-  y = 391;
+  // x = 620;
+  // y = 391;
 
   WbWrenOpenGlContext::makeWrenCurrent();
   mCoordinates.setXyz(0.0, 0.0, 0.0);
@@ -232,7 +232,6 @@ bool WbWrenPicker::pick(int x, int y) {
   // wr_frame_buffer_copy_depth_pixel(mFrameBuffer, x, y, &depth, true);
   WbWrenOpenGlContext::doneWren();
   mCoordinates = WbVector3(x, mHeight - y - 1, depth[0]);
-  std::cout << std::setprecision(10) << "mCoordinates " << depth[0] << " " << depth[1] << " " << depth[2] << " " << depth[3]
-            << '\n';
+  std::cout << "mCoordinates " << depth[0] << " " << depth[1] << " " << depth[2] << " " << depth[3] << '\n';
   return true;
 }

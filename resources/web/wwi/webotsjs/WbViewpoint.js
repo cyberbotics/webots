@@ -360,7 +360,6 @@ class WbViewpoint extends WbBaseNode {
 
     let screenCoord = new WbVector4(pos.x, pos.y, pos.z, 1.0);
     screenCoord = inverse.mulByVec4(screenCoord);
-    console.log(screenCoord);
     return screenCoord.div(screenCoord.w);
   }
 
