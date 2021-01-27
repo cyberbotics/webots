@@ -312,9 +312,13 @@ void WbBackground::updateCubemap() {
     // we should postpone the applySkyBoxToWren
     bool postpone = false;
     int urlCount = 0;
-    for (int i = 0; i < 6; i++)
+    int irradianceUrlCount = 0;
+    for (int i = 0; i < 6; i++) {
       if (mUrlFields[i]->size())
         urlCount++;
+      if (mIrradianceUrlFields[i]->size())
+        irradianceUrlCount++;
+    }
     const bool hasCompleteBackground = urlCount == 6;
     if (isPostFinalizedCalled()) {
       const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
@@ -350,6 +354,8 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
+      if (irradianceUrlCount > 0 && irradianceUrlCount < 6)
+        warn(tr("Incomplete irradiance cubemap"));
       bool destroy = false;
       if (!hasCompleteBackground) {
         if (urlCount > 0) {
@@ -613,8 +619,13 @@ void WbBackground::applySkyBoxToWren() {
 
   // 2. Load the irradiance map
   WrTextureCubeMap *cm;
-  if (!mIrradianceTexture[0]) {
-    // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
+  bool missing = false;
+  for (int i = 0; i < 6; i++)
+    if (mIrradianceTexture[i] == NULL) {
+      missing = true;
+      break;
+    }
+  if (missing) {  // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
     int size;
     if (mCubeMapTexture) {  // if a cubemap is available, use it
       cm = mCubeMapTexture;
