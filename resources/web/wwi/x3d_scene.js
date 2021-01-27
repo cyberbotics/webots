@@ -91,9 +91,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   destroyWorld() {
     if (typeof World.instance !== 'undefined') {
-      World.instance.sceneTree.forEach( child => {
-        child.delete();
-      });
+      let index = World.instance.sceneTree.length - 1;
+      while (index >= 0) {
+        World.instance.sceneTree[index].delete();
+        --index;
+      }
 
       if (typeof World.instance.viewpoint !== 'undefined')
         World.instance.viewpoint.delete();

@@ -36,10 +36,11 @@ class WbGroup extends WbBaseNode{
       }
     }
 
-    this.children.forEach(child => {
-      child.delete();
-    });
-
+    let index = this.children.length - 1;
+    while(index >= 0) {
+      this.children[index].delete();
+      --index;
+    }
 
     super.delete();
   }
