@@ -29,7 +29,7 @@ CeilingLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto]({{ url.github_tree  }}/projects/objects/lights/protos/CeilingLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -79,7 +79,7 @@ CeilingSpotLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto]({{ url.github_tree  }}/projects/objects/lights/protos/CeilingSpotLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingSpotLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -121,7 +121,7 @@ ConstructionLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto]({{ url.github_tree  }}/projects/objects/lights/protos/ConstructionLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/ConstructionLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -160,7 +160,7 @@ DoubleFluorescentLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto]({{ url.github_tree  }}/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -198,7 +198,7 @@ FloorLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto]({{ url.github_tree  }}/projects/objects/lights/protos/FloorLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/FloorLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

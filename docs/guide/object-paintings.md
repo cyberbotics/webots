@@ -22,7 +22,7 @@ LandscapePainting {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto]({{ url.github_tree  }}/projects/objects/paintings/protos/LandscapePainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto]({{ url.github_tree }}/projects/objects/paintings/protos/LandscapePainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -55,7 +55,7 @@ PortraitPainting {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto]({{ url.github_tree  }}/projects/objects/paintings/protos/PortraitPainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto]({{ url.github_tree }}/projects/objects/paintings/protos/PortraitPainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
