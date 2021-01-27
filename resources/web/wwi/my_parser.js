@@ -899,22 +899,31 @@ class MyParser {
       let type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor'){
         baseColorMap = await this.parseImageTexture(imageTexture, true);
-        baseColorMap.type = "baseColorMap";
+        if (typeof baseColorMap !== 'undefined')
+          baseColorMap.type = "baseColorMap";
+        else {
+          console.log(id);
+        }
       } else if (type === 'roughness'){
         roughnessMap = await this.parseImageTexture(imageTexture, true);
-        roughnessMap.type = "roughnessMap";
+        if (typeof baseColorMap !== 'undefined')
+          roughnessMap.type = "roughnessMap";
       } else if (type === 'metalness'){
         metalnessMap = await this.parseImageTexture(imageTexture, true);
-        metalnessMap.type = "metalnessMap";
+        if (typeof baseColorMap !== 'undefined')
+          metalnessMap.type = "metalnessMap";
       } else if (type === 'normal'){
         normalMap = await this.parseImageTexture(imageTexture, true);
-        normalMap.type = "normalMap";
+        if (typeof baseColorMap !== 'undefined')
+          normalMap.type = "normalMap";
       } else if (type === 'occlusion') {
         occlusionMap = await this.parseImageTexture(imageTexture, true);
-        occlusionMap.type = "occlusionMap";
+        if (typeof baseColorMap !== 'undefined')
+          occlusionMap.type = "occlusionMap";
       } else if (type === 'emissiveColor'){
         emissiveColorMap = await this.parseImageTexture(imageTexture, true);
-        emissiveColorMap.type = "emissiveColorMap";
+        if (typeof baseColorMap !== 'undefined')
+          emissiveColorMap.type = "emissiveColorMap";
       }
     }
 

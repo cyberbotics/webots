@@ -112,6 +112,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   deleteObject(id) {
+    console.log(id);
     let object = World.instance.nodes.get('n' + id);
     if(typeof object === 'undefined')
       return;

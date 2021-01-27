@@ -84,16 +84,9 @@ class WbGeometry extends WbBaseNode {
     this.wrenRenderable = _wr_renderable_new();
 
     if (super.isInBoundingObject()) {
-      if (!this.wrenMaterial) {
-        this.wrenMaterial = _wr_phong_material_new();
-        _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.lineSetShader());
-      }
-
       _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
       _wr_renderable_set_drawing_mode(this.renRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
-
-      this.setWrenMaterial(this.wrenMaterial, false);
     }
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
@@ -124,23 +117,17 @@ class WbGeometry extends WbBaseNode {
   }
 
   setWrenMaterial(material, castShadows) {
-    if (this.wrenRenderable) {
+    if (typeof this.wrenRenderable !== 'undefined') {
       _wr_renderable_set_material(this.wrenRenderable, material, null);
       this.computeCastShadows(castShadows);
     }
   }
 
   deleteWrenRenderable() {
-    if (this.wrenRenderable) {
-      if (this.wrenMaterial)
-        this.setWrenMaterial(null, false);
-
-      // Delete outline material
-      _wr_material_delete(this.wrenMaterial);
-      this.wrenMaterial = undefined;
-
+    if (typeof this.wrenRenderable !== 'undefined') {
       // Delete picking material
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "picking"]));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "depth"]));
 
       _wr_node_delete(this.wrenRenderable);
       this.wrenRenderable = undefined;

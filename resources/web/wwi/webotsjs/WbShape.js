@@ -44,8 +44,10 @@ class WbShape extends WbBaseNode {
       }
     }
 
-    if (typeof this.wrenMaterial !== 'undefined')
+    if (typeof this.wrenMaterial !== 'undefined') {
       _wr_material_delete(this.wrenMaterial);
+      this.wrenMaterial = undefined;
+    }
 
     if (typeof this.appearance !== 'undefined')
       this.appearance.delete();

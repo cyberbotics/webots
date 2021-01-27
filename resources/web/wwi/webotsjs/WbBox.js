@@ -24,6 +24,7 @@ class WbBox extends WbGeometry {
 
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
+    
     super.delete();
   }
 
