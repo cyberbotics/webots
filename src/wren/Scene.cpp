@@ -49,8 +49,8 @@
 #endif
 
 #include <algorithm>
-#include <iostream>
 #include <memory>
+
 #define INVERSE_LOG2 1.442695
 
 namespace wren {

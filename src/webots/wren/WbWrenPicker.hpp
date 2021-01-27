@@ -59,10 +59,6 @@ private:
   WrFrameBuffer *mFrameBuffer;
   WrTextureRtt *mOutputTexture;
 
-  WrViewport *mViewportDepth;
-  WrFrameBuffer *mFrameBufferDepth;
-  WrTextureRtt *mOutputTextureDepth;
-
   int mWidth;
   int mHeight;
 

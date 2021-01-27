@@ -207,11 +207,11 @@ namespace wren {
 
     glstate::bindReadFrameBuffer(mGlName);
 
-    //#ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_RGBA, GL_FLOAT, data);
-    //#else
-    // glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
-    //#endif
+#else
+    glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+#endif
     if (config::requiresDepthBufferDistortion()) {
       GLfloat *fData = (GLfloat *)data;
       fData[0] = fData[0] * fData[0];

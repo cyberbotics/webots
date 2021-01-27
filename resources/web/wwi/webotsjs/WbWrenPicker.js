@@ -80,7 +80,6 @@ class WbWrenPicker {
   // Least signigicant word: red and green channels of diffuse color
   // These are combined in RGBA channels in the picking fragment shader
   static setPickable(renderable, uniqueId, pickable) {
-    console.log("SET");
     uniqueId = parseFloat(uniqueId.substring(1));
 
     let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
@@ -151,7 +150,6 @@ class WbWrenPicker {
 
     // Check if object was picked & decode ID
     let scene = _wr_scene_get_instance();
-    console.log(this.viewport);
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
@@ -176,8 +174,6 @@ class WbWrenPicker {
     data[3] = data[3] >= 0 ? data[3] : 256 + data[3];
 
     let id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
-    console.log(x + " " + y);
-    console.log(id);
     if (id === 0){
       return false;
     }
@@ -198,14 +194,9 @@ class WbWrenPicker {
     _wr_frame_buffer_copy_depth_pixel(this.frameBufferDepth, x, y, dataPointer, true);
 
     data[0] = Module.getValue(dataPointer, 'float');
-    data[1] = Module.getValue(dataPointer + 4, 'float');
-    data[2] = Module.getValue(dataPointer + 8, 'float');
-    data[3] = Module.getValue(dataPointer + 12, 'float');
-    //let depth = data[0] * (1 - World.instance.viewpoint.zNear) + World.instance.viewpoint.zNear;
     _free(dataPointer);
 
     this.coordinates = new WbVector3(x, this.height - y - 1, data[0]);
-    console.log(data);
     return true;
   }
 }
