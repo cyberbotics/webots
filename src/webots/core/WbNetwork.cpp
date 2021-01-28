@@ -16,7 +16,9 @@
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QStandardPaths>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
 
 static WbNetwork *gInstance = NULL;
@@ -44,6 +46,10 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
+    QNetworkDiskCache *diskCache = new QNetworkDiskCache();
+    diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network");
+    diskCache->setMaximumCacheSize(1024 * 1024 * 1024);
+    mNetworkAccessManager->setCache(diskCache);
     setProxy();
   }
   return mNetworkAccessManager;

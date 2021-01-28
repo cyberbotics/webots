@@ -24,6 +24,8 @@ If the file contains more than one mesh, the meshes will be merged into a single
 
 ### Field Summary
 
-The `url` field defines the path to the 3D file.
-The file should be specified with a relative or absolute path.
+The `url` field defines the 3D file.
+If the `url` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
+Absolute paths work as well, but they are not recommended because they are not portable across systems.

@@ -22,7 +22,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/color_checker_chart.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/tests/api/worlds/textures/color_checker_chart.png"
           ]
         }
         roughness 1

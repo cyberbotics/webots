@@ -272,6 +272,7 @@ QT_SOURCES += \
   WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
+  WbDownloader.cpp \
   WbDragResizeEvent.cpp \
   WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \

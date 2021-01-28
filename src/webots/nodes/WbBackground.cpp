@@ -14,6 +14,7 @@
 
 #include "WbBackground.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbGroup.hpp"
@@ -23,6 +24,7 @@
 #include "WbNodeOperations.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFNode.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -84,8 +86,11 @@ void WbBackground::init() {
   for (int i = 0; i < 6; ++i) {
     mUrlFields[i] = findMFString(gUrlNames(i));
     mIrradianceUrlFields[i] = findMFString(gIrradianceUrlNames(i));
+    mTexture[i] = NULL;
+    mIrradianceTexture[i] = NULL;
   }
-
+  for (int i = 0; i < 12; ++i)
+    mDownloader[i] = NULL;
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
   mSkyboxMaterial = NULL;
@@ -100,6 +105,11 @@ void WbBackground::init() {
 
   mCubeMapTexture = NULL;
   mIrradianceCubeTexture = NULL;
+
+  mTextureHasAlpha = false;
+  mTextureSize = 0;
+  mIrradianceWidth = 0;
+  mIrradianceHeight = 0;
 }
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
@@ -127,7 +137,7 @@ WbBackground::~WbBackground() {
     WbBackground *newFirstInstance = firstInstance();
     if (newFirstInstance == NULL)
       // reset to default
-      applyColourToWren(WbRgb());
+      applyColorToWren(WbRgb());
     else
       // activate next Background node
       newFirstInstance->activate();
@@ -158,6 +168,47 @@ WbBackground::~WbBackground() {
 
   wr_node_delete(WR_NODE(mHdrClearTransform));
   wr_static_mesh_delete(mHdrClearMesh);
+
+  for (int i = 0; i < 6; i++) {
+    delete mTexture[i];
+    if (mIrradianceTexture[i])
+      stbi_image_free(mIrradianceTexture[i]);
+  }
+}
+
+void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
+  if (!WbUrl::isWeb(url))
+    return;
+  if (index < 6) {
+    delete mTexture[index];
+    mTexture[index] = NULL;
+  } else {
+    stbi_image_free(mIrradianceTexture[index - 6]);
+    mIrradianceTexture[index - 6] = NULL;
+  }
+  delete mDownloader[index];
+  mDownloader[index] = new WbDownloader(this);
+  if (postpone)
+    connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
+  mDownloader[index]->download(QUrl(url));
+}
+
+void WbBackground::downloadAssets() {
+  for (size_t i = 0; i < 6; i++) {
+    if (mUrlFields[i]->size())
+      downloadAsset(mUrlFields[i]->item(0), i, false);
+    if (mIrradianceUrlFields[i]->size())
+      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
+  }
+}
+
+void WbBackground::downloadUpdate() {
+  // we need that all downloads are complete before proceeding with the update of the cube map
+  for (int i = 0; i < 12; i++)
+    if (mDownloader[i] && !mDownloader[i]->hasFinished())
+      return;
+  updateCubemap();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbBackground::preFinalize() {
@@ -225,7 +276,7 @@ void WbBackground::createWrenObjects() {
   wr_transform_attach_child(mHdrClearTransform, WR_NODE(mHdrClearRenderable));
 
   if (isFirstInstance())
-    applyColourToWren(skyColor());
+    applyColorToWren(skyColor());
 }
 
 void WbBackground::destroySkyBox() {
@@ -250,14 +301,88 @@ void WbBackground::updateColor() {
     return;
 
   if (areWrenObjectsInitialized())
-    applyColourToWren(skyColor());
+    applyColorToWren(skyColor());
 
   emit WbWrenRenderingContext::instance()->backgroundColorChanged();
 }
 
 void WbBackground::updateCubemap() {
-  if (areWrenObjectsInitialized())
-    applySkyBoxToWren();
+  if (areWrenObjectsInitialized()) {
+    // if some textures are to be downloaded again (changed from the scene tree or supervisor)
+    // we should postpone the applySkyBoxToWren
+    bool postpone = false;
+    int urlCount = 0;
+    int irradianceUrlCount = 0;
+    for (int i = 0; i < 6; i++) {
+      if (mUrlFields[i]->size())
+        urlCount++;
+      if (mIrradianceUrlFields[i]->size())
+        irradianceUrlCount++;
+    }
+    const bool hasCompleteBackground = urlCount == 6;
+    if (isPostFinalizedCalled()) {
+      const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
+      for (int i = 0; i < 6; i++) {
+        if (hasCompleteBackground) {
+          const QString &url = mUrlFields[i]->item(0);
+          if (WbUrl::isWeb(url)) {
+            if (mDownloader[i] == NULL) {
+              if (urlField == mUrlFields[i]) {
+                downloadAsset(url, i, true);
+                postpone = true;
+              }
+            }
+          } else {
+            delete mTexture[i];
+            mTexture[i] = 0;
+          }
+        }
+        if (mIrradianceUrlFields[i]->size() > 0) {
+          const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
+          if (WbUrl::isWeb(irradianceUrl)) {
+            if (mDownloader[i + 6] == NULL) {
+              if (urlField == mIrradianceUrlFields[i]) {
+                downloadAsset(irradianceUrl, i + 6, true);
+                postpone = true;
+              }
+            }
+          } else {
+            stbi_image_free(mIrradianceTexture[i]);
+            mIrradianceTexture[i] = NULL;
+          }
+        }
+      }
+    }
+    if (!postpone) {
+      bool destroy = false;
+      if (irradianceUrlCount > 0 && irradianceUrlCount < 6) {
+        warn(tr("Incomplete irradiance cubemap"));
+        destroy = true;
+      }
+      if (!hasCompleteBackground) {
+        if (urlCount > 0) {
+          warn(tr("Incomplete background cubemap"));
+          destroy = true;
+        }
+      } else
+        for (int i = 0; i < 6; i++)
+          if (!loadTexture(i)) {
+            destroy = true;
+            break;
+          }
+      for (int i = 0; i < 6; i++)
+        if (!loadIrradianceTexture(i)) {
+          destroy = true;
+          break;
+        }
+      if (destroy) {
+        destroySkyBox();
+        applyColorToWren(skyColor());
+        emit WbWrenRenderingContext::instance()->backgroundColorChanged();
+      } else if (hasCompleteBackground)
+        applySkyBoxToWren();
+    }
+  }
 }
 
 void WbBackground::updateLuminosity() {
@@ -267,7 +392,7 @@ void WbBackground::updateLuminosity() {
   emit luminosityChanged();
 }
 
-void WbBackground::applyColourToWren(const WbRgb &color) {
+void WbBackground::applyColorToWren(const WbRgb &color) {
   const float value[] = {static_cast<float>(color.red()), static_cast<float>(color.green()), static_cast<float>(color.blue())};
   wr_viewport_set_clear_color_rgb(wr_scene_get_viewport(wr_scene_get_instance()), value);
   if (areWrenObjectsInitialized()) {
@@ -287,86 +412,205 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
   }
 }
 
+bool WbBackground::loadTexture(int i) {
+  if (mTexture[i])
+    return true;
+  QString url;
+  QIODevice *device;
+
+  if (mDownloader[i]) {
+    url = mUrlFields[i]->item(0);
+    if (!mDownloader[i]->error().isEmpty()) {
+      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
+      delete mDownloader[i];
+      mDownloader[i] = NULL;
+      return false;
+    }
+    assert(mDownloader[i]->device());
+    device = mDownloader[i]->device();
+  } else {
+    if (mUrlFields[i]->size() == 0)
+      return false;
+    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[i]->item(0), false);
+    if (url == WbUrl::missingTexture() || url.isEmpty()) {
+      warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
+      return false;
+    }
+    device = new QFile(url);
+    if (!device->open(QIODevice::ReadOnly)) {
+      warn(tr("Cannot open texture file: '%1'").arg(url));
+      delete device;
+      return false;
+    }
+  }
+  QImageReader imageReader(device);
+  QSize textureSize = imageReader.size();
+
+  if (textureSize.width() != textureSize.height()) {
+    warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
+    if (!mDownloader[i])
+      delete device;
+    return false;
+  }
+  for (int j = 0; j < 6; j++)
+    if (mTexture[j]) {
+      if (textureSize.width() == mTextureSize)
+        break;
+      else {
+        warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
+        if (!mDownloader[i])
+          delete device;
+        return false;
+      }
+    }
+  mTextureSize = textureSize.width();
+  mTexture[i] = new QImage;
+  if (!imageReader.read(mTexture[i])) {
+    warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
+    if (!mDownloader[i])
+      delete device;
+    return false;
+  }
+
+  for (int j = 0; j < 6; j++) {
+    if (mTexture[j] && j != i) {
+      if (mTexture[i]->hasAlphaChannel() == mTextureHasAlpha)
+        break;
+      warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
+      delete mTexture[i];
+      mTexture[i] = NULL;
+      if (!mDownloader[i])
+        delete device;
+      return false;
+    }
+  }
+  mTextureHasAlpha = mTexture[i]->hasAlphaChannel();
+  if (mTexture[i]->format() != QImage::Format_ARGB32) {
+    QImage tmp = mTexture[i]->convertToFormat(QImage::Format_ARGB32);
+    mTexture[i]->swap(tmp);
+  }
+  const int rotate = gCoordinateSystemRotate(i);
+  // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
+  if (rotate != 0) {
+    QPoint center = mTexture[i]->rect().center();
+    QTransform matrix;
+    matrix.translate(center.x(), center.y());
+    matrix.rotate(rotate);
+    QImage tmp = mTexture[i]->transformed(matrix);
+    mTexture[i]->swap(tmp);
+  }
+  if (mDownloader[i]) {
+    delete mDownloader[i];
+    mDownloader[i] = NULL;
+  } else {
+    device->close();
+    delete device;
+  }
+  return true;
+}
+
+bool WbBackground::loadIrradianceTexture(int i) {
+  if (mIrradianceTexture[i])
+    return true;
+  const int j = gCoordinateSystemSwap(i);
+  if (mIrradianceUrlFields[j]->size() == 0)
+    return true;
+  const int k = j + 6;
+  QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
+  bool shouldDelete = false;
+  int components;
+  if (device) {
+    if (!mDownloader[k]->error().isEmpty()) {
+      delete mDownloader[k];
+      mDownloader[k] = NULL;
+      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
+      return false;
+    }
+  } else {
+    const QString url =
+      WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
+    if (url.isEmpty()) {
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
+      return false;
+    }
+    device = new QFile(url);
+    shouldDelete = true;
+    if (!device->open(QIODevice::ReadOnly)) {
+      warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[j]->item(0)));
+      delete device;
+      return false;
+    }
+  }
+  const QByteArray content = device->readAll();
+  if (shouldDelete) {
+    device->close();
+    delete device;
+  } else {
+    delete mDownloader[k];
+    mDownloader[k] = NULL;
+  }
+  float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &mIrradianceWidth,
+                                       &mIrradianceHeight, &components, 0);
+  const int rotate = gCoordinateSystemRotate(i);
+  // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
+  if (rotate != 0) {
+    float *rotated = (float *)stbi__malloc(sizeof(float) * mIrradianceWidth * mIrradianceHeight * components);
+    if (rotate == 90) {
+      for (int x = 0; x < mIrradianceWidth; x++) {
+        for (int y = 0; y < mIrradianceHeight; y++) {
+          const int u = y * mIrradianceWidth * components + x * components;
+          const int v = (mIrradianceWidth - 1 - x) * mIrradianceWidth * components + y * components;
+          for (int c = 0; c < components; c++)
+            rotated[u + c] = data[v + c];
+        }
+      }
+      const int swap = mIrradianceWidth;
+      mIrradianceWidth = mIrradianceHeight;
+      mIrradianceHeight = swap;
+    } else if (rotate == -90) {
+      for (int x = 0; x < mIrradianceWidth; x++) {
+        for (int y = 0; y < mIrradianceHeight; y++) {
+          const int u = y * mIrradianceWidth * components + x * components;
+          const int v = x * mIrradianceWidth * components + (mIrradianceHeight - 1 - y) * components;
+          for (int c = 0; c < components; c++)
+            rotated[u + c] = data[v + c];
+        }
+      }
+      const int swap = mIrradianceWidth;
+      mIrradianceWidth = mIrradianceHeight;
+      mIrradianceHeight = swap;
+    } else if (rotate == 180) {
+      for (int x = 0; x < mIrradianceWidth; x++) {
+        for (int y = 0; y < mIrradianceHeight; y++) {
+          const int u = y * mIrradianceWidth * components + x * components;
+          const int v = (mIrradianceHeight - 1 - y) * mIrradianceWidth * components + (mIrradianceWidth - 1 - x) * components;
+          for (int c = 0; c < components; c++)
+            rotated[u + c] = data[v + c];
+        }
+      }
+    }
+    stbi_image_free(data);
+    data = rotated;
+  }
+  mIrradianceTexture[i] = data;
+  return true;
+}
+
 void WbBackground::applySkyBoxToWren() {
   destroySkyBox();
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  int edgeLength = 0;
-  QString lastFile;
-
-  QString textureUrls[6];
-  QVector<float *> hdrImageData;
-  // 1. Load the background.
-  mCubeMapTexture = wr_texture_cubemap_new();
-  QImage image[6];  // the texture image data should be persistent until the WREN texture cubemap is fully setup
-                    // hence the scope of this QImage array declaration
-  try {
-    bool allUrlDefined = true;
-    bool atLeastOneUrlDefined = false;
-
-    for (int i = 0; i < 6; ++i) {
-      if (mUrlFields[i]->size() == 0) {
-        allUrlDefined = false;
-        textureUrls[i] = "";
-        continue;
-      } else
-        atLeastOneUrlDefined = true;
-
-      textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-    }
-
-    if (!allUrlDefined)
-      throw QString(atLeastOneUrlDefined ? tr("Incomplete cubemap") : "");
-
+  // 1. Load the background if present
+  if (mTexture[0]) {
+    mCubeMapTexture = wr_texture_cubemap_new();
     wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-    bool alpha = false;
-    for (int i = 0; i < 6; i++) {
-      QImageReader imageReader(textureUrls[gCoordinateSystemSwap(i)]);
-      QSize textureSize = imageReader.size();
+    for (int i = 0; i < 6; i++)
+      wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(mTexture[i]->bits()),
+                                  static_cast<WrTextureOrientation>(i));
 
-      if (textureSize.width() != textureSize.height())
-        throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName());
-      if (i > 0 && textureSize.width() != edgeLength)
-        throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName());
-
-      edgeLength = textureSize.width();
-      if (imageReader.read(&(image[i]))) {
-        if (i > 0 && (alpha != image[i].hasAlphaChannel()))
-          throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
-
-        alpha = image[i].hasAlphaChannel();
-
-        if (image[i].format() != QImage::Format_ARGB32) {
-          QImage tmp = image[i].convertToFormat(QImage::Format_ARGB32);
-          image[i].swap(tmp);
-        }
-        const int rotate = gCoordinateSystemRotate(i);
-        // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
-        if (rotate != 0) {
-          QPoint center = image[i].rect().center();
-          QTransform matrix;
-          matrix.translate(center.x(), center.y());
-          matrix.rotate(rotate);
-          QImage tmp = image[i].transformed(matrix);
-          image[i].swap(tmp);
-        }
-        wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(image[i].bits()),
-                                    static_cast<WrTextureOrientation>(i));
-      } else
-        throw tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString());
-
-      lastFile = imageReader.fileName();
-    }
-  } catch (QString &error) {
-    if (error.length() > 0)
-      parsingWarn(error);
-    destroySkyBox();
-  }
-
-  if (mCubeMapTexture) {
-    wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
+    wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), mTexture[0]->width(), mTexture[0]->height());
     wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
     wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
@@ -375,111 +619,56 @@ void WbBackground::applySkyBoxToWren() {
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
 
-  // 2. Load the irradiance map.
-  WrTextureCubeMap *cm = wr_texture_cubemap_new();
-
-  try {
-    // Check first that every fields are present.
-    bool allUrlDefined = true;
-    bool atLeastOneUrlDefined = false;
-    for (int i = 0; i < 6; ++i) {
-      if (mIrradianceUrlFields[i]->size() == 0) {
-        allUrlDefined = false;
-        continue;
-      } else
-        atLeastOneUrlDefined = true;
+  // 2. Load the irradiance map
+  WrTextureCubeMap *cm;
+  bool missing = false;
+  for (int i = 0; i < 6; i++)
+    if (mIrradianceTexture[i] == NULL) {
+      missing = true;
+      break;
     }
-    if (!allUrlDefined)
-      throw tr(atLeastOneUrlDefined ? "Incomplete irradiance cubemap" : "");
-
-    // Actually load the irradiance map.
-    int w, h, components;
-    for (int i = 0; i < 6; ++i) {
-      QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[gCoordinateSystemSwap(i)]->item(0), false);
-      if (url.isEmpty())
-        throw QString();
-
-      wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-      float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
-      const int rotate = gCoordinateSystemRotate(i);
-      // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
-      if (rotate != 0) {
-        float *rotated = (float *)stbi__malloc(sizeof(float) * w * h * components);
-        if (rotate == 90) {
-          for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-              const int u = y * w * components + x * components;
-              const int v = (w - 1 - x) * w * components + y * components;
-              for (int c = 0; c < components; c++)
-                rotated[u + c] = data[v + c];
-            }
-          }
-          const int swap = w;
-          w = h;
-          h = swap;
-        } else if (rotate == -90) {
-          for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-              const int u = y * w * components + x * components;
-              const int v = x * w * components + (h - 1 - y) * components;
-              for (int c = 0; c < components; c++)
-                rotated[u + c] = data[v + c];
-            }
-          }
-          const int swap = w;
-          w = h;
-          h = swap;
-        } else if (rotate == 180) {
-          for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-              const int u = y * w * components + x * components;
-              const int v = (h - 1 - y) * w * components + (w - 1 - x) * components;
-              for (int c = 0; c < components; c++)
-                rotated[u + c] = data[v + c];
-            }
-          }
-        }
-        stbi_image_free(data);
-        data = rotated;
-      }
-      wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
-      hdrImageData << data;
+  if (missing) {  // If missing, bake a small irradiance map to have the right colors (reflections won't be good in that case)
+    int size;
+    if (mCubeMapTexture) {  // if a cubemap is available, use it
+      cm = mCubeMapTexture;
+      size = 64;
+    } else {  // otherwise, use a small uniform texture with the color of the sky
+      cm = wr_texture_cubemap_new();
+      size = 2;
+      const int size2 = size * size;
+      wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+      unsigned int data[size2];
+      const WbRgb &c = skyColor();
+      unsigned int color = c.redByte() * 0x10000 + c.greenByte() * 0x100 + c.blueByte();
+      for (int i = 0; i < size2; i++)
+        data[i] = color;
+      for (int i = 0; i < 6; i++)
+        wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
+      wr_texture_set_size(WR_TEXTURE(cm), size, size);
+      wr_texture_setup(WR_TEXTURE(cm));
     }
-
-    wr_texture_set_size(WR_TEXTURE(cm), w, h);
+    mIrradianceCubeTexture =
+      wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), size);
+    if (!mCubeMapTexture)
+      wr_texture_delete(WR_TEXTURE(cm));
+  } else {
+    cm = wr_texture_cubemap_new();
+    wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+    for (int i = 0; i < 6; i++)
+      wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(mIrradianceTexture[i]),
+                                  static_cast<WrTextureOrientation>(i));
+    wr_texture_set_size(WR_TEXTURE(cm), mIrradianceWidth, mIrradianceHeight);
     wr_texture_set_texture_unit(WR_TEXTURE(cm), 13);
     wr_texture_setup(WR_TEXTURE(cm));
-
     mIrradianceCubeTexture =
-      wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
-    wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
-
-  } catch (QString &error) {
-    if (error.length() > 0)
-      parsingWarn(error);
-
-    if (mIrradianceCubeTexture) {
-      wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
-      mIrradianceCubeTexture = NULL;
-    }
-
-    // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
-    // Reflections won't be good in such case.
-    if (mCubeMapTexture) {
-      mIrradianceCubeTexture =
-        wr_texture_cubemap_bake_specular_irradiance(mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 64);
-      wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
-    }
+      wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), mIrradianceWidth);
+    wr_texture_delete(WR_TEXTURE(cm));
   }
-
-  wr_texture_delete(WR_TEXTURE(cm));
+  wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
 
   WbWrenOpenGlContext::doneWren();
 
   emit cubemapChanged();
-
-  while (hdrImageData.size() > 0)
-    stbi_image_free(hdrImageData.takeFirst());
 }
 
 WbRgb WbBackground::skyColor() const {

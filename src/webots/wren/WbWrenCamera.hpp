@@ -23,6 +23,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QVector>
 
+class QIODevice;
+
 struct WrCamera;
 struct WrPostProcessingEffect;
 struct WrFrameBuffer;
@@ -91,7 +93,7 @@ public:
   void setLensDistortionCenter(const WbVector2 &center);
   void setRadialLensDistortionCoefficients(const WbVector2 &coefficients);
   void setTangentialLensDistortionCoefficients(const WbVector2 &coefficients);
-  QString setNoiseMask(const char *noiseMaskTexturePath);
+  QString setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device);
 
   void enableCopying(bool enable);
   WbRgb copyPixelColourValue(int x, int y);

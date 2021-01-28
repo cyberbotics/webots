@@ -161,12 +161,14 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   // world loading stuff
   connect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
+  connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
 }
 
 void WbWorld::finalize() {
   disconnect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
   disconnect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
+  disconnect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   disconnect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(),
              &WbApplication::setWorldLoadingProgress);
   if (WbApplication::instance()->wasWorldLoadingCanceled())
