@@ -354,9 +354,11 @@ void WbBackground::updateCubemap() {
       }
     }
     if (!postpone) {
-      if (irradianceUrlCount > 0 && irradianceUrlCount < 6)
-        warn(tr("Incomplete irradiance cubemap"));
       bool destroy = false;
+      if (irradianceUrlCount > 0 && irradianceUrlCount < 6) {
+        warn(tr("Incomplete irradiance cubemap"));
+        destroy = true;
+      }
       if (!hasCompleteBackground) {
         if (urlCount > 0) {
           warn(tr("Incomplete background cubemap"));
