@@ -251,7 +251,7 @@ class MyParser {
     return background;
   }
 
-  async checkUse(node, currentNode) {;
+  async checkUse(node, currentNode) {
     let use = getNodeAttribute(node, 'USE');
     if(typeof use === 'undefined')
       return;
@@ -870,6 +870,8 @@ class MyParser {
       return use;
 
     const id = getNodeAttribute(node, 'id');
+    console.log(id);
+
     let baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
     let roughness = parseFloat(getNodeAttribute(node, 'roughness', '0'))
