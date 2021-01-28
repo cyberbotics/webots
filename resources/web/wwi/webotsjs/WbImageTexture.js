@@ -19,10 +19,11 @@ import {WbAppearance} from "./WbAppearance.js";
 import {arrayXPointer} from "./WbUtils.js";
 import {textureFiltering} from "./WbPreferences.js";
 import {WbVector2} from "./utils/WbVector2.js"
+import {MyParser} from "./../my_parser.js"
 
 
 class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, filtering, anisotropy, image){
+  constructor(id, url, isTransparent, s, t, filtering, anisotropy){
     super(id);
     this.url = url;
 
@@ -34,7 +35,7 @@ class WbImageTexture extends WbBaseNode {
     this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
-    this.image = image;
+    this.image;
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
@@ -122,11 +123,13 @@ class WbImageTexture extends WbBaseNode {
     }
   }
 
-  updateWrenTexture() {
+  async updateWrenTexture() {
     this.destroyWrenTexture();
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
+      console.log(texture);
+      this.image = await MyParser.loadTextureData(this.url);
       texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, this.image.width, this.image.height);
       _wr_texture_set_translucent(texture, this.isTransparent);
@@ -138,7 +141,7 @@ class WbImageTexture extends WbBaseNode {
     } else
       this.isTransparent = _wr_texture_is_translucent(texture);
 
-      this.wrenTexture = texture;
+    this.wrenTexture = texture;
   }
 
   destroyWrenTexture() {
@@ -153,7 +156,6 @@ class WbImageTexture extends WbBaseNode {
 
   preFinalize() {
     super.preFinalize();
-    this.updateUrl();
     this.updateFiltering();
   }
 
@@ -161,11 +163,11 @@ class WbImageTexture extends WbBaseNode {
     super.postFinalize();
   }
 
-  updateUrl() {
+  async updateUrl() {
     // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
     this.url = this.url.replaceAll("\\", "/");
 
-    this.updateWrenTexture();
+    await this.updateWrenTexture();
   }
 
   updateFiltering() {

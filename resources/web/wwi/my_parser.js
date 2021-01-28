@@ -151,13 +151,13 @@ class MyParser {
   async parseScene(node) {
     let prefix = DefaultUrl.wrenImagesUrl();
     let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await this.loadTextureData(prefix + "lens_flare.png");
+    let lensFlareLenTexture = await MyParser.loadTextureData(prefix + "lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
-    let smaaAreaTexture = await this.loadTextureData(prefix + "smaa_area_texture.png");
+    let smaaAreaTexture = await MyParser.loadTextureData(prefix + "smaa_area_texture.png");
     smaaAreaTexture.isTranslucent = false;
-    let smaaSearchTexture = await this.loadTextureData(prefix + "smaa_search_texture.png");
+    let smaaSearchTexture = await MyParser.loadTextureData(prefix + "smaa_search_texture.png");
     smaaSearchTexture.isTranslucent = false;
-    let gtaoNoiseTexture = await this.loadTextureData(prefix + "gtao_noise_texture.png");
+    let gtaoNoiseTexture = await MyParser.loadTextureData(prefix + "gtao_noise_texture.png");
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
@@ -206,12 +206,12 @@ class MyParser {
       rightUrl = rightUrl.slice(1, rightUrl.length-1);
       topUrl = topUrl.slice(1, topUrl.length-1);
 
-      cubeImages[5] = await this.loadTextureData(this.prefix + backUrl);
-      cubeImages[3] = await this.loadTextureData(this.prefix + bottomUrl);
-      cubeImages[4] = await this.loadTextureData(this.prefix + frontUrl);
-      cubeImages[1] = await this.loadTextureData(this.prefix + leftUrl);
-      cubeImages[0] = await this.loadTextureData(this.prefix + rightUrl);
-      cubeImages[2] = await this.loadTextureData(this.prefix + topUrl);
+      cubeImages[5] = await MyParser.loadTextureData(this.prefix + backUrl);
+      cubeImages[3] = await MyParser.loadTextureData(this.prefix + bottomUrl);
+      cubeImages[4] = await MyParser.loadTextureData(this.prefix + frontUrl);
+      cubeImages[1] = await MyParser.loadTextureData(this.prefix + leftUrl);
+      cubeImages[0] = await MyParser.loadTextureData(this.prefix + rightUrl);
+      cubeImages[2] = await MyParser.loadTextureData(this.prefix + topUrl);
     } else {
       console.log("Background : Incomplete cubemap");
     }
@@ -233,12 +233,12 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      irradianceCubeURL[2] = await this.loadTextureData(this.prefix + topIrradianceUrl, true);
-      irradianceCubeURL[5] = await this.loadTextureData(this.prefix + backIrradianceUrl, true);
-      irradianceCubeURL[3] = await this.loadTextureData(this.prefix + bottomIrradianceUrl, true);
-      irradianceCubeURL[4] = await this.loadTextureData(this.prefix + frontIrradianceUrl, true);
-      irradianceCubeURL[1] = await this.loadTextureData(this.prefix + leftIrradianceUrl, true);
-      irradianceCubeURL[0] = await this.loadTextureData(this.prefix + rightIrradianceUrl, true);
+      irradianceCubeURL[2] = await MyParser.loadTextureData(this.prefix + topIrradianceUrl, true);
+      irradianceCubeURL[5] = await MyParser.loadTextureData(this.prefix + backIrradianceUrl, true);
+      irradianceCubeURL[3] = await MyParser.loadTextureData(this.prefix + bottomIrradianceUrl, true);
+      irradianceCubeURL[4] = await MyParser.loadTextureData(this.prefix + frontIrradianceUrl, true);
+      irradianceCubeURL[1] = await MyParser.loadTextureData(this.prefix + leftIrradianceUrl, true);
+      irradianceCubeURL[0] = await MyParser.loadTextureData(this.prefix + rightIrradianceUrl, true);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
@@ -853,8 +853,8 @@ class MyParser {
 
     if(typeof url !== 'undefined' && url !== '') {
       url = this.prefix + url
-      let image = await this.loadTextureData(url);
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering, anisotropy, image);
+      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering, anisotropy);
+      await imageTexture.updateUrl();
     }
 
     if(typeof imageTexture !== 'undefined'){
@@ -988,21 +988,21 @@ class MyParser {
     return textureTransform;
   }
 
-  async loadTextureData(url, isHdr) {
+  static async loadTextureData(url, isHdr) {
     let canvas2 = document.createElement('canvas')
     let context =  canvas2.getContext('2d');
 
     let image = new WbImage();
 
     if(isHdr){
-      let img = await this.loadHDRImage(url);
+      let img = await MyParser.loadHDRImage(url);
       image.bits = img.data;
       image.width = img.width;
       image.height = img.height;
       image.url = url;
     }
     else {
-      let img = await this.loadImage(url);
+      let img = await MyParser.loadImage(url);
       canvas2.width = img.width;
       canvas2.height = img.height;
       context.drawImage(img, 0, 0);
@@ -1018,7 +1018,7 @@ class MyParser {
     return image;
  }
 
- loadImage(src){
+ static loadImage(src){
    return new Promise((resolve, reject) => {
      let img = new Image();
      img.onload = () => {
@@ -1029,7 +1029,8 @@ class MyParser {
      img.src = src;
    })
  }
- loadHDRImage(src){
+
+ static loadHDRImage(src){
    return new Promise((resolve, reject) => {
      let loader = new RGBELoader;
      loader.load(src, function(img){resolve(img)});

@@ -89,8 +89,6 @@ class WbAppearance extends WbAbstractAppearance {
     if (typeof this.texture !== 'undefined')
       this.texture.preFinalize();
 
-    this.updateMaterial();
-    this.updateTexture();
   }
 
   postFinalize() {
@@ -100,12 +98,6 @@ class WbAppearance extends WbAbstractAppearance {
       this.material.postFinalize();
     if (typeof this.texture !== 'undefined')
       this.texture.postFinalize();
-  }
-
-  updateMaterial() {
-  }
-
-  updateTexture() {
   }
 }
 
