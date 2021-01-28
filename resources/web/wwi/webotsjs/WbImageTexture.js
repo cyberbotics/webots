@@ -128,7 +128,6 @@ class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      console.log(texture);
       this.image = await MyParser.loadTextureData(this.url);
       texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, this.image.width, this.image.height);
