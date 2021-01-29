@@ -576,10 +576,10 @@ webots.View = class View {
       this.x3dScene.destroyWorld();
     this.removeLabels();
     this.onrobotwindowsdestroy();
-    if(typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
+    /*if(typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
       this.mouseEvents.picker.delete();
       this.mouseEvents.picker = undefined;
-    }
+    }*/
   }
 
   editController(controller) {
