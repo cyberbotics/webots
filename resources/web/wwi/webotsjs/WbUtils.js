@@ -79,7 +79,7 @@ function direction(vec4)  {
 function right(vec4) {
   let c = Math.cos(vec4.w), s = Math.sin(vec4.w), t = 1 - c;
   let tTimesX = t * vec4.x;
-  return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.w + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
+  return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.y + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
 }
 
 function up(vec4) {
