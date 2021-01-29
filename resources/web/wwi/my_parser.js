@@ -61,7 +61,7 @@ class MyParser {
       this.undefinedID = 90000;
   }
 
-  parse(text){
+  async parse(text, renderer){
     console.log('X3D: Parsing');
     let xml = null;
     if (window.DOMParser) {
@@ -85,7 +85,8 @@ class MyParser {
           this.parseChildren(node);
       } else {
         console.log(scene);
-        this.parseNode(scene);
+        await this.parseNode(scene);
+        renderer.render();
       }
     }
   }
@@ -104,6 +105,7 @@ class MyParser {
       World.instance.viewpoint.finalize();
       World.instance.sceneTree.forEach(node => {
         node.finalize();});
+
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -870,7 +872,6 @@ class MyParser {
       return use;
 
     const id = getNodeAttribute(node, 'id');
-    console.log(id);
 
     let baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));

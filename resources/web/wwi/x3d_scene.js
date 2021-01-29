@@ -139,17 +139,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadObject(x3dObject, parentId) {
-    let parentObject;
-    let objects;
     let loader;
-    if (false) {
-          loader = new X3dLoade(this);
-          loader.enableHDRReflections = this.enableHDRReflections;
-          objects = loader.parse(x3dObject, parentObject);
-    }else {
-      loader = new MyParser();
-      loader.parse(x3dObject);
-    }
+    loader = new MyParser();
+    loader.parse(x3dObject, this.renderer);
 
     this.onSceneUpdate();
   }
