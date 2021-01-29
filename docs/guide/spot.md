@@ -11,6 +11,10 @@ Spot can go where wheeled robots cannot, while carrying payloads with endurance 
 The maximal speed is 1.6 m/s with a runtime of 90 minutes and the batteries are swappable.
 Spot uses five stereo cameras (360 degrees vision) to avoid obstacles and people as it moves through dynamic work sites.
 
+It is unfortunately not possible to use the [Spot SDK](https://github.com/boston-dynamics/spot-sdk) together with Webots.
+This is because as this SDK doesn't include all the low level motion control functionalities which are necessary to control the simulated model.
+Re-writing these functionalities as open-source software or somehow reusing Boston Dynamics binary libraries could be a possibility enabling the creation of an interface between the Spot SDK and Webots.
+
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=b5mVe6dk0wI)
