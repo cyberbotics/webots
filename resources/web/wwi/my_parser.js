@@ -54,8 +54,8 @@ import {RGBELoader} from "./hdrLoader.js"
 import {DefaultUrl} from "./default_url.js"
 
 class MyParser {
-  constructor(localTexture=false) {
-      this.prefix = localTexture ?  '' : "http://localhost:1234/"; //TODO don't hardcode
+  constructor() {
+      this.prefix = "http://localhost:1234/"; //TODO don't hardcode
       let world = new World();
       this.fog = false;
       this.undefinedID = 90000;
@@ -97,6 +97,10 @@ class MyParser {
   }
 
   async parseNode(node, currentNode) {
+    if(typeof World.instance === 'undefined') {
+      new World();
+    }
+
     let result;
     if(node.tagName === 'Scene') {
       World.instance.scene = await this.parseScene(node);

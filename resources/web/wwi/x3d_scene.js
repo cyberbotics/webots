@@ -21,6 +21,7 @@ import {WbGroup} from "./webotsjs/WbGroup.js"
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
+    this.loader =  new MyParser();
   }
 
   init(texturePathPrefix = '') {
@@ -109,6 +110,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderMinimal();
 
     //TODO CLEAN SELECTOR/PICKER HERE
+    //TODO reset loader
   }
 
   deleteObject(id) {
@@ -128,10 +130,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     request.open("GET", url, true);
     request.onload = async function () {
         let doc = request.responseXML;
-        console.log(doc);
-        let loader = new MyParser(true);
+        this.loader.prefix = '';
         console.log(doc.getElementsByTagName('Scene')[0]);
-        await loader.parseFile(doc);
+        await this.loader.parseFile(doc);
         onLoad();
     };
 
@@ -139,9 +140,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadObject(x3dObject, parentId) {
-    let loader;
-    loader = new MyParser();
-    loader.parse(x3dObject, this.renderer);
+    if(typeof parentId !== 'undefined'){
+        let parent = World.instance.nodes.get(parentId);
+    }
+    this.loader.prefix = "http://localhost:1234/";
+    this.loader.parse(x3dObject, this.renderer);
 
     this.onSceneUpdate();
   }
@@ -207,6 +210,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   processServerMessage(data, view) {
+    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);
