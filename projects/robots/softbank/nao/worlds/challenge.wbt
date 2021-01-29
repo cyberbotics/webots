@@ -52,7 +52,7 @@ CeilingLight {
   translation 0.2 2 1.25
   pointLightIntensity 2
 }
-NaoRoom {
+NaoChallengeRoom {
 }
 DEF LANDMARK VisualArmature {
   translation -0.25 0.255 0.08
