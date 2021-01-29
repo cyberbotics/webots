@@ -61,7 +61,7 @@ class MyParser {
       this.undefinedID = 90000;
   }
 
-  async parse(text, renderer){
+  async parse(text, renderer, parent){
     console.log('X3D: Parsing');
     let xml = null;
     if (window.DOMParser) {
@@ -81,19 +81,29 @@ class MyParser {
         console.log(node);
         if (typeof node === 'undefined')
           console.error("Unknown content, nor Scene, nor Node");
-        else
-          this.parseChildren(node);
+        else {
+          await this.parseChildren(node, parent);
+        }
       } else {
-        console.log(scene);
         await this.parseNode(scene);
-        renderer.render();
       }
     }
+
+    console.log(World.instance);
+    World.instance.viewpoint.finalize();
+    World.instance.sceneTree.forEach(node => {
+      node.finalize();});
+    renderer.render();
   }
 
   async parseFile(file) {
     let scene = file.getElementsByTagName('Scene')[0];
     await this.parseNode(scene);
+    console.log(World.instance);
+    console.log(World.instance.sceneTree.length)
+    World.instance.viewpoint.finalize();
+    World.instance.sceneTree.forEach(node => {
+      node.finalize();});
   }
 
   async parseNode(node, currentNode) {
@@ -105,11 +115,6 @@ class MyParser {
     if(node.tagName === 'Scene') {
       World.instance.scene = await this.parseScene(node);
       await this.parseChildren(node, currentNode)
-      console.log(World.instance);
-      World.instance.viewpoint.finalize();
-      World.instance.sceneTree.forEach(node => {
-        node.finalize();});
-
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
@@ -133,8 +138,49 @@ class MyParser {
     else if (node.tagName === 'Fog' && !this.fog)
       result = await this.parseFog(node);
     else {
-      console.log(node.tagName);
-      console.error("The parser doesn't support this type of node");
+      //Either it is a node added after the whole scene, or it is an unknown node
+      result = await this.parseGeometry(node)
+      if (typeof result !== 'undefined') {
+        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+          if(typeof currentNode.geometry !== 'undefined')
+            currentNode.geometry.delete();
+          currentNode.geometry = result;
+        }
+      } else if (node.tagName === 'PBRAppearance') {
+        result = await this.parsePBRAppearance(node);
+      } else if (node.tagName === 'Appearance') {
+        result = await this.parseAppearance(node);
+      } else if (node.tagName === 'Material') {
+        result = await this.parseMaterial(node);
+        if (typeof result !== 'undefined') {
+          if (typeof currentNode !== 'undefined' && currentNode instanceof WbAppearance){
+            if(typeof currentNode.material !== 'undefined')
+              currentNode.material.delete();
+            currentNode.material = result;
+          }
+        }
+      }/* else if (node.tagName === 'ImageTexture') {
+        result = await this.parseImageTexture(node);
+        if (typeof result !== 'undefined') {
+          if (typeof currentNode !== 'undefined' && currentNode instanceof WbAppearance){
+            if(typeof currentNode.material !== 'undefined')
+              currentNode.material.delete();
+            currentNode.material = result;
+          }
+        }
+      } */else if (node.tagName === 'TextureTransform') {
+        result = await this.parseTextureTransform(node);
+        if (typeof result !== 'undefined') {
+          if (typeof currentNode !== 'undefined' && currentNode instanceof WbAbstractAppearance){
+            if(typeof currentNode.textureTransform !== 'undefined')
+              currentNode.textureTransform.delete();
+            currentNode.textureTransform = result;
+          }
+        }
+      } else {
+        console.log(node.tagName);
+        console.error("The parser doesn't support this type of node");
+      }
     }
 
     //check if top-level nodes
@@ -393,6 +439,7 @@ class MyParser {
     let shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if(typeof currentNode !== 'undefined') {
+      //console.log(currentNode);
       currentNode.children.push(shape);
       shape.parent = currentNode.id;
     }
