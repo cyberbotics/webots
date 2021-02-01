@@ -76,6 +76,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
+
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
+    this.picker.pick(pos.x,pos.y)
+    Selector.select(this.picker.selectedId);
   }
 
   _onMouseMove(event) {
@@ -436,10 +440,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
-      let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-      this.picker.pick(pos.x,pos.y)
-      Selector.select(this.picker.selectedId);
-
       if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
         World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 
