@@ -170,6 +170,14 @@ class Use extends WbBaseNode {
   updateBoundingObjectVisibility() {
     this.def.updateBoundingObjectVisibility();
   }
+
+  applyRotationToWren(){
+    this.def.applyRotationToWren();
+  }
+
+  applyTranslationToWren(){
+    this.def.applyTranslationToWren();
+  }
 }
 
 export{Use}
