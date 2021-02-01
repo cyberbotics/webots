@@ -1,9 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "NAO Challenge"
+    "A NAO robot in a living room"
   ]
-  title "NAO Challenge"
+  title "NAO room"
   basicTimeStep 10
   coordinateSystem "NUE"
   contactProperties [
