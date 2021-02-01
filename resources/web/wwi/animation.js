@@ -37,8 +37,8 @@ class Animation { // eslint-disable-line no-unused-vars
     this.data = data;
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
-
-    this.view.view3D.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
+    let canvas = document.getElementById('canvas')
+    canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
     let div = document.getElementById("playBar");
 
     this.button = document.createElement('button');
@@ -170,8 +170,7 @@ class Animation { // eslint-disable-line no-unused-vars
     }
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    x3dScene.viewpoint.updateViewpointPosition(!automaticMove | this.step === 0, this.view.time);
-    x3dScene.viewpoint.notifyCameraParametersChanged();
+    x3dScene.render();
   }
 
   async _updateAnimation() {

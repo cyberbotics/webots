@@ -21,7 +21,7 @@ import {WbGroup} from "./webotsjs/WbGroup.js"
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
-    this.loader =  new MyParser();
+    this.loader = new MyParser();
   }
 
   init(texturePathPrefix = '') {
@@ -130,6 +130,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     request.open("GET", url, true);
     request.onload = async function () {
         let doc = request.responseXML;
+
+        if(typeof this.loader === 'undefined')
+          this.loader = new MyParser();
+
         this.loader.prefix = '';
         console.log(doc.getElementsByTagName('Scene')[0]);
         await this.loader.parseFile(doc);
@@ -145,6 +149,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
         parentNode = World.instance.nodes.get('n' + parentId);
 
     }
+    if(typeof this.loader === 'undefined')
+      this.loader = new MyParser();
+      
     this.loader.prefix = "http://localhost:1234/";
     this.loader.parse(x3dObject, this.renderer, parentNode);
 

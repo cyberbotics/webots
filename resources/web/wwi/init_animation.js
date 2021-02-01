@@ -19,9 +19,10 @@ function init() {
   //document.getElementById('PlayButton').style.display = 'block';
   //this.style.display = 'none'
   let playButton = document.getElementById('PlayButton');
-  playButton.removeEventListener('click', init);
-  playButton.addEventListener('click', remove);
-  playButton.value = "Quit";
+  //playButton.removeEventListener('click', init);
+  //playButton.addEventListener('click', remove);
+  //playButton.value = "Quit";
+  playButton.parentNode.removeChild(playButton);
 
   let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
   view = new webots.View(document.getElementById("view3d"));
