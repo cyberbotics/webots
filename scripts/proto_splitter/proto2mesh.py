@@ -289,8 +289,11 @@ class proto2mesh:
                 if eof > 10:
                     self.f.close()
                     self.cleanup(inFile)
+                    total = len(meshes)
+                    count = 1
                     for mesh in meshes.values():
-                        print('  Processing mesh ' + mesh.name, flush=True)
+                        print('  Processing mesh ' + mesh.name + '(' + count + '/' + total + ')', flush=True)
+                        count += 1
                         mesh.remove_duplicate('vertex')
                         mesh.remove_duplicate('normal')
                         mesh.remove_duplicate('texture')
