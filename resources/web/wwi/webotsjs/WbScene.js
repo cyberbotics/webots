@@ -23,9 +23,9 @@ class WbScene {
     this.wrenNormalFrameBufferTexture = null;
     this.wrenDepthFrameBufferTexture = null;
 
-    //_wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
+    _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     //To have the same display size as in webots
-    _wrjs_init_context(800, 600);
+    //_wrjs_init_context(800, 600);
     _wr_scene_init(_wr_scene_get_instance());
 
     _wr_gl_state_set_context_active(true);

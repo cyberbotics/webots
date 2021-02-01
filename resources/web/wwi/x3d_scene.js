@@ -77,15 +77,19 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   resize() {
-    /*let width = this.domElement.clientWidth;
+    let width = this.domElement.clientWidth;
     let height = this.domElement.clientHeight;
+
+    this.renderer.setSize(width, height);
+
+    if(typeof World.instance.scene !== 'undefined')
+      World.instance.scene.updateFrameBuffer();
+
+    if(typeof World.instance.viewpoint !== 'undefined')
+      World.instance.viewpoint.updatePostProcessingEffects();
     //aspect ratio;
     //fov;
-    //depth and picking viewport
-    //projection matrix;
-    //renderer;
-    console.log(width +  " " + height);
-    this.renderer.setSize(width, height);*/
+    //projection matrix;;
 
     this.render();
   }

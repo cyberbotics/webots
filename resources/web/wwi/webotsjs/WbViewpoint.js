@@ -38,7 +38,7 @@ class WbViewpoint extends WbBaseNode {
     this.bloomThreshold = bloomThreshold;
     this.zNear = zNear;
     this.far = far;
-    this.aspectRatio = 800/600; //TODO do not hardcode
+    this.aspectRatio = canvas.width/canvas.height//800/600; //TODO do not hardcode
     this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
@@ -174,7 +174,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateAspectRatio(renderWindowAspectRatio) {
-    if (!this.wrenObjectsCreatedCalled())
+    if (!this.wrenObjectsCreatedCalled)
       return;
 
     this.aspectRatio = renderWindowAspectRatio;
@@ -226,6 +226,8 @@ class WbViewpoint extends WbBaseNode {
 
       this.wrenBloom.setThreshold(this.bloomThreshold);
     }
+
+    this.updateAspectRatio(canvas.width / canvas.height)
   }
 
   updatePostProcessingParameters(){

@@ -439,10 +439,14 @@ webots.View = class View {
         this.multimediaClient.setFollowed(id, mode);
       };
     } else if (typeof this.x3dScene === 'undefined') {
-      this.x3dDiv = document.createElement('div');
-      this.x3dDiv.id = "view3d";
+      this.x3dDiv = document.getElementById('view3d');
+      if(this.x3dDiv === null || typeof this.x3dDiv === 'undefined') {
+        this.x3dDiv = document.createElement('div');
+        this.x3dDiv.id = "view3d";
+        this.view3D.appendChild(this.x3dDiv);
+      }
+
       this.x3dDiv.className = 'webots3DView';
-      this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
       this.x3dScene.init(texturePathPrefix);
       let param = document.createElement('param');

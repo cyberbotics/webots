@@ -18,16 +18,17 @@ class WrenRenderer {
   constructor () {
     this.canvas = document.createElement('canvas');
     this.canvas.id = 'canvas';
-    let div = document.getElementById('playerDiv');
+    let div = document.getElementById('view3d');
 
     if(typeof div === 'undefined' || div === null)
-      div = document.getElementById('view3d');
+      div = document.getElementById('playerDiv');
     div.insertBefore(this.canvas, div.firstChild);
+    console.log(canvas);
   }
 
   setSize ( width, height ) {
-    this.canvas.width = width;
-    this.canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
   }
 
   render() {
