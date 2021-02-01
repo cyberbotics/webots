@@ -94,6 +94,7 @@ class MyParser {
     World.instance.sceneTree.forEach(node => {
       node.finalize();});
     renderer.render();
+    console.timeEnd('startID')
   }
 
   async parseFile(file) {
