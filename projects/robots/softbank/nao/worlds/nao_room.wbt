@@ -51,6 +51,7 @@ Background {
 CeilingLight {
   translation 0 2 0
   pointLightIntensity 2
+  pointLightCastShadows TRUE
 }
 NaoRoom {
 }
