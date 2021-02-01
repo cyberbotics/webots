@@ -256,9 +256,9 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
       << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
-    WbNode *def = defNode();
+    const WbNode *def = defNode();
     while (def && def->isProtoParameterNode()) {
-      QVector<WbNode *> nodeInstances = def->protoParameterNodeInstances();
+      const QVector<WbNode *> nodeInstances = def->protoParameterNodeInstances();
       def = nodeInstances.isEmpty() ? NULL : nodeInstances.at(0);
     }
     assert(def != NULL);
