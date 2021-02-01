@@ -7,6 +7,7 @@ Released on XX Xth, 2021.
     - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
   - Bug fixes
+    - Fixed [X3D export](https://www.cyberbotics.com/doc/guide/web-interface) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
     - Fixed memory leak in [Display](display.md) image ([#2663](https://github.com/cyberbotics/webots/issues/2663)).
     - Fixed high DPI support on Windows and Linux ([#2631](https://github.com/cyberbotics/webots/pull/2631)).
     - Fixed painting with the [Pen](pen.md) device on the bottom face of a [Cylinder](cylinder.md) geometry ([#2629](https://github.com/cyberbotics/webots/pull/2629)).
