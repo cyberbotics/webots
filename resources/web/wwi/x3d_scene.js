@@ -77,10 +77,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   resize() {
-    let width = this.domElement.clientWidth;
+    /*let width = this.domElement.clientWidth;
     let height = this.domElement.clientHeight;
-
-    this.renderer.setSize(width, height);
+    console.log(width +  " " + height);
+    this.renderer.setSize(width, height);*/
 
     this.render();
   }
@@ -151,7 +151,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
     if(typeof this.loader === 'undefined')
       this.loader = new MyParser();
-      
+
     this.loader.prefix = "http://localhost:1234/";
     this.loader.parse(x3dObject, this.renderer, parentNode);
 

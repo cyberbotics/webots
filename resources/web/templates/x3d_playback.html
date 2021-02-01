@@ -16,34 +16,33 @@
         width: 100%;
       }
     </style>
-  </style>
-  <script src="https://www.cyberbotics.com/jquery/1.11.3/jquery.min.js" ></script>
-  <script src="https://www.cyberbotics.com/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-  <script src="https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js"></script>
-  <script src="https://www.cyberbotics.com/ace/1.2.0/ace.js"></script>
-  <script src='https://git.io/glm-js.min.js'></script>
-  <script src='https://cyberbotics.github.io/webots/resources/web/streaming_viewer/libtess.min.js'></script>
-  <script src="https://cyberbotics.github.io/webots/resources/web/streaming_viewer/enum.js"></script>
-  <script>
-    var Module = [];
-    Module['locateFile'] = function(path, prefix) {
+    <script src="https://www.cyberbotics.com/jquery/1.11.3/jquery.min.js" ></script>
+    <script src="https://www.cyberbotics.com/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js"></script>
+    <script src="https://www.cyberbotics.com/ace/1.2.0/ace.js"></script>
+    <script src='https://git.io/glm-js.min.js'></script>
+    <script src='https://cyberbotics.github.io/webots/resources/web/streaming_viewer/libtess.min.js'></script>
+    <script src="https://cyberbotics.github.io/webots/resources/web/streaming_viewer/enum.js"></script>
+    <script>
+      var Module = [];
+      Module['locateFile'] = function(path, prefix) {
 
-    // if it's a mem init file or a data file, use a custom dir
-    if (path.endsWith(".mem") || path.endsWith(".data"))
-      return "https://cyberbotics.github.io/webots/resources/web/streaming_viewer/" + path;
+      // if it's a mem init file or a data file, use a custom dir
+      if (path.endsWith(".mem") || path.endsWith(".data"))
+        return "https://cyberbotics.github.io/webots/resources/web/streaming_viewer/" + path;
 
-    // otherwise, use the default, the prefix (JS file's dir) + the path
-    return prefix + path;
-    }
-  </script>
-  <script src="https://cyberbotics.github.io/webots/resources/web/streaming_viewer/a.out.js"></script>
-  <script type="module" src="https://cyberbotics.github.io/webots/resources/web/wwi/init_animation.js"></script>
-</head>
-<body>
-  <h1></h1>
-  <div id="view3d">
-    <input id="PlayButton" type="button" value="Play" />
-  </div>
-  <p></p>
-</body>
+      // otherwise, use the default, the prefix (JS file's dir) + the path
+      return prefix + path;
+      }
+    </script>
+    <script src="https://cyberbotics.github.io/webots/resources/web/streaming_viewer/a.out.js"></script>
+    <script type="module" src="https://cyberbotics.github.io/webots/resources/web/wwi/init_animation.js"></script>
+  </head>
+  <body>
+    <h1></h1>
+    <div id="view3d">
+      <input id="PlayButton" type="button" value="Play" />
+    </div>
+    <p></p>
+  </body>
 </html>
