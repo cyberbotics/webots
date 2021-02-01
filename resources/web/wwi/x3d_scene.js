@@ -79,6 +79,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
   resize() {
     /*let width = this.domElement.clientWidth;
     let height = this.domElement.clientHeight;
+    //aspect ratio;
+    //fov;
+    //depth and picking viewport
+    //projection matrix;
+    //renderer;
     console.log(width +  " " + height);
     this.renderer.setSize(width, height);*/
 

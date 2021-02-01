@@ -38,7 +38,7 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    let canvas = document.getElementById('canvas')
+    let canvas = document.getElementById('view3d')
     canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
     let div = document.getElementById("playBar");
 
@@ -47,7 +47,7 @@ class Animation { // eslint-disable-line no-unused-vars
     var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
-    this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
+    this.button.addEventListener('click', () => {this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
     var slider = document.createElement('div');
