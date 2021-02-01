@@ -23,7 +23,7 @@
 # INSTRUCTIONS:
 # Call the script with the --input=<path> argument
 #
-# 1. if <path> ends in <filename.proto>:
+# 1. if <path> ends in <filename>.proto:
 #   - creates a new folder in the same directory named "multifile_<filename>"
 #   - creates a new <filename>.proto inside this folder with all trimeshes
 #     replaced by proto files, placed in a subfolder.
