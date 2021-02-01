@@ -76,6 +76,7 @@ class MyParser {
       console.error("File to parse not found");
     } else {
       let scene = xml.getElementsByTagName('Scene')[0];
+      console.log(scene);
       if (typeof scene === 'undefined') {
         let node = xml.getElementsByTagName('nodes')[0];
         console.log(node);

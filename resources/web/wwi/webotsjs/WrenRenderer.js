@@ -23,7 +23,6 @@ class WrenRenderer {
     if(typeof div === 'undefined' || div === null)
       div = document.getElementById('playerDiv');
     div.insertBefore(this.canvas, div.firstChild);
-    console.log(canvas);
   }
 
   setSize ( width, height ) {
