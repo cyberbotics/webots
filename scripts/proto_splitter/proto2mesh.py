@@ -378,9 +378,9 @@ class proto2mesh:
                     name = name.lower()
                 meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
-                self.protoFileString += indent * (level + 1) + 'geometry ' + defString + 'Mesh {\n'
-                self.protoFileString += indent * (level + 2) + 'url MeshID_' + key + '_placeholder\n'
-                self.protoFileString += indent * (level + 1) + '}\n'
+                self.protoFileString += indent * level + 'geometry ' + defString + 'Mesh {\n'
+                self.protoFileString += indent * (level + 1) + 'url MeshID_' + key + '_placeholder\n'
+                self.protoFileString += indent * level + '}\n'
             else:
                 if '}' in ln or ']' in ln:
                     level -= 1
