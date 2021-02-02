@@ -241,23 +241,41 @@ class Mesh:
 class proto2mesh:
     def __init__(self):
         print('Proto 2 mesh proto converter by Simon Steinmann & Olivier Michel', flush=True)
+        self.disableMeshOptimization = True
+        self.disableFileCreation = False
 
     def get_data_from_field(self, ln):
-        line = ' '.join(ln)
+        defName = None
+        if 'DEF' in ln:
+            defName = ln[ln.index('DEF') + 1]
+        if 'USE' in ln:
+            useName = ln[ln.index('USE') + 1]
+            line = self.f.readline().split('#')[0]
+            self.lineNumber += 1
+            ln = line.split()
+            return ln, self.meshDEFcache[useName]
+        line = ' '.join(ln).split('#')[0]
         while '[' not in line:
-            line = self.f.readline()
+            line = self.f.readline().split('#')[0]
+            self.lineNumber += 1
             ln = line.split()
         i = ln.index('[')
         data = ' '.join(ln[i:])
         while ']' not in line:
-            line = self.f.readline()
+            line = self.f.readline().split('#')[0]
+            self.lineNumber += 1
+            if '%' in line:
+                raise Exception("ERROR: LUA skript for mesh data is not supported.")
+                
             ln = line.split()
             data += line
         data = ' '.join(data.split())
         data = data.replace('[', '').replace(']', '')
+        if defName is not None:
+            self.meshDEFcache[defName] = data        
         return ln, data
 
-    def convert(self, inFile, outFile=None, verbose=True):
+    def convert(self, inFile, outFile=None, verbose=True):        
         path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]        
         if outFile is None:
@@ -274,7 +292,8 @@ class proto2mesh:
         self.f = open(inFile)
         self.protoFileString = ''
         # The new proto file, with meshes extracted
-        self.pf = open(outFile, 'w', newline='\n')
+        if not self.disableFileCreation:
+            self.pf = open(outFile, 'w', newline='\n')
         self.shapeIndex = 0
         # Stores the DEF of the closest related parentnode of Type 'Group', 'Transform' or 'Shape'.
         # If a mesh has no name, this is used instead.
@@ -282,18 +301,22 @@ class proto2mesh:
         # A dictionary, which will get filled with all meshes of the PROTO file. Each
         #  mesh has a key '<level>_<meshID>' level is the indent, meshID is unique
         #  number, counting up from 0. The value is an instance of the Mesh class.
+        self.lineNumber = 0 # current line in the source proto file. For debug purposes.
         meshes = {}
+        self.meshDEFcache = {}
         meshID = 0
         indent = '  '
         level = 0
         while True:
             line = self.f.readline()
+            self.lineNumber += 1
             ln = line.split()
             # termination condition:
             eof = 0
             while ln == []:
                 self.protoFileString += line
                 line = self.f.readline()
+                self.lineNumber += 1
                 ln = line.split()
                 eof += 1
                 if eof > 10:
@@ -312,14 +335,16 @@ class proto2mesh:
                         if verbose:
                             print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
-                        #mesh.remove_duplicate('vertex')
-                        #mesh.remove_duplicate('normal')
-                        #mesh.remove_duplicate('texture')
-                        #mesh.apply_crease_angle()
-                    self.write_obj(meshes)
-                    self.pf.write(self.protoFileString)
-                    self.pf.close()
-                    return self.robotName
+                        if not self.disableMeshOptimization:
+                            mesh.remove_duplicate('vertex')
+                            mesh.remove_duplicate('normal')
+                            mesh.remove_duplicate('texture')
+                            mesh.apply_crease_angle()
+                    if not self.disableFileCreation:
+                        self.write_obj(meshes)
+                        self.pf.write(self.protoFileString)
+                        self.pf.close()
+                    return 'success'
             if 'name' in ln:
                 name = ln[ln.index('name') + 1].replace('"', '')
                 if name == 'IS':
@@ -344,18 +369,16 @@ class proto2mesh:
                     name = parentDefName.split('_')[1]
                 shapeLevel = 1
                 meshID += 1
-                while shapeLevel > 0:
+                while shapeLevel > 0:         
+                    if '}' in ln:
+                        shapeLevel -= 1
+                    if '{' in ln:
+                        shapeLevel += 1
                     if 'coord' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, coord = self.get_data_from_field(ln)
                     if 'texCoord' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, texCoord = self.get_data_from_field(ln)
                     if 'normal' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, normal = self.get_data_from_field(ln)
                     if 'coordIndex' in ln:
                         ln, coordIndex = self.get_data_from_field(ln)
@@ -366,13 +389,15 @@ class proto2mesh:
                     if 'creaseAngle' in ln:
                         creaseAngle = ln[ln.index('creaseAngle') + 1]
                     else:
-                        creaseAngle = 0
-                    line = self.f.readline()
-                    ln = line.split()
+                        creaseAngle = 0            
+                    
                     if '}' in ln:
                         shapeLevel -= 1
                     if '{' in ln:
                         shapeLevel += 1
+                    line = self.f.readline()
+                    self.lineNumber += 1
+                    ln = line.split()
                 key = str(level) + '_' + str(meshID)
                 if name is not None:
                     name = name.lower()
@@ -398,13 +423,17 @@ class proto2mesh:
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, pool, sourcePath):
-        outPath = self.create_outputDir(sourcePath)
-        os.makedirs(outPath, exist_ok=True)
+    def convert_all(self, pool, sourcePath, verbose):        
+        if self.disableFileCreation:
+            outPath = sourcePath
+        else:
+            outPath = self.create_outputDir(sourcePath)
+            os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
         # Walk the tree.
         self.protoFiles = []  # List of the full filepaths.
+        failedConvertions = []
         for root, directories, files in os.walk('./'):
             for filename in files:
                 # Join the two strings in order to form the full filepath.
@@ -418,12 +447,17 @@ class proto2mesh:
             # make a copy of our inFile, which will be read and later deleted
             shutil.copy(inFile, inFile + '_temp')
             inFile = inFile + '_temp'
-            if pool is None:                
-                self.convert(inFile, outFile)
+            if pool is None:
+                try:
+                    self.convert(inFile, outFile, verbose)
+                except Exception as e:
+                    failedConvertions.append(sourcePath + proto + ' - line: ' + str(self.lineNumber) + '\n' + str(e))
             else:                
                 multiprocessing.active_children()
-                pool.apply_async(self.convert, args=((inFile, outFile, True)))
-                
+                r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
+                failedConvertions.append([r, sourcePath + proto + '\n'])
+        return failedConvertions
+
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
@@ -461,32 +495,63 @@ if __name__ == '__main__':
         help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
     optParser.add_option(
-        '--mt',
+        '--mt', '--multithreaded',
         dest='mt',
         default=False,
         action='store_true',
         help='If set, enables multicore processing for directories with several PROTO files. May not work on Windows.',
     )
+    optParser.add_option(
+        '--verbose', '-v',
+        dest='verbose',
+        default=False,
+        action='store_true',
+        help='If set, detailed output of mesh conversion is shown in console',
+    )
+    optParser.add_option(
+        '--check-protos-validity', '--cpv',
+        dest='cpv',
+        default=False,
+        action='store_true',
+        help='If set, will quickly go through all the protos files and output any errors. No lenghty mesh calculations. No files created.',
+    )
     options, args = optParser.parse_args()
     inPath = options.inPath
-    if options.mt:
-        core_count = multiprocessing.cpu_count()
-        print('CPU core count: ', core_count)
-        # use all available cores, otherwise specify the number you want as an argument
-        pool = multiprocessing.Pool(core_count, initializer=mutliprocess_initializer, maxtasksperchild=10)
+    verbose = options.verbose
+    cpv = options.cpv
+    mt = options.mt
+    
+    p2m = proto2mesh()
+    if cpv: # if we check protos files for validity
+        p2m.disableMeshOptimization = True
+        p2m.disableFileCreation = True
+        mt = False # disable multithreading, otherwise error collection does not work.
+    if mt:
+        pool = multiprocessing.Pool(initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:
-        pool = None
+        pool = None    
+
     try:
-        if inPath is not None:
-            p2m = proto2mesh()
+        if inPath is not None:            
             if os.path.splitext(inPath)[1] == '.proto':
-                p2m.convert(inPath)
+                p2m.convert(inPath, verbose=verbose)
                 print('Done')
             elif os.path.isdir(inPath):            
                 inPath = os.path.abspath(inPath)
-                p2m.convert_all(pool, inPath)
-                pool.close()
-                pool.join()
+                results = p2m.convert_all(pool, inPath, verbose)
+                if options.mt:
+                    pool.close()
+                    pool.join()
+                    for i in range(len(results)):
+                        r = results[i]
+                        try:
+                            r[0].get()
+                        except Exception as e:
+                            print('\n', r[1], e)
+                else:
+                    print('\nFailed conversions. Check PROTO formatting:\n')
+                    for path in results:
+                        print('\n' + path)
                 print('Done')
             else:
                 sys.exit('Error: --input has to be a .proto file or directory!')
