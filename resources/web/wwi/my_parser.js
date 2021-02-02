@@ -325,7 +325,7 @@ class MyParser {
 
     if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
-      if (useNode.def instanceof WbShape || useNode.def instanceof WbTransform || useNode.def instanceof WbLight)
+      if (useNode.def instanceof WbShape || useNode.def instanceof WbGroup || useNode.def instanceof WbLight)
         currentNode.children.push(useNode);
     }
 

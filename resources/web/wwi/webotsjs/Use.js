@@ -16,6 +16,7 @@
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbShape} from "./WbShape.js";
 import {WbGeometry} from "./WbGeometry.js";
+import {WbGroup} from "./WbGroup.js";
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbTransform} from "./WbTransform.js"
@@ -60,7 +61,7 @@ class Use extends WbBaseNode {
 
 
     //TODO replace back wrenmaterial also in recursion. But check that it is usefull to replace back.
-    if (this.def instanceof WbTransform && typeof this.def.children !== 'undefined') {
+    if (this.def instanceof WbTransform || this.def instanceof WbGroup && typeof this.def.children !== 'undefined') {
       for (let i = 0; i < this.def.children.length; i++){
         this.wrenMaterial[i] = this.def.children[i].wrenMaterial;
         this.def.children[i].wrenMaterial = temp3.push(this.def.children[i].wrenMaterial);
@@ -142,9 +143,9 @@ class Use extends WbBaseNode {
 
   replaceWrenMaterial(node){
     let temp = [];
-    if (node instanceof WbTransform && typeof node.children !== 'undefined') {
+    if (node instanceof WbTransform || node instanceof WbGroup && typeof node.children !== 'undefined') {
       for (let i = 0; i < node.children.length; i++){
-        if (node.children[i] instanceof WbTransform && typeof node.children !== 'undefined')
+        if (node.children[i] instanceof WbTransform || node.children[i] instanceof WbGroup && typeof node.children[i] !== 'undefined')
           this.replaceWrenMaterial(node.children[i]);
         temp.push(node.children[i].wrenMaterial);
         node.children[i].wrenMaterial = undefined;
@@ -166,6 +167,11 @@ class Use extends WbBaseNode {
     } else if (node instanceof WbGeometry) {
       temp = node.wrenMesh;
       node.wrenMesh = undefined;
+    } else if (node instanceof WbTransform || node instanceof WbGroup && typeof node.children !== 'undefined') {
+      for (let i = 0; i < node.children.length; i++){
+        if (typeof node.children[i] !== 'undefined')
+          this.replaceWrenMesh(node.children[i]);
+      }
     }
 
     return temp;
