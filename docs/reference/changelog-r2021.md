@@ -5,7 +5,7 @@ Released on XX Xth, 2021.
 
   - Enhancements
     - Added a script to convert PROTO files to use [Mesh](mesh.md) nodes instead of [IndexedFaceSet](indexedfaceset.md) nodes to speed-up loading times, improve PROTO readability and maintenance ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
-    - Converted the RubberDuck PROTO to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
+    - Converted the several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
   - Bug fixes
