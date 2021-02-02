@@ -292,7 +292,7 @@ class proto2mesh:
                     total = len(meshes)
                     count = 1
                     for mesh in meshes.values():
-                        print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ')', flush=True)
+                        print('  Processing mesh ' + mesh.name + ' (' + str(count) + '/' + str(total) + ')', flush=True)
                         count += 1
                         mesh.remove_duplicate('vertex')
                         mesh.remove_duplicate('normal')
