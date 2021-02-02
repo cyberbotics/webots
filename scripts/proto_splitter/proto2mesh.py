@@ -55,9 +55,13 @@ import sys
 import multiprocessing
 import signal
 
+def mutliprocess_initializer():
+    """Ignore CTRL+C in the worker process."""
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 class Mesh:
-    def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
+    def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle, verbose=True):
+        self.verbose = verbose
         self.name = name
         self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
         faces = coordIndex.replace(',', '').split('-1')
@@ -124,7 +128,7 @@ class Mesh:
                             index[k] = i
             except ValueError:
                 continue
-        if removed > 0:
+        if removed > 0 and self.verbose:
             print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
         # second pass: remove unused vertices and adjust indexes
         newCoord = []
@@ -143,7 +147,7 @@ class Mesh:
                     for k, v in enumerate(index):
                         if v > i - removed:
                             index[k] = v - 1
-        if removed > 0:
+        if removed > 0 and self.verbose:
             print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
         if type == 'vertex':
             self.coord = newCoord
@@ -163,7 +167,8 @@ class Mesh:
         if self.type[-1] == 'n':
             return
         faceNormal = []
-        print('    Computing normals from creaseAngle', flush=True)
+        if self.verbose:
+            print('    Computing normals from creaseAngle', flush=True)
         for counter, face in enumerate(self.coordIndex):
             size = len(face)
             if size < 3:
@@ -252,14 +257,15 @@ class proto2mesh:
         data = data.replace('[', '').replace(']', '')
         return ln, data
 
-    def convert(self, inFile, outFile=None):
+    def convert(self, inFile, outFile=None, verbose=True):
         path = os.path.dirname(inFile)
-        self.robotName = os.path.splitext(os.path.basename(inFile))[0]
+        self.robotName = os.path.splitext(os.path.basename(inFile))[0]        
         if outFile is None:
             newPath = '{}/{}_multifile'.format(path, self.robotName)
             outFile = '{}/{}.proto'.format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
+        print('Converting ' + outFile, flush=True)
         os.makedirs(newPath, exist_ok=True)
         # make a directory to store meshes with the same name as the proto
         os.makedirs(outFile.replace('.proto', ''), exist_ok=True)
@@ -295,20 +301,25 @@ class proto2mesh:
                     self.cleanup(inFile)
                     total = len(meshes)
                     count = 1
-                    
+                    counter = 0
+                    for k, v in meshes.items():
+                        if v.name is None:
+                            v.name = 'Mesh' + str(counter)
+                            counter += 1
                     for mesh in meshes.values():
                         nc = str(len(mesh.coordIndex))
-                        nt = str(len(mesh.texCoordIndex))
-                        print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ') n-verticies: ', nc, ' n-tex: ', nt , flush=True)
+                        mesh.verbose = verbose
+                        if verbose:
+                            print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
-                        mesh.remove_duplicate('vertex')
-                        mesh.remove_duplicate('normal')
-                        mesh.remove_duplicate('texture')
-                        mesh.apply_crease_angle()
+                        #mesh.remove_duplicate('vertex')
+                        #mesh.remove_duplicate('normal')
+                        #mesh.remove_duplicate('texture')
+                        #mesh.apply_crease_angle()
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
                     self.pf.close()
-                    return
+                    return self.robotName
             if 'name' in ln:
                 name = ln[ln.index('name') + 1].replace('"', '')
                 if name == 'IS':
@@ -331,8 +342,6 @@ class proto2mesh:
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
-                if name is None:
-                    name = 'Mesh' + str(meshID)
                 shapeLevel = 1
                 meshID += 1
                 while shapeLevel > 0:
@@ -365,7 +374,8 @@ class proto2mesh:
                     if '{' in ln:
                         shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
-                name = name.lower()
+                if name is not None:
+                    name = name.lower()
                 meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
                 self.protoFileString += indent * (level + 1) + 'geometry ' + defString + 'Mesh {\n'
@@ -383,33 +393,37 @@ class proto2mesh:
                 self.protoFileString += line
 
     def cleanup(self, inFile, outFile=None):
-        if inFile.endswith('_temp'):
+        if inFile.endswith('proto_temp'):
             os.remove(inFile)
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, sourcePath):
+    def convert_all(self, pool, sourcePath):
         outPath = self.create_outputDir(sourcePath)
         os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
         # Walk the tree.
-        protoFiles = []  # List of the full filepaths.
+        self.protoFiles = []  # List of the full filepaths.
         for root, directories, files in os.walk('./'):
             for filename in files:
                 # Join the two strings in order to form the full filepath.
                 if filename.endswith('.proto'):
                     filepath = os.path.join(root, filename)
                     filepath = filepath[1:]
-                    protoFiles.append(filepath)
-        for proto in protoFiles:
-            inFile = sourcePath + proto
-            outFile = outPath + proto
-            print('Converting ' + outFile, flush=True)
+                    self.protoFiles.append(filepath)
+        for proto in self.protoFiles:
+            inFile = outPath + proto
+            outFile = outPath + proto            
             # make a copy of our inFile, which will be read and later deleted
             shutil.copy(inFile, inFile + '_temp')
             inFile = inFile + '_temp'
-            self.convert(inFile, outFile)
+            if pool is None:                
+                self.convert(inFile, outFile)
+            else:                
+                multiprocessing.active_children()
+                pool.apply_async(self.convert, args=((inFile, outFile, True)))
+                
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
@@ -446,18 +460,40 @@ if __name__ == '__main__':
         default=None,
         help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
+    optParser.add_option(
+        '--mt',
+        dest='mt',
+        default=False,
+        action='store_true',
+        help='If set, enables multicore processing for directories with several PROTO files. May not work on Windows.',
+    )
     options, args = optParser.parse_args()
     inPath = options.inPath
-    if inPath is not None:
-        p2m = proto2mesh()
-        if os.path.splitext(inPath)[1] == '.proto':
-            p2m.convert(inPath)
-            print('Done')
-        elif os.path.isdir(inPath):
-            inPath = os.path.abspath(inPath)
-            p2m.convert_all(inPath)
-            print('Done')
-        else:
-            sys.exit('Error: --input has to be a .proto file or directory!')
+    if options.mt:
+        core_count = multiprocessing.cpu_count()
+        print('CPU core count: ', core_count)
+        # use all available cores, otherwise specify the number you want as an argument
+        pool = multiprocessing.Pool(core_count, initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:
-        sys.error('Error: Mandatory argument --input=<path> is missing! It should specify a .proto file or directory path.')
+        pool = None
+    try:
+        if inPath is not None:
+            p2m = proto2mesh()
+            if os.path.splitext(inPath)[1] == '.proto':
+                p2m.convert(inPath)
+                print('Done')
+            elif os.path.isdir(inPath):            
+                inPath = os.path.abspath(inPath)
+                p2m.convert_all(pool, inPath)
+                pool.close()
+                pool.join()
+                print('Done')
+            else:
+                sys.exit('Error: --input has to be a .proto file or directory!')
+        else:
+            sys.exit('Error: Mandatory argument --input=<path> is missing! It should specify a .proto file or directory path.')
+    except KeyboardInterrupt:
+        print('----------KeyboardInterrupt-------------------------------------------------------')
+        pool.terminate()
+        pool.join()
+        sys.exit("KeyboardInterrupt! Terminating running processes.")
