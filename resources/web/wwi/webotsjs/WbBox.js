@@ -24,7 +24,7 @@ class WbBox extends WbGeometry {
 
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
-    
+
     super.delete();
   }
 
@@ -48,7 +48,7 @@ class WbBox extends WbGeometry {
   }
 
   updateLineScale() {
-    if (!isAValidBoundingObject())
+    if (!this.isAValidBoundingObject())
       return;
 
     const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;

@@ -141,7 +141,7 @@ class WbGeometry extends WbBaseNode {
     if (!super.isInBoundingObject())
       return false;
 
-    let ut = this.upperTransform();
+    let ut = undefined;//TODO: this.upperTransform();
     if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry!== this)
       return false;
 

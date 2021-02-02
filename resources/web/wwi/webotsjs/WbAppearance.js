@@ -55,7 +55,6 @@ class WbAppearance extends WbAbstractAppearance {
       wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
     }
 
-
     if (this.texture)
       this.texture.modifyWrenMaterial(wrenMaterial, 0, 2);
     else

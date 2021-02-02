@@ -51,9 +51,9 @@ class WbTransform extends WbGroup {
       child.createWrenObjects()
     });
 
-    //if(typeof this.boundingObject !== 'undefined')
-      //this.boundingObject.createWrenObjects()
-
+    if(typeof this.boundingObject !== 'undefined')
+      this.boundingObject.createWrenObjects()
+    
     this.applyTranslationToWren();
     this.applyRotationToWren();
     this.applyScaleToWren();

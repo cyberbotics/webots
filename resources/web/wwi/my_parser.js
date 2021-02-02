@@ -92,6 +92,8 @@ class MyParser {
 
     console.log(World.instance);
     World.instance.viewpoint.finalize();
+    console.timeEnd('startID')
+    console.time('startID')
     World.instance.sceneTree.forEach(node => {
       node.finalize();});
     renderer.render();
@@ -108,7 +110,7 @@ class MyParser {
       node.finalize();});
   }
 
-  async parseNode(node, currentNode) {
+  async parseNode(node, currentNode, isBoundingObject) {
     if(typeof World.instance === 'undefined') {
       new World();
     }
@@ -124,11 +126,11 @@ class MyParser {
     else if (node.tagName === 'Background')
       result = await this.parseBackground(node);
     else if (node.tagName === 'Transform')
-      result = await this.parseTransform(node, currentNode);
+      result = await this.parseTransform(node, currentNode, isBoundingObject);
     else if (node.tagName === 'Group')
-      result = await this.parseGroup(node, currentNode);
+      result = await this.parseGroup(node, currentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
-      result = await this.parseShape(node, currentNode);
+      result = await this.parseShape(node, currentNode, isBoundingObject);
     else if (node.tagName === 'Switch')
       result = await this.parseSwitch(node, currentNode);
     else if (node.tagName === 'DirectionalLight')
@@ -192,11 +194,11 @@ class MyParser {
     return result;
   }
 
-  async parseChildren(node, currentNode) {
+  async parseChildren(node, currentNode, isBoundingObject) {
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined'){
-        await this.parseNode(child, currentNode);
+        await this.parseNode(child, currentNode, isBoundingObject);
       }
     }
     return 1;
@@ -339,7 +341,7 @@ class MyParser {
   }
 
 
-  async parseTransform(node, currentNode){
+  async parseTransform(node, currentNode, isBoundingObject){
     let use = await this.checkUse(node, currentNode);
     if(typeof use !== 'undefined')
       return use;
@@ -356,7 +358,7 @@ class MyParser {
 
     World.instance.nodes.set(transform.id, transform);
 
-    await this.parseChildren(node, transform);
+    await this.parseChildren(node, transform, isBoundingObject);
 
     if(typeof currentNode !== 'undefined'){
       transform.parent = currentNode.id;
@@ -366,7 +368,7 @@ class MyParser {
     return transform;
   }
 
-  async parseGroup(node, currentNode) {
+  async parseGroup(node, currentNode, isBoundingObject) {
     let use = await this.checkUse(node, currentNode);
     if(typeof use !== 'undefined')
       return use;
@@ -380,7 +382,7 @@ class MyParser {
     let group = new WbGroup(id, isPropeller);
 
     World.instance.nodes.set(group.id, group);
-    await this.parseChildren(node, group);
+    await this.parseChildren(node, group, isBoundingObject);
 
     if(typeof currentNode !== 'undefined'){
       group.parent = currentNode.id;
@@ -390,7 +392,7 @@ class MyParser {
     return group;
   }
 
-  async parseShape(node, currentNode) {
+  async parseShape(node, currentNode, isBoundingObject) {
     let use = await this.checkUse(node, currentNode);
     if(typeof use !== 'undefined')
       return use;
@@ -411,6 +413,8 @@ class MyParser {
 
       if (typeof appearance === 'undefined') {
         if (child.tagName === 'Appearance') {
+          if(isBoundingObject)
+            continue;
           // If a sibling PBRAppearance is detected, prefer it.
           let pbrAppearanceChild = false;
           for (let j = 0; j < node.childNodes.length; j++) {
@@ -437,6 +441,9 @@ class MyParser {
 
       console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
+
+    if(isBoundingObject)
+      appearance = undefined;
 
     let shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
@@ -793,11 +800,11 @@ class MyParser {
 
     let boundingObject = undefined
     if (child.tagName === 'Shape')
-      boundingObject = await this.parseShape(child);
+      boundingObject = await this.parseShape(child, undefined, true);
     else if (child.tagName === 'Transform')
-      boundingObject = await this.parseTransform(child);
+      boundingObject = await this.parseTransform(child, undefined, true);
     else if (child.tagName === 'Group')
-      boundingObject = await this.parseGroup(child)
+      boundingObject = await this.parseGroup(child, undefined, true)
     else {
       console.error("Unknown boundingObject: " + child.tagName);
     }
