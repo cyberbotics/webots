@@ -291,8 +291,15 @@ class proto2mesh:
                     self.cleanup(inFile)
                     total = len(meshes)
                     count = 1
+                    counter = 0
+                    # If the mesh has no name, we use a generic 'Mesh' name.
+                    # This can occur, when the parent Solid has no name.
+                    for k, v in meshes.items():
+                        if v.name is None:
+                            v.name = 'Mesh' + str(counter)
+                            counter += 1
                     for mesh in meshes.values():
-                        print('  Processing mesh ' + mesh.name + '(' + count + '/' + total + ')', flush=True)
+                        print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ')', flush=True)
                         count += 1
                         mesh.remove_duplicate('vertex')
                         mesh.remove_duplicate('normal')
@@ -324,8 +331,6 @@ class proto2mesh:
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
-                if name is None:
-                    name = 'Mesh' + str(meshID)
                 shapeLevel = 1
                 meshID += 1
                 while shapeLevel > 0:
@@ -358,7 +363,8 @@ class proto2mesh:
                     if '{' in ln:
                         shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
-                name = name.lower()
+                if name is not None:
+                    name = name.lower()
                 meshes[key] = Mesh(name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle)
                 parentDefName = None
                 self.protoFileString += indent * (level + 1) + 'geometry ' + defString + 'Mesh {\n'
@@ -396,7 +402,7 @@ class proto2mesh:
                     filepath = filepath[1:]
                     protoFiles.append(filepath)
         for proto in protoFiles:
-            inFile = sourcePath + proto
+            inFile = outPath + proto
             outFile = outPath + proto
             print('Converting ' + outFile, flush=True)
             # make a copy of our inFile, which will be read and later deleted
