@@ -15,6 +15,7 @@
 
 import {WbBaseNode} from "./WbBaseNode.js";
 import {WbShape} from "./WbShape.js";
+import {WbGeometry} from "./WbGeometry.js";
 import {WbWrenShaders} from "./WbWrenShaders.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbTransform} from "./WbTransform.js"
@@ -29,7 +30,7 @@ class Use extends WbBaseNode {
     this.parent = parent;
     this.wrenObjectsCreatedCalled = false
 
-    this.wrenRenderable;
+    this.wrenRenderable = [];
     this.wrenTextureTransform;
     this.wrenMaterial = [];
     this.wrenMesh;
@@ -46,8 +47,9 @@ class Use extends WbBaseNode {
 
     let temp3 = this.replaceWrenMaterial(this.def);
 
-    let temp4 = this.def.wrenMesh;
-    this.def.wrenMesh = undefined;
+    let temp4 = this.replaceWrenMesh(this.def);
+    //let temp4 = this.def.wrenMesh;
+    //this.def.wrenMesh = undefined;
 
     this.def.createWrenObjects();
 
@@ -55,6 +57,7 @@ class Use extends WbBaseNode {
 
     this.wrenRenderable = this.def.wrenRenderable;
     this.def.wrenRenderable = temp2;
+
 
     //TODO replace back wrenmaterial also in recursion. But check that it is usefull to replace back.
     if (this.def instanceof WbTransform && typeof this.def.children !== 'undefined') {
@@ -149,6 +152,20 @@ class Use extends WbBaseNode {
     } else {
       temp = node.wrenMaterial;
       node.wrenMaterial = undefined;
+    }
+
+    return temp;
+  }
+
+  replaceWrenMesh(node){
+    let temp;
+    if (node instanceof WbShape && typeof node.geometry !== 'undefined') {
+      temp = node.geometry.wrenMesh;
+      node.geometry.wrenMesh = undefined;
+      node.geometry.wrenRenderable = undefined;
+    } else if (node instanceof WbGeometry) {
+      temp = node.wrenMesh;
+      node.wrenMesh = undefined;
     }
 
     return temp;

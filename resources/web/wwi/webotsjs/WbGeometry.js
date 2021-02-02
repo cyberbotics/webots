@@ -55,24 +55,6 @@ class WbGeometry extends WbBaseNode {
     WbWrenPicker.setPickable(this.wrenRenderable, this.id, pickable);
   }
 
-  /*computeWrenRenderable() {
-    if (!this.wrenObjectsCreatedCalled)
-      super.createWrenObjects();
-
-    this.wrenScaleTransform = _wr_transform_new();
-    _wr_transform_attach_child(this.wrenNode, this.wrenScaleTransform);
-
-    this.wrenNode = this.wrenScaleTransform;
-
-    this.wrenRenderable = _wr_renderable_new();
-
-    _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
-
-    this.applyVisibilityFlagToWren(this.isSelected());
-
-    this.computeCastShadows(true);
-  }*/
-
   computeWrenRenderable() {
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
@@ -82,7 +64,6 @@ class WbGeometry extends WbBaseNode {
     this.wrenNode = this.wrenScaleTransform;
 
     this.wrenRenderable = _wr_renderable_new();
-
     if (super.isInBoundingObject()) {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);

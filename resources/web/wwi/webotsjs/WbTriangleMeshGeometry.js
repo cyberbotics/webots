@@ -69,6 +69,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     if (!this.triangleMesh.isValid)
       return;
 
+
     const createOutlineMesh = super.isInBoundingObject();
 
     this.computeWrenRenderable();
