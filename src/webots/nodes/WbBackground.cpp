@@ -379,7 +379,7 @@ void WbBackground::updateCubemap() {
         destroySkyBox();
         applyColorToWren(skyColor());
         emit WbWrenRenderingContext::instance()->backgroundColorChanged();
-      } else if (hasCompleteBackground)
+      } else if (hasCompleteBackground || urlCount == 0)
         applySkyBoxToWren();
     }
   }
