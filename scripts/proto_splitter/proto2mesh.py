@@ -55,9 +55,11 @@ import sys
 import multiprocessing
 import signal
 
+
 def mutliprocess_initializer():
     """Ignore CTRL+C in the worker process."""
     signal.signal(signal.SIGINT, signal.SIG_IGN)
+
 
 class Mesh:
     def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle, verbose=True):
@@ -241,7 +243,7 @@ class Mesh:
 class proto2mesh:
     def __init__(self):
         print('Proto 2 mesh proto converter by Simon Steinmann & Olivier Michel', flush=True)
-        self.disableMeshOptimization = True
+        self.disableMeshOptimization = False
         self.disableFileCreation = False
 
     def get_data_from_field(self, ln):
@@ -266,18 +268,18 @@ class proto2mesh:
             self.lineNumber += 1
             if '%' in line:
                 raise Exception("ERROR: LUA skript for mesh data is not supported.")
-                
+
             ln = line.split()
             data += line
         data = ' '.join(data.split())
         data = data.replace('[', '').replace(']', '')
         if defName is not None:
-            self.meshDEFcache[defName] = data        
+            self.meshDEFcache[defName] = data
         return ln, data
 
-    def convert(self, inFile, outFile=None, verbose=True):        
+    def convert(self, inFile, outFile=None, verbose=True):
         path = os.path.dirname(inFile)
-        self.robotName = os.path.splitext(os.path.basename(inFile))[0]        
+        self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         if outFile is None:
             newPath = '{}/{}_multifile'.format(path, self.robotName)
             outFile = '{}/{}.proto'.format(newPath, self.robotName)
@@ -301,7 +303,7 @@ class proto2mesh:
         # A dictionary, which will get filled with all meshes of the PROTO file. Each
         #  mesh has a key '<level>_<meshID>' level is the indent, meshID is unique
         #  number, counting up from 0. The value is an instance of the Mesh class.
-        self.lineNumber = 0 # current line in the source proto file. For debug purposes.
+        self.lineNumber = 0  # current line in the source proto file. For debug purposes.
         meshes = {}
         self.meshDEFcache = {}
         meshID = 0
@@ -333,7 +335,8 @@ class proto2mesh:
                         nc = str(len(mesh.coordIndex))
                         mesh.verbose = verbose
                         if verbose:
-                            print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ') n-verticies: ', nc, flush=True)
+                            print('  Processing mesh ' + mesh.name + '(' + str(count) +
+                                  '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
                         if not self.disableMeshOptimization:
                             mesh.remove_duplicate('vertex')
@@ -369,7 +372,7 @@ class proto2mesh:
                     name = parentDefName.split('_')[1]
                 shapeLevel = 1
                 meshID += 1
-                while shapeLevel > 0:         
+                while shapeLevel > 0:
                     if '}' in ln:
                         shapeLevel -= 1
                     if '{' in ln:
@@ -389,8 +392,8 @@ class proto2mesh:
                     if 'creaseAngle' in ln:
                         creaseAngle = ln[ln.index('creaseAngle') + 1]
                     else:
-                        creaseAngle = 0            
-                    
+                        creaseAngle = 0
+
                     if '}' in ln:
                         shapeLevel -= 1
                     if '{' in ln:
@@ -423,7 +426,7 @@ class proto2mesh:
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, pool, sourcePath, verbose):        
+    def convert_all(self, pool, sourcePath, verbose):
         if self.disableFileCreation:
             outPath = sourcePath
         else:
@@ -443,7 +446,7 @@ class proto2mesh:
                     self.protoFiles.append(filepath)
         for proto in self.protoFiles:
             inFile = outPath + proto
-            outFile = outPath + proto            
+            outFile = outPath + proto
             # make a copy of our inFile, which will be read and later deleted
             shutil.copy(inFile, inFile + '_temp')
             inFile = inFile + '_temp'
@@ -452,12 +455,11 @@ class proto2mesh:
                     self.convert(inFile, outFile, verbose)
                 except Exception as e:
                     failedConvertions.append(sourcePath + proto + ' - line: ' + str(self.lineNumber) + '\n' + str(e))
-            else:                
+            else:
                 multiprocessing.active_children()
                 r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
                 failedConvertions.append([r, sourcePath + proto + '\n'])
         return failedConvertions
-
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
@@ -520,23 +522,23 @@ if __name__ == '__main__':
     verbose = options.verbose
     cpv = options.cpv
     mt = options.mt
-    
+
     p2m = proto2mesh()
-    if cpv: # if we check protos files for validity
+    if cpv:  # if we check protos files for validity
         p2m.disableMeshOptimization = True
         p2m.disableFileCreation = True
-        mt = False # disable multithreading, otherwise error collection does not work.
+        mt = False  # disable multithreading, otherwise error collection does not work.
     if mt:
         pool = multiprocessing.Pool(initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:
-        pool = None    
+        pool = None
 
     try:
-        if inPath is not None:            
+        if inPath is not None:
             if os.path.splitext(inPath)[1] == '.proto':
                 p2m.convert(inPath, verbose=verbose)
                 print('Done')
-            elif os.path.isdir(inPath):            
+            elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
                 results = p2m.convert_all(pool, inPath, verbose)
                 if options.mt:
