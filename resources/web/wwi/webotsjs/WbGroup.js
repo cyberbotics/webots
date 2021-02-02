@@ -14,6 +14,7 @@
 
 import {WbBaseNode} from "./WbBaseNode.js"
 import {World} from "./World.js";
+import {WbLight} from "./WbLight.js"
 
 class WbGroup extends WbBaseNode{
   constructor(id,isPropeller){
@@ -57,7 +58,9 @@ class WbGroup extends WbBaseNode{
 
   updateBoundingObjectVisibility() {
     this.children.forEach(child => {
-      child.updateBoundingObjectVisibility();
+      if (!(child instanceof WbLight)){
+        child.updateBoundingObjectVisibility();
+      }
     });
   }
 
