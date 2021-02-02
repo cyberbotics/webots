@@ -51,6 +51,10 @@ import shutil
 import numpy as np
 import sys
 
+# modules needed for mutlithreading
+import multiprocessing
+import signal
+
 
 class Mesh:
     def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
@@ -291,8 +295,11 @@ class proto2mesh:
                     self.cleanup(inFile)
                     total = len(meshes)
                     count = 1
+                    
                     for mesh in meshes.values():
-                        print('  Processing mesh ' + mesh.name + '(' + count + '/' + total + ')', flush=True)
+                        nc = str(len(mesh.coordIndex))
+                        nt = str(len(mesh.texCoordIndex))
+                        print('  Processing mesh ' + mesh.name + '(' + str(count) + '/' + str(total) + ') n-verticies: ', nc, ' n-tex: ', nt , flush=True)
                         count += 1
                         mesh.remove_duplicate('vertex')
                         mesh.remove_duplicate('normal')
