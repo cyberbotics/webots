@@ -203,6 +203,9 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     QString nodeString;
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
+
+    mX3dWorldTextures.insert(writer.texturesList());
+
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
       client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
