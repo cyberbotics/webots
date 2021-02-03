@@ -45,7 +45,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "4ed0bfacc119e941b5b73d011736d63c" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "e22820854180e1ed304a3cc058b73249" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
