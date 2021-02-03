@@ -892,7 +892,7 @@ class MyParser {
     return material;
   }
 
-  async parseImageTexture(node, hasPrefix) {
+  async parseImageTexture(node) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -913,7 +913,7 @@ class MyParser {
     let imageTexture = undefined;
 
     if(typeof url !== 'undefined' && url !== '') {
-      url = this.prefix + url
+      url = this.prefix + url;
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering, anisotropy);
       await imageTexture.updateUrl();
     }
@@ -960,27 +960,27 @@ class MyParser {
       let imageTexture = imageTextures[i];
       let type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor'){
-        baseColorMap = await this.parseImageTexture(imageTexture, true);
+        baseColorMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           baseColorMap.type = "baseColorMap";
       } else if (type === 'roughness'){
-        roughnessMap = await this.parseImageTexture(imageTexture, true);
+        roughnessMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           roughnessMap.type = "roughnessMap";
       } else if (type === 'metalness'){
-        metalnessMap = await this.parseImageTexture(imageTexture, true);
+        metalnessMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           metalnessMap.type = "metalnessMap";
       } else if (type === 'normal'){
-        normalMap = await this.parseImageTexture(imageTexture, true);
+        normalMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           normalMap.type = "normalMap";
       } else if (type === 'occlusion') {
-        occlusionMap = await this.parseImageTexture(imageTexture, true);
+        occlusionMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           occlusionMap.type = "occlusionMap";
       } else if (type === 'emissiveColor'){
-        emissiveColorMap = await this.parseImageTexture(imageTexture, true);
+        emissiveColorMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           emissiveColorMap.type = "emissiveColorMap";
       }
@@ -1084,7 +1084,7 @@ class MyParser {
        resolve(img);
      }
      img.onerror = () => console.log("Error in loading : " + src);
-     img.setAttribute('crossOrigin', ''); //TODO Check if we want to let it
+     img.setAttribute('crossOrigin', '');
      img.src = src;
    })
  }
