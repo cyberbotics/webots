@@ -42,7 +42,6 @@ TexturedBackground {
   SFString texture      "mountains"
   SFFloat  luminosity   1
   SFBool   skybox       TRUE
-  SFBool   reflections  TRUE
   MFColor  skyColor     [0 0 0]
 }
 ```
@@ -57,8 +56,6 @@ TexturedBackground {
 - `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"` and `"twilight_cloudy_empty"`.
 
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
-
-- `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
 
 - `skyColor`: Defines the background color in case the `skybox` field is `FALSE`.
 
@@ -118,4 +115,3 @@ TexturedBackgroundLight {
 - `luminosity`: Multiplies the `Light.intensity` field.
 
 - `castShadows`: Defines whether the light should cast shadows.
-
