@@ -52,7 +52,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => {this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
-    console.log(document.height);
+
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
