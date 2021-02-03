@@ -517,7 +517,7 @@ if __name__ == '__main__':
         dest='cpv',
         default=False,
         action='store_true',
-        help='If set, will quickly go through all the protos files and output any errors. No lenghty mesh calculations. No files created.',
+        help='If set, will quickly go through all protos files and output any errors. No mesh calculations or files created.',
     )
     options, args = optParser.parse_args()
     inPath = options.inPath
