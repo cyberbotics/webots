@@ -963,9 +963,6 @@ class MyParser {
         baseColorMap = await this.parseImageTexture(imageTexture, true);
         if (typeof baseColorMap !== 'undefined')
           baseColorMap.type = "baseColorMap";
-        else {
-          console.log(id);
-        }
       } else if (type === 'roughness'){
         roughnessMap = await this.parseImageTexture(imageTexture, true);
         if (typeof baseColorMap !== 'undefined')

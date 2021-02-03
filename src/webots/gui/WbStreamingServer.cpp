@@ -39,8 +39,6 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
-#include <iostream>
-
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
