@@ -26,6 +26,7 @@ jobs:
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
+        git checkout released
         git checkout -b discord-doc-update
         git add ./docs/discord
         git commit -m "Update discord docs."
@@ -35,7 +36,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         source_branch: discord-doc-update
-        destination_branch: master
+        destination_branch: released
         pr_title: Update Discord Docs
         pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
         pr_reviewer: Maintainers
