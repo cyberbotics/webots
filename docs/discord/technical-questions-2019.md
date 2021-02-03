@@ -17282,13 +17282,13 @@ The rover is getting stuck and I am not able to get the simulation of both quadc
 
 In connection with [https://github.com/cyberbotics/webots/issues/1081](https://github.com/cyberbotics/webots/issues/1081) , could anyone let me know any tips as to how I can fix it for now?
 
-##### Kairu 11/08/2019 17:16:52
+##### kairi 11/08/2019 17:16:52
 hey everyone is there a way to attach a receiver to a robot like the epuck?
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:18:41
-`@Kairu` yes of course, you can add it in the 'turretSlot' field.
+`@kairi` yes of course, you can add it in the 'turretSlot' field.
 
-##### Kairu 11/08/2019 17:31:24
+##### kairi 11/08/2019 17:31:24
 ty!
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:56:59
