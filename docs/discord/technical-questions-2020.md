@@ -13966,16 +13966,16 @@ error: cannot find symbol
 
 import com.cyberbotics.webots.controller.Car;
 
-##### Bree 05/09/2020 23:46:53
+##### Deleted User 05/09/2020 23:46:53
 Hey I'm extremely new to robotics as well as webots. I'm curious as to how to modify a pre-existing robot (like youbot). I'd like to add distance and line sensors. Is that possible or is better to just start from scratch? I originally made my own but adding/find a claw was difficult. I'm assuming I can just add sensors by using #include \_\_\_\_\_\_ One of my main problems is simply adding lines for a robot to follow. Is there a video or possible tutorial that could help me? I've already visited the tutorials on the official site.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708827364205002782/unknown.png)
 %end
 
 ##### Aan 05/10/2020 01:58:48
-`@Bree` you can add sensor in body slot
+`@Deleted User` you can add sensor in body slot
 
-##### Bree 05/10/2020 04:51:16
+##### Deleted User 05/10/2020 04:51:16
 `@Aan` thank you!
 
 ##### Aan 05/10/2020 06:22:47
@@ -14510,7 +14510,7 @@ Hello! Can anyone explain to me what the return value of `camera.get_orientation
 ##### Lussfer 05/13/2020 01:37:25
 Is there a way to convert local coordinate to wgs84 gps coordinate?
 
-##### Bree 05/13/2020 02:34:32
+##### Deleted User 05/13/2020 02:34:32
 Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709956719119433768/unknown.png)
@@ -14528,7 +14528,7 @@ Then to end the simulation you can use the `wb_supervisor_simulation_quit` funct
 
 > Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 
-`@Bree` you can easily create one in your favorite image editor (Gimp for example).
+`@Deleted User` you can easily create one in your favorite image editor (Gimp for example).
 
 
 > Is there a way to convert local coordinate to wgs84 gps coordinate?
@@ -15539,7 +15539,7 @@ Ok, that's probably an issue rather on your controller code, make sure for examp
 
 You will also find some documentation about how to use a debugger with your controller here: [https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers)
 
-##### Bree 05/19/2020 05:21:57
+##### Deleted User 05/19/2020 05:21:57
 Thanks David, I will look into that
 
 ##### Luiz Felipe 05/19/2020 05:27:19
@@ -38496,13 +38496,13 @@ here are the instructions to install and correctly setup Python:
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 14:17:26
 You're welcome
 
-##### JakaSembung 09/22/2020 06:59:10
+##### Jaka 09/22/2020 06:59:10
 could webots live streamming ?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 09/22/2020 07:00:12
 > could webots live streamming ?
 
-`@JakaSembung` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
+`@Jaka` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
 
 ##### Bkarso 09/22/2020 09:38:00
 hello,I use webots with ros,I use 'get\_velocity' service ,but the value is totally same with my input.If I must use the position\_sensor to  get the Velocity?
