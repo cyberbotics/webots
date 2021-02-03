@@ -306,7 +306,19 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
       this.moveParams.dx = x - this.state.initialX;
       this.moveParams.dy = y - this.state.initialY;
-      this.scene.viewpoint.translate(this.moveParams);
+
+      let targetRight = -scaleFactor * this.moveParams.dx
+      let targetUp = scaleFactor * this.moveParams.dy;
+      let upVec = up(orientation);
+      let rightVec = right(orientation);
+      let targetR = rightVec.mul(targetRight);
+      let targetU = upVec.mul(targetUp);
+      let target = targetR.add(targetU);
+      World.instance.viewpoint.position = position.add(target);
+      World.instance.viewpoint.updatePosition();
+      this.scene.render();
+
+      //this.scene.viewpoint.translate(this.moveParams);
     } else {
       var touch1 = event.targetTouches['1'];
       var x1 = Math.round(touch1.clientX);

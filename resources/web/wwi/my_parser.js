@@ -104,7 +104,6 @@ class MyParser {
     let scene = file.getElementsByTagName('Scene')[0];
     await this.parseNode(scene);
     console.log(World.instance);
-    console.log(World.instance.sceneTree.length)
     World.instance.viewpoint.finalize();
     World.instance.sceneTree.forEach(node => {
       node.finalize();});
