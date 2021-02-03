@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include <QtCore/QSet>
 
 class WbRgb;
+class WbDownloader;
 
 class QImage;
 
@@ -40,6 +41,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_IMAGE_TEXTURE; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
 
@@ -60,7 +62,7 @@ public:
   void setBackgroundTexture(WrTexture *backgroundTexture);
   void unsetBackgroundTexture();
 
-  QString path();
+  const QString path(bool warning = false) const;
 
   void setRole(const QString &role) { mRole = role; }
 
@@ -73,8 +75,6 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-
-  bool loadTextureData();
 
 private:
   // user accessible fields
@@ -99,6 +99,7 @@ private:
   int mUsedFiltering;
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
+  WbDownloader *mDownloader;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
@@ -106,6 +107,8 @@ private:
   void updateWrenTexture();
   void applyTextureParams();
   void destroyWrenTexture();
+  bool loadTexture();
+  bool loadTextureData(QIODevice *device);
 
   static QSet<QString> cQualityChangedTexturesList;
 
@@ -114,6 +117,7 @@ private slots:
   void updateRepeatS();
   void updateRepeatT();
   void updateFiltering();
+  void downloadUpdate();
 };
 
 #endif

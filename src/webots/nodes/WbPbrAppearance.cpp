@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,6 +76,27 @@ WbPbrAppearance::~WbPbrAppearance() {
     wr_texture_delete(WR_TEXTURE(cBrdfTexture));
     cBrdfTexture = NULL;
   }
+}
+
+void WbPbrAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (baseColorMap())
+    baseColorMap()->downloadAssets();
+
+  if (roughnessMap())
+    roughnessMap()->downloadAssets();
+
+  if (metalnessMap())
+    metalnessMap()->downloadAssets();
+
+  if (normalMap())
+    normalMap()->downloadAssets();
+
+  if (occlusionMap())
+    occlusionMap()->downloadAssets();
+
+  if (emissiveColorMap())
+    emissiveColorMap()->downloadAssets();
 }
 
 void WbPbrAppearance::preFinalize() {

@@ -28,7 +28,7 @@ SolidBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -75,7 +75,7 @@ SolidPipe {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidPipe.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidPipe.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -124,7 +124,7 @@ SolidRoundedBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidRoundedBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidRoundedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -170,7 +170,7 @@ SolidTorus {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidTorus.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidTorus.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,6 +98,14 @@ WbWorldInfo::WbWorldInfo(const WbNode &other) : WbBaseNode(other) {
 
 WbWorldInfo::~WbWorldInfo() {
   delete mPhysicsReceiver;
+}
+
+void WbWorldInfo::downloadAssets() {
+  const int size = mContactProperties->size();
+  for (int i = 0; i < size; ++i) {
+    WbContactProperties *const cp = static_cast<WbContactProperties *>(mContactProperties->item(i));
+    cp->downloadAssets();
+  }
 }
 
 void WbWorldInfo::preFinalize() {

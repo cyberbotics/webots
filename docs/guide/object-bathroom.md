@@ -22,7 +22,7 @@ BathroomSink {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/BathroomSink.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/BathroomSink.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/BathroomSink.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/BathroomSink.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,7 +53,7 @@ Bathtube {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Bathtube.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/Bathtube.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Bathtube.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/Bathtube.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -79,7 +79,7 @@ Toilet {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Toilet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/Toilet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Toilet.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/Toilet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -108,7 +108,7 @@ WashingMachine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/WashingMachine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/WashingMachine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/WashingMachine.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/WashingMachine.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -66,7 +66,9 @@ It is expressed in *meter per second* [m/s] for linear motors and in *radian per
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 
-- The `sound` field specifies the URL of a WAVE sound file, relatively to the location of the world file or PROTO file which contains the `Motor` node.
+- The `sound` field specifies the URL of a WAVE sound file.
+If the `sound` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise it is considered as a relative URL with respect to the location of the world file or PROTO file which contains the `Motor` node.
 This sound is used to play the sound of the motor.
 It is modulated in volume and pitch according to the velocity of the motor to produce a realistic motor sound.
 
@@ -744,7 +746,7 @@ Note that this function applies only to *physics-based* simulation.
 Therefore, the `physics` and `boundingObject` fields of the [Motor](#motor) node must be defined for this function to work properly.
 
 It is also possible, for example, to use this function to implement springs or dampers with controllable properties.
-The example in "projects/samples/howto/worlds/force\_control.wbt" demonstrates the usage of the `wb_motor_set_force` function for creating a simple spring and damper system.
+The example in "projects/samples/howto/force\_control/worlds/force\_control.wbt" demonstrates the usage of the `wb_motor_set_force` function for creating a simple spring and damper system.
 
 ---
 

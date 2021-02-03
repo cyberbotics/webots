@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -188,21 +188,21 @@ void WbSoundEngine::updateAfterPhysicsStep() {
   WbMotorSoundManager::update();
 }
 
-WbSoundClip *WbSoundEngine::sound(const QString &filename, double balance, int side) {
-  if (filename.isEmpty())
+WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double balance, int side) {
+  if (url.isEmpty())
     return NULL;
   init();
   foreach (WbSoundClip *sound, gSounds) {
-    if (sound->filename() == filename && sound->side() == side && sound->balance() == balance)
+    if (sound->filename() == url && sound->side() == side && sound->balance() == balance)
       return sound;
   }
   WbSoundClip *sound = new WbSoundClip;
   try {
-    sound->load(filename, balance, side);
+    sound->load(url, device, balance, side);
     gSounds << sound;
     return sound;
   } catch (const QString &e) {
-    WbLog::warning(QObject::tr("Could not open '%1' sound file: %2").arg(filename).arg(e));
+    WbLog::warning(QObject::tr("Could not open '%1' sound file: %2").arg(url).arg(e));
     delete sound;
     return NULL;
   }

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbOdeContact.hpp"
@@ -54,6 +55,21 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   mSimulationHasRunAfterSave(false) {
   if (mWorldLoadingCanceled)
     return;
+
+  emit worldLoadingStatusHasChanged(tr("Downloading assets"));
+  emit worldLoadingHasProgressed(0);
+  WbDownloader::reset();
+  root()->downloadAssets();
+  int progress = WbDownloader::progress();
+  while (progress < 100) {
+    QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    int newProgress = WbDownloader::progress();
+    if (newProgress != progress) {
+      progress = newProgress;
+      emit worldLoadingHasProgressed(progress);
+    }
+  }
+
   mSleepRealTime = basicTimeStep();
 
   WbSimulationState::instance()->resetTime();

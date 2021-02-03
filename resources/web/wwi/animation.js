@@ -1,7 +1,7 @@
 /* global DefaultUrl, TextureLoader */
 'use strict';
 import {DefaultUrl} from "./default_url.js"
-
+import {Toolbar} from "./toolbar.js"
 class Animation { // eslint-disable-line no-unused-vars
   constructor(url, scene, view, gui, loop) {
     this.url = url;
@@ -38,9 +38,12 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    let canvas = document.getElementById('view3d')
+    let canvas = document.getElementById('canvas')
     canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
     let div = document.getElementById("playBar");
+    //let div = document.createElement('div');
+    //div.id = "playBar"
+    //canvas.appendChild(div);
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
@@ -56,6 +59,17 @@ class Animation { // eslint-disable-line no-unused-vars
     this.playSlider = $('#playSlider').slider();
     this._connectSliderEvents();
 
+    div.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
+    this.exit_fullscreenButton.onclick = () => { this.exitFullscreen(); };
+    this.exit_fullscreenButton.style.display = 'none';
+    div.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
+    this.fullscreenButton.onclick = () => { this.requestFullscreen(); };
+
+    document.addEventListener('fullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('webkitfullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('mozfullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('MSFullscreenChange', () => { this.onFullscreenChange(); });
+
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
@@ -66,6 +80,52 @@ class Animation { // eslint-disable-line no-unused-vars
     if (typeof this.onReady === 'function')
       this.onReady();
   }
+
+  createToolBarButton(name, tooltip) {
+    var buttonName = name + 'Button';
+    this[buttonName] = document.createElement('button');
+    this[buttonName].id = buttonName;
+    this[buttonName].className = 'toolBarButton';
+    this[buttonName].title = tooltip;
+    this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
+    return this[buttonName];
+  }
+
+  requestFullscreen() {
+    var elem = this.view.view3D;
+    console.log(elem.id);
+    if (elem.requestFullscreen)
+      elem.requestFullscreen();
+    else if (elem.msRequestFullscreen)
+      elem.msRequestFullscreen();
+    else if (elem.mozRequestFullScreen)
+      elem.mozRequestFullScreen();
+    else if (elem.webkitRequestFullscreen)
+      elem.webkitRequestFullscreen();
+  }
+
+  exitFullscreen() {
+    if (document.exitFullscreen)
+      document.exitFullscreen();
+    else if (document.msExitFullscreen)
+      document.msExitFullscreen();
+    else if (document.mozCancelFullScreen)
+      document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen)
+      document.webkitExitFullscreen();
+  }
+
+  onFullscreenChange(event) {
+    var element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
+    if (element != null) {
+      this.fullscreenButton.style.display = 'none';
+      this.exit_fullscreenButton.style.display = 'inline';
+    } else {
+      this.fullscreenButton.style.display = 'inline';
+      this.exit_fullscreenButton.style.display = 'none';
+    }
+  }
+
 
   _elapsedTime() {
     var end = new Date().getTime();

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFVector3.hpp"
 
+class WbDownloader;
 class WbSensor;
 class WbSoundClip;
 
@@ -63,6 +64,7 @@ public:
   bool hasMuscles() const { return !mMuscles->isEmpty(); }
 
   // inherited from WbDevice
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -131,6 +133,7 @@ private:
   int mKinematicVelocitySign;
   QList<WbJointDevice *> mChangedAssociatedDevices;
   WbDeviceTag *mRequestedDeviceTag;
+  WbDownloader *mDownloader;
 
 private slots:
   void updateSound();

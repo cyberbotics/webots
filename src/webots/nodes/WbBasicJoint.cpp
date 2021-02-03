@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,6 +79,12 @@ WbBasicJoint::~WbBasicJoint() {
     wr_node_delete(WR_NODE(mRenderable));
     wr_node_delete(WR_NODE(mTransform));
   }
+}
+
+void WbBasicJoint::downloadAssets() {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->downloadAssets();
 }
 
 void WbBasicJoint::preFinalize() {

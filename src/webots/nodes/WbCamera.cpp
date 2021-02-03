@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
@@ -129,6 +130,7 @@ void WbCamera::init() {
   mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
+  mDownloader = NULL;
 }
 
 WbCamera::WbCamera(WbTokenizer *tokenizer) : WbAbstractCamera("Camera", tokenizer) {
@@ -150,6 +152,17 @@ WbCamera::~WbCamera() {
 
   delete mSegmentationCamera;
   delete mSegmentationShm;
+}
+
+void WbCamera::downloadAssets() {
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  if (WbUrl::isWeb(noiseMaskUrl)) {
+    delete mDownloader;
+    mDownloader = new WbDownloader(this);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+    mDownloader->download(QUrl(noiseMaskUrl));
+  }
 }
 
 void WbCamera::preFinalize() {
@@ -1073,15 +1086,33 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!hasBeenSetup())
     return;
 
-  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {
-    // use custom noise mask
-    const QString fileName(WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl));
-    if (!fileName.isEmpty()) {
-      const QString error = mWrenCamera->setNoiseMask(fileName.toUtf8().constData());
-      if (!error.isEmpty())
-        parsingWarn(error);
+  QString noiseMaskUrl = mNoiseMaskUrl->value();
+  if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
+    QIODevice *device;
+    if (WbUrl::isWeb(noiseMaskUrl)) {
+      if (isPostFinalizedCalled() && mDownloader == NULL) {
+        // url was changed from the scene tree or supervisor
+        downloadAssets();
+        return;
+      }
+      assert(mDownloader);
+      if (!mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      device = mDownloader->device();
+      assert(device);
+    } else {
+      noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+      device = NULL;
     }
+    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
+    if (!error.isEmpty())
+      parsingWarn(error);
+    delete mDownloader;
+    mDownloader = NULL;
   }
 }
 

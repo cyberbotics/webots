@@ -25,7 +25,7 @@ function init() {
   //playButton.parentNode.removeChild(playButton);
 
   let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
-  view = new webots.View(document.getElementById("view3d"));
+  view = new webots.View(document.getElementById("playerDiv"));
   view.open(name + ".x3d");
   view.setAnimation(name + ".json", "play", true);
 }

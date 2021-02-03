@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QVector>
+
+class QIODevice;
 
 struct WrCamera;
 struct WrPostProcessingEffect;
@@ -91,7 +93,7 @@ public:
   void setLensDistortionCenter(const WbVector2 &center);
   void setRadialLensDistortionCoefficients(const WbVector2 &coefficients);
   void setTangentialLensDistortionCoefficients(const WbVector2 &coefficients);
-  QString setNoiseMask(const char *noiseMaskTexturePath);
+  QString setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device);
 
   void enableCopying(bool enable);
   WbRgb copyPixelColourValue(int x, int y);

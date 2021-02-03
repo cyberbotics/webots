@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #include "WbTriangleMeshGeometry.hpp"
 
+class WbDownloader;
 class WbMFString;
 
 class WbMesh : public WbTriangleMeshGeometry {
@@ -33,6 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MESH; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createResizeManipulator() override;
@@ -48,6 +50,7 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
@@ -55,6 +58,7 @@ private:
 
 private slots:
   void updateUrl();
+  void downloadUpdate();
 };
 
 #endif

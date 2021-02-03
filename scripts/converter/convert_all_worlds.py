@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ nue_world_files = ['tests/api/worlds/*.wbt',
                    'projects/vehicles/worlds/*.wbt',
                    'scripts/icon_studio/worlds/icon_studio.wbt'
                    ]
-skip_world_files = ['projects/samples/howto/worlds/enu_coordinate_system.wbt']
+skip_world_files = ['projects/samples/howto/enu_coordinate_system/worlds/enu_coordinate_system.wbt']
 skipped_world_files = []
 for file in skip_world_files:
     skipped_world_files.append(os.path.join(WEBOTS_HOME, file.replace('/', os.sep)))

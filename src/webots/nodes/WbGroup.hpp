@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_GROUP; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createOdeObjects() override;

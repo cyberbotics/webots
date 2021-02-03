@@ -1,0 +1,399 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example uses of assets download from a URL, including sounds, textures and meshes."
+  ]
+  title "Assets Download"
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      bumpSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/bump.wav"
+      rollSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/roll.wav"
+      slideSound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/slide.wav"
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.7651535124241243 -0.6076646380997724 -0.2127998825847844 5.595405205014521
+  position 0.1399278248128099 0.5050148445772569 0.50099123721846
+}
+Background {
+  backUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_back.png"
+  ]
+  bottomUrl [
+    "textures/cubic/mountains_bottom.png"
+  ]
+  frontUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.png"
+  ]
+  leftUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_left.png"
+  ]
+  rightUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_right.png"
+  ]
+  topUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_top.png"
+  ]
+  backIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_back.hdr"
+  ]
+  bottomIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_bottom.hdr"
+  ]
+  frontIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.hdr"
+  ]
+  leftIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_left.hdr"
+  ]
+  rightIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_right.hdr"
+  ]
+  topIrradianceUrl [
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_top.hdr"
+  ]
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0 0.6 0
+}
+DEF GREEN_BOX Solid {
+  translation -0.05 0.05 -0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.2 0.05 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.2 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF WHITE_BOX Solid {
+  translation -0.2 0.05 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.74902 0.74902 0.74902
+        roughness 0.10196099999999997
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "gray box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF RED_BOX Solid {
+  translation 0.42 0.05 -0.1
+  rotation 0 1 0 1.8325996938995748
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.2 0.1 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+DEF MESH Transform {
+  translation -0.09 0.11 -0.3
+  scale 0.05 0.05 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.45333 0.288273 0.281071
+        roughness 0.2
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
+        ]
+      }
+    }
+  ]
+}
+Robot {
+  translation 0.15 0 0
+  rotation 0 1 0 1
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8039 0.6745 0.5764
+            baseColorMap DEF IMAGE_TEXTURE ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
+              ]
+              filtering 5
+            }
+            roughnessMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
+              ]
+              filtering 5
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
+              ]
+              filtering 5
+            }
+            normalMapFactor 0.5
+            occlusionMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
+              ]
+              filtering 5
+            }
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/rotational_motor.wav"
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/sounds/rotational_motor.wav"
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0 0.0915 -0.04
+      rotation 0 0 -1 0
+      children [
+        Transform {
+          translation 0 0 0.015
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 1.047
+      width 400
+      height 300
+      antiAliasing TRUE
+      noiseMaskUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/samples/devices/worlds/textures/noise_mask.png"
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "url"
+  supervisor TRUE
+}
+SoccerBall {
+  translation 0.04 0.1 -0.06
+  radius 0.04
+  mass 0.05
+}

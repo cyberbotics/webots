@@ -29,7 +29,7 @@ Extrusion {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Extrusion.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto]({{ url.github_tree }}/projects/objects/geometries/protos/Extrusion.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -69,7 +69,7 @@ Rectangle {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Rectangle.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto]({{ url.github_tree }}/projects/objects/geometries/protos/Rectangle.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -114,7 +114,7 @@ TexturedBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto]({{ url.github_tree }}/projects/objects/geometries/protos/TexturedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -176,7 +176,7 @@ TexturedParallelepiped {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto]({{ url.github_tree }}/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

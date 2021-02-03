@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export let GTAO_LEVEL = 4;
+export let GTAO_LEVEL = 2;
 export let disableAntiAliasing = 0;
 export let disableShadows = 1; //TODO use it
 export let textureQuality = 2; // between 0 and 2

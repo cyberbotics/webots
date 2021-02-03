@@ -1,11 +1,31 @@
 # Webots R2021 Change Log
 
+## Webots R2021b
+Released on June, Xth, 2021.
+
+  - New Features:
+    - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
+
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
 
+  - Enhancements
+    - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
+    - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
   - Bug fixes
-    - Fix Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
-    - Fix reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
+    - Fixed [X3D export](https://www.cyberbotics.com/doc/guide/web-interface) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
+    - Fixed memory leak in [Display](display.md) image ([#2663](https://github.com/cyberbotics/webots/issues/2663)).
+    - Fixed high DPI support on Windows and Linux ([#2631](https://github.com/cyberbotics/webots/pull/2631)).
+    - Fixed painting with the [Pen](pen.md) device on the bottom face of a [Cylinder](cylinder.md) geometry ([#2629](https://github.com/cyberbotics/webots/pull/2629)).
+    - Fixed Display external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
+    - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
+    - Fixed in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
+    - Fixed a strategy used to find a MATLAB executable in the `PATH` environment variable ([#2624](https://github.com/cyberbotics/webots/pull/2624)).
+    - Fixed external force/torque logic such that the closest dynamic Solid ancestor is picked if the selected one lacks it ([#2635](https://github.com/cyberbotics/webots/pull/2635)).
+    - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
+    - Fixed visual bug where the [Lidar](lidar.md) point cloud disappears when out-of-range points are present ([#2666](https://github.com/cyberbotics/webots/pull/2666)).
+  - Cleanup
+    - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
 
 ## Webots R2021a
 Released on December 15th, 2020.

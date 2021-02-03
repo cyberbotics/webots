@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,6 +99,8 @@ int main(int argc, char *argv[]) {
   if (!SetEnvironmentVariable("PATH", new_path))
     fail("SetEnvironmentVariable", new_path);
   free(new_path);
+  if (!SetEnvironmentVariable("QT_ENABLE_HIGHDPI_SCALING", "1"))
+    fail("SetEnvironmentVariable", "QT_ENABLE_HIGHDPI_SCALING=1");
 
   // start the webots-bin.exe process, wait for completion and return exit code
   STARTUPINFO info = {sizeof(info)};

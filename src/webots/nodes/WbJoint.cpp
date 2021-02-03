@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,6 +55,19 @@ WbJoint::WbJoint(const WbNode &other) : WbBasicJoint(other) {
 }
 
 WbJoint::~WbJoint() {
+}
+
+void WbJoint::downloadAssets() {
+  WbBasicJoint::downloadAssets();
+  WbMotor *m = motor();
+  if (m)
+    m->downloadAssets();
+  m = motor2();
+  if (m)
+    m->downloadAssets();
+  m = motor3();
+  if (m)
+    m->downloadAssets();
 }
 
 void WbJoint::preFinalize() {

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 struct WrTexture;
 
 class WbAffinePlane;
+class WbDownloader;
 class WbFocus;
 class WbLensFlare;
 class WbWrenLabelOverlay;
@@ -38,6 +39,7 @@ public:
   virtual ~WbCamera();
 
   // reimplemented public functions
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
@@ -127,6 +129,8 @@ private:
   bool mHasSegmentationSharedMemoryChanged;
   bool mSegmentationImageChanged;
   bool mSegmentationImageReady;
+  // URL downloader
+  WbDownloader *mDownloader;
 
 private slots:
   void updateFocus();
