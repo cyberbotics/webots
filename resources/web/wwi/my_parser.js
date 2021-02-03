@@ -57,7 +57,6 @@ class MyParser {
   constructor() {
       this.prefix = "http://localhost:1234/"; //TODO don't hardcode
       let world = new World();
-      this.fog = false;
       this.undefinedID = 90000;
   }
 
@@ -138,8 +137,12 @@ class MyParser {
       result = await this.parsePointLight(node, currentNode);
     else if (node.tagName === 'SpotLight')
       result = await this.parseSpotLight(node, currentNode);
-    else if (node.tagName === 'Fog' && !this.fog)
-      result = await this.parseFog(node);
+    else if (node.tagName === 'Fog')
+      if(!World.instance.hasFog)
+        result = await this.parseFog(node);
+      else{
+        console.error("This world already has a fog.");
+      }
     else {
       //Either it is a node added after the whole scene, or it is an unknown node
       result = await this.parseGeometry(node)
@@ -553,7 +556,7 @@ class MyParser {
     World.instance.nodes.set(fog.id, fog);
 
     if(typeof fog !== 'undefined')
-      this.fog = true;
+      World.instance.hasFog = true;
 
     return fog;
   }

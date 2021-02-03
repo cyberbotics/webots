@@ -21,6 +21,8 @@ class World {
     //Only the top level nodes are represented here
     this.sceneTree = [];
 
+    this.hasFog = false;
+
     //All the nodes are included here so it is easier to retrieve them for update
     //map from id to node
     this.nodes = new Map();
