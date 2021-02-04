@@ -99,10 +99,10 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
 
         # Done
         done = bool(
-            self.state[0] < -self.x_threshold
-            or self.state[0] > self.x_threshold
-            or self.state[2] < -self.theta_threshold_radians
-            or self.state[2] > self.theta_threshold_radians
+            self.state[0] < -self.x_threshold or
+            self.state[0] > self.x_threshold or
+            self.state[2] < -self.theta_threshold_radians or
+            self.state[2] > self.theta_threshold_radians
         )
 
         # Reward
