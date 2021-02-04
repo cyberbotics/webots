@@ -11,6 +11,7 @@ import {WbGeometry} from "./webotsjs/WbGeometry.js"
 import {WbLight} from "./webotsjs/WbLight.js"
 import {WbBackground} from "./webotsjs/WbBackground.js"
 import {WbGroup} from "./webotsjs/WbGroup.js"
+import {getAncestor} from "./webotsjs/WbUtils.js"
 
 'use strict';
 
@@ -79,9 +80,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     if(typeof World.instance.viewpoint !== 'undefined')
       World.instance.viewpoint.updatePostProcessingEffects();
-    //aspect ratio;
-    //fov;
-    //projection matrix;;
 
     this.render();
   }
@@ -146,10 +144,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   loadObject(x3dObject, parentId) {
     let parentNode;
-    if(typeof parentId !== 'undefined'){
+    if(typeof parentId !== 'undefined' && parentId > 0){
         parentNode = World.instance.nodes.get('n' + parentId);
-
+        console.log(parentId);
+        let ancestor = getAncestor(parentNode);
+        ancestor.isPreFinalizeCalled = false;
+        ancestor.wrenObjectsCreatedCalled = false;
+        ancestor.isPostFinalizeCalled = false;
     }
+
     if(typeof this.loader === 'undefined')
       this.loader = new MyParser();
 

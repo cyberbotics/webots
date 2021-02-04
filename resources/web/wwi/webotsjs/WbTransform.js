@@ -46,14 +46,13 @@ class WbTransform extends WbGroup {
 
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
-
     this.children.forEach(child => {
       child.createWrenObjects()
     });
 
     if(typeof this.boundingObject !== 'undefined')
       this.boundingObject.createWrenObjects()
-    
+
     this.applyTranslationToWren();
     this.applyRotationToWren();
     this.applyScaleToWren();

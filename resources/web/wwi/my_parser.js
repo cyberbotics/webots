@@ -145,7 +145,10 @@ class MyParser {
       }
     else {
       //Either it is a node added after the whole scene, or it is an unknown node
-      result = await this.parseGeometry(node)
+      let id;
+      if (typeof currentNode !== 'undefined')
+        id = currentNode.id
+      result = await this.parseGeometry(node, id);
       if (typeof result !== 'undefined') {
         if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
           if(typeof currentNode.geometry !== 'undefined')
@@ -153,11 +156,22 @@ class MyParser {
           currentNode.geometry = result;
         }
       } else if (node.tagName === 'PBRAppearance') {
-        result = await this.parsePBRAppearance(node);
+        result = await this.parsePBRAppearance(node, id);
+        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+          if(typeof currentNode.appearance !== 'undefined')
+            currentNode.appearance.delete();
+          currentNode.appearance = result;
+        }
       } else if (node.tagName === 'Appearance') {
-        result = await this.parseAppearance(node);
+        result = await this.parseAppearance(node, id);
+        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+          if(typeof currentNode.appearance !== 'undefined'){
+            currentNode.appearance.delete();
+          }
+          currentNode.appearance = result;
+        }
       } else if (node.tagName === 'Material') {
-        result = await this.parseMaterial(node);
+        result = await this.parseMaterial(node, id);
         if (typeof result !== 'undefined') {
           if (typeof currentNode !== 'undefined' && currentNode instanceof WbAppearance){
             if(typeof currentNode.material !== 'undefined')
@@ -165,17 +179,17 @@ class MyParser {
             currentNode.material = result;
           }
         }
-      }/* else if (node.tagName === 'ImageTexture') {
-        result = await this.parseImageTexture(node);
+      } else if (node.tagName === 'ImageTexture') {
+        result = await this.parseImageTexture(node, id);
         if (typeof result !== 'undefined') {
           if (typeof currentNode !== 'undefined' && currentNode instanceof WbAppearance){
             if(typeof currentNode.material !== 'undefined')
-              currentNode.material.delete();
-            currentNode.material = result;
+              currentNode.texture.delete();
+            currentNode.texture = result;
           }
         }
-      } */else if (node.tagName === 'TextureTransform') {
-        result = await this.parseTextureTransform(node);
+      } else if (node.tagName === 'TextureTransform') {
+        result = await this.parseTextureTransform(node, id);
         if (typeof result !== 'undefined') {
           if (typeof currentNode !== 'undefined' && currentNode instanceof WbAbstractAppearance){
             if(typeof currentNode.textureTransform !== 'undefined')
@@ -199,9 +213,8 @@ class MyParser {
   async parseChildren(node, currentNode, isBoundingObject) {
     for (let i = 0; i < node.childNodes.length; i++) {
       let child = node.childNodes[i];
-      if (typeof child.tagName !== 'undefined'){
-        await this.parseNode(child, currentNode, isBoundingObject);
-      }
+      if (typeof child.tagName !== 'undefined')
+          await this.parseNode(child, currentNode, isBoundingObject);
     }
     return 1;
   }
@@ -822,7 +835,7 @@ class MyParser {
     return boundingObject;
   }
 
-  async parseAppearance(node) {
+  async parseAppearance(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -867,12 +880,15 @@ class MyParser {
           transform.parent = appearance.id;
     }
 
+    if(typeof parentId !== 'undefined')
+      appearance.parent = parentId;
+
     World.instance.nodes.set(appearance.id, appearance);
 
     return appearance;
   }
 
-  async parseMaterial(node) {
+  async parseMaterial(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -890,12 +906,15 @@ class MyParser {
 
     let material = new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
 
+    if(typeof parentId !== 'undefined')
+      material.parent = parentId;
+
     World.instance.nodes.set(material.id, material);
 
     return material;
   }
 
-  async parseImageTexture(node) {
+  async parseImageTexture(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -921,14 +940,18 @@ class MyParser {
       await imageTexture.updateUrl();
     }
 
+
     if(typeof imageTexture !== 'undefined'){
+      if(typeof parentId !== 'undefined')
+        imageTexture.parent = parentId;
+
       World.instance.nodes.set(imageTexture.id, imageTexture);
     }
 
     return imageTexture;
   }
 
-  async parsePBRAppearance(node) {
+  async parsePBRAppearance(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -1027,12 +1050,15 @@ class MyParser {
           emissiveColorMap.parent = pbrAppearance.id;
     }
 
+    if(typeof parentId !== 'undefined')
+      pbrAppearance.parent = parentId;
+
     World.instance.nodes.set(pbrAppearance.id, pbrAppearance);
 
     return pbrAppearance;
   }
 
-  async parseTextureTransform(node) {
+  async parseTextureTransform(node, parentId) {
     let use = await this.checkUse(node);
     if(typeof use !== 'undefined')
       return use;
@@ -1044,6 +1070,9 @@ class MyParser {
     translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'))
 
     let textureTransform = new WbTextureTransform(id, center, rotation, scale, translation);
+
+    if(typeof parentId !== 'undefined')
+      textureTransform.parent = parentId;
 
     World.instance.nodes.set(textureTransform.id, textureTransform);
 
