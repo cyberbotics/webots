@@ -51,7 +51,7 @@ import shutil
 import numpy as np
 import sys
 
-# modules needed for mutlithreading
+# modules needed for multithreading
 import multiprocessing
 import signal
 
@@ -179,7 +179,11 @@ class Mesh:
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
-            normalized = n / np.sqrt(np.sum(n**2))
+            k = np.sqrt(np.sum(n**2))
+            if k == 0:
+                sys.exit('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                         str(p0) + str(p1) + str(p2))
+            normalized = n / k
             faceNormal.append(normalized)
 
         faceIndex = [[] for _ in range(len(self.coord))]
@@ -395,7 +399,6 @@ class proto2mesh:
                         creaseAngle = ln[ln.index('creaseAngle') + 1]
                     else:
                         creaseAngle = 0
-
                     if '}' in ln:
                         shapeLevel -= 1
                     if '{' in ln:
