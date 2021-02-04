@@ -458,9 +458,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       if(typeof World.instance.nodes.get(Selector.previousId) !== 'undefined')
         World.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
 
-      var object;
+    this.scene.render();
 
-      this.scene.selector.select(object);
+      var object;
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
         this.hiddenContextMenu === false && this.contextMenu) {

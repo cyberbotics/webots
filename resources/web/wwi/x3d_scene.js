@@ -1,4 +1,3 @@
-import {Selector} from "./selector.js";
 import {MyParser, convertStringToVec3, convertStringToQuaternion} from "./my_parser.js";
 import {webots} from "./../wwi/webots.js";
 
@@ -13,9 +12,6 @@ import {WbLight} from "./webotsjs/WbLight.js"
 import {WbBackground} from "./webotsjs/WbBackground.js"
 import {WbGroup} from "./webotsjs/WbGroup.js"
 
-/* global webots, THREE, Selector, TextureLoader, Viewpoint */
-/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
-/* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
 class X3dScene { // eslint-disable-line no-unused-vars
@@ -26,10 +22,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   init(texturePathPrefix = '') {
     this.renderer = new WrenRenderer();
-
-    this.selector = new Selector();
-    this.selector.onSelectionChange = () => {
-      this.render(); };
 
     this.resize();
 
