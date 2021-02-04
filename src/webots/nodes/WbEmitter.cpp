@@ -38,6 +38,7 @@ void WbEmitter::init() {
   mNeedToSetBufferSize = false;
   mMediumType = WbDataPacket::UNKNOWN;
   mByteRate = -1.0;
+  mIsResetting = false;
 }
 
 WbEmitter::WbEmitter(WbTokenizer *tokenizer) : WbSolidDevice("Emitter", tokenizer) {
@@ -161,7 +162,8 @@ void WbEmitter::handleMessage(QDataStream &stream) {
       stream >> size;
       data = new char[size];
       stream.readRawData(data, size);
-      mQueue.enqueue(new WbDataPacket(this, mChannel->value(), data, size));
+      if (!mIsResetting)
+        mQueue.enqueue(new WbDataPacket(this, mChannel->value(), data, size));
       delete[] data;
       return;
 
@@ -188,10 +190,13 @@ void WbEmitter::prePhysicsStep(double ms) {
     WbDataPacket *packet = mQueue.takeFirst();
     WbReceiver::transmitPacket(packet);
   }
+
+  mIsResetting = false;
 }
 
 void WbEmitter::reset() {
   WbSolidDevice::reset();
   qDeleteAll(mQueue);
   mQueue.clear();
+  mIsResetting = true;
 }

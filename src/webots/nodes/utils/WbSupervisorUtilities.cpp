@@ -56,6 +56,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
+#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <cassert>
@@ -276,7 +277,6 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldCount = -1;
   mFoundFieldIsInternal = false;
   mGetNodeRequest = 0;
-  mNeedToResetSimulation = false;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
@@ -348,14 +348,11 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   emit worldModified();
 }
 
+#include <QtCore/QDebug>
 void WbSupervisorUtilities::postPhysicsStep() {
   if (mLoadWorldRequested) {
     emit WbApplication::instance()->worldLoadRequested(mWorldToLoad);
     mLoadWorldRequested = false;
-  }
-  if (mNeedToResetSimulation) {
-    mNeedToResetSimulation = false;
-    WbApplication::instance()->simulationReset(false);
   }
   if (mShouldRemoveNode) {
     emit worldModified();
@@ -501,7 +498,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_SIMULATION_RESET:
-      mNeedToResetSimulation = true;
+      WbWorld::instance()->setResetRequested(false);
       return;
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
