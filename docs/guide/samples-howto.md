@@ -115,6 +115,15 @@ An alternative non blocking controller called `mouse_events_non_blocking.c` is a
 In this example, the omnidirectional wheels are modeled with two layers of joints and cylinders solids.
 Faster omnidirectional wheels implementations could be achieved using asymmetric friction (cf. `Youbot` model).
 
+
+### [openai\_gym.wbt]({{ url.github_tree }}/projects/samples/howto/openai_gym/worlds/openai_gym.wbt)
+
+**Keywords**: Reinforcement learning, Open AI Gym
+
+![openai_gym.png](images/samples/openai_gym.thumbnail.jpg) This examples shows an integration of [OpenAI Gym](https://gym.openai.com/) with Webots.
+In this example, the robot tries to keep an inverted pendulum up as long as possible.
+The OpenAI Gym interface is utilized by [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) to train the robot to keep the inverted pendulum up. 
+
 ### [passive\_dynamic\_walker.wbt]({{ url.github_tree }}/projects/samples/howto/passive_dynamic_walker/worlds/passive_dynamic_walker.wbt)
 
 **Keywords**: Passive dynamic walker
