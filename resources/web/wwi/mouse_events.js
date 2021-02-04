@@ -42,12 +42,15 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     // Prevent '#playerDiv' to raise the context menu of the browser.
     // This bug has been seen on Windows 10 / Firefox only.
     domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
-    this.picker = undefined
+  }
+
+  init(){
+    if(typeof this.picker === 'undefined')
+      this.picker = new WbWrenPicker();
   }
 
   _onMouseDown(event) {
-    if(typeof this.picker === 'undefined')
-      this.picker = new WbWrenPicker();
+    this.init();
 
     this.state.wheelFocus = true;
     this._initMouseMove(event);
@@ -213,6 +216,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseWheel(event) {
+    this.init();
+
     event.preventDefault(); // do not scroll page
     if (!('initialCameraPosition' in this.moveParams))
       this._setupMoveParameters(event);
@@ -363,6 +368,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onTouchStart(event) {
+    this.init();
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
       var touch1 = event.targetTouches['1'];
