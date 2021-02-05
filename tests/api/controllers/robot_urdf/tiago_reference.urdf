@@ -38,7 +38,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12107" type="continuous">
+  <joint name="hingejoint_12068" type="continuous">
     <parent link="base_link"/>
     <child link="caster_back_left_1_link"/>
     <axis xyz="0 0 1"/>
@@ -58,7 +58,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12110" type="continuous">
+  <joint name="hingejoint_12071" type="continuous">
     <parent link="caster_back_left_1_link"/>
     <child link="caster_back_left_2_link"/>
     <axis xyz="0 -3.6732051e-06 1"/>
@@ -78,7 +78,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12072" type="continuous">
+  <joint name="hingejoint_12033" type="continuous">
     <parent link="base_link"/>
     <child link="caster_back_right_1_link"/>
     <axis xyz="0 0 1"/>
@@ -98,7 +98,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12075" type="continuous">
+  <joint name="hingejoint_12036" type="continuous">
     <parent link="caster_back_right_1_link"/>
     <child link="caster_back_right_2_link"/>
     <axis xyz="0 -3.6732051e-06 1"/>
@@ -118,7 +118,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12037" type="continuous">
+  <joint name="hingejoint_11998" type="continuous">
     <parent link="base_link"/>
     <child link="caster_front_left_1_link"/>
     <axis xyz="0 0 1"/>
@@ -138,7 +138,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12040" type="continuous">
+  <joint name="hingejoint_12001" type="continuous">
     <parent link="caster_front_left_1_link"/>
     <child link="caster_front_left_2_link"/>
     <axis xyz="0 -3.6732051e-06 1"/>
@@ -158,7 +158,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12002" type="continuous">
+  <joint name="hingejoint_11963" type="continuous">
     <parent link="base_link"/>
     <child link="caster_front_right_1_link"/>
     <axis xyz="0 0 1"/>
@@ -178,7 +178,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="hingejoint_12005" type="continuous">
+  <joint name="hingejoint_11966" type="continuous">
     <parent link="caster_front_right_1_link"/>
     <child link="caster_front_right_2_link"/>
     <axis xyz="0 -3.6732051e-06 1"/>
@@ -477,31 +477,31 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0.053 0.056 -0.068" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.053 0.056 -0.068" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0667" length="0.111"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.053 0.056 -0.068" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.053 0.056 -0.068" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0667" length="0.111"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0.053 0.056 0.068" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.053 0.056 0.068" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0667" length="0.111"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.053 0.056 0.068" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.053 0.056 0.068" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0667" length="0.111"/>
       </geometry>
     </collision>
   </link>
-  <link name="TIAGo left arm_44012">
+  <link name="TIAGo left arm_43973">
     <visual>
       <origin xyz="0.026 0.14 -0.232" rpy="0 0 1.5708"/>
       <geometry>
@@ -539,19 +539,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="torso_lift_link_TIAGo left arm_44012_joint" type="fixed">
+  <joint name="torso_lift_link_TIAGo left arm_43973_joint" type="fixed">
     <parent link="torso_lift_link"/>
-    <child link="TIAGo left arm_44012"/>
+    <child link="TIAGo left arm_43973"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
   <joint name="arm_left_1_joint" type="revolute">
-    <parent link="TIAGo left arm_44012"/>
-    <child link="TIAGo_left_arm_44027"/>
+    <parent link="TIAGo left arm_43973"/>
+    <child link="TIAGo_left_arm_43988"/>
     <axis xyz="0 0 -1"/>
     <limit effort="43" lower="-1.11" upper="1.5" velocity="1.95"/>
     <origin xyz="0.025 0.194 -0.16" rpy="0 0 1.5708"/>
   </joint>
-  <link name="TIAGo_left_arm_44027">
+  <link name="TIAGo_left_arm_43988">
     <visual>
       <origin xyz="-3.673205e-10 -0.0001 0.002" rpy="-3.141589 0 0"/>
       <geometry>
@@ -602,21 +602,21 @@
     </collision>
   </link>
   <joint name="arm_left_2_joint" type="revolute">
-    <parent link="TIAGo_left_arm_44027"/>
-    <child link="arm_left_2_link_44060"/>
+    <parent link="TIAGo_left_arm_43988"/>
+    <child link="arm_left_2_link_44021"/>
     <axis xyz="0 -3.6732051e-06 -1"/>
     <limit effort="43" lower="-1.11" upper="1.5" velocity="1.95"/>
     <origin xyz="0.125 0.0194 -0.042" rpy="1.5708 0 0"/>
   </joint>
-  <link name="arm_left_2_link_44060">
+  <link name="arm_left_2_link_44021">
     <visual>
-      <origin xyz="0.056 5.5098077e-09 -0.0005" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.056 5.5098077e-09 -0.0005" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.056 5.5098077e-09 -0.0005" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.056 5.5098077e-09 -0.0005" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
@@ -635,13 +635,13 @@
     </collision>
   </link>
   <joint name="arm_left_3_joint" type="revolute">
-    <parent link="arm_left_2_link_44060"/>
-    <child link="arm_left_3_link_44074"/>
+    <parent link="arm_left_2_link_44021"/>
+    <child link="arm_left_3_link_44035"/>
     <axis xyz="-6.056618e-05 -6.055936e-05 -1"/>
     <limit effort="26" lower="-0.72" upper="3.86" velocity="2.35"/>
     <origin xyz="0.0895 5.5098077e-09 -1.0118208e-14" rpy="1.5708569 -0.0001126458 -1.5708569"/>
   </joint>
-  <link name="arm_left_3_link_44074">
+  <link name="arm_left_3_link_44035">
     <visual>
       <origin xyz="1.3930222e-07 1.3928653e-07 -0.1037" rpy="-3.7000516e-06 0 0"/>
       <geometry>
@@ -668,13 +668,13 @@
     </collision>
   </link>
   <joint name="arm_left_4_joint" type="revolute">
-    <parent link="arm_left_3_link_44074"/>
-    <child link="arm_left_4_link_44108"/>
+    <parent link="arm_left_3_link_44035"/>
+    <child link="arm_left_4_link_44069"/>
     <axis xyz="2.8276386e-06 -2.8276306e-06 1"/>
     <limit effort="26" lower="-0.32" upper="2.29" velocity="2.35"/>
     <origin xyz="-0.01999986 -0.026999861 -0.2197" rpy="2.356193 -1.5707923 2.356193"/>
   </joint>
-  <link name="arm_left_4_link_44108">
+  <link name="arm_left_4_link_44069">
     <visual>
       <origin xyz="0 0.001 -0.002" rpy="-3.141589 0 0"/>
       <geometry>
@@ -688,26 +688,26 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="-0.093 0.019 0.027" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.093 0.019 0.027" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="-0.093 0.019 0.027" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.093 0.019 0.027" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </collision>
   </link>
   <joint name="arm_left_5_joint" type="revolute">
-    <parent link="arm_left_4_link_44108"/>
-    <child link="arm_left_5_link_44142"/>
+    <parent link="arm_left_4_link_44069"/>
+    <child link="arm_left_5_link_44103"/>
     <axis xyz="-3.6732051e-06 0 -1"/>
     <limit effort="3" lower="-2.07" upper="2.07" velocity="1.95"/>
     <origin xyz="-0.162 0.02 0.027" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="arm_left_5_link_44142">
+  <link name="arm_left_5_link_44103">
     <visual>
       <origin xyz="0 0 0.04" rpy="3.1407962 0 0"/>
       <geometry>
@@ -746,34 +746,34 @@
     </collision>
   </link>
   <joint name="arm_left_6_joint" type="revolute">
-    <parent link="arm_left_5_link_44142"/>
-    <child link="arm_left_6_link_44157"/>
+    <parent link="arm_left_5_link_44103"/>
+    <child link="arm_left_6_link_44118"/>
     <axis xyz="-2.8276386e-06 2.8276306e-06 -1"/>
     <limit effort="6.6" lower="-1.39" upper="1.39" velocity="1.76"/>
     <origin xyz="0 0 0.15" rpy="2.356193 -1.5707923 2.356193"/>
   </joint>
-  <link name="arm_left_6_link_44157">
+  <link name="arm_left_6_link_44118">
     <visual>
-      <origin xyz="0.0409 0 0" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.0409 0 0" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.0409 0 0" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.0409 0 0" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </collision>
   </link>
   <joint name="arm_left_7_joint" type="revolute">
-    <parent link="arm_left_6_link_44157"/>
-    <child link="arm_left_7_link_44172"/>
+    <parent link="arm_left_6_link_44118"/>
+    <child link="arm_left_7_link_44133"/>
     <axis xyz="2.8276306e-06 -2.8276386e-06 -1"/>
     <limit effort="6.6" lower="-2.07" upper="2.07" velocity="1.76"/>
     <origin xyz="0 0 0" rpy="1.5707991 -2.8276386e-06 1.5707991"/>
   </joint>
-  <link name="arm_left_7_link_44172">
+  <link name="arm_left_7_link_44133">
     <visual>
       <origin xyz="-1.5551969e-07 1.5552013e-07 0.055" rpy="-3.141589 0 0"/>
       <geometry>
@@ -787,7 +787,7 @@
       </geometry>
     </collision>
   </link>
-  <link name="wrist_left_ft_tool_link_44184">
+  <link name="wrist_left_ft_tool_link_44145">
     <visual>
       <origin xyz="-1.5551969e-07 1.5552013e-07 0.055" rpy="1.5707963 1.110223e-16 1.57"/>
       <geometry>
@@ -801,12 +801,12 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_7_link_44172_wrist_left_ft_tool_link_44184_joint" type="fixed">
-    <parent link="arm_left_7_link_44172"/>
-    <child link="wrist_left_ft_tool_link_44184"/>
+  <joint name="arm_left_7_link_44133_wrist_left_ft_tool_link_44145_joint" type="fixed">
+    <parent link="arm_left_7_link_44133"/>
+    <child link="wrist_left_ft_tool_link_44145"/>
     <origin xyz="-1.5551969e-07 1.5552013e-07 0.067725" rpy="2.356193 -1.5707923 2.356193"/>
   </joint>
-  <link name="left_48701">
+  <link name="left_48662">
     <visual>
       <origin xyz="0 0 0" rpy="3.1407962 0 0"/>
       <geometry>
@@ -868,19 +868,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wrist_left_ft_tool_link_44184_left_48701_joint" type="fixed">
-    <parent link="wrist_left_ft_tool_link_44184"/>
-    <child link="left_48701"/>
+  <joint name="wrist_left_ft_tool_link_44145_left_48662_joint" type="fixed">
+    <parent link="wrist_left_ft_tool_link_44145"/>
+    <child link="left_48662"/>
     <origin xyz="0.016 -5.877128e-08 0" rpy="-2.356193 1.5707923 0.78539306"/>
   </joint>
   <joint name="left_hand_gripper_right_finger_joint" type="prismatic">
-    <parent link="left_48701"/>
-    <child link="gripper_right_finger_link_49262"/>
+    <parent link="left_48662"/>
+    <child link="gripper_right_finger_link_49223"/>
     <axis xyz="1 0 0"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <limit effort="16" lower="0" upper="0.045" velocity="0.05"/>
   </joint>
-  <link name="gripper_right_finger_link_49262">
+  <link name="gripper_right_finger_link_49223">
     <visual>
       <origin xyz="0.004 0 -0.1741" rpy="0 0 0"/>
       <geometry>
@@ -919,13 +919,13 @@
     </collision>
   </link>
   <joint name="left_hand_gripper_left_finger_joint" type="prismatic">
-    <parent link="left_48701"/>
-    <child link="gripper_left_finger_link_49229"/>
+    <parent link="left_48662"/>
+    <child link="gripper_left_finger_link_49190"/>
     <axis xyz="1 9.265359e-05 0"/>
     <origin xyz="0 0 0" rpy="0 0 3.1415"/>
     <limit effort="16" lower="0" upper="0.045" velocity="0.05"/>
   </joint>
-  <link name="gripper_left_finger_link_49229">
+  <link name="gripper_left_finger_link_49190">
     <visual>
       <origin xyz="0.004 0 -0.1741" rpy="0 0 0"/>
       <geometry>
@@ -963,147 +963,147 @@
       </geometry>
     </collision>
   </link>
-  <link name="cap screw(19)_49201">
+  <link name="cap screw(19)_49162">
   </link>
-  <joint name="left_48701_cap screw(19)_49201_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(19)_49201"/>
+  <joint name="left_48662_cap screw(19)_49162_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(19)_49162"/>
     <origin xyz="0.0415 -0.0029 -0.0004" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(18)_49177">
+  <link name="cap screw(18)_49138">
   </link>
-  <joint name="left_48701_cap screw(18)_49177_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(18)_49177"/>
+  <joint name="left_48662_cap screw(18)_49138_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(18)_49138"/>
     <origin xyz="-0.0415 0.0029 -0.0004" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(17)_49153">
+  <link name="cap screw(17)_49114">
   </link>
-  <joint name="left_48701_cap screw(17)_49153_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(17)_49153"/>
+  <joint name="left_48662_cap screw(17)_49114_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(17)_49114"/>
     <origin xyz="0.0433 0.0315 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(16)_49129">
+  <link name="cap screw(16)_49090">
   </link>
-  <joint name="left_48701_cap screw(16)_49129_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(16)_49129"/>
+  <joint name="left_48662_cap screw(16)_49090_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(16)_49090"/>
     <origin xyz="-0.0433 -0.0315 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(15)_49105">
+  <link name="cap screw(15)_49066">
   </link>
-  <joint name="left_48701_cap screw(15)_49105_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(15)_49105"/>
+  <joint name="left_48662_cap screw(15)_49066_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(15)_49066"/>
     <origin xyz="0 0.033 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(14)_49081">
+  <link name="cap screw(14)_49042">
   </link>
-  <joint name="left_48701_cap screw(14)_49081_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(14)_49081"/>
+  <joint name="left_48662_cap screw(14)_49042_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(14)_49042"/>
     <origin xyz="0 -0.033 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(13)_49057">
+  <link name="cap screw(13)_49018">
   </link>
-  <joint name="left_48701_cap screw(13)_49057_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(13)_49057"/>
+  <joint name="left_48662_cap screw(13)_49018_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(13)_49018"/>
     <origin xyz="0.0426 -0.0094 -0.09448" rpy="0 0 0"/>
   </joint>
-  <link name="cap screw(12)_49033">
+  <link name="cap screw(12)_48994">
   </link>
-  <joint name="left_48701_cap screw(12)_49033_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(12)_49033"/>
+  <joint name="left_48662_cap screw(12)_48994_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(12)_48994"/>
     <origin xyz="-0.0425 0.0094 -0.0945" rpy="0 0 0"/>
   </joint>
-  <link name="cap screw(11)_49009">
+  <link name="cap screw(11)_48970">
   </link>
-  <joint name="left_48701_cap screw(11)_49009_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(11)_49009"/>
+  <joint name="left_48662_cap screw(11)_48970_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(11)_48970"/>
     <origin xyz="-0.0477 -0.008 -0.0108" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(10)_48985">
+  <link name="cap screw(10)_48946">
   </link>
-  <joint name="left_48701_cap screw(10)_48985_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(10)_48985"/>
+  <joint name="left_48662_cap screw(10)_48946_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(10)_48946"/>
     <origin xyz="-0.0477 -0.008 -0.043" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(9)_48961">
+  <link name="cap screw(9)_48922">
   </link>
-  <joint name="left_48701_cap screw(9)_48961_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(9)_48961"/>
+  <joint name="left_48662_cap screw(9)_48922_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(9)_48922"/>
     <origin xyz="-0.0477 -0.008 -0.075" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(8)_48937">
+  <link name="cap screw(8)_48898">
   </link>
-  <joint name="left_48701_cap screw(8)_48937_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(8)_48937"/>
+  <joint name="left_48662_cap screw(8)_48898_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(8)_48898"/>
     <origin xyz="-0.0477 0.008 -0.075" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(7)_48913">
+  <link name="cap screw(7)_48874">
   </link>
-  <joint name="left_48701_cap screw(7)_48913_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(7)_48913"/>
+  <joint name="left_48662_cap screw(7)_48874_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(7)_48874"/>
     <origin xyz="-0.0477 0.008 -0.043" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(6)_48889">
+  <link name="cap screw(6)_48850">
   </link>
-  <joint name="left_48701_cap screw(6)_48889_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(6)_48889"/>
+  <joint name="left_48662_cap screw(6)_48850_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(6)_48850"/>
     <origin xyz="-0.0477 0.008 -0.0108" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(5)_48865">
+  <link name="cap screw(5)_48826">
   </link>
-  <joint name="left_48701_cap screw(5)_48865_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(5)_48865"/>
+  <joint name="left_48662_cap screw(5)_48826_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(5)_48826"/>
     <origin xyz="0.0477 -0.008 -0.0108" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(4)_48841">
+  <link name="cap screw(4)_48802">
   </link>
-  <joint name="left_48701_cap screw(4)_48841_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(4)_48841"/>
+  <joint name="left_48662_cap screw(4)_48802_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(4)_48802"/>
     <origin xyz="0.0477 -0.008 -0.043" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(3)_48817">
+  <link name="cap screw(3)_48778">
   </link>
-  <joint name="left_48701_cap screw(3)_48817_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(3)_48817"/>
+  <joint name="left_48662_cap screw(3)_48778_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(3)_48778"/>
     <origin xyz="0.0477 -0.008 -0.075" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(2)_48793">
+  <link name="cap screw(2)_48754">
   </link>
-  <joint name="left_48701_cap screw(2)_48793_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(2)_48793"/>
+  <joint name="left_48662_cap screw(2)_48754_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(2)_48754"/>
     <origin xyz="0.0477 0.008 -0.075" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(1)_48769">
+  <link name="cap screw(1)_48730">
   </link>
-  <joint name="left_48701_cap screw(1)_48769_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw(1)_48769"/>
+  <joint name="left_48662_cap screw(1)_48730_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw(1)_48730"/>
     <origin xyz="0.0477 0.008 -0.043" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw_48745">
+  <link name="cap screw_48706">
   </link>
-  <joint name="left_48701_cap screw_48745_joint" type="fixed">
-    <parent link="left_48701"/>
-    <child link="cap screw_48745"/>
+  <joint name="left_48662_cap screw_48706_joint" type="fixed">
+    <parent link="left_48662"/>
+    <child link="cap screw_48706"/>
     <origin xyz="0.0477 0.008 -0.0108" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="TIAGo right arm_42567">
+  <link name="TIAGo right arm_42528">
     <visual>
       <origin xyz="0.026 -0.14 -0.232" rpy="0 0 1.5708"/>
       <geometry>
@@ -1141,19 +1141,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="torso_lift_link_TIAGo right arm_42567_joint" type="fixed">
+  <joint name="torso_lift_link_TIAGo right arm_42528_joint" type="fixed">
     <parent link="torso_lift_link"/>
-    <child link="TIAGo right arm_42567"/>
+    <child link="TIAGo right arm_42528"/>
     <origin xyz="1.3492402e-12 -3.6732052e-07 0" rpy="0 0 4.6928203e-06"/>
   </joint>
   <joint name="arm_right_1_joint" type="revolute">
-    <parent link="TIAGo right arm_42567"/>
-    <child link="TIAGo_right_arm_42582"/>
+    <parent link="TIAGo right arm_42528"/>
+    <child link="TIAGo_right_arm_42543"/>
     <axis xyz="0 0 1"/>
     <limit effort="43" lower="-1.11" upper="1.5" velocity="1.95"/>
     <origin xyz="0.025 -0.194 -0.17" rpy="0 0 1.5708"/>
   </joint>
-  <link name="TIAGo_right_arm_42582">
+  <link name="TIAGo_right_arm_42543">
     <visual>
       <origin xyz="-3.673205e-10 -0.0001 0.012" rpy="-3.141589 0 0"/>
       <geometry>
@@ -1204,21 +1204,21 @@
     </collision>
   </link>
   <joint name="arm_right_2_joint" type="revolute">
-    <parent link="TIAGo_right_arm_42582"/>
-    <child link="arm_right_2_link_42616"/>
+    <parent link="TIAGo_right_arm_42543"/>
+    <child link="arm_right_2_link_42577"/>
     <axis xyz="0 3.6732051e-06 1"/>
     <limit effort="43" lower="-1.11" upper="1.5" velocity="1.95"/>
     <origin xyz="-0.125 0.0194 -0.032" rpy="1.5708 0 0"/>
   </joint>
-  <link name="arm_right_2_link_42616">
+  <link name="arm_right_2_link_42577">
     <visual>
-      <origin xyz="-0.056 5.5098077e-09 -0.0005" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.056 5.5098077e-09 -0.0005" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="-0.056 5.5098077e-09 -0.0005" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.056 5.5098077e-09 -0.0005" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
@@ -1237,13 +1237,13 @@
     </collision>
   </link>
   <joint name="arm_right_3_joint" type="revolute">
-    <parent link="arm_right_2_link_42616"/>
-    <child link="arm_right_3_link_42630"/>
+    <parent link="arm_right_2_link_42577"/>
+    <child link="arm_right_3_link_42591"/>
     <axis xyz="-2.8276306e-06 2.8276386e-06 1"/>
     <limit effort="26" lower="-0.72" upper="3.86" velocity="2.35"/>
     <origin xyz="0.0895 5.5098077e-09 -1.0118208e-14" rpy="1.5707991 -2.8276386e-06 1.5707991"/>
   </joint>
-  <link name="arm_right_3_link_42630">
+  <link name="arm_right_3_link_42591">
     <visual>
       <origin xyz="5.021872e-07 0.0014995021 -0.2821" rpy="-3.7000516e-06 0 0"/>
       <geometry>
@@ -1270,13 +1270,13 @@
     </collision>
   </link>
   <joint name="arm_right_4_joint" type="revolute">
-    <parent link="arm_right_3_link_42630"/>
-    <child link="arm_right_4_link_42664"/>
+    <parent link="arm_right_3_link_42591"/>
+    <child link="arm_right_4_link_42625"/>
     <axis xyz="2.8276386e-06 2.8276306e-06 -1"/>
     <limit effort="26" lower="-0.32" upper="2.29" velocity="2.35"/>
     <origin xyz="0.020000502 0.0014995021 -0.3991" rpy="2.356193 1.5707923 -2.356193"/>
   </joint>
-  <link name="arm_right_4_link_42664">
+  <link name="arm_right_4_link_42625">
     <visual>
       <origin xyz="7.3518606e-08 0.0010000735 -0.028" rpy="-3.141589 0 0"/>
       <geometry>
@@ -1290,26 +1290,26 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0.09300008 0.019000074 0.001" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.09300008 0.019000074 0.001" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.09300008 0.019000074 0.001" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="0.09300008 0.019000074 0.001" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </collision>
   </link>
   <joint name="arm_right_5_joint" type="revolute">
-    <parent link="arm_right_4_link_42664"/>
-    <child link="arm_right_5_link_42698"/>
+    <parent link="arm_right_4_link_42625"/>
+    <child link="arm_right_5_link_42659"/>
     <axis xyz="1.349254e-11 5.1946963e-06 1"/>
     <limit effort="3" lower="-2.07" upper="2.07" velocity="1.95"/>
     <origin xyz="0.16300008 0.020000074 0.001" rpy="-1.5707937 -1.5707911 -1.5707937"/>
   </joint>
-  <link name="arm_right_5_link_42698">
+  <link name="arm_right_5_link_42659">
     <visual>
       <origin xyz="0 0 0.04" rpy="3.1407962 0 0"/>
       <geometry>
@@ -1348,34 +1348,34 @@
     </collision>
   </link>
   <joint name="arm_right_6_joint" type="revolute">
-    <parent link="arm_right_5_link_42698"/>
-    <child link="arm_right_6_link_42713"/>
+    <parent link="arm_right_5_link_42659"/>
+    <child link="arm_right_6_link_42674"/>
     <axis xyz="2.8276386e-06 2.8276306e-06 -1"/>
     <limit effort="6.6" lower="-1.39" upper="1.39" velocity="1.76"/>
     <origin xyz="0 0 0.15" rpy="2.356193 1.5707923 -2.356193"/>
   </joint>
-  <link name="arm_right_6_link_42713">
+  <link name="arm_right_6_link_42674">
     <visual>
-      <origin xyz="-0.0409 0 0" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.0409 0 0" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="-0.0409 0 0" rpy="1.5707963 0 -1.5708"/>
+      <origin xyz="-0.0409 0 0" rpy="1.5707963 -2.7755576e-16 -1.5708"/>
       <geometry>
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </collision>
   </link>
   <joint name="arm_right_7_joint" type="revolute">
-    <parent link="arm_right_6_link_42713"/>
-    <child link="arm_right_7_link_42728"/>
+    <parent link="arm_right_6_link_42674"/>
+    <child link="arm_right_7_link_42689"/>
     <axis xyz="2.8276306e-06 -2.8276386e-06 1"/>
     <limit effort="6.6" lower="-2.07" upper="2.07" velocity="1.76"/>
     <origin xyz="0 0 0" rpy="-1.5707991 2.8276386e-06 1.5707991"/>
   </joint>
-  <link name="arm_right_7_link_42728">
+  <link name="arm_right_7_link_42689">
     <visual>
       <origin xyz="1.5551969e-07 -1.5552013e-07 0.055" rpy="-3.141589 0 0"/>
       <geometry>
@@ -1389,7 +1389,7 @@
       </geometry>
     </collision>
   </link>
-  <link name="wrist_right_ft_tool_link_42740">
+  <link name="wrist_right_ft_tool_link_42701">
     <visual>
       <origin xyz="1.5551969e-07 -1.5552013e-07 0.055" rpy="1.5707963 1.110223e-16 1.57"/>
       <geometry>
@@ -1403,12 +1403,12 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_7_link_42728_wrist_right_ft_tool_link_42740_joint" type="fixed">
-    <parent link="arm_right_7_link_42728"/>
-    <child link="wrist_right_ft_tool_link_42740"/>
+  <joint name="arm_right_7_link_42689_wrist_right_ft_tool_link_42701_joint" type="fixed">
+    <parent link="arm_right_7_link_42689"/>
+    <child link="wrist_right_ft_tool_link_42701"/>
     <origin xyz="1.5551969e-07 -1.5552013e-07 0.067725" rpy="2.356193 -1.5707923 2.356193"/>
   </joint>
-  <link name="right_46786">
+  <link name="right_46747">
     <visual>
       <origin xyz="0 0 0" rpy="3.1407962 0 0"/>
       <geometry>
@@ -1470,19 +1470,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wrist_right_ft_tool_link_42740_right_46786_joint" type="fixed">
-    <parent link="wrist_right_ft_tool_link_42740"/>
-    <child link="right_46786"/>
+  <joint name="wrist_right_ft_tool_link_42701_right_46747_joint" type="fixed">
+    <parent link="wrist_right_ft_tool_link_42701"/>
+    <child link="right_46747"/>
     <origin xyz="0.016 -5.877128e-08 0" rpy="-2.356193 1.5707923 0.78539306"/>
   </joint>
   <joint name="right_hand_gripper_right_finger_joint" type="prismatic">
-    <parent link="right_46786"/>
-    <child link="gripper_right_finger_link_47347"/>
+    <parent link="right_46747"/>
+    <child link="gripper_right_finger_link_47308"/>
     <axis xyz="1 0 0"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <limit effort="16" lower="0" upper="0.045" velocity="0.05"/>
   </joint>
-  <link name="gripper_right_finger_link_47347">
+  <link name="gripper_right_finger_link_47308">
     <visual>
       <origin xyz="0.004 0 -0.1741" rpy="0 0 0"/>
       <geometry>
@@ -1521,13 +1521,13 @@
     </collision>
   </link>
   <joint name="right_hand_gripper_left_finger_joint" type="prismatic">
-    <parent link="right_46786"/>
-    <child link="gripper_left_finger_link_47314"/>
+    <parent link="right_46747"/>
+    <child link="gripper_left_finger_link_47275"/>
     <axis xyz="1 9.265359e-05 0"/>
     <origin xyz="0 0 0" rpy="0 0 3.1415"/>
     <limit effort="16" lower="0" upper="0.045" velocity="0.05"/>
   </joint>
-  <link name="gripper_left_finger_link_47314">
+  <link name="gripper_left_finger_link_47275">
     <visual>
       <origin xyz="0.004 0 -0.1741" rpy="0 0 0"/>
       <geometry>
@@ -1565,144 +1565,144 @@
       </geometry>
     </collision>
   </link>
-  <link name="cap screw(19)_47286">
+  <link name="cap screw(19)_47247">
   </link>
-  <joint name="right_46786_cap screw(19)_47286_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(19)_47286"/>
+  <joint name="right_46747_cap screw(19)_47247_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(19)_47247"/>
     <origin xyz="0.0415 -0.0029 -0.0004" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(18)_47262">
+  <link name="cap screw(18)_47223">
   </link>
-  <joint name="right_46786_cap screw(18)_47262_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(18)_47262"/>
+  <joint name="right_46747_cap screw(18)_47223_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(18)_47223"/>
     <origin xyz="-0.0415 0.0029 -0.0004" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(17)_47238">
+  <link name="cap screw(17)_47199">
   </link>
-  <joint name="right_46786_cap screw(17)_47238_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(17)_47238"/>
+  <joint name="right_46747_cap screw(17)_47199_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(17)_47199"/>
     <origin xyz="0.0433 0.0315 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(16)_47214">
+  <link name="cap screw(16)_47175">
   </link>
-  <joint name="right_46786_cap screw(16)_47214_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(16)_47214"/>
+  <joint name="right_46747_cap screw(16)_47175_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(16)_47175"/>
     <origin xyz="-0.0433 -0.0315 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(15)_47190">
+  <link name="cap screw(15)_47151">
   </link>
-  <joint name="right_46786_cap screw(15)_47190_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(15)_47190"/>
+  <joint name="right_46747_cap screw(15)_47151_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(15)_47151"/>
     <origin xyz="0 0.033 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(14)_47166">
+  <link name="cap screw(14)_47127">
   </link>
-  <joint name="right_46786_cap screw(14)_47166_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(14)_47166"/>
+  <joint name="right_46747_cap screw(14)_47127_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(14)_47127"/>
     <origin xyz="0 -0.033 0.0026" rpy="3.14159 0 0"/>
   </joint>
-  <link name="cap screw(13)_47142">
+  <link name="cap screw(13)_47103">
   </link>
-  <joint name="right_46786_cap screw(13)_47142_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(13)_47142"/>
+  <joint name="right_46747_cap screw(13)_47103_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(13)_47103"/>
     <origin xyz="0.0426 -0.0094 -0.09448" rpy="0 0 0"/>
   </joint>
-  <link name="cap screw(12)_47118">
+  <link name="cap screw(12)_47079">
   </link>
-  <joint name="right_46786_cap screw(12)_47118_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(12)_47118"/>
+  <joint name="right_46747_cap screw(12)_47079_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(12)_47079"/>
     <origin xyz="-0.0425 0.0094 -0.0945" rpy="0 0 0"/>
   </joint>
-  <link name="cap screw(11)_47094">
+  <link name="cap screw(11)_47055">
   </link>
-  <joint name="right_46786_cap screw(11)_47094_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(11)_47094"/>
+  <joint name="right_46747_cap screw(11)_47055_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(11)_47055"/>
     <origin xyz="-0.0477 -0.008 -0.0108" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(10)_47070">
+  <link name="cap screw(10)_47031">
   </link>
-  <joint name="right_46786_cap screw(10)_47070_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(10)_47070"/>
+  <joint name="right_46747_cap screw(10)_47031_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(10)_47031"/>
     <origin xyz="-0.0477 -0.008 -0.043" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(9)_47046">
+  <link name="cap screw(9)_47007">
   </link>
-  <joint name="right_46786_cap screw(9)_47046_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(9)_47046"/>
+  <joint name="right_46747_cap screw(9)_47007_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(9)_47007"/>
     <origin xyz="-0.0477 -0.008 -0.075" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(8)_47022">
+  <link name="cap screw(8)_46983">
   </link>
-  <joint name="right_46786_cap screw(8)_47022_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(8)_47022"/>
+  <joint name="right_46747_cap screw(8)_46983_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(8)_46983"/>
     <origin xyz="-0.0477 0.008 -0.075" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(7)_46998">
+  <link name="cap screw(7)_46959">
   </link>
-  <joint name="right_46786_cap screw(7)_46998_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(7)_46998"/>
+  <joint name="right_46747_cap screw(7)_46959_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(7)_46959"/>
     <origin xyz="-0.0477 0.008 -0.043" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(6)_46974">
+  <link name="cap screw(6)_46935">
   </link>
-  <joint name="right_46786_cap screw(6)_46974_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(6)_46974"/>
+  <joint name="right_46747_cap screw(6)_46935_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(6)_46935"/>
     <origin xyz="-0.0477 0.008 -0.0108" rpy="3.1415927 1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(5)_46950">
+  <link name="cap screw(5)_46911">
   </link>
-  <joint name="right_46786_cap screw(5)_46950_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(5)_46950"/>
+  <joint name="right_46747_cap screw(5)_46911_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(5)_46911"/>
     <origin xyz="0.0477 -0.008 -0.0108" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(4)_46926">
+  <link name="cap screw(4)_46887">
   </link>
-  <joint name="right_46786_cap screw(4)_46926_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(4)_46926"/>
+  <joint name="right_46747_cap screw(4)_46887_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(4)_46887"/>
     <origin xyz="0.0477 -0.008 -0.043" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(3)_46902">
+  <link name="cap screw(3)_46863">
   </link>
-  <joint name="right_46786_cap screw(3)_46902_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(3)_46902"/>
+  <joint name="right_46747_cap screw(3)_46863_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(3)_46863"/>
     <origin xyz="0.0477 -0.008 -0.075" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(2)_46878">
+  <link name="cap screw(2)_46839">
   </link>
-  <joint name="right_46786_cap screw(2)_46878_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(2)_46878"/>
+  <joint name="right_46747_cap screw(2)_46839_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(2)_46839"/>
     <origin xyz="0.0477 0.008 -0.075" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw(1)_46854">
+  <link name="cap screw(1)_46815">
   </link>
-  <joint name="right_46786_cap screw(1)_46854_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw(1)_46854"/>
+  <joint name="right_46747_cap screw(1)_46815_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw(1)_46815"/>
     <origin xyz="0.0477 0.008 -0.043" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
-  <link name="cap screw_46830">
+  <link name="cap screw_46791">
   </link>
-  <joint name="right_46786_cap screw_46830_joint" type="fixed">
-    <parent link="right_46786"/>
-    <child link="cap screw_46830"/>
+  <joint name="right_46747_cap screw_46791_joint" type="fixed">
+    <parent link="right_46747"/>
+    <child link="cap screw_46791"/>
     <origin xyz="0.0477 0.008 -0.0108" rpy="3.1415927 -1.5707927 3.1415927"/>
   </joint>
 </robot>

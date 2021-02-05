@@ -248,7 +248,7 @@
       </geometry>
     </collision>
   </link>
-  <link name="link_base_tcp180_50247">
+  <link name="link_base_tcp180_50208">
     <visual>
       <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
@@ -274,19 +274,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="link_6_top_link_base_tcp180_50247_joint" type="fixed">
+  <joint name="link_6_top_link_base_tcp180_50208_joint" type="fixed">
     <parent link="link_6_top"/>
-    <child link="link_base_tcp180_50247"/>
+    <child link="link_base_tcp180_50208"/>
     <origin xyz="0 0 0.0985" rpy="0 0 0"/>
   </joint>
   <joint name="7 left" type="revolute">
-    <parent link="link_base_tcp180_50247"/>
-    <child link="left finger_50332"/>
+    <parent link="link_base_tcp180_50208"/>
+    <child link="left finger_50293"/>
     <axis xyz="-1 -2.614661e-06 4.528642e-07"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
     <origin xyz="0 0 0.058" rpy="0.3430009 4.528642e-07 3.14159"/>
   </joint>
-  <link name="left finger_50332">
+  <link name="left finger_50293">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
@@ -373,13 +373,13 @@
     </collision>
   </link>
   <joint name="7" type="revolute">
-    <parent link="link_base_tcp180_50247"/>
-    <child link="right finger_50284"/>
+    <parent link="link_base_tcp180_50208"/>
+    <child link="right finger_50245"/>
     <axis xyz="-1 0 0"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
     <origin xyz="0 0 0.058" rpy="0.343 0 0"/>
   </joint>
-  <link name="right finger_50284">
+  <link name="right finger_50245">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
