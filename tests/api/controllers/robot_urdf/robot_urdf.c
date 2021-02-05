@@ -28,24 +28,26 @@ int compare_files(FILE *file_1, FILE *file_2) {
 }
 
 int main(int argc, char **argv) {
-  char reference_filename[64], generated_filename[64];
+  char reference_filename[64], generated_filename[64], test[256], command[128];
   snprintf(generated_filename, 64, "%s.urdf", argv[1]);
   snprintf(reference_filename, 64, "%s_reference.urdf", argv[1]);
+  snprintf(test, 256, "%s_%s", argv[0], argv[1]);
 
-  ts_setup(generated_filename);
+  ts_setup(test);
 
   // Write URDF to file
   FILE *f_urdf = fopen(generated_filename, "w");
   const char *urdf = wb_robot_get_urdf("");
   fprintf(f_urdf, "%s", urdf);
   fclose(f_urdf);
-
 #ifndef _WIN32  // check_urdf is not available on Windows
   // Save output of `check_urdf` to file
-  const int urdf_check_status = system("check_urdf robot.urdf > result.txt 2> /dev/nul");
+  snprintf(command, 128, "check_urdf %s > result.txt 2> /dev/null", generated_filename);
+  const int urdf_check_status = system(command);
   FILE *f_res = fopen("result.txt", "r");
   fseek(f_res, 0L, SEEK_END);
   const int file_size = ftell(f_res);
+  ts_assert_int_not_equal(file_size, 0, "File size should not be 0");
   if ((urdf_check_status >> 8) != 127 && file_size > 0) {
     // `check_urdf` command is available
     // Verify output from `check_urdf`
