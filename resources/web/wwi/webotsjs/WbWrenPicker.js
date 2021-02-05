@@ -5,7 +5,6 @@ import {World} from "./World.js"
 
 class WbWrenPicker {
   constructor() {
-    console.log("new");
     this.selectedId = -1
     this.coordinates = new WbVector3();
     this.width = 0;
@@ -20,19 +19,6 @@ class WbWrenPicker {
     _wr_viewport_set_clear_color_rgba(this.viewport, colorPointer);
 
     this.setup();
-  }
-
-  delete() {
-    this.cleanup();
-    _wr_viewport_delete(this.viewport);
-    _wr_viewport_delete(this.viewportDepth);
-  }
-
-  cleanup() {
-    _wr_texture_delete(this.outputTexture);
-    _wr_frame_buffer_delete(this.frameBuffer);
-    _wr_texture_delete(this.outputTextureDepth);
-    _wr_frame_buffer_delete(this.frameBufferDepth);
   }
 
   setup() {
@@ -60,10 +46,6 @@ class WbWrenPicker {
     this.frameBufferDepth = _wr_frame_buffer_new();
     this.outputTextureDepth = _wr_texture_rtt_new();
     _wr_texture_set_internal_format(this.outputTextureDepth, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
-
-    //this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
-    //_wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
-    //_wr_frame_buffer_set_depth_texture(this.frameBufferDepth, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_set_size(this.frameBufferDepth, this.width, this.height);
     _wr_frame_buffer_enable_depth_buffer(this.frameBufferDepth, true);
@@ -140,6 +122,10 @@ class WbWrenPicker {
 
 
   pick(x, y) {
+    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));
+
     this.coordinates.setXyz(0.0, 0.0, 0.0);
     this.selectedId = -1;
 
@@ -181,7 +167,6 @@ class WbWrenPicker {
     }
     else
       this.selectedId = id - 1;
-
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
