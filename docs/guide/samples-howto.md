@@ -120,7 +120,7 @@ Faster omnidirectional wheels implementations could be achieved using asymmetric
 
 **Keywords**: Reinforcement learning, OpenAI Gym
 
-![openai_gym.png](images/samples/openai_gym.thumbnail.jpg) This examples shows an integration of [OpenAI Gym](https://gym.openai.com/) with Webots.
+![openai_gym.png](images/samples/openai_gym.thumbnail.jpg) This example shows an integration of [OpenAI Gym](https://gym.openai.com/) with Webots.
 In this example, the robot tries to keep an inverted pendulum up as long as possible.
 The OpenAI Gym interface is utilized by [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) to train the robot to keep the inverted pendulum up. 
 
