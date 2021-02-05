@@ -2,7 +2,7 @@
 WorldInfo {
   coordinateSystem "NUE"
     info [
-    "This examples shows an integration of OpenAI Gym with Webots."
+    "This example shows an integration of OpenAI Gym with Webots."
   ]
   title "OpenAI Gym Environment"
 }
