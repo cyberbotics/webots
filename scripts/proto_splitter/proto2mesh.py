@@ -50,6 +50,7 @@ import optparse
 import shutil
 import numpy as np
 import sys
+import time
 
 # modules needed for mutlithreading
 import multiprocessing
@@ -68,32 +69,27 @@ class Mesh:
         self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
         faces = coordIndex.replace(',', '').split('-1')
         self.type = 'v'
-        self.coordIndex = []
-        for face in faces:
-            self.coordIndex.append(np.array(face.split(), dtype=int).tolist())
+        self.coordIndex = self.faces_to_coordIndex(faces)
         if len(self.coordIndex[-1]) == 0:
             self.coordIndex.pop()
         self.n_faces = len(self.coordIndex)
-        self.texCoordIndex = []
+        self.normalIndex = self.texCoordIndex = []
         if texCoord is not None:
             self.type += 't'
             self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
             faces = texCoordIndex.replace(',', '').split('-1')
-            for face in faces:
-                self.texCoordIndex.append(np.array(face.split(), dtype=int).tolist())
+            self.texCoordIndex = self.faces_to_coordIndex(faces)
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
                 sys.exit('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
-        self.normalIndex = []
         if normal is not None:
             self.type += 'n'
             self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
             faces = normalIndex.replace(',', '').split('-1')
-            for face in faces:
-                self.normalIndex.append(np.array(face.split, dtype=int).tolist())
+            self.normalIndex = self.faces_to_coordIndex(faces)
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
@@ -101,6 +97,20 @@ class Mesh:
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
+
+    def faces_to_coordIndex(self, faces):
+        """Converts a list of faces into a list of triangle faces and returns type=int coordIndex"""
+        coordIndex = []
+        for face in faces:
+            f = face.split()
+            if len(f) == 3:
+                coordIndex.append(np.array(f, dtype=int).tolist())
+            elif len(f) == 4:
+                coordIndex.append(np.array([f[0], f[1], f[2]], dtype=int).tolist())
+                coordIndex.append(np.array([f[0], f[2], f[3]], dtype=int).tolist())
+            elif len(f) != 0:
+                raise Exception("ERROR: only faces with 3 or 4 vertices can be converted. Face causing error: ", f)
+        return coordIndex
 
     def remove_duplicate(self, type):
         if type == 'vertex':
@@ -116,41 +126,38 @@ class Mesh:
             if len(coordIndex) != 0:
                 sys.exit(f'Error: wrong {type} index')
             return
+
         # first pass: remove indices to duplicate values
-        removed = 0
-        for i, c in enumerate(coord):
-            try:
-                j = coord.index(c)
-                if j == i:
-                    continue
-                removed += 1
-                for index in coordIndex:
-                    for k, v in enumerate(index):
-                        if v == j:
-                            index[k] = i
-            except ValueError:
-                continue
+        if self.verbose:
+            print('removing duplicate ' + type)
+        # returns array of unique coords, indices array with duplicate indnices replaced by unique ones
+        # and a count array, containing number of duplicates per index. Look up np.unique() documentation for more.
+        uniqueCoord, indices, counts = np.unique(coord, return_inverse=True, return_counts=True, axis=0)        
+        removed = np.sum(counts)
+        for index in coordIndex:
+            for k, v in enumerate(index):
+                index[k] = indices[v]
         if removed > 0 and self.verbose:
-            print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
-        # second pass: remove unused vertices and adjust indexes
+            print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+
+        # second pass: remove unused vertices and adjust indices
+        uniqueIndices = np.unique(coordIndex)  # array of all used indices
+        indexShift = []  # index = old coordIndex, value = new coordindex (unused coords removed)
         newCoord = []
         newCoordIndex = copy.deepcopy(coordIndex)
         removed = 0
-        for i, c in enumerate(coord):
-            found = False
-            for index in coordIndex:
-                if i in index:
-                    newCoord.append(c)
-                    found = True
-                    break
-            if not found:
+        for i, c in enumerate(uniqueCoord):
+            if i in uniqueIndices:
+                newCoord.append(c)
+            else:
                 removed += 1
-                for index in newCoordIndex:
-                    for k, v in enumerate(index):
-                        if v > i - removed:
-                            index[k] = v - 1
+            indexShift.append(i - removed)
+        for index in newCoordIndex:
+            for k, v in enumerate(index):
+                index[k] = indexShift[v]
+
         if removed > 0 and self.verbose:
-            print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+            print(f'    Removed {removed} unused {type} coordinates', flush=True)
         if type == 'vertex':
             self.coord = newCoord
             self.coordIndex = newCoordIndex
@@ -179,14 +186,16 @@ class Mesh:
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
+            # if not np.isfinite(np.sqrt(np.sum(n**2))).all() or np.sqrt(np.sum(n**2)) == 0:
+            #     print(n)
+            #     print(p0, p1, p2)
+            #     print( n / np.sqrt(np.sum(n**2)))
             normalized = n / np.sqrt(np.sum(n**2))
             faceNormal.append(normalized)
-
         faceIndex = [[] for _ in range(len(self.coord))]
         for counter, face in enumerate(self.coordIndex):
             for index in face:
                 faceIndex[index].append(counter)
-
         counter = 0
         for i, face in enumerate(self.coordIndex):
             self.normalIndex.append([])
@@ -203,14 +212,9 @@ class Mesh:
                 if creased:
                     n = n / np.sqrt(np.sum(n**2))
                 n = np.around(n, 4)
-                try:
-                    index = self.normal.index(n.tolist())
-                    self.normalIndex[i].append(index)
-                except ValueError:
-                    self.normal.append(n.tolist())
-                    self.normalIndex[i].append(counter)
-                    counter += 1
-
+                self.normal.append(n.tolist())
+                self.normalIndex[i].append(counter)
+                counter += 1
         self.type += 'n'
         self.creaseAngle = 0
 
@@ -261,14 +265,17 @@ class proto2mesh:
             line = self.f.readline().split('#')[0]
             self.lineNumber += 1
             ln = line.split()
+            if '{' in line:
+                self.shapeLevel += 1
         i = ln.index('[')
         data = ' '.join(ln[i:])
         while ']' not in line:
             line = self.f.readline().split('#')[0]
+            if '{' in line:
+                self.shapeLevel += 1
             self.lineNumber += 1
             if '%' in line:
                 raise Exception("ERROR: LUA skript for mesh data is not supported.")
-
             ln = line.split()
             data += line
         data = ' '.join(data.split())
@@ -341,10 +348,10 @@ class proto2mesh:
                                   '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
                         if not self.disableMeshOptimization:
-                            mesh.remove_duplicate('vertex')
-                            mesh.remove_duplicate('normal')
-                            mesh.remove_duplicate('texture')
+                            mesh.remove_duplicate('vertex')                            
+                            #mesh.remove_duplicate('texture')
                             mesh.apply_crease_angle()
+                            mesh.remove_duplicate('normal')
                     if not self.disableFileCreation:
                         self.write_obj(meshes)
                         self.pf.write(self.protoFileString)
@@ -372,13 +379,9 @@ class proto2mesh:
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
-                shapeLevel = 1
+                self.shapeLevel = 1
                 meshID += 1
-                while shapeLevel > 0:
-                    if '}' in ln:
-                        shapeLevel -= 1
-                    if '{' in ln:
-                        shapeLevel += 1
+                while self.shapeLevel > 0:
                     if 'coord' in ln:
                         ln, coord = self.get_data_from_field(ln)
                     if 'texCoord' in ln:
@@ -395,14 +398,13 @@ class proto2mesh:
                         creaseAngle = ln[ln.index('creaseAngle') + 1]
                     else:
                         creaseAngle = 0
-
-                    if '}' in ln:
-                        shapeLevel -= 1
-                    if '{' in ln:
-                        shapeLevel += 1
                     line = self.f.readline()
                     self.lineNumber += 1
                     ln = line.split()
+                    if '}' in ln:
+                        self.shapeLevel -= 1
+                    if '{' in ln:
+                        self.shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
                 if name is not None:
                     name = name.lower()
@@ -524,7 +526,7 @@ if __name__ == '__main__':
     verbose = options.verbose
     cpv = options.cpv
     mt = options.mt
-
+    tStart = time.time()
     p2m = proto2mesh()
     if cpv:  # if we check protos files for validity
         p2m.disableMeshOptimization = True
@@ -539,13 +541,14 @@ if __name__ == '__main__':
         if inPath is not None:
             if os.path.splitext(inPath)[1] == '.proto':
                 p2m.convert(inPath, verbose=verbose)
-                print('Done')
+                print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
             elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
                 results = p2m.convert_all(pool, inPath, verbose)
                 if options.mt:
                     pool.close()
                     pool.join()
+                    print('\nFailed conversions. Check PROTO formatting:\n')
                     for i in range(len(results)):
                         r = results[i]
                         try:
