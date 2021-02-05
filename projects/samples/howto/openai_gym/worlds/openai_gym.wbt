@@ -15,7 +15,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Pioneer3at {
-  controller "openai_gym_environment"
+  controller "openai_gym"
   supervisor TRUE
   extensionSlot [
     HingeJoint {
