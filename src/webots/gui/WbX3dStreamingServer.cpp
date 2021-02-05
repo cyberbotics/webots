@@ -142,19 +142,7 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
 
 bool WbX3dStreamingServer::prepareWorld() {
   try {
-    bool regenerationRequired = mX3dWorldReferenceFile != WbWorld::instance()->fileName() || mX3dWorldGenerationTime != 0.0;
-    if (!regenerationRequired) {
-      // if a non static procedural PROTO is used we need to regenerate the world anyway
-      const QList<WbProtoModel *> &models = WbProtoList::current()->models();
-      for (int i = 0; i < models.size(); ++i) {
-        if (models.at(i)->isTemplate() && !models.at(i)->isStatic()) {
-          regenerationRequired = true;
-          break;
-        }
-      }
-    }
-    if (regenerationRequired)
-      generateX3dWorld();
+    generateX3dWorld();
     foreach (QWebSocket *client, mWebSocketClients)
       sendWorldToClient(client);
     WbAnimationRecorder::instance()->initFromStreamingServer();
