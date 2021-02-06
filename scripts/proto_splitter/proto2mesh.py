@@ -52,7 +52,7 @@ import numpy as np
 import sys
 import time
 
-# modules needed for mutlithreading
+# modules needed for multithreading
 import multiprocessing
 import signal
 
@@ -186,11 +186,11 @@ class Mesh:
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
-            # if not np.isfinite(np.sqrt(np.sum(n**2))).all() or np.sqrt(np.sum(n**2)) == 0:
-            #     print(n)
-            #     print(p0, p1, p2)
-            #     print( n / np.sqrt(np.sum(n**2)))
-            normalized = n / np.sqrt(np.sum(n**2))
+            k = np.sqrt(np.sum(n**2))
+            if k == 0:
+                sys.exit('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                         str(p0) + str(p1) + str(p2))
+            normalized = n / k
             faceNormal.append(normalized)
         faceIndex = [[] for _ in range(len(self.coord))]
         for counter, face in enumerate(self.coordIndex):
@@ -280,7 +280,7 @@ class proto2mesh:
             data += line
         data = ' '.join(data.split())
         data = data.replace('[', '').replace(']', '')
-        if defName is not None:
+        if defName is not None: # store coord and coordIndex data for DEF to assign to USE later
             self.meshDEFcache[defName] = data
         return ln, data
 
@@ -312,7 +312,7 @@ class proto2mesh:
         #  number, counting up from 0. The value is an instance of the Mesh class.
         self.lineNumber = 0  # current line in the source proto file. For debug purposes.
         meshes = {}
-        self.meshDEFcache = {}
+        self.meshDEFcache = {} # stores coord and coordIndex data that have DEF to assign to USE later
         meshID = 0
         indent = '  '
         level = 0
