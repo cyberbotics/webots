@@ -84,7 +84,7 @@ class Mesh:
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                sys.exit('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
         if normal is not None:
@@ -97,7 +97,7 @@ class Mesh:
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
-                sys.exit('normalIndex and coordIndex mismatch: ' + str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('normalIndex and coordIndex mismatch: ' + str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
@@ -128,7 +128,7 @@ class Mesh:
             coordIndex = self.normalIndex
         if len(coord) == 0:
             if len(coordIndex) != 0:
-                sys.exit(f'Error: wrong {type} index')
+                raise Exception(f'Error: wrong {type} index')
             return
 
         # first pass: remove indices to duplicate values
@@ -447,11 +447,10 @@ class proto2mesh:
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, pool, sourcePath, verbose):
-        if self.disableFileCreation:
-            outPath = sourcePath
-        else:
-            outPath = self.create_outputDir(sourcePath)
+    def convert_all(self, pool, sourcePath, verbose):        
+        outPath = sourcePath
+        outPath = self.create_outputDir(sourcePath)
+        if not self.disableFileCreation:
             os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
@@ -476,11 +475,26 @@ class proto2mesh:
                     self.convert(inFile, outFile, verbose)
                 except Exception as e:
                     failedConvertions.append(sourcePath + proto + ' - line: ' + str(self.lineNumber) + '\n' + str(e))
+                    self.move_failed_conversions(sourcePath, outPath, proto)
             else:
                 multiprocessing.active_children()
                 r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
                 failedConvertions.append([r, sourcePath + proto + '\n'])
         return failedConvertions
+
+    def move_failed_conversions(self, sourcePath, outPath, proto):
+        # create a _FAILED_CONVERSIONS folder inside our output path
+        failedBasePath = os.path.join(outPath, '_FAILED_CONVERSIONS')
+        outFile = outPath + proto
+        # deleta all files, which have been created for the failed conversion
+        self.f.close()
+        os.remove(outFile)
+        os.remove(outFile + '_temp')
+        os.removedirs(outFile.replace('.proto', ''))
+        # copy the original .proto file with its directory tree, into the _FAILED_CONVERSIONS folder
+        os.makedirs(failedBasePath + proto, exist_ok=True)
+        shutil.copy(sourcePath + proto, failedBasePath + proto)
+
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
