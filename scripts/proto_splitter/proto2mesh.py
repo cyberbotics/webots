@@ -84,7 +84,8 @@ class Mesh:
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                raise Exception('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('texCoordIndex and coordIndex mismatch: ' +
+                                str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
         if normal is not None:
@@ -97,7 +98,8 @@ class Mesh:
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
-                raise Exception('normalIndex and coordIndex mismatch: ' + str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('normalIndex and coordIndex mismatch: ' +
+                                str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
@@ -194,7 +196,7 @@ class Mesh:
             if k == 0:
                 if self.verbose:
                     print('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
-                         str(p0) + str(p1) + str(p2) + '\n' + str(n), flush=True)
+                          str(p0) + str(p1) + str(p2) + '\n' + str(n), flush=True)
                 self.coordIndex.remove(face)
                 continue
                 # raise Exception('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
@@ -447,7 +449,7 @@ class proto2mesh:
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, pool, sourcePath, verbose):        
+    def convert_all(self, pool, sourcePath, verbose):
         outPath = sourcePath
         outPath = self.create_outputDir(sourcePath)
         if not self.disableFileCreation:
@@ -491,10 +493,10 @@ class proto2mesh:
         os.remove(outFile)
         os.remove(outFile + '_temp')
         os.removedirs(outFile.replace('.proto', ''))
-        # copy the original .proto file with its directory tree, into the _FAILED_CONVERSIONS folder
+        # copy the original source .proto file with its directory tree
+        # into the _FAILED_CONVERSIONS folder.
         os.makedirs(failedBasePath + proto, exist_ok=True)
         shutil.copy(sourcePath + proto, failedBasePath + proto)
-
 
     def create_outputDir(self, sourcePath):
         # Create a new directory, where the convrted files will be stored.
