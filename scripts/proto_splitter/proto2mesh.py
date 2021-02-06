@@ -75,6 +75,8 @@ class Mesh:
         self.n_faces = len(self.coordIndex)
         self.normalIndex = self.texCoordIndex = []
         if texCoord is not None:
+            if texCoordIndex is None:
+                raise Exception("ERROR: texCoords exist in mesh, but no texCoordIndex! Mesh name: ", name)
             self.type += 't'
             self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
             faces = texCoordIndex.replace(',', '').split('-1')
@@ -86,6 +88,8 @@ class Mesh:
         else:
             self.texCoord = []
         if normal is not None:
+            if normalIndex is None:
+                raise Exception("ERROR: normal exist in mesh, but no normalIndex! Mesh name: ", name)
             self.type += 'n'
             self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
             faces = normalIndex.replace(',', '').split('-1')
@@ -132,7 +136,7 @@ class Mesh:
             print('removing duplicate ' + type)
         # returns array of unique coords, "indices" array with duplicate indices replaced by unique ones
         # and a count array, containing number of duplicates per index. Look up np.unique() documentation for more.
-        uniqueCoord, indices, counts = np.unique(coord, return_inverse=True, return_counts=True, axis=0)        
+        uniqueCoord, indices, counts = np.unique(coord, return_inverse=True, return_counts=True, axis=0)
         removed = np.sum(counts)
         for index in coordIndex:
             for k, v in enumerate(index):
@@ -178,20 +182,29 @@ class Mesh:
         faceNormal = []
         if self.verbose:
             print('    Computing normals from creaseAngle', flush=True)
-        for counter, face in enumerate(self.coordIndex):
+        for face in self.coordIndex[:]:  # [:] creates a copy
             size = len(face)
             if size < 3:
-                sys.exit('Bad face with ' + str(size) + ' vertices.')
+                raise Exception('Bad face with ' + str(size) + ' vertices.')
             p0 = [self.coord[face[0]][0], self.coord[face[0]][1], self.coord[face[0]][2]]
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
             k = np.sqrt(np.sum(n**2))
             if k == 0:
-                sys.exit('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
-                         str(p0) + str(p1) + str(p2))
+                if self.verbose:
+                    print('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                         str(p0) + str(p1) + str(p2) + '\n' + str(n), flush=True)
+                self.coordIndex.remove(face)
+                continue
+                # raise Exception('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                #          str(p0) + str(p1) + str(p2) + '\n' + str(n))
             normalized = n / k
             faceNormal.append(normalized)
+        if self.n_faces > len(self.coordIndex):
+            if self.verbose:
+                print('Invalid faces removed: ', self.n_faces - len(self.coordIndex))
+            self.n_faces = len(self.coordIndex)
         faceIndex = [[] for _ in range(len(self.coord))]
         for counter, face in enumerate(self.coordIndex):
             for index in face:
@@ -261,7 +274,7 @@ class proto2mesh:
                 self.shapeLevel += 1
             self.lineNumber += 1
             ln = line.split()
-            print(useName, len(self.meshDEFcache[useName]))
+            # print(useName, len(self.meshDEFcache[useName]))
             return ln, self.meshDEFcache[useName]
         line = ' '.join(ln).split('#')[0]
         while '[' not in line:
@@ -283,9 +296,9 @@ class proto2mesh:
             data += line
         data = ' '.join(data.split())
         data = data.replace('[', '').replace(']', '')
-        if defName is not None: # store coord and coordIndex data for DEF to assign to USE later
+        if defName is not None:  # store coord and coordIndex data for DEF to assign to USE later
             self.meshDEFcache[defName] = data
-        print(defName, len(data))
+        # print(defName, len(data))
         return ln, data
 
     def convert(self, inFile, outFile=None, verbose=True):
@@ -316,7 +329,7 @@ class proto2mesh:
         #  number, counting up from 0. The value is an instance of the Mesh class.
         self.lineNumber = 0  # current line in the source proto file. For debug purposes.
         meshes = {}
-        self.meshDEFcache = {} # stores coord and coordIndex data that have DEF to assign to USE later
+        self.meshDEFcache = {}  # stores coord and coordIndex data that have DEF to assign to USE later
         meshID = 0
         indent = '  '
         level = 0
@@ -352,8 +365,8 @@ class proto2mesh:
                                   '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
                         if not self.disableMeshOptimization:
-                            mesh.remove_duplicate('vertex')                            
-                            #mesh.remove_duplicate('texture')
+                            mesh.remove_duplicate('vertex')
+                            mesh.remove_duplicate('texture')
                             mesh.apply_crease_angle()
                             mesh.remove_duplicate('normal')
                     if not self.disableFileCreation:
