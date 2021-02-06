@@ -74,7 +74,7 @@ class Mesh:
             self.coordIndex.pop()
         self.n_faces = len(self.coordIndex)
         self.normalIndex = self.texCoordIndex = []
-        if texCoord is not None:            
+        if texCoord is not None:
             self.type += 't'
             self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
             if texCoordIndex is None:
@@ -451,7 +451,7 @@ class proto2mesh:
             os.remove(outFile)
 
     def convert_all(self, pool, sourcePath, outPath, verbose):
-       
+
         if outPath is None:
             outPath = sourcePath
         outPath = self.create_outputDir(sourcePath, outPath)
@@ -485,7 +485,7 @@ class proto2mesh:
             else:
                 multiprocessing.active_children()
                 r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
-                failedConvertions.append([r, sourcePath + proto + '\n', sourcePath, outPath, proto])                
+                failedConvertions.append([r, sourcePath + proto + '\n', sourcePath, outPath, proto])
         return failedConvertions
 
     def move_failed_conversions(self, sourcePath, outPath, proto, e):
@@ -516,7 +516,7 @@ class proto2mesh:
         # Create a new directory, where the convrted files will be stored.
         os.makedirs(outPath, exist_ok=True)
         if sourcePath == outPath:
-            newDirName = os.path.basename(sourcePath) + '_multiProto_0'            
+            newDirName = os.path.basename(sourcePath) + '_multiProto_0'
         else:
             newDirName = os.path.basename(sourcePath)
         newDirPath = os.path.join(outPath, newDirName)
