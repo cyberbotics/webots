@@ -74,13 +74,14 @@ class Mesh:
             self.coordIndex.pop()
         self.n_faces = len(self.coordIndex)
         self.normalIndex = self.texCoordIndex = []
-        if texCoord is not None:
-            if texCoordIndex is None:
-                raise Exception("ERROR: texCoords exist in mesh, but no texCoordIndex! Mesh name: ", name)
+        if texCoord is not None:            
             self.type += 't'
             self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
-            faces = texCoordIndex.replace(',', '').split('-1')
-            self.texCoordIndex = self.faces_to_coordIndex(faces)
+            if texCoordIndex is None:
+                self.texCoordIndex = copy.deepcopy(self.coordIndex)
+            else:
+                faces = texCoordIndex.replace(',', '').split('-1')
+                self.texCoordIndex = self.faces_to_coordIndex(faces)
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
@@ -449,9 +450,12 @@ class proto2mesh:
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, pool, sourcePath, verbose):
-        outPath = sourcePath
-        outPath = self.create_outputDir(sourcePath)
+    def convert_all(self, pool, sourcePath, outPath, verbose):
+       
+        if outPath is None:
+            outPath = sourcePath
+        outPath = self.create_outputDir(sourcePath, outPath)
+        print(outPath)
         if not self.disableFileCreation:
             os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
@@ -477,31 +481,45 @@ class proto2mesh:
                     self.convert(inFile, outFile, verbose)
                 except Exception as e:
                     failedConvertions.append(sourcePath + proto + ' - line: ' + str(self.lineNumber) + '\n' + str(e))
-                    self.move_failed_conversions(sourcePath, outPath, proto)
+                    self.move_failed_conversions(sourcePath, outPath, proto, e)
             else:
                 multiprocessing.active_children()
                 r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
-                failedConvertions.append([r, sourcePath + proto + '\n'])
+                failedConvertions.append([r, sourcePath + proto + '\n', sourcePath, outPath, proto])                
         return failedConvertions
 
-    def move_failed_conversions(self, sourcePath, outPath, proto):
+    def move_failed_conversions(self, sourcePath, outPath, proto, e):
         # create a _FAILED_CONVERSIONS folder inside our output path
         failedBasePath = os.path.join(outPath, '_FAILED_CONVERSIONS')
-        outFile = outPath + proto
+        outFile = os.path.abspath(outPath + proto)
         # deleta all files, which have been created for the failed conversion
-        self.f.close()
+        try:
+            self.f.close()
+        except:
+            pass
         os.remove(outFile)
-        os.remove(outFile + '_temp')
-        os.removedirs(outFile.replace('.proto', ''))
+        try:
+            os.remove(outFile + '_temp')
+        except:
+            pass
+        meshFolder = outFile.replace('.proto', '')
+        if os.path.isdir(meshFolder):
+            shutil.rmtree(meshFolder)
         # copy the original source .proto file with its directory tree
         # into the _FAILED_CONVERSIONS folder.
         os.makedirs(failedBasePath + proto, exist_ok=True)
+        with open(failedBasePath + proto + "_ErrorLog.txt", "w") as text_file:
+            text_file.write(str(e))
         shutil.copy(sourcePath + proto, failedBasePath + proto)
 
-    def create_outputDir(self, sourcePath):
+    def create_outputDir(self, sourcePath, outPath):
         # Create a new directory, where the convrted files will be stored.
-        newDirName = os.path.basename(sourcePath) + '_multiProto_0'
-        newDirPath = os.path.dirname(sourcePath) + '/' + newDirName
+        os.makedirs(outPath, exist_ok=True)
+        if sourcePath == outPath:
+            newDirName = os.path.basename(sourcePath) + '_multiProto_0'            
+        else:
+            newDirName = os.path.basename(sourcePath)
+        newDirPath = os.path.join(outPath, newDirName)
         n = 0
         while os.path.isdir(newDirPath):
             n += 1
@@ -534,6 +552,12 @@ if __name__ == '__main__':
         help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
     optParser.add_option(
+        '--output',
+        dest='outPath',
+        default=None,
+        help='Specifies the output path. Only for directory conversions.',
+    )
+    optParser.add_option(
         '--mt', '--multithreaded',
         dest='mt',
         default=False,
@@ -556,6 +580,7 @@ if __name__ == '__main__':
     )
     options, args = optParser.parse_args()
     inPath = options.inPath
+    outPath = options.outPath
     verbose = options.verbose
     cpv = options.cpv
     mt = options.mt
@@ -577,7 +602,7 @@ if __name__ == '__main__':
                 print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
             elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
-                results = p2m.convert_all(pool, inPath, verbose)
+                results = p2m.convert_all(pool, inPath, outPath, verbose)
                 if options.mt:
                     pool.close()
                     pool.join()
@@ -587,6 +612,7 @@ if __name__ == '__main__':
                         try:
                             r[0].get()
                         except Exception as e:
+                            p2m.move_failed_conversions(r[2], r[3], r[4], e)
                             print('\n', r[1], e)
                 else:
                     print('\nFailed conversions. Check PROTO formatting:\n')
