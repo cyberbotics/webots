@@ -130,7 +130,7 @@ class Mesh:
         # first pass: remove indices to duplicate values
         if self.verbose:
             print('removing duplicate ' + type)
-        # returns array of unique coords, indices array with duplicate indnices replaced by unique ones
+        # returns array of unique coords, "indices" array with duplicate indices replaced by unique ones
         # and a count array, containing number of duplicates per index. Look up np.unique() documentation for more.
         uniqueCoord, indices, counts = np.unique(coord, return_inverse=True, return_counts=True, axis=0)        
         removed = np.sum(counts)
@@ -257,8 +257,11 @@ class proto2mesh:
         if 'USE' in ln:
             useName = ln[ln.index('USE') + 1]
             line = self.f.readline().split('#')[0]
+            if '{' in line:
+                self.shapeLevel += 1
             self.lineNumber += 1
             ln = line.split()
+            print(useName, len(self.meshDEFcache[useName]))
             return ln, self.meshDEFcache[useName]
         line = ' '.join(ln).split('#')[0]
         while '[' not in line:
@@ -282,6 +285,7 @@ class proto2mesh:
         data = data.replace('[', '').replace(']', '')
         if defName is not None: # store coord and coordIndex data for DEF to assign to USE later
             self.meshDEFcache[defName] = data
+        print(defName, len(data))
         return ln, data
 
     def convert(self, inFile, outFile=None, verbose=True):
@@ -559,7 +563,7 @@ if __name__ == '__main__':
                     print('\nFailed conversions. Check PROTO formatting:\n')
                     for path in results:
                         print('\n' + path)
-                print('Done')
+                print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
             else:
                 sys.exit('Error: --input has to be a .proto file or directory!')
         else:
