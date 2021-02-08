@@ -131,11 +131,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   int port = 1234;
   QString mode = "x3d";
 
-#ifdef __APPLE__
-  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
-#else  //  Qt >= 5.15
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-#endif
   foreach (QString option, options) {
     option = option.trimmed();
     const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
