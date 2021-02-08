@@ -842,11 +842,12 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
+  QStringList args;
   if (oldRPath.isEmpty())
-    cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
+    args << "-add_rpath" << WbStandardPaths::webotsHomePath() << filename;
   else
-    cmd = QString("install_name_tool -rpath %1 %2 %3").arg(oldRPath).arg(WbStandardPaths::webotsHomePath()).arg(filename);
-  process.start(cmd);
+    args << "-rpath" << oldRPath << WbStandardPaths::webotsHomePath() << filename;
+  process.start("install_name_tool", args);
   process.waitForFinished(-1);
 #endif
 }
