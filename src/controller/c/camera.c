@@ -289,7 +289,7 @@ static void wb_camera_reset(WbDevice *d) {
   const AbstractCamera *ac = d->pdata;
   const Camera *c = ac->pdata;
   if (c->segmentation_image)
-    c->segmentation_image->update_time = wb_robot_get_time();
+    c->segmentation_image->update_time = 0.0;
 }
 
 static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
