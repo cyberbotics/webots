@@ -21,7 +21,7 @@ apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BAD
 apt update -qq
 apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
 
-if [ "$1" -neq "--norecurse" ] ; then
+if [ "$1" -ne "--norecurse" ] ; then
 	script_full_path=$(dirname "$0")
 	$script_full_path/linux_runtime_dependencies.sh
 fi
