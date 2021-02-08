@@ -72,43 +72,43 @@ class Nao (Robot):
         fsv.append(self.fsr[0].getValues())
         fsv.append(self.fsr[1].getValues())
 
-        l = []
-        r = []
+        left = []
+        right = []
 
         newtonsLeft = 0
         newtonsRight = 0
 
         # The coefficients were calibrated against the real
         # robot so as to obtain realistic sensor values.
-        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Front Left
-        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Front Right
-        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Rear Right
-        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Rear Left
+        left.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Front Left
+        left.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Front Right
+        left.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Rear Right
+        left.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Rear Left
 
-        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Front Left
-        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Front Right
-        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Rear Right
-        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Rear Left
+        right.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Front Left
+        right.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Front Right
+        right.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Rear Right
+        right.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Rear Left
 
-        for i in range(0, len(l)):
-            l[i] = max(min(l[i], 25), 0)
-            r[i] = max(min(r[i], 25), 0)
-            newtonsLeft += l[i]
-            newtonsRight += r[i]
+        for i in range(0, len(left)):
+            left[i] = max(min(left[i], 25), 0)
+            right[i] = max(min(right[i], 25), 0)
+            newtonsLeft += left[i]
+            newtonsRight += right[i]
 
         print('----------foot sensors----------')
         print('+ left ---- right +')
         print('+-------+ +-------+')
-        print('|' + str(round(l[0], 1)) +
-              '  ' + str(round(l[1], 1)) +
-              '| |' + str(round(r[0], 1)) +
-              '  ' + str(round(r[1], 1)) +
+        print('|' + str(round(left[0], 1)) +
+              '  ' + str(round(left[1], 1)) +
+              '| |' + str(round(right[0], 1)) +
+              '  ' + str(round(right[1], 1)) +
               '|  front')
         print('| ----- | | ----- |')
-        print('|' + str(round(l[3], 1)) +
-              '  ' + str(round(l[2], 1)) +
-              '| |' + str(round(r[3], 1)) +
-              '  ' + str(round(r[2], 1)) +
+        print('|' + str(round(left[3], 1)) +
+              '  ' + str(round(left[2], 1)) +
+              '| |' + str(round(right[3], 1)) +
+              '  ' + str(round(right[2], 1)) +
               '|  back')
         print('+-------+ +-------+')
         print('total: %f Newtons, %f kilograms'
