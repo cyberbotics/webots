@@ -566,7 +566,7 @@ if __name__ == '__main__':
         dest='verbose',
         default=False,
         action='store_true',
-        help='If set, detailed output of mesh conversion is shown in console',
+        help='If set, detailed output of mesh conversion is shown in console.',
     )
     optParser.add_option(
         '--check-protos-validity', '--cpv',
