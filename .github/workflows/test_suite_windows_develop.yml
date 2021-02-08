@@ -71,32 +71,8 @@ jobs:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.exe
-  test-suite:
-    needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
-    strategy:
-      matrix:
-        os: [windows-2019]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v2
-    - name: Download Artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: build-${{ matrix.os }}
-        path: artifact
-    - name: Install Webots
-      run: |
-        cd artifact
-        webots-*_setup.exe //VERYSILENT //SUPRESSMSGBOXES //ALLUSERS
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Test
-      run: python tests/test_suite.py
   delete-artifacts:
-    needs: [build, test-suite]
+    needs: [build]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     strategy:
       matrix:
