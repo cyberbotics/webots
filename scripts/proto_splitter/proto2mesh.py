@@ -556,7 +556,7 @@ if __name__ == '__main__':
     )
     optParser.add_option(
         '--mt', '--multithreaded',
-        dest='mt',
+        dest='multithreaded',
         default=False,
         action='store_true',
         help='If set, enables multicore processing for directories with several PROTO files. May not work on Windows.',
@@ -570,7 +570,7 @@ if __name__ == '__main__':
     )
     optParser.add_option(
         '--check-protos-validity', '--cpv',
-        dest='cpv',
+        dest='checkProtoValidity',
         default=False,
         action='store_true',
         help='If set, will quickly go through all protos files and output any errors. No mesh calculations or files created.',
@@ -579,15 +579,15 @@ if __name__ == '__main__':
     inPath = options.inPath
     outPath = options.outPath
     verbose = options.verbose
-    cpv = options.cpv
-    mt = options.mt
+    checkProtoValidity = options.checkProtoValidity
+    multithreaded = options.multithreaded
     tStart = time.time()
     p2m = proto2mesh()
-    if cpv:  # if we check protos files for validity
+    if checkProtoValidity:
         p2m.disableMeshOptimization = True
         p2m.disableFileCreation = True
-        mt = False  # disable multithreading, otherwise error collection does not work.
-    if mt:
+        multithreaded = False  # disable multithreading, otherwise error collection does not work.
+    if multithreaded:
         pool = multiprocessing.Pool(initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:
         pool = None
@@ -600,7 +600,7 @@ if __name__ == '__main__':
             elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
                 results = p2m.convert_all(pool, inPath, outPath, verbose)
-                if options.mt:
+                if multithreaded:
                     pool.close()
                     pool.join()
                     print('\nFailed conversions. Check PROTO formatting:\n')
