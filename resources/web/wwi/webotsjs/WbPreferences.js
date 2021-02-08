@@ -16,4 +16,4 @@ export let GTAO_LEVEL = 2;
 export let disableAntiAliasing = 0;
 export let disableShadows = 1; //TODO use it
 export let textureQuality = 2; // between 0 and 2
-export let textureFiltering = 0;
+export let textureFiltering = 4;

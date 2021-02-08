@@ -33,7 +33,7 @@
 #endif
 
 #include <algorithm>
-
+#include <iostream>
 namespace wren {
 
   void PostProcessingEffect::Pass::setup() {
@@ -44,7 +44,6 @@ namespace wren {
 
     mFrameBuffer = FrameBuffer::createFrameBuffer();
     mFrameBuffer->setSize(mOutputWidth, mOutputHeight);
-    // TODO: C'est fait aussi pour inputOutput et la taille est de 1
     for (size_t i = 0; i < mOutputTextureFormat.size(); ++i) {
       TextureRtt *outputTexture = TextureRtt::createTextureRtt();
       outputTexture->setInternalFormat(mOutputTextureFormat[i]);
