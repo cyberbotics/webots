@@ -299,7 +299,6 @@ class proto2mesh:
         data = data.replace('[', '').replace(']', '')
         if defName is not None:  # store coord and coordIndex data for DEF to assign to USE later
             self.meshDEFcache[defName] = data
-        # print(defName, len(data))
         return ln, data
 
     def convert(self, inFile, outFile=None, verbose=True):
