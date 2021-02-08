@@ -11,6 +11,7 @@ Released on XX Xth, 2021.
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
   - Bug fixes
     - Fixed synchronization of [Supervisor](supervisor.md) simulation reset that was applied after the step and now it is applied at the very end of the step ([#2720](https://github.com/cyberbotics/webots/pull/720)).
+    - Fixed compilation of default controllers using Qt on Windows ([#2718](https://github.com/cyberbotics/webots/pull/2718)).
     - Fixed [X3D export](https://www.cyberbotics.com/doc/guide/web-interface) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
     - Fixed memory leak in [Display](display.md) image ([#2663](https://github.com/cyberbotics/webots/issues/2663)).
     - Fixed high DPI support on Windows and Linux ([#2631](https://github.com/cyberbotics/webots/pull/2631)).
