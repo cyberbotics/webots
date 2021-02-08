@@ -72,8 +72,6 @@ private:
   WbNode *clone() const override { return new WbEmitter(*this); }
   void init();
 
-  bool mIsResetting;
-
 private slots:
   void updateTransmissionSetup();
   void updateBufferSize();

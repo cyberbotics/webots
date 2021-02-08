@@ -143,7 +143,8 @@ public:
 
   void setResetRequested(bool restartControllers) {
     mResetRequested = true;
-    mRestartControllers = restartControllers;
+    if (!mRestartControllers)
+      mRestartControllers = restartControllers;
   }
   virtual void reset(bool restartControllers) {
     mResetRequested = false;

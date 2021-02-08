@@ -56,7 +56,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <cassert>
@@ -348,7 +347,6 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   emit worldModified();
 }
 
-#include <QtCore/QDebug>
 void WbSupervisorUtilities::postPhysicsStep() {
   if (mLoadWorldRequested) {
     emit WbApplication::instance()->worldLoadRequested(mWorldToLoad);
