@@ -63,7 +63,12 @@ ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
-C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized -Wno-deprecated-declarations
+C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
+ifeq ($(SUFFIX),)
+ifeq ($(PYTHON_SHORT_VERSION),38)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
