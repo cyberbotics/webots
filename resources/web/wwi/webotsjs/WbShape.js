@@ -99,7 +99,7 @@ class WbShape extends WbBaseNode {
     if (type === ENUM.WR_MATERIAL_PHONG) {
       this.wrenMaterial = _wr_phong_material_new();
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
-      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.defaultShader());
+      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.phongShader());
     } else {
       this.wrenMaterial = _wr_pbr_material_new();
       _wr_pbr_material_set_base_color(this.wrenMaterial, defaultColor);

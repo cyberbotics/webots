@@ -14,6 +14,7 @@
 import {World} from "./World.js";
 import {WbWrenShaders} from "./WbWrenShaders.js";
 import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
+import {GTAO_LEVEL} from "./WbPreferences.js"
 
 class WbScene {
   constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -62,7 +63,10 @@ class WbScene {
 
     _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
-    _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
+    if(GTAO_LEVEL < 1)
+      _wr_frame_buffer_append_output_texture_disable(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
+    else
+      _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
     _wr_frame_buffer_enable_depth_buffer(this.wrenMainFrameBuffer, true);
 
     this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();

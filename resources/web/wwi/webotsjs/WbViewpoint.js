@@ -51,6 +51,7 @@ class WbViewpoint extends WbBaseNode {
     this.velocity = new WbVector3();
 
     this.inverseViewMatrix;
+
     this.wrenHdr = new WbWrenHdr();
     this.wrenGtao = new WbWrenGtao();
     this.wrenBloom = new WbWrenBloom();
