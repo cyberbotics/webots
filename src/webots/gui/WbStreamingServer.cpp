@@ -574,8 +574,6 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
       return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
-    case WbSimulationState::STEP:
-      return "step";
     case WbSimulationState::REALTIME:
       return "real-time";
     case WbSimulationState::FAST:
