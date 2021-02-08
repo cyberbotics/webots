@@ -292,7 +292,7 @@ class proto2mesh:
                 self.shapeLevel += 1
             self.lineNumber += 1
             if '%' in line:
-                raise Exception("ERROR: LUA skript for mesh data is not supported.")
+                raise Exception("ERROR: LUA script for mesh data is not supported.")
             ln = line.split()
             data += line
         data = ' '.join(data.split())
