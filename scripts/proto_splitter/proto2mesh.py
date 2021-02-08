@@ -200,8 +200,6 @@ class Mesh:
                           str(p0) + str(p1) + str(p2) + '\n' + str(n), flush=True)
                 self.coordIndex.remove(face)
                 continue
-                # raise Exception('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
-                #          str(p0) + str(p1) + str(p2) + '\n' + str(n))
             normalized = n / k
             faceNormal.append(normalized)
         if self.n_faces > len(self.coordIndex):
