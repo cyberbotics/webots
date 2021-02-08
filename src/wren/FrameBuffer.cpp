@@ -364,10 +364,6 @@ void wr_frame_buffer_append_output_texture(WrFrameBuffer *frame_buffer, WrTextur
   reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->appendOutputTexture(reinterpret_cast<wren::TextureRtt *>(texture));
 }
 
-void wr_frame_buffer_append_output_texture_disable(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {
-  reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->appendOutputTextureD(reinterpret_cast<wren::TextureRtt *>(texture));
-}
-
 void wr_frame_buffer_set_depth_texture(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {
   reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->setDepthTexture(reinterpret_cast<wren::TextureRtt *>(texture));
 }

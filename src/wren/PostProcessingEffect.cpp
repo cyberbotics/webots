@@ -255,7 +255,15 @@ namespace wren {
 
   void PostProcessingEffect::renderToResultFrameBuffer() {
     if (mResultFrameBuffer) {
+      // Causes a bug when the shadows are on in the streaming-viewer if we don't disable this buffer here.
+#ifdef __EMSCRIPTEN__
+      mResultFrameBuffer->enableDrawBuffer(1, false);
+#endif
       mResultFrameBuffer->bind();
+#ifdef __EMSCRIPTEN__
+      mResultFrameBuffer->enableDrawBuffer(1, true);
+#endif
+
       glViewport(0, 0, mResultFrameBuffer->width(), mResultFrameBuffer->height());
     } else
       assert(false);
