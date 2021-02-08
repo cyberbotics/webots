@@ -143,18 +143,16 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
 bool WbX3dStreamingServer::prepareWorld() {
   try {
     generateX3dWorld();
+    foreach (QWebSocket *client, mWebSocketClients)
+      sendWorldToClient(client);
+    WbAnimationRecorder::instance()->initFromStreamingServer();
+  } catch (const QString &e) {
+    WbLog::error(tr("Error when reloading world: %1.").arg(e));
+    destroy();
+    return false;
   }
-  foreach (QWebSocket *client, mWebSocketClients)
-    sendWorldToClient(client);
-  WbAnimationRecorder::instance()->initFromStreamingServer();
-}
-catch (const QString &e) {
-  WbLog::error(tr("Error when reloading world: %1.").arg(e));
-  destroy();
-  return false;
-}
 
-return true;
+  return true;
 }
 
 void WbX3dStreamingServer::deleteWorld() {
