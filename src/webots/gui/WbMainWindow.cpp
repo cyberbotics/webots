@@ -1346,7 +1346,6 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
     mDockWidgets.removeAll(console);
     delete console;
   }
-  // if (!world->isUnnamed())
   mConsoles.clear();
 }
 
