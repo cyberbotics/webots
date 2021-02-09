@@ -51,7 +51,6 @@ private:
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
-  QString mX3dWorldReferenceFile;
 
   qint64 mLastUpdateTime;
 };
