@@ -46,7 +46,7 @@
 
 import copy
 import os
-import optparse
+import argparse
 import shutil
 import numpy as np
 import sys
@@ -492,9 +492,9 @@ class proto2mesh:
         # deleta all files, which have been created for the failed conversion
         try:
             self.f.close()
+            os.remove(outFile)
         except:
-            pass
-        os.remove(outFile)
+            pass        
         try:
             os.remove(outFile + '_temp')
         except:
@@ -514,9 +514,9 @@ class proto2mesh:
         os.makedirs(outPath, exist_ok=True)
         if sourcePath == outPath:
             newDirName = os.path.basename(sourcePath) + '_multiProto_0'
+            newDirPath = os.path.join(os.path.dirname(sourcePath), newDirName)
         else:
-            newDirName = os.path.basename(sourcePath)
-        newDirPath = os.path.join(outPath, newDirName)
+            newDirPath = os.path.join(outPath, os.path.basename(sourcePath))
         n = 0
         while os.path.isdir(newDirPath):
             n += 1
@@ -541,46 +541,45 @@ class proto2mesh:
 
 
 if __name__ == '__main__':
-    optParser = optparse.OptionParser(usage='usage: %prog  [options]')
-    optParser.add_option(
-        '--input',
-        dest='inPath',
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        dest='input',
         default=None,
         help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
-    optParser.add_option(
+    parser.add_argument(
         '--output',
         dest='outPath',
         default=None,
         help='Specifies the output path. Only for directory conversions.',
     )
-    optParser.add_option(
-        '--mt', '--multithreaded',
+    parser.add_argument(
+        '-m', '--multithreaded',
         dest='multithreaded',
         default=False,
         action='store_true',
         help='If set, enables multicore processing for directories with several PROTO files. May not work on Windows.',
     )
-    optParser.add_option(
-        '--verbose', '-v',
+    parser.add_argument(
+        '-v', '--verbose',
         dest='verbose',
         default=False,
         action='store_true',
         help='If set, detailed output of mesh conversion is shown in console.',
     )
-    optParser.add_option(
+    parser.add_argument(
         '--check-protos-validity', '--cpv',
         dest='checkProtoValidity',
         default=False,
         action='store_true',
         help='If set, will quickly go through all protos files and output any errors. No mesh calculations or files created.',
     )
-    options, args = optParser.parse_args()
-    inPath = options.inPath
-    outPath = options.outPath
-    verbose = options.verbose
-    checkProtoValidity = options.checkProtoValidity
-    multithreaded = options.multithreaded
+    args = parser.parse_args()
+    inPath = args.input
+    outPath = args.outPath
+    verbose = args.verbose
+    checkProtoValidity = args.checkProtoValidity
+    multithreaded = args.multithreaded
     tStart = time.time()
     p2m = proto2mesh()
     if checkProtoValidity:
@@ -619,7 +618,7 @@ if __name__ == '__main__':
             else:
                 sys.exit('Error: --input has to be a .proto file or directory!')
         else:
-            sys.exit('Error: Mandatory argument --input=<path> is missing! It should specify a .proto file or directory path.')
+            sys.exit('Error: Mandatory argument <input> is missing! It should specify a .proto file or directory path.')
     except KeyboardInterrupt:
         print('----------KeyboardInterrupt-------------------------------------------------------')
         pool.terminate()
