@@ -293,7 +293,13 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var touch = event.targetTouches['0'];
     var x = Math.round(touch.clientX); // discard decimal values returned on android
     var y = Math.round(touch.clientY);
+    let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+    let orientation = World.instance.viewpoint.orientation;
+    let position = World.instance.viewpoint.position;
 
+    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
     if (this.state.mouseDown === 2) { // translation
       this.moveParams.dx = x - this.state.x;
       this.moveParams.dy = y - this.state.y;
@@ -347,11 +353,48 @@ class MouseEvents { // eslint-disable-line no-unused-vars
           d = moveX2;
         this.moveParams.tiltAngle = 0.0004 * d;
         this.moveParams.zoomScale = this.moveParams.scaleFactor * 0.015 * pinchSize;
-        this.scene.viewpoint.zoomAndTilt(this.moveParams);
+        let rollVector = direction(orientation);
+        let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
+        let roll = glm.quat(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let roll3 = glm.quat();
+        roll3.w = roll2.w;
+        roll3.x = roll2.x;
+        roll3.y = roll2.y;
+        roll3.z = roll2.z;
+
+        World.instance.viewpoint.position = position.add(zDisplacement);
+        World.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
+        World.instance.viewpoint.updatePosition();
+        World.instance.viewpoint.updateOrientation();
+
+        this.scene.render();
       } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
         this.moveParams.dx = moveX1 * 0.8;
         this.moveParams.dy = moveY1 * 0.5;
-        this.scene.viewpoint.rotate(this.moveParams);
+
+        let halfPitchAngle = -0.005 * this.moveParams.dy;
+        let halfYawAngle = -0.005 * this.moveParams.dx;
+        if (this.picker.selectedId === -1) {
+          halfPitchAngle /= -8;
+          halfYawAngle /= -8;
+        }
+        let sinusYaw = Math.sin(halfYawAngle);
+        let sinusPitch = Math.sin(halfPitchAngle);
+        let pitch = right(orientation);
+        let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z);
+        let worldUpVector = glm.vec3(0, 1, 0); //TODO get it from world
+        let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
+
+        // Updates camera's position and orientation
+        let deltaRotation = yawRotation.mul(pitchRotation);
+        let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter)).add(rotationCenter);
+        let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
+        World.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
+        World.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
+        World.instance.viewpoint.updatePosition();
+        World.instance.viewpoint.updateOrientation();
+        this.scene.render();
       }
 
       this.state.touchDistance = newTouchDistance;
