@@ -292,13 +292,24 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var touch = event.targetTouches['0'];
     var x = Math.round(touch.clientX); // discard decimal values returned on android
     var y = Math.round(touch.clientY);
-    let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
     let orientation = World.instance.viewpoint.orientation;
     let position = World.instance.viewpoint.position;
 
     let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
     rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
+    let distanceToPickPosition = 0.001;
+    if (this.picker.selectedId !== -1){
+      distanceToPickPosition = length(position.sub(rotationCenter));
+    }
+    else
+      distanceToPickPosition = length(position);
+
+    if (distanceToPickPosition < 0.001)
+      distanceToPickPosition = 0.001;
+
+    let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+
     if (this.state.mouseDown === 2) { // translation
       this.moveParams.dx = x - this.state.x;
       this.moveParams.dy = y - this.state.y;
