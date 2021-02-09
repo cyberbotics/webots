@@ -216,7 +216,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
-  mX3dWorldReferenceFile = WbWorld::instance()->fileName();
   mLastUpdateTime = -1.0;
 }
 
