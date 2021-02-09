@@ -34,7 +34,6 @@ PROTO TexturedBackground [
                  texture      "mountains"  # Defines the texture of the background.
   field SFFloat  luminosity   1            # Is `Background.luminosity`.
   field SFBool   skybox       TRUE         # Specifies if the `texture` field is used to define the skybox shown in the scene background.
-  field SFBool   reflections  TRUE         # Specifies if the `texture` field is used in the reflections of the PBRAppearance nodes.
   field MFColor  skyColor     [0 0 0]      # Defines the background color in case the `skybox` field is `FALSE`.
 ]
 {
@@ -98,7 +97,7 @@ PROTO TexturedBackground [
         %{= "\"" .. path .. "/" .. texture .. "_top." .. extension .. "\"" }%
       ]
     %{ end }%
-    %{ if isHDR and fields.reflections.value then }%
+    %{ if isHDR then }%
       backIrradianceUrl [
         %{= "\"" .. path .. "/" .. texture .. "_back.hdr\"" }%
       ]

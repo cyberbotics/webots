@@ -52,7 +52,7 @@ namespace wren {
     mOutputTextures.push_back(texture);
   }
 
-  void FrameBuffer::appendOutputTextureD(TextureRtt *texture) {
+  void FrameBuffer::appendOutputTextureDisable(TextureRtt *texture) {
     assert(mOutputDrawBuffers.size() <= static_cast<size_t>(glstate::maxFrameBufferDrawBuffers()));
 
     mOutputDrawBuffers.push_back(DrawBuffer(false, mOutputTextures.size()));
@@ -365,7 +365,8 @@ void wr_frame_buffer_append_output_texture(WrFrameBuffer *frame_buffer, WrTextur
 }
 
 void wr_frame_buffer_append_output_texture_disable(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {
-  reinterpret_cast<wren::FrameBuffer *>(frame_buffer)->appendOutputTextureD(reinterpret_cast<wren::TextureRtt *>(texture));
+  reinterpret_cast<wren::FrameBuffer *>(frame_buffer)
+    ->appendOutputTextureDisable(reinterpret_cast<wren::TextureRtt *>(texture));
 }
 
 void wr_frame_buffer_set_depth_texture(WrFrameBuffer *frame_buffer, WrTextureRtt *texture) {

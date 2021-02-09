@@ -33,7 +33,7 @@
 #endif
 
 #include <algorithm>
-
+#include <iostream>
 namespace wren {
 
   void PostProcessingEffect::Pass::setup() {
@@ -44,7 +44,6 @@ namespace wren {
 
     mFrameBuffer = FrameBuffer::createFrameBuffer();
     mFrameBuffer->setSize(mOutputWidth, mOutputHeight);
-    // TODO: C'est fait aussi pour inputOutput et la taille est de 1
     for (size_t i = 0; i < mOutputTextureFormat.size(); ++i) {
       TextureRtt *outputTexture = TextureRtt::createTextureRtt();
       outputTexture->setInternalFormat(mOutputTextureFormat[i]);
@@ -255,7 +254,15 @@ namespace wren {
 
   void PostProcessingEffect::renderToResultFrameBuffer() {
     if (mResultFrameBuffer) {
+      // Causes a bug when the shadows are on in the streaming-viewer if we don't disable this buffer here.
+#ifdef __EMSCRIPTEN__
+      mResultFrameBuffer->enableDrawBuffer(1, false);
+#endif
       mResultFrameBuffer->bind();
+#ifdef __EMSCRIPTEN__
+      mResultFrameBuffer->enableDrawBuffer(1, true);
+#endif
+
       glViewport(0, 0, mResultFrameBuffer->width(), mResultFrameBuffer->height());
     } else
       assert(false);
