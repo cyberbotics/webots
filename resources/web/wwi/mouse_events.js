@@ -338,8 +338,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       World.instance.viewpoint.position = position.add(target);
       World.instance.viewpoint.updatePosition();
       this.scene.render();
-
-      this.scene.viewpoint.translate(this.moveParams);
     } else {
       var touch1 = event.targetTouches['1'];
       var x1 = Math.round(touch1.clientX);
