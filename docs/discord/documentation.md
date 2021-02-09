@@ -1737,3 +1737,6 @@ and here is a middleware for Open AI Gym and Webots:
 
 Hope this helps. We will be happy to see your project that demonstrates Actor-Critic algorithm in Webots.
 
+##### Luiz Felipe 02/02/2021 10:28:14
+`@ahforoughi` I am using DDPG for continuous control with Webots... With the new fast mode it seems to work fine... My tip would be for you to use the input of a position controller or a torque controller as the action of your actor-critic algorithm
+

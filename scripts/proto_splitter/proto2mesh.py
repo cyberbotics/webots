@@ -168,7 +168,11 @@ class Mesh:
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
-            normalized = n / np.sqrt(np.sum(n**2))
+            k = np.sqrt(np.sum(n**2))
+            if k == 0:
+                sys.exit('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                         str(p0) + str(p1) + str(p2))
+            normalized = n / k
             faceNormal.append(normalized)
 
         faceIndex = [[] for _ in range(len(self.coord))]
@@ -300,11 +304,11 @@ class proto2mesh:
                             counter += 1
                     for mesh in meshes.values():
                         print('  Processing mesh ' + mesh.name + ' (' + str(count) + '/' + str(total) + ')', flush=True)
-                        count += 1
                         mesh.remove_duplicate('vertex')
                         mesh.remove_duplicate('normal')
                         mesh.remove_duplicate('texture')
                         mesh.apply_crease_angle()
+                        count += 1
                     self.write_obj(meshes)
                     self.pf.write(self.protoFileString)
                     self.pf.close()
