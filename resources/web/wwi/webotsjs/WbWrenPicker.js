@@ -21,6 +21,13 @@ class WbWrenPicker {
     this.setup();
   }
 
+  cleanup() {
+    _wr_texture_delete(this.outputTexture);
+    _wr_frame_buffer_delete(this.frameBuffer);
+    _wr_texture_delete(this.outputTextureDepth);
+    _wr_frame_buffer_delete(this.frameBufferDepth);
+  }
+
   setup() {
     let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     this.width = _wr_viewport_get_width(viewport);
