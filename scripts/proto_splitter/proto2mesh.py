@@ -494,7 +494,7 @@ class proto2mesh:
             self.f.close()
             os.remove(outFile)
         except:
-            pass        
+            pass
         try:
             os.remove(outFile + '_temp')
         except:
