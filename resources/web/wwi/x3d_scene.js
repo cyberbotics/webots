@@ -252,6 +252,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
+      view.stream.socket.send('pause');
       this.loadObject(data);
     } else if (data.startsWith('label')) {
       let semiColon = data.indexOf(';');
