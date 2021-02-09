@@ -129,7 +129,6 @@ class WbBackground extends WbBaseNode {
 
       // de-gamma correct
       let hdrColor = [Math.pow(this.skyColor.x, 2.2), Math.pow(this.skyColor.y, 2.2), Math.pow(this.skyColor.z, 2.2)];
-      //TODO get rid of the gloabl variable
       // reverse tone map
       let exposure = World.instance.viewpoint.exposure;
       for (let i = 0; i < 3; ++i)
