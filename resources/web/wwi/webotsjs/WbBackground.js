@@ -111,12 +111,12 @@ class WbBackground extends WbBaseNode {
     _wr_renderable_set_receive_shadows(this.hdrClearRenderable, false);
     _wr_renderable_set_mesh(this.hdrClearRenderable, this.hdrClearMesh);
     _wr_renderable_set_material(this.hdrClearRenderable, this.hdrClearMaterial, null);
-    _wr_renderable_set_drawing_mode(this.hdrClearRenderable, 0x4);
+    _wr_renderable_set_drawing_mode(this.hdrClearRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
 
     this.hdrClearTransform = _wr_transform_new();
     _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
 
-    this.applyColourToWren();$
+    this.applyColourToWren();
   }
 
   applyColourToWren() {

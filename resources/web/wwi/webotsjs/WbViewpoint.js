@@ -36,7 +36,7 @@ class WbViewpoint extends WbBaseNode {
 
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
-    this.zNear = zNear;
+    this.near = zNear;
     this.far = far;
     this.aspectRatio = canvas.width/canvas.height//800/600; //TODO do not hardcode
     this.fieldOfView = M_PI_4;
@@ -104,7 +104,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   applyNearToWren() {
-    _wr_camera_set_near(this.wrenCamera, this.zNear);
+    _wr_camera_set_near(this.wrenCamera, this.near);
   }
 
   applyFarToWren() {
@@ -124,10 +124,8 @@ class WbViewpoint extends WbBaseNode {
     //TODO
     //if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.05))
       //return;
-
-    if (this.far > 0.0 && this.far < this.near) {
+    if (this.far > 0.0 && this.far < this.near)
       this.near = this.far;
-    }
 
     if (this.wrenObjectsCreatedCalled)
       this.applyNearToWren();
@@ -338,12 +336,13 @@ class WbViewpoint extends WbBaseNode {
 
   // Converts screen coordinates to world coordinates
   toWorld(pos) {
-    if (this.far === 0)
-      this.far = WbViewpoint.DEFAULT_FAR;
+    let zFar = this.far
+    if (zFar === 0)
+      zFar = WbViewpoint.DEFAULT_FAR;
 
     this.applyFarToWren();//TODO is it needed?
     let projection = new WbMatrix4();
-    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, this.far / (this.zNear - this.far), -(this.far * this.zNear) / (this.far - this.zNear), 0, 0, -1, 0);
+    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar- this.near), 0, 0, -1, 0);
     let eye = new WbVector3(this.position.x, this.position.y, this.position.z)
     let center = eye.add(direction(this.orientation))
     let upVec = up(this.orientation);
