@@ -46,51 +46,78 @@
 
 import copy
 import os
-import optparse
+import argparse
 import shutil
 import numpy as np
 import sys
+import time
+
+# modules needed for multithreading
+import multiprocessing
+import signal
+
+
+def mutliprocess_initializer():
+    """Ignore CTRL+C in the worker process."""
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 
 class Mesh:
-    def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle):
+    def __init__(self, name, coord, coordIndex, texCoord, texCoordIndex, normal, normalIndex, creaseAngle, verbose=True):
+        self.verbose = verbose
         self.name = name
         self.coord = np.array(coord.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
         faces = coordIndex.replace(',', '').split('-1')
         self.type = 'v'
-        self.coordIndex = []
-        for face in faces:
-            self.coordIndex.append(np.array(face.split(), dtype=int).tolist())
+        self.coordIndex = self.faces_to_coordIndex(faces)
         if len(self.coordIndex[-1]) == 0:
             self.coordIndex.pop()
         self.n_faces = len(self.coordIndex)
-        self.texCoordIndex = []
+        self.normalIndex = self.texCoordIndex = []
         if texCoord is not None:
             self.type += 't'
             self.texCoord = np.array(texCoord.replace(',', '').split(), dtype=float).reshape(-1, 2).tolist()
-            faces = texCoordIndex.replace(',', '').split('-1')
-            for face in faces:
-                self.texCoordIndex.append(np.array(face.split(), dtype=int).tolist())
+            if texCoordIndex is None:
+                self.texCoordIndex = copy.deepcopy(self.coordIndex)
+            else:
+                faces = texCoordIndex.replace(',', '').split('-1')
+                self.texCoordIndex = self.faces_to_coordIndex(faces)
             if len(self.texCoordIndex[-1]) == 0:
                 self.texCoordIndex.pop()
             if len(self.texCoordIndex) != self.n_faces:
-                sys.exit('texCoordIndex and coordIndex mismatch: ' + str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('texCoordIndex and coordIndex mismatch: ' +
+                                str(len(self.texCoordIndex)) + ' != ' + str(self.n_faces))
         else:
             self.texCoord = []
-        self.normalIndex = []
         if normal is not None:
+            if normalIndex is None:
+                raise Exception("ERROR: normal exist in mesh, but no normalIndex! Mesh name: ", name)
             self.type += 'n'
             self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
             faces = normalIndex.replace(',', '').split('-1')
-            for face in faces:
-                self.normalIndex.append(np.array(face.split, dtype=int).tolist())
+            self.normalIndex = self.faces_to_coordIndex(faces)
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
-                sys.exit('normalIndex and coordIndex mismatch: ' + str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
+                raise Exception('normalIndex and coordIndex mismatch: ' +
+                                str(len(self.normalIndex)) + ' != ' + str(self.n_faces))
         else:
             self.normal = []
         self.creaseAngle = float(creaseAngle)
+
+    def faces_to_coordIndex(self, faces):
+        """Converts a list of faces into a list of triangle faces and returns type=int coordIndex"""
+        coordIndex = []
+        for face in faces:
+            f = face.split()
+            if len(f) == 3:
+                coordIndex.append(np.array(f, dtype=int).tolist())
+            elif len(f) == 4:
+                coordIndex.append(np.array([f[0], f[1], f[2]], dtype=int).tolist())
+                coordIndex.append(np.array([f[0], f[2], f[3]], dtype=int).tolist())
+            elif len(f) != 0:
+                raise Exception("ERROR: only faces with 3 or 4 vertices can be converted. Face causing error: ", f)
+        return coordIndex
 
     def remove_duplicate(self, type):
         if type == 'vertex':
@@ -104,43 +131,40 @@ class Mesh:
             coordIndex = self.normalIndex
         if len(coord) == 0:
             if len(coordIndex) != 0:
-                sys.exit(f'Error: wrong {type} index')
+                raise Exception(f'Error: wrong {type} index')
             return
+
         # first pass: remove indices to duplicate values
-        removed = 0
-        for i, c in enumerate(coord):
-            try:
-                j = coord.index(c)
-                if j == i:
-                    continue
-                removed += 1
-                for index in coordIndex:
-                    for k, v in enumerate(index):
-                        if v == j:
-                            index[k] = i
-            except ValueError:
-                continue
-        if removed > 0:
-            print(f'    Removed {removed} duplicate {type} coordinate indices', flush=True)
-        # second pass: remove unused vertices and adjust indexes
+        if self.verbose:
+            print('removing duplicate ' + type)
+        # returns array of unique coords, "indices" array with duplicate indices replaced by unique ones
+        # and a count array, containing number of duplicates per index. Look up np.unique() documentation for more.
+        uniqueCoord, indices, counts = np.unique(coord, return_inverse=True, return_counts=True, axis=0)
+        removed = np.sum(counts)
+        for index in coordIndex:
+            for k, v in enumerate(index):
+                index[k] = indices[v]
+        if removed > 0 and self.verbose:
+            print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+
+        # second pass: remove unused vertices and adjust indices
+        uniqueIndices = np.unique(coordIndex)  # array of all used indices
+        indexShift = []  # index = old coordIndex, value = new coordindex (unused coords removed)
         newCoord = []
         newCoordIndex = copy.deepcopy(coordIndex)
         removed = 0
-        for i, c in enumerate(coord):
-            found = False
-            for index in coordIndex:
-                if i in index:
-                    newCoord.append(c)
-                    found = True
-                    break
-            if not found:
+        for i, c in enumerate(uniqueCoord):
+            if i in uniqueIndices:
+                newCoord.append(c)
+            else:
                 removed += 1
-                for index in newCoordIndex:
-                    for k, v in enumerate(index):
-                        if v > i - removed:
-                            index[k] = v - 1
-        if removed > 0:
-            print(f'    Removed {removed} duplicate {type} coordinates', flush=True)
+            indexShift.append(i - removed)
+        for index in newCoordIndex:
+            for k, v in enumerate(index):
+                index[k] = indexShift[v]
+
+        if removed > 0 and self.verbose:
+            print(f'    Removed {removed} unused {type} coordinates', flush=True)
         if type == 'vertex':
             self.coord = newCoord
             self.coordIndex = newCoordIndex
@@ -159,27 +183,33 @@ class Mesh:
         if self.type[-1] == 'n':
             return
         faceNormal = []
-        print('    Computing normals from creaseAngle', flush=True)
-        for counter, face in enumerate(self.coordIndex):
+        if self.verbose:
+            print('    Computing normals from creaseAngle', flush=True)
+        for face in self.coordIndex[:]:  # [:] creates a copy
             size = len(face)
             if size < 3:
-                sys.exit('Bad face with ' + str(size) + ' vertices.')
+                raise Exception('Bad face with ' + str(size) + ' vertices.')
             p0 = [self.coord[face[0]][0], self.coord[face[0]][1], self.coord[face[0]][2]]
             p1 = [self.coord[face[1]][0], self.coord[face[1]][1], self.coord[face[1]][2]]
             p2 = [self.coord[face[2]][0], self.coord[face[2]][1], self.coord[face[2]][2]]
             n = np.cross(np.subtract(p1, p0), np.subtract(p2, p0))
             k = np.sqrt(np.sum(n**2))
             if k == 0:
-                sys.exit('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
-                         str(p0) + str(p1) + str(p2))
+                if self.verbose:
+                    print('Wrong face: ' + str(face[0]) + ', ' + str(face[1]) + ', ' + str(face[2]) + ', -1\n' +
+                          str(p0) + str(p1) + str(p2) + '\n' + str(n), flush=True)
+                self.coordIndex.remove(face)
+                continue
             normalized = n / k
             faceNormal.append(normalized)
-
+        if self.n_faces > len(self.coordIndex):
+            if self.verbose:
+                print('Invalid faces removed: ', self.n_faces - len(self.coordIndex))
+            self.n_faces = len(self.coordIndex)
         faceIndex = [[] for _ in range(len(self.coord))]
         for counter, face in enumerate(self.coordIndex):
             for index in face:
                 faceIndex[index].append(counter)
-
         counter = 0
         for i, face in enumerate(self.coordIndex):
             self.normalIndex.append([])
@@ -196,14 +226,9 @@ class Mesh:
                 if creased:
                     n = n / np.sqrt(np.sum(n**2))
                 n = np.around(n, 4)
-                try:
-                    index = self.normal.index(n.tolist())
-                    self.normalIndex[i].append(index)
-                except ValueError:
-                    self.normal.append(n.tolist())
-                    self.normalIndex[i].append(counter)
-                    counter += 1
-
+                self.normal.append(n.tolist())
+                self.normalIndex[i].append(counter)
+                counter += 1
         self.type += 'n'
         self.creaseAngle = 0
 
@@ -236,23 +261,47 @@ class Mesh:
 class proto2mesh:
     def __init__(self):
         print('Proto 2 mesh proto converter by Simon Steinmann & Olivier Michel', flush=True)
+        self.disableMeshOptimization = False
+        self.disableFileCreation = False
 
     def get_data_from_field(self, ln):
-        line = ' '.join(ln)
-        while '[' not in line:
-            line = self.f.readline()
+        defName = None
+        if 'DEF' in ln:
+            defName = ln[ln.index('DEF') + 1]
+        if 'USE' in ln:
+            useName = ln[ln.index('USE') + 1]
+            line = self.f.readline().split('#')[0]
+            if '{' in line:
+                self.shapeLevel += 1
+            self.lineNumber += 1
             ln = line.split()
+            # print(useName, len(self.meshDEFcache[useName]))
+            return ln, self.meshDEFcache[useName]
+        line = ' '.join(ln).split('#')[0]
+        while '[' not in line:
+            line = self.f.readline().split('#')[0]
+            self.lineNumber += 1
+            ln = line.split()
+            if '{' in line:
+                self.shapeLevel += 1
         i = ln.index('[')
         data = ' '.join(ln[i:])
         while ']' not in line:
-            line = self.f.readline()
+            line = self.f.readline().split('#')[0]
+            if '{' in line:
+                self.shapeLevel += 1
+            self.lineNumber += 1
+            if '%' in line:
+                raise Exception("ERROR: LUA script for mesh data is not supported.")
             ln = line.split()
             data += line
         data = ' '.join(data.split())
         data = data.replace('[', '').replace(']', '')
+        if defName is not None:  # store coord and coordIndex data for DEF to assign to USE later
+            self.meshDEFcache[defName] = data
         return ln, data
 
-    def convert(self, inFile, outFile=None):
+    def convert(self, inFile, outFile=None, verbose=True):
         path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         if outFile is None:
@@ -260,6 +309,7 @@ class proto2mesh:
             outFile = '{}/{}.proto'.format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
+        print('Converting ' + outFile, flush=True)
         os.makedirs(newPath, exist_ok=True)
         # make a directory to store meshes with the same name as the proto
         os.makedirs(outFile.replace('.proto', ''), exist_ok=True)
@@ -268,7 +318,8 @@ class proto2mesh:
         self.f = open(inFile)
         self.protoFileString = ''
         # The new proto file, with meshes extracted
-        self.pf = open(outFile, 'w', newline='\n')
+        if not self.disableFileCreation:
+            self.pf = open(outFile, 'w', newline='\n')
         self.shapeIndex = 0
         # Stores the DEF of the closest related parentnode of Type 'Group', 'Transform' or 'Shape'.
         # If a mesh has no name, this is used instead.
@@ -276,18 +327,22 @@ class proto2mesh:
         # A dictionary, which will get filled with all meshes of the PROTO file. Each
         #  mesh has a key '<level>_<meshID>' level is the indent, meshID is unique
         #  number, counting up from 0. The value is an instance of the Mesh class.
+        self.lineNumber = 0  # current line in the source proto file. For debug purposes.
         meshes = {}
+        self.meshDEFcache = {}  # stores coord and coordIndex data that have DEF to assign to USE later
         meshID = 0
         indent = '  '
         level = 0
         while True:
             line = self.f.readline()
+            self.lineNumber += 1
             ln = line.split()
             # termination condition:
             eof = 0
             while ln == []:
                 self.protoFileString += line
                 line = self.f.readline()
+                self.lineNumber += 1
                 ln = line.split()
                 eof += 1
                 if eof > 10:
@@ -303,16 +358,22 @@ class proto2mesh:
                             v.name = 'Mesh' + str(counter)
                             counter += 1
                     for mesh in meshes.values():
-                        print('  Processing mesh ' + mesh.name + ' (' + str(count) + '/' + str(total) + ')', flush=True)
-                        mesh.remove_duplicate('vertex')
-                        mesh.remove_duplicate('normal')
-                        mesh.remove_duplicate('texture')
-                        mesh.apply_crease_angle()
+                        nc = str(len(mesh.coordIndex))
+                        mesh.verbose = verbose
+                        if verbose:
+                            print('  Processing mesh ' + mesh.name + '(' + str(count) +
+                                  '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
-                    self.write_obj(meshes)
-                    self.pf.write(self.protoFileString)
-                    self.pf.close()
-                    return
+                        if not self.disableMeshOptimization:
+                            mesh.remove_duplicate('vertex')
+                            mesh.remove_duplicate('texture')
+                            mesh.apply_crease_angle()
+                            mesh.remove_duplicate('normal')
+                    if not self.disableFileCreation:
+                        self.write_obj(meshes)
+                        self.pf.write(self.protoFileString)
+                        self.pf.close()
+                    return 'success'
             if 'name' in ln:
                 name = ln[ln.index('name') + 1].replace('"', '')
                 if name == 'IS':
@@ -335,20 +396,14 @@ class proto2mesh:
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
                     name = parentDefName.split('_')[1]
-                shapeLevel = 1
+                self.shapeLevel = 1
                 meshID += 1
-                while shapeLevel > 0:
+                while self.shapeLevel > 0:
                     if 'coord' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, coord = self.get_data_from_field(ln)
                     if 'texCoord' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, texCoord = self.get_data_from_field(ln)
                     if 'normal' in ln:
-                        line = self.f.readline()
-                        ln = line.split()
                         ln, normal = self.get_data_from_field(ln)
                     if 'coordIndex' in ln:
                         ln, coordIndex = self.get_data_from_field(ln)
@@ -361,11 +416,12 @@ class proto2mesh:
                     else:
                         creaseAngle = 0
                     line = self.f.readline()
+                    self.lineNumber += 1
                     ln = line.split()
                     if '}' in ln:
-                        shapeLevel -= 1
+                        self.shapeLevel -= 1
                     if '{' in ln:
-                        shapeLevel += 1
+                        self.shapeLevel += 1
                 key = str(level) + '_' + str(meshID)
                 if name is not None:
                     name = name.lower()
@@ -386,38 +442,81 @@ class proto2mesh:
                 self.protoFileString += line
 
     def cleanup(self, inFile, outFile=None):
-        if inFile.endswith('_temp'):
+        if inFile.endswith('proto_temp'):
             os.remove(inFile)
         if outFile is not None:
             os.remove(outFile)
 
-    def convert_all(self, sourcePath):
-        outPath = self.create_outputDir(sourcePath)
-        os.makedirs(outPath, exist_ok=True)
+    def convert_all(self, pool, sourcePath, outPath, verbose):
+
+        if outPath is None:
+            outPath = sourcePath
+        outPath = self.create_outputDir(sourcePath, outPath)
+        print(outPath)
+        if not self.disableFileCreation:
+            os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
         # Walk the tree.
-        protoFiles = []  # List of the full filepaths.
+        self.protoFiles = []  # List of the full filepaths.
+        failedConvertions = []
         for root, directories, files in os.walk('./'):
             for filename in files:
                 # Join the two strings in order to form the full filepath.
                 if filename.endswith('.proto'):
                     filepath = os.path.join(root, filename)
                     filepath = filepath[1:]
-                    protoFiles.append(filepath)
-        for proto in protoFiles:
+                    self.protoFiles.append(filepath)
+        for proto in self.protoFiles:
             inFile = outPath + proto
             outFile = outPath + proto
-            print('Converting ' + outFile, flush=True)
             # make a copy of our inFile, which will be read and later deleted
             shutil.copy(inFile, inFile + '_temp')
             inFile = inFile + '_temp'
-            self.convert(inFile, outFile)
+            if pool is None:
+                try:
+                    self.convert(inFile, outFile, verbose)
+                except Exception as e:
+                    failedConvertions.append(sourcePath + proto + ' - line: ' + str(self.lineNumber) + '\n' + str(e))
+                    self.move_failed_conversions(sourcePath, outPath, proto, e)
+            else:
+                multiprocessing.active_children()
+                r = pool.apply_async(self.convert, args=(inFile, outFile, verbose))
+                failedConvertions.append([r, sourcePath + proto + '\n', sourcePath, outPath, proto])
+        return failedConvertions
 
-    def create_outputDir(self, sourcePath):
+    def move_failed_conversions(self, sourcePath, outPath, proto, e):
+        # create a _FAILED_CONVERSIONS folder inside our output path
+        failedBasePath = os.path.join(outPath, '_FAILED_CONVERSIONS')
+        outFile = os.path.abspath(outPath + proto)
+        # deleta all files, which have been created for the failed conversion
+        try:
+            self.f.close()
+            os.remove(outFile)
+        except:
+            pass
+        try:
+            os.remove(outFile + '_temp')
+        except:
+            pass
+        meshFolder = outFile.replace('.proto', '')
+        if os.path.isdir(meshFolder):
+            shutil.rmtree(meshFolder)
+        # copy the original source .proto file with its directory tree
+        # into the _FAILED_CONVERSIONS folder.
+        os.makedirs(failedBasePath + proto, exist_ok=True)
+        with open(failedBasePath + proto + "_ErrorLog.txt", "w") as text_file:
+            text_file.write(str(e))
+        shutil.copy(sourcePath + proto, failedBasePath + proto)
+
+    def create_outputDir(self, sourcePath, outPath):
         # Create a new directory, where the convrted files will be stored.
-        newDirName = os.path.basename(sourcePath) + '_multiProto_0'
-        newDirPath = os.path.dirname(sourcePath) + '/' + newDirName
+        os.makedirs(outPath, exist_ok=True)
+        if sourcePath == outPath:
+            newDirName = os.path.basename(sourcePath) + '_multiProto_0'
+            newDirPath = os.path.join(os.path.dirname(sourcePath), newDirName)
+        else:
+            newDirPath = os.path.join(outPath, os.path.basename(sourcePath))
         n = 0
         while os.path.isdir(newDirPath):
             n += 1
@@ -442,25 +541,86 @@ class proto2mesh:
 
 
 if __name__ == '__main__':
-    optParser = optparse.OptionParser(usage='usage: %prog  [options]')
-    optParser.add_option(
-        '--input',
-        dest='inPath',
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        dest='input',
         default=None,
         help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.',
     )
-    options, args = optParser.parse_args()
-    inPath = options.inPath
-    if inPath is not None:
-        p2m = proto2mesh()
-        if os.path.splitext(inPath)[1] == '.proto':
-            p2m.convert(inPath)
-            print('Done')
-        elif os.path.isdir(inPath):
-            inPath = os.path.abspath(inPath)
-            p2m.convert_all(inPath)
-            print('Done')
-        else:
-            sys.exit('Error: --input has to be a .proto file or directory!')
+    parser.add_argument(
+        '--output',
+        dest='outPath',
+        default=None,
+        help='Specifies the output path. Only for directory conversions.',
+    )
+    parser.add_argument(
+        '-m', '--multithreaded',
+        dest='multithreaded',
+        default=False,
+        action='store_true',
+        help='If set, enables multicore processing for directories with several PROTO files. May not work on Windows.',
+    )
+    parser.add_argument(
+        '-v', '--verbose',
+        dest='verbose',
+        default=False,
+        action='store_true',
+        help='If set, detailed output of mesh conversion is shown in console.',
+    )
+    parser.add_argument(
+        '--check-protos-validity', '--cpv',
+        dest='checkProtoValidity',
+        default=False,
+        action='store_true',
+        help='If set, will quickly go through all protos files and output any errors. No mesh calculations or files created.',
+    )
+    args = parser.parse_args()
+    inPath = args.input
+    outPath = args.outPath
+    verbose = args.verbose
+    checkProtoValidity = args.checkProtoValidity
+    multithreaded = args.multithreaded
+    tStart = time.time()
+    p2m = proto2mesh()
+    if checkProtoValidity:
+        p2m.disableMeshOptimization = True
+        p2m.disableFileCreation = True
+        multithreaded = False  # disable multithreading, otherwise error collection does not work.
+    if multithreaded:
+        pool = multiprocessing.Pool(initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:
-        sys.error('Error: Mandatory argument --input=<path> is missing! It should specify a .proto file or directory path.')
+        pool = None
+
+    try:
+        if inPath is not None:
+            if os.path.splitext(inPath)[1] == '.proto':
+                p2m.convert(inPath, verbose=verbose)
+                print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
+            elif os.path.isdir(inPath):
+                inPath = os.path.abspath(inPath)
+                results = p2m.convert_all(pool, inPath, outPath, verbose)
+                if multithreaded:
+                    pool.close()
+                    pool.join()
+                    print('\nFailed conversions. Check PROTO formatting:\n')
+                    for i in range(len(results)):
+                        r = results[i]
+                        try:
+                            r[0].get()
+                        except Exception as e:
+                            p2m.move_failed_conversions(r[2], r[3], r[4], e)
+                            print('\n', r[1], e)
+                else:
+                    print('\nFailed conversions. Check PROTO formatting:\n')
+                    for path in results:
+                        print('\n' + path)
+                print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
+            else:
+                sys.exit('Error: --input has to be a .proto file or directory!')
+        else:
+            sys.exit('Error: Mandatory argument <input> is missing! It should specify a .proto file or directory path.')
+    except KeyboardInterrupt:
+        print('----------KeyboardInterrupt-------------------------------------------------------')
+        pool.terminate()
+        pool.join()
+        sys.exit("KeyboardInterrupt! Terminating running processes.")
