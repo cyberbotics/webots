@@ -80,7 +80,6 @@ private:
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
   int mGetNodeRequest;
-  bool mNeedToResetSimulation;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;

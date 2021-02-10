@@ -141,13 +141,22 @@ public:
   void retrieveNodeNamesWithOptionalRendering(QStringList &centerOfMassNodeNames, QStringList &centerOfBuoyancyNodeNames,
                                               QStringList &supportPolygonNodeNames) const;
 
-  virtual void reset(bool restartControllers) {}
+  void setResetRequested(bool restartControllers) {
+    mResetRequested = true;
+    if (!mRestartControllers)
+      mRestartControllers = restartControllers;
+  }
+  virtual void reset(bool restartControllers) {
+    mResetRequested = false;
+    mRestartControllers = false;
+  }
 
 signals:
   void modificationChanged(bool modified);
   void worldLoadingStatusHasChanged(QString status);
   void viewpointChanged();
   void robotAdded(WbRobot *robot);
+  void resetRequested(bool restartControllers);
 
 public slots:
   void awake();
@@ -168,6 +177,8 @@ protected:
 
 protected:
   bool mWorldLoadingCanceled;
+  bool mResetRequested;
+  bool mRestartControllers;
 
 protected slots:
   virtual void storeAddedNodeIfNeeded(WbNode *node) {}
