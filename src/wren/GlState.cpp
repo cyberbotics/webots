@@ -26,6 +26,8 @@
 #include <GLES3/gl3.h>
 #include <emscripten.h>
 #include <emscripten/html5.h>
+
+#include "JSHelper.hpp"
 #else
 #include <glad/glad.h>
 #endif
@@ -824,7 +826,7 @@ int wr_gl_state_get_gpu_memory() {
 
 bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 #ifdef __EMSCRIPTEN__
-  return false;
+  return wren::JSHelper::isTextureFilterAnisotropicOn();
 #else
   return static_cast<bool>(GLAD_GL_EXT_texture_filter_anisotropic);
 #endif

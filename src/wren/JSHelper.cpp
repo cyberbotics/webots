@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#include "JSHelper.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <wren/JSHelper.h>
@@ -24,6 +25,34 @@
 
 #include <unistd.h>
 #include <iostream>
+
+namespace wren {
+  namespace JSHelper {
+    bool isTextureFilterAnisotropicOn() { return extension_texture_filter_anisotropic_on; }
+
+    void initContext(int width, int height) {
+      EmscriptenWebGLContextAttributes attr;
+      emscripten_webgl_init_context_attributes(&attr);
+      attr.alpha = attr.depth = attr.stencil = attr.antialias = attr.preserveDrawingBuffer = attr.failIfMajorPerformanceCaveat =
+        0;
+      attr.enableExtensionsByDefault = 1;
+      attr.premultipliedAlpha = 0;
+      attr.majorVersion = 2;
+      attr.minorVersion = 2;
+      EMSCRIPTEN_WEBGL_CONTEXT_HANDLE ctx = emscripten_webgl_create_context("#canvas", &attr);
+      emscripten_set_canvas_element_size("#canvas", width, height);
+      emscripten_webgl_make_context_current(ctx);
+
+      // Needed to suppress a warning on Firefox
+      emscripten_webgl_enable_extension(ctx, "EXT_float_blend");
+
+      JSHelper::extension_texture_filter_anisotropic_on =
+        static_cast<bool>(emscripten_webgl_enable_extension(ctx, "EXT_texture_filter_anisotropic")) ||
+        static_cast<bool>(emscripten_webgl_enable_extension(ctx, "MOZ_EXT_texture_filter_anisotropic")) ||
+        static_cast<bool>(emscripten_webgl_enable_extension(ctx, "WEBKIT_EXT_texture_filter_anisotropic"));
+    }
+  }  // namespace JSHelper
+}  // namespace wren
 
 float *wrjs_color_array(float r, float g, float b) {
   static float array[3];
@@ -95,18 +124,7 @@ char *wrjs_dummy_small_texture() {
 }
 
 void wrjs_init_context(int width, int height) {
-  EmscriptenWebGLContextAttributes attr;
-  emscripten_webgl_init_context_attributes(&attr);
-  attr.alpha = attr.depth = attr.stencil = attr.antialias = attr.preserveDrawingBuffer = attr.failIfMajorPerformanceCaveat = 0;
-  attr.enableExtensionsByDefault = 1;
-  attr.premultipliedAlpha = 0;
-  attr.majorVersion = 2;
-  attr.minorVersion = 2;
-  EMSCRIPTEN_WEBGL_CONTEXT_HANDLE ctx = emscripten_webgl_create_context("#canvas", &attr);
-  emscripten_set_canvas_element_size("#canvas", width, height);
-  emscripten_webgl_make_context_current(ctx);
-
-  emscripten_webgl_enable_extension(ctx, "EXT_float_blend");
+  wren::JSHelper::initContext(width, height);
 }
 
 void wrjs_exit() {
