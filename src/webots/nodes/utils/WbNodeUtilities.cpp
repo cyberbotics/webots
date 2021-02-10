@@ -194,6 +194,8 @@ namespace {
           return true;
         else if (WbNodeUtilities::hasARobotAncestor(node))
           return true;
+        else if (node->nodeModelName() == "Transform")
+          return true;
       }
 
       // top level nodes
