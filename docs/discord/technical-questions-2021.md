@@ -3693,3 +3693,636 @@ Will not be selectable in the 3D viewer although it is still selectable in the s
 ##### DrVoodoo [Moderator] 01/27/2021 12:58:24
 `@Stefania Pedrazzi`  excellent, thanks. I was banging my head on that one
 
+##### pk1jk1 01/28/2021 01:27:09
+Does anyone have experience creating an overhead map with a camera? And potentially stitching multiple images together to create an encompassing overhead map?
+
+##### Laojiang 01/28/2021 06:35:05
+How can I make a object whose the shape is a bowl?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/28/2021 07:53:16
+In Webots? You can add a camera to a Supervisor robot or drone and take the images. Then, add the images to a software such as Pix4d (but probably there is a free alternative) to create a map.
+
+##### Bitbots\_Jasper 01/28/2021 08:42:52
+you can create a 3d model (many formats such as .stl, .obj, .dae and .blend are supported)
+
+
+an example how to create a bowl model in open scad can be found here: [http://edutechwiki.unige.ch/en/OpenScad\_beginners\_tutorial#Simple\_CSG\_examples](http://edutechwiki.unige.ch/en/OpenScad_beginners_tutorial#Simple_CSG_examples)
+
+
+then export it as stl (file->export) in open scad and import it in webots (file->import 3D model)
+
+##### yash 01/29/2021 10:05:23
+Sorry for the message before. Please ignore it.      I would like to know that if we have a structure like this -
+
+          While robot.step(timestep)!=1
+
+                    if (condition)                                                                                                                                                                                                                                                                                                                     for i in ----
+
+   In this case when the execution is in the for loop will the robot.step(timestep) be updated ?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/29/2021 10:06:37
+no, only when the robot.step() is executed, which is every iteration of the while loop
+
+##### JSK 01/29/2021 10:06:50
+Nop.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/29/2021 10:06:56
+you could add an extra robot.step() inside the for loop
+
+##### yash 01/29/2021 10:07:13
+understood !! thanks
+
+##### Lynerea 01/29/2021 10:43:53
+Hi everyone, I recently downloaded Webots and when I went to make my own world, it comes up with an error saying that it can't find 'wbmath' and when I look at the file directory the files aren't there in any capacity - does anyone have any suggestions on how to solve that issue, would it just be a matter of reinstalling the program?
+
+##### Bitbots\_Jasper 01/29/2021 10:45:11
+how did you install webots?
+
+##### Lynerea 01/29/2021 10:45:58
+Via the cyberotics website using the newest Windows version it had available
+
+##### Bitbots\_Jasper 01/29/2021 10:47:30
+I'm sorry I don't know much about windows, maybe someone else can help with that.
+
+##### Lynerea 01/29/2021 10:48:04
+That's fine, thank you for trying anyways 🙂
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 10:48:59
+Can you run the other demos of Webots (e.g., guided tour) without any problem?
+
+##### Lynerea 01/29/2021 10:49:43
+I opened the introductory demos, all of them I believe, with no issues at all
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 10:50:48
+So what is particular with your world file? Did you add any specific object?
+
+##### Lynerea 01/29/2021 10:52:10
+I created a new project Directory via the wizard and ticked all the boxes when given the option but then the 'rectangle arena' caused an error but the rest of the world loaded successfully
+
+
+I added a model of BB-8 after I created the world and the floor didn't work
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 11:33:29
+I tried, but cannot reproduce this problem (tested on Windows 10).
+
+##### Lynerea 01/29/2021 11:34:53
+I don't understand how, after no tampering on my part, that the file was deleted, I don't know how it happened and I doubt I could reproduce the issue but reinstalling the program seems to have solved the issue for now
+
+##### smasud98 01/30/2021 05:29:13
+Hi everyone! I am new to webots and not sure if this is the right place to be asking this question. I am considering getting the Macbook with the M1 chip which uses ARM. I was wondering if anyone knows whether Webots will work well with this. Thanks
+
+##### Krish 01/30/2021 06:03:49
+Wait for this year's lineup.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 14:23:48
+`@smasud98` This is generally the right place to ask any questions regarding Webots. I think you should be fine with the macbook. While Webots is an x86 program, Apple's Rosetta 2 - x86 emulation seems to be very good and powerful. In general you should ask yourself the question though, whether a macbook is the right tool. If you want to dive deep into programming and development, engineering applications and linux, then it might be more advisable to get an x86 machine.  Perhaps you can tell me what you want to use your laptop for in general. Whether you are willing to switch to linux and/or linux is another big factor.
+
+##### Krish 01/30/2021 15:24:37
+Yeah well said.
+
+He told me that he is more interested in getting a Mac than a Linux machine, he says that he has the 2015 Macbook and webots runs very slowly in that.
+
+Also, not all the apps and programming languages are configured to run on the M1.
+
+
+
+So he says if Webots does not run on it, he will just return and take the refund back.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 15:39:30
+The new macbook is a completely new hardware & software product. It probably works really well for a pure consumer, but as soon as you start development and go outside of MacOS, I foresee a lot of issues. Linux can run on arm, but by far not all software and programs.  I have a Lenovo Legion laptop. It is basically a gamer laptop, that looks more professional. I bought it for robotic simulation and Reinforcement Learning. I dont see macbooks being a good choice for that. For AI you kinda need a Nvidia GPU, and a powerful x86 CPU is a godsent when compiling and running lots of parallelized code / many instances.
+
+##### PymZoR [Premier Service] 01/30/2021 15:46:55
+Hi everyone, i'm having an issue with a basic HingeJoint for a wheel
+
+
+I have a differential robot, and when it's turning in place, le wheels are "moving sideways"
+
+
+like on a bad bike
+
+
+By looking at the tree I see small  values in the `translation` field of the wheel although the joint is configured to only allow rotation on an axis
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 15:51:18
+can you share your world or a screenshot of your hingjoint? with JointParameters expanded in the scene tree
+
+##### PymZoR [Premier Service] 01/30/2021 15:54:41
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805103704910200854/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805103881205841930/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 15:58:32
+it is always good practice to have the same anchor as translation of the endPoint solid.  currently it rotates around the y-axis of in the 2nd image
+
+
+move the anchor to where you want the center of rotation to be
+
+##### PymZoR [Premier Service] 01/30/2021 15:59:18
+Oh, ok
+
+
+On top of my Hinge I have a Transform
+
+
+I can remove the Transform, and instead use anchor & translation on the endpoint solid right ?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:00:19
+the transform is fine.
+
+
+send me your world, i can have a quick look
+
+
+the issue is, if you have a translation of the endpoint, which is NOT along the rotational axis
+
+##### PymZoR [Premier Service] 01/30/2021 16:07:04
+The translation of the enpoint was the result of the bug, I did not manually edit these  values
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805106901393604679/unknown.png)
+%end
+
+
+I just tried this, deleting the Transform above the Joint, no success
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:08:58
+the translation of the endPoint changes with when the joint rotates. So at the start, the anchor and translation have to be the same (assuming you want the endPoint to rotate around its origin)
+
+##### PymZoR [Premier Service] 01/30/2021 16:09:47
+which is the case on my last screenshot right ?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:09:56
+yes
+
+##### PymZoR [Premier Service] 01/30/2021 16:10:30
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805107686977830952/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:10:47
+this should work too
+
+##### PymZoR [Premier Service] 01/30/2021 16:10:53
+Which is also the case when the transform is done above; I have the same endpoint translation and anchor
+
+
+Still have the problem though 😄
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:11:06
+what problem?
+
+##### PymZoR [Premier Service] 01/30/2021 16:11:50
+When the robot is turning in place, the wheels are slightly translating
+
+
+instead of only rotating around the joint axis
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:12:54
+I would have to see the whole thing. But just stick with the solution that works
+
+
+that is the 'proper' way to do it
+
+##### PymZoR [Premier Service] 01/30/2021 16:13:06
+No solution works atm haha
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 16:13:21
+share your world file
+
+
+can also pm if you want
+
+##### ljmanso 01/31/2021 15:14:48
+Hello everyone. I am new to Webots and I have a quick question that I haven't seen in the documentation. Is there any way to simulate virtual humans moving around?
+
+##### Bitbots\_Jasper 01/31/2021 15:31:43
+There is the pedestrian proto (model) and a controller for it.
+
+##### ljmanso 01/31/2021 19:15:06
+Thanks! I will try to find more information about it 👍
+
+##### babaev1 01/31/2021 20:20:54
+Hello, can’t figure out why two solids pass through each other like non-material objects during simulation running. Bounding objects are defined and physics is added for both solids. Could it be due to that dencity is -1, but mass has positive value? Could it be due to that inertia matrix is not added? Could it be due to that center of mass is not added for solids?
+
+##### paperwave 01/31/2021 22:33:56
+`@babaev1` When you click on the boundingObject node you should see the bounding region surrounding the Solid, if you don't see it, it may be covered from your graphical view.
+
+##### babaev1 01/31/2021 22:35:44
+Bounding region covers solid and I can see it
+
+##### Bitbots\_Jasper 01/31/2021 22:37:09
+the density field is used to calculate the mass by using the volume of the bounding object, if a mass is specified it should be -1
+
+
+are the two solids that should collide part of the same proto?
+
+##### babaev1 01/31/2021 22:38:07
+Solids are designed by myself from primitives
+
+##### Bitbots\_Jasper 01/31/2021 22:39:22
+what i am trying to ask is if the two solids are defined in the same file?
+
+##### babaev1 01/31/2021 22:39:41
+Yes
+
+##### Bitbots\_Jasper 01/31/2021 22:40:09
+in the robot node, there is a parameter selfCollision, you might need to enable that
+
+
+[https://cyberbotics.com/doc/reference/robot](https://cyberbotics.com/doc/reference/robot)
+
+##### babaev1 01/31/2021 22:43:06
+It works!
+
+
+Thank you!
+
+##### Bitbots\_Jasper 01/31/2021 22:43:39
+you're welcome 👍
+
+##### babaev1 01/31/2021 22:44:11
+👏
+
+##### paperwave 01/31/2021 22:49:14
+Question, I'm working on the tutorials (on 6) but I'm getting a compile error because some nodes' name field is the same, is there a way in the IDE to change that? double click on name isn't doing anything
+
+
+compile error
+%figure
+![wheel_not_found.PNG](https://cdn.discordapp.com/attachments/565154703139405824/805570707551027250/wheel_not_found.PNG)
+%end
+
+
+[https://cyberbotics.com/doc/reference/solid#unique-solid-name](https://cyberbotics.com/doc/reference/solid#unique-solid-name) indicates the IDE should make a unique name hmmm
+
+
+wait those are warnings, so it should run, I just want to use better descriptive names
+
+##### Bitbots\_Jasper 01/31/2021 22:55:09
+you can right click on the robot in the node view on the left and edit the proto file(view protofile) , control+f for name and find the names that are overlapping
+
+##### paperwave 01/31/2021 22:58:07
+I don't see that, I right clicked on the robot's root node, "Robot", I'll keep looking for a view protofile option somewhere
+
+##### Bitbots\_Jasper 01/31/2021 23:00:31
+
+%figure
+![jo.png](https://cdn.discordapp.com/attachments/565154703139405824/805573259717246996/jo.png)
+%end
+
+##### paperwave 01/31/2021 23:04:38
+Here's what I'm seeing, I made it with Base nodes > Robot
+
+
+
+%figure
+![missing_settings.PNG](https://cdn.discordapp.com/attachments/565154703139405824/805574353571938334/missing_settings.PNG)
+%end
+
+
+I see, it doesn't have that because it was a base node.
+
+
+looking for the wbt file, maybe that'll do it
+
+
+It's my second day of webots so I know it's something simple
+
+##### Bitbots\_Jasper 01/31/2021 23:10:47
+The problem is that it is probably save in a location where you can not edit it (because you need sudo or admin). Copy the proto file from your webots installation to your own proto folder
+
+
+maybe this helps to understand how you should structure your webots projects: [https://cyberbotics.com/doc/guide/the-standard-file-hierarchy-of-a-project](https://cyberbotics.com/doc/guide/the-standard-file-hierarchy-of-a-project)
+
+##### paperwave 01/31/2021 23:13:19
+moving the protos folder now
+
+
+Looks like this part of the tutorial only uses base nodes so there was no proto on it however, I restarted Webots and was able to rename the wheels which is great. Fixing something else I messed up present, thanks for the help
+
+## February
+
+##### machiko 02/01/2021 05:12:30
+I'm trying to change the fields of an object, but it looks like this. What do I need to do so that I can edit them? (This is my first time using Webots, sorry if it's a dumb question!)
+%figure
+![Screen_Shot_2021-01-31_at_9.11.53_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/805666868773781504/Screen_Shot_2021-01-31_at_9.11.53_PM.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 02/01/2021 07:06:18
+There is a dedicated window to edit the field, but it seems that you hide it.
+
+It is located just below this scene tree.
+
+So to show you can click on the sidget separator (indicated by the three lines on the bottom of your screenshot) and drag it up, or restore the default application layout from the `Tools > Restore Layout`
+
+##### machiko 02/01/2021 07:15:46
+Thank you!
+
+##### iagsav 02/01/2021 12:31:47
+Hi! Please tell me how you can read the data from the compass of the Firebird 6 robot?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 12:35:42
+`@iagsav` if you right-click on the robot, you can select "view PROTO source"
+
+
+in there you will find this section, with the sensors and their names
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805778505736519750/unknown.png)
+%end
+
+##### iagsav 02/01/2021 12:40:56
+Thank you!
+
+
+I wrote this code
+
+
+cmp = robot.getDevice('compassXY\_01')
+
+print(cmp)
+
+
+but it returns 'None'
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 12:42:36
+for i in range(robot.getNumberOfDevices()):
+
+    device = supervisor.getDeviceByIndex(i)
+
+    print(i, '  -  ', device.getName(), '   - Model:', device.getModel(),'   - NodeType:', device.getNodeType())
+
+
+try running this
+
+
+it should print all devices
+
+
+also a good way to make lists of motors, sensors etc. by appending a list, if the device is of the type you want
+
+##### iagsav 02/01/2021 12:44:35
+should I set the supervisor field to true?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805780673922859038/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 12:45:12
+oh, do it robot.getDeviceByIndex
+
+
+supervisor is not needed
+
+
+took it from one of my controllers
+
+
+where I use a supervisor for other stuff
+
+##### iagsav 02/01/2021 12:46:15
+Thanks you! it worked
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805781066035757117/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 12:46:47
+hmm model doesnt seem to work for some reason
+
+
+sensors = []
+
+minPositions = []
+
+maxPositions = []
+
+for i in range(robot.getNumberOfDevices()):
+
+    device = robot.getDeviceByIndex(i)
+
+    print(i, '  -  ', device.getName(), '   - Model:', device.getModel(),'   - NodeType:', device.getNodeType())
+
+    # if device is a rotational motor (uncomment line above to get a list of all robot devices)
+
+    if device.getNodeType() == 54:  
+
+        motors.append(device)
+
+        minPositions.append(device.getMinPosition())
+
+        maxPositions.append(device.getMaxPosition())
+
+        sensor = device.getPositionSensor()
+
+        try:
+
+            sensor.getName()
+
+            sensors.append(sensor)
+
+            sensor.enable(timeStep)
+
+        except Exception as e:
+
+            print('Rotational Motor: ' + device.getName() + ' has no Position Sensor')
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+this is an example, how I initialize robotic arms. It automatically creates a list of all rotational motors, their position sensors and the corresponting min and max positions
+
+
+motors = [] missing in the first line
+
+
+This works regardless of what robotic arm I use. I'm sure you can adjust it to your needs
+
+##### iagsav 02/01/2021 12:52:23
+Thank you! I will try!
+
+
+It is very strange, but when I run e-puck obstacle avoidance tutorial, I get such result
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805786926274576474/unknown.png)
+%end
+
+
+I reinstall python 3.7.9 (64) twice
+
+
+and restart webots too
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:10:37
+ps[i] is empty in this case
+
+##### iagsav 02/01/2021 13:11:33
+I understand, but why? I use standard world file
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:11:58
+show me the controller?
+
+##### iagsav 02/01/2021 13:12:18
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805787617240154132/unknown.png)
+%end
+
+
+I take it from tutorial
+
+
+[https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:13:32
+put a "print(i)" in front of the ps[i].enable
+
+##### iagsav 02/01/2021 13:14:12
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805788096221544488/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:15:19
+weird, that error is new now
+
+
+you are using the correct robot?
+
+##### iagsav 02/01/2021 13:15:32
+I found similar issue here: [https://github.com/cyberbotics/webots/issues/2570](https://github.com/cyberbotics/webots/issues/2570)
+
+
+I use file e\_puck.wbt, I think it is correct
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:16:56
+you are on the newest version of webots?
+
+
+you could also try running that loop I showed you earlier
+
+##### iagsav 02/01/2021 13:17:16
+I download it now
+
+
+Now i install newest webots version
+
+
+It is very strange, but all works: I get compass in fire bird 6
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 13:39:06
+great 🙂
+
+##### iagsav 02/01/2021 13:42:06
+yee!!! Thank you!!!
+
+##### PRVG 02/01/2021 15:33:51
+Hello i would like to know if anyone as implemented a optical flow sensor in Webots. Looking through the documentation i do not think there is one available in the sensor nodes. Thank you very much.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/01/2021 15:39:16
+You are right, there is no such sensor. But basically, this can be implemented at the controller level from a standard camera flow, not inside Webots.
+
+##### PRVG 02/01/2021 15:41:49
+Thank you for the reply. I was gonna try implementing  that in matlab just wanna make sure there was no sensor for it already implemented and if someone had any experience with it so they could give some pointers. Thank you
+
+##### Chernayaten 02/01/2021 16:39:29
+I'm trying to make k-team's hemisson robot rotate around itself using the setPosition command in Python (with getTargetPosition +/- rotate\_value). However whether I try to increase the position or decrease it the robot always moves forward
+
+
+I'm also facing an issue with its pen node which simply doesn't work at times. I've made a few tests starting it from random positions and it might work or it might not work. At times when it is not working, if I start manually  moving the robot around while the simulation is running it might write a bit and then stop or it might start writing normally
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 18:34:50
+the setPosition most likely changes the wheel angle, not the robot rotation. So to rotate, you have to turn one clockwise and the other ccw
+
+##### Chernayaten 02/01/2021 18:39:45
+That is what I am doing. I use the motor.getTargetPosition() to get the position at that specific moment and then increase one wheel / decrease the other to make it turn. I've already used this code on a robot I made and it has been working without issues
+
+
+I've performed the following simple test. Set both wheel positions at 100 and run it. The robot moves forward. Reset and set both wheel positions at -100. Robot moves forward again, even though it should be moving backwards
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 18:53:34
+for wheels you should probably use velocity control
+
+
+and change the angles incrementally. Also remember, that the values are radian
+
+
+so 100 is a lot
+
+##### Chernayaten 02/01/2021 18:56:41
+I've been trying to make the robot turn exactly 90 degrees (and then other angles) which is why I have been using position instead. I am aware values are radian,  the 100 is just an example to show it is not working as it should
+
+
+Weirdly enough, if I do use setVelocity with +/- on the wheels it does work as it should. I really don't want to have to re-work my code though. The setPosition should be working as well which is what I am trying to solve
+
+##### PymZoR [Premier Service] 02/01/2021 19:05:13
+Hi everyone, I was wondering if someone tried to use asyncio for a python controller ?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/01/2021 20:02:38
+if your starting position is -200, then it will drive forward in both cases, setting the target to -100 and 100
+
+##### Chernayaten 02/01/2021 20:38:15
+That's why I said in my first message that I use the .getTargetPosition() method. The increase/decrease is always done in regards to the wheel position at that moment. That means that if my starting position was -200 then one wheel would increase to -100 and the other would decrease to -300
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/02/2021 10:57:01
+`@Chernayaten`  Why are you using .getTargetPosition() instead of using the position sensor to get the current position?
+
+
+positionSensor = motor.getPositionSensor()
+
+positionSensor.enable(timestep)
+
+pos = positionSensor.getValue()
+
+
+I suspect that the issue lies here
+
+
+.getTargetPosition()  gives you the last command issued with setPosition() and NOT the current position
+
+##### Chernayaten 02/02/2021 13:12:48
+I am doing it this way because I do not care about the current position of the motor. My code is working correctly in my own robot, it works correctly on a different robot I randomly picked (Lego's Mindstorms), but it doesn't work correctly on the Hemisson robot.
+
+
+while self.step(self.TIME\_STEP) != -1:
+
+    left.setPosition(left.getTargetPosition() - 10)
+
+    right.setPosition(right.getTargetPosition() + 10)
+
+
+Regardless of whether this is the smart way to do it, the following code should make the robot constantly rotate around itself. Hemisson robot doesn't do that and I can't figure out why. At the same time the other two robots I mentioned do
+
+##### alireza\_9 02/02/2021 18:39:19
+Hello everyone
+
+dose anyone knows how can I train robot using pytorch in webots?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/02/2021 18:59:26
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+
+use an extern python controller
+
+##### John520 02/02/2021 20:25:42
+Hi, I'd like to create a crop field for lidar detection simulation. I found out that Webots provides Trees and Plants objects. My questions are: 1. Can the tree and plant objects (shape and leaves) be detected by a lidar in the simulation? 2. Is there a way to create a crop object by myself? Thank you!
+
+##### LucasW 02/03/2021 00:55:54
+Hi all, I'm a student working on a project using Webots for the first time. This is a pretty basic question but I'm implementing an approximation of the VL53L1X tof sensor see [https://www.st.com/en/imaging-and-photonics-solutions/vl53l1x.html#overview](https://www.st.com/en/imaging-and-photonics-solutions/vl53l1x.html#overview) for details, or [https://www.pololu.com/product/3415/specs](https://www.pololu.com/product/3415/specs) for a quick specs overview. I was wondering what units resolution is measured in/should I just make it infinite and I don't understand what response values I should map the distances too? Any help would be appreciated thanks.
+

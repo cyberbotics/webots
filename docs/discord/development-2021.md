@@ -436,3 +436,67 @@ First variant is more realistic for my statement of amateur programmer.
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/27/2021 11:09:23
 I believe this really not so difficult to implement...
 
+##### babaev1 01/28/2021 22:07:31
+Dear Webots developers, do you have plan to add Russian language to variety of GUI languages in 2021? Together with pandemic and moving robotic lessons and competitions to virtual format there is higher interest to use simulation software in education. Unfortunately not many teachers and students are fluent with English in Russian schools.  Adding optional Russian language to GUI can give good advantage to Webots to be widely used in Russian schools.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/28/2021 22:15:23
+Hello `@babaev1`, feel free to add translations, we will be happy to review your PR:
+
+[https://github.com/cyberbotics/webots/tree/master/resources/translations](https://github.com/cyberbotics/webots/tree/master/resources/translations)
+
+##### babaev1 01/28/2021 22:19:39
+Thank you. Good to know that it is so easy. I shall arrange people at my side to add Russian translation.
+
+##### Professor Felix 01/29/2021 04:31:27
+does webots use git LFS? I'm just a student who cloned the repo to try and understand some of the internal codebase for educational purposes and I noticed the file size was over 5GB
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 07:48:43
+You should not need git LFS to check out Webots as Webots doesn't contain any file larger than 5GB.
+
+##### Professor Felix 01/29/2021 08:33:24
+I know I just thought GitHub itself preferred to keep repositories under 2GB
+
+
+But I think I heard wrong
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 08:34:33
+Yes, there not such a limit in GitHub.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/29/2021 09:58:03
+`@Darko Lukić` wouldn't it be possible to run a translator api over the language files and do a base translation? That seems like a fairly easy and quick way to at least offer more languages. Of course they may not be perfect, but might be bettter than nothing
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/29/2021 10:08:53
+I think it is possible, but I am concern about the quality of the translations.
+
+##### Bitbots\_Jasper 01/29/2021 10:10:29
+I think the quality would be rather poor since there is often only a small snippet of text and translation algorithms usually work much better with context, it might be worth a shot but a native or very fluent speaker would need to rework it
+
+##### Ginzo1 01/29/2021 12:47:01
+Hello, everyone! I've just recently pick up WeBots as I have an university project that requires to be simulated. It is a robot design project for which I will need a hydraulic scissors lift. Since I have a relatively basic knowledge on mechanics and kinematics but I am still really inexperienced with WeBots. Since the scissors lift is a quite common system, I was wondering if there is some information somewhere on how to create one on my own or see how it is supposed to be done from scratch? Thanks in advance!
+
+##### Bitbots\_Jasper 01/29/2021 12:49:47
+`@Ginzo1` this question has been asked a while back, maybe there is something useful for you there [https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16](https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16)
+
+##### babaev1 01/30/2021 10:34:05
+Dear Webots developers, it is more or less clear how to translate GUI to Russian language. Students in our University started to undertake this work. Separate story is how to translate and publish User Guide and Reference Manual which  is located in website of Cyberbotics. There are 2 variants: 1. Russian translation will be published in Cyberbotics site along with English. 2. In Russian GUI link to User Guide will be different, then we can undertake providing space on web for translated User Guide.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 01/30/2021 14:18:53
+`@babaev1` Awesome! Thank you for the contribution. I'm sure the devs will do everything they can to support your effort!
+
+
+[https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs) this is the documentation location of Webots. "guide" and "reference" are the 2 big documentation directories. I'm sure you can make a fork and start translating these. `@Olivier Michel` Perhaps we should slightly change the structure to accommodate any new translations.
+
+##### babaev1 01/31/2021 11:10:23
+Thank you, I shall look for opportunity to make this part to be translated too.
+
+## February
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/01/2021 10:52:38
+`@babaev1`: thank you for undertaking this translation effort.
+
+For translating the GUI, please follow the procedure at [https://github.com/cyberbotics/webots/tree/released/resources/translations](https://github.com/cyberbotics/webots/tree/released/resources/translations)
+
+We will be happy to merge your contribution into Webots.
+
+For translating the manuals, I believe the option 2 is the best for us: we will include in the user guide and reference manual links to community contributed translations.
+

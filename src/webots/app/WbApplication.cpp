@@ -359,6 +359,7 @@ void WbApplication::worldReload() {
 }
 
 void WbApplication::simulationReset(bool restartControllers) {
+  WbWorld::instance()->reset(restartControllers);
   emit simulationResetRequested(restartControllers);
 }
 

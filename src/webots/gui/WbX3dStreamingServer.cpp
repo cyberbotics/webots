@@ -142,19 +142,7 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
 
 bool WbX3dStreamingServer::prepareWorld() {
   try {
-    bool regenerationRequired = mX3dWorldReferenceFile != WbWorld::instance()->fileName() || mX3dWorldGenerationTime != 0.0;
-    if (!regenerationRequired) {
-      // if a non static procedural PROTO is used we need to regenerate the world anyway
-      const QList<WbProtoModel *> &models = WbProtoList::current()->models();
-      for (int i = 0; i < models.size(); ++i) {
-        if (models.at(i)->isTemplate() && !models.at(i)->isStatic()) {
-          regenerationRequired = true;
-          break;
-        }
-      }
-    }
-    if (regenerationRequired)
-      generateX3dWorld();
+    generateX3dWorld();
     foreach (QWebSocket *client, mWebSocketClients)
       sendWorldToClient(client);
     WbAnimationRecorder::instance()->initFromStreamingServer();
@@ -203,6 +191,9 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     QString nodeString;
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
+
+    mX3dWorldTextures.insert(writer.texturesList());
+
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
       client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
@@ -228,7 +219,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
-  mX3dWorldReferenceFile = WbWorld::instance()->fileName();
   mLastUpdateTime = -1.0;
 }
 
