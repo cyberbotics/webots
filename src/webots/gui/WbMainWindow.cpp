@@ -1321,14 +1321,16 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
-  if (!WbApplication::instance()->checkWorldFile(fileName))
+  if (!WbApplication::instance()->isValidWorldFile(fileName))
     return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
   const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
-  if (!success)
+  if (!success) {
     WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPostponedPopUpMessages();
+  }
   // else will be reset in updateAfterWorldLoading()
   return success;
 }

@@ -47,8 +47,8 @@ public:
   // load a world .wbt file
   // worldName must be absolute or specified with respect to WEBOTS_HOME
   // return true on success, false otherwise
-  bool loadWorld(const QString &worldName, bool reloading);
   bool loadWorld(QString worldName, bool reloading);
+  bool isValidWorldFile(const QString &worldName);
 
   // take a sceenshot of the 3d view
   // quality must be between 0 and 100 included
