@@ -194,7 +194,7 @@ namespace {
           return true;
         else if (WbNodeUtilities::hasARobotAncestor(node))
           return true;
-        else if (node->nodeModelName() == "Transform")
+        else if (dynamic_cast<const WbGroup *>(node))
           return true;
       }
 
