@@ -405,9 +405,13 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_TIME:
+    case C_ROBOT_TIME: {
+      const double previous_time = simulation_time;
       simulation_time = request_read_double(r);
+      if (previous_time > simulation_time)
+        robot_reset_devices();
       break;
+    }
     case C_CONFIGURE:
       robot_configure(r);
       break;
@@ -470,6 +474,15 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     default:
       r->pointer--;  // unread the char from the request
       break;
+  }
+}
+
+void robot_reset_devices() {
+  int tag;
+  for (tag = 0; tag < robot.n_device; tag++) {
+    WbDevice *d = robot.device[tag];
+    if (d->reset)
+      d->reset(d);
   }
 }
 
