@@ -337,9 +337,7 @@ namespace wren {
     }
 
     void setDepthClamp(bool enable) {
-#ifdef __EMSCRIPTEN__
-// TODO find an alternative
-#else
+#ifndef __EMSCRIPTEN__
       if (cDepthClamp != enable) {
         cDepthClamp = enable;
         if (enable)

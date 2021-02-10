@@ -385,14 +385,28 @@ namespace wren {
       DEBUG("Rendering skybox");
 
       glstate::setBlend(false);
+
+// GL_DEPTH_CLAMP is not available in webgl, so it is a way to work around
+// It must be here and not in glstate::setDepthClamp because we need to access the camera
+#ifdef __EMSCRIPTEN__
+      float near = mCurrentViewport->camera()->nearDistance();
+      mCurrentViewport->camera()->setNear(0.05);
+      float far = mCurrentViewport->camera()->farDistance();
+      mCurrentViewport->camera()->setFar(1000000.0f);
+      mCurrentViewport->camera()->updateUniforms();
+#endif
       glstate::setDepthClamp(true);
       glstate::setDepthMask(false);
       glstate::setDepthTest(true);
       glstate::setDepthFunc(GL_LESS);
       glstate::setStencilTest(false);
       glstate::setColorMask(true, true, true, true);
-
       mSkybox->render();
+
+#ifdef __EMSCRIPTEN__
+      mCurrentViewport->camera()->setNear(near);
+      mCurrentViewport->camera()->setFar(far);
+#endif
     }
 
     RenderQueue *renderQueue = &mRenderQueues[WR_RENDERABLE_DRAWING_ORDER_MAIN];
