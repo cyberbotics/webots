@@ -155,7 +155,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // applying the reload or quit directly may imply a Webots crash
   connect(WbApplication::instance(), &WbApplication::worldReloadRequested, this, &WbMainWindow::reloadWorld,
           Qt::QueuedConnection);
-  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetWorld,
+  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetGui,
           Qt::QueuedConnection);
   connect(WbApplication::instance(), &WbApplication::simulationQuitRequested, this, &WbMainWindow::simulationQuit,
           Qt::QueuedConnection);
@@ -394,7 +394,7 @@ void WbMainWindow::createMainTools() {
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
-  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorld, Qt::QueuedConnection);
+  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
   mDocumentation = new WbDocumentation(this);
   addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
@@ -1393,6 +1393,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   connect(world, &WbWorld::robotAdded, this, &WbMainWindow::handleNewRobotInsertion);
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
+  connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
 
   updateGui();
 
@@ -1524,18 +1525,17 @@ void WbMainWindow::reloadWorld() {
 }
 
 void WbMainWindow::resetWorldFromGui() {
-  resetWorld(true);
-}
-
-void WbMainWindow::resetWorld(bool restartControllers) {
-  toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
-  else {
-    if (restartControllers)
-      mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset(restartControllers);
-  }
+  else
+    WbWorld::instance()->reset(true);
+  resetGui(true);
+}
+
+void WbMainWindow::resetGui(bool restartControllers) {
+  toggleAnimationAction(false);
+  if (WbWorld::instance() && restartControllers)
+    mSimulationView->cancelSupervisorMovieRecording();
   mSimulationView->view3D()->renderLater();
 }
 

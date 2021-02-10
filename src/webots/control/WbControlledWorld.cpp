@@ -355,8 +355,10 @@ void WbControlledWorld::step() {
     }
   }
 
-  mIsExecutingStep = true;
-  WbSimulationWorld::step();
+  if (mNewControllers.isEmpty()) {
+    mIsExecutingStep = true;
+    WbSimulationWorld::step();
+  }
 
   waitForRobotWindowIfNeededAndCompleteStep();
 }

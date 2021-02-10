@@ -68,6 +68,11 @@ void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
+void wb_abstract_camera_reset(WbDevice *d) {
+  AbstractCamera *c = d->pdata;
+  c->image->update_time = 0.0;
+}
+
 void wb_abstract_camera_update_timestamp(WbDevice *d) {
   AbstractCamera *c = d->pdata;
   c->image->update_time = wb_robot_get_time();

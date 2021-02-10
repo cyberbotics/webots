@@ -70,6 +70,7 @@ extern void wb_speaker_init(WbDevice *);
 
 void wb_device_init(WbDevice *d) {
   d->toggle_remote = NULL;
+  d->reset = NULL;
 
   switch (d->node) {
     case WB_NODE_ACCELEROMETER:
