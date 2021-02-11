@@ -279,6 +279,26 @@ void WbControlledWorld::reset(bool restartControllers) {
   }
 }
 
+void WbControlledWorld::checkIfReadRequestCompleted() {
+  assert(!mControllers.isEmpty());
+  if (!needToWait()) {
+    WbSimulationState *state = WbSimulationState::instance();
+    emit state->controllerReadRequestsCompleted();
+    if (state->isPaused() || state->isStep()) {
+      // in order to avoid mixing immediate messages sent by Webots and the libController
+      // some Webots immediate messages could have been postponed
+      // if the simulation is running these messages will be sent within the step message
+      // otherwise we want to send them as soon as the libController request is over
+      writePendingImmediateAnswer();
+      // print controller logs to Webots console(s)
+      // wait until read request completed to guarantee the printout determinism
+      // logs are ordered by controller and not by receiving time
+      foreach (WbController *const controller, mControllers)
+        controller->flushBuffers();
+    }
+  }
+}
+
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
     startControllers();

@@ -40,6 +40,7 @@ public:
   bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
+  void checkIfReadRequestCompleted();
 
   void reset(bool restartControllers) override;
 
