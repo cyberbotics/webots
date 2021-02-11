@@ -73,8 +73,8 @@ protected:
     const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to z-axis
   virtual void updatePosition(double position) = 0;  // position change caused by the jerk of a statically based robot
 
-  WbMFNode *mDevice;        // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
-  double mPosition;         // Keeps track of the joint position if JointParameters doesn't exist.
+  WbMFNode *mDevice;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
+  double mPosition;   // Keeps track of the joint position if JointParameters doesn't exist.
   QMap<QString, double> mInitialPositions;  // position loaded from a .wbt file
   double mTimeStep;  // keep track of the argument of the last call of 'prePhysicsStep' (wich is then used in 'postPhysicsStep'
                      // to update the mPosition
