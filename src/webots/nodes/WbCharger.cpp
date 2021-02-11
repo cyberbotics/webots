@@ -256,18 +256,18 @@ void WbCharger::checkContact(WbRobot *const r) {
   // printf("found one robot %p\n", (void *)robot);
 }
 
-void WbCharger::reset() {
-  WbSolid::reset();
+void WbCharger::reset(const QString &id) {
+  WbSolid::reset(id);
   mRobot = NULL;
   mDone = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mBattery->setItem(CURRENT_ENERGY, mInitialEnergy);
+    mBattery->setItem(CURRENT_ENERGY, mInitialEnergy[id]);
   if (mBattery->size() > MAX_ENERGY)
     updateMaterialsAndLights(mBattery->item(CURRENT_ENERGY) / mBattery->item(MAX_ENERGY));
 }
 
-void WbCharger::save() {
-  WbSolid::save();
+void WbCharger::save(const QString &id) {
+  WbSolid::save(id);
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mInitialEnergy[id] = mBattery->item(CURRENT_ENERGY);
 }

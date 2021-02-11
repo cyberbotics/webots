@@ -61,8 +61,8 @@ public:
   void propagateSelection(bool selected) override;
   void saveHiddenFieldValues() const;
   void setMatrixNeedUpdate() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // processing before / after ODE world step
   virtual void prePhysicsStep(double ms);
@@ -462,6 +462,8 @@ private:
 
   // Positions and orientations storage
   WbRotation mPreviousRotation;  // used only by WbDifferentialWheels
+  QMap<QString, WbVector3> mInitialTranslations;
+  QMap<QString, WbRotation> mInitialRotations;
   WbVector3 mTranslationLoadedFromFile;
   WbRotation mRotationLoadedFromFile;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;

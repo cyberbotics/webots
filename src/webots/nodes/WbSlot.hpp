@@ -45,8 +45,8 @@ public:
   void setScaleNeedUpdate() override;
   void attachResizeManipulator() override;
   void detachResizeManipulator() const override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // field accessors
   bool hasEndpoint() const { return mEndPoint->value() != NULL; }

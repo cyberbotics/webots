@@ -45,8 +45,8 @@ public:
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   bool shallExport() const override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // field accessors
   int childCount() const { return mChildren->size(); }

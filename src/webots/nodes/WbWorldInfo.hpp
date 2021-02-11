@@ -42,7 +42,7 @@ public:
   void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   const WbMFString &info() const { return *mInfo; }

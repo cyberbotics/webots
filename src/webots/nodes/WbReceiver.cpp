@@ -354,8 +354,8 @@ bool WbReceiver::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbReceiver::reset() {
-  WbSolidDevice::reset();
+void WbReceiver::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   qDeleteAll(mTransmissionList);
   mTransmissionList.clear();
   qDeleteAll(mReadyQueue);

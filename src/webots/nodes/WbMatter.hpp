@@ -36,8 +36,8 @@ public:
   // reimplemented public functions
   void createWrenObjects() override;
   void postFinalize() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   int constraintType() const override;
   void setScaleNeedUpdate() override;

@@ -65,8 +65,8 @@ void WbLed::postFinalize() {
     light->toggleOn(on);
 }
 
-void WbLed::reset() {
-  WbSolidDevice::reset();
+void WbLed::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   mValue = 0;
   foreach (WbLight *light, mLights)
     light->toggleOn(false);

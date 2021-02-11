@@ -35,9 +35,9 @@ public:
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void resetPhysics() override;
-  void save() override;
+  void save(const QString &id) override;
   QVector<WbLogicalDevice *> devices() const override;
   bool resetJointPositions() override;
   void setPosition(double position, int index = 1) override;
@@ -65,7 +65,7 @@ protected:
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
   bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
   bool mSpringAndDampingConstantsAxis2On;
-  double mInitialPosition2;
+  QMap<QString, double> mInitialPositions2;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
   void updateEndPointZeroTranslationAndRotation() override;

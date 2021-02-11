@@ -47,7 +47,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);

@@ -138,12 +138,12 @@ void WbLidar::postFinalize() {
   connect(mRotatingHead, &WbSFNode::changed, this, &WbLidar::updateRotatingHead);
 }
 
-void WbLidar::reset() {
-  WbAbstractCamera::reset();
+void WbLidar::reset(const QString &id) {
+  WbAbstractCamera::reset(id);
 
   WbNode *const r = mRotatingHead->value();
   if (r)
-    r->reset();
+    r->reset(id);
 
   if (mWrenCamera)
     mWrenCamera->rotateYaw(-mCurrentRotatingAngle);

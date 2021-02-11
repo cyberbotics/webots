@@ -41,7 +41,7 @@ public:
   void writeAnswer(QDataStream &) override;
   void writeConfigure(QDataStream &) override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
 private:
   // user accessible fields

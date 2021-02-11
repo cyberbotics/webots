@@ -40,7 +40,7 @@ public:
   void createWrenObjects() override;
   void setWrenMaterial(WrMaterial *material, bool castShadows) override;
   void rescale(const WbVector3 &scale) override {}
-  void reset() override;
+  void reset(const QString &id) override;
 
   // ray tracing
   void recomputeBoundingSphere() const override;

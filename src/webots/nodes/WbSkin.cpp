@@ -395,13 +395,13 @@ void WbSkin::createWrenObjects() {
     updateAppearance();
 }
 
-void WbSkin::reset() {
-  WbBaseNode::reset();
+void WbSkin::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   for (int i = 0; i < mAppearanceField->size(); ++i)
-    mAppearanceField->item(i)->reset();
+    mAppearanceField->item(i)->reset(id);
   for (int i = 0; i < mBonesField->size(); ++i)
-    mBonesField->item(i)->reset();
+    mBonesField->item(i)->reset(id);
 }
 
 void WbSkin::createWrenSkeleton() {

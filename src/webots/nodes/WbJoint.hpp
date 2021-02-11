@@ -36,9 +36,9 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
-  void reset() override;
+  void reset(const QString &id) override;
   virtual void resetPhysics();
-  void save() override;
+  void save(const QString &id) override;
   virtual QVector<WbLogicalDevice *> devices() const;
 
   WbJointParameters *parameters() const;
@@ -75,7 +75,7 @@ protected:
 
   WbMFNode *mDevice;        // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mPosition;         // Keeps track of the joint position if JointParameters doesn't exist.
-  double mInitialPosition;  // position loaded from a .wbt file
+  QMap<QString, double> mInitialPositions;  // position loaded from a .wbt file
   double mTimeStep;  // keep track of the argument of the last call of 'prePhysicsStep' (wich is then used in 'postPhysicsStep'
                      // to update the mPosition
 

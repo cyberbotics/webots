@@ -2207,14 +2207,20 @@ void WbSolid::setMatrixNeedUpdate() {
   WbTransform::setMatrixNeedUpdate();
 }
 
-void WbSolid::reset() {
-  WbMatter::reset();
+void WbSolid::reset(const QString &id) {
+  WbMatter::reset(id);
+
+  mTranslationLoadedFromFile = mInitialTranslations[id];
+  mRotationLoadedFromFile = mInitialRotations[id];
+  mPreviousRotation = mRotationLoadedFromFile;
+  mPhysicsResetTranslation = mTranslationLoadedFromFile;
+  mPhysicsResetRotation = mRotationLoadedFromFile;
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->reset();
+    mImmersionProperties->item(i)->reset(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
   if (mJointParents.size() == 0) {
     setTranslation(mTranslationLoadedFromFile);
@@ -2251,22 +2257,21 @@ void WbSolid::reset() {
   mListOfImmersions.clear();
 }
 
-void WbSolid::save() {
-  WbMatter::save();
+void WbSolid::save(const QString &id) {
+  WbMatter::save(id);
   if (isTopSolid())
     saveHiddenFieldValues();
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->save();
+    mImmersionProperties->item(i)->save(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mTranslationLoadedFromFile = translation();
-  mRotationLoadedFromFile = rotation();
-  mPreviousRotation = mRotationLoadedFromFile;
-  mPhysicsResetTranslation = mTranslationLoadedFromFile;
-  mPhysicsResetRotation = mRotationLoadedFromFile;
+  mInitialTranslations[id] = translation();
+  mInitialRotations[id] = rotation();
+
+  reset(id);
 }
 
 // Recursive reset methods

@@ -460,17 +460,17 @@ void WbHinge2Joint::postPhysicsStep() {
     emit updateMuscleStretch(rm2->computeFeedback() / rm2->maxForceOrTorque(), false, 2);
 }
 
-void WbHinge2Joint::reset() {
-  WbJoint::reset();
+void WbHinge2Joint::reset(const QString &id) {
+  WbJoint::reset(id);
 
   for (int i = 0; i < mDevice2->size(); ++i)
     mDevice2->item(i)->reset();
 
   WbNode *const p = mParameters2->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
-  setPosition(mInitialPosition2, 2);
+  setPosition(mInitialPosition2[id], 2);
 }
 
 void WbHinge2Joint::resetPhysics() {
@@ -481,17 +481,17 @@ void WbHinge2Joint::resetPhysics() {
     m->resetPhysics();
 }
 
-void WbHinge2Joint::save() {
-  WbJoint::save();
+void WbHinge2Joint::save(const QString &id) {
+  WbJoint::save(id);
 
   for (int i = 0; i < mDevice2->size(); ++i)
-    mDevice2->item(i)->save();
+    mDevice2->item(i)->save(id);
 
   WbNode *const p = mParameters2->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mInitialPosition2 = mPosition2;
+  mInitialPosition2[id] = mPosition2;
 }
 
 void WbHinge2Joint::updateEndPointZeroTranslationAndRotation() {

@@ -271,8 +271,8 @@ public:
   virtual void exportBoundingObjectToX3D(WbVrmlWriter &writer) const {}
   virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
 
-  virtual void reset();
-  virtual void save() {}
+  virtual void reset(const QString &id);
+  virtual void save(const QString &id) {}
 
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);

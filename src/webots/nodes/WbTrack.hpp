@@ -52,8 +52,8 @@ public:
   void prePhysicsStep(double ms) override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
   void setMatrixNeedUpdate() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   double contactSurfaceVelocity() const { return mSurfaceVelocity; }
   double position() const { return mMotorPosition; }
@@ -92,7 +92,7 @@ private:
   // texture animation
   WbShape *mShape;
   WbTextureTransform *mTextureTransform;
-  WbVector2 mInitialTextureTransformTranslation;
+  QMap<QString, WbVector2> mInitialTextureTransformTranslations;
 
   // geometries animation
   struct PathSegment {

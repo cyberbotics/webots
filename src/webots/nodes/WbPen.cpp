@@ -167,8 +167,8 @@ void WbPen::createWrenObjects() {
   connect(mWrite, &WbSFBool::changed, this, &WbPen::applyOptionalRenderingToWren);
 }
 
-void WbPen::reset() {
-  WbSolid::reset();
+void WbPen::reset(const QString &id) {
+  WbSolid::reset(id);
   WbPaintTexture::clearAllTextures();
 }
 

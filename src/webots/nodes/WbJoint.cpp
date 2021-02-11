@@ -94,13 +94,13 @@ void WbJoint::postFinalize() {
     connect(brake(), &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
-void WbJoint::reset() {
-  WbBasicJoint::reset();
+void WbJoint::reset(const QString &id) {
+  WbBasicJoint::reset(id);
 
   for (int i = 0; i < mDevice->size(); ++i)
-    mDevice->item(i)->reset();
+    mDevice->item(i)->reset(id);
 
-  setPosition(mInitialPosition);
+  setPosition(mInitialPosition[id]);
 }
 
 void WbJoint::resetPhysics() {
@@ -111,13 +111,13 @@ void WbJoint::resetPhysics() {
     m->resetPhysics();
 }
 
-void WbJoint::save() {
-  WbBasicJoint::save();
+void WbJoint::save(const QString &id) {
+  WbBasicJoint::save(id);
 
   for (int i = 0; i < mDevice->size(); ++i)
-    mDevice->item(i)->save();
+    mDevice->item(i)->save(id);
 
-  mInitialPosition = mPosition;
+  mInitialPosition[id] = mPosition;
 }
 
 void WbJoint::setPosition(double position, int index) {

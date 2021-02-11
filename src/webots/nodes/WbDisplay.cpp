@@ -1197,7 +1197,7 @@ void WbDisplay::postPhysicsStep() {
   mUpdateRequired = false;
 }
 
-void WbDisplay::reset() {
+void WbDisplay::reset(const QString &id) {
   WbRenderingDevice::reset();
 
   delete[] mImage;

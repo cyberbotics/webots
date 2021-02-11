@@ -50,7 +50,7 @@ public:
   virtual void validateProtoNode() {}
   bool isPreFinalizedCalled() const { return mPreFinalizeCalled; }
   bool isPostFinalizedCalled() const { return mPostFinalizeCalled; }
-  void reset() override;
+  void reset(const QString &id) override;
 
   // for libController
   virtual int nodeType() const = 0;

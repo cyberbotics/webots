@@ -217,15 +217,15 @@ void WbViewpoint::deleteWrenObjects() {
   clearCoordinateSystem();
 }
 
-void WbViewpoint::reset() {
-  WbBaseNode::reset();
+void WbViewpoint::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const l = mLensFlare->value();
   if (l)
-    l->reset();
+    l->reset(id);
 
-  mOrientation->setValue(mInitialOrientation);
-  mPosition->setValue(mInitialPosition);
+  mOrientation->setValue(mInitialOrientation[id]);
+  mPosition->setValue(mInitialPosition[id]);
   resetAnimations();
   // we can't call 'updateFollowSolidState' here because the followed solid will probably moved
   mNeedToUpdateFollowSolidState = true;
@@ -438,15 +438,15 @@ void WbViewpoint::enableNodeVisibility(bool enabled) {
   mNodeVisibilityEnabled = enabled;
 }
 
-void WbViewpoint::save() {
-  WbBaseNode::save();
-  mInitialNear = mNear->value();
-  mInitialFar = mFar->value();
-  mInitialFieldOfView = mFieldOfView->value();
-  mInitialPosition = mPosition->value();
-  mInitialOrientation = mOrientation->value();
-  mInitialDescription = mDescription->value();
-  mInitialFollow = mFollow->value();
+void WbViewpoint::save(const QString &id) {
+  WbBaseNode::save(id);
+  mInitialNear[id] = mNear->value();
+  mInitialFar[id] = mFar->value();
+  mInitialFieldOfView[id] = mFieldOfView->value();
+  mInitialPosition[id] = mPosition->value();
+  mInitialOrientation[id] = mOrientation->value();
+  mInitialDescription[id] = mDescription->value();
+  mInitialFollow[id] = mFollow->value();
   recomputeFollowField();
 }
 

@@ -386,8 +386,8 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   }
 }
 
-void WbPropeller::reset() {
-  WbBaseNode::reset();
+void WbPropeller::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const device = mDevice->value();
   if (device)

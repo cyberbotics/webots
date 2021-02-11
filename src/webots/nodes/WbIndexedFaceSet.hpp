@@ -38,7 +38,7 @@ public:
   void postFinalize() override;
   void createResizeManipulator() override;
   void attachResizeManipulator() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   WbCoordinate *coord() const;

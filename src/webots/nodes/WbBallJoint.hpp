@@ -37,9 +37,9 @@ public:
   int nodeType() const override { return WB_NODE_BALL_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void resetPhysics() override;
-  void save() override;
+  void save(const QString &id) override;
   QVector<WbLogicalDevice *> devices() const override;
   dJointID jointID() const override { return mControlMotor; }
   bool resetJointPositions() override;
@@ -88,7 +88,7 @@ private:
   WbRotationalMotor *rotationalMotor3() const;
   void updateParameters3();
   WbSFNode *mParameters3;
-  double mInitialPosition3;
+  QMap<QString, double> mInitialPositions3;
   dJointID mControlMotor;  // ODE angular motor used to control the ball joint
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;

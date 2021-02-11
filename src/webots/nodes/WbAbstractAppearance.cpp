@@ -55,10 +55,10 @@ void WbAbstractAppearance::postFinalize() {
   connect(mTextureTransform, &WbSFNode::changed, this, &WbAbstractAppearance::updateTextureTransform);
 }
 
-void WbAbstractAppearance::reset() {
-  WbBaseNode::reset();
+void WbAbstractAppearance::reset(const QString &id) {
+  WbBaseNode::reset(id);
   if (textureTransform())
-    textureTransform()->reset();
+    textureTransform()->reset(id);
 }
 
 void WbAbstractAppearance::createWrenObjects() {

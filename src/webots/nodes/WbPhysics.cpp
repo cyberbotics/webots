@@ -97,8 +97,8 @@ void WbPhysics::postFinalize() {
   connect(mDamping, &WbSFNode::changed, this, &WbPhysics::updateDamping);
 }
 
-void WbPhysics::reset() {
-  WbBaseNode::reset();
+void WbPhysics::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const d = mDamping->value();
   if (d)

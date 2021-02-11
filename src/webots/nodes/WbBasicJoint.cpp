@@ -184,24 +184,24 @@ void WbBasicJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
   applyToOdeSpringAndDampingConstants(body, parentBody);
 }
 
-void WbBasicJoint::reset() {
-  WbBaseNode::reset();
+void WbBasicJoint::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->reset();
+    p->reset(id);
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbBasicJoint::save() {
-  WbBaseNode::save();
+void WbBasicJoint::save(const QString &id) {
+  WbBaseNode::save(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->save();
+    p->save(id);
   if (e)
-    e->save();
+    e->save(id);
 }
 
 // Update methods: they check validity and correct if necessary

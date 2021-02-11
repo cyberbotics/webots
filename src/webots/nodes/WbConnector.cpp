@@ -729,17 +729,17 @@ bool WbConnector::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbConnector::reset() {
-  WbSolidDevice::reset();
-  mIsLocked->setValue(mIsInitiallyLocked);
+void WbConnector::reset(const QString &id) {
+  WbSolidDevice::reset(id);
+  mIsLocked->setValue(mIsInitiallyLocked[id]);
   if (mPeer)
     detachFromPeer();
   mStartup = true;
 }
 
-void WbConnector::save() {
-  WbSolidDevice::save();
-  mIsInitiallyLocked = mIsLocked->value();
+void WbConnector::save(const QString &id) {
+  WbSolidDevice::save(id);
+  mIsInitiallyLocked[id] = mIsLocked->value();
 }
 
 void WbConnector::writeAnswer(QDataStream &stream) {

@@ -49,7 +49,7 @@ public:
   void createWrenObjects() override;
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
-  void reset() override;
+  void reset(const QString &id) override;
 
   void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }

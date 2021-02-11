@@ -167,35 +167,35 @@ void WbTrack::addDevice(int index) {
   r->descendantNodeInserted(decendant);
 }
 
-void WbTrack::reset() {
-  WbSolid::reset();
+void WbTrack::reset(const QString &id) {
+  WbSolid::reset(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->reset();
+    g->reset(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->reset();
+    mDeviceField->item(i)->reset(id);
 
   mMotorPosition = 0.0;
   mSurfaceVelocity = 0.0;
   if (mTextureTransform)
-    mTextureTransform->setTransaltion(mInitialTextureTransformTranslation);
+    mTextureTransform->setTransaltion(mInitialTextureTransformTranslations[id]);
 }
 
-void WbTrack::save() {
-  WbSolid::save();
+void WbTrack::save(const QString &id) {
+  WbSolid::save(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->save();
+    g->save(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->save();
+    mDeviceField->item(i)->save(id);
 
-  mInitialTextureTransformTranslation = WbVector2();
+  mInitialTextureTransformTranslation[id] = WbVector2();
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform)
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mInitialTextureTransformTranslation[id] = mTextureTransform->translation();
   }
 }
 

@@ -54,8 +54,8 @@ public:
   int nodeType() const override { return WB_NODE_ROBOT; }
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // controller
   bool isControllerStarted() const { return mControllerStarted; }
@@ -218,7 +218,7 @@ private:
   WbSensor *mKeyboardSensor;
   WbSensor *mJoystickSensor;
   double mBatteryLastValue;
-  double mBatteryInitialValue;
+  QMap<QString, double> mBatteryInitialValues;
   QList<int> mKeyboardLastValue;
   struct JoyStickLastValue {
     int numberOfPressedButtons;

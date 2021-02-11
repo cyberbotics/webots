@@ -38,7 +38,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override { return true; }
 
   void setEmissiveColor(const WbRgb &color);

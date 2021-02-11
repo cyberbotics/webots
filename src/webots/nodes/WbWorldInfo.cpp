@@ -173,14 +173,14 @@ void WbWorldInfo::postFinalize() {
   WbWorld::instance()->setWorldInfo(this);
 }
 
-void WbWorldInfo::reset() {
-  WbBaseNode::reset();
+void WbWorldInfo::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   for (int i = 0; i < mContactProperties->size(); ++i)
     mContactProperties->item(i)->reset();
   WbNode *const d = mDefaultDamping->value();
   if (d)
-    d->reset();
+    d->reset(id);
 }
 
 double WbWorldInfo::lineScale() const {

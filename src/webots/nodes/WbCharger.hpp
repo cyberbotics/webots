@@ -42,8 +42,8 @@ public:
   void postFinalize() override;
   void prePhysicsStep(double) override;
   void checkContact(WbRobot *const r);
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
   enum { CURRENT_ENERGY = 0, MAX_ENERGY = 1, ENERGY_UPLOAD_SPEED = 2 };
 
 private:
@@ -59,7 +59,7 @@ private:
   bool mDone;
   bool mElementsUpdateRequired;
   QList<VisualElement *> mVisualElements;
-  double mInitialEnergy;
+  QMap<QString, double> mInitialEnergies;
 
   WbCharger &operator=(const WbCharger &);  // non copyable
   WbNode *clone() const override { return new WbCharger(*this); }

@@ -32,7 +32,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   const QString &name() const { return mName->value(); }
 

@@ -41,7 +41,7 @@ public:
   void writeConfigure(QDataStream &) override;
   void writeAnswer(QDataStream &) override;
   void prePhysicsStep(double ms) override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   int channel() const { return mChannel->value(); }
