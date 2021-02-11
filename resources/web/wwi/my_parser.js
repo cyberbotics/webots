@@ -75,16 +75,15 @@ class MyParser {
       console.error("File to parse not found");
     } else {
       let scene = xml.getElementsByTagName('Scene')[0];
-      console.log(scene);
       if (typeof scene === 'undefined') {
         let node = xml.getElementsByTagName('nodes')[0];
         console.log(node);
         if (typeof node === 'undefined')
           console.error("Unknown content, nor Scene, nor Node");
-        else {
+        else
           await this.parseChildren(node, parent);
-        }
-      } else {
+      } else{
+        console.log(scene);
         await this.parseNode(scene);
       }
     }
@@ -156,14 +155,14 @@ class MyParser {
           currentNode.geometry = result;
         }
       } else if (node.tagName === 'PBRAppearance') {
-        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+        /*if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
           if(typeof currentNode.appearance !== 'undefined')
             currentNode.appearance.delete();
 
           result = await this.parsePBRAppearance(node, id);
           currentNode.appearance = result;
           console.log(result);
-        }
+        }*/
       } else if (node.tagName === 'Appearance') {
         result = await this.parseAppearance(node, id);
         if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){

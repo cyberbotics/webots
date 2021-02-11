@@ -146,7 +146,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let parentNode;
     if(typeof parentId !== 'undefined' && parentId > 0){
         parentNode = World.instance.nodes.get('n' + parentId);
-        console.log(parentId);
         let ancestor = getAncestor(parentNode);
         ancestor.isPreFinalizeCalled = false;
         ancestor.wrenObjectsCreatedCalled = false;
