@@ -1284,6 +1284,8 @@ The last three are respectively the angular velocities around the x, y and z axe
 
 ---
 
+#### `wb_supervisor_node_save_state`
+#### `wb_supervisor_node_reset_state`
 #### `wb_supervisor_node_reset_physics`
 
 %tab-component "language"
@@ -1293,6 +1295,8 @@ The last three are respectively the angular velocities around the x, y and z axe
 ```c
 #include <webots/supervisor.h>
 
+void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
+void wb_supervisor_node_reset_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_reset_physics(WbNodeRef node);
 ```
 
@@ -1305,6 +1309,8 @@ void wb_supervisor_node_reset_physics(WbNodeRef node);
 
 namespace webots {
   class Node {
+    void saveState(const std::string &stateName);
+    void resetState(const std::string &stateName);
     void resetPhysics();
     // ...
   }
@@ -1319,6 +1325,8 @@ namespace webots {
 from controller import Node
 
 class Node:
+    def saveState(self, stateName):
+    def resetState(self, stateName):
     def resetPhysics(self):
     # ...
 ```
@@ -1331,6 +1339,8 @@ class Node:
 import com.cyberbotics.webots.controller.Node;
 
 public class Node {
+  public void saveState(String stateName);
+  public void resetState(String stateName);
   public void resetPhysics();
   // ...
 }
@@ -1341,6 +1351,8 @@ public class Node {
 %tab "MATLAB"
 
 ```MATLAB
+wb_supervisor_node_save_state(node, state_name)
+wb_supervisor_node_reset_state(node, state_name)
 wb_supervisor_node_reset_physics(node)
 ```
 
@@ -1349,6 +1361,8 @@ wb_supervisor_node_reset_physics(node)
 %tab "ROS"
 
 | name | service/topic | data type | data type definition |
+| `/supervisor/node/save_state` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
+| `/supervisor/node/reset_state` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
 | --- | --- | --- | --- |
 | `/supervisor/node/reset_physics` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
 
@@ -1358,7 +1372,16 @@ wb_supervisor_node_reset_physics(node)
 
 ##### Description
 
-*stops the inertia of the given solid*
+*resets state of the given solid*
+
+The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
+The state is saved internally under a key equal to the `state_name` parameter.
+Therefore, the state can be reverted using the `wb_supervisor_node_reset_state` function afterward.
+
+The `wb_supervisor_node_reset_state` function loads the state of the given node and all its descendant nodes.
+The function parameter `state_name` has to be a valid value, or the controller will fail.
+The valid `state_name` value means that the state is saved with the `wb_supervisor_node_reset_state` function, or a special value `__init__`.
+If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the timer).
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
