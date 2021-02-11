@@ -116,7 +116,7 @@ DEF CAN Can {
   rotation 0.9790667285445644 0.20350494357634522 0.003752198959667637 1.61401
   color 0.666667 1 0.85
 }
-Solid {
+DEF RESET_TARGET Solid {
   translation 0 0.2 0
   children [
     DEF SPHERE_SHAPE Shape {
