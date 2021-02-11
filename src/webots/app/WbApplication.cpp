@@ -238,7 +238,7 @@ bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   return false;
 }
 
-bool WbApplication::isValidWorldFile(const QString &worldName) {
+bool WbApplication::isValidWorldFileName(const QString &worldName) {
   QFileInfo worldNameInfo(worldName);
   if (!worldNameInfo.exists() || !worldNameInfo.isFile() || !worldNameInfo.isReadable()) {
     WbLog::error(tr("Could not open file: '%1'.").arg(worldName));

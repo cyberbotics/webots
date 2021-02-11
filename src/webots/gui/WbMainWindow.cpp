@@ -1286,6 +1286,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // Refreshing
   mSimulationView->repaintView3D();
 
+  WbLog::setConsoleLogsPostponed(false);
   WbLog::instance()->showPendingConsoleMessages();
 }
 
@@ -1321,7 +1322,7 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
-  if (!WbApplication::instance()->isValidWorldFile(fileName))
+  if (!WbApplication::instance()->isValidWorldFileName(fileName))
     return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
@@ -1329,9 +1330,9 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
   if (!success) {
     WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPostponedPopUpMessages();
+    WbLog::showPendingConsoleMessages();
   }
-  // else will be reset in updateAfterWorldLoading()
+  // else console messages will be forwarded after world load in restorePerspective()
   return success;
 }
 
@@ -1412,7 +1413,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbActionManager::instance()->setFocusObject(mSimulationView->view3D());
 
   WbLog::setPopUpPostponed(false);
-  WbLog::setConsoleLogsPostponed(false);
   WbLog::showPostponedPopUpMessages();
   connect(WbProject::current(), &WbProject::pathChanged, this, &WbMainWindow::updateProjectPath);
 }
