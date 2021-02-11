@@ -498,6 +498,22 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     case C_SUPERVISOR_SIMULATION_RESET:
       WbWorld::instance()->setResetRequested(false);
       return;
+    case C_SUPERVISOR_NODE_RESET_STATE: {
+      unsigned int nodeId;
+      stream >> nodeId;
+      const QString &stateName = readString(stream);
+      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
+      node->reset(stateName);
+      return;
+    }
+    case C_SUPERVISOR_NODE_SAVE_STATE: {
+      unsigned int nodeId;
+      stream >> nodeId;
+      const QString &stateName = readString(stream);
+      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
+      node->save(stateName);
+      return;
+    }
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
       return;

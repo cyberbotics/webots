@@ -409,6 +409,10 @@ static bool virtual_reality_headset_position_request = false;
 static double *virtual_reality_headset_position = NULL;
 static bool virtual_reality_headset_orientation_request = false;
 static double *virtual_reality_headset_orientation = NULL;
+static WbNodeRef save_node_state_node_ref = NULL;
+static const char *save_node_state_name = NULL;
+static WbNodeRef reset_node_state_node_ref = NULL;
+static const char *reset_node_state_name = NULL;
 
 static void supervisor_cleanup(WbDevice *d) {
   clean_field_request_garbage_collector();
@@ -772,6 +776,16 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_VIRTUAL_REALITY_HEADSET_GET_POSITION);
   if (virtual_reality_headset_orientation_request)
     request_write_uchar(r, C_SUPERVISOR_VIRTUAL_REALITY_HEADSET_GET_ORIENTATION);
+  if (save_node_state_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_SAVE_STATE);
+    request_write_uint32(r, save_node_state_node_ref->id);
+    request_write_string(r, save_node_state_name);
+  }
+  if (reset_node_state_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_RESET_STATE);
+    request_write_uint32(r, reset_node_state_node_ref->id);
+    request_write_string(r, reset_node_state_name);
+  }
 }
 
 static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
@@ -1233,6 +1247,44 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
   l->size = size;
   l->color = color_and_transparency;
   wb_robot_flush_unlocked();
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  save_node_state_node_ref = node;
+  save_node_state_name = state_name;
+  wb_robot_flush_unlocked();
+  save_node_state_node_ref = NULL;
+  save_node_state_name = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_reset_state(WbNodeRef node, const char *state_name) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  reset_node_state_node_ref = node;
+  reset_node_state_name = state_name;
+  wb_robot_flush_unlocked();
+  reset_node_state_node_ref = NULL;
+  reset_node_state_name = NULL;
   robot_mutex_unlock_step();
 }
 

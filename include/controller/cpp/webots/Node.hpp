@@ -149,6 +149,9 @@ namespace webots {
     void addForceWithOffset(const double force[3], const double offset[3], bool relative);
     void addTorque(const double torque[3], bool relative);
 
+    void saveState(const std::string &stateName);
+    void resetState(const std::string &stateName);
+
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);
     static void cleanup();

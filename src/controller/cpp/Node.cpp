@@ -160,3 +160,11 @@ void Node::addForceWithOffset(const double force[3], const double offset[3], boo
 void Node::addTorque(const double torque[3], bool relative) {
   wb_supervisor_node_add_torque(nodeRef, torque, relative);
 }
+
+void Node::saveState(const std::string &stateName) {
+  wb_supervisor_node_save_state(nodeRef, stateName.c_str());
+}
+
+void Node::resetState(const std::string &stateName) {
+  wb_supervisor_node_reset_state(nodeRef, stateName.c_str());
+}
