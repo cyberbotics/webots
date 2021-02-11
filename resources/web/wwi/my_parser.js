@@ -155,20 +155,18 @@ class MyParser {
           currentNode.geometry = result;
         }
       } else if (node.tagName === 'PBRAppearance') {
-        /*if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
+          if(typeof currentNode.appearance !== 'undefined')
+            currentNode.appearance.delete();
+          result = await this.parsePBRAppearance(node, id);
+          currentNode.appearance = result;
+        }
+      } else if (node.tagName === 'Appearance') {
+        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
           if(typeof currentNode.appearance !== 'undefined')
             currentNode.appearance.delete();
 
-          result = await this.parsePBRAppearance(node, id);
-          currentNode.appearance = result;
-          console.log(result);
-        }*/
-      } else if (node.tagName === 'Appearance') {
-        result = await this.parseAppearance(node, id);
-        if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
-          if(typeof currentNode.appearance !== 'undefined'){
-            currentNode.appearance.delete();
-          }
+          result = await this.parseAppearance(node, id);
           currentNode.appearance = result;
         }
       } else if (node.tagName === 'Material') {

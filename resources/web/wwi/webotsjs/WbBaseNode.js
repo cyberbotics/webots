@@ -86,8 +86,6 @@ class WbBaseNode {
 
     if (!this.isPostFinalizeCalled)
       this.postFinalize();
-
-    //emit finalizationCompleted(this);
   }
 
   preFinalize() {

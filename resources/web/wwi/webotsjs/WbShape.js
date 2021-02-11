@@ -62,16 +62,18 @@ class WbShape extends WbBaseNode {
     super.createWrenObjects();
     if (typeof this.appearance !== 'undefined')
       this.appearance.createWrenObjects();
+
     if (typeof this.geometry !== 'undefined'){
       this.geometry.createWrenObjects();
-      //not sure of the place
-      this.applyMaterialToGeometry()
+
+      this.applyMaterialToGeometry();
     }
   }
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this.createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
+
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance || (this.appearance instanceof Use && this.appearance.def instanceof WbAppearance)) {
         if (this.appearance.wrenObjectsCreatedCalled)
@@ -93,8 +95,9 @@ class WbShape extends WbBaseNode {
 
   createWrenMaterial(type) {
     let defaultColor = _wrjs_color_array(1.0, 1.0, 1.0);
-    if (this.wrenMaterial)
+    if (typeof this.wrenMaterial !== 'undefined'){
       _wr_material_delete(this.wrenMaterial);
+    }
 
     if (type === ENUM.WR_MATERIAL_PHONG) {
       this.wrenMaterial = _wr_phong_material_new();
