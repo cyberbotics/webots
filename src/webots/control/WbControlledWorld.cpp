@@ -290,19 +290,19 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
       // if the simulation is running these messages will be sent within the step message
       // otherwise we want to send them as soon as the libController request is over
       writePendingImmediateAnswer();
-      // print controller logs to Webots console(s)
-      // wait until read request completed to guarantee the printout determinism
-      // logs are ordered by controller and not by receiving time
-      foreach (WbController *const controller, mControllers)
-        controller->flushBuffers();
     }
+
+    // print controller logs to Webots console(s)
+    // wait until read request completed to guarantee the printout determinism
+    // logs are ordered by controller and not by receiving time
+    foreach (WbController *const controller, mControllers)
+      controller->flushBuffers();
   }
 }
 
 void WbControlledWorld::step() {
-  if (mFirstStep && !mRetryEnabled) {
+  if (mFirstStep && !mRetryEnabled)
     startControllers();
-  }
 
   WbSimulationState *const simulationState = WbSimulationState::instance();
 
@@ -503,7 +503,6 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
   WbSimulationState *const simulationState = WbSimulationState::instance();
   for (int i = 0; i < controllersCount; ++i) {
     WbController *controller = mControllers[i];
-    controller->flushBuffers();
     if (!controller->isRequestPending())
       continue;
     double rt = controller->requestTime() + controller->deltaTimeRequested();
