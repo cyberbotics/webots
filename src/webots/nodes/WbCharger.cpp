@@ -268,6 +268,6 @@ void WbCharger::reset(const QString &id) {
 
 void WbCharger::save(const QString &id) {
   WbSolid::save(id);
-if (mBattery->size() > CURRENT_ENERGY)
+  if (mBattery->size() > CURRENT_ENERGY)
     mInitialEnergies[id] = mBattery->item(CURRENT_ENERGY);
 }
