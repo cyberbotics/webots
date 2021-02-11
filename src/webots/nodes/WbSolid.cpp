@@ -2267,8 +2267,6 @@ void WbSolid::save(const QString &id) {
   mPreviousRotation = mRotationLoadedFromFile[id];
   mPhysicsResetTranslation = mTranslationLoadedFromFile[id];
   mPhysicsResetRotation = mRotationLoadedFromFile[id];
-
-  reset(id);
 }
 
 // Recursive reset methods
@@ -2880,10 +2878,12 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
       //   cf. https://github.com/omichel/webots-dev/issues/6512
-      if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile[stateId()], 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile[stateId()],
+                                              100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;
-      if (!rotationToBeCopied.almostEquals(mRotationLoadedFromFile[stateId()], 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!rotationToBeCopied.almostEquals(mRotationLoadedFromFile[stateId()],
+                                           100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isRotationFieldVisible())
         copyRotation = true;
     } else {
