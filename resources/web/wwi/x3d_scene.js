@@ -107,9 +107,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     this.renderMinimal();
-
-    //TODO CLEAN SELECTOR/PICKER HERE
-    //TODO reset loader
+    this.loader = undefined
   }
 
   deleteObject(id) {

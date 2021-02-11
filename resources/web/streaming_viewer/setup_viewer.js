@@ -37,7 +37,8 @@ function connect() {
   // For any other use, please refer to the documentation:
   // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
   let playerDiv = document.getElementById('playerDiv');
-  view = new webots.View(playerDiv, mobileDevice);
+  if(!view)
+    view = new webots.View(playerDiv, mobileDevice);
   view.broadcast = broadcast.checked;
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
@@ -52,9 +53,9 @@ function connect() {
 
 function disconnect() {
   view.close();
-  view = null;
-  let playerDiv = document.getElementById('playerDiv');
-  playerDiv.innerHTML = null;
+  //view = null;
+  //let playerDiv = document.getElementById('playerDiv');
+  //playerDiv.innerHTML = null;
   let toolbar = document.getElementById('toolBar');
   if(toolbar !== 'undefined' && toolbar !== null){
       toolbar.parentNode.removeChild(toolbar);
