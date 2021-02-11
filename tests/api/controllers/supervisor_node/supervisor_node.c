@@ -282,8 +282,10 @@ int main(int argc, char **argv) {
 
   reset_target = wb_supervisor_node_get_from_def("RESET_TARGET");
   wb_supervisor_node_save_state(reset_target, "custom_state");
-  memcpy(state_rotation, wb_supervisor_field_get_sf_rotation(wb_supervisor_node_get_field(reset_target, "rotation")), 4 * sizeof(double));
-  memcpy(state_position, wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation")), 3 * sizeof(double));
+  memcpy(state_rotation, wb_supervisor_field_get_sf_rotation(wb_supervisor_node_get_field(reset_target, "rotation")),
+         4 * sizeof(double));
+  memcpy(state_position, wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation")),
+         3 * sizeof(double));
 
   WbNodeRef self_by_tag = wb_supervisor_node_get_from_device(0);
   ts_assert_pointer_not_null(self_by_tag, "Null node reference to self node by device tag");
@@ -309,11 +311,13 @@ int main(int argc, char **argv) {
   wb_supervisor_node_reset_state(reset_target, "custom_state");
   doubleArray = wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation"));
   ts_assert_doubles_equal(3, state_position, doubleArray,
-    "Current solid's position is not equal to the solid's position on when the wb_supervisor_node_save_state function was called");
+                          "Current solid's position is not equal to the solid's position on when the "
+                          "wb_supervisor_node_save_state function was called");
 
   doubleArray = wb_supervisor_field_get_sf_rotation(wb_supervisor_node_get_field(reset_target, "rotation"));
   ts_assert_doubles_equal(4, state_rotation, doubleArray,
-    "Current solid's rotation is not equal to the solid's rotation on when the wb_supervisor_node_save_state function was called");
+                          "Current solid's rotation is not equal to the solid's rotation on when the "
+                          "wb_supervisor_node_save_state function was called");
 
   ts_send_success();
   return EXIT_SUCCESS;
