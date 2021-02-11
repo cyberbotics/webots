@@ -38,7 +38,7 @@ class WbViewpoint extends WbBaseNode {
     this.bloomThreshold = bloomThreshold;
     this.near = zNear;
     this.far = far;
-    this.aspectRatio = canvas.width/canvas.height//800/600; //TODO do not hardcode
+    this.aspectRatio = canvas.width/canvas.height// 800/600;
     this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
@@ -297,7 +297,7 @@ class WbViewpoint extends WbBaseNode {
       this.velocity.setXyz(0.0, 0.0, 0.0);
       this.equilibriumVector.setXyz(0.0, 0.0, 0.0);
     } else {  // Otherwise we apply a force and let physics do the rest.
-      const timeStep = 8 / 1000.0; //TODO get the real timeStep
+      const timeStep = 16 / 1000.0; //TODO get the real timeStep
       const acceleration = this.equilibriumVector.div(mass);
       this.velocity = this.velocity.add(acceleration.mul(timeStep));
 
@@ -325,9 +325,9 @@ class WbViewpoint extends WbBaseNode {
         }
       }
 
-      const deltaPosition = (this.velocity.mul(timeStep));
+      const deltaPosition = this.velocity.mul(timeStep);
+
       this.position = this.position.add(deltaPosition);
-      // Moves the rotation point if a drag rotating the viewpoint is active
 
       this.equilibriumVector = this.equilibriumVector.sub(deltaPosition);
     }
@@ -377,6 +377,9 @@ class WbViewpoint extends WbBaseNode {
 
   postFinalize() {
     super.postFinalize();
+    if(typeof World.instance.nodes.get(this.followedId) !== 'undefined' && typeof World.instance.nodes.get(this.followedId).translation !== 'undefined')
+      this.followedSolidPreviousPosition = World.instance.nodes.get(this.followedId).translation;
+
     this.updatePostProcessingEffects();
     if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();
