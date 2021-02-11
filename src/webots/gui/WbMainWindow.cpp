@@ -1547,6 +1547,7 @@ void WbMainWindow::resetGui(bool restartControllers) {
   if (WbWorld::instance() && restartControllers)
     mSimulationView->cancelSupervisorMovieRecording();
   mSimulationView->view3D()->renderLater();
+  mSimulationView->disableStepButton(false);
 }
 
 void WbMainWindow::importVrml() {
