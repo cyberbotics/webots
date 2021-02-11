@@ -374,7 +374,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
       WbNodeOperations::instance()->deleteNode(node, true);
   }
   mAddedNode.clear();
-  root()->reset();
+  root()->reset("__init__");
   WbTemplateManager::instance()->blockRegeneration(false);
   mImmersionGeoms.clear();
   mCluster->handleInitialCollisions();

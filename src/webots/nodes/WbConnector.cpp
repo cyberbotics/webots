@@ -77,7 +77,7 @@ void WbConnector::init() {
   mTensileStrength = findSFDouble("tensileStrength");
   mShearStrength = findSFDouble("shearStrength");
 
-  mIsInitiallyLocked = mIsLocked->value();
+  mIsInitiallyLocked[stateId()] = mIsLocked->value();
 }
 
 WbConnector::WbConnector(WbTokenizer *tokenizer) : WbSolidDevice("Connector", tokenizer) {

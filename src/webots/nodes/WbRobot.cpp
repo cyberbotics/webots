@@ -151,7 +151,7 @@ void WbRobot::init() {
     data->setValue("");
   }
 
-  mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+  mBatteryInitialValues[stateId()] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -254,8 +254,8 @@ void WbRobot::reset(const QString &id) {
   WbSolid::reset(id);
   mPreviousTime = -1.0;
   // restore battery level
-  if (mBatteryInitialValue[id] > 0)
-    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue[id]);
+  if (mBatteryInitialValues[id] > 0)
+    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValues[id]);
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
   emit wasReset();
@@ -263,7 +263,7 @@ void WbRobot::reset(const QString &id) {
 
 void WbRobot::save(const QString &id) {
   WbSolid::save(id);
-  mBatteryInitialValue[id] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+  mBatteryInitialValues[id] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 void WbRobot::addDevices(WbNode *node) {

@@ -55,7 +55,7 @@ void WbTrack::init() {
   // texture animation
   mShape = NULL;
   mTextureTransform = NULL;
-  mInitialTextureTransformTranslation = WbVector2();
+  mInitialTextureTransformTranslations[stateId()] = WbVector2();
 
   // geometries animation
   mPathLength = 0.0;
@@ -191,11 +191,11 @@ void WbTrack::save(const QString &id) {
   for (int i = 0; i < mDeviceField->size(); ++i)
     mDeviceField->item(i)->save(id);
 
-  mInitialTextureTransformTranslation[id] = WbVector2();
+  mInitialTextureTransformTranslations[id] = WbVector2();
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform)
-      mInitialTextureTransformTranslation[id] = mTextureTransform->translation();
+      mInitialTextureTransformTranslations[id] = mTextureTransform->translation();
   }
 }
 
@@ -315,7 +315,7 @@ void WbTrack::updateTextureTransform() {
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mInitialTextureTransformTranslations[stateId()] = mTextureTransform->translation();
       mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {

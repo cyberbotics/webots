@@ -72,7 +72,7 @@ void WbSensor::connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode
   connect(robot, &WbRobot::wasReset, this, &WbSensor::reset);
 }
 
-void WbSensor::reset(const QString &id) {
+void WbSensor::reset() {
   mLastUpdate = -std::numeric_limits<double>::infinity();
   mIsFirstValueReady = false;
   mHasPendingValue = false;

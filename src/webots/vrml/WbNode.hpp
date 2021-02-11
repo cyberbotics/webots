@@ -273,6 +273,7 @@ public:
 
   virtual void reset(const QString &id);
   virtual void save(const QString &id) {}
+  virtual const QString& stateId() const { return mCurrentStateId; };
 
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
@@ -333,6 +334,7 @@ private:
   WbNode &operator=(const WbNode &);  // non copyable
 
   QString mUrdfPrefix;
+  QString mCurrentStateId;
 
   // for all nodes
   WbNode *mParentNode;

@@ -43,7 +43,7 @@ public:
 
   WbJointParameters *parameters() const;
   virtual double position(int index = 1) const { return (index == 1) ? mPosition : NAN; }
-  virtual double initialPosition(int index = 1) const { return (index == 1) ? mInitialPosition : NAN; }
+  virtual double initialPosition(int index = 1) const { return (index == 1) ? mInitialPositions[stateId()] : NAN; }
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
   virtual WbJointParameters *parameters2() const { return NULL; }

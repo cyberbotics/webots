@@ -263,7 +263,7 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   storeLastSaveTime();
 
-  mRoot->save();
+  mRoot->save("__init__");
   return true;
 }
 

@@ -159,6 +159,7 @@ void WbNode::init() {
   mInsertionCompleted = false;
   mIsTopParameterDescendant = false;
   mProto = NULL;
+  mCurrentStateId = "__init__";
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
@@ -1831,7 +1832,8 @@ void WbNode::setCreationCompleted() {
   mIsCreationCompleted = true;
 }
 
-void WbNode::reset() {
+void WbNode::reset(const QString &id) {
+  mCurrentStateId = id;
   if (isTemplate() && !mProto->isStatic())
     // make sure non-static procedural PROTO are regenerated
     setRegenerationRequired(true);

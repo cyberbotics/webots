@@ -44,7 +44,7 @@ void WbHinge2Joint::init() {
   // hidden field
   mPosition2 = findSFDouble("position2")->value();
   mOdePositionOffset2 = mPosition2;
-  mInitialPosition2 = mPosition2;
+  mInitialPositions2[stateId()] = mPosition2;
 }
 
 WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
@@ -80,7 +80,7 @@ void WbHinge2Joint::preFinalize() {
 
   updateParameters2();
 
-  mInitialPosition2 = mPosition2;
+  mInitialPositions2[stateId()] = mPosition2;
 }
 
 void WbHinge2Joint::postFinalize() {
@@ -138,9 +138,9 @@ double WbHinge2Joint::position(int index) const {
 double WbHinge2Joint::initialPosition(int index) const {
   switch (index) {
     case 1:
-      return mInitialPosition;
+      return mInitialPositions[stateId()];
     case 2:
-      return mInitialPosition2;
+      return mInitialPositions2[stateId()];
     default:
       return NAN;
   }
@@ -464,13 +464,13 @@ void WbHinge2Joint::reset(const QString &id) {
   WbJoint::reset(id);
 
   for (int i = 0; i < mDevice2->size(); ++i)
-    mDevice2->item(i)->reset();
+    mDevice2->item(i)->reset(id);
 
   WbNode *const p = mParameters2->value();
   if (p)
     p->reset(id);
 
-  setPosition(mInitialPosition2[id], 2);
+  setPosition(mInitialPositions2[id], 2);
 }
 
 void WbHinge2Joint::resetPhysics() {
@@ -491,7 +491,7 @@ void WbHinge2Joint::save(const QString &id) {
   if (p)
     p->save(id);
 
-  mInitialPosition2[id] = mPosition2;
+  mInitialPositions2[id] = mPosition2;
 }
 
 void WbHinge2Joint::updateEndPointZeroTranslationAndRotation() {

@@ -85,10 +85,10 @@ void WbViewpoint::init() {
   mRotateAnimation = NULL;
   mOrbitAnimation = NULL;
   mOrbitRadius = 0.0;
-  mInitialFieldOfView = 0.0;
-  mInitialFar = 0.0;
-  mInitialOrthographicHeight = 0.0;
-  mInitialNear = 0.0;
+  mInitialFieldOfView[stateId()] = 0.0;
+  mInitialFar[stateId()] = 0.0;
+  mInitialOrthographicHeight[stateId()] = 0.0;
+  mInitialNear[stateId()] = 0.0;
   mInitialOrientationQuaternion = WbQuaternion();
   mInitialOrbitQuaternion = WbQuaternion();
   mFinalOrientationQuaternion = WbQuaternion();
@@ -197,7 +197,7 @@ void WbViewpoint::postFinalize() {
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbViewpoint::updateBloomThreshold);
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbViewpoint::updatePostProcessingEffects);
 
-  save();
+  save(stateId());
 
   if (lensFlare())
     lensFlare()->postFinalize();
@@ -397,7 +397,7 @@ void WbViewpoint::synchronizeFollowWithSolidName() {
 
 void WbViewpoint::setOrthographicViewHeight(double ovh) {
   mOrthographicViewHeight = ovh;
-  mInitialOrthographicHeight = ovh;
+  mInitialOrthographicHeight[stateId()] = ovh;
   updateOrthographicViewHeight();
 }
 
@@ -456,17 +456,17 @@ void WbViewpoint::setPosition(const WbVector3 &position) {
 }
 
 void WbViewpoint::restore() {
-  mNear->setValue(mInitialNear);
-  mFar->setValue(mInitialFar);
-  mFieldOfView->setValue(mInitialFieldOfView);
-  mDescription->setValue(mInitialDescription);
-  mFollow->setValue(mInitialFollow);
+  mNear->setValue(mInitialNear[stateId()]);
+  mFar->setValue(mInitialFar[stateId()]);
+  mFieldOfView->setValue(mInitialFieldOfView[stateId()]);
+  mDescription->setValue(mInitialDescription[stateId()]);
+  mFollow->setValue(mInitialFollow[stateId()]);
 
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-    mOrthographicViewHeight = mInitialOrthographicHeight;
+    mOrthographicViewHeight = mInitialOrthographicHeight[stateId()];
     updateOrthographicViewHeight();
   }
-  moveTo(mInitialPosition, mInitialOrientation);
+  moveTo(mInitialPosition[stateId()], mInitialOrientation[stateId()]);
 }
 
 void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {

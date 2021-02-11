@@ -177,7 +177,7 @@ void WbWorldInfo::reset(const QString &id) {
   WbBaseNode::reset(id);
 
   for (int i = 0; i < mContactProperties->size(); ++i)
-    mContactProperties->item(i)->reset();
+    mContactProperties->item(i)->reset(id);
   WbNode *const d = mDefaultDamping->value();
   if (d)
     d->reset(id);

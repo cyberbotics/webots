@@ -391,13 +391,13 @@ void WbPropeller::reset(const QString &id) {
 
   WbNode *const device = mDevice->value();
   if (device)
-    device->reset();
+    device->reset(id);
   WbNode *const fastHelix = mFastHelix->value();
   if (fastHelix)
-    fastHelix->reset();
+    fastHelix->reset(id);
   WbNode *const slowHelix = mSlowHelix->value();
   if (slowHelix)
-    slowHelix->reset();
+    slowHelix->reset(id);
 
   updateHelix(0.0);
 }

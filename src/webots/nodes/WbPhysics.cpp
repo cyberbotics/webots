@@ -102,7 +102,7 @@ void WbPhysics::reset(const QString &id) {
 
   WbNode *const d = mDamping->value();
   if (d)
-    d->reset();
+    d->reset(id);
 }
 
 void WbPhysics::checkMass() {

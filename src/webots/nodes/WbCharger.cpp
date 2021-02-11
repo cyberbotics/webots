@@ -52,7 +52,7 @@ void WbCharger::init() {
   mDone = true;
   mElementsUpdateRequired = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mInitialEnergies[stateId()] = mBattery->item(CURRENT_ENERGY);
 }
 
 WbCharger::WbCharger(WbTokenizer *tokenizer) : WbSolid("Charger", tokenizer) {
@@ -261,13 +261,13 @@ void WbCharger::reset(const QString &id) {
   mRobot = NULL;
   mDone = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mBattery->setItem(CURRENT_ENERGY, mInitialEnergy[id]);
+    mBattery->setItem(CURRENT_ENERGY, mInitialEnergies[id]);
   if (mBattery->size() > MAX_ENERGY)
     updateMaterialsAndLights(mBattery->item(CURRENT_ENERGY) / mBattery->item(MAX_ENERGY));
 }
 
 void WbCharger::save(const QString &id) {
   WbSolid::save(id);
-  if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy[id] = mBattery->item(CURRENT_ENERGY);
+if (mBattery->size() > CURRENT_ENERGY)
+    mInitialEnergies[id] = mBattery->item(CURRENT_ENERGY);
 }

@@ -56,7 +56,7 @@ public:
   bool isRemoteModeEnabled() const { return mIsRemoteMode; }
   void connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode = true);
 
-  void reset(const QString &prefix);
+  void reset();
 
 signals:
   void stateChanged();
