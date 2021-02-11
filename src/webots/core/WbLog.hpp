@@ -97,7 +97,7 @@ signals:
   void popupClosed();
 
 private:
-  WbLog() : mPopUpMessagesPostponed(false) {}
+  WbLog() : mPopUpMessagesPostponed(false), mConsoleLogsPostponed(false) {}
   virtual ~WbLog() {}
   void emitLog(Level level, const QString &message, bool popup, const QString &name);
   static void cleanup();

@@ -32,8 +32,6 @@ void WbLog::cleanup() {
 WbLog *WbLog::instance() {
   if (!gInstance) {
     gInstance = new WbLog();
-    gInstance->mPopUpMessagesPostponed = false;
-    gInstance->mConsoleLogsPostponed = false;
     qRegisterMetaType<WbLog::Level>("WbLog::Level");
     qAddPostRoutine(WbLog::cleanup);
   }
