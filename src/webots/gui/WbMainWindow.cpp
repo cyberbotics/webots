@@ -1286,6 +1286,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // Refreshing
   mSimulationView->repaintView3D();
 
+  WbLog::setConsoleLogsPostponed(false);
   WbLog::instance()->showPendingConsoleMessages();
 }
 
@@ -1321,13 +1322,22 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
+  if (!WbApplication::instance()->isValidWorldFileName(fileName))
+    return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
-  return WbApplication::instance()->loadWorld(fileName, reloading);
+  WbLog::setConsoleLogsPostponed(true);
+  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
+  if (!success) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+  }
+  // else console messages will be forwarded after world load in restorePerspective()
+  return success;
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
-  WbLog::instance()->setPopUpPostponed(true);
+  WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
   foreach (QWidget *dock, mDockWidgets) {
     WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
