@@ -1726,6 +1726,7 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)selfNode->uniqueId();
+  stream << (int)selfNode->parentNode()->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
                             !WbNodeUtilities::isVisible(selfNode->parentField()));
