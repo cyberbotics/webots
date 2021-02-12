@@ -25,7 +25,7 @@ This menu allows you to perform various actions such as copy the object, delete 
 
 Dragging the mouse while pressing a mouse button moves the camera of the 3D window.
 
-![navigation-mouse-controls](images/navigation_mouse-controls.png)
+![navigation-mouse-controls](images/navigation_mouse_controls.png)
 
 - **Camera rotation**: In the 3D window, click on an object with the left mouse button and drag the mouse to rotate the viewpoint around it.
 If you click on the background, the camera will rotate around its own position.
