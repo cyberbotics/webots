@@ -35,7 +35,7 @@ class WbImageTexture extends WbBaseNode {
     this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
-    this.image;
+    console.log("YO");
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
@@ -47,8 +47,6 @@ class WbImageTexture extends WbBaseNode {
 
   delete(){
     this.destroyWrenTexture();
-
-    this.image = undefined;
 
     if (typeof this.parent !== 'undefined') {
       let parent = World.instance.nodes.get(this.parent);
@@ -128,11 +126,11 @@ class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      this.image = await MyParser.loadTextureData(this.url);
+      let image = await MyParser.loadTextureData(this.url);
       texture = _wr_texture_2d_new();
-      _wr_texture_set_size(texture, this.image.width, this.image.height);
+      _wr_texture_set_size(texture, image.width, image.height);
       _wr_texture_set_translucent(texture, this.isTransparent);
-      let bitsPointer = arrayXPointer(this.image.bits);
+      let bitsPointer = arrayXPointer(image.bits);
       _wr_texture_2d_set_data(texture, bitsPointer);
       Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
       _wr_texture_setup(texture);
