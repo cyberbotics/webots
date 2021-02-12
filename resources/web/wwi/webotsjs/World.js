@@ -22,6 +22,7 @@ class World {
     this.sceneTree = [];
 
     this.hasFog = false;
+    this.basicTimeStep = 32;
 
     //All the nodes are included here so it is easier to retrieve them for update
     //map from id to node

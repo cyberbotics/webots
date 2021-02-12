@@ -297,7 +297,7 @@ class WbViewpoint extends WbBaseNode {
       this.velocity.setXyz(0.0, 0.0, 0.0);
       this.equilibriumVector.setXyz(0.0, 0.0, 0.0);
     } else {  // Otherwise we apply a force and let physics do the rest.
-      const timeStep = 16 / 1000.0; //TODO get the real timeStep
+      const timeStep = World.instance.basicTimeStep / 1000.0;
       const acceleration = this.equilibriumVector.div(mass);
       this.velocity = this.velocity.add(acceleration.mul(timeStep));
 

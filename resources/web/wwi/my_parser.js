@@ -89,6 +89,8 @@ class MyParser {
     }
 
     console.log(World.instance);
+    if(typeof World.instance.viewpoint == 'undefined')
+      return;
     World.instance.viewpoint.finalize();
     console.timeEnd('startID')
     console.time('startID')
@@ -233,7 +235,8 @@ class MyParser {
   }
 
   parseWorldInfo(node){
-    console.log("Un WorldInfo");
+    let basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
+    World.instance.basicTimeStep = basicTimeStep;
   }
 
   parseViewpoint(node){
