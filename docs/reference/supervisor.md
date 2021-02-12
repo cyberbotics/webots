@@ -1377,11 +1377,13 @@ wb_supervisor_node_reset_physics(node)
 The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
 The state is saved internally under a key equal to the `state_name` parameter.
 Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
+The node properties saved with the function are given in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu).
+Note that the effect of the function is scoped, so it will not restart the controllers or the simulation time.
 
 The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
 The function parameter `state_name` has to be a valid value, or the controller will fail.
 The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a special value `__init__`.
-If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the timer).
+If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the simulation time).
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
