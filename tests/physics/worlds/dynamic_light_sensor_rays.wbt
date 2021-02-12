@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.250234981523025 0.9148659324476742 0.3168639766032401 1.79401
-  position 0.344196 0.344947 -0.131923
+  orientation -0.27947451058626754 0.9363267268605117 0.21257059650677682 1.211110900483547
+  position 0.4213680229194064 0.2387755778615146 0.1060547752172771
 }
 Background {
   skyColor [
@@ -50,47 +50,71 @@ SpotLight {
   location 0 0.055 0.1
   radius 0.1
 }
-DEF DYNAMIC_ROBOT DifferentialWheels {
+DEF DYNAMIC_ROBOT Robot {
   translation 0 0.06 0
   rotation 0 1 0 1.5708
   children [
-    Solid {
-      translation -0.045 -0.03 0
-      rotation 1 0 0 4.98467
-      children [
-        DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 0 1
-                }
-              }
-              geometry Cylinder {
-                height 0.03
-                radius 0.025
-              }
-            }
-          ]
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 -0.03 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          maxVelocity 20
         }
       ]
-      name "left wheel"
-      boundingObject USE WHEEL
-      physics DEF PHYSICS_WHEEL Physics {
-        density -1
-        mass 0.05
+      endPoint Solid {
+        translation -0.045 -0.03 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0 0 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
-    Solid {
-      translation 0.045 -0.03 0
-      rotation 1 0 0 4.58735
-      children [
-        USE WHEEL
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 -0.03 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          maxVelocity 20
+        }
       ]
-      name "right wheel"
-      boundingObject USE WHEEL
-      physics USE PHYSICS_WHEEL
+      endPoint Solid {
+        translation 0.045 -0.03 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
     }
     LightSensor {
       translation -0.05 0 0.001
@@ -121,10 +145,6 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
   controllerArgs [
     "dynamic_light_sensor_rays"
   ]
-  axleLength 0.09
-  wheelRadius 0.025
-  maxSpeed 1000
-  maxAcceleration 1000
 }
 TestSuiteSupervisor {
 }

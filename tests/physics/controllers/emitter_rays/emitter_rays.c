@@ -1,4 +1,3 @@
-#include <webots/differential_wheels.h>
 #include <webots/emitter.h>
 #include <webots/robot.h>
 

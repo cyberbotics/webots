@@ -427,6 +427,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
     return true;
+  return true;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();

@@ -1,7 +1,7 @@
-#VRML_OBJ R2021b
-DEF MY_BOT DifferentialWheels {
+#VRML_SIM R2021b utf8
+DEF MY_BOT Robot {
   translation 0 0 -0.104
-  rotation -0.999999 0.0010622 0.000109046 -0.0270423
+  rotation -0.9999994299194123 0.0010622004566608562 0.0001090460468810391 -0.0270423
   children [
     Transform {
       translation 0 0.0415 0
@@ -19,43 +19,73 @@ DEF MY_BOT DifferentialWheels {
         }
       ]
     }
-    DEF LEFT_WHEEL Solid {
-      translation -0.045 0.025 0
-      rotation 1 0 0 0
-      children [
-        DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 1 0 0
-                }
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.025
-              }
-            }
-          ]
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          maxVelocity 11
+        }
+        PositionSensor {
+          name "left wheel sensor"
         }
       ]
-      name "left wheel"
-      boundingObject USE WHEEL
-      physics DEF PHYSICS_WHEEL Physics {
-        density -1
-        mass 0.05
+      endPoint DEF LEFT_WHEEL Solid {
+        translation -0.045000000000000005 0.025000000000000022 0
+        rotation -0.9999995250240081 0.0009746546866139544 0 3.469448606320756e-18
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0 0
+                  }
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
-    DEF RIGHT_WHEEL Solid {
-      translation 0.045 0.025 0
-      rotation 1 0 0 0
-      children [
-        USE WHEEL
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          maxVelocity 11
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
       ]
-      name "right wheel"
-      boundingObject USE WHEEL
-      physics USE PHYSICS_WHEEL
+      endPoint DEF RIGHT_WHEEL Solid {
+        translation 0.045 0.025000000000000022 0
+        rotation -0.9999995250240081 0.0009746546866139544 0 3.469448606320756e-18
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
     }
     DEF LEFT_US DistanceSensor {
       translation -0.02 0.063 -0.042
@@ -113,6 +143,4 @@ DEF MY_BOT DifferentialWheels {
     mass 0.5
   }
   controller "my_bot_controller"
-  axleLength 0.09
-  wheelRadius 0.025
 }

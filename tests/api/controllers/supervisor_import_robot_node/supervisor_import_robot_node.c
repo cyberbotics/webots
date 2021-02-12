@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   // check that robot moves forwards
   double previousZ = position[2];
   position = wb_supervisor_node_get_position(robot);
-  ts_assert_boolean_equal(position[2] < (previousZ - 0.02), "The controller of the imported robot is not started correctly");
+  ts_assert_boolean_equal(position[2] < (previousZ - 0.02), "The controller of the imported robot has not started correctly");
 
   // import device after controller start
   WbNodeRef self_node = wb_supervisor_node_get_self();
