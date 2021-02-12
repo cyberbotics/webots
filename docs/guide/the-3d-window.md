@@ -27,7 +27,7 @@ Dragging the mouse while pressing a mouse button moves the camera of the 3D wind
 
 %figure "Mouse controls for 3D navigation"
 
-![navigation-mouse-controls](images/navigation_mouse_controls.png)
+![navigation_mouse_controls.png](images/navigation_mouse_controls.png)
 
 %end
 
