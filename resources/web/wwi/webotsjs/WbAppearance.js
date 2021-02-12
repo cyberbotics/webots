@@ -98,6 +98,18 @@ class WbAppearance extends WbAbstractAppearance {
     if (typeof this.texture !== 'undefined')
       this.texture.postFinalize();
   }
+
+  clone(customID) {
+    let material, texture, transform;
+    if(typeof this.material !== 'undefined')
+      material = this.material.clone("n" + Parser.undefinedID++);
+    if (typeof this.texture !== 'undefined')
+      texture = this.texture.clone("n" + Parser.undefinedID++);
+    if (typeof this.transform !== 'undefined')
+      transform = this.transform.clone("n" + Parser.undefinedID++);
+
+    return new WbAppearance(customID, material, texture, transform);
+  }
 }
 
 export {WbAppearance}

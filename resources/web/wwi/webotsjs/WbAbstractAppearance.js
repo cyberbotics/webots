@@ -48,8 +48,6 @@ class WbAbstractAppearance extends WbBaseNode {
     super.preFinalize();
     if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.preFinalize();
-
-    this.updateTextureTransform();
   }
 
   postFinalize() {
@@ -58,10 +56,6 @@ class WbAbstractAppearance extends WbBaseNode {
     if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.postFinalize();
   }
-
-  updateTextureTransform() {
-  }
-
 }
 
 export {WbAbstractAppearance}

@@ -23,7 +23,7 @@ import {Parser} from "./../parser.js"
 
 
 class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, filtering, anisotropy){
+  constructor(id, url, isTransparent, s, t, filtering){
     super(id);
     this.url = url;
 
@@ -32,7 +32,6 @@ class WbImageTexture extends WbBaseNode {
     this.repeatT = t;
     this.filtering = filtering;
 
-    this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
 
@@ -172,6 +171,10 @@ class WbImageTexture extends WbBaseNode {
     // A warning is not produced here because the maximum anisotropy level is not up to the user
     // and may be repeatedly shown even though a minimum requirement warning was already given.
     this.usedFiltering = Math.min(this.filtering, textureFiltering);
+  }
+
+  clone(customID) {
+    return WbImageTexture(customID, this.url, this.isTransparent, this.s, this.t, this.filtering)
   }
 }
 

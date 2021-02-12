@@ -57,7 +57,6 @@ class Parser {
   constructor(prefix = '') {
       this.prefix = prefix;
       let world = new World();
-      this.undefinedID = 90000;
   }
 
   async parse(text, renderer, parent){
@@ -365,7 +364,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = 'n' + this.undefinedID++;
+      id = 'n' + Parser.undefinedID++;
     let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -392,7 +391,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = "n" + this.undefinedID++;
+      id = "n" + Parser.undefinedID++;
 
     let isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
 
@@ -416,7 +415,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = 'n' + this.undefinedID++;
+      id = 'n' + Parser.undefinedID++;
 
     let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     let isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -585,7 +584,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = 'n' + this.undefinedID++;
+      id = 'n' + Parser.undefinedID++;
 
     let geometry;
     if(node.tagName === 'Box')
@@ -829,8 +828,7 @@ class Parser {
     if (typeof boundingObject === 'undefined')
       return
 
-    boundingObject.id = "n" + this.undefinedID;
-    this.undefinedID++;
+    boundingObject.id = "n" + Parser.undefinedID++;
     boundingObject.parent = parent.id;
     parent.boundingObject = boundingObject;
 
@@ -844,7 +842,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = 'n' + this.undefinedID++;
+      id = 'n' + Parser.undefinedID++;
 
     // Get the Material tag.
     let materialNode = node.getElementsByTagName('Material')[0];
@@ -897,7 +895,7 @@ class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if(typeof id === 'undefined')
-      id = 'n' + this.undefinedID++;
+      id = 'n' + Parser.undefinedID++;
 
     let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2')),
     diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8')),
@@ -930,15 +928,12 @@ class Parser {
     const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
     const textureProperties = node.getElementsByTagName('TextureProperties')[0];
-    let anisotropy = 8;
-    if (typeof textureProperties !== 'undefined'){
-      anisotropy = parseFloat(getNodeAttribute(textureProperties, 'anisotropicDegree', '8'));
-    }
+
     let imageTexture = undefined;
 
     if(typeof url !== 'undefined' && url !== '') {
       url = this.prefix + url;
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering, anisotropy);
+      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
       await imageTexture.updateUrl();
     }
 
@@ -1156,4 +1151,5 @@ function convertStringToQuaternion(s) {
   return q;
 }
 
+Parser.undefinedID = 90000;
 export {Parser, convertStringToVec3, convertStringToQuaternion}
