@@ -739,6 +739,17 @@ bool WbNodeUtilities::hasSolidChildren(const WbNode *node) {
   return false;
 }
 
+bool WbNodeUtilities::hasARobotDescendant(const WbNode *node) {
+  const QList<WbNode *> &subNodes = node->subNodes(true);
+
+  foreach (WbNode *const descendantNode, subNodes) {
+    if (dynamic_cast<WbRobot *>(descendantNode))
+      return true;
+  }
+
+  return false;
+}
+
 bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
   const WbGroup *group = dynamic_cast<const WbGroup *>(node);
   if (!group)

@@ -215,6 +215,11 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
     b = true;
 
+  if (WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
+    correctedScale.setXyz(1, 1, 1);
+    b = true;
+  }
+
   if (b)
     mScale->setValue(correctedScale);
 
