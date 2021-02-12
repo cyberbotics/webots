@@ -2210,6 +2210,10 @@ void WbSolid::setMatrixNeedUpdate() {
 void WbSolid::reset(const QString &id) {
   WbMatter::reset(id);
 
+  mPreviousRotation = mSavedRotations[id];
+  mPhysicsResetTranslation = mSavedTranslations[id];
+  mPhysicsResetRotation = mSavedRotations[id];
+
   for (int i = 0; i < mImmersionProperties->size(); ++i)
     mImmersionProperties->item(i)->reset(id);
   WbNode *const p = mPhysics->value();
@@ -2264,9 +2268,6 @@ void WbSolid::save(const QString &id) {
 
   mSavedTranslations[id] = translation();
   mSavedRotations[id] = rotation();
-  mPreviousRotation = mSavedRotations[id];
-  mPhysicsResetTranslation = mSavedTranslations[id];
-  mPhysicsResetRotation = mSavedRotations[id];
 }
 
 // Recursive reset methods
