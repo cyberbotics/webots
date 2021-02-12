@@ -65,7 +65,7 @@ protected:
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
   bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
   bool mSpringAndDampingConstantsAxis2On;
-  QMap<QString, double> mInitialPositions2;
+  QMap<QString, double> mSavedPositions2;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
   void updateEndPointZeroTranslationAndRotation() override;

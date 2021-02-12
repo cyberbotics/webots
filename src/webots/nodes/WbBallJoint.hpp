@@ -88,7 +88,7 @@ private:
   WbRotationalMotor *rotationalMotor3() const;
   void updateParameters3();
   WbSFNode *mParameters3;
-  QMap<QString, double> mInitialPositions3;
+  QMap<QString, double> mSavedPositions3;
   dJointID mControlMotor;  // ODE angular motor used to control the ball joint
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;

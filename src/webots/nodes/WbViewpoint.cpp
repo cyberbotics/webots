@@ -85,10 +85,10 @@ void WbViewpoint::init() {
   mRotateAnimation = NULL;
   mOrbitAnimation = NULL;
   mOrbitRadius = 0.0;
-  mInitialFieldOfView[stateId()] = 0.0;
-  mInitialFar[stateId()] = 0.0;
-  mInitialOrthographicHeight[stateId()] = 0.0;
-  mInitialNear[stateId()] = 0.0;
+  mSavedFieldOfView[stateId()] = 0.0;
+  mSavedFar[stateId()] = 0.0;
+  mSavedOrthographicHeight[stateId()] = 0.0;
+  mSavedNear[stateId()] = 0.0;
   mInitialOrientationQuaternion = WbQuaternion();
   mInitialOrbitQuaternion = WbQuaternion();
   mFinalOrientationQuaternion = WbQuaternion();
@@ -224,8 +224,8 @@ void WbViewpoint::reset(const QString &id) {
   if (l)
     l->reset(id);
 
-  mOrientation->setValue(mInitialOrientation[id]);
-  mPosition->setValue(mInitialPosition[id]);
+  mOrientation->setValue(mSavedOrientation[id]);
+  mPosition->setValue(mSavedPosition[id]);
   resetAnimations();
   // we can't call 'updateFollowSolidState' here because the followed solid will probably moved
   mNeedToUpdateFollowSolidState = true;
@@ -397,7 +397,7 @@ void WbViewpoint::synchronizeFollowWithSolidName() {
 
 void WbViewpoint::setOrthographicViewHeight(double ovh) {
   mOrthographicViewHeight = ovh;
-  mInitialOrthographicHeight[stateId()] = ovh;
+  mSavedOrthographicHeight[stateId()] = ovh;
   updateOrthographicViewHeight();
 }
 
@@ -440,13 +440,13 @@ void WbViewpoint::enableNodeVisibility(bool enabled) {
 
 void WbViewpoint::save(const QString &id) {
   WbBaseNode::save(id);
-  mInitialNear[id] = mNear->value();
-  mInitialFar[id] = mFar->value();
-  mInitialFieldOfView[id] = mFieldOfView->value();
-  mInitialPosition[id] = mPosition->value();
-  mInitialOrientation[id] = mOrientation->value();
-  mInitialDescription[id] = mDescription->value();
-  mInitialFollow[id] = mFollow->value();
+  mSavedNear[id] = mNear->value();
+  mSavedFar[id] = mFar->value();
+  mSavedFieldOfView[id] = mFieldOfView->value();
+  mSavedPosition[id] = mPosition->value();
+  mSavedOrientation[id] = mOrientation->value();
+  mSavedDescription[id] = mDescription->value();
+  mSavedFollow[id] = mFollow->value();
   recomputeFollowField();
 }
 
@@ -456,17 +456,17 @@ void WbViewpoint::setPosition(const WbVector3 &position) {
 }
 
 void WbViewpoint::restore() {
-  mNear->setValue(mInitialNear[stateId()]);
-  mFar->setValue(mInitialFar[stateId()]);
-  mFieldOfView->setValue(mInitialFieldOfView[stateId()]);
-  mDescription->setValue(mInitialDescription[stateId()]);
-  mFollow->setValue(mInitialFollow[stateId()]);
+  mNear->setValue(mSavedNear[stateId()]);
+  mFar->setValue(mSavedFar[stateId()]);
+  mFieldOfView->setValue(mSavedFieldOfView[stateId()]);
+  mDescription->setValue(mSavedDescription[stateId()]);
+  mFollow->setValue(mSavedFollow[stateId()]);
 
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-    mOrthographicViewHeight = mInitialOrthographicHeight[stateId()];
+    mOrthographicViewHeight = mSavedOrthographicHeight[stateId()];
     updateOrthographicViewHeight();
   }
-  moveTo(mInitialPosition[stateId()], mInitialOrientation[stateId()]);
+  moveTo(mSavedPosition[stateId()], mSavedOrientation[stateId()]);
 }
 
 void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {

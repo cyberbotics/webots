@@ -170,14 +170,14 @@ private:
   const float *mInverseViewMatrix;
 
   // to restore viewpoint
-  QMap<QString, double> mInitialFieldOfView;
-  QMap<QString, WbVector3> mInitialPosition;
-  QMap<QString, WbRotation> mInitialOrientation;
-  QMap<QString, QString> mInitialDescription;
-  QMap<QString, double> mInitialNear;
-  QMap<QString, double> mInitialFar;
-  QMap<QString, double> mInitialOrthographicHeight;
-  QMap<QString, QString> mInitialFollow;
+  QMap<QString, double> mSavedFieldOfView;
+  QMap<QString, WbVector3> mSavedPosition;
+  QMap<QString, WbRotation> mSavedOrientation;
+  QMap<QString, QString> mSavedDescription;
+  QMap<QString, double> mSavedNear;
+  QMap<QString, double> mSavedFar;
+  QMap<QString, double> mSavedOrthographicHeight;
+  QMap<QString, QString> mSavedFollow;
 
   // follow solid stuff
   WbSolid *mFollowedSolid;

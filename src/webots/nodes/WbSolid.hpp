@@ -118,10 +118,10 @@ public:
   const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
   // accessors to stored fields
-  const WbVector3 translationFromFile() const { return mTranslationLoadedFromFile[stateId()]; }
-  const WbRotation rotationFromFile() const { return mRotationLoadedFromFile[stateId()]; }
-  void setTranslationFromFile(const WbVector3 &translation) { mTranslationLoadedFromFile[stateId()] = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mRotationLoadedFromFile[stateId()] = rotation; }
+  const WbVector3 translationFromFile() const { return mSavedTranslations[stateId()]; }
+  const WbRotation rotationFromFile() const { return mSavedRotations[stateId()]; }
+  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
+  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
   // only used by WbDifferentialWheels
   const WbVector3 &physicsResetTranslation() const { return mPhysicsResetTranslation; }
   const WbRotation &physicsResetRotation() const { return mPhysicsResetRotation; }
@@ -462,8 +462,8 @@ private:
 
   // Positions and orientations storage
   WbRotation mPreviousRotation;  // used only by WbDifferentialWheels
-  QMap<QString, WbVector3> mTranslationLoadedFromFile;
-  QMap<QString, WbRotation> mRotationLoadedFromFile;
+  QMap<QString, WbVector3> mSavedTranslations;
+  QMap<QString, WbRotation> mSavedRotations;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;
   bool applyHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParameters *hkp, bool backupPrevious);
   bool restoreHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,

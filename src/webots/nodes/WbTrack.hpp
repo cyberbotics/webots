@@ -92,7 +92,7 @@ private:
   // texture animation
   WbShape *mShape;
   WbTextureTransform *mTextureTransform;
-  QMap<QString, WbVector2> mInitialTextureTransformTranslations;
+  QMap<QString, WbVector2> mSavedTextureTransformTranslations;
 
   // geometries animation
   struct PathSegment {

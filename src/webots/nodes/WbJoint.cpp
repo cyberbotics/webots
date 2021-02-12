@@ -37,7 +37,7 @@ void WbJoint::init() {
   mPosition = findSFDouble("position")->value();
   mOdePositionOffset = mPosition;
   mTimeStep = 0.0;
-  mInitialPositions[stateId()] = mPosition;
+  mSavedPositions[stateId()] = mPosition;
 }
 
 // Constructors
@@ -73,7 +73,7 @@ void WbJoint::downloadAssets() {
 void WbJoint::preFinalize() {
   WbBasicJoint::preFinalize();
 
-  mInitialPositions[stateId()] = mPosition;
+  mSavedPositions[stateId()] = mPosition;
 
   for (int i = 0; i < devicesNumber(); ++i) {
     if (device(i) && !device(i)->isPreFinalizedCalled())
@@ -100,7 +100,7 @@ void WbJoint::reset(const QString &id) {
   for (int i = 0; i < mDevice->size(); ++i)
     mDevice->item(i)->reset(id);
 
-  setPosition(mInitialPositions[id]);
+  setPosition(mSavedPositions[id]);
 }
 
 void WbJoint::resetPhysics() {
@@ -117,7 +117,7 @@ void WbJoint::save(const QString &id) {
   for (int i = 0; i < mDevice->size(); ++i)
     mDevice->item(i)->save(id);
 
-  mInitialPositions[id] = mPosition;
+  mSavedPositions[id] = mPosition;
 }
 
 void WbJoint::setPosition(double position, int index) {

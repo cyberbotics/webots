@@ -115,11 +115,11 @@ void WbSolid::init() {
   // store position
   // Note: this cannot be put into the preFinalize function because
   //       of the copy constructor last initialization
-  mTranslationLoadedFromFile[stateId()] = translation();
-  mRotationLoadedFromFile[stateId()] = rotation();
-  mPreviousRotation = mRotationLoadedFromFile[stateId()];
-  mPhysicsResetTranslation = mTranslationLoadedFromFile[stateId()];
-  mPhysicsResetRotation = mRotationLoadedFromFile[stateId()];
+  mSavedTranslations[stateId()] = translation();
+  mSavedRotations[stateId()] = rotation();
+  mPreviousRotation = mSavedRotations[stateId()];
+  mPhysicsResetTranslation = mSavedTranslations[stateId()];
+  mPhysicsResetRotation = mSavedRotations[stateId()];
 
   // Support polygon representation
   mY = numeric_limits<double>::max();
@@ -2217,8 +2217,8 @@ void WbSolid::reset(const QString &id) {
     p->reset(id);
 
   if (mJointParents.size() == 0) {
-    setTranslation(mTranslationLoadedFromFile[id]);
-    setRotation(mRotationLoadedFromFile[id]);
+    setTranslation(mSavedTranslations[id]);
+    setRotation(mSavedRotations[id]);
   }
   resetSingleSolidPhysics();
   resetContactPointsAndSupportPolygon();
@@ -2262,11 +2262,11 @@ void WbSolid::save(const QString &id) {
   if (p)
     p->save(id);
 
-  mTranslationLoadedFromFile[id] = translation();
-  mRotationLoadedFromFile[id] = rotation();
-  mPreviousRotation = mRotationLoadedFromFile[id];
-  mPhysicsResetTranslation = mTranslationLoadedFromFile[id];
-  mPhysicsResetRotation = mRotationLoadedFromFile[id];
+  mSavedTranslations[id] = translation();
+  mSavedRotations[id] = rotation();
+  mPreviousRotation = mSavedRotations[id];
+  mPhysicsResetTranslation = mSavedTranslations[id];
+  mPhysicsResetRotation = mSavedRotations[id];
 }
 
 // Recursive reset methods
@@ -2878,18 +2878,18 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
       //   cf. https://github.com/omichel/webots-dev/issues/6512
-      if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile[stateId()],
+      if (!translationToBeCopied.almostEquals(mSavedTranslations[stateId()],
                                               100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;
-      if (!rotationToBeCopied.almostEquals(mRotationLoadedFromFile[stateId()],
+      if (!rotationToBeCopied.almostEquals(mSavedRotations[stateId()],
                                            100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isRotationFieldVisible())
         copyRotation = true;
     } else {
-      if (translation() != mTranslationLoadedFromFile[stateId()] && !isTranslationFieldVisible())
+      if (translation() != mSavedTranslations[stateId()] && !isTranslationFieldVisible())
         t = &translation();
-      if (rotation() != mRotationLoadedFromFile[stateId()] && !isRotationFieldVisible())
+      if (rotation() != mSavedRotations[stateId()] && !isRotationFieldVisible())
         r = &rotation();
     }
 

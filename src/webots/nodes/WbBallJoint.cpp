@@ -45,7 +45,7 @@ void WbBallJoint::init() {
   // hidden field
   mPosition3 = findSFDouble("position3")->value();
   mOdePositionOffset3 = mPosition3;
-  mInitialPositions3[stateId()] = mPosition3;
+  mSavedPositions3[stateId()] = mPosition3;
 
   mControlMotor = NULL;
 }
@@ -370,11 +370,11 @@ double WbBallJoint::position(int index) const {
 double WbBallJoint::initialPosition(int index) const {
   switch (index) {
     case 1:
-      return mInitialPositions[stateId()];
+      return mSavedPositions[stateId()];
     case 2:
-      return mInitialPositions2[stateId()];
+      return mSavedPositions2[stateId()];
     case 3:
-      return mInitialPositions3[stateId()];
+      return mSavedPositions3[stateId()];
     default:
       return NAN;
   }
@@ -425,7 +425,7 @@ void WbBallJoint::preFinalize() {
   updateParameters3();
   checkMotorLimit();
 
-  mInitialPositions3["__init__"] = mPosition3;
+  mSavedPositions3["__init__"] = mPosition3;
 }
 
 void WbBallJoint::postFinalize() {
@@ -670,7 +670,7 @@ void WbBallJoint::reset(const QString &id) {
   if (p)
     p->reset(id);
 
-  setPosition(mInitialPositions3[id], 3);
+  setPosition(mSavedPositions3[id], 3);
 }
 
 void WbBallJoint::resetPhysics() {
@@ -691,7 +691,7 @@ void WbBallJoint::save(const QString &id) {
   if (p)
     p->save(id);
 
-  mInitialPositions3[id] = mPosition3;
+  mSavedPositions3[id] = mPosition3;
 }
 
 void WbBallJoint::applyToOdeAxis() {

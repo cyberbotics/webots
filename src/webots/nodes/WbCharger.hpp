@@ -59,7 +59,7 @@ private:
   bool mDone;
   bool mElementsUpdateRequired;
   QList<VisualElement *> mVisualElements;
-  QMap<QString, double> mInitialEnergies;
+  QMap<QString, double> mSavedEnergies;
 
   WbCharger &operator=(const WbCharger &);  // non copyable
   WbNode *clone() const override { return new WbCharger(*this); }
