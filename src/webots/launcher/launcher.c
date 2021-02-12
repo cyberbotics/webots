@@ -51,46 +51,42 @@ static int fail(const char *function, const char *info) {
 }
 
 int main(int argc, char *argv[]) {
+  const wchar_t *original_command_line = GetCommandLineW();
+  wchar_t command_line[wcslen(original_command_line)];
+  const wchar_t *find = wcsstr(original_command_line, L"\\msys64\\mingw64\\bin\\webots");
+  int index = find - original_command_line;
+  index += 26;
+  wcsncpy(command_line, original_command_line, index);
+  command_line[index++] = '-';
+  command_line[index++] = 'b';
+  command_line[index++] = 'i';
+  command_line[index++] = 'n';
+  for (; original_command_line[index - 4]; index++)
+    command_line[index] = original_command_line[index - 3];
+
   // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
   char *module_path = malloc(LENGTH);
   if (!GetModuleFileName(NULL, module_path, LENGTH))
     fail("GetModuleFileName", 0);
-  int l = strlen(module_path);
+  const int l = strlen(module_path)
 #ifdef WEBOTSW
-  const int l0 = l - 1;  // webotsw.exe (we need to remove the final 'w')
-#else
-  const int l0 = l;  // webots.exe
+                - 1  // webotsw.exe (we need to remove the final 'w')
 #endif
-  l = l0;
-  for (int i = 1; i < argc; i++)
-    l += 3 + strlen(argv[i]);          // spaces and double quotes between arguments
-  char *command_line = malloc(l + 7);  // room for double quotes, the extra "-bin" string and final '\0'
-  command_line[0] = '\"';
-  command_line[1] = '\0';
-  strcat(command_line, module_path);
-  command_line[l0 - 3] = '\0';  // cut out ".exe" after "webots" or "webotsw"
-  strcat(command_line, "-bin.exe");
-  strcat(command_line, "\"");
-  for (int i = 1; i < argc; i++) {
-    strcat(command_line, " \"");
-    strcat(command_line, argv[i]);
-    strcat(command_line, "\"");
-  }
-
+    ;
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
   char *old_path = malloc(LENGTH);
   char *new_path = malloc(LENGTH);
 
   strcpy(new_path, module_path);
-  new_path[l0 - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
-  strcpy(&new_path[l0 - 10], module_path);
-  new_path[2 * l0 - 21] = '\0';
+  new_path[l - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
+  strcpy(&new_path[l - 10], module_path);
+  new_path[2 * l - 21] = '\0';
   strcat(new_path, "\\cpp;");
   strcat(new_path, module_path);
   free(module_path);
-  new_path[3 * l0 - 38] = '\0';
+  new_path[3 * l - 38] = '\0';
   strcat(new_path, "usr\\bin;");
   if (!GetEnvironmentVariable("PATH", old_path, LENGTH))
     fail("GetEnvironmentVariable", 0);
@@ -103,11 +99,11 @@ int main(int argc, char *argv[]) {
     fail("SetEnvironmentVariable", "QT_ENABLE_HIGHDPI_SCALING=1");
 
   // start the webots-bin.exe process, wait for completion and return exit code
-  STARTUPINFO info = {sizeof(info)};
+  STARTUPINFOW info = {sizeof(info)};
   PROCESS_INFORMATION process_info;
-  if (!CreateProcess(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
-    fail("CreateProcess", command_line);
-  free(command_line);
+
+  if (!CreateProcessW(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
+    fail("CreateProcess", "Cannot launch Webots binary");
 
   // webots-bin.exe should be killed whenever its parent (webots.exe or webotsw.exe) terminates.
   HANDLE job = CreateJobObject(NULL, NULL);
