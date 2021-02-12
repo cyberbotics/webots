@@ -116,7 +116,6 @@ void WbSolid::init() {
   //       of the copy constructor last initialization
   mTranslationLoadedFromFile = translation();
   mRotationLoadedFromFile = rotation();
-  mPreviousRotation = mRotationLoadedFromFile;
 
   // Support polygon representation
   mY = numeric_limits<double>::max();
@@ -1997,13 +1996,6 @@ void WbSolid::applyPhysicsTransform() {
   qr[1] *= normInv;
   qr[2] *= normInv;
   qr[3] *= normInv;
-  const double scalarProduct = mPreviousRotation.x() * qr[1] + mPreviousRotation.y() * qr[2] + mPreviousRotation.z() * qr[3];	
-  if (scalarProduct < 0.0) {	
-    qr[1] *= -1.0;	
-    qr[2] *= -1.0;	
-    qr[3] *= -1.0;	
-    angle *= -1.0;	
-  }
 
   // block signals from WbTransform (baseclass): we don't want to update the bodies and the geoms
   // printf("pos = %f, %f, %f\n", result[0], result[1], result[2]);
@@ -2231,7 +2223,6 @@ void WbSolid::save() {
 
   mTranslationLoadedFromFile = translation();
   mRotationLoadedFromFile = rotation();
-  mPreviousRotation = mRotationLoadedFromFile;
 }
 
 // Recursive reset methods
