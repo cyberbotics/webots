@@ -37,7 +37,6 @@
 #include <webots/types.h>
 #include <webots/utils/system.h>
 #include "device_private.h"
-#include "differential_wheels_private.h"
 #include "joystick_private.h"
 #include "keyboard_private.h"
 #include "messages.h"
@@ -177,7 +176,7 @@ static void robot_quit() {  // called when Webots kills a controller
   free(robot.urdf_prefix);
 }
 
-// this function is also called from supervisor_write_request() and differential_wheels_write_request()
+// this function is also called from supervisor_write_request()
 void robot_write_request(WbDevice *dev, WbRequest *req) {
   keyboard_write_request(req);
   joystick_write_request(req);

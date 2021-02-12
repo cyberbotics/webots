@@ -12,7 +12,6 @@
 #include "../../../include/controller/c/webots/connector.h"
 #include "../../../include/controller/c/webots/console.h"
 #include "../../../include/controller/c/webots/device.h"
-#include "../../../include/controller/c/webots/differential_wheels.h"
 #include "../../../include/controller/c/webots/display.h"
 #include "../../../include/controller/c/webots/distance_sensor.h"
 #include "../../../include/controller/c/webots/emitter.h"

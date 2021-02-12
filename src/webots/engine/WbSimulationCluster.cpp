@@ -387,7 +387,6 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
       if (isOtherRayGeom)
         return false;
     case WB_NODE_CAMERA:
-    case WB_NODE_DIFFERENTIAL_WHEELS:
     case WB_NODE_DISTANCE_SENSOR:
     case WB_NODE_LIGHT_SENSOR:
     case WB_NODE_RADAR:

@@ -327,7 +327,6 @@ typedef enum {
   WB_NODE_VIEWPOINT,
   /* robots */
   WB_NODE_ROBOT,
-  WB_NODE_DIFFERENTIAL_WHEELS,
   /* devices */
   WB_NODE_ACCELEROMETER,
   WB_NODE_BRAKE,
@@ -403,7 +402,7 @@ namespace webots {
       PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
-      ROBOT, DIFFERENTIAL_WHEELS,
+      ROBOT,
       // devices
       ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -440,7 +439,7 @@ class Node:
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
-    ROBOT, DIFFERENTIAL_WHEELS,
+    ROBOT,
     # devices
     ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -475,7 +474,7 @@ public class Node {
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
-    ROBOT, DIFFERENTIAL_WHEELS,
+    ROBOT,
     // devices
     ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -510,7 +509,7 @@ WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
 % robots
-WB_NODE_ROBOT, WB_NODE_DIFFERENTIAL_WHEELS,
+WB_NODE_ROBOT,
 % devices
 WB_NODE_ACCELEROMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
 WB_NODE_CONNECTOR, WB_NODE_DISPLAY, WB_NODE_DISTANCE_SENSOR, WB_NODE_EMITTER,
@@ -554,7 +553,7 @@ name = wb_supervisor_node_get_base_type_name(node)
 The `wb_supervisor_node_get_type` function returns a symbolic value corresponding the type of the node specified as an argument.
 If the argument is NULL, it returns `WB_NODE_NO_NODE`.
 A list of all node types is provided in the "webots/nodes.h" include file.
-Node types include `WB_NODE_DIFFERENTIAL_WHEELS`, `WB_NODE_APPEARANCE`, `WB_NODE_LIGHT_SENSOR`, etc.
+Node types include `WB_NODE_APPEARANCE`, `WB_NODE_LIGHT_SENSOR`, etc.
 
 The `wb_supervisor_node_get_type_name` function returns a text string corresponding to the name of the node.
 If the argument node is a PROTO node, this function returns the PROTO name, like "E-puck", "RectangleArena", "Door", etc.

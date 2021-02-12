@@ -56,7 +56,6 @@ typedef enum {
   WB_NODE_VIEWPOINT,
   // robots
   WB_NODE_ROBOT,
-  WB_NODE_DIFFERENTIAL_WHEELS,
   // devices
   WB_NODE_ACCELEROMETER,
   WB_NODE_BRAKE,

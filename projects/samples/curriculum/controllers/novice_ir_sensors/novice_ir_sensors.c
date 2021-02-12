@@ -16,7 +16,6 @@
 
 // Included libraries
 #include <stdio.h>
-#include <webots/differential_wheels.h>
 #include <webots/distance_sensor.h>  // distance sensor library
 #include <webots/light_sensor.h>     // light sensor library
 #include <webots/robot.h>            //obtain main library of webots

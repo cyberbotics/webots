@@ -6,7 +6,6 @@
 #include <webots/accelerometer.h>
 #include <webots/camera.h>
 #include <webots/compass.h>
-#include <webots/differential_wheels.h>
 #include <webots/distance_sensor.h>
 #include <webots/gps.h>
 #include <webots/gyro.h>
