@@ -1,6 +1,6 @@
 #include <webots/light_sensor.h>
-#include <webots/robot.h>
 #include <webots/motor.h>
+#include <webots/robot.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
