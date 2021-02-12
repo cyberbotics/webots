@@ -35,7 +35,7 @@ class WbImageTexture extends WbBaseNode {
     this.anisotropy = anisotropy;
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0
-    console.log("YO");
+
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
