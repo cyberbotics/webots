@@ -105,6 +105,10 @@ class WbSpotLight extends WbLight {
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
   }
+
+  clone(customID) {
+    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows)
+  }
 }
 
 export {WbSpotLight}

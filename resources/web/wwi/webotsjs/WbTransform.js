@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {Parser} from "./../parser.js"
 import {WbGroup} from "./WbGroup.js"
 import {World} from "./World.js";
 
@@ -92,6 +93,19 @@ class WbTransform extends WbGroup {
 
     if(typeof this.boundingObject !== 'undefined')
       this.boundingObject.postFinalize()
+  }
+
+  clone(customID) {
+    let transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation)
+    this.children.forEach(child => {
+      let cloned = child.clone("n" + Parser.undefinedID++)
+      cloned.parent = customID;
+      World.instance.nodes.set(cloned.id, cloned);
+      transform.children.push(cloned)
+    });
+
+    //TODO: bounding object
+    return transform
   }
 }
 

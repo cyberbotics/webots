@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-
+import {Parser} from "./../parser.js"
+import {World} from "./World.js"
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js"
 
@@ -101,12 +101,23 @@ class WbAppearance extends WbAbstractAppearance {
 
   clone(customID) {
     let material, texture, transform;
-    if(typeof this.material !== 'undefined')
+    if(typeof this.material !== 'undefined'){
       material = this.material.clone("n" + Parser.undefinedID++);
-    if (typeof this.texture !== 'undefined')
+      material.parent = customID;
+      World.instance.nodes.set(material.id, material);
+    }
+
+    if (typeof this.texture !== 'undefined'){
       texture = this.texture.clone("n" + Parser.undefinedID++);
-    if (typeof this.transform !== 'undefined')
+      texture.parent = customID;
+      World.instance.nodes.set(texture.id, texture);
+    }
+
+    if (typeof this.transform !== 'undefined'){
       transform = this.transform.clone("n" + Parser.undefinedID++);
+      transform.parent = customID;
+      World.instance.nodes.set(transform.id, transform);
+    }
 
     return new WbAppearance(customID, material, texture, transform);
   }

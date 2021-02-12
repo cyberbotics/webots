@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+import {Parser} from "./../parser.js"
 import {World} from "./World.js";
 import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
 import {WbWrenShaders} from "./WbWrenShaders.js";
@@ -229,6 +231,59 @@ class WbPBRAppearance extends WbAbstractAppearance {
       this.emissiveColorMap.postFinalize();
   }
 
+  clone(customID) {
+    let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap, textureTransform;
+    if (typeof this.baseColorMap !== 'undefined') {
+      baseColorMap = this.baseColorMap.clone("n" + Parser.undefinedID++);
+      baseColorMap.parent = customID;
+      baseColorMap.type = "baseColorMap";
+      World.instance.nodes.set(baseColorMap.id, baseColorMap);
+    }
+
+    if (typeof this.roughnessMap !== 'undefined') {
+      roughnessMap = this.roughnessMap.clone("n" + Parser.undefinedID++);
+      roughnessMap.type = "roughnessMap";
+      roughnessMap.parent = customID;
+      World.instance.nodes.set(roughnessMap.id, roughnessMap);
+    }
+
+    if (typeof this.metalnessMap !== 'undefined') {
+      metalnessMap = this.metalnessMap.clone("n" + Parser.undefinedID++);
+      metalnessMap.type = "metalnessMap";
+      metalnessMap.parent = customID;
+      World.instance.nodes.set(metalnessMap.id, metalnessMap);
+    }
+
+    if (typeof this.normalMap !== 'undefined') {
+      normalMap = this.normalMap.clone("n" + Parser.undefinedID++);
+      normalMap.type = "normalMap";
+      normalMap.parent = customID;
+      World.instance.nodes.set(normalMap.id, normalMap);
+    }
+
+    if (typeof this.occlusionMap !== 'undefined') {
+      occlusionMap = this.occlusionMap.clone("n" + Parser.undefinedID++);
+      occlusionMap.type = "occlusionMap";
+      occlusionMap.parent = customID;
+      World.instance.nodes.set(occlusionMap.id, occlusionMap);
+    }
+
+    if (typeof this.emissiveColorMap !== 'undefined') {
+      emissiveColorMap = this.emissiveColorMap.clone("n" + Parser.undefinedID++);
+      emissiveColorMap.type = "emissiveColorMap";
+      emissiveColorMap.parent = customID;
+      World.instance.nodes.set(emissiveColorMap.id, emissiveColorMap);
+    }
+
+    if (typeof this.textureTransform !== 'undefined') {
+      textureTransform = this.textureTransform.clone("n" + Parser.undefinedID++);
+      textureTransform.parent = customID;
+      World.instance.nodes.set(textureTransform.id, textureTransform);
+    }
+
+    return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
+      this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform)
+  }
 }
 
 WbPBRAppearance.cBrdfTexture = undefined;

@@ -174,7 +174,9 @@ class WbImageTexture extends WbBaseNode {
   }
 
   clone(customID) {
-    return WbImageTexture(customID, this.url, this.isTransparent, this.s, this.t, this.filtering)
+    let imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.s, this.t, this.filtering)
+    imageTexture.updateUrl()
+    return imageTexture;
   }
 }
 

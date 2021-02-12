@@ -92,6 +92,10 @@ class WbPointLight extends WbLight {
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
   }
+
+  clone(customID) {
+    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows)
+  }
 }
 
 export {WbPointLight}

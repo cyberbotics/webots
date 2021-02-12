@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {Parser} from "./../parser.js"
 import {World} from "./World.js"
 import {WbBaseNode} from "./WbBaseNode.js"
 import {WbPointSet} from "./WbPointSet.js"
@@ -161,6 +162,22 @@ class WbShape extends WbBaseNode {
   updateBoundingObjectVisibility() {
     if (typeof this.geometry !== 'undefined')
       this.geometry.updateBoundingObjectVisibility();
+  }
+
+  clone(customID) {
+    let geometry, appearance;
+    if(typeof this.geometry !== 'undefined') {
+      geometry = this.geometry.clone("n" + Parser.undefinedID++);
+      geometry.parent = customID;
+      World.instance.nodes.set(geometry.id, geometry);
+    }
+
+    if(typeof this.appearance !== 'undefined') {
+      appearance = this.appearance.clone("n" + Parser.undefinedID++);
+      appearance.parent = customID;
+      World.instance.nodes.set(appearance.id, appearance);
+    }
+    return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance)
   }
 }
 

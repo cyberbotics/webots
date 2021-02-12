@@ -55,12 +55,8 @@ class WbTextureTransform extends WbBaseNode{
       _wr_texture_transform_delete(this.wrenTextureTransform);
   }
 
-  preFinalize() {
-    super.preFinalize();
-  }
-
-  postFinalize() {
-    super.postFinalize();
+  clone(customID) {
+    return new WbTextureTransform(customID, this.center, this.rotation, this.scale, this.translation);
   }
 }
 

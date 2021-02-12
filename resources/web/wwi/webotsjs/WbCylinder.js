@@ -52,8 +52,8 @@ class WbCylinder extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  postFinalize() {
-    super.postFinalize();
+  clone(customID) {
+    return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top)
   }
 }
 

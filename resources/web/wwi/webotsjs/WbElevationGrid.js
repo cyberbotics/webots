@@ -109,6 +109,10 @@ class WbElevationGrid extends WbGeometry {
   isAValidBoundingObject() {
     return thisisSuitableForInsertionInBoundingObject() && super.isAValidBoundingObject();
   }
+
+  clone(customID) {
+    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
+  }
 }
 
 export {WbElevationGrid}

@@ -14,6 +14,7 @@
 
 import {WbBaseNode} from "./WbBaseNode.js"
 import {World} from "./World.js";
+import {Parser} from "./../parser.js"
 import {WbLight} from "./WbLight.js"
 
 class WbGroup extends WbBaseNode{
@@ -95,6 +96,17 @@ class WbGroup extends WbBaseNode{
       });
 
     }
+  }
+
+  clone(customID) {
+    let group = new WbGroup(customID, this.isPropeller)
+    this.children.forEach(child => {
+      let cloned = child.clone("n" + Parser.undefinedID++)
+      cloned.parent = customID;
+      World.instance.nodes.set(cloned.id, cloned);
+      group.children.push(cloned)
+    });
+    return group;
   }
 }
 

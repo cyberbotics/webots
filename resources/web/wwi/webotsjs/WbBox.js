@@ -142,6 +142,10 @@ class WbBox extends WbGeometry {
 
     return new WbVector2(u, v);
   }
+
+  clone(customID) {
+    return new WbBox(customID, this.size);
+  }
 }
 
 WbBox.IntersectedFace = {

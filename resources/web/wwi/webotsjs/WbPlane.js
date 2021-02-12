@@ -69,8 +69,8 @@ class WbPlane extends WbGeometry{
     return super.isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0)
   }
 
-  postFinalize() {
-    super.postFinalize();
+  clone(customID) {
+    return WbPlane(customID, this.size);
   }
 }
 

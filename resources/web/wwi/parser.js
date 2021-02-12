@@ -339,20 +339,14 @@ class Parser {
     if(typeof result === 'undefined')
       return;
 
-    let useNode = new Use(id, result);
-
+    let useNode = result.clone(id);
     if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
-      if (useNode.def instanceof WbShape || useNode.def instanceof WbGroup || useNode.def instanceof WbLight)
+      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
         currentNode.children.push(useNode);
     }
 
-    if(typeof World.instance.defUse[use] === 'undefined')
-      World.instance.defUse[use] = new Array();
-
     World.instance.nodes.set(id, useNode);
-    World.instance.defUse[use].push(id);
-
     return useNode;
   }
 

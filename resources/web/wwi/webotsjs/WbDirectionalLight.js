@@ -62,5 +62,9 @@ class WbDirectionalLight extends WbLight {
   applyLightShadowsToWren() {
     _wr_directional_light_set_cast_shadows(this.wrenLight, this.castShadows);
   }
+
+  clone(customID) {
+    return new WbDirectionalLight(customID, this.on, this.color, this.direction, this.intensity, this.castShadows, this.ambientIntensity);
+  }
 }
 export {WbDirectionalLight}

@@ -21,7 +21,7 @@ class WbPointSet extends WbGeometry {
     super(id);
     this.coord = coord;
     this.color = color;
-    
+
     this.isShadedGeometryPickable = false;
   }
 
@@ -136,6 +136,9 @@ class WbPointSet extends WbGeometry {
     return count;
   }
 
+  clone(customID) {
+    return new WbPointSet(customID, this.coord, this.color);
+  }
 }
 
 export {WbPointSet}

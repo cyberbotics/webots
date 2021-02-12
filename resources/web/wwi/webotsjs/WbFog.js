@@ -35,7 +35,7 @@ class WbFog extends WbBaseNode {
       _wr_scene_set_fog(_wr_scene_get_instance(), ENUM.WR_SCENE_FOG_TYPE_NONE, ENUM.WR_SCENE_FOG_DEPTH_TYPE_PLANE, null, 1.0, 0.0, 1.0);
 
     World.instance.hasFog = false;
-    
+
     super.delete();
   }
 
@@ -74,7 +74,10 @@ class WbFog extends WbBaseNode {
 
     if (this.wrenObjectsCreatedCalled)
       this.applyChangesToWren();
+  }
 
+  clone(customID) {
+    return new Fog(customID, this.color, this.visibilityRange, this.fogType)
   }
 }
 

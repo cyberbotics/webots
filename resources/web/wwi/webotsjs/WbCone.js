@@ -48,10 +48,9 @@ class WbCone extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  postFinalize() {
-    super.postFinalize();
+  clone(customID){
+    return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom)
   }
-
 }
 
 export {WbCone}

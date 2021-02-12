@@ -35,6 +35,10 @@ class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   updateTriangleMesh() {
     this.triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.creaseAngle, this.ccw, this.normalPerVertex);
   }
+
+  clone(customID) {
+    return new WbIndexedFaceSet(customID, this.isDefaultMapping, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.creaseAngle, this.ccw, this.normalPerVertex)
+  }
 }
 
 export {WbIndexedFaceSet}

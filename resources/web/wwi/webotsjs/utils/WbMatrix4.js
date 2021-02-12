@@ -25,17 +25,6 @@ class WbMatrix4 {
   }
 
   mulByVec4(v) {
-    //console.log(this.m);
-    /*console.log(this.m[0] * v.x + this.m[1] * v.y + this.m[2] * v.z + this.m[3] * v.w);
-    console.log(this.m[0]);
-    console.log(this.m[1]);
-    console.log(this.m[2]);
-    console.log(this.m[3]);
-    console.log(v.x);
-    console.log(v.y);
-    console.log(v.z);
-    console.log(v.w);*/
-
     return new WbVector4(this.m[0] * v.x + this.m[1] * v.y + this.m[2] * v.z + this.m[3] * v.w,
       this.m[4] * v.x + this.m[5] * v.y + this.m[6] * v.z + this.m[7] * v.w,
       this.m[8] * v.x + this.m[9] * v.y + this.m[10] * v.z + this.m[11] * v.w,
