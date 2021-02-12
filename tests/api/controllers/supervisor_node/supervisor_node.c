@@ -308,7 +308,7 @@ int main(int argc, char **argv) {
   WbNodeRef kinect_node = wb_supervisor_node_get_from_device(kinect_color);
   ts_assert_pointer_null(kinect_node, "Kinect node reference from device tag returned even if hidden");
 
-  wb_supervisor_node_reset_state(reset_target, "custom_state");
+  wb_supervisor_node_load_state(reset_target, "custom_state");
   doubleArray = wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation"));
   ts_assert_doubles_equal(3, state_position, doubleArray,
                           "Current solid's position is not equal to the solid's position on when the "

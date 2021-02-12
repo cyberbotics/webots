@@ -1269,7 +1269,7 @@ void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name) {
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_node_reset_state(WbNodeRef node, const char *state_name) {
+void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 

@@ -150,7 +150,7 @@ namespace webots {
     void addTorque(const double torque[3], bool relative);
 
     void saveState(const std::string &stateName);
-    void resetState(const std::string &stateName);
+    void loadState(const std::string &stateName);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

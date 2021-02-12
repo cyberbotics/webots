@@ -165,6 +165,6 @@ void Node::saveState(const std::string &stateName) {
   wb_supervisor_node_save_state(nodeRef, stateName.c_str());
 }
 
-void Node::resetState(const std::string &stateName) {
-  wb_supervisor_node_reset_state(nodeRef, stateName.c_str());
+void Node::loadState(const std::string &stateName) {
+  wb_supervisor_node_load_state(nodeRef, stateName.c_str());
 }

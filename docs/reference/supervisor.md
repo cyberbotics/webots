@@ -1285,7 +1285,7 @@ The last three are respectively the angular velocities around the x, y and z axe
 ---
 
 #### `wb_supervisor_node_save_state`
-#### `wb_supervisor_node_reset_state`
+#### `wb_supervisor_node_load_state`
 #### `wb_supervisor_node_reset_physics`
 
 %tab-component "language"
@@ -1296,7 +1296,7 @@ The last three are respectively the angular velocities around the x, y and z axe
 #include <webots/supervisor.h>
 
 void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
-void wb_supervisor_node_reset_state(WbNodeRef node, const char *state_name);
+void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_reset_physics(WbNodeRef node);
 ```
 
@@ -1310,7 +1310,7 @@ void wb_supervisor_node_reset_physics(WbNodeRef node);
 namespace webots {
   class Node {
     void saveState(const std::string &stateName);
-    void resetState(const std::string &stateName);
+    void loadState(const std::string &stateName);
     void resetPhysics();
     // ...
   }
@@ -1326,7 +1326,7 @@ from controller import Node
 
 class Node:
     def saveState(self, stateName):
-    def resetState(self, stateName):
+    def loadState(self, stateName):
     def resetPhysics(self):
     # ...
 ```
@@ -1340,7 +1340,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public void saveState(String stateName);
-  public void resetState(String stateName);
+  public void loadState(String stateName);
   public void resetPhysics();
   // ...
 }
@@ -1352,7 +1352,7 @@ public class Node {
 
 ```MATLAB
 wb_supervisor_node_save_state(node, state_name)
-wb_supervisor_node_reset_state(node, state_name)
+wb_supervisor_node_load_state(node, state_name)
 wb_supervisor_node_reset_physics(node)
 ```
 
@@ -1376,11 +1376,11 @@ wb_supervisor_node_reset_physics(node)
 
 The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
 The state is saved internally under a key equal to the `state_name` parameter.
-Therefore, the state can be reverted using the `wb_supervisor_node_reset_state` function afterward.
+Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
 
-The `wb_supervisor_node_reset_state` function loads the state of the given node and all its descendant nodes.
+The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
 The function parameter `state_name` has to be a valid value, or the controller will fail.
-The valid `state_name` value means that the state is saved with the `wb_supervisor_node_reset_state` function, or a special value `__init__`.
+The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a special value `__init__`.
 If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the timer).
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
