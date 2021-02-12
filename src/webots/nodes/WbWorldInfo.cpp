@@ -377,6 +377,8 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       writer << "'";
     }
 
+    writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
+
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";
   } else
