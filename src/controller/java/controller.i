@@ -26,7 +26,6 @@
 #include <webots/Connector.hpp>
 #include <webots/Compass.hpp>
 #include <webots/Device.hpp>
-#include <webots/DifferentialWheels.hpp>
 #include <webots/Display.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Emitter.hpp>
@@ -1138,12 +1137,6 @@ namespace webots {
 %}
 
 %include <webots/Robot.hpp>
-
-//----------------------------------------------------------------------------------------------
-//  DifferentialWheels
-//----------------------------------------------------------------------------------------------
-
-%include <webots/DifferentialWheels.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Supervisor

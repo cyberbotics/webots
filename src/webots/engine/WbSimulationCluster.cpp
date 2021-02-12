@@ -20,7 +20,6 @@
 #include "WbFluid.hpp"
 #include "WbGeometry.hpp"
 #include "WbImmersionProperties.hpp"
-#include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
 #include "WbOdeContact.hpp"
 #include "WbOdeContext.hpp"
@@ -110,7 +109,6 @@ void WbSimulationCluster::step() {
   // here we swap the front buffer with the back buffer.
   swapBuffer();
 
-  handleKinematicsCollisions();
   // debugStep(mContext->world());
   // empty all the joints created by Webots in the previous frame
   dJointGroupEmpty(physicsPluginContactJointGroup());
@@ -146,35 +144,6 @@ dJointGroupID WbSimulationCluster::physicsPluginContactJointGroup() const {
 
 dJointGroupID WbSimulationCluster::bodyContactJointGroup(dBodyID b) {
   return mSwapJointContactBuffer ? mContext->bodyContactJointGroup1(b) : mContext->bodyContactJointGroup2(b);
-}
-
-void WbSimulationCluster::handleKinematicsCollisions() {
-  // handle DifferentialWheels robots without physics
-  foreach (WbKinematicDifferentialWheels *robot, mCollisionedRobots)
-    robot->applyKinematicDisplacement();
-  mCollisionedRobots.clear();
-}
-
-void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *robot, bool collideWithOtherRobot,
-                                                 dContact *contact, bool body1) {
-  // handle DifferentialWheels robots without physics
-  WbVector2 normal2D(contact[0].geom.normal[0], contact[0].geom.normal[2]);
-  WbVector3 normal3D(contact[0].geom.normal[0], contact[0].geom.normal[1], contact[0].geom.normal[2]);
-  double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
-
-  // record contact points for graphical and sound rendering
-  WbWorld *const world = WbWorld::instance();
-  const WbOdeContact odeContact(contact[0].geom, NULL);
-  world->appendOdeContact(odeContact);
-
-  // move robots to prevent robots beeing one inside the other
-  WbVector2 displacement = WbVector2(normal2D[0] * depth, normal2D[1] * depth);
-  if (collideWithOtherRobot)
-    displacement /= 2;
-  if (body1)
-    robot->addKinematicDisplacement(-displacement);
-  else
-    robot->addKinematicDisplacement(displacement);
 }
 
 // don't not remove, this is useful to debug surface paramaters
@@ -591,35 +560,6 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   WbTouchSensor *const ts2 = dynamic_cast<WbTouchSensor *>(s2);
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
-
-  const WbPhysics *const p1 = s1->physics();
-  const WbPhysics *const p2 = s2->physics();
-
-  // kinematic mode
-  if (!p1 || !p2) {
-    WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
-    WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
-    if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
-      wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
-      if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));  // we want only one contact point
-        wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
-        collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
-      } else
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), false, contact, true);
-      return;
-    }
-    if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
-      wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-      collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
-      return;
-    }
-  }
 
   // Handles the case of ray geometry against a non-ray geometry, i.e. at least one body is null
   if (isRayGeom1) {

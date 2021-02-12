@@ -45,7 +45,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Compass.hpp>
 #include <webots/Connector.hpp>
 #include <webots/Device.hpp>
-#include <webots/DifferentialWheels.hpp>
 #include <webots/Display.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Emitter.hpp>
@@ -1196,12 +1195,6 @@ class AnsiCodes(object):
 }
 
 %include <webots/Robot.hpp>
-
-//----------------------------------------------------------------------------------------------
-//  DifferentialWheels
-//----------------------------------------------------------------------------------------------
-
-%include <webots/DifferentialWheels.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Supervisor

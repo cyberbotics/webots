@@ -16,7 +16,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 %}
 
 %{
-#include <webots/DifferentialWheels.hpp> // avoid '‘DifferentialWheels’ is not a member of ‘webots’' error
 #include <webots/vehicle/Driver.hpp>
 #include <webots/vehicle/Car.hpp>
 %}

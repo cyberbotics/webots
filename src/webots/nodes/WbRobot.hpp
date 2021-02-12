@@ -29,7 +29,6 @@
 class WbAbstractCamera;
 class WbDevice;
 class WbJoystickInterface;
-class WbKinematicDifferentialWheels;
 class WbMFDouble;
 class WbMouse;
 class WbRenderingDevice;
@@ -134,8 +133,6 @@ public:
 
   void setNeedToWriteUserInputEventAnswer() { mNeedToWriteUserInputEventAnswer = true; }
 
-  WbKinematicDifferentialWheels *kinematicDifferentialWheels() { return mKinematicDifferentialWheels; }
-
 public slots:
   void receiveFromJavascript(const QByteArray &message);
 
@@ -157,15 +154,12 @@ protected:
   WbRobot(const QString &modelName, WbTokenizer *tokenizer);
 
   // reimplemented protected functions
-  void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   virtual void writeConfigure(QDataStream &);
 
   // export
   void exportNodeFields(WbVrmlWriter &writer) const override;
   const QString urdfName() const override;
-
-  WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
 
 private:
   // user accessible fields

@@ -39,9 +39,6 @@
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Device.cpp">
       <Filter>Source Files\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\DifferentialWheels.cpp">
-      <Filter>Source Files\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Display.cpp">
       <Filter>Source Files\cpp</Filter>
     </ClCompile>

@@ -58,8 +58,5 @@ Device::Device(WbDeviceTag tag) : mTag(tag), mType(WB_NODE_NO_NODE), mName(""), 
   } else {  // robot
     mType = wb_robot_get_type();
     mName = QString::fromUtf8(wb_robot_get_name());
-
-    if (mType == WB_NODE_DIFFERENTIAL_WHEELS)
-      mCategory = "DifferentialWheels";
   }
 }

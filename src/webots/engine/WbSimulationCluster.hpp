@@ -26,7 +26,6 @@
 class WbContactProperties;
 class WbImmersionProperties;
 class WbOdeContext;
-class WbKinematicDifferentialWheels;
 class WbSolid;
 class WbGeometry;
 class QMutex;
@@ -54,7 +53,6 @@ private:
   WbOdeContext *mContext;
   static QMutex *cJointCreationMutex;
 
-  QList<WbKinematicDifferentialWheels *> mCollisionedRobots;
   void handleKinematicsCollisions();
   void swapBuffer();
   static const WbContactProperties *fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
@@ -62,8 +60,6 @@ private:
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,
                                              dImmersionSurfaceParameters *surf);
   static void odeNearCallback(void *data, dGeomID o1, dGeomID o2);
-  static void collideKinematicRobots(WbKinematicDifferentialWheels *robot, bool collideWithOtherRobot, dContact *contact,
-                                     bool body1);
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;

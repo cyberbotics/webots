@@ -21,7 +21,6 @@
 - [Cylinder](cylinder.md)
 - [Damping](damping.md)
 - [Device](device.md)
-- [DifferentialWheels](differentialwheels.md)
 - [DirectionalLight](directionallight.md)
 - [Display](display.md)
 - [DistanceSensor](distancesensor.md)

@@ -2445,37 +2445,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
 </context>
 <context>
-    <name>WbDifferentialWheels</name>
-    <message>
-        <source>A Solid children named &quot;right wheel&quot; is missing.</source>
-        <translation>Eine festes  direktes untergeordnetes Element namens &quot;rechtes Rad&quot; fehlt. </translation>
-    </message>
-    <message>
-        <source>A Solid children named &quot;left wheel&quot; is missing.</source>
-        <translation>Eine festes  direktes untergeordnetes Element namens &quot;linkes  Rad&quot; fehlt. </translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Das feste direkt untergeordnete Element namens &quot;rechtes Rad&quot; hat kein &apos;boundingObject&apos;. </translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Das feste direkt untergeordnete Element namens &quot;linkes  Rad&quot; hat kein &apos;boundingObject&apos;. </translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Das feste direkt untergeordnete Element namens &quot;rechtes Rad&quot; hat keine &apos;Physics&apos;. </translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Das feste direkt untergeordnete Element namens &quot;linkes Rad&quot; hat keine &apos;Physics&apos;. </translation>
-    </message>
-    <message>
-        <source>The DifferentialWheels node is deprecated. Please use the Robot node instead with two HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from the Help menu to get assistance on converting your DifferentialWheels robot.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WbDirectionalLight</name>
     <message>
         <source>Maximum number of directional lights (%1) has been reached, newly added lights won&apos;t be rendered.</source>

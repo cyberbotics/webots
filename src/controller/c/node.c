@@ -54,8 +54,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Cylinder";
     case WB_NODE_DAMPING:
       return "Damping";
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      return "DifferentialWheels";
     case WB_NODE_DIRECTIONAL_LIGHT:
       return "DirectionalLight";
     case WB_NODE_DISPLAY:

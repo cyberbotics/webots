@@ -126,7 +126,6 @@
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Compass.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Connector.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Device.cpp" />
-    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\DifferentialWheels.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Display.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\DistanceSensor.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Emitter.cpp" />

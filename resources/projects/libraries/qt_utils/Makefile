@@ -44,7 +44,6 @@ CXX_SOURCES = \
   widgets/CompassWidget.cpp \
   widgets/DeviceWidget.cpp \
   widgets/DeviceWidgetFactory.cpp \
-  widgets/DifferentialWheelsWidget.cpp \
   widgets/DistanceSensorWidget.cpp \
   widgets/GPSWidget.cpp \
   widgets/GyroWidget.cpp \
@@ -78,7 +77,6 @@ HPP_FILES_TO_MOC = \
   widgets/AccelerometerWidget.hpp \
   widgets/CameraWidget.hpp \
   widgets/CompassWidget.hpp \
-  widgets/DifferentialWheelsWidget.hpp \
   widgets/DistanceSensorWidget.hpp \
   widgets/GPSWidget.hpp \
   widgets/GyroWidget.hpp \

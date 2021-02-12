@@ -20,7 +20,6 @@
 #include "WbDisplay.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
-#include "WbKinematicDifferentialWheels.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbLog.hpp"
 #include "WbLogicalDevice.hpp"
@@ -116,7 +115,6 @@ void WbRobot::init() {
   mPreviousTime = -1.0;
   mSupervisorUtilitiesNeedUpdate = false;
   mSupervisorUtilities = NULL;
-  mKinematicDifferentialWheels = NULL;
 
   mMessageFromWwi = NULL;
   mShowWindowCalled = false;
@@ -179,7 +177,6 @@ WbRobot::~WbRobot() {
   delete mJoystickTimer;
   delete mUserInputEventTimer;
   delete mJoyStickLastValue;
-  delete mKinematicDifferentialWheels;
   if (mMouse)
     WbMouse::destroy(mMouse);
   delete mSupervisorUtilities;
@@ -236,7 +233,6 @@ void WbRobot::preFinalize() {
 
 void WbRobot::postFinalize() {
   WbSolid::postFinalize();
-  mKinematicDifferentialWheels = WbKinematicDifferentialWheels::createKinematicDifferentialWheelsIfNeeded(this);
 
   connect(mController, &WbSFString::changed, this, &WbRobot::updateControllerDir);
   connect(mWindow, &WbSFString::changed, this, &WbRobot::updateWindow);
@@ -644,12 +640,6 @@ double WbRobot::energyConsumption() const {
   return e;
 }
 
-void WbRobot::prePhysicsStep(double ms) {
-  WbSolid::prePhysicsStep(ms);
-  if (mKinematicDifferentialWheels)
-    mKinematicDifferentialWheels->applyKinematicMotion(ms);
-}
-
 void WbRobot::postPhysicsStep() {
   WbSolid::postPhysicsStep();
   if (mPin) {
@@ -1026,7 +1016,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     default:
       // if it was not catched, then this message is apparently for a subclass of WbRobot
-      // we must rewind 1 byte so the DifferentialWheels or Supervisor can read the command
+      // we must rewind 1 byte so the Supervisor can read the command
       device->ungetChar(byte);
   }
   if (mSupervisorUtilities)
