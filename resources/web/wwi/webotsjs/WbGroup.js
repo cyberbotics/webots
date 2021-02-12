@@ -26,15 +26,19 @@ class WbGroup extends WbBaseNode{
     this.currentHelix = -1; //to switch between fast and slow helix
   }
 
-  delete() {
+  delete(isBoundingObject) {
     if (typeof this.parent === 'undefined'){
       let index = World.instance.sceneTree.indexOf(this)
       World.instance.sceneTree.splice(index, 1);
     } else {
       let parent = World.instance.nodes.get(this.parent);
       if(typeof parent !== 'undefined') {
-        let index = parent.children.indexOf(this)
-        parent.children.splice(index, 1);
+        if(isBoundingObject)
+          parent.isBoundingObject = null;
+        else {
+          let index = parent.children.indexOf(this)
+          parent.children.splice(index, 1);
+        }
       }
     }
 
@@ -68,7 +72,7 @@ class WbGroup extends WbBaseNode{
   preFinalize() {
     super.preFinalize();
 
-    this.children.forEach( child => child.preFinalize());
+    this.children.forEach(child => child.preFinalize());
   }
 
   postFinalize() {
@@ -98,14 +102,16 @@ class WbGroup extends WbBaseNode{
     }
   }
 
-  clone(customID) {
+  async clone(customID) {
     let group = new WbGroup(customID, this.isPropeller)
-    this.children.forEach(child => {
-      let cloned = child.clone("n" + Parser.undefinedID++)
+    let length = this.children.length;
+    for(let i = 0; i < length; i++) {
+      let cloned = await this.children[i].clone("n" + Parser.undefinedID++)
       cloned.parent = customID;
       World.instance.nodes.set(cloned.id, cloned);
       group.children.push(cloned)
-    });
+    }
+
     return group;
   }
 }

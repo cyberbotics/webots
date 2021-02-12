@@ -99,7 +99,7 @@ class WbAppearance extends WbAbstractAppearance {
       this.texture.postFinalize();
   }
 
-  clone(customID) {
+  async clone(customID) {
     let material, texture, transform;
     if(typeof this.material !== 'undefined'){
       material = this.material.clone("n" + Parser.undefinedID++);
@@ -108,13 +108,13 @@ class WbAppearance extends WbAbstractAppearance {
     }
 
     if (typeof this.texture !== 'undefined'){
-      texture = this.texture.clone("n" + Parser.undefinedID++);
+      texture = await this.texture.clone("n" + Parser.undefinedID++);
       texture.parent = customID;
       World.instance.nodes.set(texture.id, texture);
     }
 
-    if (typeof this.transform !== 'undefined'){
-      transform = this.transform.clone("n" + Parser.undefinedID++);
+    if (typeof this.textureTransform !== 'undefined'){
+      transform = this.textureTransform.clone("n" + Parser.undefinedID++);
       transform.parent = customID;
       World.instance.nodes.set(transform.id, transform);
     }

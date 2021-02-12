@@ -32,7 +32,7 @@ class WbAbstractAppearance extends WbBaseNode {
     }
 
     if(typeof this.textureTransform !== 'undefined')
-      this.textureTransform.delete;
+      this.textureTransform.delete();
 
     super.delete();
   }

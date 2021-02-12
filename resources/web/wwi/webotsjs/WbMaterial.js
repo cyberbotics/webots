@@ -39,7 +39,7 @@ class WbMaterial extends WbBaseNode {
         shape.updateAppearance();
       }
     }
-    super.delete
+    super.delete()
   }
 
   modifyWrenMaterial(wrenMaterial, textured) {

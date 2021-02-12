@@ -29,16 +29,16 @@ class WbTransform extends WbGroup {
     this.boundingObject = undefined;
   }
 
-  delete(){
+  delete(isBoundingObject){
     if (this.wrenObjectsCreatedCalled){
       _wr_node_delete(this.wrenNode);
     }
 
     if(typeof this.boundingObject !== 'undefined'){
-      this.boundingObject.delete()
+      this.boundingObject.delete(true)
     }
 
-    super.delete();
+    super.delete(isBoundingObject);
   }
 
   createWrenObjects() {
@@ -95,16 +95,17 @@ class WbTransform extends WbGroup {
       this.boundingObject.postFinalize()
   }
 
-  clone(customID) {
+  async clone(customID) {
     let transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation)
-    this.children.forEach(child => {
-      let cloned = child.clone("n" + Parser.undefinedID++)
+
+    let length = this.children.length;
+    for(let i = 0; i < length; i++) {
+      let cloned = await this.children[i].clone("n" + Parser.undefinedID++)
       cloned.parent = customID;
       World.instance.nodes.set(cloned.id, cloned);
       transform.children.push(cloned)
-    });
+    }
 
-    //TODO: bounding object
     return transform
   }
 }

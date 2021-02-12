@@ -33,15 +33,19 @@ class WbShape extends WbBaseNode {
     this.wrenMaterial = undefined;
   }
 
-  delete() {
+  delete(isBoundingObject) {
     if (typeof this.parent === 'undefined'){
       let index = World.instance.sceneTree.indexOf(this)
       World.instance.sceneTree.splice(index, 1);
     } else {
       let parent = World.instance.nodes.get(this.parent);
       if(typeof parent !== 'undefined') {
-        let index = parent.children.indexOf(this)
-        parent.children.splice(index, 1);
+        if(isBoundingObject)
+          parent.isBoundingObject = null;
+        else {
+          let index = parent.children.indexOf(this)
+          parent.children.splice(index, 1);
+        }
       }
     }
 
@@ -164,7 +168,7 @@ class WbShape extends WbBaseNode {
       this.geometry.updateBoundingObjectVisibility();
   }
 
-  clone(customID) {
+  async clone(customID) {
     let geometry, appearance;
     if(typeof this.geometry !== 'undefined') {
       geometry = this.geometry.clone("n" + Parser.undefinedID++);
@@ -173,7 +177,7 @@ class WbShape extends WbBaseNode {
     }
 
     if(typeof this.appearance !== 'undefined') {
-      appearance = this.appearance.clone("n" + Parser.undefinedID++);
+      appearance = await this.appearance.clone("n" + Parser.undefinedID++);
       appearance.parent = customID;
       World.instance.nodes.set(appearance.id, appearance);
     }

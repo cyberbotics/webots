@@ -34,15 +34,6 @@ class WbBaseNode {
 
 
   delete(){
-    //check if it is a DEF node
-    let uses = World.instance.defUse[this.id];
-    if (typeof uses !== 'undefined') {
-      if (uses.size !== 0) {
-
-      }
-      delete World.instance.defUse[this.id];
-    }
-
     World.instance.nodes.delete(this.id);
   }
 

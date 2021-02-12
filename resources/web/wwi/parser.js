@@ -339,7 +339,7 @@ class Parser {
     if(typeof result === 'undefined')
       return;
 
-    let useNode = result.clone(id);
+    let useNode = await result.clone(id);
     if (typeof currentNode !== 'undefined'){
       useNode.parent = currentNode.id;
       if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
@@ -822,7 +822,6 @@ class Parser {
     if (typeof boundingObject === 'undefined')
       return
 
-    boundingObject.id = "n" + Parser.undefinedID++;
     boundingObject.parent = parent.id;
     parent.boundingObject = boundingObject;
 
@@ -982,23 +981,23 @@ class Parser {
           baseColorMap.type = "baseColorMap";
       } else if (type === 'roughness'){
         roughnessMap = await this.parseImageTexture(imageTexture);
-        if (typeof baseColorMap !== 'undefined')
+        if (typeof roughnessMap !== 'undefined')
           roughnessMap.type = "roughnessMap";
       } else if (type === 'metalness'){
         metalnessMap = await this.parseImageTexture(imageTexture);
-        if (typeof baseColorMap !== 'undefined')
+        if (typeof metalnessMap !== 'undefined')
           metalnessMap.type = "metalnessMap";
       } else if (type === 'normal'){
         normalMap = await this.parseImageTexture(imageTexture);
-        if (typeof baseColorMap !== 'undefined')
+        if (typeof normalMap !== 'undefined')
           normalMap.type = "normalMap";
       } else if (type === 'occlusion') {
         occlusionMap = await this.parseImageTexture(imageTexture);
-        if (typeof baseColorMap !== 'undefined')
+        if (typeof occlusionMap !== 'undefined')
           occlusionMap.type = "occlusionMap";
       } else if (type === 'emissiveColor'){
         emissiveColorMap = await this.parseImageTexture(imageTexture);
-        if (typeof baseColorMap !== 'undefined')
+        if (typeof emissiveColorMap !== 'undefined')
           emissiveColorMap.type = "emissiveColorMap";
       }
     }
