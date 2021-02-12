@@ -19,7 +19,7 @@ import {WbAppearance} from "./WbAppearance.js";
 import {arrayXPointer} from "./WbUtils.js";
 import {textureFiltering} from "./WbPreferences.js";
 import {WbVector2} from "./utils/WbVector2.js"
-import {MyParser} from "./../my_parser.js"
+import {Parser} from "./../parser.js"
 
 
 class WbImageTexture extends WbBaseNode {
@@ -126,7 +126,7 @@ class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      let image = await MyParser.loadTextureData(this.url);
+      let image = await Parser.loadTextureData(this.url);
       texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, image.width, image.height);
       _wr_texture_set_translucent(texture, this.isTransparent);

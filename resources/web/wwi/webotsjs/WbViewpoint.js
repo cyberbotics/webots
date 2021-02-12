@@ -121,9 +121,6 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateNear() {
-    //TODO
-    //if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.05))
-      //return;
     if (this.far > 0.0 && this.far < this.near)
       this.near = this.far;
 
@@ -132,10 +129,6 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateFar() {
-    //TODO
-    //if (WbFieldChecker::resetDoubleIfNegative(this, mFar, 0.0))
-      //return;
-
     if (this.far > 0.0 && this.far < this.near) {
       this.far = this.near + 1.0;
       //TOCHECK it is strange to return here but not in update near
@@ -147,15 +140,10 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateFieldOfView() {
-    //if (WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mFieldOfView, 0.0, M_PI, M_PI_2))
-      //return;
-
     this.updateFieldOfViewY();
 
     if (this.wrenObjectsCreatedCalled)
       this.applyFieldOfViewToWren();
-
-    //emit cameraParametersChanged();
   }
 
   updateFieldOfViewY() {
@@ -262,9 +250,6 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateExposure() {
-    //TODO
-    //if (WbFieldChecker::resetDoubleIfNegative(this, this.exposure, 1.0))
-      //return;
     if (this.wrenObjectsCreatedCalled && this.wrenHdr)
       this.wrenHdr.setExposure(this.exposure);
   }

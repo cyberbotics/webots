@@ -53,9 +53,9 @@ import {RGBELoader} from "./hdrLoader.js"
 
 import {DefaultUrl} from "./default_url.js"
 
-class MyParser {
-  constructor() {
-      this.prefix = "http://localhost:1234/"; //TODO don't hardcode
+class Parser {
+  constructor(prefix = '') {
+      this.prefix = prefix;
       let world = new World();
       this.undefinedID = 90000;
   }
@@ -223,13 +223,13 @@ class MyParser {
   async parseScene(node) {
     let prefix = DefaultUrl.wrenImagesUrl();
     let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await MyParser.loadTextureData(prefix + "lens_flare.png");
+    let lensFlareLenTexture = await Parser.loadTextureData(prefix + "lens_flare.png");
     lensFlareLenTexture.isTranslucent = true;
-    let smaaAreaTexture = await MyParser.loadTextureData(prefix + "smaa_area_texture.png");
+    let smaaAreaTexture = await Parser.loadTextureData(prefix + "smaa_area_texture.png");
     smaaAreaTexture.isTranslucent = false;
-    let smaaSearchTexture = await MyParser.loadTextureData(prefix + "smaa_search_texture.png");
+    let smaaSearchTexture = await Parser.loadTextureData(prefix + "smaa_search_texture.png");
     smaaSearchTexture.isTranslucent = false;
-    let gtaoNoiseTexture = await MyParser.loadTextureData(prefix + "gtao_noise_texture.png");
+    let gtaoNoiseTexture = await Parser.loadTextureData(prefix + "gtao_noise_texture.png");
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
@@ -279,12 +279,12 @@ class MyParser {
       rightUrl = rightUrl.slice(1, rightUrl.length-1);
       topUrl = topUrl.slice(1, topUrl.length-1);
 
-      cubeImages[5] = await MyParser.loadTextureData(this.prefix + backUrl);
-      cubeImages[3] = await MyParser.loadTextureData(this.prefix + bottomUrl);
-      cubeImages[4] = await MyParser.loadTextureData(this.prefix + frontUrl);
-      cubeImages[1] = await MyParser.loadTextureData(this.prefix + leftUrl);
-      cubeImages[0] = await MyParser.loadTextureData(this.prefix + rightUrl);
-      cubeImages[2] = await MyParser.loadTextureData(this.prefix + topUrl);
+      cubeImages[5] = await Parser.loadTextureData(this.prefix + backUrl);
+      cubeImages[3] = await Parser.loadTextureData(this.prefix + bottomUrl);
+      cubeImages[4] = await Parser.loadTextureData(this.prefix + frontUrl);
+      cubeImages[1] = await Parser.loadTextureData(this.prefix + leftUrl);
+      cubeImages[0] = await Parser.loadTextureData(this.prefix + rightUrl);
+      cubeImages[2] = await Parser.loadTextureData(this.prefix + topUrl);
     } else {
       console.log("Background : Incomplete cubemap");
     }
@@ -306,12 +306,12 @@ class MyParser {
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length-1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length-1);
 
-      irradianceCubeURL[2] = await MyParser.loadTextureData(this.prefix + topIrradianceUrl, true);
-      irradianceCubeURL[5] = await MyParser.loadTextureData(this.prefix + backIrradianceUrl, true);
-      irradianceCubeURL[3] = await MyParser.loadTextureData(this.prefix + bottomIrradianceUrl, true);
-      irradianceCubeURL[4] = await MyParser.loadTextureData(this.prefix + frontIrradianceUrl, true);
-      irradianceCubeURL[1] = await MyParser.loadTextureData(this.prefix + leftIrradianceUrl, true);
-      irradianceCubeURL[0] = await MyParser.loadTextureData(this.prefix + rightIrradianceUrl, true);
+      irradianceCubeURL[2] = await Parser.loadTextureData(this.prefix + topIrradianceUrl, true);
+      irradianceCubeURL[5] = await Parser.loadTextureData(this.prefix + backIrradianceUrl, true);
+      irradianceCubeURL[3] = await Parser.loadTextureData(this.prefix + bottomIrradianceUrl, true);
+      irradianceCubeURL[4] = await Parser.loadTextureData(this.prefix + frontIrradianceUrl, true);
+      irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true);
+      irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
     } else {
       console.log("Background : Incomplete irradiance cubemap");
     }
@@ -1088,14 +1088,14 @@ class MyParser {
     let image = new WbImage();
 
     if(isHdr){
-      let img = await MyParser.loadHDRImage(url);
+      let img = await Parser.loadHDRImage(url);
       image.bits = img.data;
       image.width = img.width;
       image.height = img.height;
       image.url = url;
     }
     else {
-      let img = await MyParser.loadImage(url);
+      let img = await Parser.loadImage(url);
       canvas2.width = img.width;
       canvas2.height = img.height;
       context.drawImage(img, 0, 0);
@@ -1156,4 +1156,4 @@ function convertStringToQuaternion(s) {
   return q;
 }
 
-export {MyParser, convertStringToVec3, convertStringToQuaternion}
+export {Parser, convertStringToVec3, convertStringToQuaternion}

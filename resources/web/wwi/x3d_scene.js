@@ -1,4 +1,4 @@
-import {MyParser, convertStringToVec3, convertStringToQuaternion} from "./my_parser.js";
+import {Parser, convertStringToVec3, convertStringToQuaternion} from "./parser.js";
 import {webots} from "./../wwi/webots.js";
 
 import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
@@ -18,7 +18,7 @@ import {getAncestor} from "./webotsjs/WbUtils.js"
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
-    this.loader = new MyParser();
+    this.loader = new Parser(this.prefix);
   }
 
   init(texturePathPrefix = '') {
@@ -129,7 +129,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
         let doc = request.responseXML;
 
         if(typeof this.loader === 'undefined')
-          this.loader = new MyParser();
+          this.loader = new Parser(this.prefix);
 
         this.loader.prefix = '';
         console.log(doc.getElementsByTagName('Scene')[0]);
@@ -151,7 +151,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     if(typeof this.loader === 'undefined')
-      this.loader = new MyParser();
+      this.loader = new Parser(this.prefix);
 
     this.loader.prefix = "http://localhost:1234/";
     this.loader.parse(x3dObject, this.renderer, parentNode);
