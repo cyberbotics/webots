@@ -11,6 +11,8 @@ Released on XX Xth, 2021.
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
   - Bug fixes
     - Windows: Fixed double-click opening of a world file located in a path with UTF-8 characters ([#2750](https://github.com/cyberbotics/webots/pull/2750)). 
+    - Fixed invalid world loading errors cleared from the console when reverting to the empty world ([#2737](https://github.com/cyberbotics/webots/pull/2737)).
+    - Fixed synchronization of [Supervisor](supervisor.md) simulation reset that was applied after the step and now it is applied at the very end of the step ([#2720](https://github.com/cyberbotics/webots/pull/2720)).
     - Fixed [Camera](camera.md) image update in controllers after simulation reset ([#2725](https://github.com/cyberbotics/webots/pull/2725)).
     - Fixed adding textures to a simulation while a streaming-viewer is running ([#2704](https://github.com/cyberbotics/webots/pull/2704)).
     - Fixed compilation of default controllers using Qt on Windows ([#2718](https://github.com/cyberbotics/webots/pull/2718)).

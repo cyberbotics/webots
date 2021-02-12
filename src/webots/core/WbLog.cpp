@@ -32,7 +32,6 @@ void WbLog::cleanup() {
 WbLog *WbLog::instance() {
   if (!gInstance) {
     gInstance = new WbLog();
-    gInstance->mPopUpMessagesPostponed = false;
     qRegisterMetaType<WbLog::Level>("WbLog::Level");
     qAddPostRoutine(WbLog::cleanup);
   }
@@ -64,7 +63,8 @@ void WbLog::debug(const QString &message, const QString &name, bool popup) {
 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
+  if (!instance()->mConsoleLogsPostponed &&
+      instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
     instance()->emitLog(DEBUG, "DEBUG: " + message, popup, name);
   else
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, name, DEBUG);
@@ -77,7 +77,7 @@ void WbLog::info(const QString &message, const QString &name, bool popup) {
   }
 
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfReceivers > 1)
+  if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
     instance()->emitLog(INFO, "INFO: " + message, popup, name);
   else {
     if (numberOfReceivers == 0)
@@ -93,7 +93,7 @@ void WbLog::warning(const QString &message, const QString &name, bool popup) {
   }
 
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfReceivers > 1)
+  if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
     instance()->emitLog(WARNING, "WARNING: " + message, popup, name);
   else {
     if (numberOfReceivers == 0)
@@ -109,7 +109,7 @@ void WbLog::error(const QString &message, const QString &name, bool popup) {
   }
 
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfReceivers > 1)
+  if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
     instance()->emitLog(ERROR, "ERROR: " + message, popup, name);
   else {
     if (numberOfReceivers == 0)

@@ -79,6 +79,8 @@ WbWorld *WbWorld::instance() {
 
 WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
+  mResetRequested(false),
+  mRestartControllers(false),
   mIsModified(false),
   mIsModifiedFromSceneTree(false),
   mWorldInfo(NULL),
