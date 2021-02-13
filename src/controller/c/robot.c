@@ -1064,6 +1064,7 @@ int wb_robot_init() {  // API initialization
   robot.device[0]->read_answer = robot_read_answer;
   robot.device[0]->write_request = robot_write_request;
   robot.device[0]->cleanup = NULL;
+  robot.device[0]->reset = NULL;
   robot_init_was_done = true;
   robot_step_mutex = wb_robot_mutex_new();
   robot.device[0]->toggle_remote = robot_toggle_remote;
