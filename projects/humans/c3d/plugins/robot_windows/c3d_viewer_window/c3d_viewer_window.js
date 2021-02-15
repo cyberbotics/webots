@@ -218,6 +218,8 @@ webots.window('c3d_viewer_window').receive = function(message, _robot) {
 
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
+  PlotWidget.recordDataInBackground = true;
+  TimeplotWidget.recordDataInBackground = true;
 
   document.getElementById('upload_file').addEventListener('change', function(event) {
     let files = event.target.files;
