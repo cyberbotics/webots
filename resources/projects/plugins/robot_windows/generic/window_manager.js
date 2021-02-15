@@ -67,12 +67,12 @@ function addTab(type, isDevice, deviceSwitch) {
   let buttonsDiv = '';
   if (deviceSwitch && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
     buttonsDiv += '<div class="device-mode-switch">' +
-      '<div>Control devices' +
+      '<div>Override controller' +
       '<label id="' + type + '-switch" class="switch">' +
         '<input id="' + type + '-mode-checkbox" type="checkbox" onclick="setDeviceModeCallback(this, \'' + type + '\')">' +
         '<span class="device-mode-slider"></span>' +
       '</label></div>' +
-      '<div>If enabled, robot devices will be enabled/disabled with the device checkbox</div>' +
+      '<div>If enabled, the devices will be enabled/disabled from their checkbox</div>' +
       '</div>';
   }
   if (isDevice && type !== 'DifferentialWheels') {
