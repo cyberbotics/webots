@@ -25,7 +25,6 @@
 #include "string_utils.h"
 
 static int time_step = 0;
-static double max_speed = 0.0;
 
 static void enable_device(WbDeviceTag tag, bool enable) {
   WbNodeType type = wb_device_get_node_type(tag);
