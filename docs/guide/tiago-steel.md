@@ -26,11 +26,11 @@ TiagoSteel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/protos/TiagoSteel.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/protos/TiagoSteel.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto)"
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_steel/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_steel/worlds)".
 
 #### tiago\_steel.wbt
 

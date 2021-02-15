@@ -1200,6 +1200,7 @@ void WbDisplay::postPhysicsStep() {
 void WbDisplay::reset() {
   WbRenderingDevice::reset();
 
+  delete[] mImage;
   mImage = NULL;
   mColor = 0xFFFFFF;
   mAlpha = 0xFF;

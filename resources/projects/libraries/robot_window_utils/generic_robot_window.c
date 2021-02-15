@@ -103,7 +103,7 @@ static WbNodeType stringToDeviceType(const char *typeString) {
 }
 
 static void enable_device(WbDeviceTag tag, bool enable) {
-  WbNodeType type = wb_device_get_node_type(tag);
+  const WbNodeType type = wb_device_get_node_type(tag);
   if (!isDeviceTypeControlEnabled[type - WB_NODE_ACCELEROMETER])
     return;
 

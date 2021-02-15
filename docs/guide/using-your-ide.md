@@ -189,7 +189,7 @@ If you want to use the C++ API follow these instructions:
     In the file dialog, go to the "C:\Program Files\Webots\resources\languages\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
     This should add the "Accelerometer.cpp, Camera.cpp, Compass.cpp", etc. source files to your project.
 
-6. Now you should be able to build your controller with the `Build / Build MyController` menu item (or the F7 key).
+6. Now you should be able to build your controller with the `Build / Build MyController` menu item (or the <kbd>F7</kbd> key).
 This should generate the "MyProject\controllers\MyController\MyController.exe" file.
 
 7. Now we can switch to Webots in order to test the .exe controller.

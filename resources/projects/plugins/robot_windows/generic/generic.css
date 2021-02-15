@@ -9,10 +9,6 @@ h1 {
 h2 {
   font-size: 0.8em;
 }
-.settings-content {
-  font-size: 0.8em;
-  margin: 10px;
-}
 #content {
   margin-left: 200px; /* This value is adjusted by the JS when creating/showing/hiding the menu. */
 }
@@ -329,4 +325,11 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast;
+}
+.settings-content {
+  font-size: 0.8em;
+  margin: 10px;
+}
+.settings-content > * {
+  margin-left: 0px;
 }

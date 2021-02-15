@@ -483,7 +483,7 @@ namespace webots {
 from controller import RangeFinder
 
 class RangeFinder (Device):
-    def getRangeImage(self):
+    def getRangeImage(self, data_type='list'):
     def getRangeImageArray(self):
     @staticmethod
     def rangeImageGetDepth(image, width, x, y):
@@ -550,8 +550,17 @@ The `range_finder_width` parameter can be obtained from the `wb_range_finder_get
 The `x` and `y` parameters are the coordinates of the pixel in the image.
 
 > **Note** [Python]: The RangeFinder class has two methods for getting the range-finder image.
-The `getRangeImage` function returns a one-dimensional list of floats, while the `getRangeImageArray` function returns a two-dimensional list of floats.
+The `getRangeImage` function, by default, returns a one-dimensional list of floats, while the `getRangeImageArray` function returns a two-dimensional list of floats.
 Their content are identical but their handling is of course different.
+
+> `getRangeImage` takes a `data_type` keyword parameter, supporting either `list` (default) or `buffer`.
+> If `buffer`, the function will return a `bytes` object containing the native machine encoding for a buffer of `float` values, closely resembling the C API.
+> `buffer` is significantly faster than `list`, and can easily be wrapped using external libraries such as NumPy:
+
+> ```python
+> image_bytes = range_finder.getRangeImage(data_type="buffer")
+> image_np = np.frombuffer(image_bytes, dtype=np.float32)
+> ```
 
 ---
 

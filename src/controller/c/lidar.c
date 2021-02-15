@@ -178,6 +178,7 @@ static void lidar_toggle_remote(WbDevice *d, WbRequest *r) {
 void wb_lidar_init(WbDevice *d) {
   d->read_answer = wb_lidar_read_answer;
   d->write_request = wb_lidar_write_request;
+  d->reset = wb_abstract_camera_reset;
   d->cleanup = wb_lidar_cleanup;
   d->pdata = NULL;
   d->toggle_remote = lidar_toggle_remote;

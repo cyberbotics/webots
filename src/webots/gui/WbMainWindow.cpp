@@ -155,7 +155,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // applying the reload or quit directly may imply a Webots crash
   connect(WbApplication::instance(), &WbApplication::worldReloadRequested, this, &WbMainWindow::reloadWorld,
           Qt::QueuedConnection);
-  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetWorld,
+  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetGui,
           Qt::QueuedConnection);
   connect(WbApplication::instance(), &WbApplication::simulationQuitRequested, this, &WbMainWindow::simulationQuit,
           Qt::QueuedConnection);
@@ -394,7 +394,7 @@ void WbMainWindow::createMainTools() {
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
-  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorld, Qt::QueuedConnection);
+  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
   mDocumentation = new WbDocumentation(this);
   addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
@@ -1286,6 +1286,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // Refreshing
   mSimulationView->repaintView3D();
 
+  WbLog::setConsoleLogsPostponed(false);
   WbLog::instance()->showPendingConsoleMessages();
 }
 
@@ -1321,13 +1322,22 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
+  if (!WbApplication::instance()->isValidWorldFileName(fileName))
+    return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
-  return WbApplication::instance()->loadWorld(fileName, reloading);
+  WbLog::setConsoleLogsPostponed(true);
+  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
+  if (!success) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+  }
+  // else console messages will be forwarded after world load in restorePerspective()
+  return success;
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
-  WbLog::instance()->setPopUpPostponed(true);
+  WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
   foreach (QWidget *dock, mDockWidgets) {
     WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
@@ -1393,6 +1403,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   connect(world, &WbWorld::robotAdded, this, &WbMainWindow::handleNewRobotInsertion);
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
+  connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
 
   updateGui();
 
@@ -1524,18 +1535,17 @@ void WbMainWindow::reloadWorld() {
 }
 
 void WbMainWindow::resetWorldFromGui() {
-  resetWorld(true);
-}
-
-void WbMainWindow::resetWorld(bool restartControllers) {
-  toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
-  else {
-    if (restartControllers)
-      mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset(restartControllers);
-  }
+  else
+    WbWorld::instance()->reset(true);
+  resetGui(true);
+}
+
+void WbMainWindow::resetGui(bool restartControllers) {
+  toggleAnimationAction(false);
+  if (WbWorld::instance() && restartControllers)
+    mSimulationView->cancelSupervisorMovieRecording();
   mSimulationView->view3D()->renderLater();
 }
 

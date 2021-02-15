@@ -94,7 +94,7 @@ The general idea is to walk through the following steps:
 
 1. Install a new Python version and add the path to the new python binary in your `PATH` environment variable, so that you can execute `python --version` from a console and get the correct version number.
 2. Get [SWIG](http://www.swig.org/download.html).
-3. Recompile the [Python wrapper](https://github.com/omichel/webots/tree/master/src/controller/python) using its [Makefile](https://github.com/omichel/webots/tree/master/src/controller/python/Makefile) (see details inside to understand how to call it with different options).
+3. Recompile the [Python wrapper](https://github.com/omichel/webots/tree/released/src/controller/python) using its [Makefile](https://github.com/omichel/webots/tree/released/src/controller/python/Makefile) (see details inside to understand how to call it with different options).
 
 On Windows you will need to install [MSYS2 for x86\_64](http://www.msys2.org/) and run it in administrator mode to be able to modify files in `$WEBOTS_HOME`.
 From the MSYS2 console, you will need to install at least `gcc` `make` and `swig` with the `pacman` command:
