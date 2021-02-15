@@ -1206,13 +1206,11 @@ void WbSolid::setGeomMatter(dGeomID g, WbBaseNode *node) {
 
 // Resets recursively ODE dGeoms positions, dBodies and joints starting from *this
 void WbSolid::handleJerk() {
-  if (!belongsToStaticBasis()) {
-    jerk(false);
+  jerk(false);
+  if (!belongsToStaticBasis())
     awake();
-  } else if (belongsToStaticBasis()) {
-    jerk(false);
+  else
     WbWorld::instance()->awake();
-  }
 }
 
 void WbSolid::updateTranslation() {
