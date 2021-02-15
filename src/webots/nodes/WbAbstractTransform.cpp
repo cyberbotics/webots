@@ -215,7 +215,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
     b = true;
 
-  if (WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
+  if (!mScale->value().almostEquals(WbVector3(1, 1, 1)) && WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
     correctedScale.setXyz(1, 1, 1);
     b = true;
     if (warning)
@@ -250,7 +250,7 @@ void WbAbstractTransform::applyToScale() {
 
 void WbAbstractTransform::updateScale(bool warning) {
   const int constraint = constraintType();
-  if (checkScale(constraint, false))
+  if (checkScale(constraint, warning))
     return;
 
   applyToScale();
