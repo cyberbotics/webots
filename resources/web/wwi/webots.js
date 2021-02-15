@@ -583,8 +583,7 @@ webots.View = class View {
     this.removeLabels();
     this.onrobotwindowsdestroy();
 
-    if(typeof this.mouseEvents !== 'undefined') {
-      console.log("boum");
+    if(typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
       this.mouseEvents.picker.selectedId = -1
       this.mouseEvents.picker.coordinates = new WbVector3();
       Selector.reset();

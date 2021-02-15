@@ -46,7 +46,6 @@ import {WbSpotLight} from "./webotsjs/WbSpotLight.js";
 import {WbLight} from "./webotsjs/WbLight.js";
 import {WbFog} from "./webotsjs/WbFog.js"
 
-import {Use} from "./webotsjs/Use.js";
 import {WbVector2} from "./webotsjs/utils/WbVector2.js";
 import {WbVector3} from "./webotsjs/utils/WbVector3.js";
 import {WbVector4} from "./webotsjs/utils/WbVector4.js";
