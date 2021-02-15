@@ -54,5 +54,7 @@ For such nodes a positive `scale` field initially set to *x y z* is automaticall
 The same holds for a `Transform` placed inside a `boundingObject` and with a `Sphere` or a `Capsule` descendant.
 In the case of a `Cylinder`, *x y z* will be reset to *x z x*.
 If some value changes within one of the previous constrained scale fields, the two others are actuated using the new value and the corresponding constraint rule.
+Scaling is forbidden if a `Robot` is a descendant of the `Transform`.
+In the case the `Robot` is a descendant of the `Transform`, *x y z* will be reset to *1 1 1*, and a warning will be printed.
 
 > **Note**: If a `Transform` is named using the [DEF](def-and-use.md) keyword and later referenced inside a `boundingObject` with a USE statement, the constraint corresponding to its first `Geometry` descendant applies to the `scale` fields of the defining `Transform` and of all its further references.
