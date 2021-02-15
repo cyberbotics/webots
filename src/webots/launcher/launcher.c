@@ -51,8 +51,12 @@ static int fail(const char *function, const char *info) {
 }
 
 int main(int argc, char *argv[]) {
+  // We retrive the command line in wchar_t from the Windows system.
   const wchar_t *original_command_line = GetCommandLineW();
+  // It should look like '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"'
+  // or '"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"' ( webots.exe instead of webotsw.exe)
   wchar_t command_line[wcslen(original_command_line)];
+  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
   const wchar_t *find = wcsstr(original_command_line, L"\\msys64\\mingw64\\bin\\webots");
   int index = find - original_command_line;
   index += 26;
@@ -61,8 +65,13 @@ int main(int argc, char *argv[]) {
   command_line[index++] = 'b';
   command_line[index++] = 'i';
   command_line[index++] = 'n';
-  for (; original_command_line[index - 4]; index++)
-    command_line[index] = original_command_line[index - 3];
+#ifdef WEBOTSW
+  const int offset = 3; // strlen("webots-bin") - strlen("webotsw")
+#else
+  const int offset = 4; // strlen("webots-bin") - strlen("webots")  
+#endif
+  for (; original_command_line[index - offset - 1]; index++)  // we use index - offset - 1 to include the final '\0'
+    command_line[index] = original_command_line[index - offset];
 
   // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
