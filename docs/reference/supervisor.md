@@ -563,7 +563,7 @@ If the argument is NULL, the function returns the empty string.
 The `wb_supervisor_node_get_base_type_name` function returns a text string corresponding to the base type name of the node, like "Robot", "Appearance", "LightSensor", etc.
 If the argument is NULL, the function returns the empty string.
 
-> **Note** [C++, Java, Python]: In the oriented-object APIs, the `WB_NODE_*` constants are available as static integers of the `Node` class (for example, Node::DIFFERENTIAL\_WHEELS).
+> **Note** [C++, Java, Python]: In the oriented-object APIs, the `WB_NODE_*` constants are available as static integers of the `Node` class (for example, Node::ROBOT).
 These integers can be directly compared with the output of the `Node::getType` function.
 
 ---
