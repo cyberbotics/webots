@@ -183,6 +183,24 @@ void ts_assert_string_equal(const char *value, const char *expected, const char 
   TS_FINAL_CHECK();
 }
 
+void ts_assert_string_contains(const char *value, const char *expected, const char *error_message, ...) {
+  bool correct = false;
+  // if string is NULL and the other isn't, false
+  if ((value == NULL) != (expected == NULL))
+    correct = false;
+  // if they're both NULL, this still counts as a match
+  else if (value == NULL && expected == NULL)
+    correct = true;
+  // the search part has to shorter
+  else if (strlen(value) < strlen(expected))
+    correct = false;
+  // otherwise compare normally
+  else
+    correct = strstr(value, expected) != NULL;
+
+  TS_FINAL_CHECK();
+}
+
 void ts_assert_color_in_delta(int red, int green, int blue, int expected_red, int expected_green, int expected_blue, int delta,
                               const char *error_message, ...) {
   bool correct = abs(red - expected_red) <= delta && abs(green - expected_green) <= delta && abs(blue - expected_blue) <= delta;

@@ -768,7 +768,8 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
 }
 
 // cppcheck-suppress constParameter
-bool RosSupervisor::nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res) {
+bool RosSupervisor::nodeExportStringCallback(webots_ros::node_get_string::Request &req,
+                                             webots_ros::node_get_string::Response &res) {
   assert(this);
   if (!req.node)
     return false;

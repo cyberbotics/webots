@@ -10,6 +10,7 @@
  *                 wb_supervisor_node_get_field
  *                 wb_supervisor_node_get_position
  *                 wb_supervisor_node_get_orientation
+ *                 wb_supervisor_node_export_string
  */
 
 #include <webots/robot.h>
@@ -298,6 +299,9 @@ int main(int argc, char **argv) {
   ts_assert_int_not_equal(kinect_color, 0, "Kinect color camera not found");
   WbNodeRef kinect_node = wb_supervisor_node_get_from_device(kinect_color);
   ts_assert_pointer_null(kinect_node, "Kinect node reference from device tag returned even if hidden");
+
+  node = wb_supervisor_node_get_from_def("CONE");
+  ts_assert_string_contains(wb_supervisor_node_export_string(node), "DEF CONE Solid {", "The exported string is not valid");
 
   ts_send_success();
   return EXIT_SUCCESS;
