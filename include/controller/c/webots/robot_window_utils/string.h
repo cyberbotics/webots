@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-/*
- * Description:  Defines generic string functions to parse the robot window messages.
- */
+/*******************************************************************************************/
+/* Description:  Webots C utility to parse messages used by the robot_window_utils library */
+/*******************************************************************************************/
 
-#ifndef STRING_UTILS_H
-#define STRING_UTILS_H
+#ifndef WBU_STRING_H
+#define WBU_STRING_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-char *string_utils_strsep(char **stringp, const char *delim);
-char *string_utils_replace(char *orig, char *rep, char *with);
+char *wbu_string_utils_strsep(char **stringp, const char *delim);
+char *wbu_string_utils_replace(char *orig, char *rep, char *with);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // STRING_UTILS_H
+#endif  // WBU_STRING_H

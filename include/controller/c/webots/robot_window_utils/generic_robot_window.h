@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-/*
- * Description:  Defines generic functions to use devices in a robot window.
- */
+/*************************************************************************************/
+/* Description:  Webots C utility to display and control devices in a robot window   */
+/*************************************************************************************/
 
-#ifndef GENERIC_ROBOT_WINDOW_H
-#define GENERIC_ROBOT_WINDOW_H
+#ifndef WBU_GENERIC_ROBOT_WINDOW_H
+#define WBU_GENERIC_ROBOT_WINDOW_H
 
 #include <webots/types.h>
 
@@ -27,21 +27,17 @@
 extern "C" {
 #endif
 
-void parse_device_command(char *token, char *tokens);
-bool parse_device_control_command(char *token, char *tokens);
-bool handle_generic_robot_window_messages(const char *message);
-void init_robot_window();
-void update_robot_window();
-bool robot_window_is_hidden();
-double robot_window_refresh_rate();
-bool robot_window_needs_update();
-
-// Utility functions to parse robot window message
-char *string_utils_strsep(char **stringp, const char *delim);
-char *string_utils_replace(char *orig, char *rep, char *with);
+void wbu_generic_robot_window_parse_device_command(char *token, char *tokens);
+bool wbu_generic_robot_window_parse_device_control_command(char *token, char *tokens);
+bool wbu_generic_robot_window_handle_messages(const char *message);
+void wbu_generic_robot_window_init();
+void wbu_generic_robot_window_update();
+bool wbu_generic_robot_window_is_hidden();
+double wbu_generic_robot_window_refresh_rate();
+bool wbu_generic_robot_window_needs_update();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // GENERIC_ROBOT_WINDOW_H
+#endif  // WBU_GENERIC_ROBOT_WINDOW_H

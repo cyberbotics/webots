@@ -1,11 +1,11 @@
-#include <webots/robot_window_utils/string_utils.h>
+#include <webots/robot_window_utils/string.h>
 
 #include <stdlib.h>
 #include <string.h>
 
-// string_utils_strsep is a string.h strsep version, checking that the delimiter is not preceeded by an escape character ('\').
+// wbu_string_utils_strsep is a string.h strsep version, checking that the delimiter is not preceeded by an escape character ('\').
 // To do this, the "pc" variable has been added to https://opensource.apple.com/source/xnu/xnu-1228.7.58/bsd/libkern/strsep.c
-char *string_utils_strsep(char **stringp, const char *delim) {
+char *wbu_string_utils_strsep(char **stringp, const char *delim) {
   char *s;
   int sc, pc = 0;
   char *tok;
@@ -30,7 +30,7 @@ char *string_utils_strsep(char **stringp, const char *delim) {
 }
 
 // ref. https://stackoverflow.com/a/779960/2210777
-char *string_utils_replace(char *orig, char *rep, char *with) {
+char *wbu_string_utils_replace(char *orig, char *rep, char *with) {
   char *result, *ins, *tmp;
   int len_rep, len_with, count;
 

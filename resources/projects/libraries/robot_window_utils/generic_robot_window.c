@@ -15,7 +15,7 @@
  */
 
 #include <webots/robot_window_utils/generic_robot_window.h>
-#include <webots/robot_window_utils/string_utils.h>
+#include <webots/robot_window_utils/string.h>
 
 #include <webots/device.h>
 #include <webots/robot.h>
@@ -154,17 +154,17 @@ static void enable_device(WbDeviceTag tag, bool enable) {
 }
 
 // JavaScript -> C protocol description:
-//   [deviceName:commandTag[=commadState][,]]*
+//   [deviceName:commandTag[=commadState][,]]
 // example:
-//   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
-void parse_device_command(char *token, char *tokens) {
+//   "e-puck:forward", "ds0:enable" or "myMotor0:value=1.2"
+void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
   WbDeviceTag tag = 0;
   bool robot = false;
 
   while (token && token[0] != '\0') {
     if (tag == 0 && !robot) {  // first token = device or robot name
-      char *name0 = string_utils_replace(token, "\\:", ":");
-      char *name = string_utils_replace(name0, "\\,", ",");
+      char *name0 = wbu_string_utils_replace(token, "\\:", ":");
+      char *name = wbu_string_utils_replace(name0, "\\,", ",");
       if (strcmp(name, wb_robot_get_name()) == 0)
         robot = true;
       else
@@ -211,15 +211,15 @@ void parse_device_command(char *token, char *tokens) {
     else
       assert(0);  // protocol issue
 
-    token = string_utils_strsep(&tokens, ":");
+    token = wbu_string_utils_strsep(&tokens, ":");
   };
 }
 
-bool parse_device_control_command(char *token, char *tokens) {
+bool wbu_generic_robot_window_parse_device_control_command(char *token, char *tokens) {
   if (strcmp(token, "device-control-mode") != 0)
     return false;
   WbNodeType type = WB_NODE_NO_NODE;
-  while ((token = string_utils_strsep(&tokens, ":"))) {
+  while ((token = wbu_string_utils_strsep(&tokens, ":"))) {
     if (type == WB_NODE_NO_NODE) {
       type = stringToDeviceType(token);
       if (type == WB_NODE_NO_NODE) {
@@ -240,7 +240,7 @@ bool parse_device_control_command(char *token, char *tokens) {
   return false;
 }
 
-void init_robot_window() {
+void wbu_generic_robot_window_init() {
   time_step = (int)wb_robot_get_basic_time_step();
   WbNodeType robot_type = wb_device_get_node_type(0);
   if (robot_type == WB_NODE_DIFFERENTIAL_WHEELS)
@@ -251,7 +251,7 @@ void init_robot_window() {
     isDeviceTypeControlEnabled[i] = false;
 }
 
-bool handle_generic_robot_window_messages(const char *message) {
+bool wbu_generic_robot_window_handle_messages(const char *message) {
   if (strncmp(message, "configure", 9) == 0) {
     int max_image_height = -1;
     int max_image_width = -1;
@@ -283,19 +283,19 @@ bool handle_generic_robot_window_messages(const char *message) {
   return false;
 }
 
-void update_robot_window() {
+void wbu_generic_robot_window_update() {
   last_update_time = wb_robot_get_time();
   wbu_default_robot_window_update();
 }
 
-bool robot_window_is_hidden() {
+bool wbu_generic_robot_window_is_hidden() {
   return is_hidden;
 }
 
-double robot_window_refresh_rate() {
+double wbu_generic_robot_window_refresh_rate() {
   return refresh_rate;
 }
 
-bool robot_window_needs_update() {
+bool wbu_generic_robot_window_needs_update() {
   return configured && !is_hidden && (refresh_rate == 0 || (wb_robot_get_time() - last_update_time) > refresh_rate);
 }

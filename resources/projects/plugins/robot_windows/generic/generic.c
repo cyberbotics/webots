@@ -1,34 +1,38 @@
 #include <webots/robot.h>
 #include <webots/robot_window_utils/generic_robot_window.h>
-#include <webots/robot_window_utils/string_utils.h>
+#include <webots/robot_window_utils/string.h>
 #include <webots/robot_wwi.h>
 
 #include <stdlib.h>
 #include <string.h>
 
 void wb_robot_window_init() {
-  init_robot_window();
+  wbu_generic_robot_window_init();
 }
 
 void wb_robot_window_step(int time_step) {
   const char *message = wb_robot_wwi_receive_text();
   if (message) {
-    if (!handle_generic_robot_window_messages(message)) {
+    if (!wbu_generic_robot_window_handle_messages(message)) {
+      // JavaScript -> C protocol description:
+      //   [deviceName:commandTag[=commadState][,]]*
+      // example:
+      //   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
       char *tokens = strdup(message);
       char *token = NULL;
-      while ((token = string_utils_strsep(&tokens, ","))) {
+      while ((token = wbu_string_utils_strsep(&tokens, ","))) {
         char *command = strdup(token);
-        char *first_word = string_utils_strsep(&command, ":");
-        if (!parse_device_control_command(first_word, command))
-          parse_device_command(first_word, command);
+        char *first_word = wbu_string_utils_strsep(&command, ":");
+        if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
+          wbu_generic_robot_window_parse_device_command(first_word, command);
       }
     }
   }
 
-  if (!robot_window_needs_update())
+  if (!wbu_generic_robot_window_needs_update())
     return;
 
-  update_robot_window();
+  wbu_generic_robot_window_update();
 }
 
 void wb_robot_window_cleanup() {
