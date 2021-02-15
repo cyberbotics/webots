@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-// wbu_string_utils_strsep is a string.h strsep version, checking that the delimiter is not preceeded by an escape character ('\').
-// To do this, the "pc" variable has been added to https://opensource.apple.com/source/xnu/xnu-1228.7.58/bsd/libkern/strsep.c
+// wbu_string_utils_strsep is a string.h strsep version, checking that the delimiter is not preceeded by an escape character
+// ('\'). To do this, the "pc" variable has been added to
+// https://opensource.apple.com/source/xnu/xnu-1228.7.58/bsd/libkern/strsep.c
 char *wbu_string_utils_strsep(char **stringp, const char *delim) {
   char *s;
   int sc, pc = 0;
