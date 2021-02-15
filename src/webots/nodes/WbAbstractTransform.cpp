@@ -218,6 +218,9 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   if (WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
     correctedScale.setXyz(1, 1, 1);
     b = true;
+    if (warning)
+      mBaseNode->parsingWarn(
+        QObject::tr("'scale' cannot be changed if a descendant Robot node is present."));
   }
 
   if (b)
