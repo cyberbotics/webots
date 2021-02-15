@@ -476,7 +476,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     if (this.intersection == null) {
       var cameraPosition = new glm.vec3();
-      //this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
       this.moveParams.distanceToPickPosition = cameraPosition.length;
     } else
       this.moveParams.distanceToPickPosition = this.intersection.distance;
@@ -489,7 +488,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
     this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
 
-    //this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
   }
 
   _clearMouseMove() {

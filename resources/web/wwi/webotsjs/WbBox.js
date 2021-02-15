@@ -144,6 +144,7 @@ class WbBox extends WbGeometry {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbBox(customID, this.size);
   }
 }

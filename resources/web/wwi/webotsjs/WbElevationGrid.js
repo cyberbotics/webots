@@ -111,6 +111,7 @@ class WbElevationGrid extends WbGeometry {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
   }
 }

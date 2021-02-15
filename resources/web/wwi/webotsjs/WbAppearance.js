@@ -119,6 +119,7 @@ class WbAppearance extends WbAbstractAppearance {
       World.instance.nodes.set(transform.id, transform);
     }
 
+    this.useList.push(customID);
     return new WbAppearance(customID, material, texture, transform);
   }
 }

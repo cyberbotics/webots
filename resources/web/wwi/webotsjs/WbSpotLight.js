@@ -107,6 +107,7 @@ class WbSpotLight extends WbLight {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows)
   }
 }

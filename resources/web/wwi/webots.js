@@ -5,11 +5,13 @@ import {MouseEvents} from "./mouse_events.js";
 import {Editor} from "./editor.js";
 import {DefaultUrl} from "./default_url.js";
 import {Toolbar} from "./toolbar.js";
+import {Selector} from "./webotsjs/Selector.js"
 import {Stream} from "./stream.js";
 import {DialogWindow} from "./dialog_window.js";
 import {Animation} from "./animation.js"
 import {MultimediaClient} from "./multimedia_client.js"
 import {RobotWindow} from "./robot_window.js"
+import {WbVector3} from "./webotsjs/utils/WbVector3.js";
 
 
 /*
@@ -580,6 +582,13 @@ webots.View = class View {
       this.x3dScene.destroyWorld();
     this.removeLabels();
     this.onrobotwindowsdestroy();
+
+    if(typeof this.mouseEvents !== 'undefined') {
+      console.log("boum");
+      this.mouseEvents.picker.selectedId = -1
+      this.mouseEvents.picker.coordinates = new WbVector3();
+      Selector.reset();
+    }
   }
 
   editController(controller) {

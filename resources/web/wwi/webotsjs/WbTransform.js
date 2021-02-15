@@ -106,6 +106,7 @@ class WbTransform extends WbGroup {
       transform.children.push(cloned)
     }
 
+    this.useList.push(customID);
     return transform
   }
 }

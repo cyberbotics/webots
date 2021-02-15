@@ -62,6 +62,13 @@ class Selector {
     }
     return -1;
   }
+
+  static reset(){
+    Selector.selectedId = "n-1"
+    Selector.previousId = "n-1"
+    Selector.previousAncestor = "n-1"
+    Selector.local = false;
+  }
 }
 
 Selector.selectedId = "n-1"

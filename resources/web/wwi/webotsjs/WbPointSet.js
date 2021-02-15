@@ -137,6 +137,7 @@ class WbPointSet extends WbGeometry {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbPointSet(customID, this.coord, this.color);
   }
 }

@@ -111,7 +111,8 @@ class WbGroup extends WbBaseNode{
       World.instance.nodes.set(cloned.id, cloned);
       group.children.push(cloned)
     }
-
+    
+    this.useList.push(customID);
     return group;
   }
 }

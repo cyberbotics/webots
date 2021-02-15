@@ -181,6 +181,8 @@ class WbShape extends WbBaseNode {
       appearance.parent = customID;
       World.instance.nodes.set(appearance.id, appearance);
     }
+
+    this.useList.push(customID);
     return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance)
   }
 }

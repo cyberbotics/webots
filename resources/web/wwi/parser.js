@@ -22,6 +22,7 @@ import {WbGroup} from "./webotsjs/WbGroup.js";
 import {WbTransform} from "./webotsjs/WbTransform.js";
 import {WbShape} from "./webotsjs/WbShape.js";
 
+import {WbGeometry} from "./webotsjs/WbGeometry.js"
 import {WbBox} from "./webotsjs/WbBox.js";
 import {WbCylinder} from "./webotsjs/WbCylinder.js";
 import {WbPlane} from "./webotsjs/WbPlane.js";
@@ -149,7 +150,9 @@ class Parser {
       if (typeof currentNode !== 'undefined')
         id = currentNode.id
       result = await this.parseGeometry(node, id);
-      if (typeof result !== 'undefined') {
+
+      //We are forced to check if the result correspond to the class we except because of the case of a USE
+      if (typeof result !== 'undefined' && result instanceof WbGeometry) {
         if (typeof currentNode !== 'undefined' && currentNode instanceof WbShape){
           if(typeof currentNode.geometry !== 'undefined')
             currentNode.geometry.delete();

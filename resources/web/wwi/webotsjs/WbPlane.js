@@ -70,7 +70,8 @@ class WbPlane extends WbGeometry{
   }
 
   clone(customID) {
-    return WbPlane(customID, this.size);
+    this.useList.push(customID);
+    return new WbPlane(customID, this.size);
   }
 }
 

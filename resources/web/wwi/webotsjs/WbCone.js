@@ -49,6 +49,7 @@ class WbCone extends WbGeometry {
   }
 
   clone(customID){
+    this.useList.push(customID);
     return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom)
   }
 }

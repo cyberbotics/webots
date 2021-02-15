@@ -30,10 +30,27 @@ class WbBaseNode {
 
     this.boundingObjectFirstTimeSearch = true;
     this.isInBoundingObject = false;
+
+    this.useList = [];
   }
 
 
   delete(){
+    if(this.useList.length !== 0) {
+      let newDef;
+      let index = 0;
+      while (typeof newDef === 'undefined' && index < this.useList.length) {
+        newDef = World.instance.nodes.get(this.useList[index]);
+        this.useList.splice(index, 1);
+        index++;
+      }
+
+      if (typeof newDef !== 'undefined'){
+        newDef.useList = this.useList;
+        console.log(newDef);
+      }
+    }
+
     World.instance.nodes.delete(this.id);
   }
 

@@ -161,11 +161,32 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   applyPose(pose) {
     let id = pose.id;
-    let fields = [];
+    console.log(id);
     let object = World.instance.nodes.get('n' + id);
 
     if(typeof object === 'undefined')
       return;
+
+    this.applyPoseToObject(pose, object);
+
+    //Update the related USE nodes
+    let length = object.useList.length - 1;
+    while(length >= 0) {
+      let use = World.instance.nodes.get(object.useList[length]);
+      if(typeof use === 'undefined') {
+        //remove a USE node from the list if it has been deleted
+        let index = object.useList.indexOf(length);
+        this.useList.splice(index, 1);
+      } else {
+        this.applyPoseToObject(pose, use)
+      }
+
+      --length;
+    }
+  }
+
+  applyPoseToObject(pose, object) {
+    let fields = [];
 
     for (let key in pose) {
       if (key === 'id')
@@ -201,11 +222,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     if (typeof object.parent !== 'undefined') {
       let parent = World.instance.nodes.get(object.parent);
-      if(typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== 'n' +id)
-        parent.switchHelix('n' + id);
+      if(typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
+        parent.switchHelix(object.id);
     }
 
-    if (typeof World.instance.viewpoint.followedId !== 'undefined' && World.instance.viewpoint.followedId === 'n' + id)
+    if (typeof World.instance.viewpoint.followedId !== 'undefined' && World.instance.viewpoint.followedId === object.id)
       World.instance.viewpoint.updateFollowUp();
   }
 

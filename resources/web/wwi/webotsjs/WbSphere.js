@@ -75,6 +75,7 @@ class WbSphere extends WbGeometry {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbSphere(customID, this.radius, this.ico, this.subdivision)
   }
 }

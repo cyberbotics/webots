@@ -73,6 +73,7 @@ class WbMaterial extends WbBaseNode {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency)
   }
 }

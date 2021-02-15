@@ -53,6 +53,7 @@ class WbCylinder extends WbGeometry {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top)
   }
 }

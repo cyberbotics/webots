@@ -129,7 +129,8 @@ class WbIndexedLineSet extends WbGeometry {
   }
 
   clone(customID) {
-    return WbIndexedLineSet(customID, this.coord, this.coordIndex);
+    this.useList.push(customID);
+    return new WbIndexedLineSet(customID, this.coord, this.coordIndex);
   }
 }
 

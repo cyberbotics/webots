@@ -281,6 +281,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
       World.instance.nodes.set(textureTransform.id, textureTransform);
     }
 
+    this.useList.push(customID);
     return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
       this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform)
   }

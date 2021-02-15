@@ -56,6 +56,7 @@ class WbTextureTransform extends WbBaseNode{
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new WbTextureTransform(customID, this.center, this.rotation, this.scale, this.translation);
   }
 }

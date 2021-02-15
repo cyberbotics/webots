@@ -77,6 +77,7 @@ class WbFog extends WbBaseNode {
   }
 
   clone(customID) {
+    this.useList.push(customID);
     return new Fog(customID, this.color, this.visibilityRange, this.fogType)
   }
 }
