@@ -1206,31 +1206,13 @@ void WbSolid::setGeomMatter(dGeomID g, WbBaseNode *node) {
 
 // Resets recursively ODE dGeoms positions, dBodies and joints starting from *this
 void WbSolid::handleJerk() {
-  if (!belongsToStaticBasis() || !updateJointChildren()) {
+  if (!belongsToStaticBasis()) {
     jerk(false);
     awake();
   } else if (belongsToStaticBasis()) {
     jerk(false);
     WbWorld::instance()->awake();
   }
-}
-
-bool WbSolid::updateJointChildren() {
-  assert(areOdeObjectsCreated());
-  // This is only required when the differentialWheels children are attached through a fixed joint to the static environment,
-  // i.e. their solid parent has no physics Note: If the differentialWheels joints positions are not reset to their initial
-  // values, then the new fixed joints are created with position offsets which are not reported to the position fields
-
-  bool b = false;
-
-  foreach (WbSolid *const solid, mSolidChildren) {
-    if (solid->isKinematic())
-      b |= solid->updateJointChildren();  // recurse
-    else
-      b |= solid->resetJointPositions();  // reset position if needed
-  }
-
-  return b;
 }
 
 void WbSolid::updateTranslation() {

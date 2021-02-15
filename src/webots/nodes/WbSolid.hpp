@@ -338,7 +338,6 @@ private:
   void setBodiesAndJointsToParents();
   void setJointChildrenWithReferencedEndpoint();
   void updateKinematicPlaceableGeomPosition(dGeomID g);
-  virtual bool updateJointChildren();
   bool resetJointPositions(bool allParents = false);
   void handleJerk() override;
 
