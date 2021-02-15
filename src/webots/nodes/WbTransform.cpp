@@ -55,7 +55,7 @@ WbTransform::~WbTransform() {
 void WbTransform::preFinalize() {
   WbGroup::preFinalize();
 
-  WbAbstractTransform::checkScale();
+  WbAbstractTransform::checkScale(0, true);
 }
 
 void WbTransform::postFinalize() {
