@@ -125,6 +125,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                   &RosSupervisor::nodeSetVisibilityCallback, this);
   mNodeRemoveServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/remove", &RosSupervisor::nodeRemoveCallback, this);
+  mNodeExportStringServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/export_string",
+                                                                 &RosSupervisor::nodeExportStringCallback, this);
   mNodeResetPhysicsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/reset_physics",
                                                                  &RosSupervisor::nodeResetPhysicsCallback, this);
   mNodeRestartControllerServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/restart_controller",
@@ -241,6 +243,7 @@ RosSupervisor::~RosSupervisor() {
   mNodeMoveViewpointServer.shutdown();
   mNodeSetVisibilityServer.shutdown();
   mNodeRemoveServer.shutdown();
+  mNodeExportStringServer.shutdown();
   mNodeResetPhysicsServer.shutdown();
   mNodeRestartControllerServer.shutdown();
 
@@ -761,6 +764,16 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
   Node *node = reinterpret_cast<Node *>(req.node);
   node->remove();
   res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->exportString();
   return true;
 }
 
