@@ -1485,7 +1485,7 @@ type = wb_robot_get_type()
 
 *return the type of the robot node*
 
-This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_SUPERVISOR or WB\_NODE\_DIFFERENTIAL\_WHEELS).
+This function returns the type of the current mode (WB\_NODE\_ROBOT or WB\_NODE\_SUPERVISOR).
 
 ---
 
