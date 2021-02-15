@@ -21,7 +21,7 @@ function menuTabCallback(deviceType) {
   tablinks = document.getElementsByClassName('menu-button');
   for (i = 0; i < tablinks.length; ++i)
     tablinks[i].className = tablinks[i].className.replace(' menu-button-selected', '');
-  document.getElementById(deviceType).style.display = 'block';
+  document.getElementById(deviceType + '-section').style.display = 'block';
   document.getElementById(deviceType + '-menu-button').className += ' menu-button-selected';
 
   // force widgets refresh when they are shown.
@@ -61,7 +61,7 @@ function appendNewElement(id, newElement) {
 }
 
 function addTab(type, isDevice, deviceSwitch) {
-  if (document.getElementById(type))
+  if (document.getElementById(type + '-section'))
     return; // check if already exists
 
   let buttonsDiv = '';
@@ -84,7 +84,7 @@ function addTab(type, isDevice, deviceSwitch) {
     buttonsDiv = '';
 
   appendNewElement('content',
-    '<div id="' + type + '" class="devices-container animate-left">' +
+    '<div id="' + type + '-section" class="devices-container animate-left">' +
       '<h1>' + type + '</h1>' + buttonsDiv +
       '<section id="' + type + '-layout" class="devices-layout"/>' +
     '</div>'
