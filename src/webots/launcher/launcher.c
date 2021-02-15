@@ -77,37 +77,37 @@ int main(int argc, char *argv[]) {
 
   // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
-  char *module_path = malloc(LENGTH);
-  if (!GetModuleFileName(NULL, module_path, LENGTH))
-    fail("GetModuleFileName", 0);
-  const int l = strlen(module_path)
+  wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
+  if (!GetModuleFileNameW(NULL, module_path, LENGTH))
+    fail("GetModuleFileNameW", 0);
+  const int l = wcslen(module_path)
 #ifdef WEBOTSW
                 - 1  // webotsw.exe (we need to remove the final 'w')
 #endif
     ;
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
-  char *old_path = malloc(LENGTH);
-  char *new_path = malloc(LENGTH);
+  wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
+  wchar_t *new_path = malloc(LENGTH * sizeof(wchar_t));
 
-  strcpy(new_path, module_path);
+  wcscpy(new_path, module_path);
   new_path[l - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
-  strcpy(&new_path[l - 10], module_path);
+  wcscpy(&new_path[l - 10], module_path);
   new_path[2 * l - 21] = '\0';
-  strcat(new_path, "\\cpp;");
-  strcat(new_path, module_path);
+  wcscat(new_path, L"\\cpp;");
+  wcscat(new_path, module_path);
   free(module_path);
   new_path[3 * l - 38] = '\0';
-  strcat(new_path, "usr\\bin;");
-  if (!GetEnvironmentVariable("PATH", old_path, LENGTH))
-    fail("GetEnvironmentVariable", 0);
-  strcat(new_path, old_path);
+  wcscat(new_path, L"usr\\bin;");
+  if (!GetEnvironmentVariableW(L"PATH", old_path, LENGTH))
+    fail("GetEnvironmentVariableW", "PATH");
+  wcscat(new_path, old_path);
   free(old_path);
-  if (!SetEnvironmentVariable("PATH", new_path))
-    fail("SetEnvironmentVariable", new_path);
+  if (!SetEnvironmentVariableW(L"PATH", new_path))
+    fail("SetEnvironmentVariableW", "PATH");
   free(new_path);
-  if (!SetEnvironmentVariable("QT_ENABLE_HIGHDPI_SCALING", "1"))
-    fail("SetEnvironmentVariable", "QT_ENABLE_HIGHDPI_SCALING=1");
+  if (!SetEnvironmentVariableW(L"QT_ENABLE_HIGHDPI_SCALING", L"1"))
+    fail("SetEnvironmentVariableW", "QT_ENABLE_HIGHDPI_SCALING=1");
 
   // start the webots-bin.exe process, wait for completion and return exit code
   STARTUPINFOW info = {sizeof(info)};
