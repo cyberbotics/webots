@@ -191,7 +191,6 @@ namespace {
       // A robot cannot be a bounding object
       if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName))
         return true;
-      }
 
       // top level nodes
       bool invalidUseOfTopLevelNode = false;
