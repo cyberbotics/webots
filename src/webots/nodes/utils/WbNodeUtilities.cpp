@@ -188,14 +188,9 @@ namespace {
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
-      // Robots are no longer top-level nodes
+      // A robot cannot be a bounding object
       if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName)) {
-        if (WbNodeUtilities::isRobotTypeName(node->nodeModelName()) || isInsertingTopLevel)
-          return true;
-        else if (WbNodeUtilities::hasARobotAncestor(node))
-          return true;
-        else if (dynamic_cast<const WbGroup *>(node))
-          return true;
+        return true;
       }
 
       // top level nodes
