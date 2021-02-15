@@ -11,6 +11,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        ref: released 
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -35,7 +36,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         source_branch: discord-doc-update
-        destination_branch: master
+        destination_branch: released
         pr_title: Update Discord Docs
         pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
         pr_reviewer: Maintainers

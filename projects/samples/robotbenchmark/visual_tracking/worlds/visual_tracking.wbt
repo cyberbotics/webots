@@ -239,7 +239,7 @@ DEF YELLOW_CAR Solid {
     }
     DEF FOGLIGHT CitroenCZeroFogLight {
     }
-    CitroenCZeroBrakeLight {
+    DEF REAR_BRAKE_LIGHTS CitroenCZeroBrakeLight {
     }
     CitroenCZeroMesh {
     }
@@ -327,7 +327,7 @@ DEF BLUE_CAR Solid {
     }
     DEF FOGLIGHT CitroenCZeroFogLight {
     }
-    CitroenCZeroBrakeLight {
+    DEF REAR_BRAKE_LIGHTS CitroenCZeroBrakeLight {
     }
     CitroenCZeroMesh {
       color 0.458824 0.705882 0.858824

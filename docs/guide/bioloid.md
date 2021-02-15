@@ -51,13 +51,13 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 ![bioloid.wbt.png](images/robots/bioloid/bioloid.wbt.thumbnail.jpg) In this example, the dog-like robot model walks on a flat floor.
 
-Using the keyboard, the user can control the quadruped robot by setting the walking direction (forward or backwards) and also the heading direction (right or left).
+Using the keyboard, the user can control the quadruped robot by setting the walking direction (<kbd>▲</kbd> forward or <kbd>▼</kbd> backwards) and also the heading direction (<kbd>▶</kbd> right or <kbd>◀</kbd> left).
 Keyboard actions include:
 
-- `Right Arrow`: Turn right.
-- `Left Arrow`: Turn left.
-- `B`: Walk backwards.
-- `F`: Walk forward.
+- <kbd>▶</kbd>: Turn right.
+- <kbd>◀</kbd>: Turn left.
+- <kbd>B</kbd>: Walk backwards.
+- <kbd>F</kbd>: Walk forward.
 
 The walking gait used in the controller relies on an inverse kinematics model.
 Further details are available from [BIRG website](http://birg.epfl.ch/page66584.html).
@@ -68,7 +68,7 @@ During the walk, the extremity of each leg is describing an ellipsoid, the diame
 
 Other keyboard actions are also provided to fine-tune the frequency and the stride length factor:
 
-- `Q`: Increase frequency.
-- `W`: Decrease frequency.
-- `S`: Increase stride length factor.
-- `A`: Decrease stride length factor.
+- <kbd>Q</kbd>: Increase frequency.
+- <kbd>W</kbd>: Decrease frequency.
+- <kbd>S</kbd>: Increase stride length factor.
+- <kbd>A</kbd>: Decrease stride length factor.

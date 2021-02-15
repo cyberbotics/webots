@@ -42,7 +42,7 @@ TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
 
 also, on the wiki, I've seen that the accelerometer and the gyro are encoded on 6 bytes so 2 bytes for X, Y and Z. But the magnetometer is encoded on 12 bytes, which doesn't make sense to me as the raw values are between -32460 and 32760... So are there 3 axis encoded on 4 bytes, or am I missing something?
 
-##### Olivier Michel [Cyberbotics] 04/25/2019 11:19:50
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/25/2019 11:19:50
 Hi, welcome.
 
 
@@ -781,11 +781,11 @@ Webots cannot simulation soft robotics because ODE (the Webots physics engine) d
 
 However there are some tricks to transform a soft robot model into an hard model that could help in simulating soft robotics application.
 
-##### rekt 09/29/2019 10:08:43
+##### ScoobyDooby 09/29/2019 10:08:43
 how to integrate webots with an ide in macOS?
 
 ##### Fabien Rohrer [Moderator] 09/30/2019 06:35:35
-`@rekt` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
+`@ScoobyDooby` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
 
 ##### David Mansolino [Cyberbotics] 09/30/2019 06:40:07
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
@@ -900,7 +900,7 @@ For sur it will 😉 let us know if you have any issues doing so.
 
 And what about the ROS controller provided by Webots? can i use it in my custom made robot or should i create custom made controller for my robot that work as bridge between ROS and Webots?.
 
-##### Olivier Michel [Cyberbotics] 10/23/2019 10:33:18
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 10/23/2019 10:33:18
 Of course you can create your custom robot in Webots.
 
 

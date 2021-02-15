@@ -236,7 +236,7 @@ class TestSuite (Supervisor):
                 self.loadNextWorld()
                 return
         else:
-            receiver = self.getReceiver("ts_receiver")
+            receiver = self.getDevice("ts_receiver")
             receiver.enable(basicTimeStep)
 
         # 30 seconds before executing the next world

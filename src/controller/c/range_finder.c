@@ -120,6 +120,7 @@ static void range_finder_toggle_remote(WbDevice *d, WbRequest *r) {
 void wb_range_finder_init(WbDevice *d) {
   d->read_answer = wb_range_finder_read_answer;
   d->write_request = wb_range_finder_write_request;
+  d->reset = wb_abstract_camera_reset;
   d->cleanup = wb_range_finder_cleanup;
   d->pdata = NULL;
   d->toggle_remote = range_finder_toggle_remote;

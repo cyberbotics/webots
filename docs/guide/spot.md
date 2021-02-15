@@ -11,6 +11,11 @@ Spot can go where wheeled robots cannot, while carrying payloads with endurance 
 The maximal speed is 1.6 m/s with a runtime of 90 minutes and the batteries are swappable.
 Spot uses five stereo cameras (360 degrees vision) to avoid obstacles and people as it moves through dynamic work sites.
 
+It is unfortunately not possible to use the [Spot SDK](https://github.com/boston-dynamics/spot-sdk) together with Webots.
+This is because this SDK doesn't include all the low level motion control functionalities which are necessary to control the simulated model.
+Re-writing these functionalities as open-source software or somehow reusing Boston Dynamics binary libraries could be a possibility enabling the creation of an interface between the Spot SDK and Webots.
+If you would like to contribute to such a project, please refer to this [discussion](https://github.com/cyberbotics/webots/discussions/2677).
+
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=b5mVe6dk0wI)
@@ -35,7 +40,7 @@ Spot {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/protos/Spot.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/protos/Spot.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/protos/Spot.proto]({{ url.github_tree }}/projects/robots/boston_dynamics/spot/protos/Spot.proto)"
 
 #### Spot Field Summary
 
@@ -43,9 +48,9 @@ Spot {
 
 ### Samples
 
-You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds)"
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds]({{ url.github_tree }}/projects/robots/boston_dynamics/spot/worlds)"
 
-### [spot.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
+### [spot.wbt]({{ url.github_tree }}/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
 ![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows a Spot robot in a simple environment.
 The robot is saying hello with its right leg.

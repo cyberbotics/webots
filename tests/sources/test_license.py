@@ -17,11 +17,17 @@
 """Test that checks that all the source files have the Apache 2 license."""
 
 import unittest
-import datetime
 import os
 import fnmatch
 
 from io import open
+
+with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt', 'r') as file:
+    version = file.readlines()[0].strip()
+
+year = int(version[1:5])
+if version[-1] == 'a':
+    year -= 1
 
 APACHE2_LICENSE_C = """/*
  * Copyright 1996-20XX Cyberbotics Ltd.
@@ -37,7 +43,7 @@ APACHE2_LICENSE_C = """/*
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */""".replace('20XX', str(datetime.datetime.now().year))
+ */""".replace('20XX', str(year))
 
 APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 //
@@ -51,7 +57,7 @@ APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
+// limitations under the License.""".replace('20XX', str(year))
 
 APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 #
@@ -65,7 +71,7 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
+# limitations under the License.""".replace('20XX', str(year))
 
 PYTHON_OPTIONAL_HEADERS = [
     '#!/usr/bin/env python2',
