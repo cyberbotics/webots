@@ -51,7 +51,7 @@ static int fail(const char *function, const char *info) {
 }
 
 int main(int argc, char *argv[]) {
-  // We retrive the command line in wchar_t from the Windows system.
+  // We retrieve the command line in wchar_t from the Windows system.
   const wchar_t *original_command_line = GetCommandLineW();
   // It should look like:
   // '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"' or
