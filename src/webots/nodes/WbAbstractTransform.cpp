@@ -215,12 +215,12 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
     b = true;
 
-  if (!mScale->value().almostEquals(WbVector3(1, 1, 1)) && WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
+  if (!mScale->value().almostEquals(WbVector3(1, 1, 1)) &&
+      WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
     correctedScale.setXyz(1, 1, 1);
     b = true;
     if (warning)
-      mBaseNode->parsingWarn(
-        QObject::tr("'scale' cannot be changed if a descendant Robot node is present."));
+      mBaseNode->parsingWarn(QObject::tr("'scale' cannot be changed if a descendant Robot node is present."));
   }
 
   if (b)
