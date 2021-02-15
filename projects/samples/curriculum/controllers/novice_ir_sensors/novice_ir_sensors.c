@@ -18,7 +18,8 @@
 #include <stdio.h>
 #include <webots/distance_sensor.h>  // distance sensor library
 #include <webots/light_sensor.h>     // light sensor library
-#include <webots/robot.h>            //obtain main library of webots
+#include <webots/motor.h>
+#include <webots/robot.h>  //obtain main library of webots
 
 // Global defines
 #define THRESHOLD_DIST 100
