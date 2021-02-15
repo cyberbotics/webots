@@ -1215,22 +1215,22 @@ void WbSolid::handleJerk() {
   }
 }
 
-bool WbSolid::updateJointChildren() {	
-  assert(areOdeObjectsCreated());	
-  // This is only required when the differentialWheels children are attached through a fixed joint to the static environment,	
-  // i.e. their solid parent has no physics Note: If the differentialWheels joints positions are not reset to their initial	
-  // values, then the new fixed joints are created with position offsets which are not reported to the position fields	
+bool WbSolid::updateJointChildren() {
+  assert(areOdeObjectsCreated());
+  // This is only required when the differentialWheels children are attached through a fixed joint to the static environment,
+  // i.e. their solid parent has no physics Note: If the differentialWheels joints positions are not reset to their initial
+  // values, then the new fixed joints are created with position offsets which are not reported to the position fields
 
-  bool b = false;	
+  bool b = false;
 
-  foreach (WbSolid *const solid, mSolidChildren) {	
-    if (solid->isKinematic())	
-      b |= solid->updateJointChildren();  // recurse	
-    else	
-      b |= solid->resetJointPositions();  // reset position if needed	
-  }	
+  foreach (WbSolid *const solid, mSolidChildren) {
+    if (solid->isKinematic())
+      b |= solid->updateJointChildren();  // recurse
+    else
+      b |= solid->resetJointPositions();  // reset position if needed
+  }
 
-  return b;	
+  return b;
 }
 
 void WbSolid::updateTranslation() {
