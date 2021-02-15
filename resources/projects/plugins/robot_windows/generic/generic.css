@@ -333,3 +333,6 @@ h2 {
 .settings-content > * {
   margin-left: 0px;
 }
+#refresh-rate-number {
+  max-width: 60px;
+}
