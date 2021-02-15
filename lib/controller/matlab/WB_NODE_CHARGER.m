@@ -1,2 +1,2 @@
 function value = WB_NODE_CHARGER
-value = 59;
+value = 58;

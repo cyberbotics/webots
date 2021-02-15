@@ -1,2 +1,2 @@
 function value = WB_NODE_RADAR
-value = 51;
+value = 50;

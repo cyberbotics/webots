@@ -1,2 +1,2 @@
 function value = WB_NODE_DAMPING
-value = 61;
+value = 60;
