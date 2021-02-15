@@ -215,7 +215,7 @@ void utm(void) {
   // - put your results in the speed_utm array
   // - look at the main function: add a function
   //   call to this function and add your results
-  //   in the wb_motor_set_velocity(left_motor, ...) and 
+  //   in the wb_motor_set_velocity(left_motor, ...) and
   //   wb_motor_set_velocity(right_motor, ...) functions
 
   //...
