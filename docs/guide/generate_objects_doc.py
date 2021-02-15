@@ -22,7 +22,7 @@ import sys
 
 from io import open
 
-# https://github.com/rcompton/ryancompton.net/blob/master/assets/praw_drugs/urlmarker.py
+# https://github.com/rcompton/ryancompton.net/blob/released/assets/praw_drugs/urlmarker.py
 WEB_URL_REGEX = \
     r'(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|' \
     r'int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|' \
@@ -273,7 +273,7 @@ for proto in prioritaryProtoList + fileList:
         file.write(u'}\n')
         file.write(u'```\n\n')
         location = proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
-        file.write(u'> **File location**: "[WEBOTS\\_HOME%s](https://github.com/cyberbotics/webots/tree/master%s)"\n\n' %
+        file.write(u'> **File location**: "[WEBOTS\\_HOME%s](https://github.com/cyberbotics/webots/tree/released%s)"\n\n' %
                    (location.replace('_', '\\_'), location))
         if license:
             file.write(u'> **License**: %s\n' % license)

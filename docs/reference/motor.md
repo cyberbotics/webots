@@ -744,7 +744,7 @@ Note that this function applies only to *physics-based* simulation.
 Therefore, the `physics` and `boundingObject` fields of the [Motor](#motor) node must be defined for this function to work properly.
 
 It is also possible, for example, to use this function to implement springs or dampers with controllable properties.
-The example in "projects/samples/howto/worlds/force\_control.wbt" demonstrates the usage of the `wb_motor_set_force` function for creating a simple spring and damper system.
+The example in "projects/samples/howto/force\_control/worlds/force\_control.wbt" demonstrates the usage of the `wb_motor_set_force` function for creating a simple spring and damper system.
 
 ---
 
