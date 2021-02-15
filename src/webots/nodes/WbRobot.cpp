@@ -20,6 +20,7 @@
 #include "WbDisplay.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
+#include "WbKinematicDifferentialWheels.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbLog.hpp"
 #include "WbLogicalDevice.hpp"
@@ -115,6 +116,7 @@ void WbRobot::init() {
   mPreviousTime = -1.0;
   mSupervisorUtilitiesNeedUpdate = false;
   mSupervisorUtilities = NULL;
+  mKinematicDifferentialWheels = NULL;
 
   mMessageFromWwi = NULL;
   mShowWindowCalled = false;
@@ -233,6 +235,7 @@ void WbRobot::preFinalize() {
 
 void WbRobot::postFinalize() {
   WbSolid::postFinalize();
+  mKinematicDifferentialWheels = WbKinematicDifferentialWheels::createKinematicDifferentialWheelsIfNeeded(this);
 
   connect(mController, &WbSFString::changed, this, &WbRobot::updateControllerDir);
   connect(mWindow, &WbSFString::changed, this, &WbRobot::updateWindow);
@@ -638,6 +641,12 @@ double WbRobot::energyConsumption() const {
   foreach (WbDevice *device, mDevices)  // add energy consumption for each device
     e += device->energyConsumption();
   return e;
+}
+
+void WbRobot::prePhysicsStep(double ms) {
+  WbSolid::prePhysicsStep(ms);
+  if (mKinematicDifferentialWheels)
+    mKinematicDifferentialWheels->applyKinematicMotion(ms);
 }
 
 void WbRobot::postPhysicsStep() {

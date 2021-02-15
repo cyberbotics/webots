@@ -498,6 +498,7 @@ OTHER_SOURCES = \
   WbHttpReply.cpp \
   WbImage.cpp \
   WbIniParser.cpp \
+  WbKinematicDifferentialWheels.cpp \
   WbLanguage.cpp \
   WbLanguageTools.cpp \
   WbLightRepresentation.cpp \
