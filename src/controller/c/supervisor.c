@@ -199,6 +199,7 @@ static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
   free(node->def_name);
+  free(node->content);
   free(node->position);
   free(node->orientation);
   free(node->center_of_mass);
@@ -316,6 +317,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   else
     n->model_name = (char *)model_name;
   n->def_name = supervisor_strdup(extract_node_def(def_name));
+  n->content = NULL;
   n->parent_id = parent_id;
   n->position = NULL;
   n->orientation = NULL;
@@ -786,11 +788,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
   switch (request_read_uchar(r)) {
     case C_CONFIGURE: {
       const int self_uid = request_read_uint32(r);
+      const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, 0, is_proto);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, parent_uid, is_proto);  // add self node
       self_node_ref = node_list;
       self_node_ref->is_proto_internal = is_proto_internal;
     } break;
