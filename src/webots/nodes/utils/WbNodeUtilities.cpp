@@ -189,13 +189,9 @@ namespace {
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
-      // Robots are no longer top-level nodes
-      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName)) {
-        if (WbNodeUtilities::isRobotTypeName(node->nodeModelName()) || isInsertingTopLevel)
-          return true;
-        else if (WbNodeUtilities::hasARobotAncestor(node))
-          return true;
-      }
+      // A robot cannot be a bounding object
+      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName))
+        return true;
 
       // top level nodes
       bool invalidUseOfTopLevelNode = false;
@@ -751,6 +747,17 @@ bool WbNodeUtilities::hasSolidChildren(const WbNode *node) {
   if (it.hasNext())
     if (dynamic_cast<WbSolid *>(it.next()))
       return true;
+
+  return false;
+}
+
+bool WbNodeUtilities::hasARobotDescendant(const WbNode *node) {
+  const QList<WbNode *> &subNodes = node->subNodes(true);
+
+  foreach (WbNode *const descendantNode, subNodes) {
+    if (dynamic_cast<WbRobot *>(descendantNode))
+      return true;
+  }
 
   return false;
 }

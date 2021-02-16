@@ -153,9 +153,6 @@ void WbTransmissionJoint::setPosition(double position, int index) {
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPosition(mPosition2);
-  WbMotor *const m2 = motor2();
-  if (m2)
-    m2->setTargetPosition(position);
 }
 
 bool WbTransmissionJoint::resetJointPositions() {
@@ -420,10 +417,6 @@ void WbTransmissionJoint::reset() {
 
 void WbTransmissionJoint::resetPhysics() {
   WbJoint::resetPhysics();
-
-  WbMotor *const m = motor2();
-  if (m)
-    m->resetPhysics();
 }
 
 void WbTransmissionJoint::save() {
@@ -492,11 +485,8 @@ void WbTransmissionJoint::updatePositions(double position, double position2) {
   mPosition = position;
   mPosition2 = position2;
   WbMotor *m1 = motor();
-  WbMotor *m2 = motor2();
   if (m1 && !m1->isConfigureDone())
     m1->setTargetPosition(position);
-  if (m2 && !m2->isConfigureDone())
-    m2->setTargetPosition(position2);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);

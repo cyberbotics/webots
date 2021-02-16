@@ -465,6 +465,7 @@ gen(PROC, "wb_supervisor_node_add_torque(noderef, torque, relative)", "superviso
 gen(FUNC, "wb_supervisor_node_reset_physics(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_restart_controller(noderef)", "supervisor")
 gen(PROC, "wb_supervisor_node_remove(noderef)", "supervisor")
+gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_type(fieldref)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_type_name(fieldref)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_count(fieldref)", "supervisor")
