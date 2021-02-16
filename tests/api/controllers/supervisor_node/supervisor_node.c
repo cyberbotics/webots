@@ -10,6 +10,7 @@
  *                 wb_supervisor_node_get_field
  *                 wb_supervisor_node_get_position
  *                 wb_supervisor_node_get_orientation
+ *                 wb_supervisor_node_export_string
  */
 
 #include <webots/robot.h>
@@ -318,6 +319,9 @@ int main(int argc, char **argv) {
   ts_assert_doubles_equal(4, state_rotation, doubleArray,
                           "Current solid's rotation is not equal to the solid's rotation on when the "
                           "wb_supervisor_node_save_state function was called");
+
+  node = wb_supervisor_node_get_from_def("CONE");
+  ts_assert_string_contains(wb_supervisor_node_export_string(node), "DEF CONE Solid {", "The exported string is not valid");
 
   ts_send_success();
   return EXIT_SUCCESS;

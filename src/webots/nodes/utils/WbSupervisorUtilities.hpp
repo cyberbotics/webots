@@ -88,6 +88,8 @@ private:
   bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
+  QString mNodeExportString;
+  bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
 

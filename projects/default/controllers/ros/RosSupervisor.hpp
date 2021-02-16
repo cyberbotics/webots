@@ -48,6 +48,7 @@
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
+#include <webots_ros/node_get_string.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_is_proto.h>
@@ -156,6 +157,7 @@ public:
   bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
   bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
   bool nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res);
+  bool nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res);
   bool nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                 webots_ros::node_reset_functions::Response &res);
   bool nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
@@ -248,6 +250,7 @@ private:
   ros::ServiceServer mNodeMoveViewpointServer;
   ros::ServiceServer mNodeSetVisibilityServer;
   ros::ServiceServer mNodeRemoveServer;
+  ros::ServiceServer mNodeExportStringServer;
   ros::ServiceServer mNodeResetPhysicsServer;
   ros::ServiceServer mNodeRestartControllerServer;
 
