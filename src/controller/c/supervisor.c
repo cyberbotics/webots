@@ -199,6 +199,7 @@ static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
   free(node->def_name);
+  free(node->content);
   free(node->position);
   free(node->orientation);
   free(node->center_of_mass);
@@ -316,6 +317,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   else
     n->model_name = (char *)model_name;
   n->def_name = supervisor_strdup(extract_node_def(def_name));
+  n->content = NULL;
   n->parent_id = parent_id;
   n->position = NULL;
   n->orientation = NULL;
