@@ -191,7 +191,7 @@ void ts_assert_string_contains(const char *value, const char *expected, const ch
   // if they're both NULL, this still counts as a match
   else if (value == NULL && expected == NULL)
     correct = true;
-  // the search part has to shorter
+  // the needle string has to be shorter than or equal to the haystack string
   else if (strlen(value) < strlen(expected))
     correct = false;
   // otherwise compare normally
