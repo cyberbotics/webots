@@ -129,6 +129,10 @@ const double *Node::getVelocity() const {
   return wb_supervisor_node_get_velocity(nodeRef);
 }
 
+std::string Node::exportString() const {
+  return string(wb_supervisor_node_export_string(nodeRef));
+}
+
 void Node::setVelocity(const double velocity[6]) {
   wb_supervisor_node_set_velocity(nodeRef, velocity);
 }

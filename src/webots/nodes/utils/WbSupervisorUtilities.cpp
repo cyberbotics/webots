@@ -283,6 +283,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mGetContactPointsIncludeDescendants = false;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
+  mNodeExportStringRequest = false;
   mIsProtoRegenerated = false;
   mShouldRemoveNode = false;
   mImportedNodesNumber = -1;
@@ -948,6 +949,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"));
       return;
     }
+    case C_SUPERVISOR_NODE_EXPORT_STRING: {
+      unsigned int nodeId;
+      stream >> nodeId;
+      WbNode *node = WbNode::findNode(nodeId);
+
+      mNodeExportString = WbNodeOperations::exportNodeToString(node);
+      mNodeExportStringRequest = true;
+      return;
+    }
     case C_SUPERVISOR_LOAD_WORLD: {
       mWorldToLoad = readString(stream);
       makeFilenameAbsolute(mWorldToLoad);
@@ -1507,6 +1517,13 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)angularVelocity[1];
     stream << (double)angularVelocity[2];
     mNodeGetVelocity = NULL;
+  }
+  if (mNodeExportStringRequest) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_EXPORT_STRING;
+    QByteArray ba = mNodeExportString.toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+    mNodeExportStringRequest = false;
   }
   if (mImportedNodesNumber >= 0) {
     stream << (short unsigned int)0;
