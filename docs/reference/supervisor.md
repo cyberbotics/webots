@@ -570,6 +570,7 @@ These integers can be directly compared with the output of the `Node::getType` f
 ---
 
 #### `wb_supervisor_node_remove`
+#### `wb_supervisor_node_export_string`
 
 %tab-component "language"
 
@@ -579,6 +580,7 @@ These integers can be directly compared with the output of the `Node::getType` f
 #include <webots/supervisor.h>
 
 void wb_supervisor_node_remove(WbNodeRef node);
+const char * wb_supervisor_node_export_string(WbNodeRef node);
 ```
 
 %tab-end
@@ -591,6 +593,7 @@ void wb_supervisor_node_remove(WbNodeRef node);
 namespace webots {
   class Node {
     virtual void remove();
+    std::string exportString() const;
     // ...
   }
 }
@@ -605,6 +608,7 @@ from controller import Node
 
 class Node:
     def remove(self):
+    def exportString(self):
     # ...
 ```
 
@@ -617,6 +621,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public void remove();
+  public String exportString();
   // ...
 }
 ```
@@ -627,6 +632,7 @@ public class Node {
 
 ```MATLAB
 wb_supervisor_node_remove(node)
+node_string = wb_supervisor_node_export_string(node)
 ```
 
 %tab-end
@@ -636,6 +642,7 @@ wb_supervisor_node_remove(node)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
 
 %tab-end
 
@@ -647,6 +654,9 @@ wb_supervisor_node_remove(node)
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
 If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
+
+The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
+The equivalent output can be produced in the Webots user interface by selecting a node in the scene tree window and using the `Export` button.
 
 ---
 
