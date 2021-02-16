@@ -55,7 +55,7 @@ protected:
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket);
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket, const QString &etag);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();

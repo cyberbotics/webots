@@ -68,11 +68,11 @@ void WbX3dStreamingServer::create(int port) {
   generateX3dWorld();
 }
 
-void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket, const QString &etag) {
   if (!mX3dWorldTextures.contains(requestedUrl))
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket, etag);
   else
-    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl]));
+    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl], etag));
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
