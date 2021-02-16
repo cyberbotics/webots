@@ -129,8 +129,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                  &RosSupervisor::nodeExportStringCallback, this);
   mNodeResetPhysicsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/reset_physics",
                                                                  &RosSupervisor::nodeResetPhysicsCallback, this);
-  mNodeSetStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_state",
-                                                             &RosSupervisor::nodeSetStateCallback, this);
+  mNodeSaveStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/save_state",
+                                                              &RosSupervisor::nodeSaveStateCallback, this);
   mNodeLoadStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/load_state",
                                                               &RosSupervisor::nodeLoadStateCallback, this);
   mNodeRestartControllerServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/restart_controller",
@@ -807,8 +807,8 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
 }
 
 // cppcheck-suppress constParameter
-bool RosSupervisor::nodeSetStateCallback(webots_ros::node_set_string::Request &req,
-                                         webots_ros::node_set_string::Response &res) {
+bool RosSupervisor::nodeSaveStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
   assert(this);
   if (!req.node)
     return false;

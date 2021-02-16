@@ -161,7 +161,7 @@ public:
   bool nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res);
   bool nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                 webots_ros::node_reset_functions::Response &res);
-  bool nodeSetStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
+  bool nodeSaveStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
   bool nodeLoadStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
   bool nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                      webots_ros::node_reset_functions::Response &res);
@@ -256,7 +256,7 @@ private:
   ros::ServiceServer mNodeExportStringServer;
   ros::ServiceServer mNodeResetPhysicsServer;
   ros::ServiceServer mNodeRestartControllerServer;
-  ros::ServiceServer mNodeSetStateServer;
+  ros::ServiceServer mNodeSaveStateServer;
   ros::ServiceServer mNodeLoadStateServer;
 
   ros::ServiceServer mFieldGetTypeServer;
