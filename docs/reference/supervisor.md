@@ -1372,9 +1372,8 @@ wb_supervisor_node_reset_physics(node)
 %tab "ROS"
 
 | name | service/topic | data type | data type definition |
-| `/supervisor/node/save_state` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/node/reset_state` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| --- | --- | --- | --- |
+| `/supervisor/node/save_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/load_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
 | `/supervisor/node/reset_physics` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
 
 %tab-end

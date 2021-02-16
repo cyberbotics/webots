@@ -129,6 +129,10 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                  &RosSupervisor::nodeExportStringCallback, this);
   mNodeResetPhysicsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/reset_physics",
                                                                  &RosSupervisor::nodeResetPhysicsCallback, this);
+  mNodeSetStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_state",
+                                                             &RosSupervisor::nodeSetStateCallback, this);
+  mNodeLoadStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/load_state",
+                                                              &RosSupervisor::nodeLoadStateCallback, this);
   mNodeRestartControllerServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/restart_controller",
                                                                       &RosSupervisor::nodeRestartControllerCallback, this);
 
@@ -798,6 +802,30 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->restartController();
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeSetStateCallback(webots_ros::node_set_string::Request &req,
+                                         webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->saveState(req.state_name);
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeLoadStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->loadState(req.state_name);
   res.success = 1;
   return true;
 }

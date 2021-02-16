@@ -55,6 +55,7 @@
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 
@@ -160,6 +161,8 @@ public:
   bool nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res);
   bool nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                 webots_ros::node_reset_functions::Response &res);
+  bool nodeSetStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
+  bool nodeLoadStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
   bool nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                      webots_ros::node_reset_functions::Response &res);
 
@@ -253,6 +256,8 @@ private:
   ros::ServiceServer mNodeExportStringServer;
   ros::ServiceServer mNodeResetPhysicsServer;
   ros::ServiceServer mNodeRestartControllerServer;
+  ros::ServiceServer mNodeSetStateServer;
+  ros::ServiceServer mNodeLoadStateServer;
 
   ros::ServiceServer mFieldGetTypeServer;
   ros::ServiceServer mFieldGetTypeNameServer;
