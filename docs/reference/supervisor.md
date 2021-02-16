@@ -656,7 +656,8 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
-The equivalent output can be produced in the Webots user interface by selecting a node in the scene tree window and using the `Export` button.
+In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
+A file with the equivalent content can be produced in the Webots user interface by selecting the node in the scene tree window and using the `Export` button.
 
 ---
 
