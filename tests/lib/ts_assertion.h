@@ -183,7 +183,7 @@ void ts_assert_string_equal(const char *value, const char *expected, const char 
   TS_FINAL_CHECK();
 }
 
-void ts_assert_string_contains(const char *value, const char *expected, const char *error_message, ...) {
+void ts_assert_string_contains(const char *haystack, const char *needle, const char *error_message, ...) {
   bool correct = false;
   // if string is NULL and the other isn't, false
   if ((value == NULL) != (expected == NULL))
