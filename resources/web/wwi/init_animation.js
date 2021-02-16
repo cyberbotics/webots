@@ -16,14 +16,6 @@ import {webots} from "./../wwi/webots.js";
 let view = null;
 
 function init() {
-  //document.getElementById('PlayButton').style.display = 'block';
-  //this.style.display = 'none'
-  //let playButton = document.getElementById('PlayButton');
-  //playButton.removeEventListener('click', init);
-  //playButton.addEventListener('click', remove);
-  //playButton.value = "Quit";
-  //playButton.parentNode.removeChild(playButton);
-
   let name = location.pathname.substring(location.pathname.lastIndexOf("/") + 1).replace('.html', '');
   view = new webots.View(document.getElementById("playerDiv"));
   view.open(name + ".x3d");
@@ -40,7 +32,15 @@ function remove() {
     toolBar.parentNode.removeChild(toolBar);
   }
 }
-init();
-//document.getElementById('PlayButton').addEventListener('click', init);
+
+if(!!window.chrome)
+  init();
+else {
+  Module['onRuntimeInitialized'] = function() {
+         console.log("wasm loaded ");
+         init();
+  }
+}
+
 if (location.protocol == "file:" && (!!window.chrome && !!window.chrome.webstore))
   alert("Webots HTML5 Models and Animations cannot be loaded locally on Google Chrome, as Chrome does not support cross-origin requests using the file:// protocol.");
