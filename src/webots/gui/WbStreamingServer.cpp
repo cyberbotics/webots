@@ -176,9 +176,9 @@ void WbStreamingServer::onNewTcpData() {
       bool hasEtag = false;
       QString etag = "";
       for (const auto &i : tokens) {
-        if (i == "If-None-Match:") {
+        if (i == "If-None-Match:")
           hasEtag = true;
-        } else if (hasEtag) {
+        else if (hasEtag) {
           etag = i;
           break;
         }
