@@ -174,7 +174,7 @@ void WbStreamingServer::onNewTcpData() {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       bool hasEtag = false;
-      QString etag = "";
+      QString etag;
       for (const auto &i : tokens) {
         if (i == "If-None-Match:")
           hasEtag = true;
