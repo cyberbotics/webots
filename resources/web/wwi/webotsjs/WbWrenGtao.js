@@ -42,6 +42,8 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.radiusPointer = undefined;
     this.flipNormalYPointer = undefined;
     this.previousInverseViewMatrixPointer = undefined;
+
+    this.previousAllocation = false;
   }
 
   setHalfResolution(halfResolution) {
@@ -66,11 +68,16 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   applyOldInverseViewMatrixToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-    if(typeof this.previousInverseViewMatrix !== 'number')
-      this.previousInverseViewMatrixPointer = arrayXPointerFloat(this.previousInverseViewMatrix);
-    else{
+
+    if(this.previousAllocation)
       _free(this.previousInverseViewMatrixPointer);
+
+    if(typeof this.previousInverseViewMatrix !== 'number'){
+      this.previousInverseViewMatrixPointer = arrayXPointerFloat(this.previousInverseViewMatrix);
+      this.previousAllocation = true;
+    } else {
       this.previousInverseViewMatrixPointer = this.previousInverseViewMatrix;
+      this.previousAllocation = false;
     }
 
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this.temporalPass, "previousInverseViewMatrix", this.previousInverseViewMatrixPointer]);
