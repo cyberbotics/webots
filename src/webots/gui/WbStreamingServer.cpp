@@ -174,21 +174,21 @@ void WbStreamingServer::onNewTcpData() {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       bool hasEtag = false;
-      QString etag = "";
+      QString etag;
       for (const auto &i : tokens) {
-        if (i == "If-None-Match:") {
+        if (i == "If-None-Match:")
           hasEtag = true;
-        } else if (hasEtag) {
+        else if (hasEtag) {
           etag = i;
           break;
         }
       }
-      sendTcpRequestReply(requestedUrl, socket, etag);
+      sendTcpRequestReply(requestedUrl, etag, socket);
     }
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket, const QString &etag) {
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   if (!requestedUrl.startsWith("robot_windows/")) {
     WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
     socket->write(WbHttpReply::forge404Reply());
@@ -236,6 +236,7 @@ void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type
 
 void WbStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
+
   if (message.startsWith("robot:")) {
     QString name;
     QString robotMessage;
@@ -615,6 +616,7 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
           &WbStreamingServer::propagateSimulationStateChange);
   client->sendTextMessage(QString("pause: %1").arg(WbSimulationState::instance()->time()));
+  printf("pause\n");
   fflush(stdout);
 }
 
