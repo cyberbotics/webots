@@ -158,6 +158,8 @@ void WbHingeJoint::applyToOdeSuspensionAxis() {
   a.normalize();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2SuspensionAxis(mJoint, a.x(), a.y(), a.z());
+  else if (nodeType() == WB_NODE_TRANSMISSION_JOINT)
+    dJointSetHinge2SuspensionAxis(mJoint, a.x(), a.y(), a.z());
   else
     dJointSetHingeSuspensionAxis(mJoint, a.x(), a.y(), a.z());
 }
@@ -170,6 +172,8 @@ void WbHingeJoint::applyToOdeAnchor() {
   const WbMatrix4 &m4 = upperTransform()->matrix();
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
+    dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
+  else if (nodeType() == WB_NODE_TRANSMISSION_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
   // cppcheck-suppress knownConditionTrueFalse
   else if (nodeType() == WB_NODE_BALL_JOINT)
@@ -267,6 +271,9 @@ void WbHingeJoint::applyToOdeSuspension() {
     WbOdeUtilities::convertSpringAndDampingConstants(s, d, wi->basicTimeStep() * 0.001, cfm, erp);
 
   if (nodeType() == WB_NODE_HINGE_2_JOINT) {
+    dJointSetHinge2Param(mJoint, dParamSuspensionERP, erp);
+    dJointSetHinge2Param(mJoint, dParamSuspensionCFM, cfm);
+  } else if (nodeType() == WB_NODE_TRANSMISSION_JOINT) {
     dJointSetHinge2Param(mJoint, dParamSuspensionERP, erp);
     dJointSetHinge2Param(mJoint, dParamSuspensionCFM, cfm);
   } else {

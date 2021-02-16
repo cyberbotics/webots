@@ -110,6 +110,7 @@ namespace webots {
       SOLID_REFERENCE,
       TRACK,
       TRACK_WHEEL,
+      TRANSMISSION_JOINT,
       WORLD_INFO,
       ZOOM,
       // experimental

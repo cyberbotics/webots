@@ -672,6 +672,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
                                      "WB_NODE_TRANSFORM "
+                                     "WB_NODE_TRANSMISSION_JOINT"
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
@@ -694,7 +695,7 @@ static const char *WBT_OBJECTS =
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
   "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
-  "Transform Viewpoint WorldInfo Zoom";
+  "Transform TransmissionJoint Viewpoint WorldInfo Zoom";
 
 static WbLanguage **gLanguages = NULL;
 

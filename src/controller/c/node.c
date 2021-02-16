@@ -178,6 +178,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "TrackWheel";
     case WB_NODE_TRANSFORM:
       return "Transform";
+    case WB_NODE_TRANSMISSION_JOINT:
+      return "TransmissionJoint";
     case WB_NODE_VIEWPOINT:
       return "Viewpoint";
     case WB_NODE_WORLD_INFO:

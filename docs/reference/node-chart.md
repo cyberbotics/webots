@@ -97,6 +97,7 @@ graph LR
   Joint([Joint](joint.md)) -.-> HingeJoint[[HingeJoint](hingejoint.md)]
     HingeJoint --> Hinge2Joint[[Hinge2Joint](hinge2joint.md)]
       Hinge2Joint --> BallJoint[[BallJoint](balljoint.md)]
+    HingeJoint --> TransmissionJoint[[TransmissionJoint](transmissionjoint.md)]
   Joint -.-> SliderJoint[[SliderJoint](sliderjoint.md)]
 
   JointParameters[[JointParameters](jointparameters.md)] --> HingeJointParameters[[HingeJointParameters](hingejointparameters.md)]

@@ -41,6 +41,7 @@
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbTrack.hpp"
+#include "WbTransmissionJoint.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QStack>
@@ -272,8 +273,6 @@ namespace {
               << "ImmersionProperties"
               << "jointParameters3"
               << "JointParameters"
-              << "jointParameters2"
-              << "JointParameters"
               << "lens"
               << "Lens"
               << "lensFlare"
@@ -331,7 +330,11 @@ namespace {
         return true;
       else if (nodeName == "Slot")
         return true;
-
+    } else if (fieldName == "startPoint") {
+      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName) || nodeName == "SolidReference")
+        return true;
+      else if (nodeName == "Slot")
+        return true;
     } else if (fieldName == "rotatingHead") {
       if (WbNodeUtilities::isSolidButRobotTypeName(nodeName))
         return true;
@@ -341,7 +344,8 @@ namespace {
 
     } else if (fieldName == "device") {
       const WbJoint *joint = dynamic_cast<const WbJoint *>(node);
-      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller" || parentModelName == "BallJoint") {
+      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller" || parentModelName == "BallJoint" ||
+          parentModelName == "TransmissionJoint") {
         if ((nodeName == "RotationalMotor" &&
              (WbNodeReader::current() || (joint && joint->motor() == NULL) || parentModelName == "Propeller")) ||
             (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor() == NULL))) ||
@@ -389,6 +393,20 @@ namespace {
           return true;  // // DEPRECATED, only for backward compatibility
       } else if (parentModelName == "BallJoint") {
         if (nodeName == "BallJointParameters")
+          return true;
+      } else if (parentModelName == "TransmissionJoint") {
+        if (nodeName == "HingeJointParameters")
+          return true;
+      }
+    } else if (fieldName == "jointParameters2") {
+      if (parentModelName == "Hinge2Joint") {
+        if (nodeName == "JointParameters")
+          return true;
+      } else if (parentModelName == "TransmissionJoint") {
+        if (nodeName == "HingeJointParameters")
+          return true;
+      } else if (parentModelName == "BallJoint") {
+        if (nodeName == "JointParameters")
           return true;
       }
 
@@ -1396,7 +1414,7 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
   int result = NONE;
   if (fieldName == "device") {
     const WbJoint *joint = dynamic_cast<const WbJoint *>(node);
-    if (parentModelName.startsWith("Hinge") || parentModelName == "BallJoint") {
+    if (parentModelName.startsWith("Hinge") || parentModelName == "BallJoint" || parentModelName == "TransmissionJoint") {
       if (joint) {
         if (childModelName == "RotationalMotor")
           result = 1 + (static_cast<WbNode *>(joint->motor()) == childNode);
