@@ -451,7 +451,6 @@ private:
   WrMaterial *mCenterOfBuoyancyMaterial;
 
   // Positions and orientations storage
-  WbRotation mPreviousRotation;
   WbVector3 mTranslationLoadedFromFile;
   WbRotation mRotationLoadedFromFile;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;

@@ -34,7 +34,6 @@ WbKinematicDifferentialWheels::WbKinematicDifferentialWheels(WbRobot *robot, dou
 void WbKinematicDifferentialWheels::applyKinematicMotion(double ms) {
   mKinematicDisplacementNumber = 0;
   mKinematicDisplacement.setXy(0, 0);
-  // mRobot->savePreviousTransform();
 
   if (mIsWbDifferentialWheels)  // WbDifferentialWheels defines it's own motion model (because of encoders and no actual joint)
     return;

@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 DEF MY_BOT Robot {
   translation 0 0 -0.104
-  rotation -0.9999994299194123 0.0010622004566608562 0.0001090460468810391 -0.0270423
+  rotation -1 0 0 -0.027
   children [
     Transform {
       translation 0 0.0415 0
@@ -34,8 +34,7 @@ DEF MY_BOT Robot {
         }
       ]
       endPoint DEF LEFT_WHEEL Solid {
-        translation -0.045000000000000005 0.025000000000000022 0
-        rotation -0.9999995250240081 0.0009746546866139544 0 3.469448606320756e-18
+        translation -0.045 0.025 0
         children [
           DEF WHEEL Transform {
             rotation 0 0 1 1.57
