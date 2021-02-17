@@ -21,7 +21,7 @@
 // This module is not yet complete: only a few devices are implemented.
 
 #include <webots/device.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <webots/accelerometer.h>
 #include <webots/camera.h>
@@ -802,7 +802,7 @@ void wbu_default_robot_window_update() {
           break;
       }
 
-      if (robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||
+      if (robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||  // TODO
           update_element->last_update + update_period_by_type(type) < simulated_time) {
         // send the stored values if any.
         update_element->last_update = simulated_time;

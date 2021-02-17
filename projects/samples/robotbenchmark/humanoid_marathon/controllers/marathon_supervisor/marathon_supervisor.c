@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 #include "../../../include/robotbenchmark.h"
 
 #define TIME_STEP 128

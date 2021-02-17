@@ -1,5 +1,5 @@
 #include <webots/robot.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"

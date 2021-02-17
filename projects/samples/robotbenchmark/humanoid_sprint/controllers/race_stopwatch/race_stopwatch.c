@@ -24,7 +24,7 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 #include "../../../include/robotbenchmark.h"
 
 #define N_DIGIT 6

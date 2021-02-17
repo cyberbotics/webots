@@ -1,7 +1,7 @@
+#include <webots/plugins/robot_window/generic_robot_window/generic.h>
+#include <webots/plugins/robot_window/robot_wwi.h>
 #include <webots/robot.h>
-#include <webots/robot_window_utils/generic_robot_window.h>
-#include <webots/robot_window_utils/string.h>
-#include <webots/robot_wwi.h>
+#include <webots/utils/string.h>
 
 #include <stdlib.h>
 #include <string.h>

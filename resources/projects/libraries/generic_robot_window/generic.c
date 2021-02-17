@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include <webots/robot_window_utils/generic_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
+#include <webots/plugins/robot_window/generic_robot_window/generic.h>
 
 #include <webots/device.h>
 #include <webots/robot.h>
@@ -34,7 +35,6 @@
 #include <webots/radar.h>
 #include <webots/range_finder.h>
 #include <webots/touch_sensor.h>
-#include <webots/utils/default_robot_window.h>
 #include <webots/utils/string.h>
 
 #include <assert.h>

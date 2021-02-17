@@ -15,7 +15,8 @@
  */
 
 /*************************************************************************************/
-/* Description:  Webots C utility to display and control devices in a robot window   */
+/* Description:  Webots C utility to enable/disable devices and retrieve the         */
+/*               measurements from a robot window                                    */
 /*************************************************************************************/
 
 #ifndef WBU_GENERIC_ROBOT_WINDOW_H

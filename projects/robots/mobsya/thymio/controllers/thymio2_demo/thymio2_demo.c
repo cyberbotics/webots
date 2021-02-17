@@ -25,7 +25,7 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 #include <webots/touch_sensor.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <math.h>
 #include <stdio.h>
