@@ -12,10 +12,10 @@ Supported values for the `texture` field:
 - entrance\_hall
 - factory
 - mars
+- mountains
 - noon\_building\_overcast
 - noon\_cloudy\_countryside
 - noon\_park\_empty
-- mountains
 - stadium
 
 Deprecated backgrounds:
@@ -54,7 +54,7 @@ TexturedBackground {
 
 ### TexturedBackground Field Summary
 
-- `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"` and `"twilight_cloudy_empty"`.
+- `texture`: Defines the texture of the background. This field accepts the values listed in the above description, e.g., "dusk", "empty\_office", etc.
 
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
 
@@ -66,29 +66,7 @@ TexturedBackground {
 
 Light designed to match the skyboxes in the TexturedBackground PROTO.
 
-Supported values for the `texture` field:
-
-- dusk
-- empty\_office
-- entrance\_hall
-- factory
-- mars
-- noon\_building\_overcast
-- noon\_cloudy\_countryside
-- noon\_park\_empty
-- mountains
-- stadium
-
-Deprecated backgrounds:
-
-- dawn\_cloudy\_empty
-- morning\_cloudy\_empty
-- noon\_cloudy\_empty
-- noon\_cloudy\_mountains
-- noon\_stormy\_empty
-- noon\_sunny\_empty
-- noon\_sunny\_garden
-- twilight\_cloudy\_empty
+The supported values for the `texture` field are the same as those listed in the TexturedBackground PROTO.
 
 %figure
 
@@ -113,7 +91,7 @@ TexturedBackgroundLight {
 
 ### TexturedBackgroundLight Field Summary
 
-- `texture`: Should be equivalent to the 'texture' field of the TexturedBackground. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"` and `"twilight_cloudy_empty"`.
+- `texture`: Should be the same as the 'texture' field of the corresponding TexturedBackground PROTO.
 
 - `luminosity`: Multiplies the `Light.intensity` field.
 
