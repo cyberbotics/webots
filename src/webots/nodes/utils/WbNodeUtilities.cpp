@@ -1207,8 +1207,6 @@ bool WbNodeUtilities::isCollisionDetectedGeometryTypeName(const QString &modelNa
 bool WbNodeUtilities::isRobotTypeName(const QString &modelName) {
   if (modelName == "Robot")
     return true;
-  if (modelName == "DifferentialWheels")
-    return true;
   return false;
 }
 

@@ -61,7 +61,6 @@ namespace webots {
       VIEWPOINT,
       // robots
       ROBOT,
-      DIFFERENTIAL_WHEELS,
       // devices
       ACCELEROMETER,
       BRAKE,

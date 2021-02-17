@@ -11,6 +11,8 @@ Released on June, Xth, 2021.
     - Allow the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
+  - Cleanup
+    - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
 
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
