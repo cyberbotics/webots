@@ -47,7 +47,6 @@ CPPSRC = Accelerometer.cpp \
          Compass.cpp \
          Connector.cpp \
          Device.cpp \
-         DifferentialWheels.cpp \
          Display.cpp \
          DistanceSensor.cpp \
          Emitter.cpp \

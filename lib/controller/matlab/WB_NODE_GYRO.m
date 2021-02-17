@@ -1,2 +1,2 @@
 function value = WB_NODE_GYRO
-value = 42;
+value = 41;
