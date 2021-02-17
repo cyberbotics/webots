@@ -39,7 +39,7 @@ These functions sends messages containing the robot's devices latest measurement
 
 The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON messages, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
 Here is the sample structure of the configure message:
-```python
+```
 configure {
   "type": <"Robot"|"Supervisor">,
   "name": <string>,
@@ -56,7 +56,7 @@ configure {
 ```
 Additionally for each device type specific information are provided.
 * [Camera](camera.md):
-    ```python
+    ```
   {
     "width": <double>,
     "height": <double>,
@@ -64,7 +64,7 @@ Additionally for each device type specific information are provided.
     "segmentation": <0|1>
   }```
 * [DistanceSensor](distancesensor.md):
-    ```python
+    ```
   {
     "sensorType": <"generic"|"infra-red"|"laser"|"sonar"|"unknown">,
     "minValue": <double>,
@@ -72,13 +72,13 @@ Additionally for each device type specific information are provided.
     "aperture": <double>
   }```
 * [Lidar](lidar.md):
-    ```python
+    ```
   {
     "width": <double>,
     "height": <double>
   }```
 * [Motor](motor.md):
-    ```python
+    ```
   {
     "minPosition": <double>,
     "maxPosition": <double>,
@@ -86,27 +86,27 @@ Additionally for each device type specific information are provided.
     <"maxTorque"|"maxForce">: <double>
   }```
 * [Radar](radar.md):
-    ```python
+    ```
   {
     "fieldOfView": <double>,
     "minRange": <double>,
     "maxRange": <double>
   }```
 * [RangeFinder](rangefinder.md):
-    ```python
+    ```
   {
     "width": <double>,
     "height": <double>
   }```
 * [TouchSensor](touchsensor.md):
-    ```python
+    ```
   {
     "sensorType": <"bumper"|"force"|"force-3d">
   }```
 
 The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON messages, prefixed with the "update" label, containing the current devices measurements.
 Here is the sample structure of the configure message:
-```python
+```
 update {
   "time": <double>,
   "devices": [
@@ -116,7 +116,7 @@ update {
 ```
 Devices update data depends on the type:
 * [Accelerometer](accelerometer.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md):
-    ```python
+    ```
   {
     "update": [
       {
@@ -126,20 +126,20 @@ Devices update data depends on the type:
     ]
   }```
 * [Camera](camera.md):
-    ```python
+    ```
   {
     "recognitionEnabled": <"true"|"false">,
     "segmentationEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64," + <data>
   }```
 * [Lidar](lidar.md):
-    ```python
+    ```
   {
     "cloudPointEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64,<data>"
   }```
 * [Radar](radar.md):
-    ```python
+    ```
   {
     "targets": [
       "distance": <double>,
@@ -147,7 +147,7 @@ Devices update data depends on the type:
     ]
   }```
 * [RangeFinder](rangefinder.md):
-    ```python
+    ```
   {
     "image": "data:image/jpg;base64," + <data>
  }```
