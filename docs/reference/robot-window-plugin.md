@@ -38,7 +38,7 @@ char *wbu_default_robot_window_set_images_max_size(int max_width, int max_height
 These functions sends messages containing the robot's devices latest measurements that can be easily passed to the HTML robot window.
 
 The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON messages, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
-Here is the sample structure of the configure message
+Here is the sample structure of the configure message:
 ```python
 configure {
   "type": <"Robot"|"Supervisor">,
@@ -55,7 +55,7 @@ configure {
 }
 ```
 Additionally for each device type specific information are provided.
-* [Camera](camera.md)
+* [Camera](camera.md):
     ```python
   {
     "width": <double>,
@@ -63,7 +63,7 @@ Additionally for each device type specific information are provided.
     "recognition": <0|1>,
     "segmentation": <0|1>
   }```
-* [DistanceSensor](distancesensor.md)
+* [DistanceSensor](distancesensor.md):
     ```python
   {
     "sensorType": <"generic"|"infra-red"|"laser"|"sonar"|"unknown">,
@@ -71,13 +71,13 @@ Additionally for each device type specific information are provided.
     "maxValue": <double>,
     "aperture": <double>
   }```
-* [Lidar](lidar.md)
+* [Lidar](lidar.md):
     ```python
   {
     "width": <double>,
     "height": <double>
   }```
-* [Motor](motor.md)
+* [Motor](motor.md):
     ```python
   {
     "minPosition": <double>,
@@ -85,20 +85,20 @@ Additionally for each device type specific information are provided.
     "maxVelocity": <double>,
     <"maxTorque"|"maxForce">: <double>
   }```
-* [Radar](radar.md)
+* [Radar](radar.md):
     ```python
   {
     "fieldOfView": <double>,
     "minRange": <double>,
     "maxRange": <double>
   }```
-* [RangeFinder](rangefinder.md)
+* [RangeFinder](rangefinder.md):
     ```python
   {
     "width": <double>,
     "height": <double>
   }```
-* [TouchSensor](touchsensor.md)
+* [TouchSensor](touchsensor.md):
     ```python
   {
     "sensorType": <"bumper"|"force"|"force-3d">
@@ -115,7 +115,7 @@ update {
 }
 ```
 Devices update data depends on the type:
-* [Accelerometer](accelerometer.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md)
+* [Accelerometer](accelerometer.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md):
     ```python
   {
     "update": [
@@ -125,20 +125,20 @@ Devices update data depends on the type:
       }
     ]
   }```
-* [Camera](camera.md)
+* [Camera](camera.md):
     ```python
   {
     "recognitionEnabled": <"true"|"false">,
     "segmentationEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64," + <data>
   }```
-* [Lidar](lidar.md)
+* [Lidar](lidar.md):
     ```python
   {
     "cloudPointEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64,<data>"
   }```
-* [Radar](radar.md)
+* [Radar](radar.md):
     ```python
   {
     "targets": [
@@ -146,7 +146,7 @@ Devices update data depends on the type:
       "azimuth": <double>
     ]
   }```
-* [RangeFinder](rangefinder.md)
+* [RangeFinder](rangefinder.md):
     ```python
   {
     "image": "data:image/jpg;base64," + <data>

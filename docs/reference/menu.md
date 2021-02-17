@@ -115,7 +115,7 @@
     - [ODE Improvements](ode-improvements.md)
     - [Troubleshooting](troubleshooting.md)
     - [Execution Scheme](execution-scheme.md)
-- [Robot Window Plugin](robot_window_plugin.md)
+- [Robot Window Plugin](robot-window-plugin.md)
 - [Webots World Files](webots-world-files.md)
     - [Generalities](generalities.md)
     - [Nodes and Keywords](nodes-and-keywords.md)
