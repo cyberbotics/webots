@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-/*******************************************************************************************/
-/* Description:  Webots C utility to parse messages used by the robot_window_utils library */
-/*******************************************************************************************/
+/**********************************************************************************/
+/* Description:  Webots C utility to parse messages                               */
+/**********************************************************************************/
 
 #ifndef WBU_STRING_H
 #define WBU_STRING_H
@@ -25,8 +25,8 @@
 extern "C" {
 #endif
 
-char *wbu_string_utils_strsep(char **stringp, const char *delim);
-char *wbu_string_utils_replace(char *orig, char *rep, char *with);
+char *wbu_string_strsep(char **stringp, const char *delim);
+char *wbu_string_replace(char *value, char *before, char *after);
 
 #ifdef __cplusplus
 }

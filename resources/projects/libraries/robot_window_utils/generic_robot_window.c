@@ -15,7 +15,6 @@
  */
 
 #include <webots/robot_window_utils/generic_robot_window.h>
-#include <webots/robot_window_utils/string.h>
 
 #include <webots/device.h>
 #include <webots/robot.h>
@@ -36,6 +35,7 @@
 #include <webots/range_finder.h>
 #include <webots/touch_sensor.h>
 #include <webots/utils/default_robot_window.h>
+#include <webots/utils/string.h>
 
 #include <assert.h>
 #include <stdio.h>
@@ -163,8 +163,8 @@ void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
 
   while (token && token[0] != '\0') {
     if (tag == 0 && !robot) {  // first token = device or robot name
-      char *name0 = wbu_string_utils_replace(token, "\\:", ":");
-      char *name = wbu_string_utils_replace(name0, "\\,", ",");
+      char *name0 = wbu_string_replace(token, "\\:", ":");
+      char *name = wbu_string_replace(name0, "\\,", ",");
       if (strcmp(name, wb_robot_get_name()) == 0)
         robot = true;
       else
@@ -211,7 +211,7 @@ void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
     else
       assert(0);  // protocol issue
 
-    token = wbu_string_utils_strsep(&tokens, ":");
+    token = wbu_string_strsep(&tokens, ":");
   };
 }
 
@@ -219,7 +219,7 @@ bool wbu_generic_robot_window_parse_device_control_command(char *token, char *to
   if (strcmp(token, "device-control-mode") != 0)
     return false;
   WbNodeType type = WB_NODE_NO_NODE;
-  while ((token = wbu_string_utils_strsep(&tokens, ":"))) {
+  while ((token = wbu_string_strsep(&tokens, ":"))) {
     if (type == WB_NODE_NO_NODE) {
       type = stringToDeviceType(token);
       if (type == WB_NODE_NO_NODE) {

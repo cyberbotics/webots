@@ -462,5 +462,7 @@ wbu_motion_set_time
 wbu_motion_stop
 wbu_robot_window_configure
 wbu_robot_window_update
+wbu_string_replace
+wbu_string_strsep
 wbu_system_getenv
 wbu_system_short_path

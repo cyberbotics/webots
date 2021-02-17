@@ -20,9 +20,9 @@ void wb_robot_window_step(int time_step) {
       //   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
       char *tokens = strdup(message);
       char *token = NULL;
-      while ((token = wbu_string_utils_strsep(&tokens, ","))) {
+      while ((token = wbu_string_strsep(&tokens, ","))) {
         char *command = strdup(token);
-        char *first_word = wbu_string_utils_strsep(&command, ":");
+        char *first_word = wbu_string_strsep(&command, ":");
         if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
           wbu_generic_robot_window_parse_device_command(first_word, command);
       }
