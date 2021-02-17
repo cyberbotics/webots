@@ -174,6 +174,7 @@ class WbWrenPicker {
     }
     else
       this.selectedId = id - 1;
+      
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
