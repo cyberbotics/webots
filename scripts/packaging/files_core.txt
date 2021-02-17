@@ -12,11 +12,11 @@ include/controller/
 include/controller/c/
 include/controller/c/webots/
 include/controller/c/webots/*.h
-include/controller/c/webots/plugin/
-include/controller/c/webots/plugin/robot_window
-include/controller/c/webots/plugin/robot_window/*.h
-include/controller/c/webots/plugin/robot_window/generic_robot_window/
-include/controller/c/webots/plugin/robot_window/generic_robot_window/*.h
+include/controller/c/webots/plugins/
+include/controller/c/webots/plugins/robot_window
+include/controller/c/webots/plugins/robot_window/*.h
+include/controller/c/webots/plugins/robot_window/generic_robot_window/
+include/controller/c/webots/plugins/robot_window/generic_robot_window/*.h
 include/controller/c/webots/utils/
 include/controller/c/webots/utils/*.h
 include/controller/c/webots/vehicle/
