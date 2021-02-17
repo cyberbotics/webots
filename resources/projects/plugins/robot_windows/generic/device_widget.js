@@ -268,7 +268,7 @@ DeviceWidget.updateDeviceWidgets = function(data) {
 
     const checkbox = document.getElementById(key + '-enable-checkbox');
     const widget = DeviceWidget.widgets[key];
-    if (!widget || !(widget.firstUpdate || checkbox.checked))
+    if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
     widget.firstUpdate = false;

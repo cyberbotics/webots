@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset='UTF-8'>
-    <link rel='stylesheet' type='text/css' href='generic.css'>
+    <link rel='stylesheet' type='text/css' href="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/generic.css">
     <link rel='stylesheet' type='text/css' href='automobile.css'>
   </head>
   <body>
@@ -18,7 +18,7 @@
       <div id="content">
         <button id="menu-open-button" onclick="openMenu()">&#9776;</button>
         <p id="no-controller-label">No controller.</p>
-        <div id="overview" class="devices-container animate-left" style="display:none">
+        <div id="overview-section" class="devices-container animate-left" style="display:none">
           <h1 style="display:inline-block;">
               <input type="checkbox" title="Enable/disable the overview." id="overview-enable-checkbox" device="Overview" onclick="vehicleCheckboxCallback(this)"/>
               Overview
@@ -75,12 +75,14 @@
         </div>
       </div>
     </div>
-    <script src="plot_widget.js"></script>
-    <script src="timeplot_widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/plot_widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/timeplot_widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/radar_widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/device_widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/window_manager.js"></script>
     <script src="vehicle_timeplot_widget.js"></script>
     <script src="radar_widget.js"></script>
     <script src="overview_widget.js"></script>
-    <script src="generic_device_window.js"></script>
     <script src="automobile.js"></script>
   </body>
 </html>

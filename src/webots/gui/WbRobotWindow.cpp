@@ -24,7 +24,6 @@
 #include "WbWebPage.hpp"
 
 #include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
@@ -125,23 +124,29 @@ void WbRobotWindow::setupPage() {
       scriptTag(WbStandardPaths::localDocPath() + "dependencies/jquery/1.11.3/jquery.min.js") +
       scriptTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.js");
     QString content;
-    const QRegExp script("<script[^\">]*src=\"([^\">]*)\"");
+    const QRegularExpression script("<script[^\"'>]*src=[\"']([^\"'>]*)[\"']");
+    const QRegularExpression link("<link[^>]*href=[\"']([^\"'>]*)[\"']");
     while (!htmlInput.atEnd()) {
       QString line = htmlInput.readLine();
       if (line.contains("<head>"))
         line += '\n' + prependToHead;
       else if (line.contains("<body>"))
         line += '\n' + prependToBody;
-      else if (script.indexIn(line) != -1) {
-        const QString oldUrl = script.cap(1);
-        const QString newUrl = formatUrl(oldUrl) + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount);
-        line.remove(script.pos(1), oldUrl.length());
-        line.insert(script.pos(1), newUrl);
+      else {
+        QRegularExpressionMatch match = script.match(line);
+        if (!match.hasMatch())
+          match = link.match(line);
+        if (match.hasMatch()) {
+          const QString oldUrl = match.captured(1);
+          const QString newUrl =
+            formatUrl(oldUrl) + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount);
+          line.remove(match.capturedStart(1), oldUrl.length());
+          line.insert(match.capturedStart(1), newUrl);
+        }
       }
       content += line + '\n';
     }
     mResetCount++;
-    qDebug() << "content:" << content;
     mWebView->setHtml(content, htmlUrl);
     htmlFile.close();
   } else
@@ -174,7 +179,6 @@ void WbRobotWindow::show() {
 
 QString WbRobotWindow::formatUrl(const QString &urlString) {
   static QStringList repoUrls;
-  qDebug() << "formatUrl " << urlString;
   if (repoUrls.isEmpty()) {
     // forge the GitHub URL to the current version of Webots
     const QString webotsVersion = WbApplicationInfo::version().toString().replace(" revision ", "-rev");
@@ -193,7 +197,6 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QUrl &url(urlStringExtented);
   const QString &pathString = url.toString(QUrl::RemoveQuery);
   const QFileInfo &fileInfo(pathString);
-  qDebug() << "fileInfo.isAbsolute() " << fileInfo.isAbsolute();
   if (fileInfo.isAbsolute()) {
     if (fileInfo.isReadable())
       return "file:///" + url.toEncoded();
@@ -204,7 +207,6 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QFileInfo &absoluteFileInfo(windowInfo.path() + "/" + pathString);
   if (absoluteFileInfo.isReadable())
     return url.toEncoded();
-
   return urlString;
 }
 

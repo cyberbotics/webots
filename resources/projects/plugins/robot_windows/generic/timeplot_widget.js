@@ -5,7 +5,7 @@
 // @param labels: format `{'x': "x-axis", 'y': "y-axis"}`.
 // @param device: attached device reference.
 
-function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device) {
+function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device, decimals = 3) {
   this.container = container;
   this.basicTimeStep = basicTimeStep;
   this.autoRange = autoRange;
@@ -13,13 +13,14 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.initialYRange = yRange;
   this.labels = labels;
   this.device = device;
+  this.decimals = decimals;
 
   this.slider = null;
   this.label = null;
 
-  // Should be hard coded correctly!
-  this.canvasWidth = 320;
-  this.canvasHeight = 200;
+  // Computed during initialization
+  this.canvasWidth = undefined;
+  this.canvasHeight = undefined;
 
   this.values = [];
   this.lastX = 0;
@@ -90,11 +91,7 @@ TimeplotWidget.prototype.initialize = function() {
   const id = this.container.getAttribute('id');
 
   this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
-
-  // Let the canvas size match with the element size (-2 because of the border), otherwise
-  // the sizes are not matching causing a aliased zoom-like effect.
-  this.canvas.width = this.canvas.offsetWidth - 2;
-  this.canvas.height = this.canvas.offsetHeight - 2;
+  this.computeCanvasSize();
 
   this.canvasContext = this.canvas.getContext('2d');
   console.assert(this.canvasWidth === this.canvas.width);
@@ -119,6 +116,16 @@ TimeplotWidget.prototype.initialize = function() {
   this.initialized = true;
 
   this.show(this.shown);
+};
+
+TimeplotWidget.prototype.computeCanvasSize = function() {
+  // Let the canvas size match with the element size (-2 because of the border), otherwise
+  // the sizes are not matching causing a aliased zoom-like effect.
+  this.canvas.width = this.canvas.offsetWidth - 2;
+  this.canvas.height = this.canvas.offsetHeight - 2;
+  this.canvasWidth = this.canvas.width;
+  this.canvasHeight = this.canvas.height;
+  this.yOffset['ratio'] = (this.canvasHeight - this.yOffset['offset']) / this.canvasHeight;
 };
 
 TimeplotWidget.prototype.refresh = function() {
@@ -216,8 +223,8 @@ TimeplotWidget.prototype.updateRange = function() {
   this.updateGridConstants();
 
   if (this.yMinLabel && this.yMaxLabel) {
-    this.yMinLabel.textContent = roundLabel(this.yRange['min']);
-    this.yMaxLabel.textContent = roundLabel(this.yRange['max']);
+    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
+    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
   }
 
   this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -258,11 +265,11 @@ TimeplotWidget.prototype.refreshLabels = function() {
     return;
 
   if (this.xMinLabel.textContent === '0.0') // Blitting didn't started: the labels are constant.
-    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth);
+    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth, this.decimals);
   if (this.lastLabelRefresh !== this.lastX) {
     // Blitting started: update the x labels.
-    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth);
-    this.xMaxLabel.textContent = roundLabel(this.lastX);
+    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth, this.decimals);
+    this.xMaxLabel.textContent = roundLabel(this.lastX, this.decimals);
   }
   if (this.slider && !this.blockSliderUpdateFlag)
     this.slider.value = this.lastY;

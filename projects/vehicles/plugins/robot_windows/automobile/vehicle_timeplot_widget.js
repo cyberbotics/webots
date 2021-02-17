@@ -12,31 +12,34 @@
 function VehicleTimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device, decimals = 3) {
   this.timeplot = new TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device, decimals);
   this.timeplot.stylePrefix = 'vehicle-';
-  this.timeplot.pause();
+  this.firstUpdate = true;
   this.device = device;
   this.refreshLabelsRate = 3; // Hz
-  this.start();
+
+  var that = this;
+  setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
 }
 
 VehicleTimeplotWidget.prototype.applyVehicleStyle = function(container) {
   const legend = this.timeplot.labels['legend'];
-  if (!legend)
-    return;
-  const labelsHeight = 20 * legend.length;
+  const labelsHeight = legend ? 20 * legend.length : 0;
+  const classPrefix = 'vehicle-';
   let classes = [
     {'name': '.vehicle-device', 'heightOffset': labelsHeight},
     {'name': '.vehicle-device-content', 'heightOffset': labelsHeight},
-    {'name': '.vehicle-plot-canvas', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-x', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-x-min', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-x-max', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-y', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-y-min', 'topOffset': labelsHeight},
-    {'name': '.vehicle-plot-axis-label-y-max', 'topOffset': labelsHeight}
+    {'name': '.plot-canvas', 'topOffset': labelsHeight - 10},
+    {'name': '.plot-axis-label-x', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-x-min', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-x-max', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y-min', 'topOffset': labelsHeight},
+    {'name': '.plot-axis-label-y-max', 'topOffset': labelsHeight}
   ];
   const layout = document.getElementById(this.device.name + '-layout');
   for (let c = 0; c < classes.length; c++) {
     let element = layout.querySelector(classes[c].name);
+    if (!classes[c].name.startsWith('.' + classPrefix))
+      element.classList.add(classPrefix + classes[c].name.substring(1));
     if (classes[c].heightOffset) {
       const height = parseFloat(window.getComputedStyle(element).getPropertyValue('height').replace(/px$/g, ''));
       element.style.height = (height + classes[c].heightOffset) + 'px';
@@ -48,17 +51,10 @@ VehicleTimeplotWidget.prototype.applyVehicleStyle = function(container) {
   }
 };
 
-VehicleTimeplotWidget.prototype.pause = function() {
-  clearInterval(this.refreshInterval);
-};
-
-VehicleTimeplotWidget.prototype.start = function() {
-  this.refreshInterval = setInterval(() => { this.refreshLabels(); }, 1000 / this.refreshLabelsRate);
-};
-
 VehicleTimeplotWidget.prototype.initialize = function() {
   this.timeplot.initialize();
   this.applyVehicleStyle();
+  this.timeplot.computeCanvasSize();
 };
 
 VehicleTimeplotWidget.prototype.refresh = function() {
@@ -107,6 +103,11 @@ VehicleTimeplotWidget.prototype.setLabel = function(label) {
 // @param value: format `{'x': 0.1, 'y': 0.2}` or `{'x': 0.1, 'y': [0.2, 0.3, 0.5]}`.
 VehicleTimeplotWidget.prototype.addValue = function(value) {
   this.timeplot.addValue(value);
+};
+
+VehicleTimeplotWidget.prototype.resize = function() {
+  if (this.timeplot && this.timeplot.resize === 'function')
+    this.timeplot.resize();
 };
 
 // Jump to a new y range based on the initial range and the new y value.

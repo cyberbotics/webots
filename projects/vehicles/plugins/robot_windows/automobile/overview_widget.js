@@ -13,7 +13,7 @@ function OverviewWidget(container) {
   let labels = document.getElementById('overview-labels');
   this.fontSize = parseFloat(window.getComputedStyle(labels, null).getPropertyValue('font-size'));
   // show overview div
-  let overview = document.getElementById('overview');
+  let overview = document.getElementById('overview-section');
   overview.style.display = '';
   // add overview menu button
   appendNewElement('menu',
@@ -66,7 +66,7 @@ OverviewWidget.prototype.resize = function() {
   // Initialize labels and positions
   var label = document.getElementById('overview-wheel1-radius-label');
   label.parentNode.style.top = (this.rearAxisLeftPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
-  label.parentNode.style.left = (this.rearAxisLeftPosition[0] - this.wheelWidth - 10) + 'px';
+  label.parentNode.style.left = (this.rearAxisLeftPosition[0] - this.wheelWidth - 40) + 'px';
 
   label = document.getElementById('overview-wheel2-radius-label');
   label.parentNode.style.top = (this.rearAxisRightPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
@@ -74,7 +74,7 @@ OverviewWidget.prototype.resize = function() {
 
   label = document.getElementById('overview-wheel3-radius-label');
   label.parentNode.style.top = (this.frontAxisLeftPosition[1] + this.wheelHeight / 2 + 2) + 'px';
-  label.parentNode.style.left = (this.frontAxisLeftPosition[0] - this.wheelWidth - 10) + 'px';
+  label.parentNode.style.left = (this.frontAxisLeftPosition[0] - this.wheelWidth - 40) + 'px';
 
   label = document.getElementById('overview-wheel4-radius-label');
   label.parentNode.style.top = (this.frontAxisRightPosition[1] + this.wheelHeight / 2 + 2) + 'px';
@@ -90,11 +90,11 @@ OverviewWidget.prototype.resize = function() {
 
   label = document.getElementById('overview-front-track-label');
   label.parentNode.style.top = (this.frontAxisCenterPosition[1] + 5) + 'px';
-  label.parentNode.style.left = (this.frontAxisCenterPosition[0] + 12) + 'px';
+  label.parentNode.style.left = (this.frontAxisCenterPosition[0] + 5) + 'px';
 
   label = document.getElementById('overview-rear-track-label');
   label.parentNode.style.top = (this.rearAxisCenterPosition[1] + 5) + 'px';
-  label.parentNode.style.left = (this.rearAxisCenterPosition[0] - 10) + 'px';
+  label.parentNode.style.left = (this.rearAxisCenterPosition[0] - 20) + 'px';
 
   label = document.getElementById('overview-wheelbase-label');
   label.parentNode.style.top = (this.centerPosition[1] - 30) + 'px';

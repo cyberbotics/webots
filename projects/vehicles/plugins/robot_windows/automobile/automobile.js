@@ -1,26 +1,20 @@
 /* global webots: false */
+/* global DeviceWidget: false */
 /* global TimeplotWidget: false */
 /* global VehicleTimeplotWidget: false */
 /* global OverviewWidget: false */
-/* global appendNewElement: false */
-/* global openMenu: false */
-/* global closeMenu: false */
-/* global menuTabCallback: false */
-/* global addTab: false */
-/* global roundLabel: false */
-/* global configureDevices: false */
-/* global pushDeviceCommands: false */
-/* global updateDevices: false */
-/* exported basicTimeStep */
+/* global menuTabCallback, openMenu, closeMenu, addTab, addSettingsTab, appendNewElement */
+/* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage, roundLabel */
+/* global widgets */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
-var basicTimeStep = -1;
 var robotName = '';
+var basicTimeStep = -1;
 var commands = []; // Commands to be sent to the C library.
-var widgets = {}; // Dictionary {deviceName -> [TimeplotWidget0, PlotWidget0, PlotWidget1, ...] }
+window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+var automobileWidgets = {}; // Dictionary {tabName -> automobile widget }
 
-const DRIVER_SPEED_MODE = 0;
-// const DRIVER_TORQUE_MODE = 1;
+const DRIVER_SPEED_MODE = 0; // DRIVER_TORQUE_MODE = 1;
 var driverControlMode;
 var overviewWidget = null;
 
@@ -49,10 +43,10 @@ function vehicleCheckboxCallback(checkbox) {
 }
 
 function addDriverInfo(device, label, min, max) {
-  if (document.getElementById(name))
+  if (document.getElementById(name + '-section'))
     return; // check if already exists
 
-  let div = '<div id="' + device.name + '" class="vehicle-device device">';
+  let div = '<div id="' + device.name + '-section" class="vehicle-device device">';
   div += '<h2>';
   div += '<input type="checkbox" title="Enable/disable this plot." id="' + device.name.toLowerCase() + '-enable-checkbox" device="' + device.name + '" onclick="vehicleCheckboxCallback(this)" />';
   div += device.name + '<span id="' + device.name + '-label"></span></h2>';
@@ -70,12 +64,32 @@ function addDriverInfo(device, label, min, max) {
   } else if (device.name.toLowerCase() === 'encoders') {
     plotLabels['legend'] = ['front right', 'front left', 'rear right', 'rear left'];
     decimals = 1;
-    autoRange = TimeplotWidget.prototype.AutoRangeType.JUMP;
   }
 
   const widget = new VehicleTimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, autoRange, {'min': min, 'max': max}, plotLabels, device, decimals);
   widget.setLabel(document.getElementById(device.name + '-label'));
-  widgets[device.name.toLowerCase()] = [widget];
+  automobileWidgets[device.name.toLowerCase()] = widget;
+}
+
+function setDeviceModeCallback(switchButton, deviceType) {
+  const messageHeader = 'device-control-mode:' + deviceType;
+  const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
+  for (let i = 0; i < commands.length; ++i) {
+    if (commands[i].startsWith(messageHeader)) {
+      commands[i] = message;
+      return;
+    }
+  }
+  commands.push(message);
+
+  // force widgets refresh when they are shown.
+  Object.keys(window.widgets).forEach(function(deviceName) {
+    const widget = window.widgets[deviceName];
+    if (widget && widget.device.type === deviceType) {
+      const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
+      DeviceWidget.checkboxCallback(checkbox);
+    }
+  });
 }
 
 function configure(data) {
@@ -93,7 +107,7 @@ function configure(data) {
   document.getElementById('no-controller-label').style.display = 'none';
 
   // Overview tab
-  overviewWidget = new OverviewWidget(document.getElementById('overview'));
+  overviewWidget = new OverviewWidget(document.getElementById('overview-section'));
 
   // Speed tab
   addTab('Speed');
@@ -118,7 +132,11 @@ function configure(data) {
   addDriverInfo({name: 'RPM'}, '[RPM]', 0, 0.001);
 
   // Parse the devices once to prepare the device type list.
-  configureDevices(data);
+  configureDevices(data, true);
+
+  addSettingsTab();
+
+  window.widgets = Object.assign(window.widgets, automobileWidgets);
 
   // Set the focus on the Overview tab
   menuTabCallback('overview');
@@ -136,9 +154,12 @@ function update(data) {
       }
 
       const checkbox = document.getElementById(key + '-enable-checkbox');
+      const widget = key === 'overview' ? overviewWidget : automobileWidgets[key];
       // update only if tab is visible?
-      if (!checkbox || !checkbox.checked)
+      if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
         return;
+
+      widget.firstUpdate = false;
 
       if (key === 'overview')
         overviewWidget.updateInformation(data.vehicle.overview);
@@ -150,70 +171,53 @@ function update(data) {
             let label = document.getElementById('target-speed-label');
             label.textContent = 'Target speed: ' + roundLabel(attributeValue) + ' km/h';
           } else if (attribute === 'update') {
-            widgets[key].forEach(function(widget) {
-              attributeValue.forEach(function(u) {
-                widget.addValue({'x': u.time, 'y': u.value });
-              });
-              widget.refresh();
+            let plot = widget.timeplot;
+            attributeValue.forEach(function(u) {
+              plot.addValue({'x': u.time, 'y': u.value });
             });
+            widget.refresh();
           }
         });
       } else if (key === 'steering' || key === 'encoders' || key === 'brake' || key === 'throttle' || key === 'rpm') {
         const time = data.vehicle[key]['time'];
         const measurement = data.vehicle[key]['value'];
-        widgets[key].forEach(function(widget) {
-          widget.addValue({'x': time, 'y': measurement });
-          widget.refresh();
-        });
+        let plot = widget.timeplot;
+        plot.addValue({'x': time, 'y': measurement });
+        widget.refresh();
       }
     });
   }
 
-  if (data.devices)
-    updateDevices(data);
+  DeviceWidget.updateDeviceWidgets(data, widgets);
 }
 
 function receive(message, _robot) {
   let data = '';
   if (message.indexOf('configure ') === 0) {
-    try {
-      data = JSON.parse(message.substring(10));
-    } catch (e) {
-      console.log('C to JS protocol error:');
-      console.log(e);
-      console.log(message);
-    }
+    data = parseJSONMessage(message.substring(10));
     if (data)
       configure(data);
-  } else if (message.indexOf('configure-vehicle ') === 0) {
-    try {
-      data = JSON.parse(message.substring(17));
-    } catch (e) {
-      console.log('C to JS protocol error:');
-      console.log(e);
-      console.log(message);
-    }
+  } else if (windowIsHidden)
+    return;
+  else if (message.indexOf('configure-vehicle ') === 0) {
+    data = parseJSONMessage(message.substring(17));
     if (data) {
       overviewWidget.setStaticInformation(data);
       overviewWidget.resize();
     }
   } else if (message.indexOf('update ') === 0) {
-    try {
-      data = JSON.parse(message.substring(7));
-    } catch (e) {
-      console.log('C to JS protocol error:');
-      console.log(e);
-      console.log(message);
-    }
+    data = parseJSONMessage(message.substring(7));
     if (data)
       update(data);
   } else
     console.log("Unexpected message received: '" + message + "'");
 
-  pushDeviceCommands();
+  DeviceWidget.pushDeviceCommands();
 
-  if (Object.keys(commands).length !== 0) {
+  commands = commands.concat(DeviceWidget.commands);
+  if (commands.length !== 0) {
     window.robotWindow.send(commands.join());
+    DeviceWidget.commands = [];
     commands = [];
   }
 }
@@ -223,16 +227,8 @@ window.onresize = function() {
 };
 
 window.onload = function() {
-  // get .device-content { with: XXXpx; height: XXXpx; }
-  const tmp = document.createElement('div');
-  tmp.classList.add('device-content');
-  document.body.appendChild(tmp);
-  const deviceContentWidth = window.getComputedStyle(document.body.lastChild).getPropertyValue('width').replace(/px$/g, '');
-  const deviceContentHeight = window.getComputedStyle(document.body.lastChild).getPropertyValue('height').replace(/px$/g, '');
-  document.body.removeChild(document.body.lastChild);
-
   window.robotWindow = webots.window();
   window.robotWindow.setTitle('Vehicle robot window');
   window.robotWindow.receive = receive;
-  window.robotWindow.send('configure { "imageMaxWidth": ' + deviceContentWidth + ', "imageMaxHeight": ' + deviceContentHeight + ' }');
+  setupWindow();
 };

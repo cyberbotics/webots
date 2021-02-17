@@ -18,9 +18,10 @@
  * Description:  Defines the entry point of the robot window library
  */
 
+#include <webots/plugins/robot_window/default.h>
+#include <webots/plugins/robot_window/generic_robot_window/generic.h>
 #include <webots/robot.h>
-#include <webots/robot_wwi.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/utils/string.h>
 
 #include <webots/vehicle/car.h>
 #include <webots/vehicle/driver.h>
@@ -28,17 +29,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#include "generic.h"
-#include "string_utils.h"
 
 enum DriverInfo {
   NONE = 0,
@@ -85,20 +75,6 @@ static void buffer_append(const char *string) {
   buffer_size += l;
 }
 
-static long int last_update_time = 0;
-
-static long int current_time() {
-#ifdef _WIN32
-  SYSTEMTIME tim;
-  GetSystemTime(&tim);
-  return (((tim.wHour * 60 + tim.wMinute) * 60 + tim.wSecond) * 1000 + tim.wMilliseconds) + 0.5;
-#else
-  struct timeval tim;
-  gettimeofday(&tim, NULL);
-  return ((tim.tv_sec) * 1000 + tim.tv_usec / 1000.0) + 0.5;
-#endif
-}
-
 static enum DriverInfo driver_info_from_string(const char *s) {
   if (strcmp(s, "Overview") == 0)
     return OVERVIEW_INFO;
@@ -126,49 +102,27 @@ static void enable_driver_info(enum DriverInfo info, bool enable) {
 }
 
 // JavaScript -> C protocol description:
-//   [deviceName:commandTag[=commadState][,]]*
+//   [deviceName:commandTag[=commadState][,]]
 // example:
-//   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
-static void apply_command(const char *command) {
-  char *tokens = strdup(command);
-  char *token = NULL;
-
-  enum DriverInfo info = NONE;
-  WbDeviceTag tag = 0;
-  bool robot = false;
-
-  while ((token = string_utils_strsep(&tokens, ":"))) {
-    if (info == NONE && tag == 0 && !robot) {  // first token = device or robot name
-      char *name0 = string_utils_replace(token, "\\:", ":");
-      char *name = string_utils_replace(name0, "\\,", ",");
-      if (strcmp(name, wb_robot_get_name()) == 0)
-        robot = true;
-      else {
-        info = driver_info_from_string(name);
-        if (info == NONE)
-          tag = wb_robot_get_device(name);
-        else
-          tag = 0;
-        robot = false;
-      }
-      free(name);
-      free(name0);
-    } else if (info != NONE) {
-      if (strcmp(token, "enable") == 0)
-        enable_driver_info(info, true);
-      else if (strcmp(token, "disable") == 0)
-        enable_driver_info(info, false);
-      info = NONE;
-    } else
-      parse_generic_command(token, &tag, &robot);
+//   "myMotor0:value=1.2" or "Throttle:enable"
+static void parse_command(char *token, char *tokens) {
+  // first token is driver info, device or robot name
+  char *name0 = wbu_string_replace(token, "\\:", ":");
+  const char *name = wbu_string_replace(name0, "\\,", ",");
+  enum DriverInfo info = driver_info_from_string(name);
+  if (info == NONE) {
+    wbu_generic_robot_window_parse_device_command(token, tokens);
+    return;
   }
-}
 
-static void apply_commands(const char *commands) {
-  char *tokens = strdup(commands);
-  char *token = NULL;
-  while ((token = string_utils_strsep(&tokens, ",")))
-    apply_command(token);
+  token = wbu_string_strsep(&tokens, ":");
+  while (token && token[0] != '\0') {
+    if (strcmp(token, "enable") == 0)
+      enable_driver_info(info, true);
+    else if (strcmp(token, "disable") == 0)
+      enable_driver_info(info, false);
+    token = wbu_string_strsep(&tokens, ":");
+  }
 }
 
 static void configure_automobile_robot_window() {
@@ -349,28 +303,29 @@ static void append_encoders_data() {
 }
 
 void wb_robot_window_init() {
-  init_generic_robot_window();
+  wbu_generic_robot_window_init();
 }
 
 void wb_robot_window_step(int time_step) {
-  static bool configured = false;
   const char *message = wb_robot_wwi_receive_text();
   if (message) {
-    if (strncmp(message, "configure", 9) == 0) {
-      configure_generic_robot_window(message);
+    if (!wbu_generic_robot_window_handle_messages(message)) {
+      char *tokens = strdup(message);
+      char *token = NULL;
+      while ((token = wbu_string_strsep(&tokens, ","))) {
+        char *command = strdup(token);
+        char *first_word = wbu_string_strsep(&command, ":");
+        if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
+          parse_command(first_word, command);
+      }
+    }
+    if (strncmp(message, "configure", 9) == 0)
+      // Additional configuration for the automobile robot window
       configure_automobile_robot_window();
-      configured = true;
-    } else
-      apply_commands(message);
   }
 
-  if (!configured)
+  if (!wbu_generic_robot_window_needs_update())
     return;
-
-  long int update_time = current_time();
-  if (last_update_time != 0 && (update_time - last_update_time) < 40)
-    return;
-  last_update_time = update_time;
 
   wbu_default_robot_window_update();
 
