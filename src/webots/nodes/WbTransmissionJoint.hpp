@@ -43,7 +43,7 @@ public:
   void setPosition(double position, int index = 1) override;
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
-  WbJointParameters *parameters2() const override;
+  WbHingeJointParameters *hingeJointParameters2() const;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
 public slots:
@@ -52,6 +52,7 @@ public slots:
 protected:
   virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to
                                     // the rotation axis of the solid endpoint
+  virtual WbVector3 anchor2() const;
   WbQuaternion endPointRotation() const;
   WbRotationalMotor *rotationalMotor2() const;
   double mOdePositionOffset2;
@@ -71,12 +72,21 @@ protected slots:
   void updatePosition() override;
   void updateMinAndMaxStop(double min, double max) override;
   void updateJointAxisRepresentation() override;
+  void updateAxis() override;
+  void updateAnchor() override;
 
 private:
+  enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
+  int mGearType;
+  void inferGearType();
   WbTransmissionJoint &operator=(const WbTransmissionJoint &);  // non copyable
   void updateParameters2();
   void init();
   WbSFNode *mParameters2;
+  WbSFDouble *mBacklash;
+  WbSFDouble *mMultiplier;
+  void updateBacklash();
+  void updateMultiplier();
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
 };

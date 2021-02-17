@@ -14,7 +14,9 @@
 #include "WbTransmissionJoint.hpp"
 
 #include "WbBrake.hpp"
-#include "WbJointParameters.hpp"
+#include "WbFieldChecker.hpp"
+#include "WbHingeJointParameters.hpp"
+//#include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
@@ -35,6 +37,10 @@
 
 void WbTransmissionJoint::init() {
   mParameters2 = findSFNode("jointParameters2");
+  mBacklash = findSFDouble("backlash");
+  mMultiplier = findSFDouble("multiplier");
+  mGearType = CHAIN_DRIVE;
+
   // spring and dampingConstant
   mSpringAndDampingConstantsAxis1On = false;
   mSpringAndDampingConstantsAxis2On = false;
@@ -85,6 +91,8 @@ void WbTransmissionJoint::postFinalize() {
     p2->postFinalize();
 
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters);
+  connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
+  connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
 }
 
 bool WbTransmissionJoint::setJoint() {
@@ -136,7 +144,7 @@ void WbTransmissionJoint::setPosition(double position, int index) {
   if (index == 1) {
     mPosition = position;
     mOdePositionOffset = position;
-    WbJointParameters *const p = parameters();
+    WbHingeJointParameters *const p = hingeJointParameters();
     if (p)
       p->setPosition(mPosition);
 
@@ -150,7 +158,7 @@ void WbTransmissionJoint::setPosition(double position, int index) {
 
   mPosition2 = position;
   mOdePositionOffset2 = position;
-  WbJointParameters *const p2 = parameters2();
+  WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2)
     p2->setPosition(mPosition2);
 }
@@ -210,7 +218,7 @@ void WbTransmissionJoint::applyToOdeAxis() {
 void WbTransmissionJoint::applyToOdeMinAndMaxStop() {
   assert(mJoint);
   // place hard stops if defined
-  const WbJointParameters *const p = parameters();
+  const WbHingeJointParameters *const p = hingeJointParameters();
   double m = p ? p->minStop() : 0.0;
   double M = p ? p->maxStop() : 0.0;
   if (m != M) {
@@ -221,7 +229,7 @@ void WbTransmissionJoint::applyToOdeMinAndMaxStop() {
     dJointSetHinge2Param(mJoint, dParamHiStop, max);
   }
 
-  const WbJointParameters *const p2 = parameters2();
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
   m = p2 ? p2->minStop() : 0.0;
   M = p2 ? p2->maxStop() : 0.0;
   if (m != M) {
@@ -234,8 +242,8 @@ void WbTransmissionJoint::applyToOdeMinAndMaxStop() {
 }
 
 void WbTransmissionJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) {
-  const WbJointParameters *const p = parameters();
-  const WbJointParameters *const p2 = parameters2();
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
 
   const double brakingDampingConstant = brake() ? brake()->getBrakingDampingConstant() : 0.0;
 
@@ -330,7 +338,7 @@ void WbTransmissionJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBod
 void WbTransmissionJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
-  WbJointParameters *const p = parameters();
+  WbHingeJointParameters *const p = hingeJointParameters();
 
   if (isEnabled()) {
     const double s = upperTransform()->absoluteScale().x();
@@ -392,7 +400,7 @@ void WbTransmissionJoint::postPhysicsStep() {
     // under-estimated)
     mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
   }
-  WbJointParameters *const p = parameters();
+  WbHingeJointParameters *const p = hingeJointParameters();
   if (p)
     p->setPositionFromOde(mPosition);
   if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
@@ -400,7 +408,7 @@ void WbTransmissionJoint::postPhysicsStep() {
     emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
 
   mPosition2 -= dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
-  WbJointParameters *const p2 = parameters2();
+  WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
 }
@@ -469,8 +477,8 @@ void WbTransmissionJoint::computeEndPointSolidPositionFromParameters(WbVector3 &
 }
 
 void WbTransmissionJoint::updatePosition() {
-  const WbJointParameters *const p = parameters();
-  const WbJointParameters *const p2 = parameters2();
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
 
   if (solidReference() == NULL && solidEndPoint())
     updatePositions(p ? p->position() : mPosition, p2 ? p2->position() : mPosition2);
@@ -504,10 +512,10 @@ void WbTransmissionJoint::updatePosition(double position) {
 }
 
 void WbTransmissionJoint::updateMinAndMaxStop(double min, double max) {
-  const WbJointParameters *const p = dynamic_cast<WbJointParameters *>(sender());
+  const WbHingeJointParameters *const p = dynamic_cast<WbHingeJointParameters *>(sender());
 
   const WbRotationalMotor *rm = NULL;
-  if (p == parameters())
+  if (p == hingeJointParameters())
     rm = rotationalMotor();
 
   if (rm) {
@@ -526,6 +534,52 @@ void WbTransmissionJoint::updateMinAndMaxStop(double min, double max) {
     applyToOdeMinAndMaxStop();
 }
 
+void WbTransmissionJoint::updateBacklash() {
+  WbFieldChecker::resetDoubleIfNegative(this, mBacklash, 0.0);
+  printf("new backlash %f\n", mBacklash->value());
+}
+
+void WbTransmissionJoint::updateMultiplier() {
+  if (mMultiplier->isZero()) {
+    mMultiplier->setValue(1);
+    parsingWarn(tr("'multiplier' must be different from zero, setting it back to 1."));
+  }
+
+  printf("new multiplier = %f\n", mMultiplier->value());
+
+  inferGearType();
+}
+
+void WbTransmissionJoint::inferGearType() {
+  mGearType = UNDEFINED;
+  const bool isCodirectional = axis().normalized().almostEquals(axis2().normalized());
+  if (mMultiplier->value() < 0.0 && isCodirectional)
+    mGearType = CLASSIC_GEAR;
+  else if (mMultiplier->value() > 0.0 && isCodirectional)
+    mGearType = CHAIN_DRIVE;
+  else {
+    // determine if they intersect
+    const bool isCoplanar = fabs(axis().cross(axis2()).dot(anchor() - anchor2())) < 1e-10;
+    const bool isParallel = fabs(axis().cross(axis2()).length2()) < 1e-10;
+    if (isCoplanar && !isParallel)
+      mGearType = BEVEL_GEAR;
+  }
+
+  switch (mGearType) {
+    case CLASSIC_GEAR:
+      printf("geartype = CLASSIC GEAR\n");
+      break;
+    case CHAIN_DRIVE:
+      printf("geartype = CHAIN DRIVE\n");
+      break;
+    case BEVEL_GEAR:
+      printf("geartype = BEVEL GEAR\n");
+      break;
+    default:
+      printf("geartype = UNDEFINED\n");
+  }
+}
+
 void WbTransmissionJoint::updateParameters() {
   WbHingeJoint::updateParameters();
   updateParameters2();
@@ -534,27 +588,43 @@ void WbTransmissionJoint::updateParameters() {
 // Update methods
 
 void WbTransmissionJoint::updateParameters2() {
-  const WbJointParameters *const p2 = parameters2();
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2) {
     mOdePositionOffset2 = p2->position();
     mPosition2 = mOdePositionOffset2;
-    connect(p2, &WbJointParameters::minAndMaxStopChanged, this, &WbTransmissionJoint::updateMinAndMaxStop,
+    connect(p2, &WbHingeJointParameters::minAndMaxStopChanged, this, &WbTransmissionJoint::updateMinAndMaxStop,
             Qt::UniqueConnection);
-    connect(p2, &WbJointParameters::springAndDampingConstantsChanged, this,
+    connect(p2, &WbHingeJointParameters::springAndDampingConstantsChanged, this,
             &WbTransmissionJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
-    connect(p2, &WbJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
     connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition()), Qt::UniqueConnection);
   }
 }
 
-WbJointParameters *WbTransmissionJoint::parameters2() const {
-  return dynamic_cast<WbJointParameters *>(mParameters2->value());
+WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters2() const {
+  return dynamic_cast<WbHingeJointParameters *>(mParameters2->value());
 }
 
 WbVector3 WbTransmissionJoint::axis2() const {
-  static const WbVector3 DEFAULT_AXIS_2(0.0, 0.0, 1.0);
-  const WbJointParameters *const p2 = parameters2();
+  static const WbVector3 DEFAULT_AXIS_2(1.0, 0.0, 0.0);
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
   return p2 ? p2->axis() : DEFAULT_AXIS_2;
+}
+
+WbVector3 WbTransmissionJoint::anchor2() const {
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
+  return p2 ? p2->anchor() : WbBasicJoint::anchor();
+}
+
+void WbTransmissionJoint::updateAxis() {
+  WbHingeJoint::updateAxis();
+  inferGearType();
+}
+
+void WbTransmissionJoint::updateAnchor() {
+  WbHingeJoint::updateAnchor();
+  inferGearType();
 }
 
 QVector<WbLogicalDevice *> WbTransmissionJoint::devices() const {
