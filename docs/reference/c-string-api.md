@@ -1,6 +1,6 @@
 ## C String API
 
-## String Utility Functions
+### String Utility Functions
 
 The following string utility functions to parse and generate messages are defined in the Webots C API.
 
