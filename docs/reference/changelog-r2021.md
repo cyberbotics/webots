@@ -8,6 +8,7 @@ Released on June, Xth, 2021.
     - Add the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
   - Enhancements
     - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
+    - Allow the `wb_supervisor_node_reset_physics` function to reset physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
 
