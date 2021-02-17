@@ -807,10 +807,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
-      
+
       WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
       if (solidNode)
-          solidNode->resetPhysics(false);
+        solidNode->resetPhysics(false);
       QList<WbNode *> descendants = node->subNodes(true);
       for (int i = 0; i < descendants.size(); i++) {
         WbNode *child = descendants.at(i);
