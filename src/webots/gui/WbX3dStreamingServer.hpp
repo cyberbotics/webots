@@ -38,7 +38,7 @@ private slots:
 
 private:
   void create(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
   void connectNewRobot(const WbRobot *robot) override;
   bool prepareWorld() override;
   void deleteWorld() override;

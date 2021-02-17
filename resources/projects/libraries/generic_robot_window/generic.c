@@ -23,7 +23,6 @@
 #include <webots/accelerometer.h>
 #include <webots/camera.h>
 #include <webots/compass.h>
-#include <webots/differential_wheels.h>
 #include <webots/distance_sensor.h>
 #include <webots/gps.h>
 #include <webots/gyro.h>
@@ -44,7 +43,6 @@
 
 static bool configured = false;
 static int time_step = 0;
-static double max_speed = 0.0;
 static bool is_hidden = false;
 static double refresh_rate = 0.032;  // s
 static double last_update_time = 0;  // s
@@ -175,24 +173,6 @@ void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
       enable_device(tag, true);
     else if (strcmp(token, "disable") == 0)
       enable_device(tag, false);
-    else if (strcmp(token, "stop") == 0 && robot)
-      wb_differential_wheels_set_speed(0.0, 0.0);
-    else if (strcmp(token, "forward") == 0 && robot)
-      wb_differential_wheels_set_speed(max_speed, max_speed);
-    else if (strcmp(token, "backward") == 0 && robot)
-      wb_differential_wheels_set_speed(-max_speed, -max_speed);
-    else if (strcmp(token, "left") == 0 && robot)
-      wb_differential_wheels_set_speed(-0.5 * max_speed, 0.5 * max_speed);
-    else if (strcmp(token, "left_forward") == 0 && robot)
-      wb_differential_wheels_set_speed(0.5 * max_speed, max_speed);
-    else if (strcmp(token, "left_backward") == 0 && robot)
-      wb_differential_wheels_set_speed(-0.5 * max_speed, -max_speed);
-    else if (strcmp(token, "right") == 0 && robot)
-      wb_differential_wheels_set_speed(0.5 * max_speed, -0.5 * max_speed);
-    else if (strcmp(token, "right_forward") == 0 && robot)
-      wb_differential_wheels_set_speed(max_speed, 0.5 * max_speed);
-    else if (strcmp(token, "right_backward") == 0 && robot)
-      wb_differential_wheels_set_speed(-max_speed, -0.5 * max_speed);
     else if (strncmp(token, "position=", 9) == 0 && tag > 0) {
       double position = atof(&token[9]);
       wb_motor_set_position(tag, position);
@@ -242,9 +222,6 @@ bool wbu_generic_robot_window_parse_device_control_command(char *token, char *to
 
 void wbu_generic_robot_window_init() {
   time_step = (int)wb_robot_get_basic_time_step();
-  WbNodeType robot_type = wb_device_get_node_type(0);
-  if (robot_type == WB_NODE_DIFFERENTIAL_WHEELS)
-    max_speed = wb_differential_wheels_get_max_speed() / wb_differential_wheels_get_speed_unit();
 
   const int device_size = WB_NODE_TOUCH_SENSOR - WB_NODE_ACCELEROMETER;
   for (int i = 0; i < device_size; ++i)

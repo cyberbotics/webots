@@ -85,6 +85,7 @@ typedef struct WbNodeStructPrivate {
   WbNodeType type;
   char *model_name;
   char *def_name;
+  char *content;
   int parent_id;
   double *position;        // double[3]
   double *orientation;     // double[9]
@@ -198,6 +199,7 @@ static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
   free(node->def_name);
+  free(node->content);
   free(node->position);
   free(node->orientation);
   free(node->center_of_mass);
@@ -315,6 +317,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   else
     n->model_name = (char *)model_name;
   n->def_name = supervisor_strdup(extract_node_def(def_name));
+  n->content = NULL;
   n->parent_id = parent_id;
   n->position = NULL;
   n->orientation = NULL;
@@ -382,6 +385,7 @@ static int node_ref = 0;
 static WbNodeRef root_ref = NULL;
 static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
+static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
@@ -678,6 +682,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_double(r, solid_velocity[4]);
     request_write_double(r, solid_velocity[5]);
   }
+  if (export_string_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_EXPORT_STRING);
+    request_write_uint32(r, export_string_node_ref->id);
+  }
   if (reset_physics_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_RESET_PHYSICS);
     request_write_uint32(r, reset_physics_node_ref->id);
@@ -780,11 +788,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
   switch (request_read_uchar(r)) {
     case C_CONFIGURE: {
       const int self_uid = request_read_uint32(r);
+      const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, 0, is_proto);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, parent_uid, is_proto);  // add self node
       self_node_ref = node_list;
       self_node_ref->is_proto_internal = is_proto_internal;
     } break;
@@ -928,6 +937,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       position_node_ref->position = malloc(3 * sizeof(double));
       for (i = 0; i < 3; i++)
         position_node_ref->position[i] = request_read_double(r);
+      break;
+    case C_SUPERVISOR_NODE_EXPORT_STRING:
+      free(export_string_node_ref->content);
+      export_string_node_ref->content = request_read_string(r);
       break;
     case C_SUPERVISOR_NODE_GET_ORIENTATION:
       free(orientation_node_ref->orientation);
@@ -2048,6 +2061,25 @@ void wb_supervisor_node_remove(WbNodeRef node) {
   node_to_remove = node;
   wb_robot_flush_unlocked();
   robot_mutex_unlock_step();
+}
+
+const char *wb_supervisor_node_export_string(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return "";
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return "";
+  }
+
+  robot_mutex_lock_step();
+  export_string_node_ref = node;
+  wb_robot_flush_unlocked();
+  export_string_node_ref = NULL;
+  robot_mutex_unlock_step();
+
+  return node->content;
 }
 
 const double *wb_supervisor_node_get_velocity(WbNodeRef node) {

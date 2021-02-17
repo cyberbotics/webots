@@ -29,8 +29,7 @@ DeviceWidget.prototype.initialize = function(device) {
 
   let div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
-  if (device.type !== 'DifferentialWheels')
-    div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="DeviceWidget.checkboxCallback(this)" />';
+  div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="DeviceWidget.checkboxCallback(this)" />';
   div += device.htmlName + '<span id="' + device.htmlName + '-label"></span></h2>';
   if (device.type === 'Camera' && device.recognition === 1) {
     if (device.segmentation === 1) {
@@ -65,8 +64,6 @@ DeviceWidget.prototype.initialize = function(device) {
     this.createGenericImageDevice(device);
   else if (device.type === 'Compass')
     this.createGeneric3DDevice(device, TimeplotWidget.prototype.AutoRangeType.NONE, -1.0, 1.0, '');
-  else if (device.type === 'DifferentialWheels')
-    this.createDifferentialWheels(device);
   else if (device.type === 'DistanceSensor')
     this.createGeneric1DDevice(device, TimeplotWidget.prototype.AutoRangeType.NONE, device.minValue, device.maxValue, 'Raw');
   else if (device.type === 'GPS')
@@ -131,31 +128,6 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
   widget.setSlider(slider);
   this.plots = [widget];
   DeviceWidget.motorWidgets[device.name] = this;
-};
-
-DeviceWidget.prototype.createDifferentialWheels = function(device) {
-  const buttonsData = [ // tag name, button tool tip, button text
-    ['left_forward', 'Left-forward', '&#8598;'],
-    ['forward', 'Forwads', '&#8593;'],
-    ['right_forward', 'Right-forward', '&#8599;'],
-    ['left', 'Left', '&#8592;'],
-    ['stop', 'Stop', 'O'],
-    ['right', 'Right', '&#8594;'],
-    ['left_backward', 'Left-backward', '&#8601;'],
-    ['backward', 'Backward', '&#8595;'],
-    ['right_backward', 'Right-backward', '&#8600;']
-  ];
-  buttonsData.forEach(function(buttonData) {
-    appendNewElement(device.name + '-content',
-      '<button class="differential-wheels-button" ' +
-        'title="' + buttonData[1] + '" ' +
-        'onmousedown="DeviceWidget.differentialWheelsSetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        'onmouseup="DeviceWidget.differentialWheelsResetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        'onmouseleave="DeviceWidget.differentialWheelsResetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        '>' + buttonData[2] +
-      '</button>'
-    );
-  });
 };
 
 DeviceWidget.prototype.createGenericImageDevice = function(device) {
@@ -287,14 +259,6 @@ DeviceWidget.motorUnsetPosition = function(deviceName) {
   delete DeviceWidget.motorCommands[deviceName];
 };
 
-DeviceWidget.differentialWheelsSetSpeedTag = function(tag) {
-  DeviceWidget.differentialWheelsTag = tag;
-};
-
-DeviceWidget.differentialWheelsResetSpeedTag = function(_tag) {
-  DeviceWidget.differentialWheelsTag = '';
-};
-
 DeviceWidget.updateDeviceWidgets = function(data) {
   if (data.devices == null)
     return;
@@ -355,8 +319,6 @@ DeviceWidget.applyToUntouchedCheckbox = function(checkbox, state) {
 };
 
 DeviceWidget.pushDeviceCommands = function(robotName) {
-  if (DeviceWidget.differentialWheelsTag)
-    DeviceWidget.commands.push(protect(robotName, [':', ',']) + ':' + DeviceWidget.differentialWheelsTag);
   Object.keys(DeviceWidget.motorCommands).forEach(function(deviceName) {
     DeviceWidget.commands.push(protect(deviceName, [':', ',']) + ':position=' + DeviceWidget.motorCommands[deviceName]);
   });

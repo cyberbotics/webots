@@ -18,6 +18,7 @@
 
 #include "WbMotor.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
@@ -34,6 +35,7 @@
 #include <ode/ode.h>
 
 #include <QtCore/QDataStream>
+#include <QtCore/QUrl>
 
 #include <cassert>
 #include <cmath>
@@ -69,6 +71,7 @@ void WbMotor::init() {
   mMaxVelocity = findSFDouble("maxVelocity");
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
+  mDownloader = NULL;
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
@@ -86,6 +89,16 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 WbMotor::~WbMotor() {
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
+}
+
+void WbMotor::downloadAssets() {
+  const QString &sound = mSound->value();
+  if (WbUrl::isWeb(sound)) {
+    mDownloader = new WbDownloader(this);
+    if (isPostFinalizedCalled())
+      connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
+    mDownloader->download(QUrl(sound));
+  }
 }
 
 void WbMotor::preFinalize() {
@@ -216,8 +229,21 @@ void WbMotor::updateSound() {
   const QString &sound = mSound->value();
   if (sound.isEmpty())
     mSoundClip = NULL;
-  else
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+    downloadAssets();
+    return;
+  } else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
+  else {
+    if (mDownloader->error().isEmpty())
+      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+    else {
+      mSoundClip = NULL;
+      warn(mDownloader->error());
+    }
+    delete mDownloader;
+    mDownloader = NULL;
+  }
   WbSoundEngine::clearAllMotorSoundSources();
 }
 

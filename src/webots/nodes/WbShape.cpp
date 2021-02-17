@@ -60,6 +60,13 @@ WbShape::~WbShape() {
     wr_material_delete(mWrenMaterial);
 }
 
+void WbShape::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (abstractAppearance())
+    abstractAppearance()->downloadAssets();
+  if (geometry())
+    geometry()->downloadAssets();
+}
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 

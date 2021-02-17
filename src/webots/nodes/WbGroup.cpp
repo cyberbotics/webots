@@ -54,6 +54,15 @@ WbGroup::~WbGroup() {
   delete mBoundingSphere;
 }
 
+void WbGroup::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->downloadAssets();
+  }
+}
+
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 

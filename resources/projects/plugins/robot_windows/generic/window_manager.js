@@ -65,7 +65,7 @@ function addTab(type, isDevice, deviceSwitch) {
     return; // check if already exists
 
   let buttonsDiv = '';
-  if (deviceSwitch && type !== 'RotationalMotor' && type !== 'LinearMotor' && type !== 'DifferentialWheels') {
+  if (deviceSwitch && type !== 'RotationalMotor' && type !== 'LinearMotor') {
     buttonsDiv += '<div class="device-mode-switch">' +
       '<div>Override controller' +
       '<label id="' + type + '-switch" class="switch">' +
@@ -75,7 +75,7 @@ function addTab(type, isDevice, deviceSwitch) {
       '<div>If enabled, the devices will be enabled/disabled from their checkbox</div>' +
       '</div>';
   }
-  if (isDevice && type !== 'DifferentialWheels') {
+  if (isDevice) {
     buttonsDiv += '<div id="' + type + '-buttons" class="device-buttons">' +
       '<input type="button" value="Disable all" id="' + type + '-disable-button" class="device-button" onclick="enableAllDevicesCallback(\'' + type + '\', false)"/>' +
       '<input type="button" value="Enable all" id="' + type + '-enable-button" class="device-button" onclick="enableAllDevicesCallback(\'' + type + '\', true)"/>' +
@@ -114,8 +114,6 @@ function configureDevices(data, controlDevices) {
 
   // Parse the devices once to prepare de device type list.
   let deviceTypes = [];
-  if (data.type === 'DifferentialWheels')
-    deviceTypes.push(data.type);
   data.devices.forEach(function(device) {
     if (DeviceWidget.supportedDeviceTypes.indexOf(device.type) >= 0 && deviceTypes.indexOf(device.type) < 0)
       deviceTypes.push(device.type);
@@ -130,10 +128,6 @@ function configureDevices(data, controlDevices) {
   });
 
   // Create a device container per device.
-  if (data.type === 'DifferentialWheels') {
-    const deviceName = robotName.replace(/&quot;/g, '"');
-    DeviceWidget.createWidget(data.basicTimeStep, {'name': deviceName, 'type': data.type });
-  }
   data.devices.forEach(function(device) {
     if (DeviceWidget.supportedDeviceTypes.indexOf(device.type) >= 0) {
       device.htmlName = device.name;

@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -22,7 +22,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/color_checker_chart.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/tests/api/worlds/textures/color_checker_chart.png"
           ]
         }
         roughness 1
