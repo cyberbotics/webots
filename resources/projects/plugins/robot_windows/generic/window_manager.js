@@ -151,7 +151,7 @@ function addSettingsTab() {
   addTab('Settings', false);
   let div = '<div id="settings" class="settings">';
   div += '<h2>Generic robot window settings</h2>';
-  div += '<div class="settings-content">Refresh rate: <input id="refresh-rate-number"> ms</div>';
+  div += '<div class="settings-content">Refresh rate: <input id="refresh-rate-number" value="32"> ms</div>';
   div += '<div class="settings-content"><input type="checkbox" title="Record data when plot is hidden." id="background-data-checkbox" onclick="backgroundDataCheckboxCallback(this)"/>Record data when plot is hidden</div>';
   div += '<div class="settings-content"><input type="button" value="Disable all devices" id="disable-all-button" class="device-button" onclick="enableAllDevicesCallback(null, false)"/></div>';
   div += '</div>';
