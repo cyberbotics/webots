@@ -151,7 +151,7 @@ public:
   void awake();
   static void awakeSolids(WbGroup *group);
 
-  void resetPhysics() override;
+  void resetPhysics(bool recursive = true) override;
   // pause/resume physics computation on the current solid and its descandants
   void pausePhysics() override;
   void resumePhysics() override;

@@ -1395,9 +1395,8 @@ The function parameter `state_name` has to be a valid value, or the controller w
 The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a special value `__init__`.
 If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the simulation time).
 
-The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
+The `wb_supervisor_node_reset_physics` function stops the inertia of the given node and its descendants.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
-The `node` argument must be a [Solid](solid.md) node (or a derived node).
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
 

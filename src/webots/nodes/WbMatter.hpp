@@ -63,7 +63,7 @@ public:
   bool hasAvalidBoundingObject() const { return boundingObject() && boundingObject()->isAValidBoundingObject(); }
 
   // for wb_supervisor_simulation_reset_physics()
-  virtual void resetPhysics() {}
+  virtual void resetPhysics(bool recursive = true) {}
   virtual void pausePhysics() {}
   virtual void resumePhysics() {}
 
