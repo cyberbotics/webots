@@ -1,4 +1,3 @@
-/* global robotName: false */
 /* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget */
 /* exported menuTabCallback */
 /* exported openMenu */
