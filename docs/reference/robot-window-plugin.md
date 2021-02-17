@@ -57,52 +57,52 @@ configure {
 Additionally for each device type specific information are provided.
 * [Camera](camera.md)
     ```python
-    {
-      "width": <double>,
-      "height": <double>,
-      "recognition": <0|1>,
-      "segmentation": <0|1>
-    }```
+  {
+    "width": <double>,
+    "height": <double>,
+    "recognition": <0|1>,
+    "segmentation": <0|1>
+  }```
 * [DistanceSensor](distancesensor.md)
     ```python
-    {
-      "sensorType": <"generic"|"infra-red"|"laser"|"sonar"|"unknown">,
-      "minValue": <double>,
-      "maxValue": <double>,
-      "aperture": <double>
-    }```
+  {
+    "sensorType": <"generic"|"infra-red"|"laser"|"sonar"|"unknown">,
+    "minValue": <double>,
+    "maxValue": <double>,
+    "aperture": <double>
+  }```
 * [Lidar](lidar.md)
     ```python
-    {
-      "width": <double>,
-      "height": <double>
-    }```
+  {
+    "width": <double>,
+    "height": <double>
+  }```
 * [Motor](motor.md)
     ```python
-    {
-      "minPosition": <double>,
-      "maxPosition": <double>,
-      "maxVelocity": <double>,
-      <"maxTorque"|"maxForce">: <double>
-    }```
+  {
+    "minPosition": <double>,
+    "maxPosition": <double>,
+    "maxVelocity": <double>,
+    <"maxTorque"|"maxForce">: <double>
+  }```
 * [Radar](radar.md)
     ```python
-    {
-      "fieldOfView": <double>,
-      "minRange": <double>,
-      "maxRange": <double>
-    }```
+  {
+    "fieldOfView": <double>,
+    "minRange": <double>,
+    "maxRange": <double>
+  }```
 * [RangeFinder](rangefinder.md)
     ```python
-    {
-      "width": <double>,
-      "height": <double>
-    }```
+  {
+    "width": <double>,
+    "height": <double>
+  }```
 * [TouchSensor](touchsensor.md)
     ```python
-    {
-      "sensorType": <"bumper"|"force"|"force-3d">
-    }```
+  {
+    "sensorType": <"bumper"|"force"|"force-3d">
+  }```
 
 The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON messages, prefixed with the "update" label, containing the current devices measurements.
 Here is the sample structure of the configure message:
@@ -117,34 +117,40 @@ update {
 Devices update data depends on the type:
 * [Accelerometer](accelerometer.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md)
     ```python
-    {
-      "update": [
-        {
-          "time": <double>,
-          "value": <double|[<double>]>
-        }
-      ]
-    }```
+  {
+    "update": [
+      {
+        "time": <double>,
+        "value": <double|[<double>]>
+      }
+    ]
+  }```
 * [Camera](camera.md)
     ```python
-    {
-      "recognitionEnabled": <"true"|"false">,
-      "segmentationEnabled": <"true"|"false">,
-      "image": "data:image/jpg;base64," + <data>
-    }```
-* [Lidar](lidar.md) ```{
-  "cloudPointEnabled": <"true"|"false">,
-  "image": "data:image/jpg;base64,<data>"
-}```
-* [Radar](radar.md) ```{
-  "targets": [
-    "distance": <double>,
-    "azimuth": <double>
-  ]
-}```
-* [RangeFinder](rangefinder.md) ```{
-  "image": "data:image/jpg;base64," + <data>
-}```
+  {
+    "recognitionEnabled": <"true"|"false">,
+    "segmentationEnabled": <"true"|"false">,
+    "image": "data:image/jpg;base64," + <data>
+  }```
+* [Lidar](lidar.md)
+    ```python
+  {
+    "cloudPointEnabled": <"true"|"false">,
+    "image": "data:image/jpg;base64,<data>"
+  }```
+* [Radar](radar.md)
+    ```python
+  {
+    "targets": [
+      "distance": <double>,
+      "azimuth": <double>
+    ]
+  }```
+* [RangeFinder](rangefinder.md)
+    ```python
+  {
+    "image": "data:image/jpg;base64," + <data>
+ }```
 
 The `wbu_default_robot_window_set_images_max_size` function sets the maximum image size used to send rendering devices' image from the controller to the robot window.
 If the size of an image is bigger than the maximum size, then the image is scaled before appending it to the update message.
