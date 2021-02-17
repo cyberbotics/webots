@@ -448,10 +448,6 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag() {
   mIsProtoRegenerated = true;
 }
 
-static bool isNotSolid(WbBaseNode *node) {
-  return !dynamic_cast<WbSolid *>(node);
-}
-
 void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   if (!node)
     return;
@@ -812,13 +808,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       
-      QList<WbNode *> descendants({node});
-      for (int i = 0; i < descendants.size(); ++i) {
+      WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
+      if (solidNode)
+          solidNode->resetPhysics(false);
+      QList<WbNode *> descendants = node->subNodes(true);
+      for (int i = 0; i < descendants.size(); i++) {
         WbNode *child = descendants.at(i);
         WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
         if (solidChild)
-          solidChild->resetPhysics();
-        descendants.append(WbNodeUtilities::findDescendantNodesOfType(child, isNotSolid, false));
+          solidChild->resetPhysics(false);
       }
       return;
     }

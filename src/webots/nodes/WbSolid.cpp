@@ -2286,12 +2286,13 @@ void WbSolid::awakeSolids(WbGroup *group) {
   }
 }
 
-void WbSolid::resetPhysics() {
+void WbSolid::resetPhysics(bool recursive) {
   resetSingleSolidPhysics();
 
   // Recurses through all first level solid descendants
-  foreach (WbSolid *const solid, mSolidChildren)
-    solid->resetPhysics();
+  if (recursive)
+    foreach (WbSolid *const solid, mSolidChildren)
+      solid->resetPhysics();
 }
 
 void WbSolid::resetSingleSolidPhysics() {
