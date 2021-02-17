@@ -35,7 +35,6 @@ void *wb_remote_control_custom_function(void *);
 
 // Sensor functions (values read by the controller)
 void wbr_robot_battery_sensor_set_value(double value);
-void wbr_differential_wheels_set_encoders(double left, double right);
 
 void wbr_accelerometer_set_values(WbDeviceTag tag, const double *values);
 void wbr_camera_recognition_set_object(WbDeviceTag tag, const WbCameraRecognitionObject *objects, int object_number);
@@ -77,10 +76,6 @@ typedef struct WbrInterface {
 
   // optional functions (if they are used but not defined it will print a warning) :
   void (*wbr_robot_battery_set_sampling_period)(int sampling_period);
-
-  void (*wbr_differential_wheels_encoders_set_sampling_period)(int sampling_period);
-  void (*wbr_differential_wheels_set_speed)(double left, double right);
-  void (*wbr_differential_wheels_set_encoders)(double left, double right);
 
   void (*wbr_set_sampling_period)(WbDeviceTag tag, int sampling_period);
   void (*wbr_camera_set_fov)(WbDeviceTag tag, double fov);

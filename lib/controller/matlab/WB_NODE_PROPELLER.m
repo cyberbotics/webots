@@ -1,2 +1,2 @@
 function value = WB_NODE_PROPELLER
-value = 50;
+value = 49;

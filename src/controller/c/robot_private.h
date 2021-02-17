@@ -44,7 +44,6 @@ int robot_get_number_of_devices();
 WbDeviceTag robot_get_device_tag(WbDevice *);
 WbDevice *robot_get_robot_device();
 int robot_check_supervisor(const char *func_name);
-int robot_check_differential_wheels(const char *func_name);
 const char *robot_get_device_name(WbDeviceTag tag);
 const char *robot_get_device_model(WbDeviceTag tag);
 void robot_mutex_lock_step();
