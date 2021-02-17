@@ -24,7 +24,6 @@
 #include "WbWebPage.hpp"
 
 #include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
@@ -141,7 +140,6 @@ void WbRobotWindow::setupPage() {
       content += line + '\n';
     }
     mResetCount++;
-    qDebug() << "content:" << content;
     mWebView->setHtml(content, htmlUrl);
     htmlFile.close();
   } else
@@ -174,7 +172,6 @@ void WbRobotWindow::show() {
 
 QString WbRobotWindow::formatUrl(const QString &urlString) {
   static QStringList repoUrls;
-  qDebug() << "formatUrl " << urlString;
   if (repoUrls.isEmpty()) {
     // forge the GitHub URL to the current version of Webots
     const QString webotsVersion = WbApplicationInfo::version().toString().replace(" revision ", "-rev");
@@ -193,7 +190,6 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QUrl &url(urlStringExtented);
   const QString &pathString = url.toString(QUrl::RemoveQuery);
   const QFileInfo &fileInfo(pathString);
-  qDebug() << "fileInfo.isAbsolute() " << fileInfo.isAbsolute();
   if (fileInfo.isAbsolute()) {
     if (fileInfo.isReadable())
       return "file:///" + url.toEncoded();
