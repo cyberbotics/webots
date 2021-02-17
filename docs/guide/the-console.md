@@ -1,6 +1,8 @@
 ## The Console
 
 The Webots console displays the logs coming from Webots (such as parsing warnings or errors when opening a world, compilation outputs, ODE warnings, etc.) and the outputs of the controllers.
+To guarantee that the log printed in the Webots console is deterministic, the output coming from the controllers is not printed immediately when receiving it but it is grouped by controller and printed at the end of the simulation step.
+This means that if your simulation contains robot A and robot B, the output of robot A will be printed in the console before the output of robot B independently if some robot B output messages were received before the ones of robot A.
 
 
 %figure "Console Window"

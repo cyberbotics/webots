@@ -94,6 +94,7 @@ signals:
 
 public slots:
   void disableRendering(bool disabled);
+  void disableStepButton(bool disabled);
 
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
@@ -119,7 +120,6 @@ private slots:
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();
-  void disableStepButton(bool disabled);
   void updatePlayButtons();
   void updateRendering();
   void updateSoundButtons();
