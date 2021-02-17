@@ -24,6 +24,7 @@
 #include "WbWebPage.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
@@ -140,6 +141,7 @@ void WbRobotWindow::setupPage() {
       content += line + '\n';
     }
     mResetCount++;
+    qDebug() << "content:" << content;
     mWebView->setHtml(content, htmlUrl);
     htmlFile.close();
   } else
@@ -171,21 +173,27 @@ void WbRobotWindow::show() {
 }
 
 QString WbRobotWindow::formatUrl(const QString &urlString) {
-  static QString repoUrl;
-  if (repoUrl.isEmpty()) {
+  static QStringList repoUrls;
+  qDebug() << "formatUrl " << urlString;
+  if (repoUrls.isEmpty()) {
     // forge the GitHub URL to the current version of Webots
     const QString webotsVersion = WbApplicationInfo::version().toString().replace(" revision ", "-rev");
-    repoUrl = "https://raw.githubusercontent.com/cyberbotics/webots/" + webotsVersion + "/";
+    repoUrls << "https://raw.githubusercontent.com/cyberbotics/webots/" + webotsVersion + "/"
+             << "https://cdn.jsdelivr.net/gh/cyberbotics/webots@" + webotsVersion + "/";
   }
 
   QString urlStringExtented(urlString);
-  WbApplicationInfo::version();
-  if (urlString.startsWith(repoUrl))
-    // load local file instead of the online version for the current version of Webots
-    urlStringExtented.replace(repoUrl, WbStandardPaths::webotsHomePath());
+  foreach (const QString url, repoUrls) {
+    if (urlString.startsWith(url)) {
+      // load local file instead of the online version for the current version of Webots
+      urlStringExtented.replace(url, WbStandardPaths::webotsHomePath());
+      break;
+    }
+  }
   const QUrl &url(urlStringExtented);
   const QString &pathString = url.toString(QUrl::RemoveQuery);
   const QFileInfo &fileInfo(pathString);
+  qDebug() << "fileInfo.isAbsolute() " << fileInfo.isAbsolute();
   if (fileInfo.isAbsolute()) {
     if (fileInfo.isReadable())
       return "file:///" + url.toEncoded();
@@ -196,7 +204,8 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QFileInfo &absoluteFileInfo(windowInfo.path() + "/" + pathString);
   if (absoluteFileInfo.isReadable())
     return url.toEncoded();
-  return "";
+
+  return urlString;
 }
 
 QString WbRobotWindow::linkTag(const QString &file) {
