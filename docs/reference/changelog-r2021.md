@@ -1,5 +1,27 @@
 # Webots R2021 Change Log
 
+## Webots R2021b
+Released on June, Xth, 2021.
+
+  - New Features:
+    - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
+    - Add the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
+  - Enhancements
+    - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
+    - Allow the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
+    - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
+    - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655))
+      - Skip updates when the robot window is hidden to not affect the simulation performance
+      - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device
+      - Add buttons to enable and disable all the devices with the same type at once
+      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the correspoding tab is not visible
+      - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible
+      - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects
+  - New Samples:
+    - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
+  - Cleanup
+    - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
+
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
 

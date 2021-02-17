@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include <webots/plugins/robot_window/default.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/utils/default_robot_window.h>
 
 #include "../../../include/robotbenchmark.h"
 #include "wall_following_metric.h"

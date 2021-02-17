@@ -317,7 +317,6 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
         }
       }
       break;
-    case WB_NODE_DIFFERENTIAL_WHEELS:
     case WB_NODE_ROBOT:
       handleRobotMessage(r, c);
       break;
@@ -359,16 +358,6 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
 
 static void handleRobotMessage(WbRequest *r, unsigned char c) {
   switch (c) {
-    case C_DIFFERENTIAL_WHEELS_SET_SPEED: {
-      double leftSpeed = request_read_double(r);
-      double rightSpeed = request_read_double(r);
-      CALL_INTERFACE_FUNCTION(wbr_differential_wheels_set_speed, leftSpeed, rightSpeed);
-      break;
-    }
-    case C_DIFFERENTIAL_WHEELS_ENCODERS_SET_SAMPLING_PERIOD: {
-      CALL_INTERFACE_FUNCTION(wbr_differential_wheels_encoders_set_sampling_period, request_read_uint16(r));
-      break;
-    }
     case C_ROBOT_WWI_MESSAGE: {
       int size = request_read_int32(r);
       request_read_data(r, size);  // skip it

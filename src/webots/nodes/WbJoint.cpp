@@ -57,6 +57,19 @@ WbJoint::WbJoint(const WbNode &other) : WbBasicJoint(other) {
 WbJoint::~WbJoint() {
 }
 
+void WbJoint::downloadAssets() {
+  WbBasicJoint::downloadAssets();
+  WbMotor *m = motor();
+  if (m)
+    m->downloadAssets();
+  m = motor2();
+  if (m)
+    m->downloadAssets();
+  m = motor3();
+  if (m)
+    m->downloadAssets();
+}
+
 void WbJoint::preFinalize() {
   WbBasicJoint::preFinalize();
 

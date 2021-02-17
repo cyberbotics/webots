@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-#ifndef DIFFERENTIAL_WHEELS_PRIVATE_H
-#define DIFFERENTIAL_WHEELS_PRIVATE_H
+/**********************************************************************************/
+/* Description:  Webots C utility to parse messages                               */
+/**********************************************************************************/
 
-#include "device_private.h"
+#ifndef WBU_STRING_H
+#define WBU_STRING_H
 
-void wb_differential_wheels_init(WbDevice *d);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#endif  // DIFFERENTIAL_WHEELS_PRIVATE_H
+char *wbu_string_strsep(char **stringp, const char *delim);
+char *wbu_string_replace(char *value, char *before, char *after);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // WBU_STRING_H

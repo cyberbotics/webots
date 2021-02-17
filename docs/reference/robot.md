@@ -1227,7 +1227,7 @@ name = wb_robot_get_name()
 
 *return the name defined in the robot node*
 
-This function returns the name as it is defined in the name field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the name as it is defined in the name field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 This function is very useful to pass some arbitrary parameter from a world file to a controller program.
 For example, you can have the same controller code behave differently depending on the name of the robot.
@@ -1312,7 +1312,7 @@ model = wb_robot_get_model()
 
 *return the model defined in the robot node*
 
-This function returns the model string as it is defined in the model field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the model string as it is defined in the model field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 
 ---
@@ -1485,7 +1485,7 @@ type = wb_robot_get_type()
 
 *return the type of the robot node*
 
-This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_SUPERVISOR or WB\_NODE\_DIFFERENTIAL\_WHEELS).
+This function returns the type of the current mode (WB\_NODE\_ROBOT or WB\_NODE\_SUPERVISOR).
 
 ---
 
@@ -2069,7 +2069,7 @@ The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) n
 %tab "C"
 
 ```c
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 const char *wb_robot_wwi_receive(int *size);
 const char *wb_robot_wwi_receive_text();

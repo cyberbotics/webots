@@ -154,6 +154,7 @@ public:
 signals:
   void modificationChanged(bool modified);
   void worldLoadingStatusHasChanged(QString status);
+  void worldLoadingHasProgressed(int percent);
   void viewpointChanged();
   void robotAdded(WbRobot *robot);
   void resetRequested(bool restartControllers);
@@ -168,17 +169,15 @@ protected:
   // collecting contact and immersion geometries
   QList<WbOdeContact> mOdeContacts;
   QList<dImmersionGeom> mImmersionGeoms;
+  bool mWorldLoadingCanceled;
+  bool mResetRequested;
+  bool mRestartControllers;
 
   QString logWorldMetrics() const;
 
   // called when a node is added to the children of a group which checks if a
   // controller needs starting, should the added node be a Robot
   virtual void setUpControllerForNewRobot(WbRobot *robot) {}
-
-protected:
-  bool mWorldLoadingCanceled;
-  bool mResetRequested;
-  bool mRestartControllers;
 
 protected slots:
   virtual void storeAddedNodeIfNeeded(WbNode *node) {}

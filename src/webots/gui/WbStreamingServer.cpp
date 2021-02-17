@@ -172,12 +172,23 @@ void WbStreamingServer::onNewTcpData() {
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
-      sendTcpRequestReply(requestedUrl, socket);
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+      bool hasEtag = false;
+      QString etag;
+      for (const auto &i : tokens) {
+        if (i == "If-None-Match:")
+          hasEtag = true;
+        else if (hasEtag) {
+          etag = i;
+          break;
+        }
+      }
+      sendTcpRequestReply(requestedUrl, etag, socket);
+    }
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   if (!requestedUrl.startsWith("robot_windows/")) {
     WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
     socket->write(WbHttpReply::forge404Reply());
@@ -190,7 +201,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSoc
     return;
   }
   WbLog::info(tr("Received request for %1").arg(fileName));
-  socket->write(WbHttpReply::forgeFileReply(fileName));
+  socket->write(WbHttpReply::forgeFileReply(fileName, etag));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {

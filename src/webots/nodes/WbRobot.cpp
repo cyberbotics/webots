@@ -179,7 +179,6 @@ WbRobot::~WbRobot() {
   delete mJoystickTimer;
   delete mUserInputEventTimer;
   delete mJoyStickLastValue;
-  delete mKinematicDifferentialWheels;
   if (mMouse)
     WbMouse::destroy(mMouse);
   delete mSupervisorUtilities;
@@ -1026,7 +1025,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     default:
       // if it was not catched, then this message is apparently for a subclass of WbRobot
-      // we must rewind 1 byte so the DifferentialWheels or Supervisor can read the command
+      // we must rewind 1 byte so the Supervisor can read the command
       device->ungetChar(byte);
   }
   if (mSupervisorUtilities)

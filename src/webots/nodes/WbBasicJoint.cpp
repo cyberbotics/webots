@@ -81,6 +81,12 @@ WbBasicJoint::~WbBasicJoint() {
   }
 }
 
+void WbBasicJoint::downloadAssets() {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->downloadAssets();
+}
+
 void WbBasicJoint::preFinalize() {
   WbBaseNode::preFinalize();
 

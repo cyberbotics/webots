@@ -24,7 +24,7 @@
 #ifndef WBU_DEFAULT_ROBOT_WINDOW_H
 #define WBU_DEFAULT_ROBOT_WINDOW_H
 
-#include "../robot_wwi.h"
+#include "robot_wwi.h"
 
 #ifdef __cplusplus
 extern "C" {

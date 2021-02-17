@@ -327,7 +327,7 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   }
 }
 
-QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
+QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device) {
   if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 
@@ -336,12 +336,12 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
   mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskTexturePath);
   if (!mNoiseMaskTexture) {
     QImage *image = new QImage();
-    QImageReader imageReader(noiseMaskTexturePath);
-    if (!imageReader.read(image)) {
+    QImageReader *imageReader = device ? new QImageReader(device) : new QImageReader(noiseMaskTexturePath);
+    if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader.errorString());
+      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader->errorString());
     }
-
+    delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
     if (image->format() != QImage::Format_ARGB32) {
       QImage tmp = image->convertToFormat(QImage::Format_ARGB32);

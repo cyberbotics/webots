@@ -420,15 +420,16 @@ void WbExtendedStringEditor::updateWidgets() {
   const bool protoParameter = field()->isParameter();
   const bool regular = mStringType == REGULAR;
   const bool sound = mStringType == SOUND;
-  const bool texture = mStringType == TEXTURE_URL;
+  const bool texture = mStringType == TEXTURE_URL || mStringType == HDR_TEXTURE_URL;
   const bool solidReference = mStringType == SOLID_REFERENCE;
   const bool fluidName = mStringType == FLUID_NAME;
   const bool referenceArea = mStringType == REFERENCE_AREA;
-  const bool enableLineEdit = regular || sound || texture || (solidReference && protoParameter) ||
+  const bool mesh = mStringType == MESH_URL;
+  const bool enableLineEdit = regular || mesh || sound || texture || (solidReference && protoParameter) ||
                               (fluidName && protoParameter) || (referenceArea && protoParameter);
-  const bool showSelectButton = sound || texture || !regular || (solidReference && !protoParameter) ||
+  const bool showSelectButton = mesh || sound || texture || !regular || (solidReference && !protoParameter) ||
                                 (fluidName && !protoParameter) || (referenceArea && !protoParameter);
-  const bool showEditButton = !regular && !sound && !texture && !solidReference && !fluidName && !referenceArea;
+  const bool showEditButton = !regular && !mesh && !sound && !texture && !solidReference && !fluidName && !referenceArea;
 
   // show/hide widgets
   lineEdit()->setReadOnly(!enableLineEdit);
