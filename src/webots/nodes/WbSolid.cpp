@@ -2149,10 +2149,6 @@ void WbSolid::setMatrixNeedUpdate() {
 void WbSolid::reset(const QString &id) {
   WbMatter::reset(id);
 
-  mPreviousRotation = mSavedRotations[id];
-  mPhysicsResetTranslation = mSavedTranslations[id];
-  mPhysicsResetRotation = mSavedRotations[id];
-
   for (int i = 0; i < mImmersionProperties->size(); ++i)
     mImmersionProperties->item(i)->reset(id);
   WbNode *const p = mPhysics->value();
