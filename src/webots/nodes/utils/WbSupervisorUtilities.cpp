@@ -807,11 +807,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
-      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
-      if (solid)
-        solid->resetPhysics();
-      else
-        mRobot->warn(tr("wb_supervisor_node_reset_physics() can exclusively be used with a Solid"));
+
+      WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
+      if (solidNode)
+        solidNode->resetPhysics(false);
+      QList<WbNode *> descendants = node->subNodes(true);
+      for (int i = 0; i < descendants.size(); i++) {
+        WbNode *child = descendants.at(i);
+        WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
+        if (solidChild)
+          solidChild->resetPhysics(false);
+      }
       return;
     }
     case C_SUPERVISOR_NODE_RESTART_CONTROLLER: {
