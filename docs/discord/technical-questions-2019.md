@@ -17282,13 +17282,13 @@ The rover is getting stuck and I am not able to get the simulation of both quadc
 
 In connection with [https://github.com/cyberbotics/webots/issues/1081](https://github.com/cyberbotics/webots/issues/1081) , could anyone let me know any tips as to how I can fix it for now?
 
-##### kairi 11/08/2019 17:16:52
+##### Kairu 11/08/2019 17:16:52
 hey everyone is there a way to attach a receiver to a robot like the epuck?
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:18:41
-`@kairi` yes of course, you can add it in the 'turretSlot' field.
+`@Kairu` yes of course, you can add it in the 'turretSlot' field.
 
-##### kairi 11/08/2019 17:31:24
+##### Kairu 11/08/2019 17:31:24
 ty!
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:56:59
@@ -19658,11 +19658,11 @@ Then both your nodes and bag should use simulation time (or at least record it t
 
 Hi `@askslk`, I am not sure to understand your question, but if you want to perform SLAM with a differential wheel robot in Webots you might be interested by [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#SLAM\_](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#SLAM_)[Advanced]
 
-##### Shadow 11/29/2019 13:30:22
+##### Kormit 11/29/2019 13:30:22
 Hi everyone, is there a possible way to create or use existing software to run a webots simulation without the developer environment webots initially provides, effectively to just run the 3d view? Thanks.
 
 ##### David Mansolino [Cyberbotics] 11/29/2019 13:35:58
-Hi  `@Shadow`, yes if you download the webots package: [https://www.cyberbotics.com/download](https://www.cyberbotics.com/download)
+Hi  `@Kormit`, yes if you download the webots package: [https://www.cyberbotics.com/download](https://www.cyberbotics.com/download)
 
 You can run all the samples provided withing Webots without coding enything.
 
@@ -19670,7 +19670,7 @@ If you want to control the motion of your robot/object in Webots from another so
 
 Is that what you would like to do?
 
-##### Shadow 11/29/2019 13:41:42
+##### Kormit 11/29/2019 13:41:42
 `@David Mansolino` Thanks for the response, perhaps I can clarify what I'm looking for. I'm currently developing a world with supervisors to detect specific robot actions to gain points. Is there a way that the simulation can be run so that people can develop their own controllers for the robots, but not have the ability to view/edit the world (the node tree etc.) so the simulation is effectively running only the 3d viewing portion rendering the world.
 
 ##### David Mansolino [Cyberbotics] 11/29/2019 13:47:53

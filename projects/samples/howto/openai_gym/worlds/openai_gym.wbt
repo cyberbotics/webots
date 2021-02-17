@@ -1,10 +1,10 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  coordinateSystem "NUE"
-    info [
+  info [
     "This example shows an integration of OpenAI Gym with Webots."
   ]
   title "OpenAI Gym Environment"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.042679810423980585 0.9980594209305432 0.04534121826728663 4.649996506160134

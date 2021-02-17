@@ -1091,16 +1091,7 @@ void WbController::readRequest() {
     if (immediateMessagesPending)
       writeAnswer(true);
 
-    if (!WbControlledWorld::instance()->needToWait()) {
-      WbSimulationState *state = WbSimulationState::instance();
-      emit state->controllerReadRequestsCompleted();
-      if (state->isPaused() || state->isStep())
-        // in order to avoid mixing immediate messages sent by Webots and the libController
-        // some Webots immediate messages could have been postponed
-        // if the simulation is running these messages will be sent within the step message
-        // otherwise we want to send them as soon as the libController request is over
-        WbControlledWorld::instance()->writePendingImmediateAnswer();
-    }
+    WbControlledWorld::instance()->checkIfReadRequestCompleted();
   }
 
   WbPerformanceLog *log = WbPerformanceLog::instance();
