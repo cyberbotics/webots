@@ -185,9 +185,7 @@ def send_email(subject, content):
 def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
-    if config['portRewrite']:
-        url = 'http://' + url.replace('/', ':', 1)
-    elif config['ssl']:
+    if config['ssl'] or config['portRewrite']:
         url = 'https://' + url
     else:
         url = 'http://' + url
