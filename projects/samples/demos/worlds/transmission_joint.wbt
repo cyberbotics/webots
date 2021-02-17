@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.997780977318809 0.06639451569165424 0.0049889464612197275 0.15033233993171133
-  position 0.014751382965375507 0.22286265779777573 1.5250311738245363
+  orientation -0.7774145384909191 0.6109604947164751 0.14951223775581463 0.6099263845185225
+  position 0.48027384969360865 0.667515778862644 1.1861558016385214
 }
 TexturedBackground {
 }
@@ -19,26 +19,28 @@ Robot {
         anchor 1 0 0
       }
       startPoint Solid {
+        translation -0.1 0 0
         children [
           Shape {
             appearance PBRAppearance {
               baseColor 0.45098 0.823529 0.0862745
             }
             geometry Cylinder {
-              height 0.01
+              height 0.1
               radius 0.05
             }
           }
         ]
       }
       endPoint Solid {
+        translation 0.1 0 0
         children [
           Shape {
             appearance PBRAppearance {
               baseColor 0.8 0 0
             }
             geometry Cylinder {
-              height 0.01
+              height 0.1
               radius 0.05
             }
           }

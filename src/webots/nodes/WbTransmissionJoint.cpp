@@ -17,16 +17,20 @@
 #include "WbFieldChecker.hpp"
 #include "WbHingeJointParameters.hpp"
 //#include "WbJointParameters.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
 #include "WbRotationalMotor.hpp"
+#include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbSolidReference.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <ode/ode.h>
 #include <wren/config.h>
 #include <wren/node.h>
 #include <wren/renderable.h>
@@ -36,10 +40,14 @@
 // Constructors
 
 void WbTransmissionJoint::init() {
+  mJoint2 = NULL;
   mParameters2 = findSFNode("jointParameters2");
+  mStartPoint = findSFNode("startPoint");
   mBacklash = findSFDouble("backlash");
   mMultiplier = findSFDouble("multiplier");
-  mGearType = CHAIN_DRIVE;
+  mGearType = UNDEFINED;
+
+  mIsStartPointPositionChangedByJoint = false;
 
   // spring and dampingConstant
   mSpringAndDampingConstantsAxis1On = false;
@@ -95,12 +103,38 @@ void WbTransmissionJoint::postFinalize() {
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
 }
 
+// This method is overritten with the creation of the startPoint instead of
+// the endPoint as it is in parents of this class. The reason is to maintain
+// consistency. (axis2, anchor2, ...)
 bool WbTransmissionJoint::setJoint() {
   if (!WbBasicJoint::setJoint())
     return false;
 
   if (mJoint == NULL)
-    mJoint = dJointCreateHinge2(WbOdeContext::instance()->world(), 0);
+    mJoint = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+
+  const WbSolid *const s = solidStartPoint();
+  dBodyID body = s ? s->body() : NULL;
+  dBodyID parentBody = upperSolid()->bodyMerger();
+  if (body && parentBody)
+    setOdeJoint(body, parentBody);
+  else {
+    parsingWarn(tr("TransmissionJoint nodes can only connect Solid nodes that have a Physics node."));
+    return false;
+  }
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
+
+  return true;
+}
+
+bool WbTransmissionJoint::setJoint2() {
+  if (!WbBasicJoint::setJoint())
+    return false;
+
+  if (mJoint2 == NULL)
+    mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
 
   const WbSolid *const s = solidEndPoint();
   dBodyID body = s ? s->body() : NULL;
@@ -108,7 +142,7 @@ bool WbTransmissionJoint::setJoint() {
   if (body && parentBody)
     setOdeJoint(body, parentBody);
   else {
-    parsingWarn(tr("Hinge2Joint nodes can only connect Solid nodes that have a Physics node."));
+    parsingWarn(tr("TransmissionJoint nodes can only connect Solid nodes that have a Physics node."));
     return false;
   }
 
@@ -437,6 +471,33 @@ void WbTransmissionJoint::save() {
   mInitialPosition2 = mPosition2;
 }
 
+void WbTransmissionJoint::updateStartPoint() {
+  WbSolidReference *const r = solidReference();
+  if (r)
+    r->updateName();
+
+  WbSolid *const s = solidStartPoint();
+  if (s) {
+    connect(s, &WbSolid::positionChangedArtificially, this, &WbTransmissionJoint::updateStartPointPosition,
+            Qt::UniqueConnection);
+    s->appendJointParent(this);
+  }
+
+  updateStartPointPosition();
+
+  if (r)
+    connect(r, &WbSolidReference::changed, this, &WbTransmissionJoint::setJoint, Qt::UniqueConnection);
+
+  if (s == NULL || s->isPostFinalizedCalled()) {
+    emit startPointChanged(s);
+    if (s != NULL && isPostFinalizedCalled())
+      WbBoundingSphere::addSubBoundingSphereToParentNode(this);
+  } else {
+    connect(s, &WbTransmissionJoint::finalizationCompleted, this, &WbTransmissionJoint::startPointChanged);
+    connect(s, &WbTransmissionJoint::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
+  }
+}
+
 void WbTransmissionJoint::updateEndPointZeroTranslationAndRotation() {
   if (solidEndPoint() == NULL)
     return;
@@ -460,6 +521,31 @@ void WbTransmissionJoint::updateEndPointZeroTranslationAndRotation() {
   const WbVector3 &a = anchor();
   const WbVector3 t(it - a);
   mEndPointZeroTranslation = qp * t + a;
+}
+
+void WbTransmissionJoint::updateStartPointZeroTranslationAndRotation() {
+  if (solidStartPoint() == NULL)
+    return;
+
+  WbRotation ir;
+  WbVector3 it;
+  retrieveStartPointSolidTranslationAndRotation(it, ir);
+
+  WbQuaternion qp;
+  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2))
+    mEndPointZeroRotation = ir;  // Keeps track of the original axis if the angle is zero as it defines the second DoF axis
+  else {
+    const WbQuaternion q(axis(), -mPosition);
+    const WbQuaternion q2(axis2(), -mPosition2);
+    qp = q2 * q;
+    const WbQuaternion &iq = ir.toQuaternion();
+    WbQuaternion qr = qp * iq;
+    qr.normalize();
+    mStartPointZeroRotation = WbRotation(qr);
+  }
+  const WbVector3 &a = anchor();
+  const WbVector3 t(it - a);
+  mStartPointZeroTranslation = qp * t + a;
 }
 
 void WbTransmissionJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
@@ -634,6 +720,97 @@ QVector<WbLogicalDevice *> WbTransmissionJoint::devices() const {
     devices.append(device(i));
 
   return devices;
+}
+
+void WbTransmissionJoint::updateBoundingSphere(WbBaseNode *subNode) {
+  disconnect(subNode, &WbBaseNode::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
+  WbBoundingSphere::addSubBoundingSphereToParentNode(this);
+}
+
+void WbTransmissionJoint::updateStartPointPosition() {
+  if (mIsStartPointPositionChangedByJoint)
+    return;
+
+  WbSolid *const s = solidStartPoint();
+  if (s)
+    updateStartPointZeroTranslationAndRotation();
+
+  if (WbBaseNode::areOdeObjectsCreated())
+    setJoint();  // here setjoint1 ?
+}
+
+void WbTransmissionJoint::setSolidStartPoint(WbSolid *solid) {
+  mStartPoint->removeValue();
+  mStartPoint->setValue(solid);
+  updateStartPoint();
+}
+
+void WbTransmissionJoint::setSolidStartPoint(WbSolidReference *solid) {
+  mStartPoint->removeValue();
+  mStartPoint->setValue(solid);
+  updateStartPoint();
+}
+
+void WbTransmissionJoint::setSolidStartPoint(WbSlot *slot) {
+  mStartPoint->removeValue();
+  mStartPoint->setValue(slot);
+  updateStartPoint();
+}
+
+WbSolid *WbTransmissionJoint::solidStartPoint() const {
+  WbSlot *slot = dynamic_cast<WbSlot *>(mStartPoint->value());
+  if (slot) {
+    WbSlot *childrenSlot = slot->slotEndPoint();
+    if (childrenSlot) {
+      WbSolid *solid = childrenSlot->solidEndPoint();
+      if (solid)
+        return solid;
+
+      WbSolidReference *solidReference = childrenSlot->solidReferenceEndPoint();
+      if (solidReference)
+        return solidReference->solid();
+    }
+  } else {
+    WbSolid *solid = dynamic_cast<WbSolid *>(mStartPoint->value());
+    if (solid)
+      return solid;
+
+    const WbSolidReference *const solidReference = dynamic_cast<WbSolidReference *>(mStartPoint->value());
+    if (solidReference)
+      return solidReference->solid();
+  }
+
+  return NULL;
+}
+
+WbSolidReference *WbTransmissionJoint::solidReference() const {
+  WbSlot *slot = dynamic_cast<WbSlot *>(mStartPoint->value());
+  if (slot) {
+    WbSlot *childrenSlot = slot->slotEndPoint();
+    if (childrenSlot)
+      return childrenSlot->solidReferenceEndPoint();
+    else
+      return NULL;
+  } else
+    return dynamic_cast<WbSolidReference *>(mStartPoint->value());
+}
+
+void WbTransmissionJoint::retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const {
+  const WbSolid *const s = solidStartPoint();
+  assert(s);
+
+  if (solidReference()) {
+    const WbTransform *const ut = upperTransform();
+    WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
+    double scale = 1.0 / ut->absoluteScale().x();
+    scale *= scale;
+    m *= scale;
+    ir = WbRotation(m.extracted3x3Matrix());
+    it = m.translation();
+  } else {
+    ir = s->rotation();
+    it = s->translation();
+  }
 }
 
 //////////

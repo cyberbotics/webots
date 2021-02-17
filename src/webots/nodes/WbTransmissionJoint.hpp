@@ -17,7 +17,10 @@
 #ifndef WB_TRANSMISSION_JOINT_HPP
 #define WB_TRANSMISSION_JOINT_HPP
 
+#include "WbBaseNode.hpp"
 #include "WbHingeJoint.hpp"
+
+class WbBoundingSphere;
 
 class WbTransmissionJoint : public WbHingeJoint {
   Q_OBJECT
@@ -46,13 +49,28 @@ public:
   WbHingeJointParameters *hingeJointParameters2() const;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
+  void setSolidStartPoint(WbSolid *solid);
+  void setSolidStartPoint(WbSolidReference *solid);
+  void setSolidStartPoint(WbSlot *slot);
+  WbSolid *solidStartPoint() const;
+  WbSolidReference *solidReference() const;
+
 public slots:
   bool setJoint() override;
+  bool setJoint2();
+
+  void updateStartPoint();
+
+signals:
+  void startPointChanged(WbBaseNode *node);
 
 protected:
   virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to
                                     // the rotation axis of the solid endpoint
   virtual WbVector3 anchor2() const;
+
+  dJointID mJoint2;
+  dJointID jointID() const { return mJoint2; }
   WbQuaternion endPointRotation() const;
   WbRotationalMotor *rotationalMotor2() const;
   double mOdePositionOffset2;
@@ -63,9 +81,14 @@ protected:
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
   void updateEndPointZeroTranslationAndRotation() override;
+  void updateStartPointZeroTranslationAndRotation();
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
   void writeExport(WbVrmlWriter &writer) const override;
+  bool mIsStartPointPositionChangedByJoint;
+  WbVector3 mStartPointZeroTranslation;
+  WbRotation mStartPointZeroRotation;
+  void retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const;
 
 protected slots:
   void updateParameters() override;
@@ -83,12 +106,17 @@ private:
   void updateParameters2();
   void init();
   WbSFNode *mParameters2;
+  WbSFNode *mStartPoint;
   WbSFDouble *mBacklash;
   WbSFDouble *mMultiplier;
   void updateBacklash();
   void updateMultiplier();
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
+
+private slots:
+  void updateStartPointPosition();
+  void updateBoundingSphere(WbBaseNode *subNode);
 };
 
 #endif
