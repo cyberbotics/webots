@@ -2222,7 +2222,7 @@ The `wb_supervisor_simulation_reset` function sends a request to the simulator p
 The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu), the only difference is that the supervisor and robot controllers are not restarted, if needed, they have to be restarted with the `wb_supervisor_node_restart_controller` function.
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it when they restart.
 
-###### Reset/Reload Matrix
+##### Reset/Reload Matrix
 
 |  | **Reload**<br />The reload button in the user-interace and `wb_supervisor_world_reload` funtion | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)**<br />The `wb_supervisor_simulation_reset` function | **Load node's state from Supervisor**<br />The `wb_supervisor_node_save/load_state` functions | **Reset physics**<br />The `wb_supervisor_simulation_reset_physics` function | **Reset node's physics**<br />The `wb_supervisor_node_reset_physics` function |
 |-|-|-|-|-|-|-|
