@@ -53,7 +53,7 @@ class TestReferences(unittest.TestCase):
                             skipUntil = '```'
                             continue
                         elif line.startswith('#'):
-                            m = re.match(r'^#{1,4} .*$', line)
+                            m = re.match(r'^#{1,5} .*$', line)
                             if m:
                                 title = re.sub(r'^#*', '', line)
                                 anchors.append(slugify(title))
