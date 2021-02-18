@@ -10,6 +10,7 @@ Released on XX Xth, 2021.
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
   - Bug fixes
+    - Fixed [`wb_supervisor_node_get_velocity`](supervisor.md#wb_supervisor_node_get_velocity) in MATLAB API returning 3 elements instead of 6 ([#2764](https://github.com/cyberbotics/webots/pull/2764)).
     - Fixed step button status if simulation is reset from UI when the step button is disabled ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Fixed controllers output printed in the Webots console one step too late when running the simulation step-by-step ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Windows: Fixed double-click opening of a world file located in a path with UTF-8 characters ([#2750](https://github.com/cyberbotics/webots/pull/2750)). 
