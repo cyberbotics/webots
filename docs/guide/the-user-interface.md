@@ -29,6 +29,7 @@ On each `Save` the content of the ".wbt" file is overwritten and no backup copie
 Note that a ".wbt" file should always be saved in a Webots project directory, and in the "worlds" subdirectory, otherwise it will not be possible to reopen the file.
 
 - ![](images/revert-button.png =26x26) The **Reload World** menu item (and button) reloads the current world from the saved version and restarts the simulation from the beginning.
+Please refer to [Reset/Reload Matrix](../reference/supervisor.md#reset-reload-matrix) for more details.
 
     > **Note**:
 When opening (or reloading) a world, if the world takes more than 2 seconds to
@@ -38,28 +39,7 @@ be opened instead.
 
 - ![](images/reset-simulation-button.png =26x26) The **Reset Simulation** menu item (and button) restores the initial state of the simulation.
 The simulation is not entirely destroyed and reconstructed as with a reload, but the initial state of all nodes is restored, which is much faster.
-
-    > **Note**:
-In order to reset the simulation, the following steps are performed:
-  - The simulation time is set to 00:00:00
-  - All nodes added during the simulation are removed.
-  - All sound sources are stopped.
-  - The random seeds used by Webots internally are reset.
-  - All the nodes are reset. This has the following implication depending on the node type:
-    - **[Brake](../reference/brake.md)**: The brake is released.
-    - **[Charger](../reference/charger.md)**: The `battery` field and the `emissiveColor` field of the [Material](../reference/material.md) node of the first [Shape](../reference/shape.md) child node are restored.
-    - **[Connector](../reference/connector.md)**: If attached, the connector is detached and the value of the `isLocked` field is restored.
-    - **[Display](../reference/display.md)**: The image is cleared.
-    - **[Emitter](../reference/emitter.md)/[Receiver](../reference/receiver.md)**: The message queue is cleared.
-    - **[Joint](../reference/joint.md)/[Motor](../reference/motor.md)**: The position, velocity, acceleration, available torque and available force are restored.
-    - **[LED](../reference/led.md)**: If the first child is a Light node, it's `color` field is restored and it is switched off. If the first child is a [Shape](../reference/shape.md) node, the `emissiveColor` field of its [Material](../reference/material.md) node is restored.
-    - **[Lidar](../reference/lidar.md)**: The position of the rotating head is restored.
-    - **[Pen](../reference/pen.md)**: All the painted textures are cleaned.
-    - **[Propeller](../reference/propeller.md)**: The slow helix and it's initial position are restored.
-    - **[Robot](../reference/robot.md)**: The `battery` field is restored, all the supervisor labels are removed, the nodes visibility is restored and the controller is restarted.
-    - **[Solid](../reference/solid.md)**: The `translation` and `rotation` fields are restored and the physics is reset.
-    - **[Track](../reference/track.md)**: The motor position is restored and the `translation` field of the textureTransform node of the [Appearance](../reference/appearance.md) node of the first [Shape](../reference/shape.md) children node is restored.
-    - **[Viewpoint](../reference/viewpoint.md)**: The `orientation` and `position` fields are restored.
+Please refer to [Reset/Reload Matrix](../reference/supervisor.md#reset-reload-matrix) for more details.
 
 - ![](images/new-button.png =26x26) The **New Text File** menu item (and button) opens an empty text file in the text editor.
 

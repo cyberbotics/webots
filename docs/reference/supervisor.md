@@ -1387,13 +1387,12 @@ wb_supervisor_node_reset_physics(node)
 The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
 The state is saved internally under a key equal to the `state_name` parameter.
 Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
-The node properties saved with the function are given in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu).
-Note that the effect of the function is scoped, so it will not restart the controllers or the simulation time.
+Please refer to [Reset/Reload Matrix](supervisor.md#reset-reload-matrix) for more details.
 
 The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
 The function parameter `state_name` has to be a valid value, or the controller will fail.
-The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a special value `__init__`.
-If the `node` parameter is equal to the root node and the `state_name` parameter is equal to `__init__` then the function will have a similar effect to the `wb_supervisor_simulation_reset` function, except it will not affect the user interface (for example, it will not reset the simulation time).
+The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a magic name `__init__`.
+The state in the beginning of the simulation is saved under the magic name `__init__`.
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given node and its descendants.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
@@ -2222,6 +2221,33 @@ wb_supervisor_simulation_reset()
 The `wb_supervisor_simulation_reset` function sends a request to the simulator process, asking it to reset the simulation at the end of the step.
 The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu), the only difference is that the supervisor and robot controllers are not restarted, if needed, they have to be restarted with the `wb_supervisor_node_restart_controller` function.
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it when they restart.
+
+###### Reset/Reload Matrix
+
+|  | **Reload**<br />The reload button in the user-interace and `wb_supervisor_world_reload` funtion | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)**<br />The `wb_supervisor_simulation_reset` function | **Load node's state from Supervisor**<br />The `wb_supervisor_node_save/load_state` functions | **Reset physics**<br />The `wb_supervisor_simulation_reset_physics` function | **Reset node's physics**<br />The `wb_supervisor_node_reset_physics` function |
+|-|-|-|-|-|-|-|
+| **Resets simulation time** | Yes | Yes | Yes | No | No | No |
+| **Removes nodes** | Yes | Yes | Yes | No | No | No |
+| **Restarts controller** | Yes | Yes | No | No | No | No |
+| **Stops sounds** | Yes | Yes | Yes | No | No | No |
+| **Resets seeds** | Yes | Yes | Yes | No | No | No |
+| **Resets physics** | Yes | Yes | Yes | Scoped | Yes | Scoped |
+| **Resets physics plugin** | Yes | Yes | Yes | No | No | No |
+| **Resets all fields** | Yes | No | No | No | No | No |
+| **Adds removed nodes** | Yes | No | No | No | No | No |
+| **[Brake](brake.md)** | Resets | Releases | Releases | Releases | Nothing | Nothing |
+| **[Charger](charger.md)** | Resets | Resets the `battery` field and the `emissiveColor` field of the [Material](material.md) node of the first [Shape](shape.md) child node | Resets the `battery` field and the `emissiveColor` field of the [Material](material.md) node of the first [Shape](shape.md) child node | Loads the `battery` field and resets the emissiveColor field of the [Material](material.md) node of the first [Shape](shape.md) child node | Nothing | Nothing |
+| **[Display](display.md)** | Resets | Clears | Clears | Clears | Nothing | Nothing |
+| **[Emitter](emitter.md)/[Receiver](receiver.md)** | Resets | Clears the message queue | Clears the message queue | Clears the message queue | Nothing | Nothing |
+| **[Joint](joint.md)/[Motor](motor.md)** | Resets | Resets the position, velocity, acceleration, available torque, and available force | Resets the position, velocity, acceleration, available torque, and available force | Loads the position, resets the velocity, acceleration, available torque, and available force | Nothing | Nothing |
+| **[LED](led.md)** | Resets | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | Nothing | Nothing |
+| **[Lidar](lidar.md)** | Resets | Resets the position of the rotating head | Resets the position of the rotating head | Resets the position of the rotating head | Nothing | Nothing |
+| **[Pen](pen.md)** | Resets | Cleans the painted textures | Cleans the painted textures | Cleans the painted textures | Nothing | Nothing |
+| **[Propeller](propeller.md)** | Resets | Resets the slow helix and it's initial position | Resets the slow helix and it's initial position | Resets the slow helix and it's initial position | Nothing | Nothing |
+| **[Robot](robot.md)** | Resets | Resets the `battery` field, removes all the supervisor labels, resets the nodes visibility, and restarts the controller | Resets the `battery` field, removes all the supervisor labels, and resets the nodes visibility | Loads the `battery` field, removes all the supervisor labels, and resets the nodes visibility | Nothing | Nothing |
+| **[Solid](solid.md)** | Resets | Resets the `translation` and `rotation` fields, and the physics | Resets the `translation` and `rotation` fields, and the physics | Loads the `translation` and `rotation` fields, and resets the physics | Nothing | Nothing |
+| **[Track](track.md)** | Resets | Resets the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | Resets the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | Loads the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | Nothing | Nothing |
+| **[Viewpoint](viewpoint.md)** | Resets | Resets `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | Resets `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | Loads `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | Nothing | Nothing |
 
 ---
 
