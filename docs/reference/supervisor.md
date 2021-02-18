@@ -1387,7 +1387,7 @@ wb_supervisor_node_reset_physics(node)
 The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
 The state is saved internally under a key equal to the `state_name` parameter.
 Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
-Please refer to [Reset/Reload Matrix](#reset-matrix) for more details.
+Please refer to [Reset/Reload Matrix](#wb_supervisor_simulation_reset) for more details.
 
 The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
 The function parameter `state_name` has to be a valid value, or the controller will fail.
@@ -2222,7 +2222,7 @@ The `wb_supervisor_simulation_reset` function sends a request to the simulator p
 The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu), the only difference is that the supervisor and robot controllers are not restarted, if needed, they have to be restarted with the `wb_supervisor_node_restart_controller` function.
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it when they restart.
 
-##### Reset Matrix
+##### Reset/Reload Matrix
 
 The following table summarizes the behavior of different reset functions:
 - **Reload**: The reload button in the user-interace and the `wb_supervisor_world_reload` funtion.
