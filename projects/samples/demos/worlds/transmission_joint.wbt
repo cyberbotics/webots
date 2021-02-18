@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7774145384909191 0.6109604947164751 0.14951223775581463 0.6099263845185225
-  position 0.48027384969360865 0.667515778862644 1.1861558016385214
+  orientation 0 1 0 0
+  position 0 8.01209941848205e-17 1.4433315182212447
 }
 TexturedBackground {
 }
@@ -16,21 +16,6 @@ Robot {
       jointParameters HingeJointParameters {
       }
       jointParameters2 HingeJointParameters {
-        anchor 1 0 0
-      }
-      startPoint Solid {
-        translation -0.1 0 0
-        children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0.45098 0.823529 0.0862745
-            }
-            geometry Cylinder {
-              height 0.1
-              radius 0.05
-            }
-          }
-        ]
       }
       endPoint Solid {
         translation 0.1 0 0

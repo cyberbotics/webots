@@ -34,79 +34,72 @@ public:
 
   void preFinalize() override;
   void postFinalize() override;
-  int nodeType() const override { return WB_NODE_TRANSMISSION_JOINT; }
-  void createWrenObjects() override;
-  void prePhysicsStep(double ms) override;
-  void postPhysicsStep() override;
-  void reset() override;
-  void resetPhysics() override;
-  void save() override;
-  QVector<WbLogicalDevice *> devices() const override;
-  bool resetJointPositions() override;
-  void setPosition(double position, int index = 1) override;
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
+
+  WbVector3 axis() const override;
+  WbVector3 anchor() const override;
+  WbVector3 axis2() const;
+  WbVector3 anchor2() const;
+
   WbHingeJointParameters *hingeJointParameters2() const;
+  void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
   void computeStartPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const;
+
+  const WbVector3 &zeroStartPointTranslation() const { return mStartPointZeroTranslation; }
+  const WbRotation &zeroStartPointRotation() const { return mStartPointZeroRotation; }
 
   void setSolidStartPoint(WbSolid *solid);
   void setSolidStartPoint(WbSolidReference *solid);
   void setSolidStartPoint(WbSlot *slot);
+
   WbSolid *solidStartPoint() const;
-  WbSolidReference *solidReference() const;
-
+  WbSolidReference *solidReferenceStartPoint() const;
 public slots:
-  bool setJoint() override;
-  bool setJoint2();
-
   void updateStartPoint();
+  bool setJoint() override;
 
 signals:
   void startPointChanged(WbBaseNode *node);
 
 protected:
-  virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to
-                                    // the rotation axis of the solid endpoint
-  virtual WbVector3 anchor2() const;
+  WrTransform *mTransform;
+  WrRenderable *mRenderable;
+  WrStaticMesh *mMesh;
+  WrMaterial *mMaterial;
 
   dJointID mJoint2;
   dJointID jointID() const { return mJoint2; }
-  WbQuaternion endPointRotation() const;
-  WbRotationalMotor *rotationalMotor2() const;
   double mOdePositionOffset2;
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
   bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
   bool mSpringAndDampingConstantsAxis2On;
   double mInitialPosition2;
-  void updatePosition(double position) override;
-  void updatePosition2(double position);
-  void updateEndPointZeroTranslationAndRotation() override;
-  void updateStartPointZeroTranslationAndRotation();
-  void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
+  bool mIsStartPointPositionChangedByJoint;
+
   void updateOdePositionOffset() override;
   void updateOdePositionOffset2();
-  void writeExport(WbVrmlWriter &writer) const override;
-  bool mIsStartPointPositionChangedByJoint;
+
+  void updatePositionOf(int index, double position);
+  // variables and methods about the startPoint Solid translation and rotation when joint position is 0
   WbVector3 mStartPointZeroTranslation;
   WbRotation mStartPointZeroRotation;
+
+  void updateStartPointZeroTranslationAndRotation();
   void retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const;
 
 protected slots:
   void updateParameters() override;
+  void updateParameters2();
   void updatePosition() override;
   void updatePosition2();
   void updateJointAxisRepresentation() override;
-  void updateAxis() override;
-  void updateAxis2();
-  void updateAnchor() override;
-  void updateAnchor2();
 
 private:
   enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
   int mGearType;
   void inferGearType();
   WbTransmissionJoint &operator=(const WbTransmissionJoint &);  // non copyable
-  void updateParameters2();
   void init();
   WbSFNode *mParameters2;
   WbSFNode *mStartPoint;
@@ -114,9 +107,13 @@ private:
   WbSFDouble *mMultiplier;
   void updateBacklash();
   void updateMultiplier();
+
+  void applyToOdeAnchor();
+  void applyToOdeAnchor2();
   void applyToOdeAxis() override;
   void applyToOdeAxis2();
-  void applyToOdeAnchor2();
+
+  bool setJoint2();
 
 private slots:
   void updateStartPointPosition();

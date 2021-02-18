@@ -45,6 +45,7 @@ void WbTransmissionJoint::init() {
   mStartPoint = findSFNode("startPoint");
   mBacklash = findSFDouble("backlash");
   mMultiplier = findSFDouble("multiplier");
+  mStartPoint = findSFNode("startPoint");
   mGearType = UNDEFINED;
 
   mIsStartPointPositionChangedByJoint = false;
@@ -77,56 +78,170 @@ WbTransmissionJoint::WbTransmissionJoint(const WbNode &other) : WbHingeJoint(oth
 }
 
 WbTransmissionJoint::~WbTransmissionJoint() {
+  WbSolid *const s = solidStartPoint();
+  if (s && !s->isBeingDeleted())
+    s->removeJointParent(this);
+
+  if (mJoint2)
+    dJointDestroy(mJoint2);
+  mJoint2 = NULL;
+
+  /* !!!!!!!!!!!!!!!!!          ???????????????????????????????              !!!!!!!!!!!!!!!!!!!!!
+  if (areWrenObjectsInitialized()) {
+    wr_static_mesh_delete(mMesh2);
+    wr_material_delete(mMaterial2);
+    wr_node_delete(WR_NODE(mRenderable2));
+    wr_node_delete(WR_NODE(mTransform2));
+  }
+  */
 }
 
 void WbTransmissionJoint::preFinalize() {
-  WbBaseNode::preFinalize();
-  // set endPoint initial position
-  updateParameters();
-  updateEndPointZeroTranslationAndRotation();
+  // NOTE: to have a better programming interface for the user, strict inheritance isn't desirable in this class.
+  // HingeJoint supports a device and refers to the endPoint but for TransmissionJoints we want this on startPoint
+  // side of things (i.e axis(), anchor() of hingeJointParameters should refer to startPoint)
 
-  WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
-  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
-  if (p && !p->isPreFinalizedCalled())
-    p->preFinalize();
-  if (e && !e->isPreFinalizedCalled())
-    e->preFinalize();
-
-  mInitialPosition = mPosition;
+  // startPoint (interface-wise) and endPoint (code-wise)
+  WbHingeJoint::preFinalize();
+  // endPoint (interface-wise) and startPoint (code-wise)
+  WbBaseNode::preFinalize();  // ???????????????????
+  updateParameters2();
+  updateStartPointZeroTranslationAndRotation();
 
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
+  WbBaseNode *const e2 = dynamic_cast<WbBaseNode *>(mStartPoint->value());
   if (p2 && !p2->isPreFinalizedCalled())
     p2->preFinalize();
-
-  updateParameters();
-  updateParameters2();
+  if (e2 && !e2->isPreFinalizedCalled())
+    e2->preFinalize();
 
   mInitialPosition2 = mPosition2;
 }
 
 void WbTransmissionJoint::postFinalize() {
+  // startPoint (interface-wise) and endPoint (code-wise)
   WbHingeJoint::postFinalize();
-
+  // endPoint (interface-wise) and startPoint (code-wise)
+  WbBaseNode::postFinalize();  // ???????????????????
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
+  WbBaseNode *const e2 = dynamic_cast<WbBaseNode *>(mStartPoint->value());
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();
+  if (e2 && !e2->isPostFinalizedCalled())
+    e2->postFinalize();
 
-  connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters);
+  connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
+  connect(mStartPoint, &WbSFNode::changed, this, &WbTransmissionJoint::updateStartPoint);
+
+  const WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
+  if (pg)
+    connect(this, &WbTransmissionJoint::startPointChanged, pg, &WbGroup::insertChildFromSlotOrJoint);
+  else {
+    const WbSlot *slot = dynamic_cast<WbSlot *>(parentNode());
+    if (slot)
+      connect(this, &WbTransmissionJoint::startPointChanged, slot, &WbSlot::endPointInserted);
+  }
+  connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
+
+  WbSolid *const s = solidStartPoint();
+  if (s) {
+    connect(s, &WbSolid::positionChangedArtificially, this, &WbTransmissionJoint::updateStartPointPosition);
+    updateStartPointPosition();
+  }
+
+  if (protoParameterNode()) {
+    const QVector<WbNode *> nodes = protoParameterNode()->protoParameterNodeInstances();
+    if (nodes.size() > 1 && nodes.at(0) == this)
+      parsingWarn(tr("Joint node defined in PROTO field is used multiple times. "
+                     "Webots doesn't fully support this because the multiple node instances cannot be identical."));
+  }
+
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
 }
 
-// This method is overritten with the creation of the startPoint instead of
-// the endPoint as it is in parents of this class. The reason is to maintain
-// consistency. (axis2, anchor2, ...)
+WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters2() const {
+  return dynamic_cast<WbHingeJointParameters *>(mParameters2->value());
+}
+
+void WbTransmissionJoint::updateStartPointZeroTranslationAndRotation() {
+  if (solidStartPoint() == NULL)
+    return;
+
+  WbRotation ir;
+  WbVector3 it;
+  retrieveStartPointSolidTranslationAndRotation(it, ir);
+
+  WbQuaternion qMinus;
+  const double angle = mPosition2;
+  if (WbMathsUtilities::isZeroAngle(angle)) {
+    // In case of a zero angle, the quaternion axis is undefined, so we keep track of the original one
+    mStartPointZeroRotation = ir;
+  } else {
+    const WbVector3 &ax2 = axis2().normalized();
+    qMinus = WbQuaternion(ax2, -angle);
+    const WbQuaternion &q = ir.toQuaternion();
+    WbQuaternion qNormalized = qMinus * q;
+    if (qNormalized.w() != 1.0)
+      qNormalized.normalize();
+    mStartPointZeroRotation = WbRotation(qNormalized);
+    if (mStartPointZeroRotation.angle() == 0.0)
+      mStartPointZeroRotation = WbRotation(ax2.x(), ax2.y(), ax2.z(), 0.0);
+  }
+  const WbVector3 &an2 = anchor2();
+  mStartPointZeroTranslation = qMinus * (it - an2) + an2;
+}
+
+void WbTransmissionJoint::retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const {
+  const WbSolid *const s = solidStartPoint();
+  assert(s);
+
+  if (solidReferenceStartPoint()) {
+    const WbTransform *const ut = upperTransform();
+    WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
+    double scale = 1.0 / ut->absoluteScale().x();
+    scale *= scale;
+    m *= scale;
+    ir = WbRotation(m.extracted3x3Matrix());
+    it = m.translation();
+  } else {
+    ir = s->rotation();
+    it = s->translation();
+  }
+}
+
+WbVector3 WbTransmissionJoint::anchor() const {
+  static const WbVector3 DEFAULT_ANCHOR(-1.0, 0.0, 0.0);
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  return p ? p->anchor() : DEFAULT_ANCHOR;
+}
+
+WbVector3 WbTransmissionJoint::anchor2() const {
+  static const WbVector3 DEFAULT_ANCHOR(1.0, 0.0, 0.0);
+  const WbHingeJointParameters *const p2 = hingeJointParameters();
+  return p2 ? p2->anchor() : DEFAULT_ANCHOR;
+}
+
+WbVector3 WbTransmissionJoint::axis() const {
+  static const WbVector3 DEFAULT_AXIS(0.0, 1.0, 0.0);
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  return p ? p->axis() : DEFAULT_AXIS;
+}
+
+WbVector3 WbTransmissionJoint::axis2() const {
+  static const WbVector3 DEFAULT_AXIS(0.0, 1.0, 0.0);
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
+  return p2 ? p2->axis() : DEFAULT_AXIS;
+}
+
 bool WbTransmissionJoint::setJoint() {
   if (!WbBasicJoint::setJoint())
     return false;
 
   if (mJoint == NULL)
-    mJoint = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+    mJoint = dJointCreateHinge2(WbOdeContext::instance()->world(), 0);
 
-  const WbSolid *const s = solidStartPoint();
+  const WbSolid *const s = solidEndPoint();
   dBodyID body = s ? s->body() : NULL;
   dBodyID parentBody = upperSolid()->bodyMerger();
   if (body && parentBody)
@@ -143,19 +258,16 @@ bool WbTransmissionJoint::setJoint() {
 }
 
 bool WbTransmissionJoint::setJoint2() {
-  if (!WbBasicJoint::setJoint())
-    return false;
-
-  if (mJoint2 == NULL)
-    mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
-
-  const WbSolid *const s = solidEndPoint();
-  dBodyID body = s ? s->body() : NULL;
-  dBodyID parentBody = upperSolid()->bodyMerger();
-  if (body && parentBody)
-    setOdeJoint(body, parentBody);
-  else {
-    parsingWarn(tr("TransmissionJoint nodes can only connect Solid nodes that have a Physics node."));
+  WbSolidReference *const sr = solidReferenceStartPoint();
+  if (sr)
+    sr->updateName();
+  const WbSolid *const s = solidStartPoint();
+  const bool invalidStartPoint = s == NULL && (sr == NULL || !sr->pointsToStaticEnvironment());
+  if (invalidStartPoint || upperSolid() == NULL || (s && s->physics() == NULL) || (s && s->solidMerger().isNull())) {
+    if (mJoint2) {
+      dJointAttach(mJoint2, NULL, NULL);
+      dJointDisable(mJoint2);
+    }
     return false;
   }
 
@@ -187,281 +299,148 @@ double WbTransmissionJoint::initialPosition(int index) const {
   }
 }
 
-void WbTransmissionJoint::setPosition(double position, int index) {
-  if (index == 1) {
-    mPosition = position;
-    mOdePositionOffset = position;
-    WbHingeJointParameters *const p = hingeJointParameters();
-    if (p)
-      p->setPosition(mPosition);
-
-    WbMotor *const m = motor();
-    if (m)
-      m->setTargetPosition(position);
-    return;
-  }
-
-  assert(index == 2);
-
-  mPosition2 = position;
-  mOdePositionOffset2 = position;
-  WbHingeJointParameters *const p2 = hingeJointParameters2();
-  if (p2)
-    p2->setPosition(mPosition2);
-}
-
-bool WbTransmissionJoint::resetJointPositions() {
-  mOdePositionOffset2 = 0.0;
-  return WbJoint::resetJointPositions();
-}
-
-void WbTransmissionJoint::updateOdePositionOffset() {
-  double newValue = position();
-  if (mOdePositionOffset == newValue)
-    return;
-
-  mOdePositionOffset = newValue;
-}
-
-void WbTransmissionJoint::updateOdePositionOffset2() {
-  double newValue = position();
-  if (mOdePositionOffset2 == newValue)
-    return;
-
-  mOdePositionOffset2 = newValue;
-}
-
-void WbTransmissionJoint::applyToOdeAxis() {
+void WbTransmissionJoint::applyToOdeAnchor() {
   assert(mJoint);
-
+  printf("applyToOdeAnchor from transmissionJoint called correctly\n");
   updateOdePositionOffset();
 
-  // compute orientation of rotation axis
   const WbMatrix4 &m4 = upperTransform()->matrix();
-  const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
-  dJointSetHinge2Axis1(mJoint, a1.x(), a1.y(), a1.z());
-}
-
-void WbTransmissionJoint::applyToOdeAxis2() {
-  assert(mJoint2);
-
-  updateOdePositionOffset2();
-
-  // compute orientation of rotation axis
-  const WbMatrix4 &m4 = upperTransform()->matrix();
-  const WbVector3 &a2 = m4.sub3x3MatrixDot(axis());
-  dJointSetHinge2Axis1(mJoint, a2.x(), a2.y(), a2.z());
+  const WbVector3 &t = m4 * anchor();
+  dJointSetHingeAnchor(mJoint, t.x(), t.y(), t.z());
 }
 
 void WbTransmissionJoint::applyToOdeAnchor2() {
   assert(mJoint2);
 
-  updateOdePositionOffset();
+  updateOdePositionOffset2();
 
   const WbMatrix4 &m4 = upperTransform()->matrix();
   const WbVector3 &t = m4 * anchor2();
-  if (nodeType() == WB_NODE_HINGE_2_JOINT)
-    dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
+  dJointSetHingeAnchor(mJoint2, t.x(), t.y(), t.z());
 }
 
-void WbTransmissionJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) {
+void WbTransmissionJoint::applyToOdeAxis() {
+  updateOdePositionOffset();
+
+  const WbMatrix4 &m4 = upperTransform()->matrix();
+  WbVector3 a = m4.sub3x3MatrixDot(axis());
+  dJointSetHingeAxis(mJoint, a.x(), a.y(), a.z());
+}
+
+void WbTransmissionJoint::applyToOdeAxis2() {
+  updateOdePositionOffset2();
+
+  const WbMatrix4 &m4 = upperTransform()->matrix();
+  WbVector3 a = m4.sub3x3MatrixDot(axis2());
+  dJointSetHingeAxis(mJoint2, a.x(), a.y(), a.z());
+}
+
+void WbTransmissionJoint::computeStartPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
+  const WbVector3 &ax = axis().normalized();
+  const WbQuaternion q(ax, mPosition);
+  const WbQuaternion iq(mStartPointZeroRotation.toQuaternion());
+  WbQuaternion qp(q * iq);
+  if (qp.w() != 1.0)
+    qp.normalize();
+  rotation.fromQuaternion(qp);
+  if (rotation.angle() == 0.0)
+    rotation = WbRotation(ax.x(), ax.y(), ax.z(), 0.0);
+  const WbVector3 &a = anchor();
+  translation = q * (mStartPointZeroTranslation - a) + a;
+}
+
+void WbTransmissionJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
+  const WbVector3 &ax2 = axis2().normalized();
+  const WbQuaternion q(ax2, mPosition2);
+  const WbQuaternion iq(mEndPointZeroRotation.toQuaternion());
+  WbQuaternion qp(q * iq);
+  if (qp.w() != 1.0)
+    qp.normalize();
+  rotation.fromQuaternion(qp);
+  if (rotation.angle() == 0.0)
+    rotation = WbRotation(ax2.x(), ax2.y(), ax2.z(), 0.0);
+  const WbVector3 &a = anchor2();
+  translation = q * (mEndPointZeroTranslation - a) + a;
+}
+
+// Updates
+
+void WbTransmissionJoint::updateParameters() {
   const WbHingeJointParameters *const p = hingeJointParameters();
+  if (p) {
+    mOdePositionOffset = p->position();
+    mPosition = mOdePositionOffset;
+    connect(p, SIGNAL(positionChanged()), this, SLOT(updatePosition()), Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
+  }
+}
+
+void WbTransmissionJoint::updateParameters2() {
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
+  if (p2) {
+    mOdePositionOffset = p2->position();
+    mPosition2 = mOdePositionOffset2;
+    connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition2()), Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
+  }
+}
+
+void WbTransmissionJoint::updatePosition() {
+  const WbHingeJointParameters *const p = hingeJointParameters();
+
+  if (solidReferenceStartPoint() == NULL && solidStartPoint())
+    updatePositionOf(1, p ? p->position() : mPosition);
+
+  emit updateMuscleStretch(0.0, true, 1);
+}
+
+void WbTransmissionJoint::updatePosition2() {
   const WbHingeJointParameters *const p2 = hingeJointParameters2();
 
-  const double brakingDampingConstant = brake() ? brake()->getBrakingDampingConstant() : 0.0;
+  if (solidReference() == NULL && solidEndPoint())
+    updatePositionOf(2, p2 ? p2->position() : mPosition2);
 
-  if ((p == NULL && p2 == NULL && brakingDampingConstant == 0.0) || (body == NULL && parentBody == NULL)) {
-    if (mSpringAndDamperMotor) {
-      dJointDestroy(mSpringAndDamperMotor);
-      mSpringAndDamperMotor = NULL;
-    }
-    return;
-  }
-  assert((body || parentBody) && (p || p2 || brake()));
-
-  double s = p ? p->springConstant() : 0.0;
-  double d = p ? p->dampingConstant() : 0.0;
-  double s2 = p2 ? p2->springConstant() : 0.0;
-  double d2 = p2 ? p2->dampingConstant() : 0.0;
-
-  d += brakingDampingConstant;
-
-  mSpringAndDampingConstantsAxis1On = s != 0.0 || d != 0.0;
-  mSpringAndDampingConstantsAxis2On = s2 != 0.0 || d2 != 0.0;
-
-  if (!mSpringAndDampingConstantsAxis1On && !mSpringAndDampingConstantsAxis2On) {
-    if (mSpringAndDamperMotor) {
-      dJointDestroy(mSpringAndDamperMotor);
-      mSpringAndDamperMotor = NULL;
-    }
-    return;
-  }
-
-  // Handles scale
-  const double scale = upperTransform()->absoluteScale().x();
-  double s4 = scale * scale;
-  s4 *= scale;
-  s *= s4;
-  d *= s4;
-  s2 *= s4;
-  d2 *= s4;
-
-  double cfm, erp, cfm2, erp2;
-  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const double t = wi->basicTimeStep() * 0.001;
-  WbOdeUtilities::convertSpringAndDampingConstants(s, d, t, cfm, erp);
-  WbOdeUtilities::convertSpringAndDampingConstants(s2, d2, t, cfm2, erp2);
-
-  const dWorldID world = parentBody ? dBodyGetWorld(parentBody) : dBodyGetWorld(body);
-  if (mSpringAndDamperMotor == NULL)
-    mSpringAndDamperMotor = dJointCreateAMotor(world, 0);
-
-  dJointAttach(mSpringAndDamperMotor, parentBody, body);
-
-  const bool bothAxes = mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On;
-  const int numberOfAxes = bothAxes ? 2 : 1;
-
-  dJointSetAMotorNumAxes(mSpringAndDamperMotor, numberOfAxes);
-  dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
-
-  // Axis dependent settings
-  const WbMatrix4 &m4 = upperTransform()->matrix();
-  if (mSpringAndDampingConstantsAxis1On) {
-    const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
-    const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-    dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp);
-  }
-
-  if (mSpringAndDampingConstantsAxis2On) {
-    const double clamped2 = WbMathsUtilities::normalizeAngle(mOdePositionOffset2);
-    const WbVector3 &a2 = m4.sub3x3MatrixDot(axis2());
-    if (bothAxes) {  // axes 0 and 1 of the AMotorAngle are enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
-      dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp2);
-    } else {  // only axis 0 of the AMotorAngle is enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
-      dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp2);
-    }
-  }
+  emit updateMuscleStretch(0.0, true, 1);
 }
 
-void WbTransmissionJoint::prePhysicsStep(double ms) {
-  assert(solidEndPoint());
-  WbRotationalMotor *const rm = rotationalMotor();
-  WbHingeJointParameters *const p = hingeJointParameters();
-
-  if (isEnabled()) {
-    const double s = upperTransform()->absoluteScale().x();
-    double s5 = s * s;
-    s5 *= s5 * s;
-
-    if (rm && rm->userControl()) {
-      // user-defined torque
-      dJointAddHinge2Torques(mJoint, -rm->rawInput(), 0.0);
-      if (rm->hasMuscles())
-        // force is directly applied to the bodies and not included in joint motor feedback
-        emit updateMuscleStretch(rm->rawInput() / rm->maxForceOrTorque(), false, 1);
-    } else {
-      // ODE motor torque (user velocity/position control)
-      const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
-      const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      dJointSetHinge2Param(mJoint, dParamFMax, s5 * fMax);
-      dJointSetHinge2Param(mJoint, dParamVel, currentVelocity);
-    }
-
-    // eventually add spring and damping forces
-    if (mSpringAndDamperMotor) {
-      if (mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On) {
-        // axes 0 and 1 of the AMotorAngle are enabled
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, dJointGetHinge2Angle1(mJoint));
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetHinge2Angle2(mJoint));
-      } else if (mSpringAndDampingConstantsAxis1On) {
-        // only axis 0 of the AMotorAngle is enabled
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, dJointGetHinge2Angle1(mJoint));
-      } else
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetHinge2Angle2(mJoint));
-    }
-  } else {
-    const bool run1 = rm && rm->runKinematicControl(ms, mPosition);
-    if (run1) {
-      if (p)
-        p->setPosition(mPosition);
-      if (rm->hasMuscles()) {
-        double velocityPercentage = rm->currentVelocity() / rm->maxVelocity();
-        if (rm->kinematicVelocitySign() == -1)
-          velocityPercentage = -velocityPercentage;
-        emit updateMuscleStretch(velocityPercentage, true, 1);
-      }
-
-      // updatePositions(mPosition, mPosition2);
+void WbTransmissionJoint::updatePositionOf(int index, double position) {
+  if (index == 1) {
+    WbSolid *const s = solidStartPoint();
+    assert(s);
+    mPosition = position;
+    WbMotor *m1 = motor();
+    if (m1 && !m1->isConfigureDone())
+      m1->setTargetPosition(position);
+    WbVector3 translation;
+    WbRotation rotation;
+    computeStartPointSolidPositionFromParameters(translation, rotation);
+    if (!translation.almostEquals(s->translation()) || !rotation.almostEquals(s->rotation())) {
+      mIsStartPointPositionChangedByJoint = true;
+      s->setTranslationAndRotation(translation, rotation);
+      s->resetPhysics();
+      mIsStartPointPositionChangedByJoint = false;
     }
   }
-  mTimeStep = ms;
-}
-
-void WbTransmissionJoint::postPhysicsStep() {
-  assert(mJoint);
-  WbRotationalMotor *const rm = rotationalMotor();
-  if (rm && rm->isPIDPositionControl()) {
-    // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
-  } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
+  if (index == 2) {
+    WbSolid *const s = solidEndPoint();
+    assert(s);
+    mPosition2 = position;
+    WbVector3 translation;
+    WbRotation rotation;
+    computeEndPointSolidPositionFromParameters(translation, rotation);
+    if (!translation.almostEquals(s->translation()) || !rotation.almostEquals(s->rotation())) {
+      mIsEndPointPositionChangedByJoint = true;
+      s->setTranslationAndRotation(translation, rotation);
+      s->resetPhysics();
+      mIsEndPointPositionChangedByJoint = false;
+    }
   }
-  WbHingeJointParameters *const p = hingeJointParameters();
-  if (p)
-    p->setPositionFromOde(mPosition);
-  if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
-    // dynamic position or velocity control
-    emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
-
-  mPosition2 -= dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
-  WbHingeJointParameters *const p2 = hingeJointParameters2();
-  if (p2)
-    p2->setPositionFromOde(mPosition2);
-}
-
-void WbTransmissionJoint::reset() {
-  WbJoint::reset();
-
-  WbNode *const p = mParameters2->value();
-  if (p)
-    p->reset();
-
-  setPosition(mInitialPosition2, 2);
-}
-
-void WbTransmissionJoint::resetPhysics() {
-  WbJoint::resetPhysics();
-}
-
-void WbTransmissionJoint::save() {
-  WbJoint::save();
-
-  WbNode *const p = mParameters2->value();
-  if (p)
-    p->save();
-
-  mInitialPosition2 = mPosition2;
 }
 
 void WbTransmissionJoint::updateStartPoint() {
-  WbSolidReference *const r = solidReference();
+  WbSolidReference *const r = solidReferenceStartPoint();
   if (r)
     r->updateName();
 
@@ -475,133 +454,60 @@ void WbTransmissionJoint::updateStartPoint() {
   updateStartPointPosition();
 
   if (r)
-    connect(r, &WbSolidReference::changed, this, &WbTransmissionJoint::setJoint, Qt::UniqueConnection);
+    connect(r, &WbSolidReference::changed, this, &WbTransmissionJoint::setJoint2, Qt::UniqueConnection);
 
   if (s == NULL || s->isPostFinalizedCalled()) {
     emit startPointChanged(s);
     if (s != NULL && isPostFinalizedCalled())
       WbBoundingSphere::addSubBoundingSphereToParentNode(this);
   } else {
-    connect(s, &WbTransmissionJoint::finalizationCompleted, this, &WbTransmissionJoint::startPointChanged);
-    connect(s, &WbTransmissionJoint::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbTransmissionJoint::startPointChanged);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
   }
 }
 
-void WbTransmissionJoint::updateEndPointZeroTranslationAndRotation() {
-  if (solidEndPoint() == NULL)
+void WbTransmissionJoint::updateBoundingSphere(WbBaseNode *subNode) {
+  disconnect(subNode, &WbBaseNode::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
+  WbBoundingSphere::addSubBoundingSphereToParentNode(this);
+}
+
+void WbTransmissionJoint::updateStartPointPosition() {
+  if (mIsStartPointPositionChangedByJoint)
     return;
 
-  WbRotation ir;
-  WbVector3 it;
-  retrieveEndPointSolidTranslationAndRotation(it, ir);
-
-  WbQuaternion qp;
-  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2))
-    mEndPointZeroRotation = ir;  // Keeps track of the original axis if the angle is zero as it defines the second DoF axis
-  else {
-    const WbQuaternion q(axis(), -mPosition);
-    const WbQuaternion q2(axis2(), -mPosition2);
-    qp = q2 * q;
-    const WbQuaternion &iq = ir.toQuaternion();
-    WbQuaternion qr = qp * iq;
-    qr.normalize();
-    mEndPointZeroRotation = WbRotation(qr);
-  }
-  const WbVector3 &a = anchor();
-  const WbVector3 t(it - a);
-  mEndPointZeroTranslation = qp * t + a;
-}
-
-void WbTransmissionJoint::updateStartPointZeroTranslationAndRotation() {
-  if (solidStartPoint() == NULL)
-    return;
-
-  WbRotation ir;
-  WbVector3 it;
-  retrieveStartPointSolidTranslationAndRotation(it, ir);
-
-  WbQuaternion qp;
-  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2))
-    mEndPointZeroRotation = ir;  // Keeps track of the original axis if the angle is zero as it defines the second DoF axis
-  else {
-    const WbQuaternion q(axis(), -mPosition);
-    const WbQuaternion q2(axis2(), -mPosition2);
-    qp = q2 * q;
-    const WbQuaternion &iq = ir.toQuaternion();
-    WbQuaternion qr = qp * iq;
-    qr.normalize();
-    mStartPointZeroRotation = WbRotation(qr);
-  }
-  const WbVector3 &a = anchor();
-  const WbVector3 t(it - a);
-  mStartPointZeroTranslation = qp * t + a;
-}
-
-void WbTransmissionJoint::updatePosition() {
-  // Update triggered by an artificial move, i.e. a move caused by the user or a Supervisor
-  const WbHingeJointParameters *const p = hingeJointParameters();
-
-  if (solidReference() == NULL && solidEndPoint())
-    updatePosition(p ? p->position() : mPosition);
-  emit updateMuscleStretch(0.0, true, 1);
-}
-
-void WbTransmissionJoint::updatePosition2() {
-  // Update triggered by an artificial move, i.e. a move caused by the user or a Supervisor
-  const WbHingeJointParameters *const p2 = hingeJointParameters();
-
-  if (solidReference() == NULL && solidStartPoint())
-    updatePosition2(p2 ? p2->position() : mPosition2);
-  emit updateMuscleStretch(0.0, true, 2);
-}
-
-void WbTransmissionJoint::updatePosition(double position) {
-  WbSolid *const s = solidEndPoint();
-  assert(s);
-  // called after an artificial move
-  mPosition = position;
-  WbVector3 translation;
-  WbRotation rotation;
-  computeEndPointSolidPositionFromParameters(translation, rotation);
-  if (!translation.almostEquals(s->translation()) || !rotation.almostEquals(s->rotation())) {
-    mIsEndPointPositionChangedByJoint = true;
-    s->setTranslationAndRotation(translation, rotation);
-    s->resetPhysics();
-    mIsEndPointPositionChangedByJoint = false;
-  }
-}
-
-void WbTransmissionJoint::updatePosition2(double position2) {
   WbSolid *const s = solidStartPoint();
-  assert(s);
-  // called after an artificial move
-  mPosition2 = position2;
-  WbMotor *m = motor();
-  if (m && !m->isConfigureDone())
-    m->setTargetPosition(position2);
-  WbVector3 translation;
-  WbRotation rotation;
-  computeStartPointSolidPositionFromParameters(translation, rotation);
-  if (!translation.almostEquals(s->translation()) || !rotation.almostEquals(s->rotation())) {
-    mIsStartPointPositionChangedByJoint = true;
-    s->setTranslationAndRotation(translation, rotation);
-    s->resetPhysics();
-    mIsStartPointPositionChangedByJoint = false;
-  }
+  if (s)
+    updateStartPointZeroTranslationAndRotation();
+
+  if (areOdeObjectsCreated())
+    setJoint2();
 }
 
-void WbTransmissionJoint::computeStartPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
-  const WbVector3 &ax2 = axis2().normalized();
-  const WbQuaternion q(ax2, mPosition2);
-  const WbQuaternion iq(mStartPointZeroRotation.toQuaternion());
-  WbQuaternion qp(q * iq);
-  if (qp.w() != 1.0)
-    qp.normalize();
-  rotation.fromQuaternion(qp);
-  if (rotation.angle() == 0.0)
-    rotation = WbRotation(ax2.x(), ax2.y(), ax2.z(), 0.0);
-  const WbVector3 &a = anchor2();
-  translation = q * (mStartPointZeroTranslation - a) + a;
+void WbTransmissionJoint::updateJointAxisRepresentation() {
+  // update joint on endPoint (user perspective, startPoint code-wise)
+  /*
+  if (!areWrenObjectsInitialized())
+    return;
+
+  wr_static_mesh_delete(mMesh2);
+
+  const double scaling = 0.5f * wr_config_get_line_scale();
+
+  const WbVector3 &anchorVector = anchor2();
+  const WbVector3 &axisVector = scaling * axis2();
+
+  WbVector3 vertex(anchorVector - axisVector);
+  float vertices[6];
+  vertex.toFloatArray(vertices);
+
+  vertex = anchorVector + axisVector;
+  vertex.toFloatArray(vertices + 3);
+
+  mMesh = wr_static_mesh_line_set_new(2, vertices, NULL);
+  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh2));
+  */
+  // update joint on startPoint (user perspective, endPoint code-wise)
+  WbHingeJoint::updateJointAxisRepresentation();
 }
 
 void WbTransmissionJoint::updateBacklash() {
@@ -650,97 +556,7 @@ void WbTransmissionJoint::inferGearType() {
   }
 }
 
-// Update methods
-
-void WbTransmissionJoint::updateParameters() {
-  WbJoint::updateParameters();
-  const WbHingeJointParameters *const p = hingeJointParameters();
-  if (p) {
-    connect(p, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
-    connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
-    connect(p, SIGNAL(positionChanged()), this, SLOT(updatePosition()), Qt::UniqueConnection);
-  }
-}
-
-void WbTransmissionJoint::updateParameters2() {
-  const WbHingeJointParameters *const p2 = hingeJointParameters2();
-  if (p2) {
-    mOdePositionOffset2 = p2->position();
-    mPosition2 = mOdePositionOffset2;
-    connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
-    connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
-    connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition2()), Qt::UniqueConnection);
-  }
-}
-
-WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters2() const {
-  return dynamic_cast<WbHingeJointParameters *>(mParameters2->value());
-}
-
-WbVector3 WbTransmissionJoint::axis2() const {
-  static const WbVector3 DEFAULT_AXIS_2(1.0, 0.0, 0.0);
-  const WbHingeJointParameters *const p2 = hingeJointParameters2();
-  return p2 ? p2->axis() : DEFAULT_AXIS_2;
-}
-
-WbVector3 WbTransmissionJoint::anchor2() const {
-  const WbHingeJointParameters *const p2 = hingeJointParameters2();
-  return p2 ? p2->anchor() : WbBasicJoint::anchor();
-}
-
-void WbTransmissionJoint::updateAxis() {
-  WbHingeJoint::updateAxis();
-  inferGearType();
-}
-
-void WbTransmissionJoint::updateAxis2() {
-  WbHingeJoint::updateAxis();
-  inferGearType();
-}
-
-void WbTransmissionJoint::updateAnchor() {
-  WbHingeJoint::updateAnchor();
-  inferGearType();
-}
-
-void WbTransmissionJoint::updateAnchor2() {
-  updatePosition2();
-
-  if (mJoint2)
-    applyToOdeAnchor2();
-
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    updateJointAxisRepresentation();
-
-  inferGearType();
-}
-
-QVector<WbLogicalDevice *> WbTransmissionJoint::devices() const {
-  QVector<WbLogicalDevice *> devices;
-  int i = 0;
-  for (i = 0; i < devicesNumber(); ++i)
-    devices.append(device(i));
-
-  return devices;
-}
-
-void WbTransmissionJoint::updateBoundingSphere(WbBaseNode *subNode) {
-  disconnect(subNode, &WbBaseNode::finalizationCompleted, this, &WbTransmissionJoint::updateBoundingSphere);
-  WbBoundingSphere::addSubBoundingSphereToParentNode(this);
-}
-
-void WbTransmissionJoint::updateStartPointPosition() {
-  if (mIsStartPointPositionChangedByJoint)
-    return;
-
-  WbSolid *const s = solidStartPoint();
-  if (s)
-    updateStartPointZeroTranslationAndRotation();
-
-  if (WbBaseNode::areOdeObjectsCreated())
-    setJoint();  // here setjoint1 ?
-}
-
+// utility
 void WbTransmissionJoint::setSolidStartPoint(WbSolid *solid) {
   mStartPoint->removeValue();
   mStartPoint->setValue(solid);
@@ -785,7 +601,7 @@ WbSolid *WbTransmissionJoint::solidStartPoint() const {
   return NULL;
 }
 
-WbSolidReference *WbTransmissionJoint::solidReference() const {
+WbSolidReference *WbTransmissionJoint::solidReferenceStartPoint() const {
   WbSlot *slot = dynamic_cast<WbSlot *>(mStartPoint->value());
   if (slot) {
     WbSlot *childrenSlot = slot->slotEndPoint();
@@ -797,65 +613,18 @@ WbSolidReference *WbTransmissionJoint::solidReference() const {
     return dynamic_cast<WbSolidReference *>(mStartPoint->value());
 }
 
-void WbTransmissionJoint::retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const {
-  const WbSolid *const s = solidStartPoint();
-  assert(s);
-
-  if (solidReference()) {
-    const WbTransform *const ut = upperTransform();
-    WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
-    double scale = 1.0 / ut->absoluteScale().x();
-    scale *= scale;
-    m *= scale;
-    ir = WbRotation(m.extracted3x3Matrix());
-    it = m.translation();
-  } else {
-    ir = s->rotation();
-    it = s->translation();
-  }
-}
-
-//////////
-// WREN //
-//////////
-
-void WbTransmissionJoint::createWrenObjects() {
-  WbJoint::createWrenObjects();
-}
-
-void WbTransmissionJoint::updateJointAxisRepresentation() {
-  if (!areWrenObjectsInitialized())
+void WbTransmissionJoint::updateOdePositionOffset() {
+  double newValue = position();
+  if (mOdePositionOffset == newValue)
     return;
 
-  wr_static_mesh_delete(mMesh);
-
-  const float scaling = 0.5f * wr_config_get_line_scale();
-
-  float vertices[12];
-  const WbVector3 &anchorVector = anchor();
-  const WbVector3 &axisVector = scaling * axis();
-
-  WbVector3 vertex(anchorVector - axisVector);
-  vertex.toFloatArray(vertices);
-
-  vertex = anchorVector + axisVector;
-  vertex.toFloatArray(vertices + 3);
-
-  const WbVector3 &axisVector2 = scaling * axis2();
-  vertex = anchorVector - axisVector2;
-  vertex.toFloatArray(vertices + 6);
-
-  vertex = anchorVector + axisVector2;
-  vertex.toFloatArray(vertices + 9);
-
-  mMesh = wr_static_mesh_line_set_new(4, vertices, NULL);
-  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+  mOdePositionOffset = newValue;
 }
 
-void WbTransmissionJoint::writeExport(WbVrmlWriter &writer) const {
-  if (writer.isUrdf() && solidEndPoint()) {
-    warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
+void WbTransmissionJoint::updateOdePositionOffset2() {
+  double newValue = position(2);
+  if (mOdePositionOffset == newValue)
     return;
-  }
-  WbBasicJoint::writeExport(writer);
+
+  mOdePositionOffset = newValue;
 }
