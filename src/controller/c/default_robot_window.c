@@ -802,7 +802,7 @@ void wbu_default_robot_window_update() {
           break;
       }
 
-      if (robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||  // TODO
+      if (robot_get_simulation_mode() == WB_SUPERVISOR_SIMULATION_MODE_PAUSE ||
           update_element->last_update + update_period_by_type(type) < simulated_time) {
         // send the stored values if any.
         update_element->last_update = simulated_time;
