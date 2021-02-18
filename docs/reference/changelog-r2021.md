@@ -17,6 +17,7 @@ Released on June, Xth, 2021.
       - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the correspoding tab is not visible
       - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible
       - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects
+    - Added the HTML robot window for vehicles replacing the deprecated Qt-based robot window (#[2602](https://github.com/cyberbotics/webots/pull/2602)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
   - Cleanup
