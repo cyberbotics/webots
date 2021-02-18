@@ -266,6 +266,9 @@ class Client:
             if config['ssl']:
                 command += ';ssl'
             command += '" ' + world
+            if 'dockerImage' in config:
+                command = 'docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p '
+                + str(port) + ':' + str(port) + ' ' + config['dockerImage'] + ' ' + command
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
@@ -544,7 +547,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write(gpu + "</p>\n")
         self.write("<p><b>RAM:</b><br>" + ram + "</p>\n")
         self.write("<canvas id='graph' height='400' width='1024'></canvas>\n")
-        self.write("<script src='https://www.cyberbotics.com/harry-plotter/0.9f/harry.min.js'></script>\n")
+        self.write("<script src='https://cyberbotics.com/harry-plotter/0.9f/harry.min.js'></script>\n")
         self.write("<script>\n")
         self.write("window.onload = function() {\n")
 
@@ -674,13 +677,15 @@ def main():
     #
     # port:              local port on which the server is listening (launching webots instances).
     # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+    # projectsDir:       directory in which projects are located.
+    # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
+    # dockerImage:       if specified, use this docker image to run webots in a docker container
+    # maxConnections:    maximum number of simultaneous Webots instances.
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.
-    # projectsDir:       directory in which projects are located.
     # keyDir:            directory where the host keys needed for validation are stored.
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
-    # maxConnections:    maximum number of simultaneous Webots instances.
     # debug:             debug mode (output to stdout).
     #
     global config
@@ -693,16 +698,19 @@ def main():
     network_sent = n.bytes_sent
     network_received = n.bytes_recv
     snapshots = []
-    config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
-    config['webots'] = config['WEBOTS_HOME']
+    if 'webotsHome' not in config:
+        config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
+    config['webots'] = config['webotsHome']
     if sys.platform == 'darwin':
         config['webots'] += '/Contents/MacOS/webots'
     elif sys.platform == 'win32':
         config['webots'] += '/msys64/mingw64/bin/webots.exe'
     else:  # linux
         config['webots'] += '/webots'
+    if 'dockerImage' in config and sys.platform != 'linux2':
+        sys.exit("dockerImage option is supported only on Linux")
     if 'projectsDir' not in config:
-        config['projectsDir'] = config['WEBOTS_HOME'] + '/projects/samples/robotbenchmark'
+        config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
     else:
         config['projectsDir'] = expand_path(config['projectsDir'])
     if 'keyDir' not in config:
@@ -770,9 +778,6 @@ def main():
     handlers.append((r'/monitor', MonitorHandler))
     handlers.append((r'/client', ClientWebSocketHandler))
     handlers.append((r'/load', LoadHandler))
-    handlers.append((r'/(.*)', tornado.web.StaticFileHandler,
-                    {'path': config['WEBOTS_HOME'] + '/resources/web/server/www',
-                     'default_filename': 'index.html'}))
     application = tornado.web.Application(handlers)
     if 'sslCertificate' in config and 'sslKey' in config:
         config['ssl'] = True
