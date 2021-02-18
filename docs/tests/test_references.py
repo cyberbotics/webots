@@ -13,7 +13,6 @@ def slugify(txt):
     output = re.sub(r'\([^)]*\)', '', output)  # remove the content of parenthesis
     output = re.sub(r'<[^>]+>', '', output)
     output = output.replace('+', 'p')
-    output = output.replace('/', '')
     output = re.sub(r"[\(\):`']", '', output)
     output = re.sub(r'\\_', '_', output)
     output = re.sub(r'[\W-]+', '-', output)

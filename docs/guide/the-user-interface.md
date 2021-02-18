@@ -29,7 +29,7 @@ On each `Save` the content of the ".wbt" file is overwritten and no backup copie
 Note that a ".wbt" file should always be saved in a Webots project directory, and in the "worlds" subdirectory, otherwise it will not be possible to reopen the file.
 
 - ![](images/revert-button.png =26x26) The **Reload World** menu item (and button) reloads the current world from the saved version and restarts the simulation from the beginning.
-Please refer to [Reset/Reload Matrix](../reference/supervisor.md#resetreload-matrix) for more details.
+Please refer to [Reset Matrix](../reference/supervisor.md#reset-matrix) for more details.
 
     > **Note**:
 When opening (or reloading) a world, if the world takes more than 2 seconds to
@@ -39,7 +39,7 @@ be opened instead.
 
 - ![](images/reset-simulation-button.png =26x26) The **Reset Simulation** menu item (and button) restores the initial state of the simulation.
 The simulation is not entirely destroyed and reconstructed as with a reload, but the initial state of all nodes is restored, which is much faster.
-Please refer to [Reset/Reload Matrix](../reference/supervisor.md#resetreload-matrix) for more details.
+Please refer to [Reset Matrix](../reference/supervisor.md#reset-matrix) for more details.
 
 - ![](images/new-button.png =26x26) The **New Text File** menu item (and button) opens an empty text file in the text editor.
 
