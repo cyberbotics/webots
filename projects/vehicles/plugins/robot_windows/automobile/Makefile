@@ -19,7 +19,7 @@
 
 USE_C_API = true
 C_SOURCES = $(wildcard *.c)
-LIBRARIES = -ldriver -lcar -lrobot_window_utils
+LIBRARIES = -ldriver -lcar -lgeneric_robot_window
 
 null :=
 space := $(null) $(null)
