@@ -2224,7 +2224,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 ##### Reset/Reload Matrix
 
-|  | **Reload**<br />The reload button in the user-interace and `wb_supervisor_world_reload` funtion | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)**<br />The `wb_supervisor_simulation_reset` function | **Load node's state from Supervisor**<br />The `wb_supervisor_node_save/load_state` functions | **Reset physics**<br />The `wb_supervisor_simulation_reset_physics` function | **Reset node's physics**<br />The `wb_supervisor_node_reset_physics` function |
+| - | **Reload**<br />The reload button in the user-interace and `wb_supervisor_world_reload` funtion | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)**<br />The `wb_supervisor_simulation_reset` function | **Load node's state from Supervisor**<br />The `wb_supervisor_node_save/load_state` functions | **Reset physics**<br />The `wb_supervisor_simulation_reset_physics` function | **Reset node's physics**<br />The `wb_supervisor_node_reset_physics` function |
 |-|-|-|-|-|-|-|
 | **Resets simulation time** | Yes | Yes | Yes | No | No | No |
 | **Removes nodes** | Yes | Yes | Yes | No | No | No |
