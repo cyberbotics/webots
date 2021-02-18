@@ -1387,7 +1387,7 @@ wb_supervisor_node_reset_physics(node)
 The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
 The state is saved internally under a key equal to the `state_name` parameter.
 Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
-Please refer to [Reset/Reload Matrix](supervisor.md#reset-reload-matrix) for more details.
+Please refer to [Reset/Reload Matrix](supervisor.md#resetreload-matrix) for more details.
 
 The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
 The function parameter `state_name` has to be a valid value, or the controller will fail.
@@ -2224,7 +2224,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 ##### Reset/Reload Matrix
 
-| - | **Reload**<br />The reload button in the user-interace and `wb_supervisor_world_reload` funtion | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)**<br />The `wb_supervisor_simulation_reset` function | **Load node's state from Supervisor**<br />The `wb_supervisor_node_save/load_state` functions | **Reset physics**<br />The `wb_supervisor_simulation_reset_physics` function | **Reset node's physics**<br />The `wb_supervisor_node_reset_physics` function |
+| - | **Reload** | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)** | **Load node's state from Supervisor** | **Reset physics** | **Reset node's physics** |
 |-|-|-|-|-|-|-|
 | **Resets simulation time** | Yes | Yes | Yes | No | No | No |
 | **Removes nodes** | Yes | Yes | Yes | No | No | No |
