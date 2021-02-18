@@ -47,7 +47,7 @@ public:
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
   WbHingeJointParameters *hingeJointParameters2() const;
-  void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
+  void computeStartPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const;
 
   void setSolidStartPoint(WbSolid *solid);
   void setSolidStartPoint(WbSolidReference *solid);
@@ -79,11 +79,12 @@ protected:
   bool mSpringAndDampingConstantsAxis2On;
   double mInitialPosition2;
   void updatePosition(double position) override;
-  void updatePositions(double position, double position2);
+  void updatePosition2(double position);
   void updateEndPointZeroTranslationAndRotation() override;
   void updateStartPointZeroTranslationAndRotation();
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
+  void updateOdePositionOffset2();
   void writeExport(WbVrmlWriter &writer) const override;
   bool mIsStartPointPositionChangedByJoint;
   WbVector3 mStartPointZeroTranslation;
@@ -93,10 +94,12 @@ protected:
 protected slots:
   void updateParameters() override;
   void updatePosition() override;
-  void updateMinAndMaxStop(double min, double max) override;
+  void updatePosition2();
   void updateJointAxisRepresentation() override;
   void updateAxis() override;
+  void updateAxis2();
   void updateAnchor() override;
+  void updateAnchor2();
 
 private:
   enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
@@ -112,7 +115,8 @@ private:
   void updateBacklash();
   void updateMultiplier();
   void applyToOdeAxis() override;
-  void applyToOdeMinAndMaxStop() override;
+  void applyToOdeAxis2();
+  void applyToOdeAnchor2();
 
 private slots:
   void updateStartPointPosition();
