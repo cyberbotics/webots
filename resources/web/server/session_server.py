@@ -322,7 +322,6 @@ def main():
     tornado_access_log.setLevel(logging.WARNING)
 
     simulation_server_loads = [0] * len(config['simulationServers'])
-    config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     if 'administrator' in config:
         if 'mailServer' not in config:
             logging.info("No mail server defined in configuration, disabling e-mail notifications to " +
@@ -336,9 +335,6 @@ def main():
     handlers.append((r'/session', SessionHandler))
     handlers.append((r'/', ClientWebSocketHandler))
     handlers.append((r'/monitor', MonitorHandler))
-    handlers.append((r'/(.*)', tornado.web.StaticFileHandler,
-                    {'path': config['WEBOTS_HOME'] + '/resources/web/server/www',
-                     'default_filename': 'index.html'}))
     application = tornado.web.Application(handlers)
     if 'server' not in config:
         config['server'] = 'localhost'
