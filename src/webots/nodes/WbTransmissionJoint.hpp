@@ -45,6 +45,9 @@ public:
   WbVector3 axis2() const;
   WbVector3 anchor2() const;
 
+  void prePhysicsStep(double ms) override;
+  void postPhysicsStep() override;
+
   WbHingeJointParameters *hingeJointParameters() const;
   WbHingeJointParameters *hingeJointParameters2() const;
 
@@ -65,9 +68,12 @@ protected:
 
   void setupTransmission();
   void updatePosition(double position) override;
+  void updatePosition2(double position);
 
   void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
+
+  WbRotationalMotor *rotationalMotor() const;
 
   void setOdeJoint(dBodyID body, dBodyID parentBody) override;
 
@@ -82,8 +88,9 @@ protected slots:
   void updateAnchor();
   void updateAnchor2();
 
+  void updateJointAxisRepresentation() override;
+
 private:
-  // enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
   int mTransmissionMode;
   dJointID mTransmission;
 

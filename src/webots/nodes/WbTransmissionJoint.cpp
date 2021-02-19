@@ -24,7 +24,11 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
-#include <cassert>
+#include <wren/config.h>
+#include <wren/node.h>
+#include <wren/renderable.h>
+#include <wren/static_mesh.h>
+#include <wren/transform.h>
 
 // Constructors
 
@@ -84,12 +88,91 @@ void WbTransmissionJoint::postFinalize() {
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
 }
 
+void WbTransmissionJoint::prePhysicsStep(double ms) {
+  // endPoint
+  assert(solidEndPoint());
+  WbRotationalMotor *const rm = rotationalMotor();
+  WbJointParameters *const p = parameters();
+  if (isEnabled()) {
+    if (rm && rm->userControl()) {
+      // user-defined torque
+      const double torque = rm->rawInput();
+      dJointAddHingeTorque(mJoint, torque);
+      if (rm->hasMuscles())
+        // force is directly applied to the bodies and not included in joint motor feedback
+        emit updateMuscleStretch(torque / rm->maxForceOrTorque(), false, 1);
+    } else {
+      // ODE motor torque (user velocity/position control)
+      const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
+      const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
+      const double s = upperTransform()->absoluteScale().x();
+      double s4 = s * s;
+      s4 *= s4;
+      dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);
+      dJointSetHingeParam(mJoint, dParamVel, currentVelocity);
+    }
+  } else if (rm && rm->runKinematicControl(ms, mPosition)) {  // kinematic mode
+    if (p)
+      p->setPosition(mPosition);
+    else
+      updatePosition(mPosition);
+    if (rm->hasMuscles()) {
+      double velocityPercentage = rm->currentVelocity() / rm->maxVelocity();
+      if (rm->kinematicVelocitySign() == -1)
+        velocityPercentage = -velocityPercentage;
+      emit updateMuscleStretch(velocityPercentage, true, 1);
+    }
+  }
+  mTimeStep = ms;
+}
+
+void WbTransmissionJoint::postPhysicsStep() {
+  // endPoint
+  assert(mJoint);
+  WbRotationalMotor *const rm = rotationalMotor();
+  if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
+    double angle = dJointGetHingeAngle(mJoint);
+    mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
+  } else {
+    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
+    // under-estimated)
+    double angleRate = dJointGetHingeAngleRate(mJoint);
+    mPosition -= angleRate * mTimeStep / 1000.0;
+  }
+  WbJointParameters *const p = parameters();
+  if (p)
+    p->setPositionFromOde(mPosition);
+
+  if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
+    // dynamic position or velocity control
+    emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
+  // transmission
+  /* // only needed for drawing th contact point
+  dVector3 c_1, c_2, a_1, a_2;
+  dJointGetTransmissionContactPoint1(mTransmission, c_1);
+  dJointGetTransmissionContactPoint2(mTransmission, c_2);
+  dJointGetTransmissionAnchor1(mTransmission, a_1);
+  dJointGetTransmissionAnchor2(mTransmission, a_2);
+  */
+}
+
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters() const {
   return dynamic_cast<WbHingeJointParameters *>(mParameters->value());
 }
 
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters2() const {
   return dynamic_cast<WbHingeJointParameters *>(mParameters2->value());
+}
+
+WbRotationalMotor *WbTransmissionJoint::rotationalMotor() const {
+  WbRotationalMotor *motor = NULL;
+  for (int i = 0; i < mDevice->size(); ++i) {
+    motor = dynamic_cast<WbRotationalMotor *>(mDevice->item(i));
+    if (motor)
+      return motor;
+  }
+
+  return NULL;
 }
 
 WbVector3 WbTransmissionJoint::anchor() const {
@@ -164,7 +247,13 @@ void WbTransmissionJoint::applyToOdeAnchor() {
 }
 
 void WbTransmissionJoint::applyToOdeAnchor2() {
-  // TODO
+  assert(mJoint2);
+
+  updateOdePositionOffset();
+
+  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbVector3 &t = m4 * anchor2();
+  dJointSetHingeAnchor(mJoint2, t.x(), t.y(), t.z());
 }
 
 void WbTransmissionJoint::updateAxis() {
@@ -251,8 +340,6 @@ void WbTransmissionJoint::updateParameters() {
   printf("updateParameters\n");
   const WbHingeJointParameters *const p = hingeJointParameters();
   if (p) {
-    mOdePositionOffset = p->position();
-    mPosition = mOdePositionOffset;
     connect(p, SIGNAL(positionChanged()), this, SLOT(updatePosition()), Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
@@ -263,8 +350,6 @@ void WbTransmissionJoint::updateParameters2() {
   printf("updateParameters2\n");
   const WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2) {
-    mOdePositionOffset = p2->position();
-    mPosition2 = mOdePositionOffset2;
     connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition2()), Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
@@ -301,6 +386,10 @@ void WbTransmissionJoint::updatePosition(double position) {
     s->resetPhysics();
     mIsEndPointPositionChangedByJoint = false;
   }
+}
+
+void WbTransmissionJoint::updatePosition2(double position) {
+  // TODO
 }
 
 void WbTransmissionJoint::updateEndPointZeroTranslationAndRotation() {
@@ -427,6 +516,40 @@ void WbTransmissionJoint::setupTransmission() {
     dJointSetTransmissionAxis1(mTransmission, ax1.x(), ax1.y(), ax1.z());
     dJointSetTransmissionAxis2(mTransmission, ax2.x(), ax2.y(), ax2.z());
   }
+}
+
+void WbTransmissionJoint::updateJointAxisRepresentation() {
+  if (!areWrenObjectsInitialized())
+    return;
+
+  wr_static_mesh_delete(mMesh);
+
+  float vertices[12];
+  const double scaling = 0.5f * wr_config_get_line_scale();
+  const WbVector3 &anchorVector = anchor();
+  const WbVector3 &axisVector = scaling * axis();
+  const WbVector3 &anchorVector2 = anchor2();
+  const WbVector3 &axisVector2 = scaling * axis2();
+
+  printf("%f %f %f\n", anchorVector[0], anchorVector[1], anchorVector[2]);
+  printf("%f %f %f\n", anchorVector2[0], anchorVector2[1], anchorVector2[2]);
+
+  // joint on endPoint side
+  WbVector3 vertex(anchorVector - axisVector);
+  vertex.toFloatArray(vertices);
+
+  vertex = anchorVector + axisVector;
+  vertex.toFloatArray(vertices + 3);
+
+  // joint on startPoint side
+  vertex = anchorVector2 - axisVector2;
+  vertex.toFloatArray(vertices + 6);
+
+  vertex = anchorVector2 + axisVector2;
+  vertex.toFloatArray(vertices + 9);
+
+  mMesh = wr_static_mesh_line_set_new(4, vertices, NULL);
+  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
 void WbTransmissionJoint::applyToOdeMinAndMaxStop() {
