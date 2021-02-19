@@ -26,7 +26,7 @@ import {WbWrenBloom} from './../wren/wbWrenBloom.js';
 import {WbWrenSmaa} from './../wren/wbWrenSmaa.js';
 
 class WbViewpoint extends WbBaseNode {
-  constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
+  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
     super(id);
     this.orientation = orientation;
     this.position = position;
@@ -36,7 +36,7 @@ class WbViewpoint extends WbBaseNode {
     this.near = zNear;
     this.far = far;
     this.aspectRatio = canvas.width / canvas.height;// 800/600;
-    this.fieldOfView = M_PI_4;
+    this.fieldOfView = fieldOfView;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
     this.ambientOcclusionRadius = ambientOcclusionRadius;

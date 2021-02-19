@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import {M_PI_4} from './nodes/wbConstants.js';
 import {WbAbstractAppearance} from './nodes/wbAbstractAppearance.js';
 import {WbAppearance} from './nodes/wbAppearance.js';
 import {WbBackground} from './nodes/wbBackground.js';
@@ -233,6 +234,7 @@ class Parser {
 
   parseViewpoint(node) {
     const id = getNodeAttribute(node, 'id');
+    const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
@@ -243,7 +245,7 @@ class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
+    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
   }
 
   async parseBackground(node) {
