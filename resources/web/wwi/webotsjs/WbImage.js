@@ -18,8 +18,8 @@ class WbImage {
     this.bits = undefined;
     this.width = 0;
     this.height = 0;
-    this.isTranslucent;
+    this.isTranslucent = false;
   }
 }
 
-export {WbImage}
+export {WbImage};

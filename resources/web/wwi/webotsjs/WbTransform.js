@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Parser} from "./../parser.js"
-import {WbGroup} from "./WbGroup.js"
-import {World} from "./World.js";
+import {Parser} from './../parser.js';
+import {WbGroup} from './WbGroup.js';
+import {World} from './World.js';
 
-//Is also used to represent a solid
+// Is also used to represent a solid
 class WbTransform extends WbGroup {
   constructor(id, isSolid, translation, scale, rotation) {
     super(id);
@@ -29,14 +29,12 @@ class WbTransform extends WbGroup {
     this.boundingObject = undefined;
   }
 
-  delete(isBoundingObject){
-    if (this.wrenObjectsCreatedCalled){
+  delete(isBoundingObject) {
+    if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenNode);
-    }
 
-    if(typeof this.boundingObject !== 'undefined'){
-      this.boundingObject.delete(true)
-    }
+    if (typeof this.boundingObject !== 'undefined')
+      this.boundingObject.delete(true);
 
     super.delete(isBoundingObject);
   }
@@ -48,11 +46,11 @@ class WbTransform extends WbGroup {
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
     this.children.forEach(child => {
-      child.createWrenObjects()
+      child.createWrenObjects();
     });
 
-    if(typeof this.boundingObject !== 'undefined')
-      this.boundingObject.createWrenObjects()
+    if (typeof this.boundingObject !== 'undefined')
+      this.boundingObject.createWrenObjects();
 
     this.applyTranslationToWren();
     this.applyRotationToWren();
@@ -77,38 +75,38 @@ class WbTransform extends WbGroup {
   updateBoundingObjectVisibility() {
     super.updateBoundingObjectVisibility();
 
-    if(typeof this.boundingObject !== 'undefined')
+    if (typeof this.boundingObject !== 'undefined')
       this.boundingObject.updateBoundingObjectVisibility();
   }
 
   preFinalize() {
     super.preFinalize();
 
-    if(typeof this.boundingObject !== 'undefined')
-      this.boundingObject.preFinalize()
+    if (typeof this.boundingObject !== 'undefined')
+      this.boundingObject.preFinalize();
   }
 
   postFinalize() {
     super.postFinalize();
 
-    if(typeof this.boundingObject !== 'undefined')
-      this.boundingObject.postFinalize()
+    if (typeof this.boundingObject !== 'undefined')
+      this.boundingObject.postFinalize();
   }
 
   async clone(customID) {
-    let transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation)
+    let transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
 
     let length = this.children.length;
-    for(let i = 0; i < length; i++) {
-      let cloned = await this.children[i].clone("n" + Parser.undefinedID++)
+    for (let i = 0; i < length; i++) {
+      let cloned = await this.children[i].clone('n' + Parser.undefinedID++);
       cloned.parent = customID;
       World.instance.nodes.set(cloned.id, cloned);
-      transform.children.push(cloned)
+      transform.children.push(cloned);
     }
 
     this.useList.push(customID);
-    return transform
+    return transform;
   }
 }
 
-export {WbTransform}
+export {WbTransform};

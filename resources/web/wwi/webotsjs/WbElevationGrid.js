@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
-import {arrayXPointerFloat} from "./WbUtils.js"
+import {WbGeometry} from './WbGeometry.js';
+import {arrayXPointerFloat} from './WbUtils.js';
 
 class WbElevationGrid extends WbGeometry {
   constructor(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness) {
@@ -48,13 +48,12 @@ class WbElevationGrid extends WbGeometry {
     if (this.xDimension < 2 || this.zDimension < 2)
       return;
 
-    if (this.xSpacing == 0.0 || this.zSpacing == 0.0)
+    if (this.xSpacing === 0.0 || this.zSpacing === 0.0)
       return;
 
     super.computeWrenRenderable();
 
-
-    //Restore pickable state
+    // Restore pickable state
     this.setPickable(this.pickable);
 
     // convert height values to float, pad with zeroes if necessary
@@ -107,7 +106,7 @@ class WbElevationGrid extends WbGeometry {
   }
 
   isAValidBoundingObject() {
-    return thisisSuitableForInsertionInBoundingObject() && super.isAValidBoundingObject();
+    return this.isSuitableForInsertionInBoundingObject() && super.isAValidBoundingObject();
   }
 
   clone(customID) {
@@ -116,4 +115,4 @@ class WbElevationGrid extends WbGeometry {
   }
 }
 
-export {WbElevationGrid}
+export {WbElevationGrid};

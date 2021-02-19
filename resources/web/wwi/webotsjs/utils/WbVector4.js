@@ -13,7 +13,7 @@
 // limitations under the License.
 
 class WbVector4 {
-  constructor(x, y, z, w){
+  constructor(x, y, z, w) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -24,4 +24,5 @@ class WbVector4 {
     return new WbVector4(this.x / number, this.y / number, this.z / number, this.w / number);
   }
 }
-export {WbVector4}
+
+export {WbVector4};

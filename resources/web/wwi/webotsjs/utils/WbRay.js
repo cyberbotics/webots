@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {WbVector3} from './WbVector3.js';
+
 class WbRay {
-  constructor (origin, direction) {
+  constructor(origin, direction) {
     this.origin = origin;
     this.direction = direction;
   }
@@ -24,7 +26,7 @@ class WbRay {
     bounds[1] = maxBound;
     let invDirection = new WbVector3(1.0 / this.direction.x, 1.0 / this.direction.y, 1.0 / this.direction.z);
 
-    let sign[];
+    let sign = [];
     sign[0] = (invDirection.x < 0);
     sign[1] = (invDirection.y < 0);
     sign[2] = (invDirection.z < 0);
@@ -32,8 +34,8 @@ class WbRay {
     let tymin, tymax, tzmin, tzmax;
     tMin = (bounds[sign[0]].x - this.origin.x) * invDirection.x;
     tMax = (bounds[1 - sign[0]].x - this.origin.x) * invDirection.x;
-    tymin = (bounds[sign[1]].y - mOrigin.y) * invDirection.y;
-    tymax = (bounds[1 - sign[1]].y - mOrigin.y) * invDirection.y;
+    tymin = (bounds[sign[1]].y - this.origin.y) * invDirection.y;
+    tymax = (bounds[1 - sign[1]].y - this.origin.y) * invDirection.y;
 
     if ((tMin > tymax) || (tymin > tMax))
       return [false, 0];
@@ -43,7 +45,7 @@ class WbRay {
       tMax = tymax;
 
     tzmin = (bounds[sign[2]].z - this.origin.z) * invDirection.z;
-    tzmax = (bounds[1 - sign[2]].z - mOrigin.z) * invDirection.z;
+    tzmax = (bounds[1 - sign[2]].z - this.origin.z) * invDirection.z;
 
     if ((tMin > tzmax) || (tzmin > tMax))
       return [false, 0];
@@ -59,4 +61,4 @@ class WbRay {
   }
 }
 
-export {WbRay}
+export {WbRay};

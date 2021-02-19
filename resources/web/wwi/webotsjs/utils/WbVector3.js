@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import{M_PI} from "./../WbConstants.js"
+import {M_PI} from './../WbConstants.js';
 
 class WbVector3 {
-  constructor(x = 0.0, y = 0.0, z = 0.0){
+  constructor(x = 0.0, y = 0.0, z = 0.0) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
-  add(vec){
+  add(vec) {
     return new WbVector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
   }
 
   sub(vec) {
-    return new WbVector3(this.x - vec.x, this.y - vec.y, this.z -  vec.z);
+    return new WbVector3(this.x - vec.x, this.y - vec.y, this.z - vec.z);
   }
 
   mul(number) {
@@ -61,7 +61,7 @@ class WbVector3 {
   }
 
   length() {
-     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
   length2() {
@@ -70,25 +70,24 @@ class WbVector3 {
 
   // dot product
   dot(v) {
-     return this.x * v.x + this.y * v.y + this.z * v.z;
-   }
+    return this.x * v.x + this.y * v.y + this.z * v.z;
+  }
 
-   // null test
+  // null test
   isNull() {
-    return this.x == 0.0 && this.y == 0.0 && this.z == 0.0;
+    return this.x === 0.0 && this.y === 0.0 && this.z === 0.0;
   }
 
   // angle between two vectors (in radians)
   angle(v) {
     let s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
-    assert(Math.abs(s) < 1.0000000001);
     return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : Math.acos(s);
   }
 
   get(index) {
-    if(index === 0)
+    if (index === 0)
       return this.x;
-    else if(index === 1)
+    else if (index === 1)
       return this.y;
     else if (index === 2)
       return this.z;
@@ -100,4 +99,5 @@ class WbVector3 {
     this.z = z;
   }
 }
-export {WbVector3}
+
+export {WbVector3};

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
+import {WbGeometry} from './WbGeometry.js';
 
 class WbCone extends WbGeometry {
   constructor(id, bottomRadius, height, subdivision, side, bottom) {
@@ -26,7 +26,7 @@ class WbCone extends WbGeometry {
     this.wrenMesh = undefined;
   }
 
-  delete(){
+  delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
@@ -36,11 +36,11 @@ class WbCone extends WbGeometry {
     super.createWrenObjects();
 
     if (!this.bottom && !this.side)
-        return;
+      return;
 
     this.computeWrenRenderable();
 
-    this.wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side , this.bottom);
+    this.wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side, this.bottom);
 
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
@@ -48,10 +48,10 @@ class WbCone extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  clone(customID){
+  clone(customID) {
     this.useList.push(customID);
-    return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom)
+    return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom);
   }
 }
 
-export {WbCone}
+export {WbCone};

@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
-import {arrayXPointerFloat} from "./WbUtils.js"
+import {WbGeometry} from './WbGeometry.js';
+import {arrayXPointerFloat} from './WbUtils.js';
 
 class WbIndexedLineSet extends WbGeometry {
-  constructor(id, coord, coordIndex){
+  constructor(id, coord, coordIndex) {
     super(id);
     this.coord = coord;
     this.coordIndex = coordIndex;
@@ -25,7 +25,7 @@ class WbIndexedLineSet extends WbGeometry {
     this.isShadedGeometryPickable = false;
   }
 
-  delete(){
+  delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
@@ -88,7 +88,7 @@ class WbIndexedLineSet extends WbGeometry {
 
     for (let i = 0; i < this.coordIndex.length - 1; i++) {
       let j = i + 1;
-      if (this.coordIndex[i] >= 0 && this.coordIndex[j] >= 0 && this.coordIndex[i] < size && this.coordIndex[j]  < size) {
+      if (this.coordIndex[i] >= 0 && this.coordIndex[j] >= 0 && this.coordIndex[i] < size && this.coordIndex[j] < size) {
         let v = this.coord[this.coordIndex[i] ];
         data[3 * count] = v.x;
         data[3 * count + 1] = v.y;
@@ -100,7 +100,7 @@ class WbIndexedLineSet extends WbGeometry {
         data[3 * count + 1] = v.y;
         data[3 * count + 2] = v.z;
         ++count;
-      } else{
+      } else {
         if (this.coordIndex[i] < -1 || this.coordIndex[i] >= size)
           invalidIndices.push(this.coordIndex[i]);
         if (this.coordIndex[j] < -1 || this.coordIndex[j] >= size)
@@ -134,4 +134,4 @@ class WbIndexedLineSet extends WbGeometry {
   }
 }
 
-export {WbIndexedLineSet}
+export {WbIndexedLineSet};

@@ -12,36 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
-import {World} from "./World.js"
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
 
 class WbAbstractAppearance extends WbBaseNode {
-  constructor(id, transform){
+  constructor(id, transform) {
     super(id);
     this.textureTransform = transform;
   }
 
   delete() {
-    if(typeof this.parent !== 'undefined'){
+    if (typeof this.parent !== 'undefined') {
       let parent = World.instance.nodes.get(this.parent);
-      if(typeof parent !== 'undefined'){
+      if (typeof parent !== 'undefined') {
         parent.appearance = undefined;
         parent.wrenMaterial = undefined;
         parent.updateAppearance();
       }
     }
 
-    if(typeof this.textureTransform !== 'undefined')
+    if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.delete();
 
     super.delete();
   }
 
-  createWrenObjects(){
+  createWrenObjects() {
     super.createWrenObjects();
-    if(typeof this.textureTransform !== 'undefined') {
+    if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.createWrenObjects();
-    }
   }
 
   preFinalize() {
@@ -58,4 +57,4 @@ class WbAbstractAppearance extends WbBaseNode {
   }
 }
 
-export {WbAbstractAppearance}
+export {WbAbstractAppearance};

@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
-import {WbWrenShaders} from "./WbWrenShaders.js"
-import {arrayXPointerFloat} from "./WbUtils.js"
+import {WbGeometry} from './WbGeometry.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
+import {arrayXPointerFloat} from './WbUtils.js';
 
 class WbPointSet extends WbGeometry {
-  constructor(id, coord, color){
+  constructor(id, coord, color) {
     super(id);
     this.coord = coord;
     this.color = color;
@@ -55,12 +55,12 @@ class WbPointSet extends WbGeometry {
       return false;
     }
 
-    if (typeof this.color !== 'undefined' && this.color.length != this.coord.length) {
+    if (typeof this.color !== 'undefined' && this.color.length !== this.coord.length) {
       console.warn("If a 'Color' node is present in the 'color' field, it should have the same number of component as the 'Coordinate' node in the 'coord' field.");
       if (this.color.length === 0)
         return false;
       else
-        console.warn("Only the first " + Math.min(this.color.length, this.coord.length) + " points will be drawn.");
+        console.warn('Only the first ' + Math.min(this.color.length, this.coord.length) + ' points will be drawn.');
     }
 
     return true;
@@ -89,8 +89,8 @@ class WbPointSet extends WbGeometry {
     super.computeWrenRenderable();
 
     let coordsData = [];
-    let colorData = undefined
-    if(typeof this.color !== 'undefined');
+    let colorData;
+    if (typeof this.color !== 'undefined')
       colorData = [];
 
     let coordsCount = this.computeCoordsAndColorData(coordsData, colorData);
@@ -116,7 +116,7 @@ class WbPointSet extends WbGeometry {
     let count = 0;
     if (typeof colorData !== 'undefined') {
       let size = Math.min(this.coord.length, this.color.length);
-      for(let i = 0; i < size; i++){
+      for (let i = 0; i < size; i++) {
         coordsData[3 * count] = this.coord[i].x;
         coordsData[3 * count + 1] = this.coord[i].y;
         coordsData[3 * count + 2] = this.coord[i].z;
@@ -126,7 +126,7 @@ class WbPointSet extends WbGeometry {
         count++;
       }
     } else {
-      for(let i = 0; i < this.coord.length; i++){
+      for (let i = 0; i < this.coord.length; i++) {
         coordsData[3 * count] = this.coord[i].x;
         coordsData[3 * count + 1] = this.coord[i].y;
         coordsData[3 * count + 2] = this.coord[i].z;
@@ -142,4 +142,4 @@ class WbPointSet extends WbGeometry {
   }
 }
 
-export {WbPointSet}
+export {WbPointSet};

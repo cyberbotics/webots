@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js";
-import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
-import {WbWrenShaders} from "./WbWrenShaders.js";
-import {pointerOnFloat} from "./WbUtils.js";
+import {WbWrenAbstractPostProcessingEffect} from './WbWrenAbstractPostProcessingEffect.js';
+import {WbWrenPostProcessingEffects} from './WbWrenPostProcessingEffects.js';
+import {pointerOnFloat} from './WbUtils.js';
 
 class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
-  constructor(){
+  constructor() {
     super();
     this.threshold = 10.0;
     this.thresholdPointer = undefined;
@@ -54,20 +53,20 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     this.hasBeenSetup = true;
   }
 
-  setThreshold(threshold){
+  setThreshold(threshold) {
     this.threshold = threshold;
 
-    this.applyParametersToWren()
+    this.applyParametersToWren();
   }
 
   applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-    let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, "brightPassFilter"]);
+    let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'brightPassFilter']);
     _free(this.thresholdPointer);
     this.thresholdPointer = pointerOnFloat(this.threshold);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, "threshold", this.thresholdPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, 'threshold', this.thresholdPointer]);
   }
 }
 
-export {WbWrenBloom}
+export {WbWrenBloom};

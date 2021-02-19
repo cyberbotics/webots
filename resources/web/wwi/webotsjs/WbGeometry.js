@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
-import {WbWrenShaders} from "./WbWrenShaders.js"
-import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js"
-import {World} from "./World.js";
-import {WbWrenPicker} from "./WbWrenPicker.js"
-import {Selector} from "./Selector.js"
-import {WbWrenRenderingContext} from "./WbWrenRenderingContext.js"
+import {WbBaseNode} from './WbBaseNode.js';
+import {WbWrenMeshBuffers} from './utils/WbWrenMeshBuffers.js';
+import {World} from './World.js';
+import {WbWrenPicker} from './WbWrenPicker.js';
+import {Selector} from './Selector.js';
+import {WbWrenRenderingContext} from './WbWrenRenderingContext.js';
 
 class WbGeometry extends WbBaseNode {
   constructor(id) {
@@ -33,17 +32,17 @@ class WbGeometry extends WbBaseNode {
     this.LINE_SCALE_FACTOR = 250.0;
   }
 
-  delete(){
-    if(typeof this.parent !== 'undefined'){
+  delete() {
+    if (typeof this.parent !== 'undefined') {
       let parent = World.instance.nodes.get(this.parent);
-      if(typeof parent !== 'undefined')
+      if (typeof parent !== 'undefined')
         parent.geometry = undefined;
     }
 
     if (this.wrenObjectsCreatedCalled)
       this.deleteWrenRenderable();
 
-    super.delete()
+    super.delete();
   }
 
   setPickable(pickable) {
@@ -107,8 +106,8 @@ class WbGeometry extends WbBaseNode {
   deleteWrenRenderable() {
     if (typeof this.wrenRenderable !== 'undefined') {
       // Delete picking material
-      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "picking"]));
-      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, "depth"]));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, 'picking']));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, 'depth']));
 
       _wr_node_delete(this.wrenRenderable);
       this.wrenRenderable = undefined;
@@ -142,14 +141,14 @@ class WbGeometry extends WbBaseNode {
       return false;
 
     let ut = super.upperTransform();
-    if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry!== this)
+    if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry !== this)
       return false;
 
     return true;
   }
 
   isSelected() {
-    if(Selector.selectedId === this.id)
+    if (Selector.selectedId === this.id)
       return true;
     else if (typeof this.parent !== 'undefined')
       return Selector.checkIfParentisSelected(this);
@@ -157,4 +156,4 @@ class WbGeometry extends WbBaseNode {
   }
 }
 
-export {WbGeometry}
+export {WbGeometry};

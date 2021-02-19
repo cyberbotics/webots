@@ -1,11 +1,10 @@
-import {WbVector3} from "./utils/WbVector3.js";
-import {arrayXPointerInt, arrayXPointerFloat} from "./WbUtils.js"
-import {WbWrenShaders} from "./WbWrenShaders.js";
-import {World} from "./World.js"
+import {WbVector3} from './utils/WbVector3.js';
+import {arrayXPointerInt, arrayXPointerFloat} from './WbUtils.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
 
 class WbWrenPicker {
   constructor() {
-    this.selectedId = -1
+    this.selectedId = -1;
     this.coordinates = new WbVector3();
     this.width = 0;
     this.height = 0;
@@ -47,7 +46,7 @@ class WbWrenPicker {
     _wr_viewport_set_frame_buffer(this.viewport, this.frameBuffer);
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
 
-    //DEPTH
+    // DEPTH
     _wr_viewport_set_size(this.viewportDepth, this.width, this.height);
 
     this.frameBufferDepth = _wr_frame_buffer_new();
@@ -72,25 +71,25 @@ class WbWrenPicker {
   static setPickable(renderable, uniqueId, pickable) {
     uniqueId = parseFloat(uniqueId.substring(1));
 
-    let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "picking"])
+    let material = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']);
 
     if (!material) {
       material = _wr_phong_material_new();
       _wr_material_set_default_program(material, WbWrenShaders.pickingShader());
 
-      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, "picking"])
+      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, material, 'picking']);
     }
 
-    let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, "depth"])
+    let depthMaterial = Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'depth']);
 
     if (!depthMaterial) {
       depthMaterial = _wr_phong_material_new();
       _wr_material_set_default_program(depthMaterial, WbWrenShaders.depthPixelShader());
 
-      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, "depth"])
+      Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, 'depth']);
     }
 
-    let encodedId = [0,0,0,0,0,0];
+    let encodedId = [0, 0, 0, 0, 0, 0];
 
     if (pickable) {
       // ID is incremented since a 0 value would mean that no object was picked
@@ -98,7 +97,7 @@ class WbWrenPicker {
       let id = uniqueId + 1;
 
       for (let i = 4; i >= 0; --i) {
-        if (i == 2)
+        if (i === 2)
           continue;
 
         encodedId[i] = (id & 0x000000FF) / 255.0;
@@ -107,7 +106,7 @@ class WbWrenPicker {
     }
 
     let encodedIdPointer = arrayXPointerFloat(encodedId);
-    let encodedIdPointerSecondHalf = arrayXPointerFloat([encodedId[3], encodedId[4], encodedId[5]])
+    let encodedIdPointerSecondHalf = arrayXPointerFloat([encodedId[3], encodedId[4], encodedId[5]]);
     _wr_phong_material_set_linear_ambient(material, encodedIdPointer);
     _wr_phong_material_set_linear_diffuse(material, encodedIdPointerSecondHalf);
     _free(encodedIdPointer);
@@ -119,14 +118,13 @@ class WbWrenPicker {
     const width = _wr_viewport_get_width(viewport);
     const height = _wr_viewport_get_height(viewport);
 
-    if (this.width != width || this.height != height) {
+    if (this.width !== width || this.height !== height) {
       this.width = width;
       this.height = height;
       return true;
     }
     return false;
   }
-
 
   pick(x, y) {
     let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
@@ -147,12 +145,12 @@ class WbWrenPicker {
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this.viewport), "picking", true])
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this.viewport), 'picking', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this.viewport, true);
     _wr_scene_enable_translucence(scene, true);
 
-    let data = [0,0,0,0];
+    let data = [];
     let dataPointer = arrayXPointerInt(data);
     _wr_frame_buffer_copy_pixel(this.frameBuffer, 0, x, y, dataPointer, true);
     data[0] = Module.getValue(dataPointer, 'i8');
@@ -169,21 +167,20 @@ class WbWrenPicker {
 
     let id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
     console.log(id);
-    if (id === 0){
+    if (id === 0)
       return false;
-    }
     else
       this.selectedId = id - 1;
-      
+
     _wr_viewport_enable_skybox(this.viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this.viewportDepth), "depth", true])
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this.viewportDepth), 'depth', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this.viewportDepth, true);
     _wr_scene_enable_translucence(scene, true);
 
-    data = [0,0,0,0];
+    data = [0, 0, 0, 0];
     dataPointer = arrayXPointerFloat(data);
     _wr_frame_buffer_copy_depth_pixel(this.frameBufferDepth, x, y, dataPointer, true);
 
@@ -195,4 +192,4 @@ class WbWrenPicker {
   }
 }
 
-export {WbWrenPicker}
+export {WbWrenPicker};

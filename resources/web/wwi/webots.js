@@ -1,18 +1,18 @@
-import {SystemInfo} from "./system_info.js";
-import {ContextMenu} from "./context_menu.js";
-import {X3dScene} from "./x3d_scene.js";
-import {MouseEvents} from "./mouse_events.js";
-import {Editor} from "./editor.js";
-import {DefaultUrl} from "./default_url.js";
-import {Toolbar} from "./toolbar.js";
-import {Selector} from "./webotsjs/Selector.js"
-import {Stream} from "./stream.js";
-import {DialogWindow} from "./dialog_window.js";
-import {Animation} from "./animation.js"
-import {MultimediaClient} from "./multimedia_client.js"
-import {RobotWindow} from "./robot_window.js"
-import {WbVector3} from "./webotsjs/utils/WbVector3.js";
-
+import {SystemInfo} from './system_info.js';
+import {ContextMenu} from './context_menu.js';
+import {X3dScene} from './x3d_scene.js';
+import {MouseEvents} from './mouse_events.js';
+import {Editor} from './editor.js';
+import {DefaultUrl} from './default_url.js';
+import {Toolbar} from './toolbar.js';
+import {Selector} from './webotsjs/Selector.js';
+import {Stream} from './stream.js';
+import {DialogWindow} from './dialog_window.js';
+import {Animation} from './animation.js';
+import {MultimediaClient} from './multimedia_client.js';
+import {RobotWindow} from './robot_window.js';
+import {Server} from './server.js';
+import {WbVector3} from './webotsjs/utils/WbVector3.js';
 
 /*
  * Injects a Webots 3D view inside a HTML tag.
@@ -34,12 +34,6 @@ import {WbVector3} from "./webotsjs/utils/WbVector3.js";
  *       view = null;
  *   }
  */
-
-/* global webots */
-/* global Animation, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
-/* global Server, Stream, SystemInfo, Toolbar, MultimediaClient, X3dScene */
-/* global MathJax: false */
-/* eslint no-eval: "off" */
 
 /* The following member variables should be set by the application:
 
@@ -248,7 +242,7 @@ webots.View = class View {
             user = '';
           let worldInfoTitle;
           if (typeof this.x3dScene !== 'undefined')
-            worldInfoTitle = "Test";//this.x3dScene.worldInfo.title;
+            worldInfoTitle = 'Test';
           else
             worldInfoTitle = this.multimediaClient.worldInfo.title;
           win.setProperties({
@@ -356,7 +350,7 @@ webots.View = class View {
       let infoWindowName;
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
-        infoWindowName = "TestWindow";//this.x3dScene.worldInfo.window;
+        infoWindowName = 'TestWindow';
       } else if (this.multimediaClient) {
         windowsDict = this.multimediaClient.robotWindows;
         infoWindowName = this.multimediaClient.worldInfo.infoWindow;
@@ -442,9 +436,9 @@ webots.View = class View {
       };
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.getElementById('view3d');
-      if(this.x3dDiv === null || typeof this.x3dDiv === 'undefined') {
+      if (this.x3dDiv === null || typeof this.x3dDiv === 'undefined') {
         this.x3dDiv = document.createElement('div');
-        this.x3dDiv.id = "view3d";
+        this.x3dDiv.id = 'view3d';
         this.view3D.appendChild(this.x3dDiv);
       }
 
@@ -456,7 +450,7 @@ webots.View = class View {
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     }
-    if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined'){
+    if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, canvas, this.mobileDevice);
     }
@@ -583,8 +577,8 @@ webots.View = class View {
     this.removeLabels();
     this.onrobotwindowsdestroy();
 
-    if(typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
-      this.mouseEvents.picker.selectedId = -1
+    if (typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
+      this.mouseEvents.picker.selectedId = -1;
       this.mouseEvents.picker.coordinates = new WbVector3();
       Selector.reset();
     }
@@ -701,4 +695,4 @@ webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
   return h + ':' + m + ':' + s + ':' + ms;
 };
 
-export {webots}
+export {webots};

@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js";
-import {World} from "./World.js"
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
 
-import {array3Pointer} from "./WbUtils.js";
-import {WbVector3} from "./utils/WbVector3.js";
+import {array3Pointer} from './WbUtils.js';
+import {WbVector3} from './utils/WbVector3.js';
 
 class WbMaterial extends WbBaseNode {
   constructor(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency) {
@@ -29,7 +29,7 @@ class WbMaterial extends WbBaseNode {
     this.transparency = transparency;
   }
 
-  delete(){
+  delete() {
     let parent = World.instance.nodes.get(this.parent);
 
     if (typeof parent !== 'undefined') {
@@ -39,7 +39,7 @@ class WbMaterial extends WbBaseNode {
         shape.updateAppearance();
       }
     }
-    super.delete()
+    super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial, textured) {
@@ -52,8 +52,8 @@ class WbMaterial extends WbBaseNode {
       specular = new WbVector3(1.0, 1.0, 1.0);
       shininess = 0.0;
     } else {
-      ambient = new WbVector3(this.ambientIntensity * this.diffuseColor.x,this.ambientIntensity * this.diffuseColor.y,
-                       this.ambientIntensity * this.diffuseColor.z);
+      ambient = new WbVector3(this.ambientIntensity * this.diffuseColor.x, this.ambientIntensity * this.diffuseColor.y,
+        this.ambientIntensity * this.diffuseColor.z);
       diffuse = new WbVector3(this.diffuseColor.x, this.diffuseColor.y, this.diffuseColor.z);
       specular = new WbVector3(this.specularColor.x, this.specularColor.y, this.specularColor.z);
       shininess = this.shininess;
@@ -74,8 +74,8 @@ class WbMaterial extends WbBaseNode {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency)
+    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency);
   }
 }
 
-export {WbMaterial}
+export {WbMaterial};

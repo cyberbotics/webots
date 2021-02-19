@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {World} from "./World.js"
-import {findUpperTransform, nodeIsInBoundingObject} from "./WbUtils.js"
+import {World} from './World.js';
+import {findUpperTransform, nodeIsInBoundingObject} from './WbUtils.js';
 
 class WbBaseNode {
-  constructor(id){
+  constructor(id) {
     this.id = id;
     this.parent = undefined;
     this.wrenNode = undefined;
@@ -34,9 +34,8 @@ class WbBaseNode {
     this.useList = [];
   }
 
-
-  delete(){
-    if(this.useList.length !== 0) {
+  delete() {
+    if (this.useList.length !== 0) {
       let newDef;
       let index = 0;
       while (typeof newDef === 'undefined' && index < this.useList.length) {
@@ -45,7 +44,7 @@ class WbBaseNode {
         index++;
       }
 
-      if (typeof newDef !== 'undefined'){
+      if (typeof newDef !== 'undefined') {
         newDef.useList = this.useList;
         console.log(newDef);
       }
@@ -57,11 +56,10 @@ class WbBaseNode {
   createWrenObjects() {
     this.wrenObjectsCreatedCalled = true;
 
-    if (typeof this.parent !== 'undefined') {
+    if (typeof this.parent !== 'undefined')
       this.wrenNode = World.instance.nodes.get(this.parent).wrenNode;
-    } else{
+    else
       this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
-    }
   }
 
   upperTransform() {
@@ -84,7 +82,6 @@ class WbBaseNode {
     return this.isInBoundingObject;
   }
 
-
   finalize() {
     if (!this.isPreFinalizeCalled)
       this.preFinalize();
@@ -105,4 +102,4 @@ class WbBaseNode {
   }
 }
 
-export{WbBaseNode}
+export {WbBaseNode};

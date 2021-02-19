@@ -11,10 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import {World} from "./World.js";
-import {WbWrenShaders} from "./WbWrenShaders.js";
-import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
-import {GTAO_LEVEL} from "./WbPreferences.js"
+
+import {World} from './World.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
+import {WbWrenPostProcessingEffects} from './WbWrenPostProcessingEffects.js';
+import {GTAO_LEVEL} from './WbPreferences.js';
 
 class WbScene {
   constructor(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -24,9 +25,9 @@ class WbScene {
     this.wrenNormalFrameBufferTexture = null;
     this.wrenDepthFrameBufferTexture = null;
 
-    //_wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
-    //To have the same display size as in webots
-    _wrjs_init_context(800, 600);
+    _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
+    // To have the same display size as in webots
+    // _wrjs_init_context(800, 600);
     _wr_scene_init(_wr_scene_get_instance());
 
     _wr_gl_state_set_context_active(true);
@@ -63,7 +64,7 @@ class WbScene {
 
     _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
-    if(GTAO_LEVEL < 1)
+    if (GTAO_LEVEL < 1)
       _wr_frame_buffer_append_output_texture_disable(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
     else
       _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
@@ -109,10 +110,7 @@ class WbScene {
     WbWrenShaders.deleteShaders();
 
     World.instance.scene = undefined;
-
-    //only if we want to quit entirely
-    //_wrjs_exit();
   }
 }
 
-export {WbScene}
+export {WbScene};

@@ -1,8 +1,7 @@
-import {webots} from "./../wwi/webots.js";
-import {DefaultUrl} from "./default_url.js";
-import {HelpWindow} from "./help_window.js";
-
-/* global webots, DialogWindow, HelpWindow, DefaultUrl */
+import {webots} from './../wwi/webots.js';
+import {DefaultUrl} from './default_url.js';
+import {DialogWindow} from './dialog_window.js';
+import {HelpWindow} from './help_window.js';
 
 class Toolbar { // eslint-disable-line no-unused-vars
   constructor(parent, view) {
@@ -10,8 +9,6 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
     this.domElement = document.createElement('div');
     this.domElement.id = 'toolBar';
-    //parent.insertAdjacentHTML('afterend', "<div id='toolBar'></div>");
-    //this.domElement = document.getElementById("toolBar");
 
     this.domElement.left = document.createElement('div');
     this.domElement.left.className = 'toolBarLeft';
@@ -335,4 +332,4 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 }
 
-export {Toolbar}
+export {Toolbar};

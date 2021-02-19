@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export {WbWrenAbstractPostProcessingEffect}
-
 class WbWrenAbstractPostProcessingEffect {
   constructor() {
     this.wrenPostProcessingEffect = undefined;
@@ -39,3 +37,5 @@ class WbWrenAbstractPostProcessingEffect {
     }
   }
 }
+
+export {WbWrenAbstractPostProcessingEffect};

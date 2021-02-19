@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbWrenAbstractPostProcessingEffect} from "./WbWrenAbstractPostProcessingEffect.js"
-import {WbWrenPostProcessingEffects} from "./WbWrenPostProcessingEffects.js";
+import {WbWrenAbstractPostProcessingEffect} from './WbWrenAbstractPostProcessingEffect.js';
+import {WbWrenPostProcessingEffects} from './WbWrenPostProcessingEffects.js';
 
 class WbWrenSmaa extends WbWrenAbstractPostProcessingEffect {
-  constructor() {
-    super();
-  }
-
   setup(viewport) {
     if (this.wrenPostProcessingEffect) {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
-      if (this.wrenViewport == viewport)
+      if (this.wrenViewport === viewport)
         _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
 
       _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
@@ -43,4 +39,4 @@ class WbWrenSmaa extends WbWrenAbstractPostProcessingEffect {
   }
 }
 
-export {WbWrenSmaa}
+export {WbWrenSmaa};

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbTriangleMeshGeometry} from "./WbTriangleMeshGeometry.js"
+import {WbTriangleMeshGeometry} from './WbTriangleMeshGeometry.js';
 
 class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   constructor(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, creaseAngle, ccw, normalPerVertex) {
@@ -38,8 +38,8 @@ class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbIndexedFaceSet(customID, this.isDefaultMapping, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.creaseAngle, this.ccw, this.normalPerVertex)
+    return new WbIndexedFaceSet(customID, this.isDefaultMapping, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.creaseAngle, this.ccw, this.normalPerVertex);
   }
 }
 
-export {WbIndexedFaceSet}
+export {WbIndexedFaceSet};

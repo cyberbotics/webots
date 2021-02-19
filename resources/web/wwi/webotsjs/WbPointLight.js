@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbLight} from "./WbLight.js"
-import {findUpperTransform} from "./WbUtils.js"
+import {WbLight} from './WbLight.js';
+import {findUpperTransform} from './WbUtils.js';
 
 class WbPointLight extends WbLight {
   constructor(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, parent) {
@@ -22,8 +22,8 @@ class WbPointLight extends WbLight {
     this.location = location;
     this.radius = radius;
 
-    this.wrenLight;
-    if(typeof parent !== 'undefined')
+    this.wrenLight = undefined;
+    if (typeof parent !== 'undefined')
       this.parent = parent.id;
   }
 
@@ -48,9 +48,8 @@ class WbPointLight extends WbLight {
   attachToUpperTransform() {
     let upperTransform = findUpperTransform(this);
 
-    if (typeof upperTransform !== 'undefined'){
+    if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
-    }
   }
 
   applyLightAttenuationToWren() {
@@ -78,7 +77,7 @@ class WbPointLight extends WbLight {
 
     const maxCount = _wr_config_get_max_active_point_light_count();
     const activeCount = _wr_scene_get_active_point_light_count(_wr_scene_get_instance());
-    if (activeCount == maxCount)
+    if (activeCount === maxCount)
       console.log("Maximum number of active point lights has been reached, newly added lights won't be rendered.");
   }
 
@@ -95,8 +94,8 @@ class WbPointLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows)
+    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 }
 
-export {WbPointLight}
+export {WbPointLight};

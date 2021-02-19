@@ -12,27 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {World} from "./World.js"
-import {getAncestor} from "./WbUtils.js"
-import {WbTransform} from "./WbTransform.js"
+import {World} from './World.js';
+import {getAncestor} from './WbUtils.js';
+import {WbTransform} from './WbTransform.js';
 
 class Selector {
   static select(id) {
     Selector.previousId = Selector.selectedId;
-    Selector.selectedId = "n-1"; //in case we select nothing
+    Selector.selectedId = 'n-1'; // in case we select nothing
 
-    let node = World.instance.nodes.get('n' + id)
-    if (typeof node === 'undefined'){
+    let node = World.instance.nodes.get('n' + id);
+    if (typeof node === 'undefined') {
       Selector.preciseId = 'n' + id;
-      Selector.previousAncestor = "n-1";
+      Selector.previousAncestor = 'n-1';
       return;
     }
 
     if (Selector.previousAncestor === getAncestor(node).id && (!Selector.local || Selector.preciseId !== 'n' + id)) {
       Selector.selectedId = Selector.firstSolidId(node);
       Selector.local = true;
-    }
-    else {
+    } else {
       Selector.selectedId = getAncestor(node).id;
       Selector.previousAncestor = Selector.selectedId;
       Selector.local = false;
@@ -55,7 +54,7 @@ class Selector {
 
   static firstSolidId(node) {
     if (typeof node !== 'undefined') {
-      if(node instanceof WbTransform && node.isSolid)
+      if (node instanceof WbTransform && node.isSolid)
         return node.id;
       else if (typeof node.parent !== 'undefined' && typeof World.instance.nodes.get(node.parent) !== 'undefined')
         return Selector.firstSolidId(World.instance.nodes.get(node.parent));
@@ -63,16 +62,16 @@ class Selector {
     return -1;
   }
 
-  static reset(){
-    Selector.selectedId = "n-1"
-    Selector.previousId = "n-1"
-    Selector.previousAncestor = "n-1"
+  static reset() {
+    Selector.selectedId = 'n-1';
+    Selector.previousId = 'n-1';
+    Selector.previousAncestor = 'n-1';
     Selector.local = false;
   }
 }
 
-Selector.selectedId = "n-1"
-Selector.previousId = "n-1"
-Selector.previousAncestor = "n-1"
+Selector.selectedId = 'n-1';
+Selector.previousId = 'n-1';
+Selector.previousAncestor = 'n-1';
 Selector.local = false;
-export {Selector}
+export {Selector};

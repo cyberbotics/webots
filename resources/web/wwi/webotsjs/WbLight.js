@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
-import {World} from "./World.js";
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
 
-import {WbVector3} from "./utils/WbVector3.js";
+import {WbVector3} from './utils/WbVector3.js';
 
 class WbLight extends WbBaseNode {
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
@@ -29,14 +29,14 @@ class WbLight extends WbBaseNode {
     this.castShadows = castShadows;
   }
 
-  delete(){
+  delete() {
     if (typeof this.parent === 'undefined') {
-      let index = World.instance.sceneTree.indexOf(this)
+      let index = World.instance.sceneTree.indexOf(this);
       World.instance.sceneTree.splice(index, 1);
     } else {
       let parent = World.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
-        let index = parent.children.indexOf(this)
+        let index = parent.children.indexOf(this);
         parent.children.splice(index, 1);
       }
     }
@@ -59,10 +59,10 @@ class WbLight extends WbBaseNode {
     this.applySceneAmbientColorToWren();
   }
 
-  applyLightColorToWren(){}
-  applyLightIntensityToWren(){}
-  applyLightVisibilityToWren(){}
-  applyLightShadowsToWren(){}
+  applyLightColorToWren() {}
+  applyLightIntensityToWren() {}
+  applyLightVisibilityToWren() {}
+  applyLightShadowsToWren() {}
 
   applySceneAmbientColorToWren() {
     this.computeAmbientLight();
@@ -71,11 +71,11 @@ class WbLight extends WbBaseNode {
   computeAmbientLight() {
     let rgb = new WbVector3(0.0, 0.0, 0.0);
 
-    WbLight.lights.forEach (light => {
+    WbLight.lights.forEach(light => {
       if (light.on) {
-          rgb.x += light.ambientIntensity * light.color.x;
-          rgb.y += light.ambientIntensity * light.color.y;
-          rgb.z += light.ambientIntensity * light.color.z;
+        rgb.x += light.ambientIntensity * light.color.x;
+        rgb.y += light.ambientIntensity * light.color.y;
+        rgb.z += light.ambientIntensity * light.color.z;
       }
     });
 
@@ -89,4 +89,4 @@ class WbLight extends WbBaseNode {
 }
 
 WbLight.lights = [];
-export {WbLight}
+export {WbLight};

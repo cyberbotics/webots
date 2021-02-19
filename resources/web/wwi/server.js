@@ -114,3 +114,5 @@ class Server { // eslint-disable-line no-unused-vars
     this.socket.send('{ "reset controller" : "' + filename + '" }');
   }
 }
+
+export {Server};

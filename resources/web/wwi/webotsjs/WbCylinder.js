@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
+import {WbGeometry} from './WbGeometry.js';
 
 class WbCylinder extends WbGeometry {
-  constructor (id, radius, height, subdivision, bottom, side, top){
+  constructor(id, radius, height, subdivision, bottom, side, top) {
     super(id);
     this.radius = radius;
     this.height = height;
@@ -24,10 +24,10 @@ class WbCylinder extends WbGeometry {
     this.side = side;
     this.top = top;
 
-    this.wrenMesh = undefined
+    this.wrenMesh = undefined;
   }
 
-  delete(){
+  delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
@@ -36,7 +36,7 @@ class WbCylinder extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
 
-    if(this.subdivision < 3)
+    if (this.subdivision < 3)
       this.subdivision = 3;
 
     if (!this.bottom && !this.side && !this.top)
@@ -54,8 +54,8 @@ class WbCylinder extends WbGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top)
+    return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
   }
 }
 
-export {WbCylinder}
+export {WbCylinder};

@@ -1,7 +1,5 @@
-/* global DefaultUrl, TextureLoader */
 'use strict';
-import {DefaultUrl} from "./default_url.js"
-import {Toolbar} from "./toolbar.js"
+import {DefaultUrl} from './default_url.js';
 class Animation { // eslint-disable-line no-unused-vars
   constructor(url, scene, view, gui, loop) {
     this.url = url;
@@ -38,19 +36,16 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    let canvas = document.getElementById('canvas')
+    let canvas = document.getElementById('canvas');
     canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
-    let div = document.getElementById("playBar");
-    //let div = document.createElement('div');
-    //div.id = "playBar"
-    //canvas.appendChild(div);
+    let div = document.getElementById('playBar');
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
-    this.button.addEventListener('click', () => {this._triggerPlayPauseButton(); });
+    this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
     var slider = document.createElement('div');
@@ -125,7 +120,6 @@ class Animation { // eslint-disable-line no-unused-vars
       this.exit_fullscreenButton.style.display = 'none';
     }
   }
-
 
   _elapsedTime() {
     var end = new Date().getTime();
@@ -235,14 +229,10 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   async _updateAnimation() {
-    if (this.gui === 'real_time' && !this.sliding) {
+    if (this.gui === 'real_time' && !this.sliding)
       this._updateAnimationState();
-      window.requestAnimationFrame(() => { this._updateAnimation(); });
-    } else if (this.gui === 'play_on_load') {
-      if (!TextureLoader.hasPendingData())
-        this._triggerPlayPauseButton();
-      window.requestAnimationFrame(() => { this._updateAnimation(); });
-    }
+
+    window.requestAnimationFrame(() => { this._updateAnimation(); });
   }
 
   _getIconBaseName() {
@@ -250,4 +240,4 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 }
 
-export {Animation}
+export {Animation};

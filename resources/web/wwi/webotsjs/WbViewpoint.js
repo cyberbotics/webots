@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js";
-import {WbWrenHdr} from "./WbWrenHdr.js";
-import {WbWrenGtao} from "./WbWrenGtao.js";
-import {WbWrenBloom} from "./WbWrenBloom.js";
-import {WbWrenSmaa} from "./WbWrenSmaa.js";
-import {GTAO_LEVEL, disableAntiAliasing} from "./WbPreferences.js";
-import {WbVector3} from "./utils/WbVector3.js"
-import {WbVector4} from "./utils/WbVector4.js"
-import {WbMatrix4} from "./utils/WbMatrix4.js"
-import {direction, up} from "./WbUtils.js"
-import {World} from "./World.js"
+import {WbBaseNode} from './WbBaseNode.js';
+import {WbWrenHdr} from './WbWrenHdr.js';
+import {WbWrenGtao} from './WbWrenGtao.js';
+import {WbWrenBloom} from './WbWrenBloom.js';
+import {WbWrenSmaa} from './WbWrenSmaa.js';
+import {GTAO_LEVEL, disableAntiAliasing} from './WbPreferences.js';
+import {WbVector3} from './utils/WbVector3.js';
+import {WbVector4} from './utils/WbVector4.js';
+import {WbMatrix4} from './utils/WbMatrix4.js';
+import {direction, up} from './WbUtils.js';
+import {World} from './World.js';
 
-
-import {M_PI_4, TAN_M_PI_8} from "./WbConstants.js";
-
+import {M_PI_4, TAN_M_PI_8} from './WbConstants.js';
 
 class WbViewpoint extends WbBaseNode {
   constructor(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
@@ -38,7 +36,7 @@ class WbViewpoint extends WbBaseNode {
     this.bloomThreshold = bloomThreshold;
     this.near = zNear;
     this.far = far;
-    this.aspectRatio = canvas.width/canvas.height// 800/600;
+    this.aspectRatio = canvas.width / canvas.height;// 800/600;
     this.fieldOfView = M_PI_4;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
@@ -50,7 +48,7 @@ class WbViewpoint extends WbBaseNode {
     this.equilibriumVector = new WbVector3();
     this.velocity = new WbVector3();
 
-    this.inverseViewMatrix;
+    this.inverseViewMatrix = undefined;
 
     this.wrenHdr = new WbWrenHdr();
     this.wrenGtao = new WbWrenGtao();
@@ -61,9 +59,9 @@ class WbViewpoint extends WbBaseNode {
     this.wrenCamera = undefined;
   }
 
-  delete () {
+  delete() {
     if (typeof this.wrenSmaa !== 'undefined')
-     this.wrenSmaa.delete();
+      this.wrenSmaa.delete();
 
     if (typeof this.wrenHdr !== 'undefined')
       this.wrenHdr.delete();
@@ -89,14 +87,10 @@ class WbViewpoint extends WbBaseNode {
     this.applyFieldOfViewToWren();
     this.updatePostProcessingEffects();
     this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
-
-
-    // once the camera and viewport are created, update everything in the world instance
-    //WbWorld::instance()->setViewpoint(this);
   }
 
   applyPositionToWren() {
-    _wr_camera_set_position(this.wrenCamera, _wrjs_color_array(this.position.x, this.position.y, this.position.z)) ;
+    _wr_camera_set_position(this.wrenCamera, _wrjs_color_array(this.position.x, this.position.y, this.position.z));
   }
 
   applyOrientationToWren() {
@@ -129,11 +123,8 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateFar() {
-    if (this.far > 0.0 && this.far < this.near) {
+    if (this.far > 0.0 && this.far < this.near)
       this.far = this.near + 1.0;
-      //TOCHECK it is strange to return here but not in update near
-      //return;
-    }
 
     if (this.wrenObjectsCreatedCalled)
       this.applyFarToWren();
@@ -147,7 +138,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateFieldOfViewY() {
-    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);  // stored for reuse in viewpointRay()
+    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView); // stored for reuse in viewpointRay()
 
     // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
     // the view angle is taken with respect to the largest dimension
@@ -171,19 +162,18 @@ class WbViewpoint extends WbBaseNode {
     this.applyFieldOfViewToWren();
   }
 
-  updatePostProcessingEffects(){
-    if(!this.wrenObjectsCreatedCalled)
+  updatePostProcessingEffects() {
+    if (!this.wrenObjectsCreatedCalled)
       return;
 
     if (typeof this.lensFlare !== 'undefined')
-     this.lensFlare.setup(this.wrenViewport);
+      this.lensFlare.setup(this.wrenViewport);
 
     if (this.wrenSmaa) {
-     if (disableAntiAliasing)
-       this.wrenSmaa.detachFromViewport();
-     else{
-       this.wrenSmaa.setup(this.wrenViewport);
-     }
+      if (disableAntiAliasing)
+        this.wrenSmaa.detachFromViewport();
+      else
+        this.wrenSmaa.setup(this.wrenViewport);
     }
 
     if (this.wrenHdr) {
@@ -213,10 +203,10 @@ class WbViewpoint extends WbBaseNode {
       this.wrenBloom.setThreshold(this.bloomThreshold);
     }
 
-    this.updateAspectRatio(canvas.width / canvas.height)
+    this.updateAspectRatio(canvas.width / canvas.height);
   }
 
-  updatePostProcessingParameters(){
+  updatePostProcessingParameters() {
     if (!this.wrenObjectsCreatedCalled)
       return;
 
@@ -224,7 +214,7 @@ class WbViewpoint extends WbBaseNode {
       this.updateExposure();
 
     if (this.wrenGtao) {
-      if (this.ambientOcclusionRadius == 0.0 || GTAO_LEVEL === 0){
+      if (this.ambientOcclusionRadius === 0.0 || GTAO_LEVEL === 0) {
         this.wrenGtao.detachFromViewport();
         return;
       } else if (!this.wrenGtao.hasBeenSetup)
@@ -239,7 +229,7 @@ class WbViewpoint extends WbBaseNode {
     }
 
     if (this.wrenBloom) {
-      if (this.bloomThreshold == -1.0) {
+      if (this.bloomThreshold === -1.0) {
         this.wrenBloom.detachFromViewport();
         return;
       } else if (!this.wrenBloom.hasBeenSetup)
@@ -268,27 +258,27 @@ class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof World.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
-    let followedSolid = World.instance.nodes.get(this.followedId)
+    let followedSolid = World.instance.nodes.get(this.followedId);
     let followedSolidPosition = followedSolid.translation;
     let delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
     this.followedSolidPreviousPosition = followedSolidPosition;
 
     this.equilibriumVector = this.equilibriumVector.add(delta);
-    const mass = ((this.followSmoothness < 0.05) ? 0.0 : ((this.followSmoothness > 1.0)  ? 1.0 : this.followSmoothness));
+    const mass = ((this.followSmoothness < 0.05) ? 0.0 : ((this.followSmoothness > 1.0) ? 1.0 : this.followSmoothness));
 
     // If mass is 0, we instantly move the viewpoint to its equilibrium position.
     if (mass === 0.0) {
       this.position = this.position.add(this.equilibriumVector);
       this.velocity.setXyz(0.0, 0.0, 0.0);
       this.equilibriumVector.setXyz(0.0, 0.0, 0.0);
-    } else {  // Otherwise we apply a force and let physics do the rest.
+    } else { // Otherwise we apply a force and let physics do the rest.
       const timeStep = World.instance.basicTimeStep / 1000.0;
       const acceleration = this.equilibriumVector.div(mass);
       this.velocity = this.velocity.add(acceleration.mul(timeStep));
 
       const viewPointScalarVelocity = this.velocity.length();
       let followedObjectScalarVelocity;
-      let followedObjectVelocity = new WbVector3;
+      let followedObjectVelocity = new WbVector3();
       if (delta.length() > 0.0) {
         followedObjectVelocity = (delta.div(timeStep));
         followedObjectScalarVelocity = followedObjectVelocity.dot(this.velocity) / viewPointScalarVelocity;
@@ -316,20 +306,20 @@ class WbViewpoint extends WbBaseNode {
 
       this.equilibriumVector = this.equilibriumVector.sub(deltaPosition);
     }
-      this.updatePosition();
+    this.updatePosition();
   }
 
   // Converts screen coordinates to world coordinates
   toWorld(pos) {
-    let zFar = this.far
+    let zFar = this.far;
     if (zFar === 0)
       zFar = WbViewpoint.DEFAULT_FAR;
 
-    this.applyFarToWren();//TODO is it needed?
+    this.applyFarToWren();// TODO is it needed?
     let projection = new WbMatrix4();
-    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar- this.near), 0, 0, -1, 0);
-    let eye = new WbVector3(this.position.x, this.position.y, this.position.z)
-    let center = eye.add(direction(this.orientation))
+    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
+    let eye = new WbVector3(this.position.x, this.position.y, this.position.z);
+    let center = eye.add(direction(this.orientation));
     let upVec = up(this.orientation);
 
     let f = (center.sub(eye)).normalized();
@@ -342,7 +332,6 @@ class WbViewpoint extends WbBaseNode {
     let inverse = projection.mul(view);
     if (!inverse.inverse())
       return;
-
 
     let screenCoord = new WbVector4(pos.x, pos.y, pos.z, 1.0);
     screenCoord = inverse.mulByVec4(screenCoord);
@@ -362,16 +351,15 @@ class WbViewpoint extends WbBaseNode {
 
   postFinalize() {
     super.postFinalize();
-    if(typeof World.instance.nodes.get(this.followedId) !== 'undefined' && typeof World.instance.nodes.get(this.followedId).translation !== 'undefined')
+    if (typeof World.instance.nodes.get(this.followedId) !== 'undefined' && typeof World.instance.nodes.get(this.followedId).translation !== 'undefined')
       this.followedSolidPreviousPosition = World.instance.nodes.get(this.followedId).translation;
 
     this.updatePostProcessingEffects();
     if (typeof this.lensFlare !== 'undefined')
       this.lensFlare.postFinalize();
   }
-
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
 WbViewpoint.z = -1;
-export{WbViewpoint}
+export {WbViewpoint};

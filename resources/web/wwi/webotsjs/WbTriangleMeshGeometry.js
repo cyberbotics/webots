@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
-import {WbTriangleMesh} from "./WbTriangleMesh.js";
-import {WbWrenShaders} from "./WbWrenShaders.js";
+import {WbGeometry} from './WbGeometry.js';
+import {WbTriangleMesh} from './WbTriangleMesh.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
 
-import {WbMatrix4} from "./utils/WbMatrix4.js";
-import {WbMatrix3} from "./utils/WbMatrix3.js";
+import {WbMatrix4} from './utils/WbMatrix4.js';
 
-import {WbWrenMeshBuffers} from "./utils/WbWrenMeshBuffers.js";
-import {arrayXPointerFloat, arrayXPointerInt} from "./WbUtils.js";
+import {WbWrenMeshBuffers} from './utils/WbWrenMeshBuffers.js';
+import {WbWrenRenderingContext} from './WbWrenRenderingContext.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './WbUtils.js';
 
 class WbTriangleMeshGeometry extends WbGeometry {
   constructor(id) {
@@ -38,12 +38,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     super.delete();
   }
 
-
   createWrenObjects() {
-    //TODO
-    //if (!mTriangleMeshError.isEmpty())
-      //console.error(mTriangleMeshError);
-
     super.createWrenObjects();
 
     this.buildWrenMesh(false);
@@ -61,14 +56,12 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   buildWrenMesh(updateCache) {
-
     this.deleteWrenRenderable();
     _wr_static_mesh_delete(this.wrenMesh);
     this.wrenMesh = undefined;
 
     if (!this.triangleMesh.isValid)
       return;
-
 
     const createOutlineMesh = super.isInBoundingObject();
 
@@ -84,7 +77,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     _wr_renderable_set_cast_shadows(this.normalsRenderable, false);
     _wr_renderable_set_receive_shadows(this.normalsRenderable, false);
     _wr_renderable_set_material(this.normalsRenderable, this.normalsMaterial, null);
-    _wr_renderable_set_visibility_flags(this.normalsRenderable, 0x00040000);//ENUM : VF_NORMALS
+    _wr_renderable_set_visibility_flags(this.normalsRenderable, WbWrenRenderingContext.VF_NORMALS);
     _wr_renderable_set_drawing_mode(this.normalsRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
     _wr_transform_attach_child(this.wrenNode, this.normalsRenderable);
 
@@ -94,7 +87,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     let buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
     this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
 
-    //TODO CHECK INPUT
+    // TODO CHECK INPUT
     let vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
     let normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
     let texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
@@ -115,19 +108,22 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   estimateVertexCount() {
-    assert(this.triangleMesh.isValid);
+    if (!this.triangleMesh.isValid)
+      return;
 
     return 3 * this.triangleMesh.numberOfTriangles;
   }
 
   estimateIndexCount() {
-    assert(this.triangleMesh.isValid);
+    if (!this.triangleMesh.isValid)
+      return;
 
     return 3 * this.triangleMesh.numberOfTriangles;
   }
 
   buildGeomIntoBuffers(buffers, m, generateUserTexCoords) {
-    assert(this.triangleMesh.isValid);
+    if (!this.triangleMesh.isValid)
+      return;
 
     let rm = m.extracted3x3Matrix();
     let n = this.triangleMesh.numberOfTriangles;
@@ -136,8 +132,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
     let vBuf = buffers.vertexBuffer;
     if (typeof vBuf !== 'undefined') {
       let i = buffers.vertexIndex;
-      for (let t = 0; t < n; ++t) {    // foreach triangle
-        for (let v = 0; v < 3; ++v) {  // foreach vertex
+      for (let t = 0; t < n; ++t) { // foreach triangle
+        for (let v = 0; v < 3; ++v) { // foreach vertex
           WbWrenMeshBuffers.writeCoordinates(this.triangleMesh.vertex(t, v, 0), this.triangleMesh.vertex(t, v, 1), this.triangleMesh.vertex(t, v, 2), m, vBuf, i);
           i += 3;
         }
@@ -147,8 +143,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
     let nBuf = buffers.normalBuffer;
     if (typeof nBuf !== 'undefined') {
       let i = buffers.vertexIndex;
-      for (let t = 0; t < n; ++t) {    // foreach triangle
-        for (let v = 0; v < 3; ++v) {  // foreach vertex
+      for (let t = 0; t < n; ++t) { // foreach triangle
+        for (let v = 0; v < 3; ++v) { // foreach vertex
           WbWrenMeshBuffers.writeNormal(this.triangleMesh.normal(t, v, 0), this.triangleMesh.normal(t, v, 1), this.triangleMesh.normal(t, v, 2), rm, nBuf, i);
           i += 3;
         }
@@ -159,8 +155,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
     let utBuf = buffers.unwrappedTexCoordsBuffer;
     if (typeof tBuf !== 'undefined') {
       let i = start * buffers.texCoordSetsCount * 2;
-      for (let t = 0; t < n; ++t) {    // foreach triangle
-        for (let v = 0; v < 3; ++v) {  // foreach vertex
+      for (let t = 0; t < n; ++t) { // foreach triangle
+        for (let v = 0; v < 3; ++v) { // foreach vertex
           tBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
           tBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
 
@@ -180,8 +176,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
     if (typeof iBuf !== 'undefined') {
       start = buffers.vertexIndex / 3;
       let i = buffers.index;
-      for (let t = 0; t < n; ++t) {  // foreach triangle
-        for (let v = 0; v < 3; ++v)  // foreach vertex
+      for (let t = 0; t < n; ++t) { // foreach triangle
+        for (let v = 0; v < 3; ++v) // foreach vertex
           iBuf[i++] = start + this.triangleMesh.index(t, v);
       }
       buffers.index = i;
@@ -204,5 +200,4 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 }
 
-
-export {WbTriangleMeshGeometry}
+export {WbTriangleMeshGeometry};

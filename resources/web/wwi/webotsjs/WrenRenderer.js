@@ -12,52 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {World} from "./World.js"
+import {World} from './World.js';
 
 class WrenRenderer {
-  constructor () {
+  constructor() {
     this.canvas = document.createElement('canvas');
     this.canvas.id = 'canvas';
     let div = document.getElementById('view3d');
 
-    if(typeof div === 'undefined' || div === null)
+    if (typeof div === 'undefined' || div === null)
       div = document.getElementById('playerDiv');
     div.insertBefore(this.canvas, div.firstChild);
   }
 
-  setSize ( width, height ) {
+  setSize(width, height) {
     canvas.width = width;
     canvas.height = height;
   }
 
   render() {
-    if(!_wr_gl_state_is_initialized())
+    if (!_wr_gl_state_is_initialized())
       return;
 
     try {
-      //console.time('startID')
+      // console.time('startID')
       World.instance.viewpoint.updatePostProcessingParameters();
 
       _wr_scene_render(_wr_scene_get_instance(), null, true);
-      //console.timeEnd('startID')
-      //console.log("render");
-    }
-    catch(error) {
-      console.log("No Context");
+      // console.timeEnd('startID')
+      // console.log("render");
+    } catch (error) {
+      console.log('No Context');
     }
   }
 
   renderMinimal() {
-    if(!_wr_gl_state_is_initialized())
+    if (!_wr_gl_state_is_initialized())
       return;
 
     try {
       _wr_scene_render(_wr_scene_get_instance(), null, true);
-    }
-    catch(error) {
-      console.log("No Context");
+    } catch (error) {
+      console.log('No Context');
     }
   }
 }
 
-export {WrenRenderer}
+export {WrenRenderer};

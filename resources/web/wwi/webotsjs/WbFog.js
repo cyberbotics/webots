@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
-import {World} from "./World.js";
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
 
 class WbFog extends WbBaseNode {
   constructor(id, color, visibilityRange, fogType) {
@@ -26,8 +26,8 @@ class WbFog extends WbBaseNode {
   }
 
   delete() {
-    if (typeof this.parent === 'undefined'){
-      let index = World.instance.sceneTree.indexOf(this)
+    if (typeof this.parent === 'undefined') {
+      let index = World.instance.sceneTree.indexOf(this);
       World.instance.sceneTree.splice(index, 1);
     }
 
@@ -39,7 +39,7 @@ class WbFog extends WbBaseNode {
     super.delete();
   }
 
-  createWrenObjects(){
+  createWrenObjects() {
     super.createWrenObjects();
 
     this.applyChangesToWren();
@@ -62,15 +62,15 @@ class WbFog extends WbBaseNode {
   }
 
   updateFogType() {
-    if (this.fogType === "EXPONENTIAL")
+    if (this.fogType === 'EXPONENTIAL')
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_EXPONENTIAL;
-    else if (this.fogType == "EXPONENTIAL2")
+    else if (this.fogType == 'EXPONENTIAL2')
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_EXPONENTIAL2;
     else
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_LINEAR;
 
-    if (this.wrenFogType === ENUM.WR_SCENE_FOG_TYPE_LINEAR && this.fogType !== "LINEAR")
-      console.warn("Unknown 'fogType': " + this.fogType + " Set to \"LINEAR\"");
+    if (this.wrenFogType === ENUM.WR_SCENE_FOG_TYPE_LINEAR && this.fogType !== 'LINEAR')
+      console.warn("Unknown 'fogType': " + this.fogType + ' Set to "LINEAR"');
 
     if (this.wrenObjectsCreatedCalled)
       this.applyChangesToWren();
@@ -78,8 +78,8 @@ class WbFog extends WbBaseNode {
 
   clone(customID) {
     this.useList.push(customID);
-    return new Fog(customID, this.color, this.visibilityRange, this.fogType)
+    return new WbFog(customID, this.color, this.visibilityRange, this.fogType);
   }
 }
 
-export {WbFog}
+export {WbFog};

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
+import {WbGeometry} from './WbGeometry.js';
+import {WbVector2} from './utils/WbVector2.js';
 
 class WbBox extends WbGeometry {
   constructor(id, size) {
@@ -54,8 +55,6 @@ class WbBox extends WbGeometry {
     const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
     _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x + offset, this.size.y + offset, this.size.z + offset));
   }
-
-
 
   static findIntersectedFace(minBound, maxBound, intersectionPoint) {
     const TOLERANCE = 1e-9;
@@ -136,7 +135,6 @@ class WbBox extends WbGeometry {
       default:
         v = 0;
         u = 0;
-        assert(false);
         break;
     }
 
@@ -150,11 +148,11 @@ class WbBox extends WbGeometry {
 }
 
 WbBox.IntersectedFace = {
-  FRONT_FACE : 0,
-  BACK_FACE : 1,
-  LEFT_FACE : 2,
-  RIGHT_FACE : 3,
-  TOP_FACE : 4,
-  BOTTOM_FACE : 5};
+  FRONT_FACE: 0,
+  BACK_FACE: 1,
+  LEFT_FACE: 2,
+  RIGHT_FACE: 3,
+  TOP_FACE: 4,
+  BOTTOM_FACE: 5};
 
-export {WbBox}
+export {WbBox};

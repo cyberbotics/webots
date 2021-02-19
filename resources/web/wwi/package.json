@@ -6,7 +6,10 @@
     "@babel/core": "^7.11.1",
     "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
-    "babel-minify": "^0.5.1"
+    "babel-minify": "^0.5.1",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   },
   "babel": {
     "presets": [],

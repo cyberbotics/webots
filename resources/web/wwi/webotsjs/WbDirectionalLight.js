@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbLight} from "./WbLight.js"
+import {WbLight} from './WbLight.js';
 
 class WbDirectionalLight extends WbLight {
-  constructor(id, on, color, direction, intensity, castShadows, ambientIntensity){
+  constructor(id, on, color, direction, intensity, castShadows, ambientIntensity) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
     this.wrenLight = undefined;
     this.direction = direction;
   }
 
-  delete(){
+  delete() {
     if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenLight);
 
@@ -56,7 +56,7 @@ class WbDirectionalLight extends WbLight {
     let maxCount = _wr_config_get_max_active_directional_light_count();
     let activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());
     if (activeCount === maxCount)
-      console.log("Maximum number of directional lights " + maxCount +" has been reached, newly added lights won't be rendered.");
+      console.log('Maximum number of directional lights ' + maxCount + " has been reached, newly added lights won't be rendered.");
   }
 
   applyLightShadowsToWren() {
@@ -68,4 +68,4 @@ class WbDirectionalLight extends WbLight {
     return new WbDirectionalLight(customID, this.on, this.color, this.direction, this.intensity, this.castShadows, this.ambientIntensity);
   }
 }
-export {WbDirectionalLight}
+export {WbDirectionalLight};

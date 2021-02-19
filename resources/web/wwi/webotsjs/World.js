@@ -13,26 +13,26 @@
 // limitations under the License.
 
 class World {
-  constructor () {
-    //We can keep the viewpoint outside of the children list because
-    //it is independant from Webots during the simulation so we don't need to retrieve it to apply update
+  constructor() {
+    // We can keep the viewpoint outside of the children list because
+    // it is independant from Webots during the simulation so we don't need to retrieve it to apply update
     this.viewpoint = undefined;
     this.scene = undefined;
-    //Only the top level nodes are represented here
+    // Only the top level nodes are represented here
     this.sceneTree = [];
 
     this.hasFog = false;
     this.basicTimeStep = 32;
 
-    //All the nodes are included here so it is easier to retrieve them for update
-    //map from id to node
+    // All the nodes are included here so it is easier to retrieve them for update
+    // map from id to node
     this.nodes = new Map();
+  }
 
-    //Dict containing the ids of the DEF node and a corresponding array of id of USE nodes
-    this.defUse = {}
-    World.instance = this;
+  static init() {
+    World.instance = new World();
   }
 }
 
 World.instance = undefined;
-export {World}
+export {World};

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
+import {WbGeometry} from './WbGeometry.js';
 
 class WbSphere extends WbGeometry {
   constructor(id, radius, ico, subdivision) {
@@ -59,9 +59,9 @@ class WbSphere extends WbGeometry {
     if (!this.isAValidBoundingObject())
       return;
 
-   const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
-   const scaledRadius = this.radius * (1.0 + offset);
-   _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
+    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+    const scaledRadius = this.radius * (1.0 + offset);
+    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }
 
   updateScale() {
@@ -76,8 +76,8 @@ class WbSphere extends WbGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbSphere(customID, this.radius, this.ico, this.subdivision)
+    return new WbSphere(customID, this.radius, this.ico, this.subdivision);
   }
 }
 
-export {WbSphere}
+export {WbSphere};

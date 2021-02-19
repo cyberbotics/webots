@@ -12,38 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js"
-import {World} from "./World.js";
-import {Parser} from "./../parser.js"
-import {WbLight} from "./WbLight.js"
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
+import {Parser} from './../parser.js';
+import {WbLight} from './WbLight.js';
 
-class WbGroup extends WbBaseNode{
-  constructor(id,isPropeller){
+class WbGroup extends WbBaseNode {
+  constructor(id, isPropeller) {
     super(id);
     this.children = [];
 
     this.isPropeller = isPropeller;
-    this.currentHelix = -1; //to switch between fast and slow helix
+    this.currentHelix = -1; // to switch between fast and slow helix
   }
 
   delete(isBoundingObject) {
-    if (typeof this.parent === 'undefined'){
-      let index = World.instance.sceneTree.indexOf(this)
+    if (typeof this.parent === 'undefined') {
+      let index = World.instance.sceneTree.indexOf(this);
       World.instance.sceneTree.splice(index, 1);
     } else {
       let parent = World.instance.nodes.get(this.parent);
-      if(typeof parent !== 'undefined') {
-        if(isBoundingObject)
+      if (typeof parent !== 'undefined') {
+        if (isBoundingObject)
           parent.isBoundingObject = null;
         else {
-          let index = parent.children.indexOf(this)
+          let index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
         }
       }
     }
 
     let index = this.children.length - 1;
-    while(index >= 0) {
+    while (index >= 0) {
       this.children[index].delete();
       --index;
     }
@@ -51,21 +51,20 @@ class WbGroup extends WbBaseNode{
     super.delete();
   }
 
-  createWrenObjects(isTransform){
+  createWrenObjects(isTransform) {
     super.createWrenObjects();
 
-    if(!isTransform) {
+    if (!isTransform) {
       this.children.forEach(child => {
-        child.createWrenObjects()
+        child.createWrenObjects();
       });
     }
   }
 
   updateBoundingObjectVisibility() {
     this.children.forEach(child => {
-      if (!(child instanceof WbLight)){
+      if (!(child instanceof WbLight))
         child.updateBoundingObjectVisibility();
-      }
     });
   }
 
@@ -78,7 +77,7 @@ class WbGroup extends WbBaseNode{
   postFinalize() {
     super.postFinalize();
 
-    this.children.forEach( child => child.postFinalize());
+    this.children.forEach(child => child.postFinalize());
 
     if (this.isPropeller === true) {
       if (typeof this.children[1] !== 'undefined')
@@ -93,28 +92,27 @@ class WbGroup extends WbBaseNode{
     if (id !== this.currentHelix || force) {
       this.currentHelix = id;
       this.children.forEach(child => {
-        if(child.id === this.currentHelix)
+        if (child.id === this.currentHelix)
           _wr_node_set_visible(child.wrenNode, true);
         else
           _wr_node_set_visible(child.wrenNode, false);
       });
-
     }
   }
 
   async clone(customID) {
-    let group = new WbGroup(customID, this.isPropeller)
+    let group = new WbGroup(customID, this.isPropeller);
     let length = this.children.length;
-    for(let i = 0; i < length; i++) {
-      let cloned = await this.children[i].clone("n" + Parser.undefinedID++)
+    for (let i = 0; i < length; i++) {
+      let cloned = await this.children[i].clone('n' + Parser.undefinedID++);
       cloned.parent = customID;
       World.instance.nodes.set(cloned.id, cloned);
-      group.children.push(cloned)
+      group.children.push(cloned);
     }
-    
+
     this.useList.push(customID);
     return group;
   }
 }
 
-export{WbGroup}
+export {WbGroup};

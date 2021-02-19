@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Parser} from "./../parser.js"
-import {World} from "./World.js";
-import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
-import {WbWrenShaders} from "./WbWrenShaders.js";
-import {WbBackground} from "./WbBackground.js";
+import {Parser} from './../parser.js';
+import {World} from './World.js';
+import {WbAbstractAppearance} from './WbAbstractAppearance.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
+import {WbBackground} from './WbBackground.js';
 
-import {WbVector3} from "./utils/WbVector3.js";
-import {array3Pointer} from "./WbUtils.js";
-import {textureQuality} from "./WbPreferences.js";
+import {WbVector3} from './utils/WbVector3.js';
+import {array3Pointer} from './WbUtils.js';
+import {textureQuality} from './WbPreferences.js';
 
 class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
@@ -44,11 +44,11 @@ class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveIntensity = emissiveIntensity;
   }
 
-  delete(){
+  delete() {
     if (this.isPostFinalizeCalled)
       WbPBRAppearance.cInstanceCounter--;
 
-    if (WbPBRAppearance.cInstanceCounter == 0) {
+    if (WbPBRAppearance.cInstanceCounter === 0) {
       _wr_texture_delete(WbPBRAppearance.cBrdfTexture);
       WbPBRAppearance.cBrdfTexture = undefined;
     }
@@ -74,7 +74,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
     super.delete();
   }
 
-  createWrenObjects(){
+  createWrenObjects() {
     super.createWrenObjects();
     if (typeof this.baseColorMap !== 'undefined')
       this.baseColorMap.createWrenObjects();
@@ -96,7 +96,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 
   modifyWrenMaterial(wrenMaterial) {
-    if (!wrenMaterial) { //TODO check if not pbr material
+    if (!wrenMaterial) { // TODO check if not pbr material
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_pbr_material_new();
     }
@@ -142,9 +142,9 @@ class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.occlusionMap !== 'undefined')
       this.occlusionMap.modifyWrenMaterial(wrenMaterial, 3, 7);
 
-    if (typeof this.emissiveColorMap !== 'undefined'){
+    if (typeof this.emissiveColorMap !== 'undefined')
       this.emissiveColorMap.modifyWrenMaterial(wrenMaterial, 6, 7);
-    }
+
     if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.modifyWrenMaterial(wrenMaterial);
     else
@@ -157,7 +157,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
     let baseColorPointer = array3Pointer(this.baseColor.x, this.baseColor.y, this.baseColor.z);
     let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
-
     let backgroundColor = new WbVector3(0.0, 0.0, 0.0);
 
     if (typeof background !== 'undefined') {
@@ -169,8 +168,8 @@ class WbPBRAppearance extends WbAbstractAppearance {
     let backgroundColorPointer = array3Pointer(backgroundColor.x, backgroundColor.y, backgroundColor.z);
     // set material properties
     _wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColorPointer, baseColorPointer,
-      this.transparency, this.roughness, this.metalness, backgroundLuminosity * this.IBLStrength,this.normalMapFactor,
-      this.occlusionMapStrength, emissiveColorPointer,this.emissiveIntensity);
+      this.transparency, this.roughness, this.metalness, backgroundLuminosity * this.IBLStrength, this.normalMapFactor,
+      this.occlusionMapStrength, emissiveColorPointer, this.emissiveIntensity);
 
     _free(baseColorPointer);
     _free(emissiveColorPointer);
@@ -200,10 +199,9 @@ class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.emissiveColorMap !== 'undefined')
       this.emissiveColorMap.preFinalize();
 
-
-    if (WbPBRAppearance.cInstanceCounter == 0) {
+    if (WbPBRAppearance.cInstanceCounter === 0) {
       let quality = textureQuality;
-      let resolution = Math.pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+      let resolution = Math.pow(2, 6 + quality); // 0: 64, 1: 128, 2: 256
       WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
     }
     ++WbPBRAppearance.cInstanceCounter;
@@ -234,60 +232,60 @@ class WbPBRAppearance extends WbAbstractAppearance {
   clone(customID) {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap, textureTransform;
     if (typeof this.baseColorMap !== 'undefined') {
-      baseColorMap = this.baseColorMap.clone("n" + Parser.undefinedID++);
+      baseColorMap = this.baseColorMap.clone('n' + Parser.undefinedID++);
       baseColorMap.parent = customID;
-      baseColorMap.type = "baseColorMap";
+      baseColorMap.type = 'baseColorMap';
       World.instance.nodes.set(baseColorMap.id, baseColorMap);
     }
 
     if (typeof this.roughnessMap !== 'undefined') {
-      roughnessMap = this.roughnessMap.clone("n" + Parser.undefinedID++);
-      roughnessMap.type = "roughnessMap";
+      roughnessMap = this.roughnessMap.clone('n' + Parser.undefinedID++);
+      roughnessMap.type = 'roughnessMap';
       roughnessMap.parent = customID;
       World.instance.nodes.set(roughnessMap.id, roughnessMap);
     }
 
     if (typeof this.metalnessMap !== 'undefined') {
-      metalnessMap = this.metalnessMap.clone("n" + Parser.undefinedID++);
-      metalnessMap.type = "metalnessMap";
+      metalnessMap = this.metalnessMap.clone('n' + Parser.undefinedID++);
+      metalnessMap.type = 'metalnessMap';
       metalnessMap.parent = customID;
       World.instance.nodes.set(metalnessMap.id, metalnessMap);
     }
 
     if (typeof this.normalMap !== 'undefined') {
-      normalMap = this.normalMap.clone("n" + Parser.undefinedID++);
-      normalMap.type = "normalMap";
+      normalMap = this.normalMap.clone('n' + Parser.undefinedID++);
+      normalMap.type = 'normalMap';
       normalMap.parent = customID;
       World.instance.nodes.set(normalMap.id, normalMap);
     }
 
     if (typeof this.occlusionMap !== 'undefined') {
-      occlusionMap = this.occlusionMap.clone("n" + Parser.undefinedID++);
-      occlusionMap.type = "occlusionMap";
+      occlusionMap = this.occlusionMap.clone('n' + Parser.undefinedID++);
+      occlusionMap.type = 'occlusionMap';
       occlusionMap.parent = customID;
       World.instance.nodes.set(occlusionMap.id, occlusionMap);
     }
 
     if (typeof this.emissiveColorMap !== 'undefined') {
-      emissiveColorMap = this.emissiveColorMap.clone("n" + Parser.undefinedID++);
-      emissiveColorMap.type = "emissiveColorMap";
+      emissiveColorMap = this.emissiveColorMap.clone('n' + Parser.undefinedID++);
+      emissiveColorMap.type = 'emissiveColorMap';
       emissiveColorMap.parent = customID;
       World.instance.nodes.set(emissiveColorMap.id, emissiveColorMap);
     }
 
     if (typeof this.textureTransform !== 'undefined') {
-      textureTransform = this.textureTransform.clone("n" + Parser.undefinedID++);
+      textureTransform = this.textureTransform.clone('n' + Parser.undefinedID++);
       textureTransform.parent = customID;
       World.instance.nodes.set(textureTransform.id, textureTransform);
     }
 
     this.useList.push(customID);
     return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
-      this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform)
+      this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform);
   }
 }
 
 WbPBRAppearance.cBrdfTexture = undefined;
 WbPBRAppearance.cInstanceCounter = 0;
 
-export {WbPBRAppearance}
+export {WbPBRAppearance};

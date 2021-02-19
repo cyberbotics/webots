@@ -11,19 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import {Parser} from "./../parser.js"
-import {World} from "./World.js"
-import {WbAbstractAppearance} from "./WbAbstractAppearance.js"
-import {WbWrenShaders} from "./WbWrenShaders.js"
+import {Parser} from './../parser.js';
+import {World} from './World.js';
+import {WbAbstractAppearance} from './WbAbstractAppearance.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
 
 class WbAppearance extends WbAbstractAppearance {
-  constructor(id, material, texture, transform){
+  constructor(id, material, texture, transform) {
     super(id, transform);
     this.material = material;
     this.texture = texture;
   }
 
-  delete(){
+  delete() {
     if (typeof this.material !== 'undefined')
       this.material.delete();
 
@@ -33,15 +33,13 @@ class WbAppearance extends WbAbstractAppearance {
     super.delete();
   }
 
-  createWrenObjects(){
+  createWrenObjects() {
     super.createWrenObjects();
-    if (typeof this.material !== 'undefined') {
+    if (typeof this.material !== 'undefined')
       this.material.createWrenObjects();
-    }
 
-    if (typeof this.texture !== 'undefined') {
+    if (typeof this.texture !== 'undefined')
       this.texture.createWrenObjects();
-    }
   }
 
   modifyWrenMaterial(wrenMaterial) {
@@ -51,9 +49,8 @@ class WbAppearance extends WbAbstractAppearance {
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());
 
       this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
-    } else {
+    } else
       wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
-    }
 
     if (this.texture)
       this.texture.modifyWrenMaterial(wrenMaterial, 0, 2);
@@ -69,7 +66,7 @@ class WbAppearance extends WbAbstractAppearance {
   }
 
   static fillWrenDefaultMaterial(wrenMaterial) {
-    //TODO add suport if not a phong material
+    // TODO add suport if not a phong material
     if (!wrenMaterial) {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_phong_material_new();
@@ -87,7 +84,6 @@ class WbAppearance extends WbAbstractAppearance {
 
     if (typeof this.texture !== 'undefined')
       this.texture.preFinalize();
-
   }
 
   postFinalize() {
@@ -101,20 +97,20 @@ class WbAppearance extends WbAbstractAppearance {
 
   async clone(customID) {
     let material, texture, transform;
-    if(typeof this.material !== 'undefined'){
-      material = this.material.clone("n" + Parser.undefinedID++);
+    if (typeof this.material !== 'undefined') {
+      material = this.material.clone('n' + Parser.undefinedID++);
       material.parent = customID;
       World.instance.nodes.set(material.id, material);
     }
 
-    if (typeof this.texture !== 'undefined'){
-      texture = await this.texture.clone("n" + Parser.undefinedID++);
+    if (typeof this.texture !== 'undefined') {
+      texture = await this.texture.clone('n' + Parser.undefinedID++);
       texture.parent = customID;
       World.instance.nodes.set(texture.id, texture);
     }
 
-    if (typeof this.textureTransform !== 'undefined'){
-      transform = this.textureTransform.clone("n" + Parser.undefinedID++);
+    if (typeof this.textureTransform !== 'undefined') {
+      transform = this.textureTransform.clone('n' + Parser.undefinedID++);
       transform.parent = customID;
       World.instance.nodes.set(transform.id, transform);
     }
@@ -124,4 +120,4 @@ class WbAppearance extends WbAbstractAppearance {
   }
 }
 
-export {WbAppearance}
+export {WbAppearance};

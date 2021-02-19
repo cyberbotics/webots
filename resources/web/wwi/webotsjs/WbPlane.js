@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbGeometry} from "./WbGeometry.js"
+import {WbGeometry} from './WbGeometry.js';
 
-class WbPlane extends WbGeometry{
+class WbPlane extends WbGeometry {
   constructor(id, size) {
     super(id);
     this.size = size;
@@ -40,7 +40,7 @@ class WbPlane extends WbGeometry{
   }
 
   updateSize() {
-    if(super.isInBoundingObject())
+    if (super.isInBoundingObject())
       updateLineScale();
     else
       this.updateScale();
@@ -57,7 +57,7 @@ class WbPlane extends WbGeometry{
     wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x * (1.0 + offset), scaleY, this.size.y * (1.0 + offset)));
   }
 
-  updateScale(){
+  updateScale() {
     // allow the bounding sphere to scale down
     let scaleY = 0.1 * Math.min(this.size.x, this.size.y);
 
@@ -66,7 +66,7 @@ class WbPlane extends WbGeometry{
   }
 
   isSuitableForInsertionInBoundingObject() {
-    return super.isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0)
+    return super.isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0);
   }
 
   clone(customID) {
@@ -75,4 +75,4 @@ class WbPlane extends WbGeometry{
   }
 }
 
-export {WbPlane}
+export {WbPlane};

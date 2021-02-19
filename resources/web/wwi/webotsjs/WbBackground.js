@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js";
-import {World} from "./World.js"
-import {WbPBRAppearance} from "./WbPBRAppearance.js";
-import {WbWrenShaders} from "./WbWrenShaders.js";
-import {arrayXPointer, arrayXPointerFloat} from "./WbUtils.js";
-import {WbVector3} from "./utils/WbVector3.js";
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
+import {WbPBRAppearance} from './WbPBRAppearance.js';
+import {WbWrenShaders} from './WbWrenShaders.js';
+import {arrayXPointer, arrayXPointerFloat} from './WbUtils.js';
+import {WbVector3} from './utils/WbVector3.js';
 
 class WbBackground extends WbBaseNode {
   constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
@@ -43,9 +43,9 @@ class WbBackground extends WbBaseNode {
     this.irradianceCubeTexture = undefined;
   }
 
-  delete(){
-    if (typeof this.parent === 'undefined'){
-      let index = World.instance.sceneTree.indexOf(this)
+  delete() {
+    if (typeof this.parent === 'undefined') {
+      let index = World.instance.sceneTree.indexOf(this);
       World.instance.sceneTree.splice(index, 1);
     }
 
@@ -161,11 +161,11 @@ class WbBackground extends WbBaseNode {
     this.destroySkyBox();
 
     // 1. Load the background.
-    if(this.cubeArray.length === 6) {
+    if (this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
       _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-      let bitsPointers = []
+      let bitsPointers = [];
       for (let i = 0; i < 6; ++i) {
         // TODO Check if some rotations are needed for ENU
         bitsPointers[i] = arrayXPointer(this.cubeArray[i].bits);
@@ -180,16 +180,14 @@ class WbBackground extends WbBaseNode {
       _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       _wr_scene_set_skybox(_wr_scene_get_instance(), this.skyboxRenderable);
 
-      for(let i = 0; i < 6; ++i) {
+      for (let i = 0; i < 6; ++i)
         _free(bitsPointers[i]);
-      }
     }
 
     // 2. Load the irradiance map.
     let cm = _wr_texture_cubemap_new();
     let hdrImageData = [];
-    if(this.irradianceCubeArray.length === 6) {
-
+    if (this.irradianceCubeArray.length === 6) {
       for (let i = 0; i < 6; ++i) {
         _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
@@ -201,7 +199,7 @@ class WbBackground extends WbBaseNode {
       _wr_texture_set_texture_unit(cm, 13);
       _wr_texture_setup(cm);
 
-      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width,);
+      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
       if (this.irradianceCubeTexture) {
@@ -218,8 +216,7 @@ class WbBackground extends WbBaseNode {
 
     _wr_texture_delete(cm);
 
-
-    for(let i = 0; i < hdrImageData.length; ++i)
+    for (let i = 0; i < hdrImageData.length; ++i)
       _free(hdrImageData[i]);
   }
 
@@ -234,11 +231,11 @@ class WbBackground extends WbBaseNode {
     this.updatePBRs();
   }
 
-  updatePBRs(){
+  updatePBRs() {
     World.instance.nodes.forEach((value, key, map) => {
-      if(value instanceof WbPBRAppearance && typeof value.parent !== 'undefined'){
+      if (value instanceof WbPBRAppearance && typeof value.parent !== 'undefined') {
         let parent = World.instance.nodes.get(value.parent);
-        if(typeof parent !== 'undefined')
+        if (typeof parent !== 'undefined')
           parent.applyMaterialToGeometry();
       }
     });
@@ -247,4 +244,4 @@ class WbBackground extends WbBaseNode {
 
 WbBackground.instance = undefined;
 
-export{WbBackground}
+export {WbBackground};

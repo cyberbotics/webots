@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbVector3} from "./WbVector3.js";
+import {WbVector3} from './WbVector3.js';
 
 class WbMatrix3 {
-  constructor(m0 = 1.0, m1 = 1.0, m2 = 1.0, m3 = 1.0, m4 = 1.0, m5 = 1.0, m6 = 1.0, m7 = 1.0, m8 = 1.0){
+  constructor(m0 = 1.0, m1 = 1.0, m2 = 1.0, m3 = 1.0, m4 = 1.0, m5 = 1.0, m6 = 1.0, m7 = 1.0, m8 = 1.0) {
     this.m = [9];
     this.m[0] = m0;
     this.m[1] = m1;
@@ -28,10 +28,10 @@ class WbMatrix3 {
     this.m[8] = m8;
   }
 
-  mulByVec3(v){
+  mulByVec3(v) {
     return new WbVector3(this.m[0] * v.x + this.m[1] * v.y + this.m[2] * v.z,
       this.m[3] * v.x + this.m[4] * v.y + this.m[5] * v.z,
       this.m[6] * v.x + this.m[7] * v.y + this.m[8] * v.z);
   }
 }
-export {WbMatrix3}
+export {WbMatrix3};

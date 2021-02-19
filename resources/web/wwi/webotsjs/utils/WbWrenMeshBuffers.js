@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbVector4} from "./WbVector4.js"
-import {WbVector3} from "./WbVector3.js"
+import {WbVector4} from './WbVector4.js';
+import {WbVector3} from './WbVector3.js';
 
 class WbWrenMeshBuffers {
   constructor(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
@@ -33,7 +33,7 @@ class WbWrenMeshBuffers {
     this.indicesCount = indicesCount;
 
     this.isExternalVertexBuffer = false;
-    this.isExternalNormalBuffer = false
+    this.isExternalNormalBuffer = false;
 
     this.resetAll(verticesCount, indicesCount, this.texCoordSetsCount, colorBufferSize);
   }
@@ -104,4 +104,4 @@ class WbWrenMeshBuffers {
   }
 }
 
-export {WbWrenMeshBuffers}
+export {WbWrenMeshBuffers};

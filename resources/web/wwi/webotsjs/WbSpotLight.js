@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbLight} from "./WbLight.js"
-import {findUpperTransform} from "./WbUtils.js"
+import {WbLight} from './WbLight.js';
+import {findUpperTransform} from './WbUtils.js';
 
 class WbSpotLight extends WbLight {
-  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parent){
+  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parent) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
     this.attenuation = attenuation;
     this.beamWidth = beamWidth;
@@ -25,8 +25,9 @@ class WbSpotLight extends WbLight {
     this.location = location;
     this.radius = radius;
 
-    this.wrenLight
-    if(typeof parent !== 'undefined')
+    this.wrenLight = undefined;
+
+    if (typeof parent !== 'undefined')
       this.parent = parent.id;
   }
 
@@ -91,7 +92,7 @@ class WbSpotLight extends WbLight {
 
     const maxCount = _wr_config_get_max_active_spot_light_count();
     const activeCount = _wr_scene_get_active_spot_light_count(_wr_scene_get_instance());
-    if (activeCount == maxCount)
+    if (activeCount === maxCount)
       console.log("Maximum number of active spotlights has been reached, newly added lights won't be rendered.");
   }
 
@@ -108,8 +109,8 @@ class WbSpotLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows)
+    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 }
 
-export {WbSpotLight}
+export {WbSpotLight};

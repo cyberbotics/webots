@@ -1,19 +1,13 @@
-import {Parser, convertStringToVec3, convertStringToQuaternion} from "./parser.js";
-import {webots} from "./../wwi/webots.js";
+import {Parser, convertStringToVec3, convertStringToQuaternion} from './parser.js';
+import {webots} from './../wwi/webots.js';
 
-import {WrenRenderer} from "./webotsjs/WrenRenderer.js";
-import {WbTransform} from "./webotsjs/WbTransform.js";
-import {World} from "./webotsjs/World.js"
-import {WbAbstractAppearance} from "./webotsjs/WbAbstractAppearance.js"
-import {WbPBRAppearance} from "./webotsjs/WbPBRAppearance.js"
-import {WbMaterial} from "./webotsjs/WbMaterial.js"
-import {WbGeometry} from "./webotsjs/WbGeometry.js"
-import {WbLight} from "./webotsjs/WbLight.js"
-import {WbBackground} from "./webotsjs/WbBackground.js"
-import {WbGroup} from "./webotsjs/WbGroup.js"
-import {getAncestor} from "./webotsjs/WbUtils.js"
-
-'use strict';
+import {WrenRenderer} from './webotsjs/WrenRenderer.js';
+import {WbTransform} from './webotsjs/WbTransform.js';
+import {World} from './webotsjs/World.js';
+import {WbPBRAppearance} from './webotsjs/WbPBRAppearance.js';
+import {WbMaterial} from './webotsjs/WbMaterial.js';
+import {WbGroup} from './webotsjs/WbGroup.js';
+import {getAncestor} from './webotsjs/WbUtils.js';
 
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
@@ -42,7 +36,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       return;
     }
 
-    this.renderer.render();//this.composer.render();
+    this.renderer.render();
 
     this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this.renderingTimeout);
@@ -75,10 +69,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.renderer.setSize(width, height);
 
-    if(typeof World.instance.scene !== 'undefined')
+    if (typeof World.instance.scene !== 'undefined')
       World.instance.scene.updateFrameBuffer();
 
-    if(typeof World.instance.viewpoint !== 'undefined')
+    if (typeof World.instance.viewpoint !== 'undefined')
       World.instance.viewpoint.updatePostProcessingEffects();
 
     this.render();
@@ -107,13 +101,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     this.renderMinimal();
-    this.loader = undefined
+    this.loader = undefined;
   }
 
   deleteObject(id) {
     console.log(id);
     let object = World.instance.nodes.get('n' + id);
-    if(typeof object === 'undefined')
+    if (typeof object === 'undefined')
       return;
 
     object.delete();
@@ -124,36 +118,36 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   loadWorldFile(url, onLoad) {
     let request = new XMLHttpRequest();
-    request.open("GET", url, true);
-    request.onload = async function () {
-        let doc = request.responseXML;
+    request.open('GET', url, true);
+    request.onload = async function() {
+      let doc = request.responseXML;
 
-        if(typeof this.loader === 'undefined')
-          this.loader = new Parser(this.prefix);
+      if (typeof this.loader === 'undefined')
+        this.loader = new Parser(this.prefix);
 
-        this.loader.prefix = '';
-        console.log(doc.getElementsByTagName('Scene')[0]);
-        await this.loader.parseFile(doc);
-        onLoad();
+      this.loader.prefix = '';
+      console.log(doc.getElementsByTagName('Scene')[0]);
+      await this.loader.parseFile(doc);
+      onLoad();
     };
 
-    request.send(null)
+    request.send(null);
   }
 
   loadObject(x3dObject, parentId) {
     let parentNode;
-    if(typeof parentId !== 'undefined' && parentId > 0){
-        parentNode = World.instance.nodes.get('n' + parentId);
-        let ancestor = getAncestor(parentNode);
-        ancestor.isPreFinalizeCalled = false;
-        ancestor.wrenObjectsCreatedCalled = false;
-        ancestor.isPostFinalizeCalled = false;
+    if (typeof parentId !== 'undefined' && parentId > 0) {
+      parentNode = World.instance.nodes.get('n' + parentId);
+      let ancestor = getAncestor(parentNode);
+      ancestor.isPreFinalizeCalled = false;
+      ancestor.wrenObjectsCreatedCalled = false;
+      ancestor.isPostFinalizeCalled = false;
     }
 
-    if(typeof this.loader === 'undefined')
+    if (typeof this.loader === 'undefined')
       this.loader = new Parser(this.prefix);
 
-    this.loader.prefix = "http://localhost:1234/";
+    this.loader.prefix = 'http://localhost:1234/';
     this.loader.parse(x3dObject, this.renderer, parentNode);
 
     this.onSceneUpdate();
@@ -163,22 +157,21 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let id = pose.id;
     let object = World.instance.nodes.get('n' + id);
 
-    if(typeof object === 'undefined')
+    if (typeof object === 'undefined')
       return;
 
     this.applyPoseToObject(pose, object);
 
-    //Update the related USE nodes
+    // Update the related USE nodes
     let length = object.useList.length - 1;
-    while(length >= 0) {
+    while (length >= 0) {
       let use = World.instance.nodes.get(object.useList[length]);
-      if(typeof use === 'undefined') {
-        //remove a USE node from the list if it has been deleted
+      if (typeof use === 'undefined') {
+        // remove a USE node from the list if it has been deleted
         let index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
-      } else {
-        this.applyPoseToObject(pose, use)
-      }
+      } else
+        this.applyPoseToObject(pose, use);
 
       --length;
     }
@@ -193,16 +186,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (fields.indexOf(key) !== -1)
         continue;
 
-      if(key === 'translation' && object instanceof WbTransform){
+      if (key === 'translation' && object instanceof WbTransform) {
         let translation = convertStringToVec3(pose[key]);
         object.translation = translation;
         object.applyTranslationToWren();
-        fields.push[key];
+        fields.push(key);
       } else if (key === 'rotation') {
         let quaternion = convertStringToQuaternion(pose[key]);
         object.rotation = quaternion;
         object.applyRotationToWren();
-        fields.push[key];
+        fields.push(key);
       } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -211,17 +204,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
 
-        if(object instanceof WbMaterial)
+        if (object instanceof WbMaterial)
           World.instance.nodes.get(World.instance.nodes.get(object.parent).parent).updateAppearance();
-        else{
+        else
           World.instance.nodes.get(object.parent).updateAppearance();
-        }
       }
     }
 
     if (typeof object.parent !== 'undefined') {
       let parent = World.instance.nodes.get(object.parent);
-      if(typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
         parent.switchHelix(object.id);
     }
 
@@ -296,4 +288,4 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 }
 
-export {X3dScene}
+export {X3dScene};

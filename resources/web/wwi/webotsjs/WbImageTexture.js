@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbBaseNode} from "./WbBaseNode.js";
-import {World} from "./World.js";
-import {WbAppearance} from "./WbAppearance.js";
+import {WbBaseNode} from './WbBaseNode.js';
+import {World} from './World.js';
+import {WbAppearance} from './WbAppearance.js';
 
-import {arrayXPointer} from "./WbUtils.js";
-import {textureFiltering} from "./WbPreferences.js";
-import {WbVector2} from "./utils/WbVector2.js"
-import {Parser} from "./../parser.js"
-
+import {arrayXPointer} from './WbUtils.js';
+import {textureFiltering} from './WbPreferences.js';
+import {WbVector2} from './utils/WbVector2.js';
+import {Parser} from './../parser.js';
 
 class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, filtering){
+  constructor(id, url, isTransparent, s, t, filtering) {
     super(id);
     this.url = url;
 
@@ -33,18 +32,18 @@ class WbImageTexture extends WbBaseNode {
     this.filtering = filtering;
 
     this.wrenTextureIndex = 0;
-    this.usedFiltering = 0
+    this.usedFiltering = 0;
 
     this.wrenTexture = undefined;
     this.wrenTextureTransform = undefined;
     this.wrenBackgroundTexture = undefined;
     this.externalTexture = false;
-    this.externalTextureRatio = new WbVector2(1.0,1.0);
+    this.externalTextureRatio = new WbVector2(1.0, 1.0);
 
-    this.type; //use in pbr appearance to know what is the role of this image
+    this.type = undefined; // use in pbr appearance to know what is the role of this image
   }
 
-  delete(){
+  delete() {
     this.destroyWrenTexture();
 
     if (typeof this.parent !== 'undefined') {
@@ -54,26 +53,26 @@ class WbImageTexture extends WbBaseNode {
           parent.texture = undefined;
         else {
           switch (this.type) {
-            case "baseColorMap":
+            case 'baseColorMap':
               parent.baseColorMap = undefined;
               break;
-            case "roughnessMap":
+            case 'roughnessMap':
               parent.roughnessMap = undefined;
               break;
-            case "metalnessMap":
+            case 'metalnessMap':
               parent.metalnessMap = undefined;
               break;
-            case "normalMap":
+            case 'normalMap':
               parent.normalMap = undefined;
               break;
-            case "occlusionMap":
+            case 'occlusionMap':
               parent.occlusionMap = undefined;
               break;
-            case "emissiveColorMap":
+            case 'emissiveColorMap':
               parent.emissiveColorMap = undefined;
               break;
             default:
-              console.error("unknow imageTexture: " + this.id);
+              console.error('unknow imageTexture: ' + this.id);
           }
         }
       }
@@ -88,13 +87,13 @@ class WbImageTexture extends WbBaseNode {
     _wr_material_set_texture(wrenMaterial, this.wrenTexture, this.wrenTextureIndex);
     if (this.wrenTexture) {
       _wr_texture_set_translucent(this.wrenTexture, this.isTransparent);
-      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT  : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
-      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT  : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
-      _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering  - 1), this.wrenTextureIndex);
-      _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering , this.wrenTextureIndex);
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
+      _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this.wrenTextureIndex);
+      _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
 
-      if (this.externalTexture && ! World.instance.nodes.get(this.parent).textureTransform) {
+      if (this.externalTexture && !World.instance.nodes.get(this.parent).textureTransform) {
         _wr_texture_transform_delete(this.wrenTextureTransform);
         this.wrenTextureTransform = _wr_texture_transform_new();
         _wr_texture_transform_set_scale(this.wrenTextureTransform, this.externalTextureRatio.x, this.externalTextureRatio.y);
@@ -161,7 +160,7 @@ class WbImageTexture extends WbBaseNode {
 
   async updateUrl() {
     // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-    this.url = this.url.replaceAll("\\", "/");
+    this.url = this.url.replaceAll('\\', '/');
 
     await this.updateWrenTexture();
   }
@@ -174,11 +173,11 @@ class WbImageTexture extends WbBaseNode {
   }
 
   clone(customID) {
-    let imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering)
-    imageTexture.updateUrl()
+    let imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
+    imageTexture.updateUrl();
     this.useList.push(customID);
     return imageTexture;
   }
 }
 
-export {WbImageTexture}
+export {WbImageTexture};
