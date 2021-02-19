@@ -18,6 +18,8 @@ The [InertialUnit](#inertialunit) node simulates an *Inertial Measurement Unit* 
 The [InertialUnit](#inertialunit) computes and returns its *roll*, *pitch* and *yaw* angles with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
 If you would like to measure an acceleration or an angular velocity, please use the [Accelerometer](accelerometer.md) or [Gyro](gyro.md) node instead.
 The *roll*, *pitch*, and *yaw* angles for ENU and NUE coordinate systems (the `coordinateSystem` field in the [WorldInfo](worldinfo.md) node) are depicted in the picture below.
+For the NUE coordinate system, convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
+For the ENU coordinate system, convention is commonly referred to as the *x-y-z* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by ZYX.
 
 > **Note**: To avoid gimbal lock situation you can use the `wb_inertial_unit_get_quaternion` function.
 
