@@ -30,6 +30,7 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <ode/common.h>
 #include <ode/ode.h>
 #include <wren/config.h>
 #include <wren/node.h>
@@ -41,12 +42,13 @@
 
 void WbTransmissionJoint::init() {
   mJoint2 = NULL;
+  mTransmission = NULL;
+  mTransmissionMode = -1;
   mParameters2 = findSFNode("jointParameters2");
   mStartPoint = findSFNode("startPoint");
   mBacklash = findSFDouble("backlash");
   mMultiplier = findSFDouble("multiplier");
   mStartPoint = findSFNode("startPoint");
-  mGearType = UNDEFINED;
 
   mIsStartPointPositionChangedByJoint = false;
 
@@ -104,6 +106,7 @@ void WbTransmissionJoint::preFinalize() {
   // startPoint (interface-wise) and endPoint (code-wise)
   WbHingeJoint::preFinalize();
   // endPoint (interface-wise) and startPoint (code-wise)
+  /*
   WbBaseNode::preFinalize();  // ???????????????????
   updateParameters2();
   updateStartPointZeroTranslationAndRotation();
@@ -116,12 +119,14 @@ void WbTransmissionJoint::preFinalize() {
     e2->preFinalize();
 
   mInitialPosition2 = mPosition2;
+  */
 }
 
 void WbTransmissionJoint::postFinalize() {
   // startPoint (interface-wise) and endPoint (code-wise)
   WbHingeJoint::postFinalize();
   // endPoint (interface-wise) and startPoint (code-wise)
+  /*
   WbBaseNode::postFinalize();  // ???????????????????
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   WbBaseNode *const e2 = dynamic_cast<WbBaseNode *>(mStartPoint->value());
@@ -132,6 +137,11 @@ void WbTransmissionJoint::postFinalize() {
 
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
   connect(mStartPoint, &WbSFNode::changed, this, &WbTransmissionJoint::updateStartPoint);
+
+  // updateAxis();
+  // updateAxis2();
+  // updateAnchor();
+  // updateAnchor2();
 
   const WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
   if (pg)
@@ -158,6 +168,7 @@ void WbTransmissionJoint::postFinalize() {
 
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
+  */
 }
 
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters2() const {
@@ -232,6 +243,63 @@ WbVector3 WbTransmissionJoint::axis2() const {
   static const WbVector3 DEFAULT_AXIS(0.0, 1.0, 0.0);
   const WbHingeJointParameters *const p2 = hingeJointParameters2();
   return p2 ? p2->axis() : DEFAULT_AXIS;
+}
+
+void WbTransmissionJoint::updateAxis() {
+  printf("updateAxis\n");
+  // update the current startPoint pose based on the new axis value
+  updatePosition();
+
+  if (mJoint)
+    applyToOdeAxis();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
+
+  inferTransmissionMode();
+}
+
+void WbTransmissionJoint::updateAxis2() {
+  printf("updateAxis2\n");
+  // update the current endpoint pose based on the new axis value
+  updatePosition2();
+
+  if (mJoint2)
+    applyToOdeAxis2();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
+
+  inferTransmissionMode();
+}
+
+void WbTransmissionJoint::updateAnchor() {
+  printf("updateAnchor\n");
+  // update the current endPoint pose based on the new anchor value
+  updatePosition();
+
+  if (mJoint)
+    applyToOdeAnchor();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
+
+  inferTransmissionMode();
+}
+
+void WbTransmissionJoint::updateAnchor2() {
+  printf("updateAnchor2\n");
+  // update the current endPoint pose based on the new anchor value
+  // but do not modify the initial endPoint pose
+  updatePosition2();
+
+  if (mJoint2)
+    applyToOdeAnchor2();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
+
+  inferTransmissionMode();
 }
 
 bool WbTransmissionJoint::setJoint() {
@@ -366,6 +434,7 @@ void WbTransmissionJoint::computeEndPointSolidPositionFromParameters(WbVector3 &
 // Updates
 
 void WbTransmissionJoint::updateParameters() {
+  printf("updateParameters\n");
   const WbHingeJointParameters *const p = hingeJointParameters();
   if (p) {
     mOdePositionOffset = p->position();
@@ -377,13 +446,14 @@ void WbTransmissionJoint::updateParameters() {
 }
 
 void WbTransmissionJoint::updateParameters2() {
+  printf("updateParameters2\n");
   const WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2) {
     mOdePositionOffset = p2->position();
     mPosition2 = mOdePositionOffset2;
     connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition2()), Qt::UniqueConnection);
-    connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
-    connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
+    connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
   }
 }
 
@@ -513,6 +583,9 @@ void WbTransmissionJoint::updateJointAxisRepresentation() {
 void WbTransmissionJoint::updateBacklash() {
   WbFieldChecker::resetDoubleIfNegative(this, mBacklash, 0.0);
   printf("new backlash %f\n", mBacklash->value());
+
+  if (mStartPoint && mEndPoint)
+    printf("bodies %d %d\n", solidEndPoint()->body(), solidStartPoint()->body());
 }
 
 void WbTransmissionJoint::updateMultiplier() {
@@ -523,36 +596,93 @@ void WbTransmissionJoint::updateMultiplier() {
 
   printf("new multiplier = %f\n", mMultiplier->value());
 
-  inferGearType();
+  inferTransmissionMode();
 }
 
-void WbTransmissionJoint::inferGearType() {
-  mGearType = UNDEFINED;
+void WbTransmissionJoint::inferTransmissionMode() {
+  mTransmissionMode = -1;
   const bool isCodirectional = axis().normalized().almostEquals(axis2().normalized());
   if (mMultiplier->value() < 0.0 && isCodirectional)
-    mGearType = CLASSIC_GEAR;
+    mTransmissionMode = dTransmissionParallelAxes;
   else if (mMultiplier->value() > 0.0 && isCodirectional)
-    mGearType = CHAIN_DRIVE;
+    mTransmissionMode = dTransmissionChainDrive;
   else {
     // determine if they intersect
     const bool isCoplanar = fabs(axis().cross(axis2()).dot(anchor() - anchor2())) < 1e-10;
     const bool isParallel = fabs(axis().cross(axis2()).length2()) < 1e-10;
     if (isCoplanar && !isParallel)
-      mGearType = BEVEL_GEAR;
+      mTransmissionMode = dTransmissionIntersectingAxes;
   }
 
-  switch (mGearType) {
-    case CLASSIC_GEAR:
+  switch (mTransmissionMode) {
+    case dTransmissionParallelAxes:
       printf("geartype = CLASSIC GEAR\n");
       break;
-    case CHAIN_DRIVE:
+    case dTransmissionChainDrive:
       printf("geartype = CHAIN DRIVE\n");
       break;
-    case BEVEL_GEAR:
+    case dTransmissionIntersectingAxes:
       printf("geartype = BEVEL GEAR\n");
       break;
     default:
       printf("geartype = UNDEFINED\n");
+  }
+
+  setupTransmission();
+}
+
+void WbTransmissionJoint::setupTransmission() {
+  if (mTransmissionMode == -1) {
+    printf("undefined transmission\n");
+    return;
+  }
+
+  if (!mTransmission)
+    mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
+
+  const WbSolid *const sep = solidEndPoint();
+  const WbSolid *const ssp = solidStartPoint();
+
+  if (!sep || !ssp)
+    return;
+
+  dJointAttach(mTransmission, ssp->body(), sep->body());
+  printf("bodies %d %d\n", solidEndPoint()->body(), solidStartPoint()->body());
+
+  // TMP
+  return;
+  dMatrix3 R;
+  dRSetIdentity(R);
+  dBodySetRotation(sep->body(), R);
+  dBodySetRotation(ssp->body(), R);
+  dBodySetFiniteRotationMode(ssp->body(), 1);
+  dBodySetFiniteRotationMode(sep->body(), 1);
+  // TMP
+
+  const WbVector3 &ax1 = axis();
+  const WbVector3 &ax2 = axis2();
+  const WbVector3 &an1 = anchor();
+  const WbVector3 &an2 = anchor2();
+
+  printf("%f %f %f\n", an1.x(), an1.y(), an1.z());
+  dJointSetTransmissionAnchor1(mTransmission, an1.x(), an1.y(), an1.z());
+  dJointSetTransmissionAnchor2(mTransmission, an2.x(), an2.y(), an2.z());
+
+  dJointSetTransmissionMode(mTransmission, mTransmissionMode);
+  dJointSetTransmissionBacklash(mTransmission, mBacklash->value());
+
+  if (mTransmissionMode == dTransmissionParallelAxes) {
+    dJointSetTransmissionRatio(mTransmission, mMultiplier->value());
+    dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
+  }
+  if (mTransmissionMode == dTransmissionChainDrive) {
+    dJointSetTransmissionRadius1(mTransmission, 1.0);
+    dJointSetTransmissionRadius2(mTransmission, mMultiplier->value());
+    dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
+  }
+  if (mTransmissionMode == dTransmissionIntersectingAxes) {
+    dJointSetTransmissionAxis1(mTransmission, ax1.x(), ax1.y(), ax1.z());
+    dJointSetTransmissionAxis2(mTransmission, ax2.x(), ax2.y(), ax2.z());
   }
 }
 

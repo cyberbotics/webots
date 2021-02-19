@@ -4,7 +4,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0 1 0 0
-  position 0 8.01209941848205e-17 1.4433315182212447
+  position 0 8.01209941848205e-17 1.4116382203198503
 }
 TexturedBackground {
 }
@@ -15,10 +15,8 @@ Robot {
     TransmissionJoint {
       jointParameters HingeJointParameters {
       }
-      jointParameters2 HingeJointParameters {
-      }
-      endPoint Solid {
-        translation 0.1 0 0
+      startPoint Solid {
+        rotation 1 0 0 0
         children [
           Shape {
             appearance PBRAppearance {

@@ -63,10 +63,10 @@ signals:
   void startPointChanged(WbBaseNode *node);
 
 protected:
-  WrTransform *mTransform;
-  WrRenderable *mRenderable;
-  WrStaticMesh *mMesh;
-  WrMaterial *mMaterial;
+  WrTransform *mTransform2;
+  WrRenderable *mRenderable2;
+  WrStaticMesh *mMesh2;
+  WrMaterial *mMaterial2;
 
   dJointID mJoint2;
   dJointID jointID() const { return mJoint2; }
@@ -76,6 +76,8 @@ protected:
   bool mSpringAndDampingConstantsAxis2On;
   double mInitialPosition2;
   bool mIsStartPointPositionChangedByJoint;
+
+  void setupTransmission();
 
   void updateOdePositionOffset() override;
   void updateOdePositionOffset2();
@@ -95,10 +97,17 @@ protected slots:
   void updatePosition2();
   void updateJointAxisRepresentation() override;
 
+  void updateAxis() override;
+  void updateAxis2();
+  void updateAnchor() override;
+  void updateAnchor2();
+
 private:
-  enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
-  int mGearType;
-  void inferGearType();
+  // enum { UNDEFINED, CLASSIC_GEAR, BEVEL_GEAR, CHAIN_DRIVE };
+  int mTransmissionMode;
+  dJointID mTransmission;
+
+  void inferTransmissionMode();
   WbTransmissionJoint &operator=(const WbTransmissionJoint &);  // non copyable
   void init();
   WbSFNode *mParameters2;
