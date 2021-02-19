@@ -20,9 +20,6 @@
 #include <GLES3/gl3.h>
 #include <emscripten/html5.h>
 
-#define STB_IMAGE_IMPLEMENTATION  // needed for include to work properly
-#include <stb_image.h>
-
 #include <unistd.h>
 #include <iostream>
 
@@ -129,17 +126,6 @@ void wrjs_init_context(int width, int height) {
 
 void wrjs_exit() {
   exit(0);
-}
-
-const char *wrjs_load_hdr_file(int *w, char *url) {
-  int h, components;
-  float *data = stbi_loadf(url, w, &h, &components, 0);
-
-  return reinterpret_cast<const char *>(data);
-}
-
-void wrjs_free_hdr_file(char *pointer) {
-  stbi_image_free(pointer);
 }
 
 #endif
