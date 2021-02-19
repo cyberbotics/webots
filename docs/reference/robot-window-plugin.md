@@ -153,4 +153,4 @@ Devices update data depends on the type:
  }```
 
 The `wbu_default_robot_window_set_images_max_size` function sets the maximum image size used to send rendering devices' image from the controller to the robot window.
-If the size of an image is bigger than the maximum size, then the image is scaled before appending it to the update message.
+If the size of an image is bigger than the maximum size, then the image is scaled down before it is appended to the update message.
