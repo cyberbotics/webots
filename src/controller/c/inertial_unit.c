@@ -153,16 +153,28 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
 
     const double *q = inertial_unit->quaternion;
 
-    int order[] = {1, 0, 2}; // ENU
+
     if (strcmp(inertial_unit->coordinate_system, "NUE") == 0) {
       // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
-      order[0] = 2;
-      order[1] = 0;
-      order[2] = 1;
+      result[2] = atan2(2 * q[1] * q[3] - 2 * q[0] * q[2], 1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]);
+      result[0] = atan2(2 * q[0] * q[3] - 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]);
+      result[1] = asin(2 * q[0] * q[1] + 2 * q[2] * q[3]);
+    } else {
+      // ENU
+      const double t0 = 2.0 * (q[3] * q[0] + q[1] * q[2]);
+      const double t1 = 1.0 - 2.0 * (q[0] * q[0] + q[1] * q[1]);
+      const double roll = atan2(t0, t1);
+      double t2 = 2.0 * (q[3] * q[1] - q[2] * q[0]);
+      t2 = (t2 > 1.0) ? 1.0 : t2;
+      t2 = (t2 < -1.0) ? -1.0 : t2;
+      const double pitch = asin(t2);
+      const double t3 = 2.0 * (q[3] * q[2] + q[0] * q[1]);
+      const double t4 = 1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]);
+      const double yaw = atan2(t3, t4);
+      result[0] = roll;
+      result[1] = pitch;
+      result[2] = yaw;
     }
-    result[order[0]] = atan2(2 * q[1] * q[3] - 2 * q[0] * q[2], 1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]);
-    result[order[1]] = atan2(2 * q[0] * q[3] - 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]);
-    result[order[2]] = asin(2 * q[0] * q[1] + 2 * q[2] * q[3]);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
