@@ -284,6 +284,14 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
+static void wb_camera_reset(WbDevice *d) {
+  wb_abstract_camera_reset(d);
+  const AbstractCamera *ac = d->pdata;
+  const Camera *c = ac->pdata;
+  if (c->segmentation_image)
+    c->segmentation_image->update_time = 0.0;
+}
+
 static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
   abstract_camera_toggle_remote(d, r);
   AbstractCamera *ac = d->pdata;
@@ -307,6 +315,7 @@ static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
 void wb_camera_init(WbDevice *d) {
   d->read_answer = wb_camera_read_answer;
   d->write_request = wb_camera_write_request;
+  d->reset = wb_camera_reset;
   d->cleanup = wb_camera_cleanup;
   d->pdata = NULL;
   d->toggle_remote = camera_toggle_remote;

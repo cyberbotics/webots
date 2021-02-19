@@ -4,8 +4,6 @@
 /* global TimeplotWidget: false */
 /* exported motorSetPosition */
 /* exported motorUnsetPosition */
-/* exported differentialWheelsSetSpeedTag */
-/* exported differentialWheelsResetSpeedTag */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var basicTimeStep = -1;
@@ -13,7 +11,6 @@ var robotName = '';
 var widgets = {}; // Dictionary {deviceName -> [TimeplotWidget0, PlotWidget0, PlotWidget1, ...] }
 var images = {}; // Dictionary {deviceName -> imageDiv }
 var commands = []; // Commands to be sent to the C library.
-var differentialWheelsTag = ''; // Speed command to be executed.
 var motorCommands = {}; // Buffered motor commands.
 var touchedCheckboxes = []; // Last touched cheboxes.
 var supportedDeviceTypes = [
@@ -112,14 +109,6 @@ function motorUnsetPosition(deviceName) {
   delete motorCommands[deviceName];
 }
 
-function differentialWheelsSetSpeedTag(tag) {
-  differentialWheelsTag = tag;
-}
-
-function differentialWheelsResetSpeedTag(_tag) {
-  differentialWheelsTag = '';
-}
-
 function appendNewElement(id, newElement) {
   const tmp = document.createElement('tmp');
   tmp.innerHTML = newElement;
@@ -149,7 +138,7 @@ function addDevice(device) {
 
   let div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
-  if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')
+  if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor')
     div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="checkboxCallback(this)" />';
   div += device.htmlName + '<span id="' + device.htmlName + '-label"></span></h2>';
   if (device.type === 'Camera' && device.recognition === 1) {
@@ -185,8 +174,6 @@ function addDevice(device) {
     createGenericImageDevice(device);
   else if (device.type === 'Compass')
     createGeneric3DDevice(device, TimeplotWidget.prototype.AutoRangeType.NONE, -1.0, 1.0, '');
-  else if (device.type === 'DifferentialWheels')
-    createDifferentialWheels(device);
   else if (device.type === 'DistanceSensor')
     createGeneric1DDevice(device, TimeplotWidget.prototype.AutoRangeType.NONE, device.minValue, device.maxValue, 'Raw');
   else if (device.type === 'GPS')
@@ -286,31 +273,6 @@ function createMotor(device, autoRange, minValue, maxValue, yLabel) {
   widgets[device.name] = [widget];
 }
 
-function createDifferentialWheels(device) {
-  const buttonsData = [ // tag name, button tool tip, button text
-    ['left_forward', 'Left-forward', '&#8598;'],
-    ['forward', 'Forwads', '&#8593;'],
-    ['right_forward', 'Right-forward', '&#8599;'],
-    ['left', 'Left', '&#8592;'],
-    ['stop', 'Stop', 'O'],
-    ['right', 'Right', '&#8594;'],
-    ['left_backward', 'Left-backward', '&#8601;'],
-    ['backward', 'Backward', '&#8595;'],
-    ['right_backward', 'Right-backward', '&#8600;']
-  ];
-  buttonsData.forEach(function(buttonData) {
-    appendNewElement(device.name + '-content',
-      '<button class="differential-wheels-button" ' +
-        'title="' + buttonData[1] + '" ' +
-        'onmousedown="differentialWheelsSetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        'onmouseup="differentialWheelsResetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        'onmouseleave="differentialWheelsResetSpeedTag(\'' + buttonData[0] + '\')" ' +
-        '>' + buttonData[2] +
-      '</button>'
-    );
-  });
-}
-
 // Protect all the character instances in the string by prefixing a '\' character.
 function protect(str, chars) {
   let protectedStr = str;
@@ -346,8 +308,6 @@ function configure(data) {
 
   // Parse the devices once to prepare de device type list.
   let deviceTypes = [];
-  if (data.type === 'DifferentialWheels')
-    deviceTypes.push(data.type);
   data.devices.forEach(function(device) {
     if (supportedDeviceTypes.indexOf(device.type) >= 0 && deviceTypes.indexOf(device.type) < 0)
       deviceTypes.push(device.type);
@@ -362,8 +322,6 @@ function configure(data) {
   });
 
   // Create a device container per device.
-  if (data.type === 'DifferentialWheels')
-    addDevice({'name': robotName.replace(/&quot;/g, '"'), 'type': data.type });
   data.devices.forEach(function(device) {
     if (supportedDeviceTypes.indexOf(device.type) >= 0) {
       device.htmlName = device.name;
@@ -462,8 +420,6 @@ function receive(message, _robot) {
   } else
     console.log("Unexpected message received: '" + message + "'");
 
-  if (differentialWheelsTag)
-    commands.push(protect(robotName, [':', ',']) + ':' + differentialWheelsTag);
   Object.keys(motorCommands).forEach(function(deviceName) {
     commands.push(protect(deviceName, [':', ',']) + ':position=' + motorCommands[deviceName]);
   });

@@ -78,6 +78,7 @@ public slots:
   void showGuidedTour();
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
+  void resetWorldFromGui();
 
 protected:
   bool event(QEvent *event) override;
@@ -92,8 +93,7 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorldFromGui();
-  void resetWorld(bool restartControllers);
+  void resetGui(bool restartControllers);
   void importVrml();
   void exportVrml();
   void exportHtml();

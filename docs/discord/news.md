@@ -4,6 +4,36 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/02/2021 11:27:13
+Here is sneak preview of our brand new 3D web interface for Webots:  [https://cyberbotics.com/animations/nao\_room/nao\_room.html](https://cyberbotics.com/animations/nao_room/nao_room.html) 
+
+It is based on a port of WREN (Webots Rendering ENgine) to webassembly and thus the rendering on the web page is very similar to the one you get in Webots. Moreover, it is fully compatible with the previous Webots animation format, so you can create a Webots animation (or re-use an existing one) and publish it on the web using this new 3D viewer.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/01/2021 14:04:59
+**Navigation in Webots for ROS2 with Tiago**
+
+
+
+Francisco Martín Rico has recently published a very nice simulation with a Tiago robot from PAL Robotics.
+
+
+
+[https://www.linkedin.com/posts/fmrico\_nav2-webots-ros2-activity-6761640993717547009-Pgu5/](https://www.linkedin.com/posts/fmrico_nav2-webots-ros2-activity-6761640993717547009-Pgu5/)
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/01/2021 09:17:48
+Rescue Line Simulation Competition announced (to take place on February 6th): [http://www.icontact-archive.com/archive?c=348471&f=122878&s=130925&m=945046&t=eb7c45f08c6f41249a38a958d9974e197324482136cec8f5fadea7867fdd28c2](http://www.icontact-archive.com/archive?c=348471&f=122878&s=130925&m=945046&t=eb7c45f08c6f41249a38a958d9974e197324482136cec8f5fadea7867fdd28c2)
+
+##### KajalGada 01/30/2021 18:58:54
+Will do Olivier, thank you for the suggestion 🙂
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/29/2021 13:18:14
+`@KajalGada`: maybe you should post some announcement about it on ROS Discourse too: [https://discourse.ros.org/](https://discourse.ros.org/). This would be probably very much appreciated there.
+
+##### KajalGada 01/28/2021 21:07:54
+Tutorial on using Webots and ROS2 together. The tutorial goes over an example of driving epuck in Webots by sending messages on ROS2 topic.
+
+[https://youtu.be/vu8l0MBxttk](https://youtu.be/vu8l0MBxttk)
+
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 01/25/2021 15:54:17
 The link to join our Webots ROS 2 meeting changed to this: [https://meet.google.com/bpn-bggz-wdx](https://meet.google.com/bpn-bggz-wdx)
 

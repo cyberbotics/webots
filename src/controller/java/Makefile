@@ -48,7 +48,6 @@ JAVA_FILES      = Accelerometer.java \
                   Compass.java \
                   Connector.java \
                   Device.java \
-                  DifferentialWheels.java \
                   Display.java \
                   DistanceSensor.java \
                   Emitter.java \

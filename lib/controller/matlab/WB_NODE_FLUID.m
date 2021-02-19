@@ -1,2 +1,2 @@
 function value = WB_NODE_FLUID
-value = 62;
+value = 61;

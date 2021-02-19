@@ -235,10 +235,7 @@ bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   return false;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading) {
-  mWorldLoadingCanceled = false;
-  mWorldLoadingProgressDialogCreated = false;
-
+bool WbApplication::isValidWorldFileName(const QString &worldName) {
   QFileInfo worldNameInfo(worldName);
   if (!worldNameInfo.exists() || !worldNameInfo.isFile() || !worldNameInfo.isReadable()) {
     WbLog::error(tr("Could not open file: '%1'.").arg(worldName));
@@ -248,6 +245,12 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     WbLog::error(tr("Could not open file: '%1'. The world file extension must be '.wbt'.").arg(worldName));
     return false;
   }
+  return true;
+}
+
+bool WbApplication::loadWorld(QString worldName, bool reloading) {
+  mWorldLoadingCanceled = false;
+  mWorldLoadingProgressDialogCreated = false;
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
 
@@ -359,6 +362,7 @@ void WbApplication::worldReload() {
 }
 
 void WbApplication::simulationReset(bool restartControllers) {
+  WbWorld::instance()->reset(restartControllers);
   emit simulationResetRequested(restartControllers);
 }
 

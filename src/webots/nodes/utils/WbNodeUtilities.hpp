@@ -152,6 +152,9 @@ namespace WbNodeUtilities {
   // has this node a child of type Solid
   bool hasSolidChildren(const WbNode *node);
 
+  // has this node a Robot node descendant
+  bool hasARobotDescendant(const WbNode *node);
+
   // has this node a Device node descendant
   bool hasADeviceDescendant(const WbNode *node);
 

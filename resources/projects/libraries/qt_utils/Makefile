@@ -44,7 +44,6 @@ CXX_SOURCES = \
   widgets/CompassWidget.cpp \
   widgets/DeviceWidget.cpp \
   widgets/DeviceWidgetFactory.cpp \
-  widgets/DifferentialWheelsWidget.cpp \
   widgets/DistanceSensorWidget.cpp \
   widgets/GPSWidget.cpp \
   widgets/GyroWidget.cpp \
@@ -78,7 +77,6 @@ HPP_FILES_TO_MOC = \
   widgets/AccelerometerWidget.hpp \
   widgets/CameraWidget.hpp \
   widgets/CompassWidget.hpp \
-  widgets/DifferentialWheelsWidget.hpp \
   widgets/DistanceSensorWidget.hpp \
   widgets/GPSWidget.hpp \
   widgets/GyroWidget.hpp \
@@ -112,7 +110,7 @@ ifeq ($(OSTYPE),windows)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
  MOC = moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -lQt5Core -lQt5Gui -lQt5Widgets
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core -lQt5Gui -lQt5Widgets
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
 endif
 

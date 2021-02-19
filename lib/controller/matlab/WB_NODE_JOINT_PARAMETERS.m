@@ -1,2 +1,2 @@
 function value = WB_NODE_JOINT_PARAMETERS
-value = 68;
+value = 67;

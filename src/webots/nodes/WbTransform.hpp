@@ -101,7 +101,7 @@ protected:
   void createScaleManipulator() override;
 
 protected slots:
-  virtual void updateScale(bool warning = false);
+  virtual void updateScale(bool warning = true);
   void updateConstrainedHandleMaterials();
 
 private:
