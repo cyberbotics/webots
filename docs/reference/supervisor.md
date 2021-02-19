@@ -2238,7 +2238,7 @@ The following table summarizes the behavior of different reset functions:
 | **Removes nodes** | Yes | Yes | Yes | No | No | No |
 | **Restarts controller** | Yes | Yes | No | No | No | No |
 | **Stops sounds** | Yes | Yes | Yes | No | No | No |
-| **Resets seeds** | Yes | Yes | Yes | No | No | No |
+| **Resets random seeds** | Yes | Yes | Yes | No | No | No |
 | **Resets physics** | Yes | Yes | Yes | Scoped | Yes | Scoped |
 | **Resets physics plugin** | Yes | Yes | Yes | No | No | No |
 | **Resets all fields** | Yes | No | No | No | No | No |
