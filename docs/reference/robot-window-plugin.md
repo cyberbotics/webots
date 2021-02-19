@@ -37,7 +37,7 @@ char *wbu_default_robot_window_set_images_max_size(int max_width, int max_height
 
 These functions sends messages containing the robot's devices latest measurements that can be easily passed to the HTML robot window.
 
-The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON messages, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
+The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON message, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
 Here is the sample structure of the configure message:
 ```
 configure {
