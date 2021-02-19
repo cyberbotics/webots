@@ -2232,7 +2232,7 @@ The following table summarizes the behavior of different reset functions:
 - **Reset physics**: The `wb_supervisor_simulation_reset_physics` function.
 - **Reset node's physics**: The `wb_supervisor_node_reset_physics` function.
 
-| - | **Reload** | **Reset from user interface** | **Reset from [Supervisor](supervisor.md)** | **Load node's state from Supervisor** | **Reset physics** | **Reset node's physics** |
+|  | **Reload** | **Reset from user interface** | **Reset from Supervisor** | **Load node's state from Supervisor** | **Reset physics** | **Reset node's physics** |
 |-|-|-|-|-|-|-|
 | **Resets simulation time** | Yes | Yes | Yes | No | No | No |
 | **Removes nodes** | Yes | Yes | Yes | No | No | No |
