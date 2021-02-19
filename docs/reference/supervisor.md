@@ -2232,30 +2232,217 @@ The following table summarizes the behavior of different reset functions:
 - **Reset physics**: The `wb_supervisor_simulation_reset_physics` function.
 - **Reset node's physics**: The `wb_supervisor_node_reset_physics` function.
 
-|  | **Reload** | **Reset from user interface** | **Reset from Supervisor** | **Load node's state from Supervisor** | **Reset physics** | **Reset node's physics** |
-|-|-|-|-|-|-|-|
-| **Resets simulation time** | Yes | Yes | Yes | No | No | No |
-| **Removes nodes** | Yes | Yes | Yes | No | No | No |
-| **Restarts controller** | Yes | Yes | No | No | No | No |
-| **Stops sounds** | Yes | Yes | Yes | No | No | No |
-| **Resets random seeds** | Yes | Yes | Yes | No | No | No |
-| **Resets physics** | Yes | Yes | Yes | Yes (scoped) | Yes | Yes (scoped) |
-| **Resets physics plugin** | Yes | Yes | Yes | No | No | No |
-| **Resets all fields** | Yes | No | No | No | No | No |
-| **Adds removed nodes** | Yes | No | No | No | No | No |
-| **[Brake](brake.md)** | Resets | Releases | Releases | Releases | N/A | N/A |
-| **[Charger](charger.md)** | Resets | Resets the `battery` field and the `emissiveColor` field of the [Material](material.md) node of the first [Shape](shape.md) child node | Resets the `battery` field and the `emissiveColor` field of the [Material](material.md) node of the first [Shape](shape.md) child node | Loads the `battery` field and resets the emissiveColor field of the [Material](material.md) node of the first [Shape](shape.md) child node | N/A | N/A |
-| **[Display](display.md)** | Resets | Clears | Clears | Clears | N/A | N/A |
-| **[Emitter](emitter.md)/[Receiver](receiver.md)** | Resets | Clears the message queue | Clears the message queue | Clears the message queue | N/A | N/A |
-| **[Joint](joint.md)/[Motor](motor.md)** | Resets | Resets the position, velocity, acceleration, available torque, and available force | Resets the position, velocity, acceleration, available torque, and available force | Loads the position, resets the velocity, acceleration, available torque, and available force | N/A | N/A |
-| **[LED](led.md)** | Resets | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | If the first child is a Light node, it resets the `color` field and it switches the LED off. If the first child is a [Shape](shape.md) node, it resets the `emissiveColor` field of its [Material](material.md) node. | N/A | N/A |
-| **[Lidar](lidar.md)** | Resets | Resets the position of the rotating head | Resets the position of the rotating head | Resets the position of the rotating head | N/A | N/A |
-| **[Pen](pen.md)** | Resets | Cleans the painted textures | Cleans the painted textures | Cleans the painted textures | N/A | N/A |
-| **[Propeller](propeller.md)** | Resets | Resets the slow helix and it's initial position | Resets the slow helix and it's initial position | Resets the slow helix and it's initial position | N/A | N/A |
-| **[Robot](robot.md)** | Resets | Resets the `battery` field, removes all the supervisor labels, resets the nodes visibility, and restarts the controller | Resets the `battery` field, removes all the supervisor labels, and resets the nodes visibility | Loads the `battery` field, removes all the supervisor labels, and resets the nodes visibility | N/A | N/A |
-| **[Solid](solid.md)** | Resets | Resets the `translation` and `rotation` fields, and the physics | Resets the `translation` and `rotation` fields, and the physics | Loads the `translation` and `rotation` fields, and resets the physics | N/A | N/A |
-| **[Track](track.md)** | Resets | Resets the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | Resets the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | Loads the motor position and the `translation` field of the textureTransform node of the [Appearance](appearance.md) node of the first [Shape](shape.md) children node | N/A | N/A |
-| **[Viewpoint](viewpoint.md)** | Resets | Resets `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | Resets `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | Loads `orientation`, `position`, `near`, `far`, and `fieldOfView` fields | N/A | N/A |
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Reload</strong></th>
+      <th><strong>Reset from user interface</strong></th>
+      <th><strong>Reset from Supervisor</strong></th>
+      <th><strong>Load node&#39;s state from Supervisor</strong></th>
+      <th><strong>Reset physics</strong></th>
+      <th><strong>Reset node&#39;s physics</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Resets simulation time</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Removes nodes</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Restarts controller</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Stops sounds</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets random seeds</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets physics</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes (scoped)</td>
+      <td>Yes</td>
+      <td>Yes (scoped)</td>
+    </tr>
+    <tr>
+      <td><strong>Resets physics plugin</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets all fields</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Adds removed nodes</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong><a href="brake.md">Brake</a></strong></td>
+      <td>Resets</td>
+      <td>Releases</td>
+      <td>Releases</td>
+      <td>Releases</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="charger.md">Charger</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>battery</code> field and the <code>emissiveColor</code> field of the <a
+          href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td>Loads the <code>battery</code> field and resets the emissiveColor field of the <a
+          href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="display.md">Display</a></strong></td>
+      <td>Resets</td>
+      <td>Clears</td>
+      <td>Clears</td>
+      <td>Clears</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="emitter.md">Emitter</a>/<a href="receiver.md">Receiver</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Clears the message queue</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="joint.md">Joint</a>/<a href="motor.md">Motor</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
+      <td>Loads the position, resets the velocity, acceleration, available torque, and available force</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="led.md">LED</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>If the first child is a Light node, it resets the <code>color</code> field and it switches the LED off.
+        If the first child is a <a href="shape.md">Shape</a> node, it resets the <code>emissiveColor</code>
+        field of its <a href="material.md">Material</a> node.</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="lidar.md">Lidar</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the position of the rotating head</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="pen.md">Pen</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Cleans the painted textures</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="propeller.md">Propeller</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the slow helix and it&#39;s initial position</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="robot.md">Robot</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>battery</code> field, removes all the supervisor labels, resets the nodes visibility,
+        and restarts the controller</td>
+      <td>Loads the <code>battery</code> field, removes all the supervisor labels, and resets the nodes visibility
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="solid.md">Solid</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>translation</code> and <code>rotation</code> fields, and the physics</td>
+      <td>Loads the <code>translation</code> and <code>rotation</code> fields, and resets the physics</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="track.md">Track</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the motor position and the <code>translation</code> field of the textureTransform node of the <a
+          href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
+      </td>
+      <td>Loads the motor position and the <code>translation</code> field of the textureTransform node of the <a
+          href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="viewpoint.md">Viewpoint</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
+        <code>fieldOfView</code> fields
+      </td>
+      <td>Loads <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
+        <code>fieldOfView</code> fields
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
