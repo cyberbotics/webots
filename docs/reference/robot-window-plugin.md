@@ -54,7 +54,7 @@ configure {
   ]
 }
 ```
-Additionally for each device type specific information are provided.
+Additionally for each device type, specific information is provided.
 * [Camera](camera.md):
     ```
   {
