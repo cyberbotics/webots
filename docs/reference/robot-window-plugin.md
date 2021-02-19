@@ -4,7 +4,7 @@ This section describes utility functions for building a robot window plugin.
 
 A robot window allows the programmer to efficiently create a custom user interface for a robot.
 Robot windows are HTML applications that communicates with the robot controller.
-However, it is possible to build robot window plugins where the code is provided as an independent plugin instead of including it in the robot controller directly, and use the same robot window for any robot without modifying its robot controller.
+It is possible to build robot window plugins where the code is provided as an independent plugin instead of including it in the robot controller directly, and use the same robot window for any robot without modifying its controller.
 The functions described in this section can be used in the robot window plugin code to automatically send the devices measurements to the HTML robot window.
 
 Some instructions about how to build HTML robot windows are given in the [User Guide](../guide/controller-plugin.md#robot-window).
