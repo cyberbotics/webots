@@ -48,7 +48,7 @@ public:
   void propagateSelection(bool selected) override;
   void setMatrixNeedUpdate() override;
   void write(WbVrmlWriter &writer) const override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   void prePhysicsStep(double ms);
 
