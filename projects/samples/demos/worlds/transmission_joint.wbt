@@ -15,12 +15,11 @@ Robot {
     TransmissionJoint {
       jointParameters HingeJointParameters {
       }
-      startPoint Solid {
-        rotation 1 0 0 0
+      endPoint Solid {
         children [
           Shape {
             appearance PBRAppearance {
-              baseColor 0.8 0 0
+              baseColor 0.45098 0.823529 0.0862745
             }
             geometry Cylinder {
               height 0.1

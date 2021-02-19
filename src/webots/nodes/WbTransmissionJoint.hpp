@@ -17,12 +17,12 @@
 #ifndef WB_TRANSMISSION_JOINT_HPP
 #define WB_TRANSMISSION_JOINT_HPP
 
-#include "WbBaseNode.hpp"
-#include "WbHingeJoint.hpp"
+#include "WbJoint.hpp"
 
-class WbBoundingSphere;
+class WbRotationalMotor;
+class WbHingeJointParameters;
 
-class WbTransmissionJoint : public WbHingeJoint {
+class WbTransmissionJoint : public WbJoint {
   Q_OBJECT
 
 public:
@@ -32,8 +32,8 @@ public:
   explicit WbTransmissionJoint(const WbNode &other);
   virtual ~WbTransmissionJoint();
 
-  void preFinalize() override;
-  void postFinalize() override;
+  int nodeType() const override { return WB_NODE_TRANSMISSION_JOINT; }
+
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
 
@@ -42,64 +42,37 @@ public:
   WbVector3 axis2() const;
   WbVector3 anchor2() const;
 
+  WbHingeJointParameters *hingeJointParameters() const;
   WbHingeJointParameters *hingeJointParameters2() const;
+
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
-  void computeStartPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const;
 
-  const WbVector3 &zeroStartPointTranslation() const { return mStartPointZeroTranslation; }
-  const WbRotation &zeroStartPointRotation() const { return mStartPointZeroRotation; }
-
-  void setSolidStartPoint(WbSolid *solid);
-  void setSolidStartPoint(WbSolidReference *solid);
-  void setSolidStartPoint(WbSlot *slot);
-
-  WbSolid *solidStartPoint() const;
-  WbSolidReference *solidReferenceStartPoint() const;
 public slots:
-  void updateStartPoint();
-  bool setJoint() override;
 
 signals:
-  void startPointChanged(WbBaseNode *node);
 
 protected:
-  WrTransform *mTransform2;
-  WrRenderable *mRenderable2;
-  WrStaticMesh *mMesh2;
-  WrMaterial *mMaterial2;
-
   dJointID mJoint2;
   dJointID jointID() const { return mJoint2; }
   double mOdePositionOffset2;
-  double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
-  bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
-  bool mSpringAndDampingConstantsAxis2On;
+  double mPosition2;  // Keeps track of the joint position2 if JointParameters2 don't exist.
   double mInitialPosition2;
-  bool mIsStartPointPositionChangedByJoint;
 
   void setupTransmission();
+  void updatePosition(double position) override;
 
-  void updateOdePositionOffset() override;
-  void updateOdePositionOffset2();
-
-  void updatePositionOf(int index, double position);
-  // variables and methods about the startPoint Solid translation and rotation when joint position is 0
-  WbVector3 mStartPointZeroTranslation;
-  WbRotation mStartPointZeroRotation;
-
-  void updateStartPointZeroTranslationAndRotation();
-  void retrieveStartPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const;
+  void updateEndPointZeroTranslationAndRotation() override;
+  void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
 protected slots:
   void updateParameters() override;
   void updateParameters2();
   void updatePosition() override;
   void updatePosition2();
-  void updateJointAxisRepresentation() override;
 
   void updateAxis() override;
   void updateAxis2();
-  void updateAnchor() override;
+  void updateAnchor();
   void updateAnchor2();
 
 private:
@@ -122,11 +95,9 @@ private:
   void applyToOdeAxis() override;
   void applyToOdeAxis2();
 
-  bool setJoint2();
+  void applyToOdeMinAndMaxStop();
 
 private slots:
-  void updateStartPointPosition();
-  void updateBoundingSphere(WbBaseNode *subNode);
 };
 
 #endif
