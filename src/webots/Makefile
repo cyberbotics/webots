@@ -263,7 +263,6 @@ QT_SOURCES += \
   WbCoordinateSystem.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
-  WbDifferentialWheels.cpp \
   WbDirectionalLight.cpp \
   WbDistanceSensor.cpp \
   WbDisplay.cpp \

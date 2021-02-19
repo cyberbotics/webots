@@ -1,4 +1,4 @@
-import {webots} from "./../wwi/webots.js";
+import {webots} from './webots.js';
 
 /* global webots */
 'use strict';

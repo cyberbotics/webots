@@ -327,7 +327,6 @@ typedef enum {
   WB_NODE_VIEWPOINT,
   /* robots */
   WB_NODE_ROBOT,
-  WB_NODE_DIFFERENTIAL_WHEELS,
   /* devices */
   WB_NODE_ACCELEROMETER,
   WB_NODE_BRAKE,
@@ -403,7 +402,7 @@ namespace webots {
       PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
-      ROBOT, DIFFERENTIAL_WHEELS,
+      ROBOT,
       // devices
       ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -440,7 +439,7 @@ class Node:
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
-    ROBOT, DIFFERENTIAL_WHEELS,
+    ROBOT,
     # devices
     ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -475,7 +474,7 @@ public class Node {
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
-    ROBOT, DIFFERENTIAL_WHEELS,
+    ROBOT,
     // devices
     ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
@@ -510,7 +509,7 @@ WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
 % robots
-WB_NODE_ROBOT, WB_NODE_DIFFERENTIAL_WHEELS,
+WB_NODE_ROBOT,
 % devices
 WB_NODE_ACCELEROMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
 WB_NODE_CONNECTOR, WB_NODE_DISPLAY, WB_NODE_DISTANCE_SENSOR, WB_NODE_EMITTER,
@@ -554,7 +553,7 @@ name = wb_supervisor_node_get_base_type_name(node)
 The `wb_supervisor_node_get_type` function returns a symbolic value corresponding the type of the node specified as an argument.
 If the argument is NULL, it returns `WB_NODE_NO_NODE`.
 A list of all node types is provided in the "webots/nodes.h" include file.
-Node types include `WB_NODE_DIFFERENTIAL_WHEELS`, `WB_NODE_APPEARANCE`, `WB_NODE_LIGHT_SENSOR`, etc.
+Node types include `WB_NODE_APPEARANCE`, `WB_NODE_LIGHT_SENSOR`, etc.
 
 The `wb_supervisor_node_get_type_name` function returns a text string corresponding to the name of the node.
 If the argument node is a PROTO node, this function returns the PROTO name, like "E-puck", "RectangleArena", "Door", etc.
@@ -564,12 +563,13 @@ If the argument is NULL, the function returns the empty string.
 The `wb_supervisor_node_get_base_type_name` function returns a text string corresponding to the base type name of the node, like "Robot", "Appearance", "LightSensor", etc.
 If the argument is NULL, the function returns the empty string.
 
-> **Note** [C++, Java, Python]: In the oriented-object APIs, the `WB_NODE_*` constants are available as static integers of the `Node` class (for example, Node::DIFFERENTIAL\_WHEELS).
+> **Note** [C++, Java, Python]: In the oriented-object APIs, the `WB_NODE_*` constants are available as static integers of the `Node` class (for example, Node::ROBOT).
 These integers can be directly compared with the output of the `Node::getType` function.
 
 ---
 
 #### `wb_supervisor_node_remove`
+#### `wb_supervisor_node_export_string`
 
 %tab-component "language"
 
@@ -579,6 +579,7 @@ These integers can be directly compared with the output of the `Node::getType` f
 #include <webots/supervisor.h>
 
 void wb_supervisor_node_remove(WbNodeRef node);
+const char * wb_supervisor_node_export_string(WbNodeRef node);
 ```
 
 %tab-end
@@ -591,6 +592,7 @@ void wb_supervisor_node_remove(WbNodeRef node);
 namespace webots {
   class Node {
     virtual void remove();
+    std::string exportString() const;
     // ...
   }
 }
@@ -605,6 +607,7 @@ from controller import Node
 
 class Node:
     def remove(self):
+    def exportString(self):
     # ...
 ```
 
@@ -617,6 +620,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public void remove();
+  public String exportString();
   // ...
 }
 ```
@@ -627,6 +631,7 @@ public class Node {
 
 ```MATLAB
 wb_supervisor_node_remove(node)
+node_string = wb_supervisor_node_export_string(node)
 ```
 
 %tab-end
@@ -636,6 +641,7 @@ wb_supervisor_node_remove(node)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
 
 %tab-end
 
@@ -647,6 +653,10 @@ wb_supervisor_node_remove(node)
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
 If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
+
+The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
+In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
+A file with the equivalent content can be produced in the Webots user interface by selecting the node in the scene tree window and using the `Export` button.
 
 ---
 
@@ -1360,9 +1370,8 @@ wb_supervisor_node_reset_physics(node)
 
 *stops the inertia of the given solid*
 
-The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
+The `wb_supervisor_node_reset_physics` function stops the inertia of the given node and its descendants.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
-The `node` argument must be a [Solid](solid.md) node (or a derived node).
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
 

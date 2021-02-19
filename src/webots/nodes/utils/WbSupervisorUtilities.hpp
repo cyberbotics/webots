@@ -80,7 +80,6 @@ private:
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
   int mGetNodeRequest;
-  bool mNeedToResetSimulation;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
@@ -89,6 +88,8 @@ private:
   bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
+  QString mNodeExportString;
+  bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
 

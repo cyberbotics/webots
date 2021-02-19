@@ -251,6 +251,11 @@ void WbSimulationWorld::step() {
 
   emit physicsStepEnded();
 
+  if (mResetRequested) {
+    WbWorld::instance()->reset(false);
+    emit resetRequested(false);
+  }
+
   WbSimulationState::instance()->increaseTime(timeStep);
   viewpoint()->updateFollowUp();
 
@@ -358,6 +363,7 @@ bool WbSimulationWorld::simulationHasRunAfterSave() {
 }
 
 void WbSimulationWorld::reset(bool restartControllers) {
+  WbWorld::reset(restartControllers);
   WbSimulationState::instance()->pauseSimulation();
   WbSimulationState::instance()->resetTime();
   WbTemplateManager::instance()->blockRegeneration(true);

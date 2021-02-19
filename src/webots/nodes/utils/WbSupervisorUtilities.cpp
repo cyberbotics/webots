@@ -276,7 +276,6 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldCount = -1;
   mFoundFieldIsInternal = false;
   mGetNodeRequest = 0;
-  mNeedToResetSimulation = false;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
@@ -284,6 +283,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mGetContactPointsIncludeDescendants = false;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
+  mNodeExportStringRequest = false;
   mIsProtoRegenerated = false;
   mShouldRemoveNode = false;
   mImportedNodesNumber = -1;
@@ -352,10 +352,6 @@ void WbSupervisorUtilities::postPhysicsStep() {
   if (mLoadWorldRequested) {
     emit WbApplication::instance()->worldLoadRequested(mWorldToLoad);
     mLoadWorldRequested = false;
-  }
-  if (mNeedToResetSimulation) {
-    mNeedToResetSimulation = false;
-    WbApplication::instance()->simulationReset(false);
   }
   if (mShouldRemoveNode) {
     emit worldModified();
@@ -501,7 +497,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_SIMULATION_RESET:
-      mNeedToResetSimulation = true;
+      WbWorld::instance()->setResetRequested(false);
       return;
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
@@ -811,11 +807,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
-      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
-      if (solid)
-        solid->resetPhysics();
-      else
-        mRobot->warn(tr("wb_supervisor_node_reset_physics() can exclusively be used with a Solid"));
+
+      WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
+      if (solidNode)
+        solidNode->resetPhysics(false);
+      QList<WbNode *> descendants = node->subNodes(true);
+      for (int i = 0; i < descendants.size(); i++) {
+        WbNode *child = descendants.at(i);
+        WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
+        if (solidChild)
+          solidChild->resetPhysics(false);
+      }
       return;
     }
     case C_SUPERVISOR_NODE_RESTART_CONTROLLER: {
@@ -951,6 +953,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"));
       } else
         mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"));
+      return;
+    }
+    case C_SUPERVISOR_NODE_EXPORT_STRING: {
+      unsigned int nodeId;
+      stream >> nodeId;
+      WbNode *node = WbNode::findNode(nodeId);
+
+      mNodeExportString = WbNodeOperations::exportNodeToString(node);
+      mNodeExportStringRequest = true;
       return;
     }
     case C_SUPERVISOR_LOAD_WORLD: {
@@ -1513,6 +1524,13 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)angularVelocity[2];
     mNodeGetVelocity = NULL;
   }
+  if (mNodeExportStringRequest) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_EXPORT_STRING;
+    QByteArray ba = mNodeExportString.toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+    mNodeExportStringRequest = false;
+  }
   if (mImportedNodesNumber >= 0) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_FIELD_INSERT_VALUE;
@@ -1731,6 +1749,7 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)selfNode->uniqueId();
+  stream << (int)selfNode->parentNode()->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
                             !WbNodeUtilities::isVisible(selfNode->parentField()));

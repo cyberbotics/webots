@@ -1,4 +1,3 @@
-
 // Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,52 +11,46 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-import {World} from './webotsjs/World.js';
-import {WbScene} from './webotsjs/WbScene.js';
-import {WbViewpoint} from './webotsjs/WbViewpoint.js';
-import {WbBackground} from './webotsjs/WbBackground.js';
-
-import {WbGroup} from './webotsjs/WbGroup.js';
-import {WbTransform} from './webotsjs/WbTransform.js';
-import {WbShape} from './webotsjs/WbShape.js';
-
-import {WbGeometry} from './webotsjs/WbGeometry.js';
-import {WbBox} from './webotsjs/WbBox.js';
-import {WbCylinder} from './webotsjs/WbCylinder.js';
-import {WbPlane} from './webotsjs/WbPlane.js';
-import {WbSphere} from './webotsjs/WbSphere.js';
-import {WbCone} from './webotsjs/WbCone.js';
-import {WbIndexedFaceSet} from './webotsjs/WbIndexedFaceSet.js';
-import {WbIndexedLineSet} from './webotsjs/WbIndexedLineSet.js';
-import {WbElevationGrid} from './webotsjs/WbElevationGrid.js';
-import {WbPointSet} from './webotsjs/WbPointSet.js';
-
-import {WbMaterial} from './webotsjs/WbMaterial.js';
-import {WbTextureTransform} from './webotsjs/WbTextureTransform.js';
-import {WbAbstractAppearance} from './webotsjs/WbAbstractAppearance.js';
-import {WbAppearance} from './webotsjs/WbAppearance.js';
-import {WbPBRAppearance} from './webotsjs/WbPBRAppearance.js';
-import {WbImageTexture} from './webotsjs/WbImageTexture.js';
-import {WbImage} from './webotsjs/WbImage.js';
-
-import {WbDirectionalLight} from './webotsjs/WbDirectionalLight.js';
-import {WbPointLight} from './webotsjs/WbPointLight.js';
-import {WbSpotLight} from './webotsjs/WbSpotLight.js';
-import {WbLight} from './webotsjs/WbLight.js';
-import {WbFog} from './webotsjs/WbFog.js';
-
-import {WbVector2} from './webotsjs/utils/WbVector2.js';
-import {WbVector3} from './webotsjs/utils/WbVector3.js';
-import {WbVector4} from './webotsjs/utils/WbVector4.js';
-import {RGBELoader} from './hdrLoader.js';
+import {WbAbstractAppearance} from './nodes/wbAbstractAppearance.js';
+import {WbAppearance} from './nodes/wbAppearance.js';
+import {WbBackground} from './nodes/wbBackground.js';
+import {WbBox} from './nodes/wbBox.js';
+import {WbCone} from './nodes/wbCone.js';
+import {WbCylinder} from './nodes/wbCylinder.js';
+import {WbDirectionalLight} from './nodes/wbDirectionalLight.js';
+import {WbElevationGrid} from './nodes/wbElevationGrid.js';
+import {WbFog} from './nodes/wbFog.js';
+import {WbGeometry} from './nodes/wbGeometry.js';
+import {WbGroup} from './nodes/wbGroup.js';
+import {WbImage} from './nodes/wbImage.js';
+import {WbImageTexture} from './nodes/wbImageTexture.js';
+import {WbIndexedFaceSet} from './nodes/wbIndexedFaceSet.js';
+import {WbIndexedLineSet} from './nodes/wbIndexedLineSet.js';
+import {WbLight} from './nodes/wbLight.js';
+import {WbMaterial} from './nodes/wbMaterial.js';
+import {WbPBRAppearance} from './nodes/wbPBRAppearance.js';
+import {WbPlane} from './nodes/wbPlane.js';
+import {WbPointLight} from './nodes/wbPointLight.js';
+import {WbPointSet} from './nodes/wbPointSet.js';
+import {WbScene} from './nodes/wbScene.js';
+import {WbShape} from './nodes/wbShape.js';
+import {WbSphere} from './nodes/wbSphere.js';
+import {WbSpotLight} from './nodes/wbSpotLight.js';
+import {WbTextureTransform} from './nodes/wbTextureTransform.js';
+import {WbTransform} from './nodes/wbTransform.js';
+import {WbVector2} from './nodes/utils/wbVector2.js';
+import {WbVector3} from './nodes/utils/wbVector3.js';
+import {WbVector4} from './nodes/utils/wbVector4.js';
+import {WbViewpoint} from './nodes/wbViewpoint.js';
+import {WbWorld} from './nodes/wbWorld.js';
 
 import {DefaultUrl} from './default_url.js';
+import {RGBELoader} from './hdrLoader.js';
 
 class Parser {
   constructor(prefix = '') {
     this.prefix = prefix;
-    World.init();
+    WbWorld.init();
   }
 
   async parse(text, renderer, parent) {
@@ -85,13 +78,13 @@ class Parser {
       }
     }
 
-    console.log(World.instance);
-    if (typeof World.instance.viewpoint === 'undefined')
+    console.log(WbWorld.instance);
+    if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
-    World.instance.viewpoint.finalize();
+    WbWorld.instance.viewpoint.finalize();
     console.timeEnd('startID');
     console.time('startID');
-    World.instance.sceneTree.forEach(node => {
+    WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
     renderer.render();
@@ -101,25 +94,25 @@ class Parser {
   async parseFile(file) {
     let scene = file.getElementsByTagName('Scene')[0];
     await this.parseNode(scene);
-    console.log(World.instance);
-    World.instance.viewpoint.finalize();
-    World.instance.sceneTree.forEach(node => {
+    console.log(WbWorld.instance);
+    WbWorld.instance.viewpoint.finalize();
+    WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
   }
 
   async parseNode(node, currentNode, isBoundingObject) {
-    if (typeof World.instance === 'undefined')
-      World.init();
+    if (typeof WbWorld.instance === 'undefined')
+      WbWorld.init();
 
     let result;
     if (node.tagName === 'Scene') {
-      World.instance.scene = await this.parseScene(node);
+      WbWorld.instance.scene = await this.parseScene(node);
       await this.parseChildren(node, currentNode);
     } else if (node.tagName === 'WorldInfo')
       this.parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
-      World.instance.viewpoint = this.parseViewpoint(node);
+      WbWorld.instance.viewpoint = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = await this.parseBackground(node);
     else if (node.tagName === 'Transform')
@@ -137,7 +130,7 @@ class Parser {
     else if (node.tagName === 'SpotLight')
       result = await this.parseSpotLight(node, currentNode);
     else if (node.tagName === 'Fog') {
-      if (!World.instance.hasFog)
+      if (!WbWorld.instance.hasFog)
         result = await this.parseFog(node);
       else
         console.error('This world already has a fog.');
@@ -205,7 +198,7 @@ class Parser {
 
     // check if top-level nodes
     if (typeof result !== 'undefined' && typeof currentNode === 'undefined')
-      World.instance.sceneTree.push(result);
+      WbWorld.instance.sceneTree.push(result);
 
     return result;
   }
@@ -235,7 +228,7 @@ class Parser {
 
   parseWorldInfo(node) {
     let basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
-    World.instance.basicTimeStep = basicTimeStep;
+    WbWorld.instance.basicTimeStep = basicTimeStep;
   }
 
   parseViewpoint(node) {
@@ -316,7 +309,7 @@ class Parser {
     let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     WbBackground.instance = background;
 
-    World.instance.nodes.set(background.id, background);
+    WbWorld.instance.nodes.set(background.id, background);
 
     return background;
   }
@@ -327,11 +320,11 @@ class Parser {
       return;
 
     let id = getNodeAttribute(node, 'id');
-    let result = World.instance.nodes.get(use);
+    let result = WbWorld.instance.nodes.get(use);
 
     if (typeof result === 'undefined') {
       use = 'n' + use;
-      result = World.instance.nodes.get(use);
+      result = WbWorld.instance.nodes.get(use);
     }
 
     if (typeof result === 'undefined')
@@ -344,7 +337,7 @@ class Parser {
         currentNode.children.push(useNode);
     }
 
-    World.instance.nodes.set(id, useNode);
+    WbWorld.instance.nodes.set(id, useNode);
     return useNode;
   }
 
@@ -363,7 +356,7 @@ class Parser {
 
     let transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
-    World.instance.nodes.set(transform.id, transform);
+    WbWorld.instance.nodes.set(transform.id, transform);
 
     await this.parseChildren(node, transform, isBoundingObject);
 
@@ -388,7 +381,7 @@ class Parser {
 
     let group = new WbGroup(id, isPropeller);
 
-    World.instance.nodes.set(group.id, group);
+    WbWorld.instance.nodes.set(group.id, group);
     await this.parseChildren(node, group, isBoundingObject);
 
     if (typeof currentNode !== 'undefined') {
@@ -462,7 +455,7 @@ class Parser {
     if (typeof appearance !== 'undefined')
       appearance.parent = shape.id;
 
-    World.instance.nodes.set(shape.id, shape);
+    WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
   }
@@ -487,7 +480,7 @@ class Parser {
       dirLight.parent = currentNode.id;
     }
 
-    World.instance.nodes.set(dirLight.id, dirLight);
+    WbWorld.instance.nodes.set(dirLight.id, dirLight);
 
     return dirLight;
   }
@@ -512,7 +505,7 @@ class Parser {
     if (typeof currentNode !== 'undefined' && typeof pointLight !== 'undefined')
       currentNode.children.push(pointLight);
 
-    World.instance.nodes.set(pointLight.id, pointLight);
+    WbWorld.instance.nodes.set(pointLight.id, pointLight);
 
     return pointLight;
   }
@@ -540,7 +533,7 @@ class Parser {
     if (typeof currentNode !== 'undefined' && typeof spotLight !== 'undefined')
       currentNode.children.push(spotLight);
 
-    World.instance.nodes.set(spotLight.id, spotLight);
+    WbWorld.instance.nodes.set(spotLight.id, spotLight);
 
     return spotLight;
   }
@@ -553,10 +546,10 @@ class Parser {
 
     let fog = new WbFog(id, color, visibilityRange, fogType);
 
-    World.instance.nodes.set(fog.id, fog);
+    WbWorld.instance.nodes.set(fog.id, fog);
 
     if (typeof fog !== 'undefined')
-      World.instance.hasFog = true;
+      WbWorld.instance.hasFog = true;
 
     return fog;
   }
@@ -606,7 +599,7 @@ class Parser {
     let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     let box = new WbBox(id, size);
-    World.instance.nodes.set(box.id, box);
+    WbWorld.instance.nodes.set(box.id, box);
     return box;
   }
 
@@ -617,7 +610,7 @@ class Parser {
 
     let sphere = new WbSphere(id, radius, ico, subdivision);
 
-    World.instance.nodes.set(sphere.id, sphere);
+    WbWorld.instance.nodes.set(sphere.id, sphere);
 
     return sphere;
   }
@@ -631,7 +624,7 @@ class Parser {
 
     let cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
 
-    World.instance.nodes.set(cone.id, cone);
+    WbWorld.instance.nodes.set(cone.id, cone);
 
     return cone;
   }
@@ -646,7 +639,7 @@ class Parser {
 
     let cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
 
-    World.instance.nodes.set(cylinder.id, cylinder);
+    WbWorld.instance.nodes.set(cylinder.id, cylinder);
 
     return cylinder;
   }
@@ -656,7 +649,7 @@ class Parser {
 
     let plane = new WbPlane(id, size);
 
-    World.instance.nodes.set(plane.id, plane);
+    WbWorld.instance.nodes.set(plane.id, plane);
 
     return plane;
   }
@@ -705,7 +698,7 @@ class Parser {
     let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
 
     let ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
-    World.instance.nodes.set(ifs.id, ifs);
+    WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;
   }
@@ -727,7 +720,7 @@ class Parser {
     let coordIndex = indicesStr.map(Number);
 
     let ils = new WbIndexedLineSet(id, coord, coordIndex);
-    World.instance.nodes.set(ils.id, ils);
+    WbWorld.instance.nodes.set(ils.id, ils);
 
     return ils;
   }
@@ -746,7 +739,7 @@ class Parser {
     let height = heightStr.split(' ').map(Number);
 
     let eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
-    World.instance.nodes.set(eg.id, eg);
+    WbWorld.instance.nodes.set(eg.id, eg);
 
     return eg;
   }
@@ -780,7 +773,7 @@ class Parser {
     }
 
     let ps = new WbPointSet(id, coord, color);
-    World.instance.nodes.set(ps.id, ps);
+    WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
   }
@@ -856,7 +849,7 @@ class Parser {
     if (typeof parentId !== 'undefined')
       appearance.parent = parentId;
 
-    World.instance.nodes.set(appearance.id, appearance);
+    WbWorld.instance.nodes.set(appearance.id, appearance);
 
     return appearance;
   }
@@ -882,7 +875,7 @@ class Parser {
     if (typeof parentId !== 'undefined')
       material.parent = parentId;
 
-    World.instance.nodes.set(material.id, material);
+    WbWorld.instance.nodes.set(material.id, material);
 
     return material;
   }
@@ -911,7 +904,7 @@ class Parser {
       if (typeof parentId !== 'undefined')
         imageTexture.parent = parentId;
 
-      World.instance.nodes.set(imageTexture.id, imageTexture);
+      WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
     }
 
     return imageTexture;
@@ -1013,7 +1006,7 @@ class Parser {
     if (typeof parentId !== 'undefined')
       pbrAppearance.parent = parentId;
 
-    World.instance.nodes.set(pbrAppearance.id, pbrAppearance);
+    WbWorld.instance.nodes.set(pbrAppearance.id, pbrAppearance);
 
     return pbrAppearance;
   }
@@ -1034,7 +1027,7 @@ class Parser {
     if (typeof parentId !== 'undefined')
       textureTransform.parent = parentId;
 
-    World.instance.nodes.set(textureTransform.id, textureTransform);
+    WbWorld.instance.nodes.set(textureTransform.id, textureTransform);
 
     return textureTransform;
   }

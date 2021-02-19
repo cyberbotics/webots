@@ -1736,3 +1736,22 @@ and here is a middleware for Open AI Gym and Webots:
 
 
 Hope this helps. We will be happy to see your project that demonstrates Actor-Critic algorithm in Webots.
+
+##### Luiz Felipe 02/02/2021 10:28:14
+`@ahforoughi` I am using DDPG for continuous control with Webots... With the new fast mode it seems to work fine... My tip would be for you to use the input of a position controller or a torque controller as the action of your actor-critic algorithm
+
+##### HANEEN AL ALI 02/04/2021 12:35:12
+hello, i want to build end effector for the robot arm like the picture below. i added a hinge joint and i want to build the two finger. should i choose a group to build link1( shape box) or should i choose soild first??. Can u please help me by explaining how can i build these part?
+
+
+This is the design i want to implement
+%figure
+![end.jpg](https://cdn.discordapp.com/attachments/565155720933146637/806865642158161920/end.jpg)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 02/08/2021 07:11:32
+Hi, link1 should be a Solid node.
+
+Here is an example of gripper: [https://www.cyberbotics.com/doc/guide/khepera3#khepera3\_gripper-wbt](https://www.cyberbotics.com/doc/guide/khepera3#khepera3_gripper-wbt)
+
+The gripper  model is saved in a PROTO file. But if you select it, tight-click on it to open the context menu and choose the "Convert to Base Node(s)" options then you will be able to check the internal structure directly from the Webots scene tree.

@@ -1,13 +1,13 @@
 import {Parser, convertStringToVec3, convertStringToQuaternion} from './parser.js';
-import {webots} from './../wwi/webots.js';
+import {webots} from './webots.js';
+import {WrenRenderer} from './wrenRenderer.js';
 
-import {WrenRenderer} from './webotsjs/WrenRenderer.js';
-import {WbTransform} from './webotsjs/WbTransform.js';
-import {World} from './webotsjs/World.js';
-import {WbPBRAppearance} from './webotsjs/WbPBRAppearance.js';
-import {WbMaterial} from './webotsjs/WbMaterial.js';
-import {WbGroup} from './webotsjs/WbGroup.js';
-import {getAncestor} from './webotsjs/WbUtils.js';
+import {getAncestor} from './nodes/wbUtils.js';
+import {WbGroup} from './nodes/wbGroup.js';
+import {WbPBRAppearance} from './nodes/wbPBRAppearance.js';
+import {WbMaterial} from './nodes/wbMaterial.js';
+import {WbTransform} from './nodes/wbTransform.js';
+import {WbWorld} from './nodes/wbWorld.js';
 
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
@@ -69,11 +69,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.renderer.setSize(width, height);
 
-    if (typeof World.instance.scene !== 'undefined')
-      World.instance.scene.updateFrameBuffer();
+    if (typeof WbWorld.instance.scene !== 'undefined')
+      WbWorld.instance.scene.updateFrameBuffer();
 
-    if (typeof World.instance.viewpoint !== 'undefined')
-      World.instance.viewpoint.updatePostProcessingEffects();
+    if (typeof WbWorld.instance.viewpoint !== 'undefined')
+      WbWorld.instance.viewpoint.updatePostProcessingEffects();
 
     this.render();
   }
@@ -84,20 +84,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   destroyWorld() {
-    if (typeof World.instance !== 'undefined') {
-      let index = World.instance.sceneTree.length - 1;
+    if (typeof WbWorld.instance !== 'undefined') {
+      let index = WbWorld.instance.sceneTree.length - 1;
       while (index >= 0) {
-        World.instance.sceneTree[index].delete();
+        WbWorld.instance.sceneTree[index].delete();
         --index;
       }
 
-      if (typeof World.instance.viewpoint !== 'undefined')
-        World.instance.viewpoint.delete();
+      if (typeof WbWorld.instance.viewpoint !== 'undefined')
+        WbWorld.instance.viewpoint.delete();
 
-      if (typeof World.instance.scene !== 'undefined')
-        World.instance.scene.destroy();
+      if (typeof WbWorld.instance.scene !== 'undefined')
+        WbWorld.instance.scene.destroy();
 
-      World.instance = undefined;
+      WbWorld.instance = undefined;
     }
 
     this.renderMinimal();
@@ -106,14 +106,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   deleteObject(id) {
     console.log(id);
-    let object = World.instance.nodes.get('n' + id);
+    let object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
 
     object.delete();
 
     this.onSceneUpdate();
-    console.log(World.instance);
+    console.log(WbWorld.instance);
   }
 
   loadWorldFile(url, onLoad) {
@@ -137,7 +137,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   loadObject(x3dObject, parentId) {
     let parentNode;
     if (typeof parentId !== 'undefined' && parentId > 0) {
-      parentNode = World.instance.nodes.get('n' + parentId);
+      parentNode = WbWorld.instance.nodes.get('n' + parentId);
       let ancestor = getAncestor(parentNode);
       ancestor.isPreFinalizeCalled = false;
       ancestor.wrenObjectsCreatedCalled = false;
@@ -155,7 +155,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   applyPose(pose) {
     let id = pose.id;
-    let object = World.instance.nodes.get('n' + id);
+    let object = WbWorld.instance.nodes.get('n' + id);
 
     if (typeof object === 'undefined')
       return;
@@ -165,7 +165,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     // Update the related USE nodes
     let length = object.useList.length - 1;
     while (length >= 0) {
-      let use = World.instance.nodes.get(object.useList[length]);
+      let use = WbWorld.instance.nodes.get(object.useList[length]);
       if (typeof use === 'undefined') {
         // remove a USE node from the list if it has been deleted
         let index = object.useList.indexOf(length);
@@ -205,20 +205,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
           object.emissiveColor = convertStringToVec3(pose[key]);
 
         if (object instanceof WbMaterial)
-          World.instance.nodes.get(World.instance.nodes.get(object.parent).parent).updateAppearance();
+          WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
         else
-          World.instance.nodes.get(object.parent).updateAppearance();
+          WbWorld.instance.nodes.get(object.parent).updateAppearance();
       }
     }
 
     if (typeof object.parent !== 'undefined') {
-      let parent = World.instance.nodes.get(object.parent);
+      let parent = WbWorld.instance.nodes.get(object.parent);
       if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
         parent.switchHelix(object.id);
     }
 
-    if (typeof World.instance.viewpoint.followedId !== 'undefined' && World.instance.viewpoint.followedId === object.id)
-      World.instance.viewpoint.updateFollowUp();
+    if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
+      WbWorld.instance.viewpoint.updateFollowUp();
   }
 
   getRobotWindows() {

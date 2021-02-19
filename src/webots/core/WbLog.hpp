@@ -86,6 +86,7 @@ public:
   // queue pop up messages to be shown later
   static void setPopUpPostponed(bool postponed) { instance()->mPopUpMessagesPostponed = postponed; }
   static void showPostponedPopUpMessages();
+  static void setConsoleLogsPostponed(bool postponed) { instance()->mConsoleLogsPostponed = postponed; }
   // show messages in console emitted before WbConsole was listening
   static void showPendingConsoleMessages();
 
@@ -96,7 +97,7 @@ signals:
   void popupClosed();
 
 private:
-  WbLog() : mPopUpMessagesPostponed(false) {}
+  WbLog() : mPopUpMessagesPostponed(false), mConsoleLogsPostponed(false) {}
   virtual ~WbLog() {}
   void emitLog(Level level, const QString &message, bool popup, const QString &name);
   static void cleanup();
@@ -107,6 +108,7 @@ private:
     Level level;
   };
   bool mPopUpMessagesPostponed;
+  bool mConsoleLogsPostponed;
   QList<PostponedMessage> mPostponedPopUpMessageQueue;
   QList<PostponedMessage> mPendingConsoleMessages;
   void enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &name, Level level);

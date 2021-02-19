@@ -61,7 +61,6 @@ namespace webots {
       VIEWPOINT,
       // robots
       ROBOT,
-      DIFFERENTIAL_WHEELS,
       // devices
       ACCELEROMETER,
       BRAKE,
@@ -137,6 +136,7 @@ namespace webots {
     int getNumberOfContactPoints(bool includeDescendants = false) const;
     bool getStaticBalance() const;
     const double *getVelocity() const;
+    std::string exportString() const;
 
     void setVelocity(const double velocity[6]);
     void resetPhysics();

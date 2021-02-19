@@ -1,9 +1,6 @@
-import {DialogWindow} from "./dialog_window.js";
-import {SystemInfo} from "./system_info.js";
-import {DefaultUrl} from "./default_url.js";
-
-/* global ace, webots, DialogWindow, DefaultUrl, SystemInfo */
-'use strict';
+import {DefaultUrl} from './default_url.js';
+import {DialogWindow} from './dialog_window.js';
+import {SystemInfo} from './system_info.js';
 
 class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   constructor(parent, mobile, view) {

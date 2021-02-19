@@ -2449,37 +2449,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
 </context>
 <context>
-    <name>WbDifferentialWheels</name>
-    <message>
-        <source>A Solid children named &quot;right wheel&quot; is missing.</source>
-        <translation>Un fils Solid appelé &quot;right wheel&quot; est manquant.</translation>
-    </message>
-    <message>
-        <source>A Solid children named &quot;left wheel&quot; is missing.</source>
-        <translation>Un fils Solid appelé &quot;left wheel&quot; est manquant.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Le fils Solid appelé &quot;right wheel&quot; n&apos;a pas de &apos;boundingObject&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Le fils Solid appelé &quot;left wheel&quot; n&apos;a pas de &apos;boundingObject&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Le fils Solid appelé &quot;right wheel&quot; n&apos;a pas de &apos;physics&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Le fils Solid appelé &quot;left wheel&quot; n&apos;a pas de &apos;physics&apos;.</translation>
-    </message>
-    <message>
-        <source>The DifferentialWheels node is deprecated. Please use the Robot node instead with two HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from the Help menu to get assistance on converting your DifferentialWheels robot.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WbDirectionalLight</name>
     <message>
         <source>Maximum number of directional lights (%1) has been reached, newly added lights won&apos;t be rendered.</source>

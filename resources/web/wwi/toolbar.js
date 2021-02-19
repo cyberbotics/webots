@@ -1,7 +1,7 @@
-import {webots} from './../wwi/webots.js';
 import {DefaultUrl} from './default_url.js';
 import {DialogWindow} from './dialog_window.js';
 import {HelpWindow} from './help_window.js';
+import {webots} from './webots.js';
 
 class Toolbar { // eslint-disable-line no-unused-vars
   constructor(parent, view) {

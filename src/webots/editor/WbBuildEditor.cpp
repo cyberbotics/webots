@@ -272,7 +272,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
         if (ret == 0)
           emit reloadRequested();
         else if (ret == 1)
-          emit resetRequested(true);
+          emit resetRequested();
       }
     } else
       WbLog::appendStdout("Nothing to be done for build targets.\n", WbLog::COMPILATION);

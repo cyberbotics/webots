@@ -46,6 +46,7 @@ void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double f
 
 void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r);
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command);
+void wb_abstract_camera_reset(WbDevice *d);
 
 void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r);
 

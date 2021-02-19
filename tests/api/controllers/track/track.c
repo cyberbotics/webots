@@ -109,9 +109,9 @@ void test_tracked_robot() {
                             "Left and right motor position offset of tracked robot doesn't match after rotating.");
 
   orientation = wb_supervisor_field_get_sf_rotation(rotationField);
-  ts_assert_vec3_in_delta(orientation[0], orientation[1], orientation[2], 0.0, 1.0, 0.0, 0.002,
+  ts_assert_vec3_in_delta(orientation[0], orientation[1], orientation[2], 0.0, -1.0, 0.0, 0.002,
                           "Tracked robot rotation axis is wrong after rotating.");
-  ts_assert_double_in_delta(orientation[3], -1.097467, 0.0001, "Tracked robot rotation angle is wrong after rotating.");
+  ts_assert_double_in_delta(orientation[3], 1.097467, 0.0001, "Tracked robot rotation angle is wrong after rotating.");
 
   wb_motor_set_velocity(rightMotor, 0.0);
   wb_motor_set_velocity(leftMotor, 0.0);

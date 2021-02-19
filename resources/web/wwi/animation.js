@@ -1,5 +1,6 @@
 'use strict';
 import {DefaultUrl} from './default_url.js';
+
 class Animation { // eslint-disable-line no-unused-vars
   constructor(url, scene, view, gui, loop) {
     this.url = url;

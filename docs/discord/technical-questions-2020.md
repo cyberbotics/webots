@@ -1729,13 +1729,13 @@ Supervisor is a subclass of Robot.
 ##### JC 01/23/2020 16:59:58
 fantastic, thanks for your help
 
-##### Shadow 01/23/2020 18:53:26
+##### Kormit 01/23/2020 18:53:26
 I was wondering if you can use css animations in a robot window? I can't seem to be able to get it to work
 
 ##### David Mansolino [Cyberbotics] 01/24/2020 06:57:47
-`@Shadow` on which OS are you (Webots does not use the same web engine on linux and mac or Windows) ?
+`@Kormit` on which OS are you (Webots does not use the same web engine on linux and mac or Windows) ?
 
-##### Shadow 01/24/2020 08:18:16
+##### Kormit 01/24/2020 08:18:16
 `@David Mansolino` currently using windows
 
 ##### David Mansolino [Cyberbotics] 01/24/2020 11:30:23
@@ -5901,11 +5901,11 @@ I am now facing a small need. I am trying to a send a tiny object recognition da
 ##### Soheil 03/08/2020 15:09:40
 I have a humanoid robot which is something like a modified version of robotis op3. When I change its rotation, the robot surprisingly happens to face ridiculous problems. For example, its joints start to take apart or merge into each other. Does anyone has any idea about this?
 
-##### Shadow 03/08/2020 20:38:25
+##### Kormit 03/08/2020 20:38:25
 When ever I open the velocity tab in the hierarchy window of a solid node with no physics node (NULL), webots crashes.
 
 ##### Stefania Pedrazzi [Cyberbotics] 03/09/2020 07:06:55
-`@Shadow` could you please write a bug report in GitHub and provide a sample world where you can reproduce this crash? [https://github.com/cyberbotics/webots/issues/new/choose](https://github.com/cyberbotics/webots/issues/new/choose) I checked a couple of worlds on Linux with the latest Webots version but everything works fine for me
+`@Kormit` could you please write a bug report in GitHub and provide a sample world where you can reproduce this crash? [https://github.com/cyberbotics/webots/issues/new/choose](https://github.com/cyberbotics/webots/issues/new/choose) I checked a couple of worlds on Linux with the latest Webots version but everything works fine for me
 
 
 `@Soheil` how do you change the rotation of the robot? Usually when changing the position or rotation of a robot from the controller program it is recommended to reset the physics to avoid this kind of issues (see [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics))
@@ -8783,7 +8783,7 @@ Hi, can I create
 ##### monkey 04/03/2020 17:12:18
 `@David Mansolino` I updated my graphics driver but I am still getting the white screen. I even tried messing with the OpenGL preferences. Literally everything else is working even the sound.
 
-##### Shadow 04/03/2020 19:42:50
+##### Kormit 04/03/2020 19:42:50
 Is there any way of having a thermal camera sensor?
 
 
@@ -8810,19 +8810,19 @@ What is the procedure basically? (If any)
 @Shaow, yes [https://www.cyberbotics.com/doc/reference/lightsensor](https://www.cyberbotics.com/doc/reference/lightsensor)
 
 
-Sorry, that should be `@Shadow`
+Sorry, that should be `@Kormit`
 
 ##### Rajesh Roy 04/04/2020 13:11:53
 Hey `@DrVoodoo` , can you answer my question?
 
-##### Shadow 04/04/2020 13:14:48
+##### Kormit 04/04/2020 13:14:48
 `@DrVoodoo`  Thanks for the response, does this work for RGB too then? Is there any way of having some sort of thermal camera?
 
 ##### DrVoodoo [Moderator] 04/04/2020 13:16:59
 `@Rajesh Roy` there is [https://robotbenchmark.net/](https://robotbenchmark.net/) so it does appear to be technically possible but I can't speak to how it is achieved
 
 
-`@Shadow` you can filter by colour, it doesn't offer an IR option but depending on your use case you could use some other colour instead of IR
+`@Kormit` you can filter by colour, it doesn't offer an IR option but depending on your use case you could use some other colour instead of IR
 
 
 I.e. use red instead of infrared
@@ -8865,12 +8865,12 @@ In that case you should probably try with the safe mode of Webots enabled: [http
 
 > Is there any way of having a thermal camera sensor?
 
-`@Shadow` Unfortunately this is not available out of the box in Webots.
+`@Kormit` Unfortunately this is not available out of the box in Webots.
 
 
 > And is there any sort of sensors for detecting colour, some sort of light sensor.
 
-`@Shadow` why not using a camera? you can set it's resolution to 1x1.
+`@Kormit` why not using a camera? you can set it's resolution to 1x1.
 
 Webots also provide a light sensor, but it is not very useful to detect color: [https://cyberbotics.com/doc/reference/distancesensor#distancesensor-types](https://cyberbotics.com/doc/reference/distancesensor#distancesensor-types)
 
@@ -8981,20 +8981,20 @@ but I still can‘t build the project to exe, just prompt for missing these file
 ![2020-04-06_183852.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696690296939085864/2020-04-06_183852.jpg)
 %end
 
-##### Shadow 04/06/2020 12:06:09
+##### Kormit 04/06/2020 12:06:09
 Can a supervisor robot get values from another robot's senors? e.g. get led values.
 
 ##### David Mansolino [Cyberbotics] 04/06/2020 12:07:15
 > Can a supervisor robot get values from another robot's senors? e.g. get led values.
 
-`@Shadow` No, this is unfortunately not possible yet.
+`@Kormit` No, this is unfortunately not possible yet.
 
 
 > It's just that it can't be opened
 
 `@Jie` Ok, it makes sense, because Visual Studio can't find them so it is not able to open them.
 
-##### Shadow 04/06/2020 12:08:25
+##### Kormit 04/06/2020 12:08:25
 Is there any way of a supervisor telling if a robot's LED's are on?
 
 ##### helosand 04/06/2020 12:18:39
@@ -9004,9 +9004,9 @@ Hi, I have to use Webots for a SIS project course. I installed it, I have window
 %end
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:34:54
-`@Shadow` are you asking how does the supervisor get the led object from the other robot or how it reads the led state once it's got the object?
+`@Kormit` are you asking how does the supervisor get the led object from the other robot or how it reads the led state once it's got the object?
 
-##### Shadow 04/06/2020 12:37:57
+##### Kormit 04/06/2020 12:37:57
 `@DrVoodoo` yes
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:39:29
@@ -9015,7 +9015,7 @@ which one?
 
 and which language
 
-##### Shadow 04/06/2020 12:40:32
+##### Kormit 04/06/2020 12:40:32
 Both, I need to be able to use the supervisor to get the LED device from another robot and be able to read the led state
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:41:11
@@ -9024,7 +9024,7 @@ ok, easy one first, reading the led state [https://cyberbotics.com/doc/reference
 
 wb\_led\_get()
 
-##### Shadow 04/06/2020 12:41:57
+##### Kormit 04/06/2020 12:41:57
 I know how to do that from the robot that has the led on it, but how do I do it from another supervisor robot
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:43:33
@@ -9033,13 +9033,13 @@ when programming your supervisor you first need to get the other robots node usi
 
 or from\_id()
 
-##### Shadow 04/06/2020 12:45:24
+##### Kormit 04/06/2020 12:45:24
 Ok
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:45:35
 Ah, found it [https://cyberbotics.com/doc/guide/supervisor-programming](https://cyberbotics.com/doc/guide/supervisor-programming)
 
-##### Shadow 04/06/2020 12:50:47
+##### Kormit 04/06/2020 12:50:47
 But you I seem to find a way to get a device using a supervisor
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:51:40
@@ -9048,7 +9048,7 @@ if the LED defined as part of the other robot's PROTO?
 
 *is
 
-##### Shadow 04/06/2020 12:51:52
+##### Kormit 04/06/2020 12:51:52
 Yes
 
 ##### DrVoodoo [Moderator] 04/06/2020 12:53:31
@@ -9057,7 +9057,7 @@ I believe you need to make it one of the interface fields.
 
 can you DM me a copy of your proto?
 
-##### Shadow 04/06/2020 12:54:47
+##### Kormit 04/06/2020 12:54:47
 Its the e-puck. But if it is a field, don't still need to get values from the led using a device class. The values of the led aren't in the field.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/06/2020 13:57:47
@@ -9644,13 +9644,13 @@ You're welcome
 
 Please let me know if that works for you.
 
-##### Shadow 04/09/2020 12:12:52
+##### Kormit 04/09/2020 12:12:52
 Using procedural proto nodes, how can I make the script to generate a texture update when one of the proto fields are updated?
 
 ##### David Mansolino [Cyberbotics] 04/09/2020 12:13:22
 You want to generate the image from the proto or just change the texture used?
 
-##### Shadow 04/09/2020 12:14:54
+##### Kormit 04/09/2020 12:14:54
 I'm generating an image, using text from a field in the texture. I would like the texture to update when the text field is updated.
 
 ##### David Mansolino [Cyberbotics] 04/09/2020 12:17:39
@@ -9660,7 +9660,7 @@ When the ``text`` field changes it generates a new image in the temporary files 
 
 Let me know if there is something you don't understand in this PROTO.
 
-##### Shadow 04/09/2020 12:17:59
+##### Kormit 04/09/2020 12:17:59
 Thanks 🙂
 
 ##### David Mansolino [Cyberbotics] 04/09/2020 12:18:13
@@ -13966,16 +13966,16 @@ error: cannot find symbol
 
 import com.cyberbotics.webots.controller.Car;
 
-##### Bree 05/09/2020 23:46:53
+##### Deleted User 05/09/2020 23:46:53
 Hey I'm extremely new to robotics as well as webots. I'm curious as to how to modify a pre-existing robot (like youbot). I'd like to add distance and line sensors. Is that possible or is better to just start from scratch? I originally made my own but adding/find a claw was difficult. I'm assuming I can just add sensors by using #include \_\_\_\_\_\_ One of my main problems is simply adding lines for a robot to follow. Is there a video or possible tutorial that could help me? I've already visited the tutorials on the official site.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708827364205002782/unknown.png)
 %end
 
 ##### Aan 05/10/2020 01:58:48
-`@Bree` you can add sensor in body slot
+`@Deleted User` you can add sensor in body slot
 
-##### Bree 05/10/2020 04:51:16
+##### Deleted User 05/10/2020 04:51:16
 `@Aan` thank you!
 
 ##### Aan 05/10/2020 06:22:47
@@ -14510,7 +14510,7 @@ Hello! Can anyone explain to me what the return value of `camera.get_orientation
 ##### Lussfer 05/13/2020 01:37:25
 Is there a way to convert local coordinate to wgs84 gps coordinate?
 
-##### Bree 05/13/2020 02:34:32
+##### Deleted User 05/13/2020 02:34:32
 Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709956719119433768/unknown.png)
@@ -14528,7 +14528,7 @@ Then to end the simulation you can use the `wb_supervisor_simulation_quit` funct
 
 > Hey guys, just want to ask if anyone knows where an image for a straight line is (for the floor)? I want the youbot to be able to follow a line.
 
-`@Bree` you can easily create one in your favorite image editor (Gimp for example).
+`@Deleted User` you can easily create one in your favorite image editor (Gimp for example).
 
 
 > Is there a way to convert local coordinate to wgs84 gps coordinate?
@@ -15539,7 +15539,7 @@ Ok, that's probably an issue rather on your controller code, make sure for examp
 
 You will also find some documentation about how to use a debugger with your controller here: [https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers)
 
-##### Bree 05/19/2020 05:21:57
+##### Deleted User 05/19/2020 05:21:57
 Thanks David, I will look into that
 
 ##### Luiz Felipe 05/19/2020 05:27:19
@@ -20741,7 +20741,7 @@ Unfortunately, I have no idea why your arm is swinging...
 ##### David Mansolino [Cyberbotics] 06/17/2020 13:36:19
 You're welcome
 
-##### Davie 06/17/2020 13:59:58
+##### David. 06/17/2020 13:59:58
 how to initialise and flash leds on epuck in python?
 
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:01:17
@@ -20753,7 +20753,7 @@ and here the documentation about LED in Python:
 
 [https://cyberbotics.com/doc/reference/led?tab-language=python](https://cyberbotics.com/doc/reference/led?tab-language=python)
 
-##### Davie 06/17/2020 14:01:29
+##### David. 06/17/2020 14:01:29
 i looked at those
 
 
@@ -20762,13 +20762,13 @@ still confused
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:01:53
 Ok so can you be a bit more precise, what is confusing you?
 
-##### Davie 06/17/2020 14:02:39
+##### David. 06/17/2020 14:02:39
 well for starters, that first link says nothing about LEDs
 
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:04:54
 Yes, but it explains how to retrieve device handles with the Python API (which works the same for all the Devices).
 
-##### Davie 06/17/2020 14:05:31
+##### David. 06/17/2020 14:05:31
 thisis just for aschool assignmenti dont understand any of that
 
 
@@ -20777,7 +20777,7 @@ and i dont have time to understandit
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:09:08
 Then I'd suggest asking your teacher
 
-##### Davie 06/17/2020 14:09:15
+##### David. 06/17/2020 14:09:15
 he isnt available
 
 
@@ -20789,7 +20789,7 @@ can i just get some very high-level instructions here? i just want some leds to 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:12:18
 the LEDs are called "led0" and "led1"
 
-##### Davie 06/17/2020 14:12:25
+##### David. 06/17/2020 14:12:25
 ye
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:15:25
@@ -20800,7 +20800,7 @@ LED0 = robot.getLED('led0')
 
 then you can control the LED using the functions as explained in the documentation (2nd link he sent)
 
-##### Davie 06/17/2020 14:23:25
+##### David. 06/17/2020 14:23:25
 i put this in the controller and now the epuck wont move
 
 
@@ -20814,7 +20814,7 @@ class LED (Device):
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:28:32
 I hope you don't take this the wrong way, but you seem to be missing some basics of python programming. Didn't you get proper instructions with this assignment, or the fundamental courses required to writing python code?
 
-##### Davie 06/17/2020 14:29:14
+##### David. 06/17/2020 14:29:14
 since this lockdown started, online classes were minimalised and we were thrown pretty much in the deep end
 
 
@@ -20823,7 +20823,7 @@ Teacher is pretty unhelpful too
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:29:31
 that sucks, sorry to hear that
 
-##### Davie 06/17/2020 14:30:04
+##### David. 06/17/2020 14:30:04
 was just following this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/722820367055323186/unknown.png)
@@ -20832,7 +20832,7 @@ was just following this
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:30:10
 I really suggest you do a python course. You should really know how objecgt oriented programming works. In python this especially includes classes and how to use them
 
-##### Davie 06/17/2020 14:30:40
+##### David. 06/17/2020 14:30:40
 I agree but the issue here is my timeframe
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:30:49
@@ -20841,7 +20841,7 @@ there is a free python course here: [https://www.robotigniteacademy.com/en/path/
 
 should be doable in a day
 
-##### Davie 06/17/2020 14:31:30
+##### David. 06/17/2020 14:31:30
 🤐 I don't have a day unfortunately, this sort of just needs to work
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:31:43
@@ -20856,31 +20856,31 @@ what python controller for the epuck are you using btw?
 
 I doubt you wrote it from the ground up
 
-##### Davie 06/17/2020 14:32:58
+##### David. 06/17/2020 14:32:58
 No i didnt
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:33:17
 are you using a sample world and controller?
 
-##### Davie 06/17/2020 14:33:40
+##### David. 06/17/2020 14:33:40
 im using the controller code on [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:34:11
 what about the world file?
 
-##### Davie 06/17/2020 14:34:18
+##### David. 06/17/2020 14:34:18
 created that
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:34:39
 is it just a blank world with the epuck added?
 
-##### Davie 06/17/2020 14:34:48
+##### David. 06/17/2020 14:34:48
 and some barrels lol
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:36:20
 watch the video in the meantime, I'll have a quick look
 
-##### Davie 06/17/2020 14:36:27
+##### David. 06/17/2020 14:36:27
 alright
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 14:54:06
@@ -21170,7 +21170,7 @@ As I understood by reading doc a bit with mu and fds is when the force at contac
 
 But I did not have the expected behavior in simulation on my side too.
 
-##### Shadow 06/18/2020 08:39:23
+##### Kormit 06/18/2020 08:39:23
 I'm having issues with object recognition. The robot can detect the objects correctly but if the robot is on the other side of a wall it can detect the object through it. The detectable object is just a flat plane placed on the wall but if I move it away from the wall a bit, the robot can no longer detect it from the other side. Do you have any thoughts on how I could fix this? Thanks.
 
 ##### nelsondmmg 06/18/2020 08:44:23
@@ -21183,15 +21183,15 @@ I'm having issues with object recognition. The robot can detect the objects corr
 `@lojik` I'm gonna try to find out how the connection is modeled.
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 08:50:01
-`@Shadow`, did you set the `occlusion` of the Recognition node to True?
+`@Kormit`, did you set the `occlusion` of the Recognition node to True?
 
-##### Shadow 06/18/2020 08:53:21
+##### Kormit 06/18/2020 08:53:21
 Yes it is
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 08:54:06
 Ok, in that case does your wall have a bounding object?
 
-##### Shadow 06/18/2020 08:57:50
+##### Kormit 06/18/2020 08:57:50
 Yes it does
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 08:58:36
@@ -22111,7 +22111,7 @@ But I never did that and I am not sure whether this is possible at all.
 ##### Tosidis 06/23/2020 13:48:48
 ok, thanks, will try it soon, if we have any problems i will come back 😄
 
-##### Shadow 06/23/2020 16:14:15
+##### Kormit 06/23/2020 16:14:15
 Hi, we are having problems with running a webots simulation in macOS Catalina, is webots supported on catalina?
 
 ##### chenpixx 06/24/2020 00:48:41
@@ -22120,7 +22120,7 @@ Robotis-op2 slow move and even sometimes freeze.  Are there an idea for its reas
 ##### David Mansolino [Cyberbotics] 06/24/2020 05:56:39
 > Hi, we are having problems with running a webots simulation in macOS Catalina, is webots supported on catalina?
 
-`@Shadow` Yes it is supposed to work, what is the problem you are having?
+`@Kormit` Yes it is supposed to work, what is the problem you are having?
 
 
 `@chenpixx`, are you using the camera? Is your controller synchronous?
@@ -22161,7 +22161,7 @@ I wait just one step.
 ##### David Mansolino [Cyberbotics] 06/24/2020 07:33:40
 Ok, in that case something is probably making your controller wait, not sure what 😕
 
-##### Shadow 06/24/2020 08:19:18
+##### Kormit 06/24/2020 08:19:18
 `@David Mansolino` Don't worry we managed to get it fixed, the error was due to a python installation issue.
 
 ##### Samir Hosny Mohamed 06/25/2020 23:42:34
@@ -27339,7 +27339,7 @@ I. Changed 1  1 1 the size field
 
 Should i change which field?
 
-##### Shadow 07/28/2020 11:09:39
+##### Kormit 07/28/2020 11:09:39
 Hi, I was wondering if there was a way for lights/point lights to emit some sort of colour/light but you can't see that light in the map but light sensors can still detect it. If there is a better way to do this with other sensors/nodes let me know. Thanks.
 
 ##### chenpixx 07/28/2020 11:21:58
@@ -27354,7 +27354,7 @@ Hi, I was wondering if there was a way for lights/point lights to emit some sort
 If you don't want it to fall at all (not even on the table), I guess you could just sett "physics" to NULL for the box
 
 
-`@Shadow` Have you tried "recognitionColors" on a Solid node? ([https://cyberbotics.com/doc/reference/solid](https://cyberbotics.com/doc/reference/solid))
+`@Kormit` Have you tried "recognitionColors" on a Solid node? ([https://cyberbotics.com/doc/reference/solid](https://cyberbotics.com/doc/reference/solid))
 
 ##### chenpixx 07/28/2020 11:48:55
 > If you don't want it to fall at all (not even on the table), I guess you could just sett "physics" to NULL for the box
@@ -27374,7 +27374,7 @@ An alternative way is to turn physics off, and do a pure kinematic simulation. Y
 
 > Hi, I was wondering if there was a way for lights/point lights to emit some sort of colour/light but you can't see that light in the map but light sensors can still detect it. If there is a better way to do this with other sensors/nodes let me know. Thanks.
 
-`@Shadow` you might use the 'wb\_supervisor\_node\_set\_visibility' Supervisor API function to hide that light to the viewpoint and cameras: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_set\_visibility](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_set_visibility)
+`@Kormit` you might use the 'wb\_supervisor\_node\_set\_visibility' Supervisor API function to hide that light to the viewpoint and cameras: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_set\_visibility](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_set_visibility)
 
 ##### chenpixx 07/28/2020 12:40:36
 > True. As long as the physic node is on, it will always fall down (unless you set gravity to 0). Do you not want it to fall down at all, or to fall on the table instead of the ground?
@@ -27419,7 +27419,7 @@ windows-key (super) -> type in 'screenshot' -> start screenshot program -> take 
 
 I would strongly recommend following (again) tutorial 1-6.
 
-##### Shadow 07/28/2020 13:13:38
+##### Kormit 07/28/2020 13:13:38
 `@David Mansolino` thanks for getting back to me, unfortunately setting the visibility to false will remove the mesh/object, but not the emitted light from the PointLight protos.
 
 ##### EPIC 07/28/2020 13:14:22
@@ -27428,7 +27428,7 @@ I would strongly recommend following (again) tutorial 1-6.
 ##### David Mansolino [Cyberbotics] 07/28/2020 13:14:24
 > `@David Mansolino` thanks for getting back to me, unfortunately setting the visibility to false will remove the mesh/object, but not the emitted light from the PointLight protos.
 
-`@Shadow` oh yes your right, in that case unfortunately I don't see any other solution.
+`@Kormit` oh yes your right, in that case unfortunately I don't see any other solution.
 
 ##### Alex Nie 07/28/2020 13:14:41
 `@David Mansolino` Thank you very much for your previous help. But I regret to find that controllerArgs cannot satisfy the function I want to achieve. So I want to ask, is there any other way to use a script to control the movement of multiple robots, and the movement instructions of each robot are different. I want to use webots to simulate formation control. I want to use webots to simulate formation control based on deep reinforcement learning, so I must use a script file to control the movement of multiple robots. QAQ...
@@ -28548,7 +28548,7 @@ Leaving the mass to -1 is fine (mass will be computed according to the density a
 
 Your screenshot looks good. It should work as expected. If not you may have to adjust the HingeJointParameter fields.
 
-##### Shadow 08/03/2020 12:37:39
+##### Kormit 08/03/2020 12:37:39
 Hi, I was wondering how you can get the raw sensor values bypassing the look up table so I can know what values the sensor is actually receiving (to then create a look up table).
 
 ##### David Mansolino [Cyberbotics] 08/03/2020 12:38:48
@@ -28563,7 +28563,7 @@ You can use GPS + emitter-receiver mechanism: [https://www.cyberbotics.com/doc/g
 ##### Alex Nie 08/03/2020 12:40:14
 OK
 
-##### Shadow 08/03/2020 12:43:11
+##### Kormit 08/03/2020 12:43:11
 I get a no attribute error when I call `sensor.getLookupTable()`, is this method not available in python?
 
 ##### David Mansolino [Cyberbotics] 08/03/2020 12:44:36
@@ -28571,7 +28571,7 @@ It should be available: [https://cyberbotics.com/doc/reference/distancesensor?ta
 
 But this is available only in the latest version of Webots (R2020b).
 
-##### Shadow 08/03/2020 12:45:55
+##### Kormit 08/03/2020 12:45:55
 Thanks, didn't have the latest version!
 
 ##### David Mansolino [Cyberbotics] 08/03/2020 12:46:10
@@ -28605,7 +28605,7 @@ Strange... I am sorry I cannot further help on this one unless you have an activ
 ##### Robsicky 08/03/2020 13:16:49
 How to use getPosition (absolute position) for a PROTO node built on "Slot"?
 
-##### Shadow 08/03/2020 13:39:36
+##### Kormit 08/03/2020 13:39:36
 After updating to 2020b, I'm getting an error
 
 `FILE_NAME.proto': error: Template engine error: luaL_dostring error : ...m Files/Webots-2020-b/resources/lua/liluat/liluat.lua:520: attempt to perform arithmetic on local 'line_number' (a nil value).`
@@ -28631,21 +28631,21 @@ you can work around this by adding a dummy Node at the Slot root location that i
 
 > I'm not sure what the issue is.
 
-`@Shadow` are you getting this with one specific PROTO?
+`@Kormit` are you getting this with one specific PROTO?
 
-##### Shadow 08/03/2020 13:51:50
+##### Kormit 08/03/2020 13:51:50
 Yes
 
 ##### David Mansolino [Cyberbotics] 08/03/2020 13:51:59
 Can you share it?
 
-##### Shadow 08/03/2020 13:53:38
+##### Kormit 08/03/2020 13:53:38
 It appears I don't get the error any more
 
 ##### David Mansolino [Cyberbotics] 08/03/2020 13:54:10
 OK, let us know if it appears again
 
-##### Shadow 08/03/2020 13:55:29
+##### Kormit 08/03/2020 13:55:29
 Will do
 
 ##### (,-*-) 08/03/2020 15:13:02
@@ -28686,7 +28686,7 @@ I would recommend to start from this version of the controller as it is way more
 
 > I'm not sure what the issue is.
 
-`@Shadow` I just tried your PROTO file and seems to work perfectly for me, maybe you don't have space anymore on your hard drive or Webots does not have write access in the temporary directory.
+`@Kormit` I just tried your PROTO file and seems to work perfectly for me, maybe you don't have space anymore on your hard drive or Webots does not have write access in the temporary directory.
 
 ##### Robsicky 08/04/2020 09:07:25
 Hi! Have you guys managed to fix this?😮 [https://github.com/cyberbotics/webots/pull/2063](https://github.com/cyberbotics/webots/pull/2063)
@@ -28753,17 +28753,17 @@ while robot_receiver.getQueueLength(self) > 0:
 `@saditya` it is probably simpler to design the shape in an external 3D modelling software such as Blender
 
 
-> `@Shadow` I just tried your PROTO file and seems to work perfectly for me, maybe you don't have space anymore on your hard drive or Webots does not have write access in the temporary directory.
+> `@Kormit` I just tried your PROTO file and seems to work perfectly for me, maybe you don't have space anymore on your hard drive or Webots does not have write access in the temporary directory.
 
 `@David Mansolino` second thought, on Windows 10 I can reproduce the problem
 
-##### Shadow 08/04/2020 10:46:44
+##### Kormit 08/04/2020 10:46:44
 `@David Mansolino` Does this mean its a bug within webots?
 
 ##### David Mansolino [Cyberbotics] 08/04/2020 10:48:54
 Probbaly, I am still investigating
 
-##### Shadow 08/04/2020 10:50:17
+##### Kormit 08/04/2020 10:50:17
 Thanks
 
 ##### David Mansolino [Cyberbotics] 08/04/2020 10:57:28
@@ -28775,7 +28775,7 @@ Hello friends, I have converted the BCND Moveo robot arm to the protofile with u
 ![urdf2webots_error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/740162778655883265/urdf2webots_error.PNG)
 %end
 
-##### Shadow 08/04/2020 11:06:41
+##### Kormit 08/04/2020 11:06:41
 `@David Mansolino` Would you recommend me using the old version?
 
 ##### David Mansolino [Cyberbotics] 08/04/2020 11:07:16
@@ -28800,7 +28800,7 @@ I shared the moveo robot arm proto file on github [https://github.com/harunlakod
 
 `@David Mansolino`
 
-##### Shadow 08/04/2020 11:26:45
+##### Kormit 08/04/2020 11:26:45
 Yes that seemed to work `@David Mansolino`
 
 ##### David Mansolino [Cyberbotics] 08/04/2020 11:26:50
@@ -28813,7 +28813,7 @@ Yes that seemed to work `@David Mansolino`
 
 > Yes that seemed to work `@David Mansolino`
 
-`@Shadow` perfect, thank you for the feedback
+`@Kormit` perfect, thank you for the feedback
 
 ##### ContrastNull 08/04/2020 12:05:57
 Wanted to confirm that, is it possible to use an external header file in controller code? I put the c header file at include/controller/c/webots.
@@ -30626,43 +30626,43 @@ I would strongly recommend you to upgrade to R2020b which fixes several issues w
 ##### Samir Hosny Mohamed 08/11/2020 08:13:08
 Ok, i will do that as soon as i can, Thanks very much ❤️
 
-##### Shadow 08/11/2020 14:46:29
+##### Kormit 08/11/2020 14:46:29
 Is there a maximum range for distance sensors? No matter how big my lookup table is it always seems to max out at the max lookup table value at the same distance every time.
 
 ##### David Mansolino [Cyberbotics] 08/11/2020 14:47:18
 The maximum distance is indeed the last value of the lookup table.
 
-##### Shadow 08/11/2020 14:48:01
+##### Kormit 08/11/2020 14:48:01
 This doesn't seem to help as no matter the value over a specific point the max distance seems to stay the same.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 14:49:19
 Did you try to save and revert after changing the lookupTable?
 
-##### Shadow 08/11/2020 14:49:33
+##### Kormit 08/11/2020 14:49:33
 Yes
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 14:50:01
 What is the maximum distance value you get?
 
-##### Shadow 08/11/2020 14:50:56
+##### Kormit 08/11/2020 14:50:56
 It goes from a read value of 0.16 instantly up to my maximum lookup table value of 10.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 14:51:33
 Can you copy/paste your lookupTable here?
 
-##### Shadow 08/11/2020 14:54:10
+##### Kormit 08/11/2020 14:54:10
 It's just 0 0 then 10 10 with no noise
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 14:56:02
 So, it's `[ 0 0 0, 10 10 0 ]`, correct?
 
-##### Shadow 08/11/2020 14:56:31
+##### Kormit 08/11/2020 14:56:31
 yes
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 14:59:02
 And when you set it to `[ 0 0 0, 100 100, 0]` the range doesn't change?
 
-##### Shadow 08/11/2020 14:59:52
+##### Kormit 08/11/2020 14:59:52
 No it does the same 0.16 to 100 issue.
 
 ##### David Mansolino [Cyberbotics] 08/11/2020 15:01:49
@@ -30671,19 +30671,19 @@ It is probable that the problem is rather related to the environment rather to t
 
 did you tried with severa kind of obstacles?
 
-##### Shadow 08/11/2020 15:03:48
+##### Kormit 08/11/2020 15:03:48
 It is a flat wall and the environment is a maze so only has flat walls.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 15:06:41
 It could be some part of your robot occluding the sensor ray for a few time steps. Can you activate the distance sensor ray visualization in the View menu and run the simulation step-by-step?
 
-##### Shadow 08/11/2020 15:08:00
+##### Kormit 08/11/2020 15:08:00
 I'm using the e-puck robot and customising it and I've been using the visualisation and the length of the rays increase with the increasing lookup table max value however the colour goes red at the same distance every time.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 15:09:06
 Can you revert to a non-customized e-puck robot for which you would change only the lookupTable?
 
-##### Shadow 08/11/2020 15:10:02
+##### Kormit 08/11/2020 15:10:02
 That is mostly the only thing I am changing about the e-puck
 
 
@@ -30692,13 +30692,13 @@ Do you have any idea what the solution might be?
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 16:05:01
 Sorry, no.
 
-##### Shadow 08/11/2020 16:05:50
+##### Kormit 08/11/2020 16:05:50
 So there is no way to increase the distance sensor range?
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 16:07:11
 Yes, it should work. I don't know why it doesn't for you. Do you have an active Premier service for user support?
 
-##### Shadow 08/11/2020 16:07:38
+##### Kormit 08/11/2020 16:07:38
 No I do not
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/11/2020 16:13:58
@@ -30882,7 +30882,7 @@ check the link and go through the troubleshooting steps. Especially the poweropt
 ##### Gowtham 08/12/2020 13:16:24
 `@Simon Steinmann` thanks dude
 
-##### Shadow 08/12/2020 14:22:24
+##### Kormit 08/12/2020 14:22:24
 Is it possible to block light from a PointLight going through walls? Am I making walls incorrectly? Thanks
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/12/2020 14:23:00
@@ -30893,13 +30893,13 @@ No, it's not possible.
 
 `@David Mansolino` Can I add polygons with minimum thickness and add a appearance to them? Or will I have to design the map in some third party and add as a texture?
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/12/2020 14:24:06
+##### Olivier Michel [Cyberbotics] 08/12/2020 14:24:06
 `@Shadow`: You can however enable shadows.
 
 
-`@Shadow`: or you can use SpotLight and ensure the spot cuts the light before the wall.
+`@Kormit`: or you can use SpotLight and ensure the spot cuts the light before the wall.
 
-##### Shadow 08/12/2020 14:32:20
+##### Kormit 08/12/2020 14:32:20
 Thanks I'll take a look
 
 ##### David Mansolino [Cyberbotics] 08/12/2020 14:37:32
@@ -31018,7 +31018,7 @@ Thanks 👍
 
 I will try it.
 
-##### Shadow 08/13/2020 11:14:27
+##### Kormit 08/13/2020 11:14:27
 Hi, I'm having issues with distance sensors where if they are at a specific angle to a wall, the reading will be always max no matter the distance away. At other angles it works perfectly.
 
 ##### David Mansolino [Cyberbotics] 08/13/2020 11:15:42
@@ -31026,7 +31026,7 @@ Is the distance sensor type 'sonar'?
 
 If yes, this probably explains what you are experiencing: [https://cyberbotics.com/doc/reference/distancesensor#sonar-sensors](https://cyberbotics.com/doc/reference/distancesensor#sonar-sensors)
 
-##### Shadow 08/13/2020 11:21:12
+##### Kormit 08/13/2020 11:21:12
 Okay thanks
 
 ##### David Mansolino [Cyberbotics] 08/13/2020 11:21:29
@@ -38496,13 +38496,13 @@ here are the instructions to install and correctly setup Python:
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 14:17:26
 You're welcome
 
-##### JakaSembung 09/22/2020 06:59:10
+##### Jaka 09/22/2020 06:59:10
 could webots live streamming ?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 09/22/2020 07:00:12
 > could webots live streamming ?
 
-`@JakaSembung` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
+`@Jaka` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
 
 ##### Bkarso 09/22/2020 09:38:00
 hello,I use webots with ros,I use 'get\_velocity' service ,but the value is totally same with my input.If I must use the position\_sensor to  get the Velocity?

@@ -1,12 +1,11 @@
-import {SystemInfo} from "./system_info.js";
-import {webots} from "./../wwi/webots.js";
-import {World} from "./webotsjs/World.js"
-import {WbWrenPicker} from "./webotsjs/WbWrenPicker.js"
-import {Selector} from "./webotsjs/Selector.js"
-import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from "./webotsjs/WbUtils.js"
-import {WbVector3} from "./webotsjs/utils/WbVector3.js"
+import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from './nodes/wbUtils.js';
+import {Selector} from './selector.js';
+import {SystemInfo} from './system_info.js';
+import {webots} from './webots.js';
+import {WbVector3} from './nodes/utils/wbVector3.js';
+import {WbWorld} from './nodes/wbWorld.js';
+import {WbWrenPicker} from './wren/wbWrenPicker.js';
 
-/* global webots, SystemInfo */
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
@@ -120,11 +119,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.moveParams.dx = event.clientX - this.state.x;
     this.moveParams.dy = event.clientY - this.state.y;
 
-    let orientation = World.instance.viewpoint.orientation;
-    let position = World.instance.viewpoint.position;
+    let orientation = WbWorld.instance.viewpoint.orientation;
+    let position = WbWorld.instance.viewpoint.position;
 
     let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
 
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
@@ -145,10 +144,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let deltaRotation = yawRotation.mul(pitchRotation);
       let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter)).add(rotationCenter);
       let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
-      World.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
-      World.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
-      World.instance.viewpoint.updatePosition();
-      World.instance.viewpoint.updateOrientation();
+      WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
+      WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
+      WbWorld.instance.viewpoint.updatePosition();
+      WbWorld.instance.viewpoint.updateOrientation();
       this.scene.render();
     } else {
       let distanceToPickPosition = 0.001;
@@ -161,7 +160,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       if (distanceToPickPosition < 0.001)
         distanceToPickPosition = 0.001;
 
-      let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+      let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
         let targetRight = -scaleFactor * this.moveParams.dx
@@ -171,8 +170,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         let targetR = rightVec.mul(targetRight);
         let targetU = upVec.mul(targetUp);
         let target = targetR.add(targetU);
-        World.instance.viewpoint.position = position.add(target);
-        World.instance.viewpoint.updatePosition();
+        WbWorld.instance.viewpoint.position = position.add(target);
+        WbWorld.instance.viewpoint.updatePosition();
         this.scene.render();
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
         let rollVector = direction(orientation);
@@ -185,10 +184,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         roll3.y = roll2.y;
         roll3.z = roll2.z;
 
-        World.instance.viewpoint.position = position.add(zDisplacement);
-        World.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
-        World.instance.viewpoint.updatePosition();
-        World.instance.viewpoint.updateOrientation();
+        WbWorld.instance.viewpoint.position = position.add(zDisplacement);
+        WbWorld.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
+        WbWorld.instance.viewpoint.updatePosition();
+        WbWorld.instance.viewpoint.updateOrientation();
 
         this.scene.render();
       }
@@ -236,10 +235,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     let distanceToPickPosition;
     let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-    let position = World.instance.viewpoint.position;
+    let position = WbWorld.instance.viewpoint.position;
 
     let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
 
     if (this.picker.selectedId !== -1)
@@ -250,11 +249,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (distanceToPickPosition < 0.001)
       distanceToPickPosition = 0.001;
 
-    let direct = direction(World.instance.viewpoint.orientation);
+    let direct = direction(WbWorld.instance.viewpoint.orientation);
     const scaleFactor = 0.02 * (event.deltaY < 0.0 ? -1 : 1) * distanceToPickPosition;
     const zDisplacement = direct.mul(scaleFactor);
-    World.instance.viewpoint.position = position.add(zDisplacement);
-    World.instance.viewpoint.updatePosition();
+    WbWorld.instance.viewpoint.position = position.add(zDisplacement);
+    WbWorld.instance.viewpoint.updatePosition();
 
     this.scene.render();
   }
@@ -292,11 +291,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     var touch = event.targetTouches['0'];
     var x = Math.round(touch.clientX); // discard decimal values returned on android
     var y = Math.round(touch.clientY);
-    let orientation = World.instance.viewpoint.orientation;
-    let position = World.instance.viewpoint.position;
+    let orientation = WbWorld.instance.viewpoint.orientation;
+    let position = WbWorld.instance.viewpoint.position;
 
     let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = World.instance.viewpoint.toWorld(rotationCenter);
+    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
     let distanceToPickPosition = 0.001;
     if (this.picker.selectedId !== -1){
@@ -308,7 +307,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (distanceToPickPosition < 0.001)
       distanceToPickPosition = 0.001;
 
-    let scaleFactor = distanceToPickPosition * 2 * Math.tan(World.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
+    let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
     if (this.state.mouseDown === 2) { // translation
       this.moveParams.dx = x - this.state.x;
@@ -335,8 +334,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let targetR = rightVec.mul(targetRight);
       let targetU = upVec.mul(targetUp);
       let target = targetR.add(targetU);
-      World.instance.viewpoint.position = position.add(target);
-      World.instance.viewpoint.updatePosition();
+      WbWorld.instance.viewpoint.position = position.add(target);
+      WbWorld.instance.viewpoint.updatePosition();
       this.scene.render();
     } else {
       var touch1 = event.targetTouches['1'];
@@ -371,10 +370,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         roll3.y = roll2.y;
         roll3.z = roll2.z;
 
-        World.instance.viewpoint.position = position.add(zDisplacement);
-        World.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
-        World.instance.viewpoint.updatePosition();
-        World.instance.viewpoint.updateOrientation();
+        WbWorld.instance.viewpoint.position = position.add(zDisplacement);
+        WbWorld.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
+        WbWorld.instance.viewpoint.updatePosition();
+        WbWorld.instance.viewpoint.updateOrientation();
 
         this.scene.render();
       } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
@@ -398,10 +397,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         let deltaRotation = yawRotation.mul(pitchRotation);
         let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter)).add(rotationCenter);
         let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
-        World.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
-        World.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
-        World.instance.viewpoint.updatePosition();
-        World.instance.viewpoint.updateOrientation();
+        WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
+        WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
+        WbWorld.instance.viewpoint.updatePosition();
+        WbWorld.instance.viewpoint.updateOrientation();
         this.scene.render();
       }
 
@@ -509,11 +508,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       Selector.select(this.picker.selectedId);
 
-      if(typeof World.instance.nodes.get(Selector.selectedId) !== 'undefined')
-        World.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
+      if(typeof WbWorld.instance.nodes.get(Selector.selectedId) !== 'undefined')
+        WbWorld.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 
-      if(typeof World.instance.nodes.get(Selector.previousId) !== 'undefined')
-        World.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
+      if(typeof WbWorld.instance.nodes.get(Selector.previousId) !== 'undefined')
+        WbWorld.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
 
     this.scene.render();
 

@@ -1,18 +1,19 @@
-import {SystemInfo} from './system_info.js';
-import {ContextMenu} from './context_menu.js';
-import {X3dScene} from './x3d_scene.js';
-import {MouseEvents} from './mouse_events.js';
-import {Editor} from './editor.js';
-import {DefaultUrl} from './default_url.js';
-import {Toolbar} from './toolbar.js';
-import {Selector} from './webotsjs/Selector.js';
-import {Stream} from './stream.js';
-import {DialogWindow} from './dialog_window.js';
 import {Animation} from './animation.js';
+import {ContextMenu} from './context_menu.js';
+import {DefaultUrl} from './default_url.js';
+import {DialogWindow} from './dialog_window.js';
+import {Editor} from './editor.js';
+import {MouseEvents} from './mouse_events.js';
 import {MultimediaClient} from './multimedia_client.js';
 import {RobotWindow} from './robot_window.js';
+import {Toolbar} from './toolbar.js';
+import {Selector} from './selector.js';
 import {Server} from './server.js';
-import {WbVector3} from './webotsjs/utils/WbVector3.js';
+import {Stream} from './stream.js';
+import {SystemInfo} from './system_info.js';
+import {X3dScene} from './x3d_scene.js';
+
+import {WbVector3} from './nodes/utils/wbVector3.js';
 
 /*
  * Injects a Webots 3D view inside a HTML tag.
