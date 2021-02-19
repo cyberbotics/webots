@@ -37,6 +37,9 @@ public:
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
 
+  void preFinalize() override;
+  void postFinalize() override;
+
   WbVector3 axis() const override;
   WbVector3 anchor() const override;
   WbVector3 axis2() const;
@@ -48,6 +51,8 @@ public:
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
 public slots:
+  bool setJoint() override;
+  bool setJoint2();
 
 signals:
 
@@ -63,6 +68,8 @@ protected:
 
   void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
+
+  void setOdeJoint(dBodyID body, dBodyID parentBody) override;
 
 protected slots:
   void updateParameters() override;

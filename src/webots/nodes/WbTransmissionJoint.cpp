@@ -63,6 +63,27 @@ WbTransmissionJoint::WbTransmissionJoint(const WbNode &other) : WbJoint(other) {
 WbTransmissionJoint::~WbTransmissionJoint() {
 }
 
+void WbTransmissionJoint::preFinalize() {
+  WbJoint::preFinalize();
+
+  WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
+  if (p2 && !p2->isPreFinalizedCalled())
+    p2->preFinalize();
+
+  updateParameters2();
+  mInitialPosition2 = mPosition2;
+}
+
+void WbTransmissionJoint::postFinalize() {
+  WbJoint::postFinalize();
+
+  WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
+  if (p2 && !p2->isPostFinalizedCalled())
+    p2->postFinalize();
+
+  connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
+}
+
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters() const {
   return dynamic_cast<WbHingeJointParameters *>(mParameters->value());
 }
@@ -93,6 +114,31 @@ WbVector3 WbTransmissionJoint::axis2() const {
   static const WbVector3 DEFAULT_AXIS(0.0, 1.0, 0.0);
   const WbHingeJointParameters *const p2 = hingeJointParameters2();
   return p2 ? p2->axis() : DEFAULT_AXIS;
+}
+
+bool WbTransmissionJoint::setJoint() {
+  if (!WbBasicJoint::setJoint())
+    return false;
+
+  if (mJoint == NULL)
+    mJoint = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+
+  const WbSolid *const s = solidEndPoint();
+  setOdeJoint(s ? s->body() : NULL, upperSolid()->bodyMerger());
+
+  return true;
+}
+
+bool WbTransmissionJoint::setJoint2() {
+  // TODO
+
+  return true;
+}
+
+void WbTransmissionJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
+  WbJoint::setOdeJoint(body, parentBody);
+  // compute and set the anchor point
+  applyToOdeAnchor();
 }
 
 void WbTransmissionJoint::applyToOdeAxis() {
@@ -317,6 +363,7 @@ void WbTransmissionJoint::updateMultiplier() {
 
 void WbTransmissionJoint::inferTransmissionMode() {
   mTransmissionMode = -1;
+
   const bool isCodirectional = axis().normalized().almostEquals(axis2().normalized());
   if (mMultiplier->value() < 0.0 && isCodirectional)
     mTransmissionMode = dTransmissionParallelAxes;
@@ -361,7 +408,6 @@ void WbTransmissionJoint::setupTransmission() {
   const WbVector3 &an1 = anchor();
   const WbVector3 &an2 = anchor2();
 
-  printf("%f %f %f\n", an1.x(), an1.y(), an1.z());
   dJointSetTransmissionAnchor1(mTransmission, an1.x(), an1.y(), an1.z());
   dJointSetTransmissionAnchor2(mTransmission, an2.x(), an2.y(), an2.z());
 
