@@ -51,7 +51,7 @@ class TestParagraphs(unittest.TestCase):
                 content = re.sub(r'\n    .+?(?=\n)', '\n', content, flags=re.S)
                 content = re.sub(r'\n        .+?(?=\n)', '\n', content, flags=re.S)
                 # - HTML statements
-                content = re.sub(r'\n<.+?>\n', '\n', content, flags=re.S)
+                content = re.sub(r'\n\s*<.+?>\n', '\n', content, flags=re.S)
                 content = re.sub(r'\n---\n', '\n', content, flags=re.S)
                 # - Single hyperlinks
                 content = re.sub(r'\n\!?\[.+\)\n', '\n', content, flags=re.S)
