@@ -104,7 +104,7 @@ Additionally for each device type specific information are provided.
     "sensorType": <"bumper"|"force"|"force-3d">
   }```
 
-The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON messages, prefixed with the "update" label, containing the current devices measurements.
+The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON message, prefixed with the "update" label, containing the current devices measurements.
 Here is the sample structure of the configure message:
 ```
 update {
