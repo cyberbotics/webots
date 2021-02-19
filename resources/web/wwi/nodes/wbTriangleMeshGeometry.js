@@ -82,15 +82,14 @@ class WbTriangleMeshGeometry extends WbGeometry {
     // Restore pickable state
     this.setPickable(this.isPickable);
 
-    let buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
+    const buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
     this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
 
-    // TODO CHECK INPUT
-    let vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
-    let normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
-    let texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
-    let unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    let indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
+    const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
+    const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
+    const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
+    const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
+    const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
     this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
       unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
@@ -123,11 +122,11 @@ class WbTriangleMeshGeometry extends WbGeometry {
     if (!this.triangleMesh.isValid)
       return;
 
-    let rm = m.extracted3x3Matrix();
-    let n = this.triangleMesh.numberOfTriangles;
+    const rm = m.extracted3x3Matrix();
+    const n = this.triangleMesh.numberOfTriangles;
 
     let start = buffers.vertexIndex / 3;
-    let vBuf = buffers.vertexBuffer;
+    const vBuf = buffers.vertexBuffer;
     if (typeof vBuf !== 'undefined') {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
@@ -138,7 +137,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
       }
     }
 
-    let nBuf = buffers.normalBuffer;
+    const nBuf = buffers.normalBuffer;
     if (typeof nBuf !== 'undefined') {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
@@ -149,8 +148,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
       }
     }
 
-    let tBuf = buffers.texCoordBuffer;
-    let utBuf = buffers.unwrappedTexCoordsBuffer;
+    const tBuf = buffers.texCoordBuffer;
+    const utBuf = buffers.unwrappedTexCoordsBuffer;
     if (typeof tBuf !== 'undefined') {
       let i = start * buffers.texCoordSetsCount * 2;
       for (let t = 0; t < n; ++t) { // foreach triangle
@@ -170,7 +169,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
       }
     }
 
-    let iBuf = buffers.indexBuffer;
+    const iBuf = buffers.indexBuffer;
     if (typeof iBuf !== 'undefined') {
       start = buffers.vertexIndex / 3;
       let i = buffers.index;

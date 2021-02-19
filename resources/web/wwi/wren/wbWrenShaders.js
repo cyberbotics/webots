@@ -226,10 +226,10 @@ class WbWrenShaders {
 
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-      let minRange = 0.0;
+      const minRange = 0.0;
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 'minRange', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(minRange)]);
 
-      let maxRange = 1.0;
+      const maxRange = 1.0;
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], 'maxRange', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, _wrjs_pointerOnFloat(maxRange)]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_ENCODE_DEPTH], '../../../resources/wren/shaders/encode_depth.vert', '../../../resources/wren/shaders/encode_depth.frag');
@@ -362,16 +362,16 @@ class WbWrenShaders {
 
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-      let paramsPointer = _wrjs_array4(0, 0, 0, 0);
+      const paramsPointer = _wrjs_array4(0, 0, 0, 0);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 'params', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F, paramsPointer]);
 
-      let clipInfoPointer = _wrjs_array4(0.0, 1000000.0, 0.0, 0.0);
+      const clipInfoPointer = _wrjs_array4(0.0, 1000000.0, 0.0, 0.0);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 'clipInfo', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F, clipInfoPointer]);
 
-      let radiusPointer = _wrjs_pointerOnFloat(2.0);
+      const radiusPointer = _wrjs_pointerOnFloat(2.0);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 'radius', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, radiusPointer]);
 
-      let flipNormalYPointer = _wrjs_pointerOnFloat(0.0);
+      const flipNormalYPointer = _wrjs_pointerOnFloat(0.0);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], 'flipNormalY', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, flipNormalYPointer]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO], '../../../resources/wren/shaders/pass_through.vert', '../../../resources/wren/shaders/gtao.frag');
@@ -436,7 +436,7 @@ class WbWrenShaders {
 
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], ENUM.WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
 
-      let defaultThresholdPointer = _wrjs_pointerOnFloat(10.0);
+      const defaultThresholdPointer = _wrjs_pointerOnFloat(10.0);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], 'threshold', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, defaultThresholdPointer]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_BRIGHT_PASS], '../../../resources/wren/shaders/pass_through.vert', '../../../resources/wren/shaders/bright_pass.frag');

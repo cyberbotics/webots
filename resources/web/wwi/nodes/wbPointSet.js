@@ -88,15 +88,15 @@ class WbPointSet extends WbGeometry {
 
     super.computeWrenRenderable();
 
-    let coordsData = [];
+    const coordsData = [];
     let colorData;
     if (typeof this.color !== 'undefined')
       colorData = [];
 
-    let coordsCount = this.computeCoordsAndColorData(coordsData, colorData);
+    const coordsCount = this.computeCoordsAndColorData(coordsData, colorData);
 
-    let coordsDataPointer = arrayXPointerFloat(coordsData);
-    let colorDataPointer = arrayXPointerFloat(colorData);
+    const coordsDataPointer = arrayXPointerFloat(coordsData);
+    const colorDataPointer = arrayXPointerFloat(colorData);
     this.wrenMesh = _wr_static_mesh_point_set_new(coordsCount, coordsDataPointer, colorDataPointer);
 
     _free(coordsDataPointer);
@@ -115,7 +115,7 @@ class WbPointSet extends WbGeometry {
 
     let count = 0;
     if (typeof colorData !== 'undefined') {
-      let size = Math.min(this.coord.length, this.color.length);
+      const size = Math.min(this.coord.length, this.color.length);
       for (let i = 0; i < size; i++) {
         coordsData[3 * count] = this.coord[i].x;
         coordsData[3 * count + 1] = this.coord[i].y;

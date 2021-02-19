@@ -31,8 +31,8 @@ class WbPlane extends WbGeometry {
 
     this.computeWrenRenderable();
 
-    let createOutlineMesh = super.isInBoundingObject();
-    let wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
+    const createOutlineMesh = super.isInBoundingObject();
+    const wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
 
@@ -50,18 +50,18 @@ class WbPlane extends WbGeometry {
     if (!this.isAValidBoundingObject())
       return;
 
-    let offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
 
     // allow the bounding sphere to scale down
-    let scaleY = 0.1 * Math.min(this.size.x, this.size.y);
+    const scaleY = 0.1 * Math.min(this.size.x, this.size.y);
     wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x * (1.0 + offset), scaleY, this.size.y * (1.0 + offset)));
   }
 
   updateScale() {
     // allow the bounding sphere to scale down
-    let scaleY = 0.1 * Math.min(this.size.x, this.size.y);
+    const scaleY = 0.1 * Math.min(this.size.x, this.size.y);
 
-    let scale = _wrjs_color_array(this.size.x, scaleY, this.size.y);
+    const scale = _wrjs_color_array(this.size.x, scaleY, this.size.y);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 

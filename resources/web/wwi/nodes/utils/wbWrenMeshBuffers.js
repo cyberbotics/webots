@@ -90,14 +90,14 @@ class WbWrenMeshBuffers {
   }
 
   static writeCoordinates(x, y, z, m, buffer, index) {
-    let result = m.mulByVec4(new WbVector4(x, y, z, 1.0));
+    const result = m.mulByVec4(new WbVector4(x, y, z, 1.0));
     buffer[index] = result.x;
     buffer[index + 1] = result.y;
     buffer[index + 2] = result.z;
   }
 
   static writeNormal(x, y, z, m, buffer, index) {
-    let result = m.mulByVec3(new WbVector3(x, y, z));
+    const result = m.mulByVec3(new WbVector3(x, y, z));
     buffer[index] = result.x;
     buffer[index + 1] = result.y;
     buffer[index + 2] = result.z;

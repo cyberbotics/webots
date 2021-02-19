@@ -41,14 +41,12 @@ class WbTesselator {
   static tesselate(indexes, vertices, results) {
     // don't reallocate the results list into the tesselator callback
     const indexSize = indexes.length;
-    const s = indexSize - 2;
-    const maxSize = (s > 0) ? 3 * s : 0;
     const vertexSize = vertices.length;
 
     if (indexSize !== vertexSize)
       return;
 
-    let tesselator = new libtess.GluTesselator();
+    const tesselator = new libtess.GluTesselator();
     if (typeof tesselator === 'undefined')
       return;
 

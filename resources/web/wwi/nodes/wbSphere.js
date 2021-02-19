@@ -65,7 +65,7 @@ class WbSphere extends WbGeometry {
   }
 
   updateScale() {
-    let scaledRadius = this.radius;
+    const scaledRadius = this.radius;
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
   }

@@ -57,16 +57,16 @@ class WbElevationGrid extends WbGeometry {
     this.setPickable(this.pickable);
 
     // convert height values to float, pad with zeroes if necessary
-    let numValues = this.xDimension * this.zDimension;
-    let heightData = [];
+    const numValues = this.xDimension * this.zDimension;
+    const heightData = [];
 
-    let availableValues = Math.min(numValues, this.height.length);
+    const availableValues = Math.min(numValues, this.height.length);
     for (let i = 0; i < availableValues; ++i)
       heightData[i] = this.height[i];
 
     const createOutlineMesh = super.isInBoundingObject();
 
-    let heightDataPointer = arrayXPointerFloat(heightData);
+    const heightDataPointer = arrayXPointerFloat(heightData);
     this.wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);
 
     _free(heightDataPointer);
@@ -82,7 +82,7 @@ class WbElevationGrid extends WbGeometry {
   }
 
   updateScale() {
-    let scalePointer = _wrjs_color_array(this.xSpacing, 1.0, this.zSpacing);
+    const scalePointer = _wrjs_color_array(this.xSpacing, 1.0, this.zSpacing);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
@@ -92,7 +92,7 @@ class WbElevationGrid extends WbGeometry {
 
     const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
 
-    let scalePointer = _wrjs_color_array(this.xSpacing, 1.0 + offset, this.zSpacing);
+    const scalePointer = _wrjs_color_array(this.xSpacing, 1.0 + offset, this.zSpacing);
 
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }

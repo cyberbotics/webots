@@ -27,7 +27,7 @@ class WbFog extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined') {
-      let index = WbWorld.instance.sceneTree.indexOf(this);
+      const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
     }
 
@@ -52,7 +52,7 @@ class WbFog extends WbBaseNode {
     else
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_NONE;
 
-    let colorPointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const colorPointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
     _wr_scene_set_fog(_wr_scene_get_instance(), this.wrenFogType, ENUM.WR_SCENE_FOG_DEPTH_TYPE_POINT, colorPointer, density, 0.0, this.visibilityRange);
   }
 

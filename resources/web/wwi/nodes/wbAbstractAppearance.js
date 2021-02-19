@@ -23,7 +23,7 @@ class WbAbstractAppearance extends WbBaseNode {
 
   delete() {
     if (typeof this.parent !== 'undefined') {
-      let parent = WbWorld.instance.nodes.get(this.parent);
+      const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
         parent.appearance = undefined;
         parent.wrenMaterial = undefined;

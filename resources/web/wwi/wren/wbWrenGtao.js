@@ -105,10 +105,10 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
       height = height <= 1.0 ? 2.0 : height;
     }
 
-    let viewportFramebuffer = _wr_viewport_get_frame_buffer(this.wrenViewport);
+    const viewportFramebuffer = _wr_viewport_get_frame_buffer(this.wrenViewport);
 
-    let depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
-    let normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
+    const depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
+    const normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
     this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F, depthTexture, normalTexture, this.halfResolution);
 

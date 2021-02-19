@@ -13,11 +13,9 @@
 // limitations under the License.
 import {webots} from './webots.js';
 
-let view = null;
-
 function init() {
-  let name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
-  view = new webots.View(document.getElementById('playerDiv'));
+  const name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
+  let view = new webots.View(document.getElementById('playerDiv'));
   view.open(name + '.x3d');
   view.setAnimation(name + '.json', 'play', true);
 }

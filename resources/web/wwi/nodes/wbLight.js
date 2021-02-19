@@ -30,12 +30,12 @@ class WbLight extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined') {
-      let index = WbWorld.instance.sceneTree.indexOf(this);
+      const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
     } else {
-      let parent = WbWorld.instance.nodes.get(this.parent);
+      const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
-        let index = parent.children.indexOf(this);
+        const index = parent.children.indexOf(this);
         parent.children.splice(index, 1);
       }
     }
@@ -68,7 +68,7 @@ class WbLight extends WbBaseNode {
   }
 
   computeAmbientLight() {
-    let rgb = new WbVector3(0.0, 0.0, 0.0);
+    const rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach(light => {
       if (light.on) {

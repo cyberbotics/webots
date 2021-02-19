@@ -52,14 +52,14 @@ class WbSpotLight extends WbLight {
   }
 
   attachToUpperTransform() {
-    let upperTransform = findUpperTransform(this);
+    const upperTransform = findUpperTransform(this);
 
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }
 
   applyLightDirectionToWren() {
-    let pointer = _wrjs_color_array(this.direction.x, this.direction.y, this.direction.z);
+    const pointer = _wrjs_color_array(this.direction.x, this.direction.y, this.direction.z);
     _wr_spot_light_set_direction(this.wrenLight, pointer);
   }
 
@@ -74,12 +74,12 @@ class WbSpotLight extends WbLight {
   }
 
   applyNodeLocationToWren() {
-    let pointer = _wrjs_color_array(this.location.x, this.location.y, this.location.z);
+    const pointer = _wrjs_color_array(this.location.x, this.location.y, this.location.z);
     _wr_spot_light_set_position_relative(this.wrenLight, pointer);
   }
 
   applyLightColorToWren() {
-    let pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
     _wr_spot_light_set_color(this.wrenLight, pointer);
   }
 
@@ -101,8 +101,8 @@ class WbSpotLight extends WbLight {
   }
 
   detachFromUpperTransform() {
-    let node = this.wrenLight;
-    let parent = _wr_node_get_parent(node);
+    const node = this.wrenLight;
+    const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
   }

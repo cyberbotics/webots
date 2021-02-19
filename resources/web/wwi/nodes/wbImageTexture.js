@@ -47,7 +47,7 @@ class WbImageTexture extends WbBaseNode {
     this.destroyWrenTexture();
 
     if (typeof this.parent !== 'undefined') {
-      let parent = WbWorld.instance.nodes.get(this.parent);
+      const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
         if (parent instanceof WbAppearance)
           parent.texture = undefined;
@@ -124,11 +124,11 @@ class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      let image = await Parser.loadTextureData(this.url);
+      const image = await Parser.loadTextureData(this.url);
       texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, image.width, image.height);
       _wr_texture_set_translucent(texture, this.isTransparent);
-      let bitsPointer = arrayXPointer(image.bits);
+      const bitsPointer = arrayXPointer(image.bits);
       _wr_texture_2d_set_data(texture, bitsPointer);
       Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, this.url]);
       _wr_texture_setup(texture);
@@ -173,7 +173,7 @@ class WbImageTexture extends WbBaseNode {
   }
 
   clone(customID) {
-    let imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
+    const imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
     imageTexture.updateUrl();
     this.useList.push(customID);
     return imageTexture;

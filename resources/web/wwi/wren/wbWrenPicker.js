@@ -42,7 +42,7 @@ class WbWrenPicker {
   }
 
   setup() {
-    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     this.width = _wr_viewport_get_width(viewport);
     this.height = _wr_viewport_get_height(viewport);
     _wr_viewport_set_size(this.viewport, this.width, this.height);
@@ -103,7 +103,7 @@ class WbWrenPicker {
       Module.ccall('wr_renderable_set_material', null, ['number', 'number', 'string'], [renderable, depthMaterial, 'depth']);
     }
 
-    let encodedId = [0, 0, 0, 0, 0, 0];
+    const encodedId = [0, 0, 0, 0, 0, 0];
 
     if (pickable) {
       // ID is incremented since a 0 value would mean that no object was picked
@@ -119,8 +119,8 @@ class WbWrenPicker {
       }
     }
 
-    let encodedIdPointer = arrayXPointerFloat(encodedId);
-    let encodedIdPointerSecondHalf = arrayXPointerFloat([encodedId[3], encodedId[4], encodedId[5]]);
+    const encodedIdPointer = arrayXPointerFloat(encodedId);
+    const encodedIdPointerSecondHalf = arrayXPointerFloat([encodedId[3], encodedId[4], encodedId[5]]);
     _wr_phong_material_set_linear_ambient(material, encodedIdPointer);
     _wr_phong_material_set_linear_diffuse(material, encodedIdPointerSecondHalf);
     _free(encodedIdPointer);
@@ -128,7 +128,7 @@ class WbWrenPicker {
   }
 
   hasSizeChanged() {
-    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     const width = _wr_viewport_get_width(viewport);
     const height = _wr_viewport_get_height(viewport);
 
@@ -141,7 +141,7 @@ class WbWrenPicker {
   }
 
   pick(x, y) {
-    let viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
     _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));
 
@@ -155,7 +155,7 @@ class WbWrenPicker {
     }
 
     // Check if object was picked & decode ID
-    let scene = _wr_scene_get_instance();
+    const scene = _wr_scene_get_instance();
     _wr_viewport_enable_skybox(this.viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
@@ -179,7 +179,7 @@ class WbWrenPicker {
     data[2] = data[2] >= 0 ? data[2] : 256 + data[2];
     data[3] = data[3] >= 0 ? data[3] : 256 + data[3];
 
-    let id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
+    const id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
     console.log(id);
     if (id === 0)
       return false;

@@ -35,7 +35,7 @@ class WbGeometry extends WbBaseNode {
 
   delete() {
     if (typeof this.parent !== 'undefined') {
-      let parent = WbWorld.instance.nodes.get(this.parent);
+      const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined')
         parent.geometry = undefined;
     }
@@ -141,7 +141,7 @@ class WbGeometry extends WbBaseNode {
     if (!super.isInBoundingObject())
       return false;
 
-    let ut = super.upperTransform();
+    const ut = super.upperTransform();
     if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry !== this)
       return false;
 

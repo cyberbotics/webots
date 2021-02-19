@@ -42,11 +42,11 @@ class WbWrenPostProcessingEffects {
     WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
   }
   static loadImage(image) {
-    let targetTexture = _wr_texture_2d_new();
+    const targetTexture = _wr_texture_2d_new();
     _wr_texture_set_translucent(targetTexture, true);
     _wr_texture_set_size(targetTexture, image.width, image.height);
 
-    let bitsPointer = arrayXPointer(image.bits);
+    const bitsPointer = arrayXPointer(image.bits);
     _wr_texture_2d_set_data(targetTexture, bitsPointer);
     Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [targetTexture, image.url]);
     _wr_texture_2d_set_cache_persistency(targetTexture, true);
@@ -57,10 +57,10 @@ class WbWrenPostProcessingEffects {
   }
 
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
-    let gtaoEffect = _wr_post_processing_effect_new();
+    const gtaoEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(gtaoEffect, 1);// enum
 
-    let colorPassThrough = _wr_post_processing_effect_pass_new();
+    const colorPassThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
     _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders.passThroughShader());
     _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
@@ -99,7 +99,7 @@ class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_append_pass(gtaoEffect, normalDownsamplePassThrough);
     }
 
-    let gtaoForwardPass = _wr_post_processing_effect_pass_new();
+    const gtaoForwardPass = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [gtaoForwardPass, 'gtaoForwardPass']);
     _wr_post_processing_effect_pass_set_program(gtaoForwardPass, WbWrenShaders.gtaoShader());
     _wr_post_processing_effect_pass_set_input_texture_count(gtaoForwardPass, 3);
@@ -125,7 +125,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, gtaoForwardPass);
 
-    let spatialDenoise = _wr_post_processing_effect_pass_new();
+    const spatialDenoise = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [spatialDenoise, 'spatialDenoise']);
     _wr_post_processing_effect_pass_set_program(spatialDenoise, WbWrenShaders.gtaoSpatialDenoiseShader());
 
@@ -146,7 +146,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, spatialDenoise);
 
-    let temporalDenoise = _wr_post_processing_effect_pass_new();
+    const temporalDenoise = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [temporalDenoise, 'temporalDenoise']);
     _wr_post_processing_effect_pass_set_program(temporalDenoise, WbWrenShaders.gtaoTemporalDenoiseShader());
     _wr_post_processing_effect_pass_set_output_size(temporalDenoise, width, height);
@@ -166,7 +166,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, temporalDenoise);
 
-    let finalBlend = _wr_post_processing_effect_pass_new();
+    const finalBlend = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [finalBlend, 'FinalBlend']);
     _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.gtaoCombineShader());
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
@@ -209,10 +209,10 @@ class WbWrenPostProcessingEffects {
   }
 
   static bloom(width, height, textureFormat) {
-    let bloomEffect = _wr_post_processing_effect_new();
+    const bloomEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(bloomEffect, 5); // enum
 
-    let colorPassThrough = _wr_post_processing_effect_pass_new();
+    const colorPassThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
     _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders.passThroughShader());
     _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
@@ -222,7 +222,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
     _wr_post_processing_effect_append_pass(bloomEffect, colorPassThrough);
 
-    let brightPass = _wr_post_processing_effect_pass_new();
+    const brightPass = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [brightPass, 'brightPassFilter']);
     _wr_post_processing_effect_pass_set_program(brightPass, WbWrenShaders.brightPassShader());
     _wr_post_processing_effect_pass_set_output_size(brightPass, width, height);
@@ -233,11 +233,11 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
     _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
 
-    let blurPasses = [];
-    let downsamplePasses = [];
+    const blurPasses = [];
+    const downsamplePasses = [];
 
     for (let i = 0; i < 6; ++i) {
-      let blurPass = _wr_post_processing_effect_pass_new();
+      const blurPass = _wr_post_processing_effect_pass_new();
       Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blurPass, 'blurPass' + i]);
       _wr_post_processing_effect_pass_set_program(blurPass, WbWrenShaders.gaussianBlur13TapShader());
       _wr_post_processing_effect_pass_set_output_size(blurPass, width / (1 << i), height / (1 << i));
@@ -253,7 +253,7 @@ class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_append_pass(bloomEffect, blurPass);
       blurPasses[i] = blurPass;
 
-      let downsamplePass = _wr_post_processing_effect_pass_new();
+      const downsamplePass = _wr_post_processing_effect_pass_new();
       Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [downsamplePass, 'downsamplePass' + i]);
       _wr_post_processing_effect_pass_set_program(downsamplePass, WbWrenShaders.passThroughShader());
       _wr_post_processing_effect_pass_set_output_size(downsamplePass, width / (2 << i), height / (2 << i));
@@ -267,7 +267,7 @@ class WbWrenPostProcessingEffects {
       downsamplePasses[i] = downsamplePass;
     }
 
-    let blendPass = _wr_post_processing_effect_pass_new();
+    const blendPass = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blendPass, 'blendBloom']);
     _wr_post_processing_effect_pass_set_alpha_blending(blendPass, false);
     _wr_post_processing_effect_pass_set_program(blendPass, WbWrenShaders.bloomBlendShader());
@@ -295,10 +295,10 @@ class WbWrenPostProcessingEffects {
   }
 
   static smaa(width, height, textureFormat) {
-    let smaaEffect = _wr_post_processing_effect_new();
+    const smaaEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(smaaEffect, 13);
 
-    let passThrough = _wr_post_processing_effect_pass_new();
+    const passThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [passThrough, 'LensFlarePassToBlend']);
     _wr_post_processing_effect_pass_set_program(passThrough, WbWrenShaders.passThroughShader());
     _wr_post_processing_effect_pass_set_output_size(passThrough, width, height);
@@ -308,7 +308,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_post_processing_effect_append_pass(smaaEffect, passThrough);
 
-    let edgeDetection = _wr_post_processing_effect_pass_new();
+    const edgeDetection = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [edgeDetection, 'EdgeDetect']);
     _wr_post_processing_effect_pass_set_program(edgeDetection, WbWrenShaders.smaaEdgeDetectionShader());
     _wr_post_processing_effect_pass_set_output_size(edgeDetection, width, height);
@@ -319,7 +319,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(edgeDetection, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RG8);
     _wr_post_processing_effect_append_pass(smaaEffect, edgeDetection);
 
-    let weightCalculation = _wr_post_processing_effect_pass_new();
+    const weightCalculation = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [weightCalculation, 'WeightCalculation']);
     _wr_post_processing_effect_pass_set_program(weightCalculation, WbWrenShaders.smaaBlendingWeightCalculationShader());
     _wr_post_processing_effect_pass_set_output_size(weightCalculation, width, height);
@@ -336,7 +336,7 @@ class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_texture_format(weightCalculation, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_post_processing_effect_append_pass(smaaEffect, weightCalculation);
 
-    let finalBlend = _wr_post_processing_effect_pass_new();
+    const finalBlend = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [finalBlend, 'FinalBlend']);
     _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.smaaFinalBlendShader());
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);

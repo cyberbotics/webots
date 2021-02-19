@@ -29,10 +29,10 @@ class WbMaterial extends WbBaseNode {
   }
 
   delete() {
-    let parent = WbWorld.instance.nodes.get(this.parent);
+    const parent = WbWorld.instance.nodes.get(this.parent);
 
     if (typeof parent !== 'undefined') {
-      let shape = WbWorld.instance.nodes.get(parent.parent);
+      const shape = WbWorld.instance.nodes.get(parent.parent);
       if (typeof shape !== 'undefined') {
         parent.material = undefined;
         shape.updateAppearance();
@@ -58,10 +58,10 @@ class WbMaterial extends WbBaseNode {
       shininess = this.shininess;
     }
 
-    let ambientColorPointer = array3Pointer(ambient.x, ambient.y, ambient.z);
-    let diffuseColorPointer = array3Pointer(diffuse.x, diffuse.y, diffuse.z);
-    let specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);
-    let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
+    const ambientColorPointer = array3Pointer(ambient.x, ambient.y, ambient.z);
+    const diffuseColorPointer = array3Pointer(diffuse.x, diffuse.y, diffuse.z);
+    const specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);
+    const emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
     _wr_phong_material_set_all_parameters(wrenMaterial, ambientColorPointer, diffuseColorPointer, specularColorPointer, emissiveColorPointer, shininess, this.transparency);
 

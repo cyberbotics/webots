@@ -57,16 +57,16 @@ class Parser {
     console.log('X3D: Parsing');
     let xml = null;
     if (window.DOMParser) {
-      let parser = new DOMParser();
+      const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
-      let scene = xml.getElementsByTagName('Scene')[0];
+      const scene = xml.getElementsByTagName('Scene')[0];
       if (typeof scene === 'undefined') {
-        let node = xml.getElementsByTagName('nodes')[0];
+        const node = xml.getElementsByTagName('nodes')[0];
         console.log(node);
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
@@ -92,7 +92,7 @@ class Parser {
   }
 
   async parseFile(file) {
-    let scene = file.getElementsByTagName('Scene')[0];
+    const scene = file.getElementsByTagName('Scene')[0];
     await this.parseNode(scene);
     console.log(WbWorld.instance);
     WbWorld.instance.viewpoint.finalize();
@@ -205,7 +205,7 @@ class Parser {
 
   async parseChildren(node, currentNode, isBoundingObject) {
     for (let i = 0; i < node.childNodes.length; i++) {
-      let child = node.childNodes[i];
+      const child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined')
         await this.parseNode(child, currentNode, isBoundingObject);
     }
@@ -213,45 +213,43 @@ class Parser {
   }
 
   async parseScene(node) {
-    let prefix = DefaultUrl.wrenImagesUrl();
-    let id = getNodeAttribute(node, 'id');
-    let lensFlareLenTexture = await Parser.loadTextureData(prefix + 'lens_flare.png');
+    const prefix = DefaultUrl.wrenImagesUrl();
+    const id = getNodeAttribute(node, 'id');
+    const lensFlareLenTexture = await Parser.loadTextureData(prefix + 'lens_flare.png');
     lensFlareLenTexture.isTranslucent = true;
-    let smaaAreaTexture = await Parser.loadTextureData(prefix + 'smaa_area_texture.png');
+    const smaaAreaTexture = await Parser.loadTextureData(prefix + 'smaa_area_texture.png');
     smaaAreaTexture.isTranslucent = false;
-    let smaaSearchTexture = await Parser.loadTextureData(prefix + 'smaa_search_texture.png');
+    const smaaSearchTexture = await Parser.loadTextureData(prefix + 'smaa_search_texture.png');
     smaaSearchTexture.isTranslucent = false;
-    let gtaoNoiseTexture = await Parser.loadTextureData(prefix + 'gtao_noise_texture.png');
+    const gtaoNoiseTexture = await Parser.loadTextureData(prefix + 'gtao_noise_texture.png');
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
 
   parseWorldInfo(node) {
-    let basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
+    const basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
     WbWorld.instance.basicTimeStep = basicTimeStep;
   }
 
   parseViewpoint(node) {
-    let id = getNodeAttribute(node, 'id');
-    let orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
-    let position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
-    let exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
-    let bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
-    let far = parseFloat(getNodeAttribute(node, 'far', '2000'));
-    let zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
-    let followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
-    let followedId = getNodeAttribute(node, 'followedId');
-    let ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
+    const id = getNodeAttribute(node, 'id');
+    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
+    const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
+    const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
+    const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
+    const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
+    const zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
+    const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
+    const followedId = getNodeAttribute(node, 'followedId');
+    const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    let viewpoint = new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
-
-    return viewpoint;
+    return new WbViewpoint(id, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
   }
 
   async parseBackground(node) {
-    let id = getNodeAttribute(node, 'id');
-    let skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
-    let luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
+    const id = getNodeAttribute(node, 'id');
+    const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
+    const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
     let backUrl = getNodeAttribute(node, 'backUrl');
     let bottomUrl = getNodeAttribute(node, 'bottomUrl');
@@ -260,7 +258,7 @@ class Parser {
     let rightUrl = getNodeAttribute(node, 'rightUrl');
     let topUrl = getNodeAttribute(node, 'topUrl');
 
-    let cubeImages = [];
+    const cubeImages = [];
     if (typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined') {
       // TODO add test to see if all images have the same size and alpha and are squared
       console.log('load cubeimages');
@@ -287,7 +285,7 @@ class Parser {
     let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
     let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
 
-    let irradianceCubeURL = [];
+    const irradianceCubeURL = [];
     if (typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined') {
       console.log('load irradianceCubeImages');
       backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length - 1);
@@ -306,7 +304,7 @@ class Parser {
     } else
       console.log('Background : Incomplete irradiance cubemap');
 
-    let background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
+    const background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     WbBackground.instance = background;
 
     WbWorld.instance.nodes.set(background.id, background);
@@ -319,7 +317,7 @@ class Parser {
     if (typeof use === 'undefined')
       return;
 
-    let id = getNodeAttribute(node, 'id');
+    const id = getNodeAttribute(node, 'id');
     let result = WbWorld.instance.nodes.get(use);
 
     if (typeof result === 'undefined') {
@@ -330,7 +328,7 @@ class Parser {
     if (typeof result === 'undefined')
       return;
 
-    let useNode = await result.clone(id);
+    const useNode = await result.clone(id);
     if (typeof currentNode !== 'undefined') {
       useNode.parent = currentNode.id;
       if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
@@ -342,19 +340,19 @@ class Parser {
   }
 
   async parseTransform(node, currentNode, isBoundingObject) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
       id = 'n' + Parser.undefinedID++;
-    let isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
-    let translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
-    let scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
-    let rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+    const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
+    const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
+    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
-    let transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    const transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
     WbWorld.instance.nodes.set(transform.id, transform);
 
@@ -369,7 +367,7 @@ class Parser {
   }
 
   async parseGroup(node, currentNode, isBoundingObject) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
@@ -377,9 +375,9 @@ class Parser {
     if (typeof id === 'undefined')
       id = 'n' + Parser.undefinedID++;
 
-    let isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+    const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
 
-    let group = new WbGroup(id, isPropeller);
+    const group = new WbGroup(id, isPropeller);
 
     WbWorld.instance.nodes.set(group.id, group);
     await this.parseChildren(node, group, isBoundingObject);
@@ -393,7 +391,7 @@ class Parser {
   }
 
   async parseShape(node, currentNode, isBoundingObject) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
@@ -401,13 +399,13 @@ class Parser {
     if (typeof id === 'undefined')
       id = 'n' + Parser.undefinedID++;
 
-    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-    let isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     let geometry;
     let appearance;
 
     for (let i = 0; i < node.childNodes.length; i++) {
-      let child = node.childNodes[i];
+      const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
@@ -418,7 +416,7 @@ class Parser {
           // If a sibling PBRAppearance is detected, prefer it.
           let pbrAppearanceChild = false;
           for (let j = 0; j < node.childNodes.length; j++) {
-            let child0 = node.childNodes[j];
+            const child0 = node.childNodes[j];
             if (child0.tagName === 'PBRAppearance') {
               pbrAppearanceChild = true;
               break;
@@ -445,7 +443,7 @@ class Parser {
     if (isBoundingObject)
       appearance = undefined;
 
-    let shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
+    const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if (typeof currentNode !== 'undefined') {
       currentNode.children.push(shape);
@@ -461,19 +459,19 @@ class Parser {
   }
 
   async parseDirectionalLight(node, currentNode) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
-    let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
-    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
-    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
-    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const id = getNodeAttribute(node, 'id');
+    const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
+    const direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
+    const intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
+    const dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
 
     if (typeof currentNode !== 'undefined' && typeof dirLight !== 'undefined') {
       currentNode.children.push(dirLight);
@@ -486,21 +484,21 @@ class Parser {
   }
 
   async parsePointLight(node, currentNode) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
-    let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
-    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
-    let location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
-    let radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
-    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
-    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const id = getNodeAttribute(node, 'id');
+    const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
+    const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
+    const intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    const location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
+    const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
+    const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, currentNode);
+    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, currentNode);
 
     if (typeof currentNode !== 'undefined' && typeof pointLight !== 'undefined')
       currentNode.children.push(pointLight);
@@ -511,24 +509,24 @@ class Parser {
   }
 
   async parseSpotLight(node, currentNode) {
-    let use = await this.checkUse(node, currentNode);
+    const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    let on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
-    let attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
-    let beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
-    let cutOffAngle = parseFloat(getNodeAttribute(node, 'cutOffAngle', '0.785'));
-    let direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
-    let intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
-    let location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
-    let radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
-    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
-    let castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const id = getNodeAttribute(node, 'id');
+    const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
+    const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
+    const beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
+    const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
+    const cutOffAngle = parseFloat(getNodeAttribute(node, 'cutOffAngle', '0.785'));
+    const direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
+    const intensity = parseFloat(getNodeAttribute(node, 'intensity', '1'));
+    const location = convertStringToVec3(getNodeAttribute(node, 'location', '0 0 0'));
+    const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
+    const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
+    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, currentNode);
+    const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, currentNode);
 
     if (typeof currentNode !== 'undefined' && typeof spotLight !== 'undefined')
       currentNode.children.push(spotLight);
@@ -539,12 +537,12 @@ class Parser {
   }
 
   async parseFog(node) {
-    let id = getNodeAttribute(node, 'id');
-    let color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
-    let visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
-    let fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
+    const id = getNodeAttribute(node, 'id');
+    const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
+    const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
+    const fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
 
-    let fog = new WbFog(id, color, visibilityRange, fogType);
+    const fog = new WbFog(id, color, visibilityRange, fogType);
 
     WbWorld.instance.nodes.set(fog.id, fog);
 
@@ -555,7 +553,7 @@ class Parser {
   }
 
   async parseGeometry(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined') {
       use.parent = parentId;
       return use;
@@ -596,19 +594,19 @@ class Parser {
   }
 
   parseBox(node, id) {
-    let size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
+    const size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
-    let box = new WbBox(id, size);
+    const box = new WbBox(id, size);
     WbWorld.instance.nodes.set(box.id, box);
     return box;
   }
 
   parseSphere(node, id) {
-    let radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
-    let ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true';
-    let subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
+    const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
+    const ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true';
+    const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
-    let sphere = new WbSphere(id, radius, ico, subdivision);
+    const sphere = new WbSphere(id, radius, ico, subdivision);
 
     WbWorld.instance.nodes.set(sphere.id, sphere);
 
@@ -616,13 +614,13 @@ class Parser {
   }
 
   parseCone(node, id) {
-    let bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
-    let height = getNodeAttribute(node, 'height', '2');
-    let subdivision = getNodeAttribute(node, 'subdivision', '32');
-    let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
-    let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
+    const bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
+    const height = getNodeAttribute(node, 'height', '2');
+    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
+    const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
 
-    let cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
+    const cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
 
     WbWorld.instance.nodes.set(cone.id, cone);
 
@@ -630,14 +628,14 @@ class Parser {
   }
 
   parseCylinder(node, id) {
-    let radius = getNodeAttribute(node, 'radius', '1');
-    let height = getNodeAttribute(node, 'height', '2');
-    let subdivision = getNodeAttribute(node, 'subdivision', '32');
-    let bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
-    let side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
-    let top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
+    const radius = getNodeAttribute(node, 'radius', '1');
+    const height = getNodeAttribute(node, 'height', '2');
+    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
+    const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
+    const top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
 
-    let cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
+    const cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
 
     WbWorld.instance.nodes.set(cylinder.id, cylinder);
 
@@ -645,9 +643,9 @@ class Parser {
   }
 
   parsePlane(node, id) {
-    let size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
+    const size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
-    let plane = new WbPlane(id, size);
+    const plane = new WbPlane(id, size);
 
     WbWorld.instance.nodes.set(plane.id, plane);
 
@@ -655,124 +653,124 @@ class Parser {
   }
 
   parseIndexedFaceSet(node, id) {
-    let isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
+    const isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
 
-    let coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
-    let coordIndex = coordIndexStr.map(Number);
+    const coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
+    const coordIndex = coordIndexStr.map(Number);
 
-    let normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
-    let normalIndex = normalIndexStr.map(Number);
+    const normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
+    const normalIndex = normalIndexStr.map(Number);
 
-    let texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
-    let texCoordIndex = texCoordIndexStr.map(Number);
+    const texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
+    const texCoordIndex = texCoordIndexStr.map(Number);
 
-    let coordArray = [];
-    let coordinate = node.getElementsByTagName('Coordinate')[0];
+    const coordArray = [];
+    const coordinate = node.getElementsByTagName('Coordinate')[0];
     if (typeof coordinate !== 'undefined') {
-      let coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
-      let coord = coordStr.map(el => parseFloat(el));
+      const coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
+      const coord = coordStr.map(el => parseFloat(el));
       for (let i = 0; i < coord.length; i = i + 3)
         coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
     }
 
-    let texCoordArray = [];
-    let textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
+    const texCoordArray = [];
+    const textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
     if (typeof textureCoordinate !== 'undefined') {
-      let texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
-      let texCoord = texcoordsStr.map(el => parseFloat(el));
+      const texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
+      const texCoord = texcoordsStr.map(el => parseFloat(el));
       for (let i = 0; i < texCoord.length; i = i + 2)
         texCoordArray.push(new WbVector2(texCoord[i], texCoord[i + 1]));
     }
 
-    let normalArray = [];
-    let normalNode = node.getElementsByTagName('Normal')[0];
+    const normalArray = [];
+    const normalNode = node.getElementsByTagName('Normal')[0];
     if (typeof normalNode !== 'undefined') {
-      let normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
-      let normal = normalStr.map(el => parseFloat(el));
+      const normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
+      const normal = normalStr.map(el => parseFloat(el));
       for (let i = 0; i < normal.length; i = i + 3)
         normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
     }
 
-    let creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
-    let ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
-    let normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
+    const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
+    const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
+    const normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
 
-    let ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
+    const ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;
   }
 
   parseIndexedLineSet(node, id) {
-    let coordinate = node.getElementsByTagName('Coordinate')[0];
+    const coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if (typeof coordinate === 'undefined')
       return undefined;
 
-    let indicesStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);
+    const indicesStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);
 
-    let verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
 
-    let coord = [];
+    const coord = [];
     for (let i = 0; i < verticesStr.length; i += 3)
       coord.push(new WbVector3(parseFloat(verticesStr[i]), parseFloat(verticesStr[i + 1]), parseFloat(verticesStr[i + 2])));
 
-    let coordIndex = indicesStr.map(Number);
+    const coordIndex = indicesStr.map(Number);
 
-    let ils = new WbIndexedLineSet(id, coord, coordIndex);
+    const ils = new WbIndexedLineSet(id, coord, coordIndex);
     WbWorld.instance.nodes.set(ils.id, ils);
 
     return ils;
   }
 
   parseElevationGrid(node, id) {
-    let heightStr = getNodeAttribute(node, 'height', undefined);
+    const heightStr = getNodeAttribute(node, 'height', undefined);
     if (typeof heightStr === 'undefined')
       return;
 
-    let xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
-    let xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
-    let zDimension = parseInt(getNodeAttribute(node, 'zDimension', '0'));
-    let zSpacing = parseFloat(getNodeAttribute(node, 'zSpacing', '1'));
-    let thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
+    const xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
+    const xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
+    const zDimension = parseInt(getNodeAttribute(node, 'zDimension', '0'));
+    const zSpacing = parseFloat(getNodeAttribute(node, 'zSpacing', '1'));
+    const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    let height = heightStr.split(' ').map(Number);
+    const height = heightStr.split(' ').map(Number);
 
-    let eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
+    const eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
 
     return eg;
   }
 
   parsePointSet(node, id) {
-    let coordinate = node.getElementsByTagName('Coordinate')[0];
+    const coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if (typeof coordinate === 'undefined')
       return;
 
-    let coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
 
     if (typeof coordStrArray === 'undefined')
       return;
 
-    let coordArray = coordStrArray.map(Number);
-    let coord = [];
+    const coordArray = coordStrArray.map(Number);
+    const coord = [];
     for (let i = 0; i < coordArray.length; i += 3)
       coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
 
-    let colorNode = node.getElementsByTagName('Color')[0];
+    const colorNode = node.getElementsByTagName('Color')[0];
     let color;
     if (typeof colorNode !== 'undefined') {
-      let colorStrArray = getNodeAttribute(colorNode, 'color', '').trim().split(/\s/);
+      const colorStrArray = getNodeAttribute(colorNode, 'color', '').trim().split(/\s/);
       if (typeof colorStrArray !== 'undefined') {
-        let colorArray = colorStrArray.map(Number);
+        const colorArray = colorStrArray.map(Number);
         color = [];
         for (let i = 0; i < colorArray.length; i += 3)
           color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
       }
     }
 
-    let ps = new WbPointSet(id, coord, color);
+    const ps = new WbPointSet(id, coord, color);
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
@@ -782,7 +780,7 @@ class Parser {
     if (typeof parent === 'undefined')
       return;
 
-    let child = node.childNodes[0];
+    const child = node.childNodes[0];
 
     let boundingObject;
     if (child.tagName === 'Shape')
@@ -804,7 +802,7 @@ class Parser {
   }
 
   async parseAppearance(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
@@ -813,24 +811,24 @@ class Parser {
       id = 'n' + Parser.undefinedID++;
 
     // Get the Material tag.
-    let materialNode = node.getElementsByTagName('Material')[0];
+    const materialNode = node.getElementsByTagName('Material')[0];
     let material;
     if (typeof materialNode !== 'undefined')
       material = await this.parseMaterial(materialNode);
 
     // Check to see if there is a texture.
-    let imageTexture = node.getElementsByTagName('ImageTexture')[0];
+    const imageTexture = node.getElementsByTagName('ImageTexture')[0];
     let texture;
     if (typeof imageTexture !== 'undefined')
       texture = await this.parseImageTexture(imageTexture);
 
     // Check to see if there is a textureTransform.
-    let textureTransform = node.getElementsByTagName('TextureTransform')[0];
+    const textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined')
       transform = await this.parseTextureTransform(textureTransform);
 
-    let appearance = new WbAppearance(id, material, texture, transform);
+    const appearance = new WbAppearance(id, material, texture, transform);
     if (typeof appearance !== 'undefined') {
       if (typeof material !== 'undefined')
         material.parent = appearance.id;
@@ -855,7 +853,7 @@ class Parser {
   }
 
   async parseMaterial(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
@@ -863,14 +861,14 @@ class Parser {
     if (typeof id === 'undefined')
       id = 'n' + Parser.undefinedID++;
 
-    let ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
-    let diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
-    let specularColor = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0'));
-    let emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
-    let shininess = parseFloat(getNodeAttribute(node, 'shininess', '0.2'));
-    let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
+    const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
+    const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
+    const specularColor = convertStringToVec3(getNodeAttribute(node, 'specularColor', '0 0 0'));
+    const emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
+    const shininess = parseFloat(getNodeAttribute(node, 'shininess', '0.2'));
+    const transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
 
-    let material = new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
+    const material = new WbMaterial(id, ambientIntensity, diffuseColor, specularColor, emissiveColor, shininess, transparency);
 
     if (typeof parentId !== 'undefined')
       material.parent = parentId;
@@ -881,7 +879,7 @@ class Parser {
   }
 
   async parseImageTexture(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
@@ -911,33 +909,33 @@ class Parser {
   }
 
   async parsePBRAppearance(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
     const id = getNodeAttribute(node, 'id');
 
-    let baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
-    let transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
-    let roughness = parseFloat(getNodeAttribute(node, 'roughness', '0'));
-    let metalness = parseFloat(getNodeAttribute(node, 'metalness', '1'));
-    let IBLStrength = parseFloat(getNodeAttribute(node, 'IBLStrength', '1'));
-    let normalMapFactor = parseFloat(getNodeAttribute(node, 'normalMapFactor', '1'));
-    let occlusionMapStrength = parseFloat(getNodeAttribute(node, 'occlusionMapStrength', '1'));
-    let emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
-    let emissiveIntensity = parseFloat(getNodeAttribute(node, 'emissiveIntensity', '1'));
+    const baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
+    const transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
+    const roughness = parseFloat(getNodeAttribute(node, 'roughness', '0'));
+    const metalness = parseFloat(getNodeAttribute(node, 'metalness', '1'));
+    const IBLStrength = parseFloat(getNodeAttribute(node, 'IBLStrength', '1'));
+    const normalMapFactor = parseFloat(getNodeAttribute(node, 'normalMapFactor', '1'));
+    const occlusionMapStrength = parseFloat(getNodeAttribute(node, 'occlusionMapStrength', '1'));
+    const emissiveColor = convertStringToVec3(getNodeAttribute(node, 'emissiveColor', '0 0 0'));
+    const emissiveIntensity = parseFloat(getNodeAttribute(node, 'emissiveIntensity', '1'));
 
     // Check to see if there is a textureTransform.
-    let textureTransform = node.getElementsByTagName('TextureTransform')[0];
+    const textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined')
       transform = await this.parseTextureTransform(textureTransform);
 
-    let imageTextures = node.getElementsByTagName('ImageTexture');
+    const imageTextures = node.getElementsByTagName('ImageTexture');
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
     for (let i = 0; i < imageTextures.length; i++) {
-      let imageTexture = imageTextures[i];
-      let type = getNodeAttribute(imageTexture, 'type', undefined);
+      const imageTexture = imageTextures[i];
+      const type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor') {
         baseColorMap = await this.parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
@@ -965,7 +963,7 @@ class Parser {
       }
     }
 
-    let pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
+    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
       normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
 
     if (typeof pbrAppearance !== 'undefined') {
@@ -1012,17 +1010,17 @@ class Parser {
   }
 
   async parseTextureTransform(node, parentId) {
-    let use = await this.checkUse(node);
+    const use = await this.checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
     const id = getNodeAttribute(node, 'id');
-    let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
-    let rotation = parseFloat(getNodeAttribute(node, 'rotation', '0'));
-    let scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1'));
-    let translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'));
+    const center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
+    const rotation = parseFloat(getNodeAttribute(node, 'rotation', '0'));
+    const scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1'));
+    const translation = convertStringToVec2(getNodeAttribute(node, 'translation', '0 0'));
 
-    let textureTransform = new WbTextureTransform(id, center, rotation, scale, translation);
+    const textureTransform = new WbTextureTransform(id, center, rotation, scale, translation);
 
     if (typeof parentId !== 'undefined')
       textureTransform.parent = parentId;
@@ -1033,23 +1031,23 @@ class Parser {
   }
 
   static async loadTextureData(url, isHdr) {
-    let canvas2 = document.createElement('canvas');
-    let context = canvas2.getContext('2d');
+    const canvas2 = document.createElement('canvas');
+    const context = canvas2.getContext('2d');
 
-    let image = new WbImage();
+    const image = new WbImage();
 
     if (isHdr) {
-      let img = await Parser.loadHDRImage(url);
+      const img = await Parser.loadHDRImage(url);
       image.bits = img.data;
       image.width = img.width;
       image.height = img.height;
       image.url = url;
     } else {
-      let img = await Parser.loadImage(url);
+      const img = await Parser.loadImage(url);
       canvas2.width = img.width;
       canvas2.height = img.height;
       context.drawImage(img, 0, 0);
-      let dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+      const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
       let data = new Uint8ClampedArray(dataBGRA.length);
       data = dataBGRA;
 
@@ -1063,7 +1061,7 @@ class Parser {
 
   static loadImage(src) {
     return new Promise((resolve, reject) => {
-      let img = new Image();
+      const img = new Image();
       img.onload = () => {
         resolve(img);
       };
@@ -1075,7 +1073,7 @@ class Parser {
 
   static loadHDRImage(src) {
     return new Promise((resolve, reject) => {
-      let loader = new RGBELoader();
+      const loader = new RGBELoader();
       loader.load(src, function(img) { resolve(img); });
     });
   }
@@ -1090,20 +1088,17 @@ function getNodeAttribute(node, attributeName, defaultValue) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  let v = new WbVector2(parseFloat(s[0]), parseFloat(s[1]));
-  return v;
+  return new WbVector2(parseFloat(s[0]), parseFloat(s[1]));
 }
 
 function convertStringToVec3(s) {
   s = s.split(/\s/);
-  let v = new WbVector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
-  return v;
+  return new WbVector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
 }
 
 function convertStringToQuaternion(s) {
-  let pos = s.split(/\s/);
-  let q = new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
-  return q;
+  const pos = s.split(/\s/);
+  return new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
 }
 
 Parser.undefinedID = 90000;

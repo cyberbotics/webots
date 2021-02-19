@@ -29,15 +29,15 @@ class WbGroup extends WbBaseNode {
 
   delete(isBoundingObject) {
     if (typeof this.parent === 'undefined') {
-      let index = WbWorld.instance.sceneTree.indexOf(this);
+      const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
     } else {
-      let parent = WbWorld.instance.nodes.get(this.parent);
+      const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
         if (isBoundingObject)
           parent.isBoundingObject = null;
         else {
-          let index = parent.children.indexOf(this);
+          const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
         }
       }
@@ -102,10 +102,10 @@ class WbGroup extends WbBaseNode {
   }
 
   async clone(customID) {
-    let group = new WbGroup(customID, this.isPropeller);
-    let length = this.children.length;
+    const group = new WbGroup(customID, this.isPropeller);
+    const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      let cloned = await this.children[i].clone('n' + Parser.undefinedID++);
+      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       group.children.push(cloned);

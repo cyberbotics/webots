@@ -36,12 +36,12 @@ class WbDirectionalLight extends WbLight {
   }
 
   applyLightDirectionToWren() {
-    let pointer = _wrjs_color_array(this.direction.x, this.direction.y, this.direction.z);
+    const pointer = _wrjs_color_array(this.direction.x, this.direction.y, this.direction.z);
     _wr_directional_light_set_direction(this.wrenLight, pointer);
   }
 
   applyLightColorToWren() {
-    let pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
 
     _wr_directional_light_set_color(this.wrenLight, pointer);
   }
@@ -53,8 +53,8 @@ class WbDirectionalLight extends WbLight {
   applyLightVisibilityToWren() {
     _wr_directional_light_set_on(this.wrenLight, this.on);
 
-    let maxCount = _wr_config_get_max_active_directional_light_count();
-    let activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());
+    const maxCount = _wr_config_get_max_active_directional_light_count();
+    const activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());
     if (activeCount === maxCount)
       console.log('Maximum number of directional lights ' + maxCount + " has been reached, newly added lights won't be rendered.");
   }

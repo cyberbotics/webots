@@ -50,7 +50,7 @@ class WbVector3 {
   }
 
   normalize() {
-    let result = this.div(this.length());
+    const result = this.div(this.length());
     this.x = result.x;
     this.y = result.y;
     this.z = result.z;
@@ -80,7 +80,7 @@ class WbVector3 {
 
   // angle between two vectors (in radians)
   angle(v) {
-    let s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
+    const s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
     return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : Math.acos(s);
   }
 

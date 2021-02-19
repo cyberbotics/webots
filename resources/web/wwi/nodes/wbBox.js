@@ -81,8 +81,8 @@ class WbBox extends WbGeometry {
     if (intersectedFace < 0)
       intersectedFace = this.findIntersectedFace(minBound, maxBound, point);
 
-    let vertex = point.sub(minBound);
-    let size = maxBound.sub(minBound);
+    const vertex = point.sub(minBound);
+    const size = maxBound.sub(minBound);
     switch (intersectedFace) {
       case WbBox.IntersectedFace.FRONT_FACE:
         u = vertex.x / size.x;

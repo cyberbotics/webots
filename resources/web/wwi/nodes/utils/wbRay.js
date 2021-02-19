@@ -21,12 +21,12 @@ class WbRay {
   }
 
   intersects(minBound, maxBound, tMin, tMax) {
-    let bounds = [];
+    const bounds = [];
     bounds[0] = minBound;
     bounds[1] = maxBound;
-    let invDirection = new WbVector3(1.0 / this.direction.x, 1.0 / this.direction.y, 1.0 / this.direction.z);
+    const invDirection = new WbVector3(1.0 / this.direction.x, 1.0 / this.direction.y, 1.0 / this.direction.z);
 
-    let sign = [];
+    const sign = [];
     sign[0] = (invDirection.x < 0);
     sign[1] = (invDirection.y < 0);
     sign[2] = (invDirection.z < 0);

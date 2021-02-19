@@ -44,7 +44,7 @@ class WbCone extends WbGeometry {
 
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
-    let scale = _wrjs_color_array(this.bottomRadius, this.height, this.bottomRadius);
+    const scale = _wrjs_color_array(this.bottomRadius, this.height, this.bottomRadius);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 

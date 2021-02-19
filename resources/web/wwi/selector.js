@@ -21,7 +21,7 @@ class Selector {
     Selector.previousId = Selector.selectedId;
     Selector.selectedId = 'n-1'; // in case we select nothing
 
-    let node = WbWorld.instance.nodes.get('n' + id);
+    const node = WbWorld.instance.nodes.get('n' + id);
     if (typeof node === 'undefined') {
       Selector.preciseId = 'n' + id;
       Selector.previousAncestor = 'n-1';
@@ -41,7 +41,7 @@ class Selector {
   }
 
   static checkIfParentisSelected(node) {
-    let parent = WbWorld.instance.nodes.get(node.parent);
+    const parent = WbWorld.instance.nodes.get(node.parent);
     if (typeof parent !== 'undefined') {
       if (Selector.selectedId === parent.id)
         return true;

@@ -35,8 +35,8 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
 
     this.wrenViewport = viewport;
 
-    let width = _wr_viewport_get_width(this.wrenViewport);
-    let height = _wr_viewport_get_height(this.wrenViewport);
+    const width = _wr_viewport_get_width(this.wrenViewport);
+    const height = _wr_viewport_get_height(this.wrenViewport);
 
     // can't use the effect on resolutions smaller than this, it requires 6 passes dividing the viewport each time, so resolutions
     // smaller than 2^6 in width or height preculde the use of this effect
@@ -62,7 +62,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-    let pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'brightPassFilter']);
+    const pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'brightPassFilter']);
     _free(this.thresholdPointer);
     this.thresholdPointer = pointerOnFloat(this.threshold);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, 'threshold', this.thresholdPointer]);

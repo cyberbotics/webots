@@ -35,8 +35,8 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
 
     this.wrenViewport = viewport;
 
-    let width = _wr_viewport_get_width(this.wrenViewport);
-    let height = _wr_viewport_get_height(this.wrenViewport);
+    const width = _wr_viewport_get_width(this.wrenViewport);
+    const height = _wr_viewport_get_height(this.wrenViewport);
 
     this.wrenPostProcessingEffect = this.hdrResolve(width, height);
 
@@ -57,17 +57,17 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
-    let firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect);
+    const firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect);
     _free(this.exposurePointer);
     this.exposurePointer = pointerOnFloat(this.exposure);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this.exposurePointer]);
   }
 
   hdrResolve(width, height) {
-    let hdrResolveEffect = _wr_post_processing_effect_new();
+    const hdrResolveEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, 7); // enum
 
-    let hdrPass = _wr_post_processing_effect_pass_new();
+    const hdrPass = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [hdrPass, 'hdrResolve']);
     _wr_post_processing_effect_pass_set_program(hdrPass, WbWrenShaders.hdrResolveShader());
     _wr_post_processing_effect_pass_set_output_size(hdrPass, width, height);

@@ -45,7 +45,7 @@ class WbBackground extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined') {
-      let index = WbWorld.instance.sceneTree.indexOf(this);
+      const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
     }
 
@@ -120,7 +120,7 @@ class WbBackground extends WbBaseNode {
   }
 
   applyColourToWren() {
-    let colorPointer = _wrjs_color_array(this.skyColor.x, this.skyColor.y, this.skyColor.z);
+    const colorPointer = _wrjs_color_array(this.skyColor.x, this.skyColor.y, this.skyColor.z);
 
     _wr_viewport_set_clear_color_rgb(_wr_scene_get_viewport(_wr_scene_get_instance()), colorPointer);
     if (this.wrenObjectsCreatedCalled) {
@@ -128,13 +128,13 @@ class WbBackground extends WbBaseNode {
       _wr_phong_material_set_diffuse(this.hdrClearMaterial, colorPointer);
 
       // de-gamma correct
-      let hdrColor = [Math.pow(this.skyColor.x, 2.2), Math.pow(this.skyColor.y, 2.2), Math.pow(this.skyColor.z, 2.2)];
+      const hdrColor = [Math.pow(this.skyColor.x, 2.2), Math.pow(this.skyColor.y, 2.2), Math.pow(this.skyColor.z, 2.2)];
       // reverse tone map
-      let exposure = WbWorld.instance.viewpoint.exposure;
+      const exposure = WbWorld.instance.viewpoint.exposure;
       for (let i = 0; i < 3; ++i)
         hdrColor[i] = -Math.log(1.000000001 - hdrColor[i]) / exposure;
 
-      let hdrColorPointer = _wrjs_color_array(hdrColor[0], hdrColor[1], hdrColor[2]);
+      const hdrColorPointer = _wrjs_color_array(hdrColor[0], hdrColor[1], hdrColor[2]);
       _wr_phong_material_set_linear_diffuse(this.hdrClearMaterial, hdrColorPointer);
       _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
     }
@@ -165,7 +165,7 @@ class WbBackground extends WbBaseNode {
       this.cubeMapTexture = _wr_texture_cubemap_new();
       _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-      let bitsPointers = [];
+      const bitsPointers = [];
       for (let i = 0; i < 6; ++i) {
         // TODO Check if some rotations are needed for ENU
         bitsPointers[i] = arrayXPointer(this.cubeArray[i].bits);
@@ -185,8 +185,8 @@ class WbBackground extends WbBaseNode {
     }
 
     // 2. Load the irradiance map.
-    let cm = _wr_texture_cubemap_new();
-    let hdrImageData = [];
+    const cm = _wr_texture_cubemap_new();
+    const hdrImageData = [];
     if (this.irradianceCubeArray.length === 6) {
       for (let i = 0; i < 6; ++i) {
         _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
@@ -234,7 +234,7 @@ class WbBackground extends WbBaseNode {
   updatePBRs() {
     WbWorld.instance.nodes.forEach((value, key, map) => {
       if (value instanceof WbPBRAppearance && typeof value.parent !== 'undefined') {
-        let parent = WbWorld.instance.nodes.get(value.parent);
+        const parent = WbWorld.instance.nodes.get(value.parent);
         if (typeof parent !== 'undefined')
           parent.applyMaterialToGeometry();
       }

@@ -114,7 +114,7 @@ class WbTriangleMesh {
 
     if (!counterClockwise)
       this.reverseIndexOrder();
-    let error = this.tmpNormalsPass(coord, normal);
+    const error = this.tmpNormalsPass(coord, normal);
 
     if (typeof error !== 'undefined')
       return;
@@ -137,12 +137,12 @@ class WbTriangleMesh {
     let nTriangles = 0;
     let currentFaceIndicesCounter = 0;
     for (let i = 0; i < coordIndex.length; i++) {
-      let index = coordIndex[i];
+      const index = coordIndex[i];
       if (index !== -1 && i === coordIndex.length - 1)
         ++currentFaceIndicesCounter;
 
       if (index === -1 || i === coordIndex.length - 1) {
-        let nCurrentFaceTriangle = Math.max(0, currentFaceIndicesCounter - 2);
+        const nCurrentFaceTriangle = Math.max(0, currentFaceIndicesCounter - 2);
         nTriangles += nCurrentFaceTriangle;
         currentFaceIndicesCounter = 0;
       } else
@@ -188,8 +188,8 @@ class WbTriangleMesh {
         // add a face
         // -> tesselate everything in order to optimize dummy user input -> ex: [0 0 0 -1], [0 -1] or [0 1 2 0 -1])
         if (currentFaceValidity) {
-          let tesselatorOutput = [];
-          let tesselatorVectorInput = [];
+          const tesselatorOutput = [];
+          const tesselatorVectorInput = [];
 
           for (let j = 0; j < cfiSize; ++j) {
             const cfi = currentFaceIndices[j].x;
@@ -310,7 +310,7 @@ class WbTriangleMesh {
         if (length === 0.0)
           return undefined;
 
-        n.div(length);
+        n = n.div(length);
         this.tmpTriangleNormals.push(n);
       }
     }
@@ -491,7 +491,7 @@ class WbTriangleMesh {
       return;
 
     let index = 0;
-    let vertices = [];
+    const vertices = [];
     for (let t = 0; t < this.numberOfTriangles; ++t) { // foreach triangle
       vertices[0] = coord[this.coordIndices[index]];
       vertices[1] = coord[this.coordIndices[index + 1]];
@@ -500,7 +500,7 @@ class WbTriangleMesh {
       // compute face center and normal
       const edge1 = vertices[1].sub(vertices[0]);
       const edge2 = vertices[2].sub(vertices[0]);
-      let normal = edge1.cross(edge2);
+      const normal = edge1.cross(edge2);
       normal.normalize();
       const origin = new WbVector3(vertices[0].add(vertices[1]).add(vertices[2]).div(3.0));
 

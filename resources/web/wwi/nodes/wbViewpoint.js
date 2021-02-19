@@ -181,7 +181,7 @@ class WbViewpoint extends WbBaseNode {
     }
 
     if (this.wrenGtao) {
-      let qualityLevel = GTAO_LEVEL;
+      const qualityLevel = GTAO_LEVEL;
       if (qualityLevel === 0)
         this.wrenGtao.detachFromViewport();
       else {
@@ -219,7 +219,7 @@ class WbViewpoint extends WbBaseNode {
       } else if (!this.wrenGtao.hasBeenSetup)
         this.wrenGtao.setup(this.wrenViewport);
 
-      let qualityLevel = GTAO_LEVEL;
+      const qualityLevel = GTAO_LEVEL;
       this.updateNear();
       this.wrenGtao.setRadius(this.ambientOcclusionRadius);
       this.wrenGtao.setQualityLevel(qualityLevel);
@@ -257,9 +257,9 @@ class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
-    let followedSolid = WbWorld.instance.nodes.get(this.followedId);
-    let followedSolidPosition = followedSolid.translation;
-    let delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
+    const followedSolid = WbWorld.instance.nodes.get(this.followedId);
+    const followedSolidPosition = followedSolid.translation;
+    const delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
     this.followedSolidPreviousPosition = followedSolidPosition;
 
     this.equilibriumVector = this.equilibriumVector.add(delta);
@@ -281,10 +281,8 @@ class WbViewpoint extends WbBaseNode {
       if (delta.length() > 0.0) {
         followedObjectVelocity = (delta.div(timeStep));
         followedObjectScalarVelocity = followedObjectVelocity.dot(this.velocity) / viewPointScalarVelocity;
-      } else {
-        followedObjectVelocity.setXyz(0.0, 0.0, 0.0);
+      } else
         followedObjectScalarVelocity = 0.0;
-      }
 
       // If the viewpoint is going faster than the followed object, we slow it down to avoid oscillations
       if (viewPointScalarVelocity > followedObjectScalarVelocity) {
@@ -315,20 +313,20 @@ class WbViewpoint extends WbBaseNode {
       zFar = WbViewpoint.DEFAULT_FAR;
 
     this.applyFarToWren();// TODO is it needed?
-    let projection = new WbMatrix4();
+    const projection = new WbMatrix4();
     projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
-    let eye = new WbVector3(this.position.x, this.position.y, this.position.z);
-    let center = eye.add(direction(this.orientation));
-    let upVec = up(this.orientation);
+    const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
+    const center = eye.add(direction(this.orientation));
+    const upVec = up(this.orientation);
 
-    let f = (center.sub(eye)).normalized();
-    let s = f.cross(upVec).normalized();
-    let u = s.cross(f);
+    const f = (center.sub(eye)).normalized();
+    const s = f.cross(upVec).normalized();
+    const u = s.cross(f);
 
-    let view = new WbMatrix4();
+    const view = new WbMatrix4();
     view.set(-s.x, -s.y, -s.z, s.dot(eye), u.x, u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
 
-    let inverse = projection.mul(view);
+    const inverse = projection.mul(view);
     if (!inverse.inverse())
       return;
 

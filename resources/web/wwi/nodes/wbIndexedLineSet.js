@@ -70,11 +70,11 @@ class WbIndexedLineSet extends WbGeometry {
     _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
 
     // In the worst case we end up with 2 * this.coordIndex->size() - 1 coordinates
-    let coordsData = [];
-    let coordsCount = this.computeCoordsData(coordsData);
+    const coordsData = [];
+    const coordsCount = this.computeCoordsData(coordsData);
 
     if (coordsCount > 0) {
-      let coordsDataPointer = arrayXPointerFloat(coordsData);
+      const coordsDataPointer = arrayXPointerFloat(coordsData);
       this.wrenMesh = _wr_static_mesh_line_set_new(coordsCount, coordsDataPointer, null);
       _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
       _free(coordsDataPointer);
@@ -83,8 +83,8 @@ class WbIndexedLineSet extends WbGeometry {
 
   computeCoordsData(data) {
     let count = 0;
-    let size = this.coord.length;
-    let invalidIndices = [];
+    const size = this.coord.length;
+    const invalidIndices = [];
 
     for (let i = 0; i < this.coordIndex.length - 1; i++) {
       let j = i + 1;
@@ -118,7 +118,7 @@ class WbIndexedLineSet extends WbGeometry {
 
   estimateIndexCount() {
     let ni = 0;
-    let s1 = this.coord.length;
+    const s1 = this.coord.length;
 
     for (let i = 0; i < this.coordIndex.length - 1; i++) {
       let j = i + 1;

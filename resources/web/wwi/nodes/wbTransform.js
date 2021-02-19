@@ -42,7 +42,7 @@ class WbTransform extends WbGroup {
 
   createWrenObjects() {
     super.createWrenObjects(true);
-    let transform = _wr_transform_new();
+    const transform = _wr_transform_new();
 
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
@@ -59,17 +59,17 @@ class WbTransform extends WbGroup {
   }
 
   applyTranslationToWren() {
-    let translation = _wrjs_color_array(this.translation.x, this.translation.y, this.translation.z);
+    const translation = _wrjs_color_array(this.translation.x, this.translation.y, this.translation.z);
     _wr_transform_set_position(this.wrenNode, translation);
   }
 
   applyRotationToWren() {
-    let rotation = _wrjs_array4(this.rotation.w, this.rotation.x, this.rotation.y, this.rotation.z);
+    const rotation = _wrjs_array4(this.rotation.w, this.rotation.x, this.rotation.y, this.rotation.z);
     _wr_transform_set_orientation(this.wrenNode, rotation);
   }
 
   applyScaleToWren() {
-    let scale = _wrjs_color_array(this.scale.x, this.scale.y, this.scale.z);
+    const scale = _wrjs_color_array(this.scale.x, this.scale.y, this.scale.z);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
@@ -95,11 +95,11 @@ class WbTransform extends WbGroup {
   }
 
   async clone(customID) {
-    let transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
+    const transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
 
-    let length = this.children.length;
+    const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      let cloned = await this.children[i].clone('n' + Parser.undefinedID++);
+      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       transform.children.push(cloned);

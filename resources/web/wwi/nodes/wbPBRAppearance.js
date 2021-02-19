@@ -116,13 +116,13 @@ class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.metalnessMap !== 'undefined')
       this.metalnessMap.modifyWrenMaterial(wrenMaterial, 2, 7);
 
-    let background = WbBackground.instance;
+    const background = WbBackground.instance;
     let backgroundLuminosity = 1.0;
     if (typeof background !== 'undefined') {
       backgroundLuminosity = background.luminosity;
 
       // irradiance map
-      let irradianceCubeTexture = background.irradianceCubeTexture;
+      const irradianceCubeTexture = background.irradianceCubeTexture;
       if (typeof irradianceCubeTexture !== 'undefined') {
         _wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
         _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
@@ -154,10 +154,10 @@ class WbPBRAppearance extends WbAbstractAppearance {
     _wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
     _wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
-    let baseColorPointer = array3Pointer(this.baseColor.x, this.baseColor.y, this.baseColor.z);
-    let emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
+    const baseColorPointer = array3Pointer(this.baseColor.x, this.baseColor.y, this.baseColor.z);
+    const emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
-    let backgroundColor = new WbVector3(0.0, 0.0, 0.0);
+    const backgroundColor = new WbVector3(0.0, 0.0, 0.0);
 
     if (typeof background !== 'undefined') {
       backgroundColor.x = background.skyColor.x;
@@ -165,7 +165,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
       backgroundColor.z = background.skyColor.z;
     }
 
-    let backgroundColorPointer = array3Pointer(backgroundColor.x, backgroundColor.y, backgroundColor.z);
+    const backgroundColorPointer = array3Pointer(backgroundColor.x, backgroundColor.y, backgroundColor.z);
     // set material properties
     _wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColorPointer, baseColorPointer,
       this.transparency, this.roughness, this.metalness, backgroundLuminosity * this.IBLStrength, this.normalMapFactor,
@@ -200,8 +200,8 @@ class WbPBRAppearance extends WbAbstractAppearance {
       this.emissiveColorMap.preFinalize();
 
     if (WbPBRAppearance.cInstanceCounter === 0) {
-      let quality = textureQuality;
-      let resolution = Math.pow(2, 6 + quality); // 0: 64, 1: 128, 2: 256
+      const quality = textureQuality;
+      const resolution = Math.pow(2, 6 + quality); // 0: 64, 1: 128, 2: 256
       WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
     }
     ++WbPBRAppearance.cInstanceCounter;

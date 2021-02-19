@@ -37,9 +37,9 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    let canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvas');
     canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
-    let div = document.getElementById('playBar');
+    const div = document.getElementById('playBar');
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';

@@ -48,7 +48,7 @@ class WbCylinder extends WbGeometry {
 
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
 
-    let scale = _wrjs_color_array(this.radius, this.height, this.radius);
+    const scale = _wrjs_color_array(this.radius, this.height, this.radius);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 

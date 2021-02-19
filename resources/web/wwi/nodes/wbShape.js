@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {WbAppearance} from './wbAppearance.js'
+import {WbAppearance} from './wbAppearance.js';
 import {WbBaseNode} from './wbBaseNode.js';
-import {WbPBRAppearance} from "./wbPBRAppearance.js"
+import {WbPBRAppearance} from './wbPBRAppearance.js';
 import {WbPointSet} from './wbPointSet.js';
-import {WbWorld} from './wbWorld.js'
-import {WbWrenShaders} from "./../wren/wbWrenShaders.js"
+import {WbWorld} from './wbWorld.js';
+import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 
 import {Parser} from './../parser.js';
 
@@ -34,16 +34,16 @@ class WbShape extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
-    if (typeof this.parent === 'undefined'){
-      let index = WbWorld.instance.sceneTree.indexOf(this)
+    if (typeof this.parent === 'undefined') {
+      const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
     } else {
-      let parent = WbWorld.instance.nodes.get(this.parent);
-      if(typeof parent !== 'undefined') {
-        if(isBoundingObject)
+      const parent = WbWorld.instance.nodes.get(this.parent);
+      if (typeof parent !== 'undefined') {
+        if (isBoundingObject)
           parent.isBoundingObject = null;
         else {
-          let index = parent.children.indexOf(this)
+          const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
         }
       }
@@ -68,7 +68,7 @@ class WbShape extends WbBaseNode {
     if (typeof this.appearance !== 'undefined')
       this.appearance.createWrenObjects();
 
-    if (typeof this.geometry !== 'undefined'){
+    if (typeof this.geometry !== 'undefined') {
       this.geometry.createWrenObjects();
 
       this.applyMaterialToGeometry();
@@ -87,22 +87,19 @@ class WbShape extends WbBaseNode {
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
         this.createWrenMaterial();
-        if (this.appearance.wrenObjectsCreatedCalled){
+        if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-        }
-      } else {
+      } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      }
 
       this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }
 
   createWrenMaterial(type) {
-    let defaultColor = _wrjs_color_array(1.0, 1.0, 1.0);
-    if (typeof this.wrenMaterial !== 'undefined'){
+    const defaultColor = _wrjs_color_array(1.0, 1.0, 1.0);
+    if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);
-    }
 
     if (type === ENUM.WR_MATERIAL_PHONG) {
       this.wrenMaterial = _wr_phong_material_new();
@@ -136,7 +133,7 @@ class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    if(!super.isInBoundingObject()) {
+    if (!super.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }
