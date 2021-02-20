@@ -90,3 +90,13 @@ void WbHingeJointParameters::updateSuspension() {
 
   emit suspensionChanged();
 }
+
+/*
+void WbHingeJointParameters::setAxis(WbVector3 axis) {
+  mAxis->setValue(axis[0], axis[1], axis[2]);
+}
+
+void WbHingeJointParameters::setAnchor(WbVector3 anchor) {
+  mAnchor->setValue(anchor[0], anchor[1], anchor[2]);
+}
+*/

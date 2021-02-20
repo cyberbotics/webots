@@ -1,0 +1,131 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.8976243767906742 0.4377221175184068 0.05167035926288562 0.26151303594926517
+  position 0.27470059804289604 0.6274111175825533 1.672791685043676
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 5 5
+  wallHeight 0.001
+}
+Robot {
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 6
+        anchor 0 0.4 0.15
+      }
+      device [
+        PositionSensor {
+          name "motorHingePosition"
+        }
+        RotationalMotor {
+          name "motorHinge"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.25 0.15
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.45098 0.823529 0.0862745
+            }
+            geometry DEF PENDULUM_SHAPE Box {
+              size 0.02 0.3 0.1
+            }
+          }
+        ]
+        name "solid(3)"
+      }
+    }
+    TransmissionJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 6
+        anchor 0 0.4 0
+      }
+      jointParameters2 HingeJointParameters {
+        axis 0 0 6
+        anchor 0 0.45 0
+      }
+      device [
+        PositionSensor {
+          name "motorTransmissionPosition"
+        }
+        RotationalMotor {
+          name "motorTransmission"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.25 0
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0 0
+            }
+            geometry USE PENDULUM_SHAPE
+          }
+        ]
+        name "solid(4)"
+      }
+    }
+    DEF SUPPORT2 Solid {
+      translation 0.5 0.2 0.075
+      children [
+        DEF SUPPORT Shape {
+          appearance PBRAppearance {
+            baseColor 0.447059 0.623529 0.811765
+          }
+          geometry Box {
+            size 0.1 0.4 0.25
+          }
+        }
+      ]
+    }
+    DEF SUPPORT1 Solid {
+      translation -0.5 0.2 0.075
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.447059 0.623529 0.811765
+          }
+          geometry Box {
+            size 0.1 0.4 0.25
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    DEF TOP Solid {
+      translation 0 0.45 0.075
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.447059 0.623529 0.811765
+          }
+          geometry Box {
+            size 1.1 0.1 0.25
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+  ]
+  boundingObject Transform {
+    translation -0.5 0.2 0
+    children [
+      USE SUPPORT
+    ]
+  }
+  physics Physics {
+  }
+  controller "transmission_joint"
+}

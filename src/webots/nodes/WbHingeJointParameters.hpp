@@ -32,6 +32,9 @@ public:
   void preFinalize() override;
   void postFinalize() override;
 
+  void setAxis(WbVector3 axis);
+  void setAnchor(WbVector3 anchor);
+
   double suspensionSpringConstant() const { return mSuspensionSpringConstant->value(); }
   double suspensionDampingConstant() const { return mSuspensionDampingConstant->value(); }
   const WbVector3 &suspensionAxis() const { return mSuspensionAxis->value(); }

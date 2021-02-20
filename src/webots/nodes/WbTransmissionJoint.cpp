@@ -86,6 +86,8 @@ void WbTransmissionJoint::postFinalize() {
     p2->postFinalize();
 
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
+  connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
+  connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
 }
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
@@ -183,7 +185,7 @@ WbVector3 WbTransmissionJoint::anchor() const {
 
 WbVector3 WbTransmissionJoint::anchor2() const {
   static const WbVector3 DEFAULT_ANCHOR(1.0, 0.0, 0.0);
-  const WbHingeJointParameters *const p2 = hingeJointParameters();
+  const WbHingeJointParameters *const p2 = hingeJointParameters2();
   return p2 ? p2->anchor() : DEFAULT_ANCHOR;
 }
 
@@ -338,8 +340,10 @@ double WbTransmissionJoint::initialPosition(int index) const {
 
 void WbTransmissionJoint::updateParameters() {
   printf("updateParameters\n");
-  const WbHingeJointParameters *const p = hingeJointParameters();
+  WbHingeJointParameters *const p = hingeJointParameters();
   if (p) {
+    // p->setAxis(WbVector3(0.0, 1.0, 0.0));
+    // p->setAnchor(WbVector3(-0.1, 0.0, 0.0));
     connect(p, SIGNAL(positionChanged()), this, SLOT(updatePosition()), Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
@@ -348,8 +352,10 @@ void WbTransmissionJoint::updateParameters() {
 
 void WbTransmissionJoint::updateParameters2() {
   printf("updateParameters2\n");
-  const WbHingeJointParameters *const p2 = hingeJointParameters2();
+  WbHingeJointParameters *const p2 = hingeJointParameters2();
   if (p2) {
+    // p2->setAxis(WbVector3(0.0, 1.0, 0.0));
+    // p2->setAnchor(WbVector3(0.1, 0.0, 0.0));
     connect(p2, SIGNAL(positionChanged()), this, SLOT(updatePosition2()), Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
@@ -489,6 +495,11 @@ void WbTransmissionJoint::setupTransmission() {
     return;
   }
 
+  if (mParameters->value() == NULL || mParameters2->value() == NULL) {
+    printf("jointParameters or jointParameters2 not defined\n");
+    return;
+  }
+
   if (!mTransmission)
     mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
 
@@ -516,6 +527,8 @@ void WbTransmissionJoint::setupTransmission() {
     dJointSetTransmissionAxis1(mTransmission, ax1.x(), ax1.y(), ax1.z());
     dJointSetTransmissionAxis2(mTransmission, ax2.x(), ax2.y(), ax2.z());
   }
+
+  printf("transmission set up\n");
 }
 
 void WbTransmissionJoint::updateJointAxisRepresentation() {
@@ -530,9 +543,6 @@ void WbTransmissionJoint::updateJointAxisRepresentation() {
   const WbVector3 &axisVector = scaling * axis();
   const WbVector3 &anchorVector2 = anchor2();
   const WbVector3 &axisVector2 = scaling * axis2();
-
-  printf("%f %f %f\n", anchorVector[0], anchorVector[1], anchorVector[2]);
-  printf("%f %f %f\n", anchorVector2[0], anchorVector2[1], anchorVector2[2]);
 
   // joint on endPoint side
   WbVector3 vertex(anchorVector - axisVector);
