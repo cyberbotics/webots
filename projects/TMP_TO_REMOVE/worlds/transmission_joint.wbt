@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.8976243767906742 0.4377221175184068 0.05167035926288562 0.26151303594926517
-  position 0.27470059804289604 0.6274111175825533 1.672791685043676
+  orientation -0.33865918987679794 0.9400594792689657 0.039976600012405626 0.24983337509190048
+  position 0.3629418944326422 0.36845442140828655 1.559284445974164
 }
 TexturedBackground {
 }
@@ -44,6 +44,9 @@ Robot {
           }
         ]
         name "solid(3)"
+        boundingObject USE PENDULUM_SHAPE
+        physics Physics {
+        }
       }
     }
     TransmissionJoint {
@@ -63,6 +66,7 @@ Robot {
           name "motorTransmission"
         }
       ]
+      multiplier 4
       endPoint Solid {
         translation 0 0.25 0
         rotation 0 0 1 0
@@ -75,6 +79,9 @@ Robot {
           }
         ]
         name "solid(4)"
+        boundingObject USE PENDULUM_SHAPE
+        physics Physics {
+        }
       }
     }
     DEF SUPPORT2 Solid {
@@ -105,7 +112,7 @@ Robot {
       name "solid(1)"
     }
     DEF TOP Solid {
-      translation 0 0.45 0.075
+      translation 0 0.6 0.075
       children [
         Shape {
           appearance PBRAppearance {
@@ -119,10 +126,20 @@ Robot {
       name "solid(2)"
     }
   ]
-  boundingObject Transform {
-    translation -0.5 0.2 0
+  boundingObject Group {
     children [
-      USE SUPPORT
+      Transform {
+        translation 0.5 0.2 0.075
+        children [
+          USE SUPPORT
+        ]
+      }
+      Transform {
+        translation -0.5 0.2 0.075
+        children [
+          USE SUPPORT
+        ]
+      }
     ]
   }
   physics Physics {

@@ -20,7 +20,9 @@
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
 #include "WbRotationalMotor.hpp"
+#include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbSolidReference.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -68,6 +70,7 @@ WbTransmissionJoint::~WbTransmissionJoint() {
 }
 
 void WbTransmissionJoint::preFinalize() {
+  printf("preFinalize\n");
   WbJoint::preFinalize();
 
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
@@ -79,18 +82,35 @@ void WbTransmissionJoint::preFinalize() {
 }
 
 void WbTransmissionJoint::postFinalize() {
+  printf("postFinalize\n");
   WbJoint::postFinalize();
 
-  WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
-  if (p2 && !p2->isPostFinalizedCalled())
-    p2->postFinalize();
+  // TODO postFinalize joint2
+  // for now, use dummy body
 
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
+
+  setupTransmission();
+  // configureTransmission();
+}
+
+void WbTransmissionJoint::updateStartPointPosition() {
+  // TODO
+  // if (mIsEndPointPositionChangedByJoint)
+  //  return;
+
+  // WbSolid *const s = solidStartPoint();
+  // if (s)
+  //  updateStartPointZeroTranslationAndRotation();
+
+  // if (areOdeObjectsCreated())
+  setJoint2();
 }
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
+  printf("prePhysicsStep\n");
   // endPoint
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
@@ -126,9 +146,11 @@ void WbTransmissionJoint::prePhysicsStep(double ms) {
     }
   }
   mTimeStep = ms;
+  printf("prePhysicsStep done\n");
 }
 
 void WbTransmissionJoint::postPhysicsStep() {
+  printf("postPhysicsStep\n");
   // endPoint
   assert(mJoint);
   WbRotationalMotor *const rm = rotationalMotor();
@@ -136,8 +158,8 @@ void WbTransmissionJoint::postPhysicsStep() {
     double angle = dJointGetHingeAngle(mJoint);
     mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
   } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
+    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback
+    // is under-estimated)
     double angleRate = dJointGetHingeAngleRate(mJoint);
     mPosition -= angleRate * mTimeStep / 1000.0;
   }
@@ -156,6 +178,7 @@ void WbTransmissionJoint::postPhysicsStep() {
   dJointGetTransmissionAnchor1(mTransmission, a_1);
   dJointGetTransmissionAnchor2(mTransmission, a_2);
   */
+  printf("postPhysicsStep done\n");
 }
 
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters() const {
@@ -202,9 +225,23 @@ WbVector3 WbTransmissionJoint::axis2() const {
 }
 
 bool WbTransmissionJoint::setJoint() {
-  if (!WbBasicJoint::setJoint())
+  printf("setJoint\n");
+  WbSolidReference *const sr = solidReference();
+  if (sr)
+    sr->updateName();
+  const WbSolid *const sep = solidEndPoint();
+  const bool invalidEndPoint = sep == NULL && (sr == NULL || !sr->pointsToStaticEnvironment());
+  if (invalidEndPoint || upperSolid() == NULL || (sep && sep->physics() == NULL) || (sep && sep->solidMerger().isNull())) {
+    printf("setJoint invalid: %d %d %d %d\n", invalidEndPoint, upperSolid() == NULL, (sep && sep->physics() == NULL),
+           (sep && sep->solidMerger().isNull()));
+    if (mJoint) {
+      dJointAttach(mJoint, NULL, NULL);
+      dJointDisable(mJoint);
+    }
     return false;
+  }
 
+  printf("setJoint is valid, creating hinge\n");
   if (mJoint == NULL)
     mJoint = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
 
@@ -215,9 +252,63 @@ bool WbTransmissionJoint::setJoint() {
 }
 
 bool WbTransmissionJoint::setJoint2() {
-  // TODO
+  printf("setJoint2\n");
+  WbSolidReference *const sr = solidReferenceStartPoint();
+  if (sr)
+    sr->updateName();
+  const WbSolid *const s = solidStartPoint();
+  const bool invalidStartPoint = s == NULL && (sr == NULL || !sr->pointsToStaticEnvironment());
+  if (invalidStartPoint || upperSolid() == NULL || (s && s->physics() == NULL) || (s && s->solidMerger().isNull())) {
+    if (mJoint2) {
+      dJointAttach(mJoint2, NULL, NULL);
+      dJointDisable(mJoint2);
+    }
+    return false;
+  }
+
+  mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+  const WbSolid *const ssp = solidStartPoint();
+  setOdeJoint(ssp ? ssp->body() : NULL, upperSolid()->bodyMerger());
 
   return true;
+}
+
+WbSolidReference *WbTransmissionJoint::solidReferenceStartPoint() const {
+  WbSlot *slot = dynamic_cast<WbSlot *>(mStartPoint->value());
+  if (slot) {
+    WbSlot *childrenSlot = slot->slotEndPoint();
+    if (childrenSlot)
+      return childrenSlot->solidReferenceEndPoint();
+    else
+      return NULL;
+  } else
+    return dynamic_cast<WbSolidReference *>(mStartPoint->value());
+}
+
+WbSolid *WbTransmissionJoint::solidStartPoint() const {
+  WbSlot *slot = dynamic_cast<WbSlot *>(mStartPoint->value());
+  if (slot) {
+    WbSlot *childrenSlot = slot->slotEndPoint();
+    if (childrenSlot) {
+      WbSolid *solid = childrenSlot->solidEndPoint();
+      if (solid)
+        return solid;
+
+      WbSolidReference *solidReference = childrenSlot->solidReferenceEndPoint();
+      if (solidReference)
+        return solidReference->solid();
+    }
+  } else {
+    WbSolid *solid = dynamic_cast<WbSolid *>(mStartPoint->value());
+    if (solid)
+      return solid;
+
+    const WbSolidReference *const solidReference = dynamic_cast<WbSolidReference *>(mStartPoint->value());
+    if (solidReference)
+      return solidReference->solid();
+  }
+
+  return NULL;
 }
 
 void WbTransmissionJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
@@ -235,7 +326,11 @@ void WbTransmissionJoint::applyToOdeAxis() {
 }
 
 void WbTransmissionJoint::applyToOdeAxis2() {
-  // TODO
+  updateOdePositionOffset2();
+
+  const WbMatrix4 &m4 = upperTransform()->matrix();
+  WbVector3 a = m4.sub3x3MatrixDot(axis2());
+  dJointSetHingeAxis(mJoint2, a.x(), a.y(), a.z());
 }
 
 void WbTransmissionJoint::applyToOdeAnchor() {
@@ -251,11 +346,32 @@ void WbTransmissionJoint::applyToOdeAnchor() {
 void WbTransmissionJoint::applyToOdeAnchor2() {
   assert(mJoint2);
 
-  updateOdePositionOffset();
+  updateOdePositionOffset2();
 
   const WbMatrix4 &m4 = upperTransform()->matrix();
   const WbVector3 &t = m4 * anchor2();
   dJointSetHingeAnchor(mJoint2, t.x(), t.y(), t.z());
+}
+
+void WbTransmissionJoint::updateOdePositionOffset() {
+  double newValue = position();
+  mOdePositionOffset = newValue;
+}
+
+void WbTransmissionJoint::updateOdePositionOffset2() {
+  double newValue = position(2);
+  mOdePositionOffset2 = newValue;
+}
+
+double WbTransmissionJoint::position(int index) const {
+  switch (index) {
+    case 1:
+      return mPosition;
+    case 2:
+      return mPosition2;
+    default:
+      return NAN;
+  }
 }
 
 void WbTransmissionJoint::updateAxis() {
@@ -312,17 +428,6 @@ void WbTransmissionJoint::updateAnchor2() {
     updateJointAxisRepresentation();
 
   inferTransmissionMode();
-}
-
-double WbTransmissionJoint::position(int index) const {
-  switch (index) {
-    case 1:
-      return mPosition;
-    case 2:
-      return mPosition2;
-    default:
-      return NAN;
-  }
 }
 
 double WbTransmissionJoint::initialPosition(int index) const {
@@ -486,28 +591,63 @@ void WbTransmissionJoint::inferTransmissionMode() {
       printf("geartype = UNDEFINED\n");
   }
 
-  setupTransmission();
+  configureTransmission();
 }
 
 void WbTransmissionJoint::setupTransmission() {
+  if (mTransmission)  // already created
+    return;
+
+  printf("using a dummy as body2 and joint2\n");
+  const WbVector3 &an2 = anchor2();
+  const WbVector3 &ax2 = axis2();
+
+  // set body
+  body2 = dBodyCreate(WbOdeContext::instance()->world());
+  dBodySetPosition(body2, an2.x(), an2.y(), an2.z());
+  // set hinge
+  mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);  // should be done through setJoint2
+  // should be done through setOdeJoint2
+  dJointSetHingeAnchor(mJoint2, an2.x(), an2.y(), an2.z());  // applyToOdeAnchor2() ?
+  dJointSetHingeAxis(mJoint2, ax2.x(), ax2.y(), ax2.z());    // applyToOdeAxis2() ?
+  dJointAttach(mJoint2, body2, 0);
+
+  mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
+  // printf("%d %d\n", solidEndPoint()->body(), body2);
+  if (solidEndPoint() == NULL)
+    printf("shouldn't call setupTransmission before having configured endpoint\n");
+  else
+    dJointAttach(mTransmission, solidEndPoint()->body(), body2);
+}
+
+void WbTransmissionJoint::configureTransmission() {
+  printf("configureTransmission\n");
   if (mTransmissionMode == -1) {
-    printf("undefined transmission\n");
+    printf("undefined transmission mode, early exit\n");
     return;
   }
 
   if (mParameters->value() == NULL || mParameters2->value() == NULL) {
-    printf("jointParameters or jointParameters2 not defined\n");
+    printf("jointParameters or jointParameters2 not defined, early exit\n");
     return;
   }
 
-  if (!mTransmission)
-    mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
+  if (mJoint == NULL) {  // probably unnecessary later on
+    printf("mJoint undefined, early exit\n");
+    return;
+  }
+
+  if (!mTransmission) {
+    printf("should call setupTransmission before configureTransmission\n");
+    return;
+  }
 
   const WbVector3 &ax1 = axis();
   const WbVector3 &ax2 = axis2();
   const WbVector3 &an1 = anchor();
   const WbVector3 &an2 = anchor2();
 
+  // configure transmission
   dJointSetTransmissionAnchor1(mTransmission, an1.x(), an1.y(), an1.z());
   dJointSetTransmissionAnchor2(mTransmission, an2.x(), an2.y(), an2.z());
 
@@ -519,7 +659,7 @@ void WbTransmissionJoint::setupTransmission() {
     dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
   }
   if (mTransmissionMode == dTransmissionChainDrive) {
-    dJointSetTransmissionRadius1(mTransmission, 1.0);
+    dJointSetTransmissionRadius1(mTransmission, 1.5);
     dJointSetTransmissionRadius2(mTransmission, mMultiplier->value());
     dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
   }
@@ -528,7 +668,46 @@ void WbTransmissionJoint::setupTransmission() {
     dJointSetTransmissionAxis2(mTransmission, ax2.x(), ax2.y(), ax2.z());
   }
 
-  printf("transmission set up\n");
+  printf("transmission configured as: \n");
+
+  dVector3 jAn;
+  dVector3 jAn2;
+  dVector3 jAx;
+  dVector3 jAx2;
+  dJointGetHingeAnchor(mJoint, jAn);
+  dJointGetHingeAnchor(mJoint2, jAn2);
+  dJointGetHingeAxis(mJoint, jAx);
+  dJointGetHingeAxis(mJoint2, jAx2);
+
+  printf("joint anchors:\n");
+  printf("mJoint:  %f %f %f\n", jAn[0], jAn[1], jAn[2]);
+  printf("mJoint2: %f %f %f\n", jAn2[0], jAn2[1], jAn2[2]);
+  printf("joint axis:\n");
+  printf("mJoint:  %f %f %f\n", jAx[0], jAx[1], jAx[2]);
+  printf("mJoint2: %f %f %f\n", jAx2[0], jAx2[1], jAx2[2]);
+
+  printf("transmission mode = %d\n", dJointGetTransmissionMode(mTransmission));
+
+  dVector3 tAx;
+  dVector3 tAx2;
+  dVector3 tAn;
+  dVector3 tAn2;
+
+  dJointGetTransmissionAnchor1(mTransmission, tAn);
+  dJointGetTransmissionAnchor2(mTransmission, tAn2);
+  dJointGetTransmissionAxis1(mTransmission, tAx);
+  dJointGetTransmissionAxis2(mTransmission, tAx2);
+
+  printf("transmission anchor  %f %f %f\n", tAn[0], tAn[1], tAn[2]);
+  printf("transmission anchor2 %f %f %f\n", tAn2[0], tAn2[1], tAn2[2]);
+  printf("transmission axis    %f %f %f\n", tAx[0], tAx[1], tAx[2]);
+  printf("transmission axis2   %f %f %f\n", tAx2[0], tAx2[1], tAx2[2]);
+
+  if (dJointGetTransmissionMode(mTransmission) == 2) {
+    dReal r1 = dJointGetTransmissionRadius1(mTransmission);
+    dReal r2 = dJointGetTransmissionRadius2(mTransmission);
+    printf("r1 = %lf, r2 = %lf\n", r1, r2);
+  }
 }
 
 void WbTransmissionJoint::updateJointAxisRepresentation() {

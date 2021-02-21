@@ -157,6 +157,8 @@ bool WbBasicJoint::setJoint() {
   const WbSolid *const s = solidEndPoint();
   const bool invalidEndPoint = s == NULL && (sr == NULL || !sr->pointsToStaticEnvironment());
   if (invalidEndPoint || upperSolid() == NULL || (s && s->physics() == NULL) || (s && s->solidMerger().isNull())) {
+    printf("setJoint(basicJoint) invalid: %d %d %d %d\n", invalidEndPoint, upperSolid() == NULL, (s && s->physics() == NULL),
+           (s && s->solidMerger().isNull()));
     if (mJoint) {
       dJointAttach(mJoint, NULL, NULL);
       dJointDisable(mJoint);
@@ -167,7 +169,7 @@ bool WbBasicJoint::setJoint() {
     }
     return false;
   }
-
+  printf("setJoint(basicJoint) is valid\n");
   return true;
 }
 

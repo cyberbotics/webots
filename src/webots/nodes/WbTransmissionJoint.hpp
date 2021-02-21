@@ -21,6 +21,8 @@
 
 class WbRotationalMotor;
 class WbHingeJointParameters;
+class WbSolidReference;
+class WbSlot;
 
 class WbTransmissionJoint : public WbJoint {
   Q_OBJECT
@@ -51,6 +53,8 @@ public:
   WbHingeJointParameters *hingeJointParameters() const;
   WbHingeJointParameters *hingeJointParameters2() const;
 
+  WbSolidReference *solidReferenceStartPoint() const;
+  WbSolid *solidStartPoint() const;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
 public slots:
@@ -61,12 +65,15 @@ signals:
 
 protected:
   dJointID mJoint2;
+  dBodyID body2;
+
   dJointID jointID() const { return mJoint2; }
   double mOdePositionOffset2;
   double mPosition2;  // Keeps track of the joint position2 if JointParameters2 don't exist.
   double mInitialPosition2;
 
-  void setupTransmission();
+  void setupTransmission();      // one-time setup
+  void configureTransmission();  // configure parameters
   void updatePosition(double position) override;
   void updatePosition2(double position);
 
@@ -90,6 +97,9 @@ protected slots:
 
   void updateJointAxisRepresentation() override;
 
+  void updateOdePositionOffset() override;
+  void updateOdePositionOffset2();
+
 private:
   int mTransmissionMode;
   dJointID mTransmission;
@@ -112,6 +122,7 @@ private:
   void applyToOdeMinAndMaxStop();
 
 private slots:
+  void updateStartPointPosition();
 };
 
 #endif
