@@ -72,7 +72,7 @@ protected:
 
   dBodyID body1;
   dGeomID geom1;
-  // mutable dJointFeedback *feedback;
+  dJointFeedback *feedback;
 
   dJointID jointID() const { return mJoint2; }
   double mOdePositionOffset2;

@@ -15,28 +15,6 @@ TexturedBackground {
 }
 Robot {
   children [
-    HingeJoint {
-      jointParameters HingeJointParameters {
-      }
-      endPoint Solid {
-        children [
-          Shape {
-            appearance PBRAppearance {
-            }
-            geometry Cylinder {
-              height 0.1
-              radius 0.05
-            }
-          }
-        ]
-        boundingObject Cylinder {
-          height 0.1
-          radius 0.05
-        }
-        physics Physics {
-        }
-      }
-    }
     TransmissionJoint {
       jointParameters HingeJointParameters {
       }

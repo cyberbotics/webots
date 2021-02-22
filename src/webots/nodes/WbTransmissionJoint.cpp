@@ -68,7 +68,7 @@ WbTransmissionJoint::WbTransmissionJoint(const WbNode &other) : WbJoint(other) {
 }
 
 WbTransmissionJoint::~WbTransmissionJoint() {
-  // delete feedback;
+  delete feedback;
 }
 
 void WbTransmissionJoint::preFinalize() {
@@ -93,6 +93,7 @@ void WbTransmissionJoint::postFinalize() {
   connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
+  dummyTransmission();
 }
 
 void WbTransmissionJoint::updateStartPointPosition() {
@@ -101,7 +102,6 @@ void WbTransmissionJoint::updateStartPointPosition() {
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
   printf("prePhysicsStep\n");
-  dummyTransmission();
   printf("prePhysicsStep done\n");
 }
 
@@ -120,10 +120,10 @@ void WbTransmissionJoint::postPhysicsStep() {
   printf("a1 %f %f %f\n", a_1[0], a_1[1], a_1[2]);
   printf("a2 %f %f %f\n", a_2[0], a_2[1], a_2[2]);
 
-  // WbVector3 t1(feedback->t1);
-  // WbVector3 t2(feedback->t2);
-  // printf ("T1: %f, %f, %f\n", t1[0], t1[1], t1[2]);
-  // printf ("T2: %f, %f, %f\n", t2[0], t2[1], t2[2]);
+  WbVector3 t1(feedback->t1);
+  WbVector3 t2(feedback->t2);
+  printf("T1: %f, %f, %f\n", t1[0], t1[1], t1[2]);
+  printf("T2: %f, %f, %f\n", t2[0], t2[1], t2[2]);
 
   printf("postPhysicsStep done\n");
 }
@@ -550,11 +550,11 @@ void WbTransmissionJoint::dummyTransmission() {
   dBodySetFiniteRotationMode(body1, 1);
   dBodySetFiniteRotationMode(body2, 1);
 
-  geom1 = dCreateCylinder(WbOdeContext::instance()->space(), 0.05, 0.1);
-  geom2 = dCreateCylinder(WbOdeContext::instance()->space(), 0.05, 0.1);
+  // geom1 = dCreateCylinder(WbOdeContext::instance()->space(), 0.05, 0.1);
+  // geom2 = dCreateCylinder(WbOdeContext::instance()->space(), 0.05, 0.1);
 
-  dGeomSetBody(geom1, body1);
-  dGeomSetBody(geom2, body2);
+  // dGeomSetBody(geom1, body1);
+  // dGeomSetBody(geom2, body2);
 
   dMass mass;
   dMassSetCylinder(&mass, 100, 3, 0.05, 0.1);
@@ -569,7 +569,7 @@ void WbTransmissionJoint::dummyTransmission() {
 
   mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
   dJointAttach(mTransmission, body1, body2);
-  // dJointSetFeedback(mTransmission, feedback);
+  dJointSetFeedback(mTransmission, feedback);
 
   dMatrix3 R;
   dBodySetPosition(body1, 1, 0, 1);
