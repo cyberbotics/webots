@@ -157,11 +157,17 @@ class Client:
             return self.setup_project_from_zip()
 
     def setup_project_from_file(self):
+        # url is like "file:///home/cyberbotics/webots/projects/robots/softbank/nao/worlds/nao_room.wbt"
         if not self.url.endswith('.wbt'):
             logging.error('Wrong Webots URL: missing world file in ' + self.url)
             return False
         self.world = os.path.basename(self.url[7:])  # skipping 'file://'
-        self.project_instance_path = self.url[7:-len(self.world)]
+        path = self.url[7:-len(self.world) - 7]  # and removing '/worlds/*.wbt' at the end
+        print("world = " + self.world)
+        print("path = " + path)
+        print("project_instance_path = " + self.project_instance_path)
+        shutil.copytree(path, self.project_instance_path)
+        return True
 
     def setup_project_from_github(self):
         parts = self.url[20:].split('/')
@@ -262,7 +268,7 @@ class Client:
             command = config['webots'] + ' --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
-                command += '--minimize '
+                command += '--minimize --no-rendering '
             command += '--stream="port=' + str(port) + ';monitorActivity'
             if hasattr(self, 'mode'):
                 command += ';mode=' + self.mode
@@ -292,7 +298,10 @@ class Client:
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
-            hostname = client.client_websocket.request.host.split(':')[0]
+            if 'fullyQualifiedDomainName' not in config:
+                hostname = client.client_websocket.request.host.split(':')[0]
+            else:
+                hostname = config['fullyQualifiedDomainName']
             protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
@@ -682,17 +691,18 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:              local port on which the server is listening (launching webots instances).
-    # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
-    # projectsDir:       directory in which projects are located.
-    # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
-    # maxConnections:    maximum number of simultaneous Webots instances.
-    # sslKey:            private key for a SSL enabled server.
-    # sslCertificate:    certificate for a SSL enabled server.
-    # keyDir:            directory where the host keys needed for validation are stored.
-    # logDir:            directory where the log files are written.
-    # monitorLogEnabled: specify if the monitor data have to be stored in a file.
-    # debug:             debug mode (output to stdout).
+    # port:                     local port on which the server is listening (launching webots instances).
+    # fullyQualifiedDomainName: hostname of the server (from the Internet).
+    # portRewrite:              true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+    # projectsDir:              directory in which projects are located.
+    # webotsHome:               directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:           maximum number of simultaneous Webots instances.
+    # sslKey:                   private key for a SSL enabled server.
+    # sslCertificate:           certificate for a SSL enabled server.
+    # keyDir:                   directory where the host keys needed for validation are stored.
+    # logDir:                   directory where the log files are written.
+    # monitorLogEnabled:        specify if the monitor data have to be stored in a file.
+    # debug:                    debug mode (output to stdout).
     #
     global config
     global snapshots
