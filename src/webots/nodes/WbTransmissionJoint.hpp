@@ -17,6 +17,8 @@
 #ifndef WB_TRANSMISSION_JOINT_HPP
 #define WB_TRANSMISSION_JOINT_HPP
 
+struct dJointFeedback;
+
 #include "WbJoint.hpp"
 
 class WbRotationalMotor;
@@ -68,11 +70,16 @@ protected:
   dBodyID body2;
   dGeomID geom2;
 
+  dBodyID body1;
+  dGeomID geom1;
+  // mutable dJointFeedback *feedback;
+
   dJointID jointID() const { return mJoint2; }
   double mOdePositionOffset2;
   double mPosition2;  // Keeps track of the joint position2 if JointParameters2 don't exist.
   double mInitialPosition2;
 
+  void dummyTransmission();      // dummyTransmission
   void setupTransmission();      // one-time setup
   void configureTransmission();  // configure parameters
   void updatePosition(double position) override;
