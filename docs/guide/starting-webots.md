@@ -45,7 +45,7 @@ Options:
     argument must be either pause, realtime or fast.
 
   --no-rendering
-    Disable 3D rendering for the main 3D view.
+    Disable rendering in the main 3D view.
 
   --fullscreen
     Start Webots in fullscreen.
