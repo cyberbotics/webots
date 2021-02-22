@@ -153,14 +153,13 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
 
     const double *q = inertial_unit->quaternion;
 
-
     if (strcmp(inertial_unit->coordinate_system, "NUE") == 0) {
-      // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
+      // NUE: extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll)
       result[2] = atan2(2 * q[1] * q[3] - 2 * q[0] * q[2], 1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]);
       result[0] = atan2(2 * q[0] * q[3] - 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]);
       result[1] = asin(2 * q[0] * q[1] + 2 * q[2] * q[3]);
     } else {
-      // ENU
+      // ENU: extrensic rotation matrix e = Z(yaw) Y(pitch) X(roll)
       const double t0 = 2.0 * (q[3] * q[0] + q[1] * q[2]);
       const double t1 = 1.0 - 2.0 * (q[0] * q[0] + q[1] * q[1]);
       const double roll = atan2(t0, t1);
