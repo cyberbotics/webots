@@ -144,16 +144,27 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
-        self.project_instance_path = config['instancesPath'] + str(id(self))
+        if 'dockerImage' not in config:
+            self.project_instance_path = config['instancesPath'] + str(id(self))
         if hasattr(self, 'url'):
-            return self.setup_project_from_github()
+            if self.url.startswith('webots://github.com/'):
+                return self.setup_project_from_github()
+            elif self.url.startswith('file:///'):
+                return self.setup_project_from_file()
+            else:
+                logging.error('Unsupported url protocol: ' + self.url)
+                return False
         else:
             return self.setup_project_from_zip()
 
-    def setup_project_from_github(self):
-        if not self.url.startswith('webots://github.com/'):
-            logging.error('The URL argument should start with "webots://github.com/"')
+    def setup_project_from_file(self):
+        if not self.url.endswith('.wbt'):
+            logging.error('Wrong Webots URL: missing world file in ' + self.url)
             return False
+        self.world = os.path.basename(self.url[7:])  # skipping 'file://'
+        self.project_instance_path = self.url[7:-len(self.world)]
+
+    def setup_project_from_github(self):
         parts = self.url[20:].split('/')
         length = len(parts)
         if length < 6:
@@ -707,7 +718,7 @@ def main():
         config['webots'] += '/msys64/mingw64/bin/webots.exe'
     else:  # linux
         config['webots'] += '/webots'
-    if 'dockerImage' in config and sys.platform != 'linux2':
+    if 'dockerImage' in config and sys.platform != 'linux':
         sys.exit("dockerImage option is supported only on Linux")
     if 'projectsDir' not in config:
         config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
@@ -816,7 +827,7 @@ def main():
 if sys.platform == 'win32' and sys.version_info >= (3, 8):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-if sys.platform == 'linux2':
+if sys.platform == 'linux':
     # kill all the existing instances of Webots to avoid conflicts with web socket port
     os.system("killall -q webots-bin")
 
