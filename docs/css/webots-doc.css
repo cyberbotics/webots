@@ -436,8 +436,7 @@ body {
 }
 .webots-doc #view table {
   table-layout: fixed;
-  width: 80%;
-  margin: 20px auto 20px auto;
+  width: 100%;
   text-align: left;
   color: #333;
   border-width: 1px;

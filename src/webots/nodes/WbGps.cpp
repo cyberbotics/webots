@@ -319,8 +319,8 @@ bool WbGps::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbGps::reset() {
-  WbSolidDevice::reset();
+void WbGps::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   mPreviousPosition = WbVector3();
   mMeasuredSpeed = 0.0;
 }

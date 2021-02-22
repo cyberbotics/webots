@@ -56,7 +56,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // other functions
   void rayCollisionCallback(WbGeometry *object, dGeomID rayGeom, const dContactGeom *);

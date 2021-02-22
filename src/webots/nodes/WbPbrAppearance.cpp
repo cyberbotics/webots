@@ -186,26 +186,26 @@ void WbPbrAppearance::postFinalize() {
     emit changed();
 }
 
-void WbPbrAppearance::reset() {
-  WbAbstractAppearance::reset();
+void WbPbrAppearance::reset(const QString &id) {
+  WbAbstractAppearance::reset(id);
 
   if (baseColorMap())
-    baseColorMap()->reset();
+    baseColorMap()->reset(id);
 
   if (roughnessMap())
-    roughnessMap()->reset();
+    roughnessMap()->reset(id);
 
   if (metalnessMap())
-    metalnessMap()->reset();
+    metalnessMap()->reset(id);
 
   if (normalMap())
-    normalMap()->reset();
+    normalMap()->reset(id);
 
   if (occlusionMap())
-    occlusionMap()->reset();
+    occlusionMap()->reset(id);
 
   if (emissiveColorMap())
-    emissiveColorMap()->reset();
+    emissiveColorMap()->reset(id);
 }
 
 void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {

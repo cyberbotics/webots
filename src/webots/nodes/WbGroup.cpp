@@ -283,18 +283,18 @@ bool WbGroup::shallExport() const {
   return !mChildren->isEmpty();
 }
 
-void WbGroup::reset() {
-  WbBaseNode::reset();
+void WbGroup::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->reset();
+    it.next()->reset(id);
 }
 
-void WbGroup::save() {
-  WbBaseNode::save();
+void WbGroup::save(const QString &id) {
+  WbBaseNode::save(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->save();
+    it.next()->save(id);
 }
 
 void WbGroup::forwardJerk() {

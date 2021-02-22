@@ -561,8 +561,8 @@ bool WbMotor::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbMotor::reset() {
-  WbJointDevice::reset();
+void WbMotor::reset(const QString &id) {
+  WbJointDevice::reset(id);
 
   turnOffMotor();
 

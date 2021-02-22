@@ -87,18 +87,18 @@ void WbIndexedFaceSet::postFinalize() {
     connect(texCoord(), &WbTextureCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateTexCoord, Qt::UniqueConnection);
 }
 
-void WbIndexedFaceSet::reset() {
-  WbTriangleMeshGeometry::reset();
+void WbIndexedFaceSet::reset(const QString &id) {
+  WbTriangleMeshGeometry::reset(id);
 
   WbNode *const coord = mCoord->value();
   if (coord)
-    coord->reset();
+    coord->reset(id);
   WbNode *const normal = mNormal->value();
   if (normal)
-    normal->reset();
+    normal->reset(id);
   WbNode *const texCoord = mTexCoord->value();
   if (texCoord)
-    texCoord->reset();
+    texCoord->reset(id);
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
