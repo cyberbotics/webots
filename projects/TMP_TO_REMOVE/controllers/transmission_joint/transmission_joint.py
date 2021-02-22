@@ -1,32 +1,35 @@
 from controller import Robot
 
-TIME_STEP = 16
+TIME_STEP = 8
 robot = Robot()
-"""
-hingeJointMot = robot.getDevice('motorHinge')
-hingeJointMot.setPosition(float('inf'))
-hingeJointMot.setVelocity(1.0)
-"""
-transmissionJointMot = robot.getDevice('motorTransmission')
-transmissionJointMot.setPosition(float('inf'))
-transmissionJointMot.setVelocity(1.0)
-"""
-hingeJointPos = robot.getDevice('motorHingePosition')
-hingeJointPos.enable(TIME_STEP)
-"""
-transmissionJointPos = robot.getDevice('motorTransmissionPosition')
-transmissionJointPos.enable(TIME_STEP)
+
+hJointMot = robot.getDevice('hJointMot')
+hJointMot.setPosition(float('inf'))
+hJointMot.setVelocity(1.0)
+
+tJointMot = robot.getDevice('tJointMot')
+tJointMot.setPosition(float('inf'))
+tJointMot.setVelocity(1.0)
+
+hJointPos = robot.getDevice('hJointPos')
+hJointPos.enable(TIME_STEP)
+
+tJointPos = robot.getDevice('tJointPos')
+tJointPos.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:
+    
+    hPos = hJointPos.getValue()
+    tPos = tJointPos.getValue()
+    print('%f %f' %(hPos, tPos))
     """
-    pos = hingeJointPos.getValue()
-    if(pos > 0.5236):
-        hingeJointMot.setVelocity(-1.0)
-    if(pos < -0.5236):
-        hingeJointMot.setVelocity(1.0)
+    if(hPos > 0.5236):
+        hJointMot.setVelocity(-1.0)
+    if(hPos < -0.5236):
+        hJointMot.setVelocity(1.0)
+    
+    if(tPos > 0.5236):
+        tJointMot.setVelocity(-1.0)
+    if(tPos < -0.5236):
+        tJointMot.setVelocity(1.0)
     """
-    pos = transmissionJointPos.getValue()
-    if(pos > 0.5236):
-        transmissionJointMot.setVelocity(-1.0)
-    if(pos < -0.5236):
-        transmissionJointMot.setVelocity(1.0)

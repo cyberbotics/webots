@@ -1,0 +1,104 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.9978873637351483 0.06477587824981465 0.004989478397707631 0.15407422052316694
+  position -0.006522381682950551 0.2212861724884394 0.5781587842964356
+}
+RectangleArena {
+  wallHeight 0.01
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+Robot {
+  translation 0 1e-05 0
+  children [
+    Solid {
+      translation 0 0.1 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.447059 0.623529 0.811765
+          }
+          geometry DEF SUPPORT Box {
+            size 0.5 0.2 0.1
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 5
+        anchor 0 0.2 0
+      }
+      device [
+        PositionSensor {
+          name "hJointPos"
+        }
+        RotationalMotor {
+          name "hJointMot"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.125 0.1
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0 0
+            }
+            geometry DEF PENDULUM Box {
+              size 0.04 0.15 0.02
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE PENDULUM
+        physics Physics {
+        }
+      }
+    }
+    TransmissionJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 5
+        anchor 0 0.2 0
+      }
+      device [
+        PositionSensor {
+          name "tJointPos"
+        }
+        RotationalMotor {
+          name "tJointMot"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.125 0.07
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.45098 0.823529 0.0862745
+            }
+            geometry USE PENDULUM
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE PENDULUM
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0.1 0
+    children [
+      USE SUPPORT
+    ]
+  }
+  physics Physics {
+  }
+  controller "transmission_joint"
+}
