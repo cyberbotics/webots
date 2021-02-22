@@ -63,6 +63,8 @@ void WbSingleTaskApplication::showHelp() const {
   cout << "  --mode=<mode>" << endl;
   cout << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
   cout << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
+  cout << "  --no-rendering" << endl;
+  cout << tr("    Disable 3D rendering for the main 3D view.").toUtf8().constData() << endl << endl;
   cout << "  --fullscreen" << endl;
   cout << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
   cout << "  --minimize" << endl;
