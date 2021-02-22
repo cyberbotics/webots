@@ -430,16 +430,6 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
 }
 
 void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
-  if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
-    // colliding a mContext->space() with something
-    dSpaceCollide2(o1, o2, data, odeNearCallback);
-    // collide all geoms internal to the mContext->space()(s)
-    if (dGeomIsSpace(o1))
-      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
-    if (dGeomIsSpace(o2))
-      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
-  }
-
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
   WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
@@ -472,9 +462,17 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     } else if (pluginContacts == 1 || !webotsGeom1 || !webotsGeom2)  // Webots won't attempt to manipulate user-defined dGeoms
       return;
   }
-
-  if (dGeomIsSpace(o1) || dGeomIsSpace(o2))
+  
+  if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
+    // colliding a mContext->space() with something
+    dSpaceCollide2(o1, o2, data, odeNearCallback);
+    // collide all geoms internal to the mContext->space()(s)
+    if (dGeomIsSpace(o1))
+      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
+    if (dGeomIsSpace(o2))
+      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
     return;
+  }
 
   // yvan: we are never interested in the collision between 2 ray geoms
   // (rays geoms can be either distance sensor, emitter-receiver or light sensor rays)
