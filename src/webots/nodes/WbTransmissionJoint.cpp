@@ -82,6 +82,8 @@ void WbTransmissionJoint::postFinalize() {
 
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
+  setupJoint2();
+  setupTransmission();
   // dummyTransmission();
 }
 
@@ -221,7 +223,7 @@ WbVector3 WbTransmissionJoint::axis2() const {
 bool WbTransmissionJoint::setJoint() {
   printf("setJoint\n");
   if (!WbBasicJoint::setJoint()) {
-    printf("early exit\n");
+    parsingWarn(tr("TransmissionJoint requires the solid endpoint to have physics enabled."));
     return false;
   }
 
@@ -548,8 +550,55 @@ void WbTransmissionJoint::inferTransmissionMode() {
   configureTransmission();
 }
 
+void WbTransmissionJoint::setupJoint2() {
+  printf("setupJoint2\n");
+
+  // set body
+  body2 = dBodyCreate(WbOdeContext::instance()->world());
+  dBodySetFiniteRotationMode(body2, 1);
+
+  dMass mass;
+  dMassSetBox(&mass, 1000, 0.04, 0.15, 0.02);
+  dBodySetMass(body2, &mass);
+
+  mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+  dJointAttach(mJoint2, body2, 0);
+
+  dBodySetPosition(body2, 0, 0.125, 0.07);
+
+  dMatrix3 R;
+  dRSetIdentity(R);
+  dBodySetRotation(body2, R);
+
+  dJointSetHingeAnchor(mJoint2, 0, 0.3, 0);
+  dJointSetHingeAxis(mJoint2, 0, 0, 1);
+
+  // dBodySetLinearVel(body2, 0, 0, 0);
+  // dBodySetAngularVel(body2, 0, 0, 0);
+
+  printf("setupJoint2 done\n");
+}
+
 void WbTransmissionJoint::setupTransmission() {
   printf("setupTransmission\n");
+
+  if (mJoint == NULL || solidEndPoint() == NULL || mJoint2 == NULL) {
+    printf("mJoint or mJoint2 not yet configured\n");
+  }
+
+  mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
+  dJointAttach(mTransmission, solidEndPoint()->body(), body2);
+  dJointSetFeedback(mTransmission, feedback);
+
+  dJointSetTransmissionMode(mTransmission, dTransmissionParallelAxes);
+
+  dJointSetTransmissionAnchor1(mTransmission, 0, 0.2, 0);
+  dJointSetTransmissionAnchor2(mTransmission, 0, 0.3, 0);
+  dJointSetTransmissionRatio(mTransmission, 2);
+  dJointSetTransmissionAxis(mTransmission, 0, 0, 1);
+  dJointSetTransmissionBacklash(mTransmission, 0.0);
+
+  printTransmissionConfig();
 }
 
 void WbTransmissionJoint::dummyTransmission() {
@@ -664,7 +713,15 @@ void WbTransmissionJoint::configureTransmission() {
     dJointSetTransmissionAxis2(mTransmission, ax2.x(), ax2.y(), ax2.z());
   }
 
-  printf("transmission configured as: \n");
+  printTransmissionConfig();
+}
+
+void WbTransmissionJoint::printTransmissionConfig() {
+  if (!mTransmission) {
+    printf("transmission not defined yet\n");
+    return;
+  }
+  printf("-- TRANSMISSION CONFIG ----------------------------------------------------------------------------------\n");
 
   dVector3 jAn;
   dVector3 jAn2;
@@ -675,14 +732,14 @@ void WbTransmissionJoint::configureTransmission() {
   dJointGetHingeAxis(mJoint, jAx);
   dJointGetHingeAxis(mJoint2, jAx2);
 
-  printf("joint anchors:\n");
-  printf("mJoint:  %f %f %f\n", jAn[0], jAn[1], jAn[2]);
-  printf("mJoint2: %f %f %f\n", jAn2[0], jAn2[1], jAn2[2]);
-  printf("joint axis:\n");
-  printf("mJoint:  %f %f %f\n", jAx[0], jAx[1], jAx[2]);
-  printf("mJoint2: %f %f %f\n", jAx2[0], jAx2[1], jAx2[2]);
+  printf("Joint anchors\n");
+  printf("> mJoint : %f %f %f\n", jAn[0], jAn[1], jAn[2]);
+  printf("> mJoint2: %f %f %f\n", jAn2[0], jAn2[1], jAn2[2]);
+  printf("Joint axis\n");
+  printf("> mJoint : %f %f %f\n", jAx[0], jAx[1], jAx[2]);
+  printf("> mJoint2: %f %f %f\n", jAx2[0], jAx2[1], jAx2[2]);
 
-  printf("transmission mode = %d\n", dJointGetTransmissionMode(mTransmission));
+  printf("Transmission mode = %d\n", dJointGetTransmissionMode(mTransmission));
 
   dVector3 tAx;
   dVector3 tAx2;
@@ -694,16 +751,27 @@ void WbTransmissionJoint::configureTransmission() {
   dJointGetTransmissionAxis1(mTransmission, tAx);
   dJointGetTransmissionAxis2(mTransmission, tAx2);
 
-  printf("transmission anchor  %f %f %f\n", tAn[0], tAn[1], tAn[2]);
-  printf("transmission anchor2 %f %f %f\n", tAn2[0], tAn2[1], tAn2[2]);
-  printf("transmission axis    %f %f %f\n", tAx[0], tAx[1], tAx[2]);
-  printf("transmission axis2   %f %f %f\n", tAx2[0], tAx2[1], tAx2[2]);
+  printf("Transmission anchors\n");
+  printf("> anchor : %f %f %f\n", tAn[0], tAn[1], tAn[2]);
+  printf("> anchor2: %f %f %f\n", tAn2[0], tAn2[1], tAn2[2]);
+  printf("Transmission axis\n");
+  printf("> axis : %f %f %f\n", tAx[0], tAx[1], tAx[2]);
+  printf("> axis2: %f %f %f\n", tAx2[0], tAx2[1], tAx2[2]);
 
   if (dJointGetTransmissionMode(mTransmission) == 2) {
+    // drive chain
     dReal r1 = dJointGetTransmissionRadius1(mTransmission);
     dReal r2 = dJointGetTransmissionRadius2(mTransmission);
     printf("r1 = %lf, r2 = %lf\n", r1, r2);
   }
+
+  if (dJointGetTransmissionMode(mTransmission) == 0) {
+    // classic gear
+    double ratio = dJointGetTransmissionRatio(mTransmission);
+    printf("ratio = %lf\n", ratio);
+  }
+
+  printf("-- END TRANSMISSION CONFIG ------------------------------------------------------------------------------\n");
 }
 
 void WbTransmissionJoint::updateJointAxisRepresentation() {

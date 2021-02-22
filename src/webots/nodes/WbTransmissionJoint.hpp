@@ -59,6 +59,7 @@ public:
   WbSolid *solidStartPoint() const;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
+  void printTransmissionConfig();
 public slots:
   bool setJoint() override;
   bool setJoint2();
@@ -79,8 +80,11 @@ protected:
   double mPosition2;  // Keeps track of the joint position2 if JointParameters2 don't exist.
   double mInitialPosition2;
 
-  void dummyTransmission();      // dummyTransmission
-  void setupTransmission();      // one-time setup
+  void dummyTransmission();  // dummyTransmission
+  void setupTransmission();  // one-time setup
+
+  void setupJoint2();
+
   void configureTransmission();  // configure parameters
   void updatePosition(double position) override;
   void updatePosition2(double position);
