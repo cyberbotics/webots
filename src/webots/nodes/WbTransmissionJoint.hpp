@@ -66,6 +66,7 @@ signals:
 protected:
   dJointID mJoint2;
   dBodyID body2;
+  dGeomID geom2;
 
   dJointID jointID() const { return mJoint2; }
   double mOdePositionOffset2;

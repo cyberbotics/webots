@@ -93,7 +93,7 @@ void WbTransmissionJoint::postFinalize() {
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
 
   setupTransmission();
-  // configureTransmission();
+  configureTransmission();
 }
 
 void WbTransmissionJoint::updateStartPointPosition() {
@@ -106,7 +106,7 @@ void WbTransmissionJoint::updateStartPointPosition() {
   //  updateStartPointZeroTranslationAndRotation();
 
   // if (areOdeObjectsCreated())
-  setJoint2();
+  // setJoint2();
 }
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
@@ -595,6 +595,7 @@ void WbTransmissionJoint::inferTransmissionMode() {
 }
 
 void WbTransmissionJoint::setupTransmission() {
+  printf("setupTransmission\n");
   if (mTransmission)  // already created
     return;
 
@@ -603,14 +604,21 @@ void WbTransmissionJoint::setupTransmission() {
   const WbVector3 &ax2 = axis2();
 
   // set body
+  dMatrix3 R;
+  dRSetIdentity(R);
   body2 = dBodyCreate(WbOdeContext::instance()->world());
   dBodySetPosition(body2, an2.x(), an2.y(), an2.z());
+  dBodySetRotation(body2, R);
+
+  // geom2 = dCreateCylinder(WbOdeContext::instance()->space(), 0.05, 0.1);
+  // dGeomSetBody(geom2, body2);
   // set hinge
   mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);  // should be done through setJoint2
-  // should be done through setOdeJoint2
+  dJointAttach(mJoint2, body2, 0);  // setHingeAnchor/Axis has no effect unless joint is attached to body
+
+  // shoul be done through setOdeJoint2
   dJointSetHingeAnchor(mJoint2, an2.x(), an2.y(), an2.z());  // applyToOdeAnchor2() ?
   dJointSetHingeAxis(mJoint2, ax2.x(), ax2.y(), ax2.z());    // applyToOdeAxis2() ?
-  dJointAttach(mJoint2, body2, 0);
 
   mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
   // printf("%d %d\n", solidEndPoint()->body(), body2);
