@@ -144,8 +144,7 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
-        if 'dockerImage' not in config:
-            self.project_instance_path = config['instancesPath'] + str(id(self))
+        self.project_instance_path = config['instancesPath'] + str(id(self))
         if hasattr(self, 'url'):
             if self.url.startswith('webots://github.com/'):
                 return self.setup_project_from_github()
@@ -277,9 +276,6 @@ class Client:
             if config['ssl']:
                 command += ';ssl'
             command += '" ' + world
-            if 'dockerImage' in config:
-                command = 'docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p '
-                + str(port) + ':' + str(port) + ' ' + config['dockerImage'] + ' ' + command
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
@@ -690,7 +686,6 @@ def main():
     # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
     # projectsDir:       directory in which projects are located.
     # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
-    # dockerImage:       if specified, use this docker image to run webots in a docker container
     # maxConnections:    maximum number of simultaneous Webots instances.
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.
@@ -718,8 +713,6 @@ def main():
         config['webots'] += '/msys64/mingw64/bin/webots.exe'
     else:  # linux
         config['webots'] += '/webots'
-    if 'dockerImage' in config and sys.platform != 'linux':
-        sys.exit("dockerImage option is supported only on Linux")
     if 'projectsDir' not in config:
         config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
     else:
