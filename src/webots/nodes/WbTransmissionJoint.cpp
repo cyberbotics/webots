@@ -92,7 +92,7 @@ void WbTransmissionJoint::updateStartPointPosition() {
 }
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
-  printf("prePhysicsStep\n");
+  // printf("prePhysicsStep\n");
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
   WbHingeJointParameters *const p = hingeJointParameters();
@@ -127,11 +127,11 @@ void WbTransmissionJoint::prePhysicsStep(double ms) {
     }
   }
   mTimeStep = ms;
-  printf("prePhysicsStep done\n");
+  // printf("prePhysicsStep done\n");
 }
 
 void WbTransmissionJoint::postPhysicsStep() {
-  printf("postPhysicsStep\n");
+  // printf("postPhysicsStep\n");
 
   assert(mJoint);
   WbRotationalMotor *const rm = rotationalMotor();
@@ -174,7 +174,7 @@ void WbTransmissionJoint::postPhysicsStep() {
   printf("T1: %f, %f, %f\n", t1[0], t1[1], t1[2]);
   printf("T2: %f, %f, %f\n", t2[0], t2[1], t2[2]);
   */
-  printf("postPhysicsStep done\n");
+  // printf("postPhysicsStep done\n");
 }
 
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters() const {
@@ -597,6 +597,10 @@ void WbTransmissionJoint::setupTransmission() {
   dJointSetTransmissionRatio(mTransmission, 2);
   dJointSetTransmissionAxis(mTransmission, 0, 0, 1);
   dJointSetTransmissionBacklash(mTransmission, 0.0);
+
+  printf(">> REMOVED DEVICE, APPLYING TWICE THE VELOCITY ON mJOINT2 DIRECTLY, HINGE1 MOVES AT HALF THE SPEED\n");
+  dJointSetHingeParam(mJoint2, dParamVel, -2);
+  dJointSetHingeParam(mJoint2, dParamFMax, 50);
 
   printTransmissionConfig();
 }

@@ -67,14 +67,6 @@ Robot {
         axis 0 0 5
         anchor 0 0.2 0
       }
-      device [
-        PositionSensor {
-          name "tJointPos"
-        }
-        RotationalMotor {
-          name "tJointMot"
-        }
-      ]
       endPoint Solid {
         translation 0 0.125 0.07
         children [
