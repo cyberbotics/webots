@@ -411,8 +411,8 @@ void WbTransmissionJoint::updateParameters() {
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
   }
 
-  updateAxis();
-  updateAnchor();
+  // updateAxis(); // causes issues by putting solid in a weird place
+  // updateAnchor();
 }
 
 void WbTransmissionJoint::updateParameters2() {
@@ -422,8 +422,8 @@ void WbTransmissionJoint::updateParameters2() {
     connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
   }
-  updateAxis2();
-  updateAnchor2();
+  // updateAxis2();
+  // updateAnchor2();
 }
 
 void WbTransmissionJoint::updatePosition() {
@@ -575,9 +575,9 @@ void WbTransmissionJoint::setupJoint2() {
     dBodySetMass(body2, &mass);  // if startPoint isn't defined, give body2 the same mass of body1
     mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
     dJointAttach(mJoint2, body2, 0);
-    // const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
-    // dBodySetPosition(body2, pos[0], pos[1], pos[2]);
-    dBodySetPosition(body2, 0, 0.125, 0.07);  // TO REMOVE, see ^
+    const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
+    dBodySetPosition(body2, pos[0], pos[1], pos[2]);
+    // dBodySetPosition(body2, 0, 0.125, 0.07);  // TO REMOVE, see ^
 
     dMatrix3 R;
     dRSetIdentity(R);
@@ -605,6 +605,7 @@ void WbTransmissionJoint::setupJoint2() {
   printf("setupJoint2 done\n");
 }
 
+/*
 void WbTransmissionJoint::setupTransmission() {
   printf("setupTransmission\n");
 
@@ -634,7 +635,7 @@ void WbTransmissionJoint::setupTransmission() {
 
   printTransmissionConfig();
 }
-
+*/
 void WbTransmissionJoint::dummyTransmission() {
   printf("dummyTransmission\n");
   // set body
@@ -734,8 +735,8 @@ void WbTransmissionJoint::configureTransmission() {
   dJointSetTransmissionBacklash(mTransmission, mBacklash->value());
 
   if (mTransmissionMode == dTransmissionParallelAxes) {
-    dJointSetTransmissionRatio(mTransmission, mMultiplier->value());
-    dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
+    dJointSetTransmissionRatio(mTransmission, abs(mMultiplier->value()));  // only accepts positive values, but by using
+    dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());   // parallelAxis we invert the direction
   }
   if (mTransmissionMode == dTransmissionChainDrive) {
     dJointSetTransmissionRadius1(mTransmission, 1.0);
@@ -757,6 +758,34 @@ void WbTransmissionJoint::printTransmissionConfig() {
   }
   printf("-- TRANSMISSION CONFIG ----------------------------------------------------------------------------------\n");
 
+  switch (mTransmissionMode) {
+    case 0:
+      printf("Inferred mode = CLASSIC_GEAR (multiplier < 0? axis match? anchors differ?)\n");
+      break;
+    case 1:
+      printf("Inferred mode = BEVEL_GEAR (axis differ?)\n");
+      break;
+    case 2:
+      printf("Inferred mode = CHAIN DRIVE (multiplier > 0? axis match?)\n");
+      break;
+    default:
+      printf("Inferred mode = UNDEFINED\n");
+  }
+
+  switch (dJointGetTransmissionMode(mTransmission)) {
+    case 0:
+      printf("Transmission mode = CLASSIC_GEAR\n");
+      break;
+    case 1:
+      printf("Transmission mode = BEVEL_GEAR\n");
+      break;
+    case 2:
+      printf("Transmission mode = CHAIN DRIVE\n");
+      break;
+    default:
+      printf("Transmission mode = UNDEFINED\n");
+  }
+
   dVector3 jAn;
   dVector3 jAn2;
   dVector3 jAx;
@@ -772,8 +801,6 @@ void WbTransmissionJoint::printTransmissionConfig() {
   printf("Joint axis\n");
   printf("> mJoint : %f %f %f\n", jAx[0], jAx[1], jAx[2]);
   printf("> mJoint2: %f %f %f\n", jAx2[0], jAx2[1], jAx2[2]);
-
-  printf("Transmission mode = %d\n", dJointGetTransmissionMode(mTransmission));
 
   dVector3 tAx;
   dVector3 tAx2;
