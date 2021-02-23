@@ -45,6 +45,7 @@ void WbTransmissionJoint::init() {
   mMultiplier = findSFDouble("multiplier");
   mStartPoint = findSFNode("startPoint");
 
+  body2 = NULL;
   // hidden field
   mPosition2 = findSFDouble("position2")->value();
   mOdePositionOffset2 = mPosition2;
@@ -80,10 +81,16 @@ void WbTransmissionJoint::postFinalize() {
   printf("postFinalize\n");
   WbJoint::postFinalize();
 
+  connect(mParameters2, &WbSFNode::changed, this, &WbTransmissionJoint::updateParameters2);
   connect(mBacklash, &WbSFDouble::changed, this, &WbTransmissionJoint::updateBacklash);
   connect(mMultiplier, &WbSFDouble::changed, this, &WbTransmissionJoint::updateMultiplier);
-  setupJoint2();
-  setupTransmission();
+
+  if (!solidStartPoint())
+    setupJoint2();  // create dummy body
+
+  inferTransmissionMode();
+
+  // setupTransmission();
   // dummyTransmission();
 }
 
@@ -92,6 +99,9 @@ void WbTransmissionJoint::updateStartPointPosition() {
 }
 
 void WbTransmissionJoint::prePhysicsStep(double ms) {
+  if (mTransmissionMode == -1) {
+    printf("shouldn't execture physics step if transmission isn't defined\n");
+  }
   // printf("prePhysicsStep\n");
 
   // TODO: doublecheck that when doing the switcharoo on the joints, that the mPosition/2 are being tracked consistently
@@ -332,12 +342,13 @@ void WbTransmissionJoint::updateAxis() {
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     updateJointAxisRepresentation();
 
-  // inferTransmissionMode();
+  inferTransmissionMode();
 }
 
 void WbTransmissionJoint::updateAxis2() {
-  printf("updateAxis2\n");
+  printf("UNDEFINED for startPoint - updateAxis2\n");
   // update the current startPoint pose based on the new axis value
+  /*
   updatePosition2();
 
   if (mJoint2)
@@ -345,8 +356,8 @@ void WbTransmissionJoint::updateAxis2() {
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     updateJointAxisRepresentation();
-
-  // inferTransmissionMode();
+  */
+  inferTransmissionMode();
 }
 
 void WbTransmissionJoint::updateAnchor() {
@@ -360,12 +371,13 @@ void WbTransmissionJoint::updateAnchor() {
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     updateJointAxisRepresentation();
 
-  // inferTransmissionMode();
+  inferTransmissionMode();
 }
 
 void WbTransmissionJoint::updateAnchor2() {
-  printf("updateAnchor2\n");
+  printf("UNDEFINED for startPoint - updateAnchor2\n");
   // update the current startPoint pose based on the new anchor value
+  /*
   updatePosition2();
 
   if (mJoint2)
@@ -373,8 +385,8 @@ void WbTransmissionJoint::updateAnchor2() {
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     updateJointAxisRepresentation();
-
-  // inferTransmissionMode();
+  */
+  inferTransmissionMode();
 }
 
 double WbTransmissionJoint::initialPosition(int index) const {
@@ -398,6 +410,9 @@ void WbTransmissionJoint::updateParameters() {
     connect(p, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis, Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor, Qt::UniqueConnection);
   }
+
+  updateAxis();
+  updateAnchor();
 }
 
 void WbTransmissionJoint::updateParameters2() {
@@ -407,6 +422,8 @@ void WbTransmissionJoint::updateParameters2() {
     connect(p2, &WbHingeJointParameters::axisChanged, this, &WbTransmissionJoint::updateAxis2, Qt::UniqueConnection);
     connect(p2, &WbHingeJointParameters::anchorChanged, this, &WbTransmissionJoint::updateAnchor2, Qt::UniqueConnection);
   }
+  updateAxis2();
+  updateAnchor2();
 }
 
 void WbTransmissionJoint::updatePosition() {
@@ -491,6 +508,8 @@ void WbTransmissionJoint::computeEndPointSolidPositionFromParameters(WbVector3 &
 void WbTransmissionJoint::updateBacklash() {
   WbFieldChecker::resetDoubleIfNegative(this, mBacklash, 0.0);
   printf("new backlash %f\n", mBacklash->value());
+
+  inferTransmissionMode();
 }
 
 void WbTransmissionJoint::updateMultiplier() {
@@ -498,13 +517,12 @@ void WbTransmissionJoint::updateMultiplier() {
     mMultiplier->setValue(1);
     parsingWarn(tr("'multiplier' must be different from zero, setting it back to 1."));
   }
-
   printf("new multiplier = %f\n", mMultiplier->value());
-
-  // inferTransmissionMode();
+  inferTransmissionMode();
 }
 
 void WbTransmissionJoint::inferTransmissionMode() {
+  printf("inferTransmissionMode\n");
   mTransmissionMode = -1;
 
   const bool isCodirectional = axis().normalized().almostEquals(axis2().normalized());
@@ -540,27 +558,48 @@ void WbTransmissionJoint::inferTransmissionMode() {
 void WbTransmissionJoint::setupJoint2() {
   printf("setupJoint2\n");
 
-  // set body
+  if (body2) {
+    printf("already exists... why?\n");
+    return;
+  }
+
+  assert(solidEndPoint());
+
   body2 = dBodyCreate(WbOdeContext::instance()->world());
   dBodySetFiniteRotationMode(body2, 1);
 
-  dMass mass;
-  dMassSetBox(&mass, 1000, 0.04, 0.15, 0.02);
-  dBodySetMass(body2, &mass);
+  if (!dBodyIsKinematic(solidEndPoint()->body())) {
+    printf("setting mass to body2\n");
+    dMass mass;
+    dBodyGetMass(solidEndPoint()->body(), &mass);
+    dBodySetMass(body2, &mass);  // if startPoint isn't defined, give body2 the same mass of body1
+    mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
+    dJointAttach(mJoint2, body2, 0);
+    // const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
+    // dBodySetPosition(body2, pos[0], pos[1], pos[2]);
+    dBodySetPosition(body2, 0, 0.125, 0.07);  // TO REMOVE, see ^
 
-  mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
-  dJointAttach(mJoint2, body2, 0);
+    dMatrix3 R;
+    dRSetIdentity(R);
+    dBodySetRotation(body2, R);
 
-  dBodySetPosition(body2, 0, 0.125, 0.07);
+    const WbVector3 &ax2 = axis2();
+    const WbVector3 &an2 = anchor2();
+    dJointSetHingeAnchor(mJoint2, an2.x(), an2.y(), an2.z());
+    dJointSetHingeAxis(mJoint2, ax2.x(), ax2.y(), ax2.z());
+  } else {
+    parsingWarn(tr("Solid endPoint must have physics enabled."));
+  }
 
-  dMatrix3 R;
-  dRSetIdentity(R);
-  dBodySetRotation(body2, R);
+  // dMass mass;
+  // dMassSetBox(&mass, 1000, 0.04, 0.15, 0.02);  // random or same as mJoint?
+  // dBodySetMass(body2, &mass);
 
-  dJointSetHingeAnchor(mJoint2, 0, 0.3, 0);
-  dJointSetHingeAxis(mJoint2, 0, 0, 1);
+  // dBodySetPosition(body2, an2.x(), an2.y(), an2.z());
 
-  // dBodySetLinearVel(body2, 0, 0, 0);
+  // printf("%f %f %f\n", ax2.x(), ax2.y(), ax2.z());
+
+  // dBodySetLinearVel(body2, 0, 0, 0); // needed when resetting?
   // dBodySetAngularVel(body2, 0, 0, 0);
 
   printf("setupJoint2 done\n");
@@ -570,7 +609,8 @@ void WbTransmissionJoint::setupTransmission() {
   printf("setupTransmission\n");
 
   if (mJoint == NULL || solidEndPoint() == NULL || mJoint2 == NULL) {
-    printf("mJoint or mJoint2 not yet configured\n");
+    printf("mJoint or mJoint2 not yet configured, early exit.\n");
+    return;
   }
 
   mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
@@ -662,7 +702,7 @@ void WbTransmissionJoint::dummyTransmission() {
 void WbTransmissionJoint::configureTransmission() {
   printf("configureTransmission\n");
   if (mTransmissionMode == -1) {
-    printf("undefined transmission mode, early exit\n");
+    printf("invalid transmission mode, early exit\n");
     return;
   }
 
@@ -671,14 +711,13 @@ void WbTransmissionJoint::configureTransmission() {
     return;
   }
 
-  if (mJoint == NULL) {  // probably unnecessary later on
-    printf("mJoint undefined, early exit\n");
-    return;
-  }
-
   if (!mTransmission) {
-    printf("should call setupTransmission before configureTransmission\n");
-    return;
+    if (!solidEndPoint()->body() || !body2) {
+      printf("body1 or body2 not defined yet, early exit\n");
+      return;
+    }
+    mTransmission = dJointCreateTransmission(WbOdeContext::instance()->world(), 0);
+    dJointAttach(mTransmission, solidEndPoint()->body(), body2);
   }
 
   const WbVector3 &ax1 = axis();
@@ -686,11 +725,12 @@ void WbTransmissionJoint::configureTransmission() {
   const WbVector3 &an1 = anchor();
   const WbVector3 &an2 = anchor2();
 
+  dJointSetTransmissionMode(mTransmission, mTransmissionMode);
+
   // configure transmission
   dJointSetTransmissionAnchor1(mTransmission, an1.x(), an1.y(), an1.z());
   dJointSetTransmissionAnchor2(mTransmission, an2.x(), an2.y(), an2.z());
 
-  dJointSetTransmissionMode(mTransmission, mTransmissionMode);
   dJointSetTransmissionBacklash(mTransmission, mBacklash->value());
 
   if (mTransmissionMode == dTransmissionParallelAxes) {
@@ -698,7 +738,7 @@ void WbTransmissionJoint::configureTransmission() {
     dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
   }
   if (mTransmissionMode == dTransmissionChainDrive) {
-    dJointSetTransmissionRadius1(mTransmission, 1.5);
+    dJointSetTransmissionRadius1(mTransmission, 1.0);
     dJointSetTransmissionRadius2(mTransmission, mMultiplier->value());
     dJointSetTransmissionAxis(mTransmission, ax1.x(), ax1.y(), ax1.z());
   }

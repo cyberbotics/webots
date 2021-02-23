@@ -45,7 +45,6 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.125 0.1
-        rotation 0 0 1 0
         children [
           Shape {
             appearance PBRAppearance {
@@ -67,6 +66,9 @@ Robot {
         axis 0 0 5
         anchor 0 0.2 0
       }
+      jointParameters2 HingeJointParameters {
+        axis 0 0 1
+      }
       device [
         RotationalMotor {
           name "tJointMot"
@@ -75,6 +77,7 @@ Robot {
           name "tJointPos"
         }
       ]
+      multiplier 2
       endPoint Solid {
         translation 0 0.125 0.07
         children [
