@@ -22,14 +22,14 @@ while robot.step(TIME_STEP) != -1:
     hPos = hJointPos.getValue()
     tPos = tJointPos.getValue()
     print('%f %f' %(hPos, tPos))
-    """
-    if(hPos > 0.5236):
+    
+    if(hPos > 1.5708):
         hJointMot.setVelocity(-1.0)
-    if(hPos < -0.5236):
+    if(hPos < -1.5708):
         hJointMot.setVelocity(1.0)
     
-    if(tPos > 0.5236):
+    if(tPos > 1.5708):
         tJointMot.setVelocity(-1.0)
-    if(tPos < -0.5236):
+    if(tPos < -1.5708):
         tJointMot.setVelocity(1.0)
-    """
+    

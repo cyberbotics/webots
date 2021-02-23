@@ -297,6 +297,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       s4 *= s4;
       dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);
       dJointSetHingeParam(mJoint, dParamVel, currentVelocity);
+      printf("applying to hinge: %lf\n", currentVelocity);
     }
     // eventually add spring and damping forces
     if (mSpringAndDamperMotor) {
