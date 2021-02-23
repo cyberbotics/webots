@@ -57,6 +57,7 @@ private:
   QList<WbKinematicDifferentialWheels *> mCollisionedRobots;
   void handleKinematicsCollisions();
   void swapBuffer();
+  static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
   static const WbContactProperties *fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
                                                           const WbGeometry *wg2, dContact *contact);
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,
