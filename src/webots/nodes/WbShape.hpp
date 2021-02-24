@@ -46,7 +46,7 @@ public:
   bool isAValidBoundingObject(bool checkOde = true, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   WbAppearance *appearance() const;

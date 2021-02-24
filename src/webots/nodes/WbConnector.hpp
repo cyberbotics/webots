@@ -46,8 +46,8 @@ public:
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   enum FaceType { UNKNOWN, SYMMETRIC, ACTIVE, PASSIVE };
   FaceType faceType() const { return mFaceType; }
@@ -80,7 +80,7 @@ private:
   WbSensor *mSensor;     // presence sensor
   int mValue;
   bool mIsJointInversed;
-  bool mIsInitiallyLocked;
+  QMap<QString, bool> mIsInitiallyLocked;
   bool mNeedToReconfigure;
 
   WrTransform *mTransform;

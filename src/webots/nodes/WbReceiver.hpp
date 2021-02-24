@@ -48,7 +48,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static void transmitData(int channel, const void *data, int size);
   static void transmitPacket(WbDataPacket *packet);

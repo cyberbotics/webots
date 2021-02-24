@@ -447,21 +447,21 @@ void WbCamera::postPhysicsStep() {
   mInvalidRecognizedObjects.clear();
 }
 
-void WbCamera::reset() {
-  WbAbstractCamera::reset();
+void WbCamera::reset(const QString &id) {
+  WbAbstractCamera::reset(id);
 
   WbNode *const focus = mFocus->value();
   if (focus)
-    focus->reset();
+    focus->reset(id);
   WbNode *const zoom = mZoom->value();
   if (zoom)
-    zoom->reset();
+    zoom->reset(id);
   WbNode *const recognition = mRecognition->value();
   if (recognition)
-    recognition->reset();
+    recognition->reset(id);
   WbNode *const lensFlare = mLensFlare->value();
   if (lensFlare)
-    lensFlare->reset();
+    lensFlare->reset(id);
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {

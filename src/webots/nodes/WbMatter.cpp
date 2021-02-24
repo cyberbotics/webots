@@ -148,20 +148,20 @@ void WbMatter::postFinalize() {
   updateManipulatorVisibility();
 }
 
-void WbMatter::reset() {
-  WbTransform::reset();
+void WbMatter::reset(const QString &id) {
+  WbTransform::reset(id);
 
   WbNode *const b = mBoundingObject->value();
   if (b)
-    b->reset();
+    b->reset(id);
 }
 
-void WbMatter::save() {
-  WbTransform::save();
+void WbMatter::save(const QString &id) {
+  WbTransform::save(id);
 
   WbNode *const b = mBoundingObject->value();
   if (b)
-    b->save();
+    b->save(id);
 }
 
 void WbMatter::connectNameUpdates() const {
