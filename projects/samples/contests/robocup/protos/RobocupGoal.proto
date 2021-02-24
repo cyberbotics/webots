@@ -1,0 +1,288 @@
+#VRML_SIM R2021a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
+# The color of the goal and the support polygons can be modified.
+
+PROTO RobocupGoal [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "robotstadium goal"
+  field SFColor    frameColor  1 1 1                # Defines the color of the goal frame.
+  field SFString{"adult", "kid"}    size        "adult"
+]
+{
+
+%{
+-- Official soccer field dimensions from RoboCup 2021 (in meters)
+
+if fields.size.value=="kid" then
+  --KidSize dimensions
+  A = 9
+  B = 6
+  C = 0.6
+  D = 2.6
+  GH = 1.2
+  E = 1
+  F = 3
+  G = 1.5
+  H = 1.5
+  I = 1
+  J = 2
+  K = 5
+else
+  --AdultSize dimensions
+  A = 14
+  B = 9
+  C = 0.6
+  D = 2.6
+  GH = 1.8
+  E = 1
+  F = 4
+  G = 2.1
+  H = 3
+  I = 1
+  J = 3
+  K = 6
+end
+
+
+postRadius =0.05 -- diameter/width/depth must be between 0.08-0.12
+postSpacing = D+2*postRadius
+postHeight = GH+postRadius
+backPostRadius = 0.02 -- (NOT DEFINED IN RULES)
+boundObjThicknessSides = 2*backPostRadius-- (NOT DEFINED IN RULES)
+boundObjThicknessBack = 0.3 -- (NOT DEFINED IN RULES)
+
+}%
+
+
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF HORIZONTAL_POST_TRANS Transform {
+      translation 0 0 %{=postHeight}%
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance DEF POST_APP PBRAppearance {
+            baseColor IS frameColor
+            metalness 0
+            roughness 0.2
+          }
+          geometry Capsule {
+            height %{=postSpacing}%
+            radius %{=postRadius}%
+          }
+        }
+      ]
+    }
+    DEF RIGHT_POST_TRANS Transform {
+      translation %{=-postSpacing/2}% 0  %{=postHeight/2}%
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height %{=postHeight}%
+            radius %{=postRadius}%
+          }
+        }
+      ]
+    }
+    DEF LEFT_POST_TRANS Transform {
+      translation %{=postSpacing/2}% 0  %{=postHeight/2}%
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height %{=postHeight}%
+            radius %{=postRadius}%
+          }
+        }
+      ]
+    }
+    Shape {
+      appearance DEF NET_APP PBRAppearance {
+        baseColor 0 0 1
+        baseColorMap ImageTexture {
+          url "textures/net.png"
+          filtering 0
+        }
+        metalness 0
+        roughness 1
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            %{=-postSpacing/2}% %{=-C}%          0
+            %{=postSpacing/2}%  %{=-C}%          0
+            %{=postSpacing/2}%  %{=-C}%          %{=postHeight}%
+            %{=-postSpacing/2}% %{=-C}%          %{=postHeight}%
+            %{=postSpacing/2}%  %{=-postRadius}% 0
+            %{=-postSpacing/2}% %{=-postRadius}% 0
+            %{=postSpacing/2}%  %{=-postRadius}% %{=postHeight}%
+            %{=-postSpacing/2}% %{=-postRadius}% %{=postHeight}%
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            28 0
+            28 16
+            0 16
+            7 0
+            7 16
+            0 16
+            28 0
+            28 6
+            0 6
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1,
+          3, 2, 1, 0, -1,
+          1, 4, 6, 2, -1,
+          2, 6, 4, 1, -1,
+          0, 5, 7, 3, -1,
+          3, 7, 5, 0, -1,
+          2, 3, 7, 6, -1,
+          6, 7, 3, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1,
+          0, 1, 2, 3, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 7, 8, 9, -1,
+          0, 7, 8, 9, -1
+        ]
+      }
+    }
+    Transform {
+      translation 0 %{=-C}%  %{=postHeight}%
+      rotation 0 0 1 1.5708
+      children [
+        DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Capsule {
+            height %{=postSpacing}%
+            radius %{=backPostRadius}%
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 %{=-C}% %{=backPostRadius/2}%
+      rotation 0 0 1 1.5708
+      children [
+        USE SMALL_HORIZONTAL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation %{=postSpacing/2}% %{=-C}% %{=postHeight/2}%
+      rotation 1 0 0 1.5708
+      children [
+        DEF SMALL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height %{=postHeight}%
+            radius %{=backPostRadius}%
+          }
+        }
+      ]
+    }
+    Transform {
+      translation %{=-postSpacing/2}% %{=-C}% %{=postHeight/2}%
+      rotation 1 0 0 1.5708
+      children [
+        USE SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation %{=postSpacing/2}% %{=-C/2}% %{=postHeight}%
+      children [
+        DEF OTHER_SMALL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height %{=C}%
+            radius %{=backPostRadius}%
+          }
+        }
+      ]
+    }
+    Transform {
+      translation %{=-postSpacing/2}% %{=-C/2}% %{=postHeight}%
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation %{=postSpacing/2}% %{=-C/2}% %{=backPostRadius/2}%
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation %{=-postSpacing/2}% %{=-C/2}% %{=backPostRadius/2}%
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+  ]
+  name IS name
+  model "robotstadium goal"
+  boundingObject Group {
+    children [
+      USE HORIZONTAL_POST_TRANS
+      USE RIGHT_POST_TRANS
+      USE LEFT_POST_TRANS
+      Transform { #Left
+        translation %{=-postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
+        children [
+          DEF GOAL_SIDE_BOX Box {
+            size %{=boundObjThicknessSides}% %{=C-postRadius}% %{=postHeight-backPostRadius}%
+          }
+        ]
+      }
+      Transform { #Right
+        translation %{=postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
+        children [
+          USE GOAL_SIDE_BOX
+        ]
+      }
+      Transform { #Back
+        translation 0 %{=-C-boundObjThicknessBack/2}% %{=(postHeight+backPostRadius)/2}%
+        children [
+          Box {
+            size %{=postSpacing+2*backPostRadius}% %{=boundObjThicknessBack}% %{=postHeight+backPostRadius}%
+          }
+        ]
+      }
+      Transform { #Top
+        translation 0 %{=-postRadius-(C-postRadius)/2}% %{=postHeight}%
+        children [
+          Box {
+            size %{=postSpacing+2*backPostRadius}% %{=C-postRadius}% %{=boundObjThicknessSides}%
+          }
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+
+
+}

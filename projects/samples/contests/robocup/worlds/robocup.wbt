@@ -1,0 +1,16 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.2693504532869236 -0.5909328013467967 -0.7604266944331691 2.4742953487761112
+  position -11.537581883939348 23.31144518886606 5.083104380345572
+}
+TexturedBackground {
+  texture "stadium"
+}
+TexturedBackgroundLight {
+  texture "stadium"
+}
+RobocupSoccerField {
+}

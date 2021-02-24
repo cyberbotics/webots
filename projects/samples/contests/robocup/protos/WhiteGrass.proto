@@ -1,0 +1,37 @@
+#VRML_SIM R2021a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# A grass material containing several grass types.
+
+PROTO WhiteGrass [
+  field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
+  field SFString{"artificial"}
+                 type             "artificial"  # Defines the grass type.
+  field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.
+  field SFFloat  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_base_color.jpg\"" }%
+      ]
+    }
+    roughness 1
+    metalness 0
+    IBLStrength IS IBLStrength
+    normalMap ImageTexture {
+      url [
+        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_normal.jpg\"" }%
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
+      ]
+    }
+    textureTransform IS textureTransform
+  }
+}
