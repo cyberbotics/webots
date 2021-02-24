@@ -76,7 +76,7 @@ FifaSoccerBall {
 
 ### FifaSoccerBall Field Summary
 
-- `size`: official FIFA ball sizes ranging from 1 to 5
+- `size`: official FIFA ball sizes ranging from 1 to 5.
 
 ## PingPongBall
 

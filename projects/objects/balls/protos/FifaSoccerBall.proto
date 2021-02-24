@@ -9,7 +9,7 @@ PROTO FifaSoccerBall [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFString   name        "fifa soccer ball"
-  field SFInt32    size        5 # official FIFA ball sizes ranging from 1 to 5
+  field SFInt32    size        5 # official FIFA ball sizes ranging from 1 to 5.
 ]
 {
   %{
