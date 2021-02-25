@@ -104,9 +104,27 @@ void WbTransmissionJoint::prePhysicsStep(double ms) {
   if (mDummy)
     return;
 
-  // const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
-  // const dReal *rot = dBodyGetRotation(solidEndPoint()->body());
-  // printf("T BODY : %.10f %.10f %.10f || %.10f %.10f %.10f %.10f\n", pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3]);
+  /*
+  const dReal *lv = dBodyGetLinearVel(solidEndPoint()->body());
+  const dReal *av = dBodyGetAngularVel(solidEndPoint()->body());
+  const dReal *lv2 = dBodyGetLinearVel(body2);
+  const dReal *av2 = dBodyGetAngularVel(body2);
+  printf("B1V  %.10f %.10f %.10f | %.10f %.10f %.10f\n", lv[0], lv[1], lv[2], av[0], av[1], av[2]);
+  printf("B2V  %.10f %.10f %.10f | %.10f %.10f %.10f\n", lv2[0], lv2[1], lv2[2], av2[0], av2[1], av2[2]);
+
+  const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
+  const dReal *pos2 = dBodyGetPosition(body2);
+  const dReal *rot = dBodyGetRotation(solidEndPoint()->body());
+  const dReal *rot2 = dBodyGetRotation(body2);
+
+  printf("B1P  %.10f %.10f %.10f\n", pos[0], pos[1], pos[2]);
+  printf("B2P  %.10f %.10f %.10f\n", pos2[0], pos2[1], pos2[2]);
+
+  printf("B1R  %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f\n", rot[0], rot[1], rot[2], rot[3], rot[4], rot[5],
+         rot[6], rot[7], rot[8], rot[9], rot[10], rot2[11]);
+  printf("B2R  %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f\n\n", rot2[0], rot2[1], rot2[2], rot2[3], rot2[4],
+         rot2[5], rot2[6], rot2[7], rot2[8], rot2[9], rot2[10], rot2[11]);
+  */
 
   if (mTransmissionMode == -1) {
     printf("shouldn't execture physics step if transmission isn't defined\n");
@@ -167,6 +185,79 @@ void WbTransmissionJoint::postPhysicsStep() {
   // printf("T anglerate: %.10lf | %.10lf\n", ar1, ar2);
   // printf("T mPosition = %lf, mPosition2 = %lf\n", mPosition, mPosition2);
   // printf("postPhysicsStep done\n");
+}
+
+void WbTransmissionJoint::reset() {
+  // reset endpoint
+  WbBaseNode::reset();
+  WbNode *const p = mParameters->value();
+  WbNode *const e = mEndPoint->value();
+  if (p)
+    p->reset();
+  if (e)
+    e->reset();
+
+  for (int i = 0; i < mDevice->size(); ++i)
+    mDevice->item(i)->reset();
+
+  setPosition(mInitialPosition, 1);
+
+  // NB: WbRotationalMotor::turnOffMotor resets dParamFMax to 0 even if a staticFriction is specified because for
+  // transmissions having non-zero dParamFMax on the output axis causes errors.
+
+  // reset startPoint/dummy body2
+  if (body2 != NULL) {  // && !solidStartPoint()
+    // using dummy body
+    dJointSetHingeParam(mJoint2, dParamVel, 0.0);
+    // this might be unnecessary if prePhysicsStep enforces it every time
+    WbHingeJointParameters *const p = hingeJointParameters();
+    dJointSetHingeParam(mJoint2, dParamFMax, p ? p->staticFriction() * abs(mMultiplier->value()) : 0.0);
+    dBodySetLinearVel(body2, 0, 0, 0);
+    dBodySetAngularVel(body2, 0, 0, 0);
+    // const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
+    // ^ not working, not updated yet?... need a better way. Maybe store initial pos+rot of endpoint and reload it here
+    dBodySetPosition(body2, 0.0, 0.12501, 0.07);
+    dMatrix3 R;
+    dRSetIdentity(R);
+    dBodySetRotation(body2, R);
+
+  } else if (solidStartPoint()) {
+    printf("TODO reset startpoint\n");
+  }
+
+  WbNode *const p2 = mParameters2->value();
+  if (p2)
+    p2->reset();
+
+  setPosition(mInitialPosition2, 2);
+}
+
+void WbTransmissionJoint::setPosition(double position, int index) {
+  // set position of mJoint
+  if (index == 1) {
+    mPosition = position;
+    mOdePositionOffset = position;
+    WbJointParameters *const p = hingeJointParameters();
+    if (p)
+      p->setPosition(mPosition);
+    WbMotor *const m = motor();
+    if (m)
+      m->setTargetPosition(position);
+  }
+  // set position of mJoint2
+  if (index == 2) {
+    mPosition2 = position;
+    mOdePositionOffset = position;
+    WbJointParameters *const p2 = hingeJointParameters2();
+    if (p2)
+      p2->setPosition(mPosition2);
+  }
+}
+void WbTransmissionJoint::save() {
+  WbJoint::save();
+
+  // save mJoint2
+  printf("TODO in save\n");
 }
 
 WbHingeJointParameters *WbTransmissionJoint::hingeJointParameters() const {
@@ -514,6 +605,11 @@ void WbTransmissionJoint::updateMultiplier() {
     mMultiplier->setValue(1);
     parsingWarn(tr("'multiplier' must be different from zero, setting it back to 1."));
   }
+
+  if (mMultiplier->value() == 1 && mBacklash->isZero())
+    parsingWarn(tr("For multipliers of mangitude 1 and zero backlash consider using a single hinge instead as the transmission "
+                   "might introduce imprecisions."));
+
   printf("new multiplier = %f\n", mMultiplier->value());
   inferTransmissionMode();
 }
@@ -571,11 +667,11 @@ void WbTransmissionJoint::setupJoint2() {
   if (!dBodyIsKinematic(solidEndPoint()->body())) {
     printf("setting mass to body2\n");
     dMass mass;
-    // dBodyGetMass(solidEndPoint()->body(), &mass);
-    dMassSetBox(&mass, 0.0001, 1, 1, 1);
-    dBodySetMass(body2, &mass);  // if startPoint isn't defined, give body2 a negligeable mass
+    dMassSetBox(&mass, 0.0001, 1, 1, 1);  // if startPoint isn't defined, give body2 a negligeable mass
+    dBodySetMass(body2, &mass);
     mJoint2 = dJointCreateHinge(WbOdeContext::instance()->world(), 0);
     dJointAttach(mJoint2, body2, 0);
+
     const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
     dBodySetPosition(body2, pos[0], pos[1], pos[2]);
     // dBodySetPosition(body2, 0, 0.125, 0.07);  // TO REMOVE, see ^

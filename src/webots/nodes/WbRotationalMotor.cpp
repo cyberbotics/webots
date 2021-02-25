@@ -80,6 +80,10 @@ void WbRotationalMotor::turnOffMotor() {
       dJointSetAMotorParam(jID, dParamFMax3, p3 ? p3->staticFriction() : 0.0);
     } else
       assert(false);
+  } else if (j->nodeType() == WB_NODE_TRANSMISSION_JOINT) {
+    dJointSetHingeParam(jID, dParamVel, 0.0);
+    const WbJointParameters *const p = j->parameters();
+    dJointSetHingeParam(jID, dParamFMax, 0.0);  // it's specified in hingeJointParameters, but applied to the other axis
   } else
     assert(false);
 }

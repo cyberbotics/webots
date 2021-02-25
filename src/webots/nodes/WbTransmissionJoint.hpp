@@ -49,6 +49,10 @@ public:
   WbVector3 axis2() const;
   WbVector3 anchor2() const;
 
+  void save() override;
+  void reset() override;
+  void setPosition(double position, int index = 1) override;
+
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
 
