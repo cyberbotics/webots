@@ -16,7 +16,7 @@ PROTO WhiteGrass [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_base_color.jpg\"" }%
+        %{= "\"textures/whitegrass/white_grass_" .. fields.type.value .. "_base_color.jpg\"" }%
       ]
     }
     roughness 1
@@ -24,12 +24,12 @@ PROTO WhiteGrass [
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_normal.jpg\"" }%
+        %{= "\"textures/whitegrass/white_grass_" .. fields.type.value .. "_normal.jpg\"" }%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/whitegrass/grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
+        %{= "\"textures/whitegrass/white_grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
       ]
     }
     textureTransform IS textureTransform
