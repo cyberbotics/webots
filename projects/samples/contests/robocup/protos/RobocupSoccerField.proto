@@ -296,7 +296,6 @@ Solid {
         DEF LINES Shape {
           appearance WhiteGrass {
             colorOverride 1 1 1
-            type "artificial"
             textureTransform TextureTransform {
             scale %{=2*A}% %{=2*A}%
             }
