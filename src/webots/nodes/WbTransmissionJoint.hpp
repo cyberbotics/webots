@@ -67,6 +67,7 @@ public slots:
 signals:
 
 protected:
+  bool mDummy;
   dJointID mJoint2;
   dBodyID body2;
   dGeomID geom2;

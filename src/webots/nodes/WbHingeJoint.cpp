@@ -277,6 +277,10 @@ void WbHingeJoint::applyToOdeSuspension() {
 }
 
 void WbHingeJoint::prePhysicsStep(double ms) {
+  const dReal *pos = dBodyGetPosition(solidEndPoint()->body());
+  const dReal *rot = dBodyGetRotation(solidEndPoint()->body());
+  // printf("H BODY : %.10f %.10f %.10f || %.10f %.10f %.10f %.10f\n", pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3]);
+
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
   WbJointParameters *const p = parameters();
@@ -297,7 +301,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       s4 *= s4;
       dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);
       dJointSetHingeParam(mJoint, dParamVel, currentVelocity);
-      printf("applying to hinge: %lf\n", currentVelocity);
+      // printf("applying to hinge: %lf\n", currentVelocity);
     }
     // eventually add spring and damping forces
     if (mSpringAndDamperMotor) {
@@ -340,6 +344,10 @@ void WbHingeJoint::postPhysicsStep() {
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
+
+  double ar = dJointGetHingeAngleRate(mJoint);
+  // printf("H anglerate: %.10lf\n", ar);
+  // printf("H mPosition = %lf\n", mPosition);
 
   if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
     // dynamic position or velocity control

@@ -1,0 +1,48 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.9978873637351483 0.06477587824981465 0.004989478397707631 0.15407422052316694
+  position -0.006522381682950551 0.2212861724884394 0.5781587842964356
+}
+RectangleArena {
+  wallHeight 0.01
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+Robot {
+  translation 0 1e-05 0
+  children [
+    Solid {
+      translation 0 0.1 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.447059 0.623529 0.811765
+          }
+          geometry DEF SUPPORT Box {
+            size 0.5 0.2 0.1
+          }
+        }
+      ]
+      boundingObject USE SUPPORT
+      physics Physics {
+      }
+    }
+    TransmissionJoint {
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0.1 0
+    children [
+      USE SUPPORT
+    ]
+  }
+  physics Physics {
+  }
+  controller "transmission_joint"
+}

@@ -2,10 +2,11 @@
 WorldInfo {
   basicTimeStep 8
   coordinateSystem "NUE"
+  CFM 1e-10
 }
 Viewpoint {
-  orientation -0.9978873637351483 0.06477587824981465 0.004989478397707631 0.15407422052316694
-  position -0.006522381682950551 0.2212861724884394 0.5781587842964356
+  orientation -0.9848754034750704 -0.17298391603522859 -0.009849082339705195 0.11549299157091826
+  position 0.0019443230107620574 0.20519348159033554 0.5873821083824919
 }
 RectangleArena {
   wallHeight 0.01
@@ -44,7 +45,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.125 0.1
+        translation 0 0.125 0.07
         rotation 0 0 1 0
         children [
           Shape {
@@ -69,7 +70,7 @@ Robot {
       }
       jointParameters2 HingeJointParameters {
         axis 0 0 1
-        anchor 0 1.0 0
+        anchor 0 1 0
       }
       device [
         RotationalMotor {
@@ -79,7 +80,7 @@ Robot {
           name "tJointPos"
         }
       ]
-      multiplier 1.5
+      multiplier 1
       endPoint Solid {
         translation 0 0.125 0.07
         children [

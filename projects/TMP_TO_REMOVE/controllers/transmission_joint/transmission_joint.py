@@ -5,11 +5,11 @@ robot = Robot()
 
 hJointMot = robot.getDevice('hJointMot')
 hJointMot.setPosition(float('inf'))
-hJointMot.setVelocity(1.0)
+hJointMot.setVelocity(5.0)
 
 tJointMot = robot.getDevice('tJointMot')
 tJointMot.setPosition(float('inf'))
-tJointMot.setVelocity(1.0)
+tJointMot.setVelocity(5.0)
 
 hJointPos = robot.getDevice('hJointPos')
 hJointPos.enable(TIME_STEP)
@@ -22,7 +22,7 @@ while robot.step(TIME_STEP) != -1:
     hPos = hJointPos.getValue()
     tPos = tJointPos.getValue()
     print('%f %f' %(hPos, tPos))
-    
+    """
     if(hPos > 1.5708):
         hJointMot.setVelocity(-1.0)
     if(hPos < -1.5708):
@@ -32,4 +32,4 @@ while robot.step(TIME_STEP) != -1:
         tJointMot.setVelocity(-1.0)
     if(tPos < -1.5708):
         tJointMot.setVelocity(1.0)
-    
+    """
