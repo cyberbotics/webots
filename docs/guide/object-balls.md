@@ -47,6 +47,37 @@ Ball {
 
 - `angularDamping`: Defines the angular damping of the ball.
 
+## FifaSoccerBall
+
+A black and white FIFA soccer ball with customizable size.
+This object is physics-enabled so it will roll or bounce when hit.
+
+%figure
+
+![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.jpg)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+FifaSoccerBall {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "fifa soccer ball"
+  SFInt32    size        5
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/FifaSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/FifaSoccerBall.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### FifaSoccerBall Field Summary
+
+- `size`: official FIFA ball sizes ranging from 1 to 5.
+
 ## PingPongBall
 
 A ping pong ball.
