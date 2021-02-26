@@ -1,0 +1,120 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0 1 0 0
+  position 0.002690099875713541 -0.11513627468053945 0.8322084034037843
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    DEF CLASSIC_HINGE HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        PositionSensor {
+          name "cJointPos"
+        }
+        RotationalMotor {
+          name "cJointMot"
+        }
+      ]
+      endPoint Solid {
+        translation -6.756159650830873e-11 -0.1500000383618935 -0.10000000000000003
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0 0
+            }
+            geometry DEF PENDULUM Box {
+              size 0.02 0.3 0.1
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE PENDULUM
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF AXIS1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        PositionSensor {
+          name "hJointPos"
+        }
+        RotationalMotor {
+          name "hJointMot"
+        }
+      ]
+      endPoint Solid {
+        translation -1.8014757060106203e-06 -1.4914922116814823e-09 0
+        rotation 0 0 1 4.3683953004699476e-05
+        children [
+          Transform {
+            rotation 1 0 0 -1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                }
+                geometry Cylinder {
+                  height 0.2
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF AXIS2 HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              minStop -0.1
+              maxStop 0.1
+            }
+            device [
+              PositionSensor {
+                name "hJointPos2"
+              }
+            ]
+            endPoint Solid {
+              translation 1.2697599915956204e-11 -0.14999999999999997 0
+              rotation 0 0 1 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.203922 0.396078 0.643137
+                  }
+                  geometry USE PENDULUM
+                }
+              ]
+              boundingObject USE PENDULUM
+              physics Physics {
+                density -1
+                mass 1
+              }
+            }
+          }
+        ]
+        boundingObject Sphere {
+          radius 0.01
+        }
+        physics Physics {
+          density -1
+          mass 0.001
+        }
+      }
+    }
+  ]
+  name "robot(1)"
+  controller "hingewithbacklash"
+}
