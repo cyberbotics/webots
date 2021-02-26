@@ -109,9 +109,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (isWeb(url))
     return url;
 
-  // check if the url is an absolute path
-  if (QDir::isAbsolutePath(url)) {
-    const QString path = QDir::cleanPath(url);
+  QString path;
+  if (url.startsWith("webots://"))
+    path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  else if (QDir::isAbsolutePath(url))  // check if the url is an absolute path
+    path = QDir::cleanPath(url);
+
+  if (!path.isEmpty()) {
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
     const QString error = QObject::tr("'%1' not found.").arg(url);
