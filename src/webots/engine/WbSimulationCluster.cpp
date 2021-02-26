@@ -443,16 +443,6 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
 }
 
 void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
-  if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
-    // colliding a mContext->space() with something
-    dSpaceCollide2(o1, o2, data, odeNearCallback);
-    // collide all geoms internal to the mContext->space()(s)
-    if (dGeomIsSpace(o1))
-      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
-    if (dGeomIsSpace(o2))
-      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
-  }
-
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
   WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
