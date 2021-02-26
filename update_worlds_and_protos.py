@@ -35,10 +35,10 @@ def replace_url(file):
             found = find_path(path, url, proto)
             if not found:
                 print('Could not find ' + url + ' in ' + file)
-                return
+                continue
+            content = content.replace('"' + url + '"', '"' + found + '"')
             # print('Replaced ' + url + ' with ' + found + ' in ' + file)
     return
-    content.replace(' url [', 'webots://')
     with open(file, 'w') as fd:
         fd.write(content)
     return
