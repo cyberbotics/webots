@@ -1447,6 +1447,7 @@ wb_supervisor_node_restart_controller(node)
 The `wb_supervisor_node_restart_controller` function restarts the controller of the Robot passed to it.
 If a node other than a [Robot](robot.md) is passed to this function, no change is effected, and a warning message is printed to the console.
 Note that if a robot window is specified for the [Robot](robot.md) node, the robot window will be restarted as well.
+If an external controller is used then this function will only terminate the process, it will not start the controller.
 
 ---
 
