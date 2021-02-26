@@ -47,19 +47,19 @@ void WbHinge2Joint::init() {
   mSavedPositions2[stateId()] = mPosition2;
 }
 
-WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
+WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbBasicHingeJoint(modelName, tokenizer) {
   init();
 }
 
-WbHinge2Joint::WbHinge2Joint(WbTokenizer *tokenizer) : WbHingeJoint("Hinge2Joint", tokenizer) {
+WbHinge2Joint::WbHinge2Joint(WbTokenizer *tokenizer) : WbBasicHingeJoint("Hinge2Joint", tokenizer) {
   init();
 }
 
-WbHinge2Joint::WbHinge2Joint(const WbHinge2Joint &other) : WbHingeJoint(other) {
+WbHinge2Joint::WbHinge2Joint(const WbHinge2Joint &other) : WbBasicHingeJoint(other) {
   init();
 }
 
-WbHinge2Joint::WbHinge2Joint(const WbNode &other) : WbHingeJoint(other) {
+WbHinge2Joint::WbHinge2Joint(const WbNode &other) : WbBasicHingeJoint(other) {
   init();
 }
 
@@ -67,7 +67,7 @@ WbHinge2Joint::~WbHinge2Joint() {
 }
 
 void WbHinge2Joint::preFinalize() {
-  WbHingeJoint::preFinalize();
+  WbBasicHingeJoint::preFinalize();
 
   for (int i = 0; i < devices2Number(); ++i) {
     if (device2(i) && !device2(i)->isPreFinalizedCalled())
@@ -84,7 +84,7 @@ void WbHinge2Joint::preFinalize() {
 }
 
 void WbHinge2Joint::postFinalize() {
-  WbHingeJoint::postFinalize();
+  WbBasicHingeJoint::postFinalize();
 
   for (int i = 0; i < devices2Number(); ++i) {
     if (device2(i) && !device2(i)->isPostFinalizedCalled())
@@ -597,7 +597,7 @@ void WbHinge2Joint::updateMinAndMaxStop(double min, double max) {
 }
 
 void WbHinge2Joint::updateParameters() {
-  WbHingeJoint::updateParameters();
+  WbBasicHingeJoint::updateParameters();
   updateParameters2();
 }
 

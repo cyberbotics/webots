@@ -242,6 +242,7 @@ QT_SOURCES += \
   WbBallJointParameters.cpp \
   WbBaseNode.cpp \
   WbBasicJoint.cpp \
+  WbBasicHingeJoint.cpp \
   WbBoolEditor.cpp \
   WbBox.cpp \
   WbBrake.cpp \

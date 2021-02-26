@@ -17,12 +17,9 @@
 #ifndef WB_HINGE_JOINT_HPP
 #define WB_HINGE_JOINT_HPP
 
-#include "WbJoint.hpp"
+#include "WbBasicHingeJoint.hpp"
 
-class WbRotationalMotor;
-class WbHingeJointParameters;
-
-class WbHingeJoint : public WbJoint {
+class WbHingeJoint : public WbBasicHingeJoint {
   Q_OBJECT
 
 public:
@@ -35,39 +32,22 @@ public:
   int nodeType() const override { return WB_NODE_HINGE_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void updateOdeWorldCoordinates() override;
-  void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
-  WbVector3 anchor() const override;
-  // return the axis of the joint with coordinates relative to the parent Solid; defaults to unit x-axis
-  WbVector3 axis() const override;
+  void preFinalize() override;
+  void postFinalize() override;
 
 public slots:
-  bool setJoint() override;
 
 protected:
-  void setOdeJoint(dBodyID body, dBodyID parentBody) override;
-  WbRotationalMotor *rotationalMotor() const;
-  void updatePosition(double position) override;  // position change caused by the jerk of a statically based robot
-  WbHingeJointParameters *hingeJointParameters() const;
-  void updateEndPointZeroTranslationAndRotation() override;
-  void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
-
 protected slots:
-  void updatePosition() override;
-  void updateParameters() override;
-  void updateMinAndMaxStop(double min, double max) override;
-  virtual void updateAnchor();
 
 private slots:
-  void updateSuspension();
 
 private:
-  void applyToOdeMinAndMaxStop() override;
-  virtual void applyToOdeSuspension();
-  void applyToOdeAxis() override;
-  virtual void applyToOdeSuspensionAxis();
-  void applyToOdeAnchor();
+  double mGearMass;
+  WbSFNode *mStartPoint;
+
+  void init();
 };
 
 #endif

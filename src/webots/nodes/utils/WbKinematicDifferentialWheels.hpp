@@ -19,7 +19,7 @@
 
 class WbBaseNode;
 class WbCylinder;
-class WbHingeJoint;
+class WbBasicHingeJoint;
 class WbRobot;
 
 class WbKinematicDifferentialWheels {
@@ -41,15 +41,15 @@ public:
   int kinematicDisplacementNumber() const { return mKinematicDisplacementNumber; }   // Only used by WbDifferentialWheels
 
 private:
-  WbKinematicDifferentialWheels(WbRobot *robot, double wheelsRadius, double axleLength, WbHingeJoint *leftJoint,
-                                WbHingeJoint *rightJoint, bool isWbDifferentialWheels = false);
+  WbKinematicDifferentialWheels(WbRobot *robot, double wheelsRadius, double axleLength, WbBasicHingeJoint *leftJoint,
+                                WbBasicHingeJoint *rightJoint, bool isWbDifferentialWheels = false);
   static WbCylinder *getRecursivelyBigestCylinder(WbBaseNode *node);
   // kinematic displacement (kinematic collision model)
   WbVector2 mKinematicDisplacement;
   int mKinematicDisplacementNumber;
   double mWheelsRadius;
   double mAxleLength;
-  WbHingeJoint *mWheelJoints[2];
+  WbBasicHingeJoint *mWheelJoints[2];
   WbRobot *mRobot;
   bool mIsWbDifferentialWheels;
 };

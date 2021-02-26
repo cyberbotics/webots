@@ -15,8 +15,8 @@
 #include "WbMuscle.hpp"
 
 #include "WbAppearance.hpp"
+#include "WbBasicHingeJoint.hpp"
 #include "WbFieldChecker.hpp"
-#include "WbHingeJoint.hpp"
 #include "WbJoint.hpp"
 #include "WbMFColor.hpp"
 #include "WbMotor.hpp"

@@ -89,6 +89,7 @@ namespace webots {
       // misc
       BALL_JOINT,
       BALL_JOINT_PARAMETERS,
+      BASIC_HINGE_JOINT,
       CHARGER,
       CONTACT_PROPERTIES,
       DAMPING,
