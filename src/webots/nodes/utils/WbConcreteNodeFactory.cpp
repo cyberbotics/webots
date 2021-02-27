@@ -44,7 +44,6 @@
 #include "WbGroup.hpp"
 #include "WbGyro.hpp"
 #include "WbHinge2Joint.hpp"
-#include "WbHingeJoint.hpp"
 #include "WbHingeJointParameters.hpp"
 #include "WbImageTexture.hpp"
 #include "WbImmersionProperties.hpp"
@@ -120,8 +119,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbBallJoint(tokenizer);
   if (modelName == "BallJointParameters")
     return new WbBallJointParameters(tokenizer);
-  if (modelName == "BasicHingeJoint")
-    return new WbBasicHingeJoint(tokenizer);
   if (modelName == "Box")
     return new WbBox(tokenizer);
   if (modelName == "Brake")
@@ -310,8 +307,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbBallJoint(original);
   if (modelName == "BallJointParameters")
     return new WbBallJointParameters(original);
-  if (modelName == "BasicHingeJoint")
-    return new WbBasicHingeJoint(original);
   if (modelName == "Box")
     return new WbBox(original);
   if (modelName == "Brake")

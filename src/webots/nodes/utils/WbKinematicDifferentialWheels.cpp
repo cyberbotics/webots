@@ -14,13 +14,13 @@
 
 #include "WbKinematicDifferentialWheels.hpp"
 
-#include "WbBasicHingeJoint.hpp"
 #include "WbCylinder.hpp"
+#include "WbHingeJoint.hpp"
 #include "WbMotor.hpp"
 #include "WbRobot.hpp"
 
 WbKinematicDifferentialWheels::WbKinematicDifferentialWheels(WbRobot *robot, double wheelsRadius, double axleLength,
-                                                             WbBasicHingeJoint *leftJoint, WbBasicHingeJoint *rightJoint,
+                                                             WbHingeJoint *leftJoint, WbHingeJoint *rightJoint,
                                                              bool isWbDifferentialWheels) :
   mWheelsRadius(wheelsRadius),
   mAxleLength(axleLength),
@@ -96,12 +96,12 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
   if (robot->isDynamic())
     return NULL;
   // check if the required joints and motors exist
-  WbBasicHingeJoint *leftJoint = NULL;
-  WbBasicHingeJoint *rightJoint = NULL;
+  WbHingeJoint *leftJoint = NULL;
+  WbHingeJoint *rightJoint = NULL;
   const QVector<WbBasicJoint *> joints = robot->jointChildren();
-  QVector<WbBasicHingeJoint *> motorizedJoints;
+  QVector<WbHingeJoint *> motorizedJoints;
   for (int i = 0; i < joints.size(); ++i) {
-    WbBasicHingeJoint *joint = dynamic_cast<WbBasicHingeJoint *>(joints.at(i));
+    WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(joints.at(i));
     if (!joint || !joint->motor() || !joint->solidEndPoint())
       continue;
     motorizedJoints << joint;

@@ -372,7 +372,7 @@ namespace {
         return WbNodeUtilities::hasARobotAncestor(node);
 
     } else if (fieldName == "jointParameters") {
-      if (parentModelName == "BasicHingeJoint") {
+      if (parentModelName == "HingeJoint") {
         if (nodeName == "HingeJointParameters")
           return true;
       } else if (parentModelName == "SliderJoint") {

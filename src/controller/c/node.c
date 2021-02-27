@@ -28,8 +28,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "BallJoint";
     case WB_NODE_BALL_JOINT_PARAMETERS:
       return "BallJointParameters";
-    case WB_NODE_BASIC_HINGE_JOINT:
-      return "BasicHingeJoint";
     case WB_NODE_BOX:
       return "Box";
     case WB_NODE_BRAKE:

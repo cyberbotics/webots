@@ -17,9 +17,9 @@
 #ifndef WB_HINGE_2_JOINT_HPP
 #define WB_HINGE_2_JOINT_HPP
 
-#include "WbBasicHingeJoint.hpp"
+#include "WbHingeJoint.hpp"
 
-class WbHinge2Joint : public WbBasicHingeJoint {
+class WbHinge2Joint : public WbHingeJoint {
   Q_OBJECT
 
 public:
