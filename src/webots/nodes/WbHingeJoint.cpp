@@ -134,6 +134,23 @@ void WbHingeJoint::applyToOdeMinAndMaxStop() {
   }
 }
 
+void WbHingeJoint::applyToOdeStopErp() {
+  assert(mJoint);
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  const double erp = p ? p->stopErp() : wi->erp();
+  dJointSetHingeParam(mJoint, dParamStopERP, erp);
+}
+
+void WbHingeJoint::applyToOdeStopCfm() {
+  assert(mJoint);
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  const double cfm = p ? p->stopCfm() : wi->cfm();
+
+  dJointSetHingeParam(mJoint, dParamStopCFM, cfm);
+}
+
 void WbHingeJoint::applyToOdeAxis() {
   updateOdePositionOffset();
 
@@ -382,6 +399,8 @@ void WbHingeJoint::updateParameters() {
   if (p) {
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbHingeJoint::updateAnchor, Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::suspensionChanged, this, &WbHingeJoint::updateSuspension, Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::stopErpChanged, this, &WbHingeJoint::updateStopErp, Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::stopCfmChanged, this, &WbHingeJoint::updateStopCfm, Qt::UniqueConnection);
   }
 }
 
@@ -413,6 +432,16 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
 
   if (mJoint)
     applyToOdeMinAndMaxStop();
+}
+
+void WbHingeJoint::updateStopErp() {
+  if (mJoint)
+    applyToOdeStopErp();
+}
+
+void WbHingeJoint::updateStopCfm() {
+  if (mJoint)
+    applyToOdeStopCfm();
 }
 
 void WbHingeJoint::updateAnchor() {

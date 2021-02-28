@@ -1,0 +1,73 @@
+#VRML_SIM R2021b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# This extension of the hinge joint allows to model the effect of backlash.
+
+PROTO HingeJointWithBacklash [
+  field SFVec3f                                axis              1 0 0
+  field SFVec3f                                anchor            0 0 0
+  field SFFloat                                position          0
+  field SFFloat                                backlash          0.1    # [0, inf)
+  field SFFloat                                gearMass          0.01   # [0, inf)
+  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
+  field SFNode                                 endPoint          NULL
+  field MFNode{Transform{}, Shape{}}           startPoint        NULL   # {Group, Transform, or Shape}
+]
+{
+  %{
+    -- load modules
+    local os = require('os')
+    local wbrandom = require('wbrandom')
+    wbrandom.seed(os.clock() + os.time())
+    -- parameter checking
+    local backlash = fields.backlash.value
+    if backlash < 0 then
+      io.stderr:write("'backlash' value must be positive, use a normal hinge if no backlash is desired.\n")
+      backlash = fields.backlash.defaultValue
+    end
+
+    local gearMass = fields.gearMass.value
+    if gearMass < 0 then
+      io.stderr:write("'gearMass' value must be positive.\n")
+      gearMass = fields.gearMass.defaultValue
+    end
+    
+    local position = fields.position.value
+  }%
+  HingeJoint {
+    jointParameters HingeJointParameters {
+      axis IS axis
+      anchor IS anchor
+      position IS position
+    }
+    device IS device
+    endPoint Solid {
+      name %{='"start_point_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
+      children [
+        Group {
+          children IS startPoint
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis IS axis
+            anchor IS anchor
+            position IS position
+            minStop %{= position - backlash*0.5}%
+            maxStop %{= position + backlash*0.5}%
+            stopERP 0
+          }
+          device []
+          endPoint IS endPoint
+        }
+      ]
+      boundingObject Sphere {
+        radius 0.0001
+      }
+      physics Physics {
+        density -1
+        mass IS gearMass
+      }
+    }
+  }
+}

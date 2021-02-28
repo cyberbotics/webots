@@ -19,6 +19,8 @@ void WbHingeJointParameters::init(bool fromDeprecatedHinge2JointParameters) {
   mSuspensionSpringConstant = findSFDouble("suspensionSpringConstant");
   mSuspensionDampingConstant = findSFDouble("suspensionDampingConstant");
   mSuspensionAxis = findSFVector3("suspensionAxis");
+  mStopErp = findSFDouble("stopERP");
+  mStopCfm = findSFDouble("stopCFM");
 
   // DEPRECATED, only for backward compatibility
   if (fromDeprecatedHinge2JointParameters) {
@@ -67,6 +69,10 @@ void WbHingeJointParameters::postFinalize() {
   connect(mSuspensionSpringConstant, &WbSFDouble::changed, this, &WbHingeJointParameters::updateSuspension);
   connect(mSuspensionDampingConstant, &WbSFDouble::changed, this, &WbHingeJointParameters::updateSuspension);
   connect(mSuspensionAxis, &WbSFVector3::changed, this, &WbHingeJointParameters::updateSuspension);
+  connect(mStopErp, &WbSFDouble::changed, this, &WbHingeJointParameters::updateStopErp);
+  connect(mStopCfm, &WbSFDouble::changed, this, &WbHingeJointParameters::updateStopCfm);
+  updateStopErp();
+  updateStopCfm();
 }
 
 void WbHingeJointParameters::updateAxis() {
@@ -89,4 +95,24 @@ void WbHingeJointParameters::updateSuspension() {
   }
 
   emit suspensionChanged();
+}
+
+void WbHingeJointParameters::updateStopErp() {
+  if (mStopErp->value() < 0.0) {
+    mStopErp->setValue(0.2);
+    parsingWarn(tr("'stopERP' must be greater than or equal to zero."));
+    return;
+  }
+
+  emit stopErpChanged();
+}
+
+void WbHingeJointParameters::updateStopCfm() {
+  if (mStopCfm->value() <= 0.0) {
+    mStopCfm->setValue(0.00001);
+    parsingWarn(tr("'stopCFM' must be greater than zero."));
+    return;
+  }
+
+  emit stopCfmChanged();
 }

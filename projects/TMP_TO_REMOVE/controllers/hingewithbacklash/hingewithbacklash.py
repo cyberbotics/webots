@@ -4,7 +4,7 @@ import math
 TIME_STEP = 8
 robot = Robot()
 
-SPEED = 0.2
+SPEED = 0.3
 
 # classic hinge
 cJointMot = robot.getDevice('cJointMot')
@@ -14,6 +14,10 @@ cJointMot.setVelocity(SPEED)
 hJointMot = robot.getDevice('hJointMot')
 hJointMot.setPosition(float('inf'))
 hJointMot.setVelocity(SPEED)
+# proto
+pJointMot = robot.getDevice('pJointMot')
+pJointMot.setPosition(float('inf'))
+pJointMot.setVelocity(SPEED)
 
 hJointPos = robot.getDevice('hJointPos')
 hJointPos.enable(TIME_STEP)
@@ -29,11 +33,13 @@ while robot.step(TIME_STEP) != -1:
     cPos = cJointPos.getValue();
     hPos = hJointPos.getValue();
     hPos2 = hJointPos2.getValue();
-    print("%.10f | %.10f %.10f" %(cPos, hPos, hPos2))
+    # print("%.10f | %.10f %.10f" %(cPos, hPos, hPos2))
     
     if cPos > 0.50: #30 * math.pi / 180:
         hJointMot.setVelocity(-SPEED);
         cJointMot.setVelocity(-SPEED);
+        pJointMot.setVelocity(-SPEED);
     if cPos < -0.50: #-30 * math.pi / 180:
         hJointMot.setVelocity(SPEED);
         cJointMot.setVelocity(SPEED);
+        pJointMot.setVelocity(SPEED);
