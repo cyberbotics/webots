@@ -11,6 +11,7 @@ Released on XX Xth, 2021.
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
   - Bug fixes
+    - Fixed erasing [Pen](pen.md) ink on simulation reset ([#2796](https://github.com/cyberbotics/webots/pull/2796)).
     - Fixed update of [PointSet](pointset.md) subnodes ([#2766](https://github.com/cyberbotics/webots/pull/2766)).
     - Fixed [`wb_supervisor_node_get_velocity`](supervisor.md#wb_supervisor_node_get_velocity) in MATLAB API returning 3 elements instead of 6 ([#2764](https://github.com/cyberbotics/webots/pull/2764)).
     - Fixed step button status if simulation is reset from UI when the step button is disabled ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
