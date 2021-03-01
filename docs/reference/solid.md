@@ -31,7 +31,7 @@ The [Solid](#solid) class is the base class for collision-detected objects.
 Robots and device classes are subclasses of the [Solid](#solid) class.
 In the 3D window, [Solid](#solid) nodes can be manipulated (dragged, lifted, rotated, etc) using the mouse.
 
-### Solid Field Summary
+### Field Summary
 
 Note that in the [Solid](#solid) node, the `scale` field inherited from the [Transform](transform.md) must always remain uniform, i.e., of the form `x x x` where `x` is any positive real number.
 This ensures that all primitive geometries will remain suitable for ODE collision detection.
