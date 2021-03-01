@@ -2,6 +2,7 @@
 /* global roundLabel: false */
 
 function OverviewWidget(container) {
+  this.device = {'type': 'overview'};
   this.canvas = document.getElementById('overview-canvas');
   this.container = container;
   this.initialized = false;
@@ -23,16 +24,13 @@ function OverviewWidget(container) {
   this.refreshLabelsRate = 3; // [Hz]
   this.refreshInterval = null;
   this.modified = true;
-  this.start();
+
+  var that = this;
+  setInterval(function() { that.update(); }, 1000 / that.refreshLabelsRate);
 }
 
-OverviewWidget.prototype.pause = function() {
-  clearInterval(this.refreshInterval);
-  this.refreshInterval = null;
-};
-
-OverviewWidget.prototype.start = function() {
-  this.refreshInterval = setInterval(() => { this.update(); }, 1000 / this.refreshLabelsRate);
+OverviewWidget.prototype.refresh = function() {
+  this.paint();
 };
 
 OverviewWidget.prototype.initialize = function() {

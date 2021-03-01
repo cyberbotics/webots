@@ -136,7 +136,7 @@ function configure(data) {
 
   addSettingsTab();
 
-  window.widgets = Object.assign(window.widgets, automobileWidgets);
+  window.widgets = Object.assign(window.widgets, {'overview': overviewWidget}, automobileWidgets);
 
   // Set the focus on the Overview tab
   menuTabCallback('overview');
