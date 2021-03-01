@@ -147,7 +147,10 @@ TimeplotWidget.prototype.refresh = function() {
     this.canvasContext.clearRect(this.canvasWidth - skip, 0, skip, this.canvasHeight);
 
     // draw the grid on the blit area.
-    this.displayHorizontalGrid(this.canvasWidth - skip, skip);
+    if (this.lastX === 0)
+      this.displayHorizontalGrid(0, this.canvasWidth);
+    else
+      this.displayHorizontalGrid(this.canvasWidth - skip, skip);
 
     // draw the new coordinate.
     this.canvasContext.fillStyle = '#059';
@@ -307,7 +310,8 @@ TimeplotWidget.prototype.convertYCoordToCanvas = function(y) {
 };
 
 TimeplotWidget.prototype.displayHorizontalGrid = function(fromX, nX) {
-  for (let i = Math.ceil(this.yRange['min'] / this.verticalGridSteps); i < Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1; ++i) {
+  const max = Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1;
+  for (let i = Math.ceil(this.yRange['min'] / this.verticalGridSteps); i < max; ++i) {
     this.canvasContext.fillStyle = (i === 0) ? '#AAAAAA' : '#DDDDDD';
     this.canvasContext.fillRect(fromX, this.convertYCoordToCanvas(i * this.verticalGridSteps), nX, 1);
   }
@@ -361,8 +365,7 @@ function roundLabel(value, decimals = 3) {
   console.assert(isNumber(value) || value === 'Inf' || value === '-Inf' || value === 'NaN');
   if (isNumber(value))
     return value.toFixed(decimals); // select number of decimals
-  else
-    return value;
+  return value;
 }
 
 function isNumber(n) {
