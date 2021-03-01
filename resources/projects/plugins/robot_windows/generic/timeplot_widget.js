@@ -359,11 +359,8 @@ TimeplotWidget.prototype.resize = function() {
 
 function roundLabel(value, decimals = 3) {
   console.assert(isNumber(value) || value === 'Inf' || value === '-Inf' || value === 'NaN');
-  let factor = 1;
-  for (let i = 0; i < decimals; i++)
-    factor *= 10;
   if (isNumber(value))
-    return Math.round(value * factor) / factor; // select number of decimals.
+    return value.toFixed(decimals); // select number of decimals
   else
     return value;
 }
