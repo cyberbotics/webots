@@ -146,14 +146,30 @@ class Client:
     def setup_project(self):
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if hasattr(self, 'url'):
-            return self.setup_project_from_github()
+            if self.url.startswith('webots://github.com/'):
+                return self.setup_project_from_github()
+            elif self.url.startswith('file:///'):
+                return self.setup_project_from_file()
+            else:
+                logging.error('Unsupported url protocol: ' + self.url)
+                return False
         else:
             return self.setup_project_from_zip()
 
-    def setup_project_from_github(self):
-        if not self.url.startswith('webots://github.com/'):
-            logging.error('The URL argument should start with "webots://github.com/"')
+    def setup_project_from_file(self):
+        # url is like "file:///home/cyberbotics/webots/projects/robots/softbank/nao/worlds/nao_room.wbt"
+        if not self.url.endswith('.wbt'):
+            logging.error('Wrong Webots URL: missing world file in ' + self.url)
             return False
+        self.world = os.path.basename(self.url[7:])  # skipping 'file://'
+        path = self.url[7:-len(self.world) - 7]  # and removing '/worlds/*.wbt' at the end
+        print("world = " + self.world)
+        print("path = " + path)
+        print("project_instance_path = " + self.project_instance_path)
+        shutil.copytree(path, self.project_instance_path)
+        return True
+
+    def setup_project_from_github(self):
         parts = self.url[20:].split('/')
         length = len(parts)
         if length < 6:
@@ -252,7 +268,7 @@ class Client:
             command = config['webots'] + ' --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
-                command += '--minimize '
+                command += '--minimize --no-rendering '
             command += '--stream="port=' + str(port) + ';monitorActivity'
             if hasattr(self, 'mode'):
                 command += ';mode=' + self.mode
@@ -282,7 +298,10 @@ class Client:
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
-            hostname = client.client_websocket.request.host.split(':')[0]
+            if 'fullyQualifiedDomainName' not in config:
+                hostname = client.client_websocket.request.host.split(':')[0]
+            else:
+                hostname = config['fullyQualifiedDomainName']
             protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
@@ -534,7 +553,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             cpu = 'Unknown'
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>")
-        self.write("<link rel='stylesheet' type='text/css' href='css/monitor.css'></head>\n")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2021b/monitor.css'></head>\n")
         self.write("<body><h1>Webots simulation server: " + socket.getfqdn() + "</h1>")
         self.write("<h2>Host: " + os_name + "</h2>\n")
         self.write("<p><b>CPU load: %g%%</b><br>\n" % cpu_load)
@@ -544,7 +563,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write(gpu + "</p>\n")
         self.write("<p><b>RAM:</b><br>" + ram + "</p>\n")
         self.write("<canvas id='graph' height='400' width='1024'></canvas>\n")
-        self.write("<script src='https://www.cyberbotics.com/harry-plotter/0.9f/harry.min.js'></script>\n")
+        self.write("<script src='https://cyberbotics.com/harry-plotter/0.9f/harry.min.js'></script>\n")
         self.write("<script>\n")
         self.write("window.onload = function() {\n")
 
@@ -672,16 +691,18 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:              local port on which the server is listening (launching webots instances).
-    # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
-    # sslKey:            private key for a SSL enabled server.
-    # sslCertificate:    certificate for a SSL enabled server.
-    # projectsDir:       directory in which projects are located.
-    # keyDir:            directory where the host keys needed for validation are stored.
-    # logDir:            directory where the log files are written.
-    # monitorLogEnabled: specify if the monitor data have to be stored in a file.
-    # maxConnections:    maximum number of simultaneous Webots instances.
-    # debug:             debug mode (output to stdout).
+    # port:                     local port on which the server is listening (launching webots instances).
+    # fullyQualifiedDomainName: hostname of the server (from the Internet).
+    # portRewrite:              true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+    # projectsDir:              directory in which projects are located.
+    # webotsHome:               directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:           maximum number of simultaneous Webots instances.
+    # sslKey:                   private key for a SSL enabled server.
+    # sslCertificate:           certificate for a SSL enabled server.
+    # keyDir:                   directory where the host keys needed for validation are stored.
+    # logDir:                   directory where the log files are written.
+    # monitorLogEnabled:        specify if the monitor data have to be stored in a file.
+    # debug:                    debug mode (output to stdout).
     #
     global config
     global snapshots
@@ -693,8 +714,9 @@ def main():
     network_sent = n.bytes_sent
     network_received = n.bytes_recv
     snapshots = []
-    config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
-    config['webots'] = config['WEBOTS_HOME']
+    if 'webotsHome' not in config:
+        config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
+    config['webots'] = config['webotsHome']
     if sys.platform == 'darwin':
         config['webots'] += '/Contents/MacOS/webots'
     elif sys.platform == 'win32':
@@ -702,7 +724,7 @@ def main():
     else:  # linux
         config['webots'] += '/webots'
     if 'projectsDir' not in config:
-        config['projectsDir'] = config['WEBOTS_HOME'] + '/projects/samples/robotbenchmark'
+        config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
     else:
         config['projectsDir'] = expand_path(config['projectsDir'])
     if 'keyDir' not in config:
@@ -770,9 +792,6 @@ def main():
     handlers.append((r'/monitor', MonitorHandler))
     handlers.append((r'/client', ClientWebSocketHandler))
     handlers.append((r'/load', LoadHandler))
-    handlers.append((r'/(.*)', tornado.web.StaticFileHandler,
-                    {'path': config['WEBOTS_HOME'] + '/resources/web/server/www',
-                     'default_filename': 'index.html'}))
     application = tornado.web.Application(handlers)
     if 'sslCertificate' in config and 'sslKey' in config:
         config['ssl'] = True
@@ -811,7 +830,7 @@ def main():
 if sys.platform == 'win32' and sys.version_info >= (3, 8):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-if sys.platform == 'linux2':
+if sys.platform == 'linux':
     # kill all the existing instances of Webots to avoid conflicts with web socket port
     os.system("killall -q webots-bin")
 

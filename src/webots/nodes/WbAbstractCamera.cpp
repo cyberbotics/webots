@@ -279,13 +279,13 @@ void WbAbstractCamera::copyImageToSharedMemory(WbWrenCamera *camera, unsigned ch
   }
 }
 
-void WbAbstractCamera::reset() {
-  WbRenderingDevice::reset();
+void WbAbstractCamera::reset(const QString &id) {
+  WbRenderingDevice::reset(id);
 
   if (mLens) {
     WbNode *const l = mLens->value();
     if (l)
-      l->reset();
+      l->reset(id);
   }
 
   for (int i = 0; i < mInvisibleNodes.size(); ++i)

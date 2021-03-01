@@ -130,12 +130,12 @@ void WbIndexedLineSet::buildWrenMesh() {
   delete[] coordsData;
 }
 
-void WbIndexedLineSet::reset() {
-  WbGeometry::reset();
+void WbIndexedLineSet::reset(const QString &id) {
+  WbGeometry::reset(id);
 
   WbNode *const c = mCoord->value();
   if (c)
-    c->reset();
+    c->reset(id);
 }
 
 int WbIndexedLineSet::computeCoordsData(float *data) {

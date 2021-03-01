@@ -48,7 +48,7 @@ public:
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void resetSharedMemory() override;
   bool isEnabled() const override;
   void updateTextureUpdateNotifications(bool enabled) override;

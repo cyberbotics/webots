@@ -2,9 +2,9 @@
 
 This section describes utility functions for building a robot window plugin.
 
-A robot window allows the programmer to efficiently create custom user interfaces for his robots.
-Robot windows are HTML applications that communicates with the robot controller.
-However, it is possible to build robot window plugins where the code is provided as an independent plugin instead of including it in the robot controller directly, and use the same robot window for any robot without modifying its robot controller.
+A robot window allows the programmer to efficiently create a custom user interface for a robot.
+A robot window is an HTML application that communicates with the robot controller.
+It is possible to build robot window plugins where the code is provided as an independent plugin instead of including it in the robot controller directly, and use the same robot window for any robot without modifying its controller.
 The functions described in this section can be used in the robot window plugin code to automatically send the devices measurements to the HTML robot window.
 
 Some instructions about how to build HTML robot windows are given in the [User Guide](../guide/controller-plugin.md#robot-window).
@@ -37,7 +37,7 @@ char *wbu_default_robot_window_set_images_max_size(int max_width, int max_height
 
 These functions sends messages containing the robot's devices latest measurements that can be easily passed to the HTML robot window.
 
-The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON messages, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
+The `wbu_default_robot_window_configure` function sends to the HTML robot window a configuration JSON message, prefixed with the "configure" label, containing all the setup information about the robot and its devices.
 Here is the sample structure of the configure message:
 ```
 configure {
@@ -54,7 +54,7 @@ configure {
   ]
 }
 ```
-Additionally for each device type specific information are provided.
+Additionally, for each device type, specific information is provided.
 * [Camera](camera.md):
     ```
   {
@@ -104,8 +104,8 @@ Additionally for each device type specific information are provided.
     "sensorType": <"bumper"|"force"|"force-3d">
   }```
 
-The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON messages, prefixed with the "update" label, containing the current devices measurements.
-Here is the sample structure of the configure message:
+The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON message, prefixed with the "update" label, containing the current devices measurements.
+Here is the sample structure of the update message:
 ```
 update {
   "time": <double>,
@@ -152,5 +152,5 @@ Devices update data depends on the type:
     "image": "data:image/jpg;base64," + <data>
  }```
 
-The `wbu_default_robot_window_set_images_max_size` function sets the maximum image size used to send rendering devices' image from the controller to the robot window.
-If the size of an image is bigger than the maximum size, then the image is scaled before appending it to the update message.
+The `wbu_default_robot_window_set_images_max_size` function sets the maximum size for the images of rendering devices sent from the controller to the robot window.
+If the size of an image is bigger than the maximum size, then the image is scaled down before it is appended to the update message.

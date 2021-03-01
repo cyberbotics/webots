@@ -58,7 +58,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static QString followTypeToString(int type);
   static int followStringToType(const QString &type);
@@ -98,7 +98,7 @@ public:
   void storePickedCoordinates(const WbVector3 &v) { mRotationCenter = v; }
   void setCoordinateSystemVisibility(bool visible);
   void restore();
-  void save() override;
+  void save(const QString &id) override;
   void setPosition(const WbVector3 &position);
   void setProjectionMode(int projectionMode) { mProjectionMode = projectionMode; }
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
@@ -170,14 +170,14 @@ private:
   const float *mInverseViewMatrix;
 
   // to restore viewpoint
-  double mInitialFieldOfView;
-  WbVector3 mInitialPosition;
-  WbRotation mInitialOrientation;
-  QString mInitialDescription;
-  double mInitialNear;
-  double mInitialFar;
-  double mInitialOrthographicHeight;
-  QString mInitialFollow;
+  QMap<QString, double> mSavedFieldOfView;
+  QMap<QString, WbVector3> mSavedPosition;
+  QMap<QString, WbRotation> mSavedOrientation;
+  QMap<QString, QString> mSavedDescription;
+  QMap<QString, double> mSavedNear;
+  QMap<QString, double> mSavedFar;
+  QMap<QString, double> mSavedOrthographicHeight;
+  QMap<QString, QString> mSavedFollow;
 
   // follow solid stuff
   WbSolid *mFollowedSolid;

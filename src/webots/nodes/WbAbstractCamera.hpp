@@ -52,7 +52,7 @@ public:
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
   void writeConfigure(QDataStream &) override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   virtual void updateCameraTexture();
 

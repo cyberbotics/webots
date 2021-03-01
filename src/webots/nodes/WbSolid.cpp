@@ -114,8 +114,8 @@ void WbSolid::init() {
   // store position
   // Note: this cannot be put into the preFinalize function because
   //       of the copy constructor last initialization
-  mTranslationLoadedFromFile = translation();
-  mRotationLoadedFromFile = rotation();
+  mSavedTranslations[stateId()] = translation();
+  mSavedRotations[stateId()] = rotation();
 
   // Support polygon representation
   mY = numeric_limits<double>::max();
@@ -2146,18 +2146,18 @@ void WbSolid::setMatrixNeedUpdate() {
   WbTransform::setMatrixNeedUpdate();
 }
 
-void WbSolid::reset() {
-  WbMatter::reset();
+void WbSolid::reset(const QString &id) {
+  WbMatter::reset(id);
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->reset();
+    mImmersionProperties->item(i)->reset(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
   if (mJointParents.size() == 0) {
-    setTranslation(mTranslationLoadedFromFile);
-    setRotation(mRotationLoadedFromFile);
+    setTranslation(mSavedTranslations[id]);
+    setRotation(mSavedRotations[id]);
   }
   resetSingleSolidPhysics();
   resetContactPointsAndSupportPolygon();
@@ -2190,19 +2190,19 @@ void WbSolid::reset() {
   mListOfImmersions.clear();
 }
 
-void WbSolid::save() {
-  WbMatter::save();
+void WbSolid::save(const QString &id) {
+  WbMatter::save(id);
   if (isTopSolid())
     saveHiddenFieldValues();
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->save();
+    mImmersionProperties->item(i)->save(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mTranslationLoadedFromFile = translation();
-  mRotationLoadedFromFile = rotation();
+  mSavedTranslations[id] = translation();
+  mSavedRotations[id] = rotation();
 }
 
 // Recursive reset methods
@@ -2808,16 +2808,17 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
       //   cf. https://github.com/omichel/webots-dev/issues/6512
-      if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!translationToBeCopied.almostEquals(mSavedTranslations[stateId()],
+                                              100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;
-      if (!rotationToBeCopied.almostEquals(mRotationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!rotationToBeCopied.almostEquals(mSavedRotations[stateId()], 100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isRotationFieldVisible())
         copyRotation = true;
     } else {
-      if (translation() != mTranslationLoadedFromFile && !isTranslationFieldVisible())
+      if (translation() != mSavedTranslations[stateId()] && !isTranslationFieldVisible())
         t = &translation();
-      if (rotation() != mRotationLoadedFromFile && !isRotationFieldVisible())
+      if (rotation() != mSavedRotations[stateId()] && !isRotationFieldVisible())
         r = &rotation();
     }
 

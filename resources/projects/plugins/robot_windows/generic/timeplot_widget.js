@@ -223,8 +223,8 @@ TimeplotWidget.prototype.updateRange = function() {
   this.updateGridConstants();
 
   if (this.yMinLabel && this.yMaxLabel) {
-    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
-    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
+    this.yMinLabel.textContent = roundLabel(this.yRange['min']);
+    this.yMaxLabel.textContent = roundLabel(this.yRange['max']);
   }
 
   this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -265,11 +265,11 @@ TimeplotWidget.prototype.refreshLabels = function() {
     return;
 
   if (this.xMinLabel.textContent === '0.0') // Blitting didn't started: the labels are constant.
-    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth, this.decimals);
+    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth);
   if (this.lastLabelRefresh !== this.lastX) {
     // Blitting started: update the x labels.
-    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth, this.decimals);
-    this.xMaxLabel.textContent = roundLabel(this.lastX, this.decimals);
+    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth);
+    this.xMaxLabel.textContent = roundLabel(this.lastX);
   }
   if (this.slider && !this.blockSliderUpdateFlag)
     this.slider.value = this.lastY;

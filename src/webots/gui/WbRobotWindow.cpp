@@ -207,6 +207,7 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QFileInfo &absoluteFileInfo(windowInfo.path() + "/" + pathString);
   if (absoluteFileInfo.isReadable())
     return url.toEncoded();
+
   return urlString;
 }
 
