@@ -118,18 +118,18 @@ function configure(data) {
   addDriverInfo({name: 'Steering'}, '[rad]', -0.001, 0.001);
 
   addTab('Encoders');
-  addDriverInfo({name: 'Encoders'}, '[%]', 0, 200);
+  addDriverInfo({name: 'Encoders'}, '[rad]', 0, 200);
 
   addTab('Brake');
-  addDriverInfo({name: 'Brake'}, '[%]', 0, 0.001);
+  addDriverInfo({name: 'Brake'}, '[%]', 0, 1);
 
   addTab('Throttle');
   appendNewElement('Throttle-layout', '<h2><span id="throttle-label"></span></h2>');
-  addDriverInfo({name: 'Throttle'}, '[%]', 0, 0.001);
+  addDriverInfo({name: 'Throttle'}, '[%]', 0, 1);
 
   addTab('RPM');
   appendNewElement('RPM-layout', '<h2><span id="rpm-label"></span></h2>');
-  addDriverInfo({name: 'RPM'}, '[RPM]', 0, 0.001);
+  addDriverInfo({name: 'RPM'}, '[RPM]', 0, 200);
 
   // Parse the devices once to prepare the device type list.
   configureDevices(data, true);
