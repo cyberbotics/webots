@@ -362,9 +362,9 @@ TimeplotWidget.prototype.resize = function() {
 };
 
 function roundLabel(value, decimals = 3) {
-  console.assert(isNumber(value) || value === 'Inf' || value === '-Inf' || value === 'NaN');
+  console.assert(isNumber(value));
   if (isNumber(value))
-    return value.toFixed(decimals); // select number of decimals
+    return parseFloat(value).toFixed(decimals); // select number of decimals
   return value;
 }
 
