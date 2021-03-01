@@ -109,7 +109,6 @@ function configure(data) {
   // Overview tab
   overviewWidget = new OverviewWidget(document.getElementById('overview-section'));
 
-  // Speed tab
   addTab('Speed');
   appendNewElement('Speed-layout', '<h2><span id="target-speed-label" style="color:red"></span></h2>');
   addDriverInfo({name: 'Speed', htmlName: 'Speed'}, '[km/h]', -20.0, 20.0);
@@ -155,7 +154,6 @@ function update(data) {
 
       const checkbox = document.getElementById(key + '-enable-checkbox');
       const widget = key === 'overview' ? overviewWidget : automobileWidgets[key];
-      // update only if tab is visible?
       if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
         return;
 

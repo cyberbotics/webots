@@ -13,10 +13,10 @@ function OverviewWidget(container) {
 
   let labels = document.getElementById('overview-labels');
   this.fontSize = parseFloat(window.getComputedStyle(labels, null).getPropertyValue('font-size'));
-  // show overview div
+  // Show overview div
   let overview = document.getElementById('overview-section');
   overview.style.display = '';
-  // add overview menu button
+  // Add overview menu button
   appendNewElement('menu',
     '<button id="overview-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'overview\')">Overview</button>'
   );
@@ -214,7 +214,7 @@ OverviewWidget.prototype.updateControlMode = function(isSpeedMode) {
 };
 
 OverviewWidget.prototype.drawRotatedRectangle = function(ctx, x, y, width, height, angle) {
-  // first save the untranslated/unrotated context
+  // Save the untranslated/unrotated context
   ctx.save();
 
   ctx.beginPath();
@@ -225,12 +225,12 @@ OverviewWidget.prototype.drawRotatedRectangle = function(ctx, x, y, width, heigh
   ctx.strokeStyle = 'blue';
   ctx.stroke();
 
-  // restore the context to its untranslated/unrotated state
+  // Restore the context to its untranslated/unrotated state
   ctx.restore();
 };
 
 OverviewWidget.prototype.drawLine = function(ctx, x1, y1, x2, y2, color) {
-  // first save the untranslated/unrotated context
+  // Save the untranslated/unrotated context
   ctx.save();
 
   ctx.beginPath();
@@ -240,30 +240,30 @@ OverviewWidget.prototype.drawLine = function(ctx, x1, y1, x2, y2, color) {
   ctx.strokeStyle = 'black';
   ctx.stroke();
 
-  // restore the context to its untranslated/unrotated state
+  // Restore the context to its untranslated/unrotated state
   ctx.restore();
 };
 
 OverviewWidget.prototype.drawDashedArrow = function(ctx, x1, y1, x2, y2, angle) {
-  // first save the untranslated/unrotated context
+  // Save the untranslated/unrotated context
   ctx.save();
 
-  ctx.setLineDash([7, 3]); // dashes are 5px and spaces are 3px
+  ctx.setLineDash([7, 3]); // dashes are 7px and spaces are 3px
   ctx.lineWidth = '2';
   ctx.strokeStyle = 'red';
   ctx.beginPath();
   ctx.translate(x1, y1);
   ctx.rotate(angle); // rad
-  // draw line
+  // Draw line
   ctx.moveTo(0, 0);
   ctx.lineTo(x2, y2);
-  // draw arrow
+  // Draw arrow
   ctx.moveTo(x2, y2);
   ctx.lineTo(x2 + 8, y2 + 12);
   ctx.moveTo(x2, y2);
   ctx.lineTo(x2 - 8, y2 + 12);
   ctx.stroke();
 
-  // restore the context to its untranslated/unrotated state
+  // Restore the context to its untranslated/unrotated state
   ctx.restore();
 };
