@@ -20,8 +20,8 @@ from pyclibrary import CParser
 
 listheaders = os.listdir("../../include/wren/")
 buggyheaders = {"config.h", "drawable_texture.h", "file_import.h", "font.h", "overlay.h"}
-listheaders = ["../../include/wren/" + header for header in listheaders if header[len(header)-2:len(header)] == '.h'
-               and not(header in buggyheaders)]
+listheaders = ["../../include/wren/" + header for header in listheaders if header[len(header)-2:len(header)] == '.h' and not(
+    header in buggyheaders)]
 
 parser = CParser(listheaders)
 
