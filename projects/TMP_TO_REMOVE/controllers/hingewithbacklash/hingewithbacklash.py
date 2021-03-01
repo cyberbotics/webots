@@ -28,12 +28,15 @@ hJointPos2.enable(TIME_STEP)
 cJointPos = robot.getDevice('cJointPos')
 cJointPos.enable(TIME_STEP)
 
+pJointPos = robot.getDevice('pJointPos')
+pJointPos.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:
     cPos = cJointPos.getValue();
     hPos = hJointPos.getValue();
     hPos2 = hJointPos2.getValue();
-    # print("%.10f | %.10f %.10f" %(cPos, hPos, hPos2))
+    pPos = pJointPos.getValue();
+    print("%.10f | %.10f %.10f | %.10f" %(cPos, hPos, hPos2, pPos))
     
     if cPos > 0.50: #30 * math.pi / 180:
         hJointMot.setVelocity(-SPEED);

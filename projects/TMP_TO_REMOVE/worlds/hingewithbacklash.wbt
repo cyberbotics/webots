@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9238082126993563 0.37733661600553237 0.0647724043919481 0.3674381043345132
-  position 0.18631605522979605 0.18644789449169857 0.9396144681309498
+  orientation -0.6912755688323604 0.7109168256398194 0.12936519994843748 0.5147959918050843
+  position 0.3729624738049243 0.20191593532441116 0.8494775441663882
 }
 TexturedBackground {
 }
@@ -26,7 +26,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -6.75616e-11 -0.15 -0.1
+        translation 0 -0.15 -0.1
         rotation 0 0 1 0
         children [
           Shape {
@@ -42,7 +42,7 @@ Robot {
         boundingObject USE PENDULUM
         physics Physics {
           density -1
-          mass 1
+          mass 0.01
         }
       }
     }
@@ -59,8 +59,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -1.8014757060106203e-06 -1.4914922116814823e-09 0
-        rotation 0 0 1 4.3683953004699476e-05
+        rotation 0 0 1 0
         children [
           Transform {
             rotation 1 0 0 -1.57
@@ -89,7 +88,7 @@ Robot {
               }
             ]
             endPoint Solid {
-              translation 1.2697599915956204e-11 -0.14999999999999997 0
+              translation 0 -0.15 0
               rotation 0 0 1 0
               children [
                 Shape {
@@ -117,11 +116,32 @@ Robot {
       }
     }
     HingeJointWithBacklash {
-      axis 0 0 1
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
       backlash 0.2
       device [
+        PositionSensor {
+          name "pJointPos"
+        }
         RotationalMotor {
           name "pJointMot"
+        }
+      ]
+      startPoint [
+        Transform {
+          translation 0 0 0.1
+          rotation 1 0 0 -1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.305882 0.603922 0.0235294
+              }
+              geometry Box {
+                size 0.05 0.06 0.05
+              }
+            }
+          ]
         }
       ]
       endPoint Solid {
@@ -141,22 +161,6 @@ Robot {
           mass 1
         }
       }
-      startPoint [
-        Transform {
-          translation 0 0 0.1
-          rotation 1 0 0 -1.57
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.305882 0.603922 0.0235294
-              }
-              geometry Box {
-                size 0.05 0.06 0.05
-              }
-            }
-          ]
-        }
-      ]
     }
   ]
   name "robot(1)"
