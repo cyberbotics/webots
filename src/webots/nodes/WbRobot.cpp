@@ -151,7 +151,7 @@ void WbRobot::init() {
     data->setValue("");
   }
 
-  mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+  mBatteryInitialValues[stateId()] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -249,20 +249,20 @@ void WbRobot::postFinalize() {
     parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
-void WbRobot::reset() {
-  WbSolid::reset();
+void WbRobot::reset(const QString &id) {
+  WbSolid::reset(id);
   mPreviousTime = -1.0;
   // restore battery level
-  if (mBatteryInitialValue > 0)
-    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
+  if (mBatteryInitialValues[id] > 0)
+    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValues[id]);
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
   emit wasReset();
 }
 
-void WbRobot::save() {
-  WbSolid::save();
-  mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+void WbRobot::save(const QString &id) {
+  WbSolid::save(id);
+  mBatteryInitialValues[id] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 void WbRobot::addDevices(WbNode *node) {

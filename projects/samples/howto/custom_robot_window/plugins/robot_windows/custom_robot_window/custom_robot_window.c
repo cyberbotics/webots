@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-#include <webots/robot.h>
-#include <webots/robot_wwi.h>
-
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
+#include <webots/plugins/robot_window/robot_wwi.h>
+#include <webots/robot.h>
 
 #include <math.h>
 #include <stdio.h>

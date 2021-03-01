@@ -176,20 +176,20 @@ void WbSlot::endPointChanged() {
   }
 }
 
-void WbSlot::reset() {
-  WbBaseNode::reset();
+void WbSlot::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbSlot::save() {
-  WbBaseNode::save();
+void WbSlot::save(const QString &id) {
+  WbBaseNode::save(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->save();
+    e->save(id);
 }
 
 //////////////////////////////////////////////////////////////

@@ -394,6 +394,8 @@ wb_supervisor_node_restart_controller
 wb_supervisor_node_set_velocity
 wb_supervisor_set_label
 wb_supervisor_node_set_visibility
+wb_supervisor_node_save_state
+wb_supervisor_node_load_state
 wb_supervisor_simulation_get_mode
 wb_supervisor_simulation_physics_reset
 wb_supervisor_simulation_quit
@@ -451,5 +453,7 @@ wbu_motion_set_time
 wbu_motion_stop
 wbu_robot_window_configure
 wbu_robot_window_update
+wbu_string_replace
+wbu_string_strsep
 wbu_system_getenv
 wbu_system_short_path

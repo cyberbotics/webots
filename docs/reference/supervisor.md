@@ -1294,6 +1294,8 @@ The last three are respectively the angular velocities around the x, y and z axe
 
 ---
 
+#### `wb_supervisor_node_save_state`
+#### `wb_supervisor_node_load_state`
 #### `wb_supervisor_node_reset_physics`
 
 %tab-component "language"
@@ -1303,6 +1305,8 @@ The last three are respectively the angular velocities around the x, y and z axe
 ```c
 #include <webots/supervisor.h>
 
+void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
+void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_reset_physics(WbNodeRef node);
 ```
 
@@ -1315,6 +1319,8 @@ void wb_supervisor_node_reset_physics(WbNodeRef node);
 
 namespace webots {
   class Node {
+    void saveState(const std::string &stateName);
+    void loadState(const std::string &stateName);
     void resetPhysics();
     // ...
   }
@@ -1329,6 +1335,8 @@ namespace webots {
 from controller import Node
 
 class Node:
+    def saveState(self, stateName):
+    def loadState(self, stateName):
     def resetPhysics(self):
     # ...
 ```
@@ -1341,6 +1349,8 @@ class Node:
 import com.cyberbotics.webots.controller.Node;
 
 public class Node {
+  public void saveState(String stateName);
+  public void loadState(String stateName);
   public void resetPhysics();
   // ...
 }
@@ -1351,6 +1361,8 @@ public class Node {
 %tab "MATLAB"
 
 ```MATLAB
+wb_supervisor_node_save_state(node, state_name)
+wb_supervisor_node_load_state(node, state_name)
 wb_supervisor_node_reset_physics(node)
 ```
 
@@ -1360,6 +1372,8 @@ wb_supervisor_node_reset_physics(node)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
+| `/supervisor/node/save_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/load_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
 | `/supervisor/node/reset_physics` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
 
 %tab-end
@@ -1368,7 +1382,17 @@ wb_supervisor_node_reset_physics(node)
 
 ##### Description
 
-*stops the inertia of the given solid*
+*resets state of the given solid*
+
+The `wb_supervisor_node_save_state` function saves the state of the given node and all its descendant nodes.
+The state is saved internally under a key equal to the `state_name` parameter.
+Therefore, the state can be reverted using the `wb_supervisor_node_load_state` function afterward.
+Please refer to [Reset/Reload Matrix](#wb_supervisor_simulation_reset) for more details.
+
+The `wb_supervisor_node_load_state` function loads the state of the given node and all its descendant nodes.
+The function parameter `state_name` has to be a valid value, or the controller will fail.
+The valid `state_name` value means that the state is saved with the `wb_supervisor_node_load_state` function, or a magic name `__init__`.
+The state in the beginning of the simulation is saved under the magic name `__init__`.
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given node and its descendants.
 If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
@@ -2197,6 +2221,228 @@ wb_supervisor_simulation_reset()
 The `wb_supervisor_simulation_reset` function sends a request to the simulator process, asking it to reset the simulation at the end of the step.
 The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu), the only difference is that the supervisor and robot controllers are not restarted, if needed, they have to be restarted with the `wb_supervisor_node_restart_controller` function.
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it when they restart.
+
+##### Reset/Reload Matrix
+
+The following table summarizes the behavior of different reset functions:
+- **Reload**: The reload button in the user-interace and the `wb_supervisor_world_reload` funtion.
+- **Reset from user interface**: The reset button in the user-interace.
+- **Reset from Supervisor**: The `wb_supervisor_simulation_reset` function.
+- **Load node's state from Supervisor**: The `wb_supervisor_node_save/load_state` functions.
+- **Reset physics**: The `wb_supervisor_simulation_reset_physics` function.
+- **Reset node's physics**: The `wb_supervisor_node_reset_physics` function.
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Reload</strong></th>
+      <th><strong>Reset from user interface</strong></th>
+      <th><strong>Reset from Supervisor</strong></th>
+      <th><strong>Load node&#39;s state from Supervisor</strong></th>
+      <th><strong>Reset physics</strong></th>
+      <th><strong>Reset node&#39;s physics</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Resets simulation time</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Removes nodes</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Restarts controller</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Stops sounds</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets random seeds</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets physics</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes (scoped)</td>
+      <td>Yes</td>
+      <td>Yes (scoped)</td>
+    </tr>
+    <tr>
+      <td><strong>Resets physics plugin</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Resets all fields</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Adds removed nodes</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong><a href="brake.md">Brake</a></strong></td>
+      <td>Resets</td>
+      <td>Releases</td>
+      <td>Releases</td>
+      <td>Releases</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="charger.md">Charger</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>battery</code> field and the <code>emissiveColor</code> field of the <a
+          href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td>Loads the <code>battery</code> field and resets the emissiveColor field of the <a
+          href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="display.md">Display</a></strong></td>
+      <td>Resets</td>
+      <td>Clears</td>
+      <td>Clears</td>
+      <td>Clears</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="emitter.md">Emitter</a>/<a href="receiver.md">Receiver</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Clears the message queue</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="joint.md">Joint</a>/<a href="motor.md">Motor</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
+      <td>Loads the position, resets the velocity, acceleration, available torque, and available force</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="led.md">LED</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>If the first child is a Light node, it resets the <code>color</code> field and it switches the LED off.
+        If the first child is a <a href="shape.md">Shape</a> node, it resets the <code>emissiveColor</code>
+        field of its <a href="material.md">Material</a> node.</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="lidar.md">Lidar</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the position of the rotating head</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="pen.md">Pen</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Cleans the painted textures</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="propeller.md">Propeller</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the slow helix and it&#39;s initial position</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="robot.md">Robot</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>battery</code> field, removes all the supervisor labels, resets the nodes visibility,
+        and restarts the controller</td>
+      <td>Loads the <code>battery</code> field, removes all the supervisor labels, and resets the nodes visibility
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="solid.md">Solid</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the <code>translation</code> and <code>rotation</code> fields, and the physics</td>
+      <td>Loads the <code>translation</code> and <code>rotation</code> fields, and resets the physics</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="track.md">Track</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets the motor position and the <code>translation</code> field of the textureTransform node of the <a
+          href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
+      </td>
+      <td>Loads the motor position and the <code>translation</code> field of the textureTransform node of the <a
+          href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="viewpoint.md">Viewpoint</a></strong></td>
+      <td>Resets</td>
+      <td colspan=2>Resets <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
+        <code>fieldOfView</code> fields
+      </td>
+      <td>Loads <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
+        <code>fieldOfView</code> fields
+      </td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

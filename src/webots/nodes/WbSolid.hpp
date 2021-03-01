@@ -61,8 +61,8 @@ public:
   void propagateSelection(bool selected) override;
   void saveHiddenFieldValues() const;
   void setMatrixNeedUpdate() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // processing before / after ODE world step
   virtual void prePhysicsStep(double ms);
@@ -118,10 +118,10 @@ public:
   const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
   // accessors to stored fields
-  const WbVector3 &translationFromFile() const { return mTranslationLoadedFromFile; }
-  const WbRotation &rotationFromFile() const { return mRotationLoadedFromFile; }
-  void setTranslationFromFile(const WbVector3 &translation) { mTranslationLoadedFromFile = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mRotationLoadedFromFile = rotation; }
+  const WbVector3 translationFromFile() const { return mSavedTranslations[stateId()]; }
+  const WbRotation rotationFromFile() const { return mSavedRotations[stateId()]; }
+  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
+  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
 
   // Solid merger
   QPointer<WbSolidMerger> solidMerger() const { return mSolidMerger; }
@@ -451,8 +451,8 @@ private:
   WrMaterial *mCenterOfBuoyancyMaterial;
 
   // Positions and orientations storage
-  WbVector3 mTranslationLoadedFromFile;
-  WbRotation mRotationLoadedFromFile;
+  QMap<QString, WbVector3> mSavedTranslations;
+  QMap<QString, WbRotation> mSavedRotations;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;
   bool applyHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParameters *hkp, bool backupPrevious);
   bool restoreHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,

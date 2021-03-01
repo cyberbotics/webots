@@ -14,11 +14,13 @@
 
 #include "WbRobotWindow.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
 #include "WbProject.hpp"
 #include "WbRobot.hpp"
 #include "WbRobotWindowTransportLayer.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbVersion.hpp"
 #include "WbWebPage.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -169,7 +171,23 @@ void WbRobotWindow::show() {
 }
 
 QString WbRobotWindow::formatUrl(const QString &urlString) {
-  const QUrl &url(urlString);
+  static QStringList repoUrls;
+  if (repoUrls.isEmpty()) {
+    // forge the GitHub URL to the current version of Webots
+    const QString webotsVersion = WbApplicationInfo::version().toString().replace(" revision ", "-rev");
+    repoUrls << "https://raw.githubusercontent.com/cyberbotics/webots/" + webotsVersion + "/"
+             << "https://cdn.jsdelivr.net/gh/cyberbotics/webots@" + webotsVersion + "/";
+  }
+
+  QString urlStringExtented(urlString);
+  foreach (const QString url, repoUrls) {
+    if (urlString.startsWith(url)) {
+      // load local file instead of the online version for the current version of Webots
+      urlStringExtented.replace(url, WbStandardPaths::webotsHomePath());
+      break;
+    }
+  }
+  const QUrl &url(urlStringExtented);
   const QString &pathString = url.toString(QUrl::RemoveQuery);
   const QFileInfo &fileInfo(pathString);
   if (fileInfo.isAbsolute()) {
@@ -182,7 +200,8 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QFileInfo &absoluteFileInfo(windowInfo.path() + "/" + pathString);
   if (absoluteFileInfo.isReadable())
     return url.toEncoded();
-  return "";
+
+  return urlString;
 }
 
 QString WbRobotWindow::linkTag(const QString &file) {

@@ -125,8 +125,8 @@ void WbBaseNode::validateProtoNodes() {
   }
 }
 
-void WbBaseNode::reset() {
-  WbNode::reset();
+void WbBaseNode::reset(const QString &id) {
+  WbNode::reset(id);
   WbBoundingSphere *const nodeBoundingSphere = boundingSphere();
   if (nodeBoundingSphere)
     nodeBoundingSphere->resetGlobalCoordinatesUpdateTime();

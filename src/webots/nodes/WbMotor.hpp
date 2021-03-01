@@ -72,7 +72,7 @@ public:
   void handleMessage(QDataStream &stream) override;
   void writeAnswer(QDataStream &stream) override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static const QList<const WbMotor *> &motors() { return cMotors; }
 

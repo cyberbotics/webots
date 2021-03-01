@@ -21,7 +21,7 @@
 // This module is not yet complete: only a few devices are implemented.
 
 #include <webots/device.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <webots/accelerometer.h>
 #include <webots/camera.h>

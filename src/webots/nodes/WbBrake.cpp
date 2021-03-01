@@ -43,8 +43,8 @@ void WbBrake::postFinalize() {
   WbJointDevice::postFinalize();
 }
 
-void WbBrake::reset() {
-  WbJointDevice::reset();
+void WbBrake::reset(const QString &id) {
+  WbJointDevice::reset(id);
 
   mBrakingDampingConstant = 0.0;
   emit brakingChanged();
