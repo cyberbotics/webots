@@ -1015,11 +1015,12 @@ int wb_robot_init() {  // API initialization
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
   int success = 0;
-  if (WEBOTS_SERVER && WEBOTS_SERVER[0])
+  if (WEBOTS_SERVER && WEBOTS_SERVER[0]) {
     pipe = strdup(WEBOTS_SERVER);
-  else {
-    int trial = 0;
+    success = scheduler_init(pipe);
+  } else {
     pipe = NULL;
+    int trial = 0;
     while (trial < 10) {
       trial++;
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
@@ -1052,7 +1053,7 @@ int wb_robot_init() {  // API initialization
     if (trial == 10)
       fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
   }
-  if (!success && !pipe) {
+  if (!success) {
     if (!pipe)
       fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
     free(pipe);
