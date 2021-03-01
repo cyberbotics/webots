@@ -549,6 +549,7 @@ class AnsiCodes(object):
 
 %ignore webots::Lidar::getPointCloud();
 %ignore webots::Lidar::getLayerPointCloud();
+%ignore webots::Lidar::getLayerRangeImage();
 
 %extend webots::Lidar {
 
@@ -580,6 +581,11 @@ class AnsiCodes(object):
     return point[index];
   }
 
+  float getLayerRangeValue(int layer, int index) const {
+    const float *point = $self->getLayerRangeImage(layer);
+    return point[index];
+  }
+
   %pythoncode %{
   import sys
 
@@ -597,6 +603,12 @@ class AnsiCodes(object):
      for i in range(self.getHorizontalResolution()):
        ret.append(self.getLayerPoint(layer, i))
      return ret
+
+  def getLayerRangeImage(self, layer):
+    ret = []
+    for i in range(self.getHorizontalResolution()):
+      ret.append(self.getLayerRangeValue(layer, i))
+    return ret
   %}
 
   PyObject *getRangeImageArray() {
