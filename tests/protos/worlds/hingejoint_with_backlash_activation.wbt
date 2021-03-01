@@ -1,0 +1,84 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  gravity 0
+  basicTimeStep 16
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0 1 0 0
+  position -0.001946948025796533 -0.1940202612037421 1.103779867296235
+}
+TexturedBackground {
+}
+DEF SUPERVISOR Robot {
+  controller "hingejoint_with_backlash_supervisor"
+  supervisor TRUE
+}
+DEF PENDULUM_ROBOT Robot {
+  children [
+    HingeJointWithBacklash {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      backlash 0.2
+      device [
+        PositionSensor {
+          name "hingeInputSensor"
+        }
+        RotationalMotor {
+          name "hingeInputMotor"
+        }
+      ]
+      startPoint [
+        Transform {
+          rotation 1 0 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.180392 0.203922 0.211765
+              }
+              geometry Cylinder {
+                height 0.1
+                radius 0.002
+              }
+            }
+          ]
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.2 0
+        rotation 0 0 1 0
+        children [
+          Transform {
+            translation 0 -0.2 0
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.04
+                }
+              }
+            ]
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.203922 0.396078 0.643137
+            }
+            geometry DEF PENDULUM_SHAPE Box {
+              size 0.02 0.4 0.02
+            }
+          }
+        ]
+        boundingObject USE PENDULUM_SHAPE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "pendulum"
+  controller "hingejoint_with_backlash"
+}

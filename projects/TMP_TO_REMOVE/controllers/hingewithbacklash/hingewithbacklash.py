@@ -38,7 +38,7 @@ while robot.step(TIME_STEP) != -1:
     hPos = hJointPos.getValue();
     hPos2 = hJointPos2.getValue();
     pPos = pJointPos.getValue();
-    pPos2 = pJointPos.getValue();
+    pPos2 = pJointPos2.getValue();
     print("%.10f | %.10f %.10f | %.10f %.10f" %(cPos, hPos, hPos2, pPos, pPos2))
     
     if cPos > 0.50: #30 * math.pi / 180:
