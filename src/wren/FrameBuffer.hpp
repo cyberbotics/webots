@@ -51,6 +51,7 @@ namespace wren {
     // Encapsulate memory management
     static FrameBuffer *createFrameBuffer() { return new FrameBuffer(); }
     static void deleteFrameBuffer(FrameBuffer *frameBuffer);
+    static void swapTexture(TextureRtt *texture);
 
     void appendOutputTexture(TextureRtt *texture);
     void appendOutputTextureDisable(TextureRtt *texture);
@@ -59,7 +60,6 @@ namespace wren {
     void enableDepthBuffer(bool enable) { mIsDepthBufferEnabled = enable; }
     void enableCopying(size_t index, bool enable);
     void enableDrawBuffer(size_t index, bool enable);
-    void swapTexture(TextureRtt *texture);
     void disableAllDrawBuffers();
     void setSize(int width, int height) {
       mWidth = width;
