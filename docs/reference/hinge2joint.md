@@ -7,6 +7,7 @@ Hinge2Joint {
   SFNode  jointParameters  NULL   # {HingeJointParameters, PROTO}
   SFNode  jointParameters2 NULL   # {JointParameters, PROTO}
   MFNode  device2          [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
+  SFFloat position2        0      # [0, inf)
 }
 ```
 
@@ -41,3 +42,5 @@ If the `jointParameters2` field is left empty, default values of the [JointParam
 
 - `device2`: This field optionally specifies a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device attached to the second axis.
 If no motor is specified, this part of the joint is passive.
+
+- `position2`: This field is not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).
