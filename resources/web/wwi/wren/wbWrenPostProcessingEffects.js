@@ -16,17 +16,13 @@ import {arrayXPointer} from './../nodes/wbUtils.js';
 import {WbWrenShaders} from './wbWrenShaders.js';
 
 class WbWrenPostProcessingEffects {
-  static loadResources(lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
-    WbWrenPostProcessingEffects.lensFlareLenTexture = WbWrenPostProcessingEffects.loadImage(lensFlareLenTexture);
+  static loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
     WbWrenPostProcessingEffects.smaaAreaTexture = WbWrenPostProcessingEffects.loadImage(smaaAreaTexture);
     WbWrenPostProcessingEffects.smaaSearchTexture = WbWrenPostProcessingEffects.loadImage(smaaSearchTexture);
     WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture);
   }
 
   static clearResources() {
-    if (WbWrenPostProcessingEffects.lensFlareLenTexture !== null)
-      _wr_texture_delete(WbWrenPostProcessingEffects.lensFlareLenTexture);
-
     if (WbWrenPostProcessingEffects.smaaAreaTexture !== null)
       _wr_texture_delete(WbWrenPostProcessingEffects.smaaAreaTexture);
 
@@ -36,7 +32,6 @@ class WbWrenPostProcessingEffects {
     if (WbWrenPostProcessingEffects.gtaoNoiseTexture !== null)
       _wr_texture_delete(WbWrenPostProcessingEffects.gtaoNoiseTexture);
 
-    WbWrenPostProcessingEffects.lensFlareLenTexture = null;
     WbWrenPostProcessingEffects.smaaAreaTexture = null;
     WbWrenPostProcessingEffects.smaaSearchTexture = null;
     WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
@@ -359,7 +354,6 @@ class WbWrenPostProcessingEffects {
 }
 
 // WbWrenPostProcessingEffects static variable
-WbWrenPostProcessingEffects.lensFlareLenTexture = null;
 WbWrenPostProcessingEffects.smaaAreaTexture = null;
 WbWrenPostProcessingEffects.smaaSearchTexture = null;
 WbWrenPostProcessingEffects.gtaoNoiseTexture = null;

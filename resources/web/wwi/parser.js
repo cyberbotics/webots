@@ -216,15 +216,13 @@ class Parser {
   async parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
     const id = getNodeAttribute(node, 'id');
-    const lensFlareLenTexture = await Parser.loadTextureData(prefix + 'lens_flare.png');
-    lensFlareLenTexture.isTranslucent = true;
     const smaaAreaTexture = await Parser.loadTextureData(prefix + 'smaa_area_texture.png');
     smaaAreaTexture.isTranslucent = false;
     const smaaSearchTexture = await Parser.loadTextureData(prefix + 'smaa_search_texture.png');
     smaaSearchTexture.isTranslucent = false;
     const gtaoNoiseTexture = await Parser.loadTextureData(prefix + 'gtao_noise_texture.png');
     gtaoNoiseTexture.isTranslucent = true;
-    return new WbScene(id, lensFlareLenTexture, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
+    return new WbScene(id, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
 
   parseWorldInfo(node) {

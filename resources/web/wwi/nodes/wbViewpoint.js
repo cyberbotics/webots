@@ -165,9 +165,6 @@ class WbViewpoint extends WbBaseNode {
     if (!this.wrenObjectsCreatedCalled)
       return;
 
-    if (typeof this.lensFlare !== 'undefined')
-      this.lensFlare.setup(this.wrenViewport);
-
     if (this.wrenSmaa) {
       if (disableAntiAliasing)
         this.wrenSmaa.detachFromViewport();
@@ -341,9 +338,6 @@ class WbViewpoint extends WbBaseNode {
     this.updateFieldOfView();
     this.updateNear();
     this.updateFar();
-
-    if (typeof this.lensFlare !== 'undefined')
-      this.lensFlare.preFinalize();
   }
 
   postFinalize() {
@@ -352,8 +346,6 @@ class WbViewpoint extends WbBaseNode {
       this.followedSolidPreviousPosition = WbWorld.instance.nodes.get(this.followedId).translation;
 
     this.updatePostProcessingEffects();
-    if (typeof this.lensFlare !== 'undefined')
-      this.lensFlare.postFinalize();
   }
 }
 
