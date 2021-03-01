@@ -10,7 +10,6 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var windowIsHidden;
-var widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 
 function menuTabCallback(deviceType) {
   let i, x, tablinks;
@@ -24,8 +23,8 @@ function menuTabCallback(deviceType) {
   document.getElementById(deviceType + '-menu-button').className += ' menu-button-selected';
 
   // force widgets refresh when they are shown.
-  Object.keys(widgets).forEach(function(deviceName) {
-    const widget = widgets[deviceName];
+  Object.keys(window.widgets).forEach(function(deviceName) {
+    const widget = window.widgets[deviceName];
     if (widget && widget.device.type === deviceType)
       widget.refresh();
   });
@@ -46,8 +45,8 @@ function closeMenu() {
 }
 
 function resizeWidgets() {
-  Object.keys(widgets).forEach(function(deviceName) {
-    widgets[deviceName].resize();
+  Object.keys(window.widgets).forEach(function(deviceName) {
+    window.widgets[deviceName].resize();
   });
 }
 
@@ -98,9 +97,9 @@ function setDeviceModeCallback(_checkbox, _deviceType) {
 }
 
 function enableAllDevicesCallback(deviceType, enabled) {
-  Object.keys(widgets).forEach(function(deviceName) {
-    if (!deviceType || widgets[deviceName].device.type === deviceType)
-      widgets[deviceName].enable(enabled);
+  Object.keys(window.widgets).forEach(function(deviceName) {
+    if (!deviceType || window.widgets[deviceName].device.type === deviceType)
+      window.widgets[deviceName].enable(enabled);
   });
 };
 
@@ -136,7 +135,7 @@ function configureDevices(data, controlDevices) {
     }
   });
 
-  widgets = Object.assign({}, widgets, DeviceWidget.widgets);
+  window.widgets = Object.assign({}, DeviceWidget.widgets);
   return deviceTypes;
 }
 
