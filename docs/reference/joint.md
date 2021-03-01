@@ -39,5 +39,5 @@ These fields, which are not visible from the Scene Tree, are used to store insid
 As a result joint positions are restored when reloading the simulation just the same way they would be if [JointParameters](jointparameters.md) nodes were used.
 
 For [HingeJoint](hingejoint.md) and [SliderJoint](sliderjoint.md) nodes containing no [JointParameters](jointparameters.md), Webots uses the hidden field named `position`.
-For a [Hinge2Joint](hingejoint.md) node, an additional hidden field named `position2` is used to store the joint position with respect the second hinge.
+For a [Hinge2Joint](hingejoint.md) node, an additional hidden field named `position2` is used to store the joint position with respect to the second axis.
 For a [BallJoint](balljoint.md) node, an additional hidden field named `position3` is used to store the joint position with respect the third axis.
