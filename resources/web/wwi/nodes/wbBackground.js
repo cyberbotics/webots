@@ -240,6 +240,14 @@ class WbBackground extends WbBaseNode {
       }
     });
   }
+
+  coordinateSystemRotate(i) {
+    const enuRotate = [90, -90, 0, 180, -90, -90];
+    if (WbWorld.instance.coordinateSystem === 'ENU')
+      return enuRotate[i];
+    else // "NUE" or "EUN"
+      return 0;
+  }
 }
 
 WbBackground.instance = undefined;
