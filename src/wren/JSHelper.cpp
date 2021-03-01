@@ -80,19 +80,19 @@ char *wrjs_array4_char(float element0, float element1, float element2, float ele
   return reinterpret_cast<char *>(array);
 }
 
-char *wrjs_pointerOnFloat(float nbr) {
-  static float number = nbr;
-  return reinterpret_cast<char *>(&number);
+char *wrjs_pointerOnFloat(float number) {
+  static float storedNumber = number;
+  return reinterpret_cast<char *>(&storedNumber);
 }
 
-int *wrjs_pointerOnInt(int nbr) {
-  static int number = nbr;
-  return reinterpret_cast<int *>(&number);
+int *wrjs_pointerOnInt(int number) {
+  static int storedNumber = number;
+  return reinterpret_cast<int *>(&storedNumber);
 }
 
-int *wrjs_pointerOnIntBis(int nbr) {
-  static int number = nbr;
-  return reinterpret_cast<int *>(&number);
+int *wrjs_pointerOnIntBis(int number) {
+  static int storedNumber = number;
+  return reinterpret_cast<int *>(&storedNumber);
 }
 
 // helper function to debug textures
