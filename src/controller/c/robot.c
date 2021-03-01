@@ -1014,40 +1014,45 @@ int wb_robot_init() {  // API initialization
 
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
+  int success = 0;
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
   else {
     int trial = 0;
+    pipe = NULL;
     while (trial < 10) {
       trial++;
-      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
+      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
+      char retry[256];
+      snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
       if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %d second%s)\n", trial, trial > 1 ? "s" : "");
+        fprintf(stderr, "Webots doesn't seems to be ready yet. %s\n", retry);
         sleep(trial);
       } else {
         char buffer[1024];
         snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
         FILE *fd = fopen(buffer, "r");
         if (fd) {
-          if (!fscanf(fd, "%1023s", buffer)) {
-            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
-            pipe = NULL;
-          } else {
-            pipe = strdup(buffer);
-            break;
+          if (!fscanf(fd, "%1023s", buffer))
+            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content. %s\n", WEBOTS_TMP_PATH, retry);
+          else {
+            success = scheduler_init(buffer);
+            if (success) {
+              pipe = strdup(buffer);
+              break;
+            } else
+              fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
           }
           fclose(fd);
-        } else {
-          fprintf(stderr, "Cannot open file: %s (retrying in %d second%s)\n", buffer, trial, trial > 1 ? "s" : "");
-          pipe = NULL;
-        }
+        } else
+          fprintf(stderr, "Cannot open file: %s. %s\n", buffer, retry);
         sleep(trial);
       }
     }
     if (trial == 10)
       fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
   }
-  if (!pipe || !scheduler_init(pipe)) {
+  if (!success && !pipe) {
     if (!pipe)
       fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
     free(pipe);
