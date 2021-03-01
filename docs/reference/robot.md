@@ -2069,7 +2069,7 @@ The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) n
 %tab "C"
 
 ```c
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 const char *wb_robot_wwi_receive(int *size);
 const char *wb_robot_wwi_receive_text();

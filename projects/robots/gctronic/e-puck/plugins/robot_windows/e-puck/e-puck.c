@@ -21,11 +21,11 @@
 #include <webots/gyro.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
+#include <webots/plugins/robot_window/default.h>
+#include <webots/plugins/robot_window/robot_wwi.h>
 #include <webots/position_sensor.h>
 #include <webots/remote_control.h>
 #include <webots/robot.h>
-#include <webots/robot_wwi.h>
-#include <webots/utils/default_robot_window.h>
 #include <webots/utils/system.h>
 
 #include <math.h>
