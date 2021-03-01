@@ -9,7 +9,7 @@ PROTO HingeJointWithBacklash [
   field SFFloat                                backlash          0.1    # [0, inf)
   field SFFloat                                gearMass          0.01   # [0, inf)
   field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
-  field SFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}
+  field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}
   field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}
   field SFNode                                 endPoint          NULL
 ]

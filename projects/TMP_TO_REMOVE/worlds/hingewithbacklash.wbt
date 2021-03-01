@@ -128,6 +128,11 @@ Robot {
           name "pJointMot"
         }
       ]
+      outputSensor [
+        PositionSensor {
+          name "pJointPos2"
+        }
+      ]
       startPoint [
         Transform {
           translation 0 0 0.1
