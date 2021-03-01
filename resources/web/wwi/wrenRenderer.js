@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {WbWorld} from './nodes/wbWorld.js';
+import {disableShadows} from './nodes/wbPreferences.js';
 
 class WrenRenderer {
   constructor() {
@@ -23,6 +24,8 @@ class WrenRenderer {
     if (typeof div === 'undefined' || div === null)
       div = document.getElementById('playerDiv');
     div.insertBefore(this.canvas, div.firstChild);
+
+    _wr_config_enable_shadows(!disableShadows);
   }
 
   setSize(width, height) {

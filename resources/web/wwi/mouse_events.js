@@ -137,7 +137,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let sinusPitch = Math.sin(halfPitchAngle);
       let pitch = right(orientation);
       let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z);
-      let worldUpVector = glm.vec3(0, 1, 0); //TODO get it from world
+      let worldUpVector = WbWorld.instance.upVector;
       let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
 
       // Updates camera's position and orientation
@@ -390,7 +390,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         let sinusPitch = Math.sin(halfPitchAngle);
         let pitch = right(orientation);
         let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z);
-        let worldUpVector = glm.vec3(0, 1, 0); //TODO get it from world
+        let worldUpVector = WbWorld.instance.upVector;
         let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y, sinusYaw * worldUpVector.z);
 
         // Updates camera's position and orientation

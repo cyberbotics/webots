@@ -18,12 +18,13 @@ class WbWorld {
     // it is independant from Webots during the simulation so we don't need to retrieve it to apply update
     this.viewpoint = undefined;
     this.scene = undefined;
-    // Only the top level nodes are represented here
-    this.sceneTree = [];
 
     this.hasFog = false;
     this.basicTimeStep = 32;
-
+    this.coordinateSystem = 'NUE';
+    this.upVector = glm.vec3(0,1,0);
+    // Only the top level nodes are represented here
+    this.sceneTree = [];
     // All the nodes are included here so it is easier to retrieve them for update
     // map from id to node
     this.nodes = new Map();
@@ -31,6 +32,10 @@ class WbWorld {
 
   static init() {
     WbWorld.instance = new WbWorld();
+  }
+
+  static computeUpVector() {
+    WbWorld.instance.upVector = glm.vec3(WbWorld.instance.coordinateSystem[0] === 'U' ? 1 : 0, WbWorld.instance.coordinateSystem[1] === 'U' ? 1 : 0, WbWorld.instance.coordinateSystem[2] === 'U' ? 1 : 0);
   }
 }
 

@@ -378,6 +378,7 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
     }
 
     writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
+    writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
 
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";

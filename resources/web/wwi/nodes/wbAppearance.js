@@ -68,7 +68,6 @@ class WbAppearance extends WbAbstractAppearance {
   }
 
   static fillWrenDefaultMaterial(wrenMaterial) {
-    // TODO add suport if not a phong material
     if (!wrenMaterial) {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_phong_material_new();

@@ -228,6 +228,9 @@ class Parser {
   parseWorldInfo(node) {
     const basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
     WbWorld.instance.basicTimeStep = basicTimeStep;
+    const coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'NUE');
+    WbWorld.instance.coordinateSystem = coordinateSystem;
+    WbWorld.computeUpVector();
   }
 
   parseViewpoint(node) {
@@ -260,7 +263,6 @@ class Parser {
 
     const cubeImages = [];
     if (typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined') {
-      // TODO add test to see if all images have the same size and alpha and are squared
       console.log('load cubeimages');
       backUrl = backUrl.slice(1, backUrl.length - 1);
       bottomUrl = bottomUrl.slice(1, bottomUrl.length - 1);

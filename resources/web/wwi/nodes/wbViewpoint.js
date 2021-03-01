@@ -309,7 +309,6 @@ class WbViewpoint extends WbBaseNode {
     if (zFar === 0)
       zFar = WbViewpoint.DEFAULT_FAR;
 
-    this.applyFarToWren();// TODO is it needed?
     const projection = new WbMatrix4();
     projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
     const eye = new WbVector3(this.position.x, this.position.y, this.position.z);

@@ -96,7 +96,7 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 
   modifyWrenMaterial(wrenMaterial) {
-    if (!wrenMaterial) { // TODO check if not pbr material
+    if (!wrenMaterial) {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_pbr_material_new();
     }
