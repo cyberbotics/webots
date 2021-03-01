@@ -79,7 +79,7 @@ The colors defined in this field are returned for this object if recognized by a
 - `translationStep` and `rotationStep`: these fields specify the minimum step size that will be used by the translate and rotate handles appearing in the 3D window when selecting a top solid.
 Continuous increment is obtained by setting the step value to -1.
 
-### Hidden Solid Field Summary
+### Hidden Field Summary
 
 - `linearVelocity` and `angularVelocity`: these fields, which aren't visible from the Scene Tree, are used by Webots when saving a world file to store the initial linear and angular velocities of a [Solid](#solid) with a non-NULL [Physics](physics.md) node.
 If the [Solid](#solid) node is merged into a solid assembly (see [implicit solid merging](physics.md#implicit-solid-merging-and-joints)), then these fields will be effective only for the [Solid](#solid) at the top of the assembly.
