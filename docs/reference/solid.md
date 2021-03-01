@@ -16,6 +16,7 @@ Solid {
   MFColor  recognitionColors   []            # any color
   SFFloat  translationStep     0.01          # [0, inf)
   SFFloat  rotationStep        0.261799387   # [0, inf)
+  # hidden fields
   SFVec3f  linearVelocity      0 0 0         # any vector
   SFVec3f  angularVelocity     0 0 0         # any vector
 }
@@ -30,7 +31,7 @@ The [Solid](#solid) class is the base class for collision-detected objects.
 Robots and device classes are subclasses of the [Solid](#solid) class.
 In the 3D window, [Solid](#solid) nodes can be manipulated (dragged, lifted, rotated, etc) using the mouse.
 
-### Solid Fields
+### Solid Field Summary
 
 Note that in the [Solid](#solid) node, the `scale` field inherited from the [Transform](transform.md) must always remain uniform, i.e., of the form `x x x` where `x` is any positive real number.
 This ensures that all primitive geometries will remain suitable for ODE collision detection.
@@ -77,6 +78,8 @@ The colors defined in this field are returned for this object if recognized by a
 
 - `translationStep` and `rotationStep`: these fields specify the minimum step size that will be used by the translate and rotate handles appearing in the 3D window when selecting a top solid.
 Continuous increment is obtained by setting the step value to -1.
+
+### Hidden Solid Field Summary
 
 - `linearVelocity` and `angularVelocity`: these fields, which aren't visible from the Scene Tree, are used by Webots when saving a world file to store the initial linear and angular velocities of a [Solid](#solid) with a non-NULL [Physics](physics.md) node.
 If the [Solid](#solid) node is merged into a solid assembly (see [implicit solid merging](physics.md#implicit-solid-merging-and-joints)), then these fields will be effective only for the [Solid](#solid) at the top of the assembly.
