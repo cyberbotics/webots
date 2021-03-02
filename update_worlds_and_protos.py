@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 
 
@@ -20,7 +21,7 @@ def replace_url(file):
     keys = ['url', 'backUrl', 'bottomUrl', 'frontUrl', 'leftUrl', 'rightUrl', 'topUrl',
             'backIrradianceUrl', 'bottomIrradianceUrl', 'frontIrradianceUrl',
             'leftIrradianceUrl', 'rightIrradianceUrl', 'topIrradianceUrl',
-            'sound', 'noiseMaskUrl', 'bumpSound', 'rollSound', 'slideSound']
+            'sound', 'noiseMaskUrl', 'bumpSound', 'rollSound', 'slideSound', 'texture']
     for key in keys:
         while True:
             start = content.find('  ' + key + ' ', start)
@@ -43,7 +44,29 @@ def replace_url(file):
     return
 
 
-for path in Path('.').rglob('*.proto'):  # replace with '*.wbt' for world files
+def search(file):
+    proto = True if file[:-6] == '.proto' else False
+    path = '/'.join(file.split('/')[0:-1]) + '/'
+    with open(file, 'r') as fd:
+        content = fd.read()
+    search = re.compile('(\\"[\\w,\\s,\\/]+\\.(?:png|jpg|hdr|PNG|JPG|HDR|jpeg|JPEG)\\")')
+    result = search.findall(content)
+    if len(result) != 0:
+        for url in result:
+            print(file + ': ' + str(url))
+            found = find_path(path, url[1:-1], proto)
+            if not found:
+                print('Could not find ' + url + ' in ' + file)
+                continue
+            content = content.replace(url, '"' + found + '"')
+            # print('Replaced ' + url + ' with "' + found + '" in ' + file)
+    with open(file, 'w', newline='\n') as fd:
+        fd.write(content)
+    return
+
+
+for path in Path('.').rglob('*.wbt'):  # replace with '*.wbt' for world files
     path = str(path).replace('\\', '/')
-    print(path)
-    replace_url(path)
+    # print(path)
+    search(path)
+    # replace_url(path)
