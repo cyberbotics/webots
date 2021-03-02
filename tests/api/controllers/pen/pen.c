@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
   // check camera 0
   color = computeImageMeanColor(0);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 207, 183, 183, 2,
+    color.r, color.g, color.b, 207, 178, 178, 2,
     "Pen \"pen0\" should print on the existing color obtaing color (r=207,g=183,b=183) and not (r=%d,g=%d,b=%d)", color.r,
     color.g, color.b);
   // check camera 1
