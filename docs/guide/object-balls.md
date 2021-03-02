@@ -65,7 +65,8 @@ FifaSoccerBall {
   field SFVec3f            translation 0 0 0
   field SFRotation         rotation    0 1 0 0
   field SFString           name        "fifa soccer ball"
-  field SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.}
+  field SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.
+}
 ```
 
 > **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/FifaSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/FifaSoccerBall.proto)"
