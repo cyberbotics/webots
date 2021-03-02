@@ -6,21 +6,14 @@
 # tags: static
 
 PROTO FifaSoccerBall [
-  field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
-  field SFString   name        "fifa soccer ball"
-  field SFInt32    size        5 # Official FIFA ball sizes ranging from 1 to 5.
+  field SFVec3f            translation 0 0 0
+  field SFRotation         rotation    0 1 0 0
+  field SFString           name        "fifa soccer ball"
+  field SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.
 ]
 {
   %{
     local size = fields.size.value
-    if size < 1 then
-      size = 1
-      io.stderr:write("'size' must be strictly positive\n")
-    elseif size > 5 then
-      size = 5
-      io.stderr:write("'size' must be less than or equal to 5\n")
-    end
     local radius_array = { 0.07, 0.085, 0.095, 0.1025, 0.1125 }
     local mass_array = { 0.205, 0.250, 0.310, 0.370, 0.430 }
     local radius = radius_array[size]
