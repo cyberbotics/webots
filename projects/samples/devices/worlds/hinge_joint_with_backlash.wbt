@@ -1,0 +1,397 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  gravity 0
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.6453765960619807 0.7396430798942805 0.1908328158885522 0.7606279936752046
+  position 0.28308052591685395 0.2259580777392388 0.3467424857519268
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+  texture "empty_office"
+}
+Robot {
+  children [
+    DEF FRONT_BEARING Transform {
+      children [
+        DEF OUTER SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          height 0.01
+          radius 0.04
+          thickness 0.015
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          enableBoundingObject FALSE
+        }
+        DEF INNER SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          name "pipe(1)"
+          height 0.01
+          radius 0.015
+          thickness 0.01
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          enableBoundingObject FALSE
+        }
+        Transform {
+          translation 0.07 0.02 0
+          children [
+            DEF BALL Shape {
+              appearance PBRAppearance {
+                baseColor 0.729412 0.741176 0.713725
+              }
+              geometry Sphere {
+                radius 0.006
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.07 -0.02 0
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 -0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+      ]
+    }
+    DEF BACK_BEARING Transform {
+      translation -0.18 0 0
+      children [
+        DEF OUTER SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          name "pipe(2)"
+          height 0.01
+          radius 0.04
+          thickness 0.015
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+        }
+        DEF INNER SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          name "pipe(3)"
+          height 0.01
+          radius 0.015
+          thickness 0.01
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+        }
+        Transform {
+          translation 0.07 0.02 0
+          children [
+            DEF BALL Shape {
+              appearance PBRAppearance {
+                baseColor 0.729412 0.741176 0.713725
+              }
+              geometry Sphere {
+                radius 0.006
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.07 -0.02 0
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 -0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+      ]
+    }
+    DEF BLACK_BOX Transform {
+      translation 0.145 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.04
+          }
+        }
+      ]
+    }
+    DEF OUTPUT_SHAFT Transform {
+      translation 0.185 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.203922 0.396078 0.643137
+          }
+          geometry Cylinder {
+            height 0.03
+            radius 0.005
+          }
+        }
+      ]
+    }
+    DEF STATOR Transform {
+      translation -0.02 0.04 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          geometry Box {
+            size 0.19 0.005 0.01
+          }
+        }
+      ]
+    }
+    DEF STATOR Transform {
+      translation -0.02 -0.04 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          geometry Box {
+            size 0.19 0.005 0.01
+          }
+        }
+      ]
+    }
+    DEF STATOR Transform {
+      translation -0.02 0 -0.04
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          geometry Box {
+            size 0.19 0.005 0.01
+          }
+        }
+      ]
+    }
+    HingeJointWithBacklash {
+      jointParameters HingeJointParameters {
+        position 0.3711999999999989
+        anchor 0.19 0 0
+      }
+      backlash 0.4
+      device [
+        PositionSensor {
+          name "rotor sensor"
+        }
+        RotationalMotor {
+          name "rotor motor"
+        }
+      ]
+      startPoint [
+        Group {
+          children [
+            DEF ROTOR Transform {
+              translation -0.02 -0.015 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR Transform {
+              translation -0.02 0.015 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR Transform {
+              translation -0.02 0 0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR Transform {
+              translation -0.02 0 -0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTORCENTER Transform {
+              rotation 0 0 1 -1.5708
+              children [
+                SolidPipe {
+                  translation 0 -0.02 0
+                  height 0.13
+                  radius 0.015
+                  thickness 0.01
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  enableBoundingObject FALSE
+                }
+              ]
+            }
+            DEF CORE Transform {
+              translation -0.02 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cylinder {
+                    height 0.12
+                    radius 0.03
+                  }
+                }
+              ]
+            }
+            DEF SHAFT Transform {
+              translation 0.025 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.937255 0.160784 0.160784
+                  }
+                  geometry Cylinder {
+                    height 0.29
+                    radius 0.005
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      endPoint Solid {
+        translation 0.195 0.01 0
+        rotation 1 0 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.203922 0.396078 0.643137
+            }
+            geometry DEF ENDPOINT Box {
+              size 0.01 0.015 0.005
+            }
+          }
+        ]
+        boundingObject USE ENDPOINT
+        physics Physics {
+        }
+      }
+    }
+  ]
+  controller "hingejoint_with_backlash"
+}

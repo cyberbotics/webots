@@ -153,14 +153,16 @@ Robot {
         translation 0 -0.15 0.1
         rotation 0 0 1 0
         children [
-          Shape {
+          DEF PENDULUM2 Shape {
             appearance PBRAppearance {
               baseColor 0.45098 0.823529 0.0862745
             }
-            geometry USE PENDULUM
+            geometry Box {
+              size 0.02 0.3 0.1
+            }
           }
         ]
-        boundingObject USE PENDULUM
+        boundingObject USE PENDULUM2
         physics Physics {
           density -1
           mass 1
