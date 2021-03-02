@@ -27,7 +27,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/checkered_marble.jpg"
+        "webots://projects/default/worlds/textures/checkered_marble.jpg"
       ]
     }
     roughness 1

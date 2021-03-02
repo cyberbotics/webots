@@ -90,7 +90,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/grass.jpg"
+        "webots://projects/default/worlds/textures/grass.jpg"
       ]
     }
     roughness 1
@@ -11549,7 +11549,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -11726,7 +11726,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12383,7 +12383,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12423,7 +12423,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12461,7 +12461,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12500,7 +12500,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12538,7 +12538,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -12575,7 +12575,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -16869,7 +16869,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -17828,7 +17828,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -20723,7 +20723,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -20768,7 +20768,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -21045,7 +21045,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -21093,7 +21093,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -47573,7 +47573,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47607,7 +47607,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47642,7 +47642,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47683,7 +47683,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47718,7 +47718,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47756,7 +47756,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47794,7 +47794,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47827,7 +47827,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47866,7 +47866,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47904,7 +47904,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47942,7 +47942,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -47984,7 +47984,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48020,7 +48020,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48054,7 +48054,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48091,7 +48091,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48126,7 +48126,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48161,7 +48161,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48195,7 +48195,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48228,7 +48228,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48267,7 +48267,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48300,7 +48300,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48333,7 +48333,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48367,7 +48367,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48401,7 +48401,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48434,7 +48434,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48468,7 +48468,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48501,7 +48501,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48536,7 +48536,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48569,7 +48569,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48608,7 +48608,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48642,7 +48642,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48675,7 +48675,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48708,7 +48708,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48741,7 +48741,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48779,7 +48779,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48816,7 +48816,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48851,7 +48851,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48887,7 +48887,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48920,7 +48920,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48953,7 +48953,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -48986,7 +48986,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49020,7 +49020,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49056,7 +49056,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49091,7 +49091,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49130,7 +49130,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49163,7 +49163,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49197,7 +49197,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49230,7 +49230,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49264,7 +49264,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/red_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49559,7 +49559,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49592,7 +49592,7 @@ DEF Park_&_Ride Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49620,7 +49620,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49653,7 +49653,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49688,7 +49688,7 @@ DEF Parking_du_Temple Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49727,7 +49727,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49763,7 +49763,7 @@ DEF La_Blancherie Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49826,7 +49826,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49862,7 +49862,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49899,7 +49899,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49932,7 +49932,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -49968,7 +49968,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50002,7 +50002,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50035,7 +50035,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50068,7 +50068,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50102,7 +50102,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50137,7 +50137,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50172,7 +50172,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50214,7 +50214,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50255,7 +50255,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50288,7 +50288,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50323,7 +50323,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50356,7 +50356,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50390,7 +50390,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50422,7 +50422,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50454,7 +50454,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50488,7 +50488,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50521,7 +50521,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50554,7 +50554,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50587,7 +50587,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50619,7 +50619,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50651,7 +50651,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50683,7 +50683,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50716,7 +50716,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50748,7 +50748,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50780,7 +50780,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50813,7 +50813,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50845,7 +50845,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50877,7 +50877,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50910,7 +50910,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50943,7 +50943,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -50976,7 +50976,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51009,7 +51009,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51041,7 +51041,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51074,7 +51074,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51108,7 +51108,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51141,7 +51141,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51174,7 +51174,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51207,7 +51207,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51239,7 +51239,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51272,7 +51272,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51305,7 +51305,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51340,7 +51340,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51372,7 +51372,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51405,7 +51405,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51437,7 +51437,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51469,7 +51469,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51502,7 +51502,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51534,7 +51534,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51566,7 +51566,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51600,7 +51600,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51632,7 +51632,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51668,7 +51668,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51700,7 +51700,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51734,7 +51734,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51767,7 +51767,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51800,7 +51800,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51836,7 +51836,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51868,7 +51868,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51900,7 +51900,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51932,7 +51932,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -51968,7 +51968,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52000,7 +52000,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52032,7 +52032,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52064,7 +52064,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52096,7 +52096,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52128,7 +52128,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52160,7 +52160,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52192,7 +52192,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52225,7 +52225,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52257,7 +52257,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52289,7 +52289,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52321,7 +52321,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52354,7 +52354,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52387,7 +52387,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52421,7 +52421,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52454,7 +52454,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52487,7 +52487,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52519,7 +52519,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52551,7 +52551,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52583,7 +52583,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52617,7 +52617,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52649,7 +52649,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52682,7 +52682,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52714,7 +52714,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52746,7 +52746,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52779,7 +52779,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52812,7 +52812,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52844,7 +52844,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52877,7 +52877,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52917,7 +52917,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52949,7 +52949,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -52982,7 +52982,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53015,7 +53015,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53048,7 +53048,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53099,7 +53099,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53132,7 +53132,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53164,7 +53164,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53197,7 +53197,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53229,7 +53229,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53262,7 +53262,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53295,7 +53295,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53329,7 +53329,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53362,7 +53362,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53394,7 +53394,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53427,7 +53427,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53463,7 +53463,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53496,7 +53496,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53529,7 +53529,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53561,7 +53561,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53593,7 +53593,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53625,7 +53625,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53658,7 +53658,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53691,7 +53691,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53724,7 +53724,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53759,7 +53759,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53791,7 +53791,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53826,7 +53826,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53859,7 +53859,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53891,7 +53891,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53924,7 +53924,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53957,7 +53957,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -53989,7 +53989,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54022,7 +54022,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54055,7 +54055,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54088,7 +54088,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54120,7 +54120,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54152,7 +54152,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54185,7 +54185,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54218,7 +54218,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54250,7 +54250,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54282,7 +54282,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54315,7 +54315,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54348,7 +54348,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54380,7 +54380,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54412,7 +54412,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54444,7 +54444,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54477,7 +54477,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54510,7 +54510,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54543,7 +54543,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54575,7 +54575,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54608,7 +54608,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54640,7 +54640,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54673,7 +54673,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54706,7 +54706,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54738,7 +54738,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54771,7 +54771,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54803,7 +54803,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54836,7 +54836,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54869,7 +54869,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54903,7 +54903,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54940,7 +54940,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -54975,7 +54975,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55008,7 +55008,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55041,7 +55041,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55073,7 +55073,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55106,7 +55106,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55139,7 +55139,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55171,7 +55171,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55213,7 +55213,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55253,7 +55253,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55285,7 +55285,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55318,7 +55318,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55357,7 +55357,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55389,7 +55389,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55421,7 +55421,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55454,7 +55454,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55487,7 +55487,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55519,7 +55519,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55551,7 +55551,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55584,7 +55584,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55617,7 +55617,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55695,7 +55695,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55729,7 +55729,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55810,7 +55810,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55842,7 +55842,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55916,7 +55916,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55951,7 +55951,7 @@ DEF Place_Charles_Dufour Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -55990,7 +55990,7 @@ DEF parking Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/light_asphalt.jpg"
+            "webots://projects/default/worlds/textures/light_asphalt.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -56024,7 +56024,7 @@ DEF farmland Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -56069,7 +56069,7 @@ DEF farmland Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         textureTransform TextureTransform {

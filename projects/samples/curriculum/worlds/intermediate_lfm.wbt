@@ -16,7 +16,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rally_little.png"
+            "webots://projects/samples/curriculum/worlds/textures/rally_little.png"
           ]
         }
         metalness 0

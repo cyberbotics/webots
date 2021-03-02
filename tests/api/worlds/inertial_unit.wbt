@@ -27,7 +27,7 @@ DEF AIRPLANE Robot {
       appearance Appearance {
         texture ImageTexture {
           url [
-            "textures/plane_top_view.jpg"
+            "webots://tests/api/worlds/textures/plane_top_view.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -44,7 +44,7 @@ DEF AIRPLANE Robot {
           appearance Appearance {
             texture ImageTexture {
               url [
-                "textures/plane_bottom_view.jpg"
+                "webots://tests/api/worlds/textures/plane_bottom_view.jpg"
               ]
             }
             textureTransform TextureTransform {

@@ -24,7 +24,7 @@ DEF FOOT1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/stone.jpg"
+            "webots://projects/default/worlds/textures/stone.jpg"
           ]
         }
         roughness 0.5
@@ -44,7 +44,7 @@ DEF FOOT2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/stone.jpg"
+            "webots://projects/default/worlds/textures/stone.jpg"
           ]
         }
         roughness 0.5
@@ -64,7 +64,7 @@ DEF RAMP Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/stone.jpg"
+            "webots://projects/default/worlds/textures/stone.jpg"
           ]
         }
         roughness 0.5

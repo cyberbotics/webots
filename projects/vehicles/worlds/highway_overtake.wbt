@@ -769,7 +769,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/ground_grass.jpg"
+            "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
           ]
         }
         roughness 0.5

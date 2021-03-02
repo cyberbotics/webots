@@ -19,7 +19,7 @@ TestRectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap DEF TEST_NODE ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
       repeatS FALSE
       repeatT FALSE

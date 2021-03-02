@@ -93,7 +93,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/ground_grass.jpg"
+        "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
       ]
     }
     roughness 1

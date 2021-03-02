@@ -181,7 +181,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -217,7 +217,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -255,7 +255,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -291,7 +291,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -329,7 +329,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -369,7 +369,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -405,7 +405,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -442,7 +442,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -462,7 +462,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -498,7 +498,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -534,7 +534,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -570,7 +570,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -589,7 +589,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -608,7 +608,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -648,7 +648,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -687,7 +687,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -706,7 +706,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -744,7 +744,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -782,7 +782,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -820,7 +820,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -858,7 +858,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -894,7 +894,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -931,7 +931,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -968,7 +968,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -987,7 +987,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1006,7 +1006,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1046,7 +1046,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1082,7 +1082,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1120,23 +1120,23 @@ Road {
   appearance DEF ROAD_WITH_SNOW PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_base_color.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_roughness.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_normal.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_occlusion.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1742,7 +1742,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -1785,7 +1785,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -4488,7 +4488,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4523,7 +4523,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4558,7 +4558,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4593,7 +4593,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4628,7 +4628,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5

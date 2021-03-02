@@ -25,13 +25,13 @@ DEF BOARD Solid {
         baseColor 0.7 0.7 0.7
         baseColorMap ImageTexture {
           url [
-            "textures/white256.png"
+            "webots://tests/api/worlds/textures/white256.png"
           ]
         }
       }
       geometry Mesh {
         url [
-          "meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

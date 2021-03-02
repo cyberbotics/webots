@@ -67,7 +67,7 @@ DEF ROBOT Robot {
                               baseColor 1 1 0
                               baseColorMap ImageTexture {
                                 url [
-                                  "textures/imu.png"
+                                  "webots://projects/samples/devices/worlds/textures/imu.png"
                                 ]
                               }
                               roughness 0.5

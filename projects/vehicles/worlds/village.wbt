@@ -89,7 +89,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/grass.jpg"
+        "webots://projects/default/worlds/textures/grass.jpg"
       ]
     }
     roughness 1
@@ -4078,7 +4078,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4113,7 +4113,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4148,7 +4148,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4183,7 +4183,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4218,7 +4218,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5

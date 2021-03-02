@@ -180,7 +180,7 @@ DEF ENVIRONMENT Solid {
             baseColor 0.319997 0.157382 0.040528
             baseColorMap ImageTexture {
               url [
-                "textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -201,7 +201,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -232,7 +232,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -263,7 +263,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -493,7 +493,7 @@ DEF START Solid {
             baseColor 0.729412 0.741176 0.713725
             baseColorMap ImageTexture {
               url [
-                "textures/wood.jpg"
+                "webots://projects/default/worlds/textures/wood.jpg"
               ]
             }
             roughness 1

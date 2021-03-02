@@ -47,7 +47,7 @@ DEF GROUND Solid {
         baseColor 0.659998 0.624781 0.437797
         baseColorMap ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         roughness 1

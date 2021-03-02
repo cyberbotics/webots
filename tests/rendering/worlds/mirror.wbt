@@ -54,7 +54,7 @@ Robot {
         }
         texture ImageTexture {
           url [
-            "textures/transparent.png"
+            "webots://tests/rendering/worlds/textures/transparent.png"
           ]
         }
       }

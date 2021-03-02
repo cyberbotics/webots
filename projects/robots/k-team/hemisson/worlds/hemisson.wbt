@@ -20,7 +20,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/roughcast.jpg"
+        "webots://projects/default/worlds/textures/roughcast.jpg"
       ]
     }
     roughness 1

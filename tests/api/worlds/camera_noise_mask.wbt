@@ -27,7 +27,7 @@ Transform {
         }
         texture ImageTexture {
           url [
-            "textures/color_checker_chart.png"
+            "webots://tests/api/worlds/textures/color_checker_chart.png"
           ]
         }
       }

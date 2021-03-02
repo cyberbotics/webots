@@ -484,7 +484,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -506,7 +506,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/wood.jpg"
+            "webots://projects/default/worlds/textures/wood.jpg"
           ]
         }
         roughness 0.5
@@ -530,7 +530,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/exhaust_hood.jpg"
+            "webots://projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
           ]
         }
         roughness 0.5

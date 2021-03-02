@@ -33,7 +33,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/tiles.jpg"
+                "webots://projects/default/worlds/textures/tiles.jpg"
               ]
             }
             roughness 1
@@ -83,7 +83,7 @@ DEF WALL_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -138,7 +138,7 @@ DEF OBSTACLE_1 Solid {
         baseColor 0.898039 0.898039 0.898039
         baseColorMap ImageTexture {
           url [
-            "textures/rock.jpg"
+            "webots://projects/default/worlds/textures/rock.jpg"
           ]
         }
         roughness 1

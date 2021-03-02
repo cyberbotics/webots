@@ -18,7 +18,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/oval_line.png"
+        "webots://projects/robots/gctronic/e-puck/worlds/textures/oval_line.png"
       ]
     }
     roughness 1
