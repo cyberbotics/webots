@@ -305,7 +305,7 @@ for proto in prioritaryProtoList + fileList:
                             else:
                                 file.write(u'`%s`.' % value.strip())
                         elif i == len(values) - 2:
-                            file.write(u'`%s` and ' % value.strip())
+                            file.write(u'`%s`, and ' % value.strip())
                         else:
                             file.write(u'`%s`, ' % value.strip())
                 file.write(u'\n\n')
