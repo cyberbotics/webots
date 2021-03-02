@@ -6,12 +6,12 @@
 
 PROTO HingeJointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
-  field SFFloat                                backlash          0.1    # [0, inf)
-  field SFFloat                                gearMass          0.01   # [0, inf)
-  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
-  field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}
-  field SFNode                                 endPoint          NULL
+  field SFFloat                                backlash          0.1    # Defines the gear clearence, [0, inf).
+  field SFFloat                                gearMass          0.01   # Defines the gear mass, [0, inf).
+  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}.
+  field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
+  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
+  field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
   %{
@@ -23,7 +23,7 @@ PROTO HingeJointWithBacklash [
     local axis = fields.jointParameters.value.fields.axis.value
     local anchor = fields.jointParameters.value.fields.anchor.value
     local position = fields.jointParameters.value.fields.position.value
-    -- sanity check
+    -- parameter sanity check
     local backlash = fields.backlash.value
     if backlash < 0 then
       io.stderr:write("'backlash' value must be positive, use a normal hinge if no backlash is desired.\n")

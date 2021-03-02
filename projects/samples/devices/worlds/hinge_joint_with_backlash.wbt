@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.6453765960619807 0.7396430798942805 0.1908328158885522 0.7606279936752046
-  position 0.28308052591685395 0.2259580777392388 0.3467424857519268
+  orientation -0.5987733328184486 0.7755221144556235 0.20008984455930295 0.8137012065358815
+  position 0.3047399454921005 0.22595807773923873 0.33590477312539807
 }
 TexturedBackgroundLight {
 }
@@ -112,6 +112,7 @@ Robot {
             baseColor 0.729412 0.741176 0.713725
             roughness 0.2
           }
+          enableBoundingObject FALSE
         }
         DEF INNER SolidPipe {
           translation 0.07 0 0
@@ -124,6 +125,7 @@ Robot {
             baseColor 0.729412 0.741176 0.713725
             roughness 0.2
           }
+          enableBoundingObject FALSE
         }
         Transform {
           translation 0.07 0.02 0
