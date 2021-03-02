@@ -38,19 +38,12 @@ def replace_url(file):
                 continue
             content = content.replace('"' + url + '"', '"' + found + '"')
             # print('Replaced ' + url + ' with ' + found + ' in ' + file)
-    return
-    with open(file, 'w') as fd:
+    with open(file, 'w', newline='\n') as fd:
         fd.write(content)
     return
 
 
-# replace_url('projects/samples/devices/worlds/bumper.wbt')
-for path in Path('.').rglob('*.wbt'):
+for path in Path('.').rglob('*.proto'):  # replace with '*.wbt' for world files
     path = str(path).replace('\\', '/')
-#    print(path)
-    replace_url(path)
-
-for path in Path('.').rglob('*.proto'):
-    path = str(path).replace('\\', '/')
-#    print(path)
+    print(path)
     replace_url(path)
