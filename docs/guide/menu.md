@@ -158,6 +158,7 @@
     - [Fruits](object-fruits.md)
     - [Garden](object-garden.md)
     - [Geometries](object-geometries.md)
+    - [Gear](object-gear.md)
     - [Kitchen](object-kitchen.md)
     - [Lego](object-lego.md)
     - [Lights](object-lights.md)
