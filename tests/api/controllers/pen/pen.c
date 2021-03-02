@@ -142,8 +142,8 @@ int main(int argc, char **argv) {
   // check camera 1
   color = computeImageMeanColor(1);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 194, 178, 167, 2,
-    "Pen \"pen1\" should overwrite previous color with color (r=194,g=178,b=167) and not (r=%d,g=%d,b=%d) if WRITE=FALSE",
+    color.r, color.g, color.b, 154, 178, 167, 2,
+    "Pen \"pen1\" should overwrite previous color with color (r=154,g=178,b=167) and not (r=%d,g=%d,b=%d) if WRITE=FALSE",
     color.r, color.g, color.b);
 
   // FIFTH STEP - check density
