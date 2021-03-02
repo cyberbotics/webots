@@ -237,11 +237,6 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
   if (mEvaporation && !gEvaporationTextures.contains(this))
     gEvaporationTextures.append(this);
 
-  const float blue = density * color.blue();
-  const float green = density * color.green();
-  const float red = density * color.red();
-  const float existingColorPercentage = 1.0f - density;
-
   const int halfSize2 = (halfSize * halfSize);
   for (int ty = oy; ty <= sy; ++ty) {
     int rowOffset = ty * w;
@@ -249,13 +244,20 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
     int circleCondition = halfSize2 - (ty - y) * (ty - y);
     for (int tx = ox; tx <= sx; ++tx) {
       if ((tx - x) * (tx - x) <= circleCondition) {
-        mData[dataIndex] = existingColorPercentage * mData[dataIndex] + blue;
-        mData[dataIndex + 1] = existingColorPercentage * mData[dataIndex + 1] + green;
-        mData[dataIndex + 2] = existingColorPercentage * mData[dataIndex + 2] + red;
-        mData[dataIndex + 3] = 1.0f;
+        const float previousDensity = mData[dataIndex + 3];
+        const float oldDensityRatio = previousDensity / (density + previousDensity);
+        mData[dataIndex] = oldDensityRatio * mData[dataIndex] + (1 - oldDensityRatio) * color.blue();
+        mData[dataIndex + 1] = oldDensityRatio * mData[dataIndex + 1] + (1 - oldDensityRatio) * color.green();
+        mData[dataIndex + 2] = oldDensityRatio * mData[dataIndex + 2] + (1 - oldDensityRatio) * color.red();
+        mData[dataIndex + 3] += density;
+        if (mData[dataIndex + 3] > 1)
+          mData[dataIndex + 3] = 1;
 
-        if (mEvaporation)
-          mEvaporation[rowOffset + tx] = 1.0f;
+        if (mEvaporation) {
+          mEvaporation[rowOffset + tx] += density;
+          if (mEvaporation[rowOffset + tx] > 1)
+            mEvaporation[rowOffset + tx] = 1;
+        }
 
         wr_drawable_texture_set_color(mTexture, &mData[dataIndex]);
         wr_drawable_texture_draw_pixel(mTexture, tx, ty);
