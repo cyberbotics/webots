@@ -1051,11 +1051,11 @@ int wb_robot_init() {  // API initialization
       }
     }
     if (trial == 10)
-      fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
+      fprintf(stderr, "Impossible to communicate with Webots: aborting.\n");
   }
   if (!success) {
     if (!pipe)
-      fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
+      fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
     free(pipe);
     exit(EXIT_FAILURE);
   }
