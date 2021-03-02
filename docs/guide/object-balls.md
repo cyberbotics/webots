@@ -62,10 +62,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 FifaSoccerBall {
-  field SFVec3f            translation 0 0 0
-  field SFRotation         rotation    0 1 0 0
-  field SFString           name        "fifa soccer ball"
-  field SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.
+  SFVec3f            translation 0 0 0
+  SFRotation         rotation    0 1 0 0
+  SFString           name        "fifa soccer ball"
+  SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.
 }
 ```
 
