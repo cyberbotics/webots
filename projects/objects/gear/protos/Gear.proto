@@ -56,7 +56,7 @@ PROTO Gear [
       pitchRadius = fields.pitchRadius.defaultValue
     end
 
-    if toothDepth > pitchRadius then
+    if toothDepth >= pitchRadius then
       io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'.\n")
       toothDepth = fields.toothDepth.defaultValue
       pitchRadius = fields.pitchRadius.defaultValue
@@ -155,6 +155,7 @@ PROTO Gear [
     %{ if bodyBoundingObject or teethBoundingObject then }%
       boundingObject Group {
         children [
+          # cylinder encompassing the gear
           %{ if bodyBoundingObject then }%
             Transform {
               rotation 1 0 0 1.570796
@@ -168,6 +169,7 @@ PROTO Gear [
               ]
             }
           %{ end }%
+          # spherical contact point on each tooth
           %{ if teethBoundingObject then }%
             %{ for n = 0, Z-1 do }%
               %{ alpha = n * 2.0 * math.pi / Z }%

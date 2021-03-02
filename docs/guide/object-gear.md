@@ -46,7 +46,7 @@ Gear {
 - `density`: Defines the density of the gear. When setting a positive value, the physics node is enabled. When the value is zero,
 the physics node is disabled.
 
-- `bodyBoundingObject`: When enabled, the bounds of the solid are modeled by a cylinder that encapsulates the entire gear.
+- `bodyBoundingObject`: When enabled, the bounds of the solid are modeled by a cylinder that encompasses the entire gear.
 
 - `teethBoundingObject`: When enabled, a spherical `boundingObject` is added to the tip of each tooth, and its radius can be
 controlled by setting the `contactRadius` field.
