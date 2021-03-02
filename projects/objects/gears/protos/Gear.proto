@@ -9,13 +9,13 @@ PROTO Gear [
   field SFRotation      rotation               0 1 0 0
   field SFNode          appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
   field SFInt32         teeth                  8          # [8, inf)
-  field SFFloat         width                  0.01       # (0, inf)
-  field SFFloat         innerRadius            0.01       # radius hole at the center
+  field SFFloat         width                  0.01       # (0, inf) gear thickness
+  field SFFloat         innerRadius            0.01       # radius of the center hole
   field SFFloat         pitchRadius            0.04       # radius at center of teeth
   field SFFloat         toothDepth             0.01       # depth of tooth
-  field SFBool          enablePhysics          FALSE      #
-  field SFBool          enableBoundingObject   TRUE       #
-  field SFFloat         mass                   0.001      # Defines the mass of the ball.
+  field SFFloat         density                0          # density of the gear. If zero, physics is disabled
+  field SFBool          bodyBoundingObject     TRUE       # gear body collision area (cylinder)
+  field SFBool          teethBoundingObject    FALSE      # 
 ]
 {
   %{
@@ -29,17 +29,23 @@ PROTO Gear [
     local innerRadius = fields.innerRadius.value
     local pitchRadius = fields.pitchRadius.value
     local toothDepth = fields.toothDepth.value
-    local enablePhysics = fields.enablePhysics.value
-    local enableBoundingObject = fields.enableBoundingObject.value
+    local density = fields.density.value
+    local bodyBoundingObject = fields.bodyBoundingObject.value
+    local teethBoundingObject = fields.teethBoundingObject.value
     -- parameter sanity check
     if Z < 8 then
-      io.stderr:write("'teeth' value must bigger than 8. Reverting to default.\n")
+      io.stderr:write("'teeth' value must bigger than 8. Reverting to default value.\n")
       Z = fields.teeth.defaultValue
     end
     
     if w <= 0.0  then
-      io.stderr:write("'width' value must bigger than 0. Reverting to default.\n")
+      io.stderr:write("'width' value must bigger than 0. Reverting to default value.\n")
       w = fields.width.defaultValue
+    end
+
+    if density < 0.0  then
+      io.stderr:write("'density' value must bigger bigger or equal to zero. Reverting to default value.\n")
+      density = fields.density.defaultValue
     end
 
     if innerRadius >= pitchRadius or pitchRadius <= innerRadius then
@@ -52,12 +58,6 @@ PROTO Gear [
       io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'.\n")
       toothDepth = fields.toothDepth.defaultValue
       pitchRadius = fields.pitchRadius.defaultValue
-    end
-
-    if (enablePhysics and not enableBoundingObject) then
-      io.stderr:write("To enable physics a boundingObject is required. Reverting to defaults.\n")
-      enablePhysics = fields.enablePhysics.defaultValue
-      enableBoundingObject = fields.enableBoundingObject.defaultValue
     end
 
     -- define vertices of the repeatable unit
@@ -86,12 +86,7 @@ PROTO Gear [
     rotation IS rotation
     name %{='"gear_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
     children [
-      %{ if fields.children.value ~= nil then }%
-        Solid {
-          children IS children
-        }
-      %{ end }%
-      DEF GEAR_SHAPE Shape {
+      Shape {
         appearance IS appearance
         geometry IndexedFaceSet {
             coord Coordinate {
@@ -137,7 +132,7 @@ PROTO Gear [
                 %{= n*14 + 0}%, %{= n*14 + 13}%, %{= n*14 + 6}%, -1,
                 # outer face face
                 %{= n*14 + 1}%, %{= n*14 + 2}%, %{= n*14 + 9}%, -1,
-                %{= n*14 + 1}%, %{= n*14 + 9}%, %{= n*14 + 8}%, -1, 
+                %{= n*14 + 1}%, %{= n*14 + 9}%, %{= n*14 + 8}%, -1,
                 %{= n*14 + 2}%, %{= n*14 + 3}%, %{= n*14 + 10}%, -1,
                 %{= n*14 + 2}%, %{= n*14 + 10}%, %{= n*14 + 9}%, -1,
                 %{= n*14 + 3}%, %{= n*14 + 4}%, %{= n*14 + 11}%, -1,
@@ -149,23 +144,45 @@ PROTO Gear [
           }
         }
     ]
-    %{ if enableBoundingObject then}%
-    boundingObject Transform {
-      rotation 1 0 0 1.570796
-      children [
-        Shape {
-          geometry Cylinder {
-            radius %{= pitchRadius + 0.5*toothDepth}%
-            height %{= w}%
-          }
-        }
-      ]
-    }
+    # boundingObject
+    %{ if bodyBoundingObject or teethBoundingObject then }%
+      boundingObject Group {
+        children [
+          %{ if bodyBoundingObject then }%
+            Transform {
+              rotation 1 0 0 1.570796
+              children [
+                Shape {
+                  geometry Cylinder {
+                    radius %{= r2}%
+                    height %{= w}%
+                  }
+                }
+              ]
+            }
+          %{ end }%
+          %{ if teethBoundingObject then }%
+            %{ for n = 0, Z-1 do }%
+              %{ alpha = n * 2.0 * math.pi / Z }%
+              Transform {
+                translation %{= r2*math.cos(alpha + 1.5*da)}% %{= r2*math.sin(alpha + 1.5*da)}% 0
+                children [
+                  Shape {
+                    geometry Sphere {
+                      radius %{= 0.001}%
+                    }
+                  }
+                ]
+              }
+            %{ end }%
+          %{ end }%
+        ]
+      }
     %{ end }%
-    %{ if enablePhysics then }%
+    # physics
+    %{ if density > 0.0 then }%
     physics Physics {
-      density -1
-      mass IS mass
+      density IS density
     }
     %{ end }%
   }
