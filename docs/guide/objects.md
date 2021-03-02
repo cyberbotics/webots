@@ -27,6 +27,7 @@
 - [Freight](object-freight.md)
 - [Fruits](object-fruits.md)
 - [Garden](object-garden.md)
+- [Gears](object-gears.md)
 - [Geometries](object-geometries.md)
 - [Kitchen](object-kitchen.md)
   - [Breakfast](object-kitchen.md#breakfast)
@@ -56,4 +57,3 @@
 - [Toys](object-toys.md)
 - [Traffic](object-traffic.md)
 - [Trees](object-trees.md)
-

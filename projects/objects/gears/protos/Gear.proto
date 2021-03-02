@@ -15,7 +15,8 @@ PROTO Gear [
   field SFFloat         toothDepth             0.01       # depth of tooth
   field SFFloat         density                0          # density of the gear. If zero, physics is disabled
   field SFBool          bodyBoundingObject     TRUE       # gear body collision area (cylinder)
-  field SFBool          teethBoundingObject    FALSE      # 
+  field SFBool          teethBoundingObject    FALSE      # gear teeth bounding object
+  field SFFloat         contactRadius          0.001      # teethBoundingObject's sphere radius 
 ]
 {
   %{
@@ -32,19 +33,20 @@ PROTO Gear [
     local density = fields.density.value
     local bodyBoundingObject = fields.bodyBoundingObject.value
     local teethBoundingObject = fields.teethBoundingObject.value
+    local contactRadius = fields.contactRadius.value
     -- parameter sanity check
     if Z < 8 then
-      io.stderr:write("'teeth' value must bigger than 8. Reverting to default value.\n")
+      io.stderr:write("'teeth' value must bigger than 8. Using default value.\n")
       Z = fields.teeth.defaultValue
     end
     
     if w <= 0.0  then
-      io.stderr:write("'width' value must bigger than 0. Reverting to default value.\n")
+      io.stderr:write("'width' value must bigger than zero. Using default value.\n")
       w = fields.width.defaultValue
     end
 
     if density < 0.0  then
-      io.stderr:write("'density' value must bigger bigger or equal to zero. Reverting to default value.\n")
+      io.stderr:write("'density' value must bigger or equal to zero. Using default value.\n")
       density = fields.density.defaultValue
     end
 
@@ -58,6 +60,11 @@ PROTO Gear [
       io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'.\n")
       toothDepth = fields.toothDepth.defaultValue
       pitchRadius = fields.pitchRadius.defaultValue
+    end
+
+    if contactRadius <= 0.0  then
+      io.stderr:write("'contactRadius' value must be bigger than zero. Using default value.\n")
+      contactRadius = fields.contactRadius.defaultValue
     end
 
     -- define vertices of the repeatable unit
@@ -169,7 +176,7 @@ PROTO Gear [
                 children [
                   Shape {
                     geometry Sphere {
-                      radius %{= 0.001}%
+                      radius %{= contactRadius}%
                     }
                   }
                 ]
