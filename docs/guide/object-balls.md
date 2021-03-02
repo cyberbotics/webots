@@ -76,7 +76,7 @@ FifaSoccerBall {
 
 ### FifaSoccerBall Field Summary
 
-- `size`: Defines the ball size according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4` and `5`.
+- `size`: Defines the ball size according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## PingPongBall
 
@@ -142,4 +142,3 @@ SoccerBall {
 - `radius`: Defines the radius of the ball.
 
 - `mass`: Defines the mass of the ball.
-
