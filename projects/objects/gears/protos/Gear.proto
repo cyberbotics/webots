@@ -1,0 +1,162 @@
+#VRML_SIM R2021b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Generic gear generator, inspired by Brian Paul's glxgears demo. 
+
+PROTO Gear [
+  field SFVec3f         translation            0 0 0
+  field SFRotation      rotation               0 1 0 0
+  field SFNode          appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
+  field SFNode          boundingObject         NULL       # boundingObject shape
+  field SFInt32         teeth                  8          # [8, inf)
+  field SFFloat         width                  0.01       # (0, inf)
+  field SFFloat         innerRadius            0.01       # radius hole at the center
+  field SFFloat         pitchRadius            0.04       # radius at center of teeth
+  field SFFloat         toothDepth             0.01       # depth of tooth
+  field SFBool          enablePhysics          FALSE      #
+  field SFBool          enableBoundingObject   TRUE       #
+  field SFFloat         mass                   0.001      # Defines the mass of the ball.
+]
+{
+  %{
+    -- load modules
+    local os = require('os')
+    local wbrandom = require('wbrandom')
+    wbrandom.seed(os.clock() + os.time())
+    -- parameter retrieval
+    local w = fields.width.value
+    local Z = fields.teeth.value
+    local innerRadius = fields.innerRadius.value
+    local pitchRadius = fields.pitchRadius.value
+    local toothDepth = fields.toothDepth.value
+    local enablePhysics = fields.enablePhysics.value
+    local enableBoundingObject = fields.enableBoundingObject.value
+    local boundingObject = fields.boundingObject.value
+    -- parameter sanity check
+    if Z < 8 then
+      io.stderr:write("'teeth' value must bigger than 8. Reverting to default.\n")
+      Z = fields.teeth.defaultValue
+    end
+    
+    if w <= 0.0  then
+      io.stderr:write("'width' value must bigger than 0. Reverting to default.\n")
+      w = fields.width.defaultValue
+    end
+
+    if innerRadius >= pitchRadius or pitchRadius <= innerRadius then
+      io.stderr:write("'innerRadius' value must be smaller than 'pitchRadius'.\n")
+      innerRadius = fields.innerRadius.defaultValue
+      pitchRadius = fields.pitchRadius.defaultValue
+    end
+
+    if toothDepth > pitchRadius then
+      io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'.\n")
+      toothDepth = fields.toothDepth.defaultValue
+      pitchRadius = fields.pitchRadius.defaultValue
+    end
+
+    if (enablePhysics and not enableBoundingObject) or (enablePhysics and boundingObject == nil)  then
+      io.stderr:write("To enable physics a boundingObject is required. Reverting to defaults.\n")
+      enablePhysics = fields.enablePhysics.defaultValue
+      enableBoundingObject = fields.enableBoundingObject.defaultValue
+    end
+
+    -- define vertices of the repeatable unit
+    local r0 = innerRadius
+    local r1 = pitchRadius - toothDepth * 0.5
+    local r2 = pitchRadius + toothDepth * 0.5
+    local da = (2.0 * math.pi / Z) / 4.0
+    
+    local p0x = r0
+    local p0y = 0
+    local p1x = r1
+    local p1y = 0
+    local p2x = r2 * math.cos(0 + da)
+    local p2y = r2 * math.sin(0 + da)
+    local p3x = r2 * math.cos(0 + 2*da)
+    local p3y = r2 * math.sin(0 + 2*da)
+    local p4x = r1 * math.cos(0 + 3*da)
+    local p4y = r1 * math.sin(0 + 3*da)
+    local p5x = r1 * math.cos(2.0 * math.pi / Z)
+    local p5y = r1 * math.sin(2.0 * math.pi / Z)
+    local p6x = r0 * math.cos(2.0 * math.pi / Z)
+    local p6y = r0 * math.sin(2.0 * math.pi / Z)
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name %{='"gear_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
+    children [
+    DEF GEAR_SHAPE Shape {
+      appearance IS appearance
+      geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{ for n = 0, Z-1 do }%
+                %{ alpha = n * 2.0 * math.pi / Z }%
+                # base face
+                %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= -w*0.5}% # 0
+                %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= -w*0.5}% # 1
+                %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= -w*0.5}% # 2
+                %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= -w*0.5}% # 3
+                %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= -w*0.5}% # 4
+                %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= -w*0.5}% # 5
+                %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= -w*0.5}% # 6
+                # top face
+                %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= w*0.5}% # 7
+                %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= w*0.5}% # 8
+                %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= w*0.5}% # 9
+                %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= w*0.5}% # 10
+                %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= w*0.5}% # 11
+                %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= w*0.5}% # 12
+                %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= w*0.5}% # 13
+              %{ end }%
+              
+            ]
+          }
+          coordIndex [
+            %{ for n = 0, Z-1 do }%
+              # base face
+              %{= n*14 + 0}%, %{= n*14 + 2}%, %{= n*14 + 1}%, -1,
+              %{= n*14 + 0}%, %{= n*14 + 3}%, %{= n*14 + 2}%, -1,
+              %{= n*14 + 0}%, %{= n*14 + 4}%, %{= n*14 + 3}%, -1,
+              %{= n*14 + 0}%, %{= n*14 + 5}%, %{= n*14 + 4}%, -1,
+              %{= n*14 + 0}%, %{= n*14 + 6}%, %{= n*14 + 5}%, -1,
+              # top face
+              %{= n*14 + 7}%, %{= n*14 + 8}%, %{= n*14 + 9}%, -1,
+              %{= n*14 + 7}%, %{= n*14 + 9}%, %{= n*14 + 10}%, -1,
+              %{= n*14 + 7}%, %{= n*14 + 10}%, %{= n*14 + 11}%, -1,
+              %{= n*14 + 7}%, %{= n*14 + 11}%, %{= n*14 + 12}%, -1,
+              %{= n*14 + 7}%, %{= n*14 + 12}%, %{= n*14 + 13}%, -1,
+              # inner face shape
+              %{= n*14 + 0}%, %{= n*14 + 7}%, %{= n*14 + 13}%, -1,
+              %{= n*14 + 0}%, %{= n*14 + 13}%, %{= n*14 + 6}%, -1,
+              # outer face face
+              %{= n*14 + 1}%, %{= n*14 + 2}%, %{= n*14 + 9}%, -1,
+              %{= n*14 + 1}%, %{= n*14 + 9}%, %{= n*14 + 8}%, -1, 
+              %{= n*14 + 2}%, %{= n*14 + 3}%, %{= n*14 + 10}%, -1,
+              %{= n*14 + 2}%, %{= n*14 + 10}%, %{= n*14 + 9}%, -1,
+              %{= n*14 + 3}%, %{= n*14 + 4}%, %{= n*14 + 11}%, -1,
+              %{= n*14 + 3}%, %{= n*14 + 11}%, %{= n*14 + 10}%, -1,
+              %{= n*14 + 4}%, %{= n*14 + 5}%, %{= n*14 + 12}%, -1,
+              %{= n*14 + 4}%, %{= n*14 + 12}%, %{= n*14 + 11}%, -1,
+            %{ end }%
+          ]
+        }
+      }
+    ]
+    %{ if enableBoundingObject and bundingObject == nil then}%
+      boundingObject USE GEAR_SHAPE
+    %{ else }%
+      boundingObject IS boundingObject
+    %{ end }%
+    
+    %{ if enablePhysics then }%
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+    %{ end }%
+  }
+}
