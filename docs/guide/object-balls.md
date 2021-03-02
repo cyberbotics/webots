@@ -62,10 +62,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 FifaSoccerBall {
-  SFVec3f            translation 0 0 0
-  SFRotation         rotation    0 1 0 0
-  SFString           name        "fifa soccer ball"
-  SFInt32{1,2,3,4,5} size        5 # Defines the ball size according to FIFA standards.
+  SFVec3f     translation 0 0 0
+  SFRotation  rotation    0 1 0 0
+  SFString    name        "fifa soccer ball"
+  SFInt32     size        5
 }
 ```
 
@@ -76,7 +76,7 @@ FifaSoccerBall {
 
 ### FifaSoccerBall Field Summary
 
-- `size`: official FIFA ball sizes ranging from 1 to 5.
+- `size`: Defines the ball size according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4` and `5`.
 
 ## PingPongBall
 
