@@ -18,6 +18,7 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 C_SOURCES = $(wildcard *.c)
+LIBRARIES = -lgeneric_robot_window
 
 null :=
 space := $(null) $(null)
