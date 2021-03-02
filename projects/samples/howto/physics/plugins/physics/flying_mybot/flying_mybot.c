@@ -284,8 +284,8 @@ int webots_physics_collide(dGeomID g1, dGeomID g2) {
      * But in the case the collision is with the robot's body, we ignore
      * it. They will not create any collision.
      */
-    if ((dAreGeomsSame(g2, ray_geom) && dSpaceQuery((dSpaceID)robot_geom, g1) == 1) ||
-        (dAreGeomsSame(g1, ray_geom) && dSpaceQuery((dSpaceID)robot_geom, g2) == 1)) {
+    if ((dAreGeomsSame(g2, ray_geom) && (dSpaceQuery((dSpaceID)robot_geom, g1) == 1 || dGeomIsSpace(g1))) ||
+        (dAreGeomsSame(g1, ray_geom) && (dSpaceQuery((dSpaceID)robot_geom, g2) == 1 || dGeomIsSpace(g1)))) {
       ray_color = 0;
       dWebotsSend(2, &ray_color, sizeof(int));
       return 1;
