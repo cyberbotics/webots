@@ -280,12 +280,5 @@ bool WbTouchSensor::forceBehavior() const {
 }
 
 void WbTouchSensor::setSolidMerger() {
-  if (!physics()) {
-    mSolidMerger = NULL;
-    return;
-  }
-
-  const WbSolid *const us = jointParent() ? NULL : upperSolid();
-  const bool inherit = us && us->physics();
-  mSolidMerger = inherit ? us->solidMerger() : QPointer<WbSolidMerger>(new WbSolidMerger(this));
+  mSolidMerger = NULL;
 }
