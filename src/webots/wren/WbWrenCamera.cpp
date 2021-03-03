@@ -589,6 +589,10 @@ void WbWrenCamera::init() {
   emit cameraInitialized();
 
   WbWrenOpenGlContext::doneWren();
+
+  int wireframeRendering = 1;
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::pbrStencilAmbientEmissiveShader(), "wireframeRendering", WR_SHADER_PROGRAM_UNIFORM_TYPE_INT, reinterpret_cast<const char *>(&wireframeRendering));
+
 }
 
 void WbWrenCamera::cleanup() {
