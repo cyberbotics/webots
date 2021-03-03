@@ -95,6 +95,7 @@ void WbPaintTexture::clearTexture() {
     mData[++k] = 1.0f;
     mData[++k] = 0.0f;
   }
+  wr_drawable_texture_clear(mTexture);
 
   if (mEvaporation)
     memset(mEvaporation, 0, size * sizeof(double));

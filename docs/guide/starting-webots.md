@@ -44,6 +44,9 @@ Options:
     Choose the startup mode, overriding application preferences. The <mode>
     argument must be either pause, realtime or fast.
 
+  --no-rendering
+    Disable rendering in the main 3D view.
+
   --fullscreen
     Start Webots in fullscreen.
 
