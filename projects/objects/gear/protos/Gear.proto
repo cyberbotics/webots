@@ -33,7 +33,7 @@ PROTO Gear [
     local teethBoundingObject = fields.teethBoundingObject.value
     -- parameter sanity check
     if Z < 8 then
-      io.stderr:write("'teeth' value must bigger than 8. Using default value.\n")
+      io.stderr:write("'teeth' value must be greater than 8. Using default value.\n")
       Z = fields.teeth.defaultValue
     end
 
