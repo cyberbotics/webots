@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5987733328184486 0.7755221144556235 0.20008984455930295 0.8137012065358815
-  position 0.3047399454921005 0.22595807773923873 0.33590477312539807
+  orientation -0.7122425507110172 0.6731231124253987 0.19903724394044522 0.787007466897683
+  position 0.224084855059486 0.2222513574339209 0.2766361676214366
 }
 TexturedBackgroundLight {
 }
@@ -22,19 +22,6 @@ Robot {
           height 0.01
           radius 0.04
           thickness 0.015
-          appearance PBRAppearance {
-            baseColor 0.729412 0.741176 0.713725
-            roughness 0.2
-          }
-          enableBoundingObject FALSE
-        }
-        DEF INNER SolidPipe {
-          translation 0.07 0 0
-          rotation 0 0 1 -1.5708
-          name "pipe(1)"
-          height 0.01
-          radius 0.015
-          thickness 0.01
           appearance PBRAppearance {
             baseColor 0.729412 0.741176 0.713725
             roughness 0.2
@@ -114,19 +101,6 @@ Robot {
           }
           enableBoundingObject FALSE
         }
-        DEF INNER SolidPipe {
-          translation 0.07 0 0
-          rotation 0 0 1 -1.5708
-          name "pipe(3)"
-          height 0.01
-          radius 0.015
-          thickness 0.01
-          appearance PBRAppearance {
-            baseColor 0.729412 0.741176 0.713725
-            roughness 0.2
-          }
-          enableBoundingObject FALSE
-        }
         Transform {
           translation 0.07 0.02 0
           children [
@@ -194,22 +168,7 @@ Robot {
           }
           geometry Cylinder {
             height 0.05
-            radius 0.04
-          }
-        }
-      ]
-    }
-    DEF OUTPUT_SHAFT Transform {
-      translation 0.185 0 0
-      rotation 0 0 1 -1.5708
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.203922 0.396078 0.643137
-          }
-          geometry Cylinder {
-            height 0.03
-            radius 0.005
+            radius 0.035
           }
         }
       ]
@@ -259,7 +218,7 @@ Robot {
     }
     HingeJointWithBacklash {
       jointParameters HingeJointParameters {
-        position 0.3711999999999989
+        position -0.9088000190733081
         anchor 0.19 0 0
       }
       backlash 0.4
@@ -328,7 +287,7 @@ Robot {
                 }
               ]
             }
-            DEF ROTORCENTER Transform {
+            DEF ROTOR_CENTER Transform {
               rotation 0 0 1 -1.5708
               children [
                 SolidPipe {
@@ -373,23 +332,96 @@ Robot {
                 }
               ]
             }
+            DEF INPUT_MARKER Transform {
+              translation 0.095 0.0075 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.937255 0.160784 0.160784
+                  }
+                  geometry DEF OUTPUT_MARKER Box {
+                    size 0.01 0.015 0.005
+                  }
+                }
+              ]
+            }
+            DEF FRONT_INNER_BEARING Transform {
+              translation 0.07 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.729412 0.741176 0.713725
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/grid.png"
+                      ]
+                    }
+                    roughness 0.2
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.015
+                  }
+                }
+              ]
+            }
+            DEF BACK_INNER_BEARING Transform {
+              translation -0.11 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.729412 0.741176 0.713725
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/grid.png"
+                      ]
+                    }
+                    roughness 0.2
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.015
+                  }
+                }
+              ]
+            }
           ]
         }
       ]
       endPoint Solid {
-        translation 0.195 0.01 0
-        rotation 1 0 0 0
         children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0.203922 0.396078 0.643137
-            }
-            geometry DEF ENDPOINT Box {
-              size 0.01 0.015 0.005
-            }
+          DEF OUTPUT_SHAFT Transform {
+            translation 0.185 0 0
+            rotation 0 0 1 -1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.005
+                }
+              }
+            ]
+          }
+          DEF OUTPUT_MARKER Transform {
+            translation 0.195 0.0075 0
+            children [
+              DEF OUTPUT_MARKER Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry DEF OUTPUT_MARKER Box {
+                  size 0.01 0.015 0.005
+                }
+              }
+            ]
           }
         ]
-        boundingObject USE ENDPOINT
+        boundingObject USE OUTPUT_MARKER
         physics Physics {
         }
       }
