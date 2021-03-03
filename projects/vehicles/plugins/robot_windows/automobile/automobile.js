@@ -31,7 +31,7 @@ function updateControlMode(controlMode) {
   document.getElementById('rpm-label').textContent = labelText;
   document.getElementById('throttle-enable-checkbox').disabled = !isTorqueMode;
   document.getElementById('rpm-enable-checkbox').disabled = !isTorqueMode;
-  labelText = (isSpeedMode || isTorqueMode) ? '' : 'Vehicle speed not set using the Driver library'
+  labelText = (isSpeedMode || isTorqueMode) ? '' : 'Vehicle speed not set using the Driver library';
   document.getElementById('target-speed-label').textContent = labelText;
   document.getElementById('speed-enable-checkbox').disabled = !isSpeedMode && !isTorqueMode;
   overviewWidget.updateControlMode(isSpeedMode, isTorqueMode);
@@ -119,7 +119,7 @@ function configure(data) {
   addDriverInfo({name: 'Speed', htmlName: 'Speed'}, '[km/h]', -20.0, 20.0);
 
   addTab('Steering');
-  addDriverInfo({name: 'Steering'}, '[rad]', -0.001, 0.001);
+  addDriverInfo({name: 'Steering'}, '[rad]', -0.1, 0.1);
 
   addTab('Encoders');
   addDriverInfo({name: 'Encoders'}, '[rad]', 0, 200);

@@ -242,8 +242,19 @@ TimeplotWidget.prototype.updateRange = function() {
 TimeplotWidget.prototype.updateGridConstants = function() {
   let delta = this.yRange['max'] - this.yRange['min'];
   delta *= 0.999; // in order to decrease the order of magnitude if delta is a perfect divider of the increment
-  const orderOfMagnitude = Math.floor(Math.log(delta) / Math.LN10);
-  this.verticalGridSteps = Math.pow(10, orderOfMagnitude);
+  const minStep = delta / 10; // initial step size
+  const orderOfMagnitude = Math.floor(Math.log(minStep) / Math.LN10);
+  const magnitude = Math.pow(10, orderOfMagnitude);
+  // calculate most significant digit of the new step size
+  var residual = Math.round(minStep / magnitude + 0.5);
+  if (residual > 5.0)
+    residual = 10.0;
+  else if (residual > 2.0)
+    residual = 5.0;
+  else if (residual > 1.0)
+    residual = 2.0;
+
+  this.verticalGridSteps = magnitude * residual;
 };
 
 TimeplotWidget.prototype.show = function(show) {
