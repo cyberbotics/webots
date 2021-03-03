@@ -18,7 +18,7 @@ PaperBoat {
   SFRotation rotation            0 1 0 0
   SFString   name                "paper boat"
   SFFloat    scale               1
-  MFString   textureUrl          "textures/newspaper.jpg"
+  MFString   textureUrl          "PaperBoat/newspaper.jpg"
   SFFloat    mass                0.25
   MFNode     immersionProperties [
       ImmersionProperties {

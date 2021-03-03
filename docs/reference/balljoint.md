@@ -8,6 +8,7 @@ BallJoint {
   SFNode  jointParameters2 NULL   # {JointParameters, PROTO}
   SFNode  jointParameters3 NULL   # {JointParameters, PROTO}
   MFNode  device3          [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
+  # hidden fields
   SFFloat position3        0      # [0, inf)
 }
 ```
@@ -41,5 +42,7 @@ If these fields are empty, the `springConstant`, `dampingConstant` and `staticFr
 
 - `device3`: this field optionally specifies a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for the third axis.
 If no motor is specified, the corresponding axis is passive.
+
+### Hidden Field Summary
 
 - `position3`: This field is not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).

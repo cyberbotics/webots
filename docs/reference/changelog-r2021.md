@@ -8,6 +8,16 @@ Released on June, Xth, 2021.
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
   - Enhancements
+    - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
+    - Allow the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
+    - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
+    - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655)).
+      - Skip updates when the robot window is hidden to not affect the simulation performance.
+      - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
+      - Add buttons to enable and disable all the devices with the same type at once.
+      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the correspoding tab is not visible.
+      - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
+      - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
     - Allowed the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
   - New Samples:
@@ -26,7 +36,11 @@ Released on XX Xth, 2021.
     - Don't display warnings for recent Intel and AMD graphics cards ([#2623](https://github.com/cyberbotics/webots/pull/2623)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
+    - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
   - Bug fixes
+    - Fixed erasing [Pen](pen.md) ink on simulation reset ([#2796](https://github.com/cyberbotics/webots/pull/2796)).
+    - Fixed update of [PointSet](pointset.md) subnodes ([#2766](https://github.com/cyberbotics/webots/pull/2766)).
+    - Fixed [`wb_supervisor_node_get_velocity`](supervisor.md#wb_supervisor_node_get_velocity) in MATLAB API returning 3 elements instead of 6 ([#2764](https://github.com/cyberbotics/webots/pull/2764)).
     - Fixed step button status if simulation is reset from UI when the step button is disabled ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Fixed controllers output printed in the Webots console one step too late when running the simulation step-by-step ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Windows: Fixed double-click opening of a world file located in a path with UTF-8 characters ([#2750](https://github.com/cyberbotics/webots/pull/2750)). 
@@ -46,6 +60,7 @@ Released on XX Xth, 2021.
     - Fixed external force/torque logic such that the closest dynamic Solid ancestor is picked if the selected one lacks it ([#2635](https://github.com/cyberbotics/webots/pull/2635)).
     - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
     - Fixed visual bug where the [Lidar](lidar.md) point cloud disappears when out-of-range points are present ([#2666](https://github.com/cyberbotics/webots/pull/2666)).
+    - Fixed the return value handling from the `webots_physics_collide` when the [Group](group.md) node is one of the colliding objects ([#2781](https://github.com/cyberbotics/webots/pull/2781)).
   - Cleanup
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Dependency Updates
@@ -106,7 +121,7 @@ Released on December 15th, 2020.
     - Fixed performance regression (thanks to [Acwok](https://github.com/Acwok)) ([#2434](https://github.com/cyberbotics/webots/pull/2434)).
     - **Deprecated all the device getter methods in Python.** They are replaced by a new [`Robot.getDevice`](robot.md#wb_robot_get_device) method which is closer to the C API ([#2510](https://github.com/cyberbotics/webots/pull/2510)).
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
-    - Fixed the [webots\_physics\_collide(dGeomID, dGeomID)](callback-functions.md) callback function so that it gets called even if the [`boundingObject`](solid.md#solid-fields) is a [Group](group.md) node ([#2505](https://github.com/cyberbotics/webots/pull/2505)).
+    - Fixed the [webots\_physics\_collide(dGeomID, dGeomID)](callback-functions.md) callback function so that it gets called even if the [`boundingObject`](solid.md#field-summary) is a [Group](group.md) node ([#2505](https://github.com/cyberbotics/webots/pull/2505)).
   - Cleanup
     - **Deleted `run` mode as the same behavior now can be achieved by using `fast` mode while keeping the rendering turned on ([#2286](https://github.com/cyberbotics/webots/pull/2286)).**
     - **Changed ROS message type published by the [GPS](gps.md) node when it is configured to work in `local` GPS coordinate system ([#2368](https://github.com/cyberbotics/webots/pull/2368))**.

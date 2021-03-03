@@ -343,7 +343,7 @@ Do you know why I am getting this error?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/802613647226044436/unknown.png)
 %end
 
-##### Bitbots\_Jasper 01/23/2021 19:02:50
+##### Bitbots\_Jasper [Moderator] 01/23/2021 19:02:50
 you seem to be missiong ros-<version>-console-bridge
 
 ##### adiagr 01/24/2021 18:32:16
@@ -468,13 +468,13 @@ Yes, there not such a limit in GitHub.
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/29/2021 10:08:53
 I think it is possible, but I am concern about the quality of the translations.
 
-##### Bitbots\_Jasper 01/29/2021 10:10:29
+##### Bitbots\_Jasper [Moderator] 01/29/2021 10:10:29
 I think the quality would be rather poor since there is often only a small snippet of text and translation algorithms usually work much better with context, it might be worth a shot but a native or very fluent speaker would need to rework it
 
 ##### Ginzo1 01/29/2021 12:47:01
 Hello, everyone! I've just recently pick up WeBots as I have an university project that requires to be simulated. It is a robot design project for which I will need a hydraulic scissors lift. Since I have a relatively basic knowledge on mechanics and kinematics but I am still really inexperienced with WeBots. Since the scissors lift is a quite common system, I was wondering if there is some information somewhere on how to create one on my own or see how it is supposed to be done from scratch? Thanks in advance!
 
-##### Bitbots\_Jasper 01/29/2021 12:49:47
+##### Bitbots\_Jasper [Moderator] 01/29/2021 12:49:47
 `@Ginzo1` this question has been asked a while back, maybe there is something useful for you there [https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16](https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16)
 
 ##### babaev1 01/30/2021 10:34:05
@@ -503,7 +503,7 @@ For translating the manuals, I believe the option 2 is the best for us: we will 
 ##### Lumii 02/09/2021 10:36:01
 is there any tutorial how i can start writing a program to actually move (UR) my robot in the simulation?
 
-##### Bitbots\_Jasper 02/09/2021 10:37:40
+##### Bitbots\_Jasper [Moderator] 02/09/2021 10:37:40
 [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
 
@@ -532,4 +532,245 @@ This includes an example I made with the IRB4600 robot. You only have to recompi
 
 ##### Lumii 02/09/2021 15:09:09
 Oh thanks a lot I’ll look into it!
+
+##### Chernayaten 02/10/2021 22:52:00
+Double clicking a .wbt file to start Webots, from a path-file inside a Greek folder crashes the program. To be more specific, Webots starts with the following message showing on the console window for a split second before the program terminates automatically.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/809194994279645214/unknown.png)
+%end
+
+
+If I initiate the webots program from its shortcut I can normally load the world without any issues
+
+
+I'd argue that besides the incorrect handling of the greek characters (and possibly other characters as well), the program shouldn't crash if it fails to load the world
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/11/2021 06:36:27
+Can you please open a bug report about it? [https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### AJ121 02/12/2021 21:32:21
+Can't I set a motor speed more than 10 in webots? It shows error ! My bot is too slow
+
+##### Stefania Pedrazzi [Cyberbotics] 02/15/2021 07:11:58
+`@AJ121` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
+
+[https://www.cyberbotics.com/doc/reference/motor#field-summary](https://www.cyberbotics.com/doc/reference/motor#field-summary)
+
+##### JMarple 02/16/2021 18:50:55
+I wish I had more information (cause I know just saying something is broken isn't all that helpful) but I figure I'd atleast pass this along: 
+
+Running webots on Mac OSX 10.15.6 on MBP 2020, I've been finding webots crashes quite regularly.  It can be just from starting a simulation, or moving a part within the UI, or doing nothing at all, it'll just randomly crash.  Maybe a frequency of once per hour or so. 
+
+
+
+Is there any sort of verbose mode or *something* I can do to help track down these issues?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/16/2021 19:05:53
+Hello `@JMarple`. You can compile Webots in debug mode and you should get more details about the crashes:
+
+[https://github.com/cyberbotics/webots/wiki/macOS-installation](https://github.com/cyberbotics/webots/wiki/macOS-installation)
+
+
+
+Please let us know if you have any problems compiling Webots.
+
+##### Ariel 02/16/2021 20:50:48
+Hello! I am writing a program in webots for an autonomous vehicle moving around a specific path and collecting data (images) of the environment. I added a fog node on the scene and the cameras that I had already can not see it. Is this the expected behaviour?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/16/2021 21:34:54
+Hello Ariel, it sounds wrong. Can you open an issue about that:
+
+[https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### DrVoodoo [Moderator] 02/18/2021 15:05:40
+`@Ariel` is the fog node declared before or after the camera in the world file? If it's after, try moving the Fog node to before the camera nodes.
+
+##### Ariel 02/18/2021 19:48:53
+I thought the fog node doesn't need to be declared at all?
+
+
+in the controllers code file if this is what you mean
+
+##### Srivastav\_Udit 02/18/2021 22:38:30
+Hi, I wanted to know if there was any sample code available for a robot that has to detect, collect and drop an object at a particular location? I'm trying to work towards a swarm implementation eventually. Any help will be much appreciated. Cheers!
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 16:56:46
+`@Simon Steinmann` Regarding the RAM usage. I have just tried add the UR5 in the empty world and uses like 850MB of RAM. It seems the complex models cause the high RAM usage.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 16:57:58
+340 -> 1.250 -> 520    (ram usage for your described scenario)
+
+
+however after a while the 520 trickles down to a bit above 400
+
+
+I used the UR10e back in the day for my RL testing
+
+
+it sounds like there is lots of room for optimization. A Model that has 50MB at most in model data, should not need 500MB of RAM (at least in my uninformed opinion 😄 )
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:05:21
+Let's say you have 8 core CPU with 16 thread. To reach the full CPU utilization you should run 8 instances (2 processes per instance, 1 Webots process + 1 controller process). Let's say your simulation uses 1GB of RAM. That means that Webots parallel simulations will use 8GB of RAM in total. Considering that typical 8 core PC is equipped with 16GB of RAM (and RAM is cheap) then running the parallel simulations should be fine?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:06:38
+If it were just the simulation, yes, but running deep neural networks takes lots of resources as well
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:08:18
+True, in my tests, the RL controllers use like above 1GB of RAM per instance. But then, it is not fair to expect from simulation to use significantly less RAM.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:08:21
+plus, if we were to scale it up on server level, the amounts of RAM get huge. A partner company in our past research project had a 128 core 256 thread server.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:10:07
+I am trying to understand how import is to invest time in the RAM/VRAM optimization.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:11:25
+well, same simulation and setup in Pybullet were in the order of 100-300MB RAM
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:11:45
+Per instance?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:11:48
+yes
+
+
+i have to check if I find the detailed data
+
+
+Overall RAM usage during the benchmark run: Webots 1811 MB, PyBullet 927 MB
+
+
+dont have a more detailed breakdown, but I think around 600-700MB is the portion without the simulation, so Pybullet was 200-300MB
+
+
+Webots has many great advantages for RL, but this is a major downside.
+
+
+PyBullet has the advantage, that you only initialize what you need, and the simulation is run on a server, completely seperate from a client, which you can connect or not. This is not super userfriendly of course (where Webots shines). But for more complex training scenarios, this is quite important
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:20:53
+But quality of the Webots model is much higher (pybullet model in the image)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813822706759499826/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813822734861598720/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:21:27
+we used the same model
+
+
+directly urdf in PyBullet, conversion in Webots
+
+
+the resulting protos is 9.282 KB
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:39:10
+I have just done some tests with UR5e in an empty world:
+
+- 850MB with initial setup,
+
+- 400MB with all graphics enchantments turned off,
+
+- 177MB with meshes removed, and
+
+- probably less with textures disabled (haven't tried).
+
+
+
+Does it make sense that we add a CLI argument to disable meshes and textures?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:39:37
+CLI argument?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:40:05
+Yes, something like, `webots --disable-meshes`
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:40:17
+being able to run a simulation with all graphics turned off, would be fantastic. There is tons of simulation, where no visual sensors are needed
+
+
+YES
+
+
+please! THIS!
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:40:35
+Nice! 😄
+
+
+Can you make an issue about this?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:41:30
+you already described it better :p
+
+
+but I can open it if you want
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:41:55
+Ahh, ok, I will 🙂
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:42:01
+thx ^^
+
+
+what does this mean?
+
+
+- 400MB with all graphics enchantments turned off,
+
+
+I mean
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:43:34
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813828413441441802/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:43:43
+ohhhhhhhhhhh
+
+
+yeah
+
+
+perhaps it could be launched with no rendering? And only load those things, when a different mode is selected
+
+
+but your suggestion is already super great 🙂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:49:04
+[https://github.com/cyberbotics/webots/issues/2777](https://github.com/cyberbotics/webots/issues/2777)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:50:20
+would this include the graphics settingsß
+
+
+?
+
+
+perhaps "no render" mode can turn those off, if it frees up ram
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:50:58
+`--no-rendering` still renders meshes for the camera based devices, so it is not the same
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:51:14
+ohhh makes sense
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:51:25
+Add a comment 🙂
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:55:12
+no textures and no meshes, does it still render? just with the bounding objects?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:56:48
+Yes
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:57:16
+thx
 
