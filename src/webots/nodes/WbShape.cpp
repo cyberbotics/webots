@@ -284,6 +284,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
   WbRgb paintColor(1.0f, 1.0f, 1.0f);
   pickedColor = WbRgb(1.0f, 1.0f, 1.0f);  // default value
   WbVector2 uv(-1, -1);
+  double paintContribution = 0;
 
   if (roughness)
     *roughness = 0.0;
@@ -321,6 +322,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         return;
       }
       // retrieve the corresponding color in the paint texture
+      paintContribution = paintTexture->pickDensity(uv);
       paintTexture->pickColor(paintColor, uv);
     }
 
@@ -387,9 +389,12 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
       return;  // default value
 
     // combine colors
-    pickedColor.setRed(diffuseColor.red() * textureColor.red() * paintColor.red());
-    pickedColor.setGreen(diffuseColor.green() * textureColor.green() * paintColor.green());
-    pickedColor.setBlue(diffuseColor.blue() * textureColor.blue() * paintColor.blue());
+    pickedColor.setRed((1 - paintContribution) * diffuseColor.red() * textureColor.red() +
+                       paintContribution * paintColor.red());
+    pickedColor.setGreen((1 - paintContribution) * diffuseColor.green() * textureColor.green() +
+                         paintContribution * paintColor.green());
+    pickedColor.setBlue((1 - paintContribution) * diffuseColor.blue() * textureColor.blue() +
+                        paintContribution * paintColor.blue());
   }
 }
 
