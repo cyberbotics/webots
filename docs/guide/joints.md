@@ -1,11 +1,11 @@
 # Joints
 
-Webots already disposes of several nodes to model the transmission of power across bodies, such as [HingeJoint](hingejoint.md),
-[Hinge2Joint](hinge2joint.md), [BallJoint](balljoint.md) and [SliderJoint](slidejoint.md). However, in some instances, more
-advanced modeling is required such as the possibility to model the real counterpart more accurately, by taking into consideration
-factors like the clearance among gears in a drive train, to mention one. For these situations, the [PROTO](proto.md) provided
-here allow a better representation of reality.
+Webots already disposes of several nodes to model the transmission of power across bodies, such as [HingeJoint](../reference/hingejoint.md),
+[Hinge2Joint](../reference/hinge2joint.md), [BallJoint](../reference/balljoint.md) and [SliderJoint](../reference/sliderjoint.md). 
+However, in some instances it is necessary to more accurately describe the real behavior by taking into consideration factors like, for 
+example, the clearance among gears in a drive train. The [PROTO](../reference/proto.md) provided here extend the existing nodes by allowing 
+more accurate modeling.
 
 ## Joints List
 
-- [HingeJointWithBacklash](hinge-joint-with-backlash.md)
+- [HingeJointWithBacklash](hingejoint-with-backlash.md)
