@@ -167,7 +167,7 @@ static void configure_automobile_robot_window() {
   else if (engine_type == WBU_CAR_PARALLEL_HYBRID_ENGINE)
     buffer_append("\"parallel hybrid\"");
   else if (engine_type == WBU_CAR_POWER_SPLIT_HYBRID_ENGINE)
-    buffer_append("\"Epower-split hybrid\"");
+    buffer_append("\"Power-split hybrid\"");
   else
     buffer_append("\"unknown\"");
   buffer_append("}");
