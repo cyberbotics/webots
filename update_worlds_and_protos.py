@@ -53,7 +53,7 @@ def search(file):
     path = '/'.join(file.split('/')[0:-1]) + '/'
     with open(file, 'r') as fd:
         content = fd.read()
-    search = re.compile('(\\"[\\w,\\s,\\/]+\\.(?:png|jpg|hdr|PNG|JPG|HDR|jpeg|JPEG)\\")')
+    search = re.compile('(\\"[\\w,\\s,\\/]+\\.(?:png|jpg|hdr|PNG|JPG|HDR|jpeg|JPEG|obj|OBJ|wav|WAV)\\")')
     result = search.findall(content)
     if len(result) != 0:
         for url in result:
@@ -63,7 +63,7 @@ def search(file):
                 print('Could not find ' + url + ' in ' + file)
                 continue
             content = content.replace(url, '"' + found + '"')
-            # print('Replaced ' + url + ' with "' + found + '" in ' + file)
+            print('Replaced ' + url + ' with "' + found + '" in ' + file)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
     return
