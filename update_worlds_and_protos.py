@@ -9,7 +9,8 @@ def find_path(path, url, proto):
     paths = ['projects/default/worlds/', 'projects/objects/traffic/protos/', 'projects/objects/road/protos/',
              'projects/robots/softbank/nao/protos/', 'projects/samples/contests/ratslife/protos/e-puck/',
              'projects/samples/contests/tower_of_hanoi/protos/', 'projects/objects/kitchen/breakfast/protos/',
-             'projects/objects/trees/protos/', 'projects/objects/advertising_board/protos/']
+             'projects/objects/trees/protos/', 'projects/objects/advertising_board/protos/',
+             'projects/vehicles/protos/abstract/', 'projects/vehicles/protos/', 'projects/vehicles/protos/citroen/']
     for path in paths:
         if os.path.isfile(path + url):
             return 'webots://' + path + url
@@ -63,14 +64,17 @@ def search(file):
                 print('Could not find ' + url + ' in ' + file)
                 continue
             content = content.replace(url, '"' + found + '"')
-            print('Replaced ' + url + ' with "' + found + '" in ' + file)
+            # print('Replaced ' + url + ' with "' + found + '" in ' + file)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
     return
 
 
-for path in Path('.').rglob('*.wbt'):  # replace with '*.wbt' for world files
+skipped = ['SimpleBuilding', 'PublicToilet', 'DirectionPanel', 'SimpleTree', 'ProtoMismatchFieldType']
+
+for path in Path('.').rglob('*.proto'):  # replace with '*.wbt' for world files
     path = str(path).replace('\\', '/')
-    # print(path)
+    proto = os.path.splitext(os.path.basename(path))[0]
+    if proto in skipped:
+        continue
     search(path)
-    # replace_url(path)
