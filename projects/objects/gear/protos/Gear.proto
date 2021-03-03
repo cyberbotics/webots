@@ -8,12 +8,13 @@ PROTO Gear [
   field SFVec3f         translation            0 0 0
   field SFRotation      rotation               0 1 0 0
   field SFNode          appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
+  field SFString        name                   "gear"     # Defines the solid's name.
   field SFInt32         teeth                  8          # Defines number of teeth, [8, inf).
   field SFFloat         width                  0.01       # Defines gear thickness, (0, inf).
   field SFFloat         innerRadius            0.01       # Defines the radius of the center hole.
   field SFFloat         pitchRadius            0.04       # Defines the radius at center of the teeth.
   field SFFloat         toothDepth             0.01       # Defines depth of tooth.
-  field SFFloat         density                0          # Defines the density of the gear. If zero, physics is disabled.
+  field SFFloat         density                0.001      # Defines the density of the gear. If zero, physics is disabled.
   field SFBool          bodyBoundingObject     TRUE       # Enables gear body collision area (cylinder).
   field SFBool          teethBoundingObject    FALSE      # Enables bounding object on each tooth.
 ]
@@ -21,8 +22,6 @@ PROTO Gear [
   %{
     -- load modules
     local os = require('os')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(os.clock() + os.time())
     -- parameter retrieval
     local w = fields.width.value
     local Z = fields.teeth.value
@@ -86,7 +85,7 @@ PROTO Gear [
   Solid {
     translation IS translation
     rotation IS rotation
-    name %{='"gear_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
+    name IS name
     children [
       Shape {
         appearance IS appearance
@@ -174,7 +173,7 @@ PROTO Gear [
                   children [
                     Shape {
                       geometry Sphere {
-                        radius %{= tip_size*0.5}%
+                        radius %{= tip_size*0.5*1.4}% # by default, make it 40% bigger
                       }
                     }
                   ]
@@ -186,7 +185,7 @@ PROTO Gear [
                   children [
                     Shape {
                       geometry Capsule {
-                        radius %{= tip_size*0.5}%
+                        radius %{= tip_size*0.5*1.4}% # by default, make it 40% bigger
                         height %{= w - tip_size}%
                       }
                     }

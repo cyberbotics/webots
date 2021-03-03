@@ -19,7 +19,7 @@ Gear {
   SFFloat         innerRadius            0.01
   SFFloat         pitchRadius            0.04
   SFFloat         toothDepth             0.01
-  SFFloat         density                0
+  SFFloat         density                0.001
   SFBool          bodyBoundingObject     TRUE
   SFBool          teethBoundingObject    FALSE
   SFFloat         contactRadius          0.001
