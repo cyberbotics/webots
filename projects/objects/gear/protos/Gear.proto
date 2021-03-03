@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# Generic gear generator, inspired by Brian Paul's glxgears demo. 
+# Generic gear generator, inspired by Brian Paul's glxgears demo.
 
 PROTO Gear [
   field SFVec3f         translation            0 0 0
@@ -16,7 +16,6 @@ PROTO Gear [
   field SFFloat         density                0          # Defines the density of the gear. If zero, physics is disabled.
   field SFBool          bodyBoundingObject     TRUE       # Enables gear body collision area (cylinder).
   field SFBool          teethBoundingObject    FALSE      # Enables bounding object on each tooth.
-  field SFFloat         contactRadius          0.001      # Defines the teethBoundingObject's sphere radius.
 ]
 {
   %{
@@ -33,13 +32,12 @@ PROTO Gear [
     local density = fields.density.value
     local bodyBoundingObject = fields.bodyBoundingObject.value
     local teethBoundingObject = fields.teethBoundingObject.value
-    local contactRadius = fields.contactRadius.value
     -- parameter sanity check
     if Z < 8 then
       io.stderr:write("'teeth' value must bigger than 8. Using default value.\n")
       Z = fields.teeth.defaultValue
     end
-    
+
     if w <= 0.0  then
       io.stderr:write("'width' value must bigger than zero. Using default value.\n")
       w = fields.width.defaultValue
@@ -51,20 +49,15 @@ PROTO Gear [
     end
 
     if innerRadius >= pitchRadius or pitchRadius <= innerRadius then
-      io.stderr:write("'innerRadius' value must be smaller than 'pitchRadius'.\n")
+      io.stderr:write("'innerRadius' value must be smaller than 'pitchRadius'. Using default value.\n")
       innerRadius = fields.innerRadius.defaultValue
       pitchRadius = fields.pitchRadius.defaultValue
     end
 
     if toothDepth >= pitchRadius then
-      io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'.\n")
+      io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'. Using default value.\n")
       toothDepth = fields.toothDepth.defaultValue
       pitchRadius = fields.pitchRadius.defaultValue
-    end
-
-    if contactRadius <= 0.0  then
-      io.stderr:write("'contactRadius' value must be bigger than zero. Using default value.\n")
-      contactRadius = fields.contactRadius.defaultValue
     end
 
     -- define vertices of the repeatable unit
@@ -72,7 +65,7 @@ PROTO Gear [
     local r1 = pitchRadius - toothDepth * 0.5
     local r2 = pitchRadius + toothDepth * 0.5
     local da = (2.0 * math.pi / Z) / 4.0
-    
+
     local p0x = r0
     local p0y = 0
     local p1x = r1
@@ -87,6 +80,8 @@ PROTO Gear [
     local p5y = r1 * math.sin(2.0 * math.pi / Z)
     local p6x = r0 * math.cos(2.0 * math.pi / Z)
     local p6y = r0 * math.sin(2.0 * math.pi / Z)
+    local tip_size = math.sqrt((p3x-p2x)*(p3x-p2x) + (p3y-p2y)*(p3y-p2y))
+
   }%
   Solid {
     translation IS translation
@@ -117,7 +112,7 @@ PROTO Gear [
                   %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= w*0.5}% # 12
                   %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= w*0.5}% # 13
                 %{ end }%
-                
+
               ]
             }
             coordIndex [
@@ -173,16 +168,31 @@ PROTO Gear [
           %{ if teethBoundingObject then }%
             %{ for n = 0, Z-1 do }%
               %{ alpha = n * 2.0 * math.pi / Z }%
-              Transform {
-                translation %{= r2*math.cos(alpha + 1.5*da)}% %{= r2*math.sin(alpha + 1.5*da)}% 0
-                children [
-                  Shape {
-                    geometry Sphere {
-                      radius %{= contactRadius}%
+              %{ if tip_size > w then }%
+                Transform {
+                  translation %{= (r2-tip_size*0.5)*math.cos(alpha + 1.5*da)}% %{= (r2-tip_size*0.5)*math.sin(alpha + 1.5*da)}% 0
+                  children [
+                    Shape {
+                      geometry Sphere {
+                        radius %{= tip_size*0.5}%
+                      }
                     }
-                  }
-                ]
-              }
+                  ]
+                }
+              %{ else }%
+                Transform {
+                  translation %{= (r2-tip_size*0.5)*math.cos(alpha + 1.5*da)}% %{= (r2-tip_size*0.5)*math.sin(alpha + 1.5*da)}% 0
+                  rotation 1 0 0 -1.5708
+                  children [
+                    Shape {
+                      geometry Capsule {
+                        radius %{= tip_size*0.5}%
+                        height %{= w - tip_size}%
+                      }
+                    }
+                  ]
+                }
+              %{ end }%
             %{ end }%
           %{ end }%
         ]
