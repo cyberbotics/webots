@@ -38,7 +38,7 @@ PROTO Gear [
     end
 
     if w <= 0.0  then
-      io.stderr:write("'width' value must bigger than zero. Using default value.\n")
+      io.stderr:write("'width' value must be greater than 0. Using default value.\n")
       w = fields.width.defaultValue
     end
 
