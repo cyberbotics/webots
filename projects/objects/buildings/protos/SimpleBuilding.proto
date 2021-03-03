@@ -45,7 +45,7 @@ PROTO SimpleBuilding [
       ["bitumen"] =     { textureSize = 2 }
     }
 
-    -- the wallType is the texture's name (ex. "glass building"'s texture name is "glass_building.jpg")
+    -- the wallType is the texture's name (ex. "glass building"'s texture name is glass_building.jpg)
     local wallTypes = {
       ["glass building"]         = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 4, colors = {{0.44, 0.56, 0.7}}, pbr = true },
       ["classic building"]       = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.62, 0.56, 0.49}}, pbr = true },
@@ -260,7 +260,7 @@ PROTO SimpleBuilding [
     ]
     wallAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' .. wallTexture .. '"' }% ]
+        url [ %{= '"webots://projects/objects/buildings/protos/textures/' .. wallTexture .. '"' }% ]
       }
       metalness 0
       roughness 1
@@ -270,7 +270,7 @@ PROTO SimpleBuilding [
     }
     roofAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' .. roofTexture .. '"' }% ]
+        url [ %{= '"webots://projects/objects/buildings/protos/textures/' .. roofTexture .. '"' }% ]
       }
       metalness 0
       roughness 1

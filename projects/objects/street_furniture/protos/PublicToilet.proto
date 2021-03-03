@@ -18,12 +18,12 @@ PROTO PublicToilet [
   field SFColor     windowColor         0.8 1 0.93                       # Defines the color of the windows of the toilet.
   field SFString    text                "TOILET"                         # Defines the text displayed on the toilet.
   field SFFloat     textScale           80                               # Defines the scale of the text displayed on the toilet.
-  field MFString    backDisplayTexture  "textures/webots_billboard.jpg"  # Defines the texture used on the back display.
+  field MFString    backDisplayTexture  "webots://projects/default/worlds/textures/webots_billboard.jpg"  # Defines the texture used on the back display.
   field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
   field MFNode      frontDisplay        [                                # Defines the content of the front display.
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["textures/webots_billboard.jpg"]
+      frontTexture ["webots://projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9

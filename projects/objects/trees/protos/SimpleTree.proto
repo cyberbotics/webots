@@ -101,9 +101,9 @@ Solid {
         baseColorMap ImageTexture {
           url [
             %{ if fields.withSnow.value then }%
-              %{= '"' .. "textures/" .. string.sub(treeType[type], 0, string.len(treeType[type]) - 4)  .. "_with_snow" .. string.sub(treeType[type], -4) .. '"' }%
+              %{= '"' .. "webots://projects/objects/trees/protos/textures/" .. string.sub(treeType[type], 0, string.len(treeType[type]) - 4)  .. "_with_snow" .. string.sub(treeType[type], -4) .. '"' }%
             %{ else }%
-              %{= '"' .. "textures/" .. treeType[type] .. '"' }%
+              %{= '"' .. "webots://projects/objects/trees/protos/textures/" .. treeType[type] .. '"' }%
             %{ end }%
           ]
           repeatS FALSE
