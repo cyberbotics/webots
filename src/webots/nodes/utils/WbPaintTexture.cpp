@@ -248,7 +248,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
         const float oldDensityRatio = previousDensity / (density + previousDensity);
         mData[dataIndex] = oldDensityRatio * mData[dataIndex] + (1.0f - oldDensityRatio) * color.blue();
         mData[dataIndex + 1] = oldDensityRatio * mData[dataIndex + 1] + (1.0f - oldDensityRatio) * color.green();
-        mData[dataIndex + 2] = oldDensityRatio * mData[dataIndex + 2] + (1 - oldDensityRatio) * color.red();
+        mData[dataIndex + 2] = oldDensityRatio * mData[dataIndex + 2] + (1.0f - oldDensityRatio) * color.red();
         mData[dataIndex + 3] += density;
         if (mData[dataIndex + 3] > 1.0f)
           mData[dataIndex + 3] = 1.0f;
