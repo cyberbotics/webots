@@ -1756,3 +1756,38 @@ Here is an example of gripper: [https://www.cyberbotics.com/doc/guide/khepera3#k
 
 The gripper  model is saved in a PROTO file. But if you select it, tight-click on it to open the context menu and choose the "Convert to Base Node(s)" options then you will be able to check the internal structure directly from the Webots scene tree.
 
+##### HANEEN AL ALI 02/10/2021 15:20:16
+`@Stefania Pedrazzi` thank you so much for ur reply.  Can u explain why link 1 should be a solid node, pleased? I choose it as transform node
+
+##### Stefania Pedrazzi [Cyberbotics] 02/10/2021 15:24:37
+You can define link 1 in a `Transform` node, but between the `HingeJoint` node and the link 1 node you need a `Solid` node because the `HingeJoint.endPoint` field expects a `Solid` or derived node.
+
+##### HANEEN AL ALI 02/10/2021 17:08:21
+I went to khepera3 but I couldn't find the model for khepera3\_gripper. I just found Khepera3 robot with a two- wheeled.
+
+
+
+Please please can u tell where I can find the model with the gripper?
+
+##### Chernayaten 02/10/2021 18:20:25
+`@HANEEN AL ALI`  You're looking in ..\Webots\projects\robots\k-team\khepera3\worlds and you can't find the gripper wbt file? I found it in my installation
+
+You can probably copy missing files from here [https://github.com/cyberbotics/webots/tree/master/projects/robots/k-team/khepera3](https://github.com/cyberbotics/webots/tree/master/projects/robots/k-team/khepera3)
+
+##### HANEEN AL ALI 02/10/2021 20:10:19
+`@Chernayaten` ya, it is this one i am looking for. so i can have an idea how to build my design. however i do know how to add it to the robot node, do you have an idea on how to add it?
+
+##### Chernayaten 02/10/2021 20:21:53
+I do not know how to use grippers. If I wanted to learn them I would add a khepera with a gripper and then do what stefania suggested, convert to base nodes so that I can study how its done and mimic it
+
+##### Stefania Pedrazzi [Cyberbotics] 02/11/2021 07:25:25
+In the Webots samples library there is a world called `khepera3_gripper.wbt`. You can find it by openining the File > Open Sample World.. dialog and type the world name.
+
+The gripper is specified in a separated PROTO called `Khepera3_Gripper`. You can added it to any Robot node:
+
+1. Select a `children` or `*Slot` (in case of PROTO robot node) fields
+
+2. Click the "Add node" button
+
+3. Type in the "Find" text field "Khepera3\_Gripper" and select it
+

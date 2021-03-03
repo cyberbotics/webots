@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/02/2021 11:27:13
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/16/2021 17:11:31
+It is now official: Webots will be used as the simulation platform of the upcoming Robocup Virtual Humanoid Soccer Competition: [https://humanoid.robocup.org/hl-2021/call-for-participation/](https://humanoid.robocup.org/hl-2021/call-for-participation/)
+
+
 Here is sneak preview of our brand new 3D web interface for Webots:  [https://cyberbotics.com/animations/nao\_room/nao\_room.html](https://cyberbotics.com/animations/nao_room/nao_room.html) 
 
 It is based on a port of WREN (Webots Rendering ENgine) to webassembly and thus the rendering on the web page is very similar to the one you get in Webots. Moreover, it is fully compatible with the previous Webots animation format, so you can create a Webots animation (or re-use an existing one) and publish it on the web using this new 3D viewer.

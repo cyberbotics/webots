@@ -34,9 +34,10 @@ Alternatively, a [Slot](slot.md) node can be inserted in the `endPoint` field, b
 ### Joint's Hidden Position Fields
 
 If the `jointParameters` is set to NULL, joint positions are then not visible from the Scene Tree.
-In this case Webots keeps track of the initial positions of [Joint](#joint) nodes (except for the [BallJoint](balljoint.md)) by means of hidden position fields.
+In this case Webots keeps track of the initial positions of [Joint](#joint) nodes by means of hidden position fields.
 These fields, which are not visible from the Scene Tree, are used to store inside the world file the current joint positions when the simulation is saved.
 As a result joint positions are restored when reloading the simulation just the same way they would be if [JointParameters](jointparameters.md) nodes were used.
 
 For [HingeJoint](hingejoint.md) and [SliderJoint](sliderjoint.md) nodes containing no [JointParameters](jointparameters.md), Webots uses the hidden field named `position`.
-For a [Hinge2Joint](hingejoint.md) node, an additional hidden field named `position2` is used to store the joint position with respect the second hinge.
+For a [Hinge2Joint](hingejoint.md) node, an additional hidden field named `position2` is used to store the joint position with respect to the second axis.
+For a [BallJoint](balljoint.md) node, an additional hidden field named `position3` is used to store the joint position with respect to the third axis.
