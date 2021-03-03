@@ -284,7 +284,6 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
   WbRgb paintColor(1.0f, 1.0f, 1.0f);
   pickedColor = WbRgb(1.0f, 1.0f, 1.0f);  // default value
   WbVector2 uv(-1, -1);
-  double paintContribution = 0;
 
   if (roughness)
     *roughness = 0.0;
@@ -292,6 +291,8 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
     *occlusion = 0.0;
 
   if (geom) {
+    double paintContribution = 0;
+
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
     if (paintTexture) {
       const bool success = geom->pickUVCoordinate(uv, ray, 0);
