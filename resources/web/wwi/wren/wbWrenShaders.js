@@ -31,13 +31,35 @@ class WbWrenShaders {
     }
   }
 
-  static deleteShaders() {
-    for (let i = 0; i < WbWrenShaders.SHADER.SHADER_COUNT; ++i) {
-      if (WbWrenShaders.gShaders[i] !== 'undefined') {
-        _wr_shader_program_delete(WbWrenShaders.gShaders[i]);
-        WbWrenShaders.gShaders[i] = undefined;
-      }
-    }
+  static async buildAll() {
+    WbWrenShaders.phongShader();
+    WbWrenShaders.phongStencilAmbientEmissiveShader();
+    WbWrenShaders.phongStencilDiffuseSpecularShader();
+    WbWrenShaders.pbrShader();
+    WbWrenShaders.pbrStencilAmbientEmissiveShader();
+    WbWrenShaders.pbrStencilDiffuseSpecularShader();
+    WbWrenShaders.fogShader();
+    WbWrenShaders.iblBrdfBakingShader();
+    WbWrenShaders.shadowVolumeShader();
+    WbWrenShaders.hdrResolveShader();
+    WbWrenShaders.hdrClearShader();
+    WbWrenShaders.skyboxShader();
+    WbWrenShaders.passThroughShader();
+    WbWrenShaders.iblSpecularIrradianceBakingShader();
+    WbWrenShaders.gtaoShader();
+    WbWrenShaders.gtaoSpatialDenoiseShader();
+    WbWrenShaders.gtaoTemporalDenoiseShader();
+    WbWrenShaders.gtaoCombineShader();
+    WbWrenShaders.brightPassShader();
+    WbWrenShaders.gaussianBlur13TapShader();
+    WbWrenShaders.bloomBlendShader();
+    WbWrenShaders.lineSetShader();
+    WbWrenShaders.smaaEdgeDetectionShader();
+    WbWrenShaders.smaaBlendingWeightCalculationShader();
+    WbWrenShaders.smaaFinalBlendShader();
+    WbWrenShaders.pointSetShader();
+    WbWrenShaders.pickingShader();
+    WbWrenShaders.depthPixelShader();
   }
 
   static defaultShader() {
@@ -587,58 +609,36 @@ WbWrenShaders.gShaders = {};
 
 WbWrenShaders.SHADER = {
   SHADER_BLOOM_BLEND: 1,
-  SHADER_BOUNDING_VOLUME: 2,
-  SHADER_BRIGHT_PASS: 3,
-  SHADER_COLOR_NOISE: 4,
-  SHADER_COORDINATE_SYSTEM: 5,
-  SHADER_DEFAULT: 6,
-  SHADER_DEPTH_OF_FIELD: 7,
-  SHADER_DEPTH_ONLY: 8,
-  SHADER_DEPTH_RESOLUTION: 9,
-  SHADER_ENCODE_DEPTH: 10,
-  SHADER_FOG: 11,
-  SHADER_GAUSSIAN_BLUR: 12,
-  SHADER_GAUSSIAN_BLUR_5_TAP: 13,
-  SHADER_GAUSSIAN_BLUR_9_TAP: 14,
-  SHADER_GAUSSIAN_BLUR_13_TAP: 15,
-  SHADER_GTAO: 16,
-  SHADER_GTAO_SPATIAL_DENOISE: 17,
-  SHADER_GTAO_TEMPORAL_DENOISE: 18,
-  SHADER_GTAO_COMBINE: 19,
-  SHADER_HANDLES: 20,
-  SHADER_HANDLES_PICKING: 21,
-  SHADER_HDR_CLEAR: 22,
-  SHADER_HDR_RESOLVE: 23,
-  SHADER_IBL_DIFFUSE_IRRADIANCE_BAKE: 24,
-  HADER_IBL_SPECULAR_IRRADIANCE_BAKE: 25,
-  SHADER_IBL_BRDF_BAKE: 26,
-  SHADER_LENS_DISTORTION: 27,
-  SHADER_LENS_FLARE: 28,
-  SHADER_LENS_FLARE_BLEND: 29,
-  SHADER_LIGHT_REPRESENTATION: 30,
-  SHADER_LINE_SET: 31,
-  SHADER_MERGE_SPHERICAL: 32,
-  SHADER_MOTION_BLUR: 33,
-  SHADER_NOISE_MASK: 34,
-  SHADER_OVERLAY: 35,
-  SHADER_PASS_THROUGH: 36,
-  SHADER_PBR: 37,
-  SHADER_PBR_STENCIL_DIFFUSE_SPECULAR: 39,
-  SHADER_PHONG: 40,
-  SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE: 41,
-  SHADER_PBR_STENCIL_AMBIENT_EMISSIVE: 38,
-  SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR: 42,
-  SHADER_PICKING: 43,
-  SHADER_POINT_SET: 44,
-  SHADER_RANGE_NOISE: 45,
-  SHADER_SHADOW_VOLUME: 46,
-  SHADER_SIMPLE: 47,
-  SHADER_SKYBOX: 48,
-  SHADER_SMAA_EDGE_DETECT_PASS: 49,
-  SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS: 50,
-  SHADER_SMAA_FINAL_BLEND_PASS: 51,
-  SHADER_COUNT: 52,
-  SHADER_DEPTH_PIXEL: 53
+  SHADER_BRIGHT_PASS: 2,
+  SHADER_DEFAULT: 3,
+  SHADER_ENCODE_DEPTH: 4,
+  SHADER_FOG: 5,
+  SHADER_GAUSSIAN_BLUR: 6,
+  SHADER_GAUSSIAN_BLUR_13_TAP: 7,
+  SHADER_GTAO: 8,
+  SHADER_GTAO_SPATIAL_DENOISE: 9,
+  SHADER_GTAO_TEMPORAL_DENOISE: 10,
+  SHADER_GTAO_COMBINE: 11,
+  SHADER_HDR_CLEAR: 12,
+  SHADER_HDR_RESOLVE: 13,
+  HADER_IBL_SPECULAR_IRRADIANCE_BAKE: 14,
+  SHADER_IBL_BRDF_BAKE: 15,
+  SHADER_LINE_SET: 16,
+  SHADER_PASS_THROUGH: 17,
+  SHADER_PBR: 18,
+  SHADER_PBR_STENCIL_DIFFUSE_SPECULAR: 19,
+  SHADER_PHONG: 20,
+  SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE: 21,
+  SHADER_PBR_STENCIL_AMBIENT_EMISSIVE: 22,
+  SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR: 23,
+  SHADER_PICKING: 24,
+  SHADER_POINT_SET: 25,
+  SHADER_SHADOW_VOLUME: 26,
+  SHADER_SKYBOX: 27,
+  SHADER_SMAA_EDGE_DETECT_PASS: 28,
+  SHADER_SMAA_BLENDING_WEIGHT_CALCULATION_PASS: 29,
+  SHADER_SMAA_FINAL_BLEND_PASS: 30,
+  SHADER_DEPTH_PIXEL: 31
 };
 
 export {WbWrenShaders};

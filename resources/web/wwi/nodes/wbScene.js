@@ -31,6 +31,7 @@ class WbScene {
     _wr_scene_init(_wr_scene_get_instance());
 
     _wr_gl_state_set_context_active(true);
+    //Preload all shaders
 
     this.updateFrameBuffer();
 
@@ -105,9 +106,6 @@ class WbScene {
     this.wrenDepthFrameBufferTexture = undefined;
 
     _wr_scene_destroy();
-
-    // delete shaders on exit
-    WbWrenShaders.deleteShaders();
 
     WbWorld.instance.scene = undefined;
   }

@@ -45,6 +45,8 @@ import {WbVector4} from './nodes/utils/wbVector4.js';
 import {WbViewpoint} from './nodes/wbViewpoint.js';
 import {WbWorld} from './nodes/wbWorld.js';
 
+import {WbWrenShaders} from './wren/wbWrenShaders.js';
+
 import {DefaultUrl} from './default_url.js';
 import {RGBELoader} from './hdrLoader.js';
 
@@ -81,18 +83,24 @@ class Parser {
     console.log(WbWorld.instance);
     $('#webotsProgressMessage').html('Finalizing...');
     console.timeEnd('startID');
-    console.time('startID');
+    console.log('FINALIZE');
+
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
+    console.time('startID');
     WbWorld.instance.viewpoint.finalize();
-    WbWorld.instance.sceneTree.forEach(node => {
-      node.finalize();
-    });
     console.timeEnd('startID');
+
+    WbWorld.instance.sceneTree.forEach(node => {
+      console.time('startID');
+      node.finalize();
+      console.timeEnd('startID');
+    });
 
     console.time('startID');
     renderer.render();
     console.timeEnd('startID');
+    console.log('RENDER');
     $('#webotsProgress').hide();
     if (typeof callback === 'function')
       callback();

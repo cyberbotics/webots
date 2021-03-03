@@ -202,7 +202,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
       $('#webotsProgressMessage').html('Reverting simulation...');
     else
       $('#webotsProgressMessage').html('Restarting simulation...');
-    $('#webotsProgress').show();
+    // $('#webotsProgress').show();
     this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
     for (let i in this.view.editor.filenames) {
