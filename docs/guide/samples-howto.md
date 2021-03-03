@@ -97,7 +97,7 @@ Note that more completed Ackermann steering geometry can be achieved using the [
 
 ![gears.png](images/samples/gears.thumbnail.jpg) This example shows the transfer of power between two gears through
 physical interaction. The red gear is motorized whereas the blue one is passive, and when the `boundingObject` at the tip of the teeth
-collide the second wheel begins to turn. Using this sort of approach as general purpose transmission is not generally advised but
+collides the second wheel begins to turn. Using this sort of approach as general purpose transmission is not generally advised but
 does work with some tuning of the `dampingConstant` of the [HingeJoint](../reference/hingejoint.md), the ERP and CFM values in the
 [WorldInfo](../reference/worldinfo.md) node.
 
