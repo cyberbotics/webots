@@ -6,9 +6,13 @@ from pathlib import Path
 def find_path(path, url, proto):
     if os.path.isfile(path + url):
         return 'webots://' + path + url
-    path = 'projects/default/worlds/'
-    if os.path.isfile(path + url):
-        return 'webots://' + path + url
+    paths = ['projects/default/worlds/', 'projects/objects/traffic/protos/', 'projects/objects/road/protos/',
+             'projects/robots/softbank/nao/protos/', 'projects/samples/contests/ratslife/protos/e-puck/',
+             'projects/samples/contests/tower_of_hanoi/protos/', 'projects/objects/kitchen/breakfast/protos/',
+             'projects/objects/trees/protos/', 'projects/objects/advertising_board/protos/']
+    for path in paths:
+        if os.path.isfile(path + url):
+            return 'webots://' + path + url
     return False
 
 
@@ -53,7 +57,7 @@ def search(file):
     result = search.findall(content)
     if len(result) != 0:
         for url in result:
-            print(file + ': ' + str(url))
+            # print(file + ': ' + str(url))
             found = find_path(path, url[1:-1], proto)
             if not found:
                 print('Could not find ' + url + ' in ' + file)
