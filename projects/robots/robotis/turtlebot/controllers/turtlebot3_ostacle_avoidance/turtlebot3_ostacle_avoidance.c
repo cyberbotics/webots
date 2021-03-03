@@ -72,10 +72,12 @@ int main(int argc, char **argv) {
     for (i = 0.25 * lidar_width; i < 0.5 * lidar_width; i++) {
       const int j = lidar_width - i - 1;
       const int k = i - 0.25 * lidar_width;
-      left_speed +=
-        braitenberg_coefficients[k] * ((1.0 - lidar_values[i] / lidar_max_range) - (1.0 - lidar_values[j] / lidar_max_range));
-      right_speed +=
-        braitenberg_coefficients[k] * ((1.0 - lidar_values[j] / lidar_max_range) - (1.0 - lidar_values[i] / lidar_max_range));
+      if (lidar_values[i] != INFINITY && !isnan(lidar_values[i]) && lidar_values[j] != INFINITY && !isnan(lidar_values[j])) {
+        left_speed +=
+          braitenberg_coefficients[k] * ((1.0 - lidar_values[i] / lidar_max_range) - (1.0 - lidar_values[j] / lidar_max_range));
+        right_speed +=
+          braitenberg_coefficients[k] * ((1.0 - lidar_values[j] / lidar_max_range) - (1.0 - lidar_values[i] / lidar_max_range));
+      }
     }
 
     // apply computed velocities
