@@ -483,7 +483,7 @@ AdvertisingBoard {
   rotation 0 -1 0 4.9741884
   name "advertising board(2)"
   frontTexture [
-    "textures/coca-cola_billboard.jpg"
+    "webots://projects/objects/advertising_board/protos/textures/coca-cola_billboard.jpg"
   ]
   backTexture []
   displayBackLight TRUE

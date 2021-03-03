@@ -134,7 +134,7 @@ DEF GOAL_KEEPER_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_1_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -152,7 +152,7 @@ DEF PLAYER_1_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_2_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -170,7 +170,7 @@ DEF PLAYER_2_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_3_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_3_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -188,7 +188,7 @@ DEF PLAYER_3_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_4_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_4_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -206,7 +206,7 @@ DEF PLAYER_4_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_5_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_5_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
