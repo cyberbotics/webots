@@ -39,8 +39,7 @@ public:
 
   static bool isPaintable(const WbShape *shape);
 
-  void pickColor(WbRgb &pickedColor, const WbVector2 &uv) const;
-  float pickDensity(const WbVector2 &uv) const;
+  void pickColor(WbRgb &pickedColor, const WbVector2 &uv, float *pickedDensity = NULL) const;
   void clearTexture();
 
   // simulate ink evaporation

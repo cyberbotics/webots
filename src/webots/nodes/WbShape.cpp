@@ -291,7 +291,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
     *occlusion = 0.0;
 
   if (geom) {
-    double paintContribution = 0;
+    float paintContribution = 0.0f;
 
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
     if (paintTexture) {
@@ -323,8 +323,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         return;
       }
       // retrieve the corresponding color in the paint texture
-      paintContribution = paintTexture->pickDensity(uv);
-      paintTexture->pickColor(paintColor, uv);
+      paintTexture->pickColor(paintColor, uv, &paintContribution);
     }
 
     if (app) {

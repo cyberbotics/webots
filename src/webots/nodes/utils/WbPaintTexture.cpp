@@ -250,13 +250,13 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
         mData[dataIndex + 1] = oldDensityRatio * mData[dataIndex + 1] + (1 - oldDensityRatio) * color.green();
         mData[dataIndex + 2] = oldDensityRatio * mData[dataIndex + 2] + (1 - oldDensityRatio) * color.red();
         mData[dataIndex + 3] += density;
-        if (mData[dataIndex + 3] > 1)
-          mData[dataIndex + 3] = 1;
+        if (mData[dataIndex + 3] > 1.0f)
+          mData[dataIndex + 3] = 1.0f;
 
         if (mEvaporation) {
-          mEvaporation[rowOffset + tx] += density;
-          if (mEvaporation[rowOffset + tx] > 1)
-            mEvaporation[rowOffset + tx] = 1;
+          mEvaporation[rowOffset + tx] += (double)density;
+          if (mEvaporation[rowOffset + tx] > 1.0f)
+            mEvaporation[rowOffset + tx] = 1.0f;
         }
 
         wr_drawable_texture_set_color(mTexture, &mData[dataIndex]);
@@ -268,7 +268,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
   }
 }
 
-void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
+void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv, float *pickedDensity) const {
   const int w = mTextureSize.x();
   const int h = mTextureSize.y();
   int x = uv.x() * w;
@@ -284,24 +284,8 @@ void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
 
   const int index = (y * w + x) * 4;
   pickedColor.setValue(mData[index + 2], mData[index + 1], mData[index]);
-}
-
-float WbPaintTexture::pickDensity(const WbVector2 &uv) const {
-  const int w = mTextureSize.x();
-  const int h = mTextureSize.y();
-  int x = uv.x() * w;
-  int y = uv.y() * h;
-  while (x < 0)
-    x += w;
-  while (y < 0)
-    y += h;
-  while (x >= w)
-    x -= w;
-  while (y >= h)
-    y -= h;
-
-  const int index = (y * w + x) * 4;
-  return mData[index + 3];
+  if (pickedDensity != NULL)
+    *pickedDensity = mData[index + 3];
 }
 
 WbVector2 WbPaintTexture::computeTextureSize(int imageTextureWidth, int imageTextureHeight) {
