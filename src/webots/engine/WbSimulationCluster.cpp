@@ -429,7 +429,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
-void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
+void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
     dSpaceCollide2(o1, o2, data, odeNearCallback);
@@ -439,7 +439,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     if (dGeomIsSpace(o2))
       dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
   }
+}
 
+void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
   WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
@@ -455,6 +457,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
     const int pluginContacts = physicsPlugin->collide(o1, o2);
 
+    if (pluginContacts == 0)
+      handleCollisionIfSpace(data, o1, o2);
     if (pluginContacts == 2) {  // Webots will change the boundingObject color to notify collision
       if (webotsGeom1) {
         s1 = odeGeomData1->solid();
@@ -471,7 +475,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     } else if (pluginContacts == 1 || !webotsGeom1 || !webotsGeom2)  // Webots won't attempt to manipulate user-defined dGeoms
       return;
-  }
+  } else
+    handleCollisionIfSpace(data, o1, o2);
 
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2))
     return;
