@@ -537,7 +537,7 @@ HighwayPole {
     HighwaySign {
       translation 0 0 7.23
       texture [
-        "textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -548,7 +548,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -566,7 +566,7 @@ HighwayPole {
     HighwaySign {
       translation 0 0 7.23
       texture [
-        "textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -577,7 +577,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -595,7 +595,7 @@ HighwayPole {
     HighwaySign {
       translation 0 0 7.23
       texture [
-        "textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -606,7 +606,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -624,7 +624,7 @@ HighwayPole {
     HighwaySign {
       translation 0 0 7.23
       texture [
-        "textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -635,7 +635,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]

@@ -1019,7 +1019,7 @@ DEF R1 E-puck {
   turretSlot [
     DEF EPUCK_FLAG E-puckFlag {
       image [
-        "flags/rat1.jpg"
+        "webots://projects/samples/contests/ratslife/protos/e-puck/flags/rat1.jpg"
       ]
     }
   ]

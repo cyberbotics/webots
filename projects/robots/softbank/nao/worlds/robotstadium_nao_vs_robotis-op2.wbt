@@ -71,7 +71,7 @@ DEF PLAYER_1_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "textures/nao_2_red.png"
+      "webots://projects/robots/softbank/nao/protos/textures/nao_2_red.png"
     ]
   }
 }
@@ -87,7 +87,7 @@ DEF PLAYER_2_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "textures/nao_3_red.png"
+      "webots://projects/robots/softbank/nao/protos/textures/nao_3_red.png"
     ]
   }
 }
@@ -103,7 +103,7 @@ DEF PLAYER_3_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "textures/nao_4_red.png"
+      "webots://projects/robots/softbank/nao/protos/textures/nao_4_red.png"
     ]
   }
 }
@@ -119,7 +119,7 @@ DEF PLAYER_4_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "textures/nao_5_red.png"
+      "webots://projects/robots/softbank/nao/protos/textures/nao_5_red.png"
     ]
   }
 }
