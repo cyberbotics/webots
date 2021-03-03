@@ -43,7 +43,7 @@ PROTO Gear [
     end
 
     if density < 0.0  then
-      io.stderr:write("'density' value must bigger or equal to zero. Using default value.\n")
+      io.stderr:write("'density' value must be greater or equal to 0. Using default value.\n")
       density = fields.density.defaultValue
     end
 
