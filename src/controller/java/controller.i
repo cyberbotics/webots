@@ -495,20 +495,21 @@ namespace webots {
 };
 
 %typemap(out) float [] {
-  $result = SWIG_JavaArrayOutFloat(jenv, $1, arg1->getHorizontalResolution()*arg1->getNumberOfLayers());
+  int size = arg1->getHorizontalResolution();
+  const string functionName("$name");
+  if (functionName != "getLayerRangeImage")
+    size *= arg1->getNumberOfLayers();
+  $result = SWIG_JavaArrayOutFloat(jenv, $1, size);
 }
 
 %apply float[] {const float *};
 
 %javamethodmodifiers getPointCloud() const "private"
 %javamethodmodifiers getLayerPointCloud(int layer) const "private"
-%javamethodmodifiers getLayerRangeImage(int layer) const "private"
 %rename("getPointCloudPrivate") getPointCloud() const;
 %rename("getLayerPointCloudPrivate") getLayerPointCloud(int layer) const;
-%rename("getLayerRangeImagePrivate") getLayerRangeImage(int layer) const;
 %javamethodmodifiers getPoint(int index) const "private"
 %javamethodmodifiers getLayerPoint(int layer, int index) const "private"
-%javamethodmodifiers getLayerRangeValue(int layer, int index) const "private"
 
 %extend webots::Lidar {
   webots::LidarPoint getPoint(int index) const {
@@ -519,11 +520,6 @@ namespace webots {
   webots::LidarPoint getLayerPoint(int layer, int index) const {
     const webots::LidarPoint *point = $self->getLayerPointCloud(layer);
     return point[index];
-  }
-
-  float getLayerRangeValue(int layer, int index) const {
-    const float *data = $self->getLayerRangeImage(layer);
-    return data[index];
   }
 };
 
@@ -541,14 +537,6 @@ namespace webots {
     LidarPoint ret[] = new LidarPoint[numberOfPoints];
     for (int i = 0; i < numberOfPoints; ++i)
       ret[i] = this.getLayerPoint(layer, i);
-    return ret;
-  }
-
-  public float[] getLayerRangeImage(int layer) {
-    int numberOfPoints = wrapperJNI.Lidar_getHorizontalResolution(swigCPtr, this);
-    float ret[] = new float[numberOfPoints];
-    for (int i = 0; i < numberOfPoints; ++i)
-      ret[i] = this.getLayerRangeValue(layer, i);
     return ret;
   }
 %}

@@ -539,6 +539,9 @@ class AnsiCodes(object):
   int width = arg1->getHorizontalResolution();
   int height = arg1->getNumberOfLayers();
   int len = width * height;
+  string function_name("$name");
+  if (function_name == "getLayerRangeImage")
+    len = width;
   if ($1) {
     $result = PyList_New(len);
     for (int x = 0; x < len; ++x)
@@ -549,24 +552,19 @@ class AnsiCodes(object):
 
 %ignore webots::Lidar::getPointCloud();
 %ignore webots::Lidar::getLayerPointCloud();
-%ignore webots::Lidar::getLayerRangeImage();
 
 %extend webots::Lidar {
 
-  webots::LidarPoint getPoint(int index) const {
-    const webots::LidarPoint *point = $self->getPointCloud();
-    return point[index];
-  }
-
-  PyObject *__getPointCloudBuffer() const {
-    const char *points = (const char *)$self->getPointCloud();
-    const int size = $self->getNumberOfPoints() * sizeof(WbLidarPoint);
+  PyObject *__getPointCloudBuffer(int layer) const {
+    const char *points = layer < 0 ? (const char *)$self->getPointCloud() : (const char *)$self->getLayerPointCloud(layer);
+    const int number_of_points = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
+    const int size = number_of_points * sizeof(WbLidarPoint);
     return PyBytes_FromStringAndSize(points, size);
   }
 
-  PyObject* __getPointCloudList() const {
-    const WbLidarPoint *rawPoints = $self->getPointCloud();
-    const int size = $self->getNumberOfPoints();
+  PyObject* __getPointCloudList(int layer) const {
+    const WbLidarPoint *rawPoints = layer < 0 ? $self->getPointCloud() : $self->getLayerPointCloud(layer);
+    const int size = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
 
     PyObject *points = PyList_New(size);
     for (int i = 0; i < size; i++) {
@@ -576,39 +574,26 @@ class AnsiCodes(object):
     return points;
   }
 
-  webots::LidarPoint getLayerPoint(int layer, int index) const {
-    const webots::LidarPoint *point = $self->getLayerPointCloud(layer);
-    return point[index];
-  }
-
-  float getLayerRangeValue(int layer, int index) const {
-    const float *point = $self->getLayerRangeImage(layer);
-    return point[index];
-  }
-
   %pythoncode %{
   import sys
 
   def getPointCloud(self, data_type='list'):
     if data_type == 'list':
-      return self.__getPointCloudList()
+      return self.__getPointCloudList(-1)
     elif data_type == 'buffer':
-      return self.__getPointCloudBuffer()
+      return self.__getPointCloudBuffer(-1)
     else:
       sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
       return None
 
-  def getLayerPointCloud(self, layer):
-     ret = []
-     for i in range(self.getHorizontalResolution()):
-       ret.append(self.getLayerPoint(layer, i))
-     return ret
-
-  def getLayerRangeImage(self, layer):
-    ret = []
-    for i in range(self.getHorizontalResolution()):
-      ret.append(self.getLayerRangeValue(layer, i))
-    return ret
+  def getLayerPointCloud(self, layer, data_type='list'):
+     if data_type == 'list':
+       return self.__getPointCloudList(layer)
+     elif data_type == 'buffer':
+       return self.__getPointCloudBuffer(layer)
+     else:
+       sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
+       return None
   %}
 
   PyObject *getRangeImageArray() {
