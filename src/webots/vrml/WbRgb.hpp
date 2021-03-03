@@ -67,7 +67,7 @@ public:
   }
   bool operator==(const WbRgb &c) const { return mRed == c.mRed && mGreen == c.mGreen && mBlue == c.mBlue; }
   bool operator!=(const WbRgb &c) const { return mRed != c.mRed || mGreen != c.mGreen || mBlue != c.mBlue; }
-  QString toString(WbPrecision::Level level=WbPrecision::Level::DOUBLE_MAX) const {
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
     return QString("%1 %2 %3")
       .arg(WbPrecision::doubleToString(mRed, level))
       .arg(WbPrecision::doubleToString(mGreen, level))
