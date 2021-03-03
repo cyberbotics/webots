@@ -47992,7 +47992,7 @@ This is my code now. It just can move forward or backwards but I can't understan
 ##### Justin Fisher 12/15/2020 13:23:59
 `@Steven37` Within your loop you keep telling all your wheels to run the same speed, so of course it doesn't turn.  If you want it to turn, you'll need to tell some to run at different speeds, like you do for a single timestep before entering this loop.
 
-##### ISMAIL 12/15/2020 13:29:25
+##### IAO 12/15/2020 13:29:25
 Hi I want to create a new Webot account to use Webots 8.0.2, please help me
 
 ##### Steven37 12/15/2020 13:31:57
@@ -48001,7 +48001,7 @@ I have time delay so I think it will turn first before entering the loop. Howeve
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 12/15/2020 15:48:28
 Webots 8.0.2 is not supported any more. This is not possible. You should use Webots R2021a instead.
 
-##### ISMAIL 12/15/2020 15:49:43
+##### IAO 12/15/2020 15:49:43
 Olivier Michel thanks
 
 ##### pk1jk1 12/15/2020 20:13:05
@@ -48010,7 +48010,7 @@ Has anyone experimented with waypoint navigation? Need to develop a system that 
 ##### MartinG 12/15/2020 20:26:54
 I've been beating my head over path planning for the past week in order to make something like that.
 
-##### ISMAIL 12/15/2020 20:35:42
+##### IAO 12/15/2020 20:35:42
 So Would i be able to interface webots R2021 version with choregraphe(software to implement Nao)? please
 
 ##### pk1jk1 12/15/2020 21:24:06
@@ -48038,7 +48038,7 @@ In that case, you have to develop a custom algorithm or to integrate an existing
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 12/16/2020 07:32:02
 Yes, but you have to compile the NAO interface from the source code at [https://github.com/cyberbotics/naoqisim](https://github.com/cyberbotics/naoqisim) (warning: this is unsupported software).
 
-##### ISMAIL 12/16/2020 07:34:05
+##### IAO 12/16/2020 07:34:05
 okay thank you so much
 
 ##### MartinG 12/16/2020 09:41:32
