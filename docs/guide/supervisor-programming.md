@@ -70,7 +70,7 @@ int main() {
 
   // do this once only
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
-  if (node_robot == NULL) {
+  if (robot_node == NULL) {
     std:cerr << "No DEF MY_ROBOT node found in the current world file" << std::endl;
     exit(1);
   }
