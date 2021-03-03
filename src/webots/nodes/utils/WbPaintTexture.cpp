@@ -268,7 +268,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
   }
 }
 
-void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv, float *pickedDensity) const {
+void WbPaintTexture::pickColor(const WbVector2 &uv, WbRgb &pickedColor, float *pickedDensity) const {
   const int w = mTextureSize.x();
   const int h = mTextureSize.y();
   int x = uv.x() * w;

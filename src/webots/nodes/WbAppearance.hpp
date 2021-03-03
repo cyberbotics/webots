@@ -51,7 +51,7 @@ public:
 
   // specific functions
   bool isTextureLoaded() const;
-  void pickColorInTexture(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickColorInTexture(const WbVector2 &uv, WbRgb &pickedColor) const;
   WbRgb diffuseColor() const;
 
   static WrMaterial *fillWrenDefaultMaterial(WrMaterial *wrenMaterial);
