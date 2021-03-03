@@ -4,6 +4,15 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/01/2021 14:14:31
+**Tesla Model 3 simulation in Webots: The first step towards ROS 2 automobile integration **
+
+
+
+More about this is available:
+
+[https://discourse.ros.org/t/tesla-model-3-simulation-in-webots-the-first-step-towards-ros-2-automobile-integration/19213](https://discourse.ros.org/t/tesla-model-3-simulation-in-webots-the-first-step-towards-ros-2-automobile-integration/19213)
+
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/16/2021 17:11:31
 It is now official: Webots will be used as the simulation platform of the upcoming Robocup Virtual Humanoid Soccer Competition: [https://humanoid.robocup.org/hl-2021/call-for-participation/](https://humanoid.robocup.org/hl-2021/call-for-participation/)
 
