@@ -10,9 +10,6 @@ Viewpoint {
 }
 TexturedBackground {
 }
-DEF SUPERVISOR Robot {
-  controller ""
-}
 DEF PENDULUM_ROBOT Robot {
   children [
     HingeJointWithBacklash {
@@ -83,6 +80,6 @@ DEF PENDULUM_ROBOT Robot {
     }
   ]
   name "pendulum"
-  controller "hingejoint_with_backlash"
+  controller "hingejoint_with_backlash_supervisor"
   supervisor TRUE
 }
