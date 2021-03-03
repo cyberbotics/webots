@@ -273,7 +273,7 @@ for proto in prioritaryProtoList + fileList:
         file.write(u'}\n')
         file.write(u'```\n\n')
         location = proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
-        file.write(u'> **File location**: "[WEBOTS\\_HOME%s](https://github.com/cyberbotics/webots/tree/released%s)"\n\n' %
+        file.write(u'> **File location**: "[WEBOTS\\_HOME%s]({{ url.github_tree }}%s)"\n\n' %
                    (location.replace('_', '\\_'), location))
         if license:
             file.write(u'> **License**: %s\n' % license)
@@ -305,7 +305,7 @@ for proto in prioritaryProtoList + fileList:
                             else:
                                 file.write(u'`%s`.' % value.strip())
                         elif i == len(values) - 2:
-                            file.write(u'`%s` and ' % value.strip())
+                            file.write(u'`%s`, and ' % value.strip())
                         else:
                             file.write(u'`%s`, ' % value.strip())
                 file.write(u'\n\n')
