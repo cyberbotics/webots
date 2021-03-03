@@ -14,6 +14,8 @@
 
 #include "WbHingeJointParameters.hpp"
 
+#include "WbWorld.hpp"
+
 void WbHingeJointParameters::init(bool fromDeprecatedHinge2JointParameters) {
   mAnchor = findSFVector3("anchor");
   mSuspensionSpringConstant = findSFDouble("suspensionSpringConstant");
@@ -98,8 +100,9 @@ void WbHingeJointParameters::updateSuspension() {
 }
 
 void WbHingeJointParameters::updateStopErp() {
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   if (mStopErp->value() < 0.0) {
-    mStopErp->setValue(0.2);
+    mStopErp->setValue(wi->erp());
     parsingWarn(tr("'stopERP' must be greater than or equal to zero. Reverting to global ERP."));
     return;
   }
@@ -108,8 +111,9 @@ void WbHingeJointParameters::updateStopErp() {
 }
 
 void WbHingeJointParameters::updateStopCfm() {
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   if (mStopCfm->value() <= 0.0) {
-    mStopCfm->setValue(1e-05);
+    mStopCfm->setValue(wi->cfm());
     parsingWarn(tr("'stopCFM' must be greater than zero. Reverting to global CFM."));
     return;
   }
