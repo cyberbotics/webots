@@ -78,8 +78,12 @@ DEF PENDULUM_ROBOT Robot {
         }
       }
     }
+    TestSuiteEmitter {
+    }
   ]
   name "pendulum"
   controller "hingejoint_with_backlash_supervisor"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
