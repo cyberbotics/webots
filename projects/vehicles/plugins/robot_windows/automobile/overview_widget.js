@@ -64,20 +64,20 @@ OverviewWidget.prototype.resize = function() {
 
   // Initialize labels and positions
   var label = document.getElementById('overview-wheel1-radius-label');
-  label.parentNode.style.top = (this.rearAxisLeftPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
-  label.parentNode.style.left = (this.rearAxisLeftPosition[0] - this.wheelWidth - 40) + 'px';
+  label.parentNode.style.top = (this.frontAxisRightPosition[1] + this.wheelHeight / 2 + 2) + 'px';
+  label.parentNode.style.left = (this.frontAxisRightPosition[0] - this.wheelWidth - 10) + 'px';
 
   label = document.getElementById('overview-wheel2-radius-label');
-  label.parentNode.style.top = (this.rearAxisRightPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
-  label.parentNode.style.left = (this.rearAxisRightPosition[0] - this.wheelWidth - 10) + 'px';
-
-  label = document.getElementById('overview-wheel3-radius-label');
   label.parentNode.style.top = (this.frontAxisLeftPosition[1] + this.wheelHeight / 2 + 2) + 'px';
   label.parentNode.style.left = (this.frontAxisLeftPosition[0] - this.wheelWidth - 40) + 'px';
 
+  label = document.getElementById('overview-wheel3-radius-label');
+  label.parentNode.style.top = (this.rearAxisRightPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
+  label.parentNode.style.left = (this.rearAxisRightPosition[0] - this.wheelWidth - 10) + 'px';
+
   label = document.getElementById('overview-wheel4-radius-label');
-  label.parentNode.style.top = (this.frontAxisRightPosition[1] + this.wheelHeight / 2 + 2) + 'px';
-  label.parentNode.style.left = (this.frontAxisRightPosition[0] - this.wheelWidth - 10) + 'px';
+  label.parentNode.style.top = (this.rearAxisLeftPosition[1] - this.wheelHeight / 2 - this.fontSize - 2) + 'px';
+  label.parentNode.style.left = (this.rearAxisLeftPosition[0] - this.wheelWidth - 40) + 'px';
 
   label = document.getElementById('overview-engine-label');
   label.parentNode.parentNode.style.top = this.centerPosition[1] + 'px';
@@ -181,14 +181,16 @@ OverviewWidget.prototype.update = function() {
 
   const firstCall = this.steering === [0, 0, 0];
   this.steering = this.data.steering;
-  if (this.isUndefinedMode)
+  if (this.isUndefinedMode) {
     document.getElementById('overview-speed-label').textContent = '-';
-  else
+    document.getElementById('overview-target-speed-label').textContent = '-';
+  } else {
     document.getElementById('overview-speed-label').textContent = roundLabel(this.data.speed, 2);
+    document.getElementById('overview-target-speed-label').textContent = roundLabel(this.data['target-speed'], 3);
+  }
   document.getElementById('overview-steering-label').textContent = roundLabel(this.data.steering[0], 4);
   document.getElementById('overview-rpm-label').textContent = roundLabel(this.data.rpm, 3);
   document.getElementById('overview-gearbox-label').textContent = roundLabel(this.data.gearbox, 1);
-  document.getElementById('overview-target-speed-label').textContent = roundLabel(this.data['target-speed'], 3);
   document.getElementById('overview-wheel1-speed-label').textContent = roundLabel(this.data.wheel1.speed, 1);
   document.getElementById('overview-wheel1-encoder-label').textContent = this.data.wheel1.encoder.toExponential(1);
   document.getElementById('overview-wheel1-angle-label').textContent = roundLabel(this.data.steering[1], 4);

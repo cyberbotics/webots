@@ -225,7 +225,7 @@ static void compute_rpm() {
   average_speed *= 60 / (2 * M_PI);
   // convert to engine rpm
   if (instance->gear == 0) {
-    instance->rpm = 0;  // TODO: eventually improve this in a futur version of the library
+    instance->rpm = 0;  // TODO: eventually improve this in a future version of the library
     return;
   }
 

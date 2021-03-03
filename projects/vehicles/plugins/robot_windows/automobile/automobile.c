@@ -23,12 +23,16 @@
 #include <webots/robot.h>
 #include <webots/utils/string.h>
 
+#include <webots/motor.h>
 #include <webots/vehicle/car.h>
 #include <webots/vehicle/driver.h>
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+static const char *wheelMotorNames[] = {"right_front_wheel", "left_front_wheel", "right_rear_wheel", "left_rear_wheel"};
+static WbDeviceTag *wheelMotors = NULL;
 
 enum DriverInfo {
   NONE = 0,
@@ -201,12 +205,20 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     snprintf(buf, 32, "%.4g", wbu_driver_get_target_cruising_speed());
     buffer_append(buf);
   }
+  if (control_mode == UNDEFINED_CONTROL_MODE && wheelMotors == NULL) {
+    wheelMotors = malloc(WBU_CAR_WHEEL_NB * sizeof(WbDeviceTag));
+    for (int i = WBU_CAR_WHEEL_FRONT_RIGHT; i < WBU_CAR_WHEEL_NB; ++i)
+      wheelMotors[i] = wb_robot_get_device(wheelMotorNames[i]);
+  }
   for (int i = WBU_CAR_WHEEL_FRONT_RIGHT; i < WBU_CAR_WHEEL_NB; ++i) {
     buffer_append(",\"wheel");
     snprintf(buf, 32, "%d", i + 1);
     buffer_append(buf);
     buffer_append("\": { \"speed\": ");
-    snprintf(buf, 32, "%.4g", wbu_car_get_wheel_speed(i));
+    if (control_mode != UNDEFINED_CONTROL_MODE)
+      snprintf(buf, 32, "%.4g", wbu_car_get_wheel_speed(i));
+    else
+      snprintf(buf, 32, "%.4g", wb_motor_get_velocity(wheelMotors[i]));
     buffer_append(buf);
     buffer_append(", \"encoder\": ");
     const double encoder_value = wbu_car_get_wheel_encoder(i);
@@ -355,4 +367,5 @@ void wb_robot_window_step(int time_step) {
 }
 
 void wb_robot_window_cleanup() {
+  free(wheelMotors);
 }
