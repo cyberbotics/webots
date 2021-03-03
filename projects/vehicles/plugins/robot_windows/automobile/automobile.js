@@ -14,7 +14,8 @@ var commands = []; // Commands to be sent to the C library.
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 var automobileWidgets = {}; // Dictionary {tabName -> automobile widget }
 
-const DRIVER_SPEED_MODE = 0; // DRIVER_TORQUE_MODE = 1;
+const DRIVER_SPEED_MODE = 0;
+const DRIVER_TORQUE_MODE = 1; // DRIVER_UNDEFINED_MODE == -1
 var driverControlMode;
 var overviewWidget = null;
 
@@ -23,13 +24,17 @@ function updateControlMode(controlMode) {
     return;
 
   driverControlMode = controlMode;
+  const isTorqueMode = driverControlMode === DRIVER_TORQUE_MODE;
   const isSpeedMode = driverControlMode === DRIVER_SPEED_MODE;
-  let labelText = isSpeedMode ? 'No engine model in speed control' : '';
+  let labelText = !isTorqueMode ? 'Engine model only available in torque control' : '';
   document.getElementById('throttle-label').textContent = labelText;
   document.getElementById('rpm-label').textContent = labelText;
-  document.getElementById('throttle-enable-checkbox').disabled = isSpeedMode;
-  document.getElementById('rpm-enable-checkbox').disabled = isSpeedMode;
-  overviewWidget.updateControlMode(isSpeedMode);
+  document.getElementById('throttle-enable-checkbox').disabled = !isTorqueMode;
+  document.getElementById('rpm-enable-checkbox').disabled = !isTorqueMode;
+  labelText = (isSpeedMode || isTorqueMode) ? '' : 'Vehicle speed not set using the Driver library'
+  document.getElementById('target-speed-label').textContent = labelText;
+  document.getElementById('speed-enable-checkbox').disabled = !isSpeedMode && !isTorqueMode;
+  overviewWidget.updateControlMode(isSpeedMode, isTorqueMode);
 }
 
 function vehicleCheckboxCallback(checkbox) {

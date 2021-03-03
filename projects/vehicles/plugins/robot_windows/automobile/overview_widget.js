@@ -9,7 +9,8 @@ function OverviewWidget(container) {
   this.enabled = false;
   this.isTorqueControl = false;
   this.steering = [0, 0, 0];
-  this.isSpeedMode = true;
+  this.isUndefinedMode = false;
+  this.isTorqueMode = false;
 
   let labels = document.getElementById('overview-labels');
   this.fontSize = parseFloat(window.getComputedStyle(labels, null).getPropertyValue('font-size'));
@@ -180,7 +181,10 @@ OverviewWidget.prototype.update = function() {
 
   const firstCall = this.steering === [0, 0, 0];
   this.steering = this.data.steering;
-  document.getElementById('overview-speed-label').textContent = roundLabel(this.data.speed, 2);
+  if (this.isUndefinedMode)
+    document.getElementById('overview-speed-label').textContent = '-';
+  else
+    document.getElementById('overview-speed-label').textContent = roundLabel(this.data.speed, 2);
   document.getElementById('overview-steering-label').textContent = roundLabel(this.data.steering[0], 4);
   document.getElementById('overview-rpm-label').textContent = roundLabel(this.data.rpm, 3);
   document.getElementById('overview-gearbox-label').textContent = roundLabel(this.data.gearbox, 1);
@@ -200,16 +204,17 @@ OverviewWidget.prototype.update = function() {
   this.paint();
 };
 
-OverviewWidget.prototype.updateControlMode = function(isSpeedMode) {
-  this.isSpeedMode = isSpeedMode;
-  if (isSpeedMode) {
-    document.getElementById('overview-rpm-label').parentNode.style.display = 'none';
-    document.getElementById('overview-gearbox-label').parentNode.style.display = 'none';
-    document.getElementById('overview-target-speed-label').parentNode.style.display = 'block';
-  } else {
+OverviewWidget.prototype.updateControlMode = function(isSpeedMode, isTorqueMode) {
+  this.isUndefinedMode = !isTorqueMode && !isSpeedMode;
+  this.isTorqueMode = isTorqueMode;
+  if (isTorqueMode) {
     document.getElementById('overview-rpm-label').parentNode.style.display = 'block';
     document.getElementById('overview-gearbox-label').parentNode.style.display = 'block';
     document.getElementById('overview-target-speed-label').parentNode.style.display = 'none';
+  } else {
+    document.getElementById('overview-rpm-label').parentNode.style.display = 'none';
+    document.getElementById('overview-gearbox-label').parentNode.style.display = 'none';
+    document.getElementById('overview-target-speed-label').parentNode.style.display = 'block';
   }
 };
 

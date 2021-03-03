@@ -874,7 +874,8 @@ The `wbu_driver_get_gear_number` function simply returns the number of available
 #include <webots/vehicle/driver.h>
 
 typedef enum {
-  SPEED,
+  UNDEFINED_CONTROL_MODE = -1,
+  SPEED = 0,
   TORQUE
 } WbuDriverControlMode;
 
