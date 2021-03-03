@@ -16,7 +16,7 @@ PROTO Gear [
   field SFFloat         toothDepth             0.01       # Defines depth of tooth.
   field SFFloat         density                0.001      # Defines the density of the gear. If zero, physics is disabled.
   field SFBool          bodyBoundingObject     TRUE       # Enables gear body collision area (cylinder).
-  field SFBool          teethBoundingObject    FALSE      # Enables bounding object on each tooth.
+  field SFBool          teethBoundingObject    FALSE      # Enables a boundingObject on each tooth.
 ]
 {
   %{
