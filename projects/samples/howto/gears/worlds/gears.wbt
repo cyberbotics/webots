@@ -1,5 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  info [
+    "Example of meshing gears"
+  ]
+  title "Gears example"
   basicTimeStep 8
   coordinateSystem "NUE"
 }

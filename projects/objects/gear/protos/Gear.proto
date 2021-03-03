@@ -20,11 +20,9 @@ PROTO Gear [
 ]
 {
   %{
-    -- load modules
-    local os = require('os')
     -- parameter retrieval
-    local w = fields.width.value
-    local Z = fields.teeth.value
+    local width = fields.width.value
+    local nbTeeth = fields.teeth.value
     local innerRadius = fields.innerRadius.value
     local pitchRadius = fields.pitchRadius.value
     local toothDepth = fields.toothDepth.value
@@ -32,14 +30,14 @@ PROTO Gear [
     local bodyBoundingObject = fields.bodyBoundingObject.value
     local teethBoundingObject = fields.teethBoundingObject.value
     -- parameter sanity check
-    if Z < 8 then
+    if nbTeeth < 8 then
       io.stderr:write("'teeth' value must be greater than 8. Using default value.\n")
-      Z = fields.teeth.defaultValue
+      nbTeeth = fields.teeth.defaultValue
     end
 
-    if w <= 0.0  then
+    if width <= 0.0  then
       io.stderr:write("'width' value must be greater than 0. Using default value.\n")
-      w = fields.width.defaultValue
+      width = fields.width.defaultValue
     end
 
     if density < 0.0  then
@@ -63,7 +61,7 @@ PROTO Gear [
     local r0 = innerRadius
     local r1 = pitchRadius - toothDepth * 0.5
     local r2 = pitchRadius + toothDepth * 0.5
-    local da = (2.0 * math.pi / Z) / 4.0
+    local da = (2.0 * math.pi / nbTeeth) / 4.0
 
     local p0x = r0
     local p0y = 0
@@ -75,10 +73,10 @@ PROTO Gear [
     local p3y = r2 * math.sin(0 + 2*da)
     local p4x = r1 * math.cos(0 + 3*da)
     local p4y = r1 * math.sin(0 + 3*da)
-    local p5x = r1 * math.cos(2.0 * math.pi / Z)
-    local p5y = r1 * math.sin(2.0 * math.pi / Z)
-    local p6x = r0 * math.cos(2.0 * math.pi / Z)
-    local p6y = r0 * math.sin(2.0 * math.pi / Z)
+    local p5x = r1 * math.cos(2.0 * math.pi / nbTeeth)
+    local p5y = r1 * math.sin(2.0 * math.pi / nbTeeth)
+    local p6x = r0 * math.cos(2.0 * math.pi / nbTeeth)
+    local p6y = r0 * math.sin(2.0 * math.pi / nbTeeth)
     local tip_size = math.sqrt((p3x-p2x)*(p3x-p2x) + (p3y-p2y)*(p3y-p2y))
 
   }%
@@ -92,30 +90,30 @@ PROTO Gear [
         geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                %{ for n = 0, Z-1 do }%
-                  %{ alpha = n * 2.0 * math.pi / Z }%
+                %{ for n = 0, nbTeeth-1 do }%
+                  %{ alpha = n * 2.0 * math.pi / nbTeeth }%
                   # base face
-                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= -w*0.5}% # 0
-                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= -w*0.5}% # 1
-                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= -w*0.5}% # 2
-                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= -w*0.5}% # 3
-                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= -w*0.5}% # 4
-                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= -w*0.5}% # 5
-                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= -w*0.5}% # 6
+                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= -width*0.5}% # 0
+                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= -width*0.5}% # 1
+                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= -width*0.5}% # 2
+                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= -width*0.5}% # 3
+                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= -width*0.5}% # 4
+                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= -width*0.5}% # 5
+                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= -width*0.5}% # 6
                   # top face
-                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= w*0.5}% # 7
-                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= w*0.5}% # 8
-                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= w*0.5}% # 9
-                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= w*0.5}% # 10
-                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= w*0.5}% # 11
-                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= w*0.5}% # 12
-                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= w*0.5}% # 13
+                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= width*0.5}% # 7
+                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= width*0.5}% # 8
+                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= width*0.5}% # 9
+                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= width*0.5}% # 10
+                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= width*0.5}% # 11
+                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= width*0.5}% # 12
+                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= width*0.5}% # 13
                 %{ end }%
 
               ]
             }
             coordIndex [
-              %{ for n = 0, Z-1 do }%
+              %{ for n = 0, nbTeeth-1 do }%
                 # base face
                 %{= n*14 + 0}%, %{= n*14 + 2}%, %{= n*14 + 1}%, -1,
                 %{= n*14 + 0}%, %{= n*14 + 3}%, %{= n*14 + 2}%, -1,
@@ -157,7 +155,7 @@ PROTO Gear [
                 Shape {
                   geometry Cylinder {
                     radius %{= r2}%
-                    height %{= w}%
+                    height %{= width}%
                   }
                 }
               ]
@@ -165,9 +163,9 @@ PROTO Gear [
           %{ end }%
           # spherical contact point on each tooth
           %{ if teethBoundingObject then }%
-            %{ for n = 0, Z-1 do }%
-              %{ alpha = n * 2.0 * math.pi / Z }%
-              %{ if tip_size > w then }%
+            %{ for n = 0, nbTeeth-1 do }%
+              %{ alpha = n * 2.0 * math.pi / nbTeeth }%
+              %{ if tip_size > width then }%
                 Transform {
                   translation %{= (r2-tip_size*0.5)*math.cos(alpha + 1.5*da)}% %{= (r2-tip_size*0.5)*math.sin(alpha + 1.5*da)}% 0
                   children [
@@ -186,7 +184,7 @@ PROTO Gear [
                     Shape {
                       geometry Capsule {
                         radius %{= tip_size*0.5*1.4}% # by default, make it 40% bigger
-                        height %{= w - tip_size}%
+                        height %{= width - tip_size}%
                       }
                     }
                   ]
