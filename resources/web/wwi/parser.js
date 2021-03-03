@@ -54,8 +54,7 @@ class Parser {
     WbWorld.init();
   }
 
-  async parse(text, renderer, parent) {
-    console.log('X3D: Parsing');
+  async parse(text, renderer, parent, callback) {
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
@@ -80,16 +79,21 @@ class Parser {
     }
 
     console.log(WbWorld.instance);
+    $('#webotsProgressMessage').html('Finalizing...');
+
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
     WbWorld.instance.viewpoint.finalize();
-    console.timeEnd('startID');
-    console.time('startID');
+    // console.timeEnd('startID');
+    // console.time('startID');
     WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
     renderer.render();
-    console.timeEnd('startID');
+    // console.timeEnd('startID');
+    $('#webotsProgress').hide();
+    if (typeof callback === 'function')
+      callback();
   }
 
   async parseFile(file) {

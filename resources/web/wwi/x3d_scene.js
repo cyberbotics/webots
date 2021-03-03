@@ -16,6 +16,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
+    this.prefix = texturePathPrefix;
     this.renderer = new WrenRenderer();
 
     this.resize();
@@ -125,7 +126,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (typeof this.loader === 'undefined')
         this.loader = new Parser(this.prefix);
 
-      this.loader.prefix = '';
       console.log(doc.getElementsByTagName('Scene')[0]);
       await this.loader.parseFile(doc);
       onLoad();
@@ -134,7 +134,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     request.send(null);
   }
 
-  loadObject(x3dObject, parentId) {
+  loadObject(x3dObject, parentId, callback) {
     let parentNode;
     if (typeof parentId !== 'undefined' && parentId > 0) {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -147,8 +147,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (typeof this.loader === 'undefined')
       this.loader = new Parser(this.prefix);
 
-    this.loader.prefix = 'http://localhost:1234/';
-    this.loader.parse(x3dObject, this.renderer, parentNode);
+    this.loader.parse(x3dObject, this.renderer, parentNode, callback);
 
     this.onSceneUpdate();
   }
@@ -256,13 +255,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     } else if (data.startsWith('model:')) {
       $('#webotsProgressMessage').html('Loading 3D scene...');
       $('#webotsProgressPercent').html('');
+      $('#webotsProgress').show();
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
-      this.loadObject(data);
+      this.loadObject(data, 0, view.onready);
     } else if (data.startsWith('label')) {
       let semiColon = data.indexOf(';');
       const id = data.substring(data.indexOf(':'), semiColon);

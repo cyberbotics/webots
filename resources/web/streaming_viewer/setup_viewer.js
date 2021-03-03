@@ -1,15 +1,12 @@
-import {webots} from "./../wwi/webots.js";
+import {webots} from './../wwi/webots.js';
 
-/* global webots: false */
+let view = null;
+let ipInput = null;
+let connectButton = null;
+let modeSelect = null;
+let broadcast = null;
 
-var view = null;
-var ipInput = null;
-var portInput = null;
-var connectButton = null;
-var modeSelect = null;
-var broadcast = null;
-
-var mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (mobileDevice) {
   let head = document.getElementsByTagName('head')[0];
   let jqueryTouch = document.createElement('script');
@@ -17,7 +14,7 @@ if (mobileDevice) {
   jqueryTouch.setAttribute('src', 'https://www.cyberbotics.com/jquery-ui/1.11.4/jquery.ui.touch-punch.min.js');
   head.appendChild(jqueryTouch);
 
-  var mobileCss = document.createElement('link');
+  let mobileCss = document.createElement('link');
   mobileCss.setAttribute('rel', 'stylesheet');
   mobileCss.setAttribute('type', 'text/css');
   mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2021b/wwi_mobile.css');
@@ -28,38 +25,43 @@ function init() {
   ipInput = document.getElementById('IPInput');
   connectButton = document.getElementById('ConnectButton');
   modeSelect = document.getElementById('mode');
-  broadcast = document.getElementById('broadcast')
+  broadcast = document.getElementById('broadcast');
+
+  connectButton.onclick = connect;
 }
 
 function connect() {
-  console.time('startID')
+  // console.time('startID')
   // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
   // For any other use, please refer to the documentation:
   // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
   let playerDiv = document.getElementById('playerDiv');
-  if(!view)
+  if (!view)
     view = new webots.View(playerDiv, mobileDevice);
   view.broadcast = broadcast.checked;
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
+
+  view.onready = function() {
+    connectButton.value = 'Disconnect';
+    connectButton.onclick = disconnect;
+    connectButton.disabled = false;
+  };
+
   view.open(ipInput.value, streamingMode);
   view.onquit = disconnect;
-  connectButton.value = 'Disconnect';
-  connectButton.onclick = disconnect;
+
   ipInput.disabled = true;
   modeSelect.disabled = true;
   broadcast.disabled = true;
+  connectButton.disabled = true;
 }
 
 function disconnect() {
   view.close();
-  //view = null;
-  //let playerDiv = document.getElementById('playerDiv');
-  //playerDiv.innerHTML = null;
   let toolbar = document.getElementById('toolBar');
-  if(toolbar !== 'undefined' && toolbar !== null){
-      toolbar.parentNode.removeChild(toolbar);
-  }
+  if (toolbar !== 'undefined' && toolbar !== null)
+    toolbar.parentNode.removeChild(toolbar);
 
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
@@ -69,4 +71,3 @@ function disconnect() {
 }
 
 window.addEventListener('load', init, false);
-document.getElementById('ConnectButton').onclick = connect;

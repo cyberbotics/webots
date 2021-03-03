@@ -101,9 +101,11 @@ webots.View = class View {
       if (opening && typeof this.isAutomaticallyPaused === 'undefined') {
         this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display ===
           'inline';
-        this.toolBar.pauseButton.click();
+        if (this.toolBar)
+          this.toolBar.pauseButton.click();
       } else if (!opening && this.isAutomaticallyPaused) {
-        this.toolBar.real_timeButton.click();
+        if (this.toolBar)
+          this.toolBar.real_timeButton.click();
         this.isAutomaticallyPaused = undefined;
       }
     };
@@ -186,12 +188,15 @@ webots.View = class View {
         return null;
       }
       if (this.isWebSocketProtocol) {
-        this.progress = document.createElement('div');
-        this.progress.id = 'webotsProgress';
-        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
+        if (typeof this.progress === 'undefined') {
+          this.progress = document.createElement('div');
+          this.progress.id = 'webotsProgress';
+          this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
           "</div><div id='webotsProgressMessage'>Initializing...</div>" +
           "</div><div id='webotsProgressPercent'></div>";
-        this.view3D.appendChild(this.progress);
+          this.view3D.appendChild(this.progress);
+        }
+        $('#webotsProgress').show();
 
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
@@ -212,7 +217,7 @@ webots.View = class View {
     };
 
     var finalizeWorld = () => {
-      $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
+      $('#webotsProgressMessage').html('Loading World...');
       if (typeof this.x3dScene !== 'undefined') {
         if (!this.isWebSocketProtocol) { // skip robot windows initialization
           if (this.animation != null)
@@ -374,15 +379,11 @@ webots.View = class View {
     };
 
     let loadFinalize = () => {
-      $('#webotsProgress').hide();
       if (typeof this.multimediaClient !== 'undefined')
         // finalize multimedia client and set toolbar buttons status
         this.multimediaClient.finalize();
       else if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
-
-      if (typeof this.onready === 'function')
-        this.onready();
 
       // Restore robot windows.
       if (this.robotWindowsGeometries) { // on reset

@@ -91,7 +91,8 @@ class Stream { // eslint-disable-line no-unused-vars
       else
         console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + this.view.editor.dirname);
     } else if (data.startsWith('pause:') || data === 'paused by client') {
-      this.view.toolBar.setMode('pause');
+      if (this.view.toolBar !== null)
+        this.view.toolBar.setMode('pause');
       // Update timeout.
       if (data.startsWith('pause:')) {
         this.view.isAutomaticallyPaused = undefined;
@@ -104,14 +105,16 @@ class Stream { // eslint-disable-line no-unused-vars
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      this.view.toolBar.setMode(data);
+      if (this.view.toolBar)
+        this.view.toolBar.setMode(data);
       if (this.view.timeout >= 0)
         this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
+      $('#webotsProgress').show();
       data = data.substring(data.indexOf(':') + 1).trim();
       let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      $('#webotsProgressMessage').html('Loading: ' + loadingStatus);
+      $('#webotsProgressMessage').html('Webots: ' + loadingStatus);
       $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
     } else if (data === 'scene load completed') {
       this.view.time = 0;

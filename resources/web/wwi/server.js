@@ -1,5 +1,4 @@
-/* global webots, Stream, TextureLoader */
-'use strict';
+import {Stream} from './stream.js';
 
 class Server { // eslint-disable-line no-unused-vars
   constructor(url, view, onready) {
@@ -48,10 +47,10 @@ class Server { // eslint-disable-line no-unused-vars
         this.onMessage(event);
       };
       this.socket.onclose = (event) => {
-        this.view.console.info('Disconnected to the Webots server.');
+        console.log('Disconnected from the Webots server.');
       };
       this.socket.onerror = (event) => {
-        this.view.console.error('Cannot connect to the simulation server');
+        console.error('Cannot connect to the simulation server');
       };
     };
     xhr.send();
@@ -88,9 +87,10 @@ class Server { // eslint-disable-line no-unused-vars
   onMessage(event) {
     const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
+      console.log('received ' + message);
       const url = message.substring(7);
       this.httpServerUrl = url.replace(/ws/, 'http');
-      TextureLoader.setTexturePathPrefix(this.httpServerUrl + '/'); // Serve the texture images. SSL prefix is supported.
+      this.view.x3dScene.prefix = this.httpServerUrl + '/';
       this.view.stream = new Stream(url, this.view, this.onready);
       this.view.stream.connect();
     } else if (message.indexOf('controller:') === 0) {
@@ -98,10 +98,10 @@ class Server { // eslint-disable-line no-unused-vars
       let controller = {};
       controller.name = message.substring(11, n);
       controller.port = message.substring(n + 1);
-      this.view.console.info('Using controller ' + controller.name + ' on port ' + controller.port);
+      console.log('Using controller ' + controller.name + ' on port ' + controller.port);
       this.controllers.push(controller);
     } else if (message.indexOf('queue:') === 0)
-      this.view.console.error('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
+      console.log('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
     else if (message === '.') { // received every 5 seconds when Webots is running
       // nothing to do
     } else if (message.indexOf('reset controller:') === 0)
