@@ -26,6 +26,9 @@ class WrenRenderer {
     div.insertBefore(this.canvas, div.firstChild);
 
     _wr_config_enable_shadows(!disableShadows);
+
+    // glGetError causes freeze with Firefox on Windows 10
+    _wr_gl_state_disable_check_error();
   }
 
   setSize(width, height) {
@@ -39,9 +42,8 @@ class WrenRenderer {
 
     try {
       WbWorld.instance.viewpoint.updatePostProcessingParameters();
-      console.time('startID');
+
       _wr_scene_render(_wr_scene_get_instance(), null, true);
-      console.timeEnd('startID');
       // console.log("render");
     } catch (error) {
       console.log('No Context');

@@ -80,17 +80,19 @@ class Parser {
 
     console.log(WbWorld.instance);
     $('#webotsProgressMessage').html('Finalizing...');
-
+    console.timeEnd('startID');
+    console.time('startID');
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
     WbWorld.instance.viewpoint.finalize();
-    // console.timeEnd('startID');
-    // console.time('startID');
     WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
+    console.timeEnd('startID');
+
+    console.time('startID');
     renderer.render();
-    // console.timeEnd('startID');
+    console.timeEnd('startID');
     $('#webotsProgress').hide();
     if (typeof callback === 'function')
       callback();

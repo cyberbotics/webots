@@ -102,6 +102,7 @@ namespace wren {
     static int cMaxFrameBufferDrawBuffers = 0;
     static float cMaxTextureAnisotropy = 1.0f;
     static bool cPointSize = false;
+    static bool cDisableCheck = false;
 
     static std::vector<std::unique_ptr<UniformBuffer>> cUniformBuffers;
 
@@ -763,6 +764,9 @@ namespace wren {
     }
 
     void checkError(int ignore) {
+      if (cDisableCheck)
+        return;
+
       int error;
       do {
         error = glGetError();
@@ -791,7 +795,6 @@ namespace wren {
         }
       } while (error != GL_NO_ERROR);
     }
-
   }  // namespace glstate
 }  // namespace wren
 
@@ -834,4 +837,8 @@ bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
 
 float wr_gl_state_max_texture_anisotropy() {
   return wren::glstate::maxTextureAnisotropy();
+}
+
+void wr_gl_state_disable_check_error() {
+  wren::glstate::cDisableCheck = true;
 }
