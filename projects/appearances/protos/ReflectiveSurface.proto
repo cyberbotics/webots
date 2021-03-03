@@ -19,19 +19,19 @@ PROTO ReflectiveSurface [
     %{ if fields.useBaseColorMap.value then }%
     baseColorMap ImageTexture {
       url [
-        "textures/reflective_surface/reflective_surface_base_color.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_base_color.jpg"
       ]
     }
     %{ end }%
     roughnessMap ImageTexture {
       url [
-        "textures/reflective_surface/reflective_surface_roughness.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_roughness.jpg"
       ]
     }
     metalness IS metalness
     normalMap ImageTexture {
       url [
-        "textures/reflective_surface/reflective_surface_normal.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_normal.jpg"
       ]
     }
     emissiveColor IS emissiveColor

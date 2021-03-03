@@ -21,7 +21,7 @@ Solid {
         metalness 0
         roughness 0.4
         baseColorMap ImageTexture {
-          url "textures/apple.jpg"
+          url "webots://projects/objects/fruits/protos/textures/apple.jpg"
         }
       }
       geometry IndexedFaceSet {

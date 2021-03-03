@@ -164,7 +164,7 @@ PROTO OldResidentialBuilding [
           %{ else }%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_medium_grey_normal.jpg"' }%
+              %{= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/small_residential_building_stair_medium_grey_normal.jpg"' }%
             ]
           }
           %{ end }%
@@ -260,7 +260,7 @@ PROTO OldResidentialBuilding [
           %{ if type == 'light grey' then }%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_medium_grey_normal.jpg"' }%
+              %{= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/small_residential_building_windows_medium_grey_normal.jpg"' }%
             ]
           }
           %{ elseif type ~= 'braun' and type ~= 'red grey' then }%

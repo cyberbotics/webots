@@ -42,27 +42,27 @@ PROTO TinkerbotsTwister [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/twister_base_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/twister_base_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/twister_base_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/twister_base_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/twister_base_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_occlusion.jpg"
               ]
             }
           }
@@ -155,27 +155,27 @@ PROTO TinkerbotsTwister [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/twister_joint_base_color.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/twister_joint_roughness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_roughness.png"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "textures/twister_joint_metalness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_metalness.png"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/twister_joint_normal.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/twister_joint_occlusion.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_occlusion.jpg"
                     ]
                   }
                 }

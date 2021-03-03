@@ -12,7 +12,7 @@ PROTO BmwX5 [
   field SFVec3f      translation              0 0.4 0
   field SFRotation   rotation                 0 1 0 0
   field SFColor      color                    0.43 0.11 0.1
-  field SFString     engineSound              "sounds/engine.wav"
+  field SFString     engineSound              "webots://projects/vehicles/protos/abstract/sounds/engine.wav"
   field SFString     name                     "vehicle"
   field SFString     controller               "void"
   field MFString     controllerArgs           [ ]
@@ -323,9 +323,9 @@ PROTO BmwX5 [
       %{ if interior then }%
               BmwX5Interior {
                 %{ if dynamicSpeedDisplay then }%
-                    baseColorMap "textures/bmw_interior_speedometer_without_needles.jpg"
+                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
                 %{ else }%
-                    baseColorMap "textures/bmw_interior_speedometer.jpg"
+                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
                 %{ end }%
                 indicatorLevers IS indicatorLevers
               }

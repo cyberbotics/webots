@@ -594,7 +594,7 @@ PROTO Nao [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/chest_button.png"
+              "webots://projects/robots/softbank/nao/protos/textures/chest_button.png"
             ]
           }
         }
@@ -1300,7 +1300,7 @@ PROTO Nao [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "textures/ear.jpg"
+                    "webots://projects/robots/softbank/nao/protos/textures/ear.jpg"
                   ]
                 }
               }

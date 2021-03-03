@@ -15,7 +15,7 @@ PROTO BmwX5RearInterior [
           roughness 0.9
           baseColorMap ImageTexture {
             url [
-              "textures/bmw_interior_seats.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_interior_seats.jpg"
             ]
           }
         }

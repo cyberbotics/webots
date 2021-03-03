@@ -25,27 +25,27 @@ PROTO TeslaModel3Wheel [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_base_color.png"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_roughness.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_metallic.png"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_metallic.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_normal.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_occlusion.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_occlusion.jpg"
               ]
             }
           }

@@ -277,7 +277,7 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/rock.jpg"
+              "webots://projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0

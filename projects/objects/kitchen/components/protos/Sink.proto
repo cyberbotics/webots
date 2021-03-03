@@ -7,7 +7,7 @@ PROTO Sink [
   field SFVec3f    translation 0 0.72 0
   field SFRotation rotation    0 1 0 0
   field SFString   name        "sink"
-  field MFString   textureUrl  "textures/components.jpg"  # Defines the texture used for the sink.
+  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the sink.
 ]
 {
 Solid {
@@ -20,13 +20,13 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "textures/components_roughness.jpg"
+          url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "textures/components_metalness.jpg"
+          url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "textures/components_normal.jpg"
+          url "webots://projects/objects/kitchen/components/protos/textures/components_normal.jpg"
         }
       }
       geometry IndexedFaceSet {

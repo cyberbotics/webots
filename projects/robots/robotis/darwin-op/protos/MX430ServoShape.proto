@@ -13,7 +13,7 @@ Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/dynamixel_logo.png"
+                "webots://projects/robots/robotis/darwin-op/protos/textures/dynamixel_logo.png"
               ]
             }
             metalness 0

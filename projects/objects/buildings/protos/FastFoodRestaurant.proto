@@ -100,7 +100,7 @@ PROTO FastFoodRestaurant [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/fastfood_inner_wall.jpg"
+                      "webots://projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
                     ]
                   }
                   roughness 1
@@ -139,12 +139,12 @@ PROTO FastFoodRestaurant [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "textures/fastfood_counter.jpg"
+                          "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
                         ]
                       }
                       emissiveColorMap ImageTexture {
                         url [
-                          "textures/fastfood_counter.jpg"
+                          "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
                         ]
                       }
                       roughness 1
@@ -228,7 +228,7 @@ PROTO FastFoodRestaurant [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "textures/fastfood_ceiling.jpg"
+                          "webots://projects/objects/buildings/protos/textures/fastfood_ceiling.jpg"
                         ]
                       }
                       roughness 1
@@ -260,7 +260,7 @@ PROTO FastFoodRestaurant [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "textures/fastfood_floor.jpg"
+                          "webots://projects/objects/buildings/protos/textures/fastfood_floor.jpg"
                         ]
                       }
                       roughness 1
@@ -383,7 +383,7 @@ PROTO FastFoodRestaurant [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/gravel.jpg"
+                  "webots://projects/objects/buildings/protos/textures/gravel.jpg"
                 ]
               }
               roughness 1
