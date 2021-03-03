@@ -393,7 +393,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
                        paintContribution * paintColor.red());
     pickedColor.setGreen((1 - paintContribution) * diffuseColor.green() * textureColor.green() +
                          paintContribution * paintColor.green());
-    pickedColor.setBlue((1 - paintContribution) * diffuseColor.blue() * textureColor.blue() +
+    pickedColor.setBlue((1.0f - paintContribution) * diffuseColor.blue() * textureColor.blue() +
                         paintContribution * paintColor.blue());
   }
 }
