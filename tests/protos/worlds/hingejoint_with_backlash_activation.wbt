@@ -11,8 +11,7 @@ Viewpoint {
 TexturedBackground {
 }
 DEF SUPERVISOR Robot {
-  controller "hingejoint_with_backlash_supervisor"
-  supervisor TRUE
+  controller ""
 }
 DEF PENDULUM_ROBOT Robot {
   children [
@@ -49,7 +48,19 @@ DEF PENDULUM_ROBOT Robot {
         translation 0 -0.2 0
         rotation 0 0 1 0
         children [
-          Transform {
+          DEF PENDULUM_BAR Transform {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry Box {
+                  size 0.02 0.4 0.02
+                }
+              }
+            ]
+          }
+          DEF PENDULUM_BOB Transform {
             translation 0 -0.2 0
             rotation 1 0 0 1.5708
             children [
@@ -64,16 +75,8 @@ DEF PENDULUM_ROBOT Robot {
               }
             ]
           }
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0.203922 0.396078 0.643137
-            }
-            geometry DEF PENDULUM_SHAPE Box {
-              size 0.02 0.4 0.02
-            }
-          }
         ]
-        boundingObject USE PENDULUM_SHAPE
+        boundingObject USE PENDULUM_BAR
         physics Physics {
         }
       }
@@ -81,4 +84,5 @@ DEF PENDULUM_ROBOT Robot {
   ]
   name "pendulum"
   controller "hingejoint_with_backlash"
+  supervisor TRUE
 }
