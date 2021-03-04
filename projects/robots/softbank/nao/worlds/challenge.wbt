@@ -59,14 +59,14 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark1.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark1.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation 0.21 0.405 -0.995
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark2.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark2.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -74,7 +74,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark3.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark3.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -82,7 +82,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark4.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark4.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -90,7 +90,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark5.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark5.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -98,7 +98,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -2.3562
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark6.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark6.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -106,7 +106,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -3.14159
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark7.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark7.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -114,14 +114,14 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark8.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark8.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation -0.1 0.255 1
   dimension 0.09 0.09 0.001
   textureUrl [
-    "webots://projects/robots/softbank/nao/protos/landmarks/landmark9.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark9.png"
   ]
 }
 DEF PAINTING_BIG VisualArmature {
