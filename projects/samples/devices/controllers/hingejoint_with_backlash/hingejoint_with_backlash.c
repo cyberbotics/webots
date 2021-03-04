@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
 
   while (wb_robot_step(TIME_STEP) != -1) {
     double pos = wb_position_sensor_get_value(rotorSensor);
+
     if (pos > 1.0471)
       wb_motor_set_velocity(rotor, -SPEED);
     if (pos < -1.0471)
