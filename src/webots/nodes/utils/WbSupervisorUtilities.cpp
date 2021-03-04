@@ -292,7 +292,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeExportStringRequest = false;
   mIsProtoRegenerated = false;
   mShouldRemoveNode = false;
-  mImportedNodesNumber = -1;
+  mImportedNodeId = -1;
   mLoadWorldRequested = false;
   mVirtualRealityHeadsetIsUsedRequested = false;
   mVirtualRealityHeadsetPositionRequested = false;
@@ -1264,35 +1264,27 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_MF_NODE: {
           QString filename = readString(stream);
           makeFilenameAbsolute(filename);
-          int importedNodesNumber;
-          WbNodeOperations::OperationResult operationResult;
           if (filename.endsWith(".wrl", Qt::CaseInsensitive))
-            operationResult = WbNodeOperations::instance()->importVrml(filename, &importedNodesNumber, true);
+            WbNodeOperations::instance()->importVrml(filename, true);
           else if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            operationResult =
-              WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", &importedNodesNumber, true);
-          else {
-            operationResult = WbNodeOperations::FAILURE;
+            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", true);
+          else
             assert(false);
-          }
-          if (operationResult != WbNodeOperations::FAILURE)
-            mImportedNodesNumber = importedNodesNumber;
           break;
         }
         case WB_SF_NODE: {
           QString filename = readString(stream);
           makeFilenameAbsolute(filename);
-          int importedNodesNumber;
           if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", &importedNodesNumber, true);
+            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", true);
           else
             assert(false);
           const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           assert(sfNode);
           if (sfNode->value())
-            mImportedNodesNumber = sfNode->value()->uniqueId();
+            mImportedNodeId = sfNode->value()->uniqueId();
           else
-            mImportedNodesNumber = -1;
+            mImportedNodeId = -1;
           break;
         }
         default:
@@ -1314,18 +1306,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       // apply queued set field operations
       processImmediateMessages(true);
 
-      int importedNodesNumber;
-      WbNodeOperations::OperationResult operationResult =
-        WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
+      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, true);
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
       if (sfNode) {
         if (sfNode->value())
-          mImportedNodesNumber = sfNode->value()->uniqueId();
+          mImportedNodeId = sfNode->value()->uniqueId();
         else
-          mImportedNodesNumber = -1;
-      } else if (operationResult != WbNodeOperations::FAILURE)
-        mImportedNodesNumber = importedNodesNumber;
+          mImportedNodeId = -1;
+      }
 
       WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
@@ -1608,11 +1597,11 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream.writeRawData(ba.constData(), ba.size() + 1);
     mNodeExportStringRequest = false;
   }
-  if (mImportedNodesNumber >= 0) {
+  if (mImportedNodeId >= 0) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_FIELD_INSERT_VALUE;
-    stream << (int)mImportedNodesNumber;
-    mImportedNodesNumber = -1;
+    stream << (int)mImportedNodeId;
+    mImportedNodeId = -1;
   }
   if (mFieldGetRequest) {
     stream << (short unsigned int)0;

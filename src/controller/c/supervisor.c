@@ -355,7 +355,7 @@ static bool simulation_reset = false;
 static bool world_reload = false;
 static bool simulation_reset_physics = false;
 static bool simulation_change_mode = false;
-static int imported_nodes_number = -1;
+static int imported_node_id = -1;
 static const char *world_to_load = NULL;
 static char movie_stop = false;
 static char movie_status = WB_SUPERVISOR_MOVIE_READY;
@@ -932,7 +932,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       remove_internal_proto_nodes_and_fields_from_list();
       break;
     case C_SUPERVISOR_FIELD_INSERT_VALUE:
-      imported_nodes_number = request_read_int32(r);
+      imported_node_id = request_read_int32(r);
       break;
     case C_SUPERVISOR_FIELD_CHANGED: {
       const int node_id = request_read_int32(r);
@@ -3070,10 +3070,10 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
   union WbFieldData data;
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, -1, data, false);
-  imported_nodes_number = -1;
+  imported_node_id = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number >= 0)
-    field->data.sf_node_uid = imported_nodes_number;
+  if (imported_node_id >= 0)
+    field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();
 }
 
@@ -3103,10 +3103,10 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
-  imported_nodes_number = -1;
+  imported_node_id = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number >= 0)
-    field->data.sf_node_uid = imported_nodes_number;
+  if (imported_node_id >= 0)
+    field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();
 }
 
