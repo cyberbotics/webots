@@ -82,6 +82,13 @@ DEF PENDULUM_ROBOT Robot {
     }
   ]
   name "pendulum"
+  controller "hingejoint_with_backlash"
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   controller "hingejoint_with_backlash_supervisor"
   supervisor TRUE
 }
