@@ -558,7 +558,7 @@ class AnsiCodes(object):
   PyObject *__getPointCloudBuffer(int layer) const {
     const char *points = layer < 0 ? (const char *)$self->getPointCloud() : (const char *)$self->getLayerPointCloud(layer);
     const int numberOfPoints = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
-    const int size = number_of_points * sizeof(WbLidarPoint);
+    const int size = numberOfPoints * sizeof(WbLidarPoint);
     return PyBytes_FromStringAndSize(points, size);
   }
 
