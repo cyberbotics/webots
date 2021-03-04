@@ -103,7 +103,7 @@ private:
   int *mMovieStatus;
   bool *mSaveStatus;
 
-  int mImportedNodesNumber;
+  int mImportedNodeId;
   bool mLoadWorldRequested;
   QString mWorldToLoad;
 
