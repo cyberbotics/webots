@@ -17,6 +17,7 @@
 """Replace the webots:// URLs with https://raw.githubusercontent.com/cyberbotics/webots/<version>/ in world and proto files."""
 
 
+import os
 from pathlib import Path
 
 
@@ -29,5 +30,12 @@ def replace_url(file, version):
     return
 
 
-for path in Path('.').rglob('*.proto'):
+if 'WEBOTS_HOME' in os.environ:
+    WEBOTS_HOME = os.environ['WEBOTS_HOME']
+else:
+    WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+paths = Path(WEBOTS_HOME).rglob('*.proto')
+paths.extend(Path(WEBOTS_HOME).rglob('*.wbt'))
+for path in paths:
     replace_url(path, 'R2021a')
