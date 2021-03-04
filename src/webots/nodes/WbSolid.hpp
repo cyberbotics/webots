@@ -123,7 +123,7 @@ public:
   void setupSolidMergers();
   bool isSolidMerger() const { return !mIsKinematic && mSolidMerger && mSolidMerger->solid() == this; }
   bool mergerIsSet() const { return mMergerIsSet; }
-  virtual dBodyID bodyMerger() const;
+  dBodyID bodyMerger() const;
 
   // New joints
   void appendJointParent(WbBasicJoint *joint);
