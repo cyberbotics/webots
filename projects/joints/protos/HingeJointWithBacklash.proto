@@ -25,13 +25,13 @@ PROTO HingeJointWithBacklash [
     local position = fields.jointParameters.value.fields.position.value
     -- parameter sanity check
     local backlash = fields.backlash.value
-    if backlash < 0 then
-      io.stderr:write("'backlash' value must be positive, use a normal hinge if no backlash is desired.\n")
+    if backlash <= 0 then
+      io.stderr:write("'backlash' value must be positive, use a normal hinge if no backlash is desired. Using default value.\n")
       backlash = fields.backlash.defaultValue
     end
 
     local gearMass = fields.gearMass.value
-    if gearMass < 0 then
+    if gearMass <= 0 then
       io.stderr:write("'gearMass' value must be positive. Using default value.\n")
       gearMass = fields.gearMass.defaultValue
     end
@@ -43,7 +43,7 @@ PROTO HingeJointWithBacklash [
     endPoint Solid {
       name %{='"start_point_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
       children [
-        %{ if fields.startPoint ~= nil then}%
+        %{ if fields.startPoint.value ~= nil then}%
         Group {
           children IS startPoint
         }

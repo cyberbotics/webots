@@ -1,5 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  info [
+    "Example world showing the effect of backlash."
+  ]
+  title "HingeJoint With Backlash"
   gravity 0
   coordinateSystem "NUE"
 }

@@ -1,5 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  info [
+    "Sanity check for HingeJointWithBacklash PROTO."
+  ]
+  title "HingeJointWithBacklash Pendulum Test World"
   gravity 0
   basicTimeStep 16
   coordinateSystem "NUE"

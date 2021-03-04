@@ -136,6 +136,7 @@ void WbHingeJoint::applyToOdeMinAndMaxStop() {
 
 void WbHingeJoint::applyToOdeStopErp() {
   assert(mJoint);
+
   const WbHingeJointParameters *const p = hingeJointParameters();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   const double erp = p ? p->stopErp() : wi->erp();
@@ -146,6 +147,7 @@ void WbHingeJoint::applyToOdeStopErp() {
 
 void WbHingeJoint::applyToOdeStopCfm() {
   assert(mJoint);
+
   const WbHingeJointParameters *const p = hingeJointParameters();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   const double cfm = p ? p->stopCfm() : wi->cfm();
