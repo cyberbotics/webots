@@ -751,7 +751,13 @@ void WbSolid::createWrenObjects() {
 ////////////////////////////
 
 void WbSolid::setSolidMerger() {
-  mSolidMerger = mIsKinematic ? NULL : new WbSolidMerger(this);
+  if (mIsKinematic) {
+    mSolidMerger = NULL;
+    return;
+  }
+  const WbSolid *const us = jointParent() ? NULL : upperSolid();
+  const bool inherit = us && us->physics();
+  mSolidMerger = inherit ? us->solidMerger() : QPointer<WbSolidMerger>(new WbSolidMerger(this));
 }
 
 void WbSolid::setJointParents() {
