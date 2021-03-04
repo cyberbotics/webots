@@ -67,7 +67,7 @@ struct WbFieldGetRequest {
   int index;  // for MF fields only
 };
 
-struct WbUpdateFieldInfo {
+struct WbUpdatedFieldInfo {
   int nodeId;
   int fieldId;
   int fieldCount;
@@ -370,6 +370,9 @@ void WbSupervisorUtilities::reset() {
     WbWrenLabelOverlay::removeLabel(labelId);
   mLabelIds.clear();
 
+  mWatchedFields.clear();
+  mUpdatedFields.clear();
+
   // delete pending requests and reinitialize them
   deleteControllerRequests();
   initControllerRequests();
@@ -439,14 +442,14 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
   const WbField *field = static_cast<WbField *>(sender());
   const int fieldCount = static_cast<WbMultipleValue *>(field->value())->size();
   const int listSize = mUpdatedFields.size();
-  WbUpdateFieldInfo info;
+  WbUpdatedFieldInfo info;
   if (!field->parentNode())
     return;
   info.nodeId = field->parentNode()->uniqueId();
   info.fieldId = field->parentNode()->fieldIndex(field);
   info.fieldCount = fieldCount;
   for (int i = 0; i < listSize; ++i) {
-    WbUpdateFieldInfo &existingInfo = mUpdatedFields[i];
+    WbUpdatedFieldInfo &existingInfo = mUpdatedFields[i];
     if (existingInfo.nodeId == info.nodeId && existingInfo.fieldId == info.fieldId) {
       existingInfo.fieldCount = info.fieldCount;
       return;
@@ -473,8 +476,20 @@ void WbSupervisorUtilities::changeSimulationMode(int newMode) {
   WbSimulationState::instance()->setMode(mode);
 }
 
-void WbSupervisorUtilities::updateProtoRegeneratedFlag() {
+void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
   mIsProtoRegenerated = true;
+
+  if (mWatchedFields.isEmpty())
+    return;
+  const int nodeId = node->uniqueId();
+  foreach (const WbUpdatedFieldInfo info, mWatchedFields) {
+    if (info.nodeId == nodeId) {
+      WbField *field = node->field(info.fieldId, false);
+      assert(field->isMultiple());
+      field->listenToValueSizeChanges();
+      connect(field, &WbField::valueChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+    }
+  }
 }
 
 void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
@@ -512,6 +527,14 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   const int childrenSize = children.size();
   for (int i = 0; i < childrenSize; ++i)
     updateDeletedNodeList(children[i]);
+
+  // update mWatchedFields
+  QMutableListIterator<WbUpdatedFieldInfo> it(mWatchedFields);
+  while (it.hasNext()) {
+    WbUpdatedFieldInfo info = it.next();
+    if (info.nodeId == nodeInfo.nodeId)
+      it.remove();
+  }
 }
 
 void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
@@ -1057,8 +1080,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
             if (mv) {
+              WbUpdatedFieldInfo info;
+              info.nodeId = node->uniqueId();
+              info.fieldId = id;
+              info.fieldCount = mFoundFieldCount;
+              mWatchedFields.append(info);
               field->listenToValueSizeChanges();
-              connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+              connect(field, &WbField::valueChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
             }
           }
         }
@@ -1724,7 +1752,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mFieldGetRequest = NULL;
   }
   if (!mUpdatedFields.isEmpty()) {
-    foreach (const WbUpdateFieldInfo info, mUpdatedFields) {
+    foreach (const WbUpdatedFieldInfo info, mUpdatedFields) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_FIELD_CHANGED;
       stream << (int)info.nodeId;

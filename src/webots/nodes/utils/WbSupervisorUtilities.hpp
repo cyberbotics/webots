@@ -23,7 +23,7 @@
 class QDataStream;
 
 struct WbDeletedNodeInfo;
-struct WbUpdateFieldInfo;
+struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 class WbFieldSetRequest;
 
@@ -65,7 +65,7 @@ private slots:
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
   void notifyFieldUpdate();
-  void updateProtoRegeneratedFlag();
+  void updateProtoRegeneratedFlag(WbNode *node);
 
 private:
   WbRobot *mRobot;
@@ -82,7 +82,6 @@ private:
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
   int mGetNodeRequest;
-  QList<WbUpdateFieldInfo> mUpdatedFields;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
@@ -95,6 +94,8 @@ private:
   bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
+  QList<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be update on change
+  QList<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notifies to the libController
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;

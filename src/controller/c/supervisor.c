@@ -2802,7 +2802,6 @@ void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value)
   union WbFieldData data;
   data.sf_bool = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value) {
@@ -2812,7 +2811,6 @@ void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value)
   union WbFieldData data;
   data.sf_int32 = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double value) {
@@ -2825,7 +2823,6 @@ void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double val
   union WbFieldData data;
   data.sf_float = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
@@ -2839,7 +2836,6 @@ void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const doub
   data.sf_vec2f[0] = values[0];
   data.sf_vec2f[1] = values[1];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
@@ -2854,7 +2850,6 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const double values[4]) {
@@ -2875,7 +2870,6 @@ void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const d
   data.sf_rotation[2] = values[2];
   data.sf_rotation[3] = values[3];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const double values[3]) {
@@ -2897,7 +2891,6 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value) {
@@ -2912,7 +2905,6 @@ void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const cha
   union WbFieldData data;
   data.sf_string = supervisor_strdup(value);
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
@@ -2925,9 +2917,6 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
     return;
 
   field_operation(field, REMOVE, index);
-  // in case of WB_MF_NODE, Webots will send the number of node really removed
-  if (((WbFieldStruct *)field)->type != WB_MF_NODE)
-    field->count--;
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
@@ -2986,10 +2975,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   union WbFieldData data;
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, position, data, false);
-  imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
   robot_mutex_unlock_step();
 }
 
@@ -3025,10 +3011,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, position, data, false);
-  imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
   robot_mutex_unlock_step();
 }
 
