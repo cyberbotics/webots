@@ -164,7 +164,7 @@ PROTO LincolnMKZSimple [
             appearance DEF DETAILS_APP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/lincoln_mkz_details_base_color.jpeg"
+                  "textures/lincoln_mkz_details_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
