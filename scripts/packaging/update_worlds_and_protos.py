@@ -35,7 +35,8 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-paths = Path(WEBOTS_HOME).rglob('*.proto')
+paths = []
+paths.extend(Path(WEBOTS_HOME).rglob('*.proto'))
 paths.extend(Path(WEBOTS_HOME).rglob('*.wbt'))
 for path in paths:
     replace_url(path, 'R2021a')
