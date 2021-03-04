@@ -246,7 +246,7 @@ TimeplotWidget.prototype.updateGridConstants = function() {
   const orderOfMagnitude = Math.floor(Math.log(minStep) / Math.LN10);
   const magnitude = Math.pow(10, orderOfMagnitude);
   // calculate most significant digit of the new step size
-  var residual = Math.round(minStep / magnitude + 0.5);
+  let residual = Math.round(minStep / magnitude + 0.5);
   if (residual > 5.0)
     residual = 10.0;
   else if (residual > 2.0)
