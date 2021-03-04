@@ -72,6 +72,8 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
+	+@echo "# changing URLs in world and proto files"
+	+@./update_worlds_and_protos.py
 	+@echo "# updating proto cache"
 	+@$(WEBOTS) --update-proto-cache
 ifeq ($(OSTYPE),darwin)

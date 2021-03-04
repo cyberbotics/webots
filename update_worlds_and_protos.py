@@ -54,7 +54,7 @@ def search(file):
     path = '/'.join(file.split('/')[0:-1]) + '/'
     with open(file, 'r') as fd:
         content = fd.read()
-    search = re.compile('(\\"[\\w,\\s,\\/]+\\.(?:png|jpg|hdr|PNG|JPG|HDR|jpeg|JPEG|obj|OBJ|wav|WAV)\\")')
+    search = re.compile('(\\"[\\w,\\s,\\/]+\\.(?:png|jpg|hdr|obj|wav)\\")')
     result = search.findall(content)
     if len(result) != 0:
         for url in result:
