@@ -539,8 +539,8 @@ class AnsiCodes(object):
   int width = arg1->getHorizontalResolution();
   int height = arg1->getNumberOfLayers();
   int len = width * height;
-  string function_name("$name");
-  if (function_name == "getLayerRangeImage")
+  string functionName("$name");
+  if (functionName == "getLayerRangeImage")
     len = width;
   if ($1) {
     $result = PyList_New(len);
