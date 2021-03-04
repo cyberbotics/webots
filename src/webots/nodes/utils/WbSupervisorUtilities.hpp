@@ -23,6 +23,7 @@
 class QDataStream;
 
 struct WbDeletedNodeInfo;
+struct WbUpdateFieldInfo;
 struct WbFieldGetRequest;
 class WbFieldSetRequest;
 
@@ -63,6 +64,7 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
+  void notifyFieldUpdate();
   void updateProtoRegeneratedFlag();
 
 private:
@@ -80,6 +82,7 @@ private:
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
   int mGetNodeRequest;
+  QList<WbUpdateFieldInfo> mUpdatedFields;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;

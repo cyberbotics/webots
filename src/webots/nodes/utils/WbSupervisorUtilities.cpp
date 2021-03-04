@@ -67,6 +67,12 @@ struct WbFieldGetRequest {
   int index;  // for MF fields only
 };
 
+struct WbUpdateFieldInfo {
+  int nodeId;
+  int fieldId;
+  int fieldCount;
+};
+
 struct WbDeletedNodeInfo {
   int nodeId;
   int parentNodeId;
@@ -424,6 +430,29 @@ void WbSupervisorUtilities::notifyNodeUpdate(WbNode *node) {
   // send updated node info to the libController
   // this is mainly used to update the cached DEF names
   mUpdatedNodeIds.append(node->uniqueId());
+}
+
+void WbSupervisorUtilities::notifyFieldUpdate() {
+  if (!mRobot->isConfigureDone())
+    return;
+  // send updated field info to the libController
+  const WbField *field = static_cast<WbField *>(sender());
+  const int fieldCount = static_cast<WbMultipleValue *>(field->value())->size();
+  const int listSize = mUpdatedFields.size();
+  WbUpdateFieldInfo info;
+  if (!field->parentNode())
+    return;
+  info.nodeId = field->parentNode()->uniqueId();
+  info.fieldId = field->parentNode()->fieldIndex(field);
+  info.fieldCount = fieldCount;
+  for (int i = 0; i < listSize; ++i) {
+    WbUpdateFieldInfo &existingInfo = mUpdatedFields[i];
+    if (existingInfo.nodeId == info.nodeId && existingInfo.fieldId == info.fieldId) {
+      existingInfo.fieldCount = info.fieldCount;
+      return;
+    }
+  }
+  mUpdatedFields.append(info);
 }
 
 WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
@@ -1027,6 +1056,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldId = id;
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
+            if (mv) {
+              field->listenToValueSizeChanges();
+              connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+            }
           }
         }
       }
@@ -1689,6 +1722,16 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     }
     delete mFieldGetRequest;
     mFieldGetRequest = NULL;
+  }
+  if (!mUpdatedFields.isEmpty()) {
+    foreach (const WbUpdateFieldInfo info, mUpdatedFields) {
+      stream << (short unsigned int)0;
+      stream << (unsigned char)C_SUPERVISOR_FIELD_CHANGED;
+      stream << (int)info.nodeId;
+      stream << (int)info.fieldId;
+      stream << (int)info.fieldCount;
+    }
+    mUpdatedFields.clear();
   }
   if (mMovieStatus) {
     stream << (short unsigned int)0;
