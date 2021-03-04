@@ -91,7 +91,7 @@ using namespace std;
 // manage double arrays
 %typemap(out) const double * {
   int len = 3;
-  string test("$name");
+  const string test("$name");
   if (test == "getSFVec2f" || test == "getMFVec2f")
     len = 2;
   else if (test == "getSFRotation" || test == "getQuaternion")
@@ -105,7 +105,7 @@ using namespace std;
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
 }
 %typemap(out) const double *getLookupTable {
-  int len = arg1->getLookupTableSize()*3;
+  const int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -115,7 +115,7 @@ using namespace std;
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
   }
-  int len = PyList_Size($input);
+  const int len = PyList_Size($input);
   $1 = (double*)malloc(len * sizeof(double));
   for (int i = 0; i < len; ++i)
     $1[i] = PyFloat_AsDouble(PyList_GetItem($input, i));
@@ -128,7 +128,7 @@ using namespace std;
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
   }
-  int len = PyList_Size($input);
+  const int len = PyList_Size($input);
   $1 = (int*)malloc(len * sizeof(int));
   for (int i = 0; i < len; ++i)
     $1[i] = PyInt_AsLong(PyList_GetItem($input, i));
@@ -273,8 +273,8 @@ class AnsiCodes(object):
 
 
 %typemap(out) unsigned char * {
-  int width = arg1->getWidth();
-  int height = arg1->getHeight();
+  const int width = arg1->getWidth();
+  const int height = arg1->getHeight();
   if ($1)
     $result = PyBytes_FromStringAndSize((const char*)$1, 4 * width * height);
   else
@@ -285,8 +285,8 @@ class AnsiCodes(object):
 %extend webots::Camera {
   PyObject *getImageArray() {
     const unsigned char *im = $self->getImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -309,7 +309,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetRed', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x) + 2]);
   }
 
@@ -318,7 +318,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGreen', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x) + 1]);
   }
 
@@ -327,7 +327,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetBlue', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x)]);
   }
 
@@ -336,7 +336,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
   }
 
@@ -345,7 +345,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
   }
 
@@ -364,8 +364,8 @@ class AnsiCodes(object):
 
   PyObject *getRecognitionSegmentationImageArray() {
     const unsigned char *im = $self->getRecognitionSegmentationImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -410,19 +410,19 @@ class AnsiCodes(object):
     return NULL;
   }
   if (PyList_Check($input)) {
-    int len1 = PyList_Size($input);
+    const int len1 = PyList_Size($input);
     PyObject *l2 = PyList_GetItem($input, 0);
     if (!PyList_Check(l2)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList'\n");
       return NULL;
     }
-    int len2 = PyList_Size(l2);
+    const int len2 = PyList_Size(l2);
     PyObject *l3 = PyList_GetItem(l2, 0);
     if (!PyList_Check(l3)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList' of 'PyList'\n");
       return NULL;
     }
-    int len3 = PyList_Size(l3);
+    const int len3 = PyList_Size(l3);
     $1 = (void *)malloc(len1 * len2 * len3 * sizeof(unsigned char));
     need_to_delete = true;
     for (int i = 0; i < len1; ++i)
@@ -536,12 +536,14 @@ class AnsiCodes(object):
 %include <webots/lidar_point.h>
 
 %typemap(out) float * {
-  int width = arg1->getHorizontalResolution();
-  int height = arg1->getNumberOfLayers();
-  int len = width * height;
-  string functionName("$name");
+  const int width = arg1->getHorizontalResolution();
+  const int height = arg1->getNumberOfLayers();
+  const string functionName("$name");
+  int len;
   if (functionName == "getLayerRangeImage")
     len = width;
+  else
+    len = width * height;
   if ($1) {
     $result = PyList_New(len);
     for (int x = 0; x < len; ++x)
@@ -598,8 +600,8 @@ class AnsiCodes(object):
 
   PyObject *getRangeImageArray() {
     const float *im = $self->getRangeImage();
-    int width = $self->getHorizontalResolution();
-    int height = $self->getNumberOfLayers();
+    const int width = $self->getHorizontalResolution();
+    const int height = $self->getNumberOfLayers();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -776,8 +778,8 @@ class AnsiCodes(object):
 
   PyObject *getRangeImageArray() {
     const float *im = $self->getRangeImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
