@@ -46,7 +46,6 @@ public:
   void setSolidMerger() override;
   void createOdeObjects() override;
   bool refreshSensorIfNeeded() override;
-  dBodyID bodyMerger() const override { return NULL; };
 
 protected:
   // reimplemented protected functions

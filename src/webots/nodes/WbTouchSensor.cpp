@@ -280,5 +280,5 @@ bool WbTouchSensor::forceBehavior() const {
 }
 
 void WbTouchSensor::setSolidMerger() {
-  mSolidMerger = NULL;
+  mSolidMerger = physics() ? new WbSolidMerger(this) : NULL;
 }
