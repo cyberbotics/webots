@@ -19,12 +19,13 @@
 
 import os
 from pathlib import Path
+import sys
 
 
-def replace_url(file, version):
+def replace_url(file, tag):
     with open(file, 'r') as fd:
         content = fd.read()
-    content = content.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + version + '/')
+    content = content.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/')
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
     return
@@ -35,8 +36,12 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+if len(sys.argv) != 2:
+    sys.exit('Missing argument: commit sha or tag.')
+else:
+    tag = sys.argv[1]
 paths = []
 paths.extend(Path(WEBOTS_HOME).rglob('*.proto'))
 paths.extend(Path(WEBOTS_HOME).rglob('*.wbt'))
 for path in paths:
-    replace_url(path, 'R2021a')
+    replace_url(path, tag)
