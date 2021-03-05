@@ -1,15 +1,15 @@
 #VRML_SIM R2021a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
-# The color of the goal and the support polygons can be modified.
+# Robocup Humanoid League 2021 soccer goal.
+# The color and size of the goal can be modified.
 
 PROTO RobocupGoal [
-  field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
-  field SFString   name        "robotstadium goal"
-  field SFColor    frameColor  1 1 1                # Defines the color of the goal frame.
-  field SFString{"adult", "kid"}    size        "adult"
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   name               "robotstadium goal"
+  field SFColor    frameColor         1 1 1               # Defines the color of the goal frame.
+  field SFString{"adult", "kid"} size "adult"             # Defines the size of the field.
 ]
 {
 
