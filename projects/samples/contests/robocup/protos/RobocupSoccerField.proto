@@ -1,5 +1,8 @@
 #VRML_SIM R2021a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
+# Official soccer field for the Robocup Humanoid League
 
 PROTO RobocupSoccerField [
   field SFVec3f                     translation 0 0 0
