@@ -1,6 +1,6 @@
 #VRML_SIM R2021a utf8
-# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-# license url: https://cyberbotics.com/webots_assets_license
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
 # The color of the goal and the support polygons can be modified.
 
