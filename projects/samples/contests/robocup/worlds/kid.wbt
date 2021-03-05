@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.3062517003329811 -0.5021295437902771 -0.8087495392865001 2.2251088717901384
-  position -14.03507168109065 7.403030057173858 7.376435503478149
+  orientation 0.333894081246783 -0.5012007874843227 -0.7983185536698125 2.1640195920252108
+  position -17.836332254940025 7.60886154624331 8.57160812023864
 }
 TexturedBackground {
   texture "stadium"
@@ -15,6 +15,7 @@ TexturedBackgroundLight {
 RobocupSoccerField {
   size "kid"
 }
-RobocupSoccerBall {
-  translation 0 0 0.05
+FifaSoccerBall {
+  translation 0 -0.06 0.07
+  size 1
 }
