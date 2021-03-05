@@ -495,7 +495,11 @@ namespace webots {
 };
 
 %typemap(out) float [] {
-  $result = SWIG_JavaArrayOutFloat(jenv, $1, arg1->getHorizontalResolution()*arg1->getNumberOfLayers());
+  int size = arg1->getHorizontalResolution();
+  const string functionName("$name");
+  if (functionName != "getLayerRangeImage")
+    size *= arg1->getNumberOfLayers();
+  $result = SWIG_JavaArrayOutFloat(jenv, $1, size);
 }
 
 %apply float[] {const float *};
