@@ -47,11 +47,11 @@ else
 end
 
 
-postRadius =0.05 -- diameter/width/depth must be between 0.08-0.12
-postSpacing = D+2*postRadius
-postHeight = GH+postRadius
+postRadius = 0.05 -- diameter/width/depth must be between 0.08-0.12
+postSpacing = D + 2 * postRadius
+postHeight = GH + postRadius
 backPostRadius = 0.02 -- (NOT DEFINED IN RULES)
-boundObjThicknessSides = 2*backPostRadius-- (NOT DEFINED IN RULES)
+boundObjThicknessSides = 2 * backPostRadius -- (NOT DEFINED IN RULES)
 boundObjThicknessBack = 0.3 -- (NOT DEFINED IN RULES)
 
 }%
