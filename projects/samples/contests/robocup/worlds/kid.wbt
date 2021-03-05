@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.33762634065479996 -0.5473956021689327 -0.7657457207338222 2.259103568658692
-  position -12.441090047789325 6.18764944726366 4.794053181142892
+  orientation 0.3104147445196029 0.47491052518891463 0.8234699019694763 2.1540489988954423
+  position 10.605734337906961 4.537966315195794 6.8277591846650605
 }
 TexturedBackground {
   texture "stadium"
@@ -17,4 +17,105 @@ RobocupSoccerField {
 }
 RobocupSoccerBall {
   translation 0 0 0.07
+}
+DEF RED_1 Darwin-op {
+  translation 0 4 0.24
+  rotation 1 0 0 1.5708
+  name "player red 1"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+  }
+}
+DEF RED_2 Darwin-op {
+  translation 0 2.5 0.24
+  rotation 1 0 0 1.5708
+  name "player red 2"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_red.png"
+    ]
+  }
+}
+DEF RED_3 Darwin-op {
+  translation -0.5 0.8 0.24
+  rotation 1 0 0 1.5708
+  name "player red 3"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_3_red.png"
+    ]
+  }
+}
+DEF RED_4 Darwin-op {
+  translation 0.5 0.8 0.24
+  rotation 1 0 0 1.5708
+  name "player red 4"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_4_red.png"
+    ]
+  }
+}
+DEF BLUE_1 Darwin-op {
+  translation 0 -4 0.24
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 1"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_1_blue.png"
+    ]
+  }
+}
+DEF BLUE_2 Darwin-op {
+  translation 0 -2.5 0.24
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 2"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_blue.png"
+    ]
+  }
+}
+DEF BLUE_3 Darwin-op {
+  translation -0.5 -0.8 0.24
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 3"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_3_blue.png"
+    ]
+  }
+}
+DEF BLUE_4 Darwin-op {
+  translation 0.5 -0.8 0.24
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 4"
+  controller "soccer"
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_4_blue.png"
+    ]
+  }
 }
