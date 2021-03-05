@@ -96,7 +96,6 @@ pts[43] = { x = 0;              y = I+(A/2);      z = 0 }
 pts[44] = { x = I;              y = I+(A/2);      z = 0 }
 pts[45] = { x = I+(B/2);        y = I+(A/2);      z = 0 }
 
-
 -- Triangles for a quarter field (except central circle)
 --Grass
 tg = {}
@@ -152,7 +151,6 @@ tl[20] = { a = 25;  b = 26;  c = 28 }
 tl[21] = { a = 36;  b = 42;  c = 41 }
 tl[22] = { a = 36;  b = 37;  c = 42 }
 
-
 -- Creation of a quarter of the central circle
 n_quarter = math.ceil(n/4)+1; -- +1 becuase we want to have a point both at ~0 and pi/2
 
@@ -169,30 +167,24 @@ function circle_add_pts(radius)
   end
 end
 
-
 function circle_add_tl() --Adds the triangles for the line of the central circle
-
   local Npts = table.maxn(pts)
   local cin_id = Npts -2*n_quarter;
   local cout_id = Npts -n_quarter;
   local Ntl = table.maxn(tl)
-
   for i=1,(n_quarter-1) do
     tl[Ntl+(2*i-1)] = { a = cout_id+(i+1);  b = cin_id+i;  c = cout_id+i} --first part of one line rectangle
     tl[Ntl+(2*i)] = { a = cout_id+(i+1);  b = cin_id+(i+1);  c = cin_id+i} --second part of one line rectangle
   end
 end
 
-
 function circle_add_tg() --Adds the triangles for the grass boundaries of the central circle
-
   local Npts = table.maxn(pts)
   local cin_id = Npts -2*n_quarter;
   local cout_id = Npts -n_quarter;
 
 -- External triangles
   local Ntg = table.maxn(tg)
-
   tg[Ntg+1] = { a = 33;  b = cout_id+1;  c = 40} --first triangle (boundary with half line)
   Ntg = table.maxn(tg)
   for i=1,(n_quarter-1) do
@@ -201,7 +193,6 @@ function circle_add_tg() --Adds the triangles for the grass boundaries of the ce
   tg[Ntg+n_quarter] = { a = 33;  b = 35;  c = cout_id+n_quarter} --last triangle (boundary with penalty area and touch line)
 
 -- Internal triangles
-
   -- There is a vertex n_junction of cin that makes the junction between triangles
   -- going through pt.41 (top vertex of central dash) and pt.36 (bottom vertex of central dash)
   n_junction = math.ceil((2/3)*n_quarter)
@@ -218,14 +209,10 @@ function circle_add_tg() --Adds the triangles for the grass boundaries of the ce
     tg[Ntg+i+1] = { a = cin_id+(i+1);  b = 36;  c = cin_id+i}
   end
   tg[Ntg+n_quarter+1] = { a = cin_id+n_quarter;  b = 37;  c = 36} -- touch line triangle (boundary with touch line)
-
 end
-
-
 
 -- Creation of the other quarters
 function replication()
-
   local Npts = table.maxn(pts)
   for i=1,Npts do
     local pt_ref = pts[i]
@@ -255,7 +242,6 @@ function replication()
     tl[2*Ntl+i] = { a = tl_ref.c+2*Npts;  b = tl_ref.b+2*Npts;  c = tl_ref.a+2*Npts}
     tl[3*Ntl+i] = { a = tl_ref.c+3*Npts;  b = tl_ref.a+3*Npts;  c = tl_ref.b+3*Npts}
   end
-
 end
 
 -- Function calls
@@ -269,7 +255,6 @@ replication() -- Replicates by translation and symmetry to have 4 quarters
 
 Solid {
       children [
-
         DEF GRASS Shape {
           appearance Grass {
             colorOverride 1 1 1
@@ -279,7 +264,6 @@ Solid {
             }
           }
           geometry IndexedFaceSet {
-
             coord Coordinate {
               point [
                %{ for k, v in pairs(pts) do}%
@@ -295,7 +279,6 @@ Solid {
             ]
           }
         }
-
         DEF LINES Shape {
           appearance WhiteGrass {
             colorOverride 1 1 1
@@ -319,26 +302,19 @@ Solid {
             ]
           }
         }
-
-
-        RobocupGoal
-        {
+        RobocupGoal {
           translation %{=I+(B/2)}%, %{=I}%, 0
           size IS size
           name "goal_home"
         }
-
-        RobocupGoal
-        {
+        RobocupGoal {
           translation %{=I+(B/2)}%, %{=I+A}%, 0
           rotation 0 0 1 3.1415926535
           size IS size
           name "goal_away"
         }
-
       ]
-
-      boundingObject Transform { #
+      boundingObject Transform {
         rotation 1 0 0 1.5707996938995747
         children [
           Shape {
@@ -347,6 +323,4 @@ Solid {
         ]
       }
 }
-
-
 }
