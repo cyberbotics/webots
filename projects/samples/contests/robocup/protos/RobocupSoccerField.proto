@@ -260,7 +260,7 @@ Solid {
             colorOverride 0.6 1 0.3
             type "artificial"
             textureTransform TextureTransform {
-            scale %{=2*A}% %{=2*A}%
+              scale %{=2*A}% %{=2*A}%
             }
           }
           geometry IndexedFaceSet {
