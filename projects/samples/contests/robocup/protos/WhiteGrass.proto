@@ -6,7 +6,6 @@
 PROTO WhiteGrass [
   field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
   field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.
-  field SFFloat  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
@@ -14,9 +13,9 @@ PROTO WhiteGrass [
     baseColorMap ImageTexture {
       url "textures/whitegrass_artificial_base_color.jpg"
     }
-    roughness 1
+    roughness 0
     metalness 0
-    IBLStrength IS IBLStrength
+    IBLStrength 1.5
     normalMap ImageTexture {
       url "../../../../appearances/protos/textures/grass/grass_artificial_normal.jpg"
     }
