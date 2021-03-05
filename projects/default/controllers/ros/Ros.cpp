@@ -43,6 +43,7 @@
 #include "RosSpeaker.hpp"
 #include "RosSupervisor.hpp"
 #include "RosTouchSensor.hpp"
+#include "highlevel/RosControl.hpp"
 
 #include <webots/Node.hpp>
 #include <webots/Supervisor.hpp>
@@ -74,7 +75,8 @@ Ros::Ros() :
   mEnd(false),
   mShouldPublishClock(false),
   mIsSynchronized(false),
-  mUseWebotsSimTime(false) {
+  mUseWebotsSimTime(false),
+  mRosControl(NULL) {
 }
 
 Ros::~Ros() {
@@ -134,6 +136,8 @@ void Ros::launchRos(int argc, char **argv) {
       mIsSynchronized = true;
     else if (strcmp(argv[i], "--use-sim-time") == 0)
       mUseWebotsSimTime = true;
+    else if (strcmp(argv[i], "--use-ros-control") == 0)
+      mRosControl = new highlevel::RosControl(mRobot);
     else
       ROS_ERROR("ERROR: unkown argument %s.", argv[i]);
   }
@@ -345,6 +349,8 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         RosMotor *tempRotationalMotor = new RosMotor(dynamic_cast<Motor *>(tempDevice), this);
         mDeviceList.push_back(static_cast<RosDevice *>(tempRotationalMotor));
         mSensorList.push_back(static_cast<RosSensor *>(tempRotationalMotor->mTorqueFeedbackSensor));
+        if (mRosControl)
+          mRosControl->addMotor(dynamic_cast<Motor *>(tempDevice));
         break;
       }
       case Node::PEN:
@@ -439,12 +445,27 @@ void Ros::publishClockIfNeeded() {
 void Ros::run(int argc, char **argv) {
   launchRos(argc, argv);
   ros::Rate loopRate(1000);  // Hz
+  ros::AsyncSpinner spinner(2);
+  spinner.start();
+
+  if (mRosControl) {
+    mRosControl->init();
+    mControllerManager = new controller_manager::ControllerManager(mRosControl, *mNodeHandle);
+  }
+  ros::Time lastUpdate = ros::Time::now();
+
   while (!mEnd && ros::ok()) {
     if (!ros::master::check()) {
       ROS_ERROR("ROS master has stopped or is not responding anymore.");
       mEnd = true;
     }
-    ros::spinOnce();
+
+    if (mRosControl) {
+      mRosControl->read();
+      mControllerManager->update(ros::Time::now(), ros::Time::now() - lastUpdate);
+      lastUpdate = ros::Time::now();
+    }
+
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
       mSensorList[i]->publishValues(mStep * mStepSize);
@@ -452,12 +473,14 @@ void Ros::run(int argc, char **argv) {
     if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
       int oldStep = mStep;
       while (mStep == oldStep && !mEnd && ros::ok()) {
-        ros::spinOnce();
         loopRate.sleep();
         publishClockIfNeeded();
       }
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
+
+    if (mRosControl)
+      mRosControl->write();
   }
 }
 

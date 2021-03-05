@@ -42,6 +42,7 @@ release debug profile clean:
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/Ros*.cpp)
+CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/highlevel/*.cpp)
 
 ifeq ($(OSTYPE),windows)
  ros_automobile.exe: $(CXX_SOURCES:.cxx=.d)
