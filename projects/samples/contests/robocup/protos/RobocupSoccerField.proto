@@ -59,12 +59,12 @@ pts[6]  = { x = I;              y = I+LW;         z = 0 }
 pts[7]  = { x = I+LW;           y = I+LW;         z = 0 }
 pts[8]  = { x = I+((B-K)/2);    y = I+LW;         z = 0 }
 pts[9]  = { x = I+((B-K)/2)+LW; y = I+LW;         z = 0 }
-pts[10] = { x = I+((B-F)/2);     y = I+LW;         z = 0 }
+pts[10] = { x = I+((B-F)/2);    y = I+LW;         z = 0 }
 pts[11] = { x = I+((B-F)/2)+LW; y = I+LW;         z = 0 }
 pts[12] = { x = I+(B/2);        y = I+LW;         z = 0 }
 pts[13] = { x = I+((B-F)/2)+LW; y = I+E-LW;       z = 0 }
 pts[14] = { x = I+(B/2);        y = I+E-LW;       z = 0 }
-pts[15] = { x = I+((B-F)/2);     y = I+E;          z = 0 }
+pts[15] = { x = I+((B-F)/2);    y = I+E;          z = 0 }
 pts[16] = { x = I+((B-F)/2)+LW; y = I+E;          z = 0 }
 pts[17] = { x = I+(B/2)-MS;     y = I+E;          z = 0 }
 pts[18] = { x = I+(B/2);        y = I+E;          z = 0 }
@@ -96,6 +96,7 @@ pts[43] = { x = 0;              y = I+(A/2);      z = 0 }
 pts[44] = { x = I;              y = I+(A/2);      z = 0 }
 pts[45] = { x = I+(B/2);        y = I+(A/2);      z = 0 }
 
+
 -- Triangles for a quarter field (except central circle)
 --Grass
 tg = {}
@@ -120,10 +121,6 @@ tg[17] = { a = 24;  b = 25;  c = 31 }
 tg[18] = { a = 25;  b = 27;  c = 31 }
 tg[19] = { a = 27;  b = 28;  c = 31 }
 tg[20] = { a = 28;  b = 32;  c = 31 }
---tg[21] = { a = 33;  b = 41;  c = 40 } --temp
---tg[22] = { a = 33;  b = 36;  c = 41 } --temp
---tg[23] = { a = 33;  b = 37;  c = 36 } --temp
---tg[24] = { a = 33;  b = 35;  c = 37 } --temp
 
 --Lines
 tl = {}
@@ -244,12 +241,25 @@ function replication()
   end
 end
 
+
+-- Offset to have origin on the center of the field
+function translation()
+  OFFSET_X = (2*I+B)/2
+  OFFSET_Y = (2*I+A)/2
+  local Npts = table.maxn(pts)
+  for i=1, Npts do
+    pts[i].x = pts[i].x-OFFSET_X
+    pts[i].y = pts[i].y-OFFSET_Y
+  end
+end
+
 -- Function calls
 circle_add_pts(H/2) -- Inner radius of central circle
 circle_add_pts(H/2+LW) -- Outer radius of central circle
 circle_add_tl() -- Adds line triangles for central circles
 circle_add_tg() -- Adds grass triangles for central circles
 replication() -- Replicates by translation and symmetry to have 4 quarters
+translation() -- Offset to have origin on the center of the field
 
 }%
 
@@ -303,12 +313,12 @@ Solid {
           }
         }
         RobocupGoal {
-          translation %{=I+(B/2)}%, %{=I}%, 0
+          translation %{=I+(B/2)-OFFSET_X}%, %{=I-OFFSET_Y}%, 0
           size IS size
           name "goal_home"
         }
         RobocupGoal {
-          translation %{=I+(B/2)}%, %{=I+A}%, 0
+          translation %{=I+(B/2)-OFFSET_X}%, %{=I+A-OFFSET_Y}%, 0
           rotation 0 0 1 3.1415926535
           size IS size
           name "goal_away"
@@ -319,6 +329,7 @@ Solid {
         children [
           Shape {
             geometry Plane {
+              size %{=2*I+B}%, %{=2*I+A}%
             }
           }
         ]
