@@ -35,6 +35,11 @@ namespace highlevel {
         hardware_interface::JointHandle positionHandle(mJointStateInterface.getHandle(controlledMotor.motor->getName()),
                                                        &controlledMotor.command_position);
         mPositionJointInteraface.registerHandle(positionHandle);
+
+        // Register `velocity` handle
+        hardware_interface::JointHandle velocityHandle(mJointStateInterface.getHandle(controlledMotor.motor->getName()),
+                                                       &controlledMotor.command_velocity);
+        mVelocityJointInteraface.registerHandle(velocityHandle);
       }
     }
     registerInterface(&mJointStateInterface);
@@ -56,16 +61,16 @@ namespace highlevel {
 
   void RosControl::write() {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      if (controlledMotor.command_velocity != NAN)
-        controlledMotor.motor->setPosition(controlledMotor.command_velocity);
-      if (controlledMotor.command_position != NAN)
+      if (!isnan(controlledMotor.command_velocity))
+        controlledMotor.motor->setVelocity(controlledMotor.command_velocity);
+      if (!isnan(controlledMotor.command_position))
         controlledMotor.motor->setPosition(controlledMotor.command_position);
     }
   }
 
   void RosControl::doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
                             const std::list<hardware_interface::ControllerInfo> &stopList) {
-    RosControl::doSwitch(startList, stopList);
+    hardware_interface::RobotHW::doSwitch(startList, stopList);
     for (ControlledMotor &controlledMotor : mControlledMotors) {
       controlledMotor.command_velocity = NAN;
       controlledMotor.command_position = NAN;

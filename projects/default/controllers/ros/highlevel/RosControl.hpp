@@ -48,6 +48,7 @@ namespace highlevel {
   private:
     hardware_interface::JointStateInterface mJointStateInterface;
     hardware_interface::PositionJointInterface mPositionJointInteraface;
+    hardware_interface::VelocityJointInterface mVelocityJointInteraface;
     std::vector<ControlledMotor> mControlledMotors;
     webots::Robot *mRobot;
   };
