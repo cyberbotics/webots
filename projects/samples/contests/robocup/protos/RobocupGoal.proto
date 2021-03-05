@@ -250,7 +250,7 @@ Solid {
       USE HORIZONTAL_POST_TRANS
       USE RIGHT_POST_TRANS
       USE LEFT_POST_TRANS
-      Transform { #Left
+      Transform { # Left
         translation %{=-postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
         children [
           DEF GOAL_SIDE_BOX Box {
@@ -258,13 +258,13 @@ Solid {
           }
         ]
       }
-      Transform { #Right
+      Transform { # Right
         translation %{=postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
         children [
           USE GOAL_SIDE_BOX
         ]
       }
-      Transform { #Back
+      Transform { # Back
         translation 0 %{=-C-boundObjThicknessBack/2}% %{=(postHeight+backPostRadius)/2}%
         children [
           Box {
@@ -272,7 +272,7 @@ Solid {
           }
         ]
       }
-      Transform { #Top
+      Transform { # Top
         translation 0 %{=-postRadius-(C-postRadius)/2}% %{=postHeight}%
         children [
           Box {
