@@ -44,6 +44,7 @@ namespace highlevel {
     }
     registerInterface(&mJointStateInterface);
     registerInterface(&mPositionJointInteraface);
+    registerInterface(&mVelocityJointInteraface);
   }
 
   void RosControl::addMotor(webots::Motor *motor) {
@@ -70,10 +71,20 @@ namespace highlevel {
 
   void RosControl::doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
                             const std::list<hardware_interface::ControllerInfo> &stopList) {
-    hardware_interface::RobotHW::doSwitch(startList, stopList);
     for (ControlledMotor &controlledMotor : mControlledMotors) {
       controlledMotor.command_velocity = NAN;
       controlledMotor.command_position = NAN;
     }
+
+    // TODO: Prepare for resource for the standard controllers
+    for (hardware_interface::ControllerInfo controllerInfo : startList) {
+        for (hardware_interface::InterfaceResources interfaceResources : controllerInfo.claimed_resources) {
+            ROS_INFO("%s", interfaceResources.hardware_interface.c_str());
+            for (std::string resource : interfaceResources.resources)
+                ROS_INFO("%s", interfaceResources.hardware_interface.c_str());
+        }
+    }
+
+    hardware_interface::RobotHW::doSwitch(startList, stopList);
   }
 }  // namespace highlevel
