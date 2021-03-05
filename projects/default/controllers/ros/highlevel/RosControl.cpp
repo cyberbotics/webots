@@ -33,12 +33,12 @@ namespace highlevel {
 
         // Register `position` handle
         hardware_interface::JointHandle positionHandle(mJointStateInterface.getHandle(controlledMotor.motor->getName()),
-                                                       &controlledMotor.command_position);
+                                                       &controlledMotor.commandPosition);
         mPositionJointInteraface.registerHandle(positionHandle);
 
         // Register `velocity` handle
         hardware_interface::JointHandle velocityHandle(mJointStateInterface.getHandle(controlledMotor.motor->getName()),
-                                                       &controlledMotor.command_velocity);
+                                                       &controlledMotor.commandVelocity);
         mVelocityJointInteraface.registerHandle(velocityHandle);
       }
     }
@@ -49,7 +49,7 @@ namespace highlevel {
 
   void RosControl::addMotor(webots::Motor *motor) {
     ControlledMotor controlledMotor = {
-      .motor = motor, .command_position = NAN, .command_velocity = NAN, .position = 0, .velocity = 0, .effort = 0};
+      .motor = motor, .commandPosition = NAN, .commandVelocity = NAN, .position = 0, .velocity = 0, .effort = 0};
     mControlledMotors.push_back(controlledMotor);
   }
 
@@ -62,27 +62,30 @@ namespace highlevel {
 
   void RosControl::write() {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      if (!isnan(controlledMotor.command_velocity))
-        controlledMotor.motor->setVelocity(controlledMotor.command_velocity);
-      if (!isnan(controlledMotor.command_position))
-        controlledMotor.motor->setPosition(controlledMotor.command_position);
+      if (!isnan(controlledMotor.commandVelocity))
+        controlledMotor.motor->setVelocity(controlledMotor.commandVelocity);
+      if (!isnan(controlledMotor.commandPosition))
+        controlledMotor.motor->setPosition(controlledMotor.commandPosition);
     }
   }
 
   void RosControl::doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
                             const std::list<hardware_interface::ControllerInfo> &stopList) {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      controlledMotor.command_velocity = NAN;
-      controlledMotor.command_position = NAN;
+      controlledMotor.commandVelocity = NAN;
+      controlledMotor.commandPosition = NAN;
     }
 
-    // TODO: Prepare for resource for the standard controllers
+    // Change motor's behavior depending on control type (e.g. position or velocity)
     for (hardware_interface::ControllerInfo controllerInfo : startList) {
-        for (hardware_interface::InterfaceResources interfaceResources : controllerInfo.claimed_resources) {
-            ROS_INFO("%s", interfaceResources.hardware_interface.c_str());
-            for (std::string resource : interfaceResources.resources)
-                ROS_INFO("%s", interfaceResources.hardware_interface.c_str());
+      for (hardware_interface::InterfaceResources interfaceResources : controllerInfo.claimed_resources) {
+        for (std::string resource : interfaceResources.resources) {
+          if (interfaceResources.hardware_interface == "hardware_interface::VelocityJointInterface")
+            mRobot->getMotor(resource)->setPosition(INFINITY);
+          else if (interfaceResources.hardware_interface == "hardware_interface::PositionJointInterface")
+            mRobot->getMotor(resource)->setVelocity(mRobot->getMotor(resource)->getMaxVelocity());
         }
+      }
     }
 
     hardware_interface::RobotHW::doSwitch(startList, stopList);

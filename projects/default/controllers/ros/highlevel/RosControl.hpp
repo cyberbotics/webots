@@ -28,8 +28,8 @@
 namespace highlevel {
   struct ControlledMotor {
     webots::Motor *motor;
-    double command_position;
-    double command_velocity;
+    double commandPosition;
+    double commandVelocity;
     double position;
     double velocity;
     double effort;

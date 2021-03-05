@@ -448,6 +448,7 @@ void Ros::run(int argc, char **argv) {
   ros::AsyncSpinner spinner(2);
   spinner.start();
 
+  mNodeHandle->setParam("robot_description", mRobot->getUrdf(""));
   if (mRosControl) {
     mRosControl->init();
     mControllerManager = new controller_manager::ControllerManager(mRosControl, *mNodeHandle);
