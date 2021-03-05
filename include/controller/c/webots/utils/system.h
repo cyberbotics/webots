@@ -21,7 +21,7 @@
 #ifndef WBU_SYSTEM_H
 #define WBU_SYSTEM_H
 
-#include <webots/types.h>
+#include "../types.h"
 
 #ifdef __cplusplus
 extern "C" {
