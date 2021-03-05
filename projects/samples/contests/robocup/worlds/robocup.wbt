@@ -13,4 +13,5 @@ TexturedBackgroundLight {
   texture "stadium"
 }
 RobocupSoccerField {
+  size "kid"
 }

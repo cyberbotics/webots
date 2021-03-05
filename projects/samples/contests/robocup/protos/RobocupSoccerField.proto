@@ -318,7 +318,8 @@ Solid {
         rotation 1 0 0 1.5707996938995747
         children [
           Shape {
-            geometry Plane {}
+            geometry Plane {
+            }
           }
         ]
       }
