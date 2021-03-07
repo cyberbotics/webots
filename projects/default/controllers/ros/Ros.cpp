@@ -76,6 +76,7 @@ Ros::Ros() :
   mShouldPublishClock(false),
   mIsSynchronized(false),
   mUseWebotsSimTime(false),
+  mAutoPublish(false),
   mRosControl(NULL) {
 }
 
@@ -138,6 +139,8 @@ void Ros::launchRos(int argc, char **argv) {
       mUseWebotsSimTime = true;
     else if (strcmp(argv[i], "--use-ros-control") == 0)
       mRosControl = new highlevel::RosControl(mRobot);
+    else if (strcmp(argv[i], "--auto-publish") == 0)
+      mAutoPublish = true;
     else
       ROS_ERROR("ERROR: unkown argument %s.", argv[i]);
   }
@@ -386,6 +389,10 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
     }
     if (previousDevicesCount < mDeviceList.size())
       mDeviceList.back()->init();
+  }
+  if (mAutoPublish) {
+    for (RosSensor *rosSensor : mSensorList)
+      rosSensor->enableSensor(mRobot->getBasicTimeStep());
   }
   mSensorList.push_back(static_cast<RosSensor *>(new RosBatterySensor(mRobot, this)));
   mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));

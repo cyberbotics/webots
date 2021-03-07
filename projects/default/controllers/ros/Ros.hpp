@@ -123,6 +123,7 @@ private:
   bool mShouldPublishClock;
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
+  bool mAutoPublish;
   highlevel::RosControl *mRosControl;
   controller_manager::ControllerManager *mControllerManager;
 };

@@ -31,6 +31,7 @@ public:
   bool sensorEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool samplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   void publishValues(int step);
+  bool enableSensor(int timestep);
 
 protected:
   RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices = true);
