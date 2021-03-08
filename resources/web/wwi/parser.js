@@ -81,22 +81,18 @@ class Parser {
 
     console.log(WbWorld.instance);
     $('#webotsProgressMessage').html('Finalizing...');
-    console.timeEnd('startID');
+    //console.timeEnd('startID');
     console.log('FINALIZE');
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
-    console.time('startID');
     WbWorld.instance.viewpoint.finalize();
-    console.timeEnd('startID');
 
     WbWorld.instance.sceneTree.forEach(node => {
-      console.time('startID');
       node.finalize();
-      console.timeEnd('startID');
     });
 
-    console.time('startID');
+  //  console.time('startID');
     renderer.render();
     console.timeEnd('startID');
     console.log('RENDER');
@@ -686,13 +682,13 @@ class Parser {
 
   parseIndexedFaceSet(node, id) {
     const coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
-    const coordIndex = coordIndexStr.map(Number);
+    const coordIndex = coordIndexStr.map(Number).filter(el => { return el !== -1; });
 
     const normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
-    const normalIndex = normalIndexStr.map(Number);
+    const normalIndex = normalIndexStr.map(Number).filter(el => { return el !== -1; });
 
     const texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
-    const texCoordIndex = texCoordIndexStr.map(Number);
+    const texCoordIndex = texCoordIndexStr.map(Number).filter(el => { return el !== -1; });
     // console.log(texCoordIndexStr.map(Number).filter(el => { return el !== -1; }));
 
     const coordArray = [];
