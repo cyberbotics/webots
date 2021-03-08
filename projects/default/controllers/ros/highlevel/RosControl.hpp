@@ -26,6 +26,7 @@ namespace highlevel {
   public:
     RosControl(webots::Robot *robot, ros::NodeHandle *nodeHandle);
     RosControl(const RosControl &rosControl) = delete;
+    RosControl &operator=(const RosControl &) = delete;
     ~RosControl();
     void read();
     void write();
