@@ -56,11 +56,8 @@ void WbPositionSensor::init() {
   mResolution = findSFDouble("resolution");
 }
 
-void WbPositionSensor::preFinalize() {
-  WbJointDevice::preFinalize();
-}
-
 void WbPositionSensor::postFinalize() {
+  WbJointDevice::postFinalize();
   connect(mNoise, &WbSFDouble::changed, this, &WbPositionSensor::updateNoise);
   connect(mResolution, &WbSFDouble::changed, this, &WbPositionSensor::updateResolution);
 }

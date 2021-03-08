@@ -37,7 +37,6 @@ public:
 
   // inherited from WbBaseNode
   void postFinalize() override;
-  void preFinalize() override;
 
   // inherited from WbDevice
   void writeConfigure(QDataStream &stream) override;
