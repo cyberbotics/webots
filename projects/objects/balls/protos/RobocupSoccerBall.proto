@@ -5,18 +5,24 @@
 # This object is physics-enabled so it will roll or bounce when hit.
 
 PROTO RobocupSoccerBall [
-  field SFVec3f    translation 0 0.1 0
-  field SFRotation rotation    0 1 0 0
-  field SFString   name        "soccer ball"
-  field SFFloat    radius      0.05          # Defines the radius of the ball.
-  field SFFloat    mass        0.044         # Defines the mass of the ball.
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "robocup soccer ball"
+  field SFInt32{1,2,3,4,5} size 1 # Defines the ball size and mass according to FIFA standards.
 ]
 {
+  %{
+    local size = fields.size.value
+    local radius_array = { 0.07, 0.085, 0.095, 0.1025, 0.1125 }
+    local mass_array = { 0.205, 0.250, 0.310, 0.370, 0.430 }
+    local radius = radius_array[size]
+    local mass = mass_array[size]
+    local scale = radius * 10.4
+  }%
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ s = 10 * fields.radius.value }%
-    scale %{=s}% %{=s}% %{=s}%
+    scale %{= scale }% %{= scale }% %{= scale }%
     children [
       Shape {
         appearance PBRAppearance {
@@ -38,7 +44,7 @@ PROTO RobocupSoccerBall [
       }
       Shape {
         appearance PBRAppearance {
-          baseColor 1 1 1
+          baseColor 0.8 0.8 0.8
           roughness 0.5
           metalness 0.1
         }
@@ -58,10 +64,11 @@ PROTO RobocupSoccerBall [
     name IS name
     model "soccer ball"
     boundingObject Sphere {
-      radius 0.1
+      radius %{= radius / scale }%
+      subdivision 3
     }
     physics Physics {
-      mass IS mass
+      mass %{= mass }%
       density -1
     }
   }
