@@ -29,6 +29,7 @@ Given the nature of the implementation, this [PROTO](../reference/proto.md) won'
 ### Field Summary
 
 - `backlash`: this field specifies the amount of clearance intrinsic to the transmission. The backlash is defined as the maximum distance that the driving gear tooth can travel without any actual contact or transfer of power to the driven gear.
+If set to zero, a single [HingeJoint](../reference/hingejoint.md) is used instead and the fields `gearMass`, `outputSensor` and `startPoint` are ignored.
 
 - `gearMass`: this field specifies the mass of the gear on the input side, namely the object that is represented by the `startPoint` field. By default it's assumed as being negligible but can be adjusted accordingly.
 
