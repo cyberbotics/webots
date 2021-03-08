@@ -7,7 +7,7 @@
 #define TIME_STEP 32
 
 int main(int argc, char **argv) {
-  wb_robot_init();
+  ts_setup(argv[0]);
 
   WbFieldRef root_children = wb_supervisor_node_get_field(wb_supervisor_node_get_root(), "children");
 
@@ -37,5 +37,6 @@ int main(int argc, char **argv) {
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children), node_count - 1,
                       "Wrong number of root nodes after removing SPHERE2.");
 
+  ts_send_success();
   return EXIT_SUCCESS;
 }

@@ -487,7 +487,7 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
       WbField *field = node->field(info.fieldId, false);
       assert(field->isMultiple());
       field->listenToValueSizeChanges();
-      connect(field, &WbField::valueChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+      connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
     }
   }
 }
@@ -1086,7 +1086,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               info.fieldCount = mFoundFieldCount;
               mWatchedFields.append(info);
               field->listenToValueSizeChanges();
-              connect(field, &WbField::valueChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+              connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
             }
           }
         }
