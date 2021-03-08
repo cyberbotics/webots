@@ -33,7 +33,7 @@ if fields.size.value == "kid" then
   J = 2
   K = 5
 else
-  --AdultSize dimensions
+  -- AdultSize dimensions
   A = 14
   B = 9
   C = 0.6
@@ -182,12 +182,12 @@ function circle_add_tg() -- Adds the triangles for the grass boundaries of the c
 
 -- External triangles
   local Ntg = table.maxn(tg)
-  tg[Ntg + 1] = { a = 33;  b = cout_id + 1;  c = 40} --first triangle (boundary with half line)
+  tg[Ntg + 1] = { a = 33;  b = cout_id + 1;  c = 40} -- first triangle (boundary with half line)
   Ntg = table.maxn(tg)
   for i=1, (n_quarter - 1) do
     tg[Ntg + i] = { a = 33;  b = cout_id + (i + 1);  c = cout_id + i}
   end
-  tg[Ntg + n_quarter] = { a = 33;  b = 35;  c = cout_id + n_quarter} --last triangle (boundary with penalty area and touch line)
+  tg[Ntg + n_quarter] = { a = 33;  b = 35;  c = cout_id + n_quarter} -- last triangle (boundary with penalty area and touch line)
 
 -- Internal triangles
   -- There is a vertex n_junction of cin that makes the junction between triangles
@@ -282,7 +282,7 @@ Solid {
           ]
         }
         ccw TRUE
-        coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
+        coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
           %{ for k, v in pairs(tg) do }%
              %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
           %{ end }%
@@ -305,7 +305,7 @@ Solid {
           ]
         }
         ccw TRUE
-        coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
+        coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
           %{ for k, v in pairs(tl) do }%
              %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
           %{ end }%
