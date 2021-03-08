@@ -1,0 +1,173 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+}
+ParserTestSupervisor {
+}
+DEF ROBOT Robot {
+  children [
+    DEF SJ_LOWER_LIM SliderJoint {
+      jointParameters JointParameters {
+        position -0.2
+      }
+      device [
+        LinearMotor {
+          name "sj_lower_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF SJ_UPPER_LIM SliderJoint {
+      jointParameters JointParameters {
+        position 0.2
+      }
+      device [
+        LinearMotor {
+          name "sj_upper_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF HJ_LOWER_LIM HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.2
+      }
+      device [
+        RotationalMotor {
+          name "hj_lower_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF HJ_UPPER_LIM HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.2
+      }
+      device [
+        RotationalMotor {
+          name "hj_upper_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF H2J_LOWER_LIM Hinge2Joint {
+      jointParameters HingeJointParameters {
+        position -0.2
+      }
+      jointParameters2 JointParameters {
+        position -0.3
+      }
+      device [
+        RotationalMotor {
+          name "h2j_lower_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "h2j_lower_lim_device2"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF H2J_UPPER_LIM Hinge2Joint {
+      jointParameters HingeJointParameters {
+        position 0.2
+      }
+      jointParameters2 JointParameters {
+        position 0.3
+      }
+      device [
+        RotationalMotor {
+          name "h2j_upper_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "h2j_upper_lim_device2"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF BJ_LOWER_LIM BallJoint {
+      jointParameters BallJointParameters {
+        position -0.2
+      }
+      jointParameters2 JointParameters {
+        position -0.3
+      }
+      jointParameters3 JointParameters {
+        position -0.4
+      }
+      device [
+        RotationalMotor {
+          name "bj_lower_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "bj_lower_lim_device2"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device3 [
+        RotationalMotor {
+          name "bj_lower_lim_device3"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    DEF BJ_UPPER_LIM BallJoint {
+      jointParameters BallJointParameters {
+        position 0.2
+      }
+      jointParameters2 JointParameters {
+        position 0.3
+      }
+      jointParameters3 JointParameters {
+        position 0.4
+      }
+      device [
+        RotationalMotor {
+          name "bj_upper_lim_device"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "bj_upper_lim_device2"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+      device3 [
+        RotationalMotor {
+          name "bj_upper_lim_device3"
+          minPosition -0.1
+          maxPosition 0.1
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "joints_motor_minmax_position"
+  supervisor TRUE
+}
