@@ -30,7 +30,6 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 
-#include <controller_manager/controller_manager.h>
 #include <highlevel/RosControl.hpp>
 
 using namespace webots;
@@ -124,8 +123,9 @@ private:
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
   bool mAutoPublish;
+  std::string mRobotDescriptionPrefix;
+  bool mSetRobotDescription;
   highlevel::RosControl *mRosControl;
-  controller_manager::ControllerManager *mControllerManager;
 };
 
 #endif  // ROS_HPP

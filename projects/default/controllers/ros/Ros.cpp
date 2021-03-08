@@ -50,6 +50,7 @@
 
 #include <rosgraph_msgs/Clock.h>
 
+#include <algorithm>
 #include <ctime>
 #include "ros/master.h"
 #include "std_msgs/String.h"
@@ -114,6 +115,7 @@ void Ros::launchRos(int argc, char **argv) {
   setupRobot();
   fixName();
   bool rosMasterUriSet = false;
+  bool useRosControl = false;
 
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
@@ -138,10 +140,15 @@ void Ros::launchRos(int argc, char **argv) {
     else if (strcmp(argv[i], "--use-sim-time") == 0)
       mUseWebotsSimTime = true;
     else if (strcmp(argv[i], "--use-ros-control") == 0)
-      mRosControl = new highlevel::RosControl(mRobot);
+      useRosControl = true;
     else if (strcmp(argv[i], "--auto-publish") == 0)
       mAutoPublish = true;
-    else
+    else if (std::string(argv[i]).rfind("--robot-description") == 0) {
+      const std::string argument = std::string(argv[i]);
+      const size_t valueStart = std::max(argument.find("="), argument.find(" "));
+      mRobotDescriptionPrefix = (valueStart == std::string::npos) ? "" : argument.substr(valueStart + 1);
+      mSetRobotDescription = true;
+    } else
       ROS_ERROR("ERROR: unkown argument %s.", argv[i]);
   }
 
@@ -212,6 +219,9 @@ void Ros::launchRos(int argc, char **argv) {
   bool useSimTime;
   if (mUseWebotsSimTime && mNodeHandle->getParam("/use_sim_time", useSimTime))
     mUseWebotsSimTime = useSimTime;
+
+  if (useRosControl)
+    mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
 }
 
 void Ros::setupRobot() {
@@ -352,8 +362,6 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         RosMotor *tempRotationalMotor = new RosMotor(dynamic_cast<Motor *>(tempDevice), this);
         mDeviceList.push_back(static_cast<RosDevice *>(tempRotationalMotor));
         mSensorList.push_back(static_cast<RosSensor *>(tempRotationalMotor->mTorqueFeedbackSensor));
-        if (mRosControl)
-          mRosControl->addMotor(dynamic_cast<Motor *>(tempDevice));
         break;
       }
       case Node::PEN:
@@ -455,12 +463,8 @@ void Ros::run(int argc, char **argv) {
   ros::AsyncSpinner spinner(2);
   spinner.start();
 
-  mNodeHandle->setParam("robot_description", mRobot->getUrdf(""));
-  if (mRosControl) {
-    mRosControl->init();
-    mControllerManager = new controller_manager::ControllerManager(mRosControl, *mNodeHandle);
-  }
-  ros::Time lastUpdate = ros::Time::now();
+  if (mSetRobotDescription)
+    mNodeHandle->setParam("robot_description", mRobot->getUrdf(mRobotDescriptionPrefix));
 
   while (!mEnd && ros::ok()) {
     if (!ros::master::check()) {
@@ -468,11 +472,8 @@ void Ros::run(int argc, char **argv) {
       mEnd = true;
     }
 
-    if (mRosControl) {
+    if (mRosControl)
       mRosControl->read();
-      mControllerManager->update(ros::Time::now(), ros::Time::now() - lastUpdate);
-      lastUpdate = ros::Time::now();
-    }
 
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)

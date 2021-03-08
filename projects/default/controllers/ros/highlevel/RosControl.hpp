@@ -15,42 +15,23 @@
 #ifndef ROS_CONTROL_HPP
 #define ROS_CONTROL_HPP
 
-#include <vector>
-
-#include <webots/Motor.hpp>
-#include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 
-#include <hardware_interface/joint_command_interface.h>
-#include <hardware_interface/joint_state_interface.h>
-#include <hardware_interface/robot_hw.h>
+#include <controller_manager/controller_manager.h>
+
+#include "WebotsHw.hpp"
 
 namespace highlevel {
-  struct ControlledMotor {
-    webots::Motor *motor;
-    double commandPosition;
-    double commandVelocity;
-    double position;
-    double velocity;
-    double effort;
-  };
-
-  class RosControl : public hardware_interface::RobotHW {
+  class RosControl {
   public:
-    RosControl(webots::Robot *robot);
-    void init();
-    void addMotor(webots::Motor *motor);
+    RosControl(webots::Robot *robot, ros::NodeHandle *nodeHandle);
     void read();
     void write();
-    void doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
-                  const std::list<hardware_interface::ControllerInfo> &stopList) override;
 
   private:
-    hardware_interface::JointStateInterface mJointStateInterface;
-    hardware_interface::PositionJointInterface mPositionJointInteraface;
-    hardware_interface::VelocityJointInterface mVelocityJointInteraface;
-    std::vector<ControlledMotor> mControlledMotors;
-    webots::Robot *mRobot;
+    WebotsHw *mWebotsHw;
+    ros::Time mLastUpdate;
+    controller_manager::ControllerManager *mControllerManager;
   };
 }  // namespace highlevel
 
