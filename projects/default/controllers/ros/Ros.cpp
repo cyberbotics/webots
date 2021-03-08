@@ -78,6 +78,8 @@ Ros::Ros() :
   mIsSynchronized(false),
   mUseWebotsSimTime(false),
   mAutoPublish(false),
+  mRobotDescriptionPrefix(""),
+  mSetRobotDescription(false),
   mRosControl(NULL) {
 }
 
@@ -104,6 +106,7 @@ Ros::~Ros() {
 
   ros::shutdown();
   delete mRobot;
+  delete mRosControl;
   for (unsigned int i = 0; i < mDeviceList.size(); i++)
     delete mDeviceList[i];
   delete mRosJoystick;

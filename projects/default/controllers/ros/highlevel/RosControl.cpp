@@ -24,6 +24,11 @@ namespace highlevel {
     mLastUpdate = ros::Time::now();
   }
 
+  RosControl::~RosControl() {
+    delete mWebotsHw;
+    delete mControllerManager;
+  }
+
   void RosControl::read() {
     mWebotsHw->read();
     mControllerManager->update(ros::Time::now(), ros::Time::now() - mLastUpdate);

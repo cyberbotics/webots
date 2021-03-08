@@ -25,6 +25,7 @@ namespace highlevel {
   class RosControl {
   public:
     RosControl(webots::Robot *robot, ros::NodeHandle *nodeHandle);
+    ~RosControl();
     void read();
     void write();
 
