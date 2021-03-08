@@ -22,7 +22,7 @@ PROTO RobocupSoccerBall [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %{=scale}% %{=scale}% %{=scale}%
+    scale %{= scale }% %{= scale }% %{= scale }%
     children [
       Shape {
         appearance PBRAppearance {
@@ -64,11 +64,11 @@ PROTO RobocupSoccerBall [
     name IS name
     model "soccer ball"
     boundingObject Sphere {
-      radius %{=radius/scale}%
+      radius %{= radius / scale }%
       subdivision 3
     }
     physics Physics {
-      mass %{=mass}%
+      mass %{= mass }%
       density -1
     }
   }
