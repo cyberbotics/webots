@@ -40,8 +40,6 @@ namespace highlevel {
   class WebotsHw : public hardware_interface::RobotHW {
   public:
     WebotsHw(webots::Robot *robot);
-    void init();
-    void addMotor(webots::Motor *motor);
     void read();
     void write();
     void doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
