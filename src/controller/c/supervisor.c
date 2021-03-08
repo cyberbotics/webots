@@ -935,11 +935,11 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       imported_node_id = request_read_int32(r);
       break;
     case C_SUPERVISOR_FIELD_COUNT_CHANGED: {
-      const int node_id = request_read_int32(r);
+      const int parent_node_id = request_read_int32(r);
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
-      if (node_id >= 0) {
-        WbFieldStruct *field = find_field(field_name, node_id);
+      if (parent_node_id >= 0) {
+        WbFieldStruct *field = find_field(field_name, parent_node_id);
         if (field)
           field->count = field_count;
       }
