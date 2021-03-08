@@ -16,6 +16,7 @@ import {WbAbstractAppearance} from './nodes/wbAbstractAppearance.js';
 import {WbAppearance} from './nodes/wbAppearance.js';
 import {WbBackground} from './nodes/wbBackground.js';
 import {WbBox} from './nodes/wbBox.js';
+import {WbCapsule} from './nodes/wbCapsule.js';
 import {WbCone} from './nodes/wbCone.js';
 import {WbCylinder} from './nodes/wbCylinder.js';
 import {WbDirectionalLight} from './nodes/wbDirectionalLight.js';
@@ -588,6 +589,8 @@ class Parser {
       geometry = this.parsePlane(node, id);
     else if (node.tagName === 'Cylinder')
       geometry = this.parseCylinder(node, id);
+    else if (node.tagName === 'Capsule')
+      geometry = this.parseCapsule(node, id);
     else if (node.tagName === 'IndexedFaceSet')
       geometry = this.parseIndexedFaceSet(node, id);
     else if (node.tagName === 'IndexedLineSet')
@@ -666,9 +669,22 @@ class Parser {
     return plane;
   }
 
-  parseIndexedFaceSet(node, id) {
-    const isDefaultMapping = getNodeAttribute(node, 'defaultMapping', 'false').toLowerCase() === 'true';
+  parseCapsule(node, id) {
+    const radius = getNodeAttribute(node, 'radius', '1');
+    const height = getNodeAttribute(node, 'height', '2');
+    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
+    const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
+    const top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
 
+    const capsule = new WbCapsule(id, radius, height, subdivision, bottom, side, top);
+
+    WbWorld.instance.nodes.set(capsule.id, capsule);
+
+    return capsule;
+  }
+
+  parseIndexedFaceSet(node, id) {
     const coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
     const coordIndex = coordIndexStr.map(Number);
 
@@ -677,6 +693,7 @@ class Parser {
 
     const texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
     const texCoordIndex = texCoordIndexStr.map(Number);
+    // console.log(texCoordIndexStr.map(Number).filter(el => { return el !== -1; }));
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
@@ -708,8 +725,7 @@ class Parser {
     const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
     const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
     const normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
-
-    const ifs = new WbIndexedFaceSet(id, isDefaultMapping, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, creaseAngle, ccw, normalPerVertex);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;

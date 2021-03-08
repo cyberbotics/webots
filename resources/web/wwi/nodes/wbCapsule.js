@@ -14,12 +14,17 @@
 
 import {WbGeometry} from './wbGeometry.js';
 
-class WbSphere extends WbGeometry {
-  constructor(id, radius, ico, subdivision) {
+class WbCapsule extends WbGeometry {
+  constructor(id, radius, height, subdivision, bottom, side, top) {
     super(id);
     this.radius = radius;
-    this.ico = ico;
+    this.height = height;
     this.subdivision = subdivision;
+    this.bottom = bottom;
+    this.side = side;
+    this.top = top;
+
+    this.wrenMesh = undefined;
   }
 
   delete() {
@@ -30,6 +35,7 @@ class WbSphere extends WbGeometry {
 
   createWrenObjects() {
     super.createWrenObjects();
+
     this.buildWrenMesh();
   }
 
@@ -39,45 +45,23 @@ class WbSphere extends WbGeometry {
     _wr_static_mesh_delete(this.wrenMesh);
     this.wrenMesh = undefined;
 
-    super.computeWrenRenderable();
+    if (!this.bottom && !this.side && !this.top)
+      return;
 
-    const createOutlineMesh = super.isInBoundingObject();
-    this.wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
+    super.computeWrenRenderable();
 
     // Restore pickable state
     super.setPickable(this.isPickable);
 
+    this.wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, false);
+
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
-
-    if (createOutlineMesh)
-      this.updateLineScale();
-    else
-      this.updateScale();
-  }
-
-  updateLineScale() {
-    if (!this.isAValidBoundingObject())
-      return;
-
-    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
-    const scaledRadius = this.radius * (1.0 + offset);
-    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
-  }
-
-  updateScale() {
-    const scaledRadius = this.radius;
-
-    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
-  }
-
-  isAValidBoundingObject() {
-    return super.isAValidBoundingObject() && this.radius > 0;
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbSphere(customID, this.radius, this.ico, this.subdivision);
+    return new WbCapsule(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
   }
 }
 
-export {WbSphere};
+export {WbCapsule};

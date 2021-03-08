@@ -56,7 +56,6 @@ export const WEBGL_PIXEL_TYPE = {
 * @param {zen3d.LoadingManager} manager — The loadingManager for the loader to use. Default is zen3d.DefaultLoadingManager.
 */
 function RGBELoader(manager) {
-  console.log("YOYOYO")
   this.manager = (manager !== undefined) ? manager : DefaultLoadingManager;
   this.type = WEBGL_PIXEL_TYPE.FLOAT;
 }

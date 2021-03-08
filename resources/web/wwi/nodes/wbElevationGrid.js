@@ -54,7 +54,7 @@ class WbElevationGrid extends WbGeometry {
     super.computeWrenRenderable();
 
     // Restore pickable state
-    this.setPickable(this.pickable);
+    super.setPickable(this.pickable);
 
     // convert height values to float, pad with zeroes if necessary
     const numValues = this.xDimension * this.zDimension;

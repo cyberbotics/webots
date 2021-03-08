@@ -80,7 +80,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     _wr_transform_attach_child(this.wrenNode, this.normalsRenderable);
 
     // Restore pickable state
-    this.setPickable(this.isPickable);
+    super.setPickable(this.isPickable);
 
     const buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
     this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
@@ -195,6 +195,8 @@ class WbTriangleMeshGeometry extends WbGeometry {
     this.triangleMesh = new WbTriangleMesh();
     this.updateTriangleMesh();
   }
+
+  updateTriangleMesh() {}
 }
 
 export {WbTriangleMeshGeometry};
