@@ -149,7 +149,7 @@ Solid {
       }
     }
     Transform {
-      translation 0 %{= -C }%  %{= postHeight }%
+      translation 0 %{= -C }% %{= postHeight }%
       rotation 0 0 1 1.5708
       children [
         DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
