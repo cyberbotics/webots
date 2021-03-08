@@ -39,7 +39,7 @@ namespace highlevel {
 
   class WebotsHw : public hardware_interface::RobotHW {
   public:
-    WebotsHw(webots::Robot *robot);
+    explicit WebotsHw(webots::Robot *robot);
     WebotsHw() = delete;
     void read();
     void write();
