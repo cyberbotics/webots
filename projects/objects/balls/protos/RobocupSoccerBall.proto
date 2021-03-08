@@ -22,7 +22,7 @@ PROTO RobocupSoccerBall [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %{=scale}% %{=scale}% %{=scale}%
+    scale %{= scale }% %{= scale }% %{= scale }%
     children [
       Shape {
         appearance PBRAppearance {
