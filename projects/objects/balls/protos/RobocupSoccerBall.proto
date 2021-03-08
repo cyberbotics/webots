@@ -68,7 +68,7 @@ PROTO RobocupSoccerBall [
       subdivision 3
     }
     physics Physics {
-      mass %{=mass}%
+      mass %{= mass }%
       density -1
     }
   }
