@@ -18,7 +18,9 @@
 
 namespace highlevel {
 
-  WebotsHw::WebotsHw(webots::Robot *robot) : mRobot(robot) {
+  WebotsHw::WebotsHw(webots::Robot *robot) : mRobot(NULL) {
+    mRobot = robot;
+
     // Find all motors
     const int nDevices = mRobot->getNumberOfDevices();
     for (int i = 0; i < nDevices; i++) {
