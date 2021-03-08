@@ -45,8 +45,6 @@ import {WbVector4} from './nodes/utils/wbVector4.js';
 import {WbViewpoint} from './nodes/wbViewpoint.js';
 import {WbWorld} from './nodes/wbWorld.js';
 
-import {WbWrenShaders} from './wren/wbWrenShaders.js';
-
 import {DefaultUrl} from './default_url.js';
 import {RGBELoader} from './hdrLoader.js';
 

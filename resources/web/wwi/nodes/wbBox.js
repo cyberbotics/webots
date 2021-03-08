@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import {WbGeometry} from './wbGeometry.js';
-import {WbVector2} from './utils/wbVector2.js';
 
 class WbBox extends WbGeometry {
   constructor(id, size) {
