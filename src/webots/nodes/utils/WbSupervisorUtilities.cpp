@@ -69,15 +69,12 @@ struct WbFieldGetRequest {
 
 struct WbUpdatedFieldInfo {
   int nodeId;
-  int fieldId;
+  QString fieldName;
   int fieldCount;
-};
-
-struct WbDeletedNodeInfo {
-  int nodeId;
-  int parentNodeId;
-  QString parentFieldName;
-  int parentFieldCount;
+  WbUpdatedFieldInfo(int nodeId, const QString &fieldName, int fieldCount) :
+    nodeId(nodeId),
+    fieldName(fieldName),
+    fieldCount(fieldCount) {}
 };
 
 class WbFieldSetRequest {
@@ -440,17 +437,14 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
     return;
   // send updated field info to the libController
   const WbField *field = static_cast<WbField *>(sender());
-  const int fieldCount = static_cast<WbMultipleValue *>(field->value())->size();
-  const int listSize = mUpdatedFields.size();
-  WbUpdatedFieldInfo info;
   if (!field->parentNode())
     return;
-  info.nodeId = field->parentNode()->uniqueId();
-  info.fieldId = field->parentNode()->fieldIndex(field);
-  info.fieldCount = fieldCount;
+  const int fieldCount = static_cast<WbMultipleValue *>(field->value())->size();
+  const int listSize = mUpdatedFields.size();
+  const WbUpdatedFieldInfo info(field->parentNode()->uniqueId(), field->name(), fieldCount);
   for (int i = 0; i < listSize; ++i) {
     WbUpdatedFieldInfo &existingInfo = mUpdatedFields[i];
-    if (existingInfo.nodeId == info.nodeId && existingInfo.fieldId == info.fieldId) {
+    if (existingInfo.nodeId == info.nodeId && existingInfo.fieldName == info.fieldName) {
       existingInfo.fieldCount = info.fieldCount;
       return;
     }
@@ -484,7 +478,7 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
   const int nodeId = node->uniqueId();
   foreach (const WbUpdatedFieldInfo info, mWatchedFields) {
     if (info.nodeId == nodeId) {
-      WbField *field = node->field(info.fieldId, false);
+      const WbField *field = node->findField(info.fieldName, false);
       assert(field->isMultiple());
       field->listenToValueSizeChanges();
       connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
@@ -497,42 +491,20 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
     return;
 
   // check if node already in the list
-  const int deletedNodesSize = mNodesDeletedSinceLastStep.size();
-  for (int i = 0; i < deletedNodesSize; ++i) {
-    if (mNodesDeletedSinceLastStep[i].nodeId == node->uniqueId())
-      return;
-  }
+  if (mNodesDeletedSinceLastStep.contains(node->uniqueId()))
+    return;
 
-  struct WbDeletedNodeInfo nodeInfo;
-  nodeInfo.nodeId = node->uniqueId();
-  // store values in case parent PROTO invalid due to regeneration
-  const WbNode *parentNode = node->parentNode();
-  if (!parentNode)
-    nodeInfo.parentNodeId = -1;
-  else if (parentNode == WbWorld::instance()->root())
-    nodeInfo.parentNodeId = 0;
-  else
-    nodeInfo.parentNodeId = parentNode->uniqueId();
-  const WbField *parentField = node->parentField();
-  if (parentField) {
-    nodeInfo.parentFieldName = parentField->name();
-    nodeInfo.parentFieldCount =
-      parentField->isMultiple() ? (dynamic_cast<WbMultipleValue *>(parentField->value())->size() - 1) : -1;
-  } else {
-    nodeInfo.parentFieldName = " ";
-    nodeInfo.parentFieldCount = -1;
-  }
-  mNodesDeletedSinceLastStep.push_back(nodeInfo);
+  mNodesDeletedSinceLastStep.push_back(node->uniqueId());
   QList<WbNode *> children = node->subNodes(false, true, true);
   const int childrenSize = children.size();
   for (int i = 0; i < childrenSize; ++i)
     updateDeletedNodeList(children[i]);
 
   // update mWatchedFields
-  QMutableListIterator<WbUpdatedFieldInfo> it(mWatchedFields);
+  QMutableVectorIterator<WbUpdatedFieldInfo> it(mWatchedFields);
   while (it.hasNext()) {
     WbUpdatedFieldInfo info = it.next();
-    if (info.nodeId == nodeInfo.nodeId)
+    if (info.nodeId == node->uniqueId())
       it.remove();
   }
 }
@@ -1080,11 +1052,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
             if (mv) {
-              WbUpdatedFieldInfo info;
-              info.nodeId = node->uniqueId();
-              info.fieldId = id;
-              info.fieldCount = mFoundFieldCount;
-              mWatchedFields.append(info);
+              mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
               field->listenToValueSizeChanges();
               connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
             }
@@ -1486,7 +1454,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (int)mFoundNodeTag;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
-    QByteArray s = mFoundNodeModelName.toUtf8();
+    const QByteArray s = mFoundNodeModelName.toUtf8();
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
   }
@@ -1506,16 +1474,11 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mIsProtoRegenerated = false;
   }
   if (!mNodesDeletedSinceLastStep.isEmpty()) {
-    for (int i = 0; i < mNodesDeletedSinceLastStep.size(); ++i) {
-      struct WbDeletedNodeInfo deletedNodeInfo = mNodesDeletedSinceLastStep.at(i);
-
+    const int size = mNodesDeletedSinceLastStep.size();
+    for (int i = 0; i < size; ++i) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_NODE_REMOVE_NODE;
-      stream << (int)deletedNodeInfo.nodeId;
-      stream << (int)deletedNodeInfo.parentNodeId;
-      QByteArray ba = deletedNodeInfo.parentFieldName.toUtf8();
-      stream.writeRawData(ba.constData(), ba.size() + 1);
-      stream << (int)deletedNodeInfo.parentFieldCount;
+      stream << (int)mNodesDeletedSinceLastStep[i];
     }
     mNodesDeletedSinceLastStep.clear();
   }
@@ -1572,8 +1535,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (mNodeGetVelocity) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_VELOCITY;
-    WbVector3 linearVelocity = mNodeGetVelocity->relativeLinearVelocity();
-    WbVector3 angularVelocity = mNodeGetVelocity->relativeAngularVelocity();
+    const WbVector3 linearVelocity = mNodeGetVelocity->relativeLinearVelocity();
+    const WbVector3 angularVelocity = mNodeGetVelocity->relativeAngularVelocity();
     stream << (double)linearVelocity[0];
     stream << (double)linearVelocity[1];
     stream << (double)linearVelocity[2];
@@ -1585,7 +1548,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (mNodeExportStringRequest) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_EXPORT_STRING;
-    QByteArray ba = mNodeExportString.toUtf8();
+    const QByteArray ba = mNodeExportString.toUtf8();
     stream.writeRawData(ba.constData(), ba.size() + 1);
     mNodeExportStringRequest = false;
   }
@@ -1735,9 +1698,10 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (!mUpdatedFields.isEmpty()) {
     foreach (const WbUpdatedFieldInfo info, mUpdatedFields) {
       stream << (short unsigned int)0;
-      stream << (unsigned char)C_SUPERVISOR_FIELD_CHANGED;
+      stream << (unsigned char)C_SUPERVISOR_FIELD_COUNT_CHANGED;
       stream << (int)info.nodeId;
-      stream << (int)info.fieldId;
+      const QByteArray ba = info.fieldName.toUtf8();
+      stream.writeRawData(ba.constData(), ba.size() + 1);
       stream << (int)info.fieldCount;
     }
     mUpdatedFields.clear();

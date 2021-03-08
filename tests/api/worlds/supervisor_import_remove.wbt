@@ -54,12 +54,16 @@ Robot {
 }
 DEF LISTENER Robot {
   translation 0.1 0 0.1
-  name "robot(2)"
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot listener"
   controller "supervisor_notify_import_remove_mfnode"
   supervisor TRUE
 }
 DEF REMOVE_SELF Robot {
-  name "robot(1)"
+  name "robot remove self"
   controller "supervisor_remove_self"
   supervisor TRUE
 }

@@ -934,31 +934,20 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_SUPERVISOR_FIELD_INSERT_VALUE:
       imported_node_id = request_read_int32(r);
       break;
-    case C_SUPERVISOR_FIELD_CHANGED: {
+    case C_SUPERVISOR_FIELD_COUNT_CHANGED: {
       const int node_id = request_read_int32(r);
-      const int field_id = request_read_int32(r);
+      const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
-      WbFieldStruct *field = field_list;
-      while (field) {
-        if (field->node_unique_id == node_id && field->id == field_id) {
+      if (node_id >= 0) {
+        WbFieldStruct *field = find_field(field_name, node_id);
+        if (field)
           field->count = field_count;
-          break;
-        }
-        field = field->next;
       }
       break;
     }
     case C_SUPERVISOR_NODE_REMOVE_NODE:
       // Remove the deleted node from the internal reference list
       remove_node_from_list(request_read_uint32(r));
-      const int parent_node_unique_id = request_read_int32(r);
-      const char *field_name = request_read_string(r);
-      const int parent_field_count = request_read_int32(r);
-      if (parent_node_unique_id >= 0) {
-        WbFieldStruct *parent_field = find_field(field_name, parent_node_unique_id);
-        if (parent_field)
-          parent_field->count = parent_field_count;
-      }
       break;
     case C_SUPERVISOR_NODE_GET_POSITION:
       free(position_node_ref->position);

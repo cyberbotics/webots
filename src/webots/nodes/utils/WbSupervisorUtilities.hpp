@@ -22,7 +22,6 @@
 
 class QDataStream;
 
-struct WbDeletedNodeInfo;
 struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 class WbFieldSetRequest;
@@ -94,8 +93,6 @@ private:
   bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
-  QList<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be update on change
-  QList<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notifies to the libController
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;
@@ -111,7 +108,9 @@ private:
   bool mVirtualRealityHeadsetPositionRequested;
   bool mVirtualRealityHeadsetOrientationRequested;
 
-  QVector<struct WbDeletedNodeInfo> mNodesDeletedSinceLastStep;
+  QVector<int> mNodesDeletedSinceLastStep;
+  QVector<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be updated on change
+  QVector<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notified to the libController
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 
