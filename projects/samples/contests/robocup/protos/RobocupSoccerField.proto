@@ -175,7 +175,7 @@ function circle_add_tl() --Adds the triangles for the line of the central circle
   end
 end
 
-function circle_add_tg() --Adds the triangles for the grass boundaries of the central circle
+function circle_add_tg() -- Adds the triangles for the grass boundaries of the central circle
   local Npts = table.maxn(pts)
   local cin_id = Npts -2 * n_quarter;
   local cout_id = Npts - n_quarter;
