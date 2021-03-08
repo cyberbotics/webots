@@ -1,7 +1,7 @@
 #VRML_SIM R2021a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A grass material containing several grass types.
+# A painted white grass material.
 
 PROTO WhiteGrass [
   field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
