@@ -75,7 +75,7 @@ Solid {
       ]
     }
     DEF LEFT_POST_TRANS Transform {
-      translation %{= postSpacing / 2 }% 0  %{= postHeight / 2 }%
+      translation %{= postSpacing / 2 }% 0 %{= postHeight / 2 }%
       rotation 1 0 0 1.5708
       children [
         Shape {
