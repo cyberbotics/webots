@@ -17,24 +17,24 @@ PROTO RobocupGoal [
 %{
   -- Official soccer field dimensions from RoboCup 2021 (in meters)
 
-if fields.size.value == "kid" then
-  -- KidSize dimensions
-  C = 0.6
-  D = 2.6
-  GH = 1.2
-else
-  -- AdultSize dimensions
-  C = 0.6
-  D = 2.6
-  GH = 1.8
-end
+  if fields.size.value == "kid" then
+    -- KidSize dimensions
+    C = 0.6
+    D = 2.6
+    GH = 1.2
+  else
+    -- AdultSize dimensions
+    C = 0.6
+    D = 2.6
+    GH = 1.8
+  end
 
-post_radius = 0.05 -- Diameter/width/depth must be between 0.08-0.12
-post_spacing = D + 2 * post_radius
-post_height = GH + post_radius
-back_post_radius = 0.02 -- Not defined in rules
-bounding_object_thickness_sides = 2 * back_post_radius -- Not defined in rules
-bounding_object_thickness_back = 0.3 -- Not defined in rules
+  post_radius = 0.05 -- Diameter/width/depth must be between 0.08-0.12
+  post_spacing = D + 2 * post_radius
+  post_height = GH + post_radius
+  back_post_radius = 0.02 -- Not defined in rules
+  bounding_object_thickness_sides = 2 * back_post_radius -- Not defined in rules
+  bounding_object_thickness_back = 0.3 -- Not defined in rules
 
 }%
 
