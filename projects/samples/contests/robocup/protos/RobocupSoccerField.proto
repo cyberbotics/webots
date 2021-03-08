@@ -233,7 +233,7 @@ function replication()
   end
 
   local Ntl = table.maxn(tl)
-  for i=1,Ntl do --Same for the line triangles
+  for i=1,Ntl do -- Same for the line triangles
     local tl_ref = tl[i]
     tl[Ntl + i] = { a = tl_ref.b + Npts;  b = tl_ref.a + Npts;  c = tl_ref.c + Npts}
     tl[2 * Ntl + i] = { a = tl_ref.c + 2 * Npts;  b = tl_ref.b + 2 * Npts;  c = tl_ref.a + 2 * Npts}
