@@ -301,6 +301,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mSaveStatus = NULL;
   mWorldToLoad.clear();
   mNodesDeletedSinceLastStep.clear();
+  mUpdatedFields.clear();
+  mWatchedFields.clear();
 }
 
 QString WbSupervisorUtilities::readString(QDataStream &stream) {
@@ -366,9 +368,6 @@ void WbSupervisorUtilities::reset() {
   foreach (int labelId, mLabelIds)
     WbWrenLabelOverlay::removeLabel(labelId);
   mLabelIds.clear();
-
-  mWatchedFields.clear();
-  mUpdatedFields.clear();
 
   // delete pending requests and reinitialize them
   deleteControllerRequests();
