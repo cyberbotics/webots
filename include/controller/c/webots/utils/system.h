@@ -21,6 +21,8 @@
 #ifndef WBU_SYSTEM_H
 #define WBU_SYSTEM_H
 
+#include "../types.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,7 +43,7 @@ const char *wbu_system_short_path(const char *path);
 
 // The following function returns the tmp folder used by Webots. On Linux, it is /tmp/webots-XXX.
 // On macOS is it /var/tmp/webots-XXX. On Windows, it is LOCALAPPDATA/Temp/webots-XXX where XXX is the Webots PID
-const char *wbu_system_webots_tmp_path();
+const char *wbu_system_webots_tmp_path(bool refresh);
 
 #ifdef __cplusplus
 }
