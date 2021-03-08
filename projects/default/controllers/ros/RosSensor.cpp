@@ -35,6 +35,7 @@ RosSensor::~RosSensor() {
 // enable the sensor with the new period if needed and
 // store publisher and it's details into the mPublishList vector
 // cppcheck-suppress constParameter
+// cppcheck-suppress constParameterCallback
 bool RosSensor::sensorEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res) {
   res.success = enableSensor(req.value);
   return true;
