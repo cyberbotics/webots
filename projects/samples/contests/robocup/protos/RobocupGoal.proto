@@ -68,8 +68,8 @@ Solid {
           geometry Cylinder {
             bottom FALSE
             top FALSE
-            height %{=postHeight }%
-            radius %{=postRadius }%
+            height %{= postHeight }%
+            radius %{= postRadius }%
           }
         }
       ]
