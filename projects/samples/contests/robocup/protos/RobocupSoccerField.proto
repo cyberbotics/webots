@@ -19,7 +19,7 @@ LW = 0.05 -- Line width
 MS = 0.1 -- Length of one branch of the penalty/center mark (NOT SPECIFIED IN RULES)
 n = 36 -- Number of vertices for the regular polygon approximating the central circle (NOT SPECIFIED IN RULES)
 
-if fields.size.value=="kid" then
+if fields.size.value == "kid" then
   --KidSize dimensions
   A = 9
   B = 6
@@ -52,49 +52,49 @@ pts = {}
 
 pts[1]  = { x = 0;              y = 0;            z = 0 }
 pts[2]  = { x = I;              y = 0;            z = 0 }
-pts[3]  = { x = I+(B/2);        y = 0;            z = 0 }
+pts[3]  = { x = I + (B / 2);        y = 0;            z = 0 }
 pts[4]  = { x = I;              y = I;            z = 0 }
-pts[5]  = { x = I+(B/2);        y = I;            z = 0 }
-pts[6]  = { x = I;              y = I+LW;         z = 0 }
-pts[7]  = { x = I+LW;           y = I+LW;         z = 0 }
-pts[8]  = { x = I+((B-K)/2);    y = I+LW;         z = 0 }
-pts[9]  = { x = I+((B-K)/2)+LW; y = I+LW;         z = 0 }
-pts[10] = { x = I+((B-F)/2);    y = I+LW;         z = 0 }
-pts[11] = { x = I+((B-F)/2)+LW; y = I+LW;         z = 0 }
-pts[12] = { x = I+(B/2);        y = I+LW;         z = 0 }
-pts[13] = { x = I+((B-F)/2)+LW; y = I+E-LW;       z = 0 }
-pts[14] = { x = I+(B/2);        y = I+E-LW;       z = 0 }
-pts[15] = { x = I+((B-F)/2);    y = I+E;          z = 0 }
-pts[16] = { x = I+((B-F)/2)+LW; y = I+E;          z = 0 }
-pts[17] = { x = I+(B/2)-MS;     y = I+E;          z = 0 }
-pts[18] = { x = I+(B/2);        y = I+E;          z = 0 }
-pts[19] = { x = I+((B-LW)/2);   y = I+G-MS;       z = 0 }
-pts[20] = { x = I+(B/2);        y = I+G-MS;       z = 0 }
-pts[21] = { x = I+(B/2)-MS;     y = I+G-(LW/2);   z = 0 }
-pts[22] = { x = I+((B-LW)/2);   y = I+G-(LW/2);   z = 0 }
-pts[23] = { x = I+(B/2);        y = I+G-(LW/2);   z = 0 }
-pts[24] = { x = I+(B/2)-MS;     y = I+G+(LW/2);   z = 0 }
-pts[25] = { x = I+((B-LW)/2);   y = I+G+(LW/2);   z = 0 }
-pts[26] = { x = I+(B/2);        y = I+G+(LW/2);   z = 0 }
-pts[27] = { x = I+((B-LW)/2);   y = I+G+MS;       z = 0 }
-pts[28] = { x = I+(B/2);        y = I+G+MS;       z = 0 }
-pts[29] = { x = I+((B-K)/2)+LW; y = I+J-LW;       z = 0 }
-pts[30] = { x = I+((B-F)/2);    y = I+J-LW;       z = 0 }
-pts[31] = { x = I+(B/2)-MS;     y = I+J-LW;       z = 0 }
-pts[32] = { x = I+(B/2);        y = I+J-LW;       z = 0 }
-pts[33] = { x = I+((B-K)/2);    y = I+J;          z = 0 }
-pts[34] = { x = I+((B-K)/2)+LW; y = I+J;          z = 0 }
-pts[35] = { x = I+(B/2);        y = I+J;          z = 0 }
-pts[36] = { x = I+((B-LW)/2);   y = I+(A/2)-MS;   z = 0 }
-pts[37] = { x = I+(B/2);        y = I+(A/2)-MS;   z = 0 }
-pts[38] = { x = I;              y = I+((A-LW)/2); z = 0 }
-pts[39] = { x = I+LW;           y = I+((A-LW)/2); z = 0 }
-pts[40] = { x = I+((B-K)/2);    y = I+((A-LW)/2); z = 0 }
-pts[41] = { x = I+((B-LW)/2);   y = I+((A-LW)/2); z = 0 }
-pts[42] = { x = I+(B/2);        y = I+((A-LW)/2); z = 0 }
-pts[43] = { x = 0;              y = I+(A/2);      z = 0 }
-pts[44] = { x = I;              y = I+(A/2);      z = 0 }
-pts[45] = { x = I+(B/2);        y = I+(A/2);      z = 0 }
+pts[5]  = { x = I + (B / 2);        y = I;            z = 0 }
+pts[6]  = { x = I;              y = I + LW;         z = 0 }
+pts[7]  = { x = I + LW;           y = I + LW;         z = 0 }
+pts[8]  = { x = I + ((B - K) / 2);    y = I + LW;         z = 0 }
+pts[9]  = { x = I + ((B - K) / 2) + LW; y = I + LW;         z = 0 }
+pts[10] = { x = I + ((B - F) / 2);    y = I + LW;         z = 0 }
+pts[11] = { x = I + ((B - F) / 2) + LW; y = I + LW;         z = 0 }
+pts[12] = { x = I + (B / 2);        y = I + LW;         z = 0 }
+pts[13] = { x = I + ((B - F) / 2) + LW; y = I + E - LW;       z = 0 }
+pts[14] = { x = I + (B / 2);        y = I + E - LW;       z = 0 }
+pts[15] = { x = I + ((B - F) / 2);    y = I + E;          z = 0 }
+pts[16] = { x = I + ((B - F) / 2) + LW; y = I + E;          z = 0 }
+pts[17] = { x = I + (B / 2) - MS;     y = I + E;          z = 0 }
+pts[18] = { x = I + (B / 2);        y = I + E;          z = 0 }
+pts[19] = { x = I + ((B - LW) / 2);   y = I + G - MS;       z = 0 }
+pts[20] = { x = I + (B / 2);        y = I + G - MS;       z = 0 }
+pts[21] = { x = I + (B / 2) - MS;     y = I + G - (LW / 2);   z = 0 }
+pts[22] = { x = I + ((B - LW) / 2);   y = I + G - (LW / 2);   z = 0 }
+pts[23] = { x = I + (B / 2);        y = I + G - (LW / 2);   z = 0 }
+pts[24] = { x = I + (B / 2) - MS;     y = I + G + (LW / 2);   z = 0 }
+pts[25] = { x = I + ((B - LW) / 2);   y = I + G + (LW / 2);   z = 0 }
+pts[26] = { x = I + (B / 2);        y = I + G + (LW / 2);   z = 0 }
+pts[27] = { x = I + ((B - LW) / 2);   y = I + G + MS;       z = 0 }
+pts[28] = { x = I + (B / 2);        y = I + G + MS;       z = 0 }
+pts[29] = { x = I + ((B - K) / 2) + LW; y = I + J - LW;       z = 0 }
+pts[30] = { x = I + ((B - F) / 2);    y = I + J - LW;       z = 0 }
+pts[31] = { x = I + (B / 2) - MS;     y = I + J - LW;       z = 0 }
+pts[32] = { x = I + (B / 2);        y = I + J - LW;       z = 0 }
+pts[33] = { x = I + ((B - K) / 2);    y = I + J;          z = 0 }
+pts[34] = { x = I + ((B - K) / 2) + LW; y = I + J;          z = 0 }
+pts[35] = { x = I + (B / 2);        y = I + J;          z = 0 }
+pts[36] = { x = I + ((B - LW) / 2);   y = I + (A / 2) - MS;   z = 0 }
+pts[37] = { x = I + (B / 2);        y = I + (A / 2) - MS;   z = 0 }
+pts[38] = { x = I;              y = I + ((A - LW) / 2); z = 0 }
+pts[39] = { x = I + LW;           y = I + ((A - LW) / 2); z = 0 }
+pts[40] = { x = I + ((B - K) / 2);    y = I + ((A - LW) / 2); z = 0 }
+pts[41] = { x = I + ((B - LW) / 2);   y = I + ((A - LW) / 2); z = 0 }
+pts[42] = { x = I + (B / 2);        y = I + ((A - LW) / 2); z = 0 }
+pts[43] = { x = 0;              y = I + (A / 2);      z = 0 }
+pts[44] = { x = I;              y = I + (A / 2);      z = 0 }
+pts[45] = { x = I + (B / 2);        y = I + (A / 2);      z = 0 }
 
 
 -- Triangles for a quarter field (except central circle)
@@ -149,16 +149,16 @@ tl[21] = { a = 36;  b = 42;  c = 41 }
 tl[22] = { a = 36;  b = 37;  c = 42 }
 
 -- Creation of a quarter of the central circle
-n_quarter = math.ceil(n/4)+1; -- +1 becuase we want to have a point both at ~0 and pi/2
+n_quarter = math.ceil(n / 4) + 1; -- +1 becuase we want to have a point both at ~0 and pi/2
 
 function circle_add_pts(radius)
   local center = pts[45]
-  local alpha = math.atan((LW/2)/radius) -- first point must be on the inside side of the half line
-  local alpha_inc = (math.pi/2-alpha)/(n_quarter-1) -- number of parts is nb of vertices minus 1
+  local alpha = math.atan((LW / 2) / radius) -- first point must be on the inside side of the half line
+  local alpha_inc = (math.pi / 2 - alpha) / (n_quarter - 1) -- number of parts is nb of vertices minus 1
   local Npts = table.maxn(pts)
   for i=1, n_quarter do
-    pts[Npts+i] = { x = center.x - radius*math.cos(alpha);
-                    y = center.y - radius*math.sin(alpha);
+    pts[Npts + i] = { x = center.x - radius * math.cos(alpha);
+                    y = center.y - radius * math.sin(alpha);
                     z = center.z + 0 }
     alpha = alpha + alpha_inc
   end
@@ -166,46 +166,46 @@ end
 
 function circle_add_tl() --Adds the triangles for the line of the central circle
   local Npts = table.maxn(pts)
-  local cin_id = Npts -2*n_quarter;
-  local cout_id = Npts -n_quarter;
+  local cin_id = Npts -2 * n_quarter;
+  local cout_id = Npts - n_quarter;
   local Ntl = table.maxn(tl)
-  for i=1,(n_quarter-1) do
-    tl[Ntl+(2*i-1)] = { a = cout_id+(i+1);  b = cin_id+i;  c = cout_id+i} --first part of one line rectangle
-    tl[Ntl+(2*i)] = { a = cout_id+(i+1);  b = cin_id+(i+1);  c = cin_id+i} --second part of one line rectangle
+  for i=1, (n_quarter - 1) do
+    tl[Ntl + (2 * i - 1)] = { a = cout_id + (i + 1);  b = cin_id + i;  c = cout_id + i} --first part of one line rectangle
+    tl[Ntl + (2 * i)] = { a = cout_id + (i + 1);  b = cin_id + (i + 1);  c = cin_id + i} --second part of one line rectangle
   end
 end
 
 function circle_add_tg() --Adds the triangles for the grass boundaries of the central circle
   local Npts = table.maxn(pts)
-  local cin_id = Npts -2*n_quarter;
-  local cout_id = Npts -n_quarter;
+  local cin_id = Npts -2 * n_quarter;
+  local cout_id = Npts - n_quarter;
 
 -- External triangles
   local Ntg = table.maxn(tg)
-  tg[Ntg+1] = { a = 33;  b = cout_id+1;  c = 40} --first triangle (boundary with half line)
+  tg[Ntg + 1] = { a = 33;  b = cout_id + 1;  c = 40} --first triangle (boundary with half line)
   Ntg = table.maxn(tg)
-  for i=1,(n_quarter-1) do
-    tg[Ntg+i] = { a = 33;  b = cout_id+(i+1);  c = cout_id+i}
+  for i=1, (n_quarter - 1) do
+    tg[Ntg + i] = { a = 33;  b = cout_id + (i + 1);  c = cout_id + i}
   end
-  tg[Ntg+n_quarter] = { a = 33;  b = 35;  c = cout_id+n_quarter} --last triangle (boundary with penalty area and touch line)
+  tg[Ntg + n_quarter] = { a = 33;  b = 35;  c = cout_id + n_quarter} --last triangle (boundary with penalty area and touch line)
 
 -- Internal triangles
   -- There is a vertex n_junction of cin that makes the junction between triangles
   -- going through pt.41 (top vertex of central dash) and pt.36 (bottom vertex of central dash)
-  n_junction = math.ceil((2/3)*n_quarter)
+  n_junction = math.ceil((2 / 3) * n_quarter)
 
   Ntg = table.maxn(tg)
 
-  for i=1,(n_junction-1) do
-    tg[Ntg+i] = { a = cin_id+(i+1);  b = 41;  c = cin_id+i}
+  for i=1, (n_junction - 1) do
+    tg[Ntg + i] = { a = cin_id + (i + 1);  b = 41;  c = cin_id + i}
   end
 
-  tg[Ntg+n_junction] = { a = cin_id+n_junction;  b = 36;  c = 41} -- junction triangle
+  tg[Ntg + n_junction] = { a = cin_id + n_junction;  b = 36;  c = 41} -- junction triangle
 
-  for i=n_junction,(n_quarter-1) do
-    tg[Ntg+i+1] = { a = cin_id+(i+1);  b = 36;  c = cin_id+i}
+  for i=n_junction, (n_quarter - 1) do
+    tg[Ntg + i + 1] = { a = cin_id + (i + 1);  b = 36;  c = cin_id + i}
   end
-  tg[Ntg+n_quarter+1] = { a = cin_id+n_quarter;  b = 37;  c = 36} -- touch line triangle (boundary with touch line)
+  tg[Ntg + n_quarter + 1] = { a = cin_id + n_quarter;  b = 37;  c = 36} -- touch line triangle (boundary with touch line)
 end
 
 -- Creation of the other quarters
@@ -214,48 +214,48 @@ function replication()
   for i=1,Npts do
     local pt_ref = pts[i]
     -- 2nd Quarter (which completes one team's half)
-    pts[Npts+i] = { x = 2*I+B-pt_ref.x;  y = pt_ref.y;  z = pt_ref.z }
+    pts[Npts + i] = { x = 2 * I + B - pt_ref.x;  y = pt_ref.y;  z = pt_ref.z }
 
     -- 3rd Quarter (replication on the y-axis)
-    pts[2*Npts+i] = { x = pt_ref.x;  y = 2*I+A-pt_ref.y;  z = pt_ref.z }
+    pts[2 * Npts + i] = { x = pt_ref.x;  y = 2 * I + A - pt_ref.y;  z = pt_ref.z }
 
     -- 4th Quarter (which completes opponent's half)
-    pts[3*Npts+i] = { x = 2*I+B-pt_ref.x;  y = 2*I+A-pt_ref.y;  z = pt_ref.z }
+    pts[3 * Npts + i] = { x = 2 * I + B - pt_ref.x;  y = 2 * I + A - pt_ref.y;  z = pt_ref.z }
   end
 
   local Ntg = table.maxn(tg)
   for i=1,Ntg do -- Grass triangles
     local tg_ref = tg[i]
     -- Due to axis reversions, we have to update the order of coords for the new corresp. triangles
-    tg[Ntg+i] = { a = tg_ref.b+Npts;  b = tg_ref.a+Npts;  c = tg_ref.c+Npts} -- 2nd Quarter (bac)
-    tg[2*Ntg+i] = { a = tg_ref.c+2*Npts;  b = tg_ref.b+2*Npts;  c = tg_ref.a+2*Npts} -- 3rd Quarter (cba)
-    tg[3*Ntg+i] = { a = tg_ref.c+3*Npts;  b = tg_ref.a+3*Npts;  c = tg_ref.b+3*Npts} -- 3rd Quarter (cab)
+    tg[Ntg + i] = { a = tg_ref.b + Npts;  b = tg_ref.a + Npts;  c = tg_ref.c + Npts} -- 2nd Quarter (bac)
+    tg[2 * Ntg + i] = { a = tg_ref.c + 2 * Npts;  b = tg_ref.b + 2 * Npts;  c = tg_ref.a + 2 * Npts} -- 3rd Quarter (cba)
+    tg[3 * Ntg + i] = { a = tg_ref.c + 3 * Npts;  b = tg_ref.a + 3 * Npts;  c = tg_ref.b + 3 * Npts} -- 3rd Quarter (cab)
   end
 
   local Ntl = table.maxn(tl)
   for i=1,Ntl do --Same for the line triangles
     local tl_ref = tl[i]
-    tl[Ntl+i] = { a = tl_ref.b+Npts;  b = tl_ref.a+Npts;  c = tl_ref.c+Npts}
-    tl[2*Ntl+i] = { a = tl_ref.c+2*Npts;  b = tl_ref.b+2*Npts;  c = tl_ref.a+2*Npts}
-    tl[3*Ntl+i] = { a = tl_ref.c+3*Npts;  b = tl_ref.a+3*Npts;  c = tl_ref.b+3*Npts}
+    tl[Ntl + i] = { a = tl_ref.b + Npts;  b = tl_ref.a + Npts;  c = tl_ref.c + Npts}
+    tl[2 * Ntl + i] = { a = tl_ref.c + 2 * Npts;  b = tl_ref.b + 2 * Npts;  c = tl_ref.a + 2 * Npts}
+    tl[3 * Ntl + i] = { a = tl_ref.c + 3 * Npts;  b = tl_ref.a + 3 * Npts;  c = tl_ref.b + 3 * Npts}
   end
 end
 
 
 -- Offset to have origin on the center of the field
 function translation()
-  OFFSET_X = (2*I+B)/2
-  OFFSET_Y = (2*I+A)/2
+  OFFSET_X = (2 * I + B) / 2
+  OFFSET_Y = (2 * I + A) / 2
   local Npts = table.maxn(pts)
   for i=1, Npts do
-    pts[i].x = pts[i].x-OFFSET_X
-    pts[i].y = pts[i].y-OFFSET_Y
+    pts[i].x = pts[i].x - OFFSET_X
+    pts[i].y = pts[i].y - OFFSET_Y
   end
 end
 
 -- Function calls
-circle_add_pts(H/2) -- Inner radius of central circle
-circle_add_pts(H/2+LW) -- Outer radius of central circle
+circle_add_pts(H / 2) -- Inner radius of central circle
+circle_add_pts(H / 2 + LW) -- Outer radius of central circle
 circle_add_tl() -- Adds line triangles for central circles
 circle_add_tg() -- Adds grass triangles for central circles
 replication() -- Replicates by translation and symmetry to have 4 quarters
@@ -264,75 +264,75 @@ translation() -- Offset to have origin on the center of the field
 }%
 
 Solid {
-      children [
-        DEF GRASS Shape {
-          appearance Grass {
-            colorOverride 0.6 1 0.3
-            type "artificial"
-            textureTransform TextureTransform {
-              scale %{=2*A}% %{=2*A}%
-            }
-          }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-               %{ for k, v in pairs(pts) do}%
-                  %{=v.x}% %{=v.y}% %{=v.z}%
-               %{ end }%
-              ]
-            }
-            ccw TRUE
-            coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-              %{ for k, v in pairs(tg) do}%
-                 %{=v.a-1}%, %{=v.b-1}%, %{=v.c-1}%, -1,
-              %{ end }%
-            ]
-          }
+  children [
+    DEF GRASS Shape {
+      appearance Grass {
+        colorOverride 0.6 1 0.3
+        type "artificial"
+        textureTransform TextureTransform {
+          scale %{= 2 * A }% %{= 2 * A }%
         }
-        DEF LINES Shape {
-          appearance WhiteGrass {
-            colorOverride 1 1 1
-            textureTransform TextureTransform {
-              scale %{=2*A}% %{=2*A}%
-            }
-          }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-               %{ for k, v in pairs(pts) do}%
-                  %{=v.x}% %{=v.y}% %{=v.z}%
-               %{ end }%
-              ]
-            }
-            ccw TRUE
-            coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-              %{ for k, v in pairs(tl) do}%
-                 %{=v.a-1}%, %{=v.b-1}%, %{=v.c-1}%, -1,
-              %{ end }%
-            ]
-          }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+           %{ for k, v in pairs(pts) do }%
+              %{= v.x }% %{= v.y }% %{= v.z }%
+           %{ end }%
+          ]
         }
-        RobocupGoal {
-          translation %{=I+(B/2)-OFFSET_X}%, %{=I-OFFSET_Y}%, 0
-          size IS size
-          name "goal_home"
-        }
-        RobocupGoal {
-          translation %{=I+(B/2)-OFFSET_X}%, %{=I+A-OFFSET_Y}%, 0
-          rotation 0 0 1 3.1415926535
-          size IS size
-          name "goal_away"
-        }
-      ]
-      boundingObject Transform {
-        rotation 1 0 0 1.5707996938995747
-        children [
-          Shape {
-            geometry Plane {
-              size %{=2*I+B}%, %{=2*I+A}%
-            }
-          }
+        ccw TRUE
+        coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
+          %{ for k, v in pairs(tg) do }%
+             %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
+          %{ end }%
         ]
       }
+    }
+    DEF LINES Shape {
+      appearance WhiteGrass {
+        colorOverride 1 1 1
+        textureTransform TextureTransform {
+          scale %{= 2 * A }% %{= 2 * A }%
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+           %{ for k, v in pairs(pts) do }%
+              %{= v.x }% %{= v.y }% %{= v.z }%
+           %{ end }%
+          ]
+        }
+        ccw TRUE
+        coordIndex [ # v.X-1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
+          %{ for k, v in pairs(tl) do }%
+             %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
+          %{ end }%
+        ]
+      }
+    }
+    RobocupGoal {
+      translation %{= I + (B / 2) - OFFSET_X }%, %{= I-OFFSET_Y }%, 0
+      size IS size
+      name "goal_home"
+    }
+    RobocupGoal {
+      translation %{= I + (B / 2) - OFFSET_X }%, %{= I + A - OFFSET_Y }%, 0
+      rotation 0 0 1 3.1415926535
+      size IS size
+      name "goal_away"
+    }
+  ]
+  boundingObject Transform {
+    rotation 1 0 0 1.5707996938995747
+    children [
+      Shape {
+        geometry Plane {
+          size %{= 2 * I + B }%, %{= 2 * I + A }%
+        }
+      }
+    ]
+  }
 }
 }
