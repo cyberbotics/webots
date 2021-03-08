@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
-# Official soccer field for the Robocup Humanoid League
+# Official soccer field for the Robocup Humanoid League 2021.
 
 PROTO RobocupSoccerField [
   field SFVec3f                     translation 0 0 0
