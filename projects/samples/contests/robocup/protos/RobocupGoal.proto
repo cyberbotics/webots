@@ -43,7 +43,7 @@ Solid {
   rotation IS rotation
   children [
     DEF HORIZONTAL_POST_TRANS Transform {
-      translation 0 0 %{=postHeight}%
+      translation 0 0 %{= postHeight }%
       rotation 0 0 1 1.5708
       children [
         Shape {
@@ -53,14 +53,14 @@ Solid {
             roughness 0.2
           }
           geometry Capsule {
-            height %{=postSpacing}%
-            radius %{=postRadius}%
+            height %{= postSpacing }%
+            radius %{= postRadius }%
           }
         }
       ]
     }
     DEF RIGHT_POST_TRANS Transform {
-      translation %{=-postSpacing/2}% 0  %{=postHeight/2}%
+      translation %{= -postSpacing / 2 }% 0  %{= postHeight / 2 }%
       rotation 1 0 0 1.5708
       children [
         Shape {
@@ -68,14 +68,14 @@ Solid {
           geometry Cylinder {
             bottom FALSE
             top FALSE
-            height %{=postHeight}%
-            radius %{=postRadius}%
+            height %{=postHeight }%
+            radius %{=postRadius }%
           }
         }
       ]
     }
     DEF LEFT_POST_TRANS Transform {
-      translation %{=postSpacing/2}% 0  %{=postHeight/2}%
+      translation %{= postSpacing / 2 }% 0  %{= postHeight / 2 }%
       rotation 1 0 0 1.5708
       children [
         Shape {
@@ -83,8 +83,8 @@ Solid {
           geometry Cylinder {
             bottom FALSE
             top FALSE
-            height %{=postHeight}%
-            radius %{=postRadius}%
+            height %{= postHeight }%
+            radius %{= postRadius }%
           }
         }
       ]
@@ -102,14 +102,14 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            %{=-postSpacing/2}% %{=-C}%          0
-            %{=postSpacing/2}%  %{=-C}%          0
-            %{=postSpacing/2}%  %{=-C}%          %{=postHeight}%
-            %{=-postSpacing/2}% %{=-C}%          %{=postHeight}%
-            %{=postSpacing/2}%  %{=-postRadius}% 0
-            %{=-postSpacing/2}% %{=-postRadius}% 0
-            %{=postSpacing/2}%  %{=-postRadius}% %{=postHeight}%
-            %{=-postSpacing/2}% %{=-postRadius}% %{=postHeight}%
+            %{= -postSpacing / 2 }% %{= -C }%          0
+            %{= postSpacing / 2 }%  %{= -C }%          0
+            %{= postSpacing / 2 }%  %{= -C }%          %{= postHeight }%
+            %{= -postSpacing / 2 }% %{= -C }%          %{= postHeight }%
+            %{= postSpacing / 2 }%  %{= -postRadius }% 0
+            %{= -postSpacing / 2 }% %{= -postRadius }% 0
+            %{= postSpacing / 2 }%  %{= -postRadius }% %{= postHeight }%
+            %{= -postSpacing / 2 }% %{= -postRadius }% %{= postHeight }%
           ]
         }
         texCoord TextureCoordinate {
@@ -149,27 +149,27 @@ Solid {
       }
     }
     Transform {
-      translation 0 %{=-C}%  %{=postHeight}%
+      translation 0 %{= -C }%  %{= postHeight }%
       rotation 0 0 1 1.5708
       children [
         DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
           appearance USE POST_APP
           geometry Capsule {
-            height %{=postSpacing}%
-            radius %{=backPostRadius}%
+            height %{= postSpacing }%
+            radius %{= backPostRadius }%
           }
         }
       ]
     }
     Transform {
-      translation 0 %{=-C}% %{=backPostRadius/2}%
+      translation 0 %{= -C }% %{= backPostRadius / 2 }%
       rotation 0 0 1 1.5708
       children [
         USE SMALL_HORIZONTAL_POST_SHAPE
       ]
     }
     Transform {
-      translation %{=postSpacing/2}% %{=-C}% %{=postHeight/2}%
+      translation %{= postSpacing / 2 }% %{= -C }% %{= postHeight / 2 }%
       rotation 1 0 0 1.5708
       children [
         DEF SMALL_POST_SHAPE Shape {
@@ -177,47 +177,47 @@ Solid {
           geometry Cylinder {
             bottom FALSE
             top FALSE
-            height %{=postHeight}%
-            radius %{=backPostRadius}%
+            height %{=postHeight }%
+            radius %{=backPostRadius }%
           }
         }
       ]
     }
     Transform {
-      translation %{=-postSpacing/2}% %{=-C}% %{=postHeight/2}%
+      translation %{= -postSpacing / 2 }% %{= -C }% %{= postHeight / 2 }%
       rotation 1 0 0 1.5708
       children [
         USE SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation %{=postSpacing/2}% %{=-C/2}% %{=postHeight}%
+      translation %{= postSpacing / 2 }% %{= -C / 2 }% %{= postHeight }%
       children [
         DEF OTHER_SMALL_POST_SHAPE Shape {
           appearance USE POST_APP
           geometry Cylinder {
             bottom FALSE
             top FALSE
-            height %{=C}%
-            radius %{=backPostRadius}%
+            height %{= C }%
+            radius %{= backPostRadius }%
           }
         }
       ]
     }
     Transform {
-      translation %{=-postSpacing/2}% %{=-C/2}% %{=postHeight}%
+      translation %{= -postSpacing / 2 }% %{= -C / 2 }% %{= postHeight }%
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation %{=postSpacing/2}% %{=-C/2}% %{=backPostRadius/2}%
+      translation %{= postSpacing / 2 }% %{= -C / 2 }% %{= backPostRadius / 2 }%
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation %{=-postSpacing/2}% %{=-C/2}% %{=backPostRadius/2}%
+      translation %{= -postSpacing / 2 }% %{= -C / 2 }% %{= backPostRadius / 2 }%
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
@@ -231,32 +231,32 @@ Solid {
       USE RIGHT_POST_TRANS
       USE LEFT_POST_TRANS
       Transform { # Left
-        translation %{=-postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
+        translation %{= -postSpacing / 2 }% %{= -postRadius - (C - postRadius) / 2 }% %{= (postHeight - backPostRadius) / 2 }%
         children [
           DEF GOAL_SIDE_BOX Box {
-            size %{=boundObjThicknessSides}% %{=C-postRadius}% %{=postHeight-backPostRadius}%
+            size %{= boundObjThicknessSides }% %{= C - postRadius }% %{= postHeight - backPostRadius }%
           }
         ]
       }
       Transform { # Right
-        translation %{=postSpacing/2}% %{=-postRadius-(C-postRadius)/2}% %{=(postHeight-backPostRadius)/2}%
+        translation %{= postSpacing / 2 }% %{= -postRadius - (C - postRadius) / 2 }% %{= (postHeight - backPostRadius) / 2 }%
         children [
           USE GOAL_SIDE_BOX
         ]
       }
       Transform { # Back
-        translation 0 %{=-C-boundObjThicknessBack/2}% %{=(postHeight+backPostRadius)/2}%
+        translation 0 %{= -C - boundObjThicknessBack / 2 }% %{= (postHeight+backPostRadius) / 2 }%
         children [
           Box {
-            size %{=postSpacing+2*backPostRadius}% %{=boundObjThicknessBack}% %{=postHeight+backPostRadius}%
+            size %{= postSpacing + 2 * backPostRadius }% %{= boundObjThicknessBack }% %{= postHeight + backPostRadius }%
           }
         ]
       }
       Transform { # Top
-        translation 0 %{=-postRadius-(C-postRadius)/2}% %{=postHeight}%
+        translation 0 %{= -postRadius - (C - postRadius) / 2 }% %{= postHeight }%
         children [
           Box {
-            size %{=postSpacing+2*backPostRadius}% %{=C-postRadius}% %{=boundObjThicknessSides}%
+            size %{= postSpacing + 2 * backPostRadius }% %{= C - postRadius }% %{= boundObjThicknessSides }%
           }
         ]
       }
