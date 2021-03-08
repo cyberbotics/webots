@@ -109,6 +109,7 @@ void WbMotor::preFinalize() {
 }
 
 void WbMotor::postFinalize() {
+  WbJointDevice::postFinalize();
   assert(robot());
   if (!mMuscles->isEmpty() || robot()->maxEnergy() > 0)
     setupJointFeedback();
