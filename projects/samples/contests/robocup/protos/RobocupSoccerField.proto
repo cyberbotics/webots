@@ -98,7 +98,7 @@ pts[45] = { x = I + (B / 2);        y = I + (A / 2);      z = 0 }
 
 
 -- Triangles for a quarter field (except central circle)
---Grass
+-- Grass
 tg = {}
 
 tg[1]  = { a = 1;   b = 44;  c = 43 }
