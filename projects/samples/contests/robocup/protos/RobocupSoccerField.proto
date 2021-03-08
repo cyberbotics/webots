@@ -20,7 +20,7 @@ MS = 0.1 -- Length of one branch of the penalty/center mark (NOT SPECIFIED IN RU
 n = 36 -- Number of vertices for the regular polygon approximating the central circle (NOT SPECIFIED IN RULES)
 
 if fields.size.value == "kid" then
-  --KidSize dimensions
+  -- KidSize dimensions
   A = 9
   B = 6
   C = 0.6
