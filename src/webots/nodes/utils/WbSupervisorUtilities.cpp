@@ -1281,10 +1281,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             assert(false);
           const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           assert(sfNode);
-          if (sfNode->value())
-            mImportedNodeId = sfNode->value()->uniqueId();
-          else
-            mImportedNodeId = -1;
+          mImportedNodeId = sfNode->value() ? sfNode->value()->uniqueId() : -1;
           break;
         }
         default:
@@ -1309,12 +1306,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, true);
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
-      if (sfNode) {
-        if (sfNode->value())
-          mImportedNodeId = sfNode->value()->uniqueId();
-        else
-          mImportedNodeId = -1;
-      }
+      mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;
 
       WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();
