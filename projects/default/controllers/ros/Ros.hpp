@@ -30,8 +30,8 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 
-#include <highlevel/RosControl.hpp>
 #include <controller_manager/controller_manager.h>
+#include <highlevel/RosControl.hpp>
 
 using namespace webots;
 
