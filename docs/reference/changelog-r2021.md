@@ -22,7 +22,7 @@ Released on June, Xth, 2021.
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - Simplified the usage of the `ros` controller ([#2822](https://github.com/cyberbotics/webots/pull/2822)).
       - Integrated `ros_control` (activated through the `--use-ros-control` flag) to allow the usage of a `diff_drive_controller` and `joint_state_controller` from the [`ros_controllers`](https://github.com/ros-controls/ros_controllers) package.
-      - Added an option (activated through the `--auto-publish` flag) to automatically enable all devices on startup and create corresponding topics.
+      - Added an option (activated through the `--auto-publish` flag) to automatically enable all devices on startup and create the corresponding topics.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
