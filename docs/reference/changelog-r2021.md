@@ -20,7 +20,7 @@ Released on June, Xth, 2021.
       - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
     - Allowed the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
-    - Simplified usage of the `ros` controller ([#2822](https://github.com/cyberbotics/webots/pull/2822)).
+    - Simplified the usage of the `ros` controller ([#2822](https://github.com/cyberbotics/webots/pull/2822)).
       - Integrated `ros_control` (activated through the `--use-ros-control` flag) to allow usage of a `diff_drive_controller` and `joint_state_controller` from the [`ros_controllers`](https://github.com/ros-controls/ros_controllers) package.
       - Added an option (activated through the `--auto-publish` flag) to automatically enable all devices on startup and create corresponding topics.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
