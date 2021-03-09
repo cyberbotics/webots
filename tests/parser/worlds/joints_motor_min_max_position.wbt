@@ -15,7 +15,7 @@ DEF ROBOT Robot {
       }
       device [
         LinearMotor {
-          name "slider_joint_lower_limit_motor"
+          name "slider_joint_motor_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -27,7 +27,7 @@ DEF ROBOT Robot {
       }
       device [
         LinearMotor {
-          name "slider_joint_upper_limit_motor"
+          name "slider_joint_motor_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -39,7 +39,7 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "hinge_joint_lower_limit_motor"
+          name "hinge_joint_motor_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -51,7 +51,7 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "hinge_joint_upper_limit_motor"
+          name "hinge_joint_motor_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -66,14 +66,14 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "hinge_2_joint_lower_limit_motor"
+          name "hinge_2_joint_motor_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "hinge_2_joint_lower_limit_motor2"
+          name "hinge_2_joint_motor2_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -88,14 +88,14 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "hinge_2_joint_upper_limit_motor"
+          name "hinge_2_joint_motor_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "hinge_2_joint_upper_limit_motor2"
+          name "hinge_2_joint_motor2_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -113,21 +113,21 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "ball_joint_lower_limit_motor"
+          name "ball_joint_motor_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "ball_joint_lower_limit_motor2"
+          name "ball_joint_motor2_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device3 [
         RotationalMotor {
-          name "ball_joint_lower_limit_motor3"
+          name "ball_joint_motor3_lower_limit"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -145,21 +145,21 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "ball_joint_upper_limit_motor"
+          name "ball_joint_motor_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "ball_joint_upper_limit_motor2"
+          name "ball_joint_motor2_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device3 [
         RotationalMotor {
-          name "ball_joint_upper_limit_motor3"
+          name "ball_joint_motor3_upper_limit"
           minPosition -0.1
           maxPosition 0.1
         }
