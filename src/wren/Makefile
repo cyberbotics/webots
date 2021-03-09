@@ -35,4 +35,6 @@ endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
 
+# variable to know when to compile with emscripten
+WREN = 1
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
