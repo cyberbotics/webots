@@ -19,21 +19,21 @@
 namespace highlevel {
 
   RosControl::RosControl(webots::Robot *robot, ros::NodeHandle *nodeHandle) {
-    mWebotsHw = new WebotsHw(robot);
-    mControllerManager = new controller_manager::ControllerManager(mWebotsHw, *nodeHandle);
+    mWebotsHW = new WebotsHW(robot);
+    mControllerManager = new controller_manager::ControllerManager(mWebotsHW, *nodeHandle);
     mLastUpdate = ros::Time::now();
   }
 
   RosControl::~RosControl() {
-    delete mWebotsHw;
+    delete mWebotsHW;
     delete mControllerManager;
   }
 
   void RosControl::read() {
-    mWebotsHw->read();
+    mWebotsHW->read();
     mControllerManager->update(ros::Time::now(), ros::Time::now() - mLastUpdate);
     mLastUpdate = ros::Time::now();
   }
 
-  void RosControl::write() { mWebotsHw->write(); }
+  void RosControl::write() { mWebotsHW->write(); }
 }  // namespace highlevel

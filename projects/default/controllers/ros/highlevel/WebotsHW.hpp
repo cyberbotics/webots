@@ -37,10 +37,10 @@ namespace highlevel {
     double effort;
   };
 
-  class WebotsHw : public hardware_interface::RobotHW {
+  class WebotsHW : public hardware_interface::RobotHW {
   public:
-    explicit WebotsHw(webots::Robot *robot);
-    WebotsHw() = delete;
+    explicit WebotsHW(webots::Robot *robot);
+    WebotsHW() = delete;
     void read();
     void write();
     void doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,

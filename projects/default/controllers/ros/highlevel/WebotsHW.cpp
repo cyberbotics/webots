@@ -14,11 +14,11 @@
 
 // Description: Webots integration with for `ros_control`.
 
-#include "WebotsHw.hpp"
+#include "WebotsHW.hpp"
 
 namespace highlevel {
 
-  WebotsHw::WebotsHw(webots::Robot *robot) : mRobot(robot) {
+  WebotsHW::WebotsHW(webots::Robot *robot) : mRobot(robot) {
     // Find all motors
     const int nDevices = mRobot->getNumberOfDevices();
     for (int i = 0; i < nDevices; i++) {
@@ -59,14 +59,14 @@ namespace highlevel {
     registerInterface(&mVelocityJointInteraface);
   }
 
-  void WebotsHw::read() {
+  void WebotsHW::read() {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
       controlledMotor.position = controlledMotor.motor->getPositionSensor()->getValue();
       controlledMotor.velocity = controlledMotor.motor->getVelocity();
     }
   }
 
-  void WebotsHw::write() {
+  void WebotsHW::write() {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
       if (!isnan(controlledMotor.commandVelocity))
         controlledMotor.motor->setVelocity(controlledMotor.commandVelocity);
@@ -75,7 +75,7 @@ namespace highlevel {
     }
   }
 
-  void WebotsHw::doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
+  void WebotsHW::doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
                           const std::list<hardware_interface::ControllerInfo> &stopList) {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
       controlledMotor.commandVelocity = NAN;

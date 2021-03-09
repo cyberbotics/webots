@@ -19,7 +19,7 @@
 
 #include <controller_manager/controller_manager.h>
 
-#include "WebotsHw.hpp"
+#include "WebotsHW.hpp"
 
 namespace highlevel {
   class RosControl {
@@ -32,7 +32,7 @@ namespace highlevel {
     void write();
 
   private:
-    WebotsHw *mWebotsHw;
+    WebotsHW *mWebotsHW;
     ros::Time mLastUpdate;
     controller_manager::ControllerManager *mControllerManager;
   };
