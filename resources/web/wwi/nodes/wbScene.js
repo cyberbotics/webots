@@ -82,7 +82,7 @@ class WbScene {
   }
 
   updateWrenViewportDimensions() {
-    _wr_viewport_set_pixel_ratio(_wr_scene_get_viewport(_wr_scene_get_instance()), window.devicePixelRatio);
+    _wr_viewport_set_pixel_ratio(_wr_scene_get_viewport(_wr_scene_get_instance()), 1);
   }
 
   destroy() {
