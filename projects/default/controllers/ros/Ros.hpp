@@ -123,6 +123,7 @@ private:
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
   bool mAutoPublish;
+  bool mUseRosControl;
   std::string mRobotDescriptionPrefix;
   bool mSetRobotDescription;
   highlevel::RosControl *mRosControl;
