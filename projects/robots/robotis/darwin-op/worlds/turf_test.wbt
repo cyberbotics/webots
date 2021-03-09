@@ -1,0 +1,73 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "ROBOTIS OP2 robot."
+    "The ROBOTIS OP2 robot simulation model can be programmed using the ROBOTIS OP2 motions files and the ROBOTIS OP2 walk control library."
+  ]
+  title "ROBOTIS OP2"
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      softERP 0.05
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.051807937166514245 -0.9974487436017802 0.049111521395500915 4.776988255197645
+  position 3.9107927886155345 0.06742948839632833 0.18672189116699311
+}
+TexturedBackground {
+  texture "noon_cloudy_countryside"
+  luminosity 1.5
+}
+TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
+  luminosity 0.5
+}
+Floor {
+  size 2 2
+}
+Solid {
+  translation 0 0.015 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0.666667 0
+        transparency 0.05
+        roughness 0.5
+        metalness 0.7
+      }
+      geometry DEF TURF Box {
+        size 1.95 0.03 0.95
+      }
+    }
+  ]
+  contactMaterial "grass"
+  boundingObject USE TURF
+}
+SolidBox {
+  translation 0.87 0.13 0.5
+  size 0.2 0.2 0.5
+  physics DEF BOX_PHYSICS Physics {
+  }
+}
+SolidBox {
+  translation 0.85 0.1 -0.5
+  name "box(2)"
+  size 0.2 0.2 0.5
+  physics USE BOX_PHYSICS
+}
+SolidBox {
+  translation 0.87 0.43 0.65
+  name "box(1)"
+  size 0.2 0.4 0.2
+  physics USE BOX_PHYSICS
+}
+SolidBox {
+  translation 0.85 0.4 -0.35
+  name "box(3)"
+  size 0.2 0.4 0.2
+  physics USE BOX_PHYSICS
+}
