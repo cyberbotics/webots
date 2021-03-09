@@ -350,7 +350,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       var moveX2 = x1 - this.state.x1;
       var moveY1 = y - this.state.y;
       var moveY2 = y1 - this.state.y1;
-      var ratio = window.devicePixelRatio || 1;
+      var ratio = 1;
 
       if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
         var d;
