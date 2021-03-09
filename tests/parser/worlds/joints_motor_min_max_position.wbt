@@ -9,55 +9,55 @@ ParserTestSupervisor {
 }
 DEF ROBOT Robot {
   children [
-    DEF SJ_LOWER_LIM SliderJoint {
+    DEF SLIDER_JOINT_LOWER_LIMIT SliderJoint {
       jointParameters JointParameters {
         position -0.2
       }
       device [
         LinearMotor {
-          name "sj_lower_lim_device"
+          name "slider_joint_lower_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF SJ_UPPER_LIM SliderJoint {
+    DEF SLIDER_JOINT_UPPER_LIMIT SliderJoint {
       jointParameters JointParameters {
         position 0.2
       }
       device [
         LinearMotor {
-          name "sj_upper_lim_device"
+          name "slider_joint_upper_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF HJ_LOWER_LIM HingeJoint {
+    DEF HINGE_JOINT_LOWER_LIMIT HingeJoint {
       jointParameters HingeJointParameters {
         position -0.2
       }
       device [
         RotationalMotor {
-          name "hj_lower_lim_device"
+          name "hinge_joint_lower_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF HJ_UPPER_LIM HingeJoint {
+    DEF HINGE_JOINT_UPPER_LIMIT HingeJoint {
       jointParameters HingeJointParameters {
         position 0.2
       }
       device [
         RotationalMotor {
-          name "hj_upper_lim_device"
+          name "hinge_joint_upper_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF H2J_LOWER_LIM Hinge2Joint {
+    DEF HINGE_2_JOINT_LOWER_LIMIT Hinge2Joint {
       jointParameters HingeJointParameters {
         position -0.2
       }
@@ -66,20 +66,20 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "h2j_lower_lim_device"
+          name "hinge_2_joint_lower_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "h2j_lower_lim_device2"
+          name "hinge_2_joint_lower_limit_motor2"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF H2J_UPPER_LIM Hinge2Joint {
+    DEF HINGE_2_JOINT_UPPER_LIMIT Hinge2Joint {
       jointParameters HingeJointParameters {
         position 0.2
       }
@@ -88,20 +88,20 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "h2j_upper_lim_device"
+          name "hinge_2_joint_upper_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "h2j_upper_lim_device2"
+          name "hinge_2_joint_upper_limit_motor2"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF BJ_LOWER_LIM BallJoint {
+    DEF BALL_JOINT_LOWER_LIMIT BallJoint {
       jointParameters BallJointParameters {
         position -0.2
       }
@@ -113,27 +113,27 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "bj_lower_lim_device"
+          name "ball_joint_lower_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "bj_lower_lim_device2"
+          name "ball_joint_lower_limit_motor2"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device3 [
         RotationalMotor {
-          name "bj_lower_lim_device3"
+          name "ball_joint_lower_limit_motor3"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
     }
-    DEF BJ_UPPER_LIM BallJoint {
+    DEF BALL_JOINT_UPPER_LIMIT BallJoint {
       jointParameters BallJointParameters {
         position 0.2
       }
@@ -145,21 +145,21 @@ DEF ROBOT Robot {
       }
       device [
         RotationalMotor {
-          name "bj_upper_lim_device"
+          name "ball_joint_upper_limit_motor"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device2 [
         RotationalMotor {
-          name "bj_upper_lim_device2"
+          name "ball_joint_upper_limit_motor2"
           minPosition -0.1
           maxPosition 0.1
         }
       ]
       device3 [
         RotationalMotor {
-          name "bj_upper_lim_device3"
+          name "ball_joint_upper_limit_motor3"
           minPosition -0.1
           maxPosition 0.1
         }
@@ -168,6 +168,6 @@ DEF ROBOT Robot {
     TestSuiteEmitter {
     }
   ]
-  controller "joints_motor_minmax_position"
+  controller "joints_motor_min_max_position"
   supervisor TRUE
 }
