@@ -78,6 +78,7 @@ Ros::Ros() :
   mIsSynchronized(false),
   mUseWebotsSimTime(false),
   mAutoPublish(false),
+  mUseRosControl(false),
   mRobotDescriptionPrefix(""),
   mSetRobotDescription(false),
   mRosControl(NULL) {
@@ -118,7 +119,6 @@ void Ros::launchRos(int argc, char **argv) {
   setupRobot();
   fixName();
   bool rosMasterUriSet = false;
-  bool useRosControl = false;
 
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
@@ -143,7 +143,7 @@ void Ros::launchRos(int argc, char **argv) {
     else if (strcmp(argv[i], "--use-sim-time") == 0)
       mUseWebotsSimTime = true;
     else if (strcmp(argv[i], "--use-ros-control") == 0)
-      useRosControl = true;
+      mUseRosControl = true;
     else if (strcmp(argv[i], "--auto-publish") == 0)
       mAutoPublish = true;
     else if (std::string(argv[i]).rfind("--robot-description") == 0) {
@@ -222,9 +222,6 @@ void Ros::launchRos(int argc, char **argv) {
   bool useSimTime;
   if (mUseWebotsSimTime && mNodeHandle->getParam("/use_sim_time", useSimTime))
     mUseWebotsSimTime = useSimTime;
-
-  if (useRosControl)
-    mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
 }
 
 void Ros::setupRobot() {
@@ -468,6 +465,9 @@ void Ros::run(int argc, char **argv) {
 
   if (mSetRobotDescription)
     mNodeHandle->setParam("robot_description", mRobot->getUrdf(mRobotDescriptionPrefix));
+
+  if (mUseRosControl)
+    mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
 
   while (!mEnd && ros::ok()) {
     if (!ros::master::check()) {
