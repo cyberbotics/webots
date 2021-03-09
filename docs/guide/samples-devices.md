@@ -200,11 +200,11 @@ A [Gyro](../reference/gyro.md) is mounted on three rotational motors (each motor
 The motors a running consecutively for a while.
 The resulting angular velocity measured by the gyro is displayed in the `Console`.
 
-### [hingejoint\_with\_backlash.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hingejoint_with_backlash.wbt)
+### [hinge\_joint\_with\_backlash.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hinge_joint_with_backlash.wbt)
 
 **Keywords**: Backlash, [HingeJoint](../reference/hingejoint.md)
 
-![hingejoint_with_backlash.png](images/samples/hingejoint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hingejoint-with-backlash.md).
+![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hinge-joint-with-backlash.md).
 The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
 When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
 

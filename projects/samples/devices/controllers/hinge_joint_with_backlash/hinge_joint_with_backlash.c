@@ -28,21 +28,20 @@
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  WbDeviceTag rotor = wb_robot_get_device("rotor motor");
+  WbDeviceTag rotor_motor = wb_robot_get_device("rotor motor");
+  WbDeviceTag rotor_sensor = wb_robot_get_device("rotor sensor");
+  wb_position_sensor_enable(rotor_sensor, TIME_STEP);
 
-  WbDeviceTag rotorSensor = wb_robot_get_device("rotor sensor");
-  wb_position_sensor_enable(rotorSensor, TIME_STEP);
-
-  wb_motor_set_position(rotor, INFINITY);
-  wb_motor_set_velocity(rotor, SPEED);
+  wb_motor_set_position(rotor_motor, INFINITY);
+  wb_motor_set_velocity(rotor_motor, SPEED);
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    double pos = wb_position_sensor_get_value(rotorSensor);
+    double position = wb_position_sensor_get_value(rotor_sensor);
 
-    if (pos > 1.0471)
-      wb_motor_set_velocity(rotor, -SPEED);
-    if (pos < -1.0471)
-      wb_motor_set_velocity(rotor, SPEED);
+    if (position > 1.0471)
+      wb_motor_set_velocity(rotor_motor, -SPEED);
+    if (position < -1.0471)
+      wb_motor_set_velocity(rotor_motor, SPEED);
   }
 
   wb_robot_cleanup();

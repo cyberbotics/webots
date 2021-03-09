@@ -3,13 +3,13 @@ WorldInfo {
   info [
     "Example world showing the effect of backlash."
   ]
-  title "HingeJoint With Backlash"
+  title "Hinge Joint With Backlash"
   gravity 0
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7122425507110172 0.6731231124253987 0.19903724394044522 0.787007466897683
-  position 0.224084855059486 0.2222513574339209 0.2766361676214366
+  orientation -0.5229000929419013 0.8437541499167371 0.12105547199377206 0.5355762867055323
+  position 0.21862933289421269 0.13255359904058345 0.33300810012457005
 }
 TexturedBackgroundLight {
 }
@@ -20,7 +20,7 @@ Robot {
   children [
     DEF FRONT_BEARING Transform {
       children [
-        DEF OUTER SolidPipe {
+        SolidPipe {
           translation 0.07 0 0
           rotation 0 0 1 -1.5708
           height 0.01
@@ -92,10 +92,10 @@ Robot {
     DEF BACK_BEARING Transform {
       translation -0.18 0 0
       children [
-        DEF OUTER SolidPipe {
+        SolidPipe {
           translation 0.07 0 0
           rotation 0 0 1 -1.5708
-          name "pipe(2)"
+          name "pipe back bearing"
           height 0.01
           radius 0.04
           thickness 0.015
@@ -108,14 +108,7 @@ Robot {
         Transform {
           translation 0.07 0.02 0
           children [
-            DEF BALL Shape {
-              appearance PBRAppearance {
-                baseColor 0.729412 0.741176 0.713725
-              }
-              geometry Sphere {
-                radius 0.006
-              }
-            }
+            USE BALL
           ]
         }
         Transform {
@@ -177,52 +170,39 @@ Robot {
         }
       ]
     }
-    DEF STATOR Transform {
-      translation -0.02 0.04 0
+    DEF STATOR_FRAME Group {
       children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.729412 0.741176 0.713725
-            roughness 0.2
-          }
-          geometry Box {
-            size 0.19 0.005 0.01
-          }
+        Transform {
+          translation -0.02 0.04 0
+          children [
+            DEF STATOR_BAR Shape {
+              appearance PBRAppearance {
+                baseColor 0.729412 0.741176 0.713725
+                roughness 0.2
+              }
+              geometry Box {
+                size 0.19 0.005 0.01
+              }
+            }
+          ]
         }
-      ]
-    }
-    DEF STATOR Transform {
-      translation -0.02 -0.04 0
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.729412 0.741176 0.713725
-            roughness 0.2
-          }
-          geometry Box {
-            size 0.19 0.005 0.01
-          }
+        Transform {
+          translation -0.02 -0.04 0
+          children [
+            USE STATOR_BAR
+          ]
         }
-      ]
-    }
-    DEF STATOR Transform {
-      translation -0.02 0 -0.04
-      rotation 1 0 0 1.5708
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.729412 0.741176 0.713725
-            roughness 0.2
-          }
-          geometry Box {
-            size 0.19 0.005 0.01
-          }
+        Transform {
+          translation -0.02 0 -0.04
+          rotation 1 0 0 1.5708
+          children [
+            USE STATOR_BAR
+          ]
         }
       ]
     }
     HingeJointWithBacklash {
       jointParameters HingeJointParameters {
-        position -0.9088000190733081
         anchor 0.19 0 0
       }
       backlash 0.4
@@ -237,74 +217,53 @@ Robot {
       startPoint [
         Group {
           children [
-            DEF ROTOR Transform {
-              translation -0.02 -0.015 0
+            DEF ROTOR_ARMATURE Group {
               children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.333333 0.341176 0.32549
-                  }
-                  geometry Box {
-                    size 0.125 0.035 0.004
-                  }
+                Transform {
+                  translation -0.02 -0.015 0
+                  children [
+                    DEF ROTOR_BAR Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.333333 0.341176 0.32549
+                      }
+                      geometry Box {
+                        size 0.125 0.035 0.004
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.02 0.015 0
+                  children [
+                    USE ROTOR_BAR
+                  ]
+                }
+                Transform {
+                  translation -0.02 0 0.015
+                  rotation 1 0 0 1.5708
+                  children [
+                    USE ROTOR_BAR
+                  ]
+                }
+                Transform {
+                  translation -0.02 0 -0.015
+                  rotation 1 0 0 1.5708
+                  children [
+                    USE ROTOR_BAR
+                  ]
                 }
               ]
             }
-            DEF ROTOR Transform {
-              translation -0.02 0.015 0
-              children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.333333 0.341176 0.32549
-                  }
-                  geometry Box {
-                    size 0.125 0.035 0.004
-                  }
-                }
-              ]
-            }
-            DEF ROTOR Transform {
-              translation -0.02 0 0.015
-              rotation 1 0 0 1.5708
-              children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.333333 0.341176 0.32549
-                  }
-                  geometry Box {
-                    size 0.125 0.035 0.004
-                  }
-                }
-              ]
-            }
-            DEF ROTOR Transform {
-              translation -0.02 0 -0.015
-              rotation 1 0 0 1.5708
-              children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.333333 0.341176 0.32549
-                  }
-                  geometry Box {
-                    size 0.125 0.035 0.004
-                  }
-                }
-              ]
-            }
-            DEF ROTOR_CENTER Transform {
+            DEF ROTOR_CENTER SolidPipe {
+              translation -0.02 0 0
               rotation 0 0 1 -1.5708
-              children [
-                SolidPipe {
-                  translation 0 -0.02 0
-                  height 0.13
-                  radius 0.015
-                  thickness 0.01
-                  appearance PBRAppearance {
-                    baseColor 0.333333 0.341176 0.32549
-                  }
-                  enableBoundingObject FALSE
-                }
-              ]
+              height 0.13
+              radius 0.015
+              thickness 0.01
+              appearance PBRAppearance {
+                baseColor 0.333333 0.341176 0.32549
+              }
+              enableBoundingObject FALSE
             }
             DEF CORE Transform {
               translation -0.02 0 0
@@ -395,6 +354,7 @@ Robot {
         }
       ]
       endPoint Solid {
+        rotation 1 0 0 0
         children [
           DEF OUTPUT_SHAFT Transform {
             translation 0.185 0 0
@@ -431,5 +391,5 @@ Robot {
       }
     }
   ]
-  controller "hingejoint_with_backlash"
+  controller "hinge_joint_with_backlash"
 }

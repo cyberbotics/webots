@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "Sanity check for HingeJointWithBacklash PROTO."
+    "Test world for HingeJointWithBacklash PROTO."
   ]
   title "HingeJointWithBacklash Pendulum Test World"
   gravity 0
@@ -23,10 +23,10 @@ DEF PENDULUM_ROBOT Robot {
       backlash 0.2
       device [
         PositionSensor {
-          name "hingeInputSensor"
+          name "joint_sensor"
         }
         RotationalMotor {
-          name "hingeInputMotor"
+          name "joint_motor"
         }
       ]
       startPoint [
@@ -86,14 +86,14 @@ DEF PENDULUM_ROBOT Robot {
     }
   ]
   name "pendulum"
-  controller "hingejoint_with_backlash"
+  controller "hinge_joint_with_backlash"
 }
 DEF SUPERVISOR Robot {
   children [
     TestSuiteEmitter {
     }
   ]
-  controller "hingejoint_with_backlash_supervisor"
+  controller "hinge_joint_with_backlash_supervisor"
   supervisor TRUE
 }
 TestSuiteSupervisor {

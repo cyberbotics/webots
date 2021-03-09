@@ -5,5 +5,5 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/hingejoint_with_backlash/hingejoint_with_backlash.c"
+textFiles: 0 "controllers/hinge_joint_with_backlash/hinge_joint_with_backlash.c"
 consoles: Console:All:All
