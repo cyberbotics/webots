@@ -33,7 +33,6 @@ public:
   double getBrakingDampingConstant() const { return mBrakingDampingConstant; }
 
   // inherited from WbBaseNode
-  void postFinalize() override;
   void reset() override;
 
   // inherited from WbDevice
