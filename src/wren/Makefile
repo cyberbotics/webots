@@ -48,7 +48,7 @@ ifneq ($(EMSDK),)
 ifeq ($(PYC), pyclibrary) 
 WREN=1
 #Parse the headers for WRENJS
-ENUM := $(shell python3 $(WEBOTS_HOME)/scripts/export_function_js/export_function.py;)
+ENUM := $(shell python $(WEBOTS_HOME)/scripts/export_function_js/export_function.py;)
 endif
 endif
 endif

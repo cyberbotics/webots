@@ -46,7 +46,7 @@ functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_g
 # lastName = lastName[:len(lastName)-2]
 # functionName[lastIndex] = lastName;
 
-f = open("../../src/wren/functionsToExport.txt", 'x')
+f = open("../../src/wren/functionsToExport.txt", 'w')
 
 f.write(''.join(functionName))
 
@@ -65,7 +65,7 @@ all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.
 if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
     os.remove("../../resources/web/streaming_viewer/enum.js")
 
-f = open("../../resources/web/streaming_viewer/enum.js", 'x')
+f = open("../../resources/web/streaming_viewer/enum.js", 'w')
 
 values_string = ''.join(all_values)
 values_string = values_string[:len(values_string) - 3]
