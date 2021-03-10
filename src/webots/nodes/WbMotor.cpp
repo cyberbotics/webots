@@ -102,7 +102,7 @@ void WbMotor::downloadAssets() {
 }
 
 void WbMotor::preFinalize() {
-  WbBaseNode::preFinalize();
+  WbJointDevice::preFinalize();
 
   cMotors << this;
 
@@ -185,8 +185,14 @@ void WbMotor::updateMinAndMaxPosition() {
 
   WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
-  if (parentJoint && parentJoint->parameters())
-    p = parentJoint->parameters()->position();
+  if (parentJoint) {
+    if (positionIndex() == 1 && parentJoint->parameters())
+      p = parentJoint->parameters()->position();
+    if (positionIndex() == 2 && parentJoint->parameters2())
+      p = parentJoint->parameters2()->position();
+    if (positionIndex() == 3 && parentJoint->parameters3())
+      p = parentJoint->parameters3()->position();
+  }
 
   // current joint position should lie between min and max position
   WbFieldChecker::resetDoubleIfLess(this, mMaxPosition, p, p);

@@ -48,8 +48,8 @@ void WbJointDevice::init() {
   mRobot = NULL;
 }
 
-void WbJointDevice::postFinalize() {
-  WbBaseNode::postFinalize();
+void WbJointDevice::preFinalize() {
+  WbBaseNode::preFinalize();
   // Cache position index
   const WbField *const f = parentField(true);
   assert(f);

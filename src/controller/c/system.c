@@ -128,9 +128,9 @@ static const char *wbu_system_tmpdir() {
   return tmpdir;
 }
 
-const char *wbu_system_webots_tmp_path() {
+const char *wbu_system_webots_tmp_path(bool refresh) {
   static const char *WEBOTS_TMP_PATH = NULL;
-  if (WEBOTS_TMP_PATH)
+  if (WEBOTS_TMP_PATH && !refresh)
     return WEBOTS_TMP_PATH;
   WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
   if (WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0])

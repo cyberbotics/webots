@@ -175,11 +175,11 @@ WbRgb WbAppearance::diffuseColor() const {
     return WbRgb(1.0f, 1.0f, 1.0f);
 }
 
-void WbAppearance::pickColorInTexture(WbRgb &pickedColor, const WbVector2 &uv) const {
+void WbAppearance::pickColorInTexture(const WbVector2 &uv, WbRgb &pickedColor) const {
   WbImageTexture *tex = texture();
   if (tex) {
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
+    tex->pickColor(uvTransformed, pickedColor);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
 }
