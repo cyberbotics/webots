@@ -1,6 +1,6 @@
 'use strict';
 
-class ContextMenu { // eslint-disable-line no-unused-vars
+class ContextMenu {
   constructor(authenticatedUser, parentObject, selection) {
     this.object = null;
     this.visible = false;
@@ -13,7 +13,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.isRobotWindowValid = null;
 
     // Create context menu.
-    var domElement = document.createElement('ul');
+    const domElement = document.createElement('ul');
     domElement.id = 'contextMenu';
     domElement.innerHTML = "<li class='ui-widget-header'><div id='contextMenuTitle'>Object</div></li>" +
                            "<li id='contextMenuFollow'><div>Follow</div></li>" +
@@ -35,7 +35,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     $('#contextMenu').on('menuselect', (event, ui) => {
       if (ui.item.children().hasClass('ui-state-disabled'))
         return;
-      var id = ui.item.attr('id');
+      const id = ui.item.attr('id');
       if (id === 'contextMenuFollow') {
         if (typeof this.onFollowObject === 'function')
           this.onFollowObject(this.object.name, '1'); // object followed with mode 1
@@ -43,13 +43,13 @@ class ContextMenu { // eslint-disable-line no-unused-vars
         if (typeof this.onFollowObject === 'function')
           this.onFollowObject('none', '0'); // object not followed
       } else if (id === 'contextMenuEditController') {
-        var controller = this.object.controller;
+        const controller = this.object.controller;
         $('#webotsEditor').dialog('open');
         $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
         if (typeof this.onEditController === 'function')
           this.onEditController(controller);
       } else if (id === 'contextMenuRobotWindow') {
-        var robotName = this.object.name;
+        const robotName = this.object.name;
         if (typeof this.onOpenRobotWindow === 'function')
           this.onOpenRobotWindow(robotName);
       } else if (id === 'contextMenuHelp')
@@ -66,7 +66,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
   }
 
   toggle() {
-    var visible = this.visible;
+    const visible = this.visible;
     if (visible)
       this.hide();
     return visible;
@@ -83,18 +83,18 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     if (typeof object === 'undefined')
       return;
 
-    var title = object.name;
+    let title = object.name;
     if (title == null || title === '')
       title = 'Object';
 
     $('#contextMenuTitle').html(title);
-    var controller = object.controller;
+    const controller = object.controller;
     if (controller && controller !== '') { // the current selection is a robot
       $('#contextMenuEditController').css('display', 'inline');
       if (controller === 'void' || controller.length === 0 || !this.authenticatedUser)
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
-      var robotName = object.name;
-      var isValid = false;
+      const robotName = object.name;
+      let isValid = false;
       if (typeof this.isRobotWindowValid === 'function')
         this.isRobotWindowValid(robotName, (result) => { isValid = result; });
       if (isValid)
@@ -123,12 +123,12 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuHelpDiv').addClass('ui-state-disabled');
 
     // Ensure that the context menu is completely visible.
-    var w = $('#contextMenu').width();
-    var h = $('#contextMenu').height();
-    var maxWidth = $('#playerDiv').width();
-    var maxHeight = $('#playerDiv').height();
-    var left;
-    var top;
+    const w = $('#contextMenu').width();
+    const h = $('#contextMenu').height();
+    const maxWidth = $('#playerDiv').width();
+    const maxHeight = $('#playerDiv').height();
+    let left;
+    let top;
     if (maxWidth != null && (w + position.x) > maxWidth)
       left = maxWidth - w;
     else
@@ -144,4 +144,4 @@ class ContextMenu { // eslint-disable-line no-unused-vars
   }
 }
 
-export {ContextMenu}
+export {ContextMenu};
