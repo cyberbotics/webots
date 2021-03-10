@@ -35,6 +35,22 @@ endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
 
-# variable to know when to compile with emscripten
-WREN = 1
+PYTHON3_OK = $(shell type python3;)
+ifneq ($(PYTHON3_OK),)
+# Check if pyclibrary is present
+PYC = $(shell \
+	pip list >> temp.txt; \
+	grep pyclibrary temp.txt | awk '{print $$1}'; \
+	rm temp.txt; \
+	)
+
+ifneq ($(EMSDK),)
+ifeq ($(PYC), pyclibrary) 
+WREN=1
+#Parse the headers for WRENJS
+ENUM := $(shell python3 $(WEBOTS_HOME)/scripts/export_function_js/export_function.py;)
+endif
+endif
+endif
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
