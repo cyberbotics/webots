@@ -9,8 +9,6 @@ class ContextMenu {
     // Callbacks
     this.onFollowObject = null;
     this.onEditController = null;
-    this.onOpenRobotWindow = null;
-    this.isRobotWindowValid = null;
 
     // Create context menu.
     const domElement = document.createElement('ul');
@@ -20,7 +18,6 @@ class ContextMenu {
                            "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
                            "<li><div class='ui-state-disabled'>Zoom</div></li>" +
                            '<hr>' +
-                           "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
                            "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
                            "<li><div class='ui-state-disabled'>Delete</div></li>" +
                            "<li><div class='ui-state-disabled'>Properties</div></li>" +
@@ -48,10 +45,6 @@ class ContextMenu {
         $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
         if (typeof this.onEditController === 'function')
           this.onEditController(controller);
-      } else if (id === 'contextMenuRobotWindow') {
-        const robotName = this.object.name;
-        if (typeof this.onOpenRobotWindow === 'function')
-          this.onOpenRobotWindow(robotName);
       } else if (id === 'contextMenuHelp')
         window.open(this.object.docUrl, '_blank');
       else
@@ -61,7 +54,6 @@ class ContextMenu {
   }
 
   disableEdit() {
-    $('#contextMenuRobotWindowDiv').addClass('ui-state-disabled');
     $('#contextMenuEditControllerDiv').addClass('ui-state-disabled');
   }
 
@@ -93,18 +85,8 @@ class ContextMenu {
       $('#contextMenuEditController').css('display', 'inline');
       if (controller === 'void' || controller.length === 0 || !this.authenticatedUser)
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
-      const robotName = object.name;
-      let isValid = false;
-      if (typeof this.isRobotWindowValid === 'function')
-        this.isRobotWindowValid(robotName, (result) => { isValid = result; });
-      if (isValid)
-        $('#contextMenuRobotWindow').css('display', 'inline');
-      else
-        $('#contextMenuRobotWindow').css('display', 'none');
-    } else {
+    } else
       $('#contextMenuEditController').css('display', 'none');
-      $('#contextMenuRobotWindow').css('display', 'none');
-    }
 
     if (object.follow < 0) { // follow option not supported
       $('#contextMenuFollow').css('display', 'none');

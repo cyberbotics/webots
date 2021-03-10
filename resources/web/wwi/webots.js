@@ -5,7 +5,6 @@ import {DialogWindow} from './dialog_window.js';
 import {Editor} from './editor.js';
 import {MouseEvents} from './mouse_events.js';
 import {MultimediaClient} from './multimedia_client.js';
-import {RobotWindow} from './robot_window.js';
 import {Toolbar} from './toolbar.js';
 import {Selector} from './selector.js';
 import {Server} from './server.js';
@@ -55,30 +54,12 @@ webots.View = class View {
     webots.currentView = this;
     this.onerror = (text) => {
       console.log('%c' + text, 'color:black');
-      this.onrobotwindowsdestroy();
     };
     this.onstdout = (text) => {
       console.log('%c' + text, 'color:blue');
     };
     this.onstderr = (text) => {
       console.log('%c' + text, 'color:red');
-    };
-    this.onrobotmessage = (robot, message) => {
-      if (typeof this.robotWindowNames[robot] === 'undefined') {
-        console.log("Robot '" + robot + "' has no associated robot window");
-        return;
-      }
-      this.robotWindows[this.robotWindowNames[robot]].receive(message, robot);
-    };
-    this.onrobotwindowsdestroy = () => {
-      this.robotWindowsGeometries = {};
-      for (let win in this.robotWindows) {
-        this.robotWindowsGeometries[win] = this.robotWindows[win].geometry();
-        this.robotWindows[win].destroy();
-      }
-      this.infoWindow = undefined;
-      this.robotWindows = {}; // delete robot windows
-      this.robotWindowNames = {};
     };
     this.onquit = () => { // You can change this behavior by overriding this onquit() method
       window.history.back(); // go back to the previous page in the navigation history
@@ -110,10 +91,6 @@ webots.View = class View {
       }
     };
     window.onresize = this.onresize;
-
-    // Map robot name to robot window name used as key in robotWindows lists.
-    this.robotWindowNames = {};
-    this.robotWindows = {};
 
     this.view3D = view3D;
     this.view3D.className = view3D.className + ' webotsView';
@@ -229,153 +206,7 @@ webots.View = class View {
         }
       }
 
-      const loadRobotWindow = (windowName, nodeName) => {
-        this.robotWindowNames[nodeName] = windowName;
-        let win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
-        this.robotWindows[windowName] = win;
-        // Initialize robot windows dialogs.
-        function closeInfoWindow() {
-          $('#infoButton').removeClass('toolBarButtonActive');
-        }
-        if (infoWindowName && windowName === infoWindowName) {
-          let user;
-          if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
-            user = ' [' + webots.User1Name;
-            if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
-              user += '/' + webots.User2Name;
-            user += ']';
-          } else
-            user = '';
-          let worldInfoTitle;
-          if (typeof this.x3dScene !== 'undefined')
-            worldInfoTitle = 'Test';
-          else
-            worldInfoTitle = this.multimediaClient.worldInfo.title;
-          win.setProperties({
-            title: worldInfoTitle + user,
-            close: closeInfoWindow
-          });
-          this.infoWindow = win;
-        } else {
-          win.setProperties({
-            title: 'Robot: ' + nodeName
-          });
-        }
-        pendingRequestsCount++;
-        const baseUrl = (this.server ? this.server.httpServerUrl : 'http' + this.url.slice(2)) + '/';
-        const url = baseUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
-        $.get(url, (data) => {
-          function fixSrc(collection, serverUrl) {
-            for (let i = 0; i < collection.length; i++) {
-              if (collection[i].src) {
-                const src = collection[i].getAttribute('src');
-                let url, newSrc;
-                try {
-                  url = new URL(src);
-                  newSrc = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
-                } catch (_) {
-                  url = null;
-                  newSrc = serverUrl.href + 'robot_windows/' + windowName + '/' + src;
-                }
-                if (url === null || url.origin === serverUrl.origin) {
-                  if (collection[i].tagName === 'SCRIPT') {
-                    collection[i].removeAttribute('src');
-                    collection[i].setAttribute('disabled-src', newSrc);
-                  } else // IMG
-                    collection[i].setAttribute('src', newSrc);
-                } else {
-                  collection[i].setAttribute('disabled-src', src);
-                  collection[i].removeAttribute('src');
-                }
-              }
-            }
-          }
-          let parser = new DOMParser();
-          let doc = parser.parseFromString(data, 'text/html');
-          let serverUrl = new URL(baseUrl);
-          fixSrc(doc.getElementsByTagName('script'), serverUrl);
-          fixSrc(doc.getElementsByTagName('img'), serverUrl);
-          let links = doc.getElementsByTagName('link');
-          for (let i = 0; i < links.length; i++) {
-            if (links[i].rel === 'stylesheet' && links[i].type === 'text/css') {
-              let link = document.createElement('link');
-              for (let j = links[i].attributes.length - 1; j >= 0; j--) {
-                const name = links[i].attributes[j].name;
-                let value = links[i].attributes[j].value;
-                if (name === 'href' && !value.startsWith('https://') && !value.startsWith('http://')) // local css file
-                  value = baseUrl + 'robot_windows/' + windowName + '/' + value;
-                link.setAttribute(name, value);
-              }
-              document.getElementsByTagName('head')[0].appendChild(link);
-            }
-          }
-          const body = doc.getElementsByTagName('body')[0];
-          win.setContent(body.innerHTML);
-          MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
-
-          function nodeScriptClone(node) { // this forces the execution of the Javascript code
-            let script = document.createElement('script');
-            script.text = node.innerHTML;
-            for (let i = node.attributes.length - 1; i >= 0; i--) {
-              const name = node.attributes[i].name;
-              const value = node.attributes[i].value;
-              if (name === 'disabled-src') {
-                script.setAttribute('src', value);
-                continue;
-              }
-              script.setAttribute(name, value);
-            }
-            return script;
-          }
-
-          function nodeScriptReplace(node) {
-            if (node.tagName === 'SCRIPT')
-              node.parentNode.replaceChild(nodeScriptClone(node), node);
-            else {
-              let i = 0;
-              let children = node.childNodes;
-              while (i < children.length)
-                nodeScriptReplace(children[i++]);
-            }
-          }
-          nodeScriptReplace(win.panel); // execute Javascript code if any script tag
-          pendingRequestsCount--;
-          if (pendingRequestsCount === 0)
-            loadFinalize();
-        }).fail(() => {
-          if (windowName === infoWindowName)
-            this.infoWindow = undefined;
-          pendingRequestsCount--;
-          if (pendingRequestsCount === 0)
-            loadFinalize();
-        });
-      };
-
-      let pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-      let windowsDict = [];
-      let infoWindowName;
-      if (typeof this.x3dScene !== 'undefined') {
-        windowsDict = this.x3dScene.getRobotWindows();
-        infoWindowName = 'TestWindow';
-      } else if (this.multimediaClient) {
-        windowsDict = this.multimediaClient.robotWindows;
-        infoWindowName = this.multimediaClient.worldInfo.infoWindow;
-      } else {
-        loadFinalize();
-        return;
-      }
-
-      windowsDict.forEach((window) => {
-        // window: [robot name, window name]
-        loadRobotWindow(window[1], window[0]);
-        if (window[0] === 'worldInfoWindow')
-          infoWindowName = window[0];
-      });
-      pendingRequestsCount--; // notify that loop is completed
-      if (pendingRequestsCount === 0)
-        // If no pending requests execute loadFinalize
-        // otherwise it will be executed when the last request will be handled.
-        loadFinalize();
+      loadFinalize();
     };
 
     let loadFinalize = () => {
@@ -385,20 +216,7 @@ webots.View = class View {
       else if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
-      // Restore robot windows.
-      if (this.robotWindowsGeometries) { // on reset
-        for (let win in this.robotWindows) {
-          if (win in this.robotWindowsGeometries) {
-            this.robotWindows[win].restoreGeometry(this.robotWindowsGeometries[win]);
-            if (this.robotWindowsGeometries[win].open) {
-              if (this.robotWindows[win] === this.infoWindow)
-                this.toolBar.toggleInfo();
-              else
-                this.robotWindows[win].open();
-            }
-          }
-        }
-      } else if (this.infoWindow && !this.broadcast) // at first load
+      if (this.infoWindow && !this.broadcast) // at first load
         this.toolBar.toggleInfo();
 
       if (this.runOnLoad && this.toolBar)
@@ -421,12 +239,6 @@ webots.View = class View {
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
       this.contextMenu.onEditController = (controller) => {
         this.editController(controller);
-      };
-      this.contextMenu.onOpenRobotWindow = (robotName) => {
-        this.openRobotWindow(robotName);
-      };
-      this.contextMenu.isRobotWindowValid = (robotName, setResult) => {
-        setResult(this.robotWindows[this.robotWindowNames[robotName]]);
       };
     }
 
@@ -522,7 +334,7 @@ webots.View = class View {
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
-      this.onrobotwindowsdestroy();
+
       $('#webotsProgressMessage').html('Loading ' + this.toolBar.worldSelect.value + '...');
       $('#webotsProgress').show();
       this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
@@ -577,7 +389,6 @@ webots.View = class View {
     if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
-    this.onrobotwindowsdestroy();
 
     if (typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
       this.mouseEvents.picker.selectedId = -1;
@@ -593,25 +404,6 @@ webots.View = class View {
       this.stream.socket.send('get controller:' + controller);
     }
   }
-
-  openRobotWindow(robotName) {
-    const win = this.robotWindows[this.robotWindowNames[robotName]];
-    if (win) {
-      if (win === this.infoWindow) {
-        if (!this.infoWindow.isOpen())
-          this.toolBar.toggleInfo();
-      } else
-        win.open();
-    } else
-      console.log('No valid robot window for robot: ' + robotName);
-  }
-};
-
-webots.window = (name) => {
-  const win = webots.currentView.robotWindows[name];
-  if (!win)
-    console.log("Robot window '" + name + "' not found.");
-  return win;
 };
 
 webots.alert = (title, message, callback) => {

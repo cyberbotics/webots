@@ -211,7 +211,7 @@ class Toolbar {
       if (this.view.editor.needToUploadFiles[i])
         this.view.editor.upload(i);
     }
-    this.view.onrobotwindowsdestroy();
+
     if (this.view.timeout >= 0) {
       this.view.deadline = this.view.timeout;
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.timeout));

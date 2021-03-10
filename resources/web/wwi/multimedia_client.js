@@ -12,7 +12,6 @@ class MultimediaClient {
 
     this.viewMode = false;
     this.contextMenu = contextMenu;
-    this.robotWindows = [];
     this.worldInfo = {title: null, infoWindow: null};
 
     this.mouseDown = 0;
@@ -40,10 +39,6 @@ class MultimediaClient {
 
   setWorldInfo(title, infoWindowName) {
     this.worldInfo = {title: title, infoWindow: infoWindowName};
-  }
-
-  setRobotWindow(robotName, windowName) {
-    this.robotWindows.push([robotName, windowName]);
   }
 
   setFollowed(solidId, mode) {
@@ -89,10 +84,6 @@ class MultimediaClient {
         this.domElement.style.width = list[1] + 'px';
         this.domElement.style.height = list[2] + 'px';
       } // else ignore resize triggered from this instance
-    } else if (data.startsWith('robot window: ')) {
-      let dataString = data.substring(data.indexOf(':') + 1).trim();
-      let dataObject = JSON.parse(dataString);
-      this.setRobotWindow(dataObject.robot, dataObject.window);
     } else if (data.startsWith('world info: ')) {
       let dataString = data.substring(data.indexOf(':') + 1).trim();
       let dataObject = JSON.parse(dataString);

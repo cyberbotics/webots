@@ -229,10 +229,6 @@ button::-moz-focus-inner {
   border-width: 0px;
 }
 
-.webotsRobotWindowTabs {
-  display: inline-block;
-}
-
 .webotsTabs {
   padding: 0px;
   background: none;

@@ -220,16 +220,6 @@ class X3dScene {
       WbWorld.instance.viewpoint.updateFollowUp();
   }
 
-  getRobotWindows() {
-    const windows = [];
-    const nodes = this.root ? this.root.children : [];
-    nodes.forEach((node) => {
-      if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
-        windows.push([node.userData.name, node.userData.window]);
-    });
-    return windows;
-  }
-
   processServerMessage(data, view) {
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
