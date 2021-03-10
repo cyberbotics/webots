@@ -54,7 +54,7 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %figure
 
-![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.jpg)
+![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.png)
 
 %end
 
@@ -76,7 +76,7 @@ FifaSoccerBall {
 
 ### FifaSoccerBall Field Summary
 
-- `size`: Defines the ball size according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## PingPongBall
 
@@ -108,6 +108,31 @@ PingPongBall {
 ### PingPongBall Field Summary
 
 - `textureUrl`: Defines the texture used for the ball.
+
+## RobocupSoccerBall
+
+A black and white soccer ball with customizable radius and mass.
+This object is physics-enabled so it will roll or bounce when hit.
+
+Derived from [Solid](../reference/solid.md).
+
+```
+RobocupSoccerBall {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 1 0 0
+  SFString   name         "robocup soccer ball"
+  SFInt32                 size 1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/RobocupSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/RobocupSoccerBall.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### RobocupSoccerBall Field Summary
+
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## SoccerBall
 
@@ -142,3 +167,4 @@ SoccerBall {
 - `radius`: Defines the radius of the ball.
 
 - `mass`: Defines the mass of the ball.
+
