@@ -343,7 +343,7 @@ Do you know why I am getting this error?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/802613647226044436/unknown.png)
 %end
 
-##### Bitbots\_Jasper 01/23/2021 19:02:50
+##### Bitbots\_Jasper [Moderator] 01/23/2021 19:02:50
 you seem to be missiong ros-<version>-console-bridge
 
 ##### adiagr 01/24/2021 18:32:16
@@ -468,13 +468,13 @@ Yes, there not such a limit in GitHub.
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/29/2021 10:08:53
 I think it is possible, but I am concern about the quality of the translations.
 
-##### Bitbots\_Jasper 01/29/2021 10:10:29
+##### Bitbots\_Jasper [Moderator] 01/29/2021 10:10:29
 I think the quality would be rather poor since there is often only a small snippet of text and translation algorithms usually work much better with context, it might be worth a shot but a native or very fluent speaker would need to rework it
 
 ##### Ginzo1 01/29/2021 12:47:01
 Hello, everyone! I've just recently pick up WeBots as I have an university project that requires to be simulated. It is a robot design project for which I will need a hydraulic scissors lift. Since I have a relatively basic knowledge on mechanics and kinematics but I am still really inexperienced with WeBots. Since the scissors lift is a quite common system, I was wondering if there is some information somewhere on how to create one on my own or see how it is supposed to be done from scratch? Thanks in advance!
 
-##### Bitbots\_Jasper 01/29/2021 12:49:47
+##### Bitbots\_Jasper [Moderator] 01/29/2021 12:49:47
 `@Ginzo1` this question has been asked a while back, maybe there is something useful for you there [https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16](https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16)
 
 ##### babaev1 01/30/2021 10:34:05
@@ -503,7 +503,7 @@ For translating the manuals, I believe the option 2 is the best for us: we will 
 ##### Lumii 02/09/2021 10:36:01
 is there any tutorial how i can start writing a program to actually move (UR) my robot in the simulation?
 
-##### Bitbots\_Jasper 02/09/2021 10:37:40
+##### Bitbots\_Jasper [Moderator] 02/09/2021 10:37:40
 [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
 
@@ -532,4 +532,793 @@ This includes an example I made with the IRB4600 robot. You only have to recompi
 
 ##### Lumii 02/09/2021 15:09:09
 Oh thanks a lot I’ll look into it!
+
+##### Chernayaten 02/10/2021 22:52:00
+Double clicking a .wbt file to start Webots, from a path-file inside a Greek folder crashes the program. To be more specific, Webots starts with the following message showing on the console window for a split second before the program terminates automatically.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/809194994279645214/unknown.png)
+%end
+
+
+If I initiate the webots program from its shortcut I can normally load the world without any issues
+
+
+I'd argue that besides the incorrect handling of the greek characters (and possibly other characters as well), the program shouldn't crash if it fails to load the world
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/11/2021 06:36:27
+Can you please open a bug report about it? [https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### AJ121 02/12/2021 21:32:21
+Can't I set a motor speed more than 10 in webots? It shows error ! My bot is too slow
+
+##### Stefania Pedrazzi [Cyberbotics] 02/15/2021 07:11:58
+`@AJ121` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
+
+[https://www.cyberbotics.com/doc/reference/motor#field-summary](https://www.cyberbotics.com/doc/reference/motor#field-summary)
+
+##### JMarple 02/16/2021 18:50:55
+I wish I had more information (cause I know just saying something is broken isn't all that helpful) but I figure I'd atleast pass this along: 
+
+Running webots on Mac OSX 10.15.6 on MBP 2020, I've been finding webots crashes quite regularly.  It can be just from starting a simulation, or moving a part within the UI, or doing nothing at all, it'll just randomly crash.  Maybe a frequency of once per hour or so. 
+
+
+
+Is there any sort of verbose mode or *something* I can do to help track down these issues?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/16/2021 19:05:53
+Hello `@JMarple`. You can compile Webots in debug mode and you should get more details about the crashes:
+
+[https://github.com/cyberbotics/webots/wiki/macOS-installation](https://github.com/cyberbotics/webots/wiki/macOS-installation)
+
+
+
+Please let us know if you have any problems compiling Webots.
+
+##### Ariel 02/16/2021 20:50:48
+Hello! I am writing a program in webots for an autonomous vehicle moving around a specific path and collecting data (images) of the environment. I added a fog node on the scene and the cameras that I had already can not see it. Is this the expected behaviour?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/16/2021 21:34:54
+Hello Ariel, it sounds wrong. Can you open an issue about that:
+
+[https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### DrVoodoo [Moderator] 02/18/2021 15:05:40
+`@Ariel` is the fog node declared before or after the camera in the world file? If it's after, try moving the Fog node to before the camera nodes.
+
+##### Ariel 02/18/2021 19:48:53
+I thought the fog node doesn't need to be declared at all?
+
+
+in the controllers code file if this is what you mean
+
+##### Srivastav\_Udit 02/18/2021 22:38:30
+Hi, I wanted to know if there was any sample code available for a robot that has to detect, collect and drop an object at a particular location? I'm trying to work towards a swarm implementation eventually. Any help will be much appreciated. Cheers!
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 16:56:46
+`@Simon Steinmann` Regarding the RAM usage. I have just tried add the UR5 in the empty world and uses like 850MB of RAM. It seems the complex models cause the high RAM usage.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 16:57:58
+340 -> 1.250 -> 520    (ram usage for your described scenario)
+
+
+however after a while the 520 trickles down to a bit above 400
+
+
+I used the UR10e back in the day for my RL testing
+
+
+it sounds like there is lots of room for optimization. A Model that has 50MB at most in model data, should not need 500MB of RAM (at least in my uninformed opinion 😄 )
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:05:21
+Let's say you have 8 core CPU with 16 thread. To reach the full CPU utilization you should run 8 instances (2 processes per instance, 1 Webots process + 1 controller process). Let's say your simulation uses 1GB of RAM. That means that Webots parallel simulations will use 8GB of RAM in total. Considering that typical 8 core PC is equipped with 16GB of RAM (and RAM is cheap) then running the parallel simulations should be fine?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:06:38
+If it were just the simulation, yes, but running deep neural networks takes lots of resources as well
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:08:18
+True, in my tests, the RL controllers use like above 1GB of RAM per instance. But then, it is not fair to expect from simulation to use significantly less RAM.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:08:21
+plus, if we were to scale it up on server level, the amounts of RAM get huge. A partner company in our past research project had a 128 core 256 thread server.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:10:07
+I am trying to understand how import is to invest time in the RAM/VRAM optimization.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:11:25
+well, same simulation and setup in Pybullet were in the order of 100-300MB RAM
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:11:45
+Per instance?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:11:48
+yes
+
+
+i have to check if I find the detailed data
+
+
+Overall RAM usage during the benchmark run: Webots 1811 MB, PyBullet 927 MB
+
+
+dont have a more detailed breakdown, but I think around 600-700MB is the portion without the simulation, so Pybullet was 200-300MB
+
+
+Webots has many great advantages for RL, but this is a major downside.
+
+
+PyBullet has the advantage, that you only initialize what you need, and the simulation is run on a server, completely seperate from a client, which you can connect or not. This is not super userfriendly of course (where Webots shines). But for more complex training scenarios, this is quite important
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:20:53
+But quality of the Webots model is much higher (pybullet model in the image)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813822706759499826/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813822734861598720/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:21:27
+we used the same model
+
+
+directly urdf in PyBullet, conversion in Webots
+
+
+the resulting protos is 9.282 KB
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:39:10
+I have just done some tests with UR5e in an empty world:
+
+- 850MB with initial setup,
+
+- 400MB with all graphics enchantments turned off,
+
+- 177MB with meshes removed, and
+
+- probably less with textures disabled (haven't tried).
+
+
+
+Does it make sense that we add a CLI argument to disable meshes and textures?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:39:37
+CLI argument?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:40:05
+Yes, something like, `webots --disable-meshes`
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:40:17
+being able to run a simulation with all graphics turned off, would be fantastic. There is tons of simulation, where no visual sensors are needed
+
+
+YES
+
+
+please! THIS!
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:40:35
+Nice! 😄
+
+
+Can you make an issue about this?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:41:30
+you already described it better :p
+
+
+but I can open it if you want
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:41:55
+Ahh, ok, I will 🙂
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:42:01
+thx ^^
+
+
+what does this mean?
+
+
+- 400MB with all graphics enchantments turned off,
+
+
+I mean
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:43:34
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/813828413441441802/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:43:43
+ohhhhhhhhhhh
+
+
+yeah
+
+
+perhaps it could be launched with no rendering? And only load those things, when a different mode is selected
+
+
+but your suggestion is already super great 🙂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:49:04
+[https://github.com/cyberbotics/webots/issues/2777](https://github.com/cyberbotics/webots/issues/2777)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:50:20
+would this include the graphics settingsß
+
+
+?
+
+
+perhaps "no render" mode can turn those off, if it frees up ram
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:50:58
+`--no-rendering` still renders meshes for the camera based devices, so it is not the same
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:51:14
+ohhh makes sense
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:51:25
+Add a comment 🙂
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:55:12
+no textures and no meshes, does it still render? just with the bounding objects?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/23/2021 17:56:48
+Yes
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/23/2021 17:57:16
+thx
+
+##### Srivastav\_Udit 02/24/2021 14:06:04
+Is there a way to detect an object only when it is in the middle of the field of view?
+
+##### pnaraltnsk 02/24/2021 20:15:27
+Hi I am trying to set a specific rotation to my humanoid robot but my robot gets into weird positions. For example, I want it to rotate around z-axis so I set [0,0,1, rad] but it rotates into weird positions. Could you please help me with this problem? I am using supervisor functions to rotate.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/25/2021 07:57:36
+Hello, note that Webots used to use the NUE coordinate system by default:
+
+[https://cyberbotics.com/doc/reference/worldinfo#worldinfo](https://cyberbotics.com/doc/reference/worldinfo#worldinfo)
+
+That means that the Y axis is up. 
+
+
+
+Could you share the code snippet that you use for the rotation?
+
+##### pnaraltnsk 02/25/2021 11:24:35
+I am trying to give the rotation angle in rad as a parameter expecting the robot to turn in that rotation according to the given angle. But it doesn't work.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814457818715127878/unknown.png)
+%end
+
+
+Here the y-axis is in green and z-axis is in blue and that's why I was trying to rotate it in z-axis.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814458435525410826/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/25/2021 13:21:47
+what is happening instead? Is the field changing? Or is it just not behaving as expected?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/25/2021 13:22:37
+Also, what is the initial rotation of the robot?
+
+##### bkpcoding 02/25/2021 17:22:37
+Hi, you can try subscribe to the logical camera and use the coordinates to fit some range according to your speed to stop in middle, something like -0.5<camera.pose.position.x<0.5
+
+##### pnaraltnsk 02/25/2021 20:00:04
+It is not behaving as expected and the initial rotation of the robot is 1,0,0,-1.57
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/25/2021 20:02:15
+So your robot is already rotated around the X axis by -pi/2. That means, the method you wrote rotates the robot, by pi/2 around the X axis + `rad` around the Z axis. Is that what you want?
+
+
+To rotate around the Z axis from the initial rotation you have to:
+
+- take the rotation,
+
+- convert the rotation to a rotation matrix or quaternion,
+
+- multiply by a rotation matrix/quaternion that represents desired rotation around Z axis, and 
+
+- convert back to the angle-axis representation.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/25/2021 22:22:13
+I highly recommend this library for the conversions: [https://matthew-brett.github.io/transforms3d/](https://matthew-brett.github.io/transforms3d/)
+
+##### Gonçalo Carrola Silva 02/26/2021 11:20:21
+Hi everyone!!! I'm totally new to using WEBOTS so I have a simple (I hope) problem of development of my robot. I want to use inverse kinematics on PR2 robot (it has to be PR2) to move the right hand to a certain position of the world. For that, I tried to use the ikpy library just like in the ABB' IRB 4600/40 example, and then adapting that code to the PR2 robot, but it seems that it does not work. What do you guys think I am doing wrong? Is there any other way that you suggest to implement an inverse kinematics solution for the PR2 robot using Python?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 11:21:10
+[https://github.com/cyberbotics/pyikfast](https://github.com/cyberbotics/pyikfast)
+
+
+this will be the best solution
+
+
+once you generated your solvers, I can help you out implementing it
+
+
+or you use ROS and MoveIt
+
+##### Gonçalo Carrola Silva 02/26/2021 11:31:48
+Simon, I do not know what to replace in [base\_link], [effector] and [module\_extension] parameters on the READ\_ME file. This is my udrf file:
+
+
+
+> **Attachment**: [Pr2.urdf](https://cdn.discordapp.com/attachments/565155651395780609/814822069497888778/Pr2.urdf)
+
+
+Note that I am using Windows, so I do not use ROS
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 12:05:23
+hmm this file looks wrong
+
+
+how did you extract it?
+
+
+just right click on the robot, export and then select .urdf
+
+##### Gonçalo Carrola Silva 02/26/2021 12:08:24
+Yes, I did that, but the only option to save the file is .wbo. I think that is the problem
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 12:09:05
+what version of webots do you use?
+
+
+you need R2021a
+
+##### Gonçalo Carrola Silva 02/26/2021 12:09:46
+I think mine is R2020b
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 12:09:55
+you gotta update that
+
+
+in the meantime, this is the extracted file
+> **Attachment**: [Pr2.urdf](https://cdn.discordapp.com/attachments/565155651395780609/814831657579839518/Pr2.urdf)
+
+
+okay, the pr2 arm has 7 DOF. Ikfast only works with 6
+
+
+so there has to be an inactive link
+
+##### Gonçalo Carrola Silva 02/26/2021 12:17:57
+So, in [base\_link] I put base\_link, in [effector] I put base\_footprint?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 12:18:17
+base\_link = "torso\_lift\_link"
+
+effector = "r\_wrist\_flex\_link"
+
+
+I think
+
+
+module extension do "\_pr2"
+
+
+see if that works
+
+
+`@Darko Lukić` we should look into enabling options for DOF != 6
+
+
+ikfast has options to set joints as inactive
+
+
+or compile different solvers for DOF = 5 or 4
+
+##### Gonçalo Carrola Silva 02/26/2021 12:28:17
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814836233606922240/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 12:29:10
+you need to install docker
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 02/26/2021 13:17:56
+I have never tried it, I believe it should fallback to avoid looking in the database and try to find a solution by itself. However, if it is not the case then we have to fix.
+
+##### Gonçalo Carrola Silva 02/26/2021 14:33:36
+I already installed docker, now the error that appears is this:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814867787960418324/unknown.png)
+%end
+
+##### Ginzo1 02/26/2021 14:56:57
+Hello guys! I am new to webots and for the project I am working we require the robot to receive input arguments before the start of the simulation. Is there a way to receive those arguments before the start of the simulation? The robot has to receive predefined coordinates and move towards them.
+
+##### DDaniel [Cyberbotics] 02/26/2021 15:05:09
+`@Ginzo1` you can use a supervisor to send specific commands to each robot using emitter/receivers.
+
+
+you can use file > open sample world > samples > curriculum > advanced\_genetic\_algorithm as reference on how to exchange info
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:13:07
+`@Gonçalo Carrola Silva` make sure docker is running
+
+##### Gonçalo Carrola Silva 02/26/2021 15:15:57
+I don't know why docker is not connecting. The message says that the docker daemon is not running but I don't know why
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:16:12
+did you launch docker? you're on windows right?
+
+##### Gonçalo Carrola Silva 02/26/2021 15:16:30
+I'm on Windows yes
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:16:53
+make sure docker desktop is launched
+
+##### Gonçalo Carrola Silva 02/26/2021 15:17:20
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814878777585827840/unknown.png)
+%end
+
+
+I think that is. But I tried to run that container and the message error is the same
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:18:49
+when docker is running, you should be able to open windows power shell
+
+
+and then use the commands on the github
+
+
+ofc you have to navigate to the correct directory first
+
+##### Gonçalo Carrola Silva 02/26/2021 15:20:54
+But the directory isn't the one where the .urdf file is?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:21:16
+you have to navigate there
+
+
+in your folder press "ctrl + L", copy the path
+
+
+then in the powershell:
+
+cd "<paste path>"
+
+##### Chernayaten 02/26/2021 15:23:32
+I believe there is an arguments field or something similar for exactly that reason. Could you check the fields on your robot Node?
+
+##### Gonçalo Carrola Silva 02/26/2021 15:27:57
+The directory where the urdf file is: "C:\Users\gcarr> cd OneDrive\Ambiente de Trabalho\5º ano\Dissertação\WEBOTS>". I cannot put this on powershell because it has spaces in it. But I can navigate to the folder by the command line
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:28:13
+you put it inside of quotation marks
+
+
+cd ""
+
+
+the path inbetween
+
+##### Gonçalo Carrola Silva 02/26/2021 15:31:13
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814882271290195998/unknown.png)
+%end
+
+
+I don't know what is happening
+
+
+The first sentence of the error message is: "Invalid characters on the way"
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:32:26
+try a path with no special characters
+
+
+peprhaps just your desktop or standard document folder
+
+##### Gonçalo Carrola Silva 02/26/2021 15:34:20
+Ok, I am there. I will try to run that command on the github
+
+
+Nope, same error
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:36:28
+try running it as administrator
+
+##### Gonçalo Carrola Silva 02/26/2021 15:36:48
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814883676290285608/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:36:50
+and I dont know what your path or your characters are
+
+
+is it running?
+
+##### Gonçalo Carrola Silva 02/26/2021 15:37:38
+I don't think so
+
+
+I think the problem is only in the docker. I cannot run docker\_machine either, it seems that it is not installed
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:39:29
+I thought you installed docker?
+
+
+[https://docs.docker.com/docker-for-windows/install/](https://docs.docker.com/docker-for-windows/install/)
+
+
+pr2 is not the best candidate for this all. I had to heavily modify the urdf. I'm compiling a solver right now
+
+
+use this urdf
+> **Attachment**: [robot.urdf](https://cdn.discordapp.com/attachments/565155651395780609/814885845462548510/robot.urdf)
+
+
+`docker run -v ${PWD}:/output cyberbotics/pyikfast torso_lift_link solid_363 _pr2` and this command
+
+##### Gonçalo Carrola Silva 02/26/2021 15:50:36
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814887150033305660/unknown.png)
+%end
+
+
+I already made all these steps to install docker, except step 5. Maybe the fact that my user is not the administrator is the reason that the docker is not running
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814887572685717544/unknown.png)
+%end
+
+
+This is the message error when I run powershell as an administrator
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/26/2021 15:52:47
+oh yeah, you should run the shell as admin
+
+##### Gonçalo Carrola Silva 02/26/2021 15:53:40
+Yes, but running as admin it appears this error
+
+
+`@Simon Steinmann` do I need to install docker toolbox?
+
+
+I think I finally can run docker
+
+
+The problem was that it misses the WSL2 container
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814896647942832189/unknown.png)
+%end
+
+
+I am really sorry to be such a noob XD. I run the docker, and after the installation of many packages it appears this:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814921762495266896/unknown.png)
+%end
+
+
+I don't know if the reason was a bad introduction of the 3 arguments of base\_link, etc... or if it is something else
+
+
+Then, I follow the rest of the github guidance, put "pip3 install . " command and then this appears:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/814922508766543873/unknown.png)
+%end
+
+
+Although maybe both errors are correlated
+
+
+Yet about yesterday, I think I made some progress. I finally can run docker but it seems that the file ikfast\_robot.cpp does not exist...
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/815203976470331392/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 12:50:21
+you need python3 i'm pretty sure
+
+##### Gonçalo Carrola Silva 02/27/2021 12:50:38
+I have python3
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 12:50:43
+can you show the command you entered?
+
+
+i'm currently rerunning everything again. I had troubles doing the pip install afterwards
+
+##### Gonçalo Carrola Silva 02/27/2021 12:51:35
+docker run -v ${PWD}:/output cyberbotics/pyikfast torso\_lift\_link solid\_363 \_pr2
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 12:52:02
+you were in the correct directory?
+
+##### Gonçalo Carrola Silva 02/27/2021 12:52:16
+yes. Absolutely sure
+
+
+In the same directory as the urdf file
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 12:53:10
+you have wsl2 installed?
+
+
+and can you show the entire console output?
+
+##### Gonçalo Carrola Silva 02/27/2021 12:53:44
+I can't. It's too big
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 12:53:52
+you can export as .txt file
+
+
+oh I just got the same thing
+
+##### Gonçalo Carrola Silva 02/27/2021 12:54:31
+How?
+
+
+Maybe is something missing in the urdf file?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 13:02:03
+`RuntimeError: maximum recursion depth exceeded`
+
+
+that is the real issue
+
+
+compiling the solver failed
+
+
+I ran into that in the past... was a while ago though
+
+##### Gonçalo Carrola Silva 02/27/2021 13:18:03
+So, do you know an alternative way to do kinematics with Python for this robot or do you think that the best way is to define it manually? But doing manually maybe the problem maintains, because if I understand it correctly the real challenge is the urdf part.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 02/27/2021 13:19:24
+inverse kinematics is not easy
+
+
+pr2 is a very complicated robot
+
+
+ROS and MoveIt are the most refined options
+
+
+there is no good standalone solutions as far as I know. At least not in python
+
+
+you could try ikpy. Perhaps it handles 7DOF somewhat well, but I always found it sluggish and difficult to work with in the past. But that was on 6DOF bots
+
+##### row 02/27/2021 18:40:24
+I just tried to run webots on a M1 MacBook Air. It runs flawlessly.
+
+##### Krish 02/27/2021 18:45:03
+Real or sarcastic?
+
+##### row 02/27/2021 18:45:22
+Real
+
+
+I got a refurbished M1 Macbook Air base model
+
+##### Krish 02/27/2021 18:45:40
+Wow, Apple is catching up.
+
+
+The 2 years promise would turn one and a half I guess.
+
+##### row 02/27/2021 18:46:06
+It's crazy because I think webot is translated in rosetta. it's not even running on native arm
+
+##### Krish 02/27/2021 18:46:36
+Ahh, really?
+
+##### row 02/27/2021 18:47:03
+Yeah.. I am gonna do more testings once I have the time. But it's mind blowing.
+
+
+Hopefully we will see a native arm built in the future
+
+##### Krish 02/27/2021 18:49:40
+Tim Cook OP 😆
+
+##### Whizbuzzer 02/27/2021 21:10:39
+> Tim Cook OP 😆
+
+`@Krish`  
+
+🤣
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/27/2021 22:41:32
+Yes, this is in our plans. Would you be willing to beta test a native M1 version of Webots?
+
+##### row 02/28/2021 01:18:23
+`@Olivier Michel` Sure. 👍 Let me know how I can help
+
+##### Ginzo1 02/28/2021 20:01:54
+Hello everyone! I am sorry for the newbie question but I do not seem to understand how to do it. I've built a robot and I need it to go to a specific box, however, I do not know how to get the position of the box in the world. I've read about using the Supervisor but it does not seem to work properly. What would be the best way to get the coordinates of an object in the world? Also, is the origin (0,0,0) at the centre of my floor node? If it is not, how do I find where the origin is? Thanks!
+
+##### Chernayaten 02/28/2021 20:04:07
+The simplest way to find where your 0,0,0 is would be to set your robot (or any object's position) to those coordinates (via the Scene Tree). Similarly, if this is not an issue for you, you can hard code your object's coordinates in your code
+
+## March
+
+##### Stefania Pedrazzi [Cyberbotics] 03/01/2021 06:59:16
+As you already read, the simplest and best way to get the coordinates of an object in the world is to use the Supervisor API. Here you can find some documentation: [https://www.cyberbotics.com/doc/doc/supervisor-programming](https://www.cyberbotics.com/doc/doc/supervisor-programming)
+
+##### h.sciascia 03/01/2021 09:06:20
+Hello ! How to set min and max motor limits to a negative value ?
+
+##### Bitbots\_Jasper [Moderator] 03/01/2021 09:08:45
+normally you should be able to just set the values in the Motor node in the PROTO file of your robot. The fields are described in more detail here: [https://cyberbotics.com/doc/reference/motor#motor-limits](https://cyberbotics.com/doc/reference/motor#motor-limits)
+
+
+make sure that minPosition < maxPosition
+
+##### h.sciascia 03/01/2021 09:25:46
+I want a min at -180° and max at -45° , so minPosition<maxPosition
+
+
+But I have the error : WARNING: DEF Robot3DOF Robot > HingeJoint > DEF axe0Solid Solid > HingeJoint > RotationalMotor: Invalid 'maxPosition' changed to 0. The value should be 0 or greater.
+
+
+Oh sorry i'm in the wrong channel
+
+##### Bitbots\_Jasper [Moderator] 03/01/2021 09:30:42
+this is not really expected behavior but you can rotate your motor by 45° before to work around this. If you give me your proto I can quickly calculate the correct rotation
+
+##### Stefania Pedrazzi [Cyberbotics] 03/01/2021 09:30:49
+You should first modify the `minPosition` field, then modify the current joint position (probably set to 0) so that it will be in the new position range [-180°, -45°], and then modify the `maxPosition`. Otherwise if you don't modify the joint position, Webots won't let you set a range that doesn't contain the current joint position.
+
+##### Bitbots\_Jasper [Moderator] 03/01/2021 09:31:38
+I think this is a better solution 😆
+
+##### h.sciascia 03/01/2021 09:33:14
+Ok I will try to make some conversion, thank you 👍 and sorry for the wrong channel
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/01/2021 09:36:32
+Can you post a message to [https://github.com/cyberbotics/webots/discussions/2574](https://github.com/cyberbotics/webots/discussions/2574) mentioning that you have a M1 machine and are ready to make some tests? We will contact you be replying there (and you will be notified) when we have a beta version to test. Thank you!
+
+##### Bitbots\_Jasper [Moderator] 03/01/2021 09:39:19
+but only changing the position in the HingeJoint does not change the rotation of the end point. I just says what is the position of the joint at the pose you define in your proto. For that you need to change the roation field in the Node defined as the endPoint of your HingeJoint
+
+##### h.sciascia 03/01/2021 09:42:25
+Yes I did understood that I have to modify the "initial" position of the motor in my proto/urdf 🙂 Sorry for my english
+
+##### row 03/02/2021 12:14:01
+`@Olivier Michel` will do. Thanks! 👍
+
+##### Srivastav\_Udit 03/03/2021 03:50:10
+Hi! Has anyone worked with A* path planning for robots? I'm trying to understand how I can implement the algorithm and would really appreciate some guidance.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/03/2021 07:52:42
+Hello `@Srivastav_Udit`. We have just created a new channel <#816577965285441567> for general robotics questions that are not strictly related to Webots. Feel free to post the question there 🙂
 

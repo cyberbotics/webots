@@ -13,7 +13,7 @@ include/controller/c/
 include/controller/c/webots/
 include/controller/c/webots/*.h
 include/controller/c/webots/plugins/
-include/controller/c/webots/plugins/robot_window
+include/controller/c/webots/plugins/robot_window/
 include/controller/c/webots/plugins/robot_window/*.h
 include/controller/c/webots/plugins/robot_window/generic_robot_window/
 include/controller/c/webots/plugins/robot_window/generic_robot_window/*.h

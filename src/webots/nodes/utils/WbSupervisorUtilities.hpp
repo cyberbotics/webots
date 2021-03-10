@@ -22,7 +22,7 @@
 
 class QDataStream;
 
-struct WbDeletedNodeInfo;
+struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 class WbFieldSetRequest;
 
@@ -63,7 +63,8 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
-  void updateProtoRegeneratedFlag();
+  void notifyFieldUpdate();
+  void updateProtoRegeneratedFlag(WbNode *node);
 
 private:
   WbRobot *mRobot;
@@ -99,7 +100,7 @@ private:
   int *mMovieStatus;
   bool *mSaveStatus;
 
-  int mImportedNodesNumber;
+  int mImportedNodeId;
   bool mLoadWorldRequested;
   QString mWorldToLoad;
 
@@ -107,7 +108,9 @@ private:
   bool mVirtualRealityHeadsetPositionRequested;
   bool mVirtualRealityHeadsetOrientationRequested;
 
-  QVector<struct WbDeletedNodeInfo> mNodesDeletedSinceLastStep;
+  QVector<int> mNodesDeletedSinceLastStep;
+  QVector<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be updated on change
+  QVector<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notified to the libController
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 

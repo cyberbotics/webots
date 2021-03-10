@@ -210,7 +210,7 @@ void WbMFNode::write(WbVrmlWriter &writer) const {
   int c = 0;
   const int size = mVector.size();
   for (int i = 0; i < size; ++i) {
-    if (writer.isWebots() || mVector[i]->shallExport()) {
+    if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
       writer.writeMFSeparator(c == 0, smallSeparator(i));
       writeItem(writer, i);
       ++c;
