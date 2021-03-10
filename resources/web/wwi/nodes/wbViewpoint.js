@@ -137,7 +137,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   updateFieldOfViewY() {
-    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView); // stored for reuse in viewpointRay()
+    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);
 
     // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
     // the view angle is taken with respect to the largest dimension

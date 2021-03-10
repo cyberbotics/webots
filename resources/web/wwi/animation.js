@@ -1,7 +1,7 @@
 'use strict';
 import {DefaultUrl} from './default_url.js';
 
-class Animation { // eslint-disable-line no-unused-vars
+class Animation {
   constructor(url, scene, view, gui, loop) {
     this.url = url;
     this.scene = scene;
@@ -14,7 +14,7 @@ class Animation { // eslint-disable-line no-unused-vars
 
   init(onReady) {
     this.onReady = onReady;
-    var xmlhttp = new XMLHttpRequest();
+    const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
     xmlhttp.overrideMimeType('application/json');
     xmlhttp.onreadystatechange = () => {
@@ -43,13 +43,13 @@ class Animation { // eslint-disable-line no-unused-vars
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
-    var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
+    const action = (this.gui === 'real_time') ? 'pause' : 'real_time';
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
-    var slider = document.createElement('div');
+    const slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
     this.playSlider = $('#playSlider').slider();
@@ -78,7 +78,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   createToolBarButton(name, tooltip) {
-    var buttonName = name + 'Button';
+    const buttonName = name + 'Button';
     this[buttonName] = document.createElement('button');
     this[buttonName].id = buttonName;
     this[buttonName].className = 'toolBarButton';
@@ -88,7 +88,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   requestFullscreen() {
-    var elem = this.view.view3D;
+    const elem = this.view.view3D;
     console.log(elem.id);
     if (elem.requestFullscreen)
       elem.requestFullscreen();
@@ -112,7 +112,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   onFullscreenChange(event) {
-    var element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
+    const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
     if (element != null) {
       this.fullscreenButton.style.display = 'none';
       this.exit_fullscreenButton.style.display = 'inline';
@@ -123,7 +123,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _elapsedTime() {
-    var end = new Date().getTime();
+    const end = new Date().getTime();
     return end - this.start;
   }
 
@@ -161,14 +161,14 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _updateSlider(value) {
-    var clampedValued = Math.min(value, 99); // set maximum value to get valid step index
-    var requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
+    const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
+    const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(requestedStep);
   }
 
   async _updateAnimationState(requestedStep = undefined) {
-    var automaticMove = typeof requestedStep === 'undefined';
+    const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
       if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
@@ -190,28 +190,27 @@ class Animation { // eslint-disable-line no-unused-vars
       return;
     this.step = requestedStep;
 
-    var p;
-    var appliedIds = [];
+    const appliedIds = [];
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
-      var poses = this.data.frames[this.step].poses;
-      for (p = 0; p < poses.length; p++)
+      const poses = this.data.frames[this.step].poses;
+      for (let p = 0; p < poses.length; p++)
         appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
     }
-    var x3dScene = this.view.x3dScene;
+    const x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
     if (this.step !== this.previousStep + 1) {
-      var previousPoseStep;
+      let previousPoseStep;
       if (this.step > this.previousStep)
         // in forward animation check only the changes since last pose
         previousPoseStep = this.previousStep;
       else
         previousPoseStep = 0;
       for (let i in this.allIds) {
-        var id = this.allIds[i];
-        var appliedFields = appliedIds[id];
+        const id = this.allIds[i];
+        let appliedFields = appliedIds[id];
         for (let f = this.step - 1; f >= previousPoseStep; f--) {
           if (this.data.frames[f].poses) {
-            for (p = 0; p < this.data.frames[f].poses.length; p++) {
+            for (let p = 0; p < this.data.frames[f].poses.length; p++) {
               if (this.data.frames[f].poses[p].id === id)
                 appliedFields = x3dScene.applyPose(this.data.frames[f].poses[p], appliedFields);
             }
