@@ -1791,3 +1791,27 @@ The gripper is specified in a separated PROTO called `Khepera3_Gripper`. You can
 
 3. Type in the "Find" text field "Khepera3\_Gripper" and select it
 
+##### BeastFromTheEast 02/24/2021 14:52:33
+Is documentation page down for anyone else atm?
+
+##### DDaniel [Cyberbotics] 02/24/2021 14:52:50
+yes, looking into it at the moment
+
+##### BeastFromTheEast 02/24/2021 14:53:03
+Thank you
+
+##### DDaniel [Cyberbotics] 02/24/2021 14:58:32
+`@BeastFromTheEast` should be back now
+
+##### Elizaveta\_Potemkina 03/02/2021 17:18:46
+Hi guys, I'm looking for the proto file for the Sharp GP2Y0A02YK0F sensor - where in the docs would I be able to find it?
+
+##### Chernayaten 03/02/2021 17:33:07
+Webots\projects\devices\sharp\protos is where mine is located
+
+
+`@Elizaveta_Potemkina`
+
+##### Elizaveta\_Potemkina 03/02/2021 17:33:23
+Thanks, just found it actually!
+

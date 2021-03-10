@@ -1,0 +1,74 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (adult size)"
+    "Version 0.1"
+  ]
+  title "Robocup V-HL Adult"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.7383932268613509 -0.3325176727841018 -0.5866919462644143 1.3093003849227038
+  position -16.79829093831298 -13.708471693751367 11.587284893830196
+}
+TexturedBackground {
+  texture "stadium"
+}
+TexturedBackgroundLight {
+  texture "stadium"
+}
+RobocupSoccerField {
+}
+RobocupSoccerBall {
+  translation 0 0 0.11
+  size 5
+}
+DEF RED_1 Darwin-op {
+  translation 0 6.51 0.24001
+  rotation 1 0 0 1.5708
+  name "player red 1"
+  controller "soccer"
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+  }
+}
+DEF RED_2 Darwin-op {
+  translation 0 1.75 0.24
+  rotation 1 0 0 1.5708
+  name "player red 2"
+  controller "soccer"
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_red.png"
+    ]
+  }
+}
+DEF BLUE_1 Darwin-op {
+  translation -4.70967e-06 -6.51 0.239993
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 1"
+  controller "soccer"
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_1_blue.png"
+    ]
+  }
+}
+DEF BLUE_2 Darwin-op {
+  translation -1.40721e-06 -1.75 0.24
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  name "player blue 2"
+  controller "soccer"
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_blue.png"
+    ]
+  }
+}

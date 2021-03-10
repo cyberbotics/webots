@@ -303,4 +303,11 @@
     <child link="track_307"/>
     <origin xyz="0 0.1 0" rpy="0 0 0"/>
   </joint>
+  <link name="ts_emitter">
+  </link>
+  <joint name="wrist_3_link_ts_emitter_joint" type="fixed">
+    <parent link="wrist_3_link"/>
+    <child link="ts_emitter"/>
+    <origin xyz="0 0.1 0" rpy="0 0 0"/>
+  </joint>
 </robot>
