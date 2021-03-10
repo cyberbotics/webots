@@ -14,18 +14,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert Webots PROTO file from the RUB (x-right, y-up, z-back) to FLU (x-forward, y-left, z-up)."""
+"""Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) to FLU (x-Forward, y-Left, z-Up)."""
 
 import sys
 import numpy as np
 import transforms3d
+from webots_parser import WebotsParser
 
 
-NUE_TO_ENU = transforms3d.axangles.axangle2mat(
+ROTATION_RUB_TO_FLU = transforms3d.axangles.axangle2mat(
     [-0.5773516025189619, 0.5773476025217157, 0.5773516025189619], -2.094405307179586)
 ROTATION_KEYWORD = '  '*5 + 'rotation '
 TRANSLATION_KEYWORD = '  '*5 + 'translation '
 
+
+parser = WebotsParser()
+parser.load(sys.argv[1])
+exit
 
 lines = None
 with open(sys.argv[1], 'r') as f:
@@ -44,9 +49,9 @@ with open(sys.argv[1], 'r') as f:
                 should_replace_rotation = True
             rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
 
-            new_rotation = NUE_TO_ENU @ rotation
+            new_rotation = ROTATION_RUB_TO_FLU @ rotation
             new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
-            new_translation = NUE_TO_ENU @ np.array(translation)
+            new_translation = ROTATION_RUB_TO_FLU @ np.array(translation)
 
             lines[i] = TRANSLATION_KEYWORD + ' '.join([f'{round(v, 3):.3}' for v in new_translation]) + '\n'
             new_rotation_str = ROTATION_KEYWORD + \

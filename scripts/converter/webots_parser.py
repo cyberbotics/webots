@@ -29,6 +29,12 @@ class WebotsParser:
         with open(filename, 'r') as self.file:
             self.content['header'] = self.file.readline().strip()
             self.line_count = 1
+            if filename.endswith('.proto'):
+                print('The provided file is PROTO, searching for the Robot tag')
+                while self.file.readline().strip() != '{':
+                    self.line_count += 1
+            self.line_count += 1
+
             self.content['root'] = []
             for line in self.file:
                 line = line.strip()
@@ -164,7 +170,7 @@ class WebotsParser:
         words = line.split(' ', 1)
         field['name'] = words[0]
         if len(words) < 2:
-            sys.exit('Line:', self.line_count, 'Expecting more than a single word:', words)
+            sys.exit(f'Line: {self.line_count}. Expecting more than a single word: {words}')
         character = words[1][0]
         if character == '[':
             if len(words[1]) > 1 and words[1][1] == ']':  # empty MF field
@@ -175,6 +181,9 @@ class WebotsParser:
         elif character == '"':
             field['type'] = 'SFString'
             field['value'] = words[1][1:-1]
+        elif ' IS ' in line:
+            field['type'] = 'IS'
+            field['value'] = line.split(' IS ')[1]
         elif words[1] == 'TRUE':
             field['type'] = 'SFBool'
             field['value'] = True
