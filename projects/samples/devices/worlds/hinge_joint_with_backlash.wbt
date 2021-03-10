@@ -217,40 +217,57 @@ Robot {
       startPoint [
         Group {
           children [
-            DEF ROTOR_ARMATURE Group {
+            DEF ROTOR_ARMATURE_1 Transform {
+              translation -0.02 -0.015 0
               children [
-                Transform {
-                  translation -0.02 -0.015 0
-                  children [
-                    DEF ROTOR_BAR Shape {
-                      appearance PBRAppearance {
-                        baseColor 0.333333 0.341176 0.32549
-                      }
-                      geometry Box {
-                        size 0.125 0.035 0.004
-                      }
-                    }
-                  ]
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
                 }
-                Transform {
-                  translation -0.02 0.015 0
-                  children [
-                    USE ROTOR_BAR
-                  ]
+              ]
+            }
+            DEF ROTOR_ARMATURE_2 Transform {
+              translation -0.02 0.015 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
                 }
-                Transform {
-                  translation -0.02 0 0.015
-                  rotation 1 0 0 1.5708
-                  children [
-                    USE ROTOR_BAR
-                  ]
+              ]
+            }
+            DEF ROTOR_ARMATURE_3 Transform {
+              translation -0.02 0 0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
                 }
-                Transform {
-                  translation -0.02 0 -0.015
-                  rotation 1 0 0 1.5708
-                  children [
-                    USE ROTOR_BAR
-                  ]
+              ]
+            }
+            DEF ROTOR_ARMATURE_4 Transform {
+              translation -0.02 0 -0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
                 }
               ]
             }
@@ -302,7 +319,7 @@ Robot {
                   appearance PBRAppearance {
                     baseColor 0.937255 0.160784 0.160784
                   }
-                  geometry DEF OUTPUT_MARKER Box {
+                  geometry Box {
                     size 0.01 0.015 0.005
                   }
                 }
@@ -374,11 +391,11 @@ Robot {
           DEF OUTPUT_MARKER Transform {
             translation 0.195 0.0075 0
             children [
-              DEF OUTPUT_MARKER Shape {
+              Shape {
                 appearance PBRAppearance {
                   baseColor 0.203922 0.396078 0.643137
                 }
-                geometry DEF OUTPUT_MARKER Box {
+                geometry Box {
                   size 0.01 0.015 0.005
                 }
               }
