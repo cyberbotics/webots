@@ -46,7 +46,7 @@ public:
   void postFinalize() override;
 
   // specific functions
-  void pickColor(WbRgb &pickedColor, const WbVector2 &uv);
+  void pickColor(const WbVector2 &uv, WbRgb &pickedColor);
 
   // WREN
   virtual const WrTexture *wrenTexture() const { return mWrenTexture; }

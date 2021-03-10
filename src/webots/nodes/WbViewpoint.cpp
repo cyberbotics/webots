@@ -40,6 +40,7 @@
 #include "WbWrenGtao.hpp"
 #include "WbWrenHdr.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
 #include "WbWrenSmaa.hpp"
 
 #ifdef _WIN32
@@ -49,6 +50,7 @@
 #include <wren/camera.h>
 #include <wren/node.h>
 #include <wren/scene.h>
+#include <wren/shader_program.h>
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
@@ -922,10 +924,17 @@ void WbViewpoint::applyOptionalRenderingToWren() {
 }
 
 void WbViewpoint::applyRenderingModeToWren() {
-  if (WbWrenRenderingContext::instance()->renderingMode() == WbWrenRenderingContext::RM_WIREFRAME)
+  int wireframeRendering;
+  if (WbWrenRenderingContext::instance()->renderingMode() == WbWrenRenderingContext::RM_WIREFRAME) {
     wr_viewport_set_polygon_mode(mWrenViewport, WR_VIEWPORT_POLYGON_MODE_LINE);
-  else
+    wireframeRendering = 1;
+  } else {
     wr_viewport_set_polygon_mode(mWrenViewport, WR_VIEWPORT_POLYGON_MODE_FILL);
+    wireframeRendering = 0;
+  }
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::pbrStencilAmbientEmissiveShader(), "wireframeRendering",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&wireframeRendering));
 
   wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->visibilityMask());
 }
