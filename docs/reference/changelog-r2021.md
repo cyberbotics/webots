@@ -28,6 +28,7 @@ Released on June, Xth, 2021.
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added a generic gear proto and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
   - Bug fixes:
+    - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
