@@ -25,7 +25,7 @@ endif
 include resources/Makefile.os.include
 
 ifeq ($(JAVA_HOME)$(OSTYPE),linux)
-JAVAC:=`which javac`
+JAVAC:=$(shell which javac)
 ifneq ($(JAVAC),)
 export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif
