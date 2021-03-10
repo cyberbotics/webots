@@ -22,17 +22,21 @@ import sys
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
+
     def __init__(self):
         self.content = {}
 
     def load(self, filename):
         with open(filename, 'r') as self.file:
-            self.content['header'] = self.file.readline().strip()
+            self.content['header'] = [self.file.readline().strip()]
             self.line_count = 1
             if filename.endswith('.proto'):
                 print('The provided file is PROTO, searching for the Robot tag')
-                while self.file.readline().strip() != '{':
+                skip_line = ''
+                while skip_line.strip() != '{':
+                    skip_line = self.file.readline()
                     self.line_count += 1
+                    self.content['header'].append(skip_line.rstrip())
             self.line_count += 1
 
             self.content['root'] = []
@@ -45,7 +49,8 @@ class WebotsParser:
     def save(self, filename):
         self.indentation = 0
         with open(filename, 'w', newline='\n') as self.file:
-            self.file.write(self.content['header'] + '\n')
+            for header_line in self.content['header']:
+                self.file.write(header_line + '\n')
             for node in self.content['root']:
                 self._write_node(node)
 
@@ -95,6 +100,9 @@ class WebotsParser:
             line += value[1] + ' '
             line += value[2] + ' '
             line += value[3]
+        elif type == 'IS':
+            line += ' IS '
+            line += value
         elif type == 'SFNode':
             self.file.write(line)
             self._write_node(value)
