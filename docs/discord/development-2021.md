@@ -1322,3 +1322,113 @@ Hi! Has anyone worked with A* path planning for robots? I'm trying to understand
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/03/2021 07:52:42
 Hello `@Srivastav_Udit`. We have just created a new channel <#816577965285441567> for general robotics questions that are not strictly related to Webots. Feel free to post the question there 🙂
 
+##### row 03/03/2021 21:10:27
+`@Srivastav_Udit` There is an open source project PythonRobotics ([https://github.com/AtsushiSakai/PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics)) and it implements many robotics related algorithms, including A*. Everything is written in Python so it's very easy to read and implement a study case.
+
+##### cindy 03/06/2021 23:01:42
+Hi I have a small coding issue that I can't figure out from the documentation alone
+
+
+`LightSensor *light_sensor = robot->getLightSensor("TEPT4400");` gives 'error: 'light\_sensor' does not name a type'
+
+
+though LightSensor is clearly the class name
+
+##### Stefania Pedrazzi [Cyberbotics] 03/08/2021 07:03:20
+Hi, are you programming in C++?
+
+Did you include the `<webots/LightSensor.hpp>` header in your controller?
+
+`#include <webots/LightSensor.hpp>`
+
+##### cindy 03/08/2021 13:06:20
+yes
+
+##### Stefania Pedrazzi [Cyberbotics] 03/08/2021 13:09:52
+Then, it should work. Are you sure that it is the line you posted that throws the error?
+
+##### cindy 03/08/2021 13:10:19
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/818470690239021116/unknown.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 03/08/2021 13:11:26
+Did you check that `light_sensor` is not NULL and that the device name is correct?
+
+##### cindy 03/08/2021 13:12:08
+Oh not yet. It might be a naming issue yeah
+
+
+No, it shouldn't be null, I've checked the proto file of the robot
+
+##### Stefania Pedrazzi [Cyberbotics] 03/08/2021 13:19:25
+What I would suggest is to simplify it and remove everything else that it is not strictly needed (additional include statements, code, etc). Keeping only the LightSensor code you should be able to identify where does the error come from. Also you should check that in your Makefile the `USE_C_API` is not set to true.
+
+##### cindy 03/08/2021 13:20:59
+Aha that is the problem
+
+
+It is set to true
+
+
+Would changing it manually work?
+
+##### Stefania Pedrazzi [Cyberbotics] 03/08/2021 13:22:55
+Yes, you should comment or remove the line `USE_C_API` line and then recompile the controller.
+
+
+Note that this variable tells the Makefile compilation system that in your C++ controller you will use the Webots C API. So if you are going to use Webots C++ API it seems there is no need to set it.
+
+##### cindy 03/08/2021 13:36:12
+i've deleted it completely and the issue is persisting
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/08/2021 23:25:40
+<@&568329906048598039> Is there a way to SET the values of a sensor? This would be very useful, allowing external sensors to be connected and to feed the simulation.  On a separate note: Is there a way to directly define an MF field, without having to set every item index by index. Every set call takes a certain time. When filling an array with hundreds of values, this is incredibly slow.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/09/2021 07:17:35
+Yes, this is possible from the remote control library:
+
+[https://cyberbotics.com/doc/guide/controller-plugin#remote-control-plugin](https://cyberbotics.com/doc/guide/controller-plugin#remote-control-plugin)
+
+[https://github.com/cyberbotics/webots/blob/master/include/controller/c/webots/remote\_control.h](https://github.com/cyberbotics/webots/blob/master/include/controller/c/webots/remote_control.h)
+
+The original purpose of this is to be able to switch a controller between the simulation and a remote controlled real robot (and display the sensor values of the remote controlled robot in Webots as it is was simulated sensors).
+
+
+Regarding setting multiple MF fields in a row, it is not possible. If you need to set large amount of MF fields, it is probably better to import the whole node as a string, which includes all the MF fields.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/09/2021 20:25:28
+`@Olivier Michel`  thanks, I will take a look
+
+
+There is  a weird issue, where the pointcloud of a lidar is only shown, if the lidar is closer.
+> **Attachment**: [lidar\_issue.mp4](https://cdn.discordapp.com/attachments/565155651395780609/818943268196450314/lidar_issue.mp4)
+
+
+I figured it out: As soon as a ray has no collision (no obstacle within max range), NO point is shown at all. Even though there are valid points to be drawn
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/09/2021 20:46:35
+That's a known bug which was fixed recently.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/09/2021 20:46:56
+Oh good 🙂
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/09/2021 20:47:20
+Did you try a nightly build?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/09/2021 20:47:41
+no, official 2021a I think
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/09/2021 20:47:58
+It should be fixed in all nightly builds.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/09/2021 20:48:18
+gonna check it out later
+
+
+`@Darko Lukić` For working with ros2 and moveit, which version of Webots do I use? The nightly build, or the automatic .ros install (15. Dezember)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/09/2021 22:52:42
+Any should work
+
