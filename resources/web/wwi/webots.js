@@ -24,7 +24,7 @@ import {WbVector3} from './nodes/utils/wbVector3.js';
  *   connected to a webots instance running on a remote server.
  * @example
  *   // Example: Initialize from a Webots streaming server
- *   var view = new webots.View(document.getElementById("myDiv"));
+ *   const view = new webots.View(document.getElementById("myDiv"));
  *   view.open("ws://localhost:80/simple/worlds/simple.wbt");
  *   // or view.open("ws://localhost:80");
  *   // or view.open("file.x3d");
@@ -129,7 +129,7 @@ webots.View = class View {
       $('head').append('<meta name="apple-mobile-web-app-capable" content="yes">');
 
     // Prevent the backspace key to quit the simulation page.
-    var rx = /INPUT|SELECT|TEXTAREA/i;
+    const rx = /INPUT|SELECT|TEXTAREA/i;
     $(document).bind('keydown keypress', (e) => {
       if (e.which === 8) { // backspace key
         if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly)
@@ -176,7 +176,7 @@ webots.View = class View {
       mode = 'x3d';
     this.mode = mode;
 
-    var initWorld = () => {
+    const initWorld = () => {
       function findGetParameter(parameterName) {
         let tmp = [];
         let items = window.location.search.substr(1).split('&');
@@ -216,7 +216,7 @@ webots.View = class View {
         this.x3dScene.loadWorldFile(this.url, finalizeWorld);
     };
 
-    var finalizeWorld = () => {
+    const finalizeWorld = () => {
       $('#webotsProgressMessage').html('Loading World...');
       if (typeof this.x3dScene !== 'undefined') {
         if (!this.isWebSocketProtocol) { // skip robot windows initialization
@@ -229,7 +229,7 @@ webots.View = class View {
         }
       }
 
-      var loadRobotWindow = (windowName, nodeName) => {
+      const loadRobotWindow = (windowName, nodeName) => {
         this.robotWindowNames[nodeName] = windowName;
         let win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
         this.robotWindows[windowName] = win;
@@ -238,7 +238,7 @@ webots.View = class View {
           $('#infoButton').removeClass('toolBarButtonActive');
         }
         if (infoWindowName && windowName === infoWindowName) {
-          var user;
+          let user;
           if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
             if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
@@ -484,7 +484,7 @@ webots.View = class View {
   getControllerUrl(name) {
     if (!this.server)
       return;
-    var port = 0;
+    let port = 0;
     for (let i in this.server.controllers) {
       if (this.server.controllers[i].name === name) {
         port = this.server.controllers[i].port;
@@ -510,7 +510,7 @@ webots.View = class View {
       return;
     this.toolBar.createWorldSelect();
     for (let i in worlds) {
-      var option = document.createElement('option');
+      const option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];
       this.toolBar.worldSelect.appendChild(option);
@@ -530,7 +530,7 @@ webots.View = class View {
   }
 
   setLabel(properties) {
-    var labelElement = document.getElementById('label' + properties.id);
+    let labelElement = document.getElementById('label' + properties.id);
     if (labelElement == null) {
       labelElement = document.createElement('div');
       labelElement.id = 'label' + properties.id;
@@ -546,9 +546,9 @@ webots.View = class View {
   }
 
   removeLabels() {
-    var labels = document.getElementsByClassName('webotsLabel');
+    const labels = document.getElementsByClassName('webotsLabel');
     for (let i = labels.length - 1; i >= 0; i--) {
-      var element = labels.item(i);
+      const element = labels.item(i);
       element.parentNode.removeChild(element);
     }
   }
@@ -595,7 +595,7 @@ webots.View = class View {
   }
 
   openRobotWindow(robotName) {
-    var win = this.robotWindows[this.robotWindowNames[robotName]];
+    const win = this.robotWindows[this.robotWindowNames[robotName]];
     if (win) {
       if (win === this.infoWindow) {
         if (!this.infoWindow.isOpen())
@@ -608,7 +608,7 @@ webots.View = class View {
 };
 
 webots.window = (name) => {
-  var win = webots.currentView.robotWindows[name];
+  const win = webots.currentView.robotWindows[name];
   if (!win)
     console.log("Robot window '" + name + "' not found.");
   return win;
@@ -616,8 +616,8 @@ webots.window = (name) => {
 
 webots.alert = (title, message, callback) => {
   webots.currentView.ondialogwindow(true);
-  var parent = webots.currentView.view3D;
-  var panel = document.getElementById('webotsAlert');
+  const parent = webots.currentView.view3D;
+  let panel = document.getElementById('webotsAlert');
   if (!panel) {
     panel = document.createElement('div');
     panel.id = 'webotsAlert';
@@ -648,8 +648,8 @@ webots.alert = (title, message, callback) => {
 
 webots.confirm = (title, message, okCallback, closeCallback) => {
   webots.currentView.ondialogwindow(true);
-  var parent = webots.currentView.view3D;
-  var panel = document.createElement('div');
+  const parent = webots.currentView.view3D;
+  const panel = document.createElement('div');
   panel.id = 'webotsConfirm';
   panel.innerHTML = message;
   parent.appendChild(panel);
@@ -680,16 +680,16 @@ webots.confirm = (title, message, okCallback, closeCallback) => {
 };
 
 webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
-  var hours = (milliseconds + 0.9) / (1000 * 60 * 60);
-  var absoluteHours = Math.floor(hours);
-  var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-  var minutes = (hours - absoluteHours) * 60;
-  var absoluteMinutes = Math.floor(minutes);
-  var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
-  var seconds = (minutes - absoluteMinutes) * 60;
-  var absoluteSeconds = Math.floor(seconds);
-  var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-  var ms = Math.floor((seconds - absoluteSeconds) * 1000);
+  const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+  const absoluteHours = Math.floor(hours);
+  const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+  const minutes = (hours - absoluteHours) * 60;
+  const absoluteMinutes = Math.floor(minutes);
+  const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+  const seconds = (minutes - absoluteMinutes) * 60;
+  const absoluteSeconds = Math.floor(seconds);
+  const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+  let ms = Math.floor((seconds - absoluteSeconds) * 1000);
   if (ms < 10)
     ms = '00' + ms;
   else if (ms < 100)

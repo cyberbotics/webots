@@ -1,6 +1,6 @@
 import {Stream} from './stream.js';
 
-class Server { // eslint-disable-line no-unused-vars
+class Server {
   constructor(url, view, onready) {
     this.url = url;
     this.view = view;

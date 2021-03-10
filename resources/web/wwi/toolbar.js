@@ -3,7 +3,7 @@ import {DialogWindow} from './dialog_window.js';
 import {HelpWindow} from './help_window.js';
 import {webots} from './webots.js';
 
-class Toolbar { // eslint-disable-line no-unused-vars
+class Toolbar {
   constructor(parent, view) {
     this.view = view;
 
@@ -48,14 +48,14 @@ class Toolbar { // eslint-disable-line no-unused-vars
       this.runButton.onclick = () => { this.run(); };
     }
 
-    var div = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'webotsTime';
-    var clock = document.createElement('span');
+    const clock = document.createElement('span');
     clock.id = 'webotsClock';
     clock.title = 'Current simulation time';
     clock.innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     div.appendChild(clock);
-    var timeout = document.createElement('span');
+    const timeout = document.createElement('span');
     timeout.id = 'webotsTimeout';
     timeout.title = 'Simulation time out';
     timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout >= 0 ? this.view.timeout : 0);
@@ -109,8 +109,9 @@ class Toolbar { // eslint-disable-line no-unused-vars
   toggleHelp() {
     this.view.contextMenu.hide();
     if (!this.view.helpWindow) {
+      let webotsDocUrl;
       if (!this.view.broadcast && webots.webotsDocUrl)
-        var webotsDocUrl = webots.webotsDocUrl;
+        webotsDocUrl = webots.webotsDocUrl;
       this.view.helpWindow = new HelpWindow(this.view.view3D, this.view.mobileDevice, webotsDocUrl);
       this.helpButton.classList.add('toolBarButtonActive');
     } else if ($('#webotsHelp').is(':visible')) {
@@ -136,7 +137,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
   requestFullscreen() {
     this.view.contextMenu.hide();
-    var elem = this.view.view3D;
+    const elem = this.view.view3D;
     if (elem.requestFullscreen)
       elem.requestFullscreen();
     else if (elem.msRequestFullscreen)
@@ -148,7 +149,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   onFullscreenChange(event) {
-    var element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
+    const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
     if (element != null) {
       this.fullscreenButton.style.display = 'none';
       this.exit_fullscreenButton.style.display = 'inline';
@@ -160,12 +161,12 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
   requestQuit() {
     if (this.view.editor.hasUnsavedChanges()) {
-      var text;
+      let text;
       if (this.view.editor.unloggedFileModified || typeof webots.User1Id === 'undefined' || webots.User1Id === '')
         text = 'Your changes to the robot controller will be lost because you are not logged in.';
       else
         text = 'Your unsaved changes to the robot controller will be lost.';
-      var quitDialog = document.getElementById('quitDialog');
+      let quitDialog = document.getElementById('quitDialog');
       if (!quitDialog) {
         quitDialog = document.createElement('div');
         quitDialog.id = 'quitDialog';
@@ -267,7 +268,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   enableToolBarButtons(enabled) {
-    var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
+    const buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this.view.broadcast)) {
@@ -285,7 +286,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   createToolBarButton(name, tooltip) {
-    var buttonName = name + 'Button';
+    const buttonName = name + 'Button';
     this[buttonName] = document.createElement('button');
     this[buttonName].id = buttonName;
     this[buttonName].className = 'toolBarButton';
@@ -311,7 +312,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   setMode(mode) {
-    var runEnabled = typeof this.runButton !== 'undefined';
+    const runEnabled = typeof this.runButton !== 'undefined';
     if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
       this.real_timeButton.style.display = 'inline';

@@ -52,16 +52,12 @@ class MouseEvents {
     this._initMouseMove(event);
     switch (event.button) {
       case MouseEvents.Click.RIGHT_CLICK: // enum
-        console.log("Saluuuut");
         this.state.mouseDown |= 1;
         break;
       case MouseEvents.Click.LEFT_CLICK:// enum
-        console.log("aaaaà");
         this.state.mouseDown |= 4;
         break;
       case MouseEvents.Click.WHEEL_CLICK:// enum
-      console.log("touuuus");
-
         this.state.mouseDown |= 2;
         break;
     }

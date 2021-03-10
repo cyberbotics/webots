@@ -1,9 +1,7 @@
-/* global webots, SystemInfo */
-
 'use strict';
-import {SystemInfo} from "./system_info.js";
+import {SystemInfo} from './system_info.js';
 
-class MultimediaClient { // eslint-disable-line no-unused-vars
+class MultimediaClient {
   constructor(view, parentObject, contextMenu) {
     this.view = view;
     this.domElement = document.createElement('img');
@@ -49,7 +47,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   setFollowed(solidId, mode) {
-    var socket = this.view.stream.socket;
+    const socket = this.view.stream.socket;
     if (!socket || socket.readyState !== 1)
       return;
     socket.send('follow: ' + mode + ',' + solidId);
@@ -184,11 +182,11 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     this.touchEvent.x = Math.round(touch0.clientX); // discard decimal values returned on android
     this.touchEvent.y = Math.round(touch0.clientY);
     if (event.targetTouches.length === 2) {
-      var touch1 = event.targetTouches['1'];
+      const touch1 = event.targetTouches['1'];
       this.touchEvent.x1 = touch1.clientX;
       this.touchEvent.y1 = touch1.clientY;
-      var distanceX = this.touchEvent.x - this.touchEvent.x1;
-      var distanceY = this.touchEvent.y - this.touchEvent.y1;
+      const distanceX = this.touchEvent.x - this.touchEvent.x1;
+      const distanceY = this.touchEvent.y - this.touchEvent.y1;
       this.touchEvent.distance = distanceX * distanceX + distanceY * distanceY;
       this.touchEvent.orientation = Math.atan2(this.touchEvent.y1 - this.touchEvent.y, this.touchEvent.x1 - this.touchEvent.x);
       this.mouseDown = 3; // two fingers: rotation, tilt, zoom
@@ -354,7 +352,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     let remoteEvent = {};
     remoteEvent.buttons = this.mouseDown;
     remoteEvent.modifier = 0; // disabled
-    var touch = event.targetTouches['0'];
+    const touch = event.targetTouches['0'];
     remoteEvent.offsetX = Math.round(touch.clientX); // discard decimal values returned on android
     remoteEvent.offsetY = Math.round(touch.clientY);
 
@@ -387,4 +385,4 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 }
 
-export {MultimediaClient}
+export {MultimediaClient};

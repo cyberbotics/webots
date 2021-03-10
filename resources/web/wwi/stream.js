@@ -1,9 +1,8 @@
 import {webots} from './webots.js';
 
-/* global webots */
 'use strict';
 
-class Stream { // eslint-disable-line no-unused-vars
+class Stream {
   constructor(wsServer, view, onready) {
     this.wsServer = wsServer + '/';
     this.view = view;
@@ -142,4 +141,4 @@ class Stream { // eslint-disable-line no-unused-vars
   }
 }
 
-export {Stream}
+export {Stream};
