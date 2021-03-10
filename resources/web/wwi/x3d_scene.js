@@ -9,7 +9,7 @@ import {WbMaterial} from './nodes/wbMaterial.js';
 import {WbTransform} from './nodes/wbTransform.js';
 import {WbWorld} from './nodes/wbWorld.js';
 
-class X3dScene { // eslint-disable-line no-unused-vars
+class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this.loader = new Parser(this.prefix);

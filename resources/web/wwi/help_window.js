@@ -2,7 +2,7 @@ import {DialogWindow} from './dialog_window.js';
 import {DefaultUrl} from './default_url.js';
 import {webots} from './webots.js';
 
-class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
+class HelpWindow extends DialogWindow {
   constructor(parent, mobile, webotsDocUrl) {
     super(parent, mobile);
 
@@ -17,17 +17,17 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     this.panel.appendChild(this.tabs);
 
     if (webotsDocUrl) {
-      var header = document.createElement('li');
+      const header = document.createElement('li');
       header.innerHTML = '<a href="#webotsHelpReference">Webots Reference Manual</a>';
       this.tabsHeader.appendChild(header);
-      var page = document.createElement('div');
+      const page = document.createElement('div');
       page.id = 'webotsHelpReference';
       page.innerHTML = '<iframe src="' + webotsDocUrl + '"></iframe>';
       this.tabs.appendChild(page);
       $('#webotsHelpTabs').tabs();
     }
 
-    var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
+    const clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = () => { $('#helpButton').removeClass('toolBarButtonActive'); };
@@ -36,24 +36,24 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
-    var finalize = () => {
+    const finalize = () => {
       $('#webotsHelpTabs').tabs('refresh');
       $('#webotsHelpTabs').tabs('option', 'active', 0);
       $(this.panel).dialog('open');
     };
-    var currentUrl = DefaultUrl.currentScriptUrl();
-    var query = '';
+    const currentUrl = DefaultUrl.currentScriptUrl();
+    let query = '';
     if (webots.showRun)
       query = '?run=true';
     $.ajax({
       url: currentUrl + 'help.php' + query,
       success: (data) => {
         // Fix the img src relative URLs.
-        var html = data.replace(/ src="images/g, ' src="' + currentUrl + 'images');
-        var header = document.createElement('li');
+        const html = data.replace(/ src="images/g, ' src="' + currentUrl + 'images');
+        const header = document.createElement('li');
         header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';
         $(this.tabsHeader).prepend(header);
-        var page = document.createElement('div');
+        const page = document.createElement('div');
         page.id = 'webotsHelpGuide';
         page.innerHTML = html;
         if (document.getElementById('webotsHelpReference'))
@@ -69,4 +69,4 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 }
 
-export {HelpWindow}
+export {HelpWindow};

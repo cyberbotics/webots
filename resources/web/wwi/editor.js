@@ -2,7 +2,7 @@ import {DefaultUrl} from './default_url.js';
 import {DialogWindow} from './dialog_window.js';
 import {SystemInfo} from './system_info.js';
 
-class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
+class Editor extends DialogWindow {
   constructor(parent, mobile, view) {
     super(parent, mobile);
 
@@ -14,7 +14,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.needToUploadFiles = [];
     this.sessions = [];
 
-    var edit = document.createElement('div');
+    const edit = document.createElement('div');
     edit.id = 'webotsEditorTab';
     edit.className = 'webotsTab';
     this.editor = ace.edit(edit);
@@ -37,7 +37,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
 
     this.menu = document.createElement('div');
     this.menu.id = 'webotsEditorMenu';
-    var saveShortcut;
+    let saveShortcut;
     if (SystemInfo.isMacOS())
       saveShortcut = 'Cmd-S';
     else
@@ -51,7 +51,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
                           '</div>';
     this.panel.appendChild(this.menu);
 
-    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
+    const clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
@@ -144,7 +144,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   addFile(filename, content) {
-    var index = this.filenames.indexOf(filename);
+    let index = this.filenames.indexOf(filename);
     if (index >= 0) {
       this.needToUploadFiles[index] = false; // just received from the simulation server
       this.sessions[index].setValue(content);
@@ -186,7 +186,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
 
   // private functions
   _resize() {
-    var padding = $('#webotsEditorTab').outerHeight() - $('#webotsEditorTab').height();
+    const padding = $('#webotsEditorTab').outerHeight() - $('#webotsEditorTab').height();
     $('#webotsEditorTab').height(this.tabs.clientHeight - this.tabsHeader.scrollHeight - padding);
     this.editor.resize();
   }
@@ -198,7 +198,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
 
   _openResetConfirmDialog(allFiles) {
     this.resetAllFiles = allFiles;
-    var titleText, message;
+    let titleText, message;
     message = 'Permanently reset ';
     if (allFiles) {
       message += 'all the files';
@@ -209,7 +209,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     }
     message += ' to the original version?';
     message += '<br/><br/>Your modifications will be lost.';
-    var confirmDialog = document.createElement('div');
+    const confirmDialog = document.createElement('div');
     this.panel.appendChild(confirmDialog);
     $(confirmDialog).html(message);
     $(confirmDialog).dialog({
@@ -249,7 +249,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   _aceMode(filename) {
     if (filename.toLowerCase() === 'makefile')
       return 'ace/mode/makefile';
-    var extension = filename.split('.').pop().toLowerCase();
+    const extension = filename.split('.').pop().toLowerCase();
     if (extension === 'py')
       return 'ace/mode/python';
     if (extension === 'c' || extension === 'cpp' || extension === 'c++' || extension === 'cxx' || extension === 'cc' ||
@@ -277,7 +277,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   _storeUserFile(i) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('dirname', this.view.server.project + '/controllers/' + this.dirname);
     formData.append('filename', this.filenames[i]);
     formData.append('content', this.sessions[i].getValue());

@@ -3,12 +3,11 @@
 
 class DefaultUrl {
   static wwiUrl() {
-    console.log('salut');
     if (typeof this._wwiUrl === 'undefined') {
       this._wwiUrl = '';
-      var scripts = document.getElementsByTagName('script');
+      const scripts = document.getElementsByTagName('script');
       for (let i = scripts.length - 1; i >= 0; i--) {
-        var src = scripts[i].src;
+        let src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
         if (src.endsWith('setup_viewer.js') || src.endsWith('init_animation.js') || src.endsWith('a.out.js')) {
@@ -35,12 +34,12 @@ class DefaultUrl {
   static currentScriptUrl() {
     // Get the directory path to the currently executing script file
     // for example: https://cyberbotics.com/wwi/8.6/
-    var scripts = document.querySelectorAll('script[src]');
+    const scripts = document.querySelectorAll('script[src]');
     for (let i in scripts) {
-      var src = scripts[i].src;
+      let src = scripts[i].src;
       if (typeof src === 'undefined')
         continue;
-      var index = src.indexOf('?');
+      let index = src.indexOf('?');
 
       if (index > 0)
         src = src.substring(0, index); // remove query string

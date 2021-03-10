@@ -1,7 +1,6 @@
-/* global webots */
 'use strict';
 
-class DialogWindow { // eslint-disable-line no-unused-vars
+class DialogWindow {
   constructor(parent, mobile) {
     this.mobile = mobile;
     this.parent = parent;
@@ -25,10 +24,10 @@ class DialogWindow { // eslint-disable-line no-unused-vars
     if (typeof $('#playerDiv').height === 'undefined' || typeof $('#playerDiv').width === 'undefined')
       return preferredGeometry;
 
-    var maxHeight = $('#playerDiv').height() - preferredGeometry.top - $('#toolBar').height() - 20; // 20 is chosen arbitrarily
-    var maxWidth = $('#playerDiv').width() - preferredGeometry.left - 20; // 20 is chosen arbitrarily
-    var height = preferredGeometry.height;
-    var width = preferredGeometry.width;
+    const maxHeight = $('#playerDiv').height() - preferredGeometry.top - $('#toolBar').height() - 20; // 20 is chosen arbitrarily
+    const maxWidth = $('#playerDiv').width() - preferredGeometry.left - 20; // 20 is chosen arbitrarily
+    let height = preferredGeometry.height;
+    let width = preferredGeometry.width;
     if (maxHeight < height)
       height = maxHeight;
     if (maxWidth < width)
@@ -47,9 +46,9 @@ class DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   static resizeDialogOnOpen(dialog) {
-    var w = $(dialog).parent().width();
-    var h = $(dialog).parent().height();
-    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: w, height: h});
+    const w = $(dialog).parent().width();
+    const h = $(dialog).parent().height();
+    const clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: w, height: h});
     if (clampedSize.width < w)
       $(dialog).dialog('option', 'width', clampedSize.width);
     if (clampedSize.height < h)
@@ -58,7 +57,7 @@ class DialogWindow { // eslint-disable-line no-unused-vars
 
   static createMobileDialog() {
     // mobile only setup
-    var closeButton = $('button:contains("WbClose")');
+    const closeButton = $('button:contains("WbClose")');
     closeButton.html('');
     closeButton.removeClass('ui-button-text-only');
     closeButton.addClass('mobile-dialog-close-button');
@@ -83,4 +82,4 @@ class DialogWindow { // eslint-disable-line no-unused-vars
   }
 }
 
-export {DialogWindow}
+export {DialogWindow};

@@ -6,11 +6,8 @@ import {WbVector3} from './nodes/utils/wbVector3.js';
 import {WbWorld} from './nodes/wbWorld.js';
 import {WbWrenPicker} from './wren/wbWrenPicker.js';
 
-'use strict';
-
-class MouseEvents { // eslint-disable-line no-unused-vars
+class MouseEvents {
   constructor(scene, contextMenu, domElement, mobileDevice) {
-
     this.scene = scene;
     this.contextMenu = contextMenu;
     this.domElement = domElement;
@@ -43,8 +40,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
-  init(){
-    if(typeof this.picker === 'undefined')
+  init() {
+    if (typeof this.picker === 'undefined')
       this.picker = new WbWrenPicker();
   }
 
@@ -54,13 +51,17 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
-      case 0: //enum
+      case MouseEvents.Click.RIGHT_CLICK: // enum
+        console.log("Saluuuut");
         this.state.mouseDown |= 1;
         break;
-      case 1://enum
+      case MouseEvents.Click.LEFT_CLICK:// enum
+        console.log("aaaaà");
         this.state.mouseDown |= 4;
         break;
-      case 2://enum
+      case MouseEvents.Click.WHEEL_CLICK:// enum
+      console.log("touuuus");
+
         this.state.mouseDown |= 2;
         break;
     }
@@ -79,8 +80,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
 
-    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
-    this.picker.pick(pos.x,pos.y)
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y);
+    this.picker.pick(pos.x, pos.y);
   }
 
   _onMouseMove(event) {
@@ -151,9 +152,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.scene.render();
     } else {
       let distanceToPickPosition = 0.001;
-      if (this.picker.selectedId !== -1){
+      if (this.picker.selectedId !== -1)
         distanceToPickPosition = length(position.sub(rotationCenter));
-      }
       else
         distanceToPickPosition = length(position);
 
@@ -163,7 +163,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let targetRight = -scaleFactor * this.moveParams.dx
+        let targetRight = -scaleFactor * this.moveParams.dx;
         let targetUp = scaleFactor * this.moveParams.dy;
         let upVec = up(orientation);
         let rightVec = right(orientation);
@@ -176,7 +176,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
         let rollVector = direction(orientation);
         let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
-        let roll = glm.quat(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
         let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
         let roll3 = glm.quat();
         roll3.w = roll2.w;
@@ -222,7 +221,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     // else another drag event is already active
 
     if (!this.enableNavigation || this.state.wheelFocus === false) {
-      var offset = event.deltaY;
+      let offset = event.deltaY;
       if (event.deltaMode === 1)
         offset *= 40; // standard line height in pixel
       window.scroll(0, window.pageYOffset + offset);
@@ -234,7 +233,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     }
 
     let distanceToPickPosition;
-    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y)
     let position = WbWorld.instance.viewpoint.position;
 
     let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
@@ -288,9 +286,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       // Gesture single/multi touch changed after initialization.
       return;
 
-    var touch = event.targetTouches['0'];
-    var x = Math.round(touch.clientX); // discard decimal values returned on android
-    var y = Math.round(touch.clientY);
+    const touch = event.targetTouches['0'];
+    const x = Math.round(touch.clientX); // discard decimal values returned on android
+    const y = Math.round(touch.clientY);
     let orientation = WbWorld.instance.viewpoint.orientation;
     let position = WbWorld.instance.viewpoint.position;
 
@@ -298,9 +296,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
     let distanceToPickPosition = 0.001;
-    if (this.picker.selectedId !== -1){
+    if (this.picker.selectedId !== -1)
       distanceToPickPosition = length(position.sub(rotationCenter));
-    }
     else
       distanceToPickPosition = length(position);
 
@@ -327,7 +324,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.dx = x - this.state.initialX;
       this.moveParams.dy = y - this.state.initialY;
 
-      let targetRight = -scaleFactor * this.moveParams.dx
+      let targetRight = -scaleFactor * this.moveParams.dx;
       let targetUp = scaleFactor * this.moveParams.dy;
       let upVec = up(orientation);
       let rightVec = right(orientation);
@@ -338,22 +335,22 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       WbWorld.instance.viewpoint.updatePosition();
       this.scene.render();
     } else {
-      var touch1 = event.targetTouches['1'];
-      var x1 = Math.round(touch1.clientX);
-      var y1 = Math.round(touch1.clientY);
-      var distanceX = x - x1;
-      var distanceY = y - y1;
-      var newTouchDistance = distanceX * distanceX + distanceY * distanceY;
-      var pinchSize = this.state.touchDistance - newTouchDistance;
+      const touch1 = event.targetTouches['1'];
+      const x1 = Math.round(touch1.clientX);
+      const y1 = Math.round(touch1.clientY);
+      const distanceX = x - x1;
+      const distanceY = y - y1;
+      const newTouchDistance = distanceX * distanceX + distanceY * distanceY;
+      const pinchSize = this.state.touchDistance - newTouchDistance;
 
-      var moveX1 = x - this.state.x;
-      var moveX2 = x1 - this.state.x1;
-      var moveY1 = y - this.state.y;
-      var moveY2 = y1 - this.state.y1;
-      var ratio = 1;
+      const moveX1 = x - this.state.x;
+      const moveX2 = x1 - this.state.x1;
+      const moveY1 = y - this.state.y;
+      const moveY2 = y1 - this.state.y1;
+      const ratio = 1;
 
       if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
-        var d;
+        let d;
         if (Math.abs(moveX2) < Math.abs(moveX1))
           d = moveX1;
         else
@@ -362,7 +359,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         this.moveParams.zoomScale = this.moveParams.scaleFactor * 0.015 * pinchSize;
         let rollVector = direction(orientation);
         let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
-        let roll = glm.quat(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
         let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
         let roll3 = glm.quat();
         roll3.w = roll2.w;
@@ -407,7 +403,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.state.touchDistance = newTouchDistance;
       this.state.moved = true;
     }
-
     this.state.x = x;
     this.state.y = y;
     this.state.x1 = x1;
@@ -421,11 +416,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.init();
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
-      var touch1 = event.targetTouches['1'];
+      const touch1 = event.targetTouches['1'];
       this.state.x1 = touch1.clientX;
       this.state.y1 = touch1.clientY;
-      var distanceX = this.state.x - this.state.x1;
-      var distanceY = this.state.y - this.state.y1;
+      const distanceX = this.state.x - this.state.x1;
+      const distanceY = this.state.y - this.state.y1;
       this.state.touchDistance = distanceX * distanceX + distanceY * distanceY;
       this.state.touchOrientation = Math.atan2(this.state.y1 - this.state.y, this.state.x1 - this.state.x);
       this.state.mouseDown = 3; // two fingers: rotation, tilt, zoom
@@ -465,8 +460,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _setupMoveParameters(event) {
     this.moveParams = {};
-    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, event.clientX, event.clientY);
-    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(canvas, event.clientX, event.clientY);
 
     if (this.intersection && this.intersection.object)
       this.moveParams.pickPosition = this.intersection.point;
@@ -474,7 +467,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.pickPosition = null;
 
     if (this.intersection == null) {
-      var cameraPosition = new glm.vec3();
+      const cameraPosition = new glm.vec3();
       this.moveParams.distanceToPickPosition = cameraPosition.length;
     } else
       this.moveParams.distanceToPickPosition = this.intersection.distance;
@@ -482,11 +475,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.distanceToPickPosition = 0.001;
 
     // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-    //this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
-    var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
+    const viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+    const viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
     this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
-
   }
 
   _clearMouseMove() {
@@ -508,46 +499,29 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       Selector.select(this.picker.selectedId);
 
-      if(typeof WbWorld.instance.nodes.get(Selector.selectedId) !== 'undefined')
+      if (typeof WbWorld.instance.nodes.get(Selector.selectedId) !== 'undefined')
         WbWorld.instance.nodes.get(Selector.selectedId).updateBoundingObjectVisibility();
 
-      if(typeof WbWorld.instance.nodes.get(Selector.previousId) !== 'undefined')
+      if (typeof WbWorld.instance.nodes.get(Selector.previousId) !== 'undefined')
         WbWorld.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
 
-    this.scene.render();
-
-      var object;
-
-      if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
-        this.hiddenContextMenu === false && this.contextMenu) {
-        // Right click: show popup menu.
-        this.contextMenu.show(
-          { name: object.userData.name,
-            controller: object.userData.controller,
-            docUrl: object.userData.docUrl,
-            follow: this.scene.viewpoint.isFollowedObject(object)
-          },
-          {x: this.state.x, y: this.state.y}
-        );
-      }
+      this.scene.render();
     }
   }
 }
 
-MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY) => {
-  var rect = element.getBoundingClientRect();
-  var pos = new glm.vec2();
-  pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  pos.y = -((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-  return pos;
-};
-
 MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
-  var rect = element.getBoundingClientRect();
-  var pos = new glm.vec2();
+  const rect = element.getBoundingClientRect();
+  const pos = new glm.vec2();
   pos.x = Math.round(eventX - rect.left);
   pos.y = Math.round(eventY - rect.top);
   return pos;
 };
 
-export {MouseEvents}
+MouseEvents.Click = {
+  RIGHT_CLICK: 0,
+  LEFT_CLICK: 1,
+  WHEEL_CLICK: 2
+};
+
+export {MouseEvents};
