@@ -64,6 +64,7 @@ namespace webots {
       DIFFERENTIAL_WHEELS,
       // devices
       ACCELEROMETER,
+      ALTIMETER,
       BRAKE,
       CAMERA,
       COMPASS,
