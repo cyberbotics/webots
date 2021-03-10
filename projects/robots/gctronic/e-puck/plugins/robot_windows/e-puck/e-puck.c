@@ -200,7 +200,7 @@ void wb_robot_window_step(int time_step) {
       wb_remote_control_custom_function(&upload);
       free(port);
       const char *data = &message[8 + n];
-      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
+      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
       const char *filename = "e-puck.hex";
       char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
       sprintf(full_path, "%s%s", path, filename);
@@ -350,7 +350,7 @@ void wb_robot_window_step(int time_step) {
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
-    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
+    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
     const char *filename = "camera.jpg";
     int pid = getpid();
     int l = strlen(path) + strlen(filename) + 2 + 11;  // 11 = max length of an integer: -2147483648
