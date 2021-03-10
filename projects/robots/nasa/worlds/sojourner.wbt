@@ -41,7 +41,7 @@ DEF FLAG Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "sojourner/panel.jpg"
+                "textures/panel.jpg"
               ]
             }
             roughness 1

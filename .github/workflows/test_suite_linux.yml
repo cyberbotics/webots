@@ -16,7 +16,7 @@ jobs:
   cleanup-runs:
     runs-on: ubuntu-latest
     steps:
-    - uses: rokroskar/workflow-run-cleanup-action@master
+    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:

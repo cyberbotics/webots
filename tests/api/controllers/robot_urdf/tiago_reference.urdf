@@ -280,6 +280,27 @@
     <child link="base_cover_link"/>
     <origin xyz="0 0 0.03" rpy="0 0 0"/>
   </joint>
+  <link name="gyro">
+  </link>
+  <joint name="base_link_gyro_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gyro"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="inertial unit">
+  </link>
+  <joint name="base_link_inertial unit_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="inertial unit"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="accelerometer">
+  </link>
+  <joint name="base_link_accelerometer_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="accelerometer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
   <link name="Hokuyo URG-04LX-UG01">
     <visual>
       <origin xyz="0 -0.0175 0" rpy="0 0 0"/>
@@ -501,6 +522,13 @@
       </geometry>
     </collision>
   </link>
+  <link name="ts_emitter">
+  </link>
+  <joint name="head_2_link_ts_emitter_joint" type="fixed">
+    <parent link="head_2_link"/>
+    <child link="ts_emitter"/>
+    <origin xyz="0.107 0.0802 0" rpy="0 0 0"/>
+  </joint>
   <link name="TIAGo left arm_43965">
     <visual>
       <origin xyz="0.026 0.14 -0.232" rpy="0 0 1.5708"/>
