@@ -59,12 +59,15 @@ def set_translation(fields, value):
     if not translation_field:
         fields.append({'name': 'translation',
                        'value': value,
-                       'type': 'SFTranslation'})
+                       'type': 'SFVec3f'})
         return
     translation_field['value'] = value
 
 
 def convert_pose(rotation_angle_axis, translation):
+    assert len(rotation_angle_axis) == 4, f'Rotation {rotation_angle_axis} is not the correct length'
+    assert len(translation) == 3, f'Translation {translation} is not the correct length'
+
     # Convert
     rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
     new_rotation = ROTATION_RUB_TO_FLU @ rotation
@@ -82,8 +85,10 @@ def main():
     proto = WebotsParser()
     proto.load(sys.argv[1])
 
+    # Find the Robot's children field
+    # root > PROTO (`[0]['root']`) > Robot (`[0]`) > fields (`['fields']`)
     robot_children = []
-    for field in proto.content['root'][0]['fields']:
+    for field in proto.content['root'][0]['root'][0]['fields']:
         if field['name'] == 'children':
             robot_children = field['value']
 
@@ -96,7 +101,6 @@ def main():
 
             set_rotation(child['fields'], new_rotation)
             set_translation(child['fields'], new_translaton)
-
     proto.save(sys.argv[1])
 
 
