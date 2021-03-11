@@ -15,6 +15,7 @@
 #ifndef WB_EMITTER_HPP
 #define WB_EMITTER_HPP
 
+#include "WbMFInt.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSolidDevice.hpp"
@@ -66,17 +67,20 @@ private:
   WbSFInt *mBaudRate;
   WbSFInt *mByteSize;
   WbSFInt *mBufferSize;
+  WbMFInt *mAllowedChannels;
 
   // private functions
   WbEmitter &operator=(const WbEmitter &);  // non copyable
   WbNode *clone() const override { return new WbEmitter(*this); }
   void init();
+  bool isChannelAllowed();
 
 private slots:
   void updateTransmissionSetup();
   void updateBufferSize();
   void updateRange();
   void updateChannel();
+  void updateAllowedChannels();
 };
 
 #endif  // WB_EMITTER_HPP
