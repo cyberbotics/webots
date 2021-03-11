@@ -34,11 +34,11 @@ def get_field(node, field_name, default=None):
     return find(lambda x: x['name'] == field_name, node['fields'], default)
 
 
-def get_translation(node):
-    translation_field = get_field(node, 'translation')
-    if not translation_field:
+def get_vector3(node, name='translation'):
+    vector3_field = get_field(node, name)
+    if not vector3_field:
         return [0, 0, 0]
-    return [float(value) for value in translation_field['value']]
+    return [float(value) for value in vector3_field['value']]
 
 
 def get_rotation(node):
@@ -58,14 +58,14 @@ def set_rotation(node, value):
     rotation_field['value'] = value
 
 
-def set_translation(node, value):
-    translation_field = get_field(node, 'translation')
-    if not translation_field:
-        node['fields'].append({'name': 'translation',
+def set_vector3(node, value, name='translation'):
+    vector3_field = get_field(node, name)
+    if not vector3_field:
+        node['fields'].append({'name': name,
                                'value': value,
                                'type': 'SFVec3f'})
         return
-    translation_field['value'] = value
+    vector3_field['value'] = value
 
 
 def convert_pose(rotation_angle_axis, translation):
@@ -88,8 +88,19 @@ def convert_pose(rotation_angle_axis, translation):
 def convert_nodes(nodes):
     for node in nodes:
         if 'Hinge' in node['name']:
-            # TODO: Handle hinges
-            pass
+            # TODO: This part needs more love :) We need to convert endpoints as well.
+            joint_parameters_node = get_field(node, 'jointParameters')['value']
+
+            anchor = get_vector3(joint_parameters_node, name='anchor')
+            new_anchor = ROTATION_RUB_TO_FLU @ np.array(anchor)
+            new_anchor_str = [f'{round(v, 5):.5}' for v in new_anchor]
+            set_vector3(joint_parameters_node, new_anchor_str, name='anchor')
+
+            axis = get_vector3(joint_parameters_node, name='axis')
+            new_axis = ROTATION_RUB_TO_FLU @ np.array(axis)
+            new_axis_str = [f'{round(v, 5):.5}' for v in new_axis]
+            set_vector3(joint_parameters_node, new_axis_str, name='axis')
+
         elif node['name'] == 'Group':
             children = get_field(node, 'children')
             if children and children['type'] != 'IS':
@@ -97,11 +108,11 @@ def convert_nodes(nodes):
         elif node['name'] == 'Shape':
             pass
         else:
-            translation = get_translation(node)
+            translation = get_vector3(node)
             rotation = get_rotation(node)
             new_rotation, new_translaton = convert_pose(rotation, translation)
             set_rotation(node, new_rotation)
-            set_translation(node, new_translaton)
+            set_vector3(node, new_translaton)
 
 
 def main():
