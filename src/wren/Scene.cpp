@@ -224,6 +224,7 @@ namespace wren {
 
     // debug::printCacheContents();
     // debug::printSceneTree();
+
     renderToViewports({mMainViewport}, culling);
   }
 
@@ -236,13 +237,13 @@ namespace wren {
       listener();
 
     DEBUG("\nScene::renderToViewports: viewports.size()=" << viewports.size());
+
     prepareRender();
 
     for (Viewport *viewport : viewports) {
       mCurrentViewport = viewport;
 
       glstate::setDefaultState();
-
       mCurrentViewport->updateUniforms();
       mCurrentViewport->bind();
       mCurrentViewport->clear();
@@ -273,7 +274,6 @@ namespace wren {
         }
       } else {
         renderToViewport(culling);
-
         if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
@@ -401,6 +401,7 @@ namespace wren {
       glstate::setDepthFunc(GL_LESS);
       glstate::setStencilTest(false);
       glstate::setColorMask(true, true, true, true);
+
       mSkybox->render();
 
 #ifdef __EMSCRIPTEN__
@@ -615,6 +616,7 @@ namespace wren {
 
     for (auto it = first; it < last; ++it) {
       assert((*it)->defaultMaterial());
+
       (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
       (*it)->render();
     }

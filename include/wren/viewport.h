@@ -31,7 +31,6 @@ void wr_viewport_delete(WrViewport *viewport);
 
 /* Expects a 3-component array */
 void wr_viewport_set_clear_color_rgb(WrViewport *viewport, const float *color);
-
 /* Expects a 4-component array */
 void wr_viewport_set_clear_color_rgba(WrViewport *viewport, const float *color);
 void wr_viewport_set_polygon_mode(WrViewport *viewport, WrViewportPolygonMode mode);

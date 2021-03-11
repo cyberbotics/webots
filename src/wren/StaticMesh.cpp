@@ -1694,7 +1694,6 @@ namespace wren {
     bind();
 
     glDrawElements(drawingMode, mCacheData->mIndexCount, GL_UNSIGNED_INT, NULL);
-
     if (config::requiresFlushAfterDraw())
       glFlush();
   }

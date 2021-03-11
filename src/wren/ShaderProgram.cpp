@@ -56,9 +56,9 @@ namespace wren {
   }
 
   void ShaderProgram::setup() {
-    if (glstate::isContextActive()) {
+    if (glstate::isContextActive())
       prepareGl();
-    } else
+    else
       setRequireAction(GlUser::GL_ACTION_PREPARE);
   }
 
@@ -76,13 +76,13 @@ namespace wren {
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
     std::ifstream in(path, std::ios::in | std::ios::binary);
-
     if (in) {
       in.seekg(0, std::ios::end);
       contents.resize(in.tellg());
       in.seekg(0, std::ios::beg);
       in.read(&contents[0], contents.size());
       in.close();
+
       return true;
     }
 
@@ -95,6 +95,7 @@ namespace wren {
       DEBUG("ShaderProgram::compileShader: file not found!");
       DEBUG("Shader source path: " << path.c_str());
     }
+
     unsigned int shaderGlName = glCreateShader(type);
 
 #ifdef __EMSCRIPTEN__
@@ -107,19 +108,21 @@ namespace wren {
 
     int success;
     glGetShaderiv(shaderGlName, GL_COMPILE_STATUS, &success);
+
     if (success == GL_FALSE) {
       int logLength;
       glGetShaderiv(shaderGlName, GL_INFO_LOG_LENGTH, &logLength);
 
       char log[logLength];
       glGetShaderInfoLog(shaderGlName, logLength, nullptr, &log[0]);
+
       DEBUG("ShaderProgram::compileShader: compilation failed!");
       DEBUG("Shader source path: " << path.c_str());
       DEBUG("InfoLog: " << log);
       mCompilationLog.assign(log);
+
       glDeleteShader(shaderGlName);
       shaderGlName = 0;
-      std::cout << log << '\n';
     }
 
     return shaderGlName;

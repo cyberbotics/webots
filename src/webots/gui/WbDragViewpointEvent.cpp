@@ -21,6 +21,7 @@
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/camera.h>
+
 // WbDragViewpointEvent constructor
 WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinematicsEvent(viewpoint) {
 }

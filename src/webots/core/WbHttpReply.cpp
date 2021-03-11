@@ -48,6 +48,7 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &e
   QFile file(fileName);
   if (!file.open(QIODevice::ReadOnly))
     return forge404Reply();
+
   const QByteArray data = file.readAll();
 
   const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);

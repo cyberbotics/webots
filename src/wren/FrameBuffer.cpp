@@ -30,8 +30,8 @@
 #endif
 
 #include <algorithm>
-#include <iostream>
 #include <numeric>
+
 namespace wren {
 
   void FrameBuffer::deleteFrameBuffer(FrameBuffer *frameBuffer) {
@@ -97,6 +97,7 @@ namespace wren {
 
   void FrameBuffer::enableDrawBuffer(size_t index, bool enable) {
     assert(index < mOutputDrawBuffers.size());
+
     mOutputDrawBuffers[index].mIsEnabled = enable;
   }
 
@@ -122,6 +123,7 @@ namespace wren {
       else
         drawBuffers.push_back(GL_NONE);
     }
+
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
   }
 

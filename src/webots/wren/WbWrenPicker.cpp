@@ -189,5 +189,6 @@ bool WbWrenPicker::pick(int x, int y) {
   WbWrenOpenGlContext::doneWren();
 
   mCoordinates = WbVector3(x, mHeight - y - 1, depth);
+
   return true;
 }

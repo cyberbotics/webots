@@ -165,6 +165,7 @@ namespace wren {
 #else
       glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
 #endif
+
       checkError();
 
       cIsGlInitialized = true;
@@ -435,6 +436,7 @@ namespace wren {
       if (!GLAD_GL_EXT_texture_filter_anisotropic)
         return;
 #endif
+
       if (cTextureAnisotropy[glName] != anisotropy) {
         anisotropy = std::max(std::min(anisotropy, maxTextureAnisotropy()), 1.0f);
         cTextureAnisotropy[glName] = anisotropy;
@@ -760,6 +762,7 @@ namespace wren {
 
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer) {
       assert(buffer >= 0 && buffer < WR_GLSL_LAYOUT_UNIFORM_BUFFER_COUNT);
+
       return cUniformBuffers[buffer].get();
     }
 
@@ -795,6 +798,7 @@ namespace wren {
         }
       } while (error != GL_NO_ERROR);
     }
+
   }  // namespace glstate
 }  // namespace wren
 

@@ -1071,7 +1071,6 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
 
   WbVector4 screen(pos.x(), pos.y(), pos.z(), 1.0);
   screen = inverse * screen;
-
   screen /= screen.w();
   P.setXyz(screen.ptr());
 }
