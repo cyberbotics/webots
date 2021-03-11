@@ -30,36 +30,40 @@ def find(function, elements, default=None):
     return next((x for x in elements if function(x)), default)
 
 
-def get_translation(fields):
-    translation_field = find(lambda x: x['name'] == 'translation', fields)
+def get_field(node, field_name, default=None):
+    return find(lambda x: x['name'] == field_name, node['fields'], default)
+
+
+def get_translation(node):
+    translation_field = get_field(node, 'translation')
     if not translation_field:
         return [0, 0, 0]
     return [float(value) for value in translation_field['value']]
 
 
-def get_rotation(fields):
-    rotation_field = find(lambda x: x['name'] == 'rotation', fields)
+def get_rotation(node):
+    rotation_field = get_field(node, 'rotation')
     if not rotation_field:
         return [1, 0, 0, 0]
     return [float(value) for value in rotation_field['value']]
 
 
-def set_rotation(fields, value):
-    rotation_field = find(lambda x: x['name'] == 'rotation', fields)
+def set_rotation(node, value):
+    rotation_field = get_field(node, 'rotation')
     if not rotation_field:
-        fields.append({'name': 'rotation',
-                       'value': value,
-                       'type': 'SFRotation'})
+        node['fields'].append({'name': 'rotation',
+                               'value': value,
+                               'type': 'SFRotation'})
         return
     rotation_field['value'] = value
 
 
-def set_translation(fields, value):
-    translation_field = find(lambda x: x['name'] == 'translation', fields)
+def set_translation(node, value):
+    translation_field = get_field(node, 'translation')
     if not translation_field:
-        fields.append({'name': 'translation',
-                       'value': value,
-                       'type': 'SFVec3f'})
+        node['fields'].append({'name': 'translation',
+                               'value': value,
+                               'type': 'SFVec3f'})
         return
     translation_field['value'] = value
 
@@ -81,26 +85,42 @@ def convert_pose(rotation_angle_axis, translation):
     return new_rotation_str, new_translation_str
 
 
+def convert_nodes(nodes):
+    for node in nodes:
+        if 'Hinge' in node['name']:
+            # TODO: Handle hinges
+            pass
+        elif node['name'] == 'Group':
+            children = get_field(node, 'children')
+            if children and children['type'] != 'IS':
+                convert_nodes(children['value'])
+        elif node['name'] == 'Shape':
+            pass
+        else:
+            translation = get_translation(node)
+            rotation = get_rotation(node)
+            new_rotation, new_translaton = convert_pose(rotation, translation)
+            set_rotation(node, new_rotation)
+            set_translation(node, new_translaton)
+
+
 def main():
     proto = WebotsParser()
     proto.load(sys.argv[1])
 
     # Find the Robot's children field
     # root > PROTO (`[0]['root']`) > Robot (`[0]`) > fields (`['fields']`)
-    robot_children = []
-    for field in proto.content['root'][0]['root'][0]['fields']:
-        if field['name'] == 'children':
-            robot_children = field['value']
+    robot_node = proto.content['root'][0]['root'][0]
 
-    for child in robot_children:
-        if 'Hinge' not in child['name'] and child['name'] != 'Group' and child['name'] != 'Shape':
-            translation = get_translation(child['fields'])
-            rotation = get_rotation(child['fields'])
+    # Convert robot's children
+    robot_children = get_field(robot_node, 'children')['value']
+    convert_nodes(robot_children)
 
-            new_rotation, new_translaton = convert_pose(rotation, translation)
+    # Convert bounding objects
+    bounding_object = get_field(robot_node, 'boundingObject')['value']
+    if bounding_object:
+        convert_nodes([bounding_object])
 
-            set_rotation(child['fields'], new_rotation)
-            set_translation(child['fields'], new_translaton)
     proto.save(sys.argv[1])
 
 
