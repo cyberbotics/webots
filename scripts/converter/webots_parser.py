@@ -28,23 +28,25 @@ class WebotsParser:
 
     def load(self, filename):
         with open(filename, 'r') as self.file:
-            self.content['header'] = [self.file.readline().strip()]
-            self.line_count = 1
-            if filename.endswith('.proto'):
-                print('The provided file is PROTO, searching for the Robot tag')
-                skip_line = ''
-                while skip_line.strip() != '{':
-                    skip_line = self.file.readline()
-                    self.line_count += 1
-                    self.content['header'].append(skip_line.rstrip())
+            self.content['header'] = []
+            self.line_count = 0
+
+            line = self.file.readline().strip()
+            self.content['header'].append(line)
+            while line.startswith('#'):
+                line = self.file.readline()
+                self.line_count += 1
+                self.content['header'].append(line.strip())
             self.line_count += 1
 
             self.content['root'] = []
             for line in self.file:
-                line = line.strip()
                 self.line_count += 1
-                if line:
-                    self.content['root'].append(self._read_node(line))
+                if line.strip():
+                    if line.startswith('PROTO'):
+                        self.content['root'].append(self._read_node_declaration(line.strip()))
+                    else:
+                        self.content['root'].append(self._read_node(line.strip()))
 
     def save(self, filename):
         self.indentation = 0
@@ -52,13 +54,35 @@ class WebotsParser:
             for header_line in self.content['header']:
                 self.file.write(header_line + '\n')
             for node in self.content['root']:
-                self._write_node(node)
+                if node['type'] == 'node':
+                    self._write_node(node)
+                else:
+                    self._write_node_declaration(node)
 
     @staticmethod
     def str(value):
         return ('%.15f' % value).rstrip('0').rstrip('.')
 
-    def _write_node(self, node):
+    def _write_field_declaration(self, field):
+        self.file.write('  ' + field['raw'] + '\n')
+        # TODO: Add more fields
+
+    def _write_node_declaration(self, node):
+        # Write PROTO header
+        self.file.write('PROTO ' + node['name'] + ' [\n')
+        for field in node['fields']:
+            self._write_field_declaration(field)
+        self.file.write(']\n')
+        self.file.write('{\n')
+
+        # Write PROTO Robot
+        for node in node['root']:
+            self.indentation = 2
+            self._write_node(node, 2)
+
+        self.file.write('}\n')
+
+    def _write_node(self, node, identation=0):
         if node is None:
             self.file.write('NULL\n')
             return
@@ -68,7 +92,7 @@ class WebotsParser:
             self.file.write('USE ' + node['USE'] + '\n')
             return
         else:
-            name = ''
+            name = identation * ' '
         name += node['name']
         self.file.write(name + ' {\n')
         self.indentation += 2
@@ -101,7 +125,7 @@ class WebotsParser:
             line += value[2] + ' '
             line += value[3]
         elif type == 'IS':
-            line += ' IS '
+            line += 'IS '
             line += value
         elif type == 'SFNode':
             self.file.write(line)
@@ -153,6 +177,7 @@ class WebotsParser:
 
     def _read_node(self, line):
         node = {'fields': []}
+        node['type'] = 'node'
         words = line.split(' ')
         if words[0] == 'DEF':
             node['DEF'] = words[1]
@@ -173,6 +198,44 @@ class WebotsParser:
             node['fields'].append(self._read_field(line))
         return node
 
+    def _read_field_declaration(self, line):
+        field = {}
+        words = line.split(' ', 4)
+        field['name'] = words[2]
+        field['type'] = words[1]
+        field['raw'] = line
+        if field['type'] == 'SFVec3f':
+            field['value'] = words[3].split(' ')[:3]
+        elif field['type'] == 'SFRotation':
+            field['value'] = words[3].split(' ')[:3]
+        # TODO: Add more fields
+
+        return field
+
+    def _read_node_declaration(self, line):
+        node = {'fields': []}
+        words = line.split(' ')
+        node['name'] = words[1]
+        node['type'] = 'proto'
+
+        # Read fields
+        for line in self.file:
+            line = line.strip()
+            self.line_count += 1
+            if line == ']':
+                break
+            node['fields'].append(self._read_field_declaration(line))
+
+        # Read subnodes
+        node['root'] = []
+        for line in self.file:
+            if line.strip() == '}':
+                break
+            if line.strip() != '{':
+                node['root'].append(self._read_node(line.strip()))
+
+        return node
+
     def _read_field(self, line):
         field = {}
         words = line.split(' ', 1)
@@ -185,7 +248,7 @@ class WebotsParser:
                 field['type'] = 'MF'
                 field['value'] = []
             else:
-                (field['type'], field['value']) = self._read_mf_field()  # MF*
+                field['type'], field['value'] = self._read_mf_field()  # MF*
         elif character == '"':
             field['type'] = 'SFString'
             field['value'] = words[1][1:-1]
@@ -251,7 +314,8 @@ class WebotsParser:
                         continue
                     words = group.strip().split(' ')
                     length = len(words)
-                    if length == 1 or ',' in words[0]:
+                    if length == 1 or length > 6 or ',' in words[0]:
+                        # Parse MFInt32 / MFFloat
                         if not type:
                             type = 'MFInt32'
                         for value in words:
@@ -261,6 +325,7 @@ class WebotsParser:
                                 type = 'MFFloat'
                             mffield.append(value)
                     else:
+                        # Parse MFVec2f / MFVec3f / MFRotation / MFColor
                         array = []
                         if length == 2 or ',' in words[1]:
                             type = 'MFVec2f'
@@ -269,11 +334,11 @@ class WebotsParser:
                         elif length == 4 or ',' in words[3]:
                             type = 'MFRotation'
                         for number in words:
-                            array.append(number)  # MFVec2f / MFVec3f / MFRotation / MFColor
+                            array.append(number)
                         mffield.append(array)
             else:
                 type = 'MFNode'
                 node = self._read_node(line)
                 mffield.append(node)
             words = line.split(' ')
-        return (type, mffield)
+        return type, mffield
