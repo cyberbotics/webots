@@ -23,10 +23,8 @@ PROTO Hinge2JointWithBacklash [
     wbrandom.seed(os.clock() + os.time())
     -- parameter retrieval
     local axis = fields.jointParameters.value.fields.axis.value
-    local axis2 = fields.jointParameters2.value.fields.axis2.value
+    local axis2 = fields.jointParameters2.value.fields.axis.value
     local anchor = fields.jointParameters.value.fields.anchor.value
-    local position = fields.jointParameters.value.fields.position.value
-    local position2 = fields.jointParameters2.value.fields.position.value
     -- parameter sanity check
     local backlash = fields.backlash.value
     if backlash < 0 then
@@ -52,32 +50,53 @@ PROTO Hinge2JointWithBacklash [
     jointParameters2 IS jointParameters2
     device IS device
     device2 IS device2
-    position IS position
     endPoint Solid {
-      name %{='"start_point_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
+      name %{= '"limiter_axis_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
       children [
-        %{ if fields.startPoint.value ~= nil then}%
-        Group {
-          children IS startPoint
-        }
-        %{ end }%
         HingeJoint {
           jointParameters HingeJointParameters {
-            axis %{= axis.x}% %{= axis.y}% %{= axis.z}%
-            anchor %{= anchor.x}% %{= anchor.y}% %{= anchor.z}%
-            minStop %{= - backlash*0.5}%
-            maxStop %{= backlash*0.5}%
+            axis %{= axis.x }% %{= axis.y }% %{= axis.z }%
+            anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+            minStop %{= - backlash*0.5 }%
+            maxStop %{= backlash*0.5 }%
             stopERP 0
           }
-          device IS outputSensor
-          endPoint IS endPoint
+          device []
+          endPoint Solid {
+            name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis %{= axis2.x }% %{= axis2.y }% %{= axis2.z }%
+                  anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+                  minStop %{= - backlash*0.5 }%
+                  maxStop %{= backlash*0.5 }%
+                  #stopERP 0
+                }
+                #device2 []
+                device [] #IS device
+                #device [
+                #  RotationalMotor {
+                #    name "UNCTRL"
+                #  }
+                #]
+                endPoint IS endPoint
+              }
+            ]
+            physics Physics {
+              inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
+              centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+              density -1
+              mass %{= gearMass*0.5 }%
+            }
+          }
         }
       ]
       physics Physics {
         inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
-        centerOfMass %{= anchor.x}% %{= anchor.y}% %{= anchor.z}%
+        centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
         density -1
-        mass IS gearMass
+        mass %{= gearMass*0.5 }%
       }
     }
   }
