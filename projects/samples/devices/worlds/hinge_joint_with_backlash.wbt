@@ -1,0 +1,412 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example world showing the effect of backlash."
+  ]
+  title "Hinge Joint With Backlash"
+  gravity 0
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.5229000929419013 0.8437541499167371 0.12105547199377206 0.5355762867055323
+  position 0.21862933289421269 0.13255359904058345 0.33300810012457005
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+  texture "empty_office"
+}
+Robot {
+  children [
+    DEF FRONT_BEARING Transform {
+      children [
+        SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          height 0.01
+          radius 0.04
+          thickness 0.015
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          enableBoundingObject FALSE
+        }
+        Transform {
+          translation 0.07 0.02 0
+          children [
+            DEF BALL Shape {
+              appearance PBRAppearance {
+                baseColor 0.729412 0.741176 0.713725
+              }
+              geometry Sphere {
+                radius 0.006
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.07 -0.02 0
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 -0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+      ]
+    }
+    DEF BACK_BEARING Transform {
+      translation -0.18 0 0
+      children [
+        SolidPipe {
+          translation 0.07 0 0
+          rotation 0 0 1 -1.5708
+          name "pipe back bearing"
+          height 0.01
+          radius 0.04
+          thickness 0.015
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.2
+          }
+          enableBoundingObject FALSE
+        }
+        Transform {
+          translation 0.07 0.02 0
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.02 0
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0 -0.02
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 -0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 -0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+        Transform {
+          translation 0.07 0.014 0.014
+          children [
+            USE BALL
+          ]
+        }
+      ]
+    }
+    DEF BLACK_BOX Transform {
+      translation 0.145 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.035
+          }
+        }
+      ]
+    }
+    DEF STATOR_FRAME Group {
+      children [
+        Transform {
+          translation -0.02 0.04 0
+          children [
+            DEF STATOR_BAR Shape {
+              appearance PBRAppearance {
+                baseColor 0.729412 0.741176 0.713725
+                roughness 0.2
+              }
+              geometry Box {
+                size 0.19 0.005 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.02 -0.04 0
+          children [
+            USE STATOR_BAR
+          ]
+        }
+        Transform {
+          translation -0.02 0 -0.04
+          rotation 1 0 0 1.5708
+          children [
+            USE STATOR_BAR
+          ]
+        }
+      ]
+    }
+    HingeJointWithBacklash {
+      jointParameters HingeJointParameters {
+        anchor 0.19 0 0
+      }
+      backlash 0.4
+      device [
+        PositionSensor {
+          name "rotor sensor"
+        }
+        RotationalMotor {
+          name "rotor motor"
+        }
+      ]
+      startPoint [
+        Group {
+          children [
+            DEF ROTOR_ARMATURE_1 Transform {
+              translation -0.02 -0.015 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR_ARMATURE_2 Transform {
+              translation -0.02 0.015 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR_ARMATURE_3 Transform {
+              translation -0.02 0 0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR_ARMATURE_4 Transform {
+              translation -0.02 0 -0.015
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.333333 0.341176 0.32549
+                  }
+                  geometry Box {
+                    size 0.125 0.035 0.004
+                  }
+                }
+              ]
+            }
+            DEF ROTOR_CENTER SolidPipe {
+              translation -0.02 0 0
+              rotation 0 0 1 -1.5708
+              height 0.13
+              radius 0.015
+              thickness 0.01
+              appearance PBRAppearance {
+                baseColor 0.333333 0.341176 0.32549
+              }
+              enableBoundingObject FALSE
+            }
+            DEF CORE Transform {
+              translation -0.02 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cylinder {
+                    height 0.12
+                    radius 0.03
+                  }
+                }
+              ]
+            }
+            DEF SHAFT Transform {
+              translation 0.025 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.937255 0.160784 0.160784
+                  }
+                  geometry Cylinder {
+                    height 0.29
+                    radius 0.005
+                  }
+                }
+              ]
+            }
+            DEF INPUT_MARKER Transform {
+              translation 0.095 0.0075 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.937255 0.160784 0.160784
+                  }
+                  geometry Box {
+                    size 0.01 0.015 0.005
+                  }
+                }
+              ]
+            }
+            DEF FRONT_INNER_BEARING Transform {
+              translation 0.07 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.729412 0.741176 0.713725
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/grid.png"
+                      ]
+                    }
+                    roughness 0.2
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.015
+                  }
+                }
+              ]
+            }
+            DEF BACK_INNER_BEARING Transform {
+              translation -0.11 0 0
+              rotation 0 0 1 -1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.729412 0.741176 0.713725
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/grid.png"
+                      ]
+                    }
+                    roughness 0.2
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.015
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      endPoint Solid {
+        rotation 1 0 0 0
+        children [
+          DEF OUTPUT_SHAFT Transform {
+            translation 0.185 0 0
+            rotation 0 0 1 -1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.005
+                }
+              }
+            ]
+          }
+          DEF OUTPUT_MARKER Transform {
+            translation 0.195 0.0075 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.203922 0.396078 0.643137
+                }
+                geometry Box {
+                  size 0.01 0.015 0.005
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE OUTPUT_MARKER
+        physics Physics {
+        }
+      }
+    }
+  ]
+  controller "hinge_joint_with_backlash"
+}
