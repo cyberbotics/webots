@@ -188,9 +188,9 @@ class WbBackground extends WbBaseNode {
     const cm = _wr_texture_cubemap_new();
     const hdrImageData = [];
     if (this.irradianceCubeArray.length === 6) {
-      for (let i = 0; i < 6; ++i) {
-        _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+      _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
+      for (let i = 0; i < 6; ++i) {
         hdrImageData[i] = arrayXPointerFloat(this.irradianceCubeArray[i].bits);
         _wr_texture_cubemap_set_data(cm, hdrImageData[i], i);
       }
@@ -239,14 +239,6 @@ class WbBackground extends WbBaseNode {
           parent.applyMaterialToGeometry();
       }
     });
-  }
-
-  coordinateSystemRotate(i) {
-    const enuRotate = [90, -90, 0, 180, -90, -90];
-    if (WbWorld.instance.coordinateSystem === 'ENU')
-      return enuRotate[i];
-    else // "NUE" or "EUN"
-      return 0;
   }
 }
 

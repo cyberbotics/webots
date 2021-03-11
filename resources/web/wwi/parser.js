@@ -280,12 +280,21 @@ class Parser {
       rightUrl = rightUrl.slice(1, rightUrl.length - 1);
       topUrl = topUrl.slice(1, topUrl.length - 1);
 
-      cubeImages[5] = await Parser.loadTextureData(this.prefix + backUrl);
-      cubeImages[3] = await Parser.loadTextureData(this.prefix + bottomUrl);
-      cubeImages[4] = await Parser.loadTextureData(this.prefix + frontUrl);
-      cubeImages[1] = await Parser.loadTextureData(this.prefix + leftUrl);
-      cubeImages[0] = await Parser.loadTextureData(this.prefix + rightUrl);
-      cubeImages[2] = await Parser.loadTextureData(this.prefix + topUrl);
+      if(WbWorld.instance.coordinateSystem === 'ENU'){
+        cubeImages[0] = await Parser.loadTextureData(this.prefix + backUrl, false, 90);
+        cubeImages[4] = await Parser.loadTextureData(this.prefix + bottomUrl, false, -90);
+        cubeImages[1] = await Parser.loadTextureData(this.prefix + frontUrl, false, -90);
+        cubeImages[3] = await Parser.loadTextureData(this.prefix + leftUrl, false, 180);
+        cubeImages[2] = await Parser.loadTextureData(this.prefix + rightUrl);
+        cubeImages[5] = await Parser.loadTextureData(this.prefix + topUrl, false, -90);
+      } else{
+        cubeImages[5] = await Parser.loadTextureData(this.prefix + backUrl);
+        cubeImages[3] = await Parser.loadTextureData(this.prefix + bottomUrl);
+        cubeImages[4] = await Parser.loadTextureData(this.prefix + frontUrl);
+        cubeImages[1] = await Parser.loadTextureData(this.prefix + leftUrl);
+        cubeImages[0] = await Parser.loadTextureData(this.prefix + rightUrl);
+        cubeImages[2] = await Parser.loadTextureData(this.prefix + topUrl);
+      }
     } else
       console.log('Background : Incomplete cubemap');
 
@@ -305,13 +314,22 @@ class Parser {
       leftIrradianceUrl = leftIrradianceUrl.slice(1, leftIrradianceUrl.length - 1);
       rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length - 1);
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
+      if(WbWorld.instance.coordinateSystem === 'ENU'){
+        irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + backIrradianceUrl, true, 90);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this.prefix + bottomIrradianceUrl, true, -90);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + frontIrradianceUrl, true, -90);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true, 180);
+        irradianceCubeURL[2] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this.prefix + topIrradianceUrl, true, -90);
+      } else{
+        irradianceCubeURL[2] = await Parser.loadTextureData(this.prefix + topIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this.prefix + backIrradianceUrl, true);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this.prefix + bottomIrradianceUrl, true);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this.prefix + frontIrradianceUrl, true);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true);
+        irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
+      }
 
-      irradianceCubeURL[2] = await Parser.loadTextureData(this.prefix + topIrradianceUrl, true);
-      irradianceCubeURL[5] = await Parser.loadTextureData(this.prefix + backIrradianceUrl, true);
-      irradianceCubeURL[3] = await Parser.loadTextureData(this.prefix + bottomIrradianceUrl, true);
-      irradianceCubeURL[4] = await Parser.loadTextureData(this.prefix + frontIrradianceUrl, true);
-      irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true);
-      irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
     } else
       console.log('Background : Incomplete irradiance cubemap');
 
@@ -1056,7 +1074,7 @@ class Parser {
     return textureTransform;
   }
 
-  static async loadTextureData(url, isHdr) {
+  static async loadTextureData(url, isHdr, rotation) {
     const canvas2 = document.createElement('canvas');
     const context = canvas2.getContext('2d');
 
@@ -1068,11 +1086,23 @@ class Parser {
       image.width = img.width;
       image.height = img.height;
       image.url = url;
+      if(typeof rotation !== 'undefined') {
+        image.bits = rotateHDR(image, rotation);
+      }
     } else {
       const img = await Parser.loadImage(url);
       canvas2.width = img.width;
       canvas2.height = img.height;
-      context.drawImage(img, 0, 0);
+      if(typeof rotation !== 'undefined') {
+        context.save();
+        context.translate(canvas2.width/2, canvas2.height/2);
+        context.rotate(rotation * Math.PI / 180);
+        context.drawImage(img, -canvas2.width/2, -canvas2.height/2);
+        context.restore();
+      } else {
+        context.drawImage(img, 0, 0);
+      }
+
       const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
       let data = new Uint8ClampedArray(dataBGRA.length);
       data = dataBGRA;
@@ -1125,6 +1155,46 @@ function convertStringToVec3(s) {
 function convertStringToQuaternion(s) {
   const pos = s.split(/\s/);
   return new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
+}
+
+function rotateHDR(image, rotate) {
+  let rotatedbits = [];
+  if (rotate == 90) {
+    for (let x = 0; x < image.width; x++) {
+      for (let y = 0; y < image.height; y++) {
+        const u = y * image.width * 3 + x * 3;
+        const v = (image.width - 1 - x) * image.height * 3 + y * 3;
+        for (let c = 0; c < 3; c++){
+          rotatedbits[u + c] = image.bits[v + c];
+        }
+      }
+    }
+    const swap = image.width;
+    image.width = image.height;
+    image.height = swap;
+  } else if (rotate === -90) {
+    for (let x = 0; x < image.width; x++) {
+      for (let y = 0; y < image.height; y++) {
+        const u = y * image.width * 3 + x * 3;
+        const v = x * image.width * 3 + (image.height - 1 - y) * 3;
+        for (let c = 0; c < 3; c++)
+          rotatedbits[u + c] = image.bits[v + c];
+      }
+    }
+    const swap = image.width;
+    image.width = image.height;
+    image.height = swap;
+  } else if (rotate === 180) {
+    for (let x = 0; x < image.width; x++) {
+      for (let y = 0; y < image.height; y++) {
+        const u = y * image.width * 3 + x * 3;
+        const v = (image.height - 1 - y) * image.width * 3 + (image.width - 1 - x) * 3;
+        for (let c = 0; c < 3; c++)
+          rotatedbits[u + c] = image.bits[v + c];
+      }
+    }
+  }
+  return rotatedbits;
 }
 
 Parser.undefinedID = 90000;
