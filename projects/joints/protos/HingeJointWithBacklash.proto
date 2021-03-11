@@ -8,7 +8,7 @@ PROTO HingeJointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
   field SFFloat                                backlash          0.01   # Defines the gear clearence, [0, inf).
   field SFFloat                                gearMass          0.01   # Defines the gear mass, [0, inf).
-  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}.
+  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
   field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.

@@ -15,7 +15,7 @@ HingeJointWithBacklash [
   SFNode       jointParameters   HingeJointParameters {} 
   SFFloat      backlash          0.1    # (0, inf)
   SFFloat      gearMass          0.01   # [0, inf)
-  MFNode       device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
+  MFNode       device            [ ]    # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor      [ ]    # {PositionSensor}
   MFNode       startPoint        NULL   # {Group, Transform, or Shape}
   SFNode       endPoint          NULL   # {Solid, SolidReference, or Slot}
@@ -43,7 +43,7 @@ If no motor is specified, the joint is a passive joint.
 - `startPoint`: this field optionally specifies the shape of the object attached to the axis at the input of the joint. It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
 This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
 
-- `endPoint`: this field specifies which [Solid](../reference/solid.md) is subjected to the joint constraints. It must be either a [Solid](../reference/solid.md) child, or a reference to an existing [Solid](../reference/solid.md), i.e. a [SolidReference](../reference/solidreference.md).
+- `endPoint`: this field specifies which [Solid](../reference/solid.md) is subject to the joint constraints. It must be either a [Solid](../reference/solid.md) child, or a reference to an existing [Solid](../reference/solid.md), i.e. a [SolidReference](../reference/solidreference.md).
 Alternatively, a [Slot](../reference/slot.md) node can be inserted in the `endPoint` field, but this [Slot](../reference/slot.md) should be connected to another [Slot](../reference/slot.md) whose `endPoint` is either a [Solid](../reference/solid.md) or a [SolidReference](../reference/solidreference.md).
 
 > **Note**: **Important**, due to the way the backlash is modeled, it is **necessary** for the `endPoint` solid to have physics **enabled** for the backlash effect to be active.
