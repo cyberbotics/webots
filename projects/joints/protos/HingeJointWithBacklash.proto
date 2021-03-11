@@ -22,7 +22,6 @@ PROTO HingeJointWithBacklash [
     -- parameter retrieval
     local axis = fields.jointParameters.value.fields.axis.value
     local anchor = fields.jointParameters.value.fields.anchor.value
-    local position = fields.jointParameters.value.fields.position.value
     -- parameter sanity check
     local backlash = fields.backlash.value
     if backlash < 0 then
@@ -46,7 +45,6 @@ PROTO HingeJointWithBacklash [
   HingeJoint {
     jointParameters IS jointParameters
     device IS device
-    position IS position
     %{ if backlash == 0 then }% # use a normal hinge
       endPoint IS endPoint
     %{ else }%
