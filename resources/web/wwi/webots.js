@@ -186,7 +186,8 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          this.x3dScene.prefix = httpServerUrl + '/';
+          if(typeof this.x3dScene !== 'undefined')
+            this.x3dScene.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file

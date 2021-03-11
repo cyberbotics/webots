@@ -29,8 +29,9 @@ class Stream {
 
   onSocketOpen(event) {
     let mode = this.view.mode;
-    if (mode === 'mjpeg')
+    if (mode === 'mjpeg'){
       mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // subtract toolbar height
+    }
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);
@@ -125,6 +126,9 @@ class Stream {
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {
+      if (this.view.mode = "mjpeg")
+        $('#webotsProgress').hide();
+
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
     } else if (data === 'delete world')
