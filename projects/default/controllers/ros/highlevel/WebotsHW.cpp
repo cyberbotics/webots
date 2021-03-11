@@ -68,9 +68,9 @@ namespace highlevel {
 
   void WebotsHW::write() {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      if (!isnan(controlledMotor.commandVelocity))
+      if (!std::isnan(controlledMotor.commandVelocity))
         controlledMotor.motor->setVelocity(controlledMotor.commandVelocity);
-      if (!isnan(controlledMotor.commandPosition))
+      if (!std::isnan(controlledMotor.commandPosition))
         controlledMotor.motor->setPosition(controlledMotor.commandPosition);
     }
   }
