@@ -85,6 +85,17 @@ def convert_pose(rotation_angle_axis, translation):
     return new_rotation_str, new_translation_str
 
 
+def convert_physics(node):
+    physics_field = get_field(node, 'physics')
+    if physics_field:
+        physics_node = physics_field['value']
+        center_of_mass_field = get_field(physics_node, 'centerOfMass')
+        if center_of_mass_field:
+            for ceneter_of_mass in center_of_mass_field['value']:
+                # TODO: Convert each triple and return back to MFNode
+                pass
+
+
 def convert_nodes(nodes):
     for node in nodes:
         if 'Hinge' in node['name']:
@@ -101,6 +112,9 @@ def convert_nodes(nodes):
             new_axis_str = [f'{round(v, 5):.5}' for v in new_axis]
             set_vector3(joint_parameters_node, new_axis_str, name='axis')
 
+            endpoint_node = get_field(node, 'endPoint')['value']
+            convert_nodes([endpoint_node])
+
         elif node['name'] == 'Group':
             children = get_field(node, 'children')
             if children and children['type'] != 'IS':
@@ -114,6 +128,8 @@ def convert_nodes(nodes):
             set_rotation(node, new_rotation)
             set_vector3(node, new_translaton)
 
+            convert_physics(node)
+
 
 def main():
     proto = WebotsParser()
@@ -126,6 +142,9 @@ def main():
     # Convert robot's children
     robot_children = get_field(robot_node, 'children')['value']
     convert_nodes(robot_children)
+
+    # Convert physics
+    convert_physics(robot_node)
 
     # Convert bounding objects
     bounding_object = get_field(robot_node, 'boundingObject')['value']
