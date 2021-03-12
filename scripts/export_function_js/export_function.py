@@ -16,62 +16,61 @@
 
 import os
 try:
-	from pyclibrary import CParser
+    from pyclibrary import CParser
 
-	listheaders = os.listdir("../../include/wren/")
-	buggyheaders = {"config.h", "drawable_texture.h", "file_import.h", "font.h", "overlay.h"}
-	listheaders = ["../../include/wren/" + header for header in listheaders if header[len(header)-2:len(header)] == '.h' and not(
-	    header in buggyheaders)]
+    listheaders = os.listdir("../../include/wren/")
+    buggyheaders = {"config.h", "drawable_texture.h", "file_import.h", "font.h", "overlay.h"}
+    listheaders = ["../../include/wren/" + header for header in listheaders if header
+                   [len(header)-2:len(header)] == '.h' and not(header in buggyheaders)]
 
-	parser = CParser(listheaders)
+    parser = CParser(listheaders)
 
-	parser.process_all()
+    parser.process_all()
 
-	# FUNCTIONS
-	functionSignatures = parser.defs['functions']
-	functionName = functionSignatures.keys()
-	functionName = map(lambda name: "_" + name + ", ", functionName)
+    # FUNCTIONS
+    functionSignatures = parser.defs['functions']
+    functionName = functionSignatures.keys()
+    functionName = map(lambda name: "_" + name + ", ", functionName)
 
-	if os.path.exists("../../src/wren/functionsToExport.txt"):
-	    os.remove("../../src/wren/functionsToExport.txt")
+    if os.path.exists("../../src/wren/functionsToExport.txt"):
+        os.remove("../../src/wren/functionsToExport.txt")
 
-	functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale, " +
-		                             "_wr_config_get_max_active_directional_light_count, " +
-		                             " _wr_config_get_max_active_point_light_count, " +
-		                             "_wr_config_get_max_active_spot_light_count, _wr_config_enable_shadows"]
+    functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale, " +
+                                         "_wr_config_get_max_active_directional_light_count, " +
+                                         " _wr_config_get_max_active_point_light_count, " +
+                                         "_wr_config_get_max_active_spot_light_count, _wr_config_enable_shadows"]
 
-	# The next lines are not needed as long as we add manually a last function
-	# lastIndex= len(functionName) - 1
-	# lastName = functionName[lastIndex];
-	# lastName = lastName[:len(lastName)-2]
-	# functionName[lastIndex] = lastName;
+    # The next lines are not needed as long as we add manually a last function
+    # lastIndex= len(functionName) - 1
+    # lastName = functionName[lastIndex];
+    # lastName = lastName[:len(lastName)-2]
+    # functionName[lastIndex] = lastName;
 
-	f = open("../../src/wren/functionsToExport.txt", 'w')
+    f = open("../../src/wren/functionsToExport.txt", 'w')
 
-	f.write(''.join(functionName))
+    f.write(''.join(functionName))
 
-	f.close()
+    f.close()
 
-	# ENUM
+    # ENUM
 
-	all_values = parser.defs['values']
+    all_values = parser.defs['values']
 
-	# Eliminate the include guard
-	all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.items() if not ("_H" in value[0])]
+    # Eliminate the include guard
+    all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.items() if not ("_H" in value[0])]
 
+    if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
+        os.remove("../../resources/web/streaming_viewer/enum.js")
 
-	if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
-	    os.remove("../../resources/web/streaming_viewer/enum.js")
+    f = open("../../resources/web/streaming_viewer/enum.js", 'w')
 
-	f = open("../../resources/web/streaming_viewer/enum.js", 'w')
+    values_string = ''.join(all_values)
+    values_string = values_string[:len(values_string) - 3]
+    f.write("const ENUM = {\n" + values_string + "}")
 
-	values_string = ''.join(all_values)
-	values_string = values_string[:len(values_string) - 3]
-	f.write("const ENUM = {\n" + values_string + "}")
+    f.close()
 
-	f.close()
+    print("OK")
 
-	print("OK")
-	
 except ImportError:
-	print("Fail to import pyclibrary")
+    print("Fail to import pyclibrary")
