@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import {M_PI_4} from './nodes/wbConstants.js';
 import {WbAbstractAppearance} from './nodes/wbAbstractAppearance.js';
 import {WbAppearance} from './nodes/wbAppearance.js';
@@ -47,7 +48,7 @@ import {WbViewpoint} from './nodes/wbViewpoint.js';
 import {WbWorld} from './nodes/wbWorld.js';
 
 import {DefaultUrl} from './default_url.js';
-import {RGBELoader} from './hdrLoader.js';
+import {loadHdr} from './hdrLoader.js';
 
 class Parser {
   constructor(prefix = '') {
@@ -1076,22 +1077,20 @@ class Parser {
       image.width = img.width;
       image.height = img.height;
       image.url = url;
-      if(typeof rotation !== 'undefined') {
+      if (typeof rotation !== 'undefined')
         image.bits = rotateHDR(image, rotation);
-      }
     } else {
       const img = await Parser.loadImage(url);
       canvas2.width = img.width;
       canvas2.height = img.height;
-      if(typeof rotation !== 'undefined') {
+      if (typeof rotation !== 'undefined') {
         context.save();
-        context.translate(canvas2.width/2, canvas2.height/2);
+        context.translate(canvas2.width / 2, canvas2.height / 2);
         context.rotate(rotation * Math.PI / 180);
-        context.drawImage(img, -canvas2.width/2, -canvas2.height/2);
+        context.drawImage(img, -canvas2.width / 2, -canvas2.height / 2);
         context.restore();
-      } else {
+      } else
         context.drawImage(img, 0, 0);
-      }
 
       const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
       let data = new Uint8ClampedArray(dataBGRA.length);
@@ -1119,8 +1118,7 @@ class Parser {
 
   static loadHDRImage(src) {
     return new Promise((resolve, reject) => {
-      const loader = new RGBELoader();
-      loader.load(src, function(img) { resolve(img); });
+      loadHdr(src, function(img) { resolve(img); });
     });
   }
 }
@@ -1149,14 +1147,13 @@ function convertStringToQuaternion(s) {
 
 function rotateHDR(image, rotate) {
   let rotatedbits = [];
-  if (rotate == 90) {
+  if (rotate === 90) {
     for (let x = 0; x < image.width; x++) {
       for (let y = 0; y < image.height; y++) {
         const u = y * image.width * 3 + x * 3;
         const v = (image.width - 1 - x) * image.height * 3 + y * 3;
-        for (let c = 0; c < 3; c++){
+        for (let c = 0; c < 3; c++)
           rotatedbits[u + c] = image.bits[v + c];
-        }
       }
     }
     const swap = image.width;

@@ -124,7 +124,6 @@ class X3dScene {
       .then(response => response.text())
       .then(async function(response) {
         const loader = new Parser(prefix);
-        console.log(response);
         await loader.parse(response, renderer);
         onLoad();
       });

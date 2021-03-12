@@ -15,8 +15,8 @@ class Animation {
   init(onReady) {
     this.onReady = onReady;
     fetch(this.url)
-      .then((response) => response.json())
-      .then((data) => this._setup(data))
+      .then(response => response.json())
+      .then(data => this._setup(data))
       .catch((error) => console.log(error));
   }
 
