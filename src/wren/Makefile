@@ -37,14 +37,20 @@ CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
 
 PYTHON3_OK = $(shell type python3;)
 ifneq ($(PYTHON3_OK),)
+ifneq ($(EMSDK),)
 # Check if pyclibrary is present
 PYC = $(shell \
-	pip list >> temp.txt; \
+	pip list 2>/dev/null >> temp.txt; \
 	grep pyclibrary temp.txt | awk '{print $$1}'; \
 	rm temp.txt; \
 	)
-
-ifneq ($(EMSDK),)
+ifneq ($(PYC), pyclibrary) 
+PYC = $(shell \
+	pip3 list 2>/dev/null >> temp.txt; \
+	grep pyclibrary temp.txt | awk '{print $$1}'; \
+	rm temp.txt; \
+	)
+endif
 ifeq ($(PYC), pyclibrary) 
 WREN=1
 #Parse the headers for WRENJS
