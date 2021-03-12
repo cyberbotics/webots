@@ -31,13 +31,17 @@ class WebotsParser:
             self.content['header'] = []
             self.line_count = 0
 
-            line = self.file.readline().strip()
-            self.content['header'].append(line)
-            while line.startswith('#'):
+            self.content['header'] = []
+            while True:
+                revert_position = self.file.tell()
                 line = self.file.readline()
-                self.line_count += 1
-                self.content['header'].append(line.strip())
-            self.line_count += 1
+                if line.startswith('#') or not line.strip():
+                    
+                    self.line_count += 1
+                    self.content['header'].append(line.strip())
+                else:
+                    self.file.seek(revert_position)
+                    break
 
             self.content['root'] = []
             for line in self.file:
