@@ -248,7 +248,6 @@ class WbViewpoint extends WbBaseNode {
   updateOrientation() {
     if (this.wrenObjectsCreatedCalled)
       this.applyOrientationToWren();
-    console.log(this.orientation);
   }
 
   updateFollowUp(time) {
