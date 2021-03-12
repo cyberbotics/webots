@@ -52,8 +52,6 @@ f.write(''.join(functionName))
 
 f.close()
 
-print("Functions parsed")
-
 # ENUM
 
 all_values = parser.defs['values']
@@ -73,4 +71,4 @@ f.write("const ENUM = {\n" + values_string + "}")
 
 f.close()
 
-print("Enums parsed")
+print("OK")
