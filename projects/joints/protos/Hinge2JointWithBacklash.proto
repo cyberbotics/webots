@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# This extension of the hinge joint allows to model the effect of backlash.
+# This extension of the hinge2joint allows to model the effect of backlash.
 
 PROTO Hinge2JointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}

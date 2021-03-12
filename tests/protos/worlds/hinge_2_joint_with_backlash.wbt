@@ -1,0 +1,409 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  gravity 0
+  basicTimeStep 16
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0 1 0 1.5707963267948966
+  position 1.5154375542211365 -0.06376442746454533 -0.4874436232845243
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF ROBOT_SIMPLE_HINGE2JOINT Robot {
+  children [
+    Solid {
+      children [
+        DEF SHOULDER Transform {
+          translation -0.02 -0.02 0
+          children [
+            Shape {
+              appearance DEF APPEARANCE_GREY PBRAppearance {
+                baseColor 0.333333 0.341176 0.32549
+              }
+              geometry Box {
+                size 0.04 0.04 0.04
+              }
+            }
+          ]
+        }
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "rotational_motor"
+            }
+            PositionSensor {
+              name "position_sensor"
+            }
+          ]
+          device2 [
+            PositionSensor {
+              name "position_sensor2"
+            }
+            RotationalMotor {
+              name "rotational_motor2"
+            }
+          ]
+          endPoint Solid {
+            translation 0.02 -0.1 0
+            rotation 0 0 1 0
+            children [
+              DEF END_POINT_FOR_SIMPLE_HINGE2JOINT Transform {
+                translation 0 -0.1 0
+                children [
+                  Shape {
+                    appearance USE APPEARANCE_GREY
+                    geometry Sphere {
+                      radius 0.004
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE APPEARANCE_GREY
+                geometry Box {
+                  size 0.04 0.2 0.04
+                }
+              }
+            ]
+            boundingObject USE END_POINT_FOR_SIMPLE_HINGE2JOINT
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "control_case"
+      physics Physics {
+      }
+    }
+  ]
+  name "robot_simple_hinge2joint"
+  controller "hinge_2_joint_with_backlash"
+}
+DEF ROBOT_BACKLASH_02_AND_02 Robot {
+  translation 0 0 -0.25
+  children [
+    Solid {
+      children [
+        DEF SHOULDER Transform {
+          translation -0.02 -0.02 0
+          children [
+            Shape {
+              appearance DEF APPEARANCE_BLUE PBRAppearance {
+                baseColor 0.203922 0.396078 0.643137
+              }
+              geometry Box {
+                size 0.04 0.04 0.04
+              }
+            }
+          ]
+        }
+        Hinge2JointWithBacklash {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          backlash 0.2
+          backlash2 0.2
+          device [
+            RotationalMotor {
+              name "rotational_motor"
+            }
+            PositionSensor {
+              name "position_sensor"
+            }
+          ]
+          device2 [
+            PositionSensor {
+              name "position_sensor2"
+            }
+            RotationalMotor {
+              name "rotational_motor2"
+            }
+          ]
+          endPoint Solid {
+            translation 0.02 -0.1 0
+            rotation 0 0 1 0
+            children [
+              DEF END_POINT_FOR_BACKLASH_02_AND_02 Transform {
+                translation 0 -0.1 0
+                children [
+                  Shape {
+                    appearance USE APPEARANCE_BLUE
+                    geometry Sphere {
+                      radius 0.004
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE APPEARANCE_BLUE
+                geometry Box {
+                  size 0.04 0.2 0.04
+                }
+              }
+            ]
+            boundingObject USE END_POINT_FOR_BACKLASH_02_AND_02
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "test_backlash_02_and_02"
+      physics Physics {
+      }
+    }
+  ]
+  name "robot_backlash_02_and_02"
+  controller "hinge_2_joint_with_backlash"
+}
+DEF ROBOT_BACKLASH_02_AND_00 Robot {
+  translation 0 0 -0.5
+  children [
+    Solid {
+      children [
+        DEF SHOULDER Transform {
+          translation -0.02 -0.02 0
+          children [
+            Shape {
+              appearance DEF APPEARANCE_GREEN PBRAppearance {
+                baseColor 0.45098 0.823529 0.0862745
+              }
+              geometry Box {
+                size 0.04 0.04 0.04
+              }
+            }
+          ]
+        }
+        Hinge2JointWithBacklash {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          backlash 0.2
+          backlash2 0
+          device [
+            RotationalMotor {
+              name "rotational_motor"
+            }
+            PositionSensor {
+              name "position_sensor"
+            }
+          ]
+          device2 [
+            PositionSensor {
+              name "position_sensor2"
+            }
+            RotationalMotor {
+              name "rotational_motor2"
+            }
+          ]
+          endPoint Solid {
+            translation 0.02 -0.1 0
+            children [
+              DEF END_POINT_FOR_BACKLASH_02_AND_00 Transform {
+                translation 0 -0.1 0
+                children [
+                  Shape {
+                    appearance USE APPEARANCE_GREEN
+                    geometry Sphere {
+                      radius 0.004
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE APPEARANCE_GREEN
+                geometry Box {
+                  size 0.04 0.2 0.04
+                }
+              }
+            ]
+            boundingObject USE END_POINT_FOR_BACKLASH_02_AND_00
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "test_backlash_02_and_00"
+      physics Physics {
+      }
+    }
+  ]
+  name "robot_backlash_02_and_00"
+  controller "hinge_2_joint_with_backlash"
+}
+DEF ROBOT_BACKLASH_00_AND_02 Robot {
+  translation 0 0 -0.75
+  children [
+    Solid {
+      children [
+        DEF SHOULDER Transform {
+          translation -0.02 -0.02 0
+          children [
+            Shape {
+              appearance DEF APPEARANCE_RED PBRAppearance {
+                baseColor 0.8 0 0
+              }
+              geometry Box {
+                size 0.04 0.04 0.04
+              }
+            }
+          ]
+        }
+        Hinge2JointWithBacklash {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          backlash 0
+          backlash2 0.2
+          device [
+            RotationalMotor {
+              name "rotational_motor"
+            }
+            PositionSensor {
+              name "position_sensor"
+            }
+          ]
+          device2 [
+            PositionSensor {
+              name "position_sensor2"
+            }
+            RotationalMotor {
+              name "rotational_motor2"
+            }
+          ]
+          endPoint Solid {
+            translation 0.02 -0.1 0
+            rotation 0 0 1 0
+            children [
+              DEF END_POINT_FOR_BACKLASH_00_AND_02 Transform {
+                translation 0 -0.1 0
+                children [
+                  Shape {
+                    appearance USE APPEARANCE_RED
+                    geometry Sphere {
+                      radius 0.004
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE APPEARANCE_RED
+                geometry Box {
+                  size 0.04 0.2 0.04
+                }
+              }
+            ]
+            boundingObject USE END_POINT_FOR_BACKLASH_00_AND_02
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "test_backlash_00_and_02"
+      physics Physics {
+      }
+    }
+  ]
+  name "robot_backlash_00_and_02"
+  controller "hinge_2_joint_with_backlash"
+}
+DEF ROBOT_BACKLASH_00_AND_00 Robot {
+  translation 0 0 -1
+  children [
+    Solid {
+      children [
+        DEF SHOULDER Transform {
+          translation -0.02 -0.02 0
+          children [
+            Shape {
+              appearance DEF APPEARANCE_VIOLET PBRAppearance {
+                baseColor 0.458824 0.313725 0.482353
+              }
+              geometry Box {
+                size 0.04 0.04 0.04
+              }
+            }
+          ]
+        }
+        Hinge2JointWithBacklash {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          backlash 0
+          backlash2 0
+          device [
+            RotationalMotor {
+              name "rotational_motor"
+            }
+            PositionSensor {
+              name "position_sensor"
+            }
+          ]
+          device2 [
+            PositionSensor {
+              name "position_sensor2"
+            }
+            RotationalMotor {
+              name "rotational_motor2"
+            }
+          ]
+          endPoint Solid {
+            translation 0.02 -0.1 0
+            children [
+              DEF END_POINT_FOR_BACKLASH_00_AND_00 Transform {
+                translation 0 -0.1 0
+                children [
+                  Shape {
+                    appearance USE APPEARANCE_VIOLET
+                    geometry Sphere {
+                      radius 0.004
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE APPEARANCE_VIOLET
+                geometry Box {
+                  size 0.04 0.2 0.04
+                }
+              }
+            ]
+            boundingObject USE END_POINT_FOR_BACKLASH_00_AND_00
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "test_backlash_00_and_00"
+      physics Physics {
+      }
+    }
+  ]
+  name "robot_backlash_00_and_00"
+  controller "hinge_2_joint_with_backlash"
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "hinge_2_joint_with_backlash_supervisor"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
