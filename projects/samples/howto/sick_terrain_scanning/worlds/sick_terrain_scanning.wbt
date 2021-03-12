@@ -515,7 +515,8 @@ DEF PIONEER_3AT Pioneer3at {
   controller "sick_terrain_scanning"
   extensionSlot [
     DEF SICK SickLms291 {
-      translation 0 0.24 -0.136
+      translation 0.136 0 0.24
+      rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
     }
     Emitter {
       channel 1
