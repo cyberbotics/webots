@@ -20,11 +20,11 @@ webots.VideoStream.prototype._updateStreamsList = function() {
   const that = this;
   that.streaming.send({'message': {'request': 'list'},
     success: function(result) {
-      if (result === null || result === undefined) {
+      if (result === null || typeof result === 'undefined') {
         console.error('Got no response to our query for available streams');
         return;
       }
-      if (result['list'] !== undefined && result['list'] !== null) {
+      if (typeof result['list'] !== 'undefined' && result['list'] !== null) {
         const list = result['list'];
         Janus.log('Got a list of available streams');
         Janus.debug(list);
@@ -41,7 +41,7 @@ webots.VideoStream.prototype._updateStreamsList = function() {
 webots.VideoStream.prototype._startStream = function() {
   const that = this;
   Janus.log('Selected video id #' + that.selectedStream);
-  if (that.selectedStream === undefined || that.selectedStream === null) {
+  if (typeof that.selectedStream === 'undefined' || that.selectedStream === null) {
     console.error('Stream not found');
     return;
   }
@@ -78,8 +78,8 @@ webots.VideoStream.prototype._init = function(serverUrl) {
               Janus.debug('Got a message.');
               Janus.debug(JSON.stringify(msg));
               const result = msg['result'];
-              if (result !== null && result !== undefined) {
-                if (result['status'] !== undefined && result['status'] !== null) {
+              if (result !== null && typeof result !== 'undefined') {
+                if (typeof result['status'] !== 'undefined' && result['status'] !== null) {
                   const status = result['status'];
                   if (status === 'starting')
                     Janus.debug('Starting, please wait...');
@@ -88,12 +88,12 @@ webots.VideoStream.prototype._init = function(serverUrl) {
                   else if (status === 'stopped')
                     that._stopStream();
                 }
-              } else if (msg['error'] !== undefined && msg['error'] !== null) {
+              } else if (typeof msg['error'] !== 'undefined' && msg['error'] !== null) {
                 console.error(msg['error']);
                 that._stopStream();
                 return;
               }
-              if (jsep !== undefined && jsep !== null) {
+              if (typeof jsep !== 'undefined' && jsep !== null) {
                 Janus.debug('Handling SDP as well...');
                 Janus.debug(jsep);
                 that.streaming.createAnswer({

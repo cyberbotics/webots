@@ -58,7 +58,7 @@ export const WEBGL_PIXEL_TYPE = {
 * @param {zen3d.LoadingManager} manager — The loadingManager for the loader to use. Default is zen3d.DefaultLoadingManager.
 */
 function RGBELoader(manager) {
-  this.manager = (manager !== undefined) ? manager : DefaultLoadingManager;
+  this.manager = (typeof manager !== 'undefined') ? manager : DefaultLoadingManager;
   this.type = WEBGL_PIXEL_TYPE.FLOAT;
 }
 Object.assign(RGBELoader.prototype, /** @lends zen3d.RGBELoader.prototype */{
@@ -74,7 +74,7 @@ Object.assign(RGBELoader.prototype, /** @lends zen3d.RGBELoader.prototype */{
     const loader = new FileLoader(this.manager);
     loader.setResponseType('arraybuffer');
     loader.load(url, function(buffer) {
-      if (onLoad !== undefined)
+      if (typeof onLoad !== 'undefined')
         onLoad(that.parse(buffer));
     }, onProgress, onError);
   },

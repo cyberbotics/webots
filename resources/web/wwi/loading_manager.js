@@ -25,7 +25,7 @@ function LoadingManager(onLoad, onProgress, onError) {
   this.itemStart = function(url) {
     itemsTotal++;
     if (isLoading === false) {
-      if (scope.onStart !== undefined)
+      if (typeof scope.onStart !== 'undefined')
         scope.onStart(url, itemsLoaded, itemsTotal);
     }
     isLoading = true;
@@ -33,18 +33,18 @@ function LoadingManager(onLoad, onProgress, onError) {
 
   this.itemEnd = function(url) {
     itemsLoaded++;
-    if (scope.onProgress !== undefined)
+    if (typeof scope.onProgress !== 'undefined')
       scope.onProgress(url, itemsLoaded, itemsTotal);
 
     if (itemsLoaded === itemsTotal) {
       isLoading = false;
-      if (scope.onLoad !== undefined)
+      if (typeof scope.onLoad !== 'undefined')
         scope.onLoad();
     }
   };
 
   this.itemError = function(url) {
-    if (scope.onError !== undefined)
+    if (typeof scope.onError !== 'undefined')
       scope.onError(url);
   };
 
