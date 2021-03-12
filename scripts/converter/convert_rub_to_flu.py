@@ -51,9 +51,15 @@ def get_rotation(node):
 def set_rotation(node, value):
     rotation_field = get_field(node, 'rotation')
     if not rotation_field:
-        node['fields'].append({'name': 'rotation',
+        # Ignore [0, 0, 0] arrays
+        if all([float(v) < 1e-3 for v in value]):
+            return
+
+        node['fields'].insert(0,
+                              {'name': 'rotation',
                                'value': value,
-                               'type': 'SFRotation'})
+                               'type': 'SFRotation'}
+                              )
         return
     rotation_field['value'] = value
 
@@ -61,11 +67,27 @@ def set_rotation(node, value):
 def set_vector3(node, value, name='translation'):
     vector3_field = get_field(node, name)
     if not vector3_field:
-        node['fields'].append({'name': name,
+        # Ignore [0, 0, 0] arrays
+        if all([float(v) < 1e-4 for v in value]):
+            return
+
+        node['fields'].insert(0,
+                              {'name': name,
                                'value': value,
-                               'type': 'SFVec3f'})
+                               'type': 'SFVec3f'}
+                              )
         return
     vector3_field['value'] = value
+
+
+def vector_to_string(vector, decimals):
+    new_str = []
+    for value in vector:
+        if abs(value) > 1 / (10*decimals):
+            new_str.append(str(round(value, decimals)))
+        else:
+            new_str.append('0')
+    return new_str
 
 
 def convert_pose(rotation_angle_axis, translation):
@@ -79,8 +101,8 @@ def convert_pose(rotation_angle_axis, translation):
     new_translation = ROTATION_RUB_TO_FLU @ np.array(translation)
 
     # Convert to string array
-    new_rotation_str = [f'{round(v, 4):.4}' for v in new_rotation_axis.tolist() + [new_rotation_angle]]
-    new_translation_str = [f'{round(v, 3):.3}' for v in new_translation]
+    new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 4)
+    new_translation_str = vector_to_string(new_translation, 3)
 
     return new_rotation_str, new_translation_str
 
@@ -112,7 +134,7 @@ def convert_nodes(nodes):
 
             axis = get_vector3(joint_parameters_node, name='axis')
             new_axis = ROTATION_RUB_TO_FLU @ np.array(axis)
-            new_axis_str = [f'{round(v, 5):.5}' for v in new_axis]
+            new_axis_str = [f'{int(round(v))}' for v in new_axis]
             set_vector3(joint_parameters_node, new_axis_str, name='axis')
 
             endpoint_node = get_field(node, 'endPoint')['value']
@@ -123,8 +145,18 @@ def convert_nodes(nodes):
             if children and children['type'] != 'IS':
                 convert_nodes(children['value'])
         elif node['name'] == 'Shape':
-            # TODO: We should either add upper transform or convert it pixel by pixel
-            pass
+            # TODO: It would be better to convert it pixel by pixel
+            current_node = node.copy()
+            node.clear()
+            node['name'] = 'Transform'
+            node['fields'] = [
+                {'name': 'children', 'type': 'MFNode', 'value': [current_node]}
+            ]
+            translation = get_vector3(node)
+            rotation = get_rotation(node)
+            new_rotation, new_translaton = convert_pose(rotation, translation)
+            set_rotation(node, new_rotation)
+            set_vector3(node, new_translaton)
         else:
             translation = get_vector3(node)
             rotation = get_rotation(node)

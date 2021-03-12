@@ -423,7 +423,8 @@ DEF PIONEER_3AT Pioneer3at {
   controller "pioneer3at_obstacle_avoidance_with_lidar"
   extensionSlot [
     SickLms291 {
-      translation 0 0.24 -0.136
+      translation 0.136 0 0.24
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
     }
   ]
 }
