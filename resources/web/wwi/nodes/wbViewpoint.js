@@ -248,6 +248,7 @@ class WbViewpoint extends WbBaseNode {
   updateOrientation() {
     if (this.wrenObjectsCreatedCalled)
       this.applyOrientationToWren();
+    console.log(this.orientation);
   }
 
   updateFollowUp(time) {
@@ -258,8 +259,7 @@ class WbViewpoint extends WbBaseNode {
       this.followedSolidPreviousPosition = new WbVector3();
       this.equilibriumVector = new WbVector3();
       this.velocity = new WbVector3();
-      this.position = this.initialPosition;
-      this.orientation = this.initialOrientation;
+      this.resetViewpoint();
     }
 
     const followedSolid = WbWorld.instance.nodes.get(this.followedId);
@@ -353,6 +353,13 @@ class WbViewpoint extends WbBaseNode {
       this.followedSolidPreviousPosition = WbWorld.instance.nodes.get(this.followedId).translation;
 
     this.updatePostProcessingEffects();
+  }
+
+  resetViewpoint() {
+    this.position = this.initialPosition;
+    this.orientation = this.initialOrientation;
+    this.updatePosition();
+    this.updateOrientation();
   }
 }
 
