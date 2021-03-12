@@ -152,14 +152,14 @@ class X3dScene {
     this.onSceneUpdate();
   }
 
-  applyPose(pose) {
+  applyPose(pose, time) {
     const id = pose.id;
     const object = WbWorld.instance.nodes.get('n' + id);
 
     if (typeof object === 'undefined')
       return;
 
-    this.applyPoseToObject(pose, object);
+    this.applyPoseToObject(pose, object, time);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -170,13 +170,13 @@ class X3dScene {
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
       } else
-        this.applyPoseToObject(pose, use);
+        this.applyPoseToObject(pose, use, time);
 
       --length;
     }
   }
 
-  applyPoseToObject(pose, object) {
+  applyPoseToObject(pose, object, time) {
     const fields = [];
 
     for (let key in pose) {
@@ -217,7 +217,7 @@ class X3dScene {
     }
 
     if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
-      WbWorld.instance.viewpoint.updateFollowUp();
+      WbWorld.instance.viewpoint.updateFollowUp(time);
   }
 
   processServerMessage(data, view) {

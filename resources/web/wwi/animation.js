@@ -194,7 +194,7 @@ class Animation {
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
       const poses = this.data.frames[this.step].poses;
       for (let p = 0; p < poses.length; p++)
-        appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
+        appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
     }
     const x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
@@ -207,12 +207,11 @@ class Animation {
         previousPoseStep = 0;
       for (let i in this.allIds) {
         const id = this.allIds[i];
-        let appliedFields = appliedIds[id];
         for (let f = this.step - 1; f >= previousPoseStep; f--) {
           if (this.data.frames[f].poses) {
             for (let p = 0; p < this.data.frames[f].poses.length; p++) {
               if (this.data.frames[f].poses[p].id === id)
-                appliedFields = x3dScene.applyPose(this.data.frames[f].poses[p], appliedFields);
+                x3dScene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time);
             }
           }
         }

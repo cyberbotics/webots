@@ -28,8 +28,8 @@ import {WbWrenSmaa} from './../wren/wbWrenSmaa.js';
 class WbViewpoint extends WbBaseNode {
   constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
     super(id);
-    this.orientation = orientation;
-    this.position = position;
+    this.orientation = this.initialOrientation = orientation;
+    this.position = this.initialPosition = position;
 
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
@@ -250,9 +250,17 @@ class WbViewpoint extends WbBaseNode {
       this.applyOrientationToWren();
   }
 
-  updateFollowUp() {
+  updateFollowUp(time) {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
+
+    if (typeof time !== 'undefined' && time === 0) {
+      this.followedSolidPreviousPosition = new WbVector3();
+      this.equilibriumVector = new WbVector3();
+      this.velocity = new WbVector3();
+      this.position = this.initialPosition;
+      this.orientation = this.initialOrientation;
+    }
 
     const followedSolid = WbWorld.instance.nodes.get(this.followedId);
     const followedSolidPosition = followedSolid.translation;
