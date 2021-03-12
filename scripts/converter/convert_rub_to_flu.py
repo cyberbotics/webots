@@ -93,7 +93,6 @@ def convert_physics(node):
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
             for ceneter_of_mass_str in center_of_mass_field['value']:
-                # TODO: Convert each triple and return back to MFNode
                 center_of_mass = [float(value) for value in ceneter_of_mass_str]
                 new_center_of_mass = ROTATION_RUB_TO_FLU @ np.array(center_of_mass)
                 new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]

@@ -238,7 +238,8 @@ class WebotsParser:
                 field['type'] = 'MF'
                 field['value'] = []
             else:
-                field['type'], field['value'] = self._read_mf_field()  # MF*
+                first_line = words[1].lstrip('[ ') if len(words[1]) > 2 else None
+                field['type'], field['value'] = self._read_mf_field(first_line=first_line)  # MF*
         elif character == '"':
             field['type'] = 'SFString'
             field['value'] = words[1][1:-1]
@@ -279,12 +280,18 @@ class WebotsParser:
             field['value'] = self._read_node(words[1])
         return field
 
-    def _read_mf_field(self):
+    def _read_mf_field(self, first_line=None):
         mffield = []
         type = ''
-        while True:
-            line = self.file.readline().strip()
-            self.line_count += 1
+        should_finish = False
+        while not should_finish:
+            line = None
+            if first_line:
+                line = first_line
+                first_line = None
+            else:
+                line = self.file.readline().strip()
+                self.line_count += 1
             character = line[0]
             if character == ']':
                 break
@@ -302,6 +309,9 @@ class WebotsParser:
                 elements = []
                 for group in groups:
                     elements = elements + [x for x in group.split(' ') if x]
+                if elements[-1] == ']':
+                    should_finish = True
+                    elements = elements[:-1]
 
                 # Parse MFVec2f / MFVec3f / MFRotation / MFColor
                 length = len(elements)
