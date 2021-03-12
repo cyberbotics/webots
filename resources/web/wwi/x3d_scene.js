@@ -118,20 +118,16 @@ class X3dScene {
   }
 
   loadWorldFile(url, onLoad) {
-    const request = new XMLHttpRequest();
-    request.open('GET', url, true);
-    request.onload = async function() {
-      const doc = request.responseXML;
-
-      if (typeof this.loader === 'undefined')
-        this.loader = new Parser(this.prefix);
-
-      console.log(doc.getElementsByTagName('Scene')[0]);
-      await this.loader.parseFile(doc);
-      onLoad();
-    };
-
-    request.send(null);
+    const prefix = this.prefix;
+    const renderer = this.renderer;
+    fetch(url)
+      .then(response => response.text())
+      .then(async function(response) {
+        const loader = new Parser(prefix);
+        console.log(response);
+        await loader.parse(response, renderer);
+        onLoad();
+      });
   }
 
   loadObject(x3dObject, parentId, callback) {
@@ -228,7 +224,7 @@ class X3dScene {
         view.time = frame.time;
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
         // reset viewpoint if we reset the world (time=0)
-        if (view.time === 0)
+        if (view.time === 0 && typeof WbWorld.instance.viewpoint !== 'undefined')
           WbWorld.instance.viewpoint.resetViewpoint();
 
         if (frame.hasOwnProperty('poses')) {

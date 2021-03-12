@@ -101,18 +101,6 @@ class Parser {
       callback();
   }
 
-  async parseFile(file) {
-    const scene = file.getElementsByTagName('Scene')[0];
-    await this.parseNode(scene);
-    console.log(WbWorld.instance);
-    $('#webotsProgressMessage').html('Finalizing...');
-    WbWorld.instance.viewpoint.finalize();
-    WbWorld.instance.sceneTree.forEach(node => {
-      node.finalize();
-    });
-    $('#webotsProgress').hide();
-  }
-
   async parseNode(node, currentNode, isBoundingObject) {
     if (typeof WbWorld.instance === 'undefined')
       WbWorld.init();
