@@ -1,3 +1,5 @@
+// Modified from https://github.com/shawn0326/zen-3d/blob/dev/src/core/loader/RGBELoader.js
+
 import { FileLoader } from './file_loader.js';
 import { DefaultLoadingManager } from './loading_manager.js';
 

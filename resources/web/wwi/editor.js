@@ -295,4 +295,4 @@ class Editor extends DialogWindow {
   }
 }
 
-export {Editor}
+export {Editor};

@@ -1,3 +1,5 @@
+// Modified from https://github.com/shawn0326/zen-3d/blob/dev/src/core/loader/FileLoader.js
+
 import { DefaultLoadingManager } from './loading_manager.js';
 /**
 * A low level class for loading resources with XMLHttpRequest, used internaly by most loaders.

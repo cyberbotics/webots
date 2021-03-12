@@ -1,4 +1,3 @@
-/* global THREE */
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
 
 var webots = window.webots || {};

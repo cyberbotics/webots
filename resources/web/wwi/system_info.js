@@ -17,4 +17,4 @@ class SystemInfo {
   }
 }
 
-export {SystemInfo}
+export {SystemInfo};

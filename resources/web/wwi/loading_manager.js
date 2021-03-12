@@ -1,3 +1,5 @@
+// Modified from https://github.com/shawn0326/zen-3d/blob/dev/src/core/loader/LoadingManager.js
+
 /**
  * Handles and keeps track of loaded and pending data. A default global instance of this class is created and used by loaders if not supplied manually - see {@link zen3d.DefaultLoadingManager}.
  * In general that should be sufficient, however there are times when it can be useful to have seperate loaders - for example if you want to show seperate loading bars for objects and textures.
