@@ -164,17 +164,18 @@ webots.View = class View {
         }
         return null;
       }
-      if (this.isWebSocketProtocol) {
-        if (typeof this.progress === 'undefined') {
-          this.progress = document.createElement('div');
-          this.progress.id = 'webotsProgress';
-          this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-          "</div><div id='webotsProgressMessage'>Initializing...</div>" +
-          "</div><div id='webotsProgressPercent'></div>";
-          this.view3D.appendChild(this.progress);
-        }
-        $('#webotsProgress').show();
 
+      if (typeof this.progress === 'undefined') {
+        this.progress = document.createElement('div');
+        this.progress.id = 'webotsProgress';
+        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
+        "</div><div id='webotsProgressMessage'>Initializing...</div>" +
+        "</div><div id='webotsProgressPercent'></div>";
+        this.view3D.appendChild(this.progress);
+      }
+      $('#webotsProgress').show();
+
+      if (this.isWebSocketProtocol) {
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
 
@@ -186,7 +187,7 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          if(typeof this.x3dScene !== 'undefined')
+          if (typeof this.x3dScene !== 'undefined')
             this.x3dScene.prefix = httpServerUrl + '/';
           this.stream.connect();
         }

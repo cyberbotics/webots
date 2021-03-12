@@ -81,7 +81,7 @@ class Parser {
 
     console.log(WbWorld.instance);
     $('#webotsProgressMessage').html('Finalizing...');
-    //console.timeEnd('startID');
+    // console.timeEnd('startID');
     console.log('FINALIZE');
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
@@ -92,7 +92,7 @@ class Parser {
       node.finalize();
     });
 
-  //  console.time('startID');
+    //  console.time('startID');
     renderer.render();
     console.timeEnd('startID');
     console.log('RENDER');
@@ -105,10 +105,12 @@ class Parser {
     const scene = file.getElementsByTagName('Scene')[0];
     await this.parseNode(scene);
     console.log(WbWorld.instance);
+    $('#webotsProgressMessage').html('Finalizing...');
     WbWorld.instance.viewpoint.finalize();
     WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
+    $('#webotsProgress').hide();
   }
 
   async parseNode(node, currentNode, isBoundingObject) {
