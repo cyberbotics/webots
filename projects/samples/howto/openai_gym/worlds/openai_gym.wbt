@@ -21,7 +21,8 @@ Pioneer3at {
   extensionSlot [
     HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.1 0
+        axis 0 1 0
+        anchor 0 0 0.1
         minStop -1
         maxStop 1
       }
@@ -30,8 +31,8 @@ Pioneer3at {
         }
       ]
       endPoint Solid {
-        translation 0 0.4000000000001557 2.138263524575912e-15
-        rotation 1 0 0 0
+        translation 0 0 0.4
+        rotation 1 0 0 1.5707999999999998
         children [
           DEF POLE_ENDPOINT Solid {
             translation 0 0.26 0
