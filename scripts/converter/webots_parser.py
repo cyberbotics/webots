@@ -36,7 +36,7 @@ class WebotsParser:
                 revert_position = self.file.tell()
                 line = self.file.readline()
                 if line.startswith('#') or not line.strip():
-                    
+
                     self.line_count += 1
                     self.content['header'].append(line.strip())
                 else:
