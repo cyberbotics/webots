@@ -57,6 +57,8 @@ protected slots:
   void updatePosition() override;
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
+  void updateStopErp();
+  void updateStopCfm();
   virtual void updateAnchor();
 
 private slots:
@@ -68,6 +70,8 @@ private:
   void applyToOdeAxis() override;
   virtual void applyToOdeSuspensionAxis();
   void applyToOdeAnchor();
+  void applyToOdeStopErp();
+  void applyToOdeStopCfm();
 };
 
 #endif

@@ -14,11 +14,15 @@
 
 #include "WbHingeJointParameters.hpp"
 
+#include "WbWorld.hpp"
+
 void WbHingeJointParameters::init(bool fromDeprecatedHinge2JointParameters) {
   mAnchor = findSFVector3("anchor");
   mSuspensionSpringConstant = findSFDouble("suspensionSpringConstant");
   mSuspensionDampingConstant = findSFDouble("suspensionDampingConstant");
   mSuspensionAxis = findSFVector3("suspensionAxis");
+  mStopErp = findSFDouble("stopERP");
+  mStopCfm = findSFDouble("stopCFM");
 
   // DEPRECATED, only for backward compatibility
   if (fromDeprecatedHinge2JointParameters) {
@@ -67,6 +71,10 @@ void WbHingeJointParameters::postFinalize() {
   connect(mSuspensionSpringConstant, &WbSFDouble::changed, this, &WbHingeJointParameters::updateSuspension);
   connect(mSuspensionDampingConstant, &WbSFDouble::changed, this, &WbHingeJointParameters::updateSuspension);
   connect(mSuspensionAxis, &WbSFVector3::changed, this, &WbHingeJointParameters::updateSuspension);
+  connect(mStopErp, &WbSFDouble::changed, this, &WbHingeJointParameters::updateStopErp);
+  connect(mStopCfm, &WbSFDouble::changed, this, &WbHingeJointParameters::updateStopCfm);
+  updateStopErp();
+  updateStopCfm();
 }
 
 void WbHingeJointParameters::updateAxis() {
@@ -89,4 +97,26 @@ void WbHingeJointParameters::updateSuspension() {
   }
 
   emit suspensionChanged();
+}
+
+void WbHingeJointParameters::updateStopErp() {
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  if (mStopErp->value() < 0.0) {
+    mStopErp->setValue(wi->erp());
+    parsingWarn(tr("'stopERP' must be greater than or equal to zero. Reverting to global ERP."));
+    return;
+  }
+
+  emit stopErpChanged();
+}
+
+void WbHingeJointParameters::updateStopCfm() {
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  if (mStopCfm->value() <= 0.0) {
+    mStopCfm->setValue(wi->cfm());
+    parsingWarn(tr("'stopCFM' must be greater than zero. Reverting to global CFM."));
+    return;
+  }
+
+  emit stopCfmChanged();
 }
