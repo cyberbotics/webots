@@ -87,19 +87,23 @@ def convert_pose(rotation_angle_axis, translation):
 
 def convert_physics(node):
     physics_field = get_field(node, 'physics')
+    new_center_of_masses_str = []
     if physics_field:
         physics_node = physics_field['value']
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
-            for ceneter_of_mass in center_of_mass_field['value']:
+            for ceneter_of_mass_str in center_of_mass_field['value']:
                 # TODO: Convert each triple and return back to MFNode
-                pass
+                center_of_mass = [float(value) for value in ceneter_of_mass_str]
+                new_center_of_mass = ROTATION_RUB_TO_FLU @ np.array(center_of_mass)
+                new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]
+                new_center_of_masses_str.append(new_center_of_mass_str)
+            center_of_mass_field['value'] = new_center_of_masses_str
 
 
 def convert_nodes(nodes):
     for node in nodes:
         if 'Hinge' in node['name']:
-            # TODO: This part needs more love :) We need to convert endpoints as well.
             joint_parameters_node = get_field(node, 'jointParameters')['value']
 
             anchor = get_vector3(joint_parameters_node, name='anchor')
@@ -120,6 +124,7 @@ def convert_nodes(nodes):
             if children and children['type'] != 'IS':
                 convert_nodes(children['value'])
         elif node['name'] == 'Shape':
+            # TODO: We should either add upper transform or convert it pixel by pixel
             pass
         else:
             translation = get_vector3(node)
@@ -129,6 +134,12 @@ def convert_nodes(nodes):
             set_vector3(node, new_translaton)
 
             convert_physics(node)
+
+
+def convert_bounding_object(node):
+    bounding_object = get_field(node, 'boundingObject')['value']
+    if bounding_object:
+        convert_nodes([bounding_object])
 
 
 def main():
@@ -147,9 +158,7 @@ def main():
     convert_physics(robot_node)
 
     # Convert bounding objects
-    bounding_object = get_field(robot_node, 'boundingObject')['value']
-    if bounding_object:
-        convert_nodes([bounding_object])
+    convert_bounding_object(robot_node)
 
     proto.save(sys.argv[1])
 
