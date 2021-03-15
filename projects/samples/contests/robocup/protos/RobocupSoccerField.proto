@@ -149,7 +149,7 @@ PROTO RobocupSoccerField [
   tl[22] = { a = 36;  b = 37;  c = 42 }
 
   -- Creation of a quarter of the central circle
-  n_quarter = math.ceil(n / 4) + 1; -- +1 becuase we want to have a point both at ~0 and pi/2
+  n_quarter = math.ceil(n / 4) + 1; -- +1 because we want to have a point both at ~0 and pi/2
 
   -- Add points for the circles to the existing ones
   function circle_add_pts(radius)
@@ -160,7 +160,7 @@ PROTO RobocupSoccerField [
     for i=1, n_quarter do
       pts[Npts + i] = { x = center.x - radius * math.sin(alpha);
                         y = center.y - radius * math.cos(alpha);
-                       z = center.z + 0 }
+                        z = center.z + 0 }
       alpha = alpha + alpha_inc
     end
   end
@@ -168,17 +168,15 @@ PROTO RobocupSoccerField [
   circle_add_pts(H / 2) -- Inner radius of central circle
   circle_add_pts(H / 2 + LW) -- Outer radius of central circle
 
-
   --Add the triangles for the line of the central circle
   Npts = table.maxn(pts)
   cin_id = Npts -2 * n_quarter;
   cout_id = Npts - n_quarter;
   Ntl = table.maxn(tl)
   for i=1, (n_quarter - 1) do
-    tl[Ntl + (2 * i - 1)] = { a = cout_id + (i + 1);  b = cin_id + i;  c = cout_id + i} --first part of one line rectangle
-    tl[Ntl + (2 * i)] = { a = cout_id + (i + 1);  b = cin_id + (i + 1);  c = cin_id + i} --second part of one line rectangle
+    tl[Ntl + (2 * i - 1)] = { a = cout_id + (i + 1); b = cin_id + i;  c = cout_id + i } --first part of one line rectangle
+    tl[Ntl + (2 * i)] = { a = cout_id + (i + 1); b = cin_id + (i + 1); c = cin_id + i } --second part of one line rectangle
   end
-
 
   -- Add the triangles for the grass boundaries of the central circle
   Npts = table.maxn(pts)
@@ -237,7 +235,6 @@ PROTO RobocupSoccerField [
     tl[2 * Ntl + i] = { a = tl_ref.c + 2 * Npts;  b = tl_ref.b + 2 * Npts;  c = tl_ref.a + 2 * Npts}
     tl[3 * Ntl + i] = { a = tl_ref.c + 3 * Npts;  b = tl_ref.a + 3 * Npts;  c = tl_ref.b + 3 * Npts}
   end
-
 
   -- Offset to have origin on the center of the field
   OFFSET_X = (2 * I + A) / 2
