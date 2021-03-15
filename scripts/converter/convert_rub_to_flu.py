@@ -16,7 +16,7 @@
 
 """Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) to FLU (x-Forward, y-Left, z-Up)."""
 
-import sys
+import argparse
 import numpy as np
 import transforms3d
 from webots_parser import WebotsParser
@@ -90,7 +90,7 @@ def vector_to_string(vector, decimals):
     return new_str
 
 
-def convert_pose(rotation_angle_axis, translation):
+def convert_pose(rotation_angle_axis, translation, z_offset):
     assert len(rotation_angle_axis) == 4, f'Rotation {rotation_angle_axis} is not the correct length'
     assert len(translation) == 3, f'Translation {translation} is not the correct length'
 
@@ -99,6 +99,7 @@ def convert_pose(rotation_angle_axis, translation):
     new_rotation = ROTATION_RUB_TO_FLU @ rotation
     new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
     new_translation = ROTATION_RUB_TO_FLU @ np.array(translation)
+    new_translation[2] += z_offset
 
     # Convert to string array
     new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 6)
@@ -107,7 +108,7 @@ def convert_pose(rotation_angle_axis, translation):
     return new_rotation_str, new_translation_str
 
 
-def convert_physics(node):
+def convert_physics(node, z_offset):
     physics_field = get_field(node, 'physics')
     new_center_of_masses_str = []
     if physics_field:
@@ -117,18 +118,20 @@ def convert_physics(node):
             for ceneter_of_mass_str in center_of_mass_field['value']:
                 center_of_mass = [float(value) for value in ceneter_of_mass_str]
                 new_center_of_mass = ROTATION_RUB_TO_FLU @ np.array(center_of_mass)
+                new_center_of_mass[2] += z_offset
                 new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]
                 new_center_of_masses_str.append(new_center_of_mass_str)
             center_of_mass_field['value'] = new_center_of_masses_str
 
 
-def convert_nodes(nodes):
+def convert_nodes(nodes, z_offset):
     for node in nodes:
         if 'Hinge' in node['name']:
             joint_parameters_node = get_field(node, 'jointParameters')['value']
 
             anchor = get_vector3(joint_parameters_node, name='anchor')
             new_anchor = ROTATION_RUB_TO_FLU @ np.array(anchor)
+            new_anchor[2] += z_offset
             new_anchor_str = [f'{round(v, 5):.5}' for v in new_anchor]
             set_vector3(joint_parameters_node, new_anchor_str, name='anchor')
 
@@ -138,12 +141,12 @@ def convert_nodes(nodes):
             set_vector3(joint_parameters_node, new_axis_str, name='axis')
 
             endpoint_node = get_field(node, 'endPoint')['value']
-            convert_nodes([endpoint_node])
+            convert_nodes([endpoint_node], z_offset)
 
         elif node['name'] == 'Group':
             children = get_field(node, 'children')
             if children and children['type'] != 'IS':
-                convert_nodes(children['value'])
+                convert_nodes(children['value'], z_offset)
         elif node['name'] == 'Shape':
             # TODO: It would be better to convert it pixel by pixel
             current_node = node.copy()
@@ -154,28 +157,36 @@ def convert_nodes(nodes):
             ]
             translation = get_vector3(node)
             rotation = get_rotation(node)
-            new_rotation, new_translaton = convert_pose(rotation, translation)
+            new_rotation, new_translaton = convert_pose(rotation, translation, z_offset)
             set_rotation(node, new_rotation)
             set_vector3(node, new_translaton)
         else:
+            # Handle `Solid` nodes
             translation = get_vector3(node)
             rotation = get_rotation(node)
-            new_rotation, new_translaton = convert_pose(rotation, translation)
+            new_rotation, new_translaton = convert_pose(rotation, translation, z_offset)
             set_rotation(node, new_rotation)
             set_vector3(node, new_translaton)
 
-            convert_physics(node)
+            convert_physics(node, z_offset)
 
 
-def convert_bounding_object(node):
+def convert_bounding_object(node, z_offset):
     bounding_object = get_field(node, 'boundingObject')['value']
     if bounding_object:
-        convert_nodes([bounding_object])
+        convert_nodes([bounding_object], z_offset)
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description='Convert a Webots PROTO file from the RUB (x-Right, y-Up, z-Back) to FLU (x-Forward, y-Left, z-Up).')
+    parser.add_argument('--z-offset', dest='z_offset', type=float, default=0.0,
+                        help='Change z-offset to match the ground level')
+    parser.add_argument('proto_file', type=str, help='Path to the PROTO file')
+    args = parser.parse_args()
+
     proto = WebotsParser()
-    proto.load(sys.argv[1])
+    proto.load(args.proto_file)
 
     # Find the Robot's children field
     # root > PROTO (`[0]['root']`) > Robot (`[0]`) > fields (`['fields']`)
@@ -183,15 +194,15 @@ def main():
 
     # Convert robot's children
     robot_children = get_field(robot_node, 'children')['value']
-    convert_nodes(robot_children)
+    convert_nodes(robot_children, args.z_offset)
 
     # Convert physics
-    convert_physics(robot_node)
+    convert_physics(robot_node, args.z_offset)
 
     # Convert bounding objects
-    convert_bounding_object(robot_node)
+    convert_bounding_object(robot_node, args.z_offset)
 
-    proto.save(sys.argv[1])
+    proto.save(args.proto_file)
 
 
 if __name__ == '__main__':

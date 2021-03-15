@@ -14,7 +14,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Pioneer3at {
-  translation 0 0.11 0.11
   rotation 0 0 1 1.5708
   controller "openai_gym"
   supervisor TRUE
@@ -22,7 +21,7 @@ Pioneer3at {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 0.1
+        anchor 0 0 0.21
         minStop -1
         maxStop 1
       }
@@ -31,7 +30,7 @@ Pioneer3at {
         }
       ]
       endPoint Solid {
-        translation 0 0 0.4
+        translation 0 0 0.51
         rotation 1 0 0 1.5707999999999998
         children [
           DEF POLE_ENDPOINT Solid {
