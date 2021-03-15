@@ -9,7 +9,6 @@
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
-  ts_disable_output_log();
 
   // This test suite verifies that if the position field, as set in the jointParameters, is outside of the bounds of the
   // minPosition and maxPosition of RotationalMotor, these bounds must adadpt accordingly.
