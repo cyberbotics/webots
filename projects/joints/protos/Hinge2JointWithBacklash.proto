@@ -20,9 +20,9 @@ PROTO Hinge2JointWithBacklash [
 {
   %{
     -- load modules
-    local os = require('os')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(os.clock() + os.time())
+    --local os = require('os')
+    --local wbrandom = require('wbrandom')
+    --wbrandom.seed(os.clock() + os.time())
     -- parameter retrieval
     local axis = fields.jointParameters.value.fields.axis.value
     local axis2 = fields.jointParameters2.value.fields.axis.value
@@ -68,7 +68,7 @@ PROTO Hinge2JointWithBacklash [
         endPoint IS endPoint # revert PROTO to a classic Hinge2Joint
       %{ else }% # insert limiter2
         endPoint Solid {
-          name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
+          #name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
           children [
             %{ if fields.startPoint.value ~= nil then}%
             Group {
@@ -97,7 +97,7 @@ PROTO Hinge2JointWithBacklash [
       %{ end }%
     %{ else }% # insert first limiter
       endPoint Solid {
-        name %{= '"limiter_axis_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
+        #name %{= '"limiter_axis_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
         children [
           %{ if fields.startPoint.value ~= nil then}%
           Group {
@@ -117,7 +117,7 @@ PROTO Hinge2JointWithBacklash [
               endPoint IS endPoint
             %{ else }% # insert limiter2
               endPoint Solid {
-                name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
+                #name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
                 children [
                   HingeJoint {
                     jointParameters HingeJointParameters {

@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
     wb_motor_set_position(motor[i], INFINITY);
     wb_motor_set_position(motor2[i], INFINITY);
   }
-  /*
+  
   double reference_min_y = INFINITY;
   double reference_max_y = -INFINITY;
   const double *end_point_position[5];
@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
 
   wb_supervisor_simulation_reset();
   wb_robot_step(10 * TIME_STEP);
-  */
+  
   WbNodeRef world_info_node = wb_supervisor_node_get_from_def("WORLD_INFO");
   WbFieldRef gravity_field = wb_supervisor_node_get_field(world_info_node, "gravity");
   wb_supervisor_field_set_sf_float(gravity_field, 9.81);
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
 
   double reference_min_z = INFINITY;
   double reference_max_z = -INFINITY;
-  const double *end_point_position[5];
+  //const double *end_point_position[5];
 
   while (wb_robot_step(TIME_STEP) != -1.0 && wb_robot_get_time() < TEST_DURATION) {
     // command
