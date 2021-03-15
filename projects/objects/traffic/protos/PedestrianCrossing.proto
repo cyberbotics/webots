@@ -46,9 +46,11 @@ PROTO PedestrianCrossing [
             }
             geometry TexturedBox {
               size 0.4 %{= size.x }% %{= size.y }%
+              mapping "default"
               front FALSE
               back FALSE
-              left FALSE
+              top FALSE
+              bottom FALSE
             }
             castShadows FALSE
           }
