@@ -56,7 +56,7 @@ def set_rotation(node, value):
     rotation_field = get_field(node, 'rotation')
     if not rotation_field:
         # Ignore [0, 0, 0] arrays
-        if all([float(v) < 1e-3 for v in value]):
+        if all([float(v) < 1e-4 for v in value]):
             return
 
         node['fields'].insert(0,
@@ -87,7 +87,7 @@ def set_vector3(node, value, name='translation'):
 def vector_to_string(vector, decimals):
     new_str = []
     for value in vector:
-        if abs(value) > 1 / (10*decimals):
+        if abs(value) > 1 / (10**decimals):
             new_str.append(str(round(value, decimals)))
         else:
             new_str.append('0')
@@ -106,8 +106,8 @@ def convert_pose(rotation_angle_axis, translation, z_offset, initial_orientation
     new_translation[2] += z_offset
 
     # Convert to string array
-    new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 6)
-    new_translation_str = vector_to_string(new_translation, 4)
+    new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 4)
+    new_translation_str = vector_to_string(new_translation, 3)
 
     return new_rotation_str, new_translation_str
 
