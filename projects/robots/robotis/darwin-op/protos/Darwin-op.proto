@@ -35,14 +35,8 @@ PROTO Darwin-op [
   field MFNode     rightFootSlot   []                         # Extends the robot with new nodes in the right foot slot.
   field MFNode     leftHandSlot    []                         # Extends the robot with new nodes in the left hand slot.
   field MFNode     rightHandSlot   []                         # Extends the robot with new nodes in the right hand slot.
-#protected
-  hiddenField SFString _model       "DARwIn-OP"
-  hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer"
 ]
 {
-  %{
-    local has_jersey = fields.jersey.value
-  }%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -74,11 +68,7 @@ PROTO Darwin-op [
         }
       }
       LED {
-        %{ if has_jersey then }%
-          translation -0.005 -0.01 -0.056
-        %{ else }%
-          translation -0.005 -0.01 -0.076
-        %{ end }%
+        translation -0.005 -0.01 -0.056
         color [
           0 1 0
         ]
@@ -98,11 +88,7 @@ PROTO Darwin-op [
         ]
       }
       LED {
-        %{ if has_jersey then }%
-          translation 0 -0.01 -0.056
-        %{ else }%
-          translation 0 -0.01 -0.076
-        %{ end }%
+        translation 0 -0.01 -0.056
         color [
           0 0 1
         ]
@@ -122,11 +108,7 @@ PROTO Darwin-op [
         ]
       }
       LED {
-        %{ if has_jersey then }%
-          translation 0.005 -0.01 -0.056
-        %{ else }%
-          translation 0.005 -0.01 -0.076
-        %{ end }%
+        translation 0.005 -0.01 -0.056
         color [
           1 0 0
         ]
@@ -1661,11 +1643,7 @@ PROTO Darwin-op [
         }
       }
       DEF DHeadBackLED Transform {
-        %{ if has_jersey then }%
-          translation -0.01 -0.01 -0.056
-        %{ else }%
-          translation -0.01 -0.01 -0.076
-        %{ end }%
+        translation -0.01 -0.01 -0.056
         children [
           Shape {
             appearance USE DHeadLEDAppearance
@@ -1676,11 +1654,7 @@ PROTO Darwin-op [
         ]
       }
       DEF DEyeBackLED Transform {
-        %{ if has_jersey then }%
-          translation -0.015 -0.01 -0.056
-        %{ else }%
-          translation -0.015 -0.01 -0.076
-        %{ end }%
+        translation -0.015 -0.01 -0.056
         children [
           Shape {
             appearance USE DEyeLEDAppearance
