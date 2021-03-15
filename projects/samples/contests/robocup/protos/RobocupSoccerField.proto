@@ -66,7 +66,7 @@ PROTO RobocupSoccerField [
   pts[14] = {x = I + E - line_width,          y = I + (B / 2),                     z = 0}
   pts[15] = {x = I + E,                       y = I + ((B - F) / 2),               z = 0}
   pts[16] = {x = I + E,                       y = I + ((B - F) / 2) + line_width,  z = 0}
-  pts[17] = {x = I + E,                       y = I + (B / 2) - branch_length,      z = 0}
+  pts[17] = {x = I + E,                       y = I + (B / 2) - branch_length,     z = 0}
   pts[18] = {x = I + E,                       y = I + (B / 2),                     z = 0}
   pts[19] = {x = I + G - branch_length,       y = I + ((B - line_width) / 2),      z = 0}
   pts[20] = {x = I + G - branch_length,       y = I + (B / 2),                     z = 0}
