@@ -186,7 +186,8 @@ def convert_bounding_object(node, z_offset, initial_orientation):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convert a Webots PROTO file from the RUB (x-Right, y-Up, z-Back) or similar to FLU (x-Forward, y-Left, z-Up).')
+        description='Convert a Webots PROTO file from the RUB or similar to FLU (x-Forward, y-Left, z-Up).'
+    )
     parser.add_argument('--z-offset', dest='z_offset', type=float, default=0.0,
                         help='Change z-offset to match the ground level')
     parser.add_argument('proto_file', type=str, help='Path to the PROTO file')
