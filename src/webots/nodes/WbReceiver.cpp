@@ -194,8 +194,13 @@ bool WbReceiver::isChannelAllowed() {
 }
 
 void WbReceiver::updateAllowedChannels() {
-  if (!isChannelAllowed())
-    parsingWarn(tr("'allowedChannels' does not contain current 'channel'"));
+  if (!isChannelAllowed()) {
+    parsingWarn(
+      tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
+  mNeedToConfigure = true;
 }
 
 void WbReceiver::writeConfigure(QDataStream &stream) {

@@ -159,6 +159,13 @@ static void emitter_read_answer(WbDevice *d, WbRequest *r) {
       es->buffer_size = request_read_int32(r);
       break;
     }
+    case C_EMITTER_SET_ALLOWED_CHANNELS: {
+      Emitter *es = d->pdata;
+      es->allowed_channels_size = request_read_int32(r);
+      for (int i = 0; i < es->allowed_channels_size; i++)
+        es->allowed_channels[i] = request_read_int32(r);
+      break;
+    }
     default:
       ROBOT_ASSERT(0);
   }

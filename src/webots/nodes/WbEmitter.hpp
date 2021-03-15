@@ -57,6 +57,7 @@ private:
   bool mNeedToSetRange;
   bool mNeedToSetChannel;
   bool mNeedToSetBufferSize;
+  bool mNeedToSetAllowedChannels;
 
   // user accessible fields
   WbSFString *mType;

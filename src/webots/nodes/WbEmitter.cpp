@@ -37,6 +37,7 @@ void WbEmitter::init() {
   mNeedToSetRange = false;
   mNeedToSetChannel = false;
   mNeedToSetBufferSize = false;
+  mNeedToSetAllowedChannels = false;
   mMediumType = WbDataPacket::UNKNOWN;
   mByteRate = -1.0;
 }
@@ -122,8 +123,14 @@ bool WbEmitter::isChannelAllowed() {
 }
 
 void WbEmitter::updateAllowedChannels() {
-  if (!isChannelAllowed())
-    parsingWarn(tr("'allowedChannels' does not contain current 'channel'"));
+  if (!isChannelAllowed()) {
+    parsingWarn(
+      tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+    mNeedToSetChannel = true;
+  }
+
+  mNeedToSetAllowedChannels = true;
 }
 
 void WbEmitter::updateChannel() {
@@ -149,6 +156,7 @@ void WbEmitter::writeConfigure(QDataStream &stream) {
   mNeedToSetRange = false;
   mNeedToSetChannel = false;
   mNeedToSetBufferSize = false;
+  mNeedToSetAllowedChannels = false;
 }
 
 void WbEmitter::writeAnswer(QDataStream &stream) {
@@ -169,6 +177,13 @@ void WbEmitter::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_EMITTER_SET_BUFFER_SIZE;
     stream << (int)mBufferSize->value();
     mNeedToSetBufferSize = false;
+  }
+  if (mNeedToSetAllowedChannels) {
+    stream << tag();
+    stream << (unsigned char)C_EMITTER_SET_ALLOWED_CHANNELS;
+    stream << (int)mAllowedChannels->size();
+    for (int i = 0; i < mAllowedChannels->size(); i++)
+      stream << (int)mAllowedChannels->item(i);
   }
 }
 
