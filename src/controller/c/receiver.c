@@ -132,7 +132,7 @@ static void receiver_read_answer(WbDevice *d, WbRequest *r) {
       rs->buffer_size = request_read_int32(r);
       rs->channel = request_read_int32(r);
       rs->allowed_channels_size = request_read_int32(r);
-      rs->allowed_channels = (int *)malloc(rs->allowed_channels_size * sizeof(int));
+      rs->allowed_channels = (int *)realloc(rs->allowed_channels, rs->allowed_channels_size * sizeof(int));
       for (int i = 0; i < rs->allowed_channels_size; i++)
         rs->allowed_channels[i] = request_read_int32(r);
       break;

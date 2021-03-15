@@ -162,6 +162,7 @@ static void emitter_read_answer(WbDevice *d, WbRequest *r) {
     case C_EMITTER_SET_ALLOWED_CHANNELS: {
       Emitter *es = d->pdata;
       es->allowed_channels_size = request_read_int32(r);
+      es->allowed_channels = (int *)realloc(es->allowed_channels, es->allowed_channels_size * sizeof(int));
       for (int i = 0; i < es->allowed_channels_size; i++)
         es->allowed_channels[i] = request_read_int32(r);
       break;
