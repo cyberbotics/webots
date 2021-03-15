@@ -1,5 +1,5 @@
-#VRML_SIM R2021b utf8
-WorldInfo {
+#VRML_SIM R2021a utf8
+DEF WORLD_INFO WorldInfo {
   gravity 0
   basicTimeStep 16
   coordinateSystem "NUE"
@@ -14,6 +14,10 @@ TexturedBackgroundLight {
 }
 DEF ROBOT Robot {
   children [
+    Receiver {
+      name "receiver"
+      channel 1
+    }
     Solid {
       children [
         DEF SHOULDER Transform {
@@ -46,11 +50,11 @@ DEF ROBOT Robot {
             }
           ]
           endPoint Solid {
-            translation 0.02 -0.1 0
+            translation 0.01 0 0
             rotation 0 0 1 0
             children [
               DEF END_POINT_CASE_BACKLASH_ON_BOTH Transform {
-                translation 0 -0.1 0
+                translation 0.01 0 0
                 children [
                   Shape {
                     appearance DEF APPEARANCE_BLUE PBRAppearance {
@@ -65,7 +69,7 @@ DEF ROBOT Robot {
               Shape {
                 appearance USE APPEARANCE_BLUE
                 geometry Box {
-                  size 0.04 0.2 0.04
+                  size 0.05 0.1 0.1
                 }
               }
             ]
@@ -130,7 +134,7 @@ DEF ROBOT Robot {
           ]
         }
         DEF CASE_BACKLASH_ON_AXIS2 Transform {
-          translation 0 0 -0.50
+          translation 0 0 -0.5
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -242,7 +246,6 @@ DEF ROBOT Robot {
                 axis 0 1 0
               }
               jointParameters2 JointParameters {
-                axis 0 0 1
               }
               device [
                 RotationalMotor {
@@ -301,11 +304,24 @@ DEF ROBOT Robot {
         mass 0.1
       }
     }
+  ]
+  name "robot"
+  controller "hinge_2_joint_with_backlash"
+
+}
+DEF SUPERVISOR Robot {
+  children [
+    Emitter {
+      name "emitter"
+      channel 1
+    }
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "hinge_2_joint_with_backlash_supervisor"
   supervisor TRUE
 }
+
 TestSuiteSupervisor {
 }
