@@ -101,8 +101,8 @@ def convert_pose(rotation_angle_axis, translation):
     new_translation = ROTATION_RUB_TO_FLU @ np.array(translation)
 
     # Convert to string array
-    new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 4)
-    new_translation_str = vector_to_string(new_translation, 3)
+    new_rotation_str = vector_to_string(new_rotation_axis.tolist() + [new_rotation_angle], 6)
+    new_translation_str = vector_to_string(new_translation, 4)
 
     return new_rotation_str, new_translation_str
 

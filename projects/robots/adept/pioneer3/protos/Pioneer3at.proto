@@ -24,7 +24,7 @@ PROTO Pioneer3at [
         children IS extensionSlot
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF BODY_SHAPE Shape {
             appearance PBRAppearance {
@@ -73,7 +73,7 @@ PROTO Pioneer3at [
         ]
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF AXLES_SHAPES Shape {
             appearance PBRAppearance {
@@ -111,8 +111,8 @@ PROTO Pioneer3at [
           anchor -0.1331 0.197 0.0
         }
         endPoint Solid {
-          translation -0.133 0.197 0
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          translation -0.1331 0.197 0
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             DEF RIM_AND_TIRE_SHAPES Group {
               children [
@@ -258,7 +258,7 @@ PROTO Pioneer3at [
         }
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF FRONT_BLACK_PANEL Shape {
             appearance PBRAppearance {
@@ -295,8 +295,8 @@ PROTO Pioneer3at [
           anchor -0.1331 -0.197 -0.0
         }
         endPoint Solid {
-          translation -0.133 -0.197 0
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          translation -0.1331 -0.197 0
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             USE RIM_AND_TIRE_SHAPES
             DEF RIGHT_CAP_AND_VALVE_SHAPES Group {
@@ -361,8 +361,8 @@ PROTO Pioneer3at [
           anchor 0.1331 0.197 0.0
         }
         endPoint Solid {
-          translation 0.133 0.197 0
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          translation 0.1331 0.197 0
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             USE RIM_AND_TIRE_SHAPES
             USE LEFT_CAP_AND_VALVE_SHAPES
@@ -388,8 +388,8 @@ PROTO Pioneer3at [
           anchor 0.1331 -0.197 -0.0
         }
         endPoint Solid {
-          translation 0.133 -0.197 0
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          translation 0.1331 -0.197 0
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             USE RIM_AND_TIRE_SHAPES
             USE RIGHT_CAP_AND_VALVE_SHAPES
@@ -400,87 +400,87 @@ PROTO Pioneer3at [
         }
       }
       DEF SO_0 Pioneer3DistanceSensor {
-        translation 0.147 0.135 0.137
-        rotation 0.5774 0.5773 0.5774 2.0944
+        translation 0.1466 0.1354 0.137
+        rotation 0.577352 0.577345 0.577353 2.094399
         name "so0"
       }
       DEF SO_1 Pioneer3DistanceSensor {
-        translation 0.194 0.118 0.137
-        rotation 0.8348 0.3893 0.3893 1.7504
+        translation 0.1945 0.118 0.137
+        rotation 0.83482 0.389275 0.389282 1.750372
         name "so1"
       }
       DEF SO_10 Pioneer3DistanceSensor {
-        translation -0.227 -0.077 0.137
-        rotation 0.1862 -0.6947 -0.6947 2.7735
+        translation -0.2268 -0.077 0.137
+        rotation 0.186157 -0.694743 -0.69475 2.773501
         name "so10"
       }
       DEF SO_11 Pioneer3DistanceSensor {
-        translation -0.245 0 0.137
-        rotation -0.0617 0.7058 0.7058 -3.0183
+        translation -0.2448 -0.0267 0.137
+        rotation -0.061747 0.705754 0.705761 -3.018261
         name "so11"
       }
       DEF SO_12 Pioneer3DistanceSensor {
-        translation -0.245 0 0.137
-        rotation 0.0617 0.7058 0.7058 3.0183
+        translation -0.2447 0.0267 0.137
+        rotation 0.061746 0.705754 0.705761 3.018253
         name "so12"
       }
       DEF SO_13 Pioneer3DistanceSensor {
-        translation -0.226 0.077 0.137
-        rotation 0.1862 0.6947 0.6948 2.7735
+        translation -0.2265 0.077 0.137
+        rotation 0.18616 0.694742 0.69475 2.773486
         name "so13"
       }
       DEF SO_14 Pioneer3DistanceSensor {
-        translation -0.192 0.118 0.137
-        rotation 0.3131 0.6715 0.6715 2.5346
+        translation -0.1922 0.118 0.137
+        rotation 0.313147 0.671539 0.671547 2.534646
         name "so14"
       }
       DEF SO_15 Pioneer3DistanceSensor {
-        translation -0.144 0.135 0.137
-        rotation 0.5774 0.5773 0.5774 2.0944
+        translation -0.1444 0.1354 0.137
+        rotation 0.577352 0.577345 0.577353 2.094399
         name "so15"
       }
       DEF SO_2 Pioneer3DistanceSensor {
-        translation 0.229 0.077 0.137
-        rotation 0.9351 0.2506 0.2506 1.6378
+        translation 0.2287 0.077 0.137
+        rotation 0.935113 0.250559 0.250565 1.637843
         name "so2"
       }
       DEF SO_3 Pioneer3DistanceSensor {
-        translation 0.247 0 0.137
-        rotation -0.9924 -0.0868 -0.0868 -1.5784
+        translation 0.2469 0.0267 0.137
+        rotation -0.992433 -0.086823 -0.086827 -1.578402
         name "so3"
       }
       DEF SO_4 Pioneer3DistanceSensor {
-        translation 0.247 0 0.137
-        rotation -0.9924 0.0868 0.0868 -1.5784
+        translation 0.247 -0.0267 0.137
+        rotation -0.992432 0.086831 0.086828 -1.578404
         name "so4"
       }
       DEF SO_5 Pioneer3DistanceSensor {
         translation 0.229 -0.077 0.137
-        rotation 0.9351 -0.2506 -0.2506 1.6378
+        rotation 0.935114 -0.250562 -0.250562 1.637845
         name "so5"
       }
       DEF SO_6 Pioneer3DistanceSensor {
-        translation 0.195 -0.118 0.137
-        rotation 0.8348 -0.3893 -0.3893 1.7504
+        translation 0.1947 -0.118 0.137
+        rotation 0.834818 -0.389281 -0.389282 1.750377
         name "so6"
       }
       DEF SO_7 Pioneer3DistanceSensor {
-        rotation -0.5774 0.5773 0.5774 -2.0944
-        translation 0.147 -0.135 0.137
+        rotation -0.577352 0.577348 0.577352 -2.094405
+        translation 0.1469 -0.1354 0.137
         name "so7"
       }
       DEF SO_8 Pioneer3DistanceSensor {
-        rotation -0.5774 0.5773 0.5774 -2.0944
-        translation -0.145 -0.135 0.137
+        rotation -0.577352 0.577348 0.577352 -2.094405
+        translation -0.1447 -0.1354 0.137
         name "so8"
       }
       DEF SO_9 Pioneer3DistanceSensor {
-        translation -0.193 -0.118 0.137
-        rotation 0.3131 -0.6715 -0.6715 2.5347
+        translation -0.1925 -0.118 0.137
+        rotation 0.313147 -0.67154 -0.671546 2.534654
         name "so9"
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF SONAR_RING_SHAPE Shape {
             appearance PBRAppearance {
@@ -502,7 +502,7 @@ PROTO Pioneer3at [
         ]
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF TOP_SHAPE Shape {
             appearance PBRAppearance {
@@ -537,7 +537,7 @@ PROTO Pioneer3at [
         ]
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF ANTENNAS_SHAPES Shape {
             appearance PBRAppearance {
@@ -559,7 +559,7 @@ PROTO Pioneer3at [
         ]
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF UPPER_BLACK_PANEL_SHAPE Shape {
             appearance PBRAppearance {
@@ -586,7 +586,7 @@ PROTO Pioneer3at [
     boundingObject Group {
       children [
         DEF MAIN_BODY_BOX Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 0 0.063
           children [
             Box {
@@ -595,7 +595,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF BODY_BOX Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 0 0.063
           children [
             Box {
@@ -604,7 +604,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_TOP_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0.064 0 0.163
           children [
             Cylinder {
@@ -615,8 +615,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_TOP_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
-          translation -0.084 0 0.163
+          rotation -0.577352 0.577348 0.577352 -2.094405
+          translation -0.0835 0 0.163
           children [
             Cylinder {
               height 0.004
@@ -626,7 +626,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_RING_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0.106 0 0.137
           children [
             Cylinder {
@@ -637,7 +637,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_RING_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation -0.104 0 0.137
           children [
             Cylinder {
@@ -648,7 +648,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF LEFT_ANTENNA_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 0.082 0.174
           children [
             Cylinder {
@@ -659,7 +659,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF RIGHT_ANTENNA_CYLINDER Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 -0.087 0.174
           children [
             Cylinder {
@@ -670,8 +670,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_LEFT_CORNER_BOX Transform {
-          translation 0.176 0.097 0.038
-          rotation 0.8735 -0.3442 -0.3442 1.7056
+          translation 0.1758 0.097 0.038
+          rotation 0.873501 -0.344235 -0.344235 1.705643
           children [
             Box {
               size 0.049 0.15 0.05
@@ -679,8 +679,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_RIGHT_CORNER_BOX Transform {
-          translation 0.176 -0.097 0.038
-          rotation 0.2684 -0.6812 -0.6812 2.6171
+          translation 0.1758 -0.097 0.038
+          rotation 0.268435 -0.681151 -0.681158 2.617097
           children [
             Box {
               size 0.049 0.15 0.05
@@ -688,8 +688,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_RIGHT_CORNER_BOX Transform {
-          translation -0.156 -0.097 0.038
-          rotation 0.8735 -0.3442 -0.3442 1.7056
+          translation -0.1558 -0.097 0.038
+          rotation 0.873501 -0.344235 -0.344235 1.705643
           children [
             Box {
               size 0.049 0.15 0.05
@@ -697,8 +697,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_LEFT_CORNER_BOX Transform {
-          translation -0.156 0.098 0.038
-          rotation 0.2684 -0.6812 -0.6812 2.6171
+          translation -0.1558 0.098 0.038
+          rotation 0.268435 -0.681151 -0.681158 2.617097
           children [
             Box {
               size 0.049 0.15 0.05
