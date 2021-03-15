@@ -28,7 +28,7 @@ PROTO PedestrianCrossing [
     children [
       DEF ZEBRA_TRANS Transform {
         translation 0 -0.1 0
-        rotation 0 0 1 1.5708
+        rotation -0.57735 0.57737 0.57735 2.0944
         children [
           Shape {
             appearance PBRAppearance {
@@ -45,10 +45,11 @@ PROTO PedestrianCrossing [
               roughness 0.9
             }
             geometry TexturedBox {
-              size 0.4 %{= size.x }% %{= size.y }%
-              front FALSE
-              back FALSE
+              size %{= size.y }% %{= size.x }% 0.4
               left FALSE
+              right FALSE
+              top FALSE
+              bottom FALSE
             }
             castShadows FALSE
           }
