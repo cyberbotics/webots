@@ -5,7 +5,63 @@
 // @param labels: format `{'x': "x-axis", 'y': "y-axis"}`.
 // @param device: attached device reference.
 
-function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device) {
+function TimeplotLine(color, maxNumberOfPoints) {
+  this.color = color;
+  this.maxNumberOfPoints = maxNumberOfPoints;
+  this.nextIndex = 0;
+  this.size = 0;
+  this.xy = new Float32Array(2 * this.maxNumberOfPoints);
+};
+
+TimeplotLine.prototype.addPoint = function(x, y) {
+  if (this.nextIndex >= this.maxNumberOfPoints)
+    this.shift();
+  this.xy[this.nextIndex * 2] = x;
+  this.xy[this.nextIndex * 2 + 1] = y;
+  this.size += 1;
+  this.nextIndex += 1;
+};
+
+TimeplotLine.prototype.shift = function() {
+  const maxIndex = this.size * 2;
+  for (let i = 2; i < maxIndex; i += 2) {
+    this.xy[i - 2] = this.xy[i];
+    this.xy[i - 1] = this.xy[i + 1];
+  }
+  this.nextIndex -= 1;
+  this.size -= 1;
+};
+
+TimeplotLine.prototype.lastX = function() {
+  if (this.nextIndex <= 0)
+    return null;
+  return this.xy[this.nextIndex * 2 - 2];
+};
+
+TimeplotLine.prototype.lastY = function() {
+  if (this.nextIndex <= 0)
+    return null;
+  return this.xy[this.nextIndex * 2 - 1];
+};
+
+TimeplotLine.prototype.resize = function(maxNumberOfPoints) {
+  if (this.maxNumberOfPoints >= maxNumberOfPoints)
+    return;
+  this.maxNumberOfPoints = maxNumberOfPoints;
+  const previousArray = this.xy;
+  this.xy = new Float32Array(2 * this.maxNumberOfPoints);
+  const diff = this.size - maxNumberOfPoints;
+  let j = 0;
+  if (diff > 0) {
+    j = diff * 2;
+    this.size = maxNumberOfPoints;
+  }
+  const nPoints = this.size * 2;
+  for (let i = 0; i < nPoints; ++i, ++j)
+    this.xy[i] = previousArray[j];
+};
+
+function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, device, decimals = 3) {
   this.container = container;
   this.basicTimeStep = basicTimeStep;
   this.autoRange = autoRange;
@@ -13,32 +69,40 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   this.initialYRange = yRange;
   this.labels = labels;
   this.device = device;
+  this.decimals = decimals;
 
-  this.slider = null;
-  this.label = null;
-
-  // Should be hard coded correctly!
-  this.canvasWidth = 320;
-  this.canvasHeight = 200;
-
-  this.values = [];
-  this.lastX = 0;
-  this.lastY = 0;
   this.initialized = false;
   this.shown = true;
-  this.canvas = null;
-  this.canvasContext = null;
+  this.values = []; // store values before the plot is initialized
+
+  // Refresh parameters
+  this.lastX = 0;
+  this.lastY = [];
   this.refreshLabelsRate = 3; // [Hz]
   this.lastLabelRefresh = 0; // [simulated seconds]
   this.blockSliderUpdateFlag = false;
   this.pendingSliderPositionUpdate = false;
 
-  // Compute y-axis offset.
-  // This is used to avoid that points touches the top or bottom bounds of the plot in order to improve the plot readability.
-  this.yOffset = {};
-  this.yOffset['offset'] = 6;
-  this.yOffset['halfOffset'] = this.yOffset['offset'] / 2;
-  this.yOffset['ratio'] = (this.canvasHeight - this.yOffset['offset']) / this.canvasHeight;
+  this.canvas = null;
+  // Canvas size computed during initialization
+  this.canvasWidth = undefined;
+  this.canvasHeight = undefined;
+  // WebGL
+  this.glContext = null;
+  this.shaderProgram = null;
+  this.scaleUniformLocation = null;
+  this.offsetUniformLocation = null;
+  this.pointSizeUniformLocation = null;
+  this.colorUniformLocation = null;
+
+  // Plot
+  this.lines = []; // array of TimeplotLine
+  this.horizontalGrid = null; // dictionary representing the horizontal grid lines
+  this.xOffset = 0;
+  this.xRangeSize = 0;
+
+  this.slider = null;
+  this.label = null;
 
   // Compute vertical grid steps.
   this.updateGridConstants();
@@ -55,14 +119,46 @@ TimeplotWidget.prototype.AutoRangeType = {
   JUMP: 3 // If the input data is out of the range, then the range will jump to the closest range having the same size as the initial range.
 };
 
+TimeplotWidget.prototype.FRAGMENT_SHADER = `
+  precision mediump float;
+  uniform vec3 color;
+  void main(void) {
+    gl_FragColor = vec4(color, 1.0);
+  }`;
+
+TimeplotWidget.prototype.VERTEX_SHADER = `
+  attribute vec2 coordinates;
+  uniform mat2 scale;
+  uniform vec2 offset;
+  uniform float pointSize;
+  void main() {
+    gl_Position = vec4(scale * (coordinates - offset) - vec2(1.0, 1.0),  0.0, 1.0);
+    gl_PointSize = pointSize;
+  }`;
+
 // @param value: format `{'x': 0.1, 'y': 0.2}` or `{'x': 0.1, 'y': [0.2, 0.3, 0.5]}`.
 TimeplotWidget.prototype.addValue = function(value) {
   if (!TimeplotWidget.recordDataInBackground && this.container.offsetParent === null)
     return;
 
-  this.values.push(value);
-  if (this.values.length > this.canvasWidth)
-    this.values.shift();
+  if (this.initialized) {
+    const isArray = Array.isArray(value.y);
+    const size = isArray ? value.y.length : 1;
+    if (this.lines.length < size)
+      this.createLines(size);
+
+    const y = isArray ? value.y : [value.y];
+    for (let i = 0; i < size; ++i)
+      this.lines[i].addPoint(value.x, y[i]);
+  } else {
+    this.values.push(value);
+    if (this.values.length > this.canvasWidth)
+      this.values.shift();
+  }
+
+  const newOffset = value.x - this.xRangeSize;
+  if (newOffset > this.xOffset)
+    this.xOffset = newOffset;
 
   if (this.autoRange === this.AutoRangeType.STRETCH)
     this.stretchRange(value.y);
@@ -86,39 +182,166 @@ TimeplotWidget.prototype.blockSliderUpdate = function(block) {
   this.blockSliderUpdateFlag = block;
 };
 
+TimeplotWidget.prototype.loadShader = function(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
+  }
+  return shader;
+};
+
+TimeplotWidget.prototype.createLines = function(size) {
+  for (let i = this.lines.length; i < size; ++i) {
+    this.lines.push(new TimeplotLine(this.decimalColorByIndex(size === 1 ? -1 : i), this.canvasWidth));
+    this.lines[i]._vbo = this.glContext.createBuffer();
+    this.glContext.bindBuffer(this.glContext.ARRAY_BUFFER, this.lines[i]._vbo);
+    this.glContext.bufferData(this.glContext.ARRAY_BUFFER, this.lines[i].xy, this.glContext.STREAM_DRAW);
+    this.glContext.bindBuffer(this.glContext.ARRAY_BUFFER, this.lines[i]._vbo);
+    this.lines[i]._coord = this.glContext.getAttribLocation(this.shaderProgram, 'coordinates');
+    this.glContext.vertexAttribPointer(this.lines[i]._coord, 2, this.glContext.FLOAT, false, 0, 0);
+    this.glContext.enableVertexAttribArray(this.lines[i]._coord);
+
+    for (let j = 0; j < this.values.length; ++j) {
+      const isArray = Array.isArray(this.values[j]);
+      if (isArray)
+        this.lines[j].addPoint(this.values[j].x, this.values[j].y[i]);
+      else if (i === 0)
+        this.lines[j].addPoint(this.values[j].x, this.values[j].y);
+    }
+  }
+};
+
 TimeplotWidget.prototype.initialize = function() {
+  if (!window.WebGLRenderingContext) {
+    console.error('This page requires a browser that supports WebGL.');
+    return null;
+  }
+
+  if (this.initialized)
+    return;
+
   const id = this.container.getAttribute('id');
 
   this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
-
-  // Let the canvas size match with the element size (-2 because of the border), otherwise
-  // the sizes are not matching causing a aliased zoom-like effect.
-  this.canvas.width = this.canvas.offsetWidth - 2;
-  this.canvas.height = this.canvas.offsetHeight - 2;
-
-  this.canvasContext = this.canvas.getContext('2d');
+  this.computeCanvasSize();
   console.assert(this.canvasWidth === this.canvas.width);
   console.assert(this.canvasHeight === this.canvas.height);
+
+  this.initializeGlContext();
 
   this.xLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x">' + this.labels['x'] + '</p>');
   this.xMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-min">0.0</p>');
   this.xMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-max">0.0</p>');
+  this.xMinLabel.textContent = roundLabel(0.0, this.decimals);
+  this.xMaxLabel.textContent = roundLabel(this.xRangeSize, this.decimals);
 
   this.yLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y">' + this.labels['y'] + '</p>');
-  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-min">' + roundLabel(this.yRange['min']) + '</p>');
-  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-max">' + roundLabel(this.yRange['max']) + '</p>');
+  this.yMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-min">' + roundLabel(this.yRange['min'], this.decimals) + '</p>');
+  this.yMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-y-max">' + roundLabel(this.yRange['max'], this.decimals) + '</p>');
 
   if (this.slider) {
     this.slider.setAttribute('min', this.yRange['min']);
     this.slider.setAttribute('max', this.yRange['max']);
   }
 
-  // fill the grid.
-  this.displayHorizontalGrid(0, this.canvasWidth);
-
+  if (this.values && this.values.length > 0) {
+    const linesCount = Array.isArray(this.values[0].y) ? this.values[0].y.length : 1;
+    if (this.lines.length < linesCount)
+      this.createLines(linesCount);
+    this.values = [];
+  }
   this.initialized = true;
 
   this.show(this.shown);
+};
+
+TimeplotWidget.prototype.computeCanvasSize = function() {
+  // Let the canvas size match with the element size (-2 because of the border), otherwise
+  // the sizes are not matching causing a aliased zoom-like effect.
+  this.canvas.width = this.canvas.offsetWidth - 2;
+  this.canvas.height = this.canvas.offsetHeight - 2;
+  this.canvasWidth = this.canvas.width;
+  this.canvasHeight = this.canvas.height;
+  this.xRangeSize = this.canvasWidth * this.basicTimeStep;
+
+  // Update lines and grid
+  for (let i = 0; i < this.lines.length; ++i)
+    this.lines[i].resize(this.canvasWidth);
+
+  if (this.horizontalGrid && this.horizontalGrid.maxSize < this.canvasHeight) {
+    const diff = this.horizontalGrid.size - this.canvasHeight;
+    let j = 0;
+    if (diff > 0) {
+      j = diff * 4;
+      this.horizontalGrid.size = this.canvasHeight;
+    }
+    const pointSize = this.horizontalGrid.size * 4;
+    const previousArray = this.horizontalGrid.xy;
+    this.horizontalGrid.xy = new Float32Array(this.canvasHeight * 4);
+    for (let i = 0; i < pointSize; ++i, ++j)
+      this.horizontalGrid.xy[i] = previousArray[j];
+  }
+
+  if (this.initialized)
+    this.initializeGlContext();
+};
+
+TimeplotWidget.prototype.initializeGlContext = function() {
+  var webglNames = ['webgl', 'experimental-webgl'];
+  for (var i = 0; i < webglNames.length; ++i) {
+    this.glContext = this.canvas.getContext(webglNames[i], { antialias: false });
+    if (this.glContext !== null)
+      break;
+  }
+  if (this.glContext === null) {
+    console.error('Unable to initialize WebGL. Your browser or machine may not support it.');
+    return;
+  }
+
+  // Initialize shader program
+  const vertexShader = this.loadShader(this.glContext, this.glContext.VERTEX_SHADER, this.VERTEX_SHADER);
+  const fragmentShader = this.loadShader(this.glContext, this.glContext.FRAGMENT_SHADER, this.FRAGMENT_SHADER);
+  this.shaderProgram = this.glContext.createProgram();
+  this.glContext.attachShader(this.shaderProgram, vertexShader);
+  this.glContext.attachShader(this.shaderProgram, fragmentShader);
+  this.glContext.linkProgram(this.shaderProgram);
+  if (!this.glContext.getProgramParameter(this.shaderProgram, this.glContext.LINK_STATUS)) {
+    alert('Unable to initialize the shader program: ' + this.glContext.getProgramInfoLog(this.shaderProgram));
+    return;
+  }
+
+  this.clearCanvas();
+
+  // Set viewport
+  this.glContext.useProgram(this.shaderProgram);
+  this.glContext.viewport(0, 0, this.canvas.width, this.canvas.height);
+
+  // Set coordinates scale and offset
+  this.scaleUniformLocation = this.glContext.getUniformLocation(this.shaderProgram, 'scale');
+  this.glContext.uniformMatrix2fv(this.scaleUniformLocation, false, [ 2.0 / this.xRangeSize, 0.0, 0.0, 2.0 / (this.yRange['max'] - this.yRange['min']) ]);
+  this.offsetUniformLocation = this.glContext.getUniformLocation(this.shaderProgram, 'offset');
+  this.pointSizeUniformLocation = this.glContext.getUniformLocation(this.shaderProgram, 'pointSize');
+  this.colorUniformLocation = this.glContext.getUniformLocation(this.shaderProgram, 'color');
+}
+
+TimeplotWidget.prototype.drawLine = function(line, color, pointSize, mode) {
+  if (line.size <= 0)
+    return;
+
+  const gl = this.glContext;
+  gl.uniform1f(this.pointSizeUniformLocation, pointSize);
+  gl.uniform3fv(this.colorUniformLocation, color);
+  gl.bufferData(gl.ARRAY_BUFFER, line.xy, gl.STREAM_DRAW);
+  gl.drawArrays(mode, 0, line.size);
+};
+
+TimeplotWidget.prototype.clearCanvas = function() {
+  this.glContext.clearColor(1.0, 1.0, 1.0, 1.0);
+  this.glContext.clear(this.glContext.COLOR_BUFFER_BIT);
 };
 
 TimeplotWidget.prototype.refresh = function() {
@@ -130,37 +353,20 @@ TimeplotWidget.prototype.refresh = function() {
   if (!this.initialized)
     this.initialize();
 
-  while (this.values.length > 0) { // foreach point to draw.
-    const value = this.values.shift(); // pop first item
-    const skip = Math.round((value.x - this.lastX) / this.basicTimeStep); // number of pixels to skip.
+  this.clearCanvas();
 
-    // blit
-    const imageData = this.canvasContext.getImageData(skip, 0, this.canvasWidth - skip, this.canvasHeight);
-    this.canvasContext.putImageData(imageData, 0, 0);
-    this.canvasContext.clearRect(this.canvasWidth - skip, 0, skip, this.canvasHeight);
+  this.displayHorizontalGrid();
 
-    // draw the grid on the blit area.
-    this.displayHorizontalGrid(this.canvasWidth - skip, skip);
-
-    // draw the new coordinate.
-    this.canvasContext.fillStyle = '#059';
-    if (Array.isArray(value.y)) {
-      for (let j = 0; j < value.y.length; ++j) {
-        this.canvasContext.fillStyle = this.colorByIndex(j);
-        this.canvasContext.beginPath();
-        this.canvasContext.arc(this.canvasWidth - 1, this.convertYCoordToCanvas(value.y[j]), 1.25, 0, 2.0 * Math.PI);
-        this.canvasContext.fill();
-      }
-    } else {
-      if (this.device) {
-        this.canvasContext.beginPath();
-        this.canvasContext.arc(this.canvasWidth - 1, this.convertYCoordToCanvas(value.y), 1.25, 0, 2.0 * Math.PI);
-        this.canvasContext.fill();
-      }
+  if (this.lines.length > 0 && this.lines[0].size > 0) {
+    const gl = this.glContext;
+    gl.uniform1f(this.pointSizeUniformLocation, 0.2);
+    gl.uniform2fv(this.offsetUniformLocation, [this.xOffset, this.yRange['min']]);
+    this.lastX = this.lines[0].lastX();
+    this.lastY = [];
+    for (let i = 0; i < this.lines.length; ++i) {
+      this.drawLine(this.lines[i], this.lines[i].color, 2.0, gl.POINTS);
+      this.lastY.push(this.lines[i].lastY());
     }
-
-    this.lastX = value.x;
-    this.lastY = value.y;
   }
 
   if (this.pendingSliderPositionUpdate)
@@ -216,24 +422,36 @@ TimeplotWidget.prototype.updateRange = function() {
   this.updateGridConstants();
 
   if (this.yMinLabel && this.yMaxLabel) {
-    this.yMinLabel.textContent = roundLabel(this.yRange['min']);
-    this.yMaxLabel.textContent = roundLabel(this.yRange['max']);
+    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
+    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
   }
-
-  this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-  this.displayHorizontalGrid(0, this.canvasWidth);
 
   if (this.slider) {
     this.slider.setAttribute('min', this.yRange['min']);
     this.slider.setAttribute('max', this.yRange['max']);
   }
+
+  this.glContext.uniformMatrix2fv(this.scaleUniformLocation, false, [ 2.0 / this.xRangeSize, 0.0, 0.0, 2.0 / (this.yRange['max'] - this.yRange['min']) ]);
 };
 
 TimeplotWidget.prototype.updateGridConstants = function() {
   let delta = this.yRange['max'] - this.yRange['min'];
   delta *= 0.999; // in order to decrease the order of magnitude if delta is a perfect divider of the increment
-  const orderOfMagnitude = Math.floor(Math.log(delta) / Math.LN10);
-  this.verticalGridSteps = Math.pow(10, orderOfMagnitude);
+  const minStep = delta / 10; // initial step size
+  const orderOfMagnitude = Math.floor(Math.log(minStep) / Math.LN10);
+  const magnitude = Math.pow(10, orderOfMagnitude);
+  // Calculate most significant digit of the new step size
+  let residual = Math.round(minStep / magnitude + 0.5);
+  if (residual > 5.0)
+    residual = 10.0;
+  else if (residual > 2.0)
+    residual = 5.0;
+  else if (residual > 1.0)
+    residual = 2.0;
+
+  this.verticalGridSteps = magnitude * residual;
+  if (this.horizontalGrid)
+    this.horizontalGrid.changed = true;
 };
 
 TimeplotWidget.prototype.show = function(show) {
@@ -257,18 +475,16 @@ TimeplotWidget.prototype.refreshLabels = function() {
   if (!this.initialized || !this.container.offsetParent)
     return;
 
-  if (this.xMinLabel.textContent === '0.0') // Blitting didn't started: the labels are constant.
-    this.xMinLabel.textContent = roundLabel(-this.basicTimeStep * this.canvasWidth);
   if (this.lastLabelRefresh !== this.lastX) {
-    // Blitting started: update the x labels.
-    this.xMinLabel.textContent = roundLabel(this.lastX - this.basicTimeStep * this.canvasWidth);
-    this.xMaxLabel.textContent = roundLabel(this.lastX);
+    // Update the x labels.
+    this.xMinLabel.textContent = roundLabel(this.xOffset, this.decimals);
+    this.xMaxLabel.textContent = roundLabel(this.xOffset + this.xRangeSize, this.decimals);
   }
   if (this.slider && !this.blockSliderUpdateFlag)
     this.slider.value = this.lastY;
   if (this.label) {
     const v = this.lastY;
-    if (Array.isArray(v)) {
+    if (v.length > 1) {
       const legend = this.labels['legend'];
       let text = ':' + (legend ? ' ' : '<br>&emsp;&emsp;') + '[ ';
       for (let i = 0; i < v.length; i++) {
@@ -282,8 +498,8 @@ TimeplotWidget.prototype.refreshLabels = function() {
         text += roundLabel(v[i], this.decimals) + '</span>';
       }
       this.label.innerHTML = text + (legend ? '<br>&emsp;&emsp;]' : ' ]');
-    } else
-      this.label.textContent = ': ' + roundLabel(v);
+    } else if (v.length > 0)
+      this.label.textContent = ': ' + roundLabel(v[0], this.decimals);
   }
   this.lastLabelRefresh = this.lastX;
 };
@@ -295,25 +511,51 @@ TimeplotWidget.prototype.appendChildToContainer = function(child) {
   return this.container.childNodes[this.container.childNodes.length - 1];
 };
 
-TimeplotWidget.prototype.convertYCoordToCanvas = function(y) {
-  return Math.round(-this.yOffset['halfOffset'] + this.canvasHeight + (y - this.yRange['min']) / (this.yRange['min'] - this.yRange['max']) * this.canvasHeight * this.yOffset['ratio']);
-};
-
-TimeplotWidget.prototype.displayHorizontalGrid = function(fromX, nX) {
-  for (let i = Math.ceil(this.yRange['min'] / this.verticalGridSteps); i < Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1; ++i) {
-    this.canvasContext.fillStyle = (i === 0) ? '#AAAAAA' : '#DDDDDD';
-    this.canvasContext.fillRect(fromX, this.convertYCoordToCanvas(i * this.verticalGridSteps), nX, 1);
+TimeplotWidget.prototype.displayHorizontalGrid = function() {
+  if (!this.horizontalGrid) {
+    this.horizontalGrid = {
+      'vbo': this.glContext.createBuffer(),
+      'coord': null,
+      'xy': new Float32Array(this.canvasHeight * 4), // TODO
+      'maxSize': this.canvasHeight,
+      'size': 0,
+      'changed': true
+    };
+    this.glContext.bindBuffer(this.glContext.ARRAY_BUFFER, this.horizontalGrid.vbo);
+    this.glContext.bufferData(this.glContext.ARRAY_BUFFER, this.horizontalGrid.xy, this.glContext.STREAM_DRAW);
+    this.horizontalGrid.coord = this.glContext.getAttribLocation(this.shaderProgram, 'coordinates');
+    this.glContext.vertexAttribPointer(this.horizontalGrid.coord, 2, this.glContext.FLOAT, false, 0, 0);
+    this.glContext.enableVertexAttribArray(this.horizontalGrid.coord);
   }
+  if (this.horizontalGrid.changed) {
+    let max = Math.ceil(this.yRange['max'] / this.verticalGridSteps) + 1;
+    if (max > this.horizontalGrid.maxSize)
+      max = this.horizontalGrid.maxSize;
+    const maxX = this.xRangeSize;
+    let i = 0;
+    for (let y = Math.ceil(this.yRange['min'] / this.verticalGridSteps); y < max; ++y, i += 4) {
+      this.horizontalGrid.xy[i] = 0.0; // x1
+      this.horizontalGrid.xy[i + 1] = y * this.verticalGridSteps; // y1
+      this.horizontalGrid.xy[i + 2] = maxX; // x2
+      this.horizontalGrid.xy[i + 3] = this.horizontalGrid.xy[i + 1]; // y2
+    }
+    this.horizontalGrid.size = i / 2;
+    this.horizontalGrid.changed = false;
+  }
+  this.glContext.uniform2fv(this.offsetUniformLocation, [0, this.yRange['min']]);
+  this.drawLine(this.horizontalGrid, [0.867, 0.867, 0.867], 1.0, this.glContext.LINES);
 };
 
-TimeplotWidget.prototype.colorByIndex = function(i) {
+TimeplotWidget.prototype.decimalColorByIndex = function(i) {
+  if (i < 0) // default for single line plot
+    return [0.0, 0.3333, 0.6];
   if (i === 0)
-    return '#A44';
+    return [0.6667, 0.2667, 0.2667];
   if (i === 1)
-    return '#4A4';
+    return [0.2667, 0.6667, 0.2667];
   if (i === 2)
-    return '#44A';
-  return '#444';
+    return [0.2667, 0.2667, 0.6667];
+  return [0.2667, 0.2667, 0.2667];
 };
 
 TimeplotWidget.prototype.labelColorByIndex = function(i) {
@@ -351,14 +593,10 @@ TimeplotWidget.prototype.resize = function() {
 };
 
 function roundLabel(value, decimals = 3) {
-  console.assert(isNumber(value) || value === 'Inf' || value === '-Inf' || value === 'NaN');
-  let factor = 1;
-  for (let i = 0; i < decimals; i++)
-    factor *= 10;
+  console.assert(isNumber(value));
   if (isNumber(value))
-    return Math.round(value * factor) / factor; // select number of decimals.
-  else
-    return value;
+    return parseFloat(value).toFixed(decimals); // select number of decimals
+  return value;
 }
 
 function isNumber(n) {
