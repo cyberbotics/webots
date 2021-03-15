@@ -72,7 +72,7 @@ This is usually 8 (the default), but can be more if control bits are used.
 The total number of bytes in the packets enqueued in the emitter cannot exceed this number.
 A `bufferSize` of -1 (the default) is regarded as unlimited buffer size.
 
-- `allowedChannels`: specifies allowed channels Emitter is allowed to emit to.
+- `allowedChannels`: specifies allowed channels [Emitter](#emitter) is allowed to emit to.
 Empty list (default) gives unlimited access.
 
 > **Note**: [Emitter](#emitter) nodes can also be used to communicate with the physics plugin (see [this chapter](physics-plugin.md)).
@@ -313,7 +313,7 @@ channel = wb_emitter_get_channel(tag)
 *set and get the emitter's channel.*
 
 The `wb_emitter_set_channel` function allows the controller to change the transmission channel.
-Target channel must be present between allowedChannels or allowedChannels is empty.
+Target channel must be present between `allowedChannels` or `allowedChannels` is empty.
 This modifies the `channel` field of the corresponding [Emitter](#emitter) node.
 Normally, an emitter can send data only to receivers that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used for broadcasting to all channels.

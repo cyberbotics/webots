@@ -62,7 +62,7 @@ The noise is proportionnal to the signal strength, e.g., a `signalStrengthNoise`
 - `directionNoise`: standard deviation of the gaussian noise added to each of the components of the direction returned by `wb_receiver_get_emitter_direction`.
 The noise is not dependent on the distance between emitter-receiver.
 
-- `allowedChannels`: specifies allowed channels Receiver is allowed to listen to.
+- `allowedChannels`: specifies allowed channels [Receiver](#receiver) is allowed to listen to.
 Empty list (default) gives unlimited access.
 
 ### Receiver Functions
@@ -645,7 +645,7 @@ channel = wb_receiver_get_channel(tag)
 *set and get the receiver's channel.*
 
 The `wb_receiver_set_channel` function allows a receiver to change its reception channel.
-Target channel must be present between allowedChannels or allowedChannels is empty.
+Target channel must be present between `allowedChannels` or `allowedChannels` is empty.
 It modifies the `channel` field of the corresponding [Receiver](#receiver) node.
 Normally, a receiver can only receive data packets from emitters that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used to listen simultaneously to all channels.
