@@ -16,7 +16,11 @@ For example the `SmallWoodenChair` PROTO should be defined in a file named `Smal
 ### Orientation
 
 PROTO nodes should be oriented in a way they appear nicely in a ENU coordinate system (which is the default in [WorldInfo](worldinfo.md)).
-If an object has a front, back, right and left side, like a TV set, a rubber duck or a robot, it should be oriented using the FLU system: Forward direction along the positive X-axis, Left direction along the positive Y-axis and Up direction along the positive Z-axis.
+If an object has at least two sides defined (for example up and front) it should be oriented using the FLU system:
+- **F**orward direction along the positive X-axis,
+- **L**eft direction along the positive Y-axis, and 
+- **U**p direction along the positive Z-axis.
+Typical candidates for the FLU system are a TV set, a rubber duck, or a robot.
 Objects such as a flower pot don't have any front, back, right or left side.
 In such cases, only the up direction should be set correctly: the upright position should be along the positive Z-axis.
 Objects such as a soccer ball don't have any up, down, front, back, right or left side.
