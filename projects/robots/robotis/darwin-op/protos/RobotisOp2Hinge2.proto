@@ -12,28 +12,28 @@
 # - realistic physics
 
 PROTO RobotisOp2Hinge2 [
-  field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0         # Is `Transform.rotation`.
-  field SFString   name            "ROBOTIS OP2_MODIF"   # Is `Solid.name`.
-  field SFString   controller      "motion_player" # Is `Robot.controller`.
-  field MFString   controllerArgs  []              # Is `Robot.controllerArgs`.
-  field SFString   customData      ""              # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
-  field SFBool     selfCollision   FALSE           # Is `Robot.selfCollision`.
-  field SFColor    plasticColor    0.8 0.8 0.8     # Is `Material.plasticColor`.
-  field SFInt32    cameraWidth     160             # Is `Camera.width`.
-  field SFInt32    cameraHeight    120             # Is `Camera.height`.
-  field MFFloat    battery         []              # Is `Robot.battery`.
-  field SFNode     jersey          NULL            # Extends the robot with a jersey: typically RobotisJersey.proto.
-  field SFInt32    channel         0               # Defines the channel for the `Emitter` and `Receiver` devices.
-  field SFBool     showWindow      FALSE           # Is `Robot.showWindow`.
-  field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.
-  field MFNode     headSlot        []              # Extends the robot with new nodes in the head slot.
-  field MFNode     leftFootSlot    []              # Extends the robot with new nodes in the left foot slot.
-  field MFNode     rightFootSlot   []              # Extends the robot with new nodes in the right foot slot.
-  field MFNode     leftHandSlot    []              # Extends the robot with new nodes in the left hand slot.
-  field MFNode     rightHandSlot   []              # Extends the robot with new nodes in the right hand slot.
+  field SFVec3f    translation     0 0 0                  # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0                # Is `Transform.rotation`.
+  field SFString   name            "ROBOTIS OP2 HINGE2"   # Is `Solid.name`.
+  field SFString   controller      "motion_player"        # Is `Robot.controller`.
+  field MFString   controllerArgs  []                     # Is `Robot.controllerArgs`.
+  field SFString   customData      ""                     # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE                  # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE                   # Is `Robot.synchronization`.
+  field SFBool     selfCollision   FALSE                  # Is `Robot.selfCollision`.
+  field SFColor    plasticColor    0.8 0.8 0.8            # Is `Material.plasticColor`.
+  field SFInt32    cameraWidth     160                    # Is `Camera.width`.
+  field SFInt32    cameraHeight    120                    # Is `Camera.height`.
+  field MFFloat    battery         []                     # Is `Robot.battery`.
+  field SFNode     jersey          NULL                   # Extends the robot with a jersey: typically RobotisJersey.proto.
+  field SFInt32    channel         0                      # Defines the channel for the `Emitter` and `Receiver` devices.
+  field SFBool     showWindow      FALSE                  # Is `Robot.showWindow`.
+  field MFNode     bodySlot        []                     # Extends the robot with new nodes in the body slot.
+  field MFNode     headSlot        []                     # Extends the robot with new nodes in the head slot.
+  field MFNode     leftFootSlot    []                     # Extends the robot with new nodes in the left foot slot.
+  field MFNode     rightFootSlot   []                     # Extends the robot with new nodes in the right foot slot.
+  field MFNode     leftHandSlot    []                     # Extends the robot with new nodes in the left hand slot.
+  field MFNode     rightHandSlot   []                     # Extends the robot with new nodes in the right hand slot.
 ]
 {
   Darwin-op-Hinge2 {
@@ -59,7 +59,7 @@ PROTO RobotisOp2Hinge2 [
     rightFootSlot   IS rightFootSlot
     leftHandSlot    IS leftHandSlot
     rightHandSlot   IS rightHandSlot
-    _model             "ROBOTIS OP2"
-    _description       "ROBOTIS OP2 modeled by Fabien Rohrer and adapted by Daniel Braikeh"
+    _model             "ROBOTIS OP2 Hinge2"
+    _description       "ROBOTIS OP2 modeled by Fabien Rohrer and adapted by Daniel Braikeh, but with hinge2 joints instead."
   }
 }

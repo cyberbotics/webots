@@ -15,7 +15,7 @@
 PROTO Darwin-op-Hinge2 [
   field SFVec3f    translation     0 0 0                      # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0                    # Is `Transform.rotation`.
-  field SFString   name            "DARwIn-OP"                # Is `Solid.name`.
+  field SFString   name            "DARwIn-OP-Hinge2"         # Is `Solid.name`.
   field SFString   controller      "motion_player"            # Is `Robot.controller`.
   field MFString   controllerArgs  []                         # Is `Robot.controllerArgs`.
   field SFString   customData      ""                         # Is `Robot.customData`.
@@ -36,8 +36,8 @@ PROTO Darwin-op-Hinge2 [
   field MFNode     leftHandSlot    []                         # Extends the robot with new nodes in the left hand slot.
   field MFNode     rightHandSlot   []                         # Extends the robot with new nodes in the right hand slot.
 #protected
-  hiddenField SFString _model       "DARwIn-OP"
-  hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer"
+  hiddenField SFString _model       "DARwIn-OP-Hinge2"
+  hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, modeled using hinge2 joints."
 ]
 {
   %{
@@ -688,7 +688,7 @@ PROTO Darwin-op-Hinge2 [
                                 }
                                 physics Physics {
                                   density -1
-                                  mass 0.2465542 # 0.167108 + 0.0794462
+                                  mass 0.221488 # 0.167108*0.85 + 0.0794462
                                 }
                               }
                             }
@@ -716,7 +716,7 @@ PROTO Darwin-op-Hinge2 [
                           }
                           physics Physics {
                             density -1
-                            mass 0.0703098
+                            mass 0.095376 # was 0.0703098, now is 0.167108*0.15 + 0.0703098
                             centerOfMass [
                               -0.000592469 -0.0539545 0.00654763
                             ]
@@ -1061,7 +1061,7 @@ PROTO Darwin-op-Hinge2 [
                                 }
                                 physics Physics {
                                   density -1
-                                  mass 0.2465542 # 0.167108 + 0.0794462
+                                  mass 0.221488 # 0.167108*0.85 + 0.0794462
                                 }
                               }
                             }
@@ -1089,7 +1089,7 @@ PROTO Darwin-op-Hinge2 [
                           }
                           physics Physics {
                             density -1
-                            mass 0.0703098
+                            mass 0.095376 # was 0.0703098, now is 0.167108*0.15 + 0.0703098
                             centerOfMass [
                               0.000592469 -0.0539545 0.00654763
                             ]

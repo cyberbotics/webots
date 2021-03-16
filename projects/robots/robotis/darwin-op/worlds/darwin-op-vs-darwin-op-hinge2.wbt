@@ -9,8 +9,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0011992682327232674 -0.9993458203626979 -0.036145443410093576 3.1894633020890004
-  position -0.16732985797694916 0.33750223138314533 -1.0000644329082466
+  orientation -0.0005650299805753094 0.9885833500347477 0.15067395519862317 3.134178277675497
+  position 0.21851154435646952 0.698096171084984 -1.4023478504527553
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -18,11 +18,11 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RobotisOp2 {
-  translation -0.4 0.236 0
+  translation 0.5 0.236 0
   controller "walk"
   selfCollision TRUE
 }
-RobotisOp2_MODIF {
+RobotisOp2Hinge2 {
   translation 0 0.236 0
   controller "walk"
   selfCollision TRUE
