@@ -262,24 +262,6 @@ PROTO RobocupSoccerField [
         contactMaterial "grass"
         translation 0 0 0.01
         rotation 1 0 0 1.5707996938995747
-#        children [
-#          Transform {
-#            translation 0 -0.005 0
-#            children [
-#              Shape {
-#                appearance PBRAppearance {
-#                  baseColor 0 0.666667 0
-#                  transparency 0.05
-#                  roughness 0.5
-#                  metalness 0.7
-#                }
-#                geometry Box {
-#                  size %{= 2 * I + A }% 0.01 %{= 2 * I + B }%
-#                }
-#              }
-#            ]
-#          }
-#        ]
         boundingObject Plane {
           size %{= 2 * I + A }% %{= 2 * I + B }%
         }
