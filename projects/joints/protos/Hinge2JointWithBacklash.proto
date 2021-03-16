@@ -70,7 +70,7 @@ PROTO Hinge2JointWithBacklash [
         endPoint Solid {
           name %{= '"limiter_axis2_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
           children [
-            %{ if fields.startPoint.value ~= nil then}%
+            %{ if fields.startPoint.value ~= nil then }%
             Group {
               children IS startPoint
             }
@@ -91,7 +91,7 @@ PROTO Hinge2JointWithBacklash [
             inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
             centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
             density -1
-            mass %{= gearMass }% # only one axis with backlash, set entire mass
+            mass %{= gearMass }% # only one axis with backlash, attribute entire mass
           }
         }
       %{ end }%
@@ -99,7 +99,7 @@ PROTO Hinge2JointWithBacklash [
       endPoint Solid {
         name %{= '"limiter_axis_'..wbrandom.integer(0, 100000)..'"' }% # prevent name clashes
         children [
-          %{ if fields.startPoint.value ~= nil then}%
+          %{ if fields.startPoint.value ~= nil then }%
           Group {
             children IS startPoint
           }
@@ -135,7 +135,7 @@ PROTO Hinge2JointWithBacklash [
                   inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
                   centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
                   density -1
-                  mass %{= gearMass*0.5 }%
+                  mass %{= gearMass*0.5 }% # both axis have backlash
                 }
               }
             %{ end }%

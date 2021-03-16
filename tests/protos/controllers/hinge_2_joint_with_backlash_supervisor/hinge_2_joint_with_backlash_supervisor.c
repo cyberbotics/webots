@@ -30,7 +30,8 @@ int main(int argc, char **argv) {
   double reference_max_z = -INFINITY;
   double tolerance;
 
-  // Test: in this test only axis2 is actuated, the joints with no backlash in this direction should behave
+  // Test: in this test only axis2 is actuated, the joints with no backlash in this direction should behave like the
+  // reference.
   float outbuffer[2] = {0.0f, VELOCITY};
   while (wb_robot_step(TIME_STEP) != -1.0 && wb_robot_get_time() < TEST_DURATION) {
     // send command
@@ -43,20 +44,8 @@ int main(int argc, char **argv) {
     end_point_position[BACKLASH_ON_AXIS2] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS2]);
     end_point_position[BACKLASH_ON_NEITHER] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_NEITHER]);
     end_point_position[REFERENCE_HINGE2JOINT] = wb_supervisor_node_get_position(end_point_node[REFERENCE_HINGE2JOINT]);
-    /*
-    printf("[0] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
-           end_point_position[BACKLASH_ON_BOTH][Z]);
-    printf("[1] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y],
-           end_point_position[BACKLASH_ON_AXIS][Z]);
-    printf("[2] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y],
-           end_point_position[BACKLASH_ON_AXIS2][Z]);
-    printf("[3] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y],
-           end_point_position[BACKLASH_ON_NEITHER][Z]);
-    printf("[4] %.10f %.10f %.10f\n", end_point_position[REFERENCE_HINGE2JOINT][X],
-           end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z]);
-    printf("----\n");
-    */
-    // TEST: verify that no endpoint changes in the X direction
+
+    // Test: verify that no endpoint changes in the X direction
     tolerance = 1e-10;
     ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][X], 0, tolerance,
                               "In test case 'BACKLASH_ON_BOTH' the endpoint moved in X when shouldn't.");
@@ -75,8 +64,8 @@ int main(int argc, char **argv) {
     if (end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0 < reference_min_z)
       reference_min_z = end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0;
 
-    // TEST: no endpoint should swing beyond neither the current nor the maximal value reached by the reference
-    // check against highest point
+    // Test: no endpoint should swing beyond neither the current nor the maximal value reached by the reference.
+    // check against the maxima
     tolerance = 1e-10;
     ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_BOTH][Z],
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached the reference's maximal Z position.");
@@ -87,7 +76,7 @@ int main(int argc, char **argv) {
     ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75,
                                "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's maximal Z position.");
 
-    // check against lowest point
+    // check against the minima
     tolerance = 1e-10;
     ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][Z], reference_min_z - tolerance,
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached reference's minimal Z position.");
@@ -134,32 +123,22 @@ int main(int argc, char **argv) {
   double reference_min_x = INFINITY;
   double reference_max_x = -INFINITY;
 
-  // Test: in this test only axis is actuated, the joints with no backlash in this direction
+  // Test: in this test only axis is actuated, the joints with no backlash in this direction should behave like the reference.
   outbuffer[0] = VELOCITY;
   outbuffer[1] = 0.0f;
   while (wb_robot_step(TIME_STEP) != -1.0 && wb_robot_get_time() < TEST_DURATION) {
     // send command
     wb_emitter_send(emitter, outbuffer, 2 * sizeof(float));
+    if (wb_robot_get_time() <= TIME_STEP / 1000)
+      continue;  // give controllers time to receive commands and start
     // monitoring
     end_point_position[BACKLASH_ON_BOTH] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_BOTH]);
     end_point_position[BACKLASH_ON_AXIS] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS]);
     end_point_position[BACKLASH_ON_AXIS2] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS2]);
     end_point_position[BACKLASH_ON_NEITHER] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_NEITHER]);
     end_point_position[REFERENCE_HINGE2JOINT] = wb_supervisor_node_get_position(end_point_node[REFERENCE_HINGE2JOINT]);
-    /*
-    printf("[0] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
-           end_point_position[BACKLASH_ON_BOTH][Z]);
-    printf("[1] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y],
-           end_point_position[BACKLASH_ON_AXIS][Z]);
-    printf("[2] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y],
-           end_point_position[BACKLASH_ON_AXIS2][Z]);
-    printf("[3] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y],
-           end_point_position[BACKLASH_ON_NEITHER][Z]);
-    printf("[4] %.10f %.10f %.10f\n", end_point_position[REFERENCE_HINGE2JOINT][X],
-           end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z]);
-    printf("----\n");
-    */
-    // TEST: verify that no endpoint changes in the Z direction
+
+    // Test: verify that no endpoint changes in the Z direction
     ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][Z], 0, 1e-10,
                               "In test case 'BACKLASH_ON_BOTH' the endpoint moved in Z when shouldn't.");
     ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS][Z], -0.25, 1e-10,
@@ -171,14 +150,14 @@ int main(int argc, char **argv) {
     ts_assert_double_in_delta(end_point_position[REFERENCE_HINGE2JOINT][Z], -1.0, 1e-10,
                               "In test case 'REFERENCE_HINGE2JOINT' the endpoint moved in Z when shouldn't.");
 
-    // keep track of reference position (minimum and maximum value of Z, adjusted by offset)
+    // keep track of reference position (minimum and maximum value of X)
     if (end_point_position[REFERENCE_HINGE2JOINT][X] > reference_max_x)
       reference_max_x = end_point_position[REFERENCE_HINGE2JOINT][X];
     if (end_point_position[REFERENCE_HINGE2JOINT][X] < reference_min_x)
       reference_min_x = end_point_position[REFERENCE_HINGE2JOINT][X];
 
     // TEST: no endpoint should swing beyond neither the current nor the maximal value reached by the reference
-    // check against highest point
+    // check against the maxima
     double tolerance = 1e-8;
     ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_BOTH][X],
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached the reference's maximal X position.");
@@ -189,7 +168,7 @@ int main(int argc, char **argv) {
     ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_NEITHER][X],
                                "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's maximal X position.");
 
-    // check against lowest point
+    // check against the minima
     tolerance = 1e-10;
     ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][X], reference_min_x - tolerance,
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached reference's minimal X position.");
