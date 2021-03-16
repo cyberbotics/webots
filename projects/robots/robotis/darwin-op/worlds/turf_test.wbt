@@ -13,8 +13,7 @@ WorldInfo {
       coulombFriction [
         0.1
       ]
-      softERP 0.001
-      softCFM 0.005
+      softCFM 0.03
     }
     ContactProperties {
       material1 "grass"
@@ -24,8 +23,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.2271076206184325 -0.9362106614529764 -0.26820090611109915 4.479728727329084
-  position 1.933908535999822 1.1026082383865317 0.054411670566366435
+  orientation 0.1262075905545669 -0.9479488263271502 -0.292343405520613 3.916195801059183
+  position 1.5792103879761497 1.1264289069411282 -0.9247200583169849
 }
 TexturedBackground {
   texture "noon_cloudy_countryside"

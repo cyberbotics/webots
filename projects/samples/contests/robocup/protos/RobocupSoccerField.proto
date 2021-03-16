@@ -9,6 +9,7 @@ PROTO RobocupSoccerField [
   field SFRotation                  rotation    0 1 0 0
   field SFString                    name        "soccer_field"
   field SFString{"adult", "kid"}    size        "adult"
+  field SFBool                      turfPhysics TRUE
 ]
 {
 
@@ -46,55 +47,58 @@ PROTO RobocupSoccerField [
       J = 3
       K = 6
     end
-
+    if fields.turfPhysics.value then
+      DEPTH = 0.01
+    else
+      DEPTH = 0
+    end
     -- Points for a quarter field (except central circle)
     pts = {}
-
-    pts[1]  = {x = 0,                           y = 0,                               z = 0}
-    pts[2]  = {x = 0,                           y = I,                               z = 0}
-    pts[3]  = {x = 0,                           y = I + (B / 2),                     z = 0}
-    pts[4]  = {x = I,                           y = I,                               z = 0}
-    pts[5]  = {x = I,                           y = I + (B / 2),                     z = 0}
-    pts[6]  = {x = I + LINE_WIDTH,              y = I,                               z = 0}
-    pts[7]  = {x = I + LINE_WIDTH,              y = I + LINE_WIDTH,                  z = 0}
-    pts[8]  = {x = I + LINE_WIDTH,              y = I + ((B - K) / 2),               z = 0}
-    pts[9]  = {x = I + LINE_WIDTH,              y = I + ((B - K) / 2) + LINE_WIDTH,  z = 0}
-    pts[10] = {x = I + LINE_WIDTH,              y = I + ((B - F) / 2),               z = 0}
-    pts[11] = {x = I + LINE_WIDTH,              y = I + ((B - F) / 2) + LINE_WIDTH,  z = 0}
-    pts[12] = {x = I + LINE_WIDTH,              y = I + (B / 2),                     z = 0}
-    pts[13] = {x = I + E - LINE_WIDTH,          y = I + ((B - F) / 2) + LINE_WIDTH,  z = 0}
-    pts[14] = {x = I + E - LINE_WIDTH,          y = I + (B / 2),                     z = 0}
-    pts[15] = {x = I + E,                       y = I + ((B - F) / 2),               z = 0}
-    pts[16] = {x = I + E,                       y = I + ((B - F) / 2) + LINE_WIDTH,  z = 0}
-    pts[17] = {x = I + E,                       y = I + (B / 2) - BRANCH_LENGTH,     z = 0}
-    pts[18] = {x = I + E,                       y = I + (B / 2),                     z = 0}
-    pts[19] = {x = I + G - BRANCH_LENGTH,       y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[20] = {x = I + G - BRANCH_LENGTH,       y = I + (B / 2),                     z = 0}
-    pts[21] = {x = I + G - (LINE_WIDTH / 2),    y = I + (B / 2) - BRANCH_LENGTH,     z = 0}
-    pts[22] = {x = I + G - (LINE_WIDTH / 2),    y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[23] = {x = I + G - (LINE_WIDTH / 2),    y = I + (B / 2),                     z = 0}
-    pts[24] = {x = I + G + (LINE_WIDTH / 2),    y = I + (B / 2) - BRANCH_LENGTH,     z = 0}
-    pts[25] = {x = I + G + (LINE_WIDTH / 2),    y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[26] = {x = I + G + (LINE_WIDTH / 2),    y = I + (B / 2),                     z = 0}
-    pts[27] = {x = I + G + BRANCH_LENGTH,       y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[28] = {x = I + G + BRANCH_LENGTH,       y = I + (B / 2),                     z = 0}
-    pts[29] = {x = I + J - LINE_WIDTH,          y = I + ((B - K) / 2) + LINE_WIDTH,  z = 0}
-    pts[30] = {x = I + J - LINE_WIDTH,          y = I + ((B - F) / 2),               z = 0}
-    pts[31] = {x = I + J - LINE_WIDTH,          y = I + (B / 2) - BRANCH_LENGTH,     z = 0}
-    pts[32] = {x = I + J - LINE_WIDTH,          y = I + (B / 2),                     z = 0}
-    pts[33] = {x = I + J,                       y = I + ((B - K) / 2),               z = 0}
-    pts[34] = {x = I + J,                       y = I + ((B - K) / 2) + LINE_WIDTH,  z = 0}
-    pts[35] = {x = I + J,                       y = I + (B / 2),                     z = 0}
-    pts[36] = {x = I + (A / 2) - BRANCH_LENGTH, y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[37] = {x = I + (A / 2) - BRANCH_LENGTH, y = I + (B / 2),                     z = 0}
-    pts[38] = {x = I + ((A - LINE_WIDTH) / 2),  y = I,                               z = 0}
-    pts[39] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + LINE_WIDTH,                  z = 0}
-    pts[40] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + ((B - K) / 2),               z = 0}
-    pts[41] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + ((B - LINE_WIDTH) / 2),      z = 0}
-    pts[42] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + (B / 2),                     z = 0}
-    pts[43] = {x = I + (A / 2),                 y = 0,                               z = 0}
-    pts[44] = {x = I + (A / 2),                 y = I,                               z = 0}
-    pts[45] = {x = I + (A / 2),                 y = I + (B / 2),                     z = 0}
+    pts[1]  = {x = 0,                           y = 0,                               z = DEPTH}
+    pts[2]  = {x = 0,                           y = I,                               z = DEPTH}
+    pts[3]  = {x = 0,                           y = I + (B / 2),                     z = DEPTH}
+    pts[4]  = {x = I,                           y = I,                               z = DEPTH}
+    pts[5]  = {x = I,                           y = I + (B / 2),                     z = DEPTH}
+    pts[6]  = {x = I + LINE_WIDTH,              y = I,                               z = DEPTH}
+    pts[7]  = {x = I + LINE_WIDTH,              y = I + LINE_WIDTH,                  z = DEPTH}
+    pts[8]  = {x = I + LINE_WIDTH,              y = I + ((B - K) / 2),               z = DEPTH}
+    pts[9]  = {x = I + LINE_WIDTH,              y = I + ((B - K) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[10] = {x = I + LINE_WIDTH,              y = I + ((B - F) / 2),               z = DEPTH}
+    pts[11] = {x = I + LINE_WIDTH,              y = I + ((B - F) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[12] = {x = I + LINE_WIDTH,              y = I + (B / 2),                     z = DEPTH}
+    pts[13] = {x = I + E - LINE_WIDTH,          y = I + ((B - F) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[14] = {x = I + E - LINE_WIDTH,          y = I + (B / 2),                     z = DEPTH}
+    pts[15] = {x = I + E,                       y = I + ((B - F) / 2),               z = DEPTH}
+    pts[16] = {x = I + E,                       y = I + ((B - F) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[17] = {x = I + E,                       y = I + (B / 2) - BRANCH_LENGTH,     z = DEPTH}
+    pts[18] = {x = I + E,                       y = I + (B / 2),                     z = DEPTH}
+    pts[19] = {x = I + G - BRANCH_LENGTH,       y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[20] = {x = I + G - BRANCH_LENGTH,       y = I + (B / 2),                     z = DEPTH}
+    pts[21] = {x = I + G - (LINE_WIDTH / 2),    y = I + (B / 2) - BRANCH_LENGTH,     z = DEPTH}
+    pts[22] = {x = I + G - (LINE_WIDTH / 2),    y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[23] = {x = I + G - (LINE_WIDTH / 2),    y = I + (B / 2),                     z = DEPTH}
+    pts[24] = {x = I + G + (LINE_WIDTH / 2),    y = I + (B / 2) - BRANCH_LENGTH,     z = DEPTH}
+    pts[25] = {x = I + G + (LINE_WIDTH / 2),    y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[26] = {x = I + G + (LINE_WIDTH / 2),    y = I + (B / 2),                     z = DEPTH}
+    pts[27] = {x = I + G + BRANCH_LENGTH,       y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[28] = {x = I + G + BRANCH_LENGTH,       y = I + (B / 2),                     z = DEPTH}
+    pts[29] = {x = I + J - LINE_WIDTH,          y = I + ((B - K) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[30] = {x = I + J - LINE_WIDTH,          y = I + ((B - F) / 2),               z = DEPTH}
+    pts[31] = {x = I + J - LINE_WIDTH,          y = I + (B / 2) - BRANCH_LENGTH,     z = DEPTH}
+    pts[32] = {x = I + J - LINE_WIDTH,          y = I + (B / 2),                     z = DEPTH}
+    pts[33] = {x = I + J,                       y = I + ((B - K) / 2),               z = DEPTH}
+    pts[34] = {x = I + J,                       y = I + ((B - K) / 2) + LINE_WIDTH,  z = DEPTH}
+    pts[35] = {x = I + J,                       y = I + (B / 2),                     z = DEPTH}
+    pts[36] = {x = I + (A / 2) - BRANCH_LENGTH, y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[37] = {x = I + (A / 2) - BRANCH_LENGTH, y = I + (B / 2),                     z = DEPTH}
+    pts[38] = {x = I + ((A - LINE_WIDTH) / 2),  y = I,                               z = DEPTH}
+    pts[39] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + LINE_WIDTH,                  z = DEPTH}
+    pts[40] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + ((B - K) / 2),               z = DEPTH}
+    pts[41] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + ((B - LINE_WIDTH) / 2),      z = DEPTH}
+    pts[42] = {x = I + ((A - LINE_WIDTH) / 2),  y = I + (B / 2),                     z = DEPTH}
+    pts[43] = {x = I + (A / 2),                 y = 0,                               z = DEPTH}
+    pts[44] = {x = I + (A / 2),                 y = I,                               z = DEPTH}
+    pts[45] = {x = I + (A / 2),                 y = I + (B / 2),                     z = DEPTH}
 
     -- Triangles for a quarter field (except central circle)
 
@@ -253,6 +257,34 @@ PROTO RobocupSoccerField [
     translation IS translation
     rotation IS rotation
     children [
+      %{ if fields.turfPhysics.value then }%
+      DEF BLADES Solid {
+        contactMaterial "grass"
+        translation 0 0 0.01
+        rotation 1 0 0 1.5707996938995747
+#        children [
+#          Transform {
+#            translation 0 -0.005 0
+#            children [
+#              Shape {
+#                appearance PBRAppearance {
+#                  baseColor 0 0.666667 0
+#                  transparency 0.05
+#                  roughness 0.5
+#                  metalness 0.7
+#                }
+#                geometry Box {
+#                  size %{= 2 * I + A }% 0.01 %{= 2 * I + B }%
+#                }
+#              }
+#            ]
+#          }
+#        ]
+        boundingObject Plane {
+          size %{= 2 * I + A }% %{= 2 * I + B }%
+        }
+      }
+      %{ end }%
       DEF GRASS Shape {
         appearance Grass {
           colorOverride 0.6 1 0.3
@@ -272,7 +304,7 @@ PROTO RobocupSoccerField [
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
             %{ for k, v in pairs(tg) do }%
-               %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
+               %{= v.a - 1 }% %{= v.b - 1 }% %{= v.c - 1 }% -1,
             %{ end }%
           ]
         }
@@ -295,19 +327,19 @@ PROTO RobocupSoccerField [
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
             %{ for k, v in pairs(tl) do }%
-               %{= v.a - 1 }%, %{= v.b - 1 }%, %{= v.c - 1 }%, -1,
+               %{= v.a - 1 }% %{= v.b - 1 }% %{= v.c - 1 }% -1
             %{ end }%
           ]
         }
       }
       RobocupGoal {
-        translation %{= I - OFFSET_X }%, %{= I + (B / 2) - OFFSET_Y }%, 0
+        translation %{= I - OFFSET_X }% %{= I + (B / 2) - OFFSET_Y }% 0
         rotation 0 0 1 -1.5707996938995747
         size IS size
         name "goal_home"
       }
       RobocupGoal {
-        translation %{= I + A - OFFSET_X }%, %{= I + (B / 2) - OFFSET_Y }%, 0
+        translation %{= I + A - OFFSET_X }% %{= I + (B / 2) - OFFSET_Y }% 0
         rotation 0 0 1 1.5707996938995747
         size IS size
         name "goal_away"
@@ -318,7 +350,7 @@ PROTO RobocupSoccerField [
       children [
         Shape {
           geometry Plane {
-            size %{= 2 * I + A }%, %{= 2 * I + B }%
+            size %{= 2 * I + A }% %{= 2 * I + B }%
           }
         }
       ]

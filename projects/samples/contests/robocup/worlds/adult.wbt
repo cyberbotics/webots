@@ -6,6 +6,15 @@ WorldInfo {
   ]
   title "Robocup V-HL Adult"
   basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      coulombFriction [
+        0.1
+      ]
+      softCFM 0.03
+    }
+  ]
 }
 Viewpoint {
   orientation 0.7383932268613509 -0.3325176727841018 -0.5866919462644143 1.3093003849227038
@@ -20,14 +29,14 @@ TexturedBackgroundLight {
 RobocupSoccerField {
 }
 RobocupSoccerBall {
-  translation 0 0 0.11
+  translation 0 0 0.12
   size 5
 }
 DEF RED_1 Darwin-op {
   translation 6.51 0 0.24
   rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   name "player red 1"
-  controller "soccer"
+  controller "walk"
   cameraWidth 640
   cameraHeight 480
   jersey RobotisJersey {
@@ -50,7 +59,7 @@ DEF BLUE_1 Darwin-op {
   translation -6.51 0 0.24
   rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 1"
-  controller "soccer"
+  controller "walk"
   cameraWidth 640
   cameraHeight 480
   jersey RobotisJersey {
