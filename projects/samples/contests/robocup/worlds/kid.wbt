@@ -8,8 +8,9 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.3104147445196029 0.47491052518891463 0.8234699019694763 2.1540489988954423
-  position 10.605734337906961 4.537966315195794 6.8277591846650605
+  orientation 0.7740618353667722 -0.3393112407167443 -0.5345055256514077 1.3737629675929948
+  position -10.918806145468938 -9.442194213986694 6.060809393740457
+
 }
 TexturedBackground {
   texture "stadium"
@@ -24,8 +25,8 @@ RobocupSoccerBall {
   translation 0 0 0.07
 }
 DEF RED_1 Darwin-op {
-  translation 0 4 0.24
-  rotation 1 0 0 1.5708
+  translation 4 0 0.24
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   name "player red 1"
   controller "soccer"
   cameraWidth 320
@@ -34,8 +35,8 @@ DEF RED_1 Darwin-op {
   }
 }
 DEF RED_2 Darwin-op {
-  translation 0 2.5 0.24
-  rotation 1 0 0 1.5708
+  translation 2.5 0 0.24
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   name "player red 2"
   controller "soccer"
   cameraWidth 320
@@ -47,8 +48,8 @@ DEF RED_2 Darwin-op {
   }
 }
 DEF RED_3 Darwin-op {
-  translation -0.5 0.8 0.24
-  rotation 1 0 0 1.5708
+  translation 0.8 -0.5 0.24
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   name "player red 3"
   controller "soccer"
   cameraWidth 320
@@ -60,8 +61,8 @@ DEF RED_3 Darwin-op {
   }
 }
 DEF RED_4 Darwin-op {
-  translation 0.5 0.8 0.24
-  rotation 1 0 0 1.5708
+  translation 0.8 0.5 0.24
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   name "player red 4"
   controller "soccer"
   cameraWidth 320
@@ -73,8 +74,8 @@ DEF RED_4 Darwin-op {
   }
 }
 DEF BLUE_1 Darwin-op {
-  translation 0 -4 0.24
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  translation -4 0 0.24
+    rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 1"
   controller "soccer"
   cameraWidth 320
@@ -86,8 +87,8 @@ DEF BLUE_1 Darwin-op {
   }
 }
 DEF BLUE_2 Darwin-op {
-  translation 0 -2.5 0.24
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  translation -2.5 0 0.24
+    rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 2"
   controller "soccer"
   cameraWidth 320
@@ -99,8 +100,8 @@ DEF BLUE_2 Darwin-op {
   }
 }
 DEF BLUE_3 Darwin-op {
-  translation -0.5 -0.8 0.24
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  translation -0.8 -0.5 0.24
+  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 3"
   controller "soccer"
   cameraWidth 320
@@ -112,8 +113,8 @@ DEF BLUE_3 Darwin-op {
   }
 }
 DEF BLUE_4 Darwin-op {
-  translation 0.5 -0.8 0.24
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  translation -0.8 0.5 0.24
+  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 4"
   controller "soccer"
   cameraWidth 320
