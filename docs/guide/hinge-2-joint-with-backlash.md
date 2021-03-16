@@ -40,7 +40,7 @@ If both `backlash` and `backlash2` are set to zero, `startPoint` is also ignored
 
 - `backlash2`: this field specifies the amount of clearance in the transmission associated to `axis2` of the [Hinge2Joint](../reference/hinge2joint.md).
 If set to zero, the limiter in this direction is removed and therefore the corresponding fields `gearMass2` and `outputSensor2` are ignored.
-If both `backlash` and `backlash2` are set to zero, `startPoint` is also ignored and the [PROTO](../reference/proto.md) reverts to a classic [Hinge2Joint](../reference/hinge2joint.md)
+If both `backlash` and `backlash2` are set to zero, `startPoint` is also ignored and the [PROTO](../reference/proto.md) reverts to a classic [Hinge2Joint](../reference/hinge2joint.md).
 
 - `gearMass`: this field specifies the mass of the transmission. If both `backlash` and `backlash2` are defined, then this mass is split among both axes, otherwise it's entirely assigned to the axis with non-zero backlash.
 
