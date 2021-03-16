@@ -6,6 +6,9 @@ WorldInfo {
   ]
   title "Robocup V-HL Adult"
   basicTimeStep 16
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
   contactProperties [
     ContactProperties {
       material1 "grass"
@@ -13,6 +16,14 @@ WorldInfo {
         0.1
       ]
       softCFM 0.03
+    }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.05
     }
   ]
 }

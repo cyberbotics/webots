@@ -6,6 +6,9 @@ WorldInfo {
   ]
   title "Robocup V-HL Kid"
   basicTimeStep 16
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
   contactProperties [
     ContactProperties {
       material1 "grass"
@@ -14,12 +17,19 @@ WorldInfo {
       ]
       softCFM 0.03
     }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.05
+    }
   ]
 }
 Viewpoint {
   orientation 0.7740618353667722 -0.3393112407167443 -0.5345055256514077 1.3737629675929948
   position -10.918806145468938 -9.442194213986694 6.060809393740457
-
 }
 TexturedBackground {
   texture "stadium"
@@ -84,7 +94,7 @@ DEF RED_4 Darwin-op {
 }
 DEF BLUE_1 Darwin-op {
   translation -4 0 0.24
-    rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
+  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 1"
   controller "walk"
   cameraWidth 320
@@ -97,7 +107,7 @@ DEF BLUE_1 Darwin-op {
 }
 DEF BLUE_2 Darwin-op {
   translation -2.5 0 0.24
-    rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
+  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
   name "player blue 2"
   controller "soccer"
   cameraWidth 320
