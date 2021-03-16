@@ -112,3 +112,23 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   mSensor->updateTimer();
   return true;
 }
+
+void WbAltimeter::reset() {
+  WbSolidDevice::reset();
+  mPreviousAltitude = 0.0;
+}
+
+void WbAltimeter::handleMessage(QDataStream &stream) {
+  unsigned char command;
+  short refreshRate;
+  stream >> command;
+
+  switch (command) {
+    case C_SET_SAMPLING_PERIOD:
+      stream >> refreshRate;
+      mSensor->setRefreshRate(refreshRate);
+      break;
+    default:
+      assert(0);
+  }
+}
