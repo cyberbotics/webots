@@ -680,12 +680,6 @@ Darwin-op {
   name "DARwIn-OP(1)"
   controller "walk"
 }
-BumpyTerrain {
-  translation 0 0.01 0.5
-  size 2 0.1 1
-  xDimension 10
-  zDimension 5
-}
 Floor {
   size 2 4
 }
