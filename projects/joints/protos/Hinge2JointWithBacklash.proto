@@ -10,6 +10,7 @@ PROTO Hinge2JointWithBacklash [
   field SFFloat                                backlash          0.01   # Defines the gear clearence for axis, [0, inf).
   field SFFloat                                backlash2         0.01   # Defines the gear clearence for axis2, [0, inf).
   field SFFloat                                gearMass          0.01   # Defines the gear mass for axis, [0, inf).
+  field SFFloat                                gearMass2         0.01   # Defines the gear mass for axis2, [0, inf).
   field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode                                 device2           [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
@@ -48,6 +49,12 @@ PROTO Hinge2JointWithBacklash [
     if gearMass <= 0 then
       io.stderr:write("'gearMass' value must be positive. Using default value.\n")
       gearMass = fields.gearMass.defaultValue
+    end
+
+    local gearMass2 = fields.gearMass2.value
+    if gearMass2 <= 0 then
+      io.stderr:write("'gearMass2' value must be positive. Using default value.\n")
+      gearMass2 = fields.gearMass2.defaultValue
     end
 
     if (backlash == 0 and backlash2 == 0) then
@@ -91,7 +98,7 @@ PROTO Hinge2JointWithBacklash [
             inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
             centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
             density -1
-            mass %{= gearMass }% # only one axis with backlash, attribute entire mass
+            mass IS gearMass2
           }
         }
       %{ end }%
@@ -135,7 +142,7 @@ PROTO Hinge2JointWithBacklash [
                   inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
                   centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
                   density -1
-                  mass %{= gearMass*0.5 }% # both axis have backlash
+                  mass IS gearMass2
                 }
               }
             %{ end }%
@@ -145,11 +152,7 @@ PROTO Hinge2JointWithBacklash [
           inertiaMatrix [ 4e-9 4e-9 4e-9, 0.0 0.0 0.0 ] # sphere of radius 0.001
           centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
           density -1
-          %{ if backlash2 == 0 then }%
-            mass %{= gearMass }% # only one axis with backlash, set entire mass
-          %{ else }%
-            mass %{= gearMass*0.5 }% # split mass among axis
-          %{ end }%
+          mass IS gearMass
         }
       }
     %{ end }%

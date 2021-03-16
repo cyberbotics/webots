@@ -107,12 +107,11 @@ int main(int argc, char **argv) {
                             tolerance, "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
 
     // the first group should behave differently from the second
-    const double minimal_difference = 1e-3;                        // we don't want them to be similar at all
-    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
+    const double minimal_difference = 1e-3;                      // we don't want them to be similar at all
+    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5)  // sufficient to test that they start differently
       ts_assert_double_is_bigger(
         fabs(end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0) - fabs(end_point_position[BACKLASH_ON_BOTH][Z]),
         minimal_difference, "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but shouldn't.");
-    }
   }
 
   wb_supervisor_simulation_reset();
@@ -199,12 +198,11 @@ int main(int argc, char **argv) {
                             tolerance, "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
 
     // the first group should behave differently from the second
-    const double minimal_difference = 1e-3;                        // we don't want them to be similar at all
-    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
+    const double minimal_difference = 1e-3;                      // we don't want them to be similar at all
+    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5)  // sufficient to test that they start differently
       ts_assert_double_is_bigger(
         fabs(end_point_position[REFERENCE_HINGE2JOINT][X]) - fabs(end_point_position[BACKLASH_ON_BOTH][X]), minimal_difference,
         "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but shouldn't.");
-    }
   }
 
   ts_send_success();

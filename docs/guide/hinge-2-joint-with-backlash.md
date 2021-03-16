@@ -17,6 +17,7 @@ Hinge2JointWithBacklash [
   SFFloat      backlash            0.01        # [0, inf)
   SFFloat      backlash2           0.01        # [0, inf)
   SFFloat      gearMass            0.01        # (0, inf)
+  SFFloat      gearMass2           0.01        # (0, inf)
   MFNode       device              [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       device2             [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor        [ ]         # {PositionSensor}
@@ -42,7 +43,9 @@ If both `backlash` and `backlash2` are set to zero, `startPoint` is also ignored
 If set to zero, the limiter in this direction is removed and therefore the corresponding fields `gearMass2` and `outputSensor2` are ignored.
 If both `backlash` and `backlash2` are set to zero, `startPoint` is also ignored and the [PROTO](../reference/proto.md) reverts to a classic [Hinge2Joint](../reference/hinge2joint.md).
 
-- `gearMass`: this field specifies the mass of the transmission. If both `backlash` and `backlash2` are defined, then this mass is split among both axes, otherwise it's entirely assigned to the axis with non-zero backlash.
+- `gearMass`: this field specifies the mass associated to `axis` of the transmission.
+
+- `gearMass2`: this field specifies the mass associated to `axis2` of the transmission.
 
 - `device`: this field optionally specifies a [RotationalMotor](../reference/rotationalmotor.md), an angular [PositionSensor](../reference/positionsensor.md) and/or a [Brake](../reference/brake.md) device.
 If no motor is specified, the joint is a passive joint.

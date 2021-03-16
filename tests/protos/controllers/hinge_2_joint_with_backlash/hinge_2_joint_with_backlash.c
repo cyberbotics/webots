@@ -46,28 +46,25 @@ int main() {
   wb_position_sensor_enable(reference_hinge2joint_sensor2, TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1.0) {
-    if (velocity_motor == 0.0 && velocity_motor2 != 0.0) {  // actuating only axis2
+    if (velocity_motor == 0.0 && velocity_motor2 != 0.0)  // actuating only axis2
       reference_hinge2joint_position = wb_position_sensor_get_value(reference_hinge2joint_sensor2);
-    } else {
+    else
       reference_hinge2joint_position = wb_position_sensor_get_value(reference_hinge2joint_sensor);
-    }
 
     if (reference_hinge2joint_position > ANGLE_LIMIT) {
       for (int i = 0; i < 5; ++i) {
-        if (velocity_motor == 0.0 && velocity_motor2 != 0.0) {
+        if (velocity_motor == 0.0 && velocity_motor2 != 0.0)
           wb_motor_set_velocity(motor2[i], -velocity_motor2);  // first test, only axis2 actuated
-        } else {
+        else
           wb_motor_set_velocity(motor[i], -velocity_motor);  // second test, only axis actuated
-        }
       }
     }
     if (reference_hinge2joint_position < -ANGLE_LIMIT) {
       for (int i = 0; i < 5; ++i) {
-        if (velocity_motor == 0.0 && velocity_motor2 != 0.0) {
+        if (velocity_motor == 0.0 && velocity_motor2 != 0.0)
           wb_motor_set_velocity(motor2[i], velocity_motor2);  // first test, only axis2 actuated
-        } else {
+        else
           wb_motor_set_velocity(motor[i], velocity_motor);  // second test, only axis actuated
-        }
       }
     }
   }
