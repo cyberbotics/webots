@@ -13,6 +13,15 @@ PROTO names should use upper camel case, e.g., each word should begin with a cap
 > **Note**: The PROTO file name should match exactly the PROTO name.
 For example the `SmallWoodenChair` PROTO should be defined in a file named `SmallWoodenChair.proto`.
 
+### Orientation
+
+PROTO nodes should be oriented in a way they appear nicely in a ENU coordinate system (which is the default in [WorldInfo](worldinfo.md)).
+If an object has a front, back, right and left side, like a TV set, a rubber duck or a robot, it should be oriented using the FLU system: Forward direction along the positive X-axis, Left direction along the positive Y-axis and Up direction along the positive Z-axis.
+Objects such as a flower pot don't have any front, back, right or left side.
+In such cases, only the up direction should be set correctly: the upright position should be along the positive Z-axis.
+Objects such as a soccer ball don't have any up, down, front, back, right or left side.
+In such cases, the orientation has no importance.
+
 ### Header
 
 The first line of a PROTO file is called the header.
@@ -62,7 +71,7 @@ However, there are some exceptions to this rule:
 - Balls should have their origin at their geometrical center, as they can roll and don't have an upright position.
 - Any other object which doesn't have a clear or stable upright position.
 
-The rotation axis should be already well positioned, e.g., usually vertical, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
+The rotation axis should be already well positioned, e.g., usually along the Z-axis with a 0 value for the angle, e.g., `0 0 1 0`, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
 
 #### "enableBoundingObject"
 
