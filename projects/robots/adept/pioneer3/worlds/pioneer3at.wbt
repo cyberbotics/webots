@@ -418,7 +418,6 @@ DEF OBSTACLE_40 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF PIONEER_3AT Pioneer3at {
-  translation 0 0 0
   rotation 0 0 1 -0.25
   controller "pioneer3at_obstacle_avoidance_with_lidar"
   extensionSlot [
