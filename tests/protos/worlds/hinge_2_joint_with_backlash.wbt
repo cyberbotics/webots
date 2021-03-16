@@ -1,5 +1,9 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
+  info [
+    "Sanity check for the behavior of the Hinge2JointWithBacklash PROTO."
+  ]
+  title "Hinge2JointWithBacklash Test World."
   gravity 0
   basicTimeStep 16
   coordinateSystem "NUE"
@@ -85,7 +89,6 @@ DEF ROBOT Robot {
           }
         }
         DEF CASE_BACKLASH_ON_AXIS Transform {
-          #translation 0 0 -0.25
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -141,7 +144,6 @@ DEF ROBOT Robot {
           ]
         }
         DEF CASE_BACKLASH_ON_AXIS2 Transform {
-          #translation 0 0 -0.5
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -197,7 +199,6 @@ DEF ROBOT Robot {
           ]
         }
         DEF CASE_BACKLASH_ON_NEITHER Transform {
-          #translation 0 0 -0.75
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -253,7 +254,6 @@ DEF ROBOT Robot {
           ]
         }
         DEF CASE_REFERENCE_HINGE2JOINT Transform {
-          #translation 0 0 -1
           children [
             Hinge2Joint {
               jointParameters HingeJointParameters {
