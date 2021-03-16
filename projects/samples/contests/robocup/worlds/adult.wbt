@@ -2,7 +2,7 @@
 WorldInfo {
   info [
     "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (adult size)"
-    "Version 0.1"
+    "Version 0.2"
   ]
   title "Robocup V-HL Adult"
   basicTimeStep 16
