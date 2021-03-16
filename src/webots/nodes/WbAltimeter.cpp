@@ -95,18 +95,18 @@ bool WbAltimeter::refreshSensorIfNeeded() {
     reference[upIndex] = altitude;
   }
 
-  mAltitude = t[upIndex]; //get exact altitude
-  mAltitude += reference[upIndex];
+  mMeasuredAltitude = t[upIndex]; //get exact altitude
+  mMeasuredAltitude += reference[upIndex];
   // add noise if necessary
   if (accuracy != 0.0) {
     // generate correlated gaussian number from previous one
     // https://www.cmu.edu/biolphys/deserno/pdf/corr_gaussian_random.pdf
     noise = ratio * noise + sqrt(1 - pow(ratio, 2)) * WbRandom::nextGaussian();
-    mAltitude += accuracy * noise;
+    mMeasuredAltitude += accuracy * noise;
   }
   // apply resolution if necessary
   if (mResolution->value() != -1.0) {
-    mAltitude = WbMathsUtilities::discretize(mAltitude, mResolution->value());
+    mMeasuredAltitude = WbMathsUtilities::discretize(mMeasuredAltitude, mResolution->value());
   }
 
   mSensor->updateTimer();

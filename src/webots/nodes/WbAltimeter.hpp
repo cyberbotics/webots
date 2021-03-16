@@ -53,7 +53,7 @@ private:
 
   // other fields
   WbSensor *mSensor;
-  double mAltitude;
+  double mMeasuredAltitude;
 
   WbAltimeter &operator=(const WbAltimeter &);
   WbAltimeter *clone() const override {return new WbAltimeter(*this); }
