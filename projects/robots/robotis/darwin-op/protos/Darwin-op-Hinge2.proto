@@ -12,7 +12,7 @@
 # - camera
 # - realistic physics
 
-PROTO Darwin-op_MODIF [
+PROTO Darwin-op-Hinge2 [
   field SFVec3f    translation     0 0 0                      # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0                    # Is `Transform.rotation`.
   field SFString   name            "DARwIn-OP"                # Is `Solid.name`.

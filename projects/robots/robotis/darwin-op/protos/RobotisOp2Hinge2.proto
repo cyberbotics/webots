@@ -11,7 +11,7 @@
 # - camera
 # - realistic physics
 
-PROTO RobotisOp2_MODIF [
+PROTO RobotisOp2Hinge2 [
   field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0         # Is `Transform.rotation`.
   field SFString   name            "ROBOTIS OP2_MODIF"   # Is `Solid.name`.
@@ -36,7 +36,7 @@ PROTO RobotisOp2_MODIF [
   field MFNode     rightHandSlot   []              # Extends the robot with new nodes in the right hand slot.
 ]
 {
-  Darwin-op_MODIF {
+  Darwin-op-Hinge2 {
     translation     IS translation
     rotation        IS rotation
     controller      IS controller
