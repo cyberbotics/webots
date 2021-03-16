@@ -57,10 +57,10 @@ Therefore the corresponding PROTO should expose at least a `translation` and a `
 
 The default value for the translation should be preferably the origin (0, 0, 0) and should correspond to the object in a normal position, e.g., laying on the floor rather than sinking into the floor.
 That means the origin of an object should not be at its 3D geometrical center, but rather in the middle of the surface in contact with the floor.
-There are some exceptions to this rule however:
-- legged robots should have their origin in their main body as it is difficult to know the extension of the legs of the robot towards the floor.
-- balls should have their origin at their geometrical center, at their can roll and don't have an upright position.
-- any other object which doesn't have a clear or stable upright position.
+However, there are some exceptions to this rule:
+- Legged robots should have their origin in their main body as it is difficult to know the extension of the legs of the robot towards the floor.
+- Balls should have their origin at their geometrical center.
+- Any other object which doesn't have a clear or stable upright position.
 
 The rotation axis should be already well positioned, e.g., usually vertical, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
 
