@@ -18,10 +18,6 @@ int main(int argc, char **argv) {
   WbNodeRef robot = wb_supervisor_node_get_from_def("ROBOT");
   WbDeviceTag emitter = wb_robot_get_device("emitter");
 
-  WbNodeRef world_info_node = wb_supervisor_node_get_from_def("WORLD_INFO");
-  WbFieldRef gravity_field = wb_supervisor_node_get_field(world_info_node, "gravity");
-  wb_supervisor_field_set_sf_float(gravity_field, 0);
-
   WbNodeRef end_point_node[5];
   end_point_node[BACKLASH_ON_BOTH] = wb_supervisor_node_get_from_def("END_POINT_CASE_BACKLASH_ON_BOTH");
   end_point_node[BACKLASH_ON_AXIS] = wb_supervisor_node_get_from_def("END_POINT_CASE_BACKLASH_ON_AXIS");
@@ -30,21 +26,24 @@ int main(int argc, char **argv) {
   end_point_node[REFERENCE_HINGE2JOINT] = wb_supervisor_node_get_from_def("END_POINT_CASE_REFERENCE_HINGE2JOINT");
   const double *end_point_position[5];
 
-  double reference_min_y = INFINITY;
-  double reference_max_y = -INFINITY;
+  double reference_min_z = INFINITY;
+  double reference_max_z = -INFINITY;
+  double tolerance;
 
   // Test: in this test only axis2 is actuated, the joints with no backlash in this direction should behave
   float outbuffer[2] = {0.0f, VELOCITY};
   while (wb_robot_step(TIME_STEP) != -1.0 && wb_robot_get_time() < TEST_DURATION) {
     // send command
     wb_emitter_send(emitter, outbuffer, 2 * sizeof(float));
+    if (wb_robot_get_time() <= TIME_STEP / 1000)
+      continue;  // give controllers time to receive commands and start
     // monitoring
     end_point_position[BACKLASH_ON_BOTH] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_BOTH]);
     end_point_position[BACKLASH_ON_AXIS] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS]);
     end_point_position[BACKLASH_ON_AXIS2] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS2]);
     end_point_position[BACKLASH_ON_NEITHER] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_NEITHER]);
     end_point_position[REFERENCE_HINGE2JOINT] = wb_supervisor_node_get_position(end_point_node[REFERENCE_HINGE2JOINT]);
-
+    /*
     printf("[0] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
            end_point_position[BACKLASH_ON_BOTH][Z]);
     printf("[1] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y],
@@ -56,62 +55,74 @@ int main(int argc, char **argv) {
     printf("[4] %.10f %.10f %.10f\n", end_point_position[REFERENCE_HINGE2JOINT][X],
            end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z]);
     printf("----\n");
-    // TEST: verify that no endpoint changes in the z direction
-    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][Z], 0, 1e-7,
-                              "In test case 'BACKLASH_ON_BOTH' the endpoint moved in Z when shouldn't.");
-    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS][Z], -0.25, 1e-7,
-                              "In test case 'BACKLASH_ON_AXIS' the endpoint moved in Z when shouldn't.");
-    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS2][Z], -0.50, 1e-7,
-                              "In test case 'BACKLASH_ON_AXIS2 the endpoint moved in Z when shouldn't.");
-    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_NEITHER][Z], -0.75, 1e-7,
-                              "In test case 'BACKLASH_ON_NEITHER' the endpoint moved in Z when shouldn't.");
-    ts_assert_double_in_delta(end_point_position[REFERENCE_HINGE2JOINT][Z], -1, 1e-7,
-                              "In test case 'REFERENCE_HINGE2JOINT' the endpoint moved in Z when shouldn't.");
+    */
+    // TEST: verify that no endpoint changes in the X direction
+    tolerance = 1e-10;
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][X], 0, tolerance,
+                              "In test case 'BACKLASH_ON_BOTH' the endpoint moved in X when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS][X], 0, tolerance,
+                              "In test case 'BACKLASH_ON_AXIS' the endpoint moved in X when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS2][X], 0, tolerance,
+                              "In test case 'BACKLASH_ON_AXIS2 the endpoint moved in X when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_NEITHER][X], 0, tolerance,
+                              "In test case 'BACKLASH_ON_NEITHER' the endpoint moved in X when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[REFERENCE_HINGE2JOINT][X], 0, tolerance,
+                              "In test case 'REFERENCE_HINGE2JOINT' the endpoint moved in X when shouldn't.");
 
-    // keep track of reference position y (minimum and maximum)
-    if (end_point_position[REFERENCE_HINGE2JOINT][Y] > reference_max_y)
-      reference_max_y = end_point_position[REFERENCE_HINGE2JOINT][Y];
-    if (end_point_position[REFERENCE_HINGE2JOINT][Y] < reference_min_y)
-      reference_min_y = end_point_position[REFERENCE_HINGE2JOINT][Y];
+    // keep track of reference position (minimum and maximum value of Z, adjusted by offset)
+    if (end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0 > reference_max_z)
+      reference_max_z = end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0;
+    if (end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0 < reference_min_z)
+      reference_min_z = end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0;
 
-    // TEST: no endpoint should swing beyond the highest point of the reference.
-    const double tolerance = 1e-8;
+    // TEST: no endpoint should swing beyond neither the current nor the maximal value reached by the reference
     // check against highest point
-    ts_assert_double_is_bigger(reference_max_y + tolerance, end_point_position[BACKLASH_ON_BOTH][Y],
-                               "In test case 'BACKLASH_ON_BOTH' the endpoint moved above the reference.");
-    ts_assert_double_is_bigger(reference_max_y + tolerance, end_point_position[BACKLASH_ON_AXIS][Y],
-                               "In test case 'BACKLASH_ON_AXIS' the endpoint moved above the reference.");
-    ts_assert_double_is_bigger(reference_max_y + tolerance, end_point_position[BACKLASH_ON_AXIS2][Y],
-                               "In test case 'BACKLASH_ON_AXIS2' the endpoint moved above the reference.");
-    ts_assert_double_is_bigger(reference_max_y + tolerance, end_point_position[BACKLASH_ON_NEITHER][Y],
-                               "In test case 'BACKLASH_ON_NEITHER' the endpoint moved above the reference.");
+    tolerance = 1e-10;
+    ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_BOTH][Z],
+                               "In test case 'BACKLASH_ON_BOTH' the endpoint breached the reference's maximal Z position.");
+    ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_AXIS][Z] + 0.25,
+                               "In test case 'BACKLASH_ON_AXIS' the endpoint breached reference's maximal Z position.");
+    ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50,
+                               "In test case 'BACKLASH_ON_AXIS2' the endpoint breached reference's maximal Z position.");
+    ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75,
+                               "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's maximal Z position.");
+
     // check against lowest point
-    if (wb_robot_get_time() > 0.6) {  // only makes sense to check this after the ones with backlash begin to move
-      ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][Y], reference_min_y - tolerance,
-                                 "In test case 'BACKLASH_ON_BOTH' the endpoint moved below the reference.");
-      ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS][Y], reference_min_y - tolerance,
-                                 "In test case 'BACKLASH_ON_AXIS' the endpoint moved below the reference.");
-      ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS2][Y], reference_min_y - tolerance,
-                                 "In test case 'BACKLASH_ON_AXIS2' the endpoint moved below the reference.");
-      ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_NEITHER][Y], reference_min_y - tolerance,
-                                 "In test case 'BACKLASH_ON_NEITHER' the endpoint moved below the reference.");
-    }
+    tolerance = 1e-10;
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][Z], reference_min_z - tolerance,
+                               "In test case 'BACKLASH_ON_BOTH' the endpoint breached reference's minimal Z position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS][Z] + 0.25, reference_min_z - tolerance,
+                               "In test case 'BACKLASH_ON_AXIS' the endpoint breached reference's minimal Z position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50, reference_min_z - tolerance,
+                               "In test case 'BACKLASH_ON_AXIS2' the endpoint breached reference's minimal Z position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75, reference_min_z - tolerance,
+                               "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's minimal Z position.");
+
     // TEST: assert if behavior is consistent (those with backlash behave all the same, those without as well)
     // (BACKLASH_ON_BOTH, BACKLASH_ON_AXIS2) should behave in the same manner
-    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y], 0,
-                            end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y], 0, 1e-8,
-                            "'BACKLASH_ON_BOTH' and 'BACKLASH_ON_AXIS2' not behaving in the same manner.");
+    tolerance = 1e-8;
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
+                            end_point_position[BACKLASH_ON_BOTH][Z], end_point_position[BACKLASH_ON_AXIS2][X],
+                            end_point_position[BACKLASH_ON_AXIS2][Y], end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50,
+                            tolerance, "'BACKLASH_ON_BOTH' and 'BACKLASH_ON_AXIS2' are not behaving in the same manner.");
+
     // (BACKLASH_ON_AXIS, BACKLASH_ON_NEITHER, REFERENCE_HINGE2JOINT) should behave in the same manner
-    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y], 0,
-                            end_point_position[REFERENCE_HINGE2JOINT][X], end_point_position[REFERENCE_HINGE2JOINT][Y], 0, 1e-8,
-                            "'BACKLASH_ON_AXIS' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
-    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y], 0,
-                            end_point_position[REFERENCE_HINGE2JOINT][X], end_point_position[REFERENCE_HINGE2JOINT][Y], 0, 1e-8,
-                            "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y],
+                            end_point_position[BACKLASH_ON_AXIS][Z] + 0.25, end_point_position[REFERENCE_HINGE2JOINT][X],
+                            end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0,
+                            tolerance, "'BACKLASH_ON_AXIS' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
+
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y],
+                            end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75, end_point_position[REFERENCE_HINGE2JOINT][X],
+                            end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0,
+                            tolerance, "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
+
     // the first group should behave differently from the second
-    if (wb_robot_get_time() > TIME_STEP && wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
-      ts_assert_double_is_bigger(fabs(end_point_position[BACKLASH_ON_BOTH][Y] - end_point_position[REFERENCE_HINGE2JOINT][Y]),
-                                 1e-5, "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but shouldn't.");
+    const double minimal_difference = 1e-3;                        // we don't want them to be similar at all
+    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
+      ts_assert_double_is_bigger(
+        fabs(end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0) - fabs(end_point_position[BACKLASH_ON_BOTH][Z]),
+        minimal_difference, "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but shouldn't.");
     }
   }
 
@@ -120,10 +131,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_supervisor_field_set_sf_float(gravity_field, 9.81);
-
-  double reference_min_z = INFINITY;
-  double reference_max_z = -INFINITY;
+  double reference_min_x = INFINITY;
+  double reference_max_x = -INFINITY;
 
   // Test: in this test only axis is actuated, the joints with no backlash in this direction
   outbuffer[0] = VELOCITY;
@@ -137,89 +146,88 @@ int main(int argc, char **argv) {
     end_point_position[BACKLASH_ON_AXIS2] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_AXIS2]);
     end_point_position[BACKLASH_ON_NEITHER] = wb_supervisor_node_get_position(end_point_node[BACKLASH_ON_NEITHER]);
     end_point_position[REFERENCE_HINGE2JOINT] = wb_supervisor_node_get_position(end_point_node[REFERENCE_HINGE2JOINT]);
-
+    /*
     printf("[0] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
            end_point_position[BACKLASH_ON_BOTH][Z]);
     printf("[1] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y],
-           end_point_position[BACKLASH_ON_AXIS][Z] + 0.25);
+           end_point_position[BACKLASH_ON_AXIS][Z]);
     printf("[2] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y],
-           end_point_position[BACKLASH_ON_AXIS2][Z] + 0.5);
+           end_point_position[BACKLASH_ON_AXIS2][Z]);
     printf("[3] %.10f %.10f %.10f\n", end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y],
-           end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75);
+           end_point_position[BACKLASH_ON_NEITHER][Z]);
     printf("[4] %.10f %.10f %.10f\n", end_point_position[REFERENCE_HINGE2JOINT][X],
-           end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0);
+           end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z]);
     printf("----\n");
-    // TEST: verify that no endpoint changes in the y direction
-    // note: BACKLASH_ON_BOTH and BACKLASH_ON_AXIS2 have different targets as they aren't constrained in Y due to backlash so
-    // they settle further down
-    if (wb_robot_get_time() > 1.0) {  // wait for gravity to bring it down
-      ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][Y], -0.200999, 1e-6,
-                                "In test case 'BACKLASH_ON_BOTH' the endpoint moved in Z when shouldn't.");
-      ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS][Y], -0.200001, 1e-6,
-                                "In test case 'BACKLASH_ON_AXIS' the endpoint moved in Z when shouldn't.");
-      ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS2][Y], -0.200999, 1e-6,
-                                "In test case 'BACKLASH_ON_AXIS2 the endpoint moved in Z when shouldn't.");
-      ts_assert_double_in_delta(end_point_position[BACKLASH_ON_NEITHER][Y], -0.200001, 1e-6,
-                                "In test case 'BACKLASH_ON_NEITHER' the endpoint moved in Z when shouldn't.");
-      ts_assert_double_in_delta(end_point_position[REFERENCE_HINGE2JOINT][Y], -0.200001, 1e-6,
-                                "In test case 'REFERENCE_HINGE2JOINT' the endpoint moved in Z when shouldn't.");
-    }
+    */
+    // TEST: verify that no endpoint changes in the Z direction
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_BOTH][Z], 0, 1e-10,
+                              "In test case 'BACKLASH_ON_BOTH' the endpoint moved in Z when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS][Z], -0.25, 1e-10,
+                              "In test case 'BACKLASH_ON_AXIS' the endpoint moved in Z when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_AXIS2][Z], -0.50, 1e-10,
+                              "In test case 'BACKLASH_ON_AXIS2 the endpoint moved in Z when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[BACKLASH_ON_NEITHER][Z], -0.75, 1e-10,
+                              "In test case 'BACKLASH_ON_NEITHER' the endpoint moved in Z when shouldn't.");
+    ts_assert_double_in_delta(end_point_position[REFERENCE_HINGE2JOINT][Z], -1.0, 1e-10,
+                              "In test case 'REFERENCE_HINGE2JOINT' the endpoint moved in Z when shouldn't.");
 
-    // keep track of reference position z (minimum and maximum)
-    if (end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0 > reference_max_z)
-      reference_max_z = end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0;
-    if (end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0 < reference_min_z)
-      reference_min_z = end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0;
+    // keep track of reference position (minimum and maximum value of Z, adjusted by offset)
+    if (end_point_position[REFERENCE_HINGE2JOINT][X] > reference_max_x)
+      reference_max_x = end_point_position[REFERENCE_HINGE2JOINT][X];
+    if (end_point_position[REFERENCE_HINGE2JOINT][X] < reference_min_x)
+      reference_min_x = end_point_position[REFERENCE_HINGE2JOINT][X];
 
-    // TEST: no endpoint should swing beyond the limits of the reference.
-    const double eps = 1e-5;  // due to stop penetration some leeway is necessary
+    // TEST: no endpoint should swing beyond neither the current nor the maximal value reached by the reference
     // check against highest point
-    ts_assert_double_is_bigger(reference_max_z + eps, end_point_position[BACKLASH_ON_BOTH][Z] + 0.0,
-                               "In test case 'BACKLASH_ON_BOTH' the endpoint moved in front of the reference.");
-    ts_assert_double_is_bigger(reference_max_z + eps, end_point_position[BACKLASH_ON_AXIS][Z] + 0.25,
-                               "In test case 'BACKLASH_ON_AXIS' the endpoint moved in front of the reference.");
-    ts_assert_double_is_bigger(reference_max_z + eps, end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50,
-                               "In test case 'BACKLASH_ON_AXIS2' the endpoint moved in front of the reference.");
-    ts_assert_double_is_bigger(reference_max_z + eps, end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75,
-                               "In test case 'BACKLASH_ON_NEITHER' the endpoint moved in front of the reference.");
+    double tolerance = 1e-8;
+    ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_BOTH][X],
+                               "In test case 'BACKLASH_ON_BOTH' the endpoint breached the reference's maximal X position.");
+    ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_AXIS][X],
+                               "In test case 'BACKLASH_ON_AXIS' the endpoint breached reference's maximal X position.");
+    ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_AXIS2][X],
+                               "In test case 'BACKLASH_ON_AXIS2' the endpoint breached reference's maximal X position.");
+    ts_assert_double_is_bigger(reference_max_x + tolerance, end_point_position[BACKLASH_ON_NEITHER][X],
+                               "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's maximal X position.");
+
+    // check against lowest point
+    tolerance = 1e-10;
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][X], reference_min_x - tolerance,
+                               "In test case 'BACKLASH_ON_BOTH' the endpoint breached reference's minimal X position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS][X], reference_min_x - tolerance,
+                               "In test case 'BACKLASH_ON_AXIS' the endpoint reference's minimal X position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS2][X], reference_min_x - tolerance,
+                               "In test case 'BACKLASH_ON_AXIS2' the endpoint reference's minimal X position.");
+    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_NEITHER][X], reference_min_x - tolerance,
+                               "In test case 'BACKLASH_ON_NEITHER' the endpoint reference's minimal X position.");
+
+    // TEST: assert if behavior is consistent (those with backlash behave all the same, those without as well)
+    // (BACKLASH_ON_BOTH, BACKLASH_ON_AXIS) should behave in the same manner
+    tolerance = 1e-8;
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
+                            end_point_position[BACKLASH_ON_BOTH][Z], end_point_position[BACKLASH_ON_AXIS][X],
+                            end_point_position[BACKLASH_ON_AXIS][Y], end_point_position[BACKLASH_ON_AXIS][Z] + 0.25, tolerance,
+                            "'BACKLASH_ON_BOTH' and 'BACKLASH_ON_AXIS' are not behaving in the same manner.");
+
+    // (BACKLASH_ON_AXIS2, BACKLASH_ON_NEITHER, REFERENCE_HINGE2JOINT) should behave in the same manner
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y],
+                            end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50, end_point_position[REFERENCE_HINGE2JOINT][X],
+                            end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0,
+                            tolerance, "'BACKLASH_ON_AXIS2' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
+
+    ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y],
+                            end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75, end_point_position[REFERENCE_HINGE2JOINT][X],
+                            end_point_position[REFERENCE_HINGE2JOINT][Y], end_point_position[REFERENCE_HINGE2JOINT][Z] + 1.0,
+                            tolerance, "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
+
+    // the first group should behave differently from the second
+    const double minimal_difference = 1e-3;                        // we don't want them to be similar at all
+    if (wb_robot_get_time() > 0.5 && wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
+      ts_assert_double_is_bigger(
+        fabs(end_point_position[REFERENCE_HINGE2JOINT][X]) - fabs(end_point_position[BACKLASH_ON_BOTH][X]), minimal_difference,
+        "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but shouldn't.");
+    }
   }
-  /*
-  // check against lowest point
-  if (wb_robot_get_time() > 0.6) {  // only makes sense to check this after the ones with backlash begin to move
-    // ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][Z], reference_min_z - eps,
-    //      "In test case 'BACKLASH_ON_BOTH' the endpoint moved below the reference.");
-    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS][Z] + 0.25, reference_min_z - eps,
-                               "In test case 'BACKLASH_ON_AXIS' the endpoint moved below the reference.");
-    // ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS2][Z], reference_min_z - eps,
-    //      "In test case 'BACKLASH_ON_AXIS2' the endpoint moved below the reference.");
-    ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_NEITHER][Z] + 0.75, reference_min_z - eps,
-                               "In test case 'BACKLASH_ON_NEITHER' the endpoint moved below the reference.");
-  }
 
-  printf("%f %f / %f %f\n", end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[REFERENCE_HINGE2JOINT][X],
-         end_point_position[BACKLASH_ON_AXIS2][Y], end_point_position[REFERENCE_HINGE2JOINT][Y]);
-  // TEST: assert if behavior is consistent (those with backlash behave all the same, those without as well)
-  // (BACKLASH_ON_BOTH, BACKLASH_ON_AXIS) should behave in the same manner
-  ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y], 0,
-                          end_point_position[BACKLASH_ON_AXIS][X], end_point_position[BACKLASH_ON_AXIS][Y], 0, 1e-3,
-                          "'BACKLASH_ON_BOTH' and 'BACKLASH_ON_AXIS' not behaving in the same manner.");
-  // (BACKLASH_ON_AXIS2, BACKLASH_ON_NEITHER, REFERENCE_HINGE2JOINT) should behave in the same manner
-  ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_AXIS2][X], end_point_position[BACKLASH_ON_AXIS2][Y], 0,
-                          end_point_position[REFERENCE_HINGE2JOINT][X], end_point_position[REFERENCE_HINGE2JOINT][Y], 0, 2e-3,
-                          "'BACKLASH_ON_AXIS2' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
-  ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_NEITHER][X], end_point_position[BACKLASH_ON_NEITHER][Y], 0,
-                          end_point_position[REFERENCE_HINGE2JOINT][X], end_point_position[REFERENCE_HINGE2JOINT][Y], 0, 1e-3,
-                          "'BACKLASH_ON_NEITHER' and 'REFERENCE_HINGE2JOINT' not behaving in the same manner.");
-  // the first group should behave differently from the second
-
-      if (wb_robot_get_time() < 2.5) {  // sufficient to test that they start differently
-        ts_assert_double_is_bigger(fabs(end_point_position[BACKLASH_ON_BOTH][Z] -
-     end_point_position[REFERENCE_HINGE2JOINT][Z]), 1e-5, "'BACKLASH_ON_BOTH' and 'REFERENCE_HINGE2JOINT' behave similarly but
-     shouldn't.");
-      }
-
-}
-*/
   ts_send_success();
   return EXIT_SUCCESS;
 }
