@@ -740,7 +740,7 @@ PROTO Darwin-op-Hinge2 [
                 }
                 physics Physics {
                   density -1
-                  mass 0.119043
+                  mass 0.1357538 # was 0.119043, now is 0.119043 + 0.10*0.167108
                 }
               }
             }
@@ -770,7 +770,7 @@ PROTO Darwin-op-Hinge2 [
           }
           physics Physics {
             density -1
-            mass 0.1941772 # 0.167108 + 0.0270692
+            mass 0.1774664 # 0.167108*0.90 + 0.0270692
           }
         }
       }
@@ -1113,7 +1113,7 @@ PROTO Darwin-op-Hinge2 [
                 }
                 physics Physics {
                   density -1
-                  mass 0.119043
+                  mass 0.1357538 # was 0.119043, now is 0.119043 + 0.10*0.167108
                 }
               }
             }
@@ -1142,7 +1142,7 @@ PROTO Darwin-op-Hinge2 [
           }
           physics Physics {
             density -1
-            mass 0.1941772 # 0.167108 + 0.0270692
+            mass 0.1774664 # 0.167108*0.90 + 0.0270692
           }
         }
       }
