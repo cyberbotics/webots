@@ -114,6 +114,12 @@ PingPongBall {
 A black and white soccer ball with customizable radius and mass.
 This object is physics-enabled so it will roll or bounce when hit.
 
+%figure
+
+![RobocupSoccerBall](images/objects/balls/RobocupSoccerBall/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
