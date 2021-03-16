@@ -45,7 +45,7 @@ RobocupSoccerBall {
 }
 DEF RED_1 Darwin-op {
   translation 6.51 0 0.24
-  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+  rotation 5.25424e-07 -1.21381e-06 1 3.14159
   name "player red 1"
   controller "walk"
   cameraWidth 640
@@ -55,7 +55,7 @@ DEF RED_1 Darwin-op {
 }
 DEF RED_2 Darwin-op {
   translation 1.75 0 0.24
-  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+  rotation 5.25424e-07 -1.21381e-06 1 3.14159
   name "player red 2"
   controller "soccer"
   cameraWidth 640
@@ -68,7 +68,7 @@ DEF RED_2 Darwin-op {
 }
 DEF BLUE_1 Darwin-op {
   translation -6.51 0 0.24
-  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
+  rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
   name "player blue 1"
   controller "walk"
   cameraWidth 640
@@ -81,7 +81,7 @@ DEF BLUE_1 Darwin-op {
 }
 DEF BLUE_2 Darwin-op {
   translation -1.75 0 0.24
-  rotation -0.57735126918836 -0.5773482691869614 -0.57735126918836 -2.094395307179586
+  rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
   name "player blue 2"
   controller "soccer"
   cameraWidth 640

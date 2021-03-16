@@ -296,6 +296,8 @@ class WebotsParser:
             else:
                 line = self.file.readline().strip()
                 self.line_count += 1
+            if not line:
+                continue
             character = line[0]
             if character == ']':
                 break
