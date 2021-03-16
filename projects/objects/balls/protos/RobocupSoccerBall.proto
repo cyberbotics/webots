@@ -63,6 +63,7 @@ PROTO RobocupSoccerBall [
     ]
     name IS name
     model "soccer ball"
+    contactMaterial "robocup soccer ball"
     boundingObject Sphere {
       radius %{= radius / scale }%
       subdivision 3
@@ -70,6 +71,11 @@ PROTO RobocupSoccerBall [
     physics Physics {
       mass %{= mass }%
       density -1
+      centerOfMass [ 0 0 0.0001 ]  # to introduce some randomness in motion
+      damping Damping {
+        linear 0.7
+        angular 0.7
+      }
     }
   }
 }
