@@ -13,28 +13,36 @@
 # - realistic physics
 
 PROTO Darwin-op-Hinge2 [
-  field SFVec3f    translation     0 0 0                      # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                    # Is `Transform.rotation`.
-  field SFString   name            "DARwIn-OP-Hinge2"         # Is `Solid.name`.
-  field SFString   controller      "motion_player"            # Is `Robot.controller`.
-  field MFString   controllerArgs  []                         # Is `Robot.controllerArgs`.
-  field SFString   customData      ""                         # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE                      # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE                       # Is `Robot.synchronization`.
-  field MFFloat    battery         []                         # Is `Robot.battery`.
-  field SFBool     selfCollision   FALSE                      # Is `Robot.selfCollision`.
-  field SFColor    plasticColor    0.301961 0.301961 0.301961 # Is `Material.plasticColor`.
-  field SFInt32    cameraWidth     160                        # Is `Camera.width`.
-  field SFInt32    cameraHeight    120                        # Is `Camera.height`.
-  field SFNode     jersey          NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
-  field SFInt32    channel         0                          # Defines the channel for the `Emitter` and `Receiver` devices.
-  field SFBool     showWindow      FALSE                      # Is `Robot.showWindow`.
-  field MFNode     bodySlot        []                         # Extends the robot with new nodes in the body slot.
-  field MFNode     headSlot        []                         # Extends the robot with new nodes in the head slot.
-  field MFNode     leftFootSlot    []                         # Extends the robot with new nodes in the left foot slot.
-  field MFNode     rightFootSlot   []                         # Extends the robot with new nodes in the right foot slot.
-  field MFNode     leftHandSlot    []                         # Extends the robot with new nodes in the left hand slot.
-  field MFNode     rightHandSlot   []                         # Extends the robot with new nodes in the right hand slot.
+  field SFVec3f    translation      0 0 0                      # Is `Transform.translation`.
+  field SFRotation rotation         0 1 0 0                    # Is `Transform.rotation`.
+  field SFString   name             "DARwIn-OP-Hinge2"         # Is `Solid.name`.
+  field SFString   controller       "motion_player"            # Is `Robot.controller`.
+  field MFString   controllerArgs   []                         # Is `Robot.controllerArgs`.
+  field SFString   customData       ""                         # Is `Robot.customData`.
+  field SFBool     supervisor       FALSE                      # Is `Robot.supervisor`.
+  field SFBool     synchronization  TRUE                       # Is `Robot.synchronization`.
+  field MFFloat    battery          []                         # Is `Robot.battery`.
+  field SFBool     selfCollision    FALSE                      # Is `Robot.selfCollision`.
+  field SFColor    plasticColor     0.301961 0.301961 0.301961 # Is `Material.plasticColor`.
+  field SFInt32    cameraWidth      160                        # Is `Camera.width`.
+  field SFInt32    cameraHeight     120                        # Is `Camera.height`.
+  field SFNode     jersey           NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
+  field SFInt32    channel          0                          # Defines the channel for the `Emitter` and `Receiver` devices.
+  field SFBool     showWindow       FALSE                      # Is `Robot.showWindow`.
+  field MFNode     bodySlot         []                         # Extends the robot with new nodes in the body slot.
+  field MFNode     headSlot         []                         # Extends the robot with new nodes in the head slot.
+  field MFNode     leftFootSlot     []                         # Extends the robot with new nodes in the left foot slot.
+  field MFNode     rightFootSlot    []                         # Extends the robot with new nodes in the right foot slot.
+  field MFNode     leftHandSlot     []                         # Extends the robot with new nodes in the left hand slot.
+  field MFNode     rightHandSlot    []                         # Extends the robot with new nodes in the right hand slot.
+  field SFFloat    backlashAnkle    0
+  field SFFloat    backlashLegLower 0
+  field SFFloat    backlashPelv     0
+  field SFFloat    backlashPelvY    0
+  field SFFloat    backlashShoulder 0
+  field SFFloat    backlashArmUpper 0
+  field SFFloat    backlashArmLower 0
+  field SFFloat    backlashNeck     0
 #protected
   hiddenField SFString _model       "DARwIn-OP-Hinge2"
   hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, modeled using hinge2 joints."
@@ -176,7 +184,11 @@ PROTO Darwin-op-Hinge2 [
         name "super_emitter"
         channel 2
       }
-      DEF DNeck Hinge2Joint {
+      DEF DNeck Hinge2JointWithBacklash {
+        gearMass 0.001
+        gearMass2 0.001
+        backlash IS backlashNeck
+        backlash2 IS backlashNeck
         device [
           RotationalMotor {
             name "Neck"
@@ -312,7 +324,7 @@ PROTO Darwin-op-Hinge2 [
                   rotation 1 0 0 0
                   children [
                     DEF DEyeLEDShape Shape {
-                      appearance DEF DEyeLEDAppearance PBRAppearance {
+                      appearance PBRAppearance {
                         baseColor 0.7 0.7 0.7
                         metalness 0
                         roughness 0.3
@@ -341,7 +353,7 @@ PROTO Darwin-op-Hinge2 [
                   rotation 1 0 0 0
                   children [
                     DEF DHeadLEDShape Shape {
-                      appearance DEF DHeadLEDAppearance PBRAppearance {
+                      appearance PBRAppearance {
                         baseColor 0.7 0.7 0.7
                         metalness 0
                         roughness 0.3
@@ -397,7 +409,9 @@ PROTO Darwin-op-Hinge2 [
           }
         }
       }
-      DEF DPelvYL HingeJoint {
+      DEF DPelvYL HingeJointWithBacklash {
+        gearMass 0.001
+        backlash IS backlashPelvY
         device [
           RotationalMotor {
             name "PelvYL"
@@ -459,7 +473,11 @@ PROTO Darwin-op-Hinge2 [
                 }
               ] # MOTORS
             }
-            DEF DPelvL Hinge2Joint {
+            DEF DPelvL Hinge2JointWithBacklash {
+              gearMass 0.001
+              gearMass2 0.001
+              backlash IS backlashPelv
+              backlash2 IS backlashPelv
               device [
                 RotationalMotor {
                   name "PelvL"
@@ -531,7 +549,9 @@ PROTO Darwin-op-Hinge2 [
                           }
                         ]
                       }
-                      DEF DLegLowerL HingeJoint {
+                      DEF DLegLowerL HingeJointWithBacklash {
+                        gearMass 0.001
+                        backlash IS backlashLegLower
                         device [
                           RotationalMotor {
                             name "LegLowerL"
@@ -570,7 +590,11 @@ PROTO Darwin-op-Hinge2 [
                                 creaseAngle 0.2
                               }
                             }
-                            DEF DAnkleL Hinge2Joint {
+                            DEF DAnkleL Hinge2JointWithBacklash {
+                              gearMass 0.001
+                              gearMass2 0.001
+                              backlash IS backlashAnkle
+                              backlash2 IS backlashAnkle
                               device [
                                 RotationalMotor {
                                   name "AnkleL"
@@ -774,7 +798,9 @@ PROTO Darwin-op-Hinge2 [
           }
         }
       }
-      DEF DPelvYR HingeJoint {
+      DEF DPelvYR HingeJointWithBacklash {
+        gearMass 0.001
+        backlash IS backlashPelvY
         device [
           RotationalMotor {
             name "PelvYR"
@@ -832,7 +858,11 @@ PROTO Darwin-op-Hinge2 [
                 }
               ]
             }
-            DEF DPelvR Hinge2Joint {
+            DEF DPelvR Hinge2JointWithBacklash {
+              gearMass 0.001
+              gearMass2 0.001
+              backlash IS backlashPelv
+              backlash2 IS backlashPelv
               device [
                 RotationalMotor {
                   name "PelvR"
@@ -904,7 +934,9 @@ PROTO Darwin-op-Hinge2 [
                           }
                         ]
                       }
-                      DEF DLegLowerR HingeJoint {
+                      DEF DLegLowerR HingeJointWithBacklash {
+                        gearMass 0.001
+                        backlash IS backlashLegLower
                         device [
                           RotationalMotor {
                             name "LegLowerR"
@@ -943,7 +975,11 @@ PROTO Darwin-op-Hinge2 [
                                 creaseAngle 0.2
                               }
                             }
-                            DEF DAnkleR Hinge2Joint {
+                            DEF DAnkleR Hinge2JointWithBacklash {
+                              gearMass 0.001
+                              gearMass2 0.001
+                              backlash IS backlashAnkle
+                              backlash2 IS backlashAnkle
                               device [
                                 RotationalMotor {
                                   name "AnkleR"
@@ -1146,7 +1182,9 @@ PROTO Darwin-op-Hinge2 [
           }
         }
       }
-      DEF DShoulderL HingeJoint {
+      DEF DShoulderL HingeJointWithBacklash {
+        gearMass 0.001
+        backlash IS backlashShoulder
         device [
           RotationalMotor {
             name "ShoulderL"
@@ -1185,7 +1223,9 @@ PROTO Darwin-op-Hinge2 [
                 creaseAngle 0.2
               }
             }
-            DEF DArmUpperL HingeJoint {
+            DEF DArmUpperL HingeJointWithBacklash {
+              gearMass 0.001
+              backlash IS backlashArmUpper
               device [
                 RotationalMotor {
                   name "ArmUpperL"
@@ -1238,7 +1278,9 @@ PROTO Darwin-op-Hinge2 [
                       }
                     ]
                   }
-                  DEF DArmLowerL HingeJoint {
+                  DEF DArmLowerL HingeJointWithBacklash {
+                    gearMass 0.001
+                    backlash IS backlashArmLower
                     device [
                       RotationalMotor {
                         name "ArmLowerL"
@@ -1371,7 +1413,9 @@ PROTO Darwin-op-Hinge2 [
           }
         }
       }
-      DEF DShoulderR HingeJoint {
+      DEF DShoulderR HingeJointWithBacklash {
+        gearMass 0.001
+        backlash IS backlashShoulder
         device [
           RotationalMotor {
             name "ShoulderR"
@@ -1410,7 +1454,9 @@ PROTO Darwin-op-Hinge2 [
                 creaseAngle 0.2
               }
             }
-            DEF DArmUpperR HingeJoint {
+            DEF DArmUpperR HingeJointWithBacklash {
+              gearMass 0.001
+              backlash IS backlashArmUpper
               device [
                 RotationalMotor {
                   name "ArmUpperR"
@@ -1463,7 +1509,9 @@ PROTO Darwin-op-Hinge2 [
                       }
                     ]
                   }
-                  DEF DArmLowerR HingeJoint {
+                  DEF DArmLowerR HingeJointWithBacklash {
+                    gearMass 0.001
+                    backlash IS backlashArmLower
                     device [
                       RotationalMotor {
                         name "ArmLowerR"
@@ -1604,7 +1652,12 @@ PROTO Darwin-op-Hinge2 [
         %{ end }%
         children [
           Shape {
-            appearance USE DHeadLEDAppearance
+            appearance PBRAppearance {
+              baseColor 0.7 0.7 0.7
+              metalness 0
+              roughness 0.3
+              emissiveIntensity 6
+            }
             geometry Box {
               size 0.002 0.005 0.002
             }
@@ -1619,7 +1672,12 @@ PROTO Darwin-op-Hinge2 [
         %{ end }%
         children [
           Shape {
-            appearance USE DEyeLEDAppearance
+            appearance PBRAppearance {
+              baseColor 0.7 0.7 0.7
+              metalness 0
+              roughness 0.3
+              emissiveIntensity 6
+            }
             geometry Box {
               size 0.002 0.005 0.002
             }
