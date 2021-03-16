@@ -59,7 +59,7 @@ The default value for the translation should be preferably the origin (0, 0, 0) 
 That means the origin of an object should not be at its 3D geometrical center, but rather in the middle of the surface in contact with the floor.
 However, there are some exceptions to this rule:
 - Legged robots should have their origin in their main body as it is difficult to know the extension of the legs of the robot towards the floor.
-- Balls should have their origin at their geometrical center.
+- Balls should have their origin at their geometrical center, as they can roll and don't have an upright position.
 - Any other object which doesn't have a clear or stable upright position.
 
 The rotation axis should be already well positioned, e.g., usually vertical, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
