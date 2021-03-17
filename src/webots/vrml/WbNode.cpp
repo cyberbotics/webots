@@ -1104,9 +1104,9 @@ const QString WbNode::urdfName() const {
 
   // Name the link/joint according to priority: name -> def -> model
   QString name;
-  if (this->findSFString("name") && this->findSFString("name")->value() != "") 
+  if (this->findSFString("name") && this->findSFString("name")->value() != "")
     name = this->findSFString("name")->value();
-  else if (this->defName() != "") 
+  else if (this->defName() != "")
     name = this->defName();
   else
     name = QString(mModel->name().toLower());
