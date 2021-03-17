@@ -1835,7 +1835,12 @@ PROTO Darwin-op [
         %{ end }%
         children [
           Shape {
-            appearance USE DHeadLEDAppearance
+            appearance PBRAppearance {
+              baseColor 0.7 0.7 0.7
+              metalness 0
+              roughness 0.3
+              emissiveIntensity 6
+            }
             geometry Box {
               size 0.002 0.005 0.002
             }
@@ -1851,7 +1856,12 @@ PROTO Darwin-op [
         %{ end }%
         children [
           Shape {
-            appearance USE DEyeLEDAppearance
+            appearance PBRAppearance {
+              baseColor 0.7 0.7 0.7
+              metalness 0
+              roughness 0.3
+              emissiveIntensity 6
+            }
             geometry Box {
               size 0.002 0.005 0.002
             }
