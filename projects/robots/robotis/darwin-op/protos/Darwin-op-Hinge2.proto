@@ -45,7 +45,7 @@ PROTO Darwin-op-Hinge2 [
   field SFFloat    backlashNeck     0
 #protected
   hiddenField SFString _model       "DARwIn-OP-Hinge2"
-  hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, modeled using hinge2 joints."
+  hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, upgraded to use hinge2 joints."
 ]
 {
   %{

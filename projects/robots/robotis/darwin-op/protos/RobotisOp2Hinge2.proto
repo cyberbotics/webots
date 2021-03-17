@@ -60,6 +60,6 @@ PROTO RobotisOp2Hinge2 [
     leftHandSlot    IS leftHandSlot
     rightHandSlot   IS rightHandSlot
     _model             "ROBOTIS OP2 Hinge2"
-    _description       "ROBOTIS OP2 modeled by Fabien Rohrer and adapted by Daniel Braikeh, but with hinge2 joints instead."
+    _description       "ROBOTIS OP2 modeled by Fabien Rohrer and adapted by Daniel Braikeh, modeled using hinge2 joints instead."
   }
 }
