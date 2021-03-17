@@ -1110,9 +1110,9 @@ const QString WbNode::urdfName() const {
     name = this->defName();
   else
     name = QString(mModel->name().toLower());
-
-  // Add prefix if needed
   QString fullName = getUrdfPrefix() + name;
+
+  // Add suffix if needed
   if (gUrdfNames.values().contains(fullName))
     fullName += "_" + QString::number(gUrdfNameIndex++);
 
