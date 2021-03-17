@@ -29,13 +29,13 @@ PROTO Darwin-op-Hinge2 [
   field SFNode     jersey           NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
   field SFInt32    channel          0                          # Defines the channel for the `Emitter` and `Receiver` devices.
   field SFBool     showWindow       FALSE                      # Is `Robot.showWindow`.
+  field SFBool     enableBacklash   FALSE                      # Enables backlash on all joints.
   field MFNode     bodySlot         []                         # Extends the robot with new nodes in the body slot.
   field MFNode     headSlot         []                         # Extends the robot with new nodes in the head slot.
   field MFNode     leftFootSlot     []                         # Extends the robot with new nodes in the left foot slot.
   field MFNode     rightFootSlot    []                         # Extends the robot with new nodes in the right foot slot.
   field MFNode     leftHandSlot     []                         # Extends the robot with new nodes in the left hand slot.
   field MFNode     rightHandSlot    []                         # Extends the robot with new nodes in the right hand slot.
-  field SFBool     enableBacklash   FALSE                      # Enables backlash on all joints.
 #protected
   hiddenField SFString _model       "DARwIn-OP-Hinge2"
   hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, upgraded to use hinge2 joints."
@@ -583,7 +583,6 @@ PROTO Darwin-op-Hinge2 [
                           %{ else }%
                             DEF DLegLowerL HingeJoint {
                           %{ end }%
-                            DEF DLegLowerL HingeJointWithBacklash {
                               device [
                                 RotationalMotor {
                                   name "LegLowerL"
