@@ -10,6 +10,8 @@ Generic gear generator, inspired by Brian Paul's glxgears demo.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Gear {
   SFVec3f     translation            0 0 0
