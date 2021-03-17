@@ -297,7 +297,7 @@ TimeplotWidget.prototype.displayHorizontalGrid = function() {
     this.horizontalGrid = {
       'vbo': gl.createBuffer(),
       'coord': null,
-      'xy': new Float32Array(this.plotHeight * 4), // TODO
+      'xy': new Float32Array(this.plotHeight * 4),
       'maxSize': this.plotHeight,
       'size': 0,
       'changed': true
