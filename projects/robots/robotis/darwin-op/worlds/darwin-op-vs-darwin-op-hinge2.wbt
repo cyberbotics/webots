@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.8639317934183355 -0.30075289908716074 -0.4039425082999393 1.4226194492376472
-  position -0.8998906260596103 -1.1437627349167612 0.6028563267624886
+  orientation 0.5773502691896258 -0.5773502691896258 -0.5773502691896257 2.0943951023931953
+  position -1.6261056509285472 0.23229160650444677 0.3013834689519236
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -19,15 +19,15 @@ TexturedBackgroundLight {
 RobotisOp2 {
   translation 0 0.5 0.236
   rotation 0 1 0 0.09
-  controller "walk"
   name "Darwin-Op hinge version"
+  controller "walk"
   selfCollision TRUE
 }
 RobotisOp2Hinge2 {
   translation 0 0 0.236
   rotation 0 1 0 0.09
-  controller "walk"
   name "Darwin-Op hinge2 version"
+  controller "walk"
   selfCollision TRUE
 }
 Floor {

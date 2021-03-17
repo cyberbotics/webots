@@ -7,5 +7,4 @@ centralWidgetVisible: 1
 renderingMode: PLAIN
 orthographicViewHeight: 1
 textFiles: -1
-globalOptionalRendering: AllBoundingObjects::JointAxes
 consoles: Console:All:All
