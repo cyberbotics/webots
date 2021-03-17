@@ -1432,3 +1432,13 @@ gonna check it out later
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/09/2021 22:52:42
 Any should work
 
+##### Ginzo1 03/10/2021 23:15:11
+Hello everyone! I need to draw lines on the floor that my robot will follow for a school project however I do not seem to find a proper way to do it. Could someone give me any ideas on how to do it? 🙂
+
+##### KajalGada 03/11/2021 01:05:37
+`@Ginzo1` check out this tutorial by DrakerDGRobotics on how he made his track using TinkerCAD. You can design your own style based on that.
+
+
+
+[https://youtu.be/XUSCD7aYtQ8](https://youtu.be/XUSCD7aYtQ8)
+
