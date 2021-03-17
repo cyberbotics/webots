@@ -18,7 +18,7 @@ Released on June, Xth, 2021.
       - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the correspoding tab is not visible.
       - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
       - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
-      - speed up drawing using WebGL([#2854](https://github.com/cyberbotics/webots/pull/2854)).
+      - Speed up drawing using WebGL([#2854](https://github.com/cyberbotics/webots/pull/2854)).
     - Allowed the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - Simplified the usage of the `ros` controller ([#2822](https://github.com/cyberbotics/webots/pull/2822)).
