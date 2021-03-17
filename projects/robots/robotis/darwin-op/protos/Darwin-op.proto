@@ -45,17 +45,17 @@ PROTO Darwin-op [
     local has_jersey = fields.jersey.value
     local enable_backlash = fields.enableBacklash.value
     -- tune backlash on joints
-    local backlash_head = 0.01
-    local backlash_neck = 0.01
-    local backlash_shoulder = 0.01
-    local backlash_arm_upper = 0.01
-    local backlash_arm_lower = 0.01
-    local backlash_pelv_y = 0.01
-    local backlash_pelv = 0.01
-    local backlash_leg_upper = 0.01
-    local backlash_leg_lower = 0.01
-    local backlash_ankle = 0.01
-    local backlash_foot = 0.01
+    local backlash_head = 0.04
+    local backlash_neck = 0.04
+    local backlash_shoulder = 0.04
+    local backlash_arm_upper = 0.04
+    local backlash_arm_lower = 0.04
+    local backlash_pelv_y = 0.04
+    local backlash_pelv = 0.04
+    local backlash_leg_upper = 0.04
+    local backlash_leg_lower = 0.04
+    local backlash_ankle = 0.04
+    local backlash_foot = 0.04
   }%
   Robot {
     translation IS translation
