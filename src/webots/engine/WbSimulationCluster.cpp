@@ -601,7 +601,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       if (joint) {
         if (firstAnchor.isNan())
           firstAnchor = joint->anchor();
-        if (!firstAnchor.almostEquals(joint->anchor()))
+        else if (!firstAnchor.almostEquals(joint->anchor()))
           break;
       }
       n = n->parentNode();
