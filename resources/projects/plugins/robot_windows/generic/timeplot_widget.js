@@ -364,11 +364,17 @@ TimeplotWidget.prototype.computePlotRect = function() {
 // Jump to a new y range based on the initial range and the new y value.
 TimeplotWidget.prototype.jumpToRange = function(y) {
   console.assert(isNumber(y));
-  if (y > this.yRange['max'] || y < this.yRange['min']) {
+  const jumpUp = y > this.yRange['max'];
+  const jumpDown = y < this.yRange['min'];
+  if (jumpUp || jumpDown) {
     const delta = this.initialYRange['max'] - this.initialYRange['min'];
-    const rangeLevel = Math.floor(0.5 * Math.floor(y / (0.5 * delta) + 1.0));
-    this.yRange['min'] = delta * rangeLevel - 0.5 * delta;
-    this.yRange['max'] = delta * rangeLevel + 0.5 * delta;
+    if (jumpUp) {
+      this.yRange['max'] = y + 0.05 * delta;
+      this.yRange['min'] = this.yRange['max'] - delta;
+    } else {
+      this.yRange['min'] = y - 0.05 * delta;
+      this.yRange['max'] = this.yRange['min'] + delta;
+    }
     this.updateRange();
   }
 };
