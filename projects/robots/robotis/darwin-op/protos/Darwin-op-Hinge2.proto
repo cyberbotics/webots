@@ -35,14 +35,7 @@ PROTO Darwin-op-Hinge2 [
   field MFNode     rightFootSlot    []                         # Extends the robot with new nodes in the right foot slot.
   field MFNode     leftHandSlot     []                         # Extends the robot with new nodes in the left hand slot.
   field MFNode     rightHandSlot    []                         # Extends the robot with new nodes in the right hand slot.
-  field SFFloat    backlashAnkle    0
-  field SFFloat    backlashLegLower 0
-  field SFFloat    backlashPelv     0
-  field SFFloat    backlashPelvY    0
-  field SFFloat    backlashShoulder 0
-  field SFFloat    backlashArmUpper 0
-  field SFFloat    backlashArmLower 0
-  field SFFloat    backlashNeck     0
+  field SFBool     enableBacklash   FALSE                      # Enables backlash on all joints.
 #protected
   hiddenField SFString _model       "DARwIn-OP-Hinge2"
   hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, upgraded to use hinge2 joints."
@@ -50,6 +43,15 @@ PROTO Darwin-op-Hinge2 [
 {
   %{
     local has_jersey = fields.jersey.value
+    -- tune backlash on joints
+    local backlash_neck = 0.01
+    local backlash_shoulder = 0.01
+    local backlash_arm_upper = 0.01
+    local backlash_arm_lower = 0.01
+    local backlash_pelv_y = 0.01
+    local backlash_pelv = 0.01
+    local backlash_leg_lower = 0.01
+    local backlash_ankle = 0.01
   }%
   Robot {
     translation IS translation
@@ -198,8 +200,8 @@ PROTO Darwin-op-Hinge2 [
       DEF DNeck Hinge2JointWithBacklash {
         gearMass 0.001
         gearMass2 0.001
-        backlash IS backlashNeck
-        backlash2 IS backlashNeck
+        backlash %{= backlash_neck }%
+        backlash2 %{= backlash_neck }%
         device [
           RotationalMotor {
             name "Neck"
@@ -419,7 +421,7 @@ PROTO Darwin-op-Hinge2 [
       }
       DEF DPelvYL HingeJointWithBacklash {
         gearMass 0.001
-        backlash IS backlashPelvY
+        backlash %{= backlash_pelv_y }%
         device [
           RotationalMotor {
             name "PelvYL"
@@ -484,8 +486,8 @@ PROTO Darwin-op-Hinge2 [
             DEF DPelvL Hinge2JointWithBacklash {
               gearMass 0.001
               gearMass2 0.001
-              backlash IS backlashPelv
-              backlash2 IS backlashPelv
+              backlash %{= backlash_pelv }%
+              backlash2 %{= backlash_pelv }%
               device [
                 RotationalMotor {
                   name "PelvL"
@@ -559,7 +561,7 @@ PROTO Darwin-op-Hinge2 [
                       }
                       DEF DLegLowerL HingeJointWithBacklash {
                         gearMass 0.001
-                        backlash IS backlashLegLower
+                        backlash %{= backlash_leg_lower }%
                         device [
                           RotationalMotor {
                             name "LegLowerL"
@@ -601,8 +603,8 @@ PROTO Darwin-op-Hinge2 [
                             DEF DAnkleL Hinge2JointWithBacklash {
                               gearMass 0.001
                               gearMass2 0.001
-                              backlash IS backlashAnkle
-                              backlash2 IS backlashAnkle
+                              backlash %{= backlash_ankle }%
+                              backlash2 %{= backlash_ankle }%
                               device [
                                 RotationalMotor {
                                   name "AnkleL"
@@ -807,7 +809,7 @@ PROTO Darwin-op-Hinge2 [
       }
       DEF DPelvYR HingeJointWithBacklash {
         gearMass 0.001
-        backlash IS backlashPelvY
+        backlash %{= backlash_pelv_y }%
         device [
           RotationalMotor {
             name "PelvYR"
@@ -868,8 +870,8 @@ PROTO Darwin-op-Hinge2 [
             DEF DPelvR Hinge2JointWithBacklash {
               gearMass 0.001
               gearMass2 0.001
-              backlash IS backlashPelv
-              backlash2 IS backlashPelv
+              backlash %{= backlash_pelv }%
+              backlash2 %{= backlash_pelv }%
               device [
                 RotationalMotor {
                   name "PelvR"
@@ -943,7 +945,7 @@ PROTO Darwin-op-Hinge2 [
                       }
                       DEF DLegLowerR HingeJointWithBacklash {
                         gearMass 0.001
-                        backlash IS backlashLegLower
+                        backlash %{= backlash_leg_lower }%
                         device [
                           RotationalMotor {
                             name "LegLowerR"
@@ -985,8 +987,8 @@ PROTO Darwin-op-Hinge2 [
                             DEF DAnkleR Hinge2JointWithBacklash {
                               gearMass 0.001
                               gearMass2 0.001
-                              backlash IS backlashAnkle
-                              backlash2 IS backlashAnkle
+                              backlash %{= backlash_ankle }%
+                              backlash2 %{= backlash_ankle }%
                               device [
                                 RotationalMotor {
                                   name "AnkleR"
@@ -1191,7 +1193,7 @@ PROTO Darwin-op-Hinge2 [
       }
       DEF DShoulderL HingeJointWithBacklash {
         gearMass 0.001
-        backlash IS backlashShoulder
+        backlash %{= backlash_shoulder }%
         device [
           RotationalMotor {
             name "ShoulderL"
@@ -1232,7 +1234,7 @@ PROTO Darwin-op-Hinge2 [
             }
             DEF DArmUpperL HingeJointWithBacklash {
               gearMass 0.001
-              backlash IS backlashArmUpper
+              backlash %{= backlash_arm_upper }%
               device [
                 RotationalMotor {
                   name "ArmUpperL"
@@ -1287,7 +1289,7 @@ PROTO Darwin-op-Hinge2 [
                   }
                   DEF DArmLowerL HingeJointWithBacklash {
                     gearMass 0.001
-                    backlash IS backlashArmLower
+                    backlash %{= backlash_arm_lower }%
                     device [
                       RotationalMotor {
                         name "ArmLowerL"
@@ -1422,7 +1424,7 @@ PROTO Darwin-op-Hinge2 [
       }
       DEF DShoulderR HingeJointWithBacklash {
         gearMass 0.001
-        backlash IS backlashShoulder
+        backlash %{= backlash_shoulder }%
         device [
           RotationalMotor {
             name "ShoulderR"
@@ -1463,7 +1465,7 @@ PROTO Darwin-op-Hinge2 [
             }
             DEF DArmUpperR HingeJointWithBacklash {
               gearMass 0.001
-              backlash IS backlashArmUpper
+              backlash %{= backlash_arm_upper }%
               device [
                 RotationalMotor {
                   name "ArmUpperR"
@@ -1518,7 +1520,7 @@ PROTO Darwin-op-Hinge2 [
                   }
                   DEF DArmLowerR HingeJointWithBacklash {
                     gearMass 0.001
-                    backlash IS backlashArmLower
+                    backlash %{= backlash_arm_lower }%
                     device [
                       RotationalMotor {
                         name "ArmLowerR"
