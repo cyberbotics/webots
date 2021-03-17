@@ -64,7 +64,7 @@ PROTO Darwin-op-Hinge2 [
         endPoint IS jersey
       }
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         children [
           DEF DBodyShape Shape {
             appearance DEF PLASTIC_APPEARANCE PBRAppearance {
@@ -87,11 +87,11 @@ PROTO Darwin-op-Hinge2 [
         ]
       }
       LED {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         %{ if has_jersey then }%
-          translation 0.056 0.005 -0.01
+          translation -0.056 -0.005 -0.01
         %{ else }%
-          translation 0.076 0.005 -0.01
+          translation -0.076 -0.005 -0.01
         %{ end }%
         color [
           0 1 0
@@ -112,11 +112,11 @@ PROTO Darwin-op-Hinge2 [
         ]
       }
       LED {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         %{ if has_jersey then }%
-          translation 0.056 0 -0.01
+          translation -0.056 0 -0.01
         %{ else }%
-          translation 0.076 0 -0.01
+          translation -0.076 0 -0.01
         %{ end }%
         color [
           0 0 1
@@ -137,11 +137,11 @@ PROTO Darwin-op-Hinge2 [
         ]
       }
       LED {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         %{ if has_jersey then }%
-          translation 0.056 -0.005 -0.01
+          translation -0.056 0.005 -0.01
         %{ else }%
-          translation 0.076 -0.005 -0.01
+          translation -0.056 0.005 -0.01
         %{ end }%
         color [
           1 0 0
@@ -160,38 +160,38 @@ PROTO Darwin-op-Hinge2 [
         ]
       }
       Speaker {
-        translation -0.2 0 0
-        rotation 0.0927 0.7041 0.7041 -2.9567
+        translation 0.2 0 0
+        rotation -0.9831 0.1294 -0.1294 -1.5878
         name "Speaker"
       }
       Accelerometer {
-        translation 0.01 0 -0.068
-        rotation 0 0 1.0 1.5708
+        translation -0.01 0 -0.068
+        rotation 0 0 1.0 -1.5708
         name "Accelerometer"
         lookupTable [
           -39.24 0 0 39.24 1024 0
         ]
       }
       Gyro {
-        translation -0.01 0 -0.068
-        rotation 0.0685 -0.0067 0.7038 0
+        translation 0.01 0 -0.068
+        rotation 0 0 1.0 -3.1416
         name "Gyro"
         lookupTable [
           -27.925 0 0 27.925 1024 0
         ]
       }
       DEF RECEIVER Receiver {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         name "receiver"
         channel IS channel
       }
       DEF EMITTER Emitter {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         name "emitter"
         channel IS channel
       }
       DEF SUPER_EMITTER Emitter {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         name "super_emitter"
         channel 2
       }
@@ -215,7 +215,7 @@ PROTO Darwin-op-Hinge2 [
         ]
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor -0.0 -0.0 0.051
+          anchor 0.0 -0.0 0.051
           dampingConstant 0.002
           staticFriction 0.025
         }
@@ -239,7 +239,7 @@ PROTO Darwin-op-Hinge2 [
           staticFriction 0.025
         }
         endPoint Solid {
-          rotation -0.5774 0.5773 0.5774 -2.0944
+          rotation 0.5774 0.5773 0.5773 2.0944
           children [
             Transform {
               translation 0 0.051 0
@@ -435,14 +435,14 @@ PROTO Darwin-op-Hinge2 [
         ]
         jointParameters HingeJointParameters {
           axis 0 0 -1
-          anchor 0.005 -0.037 -0.1222
+          anchor -0.005 0.037 -0.1222
           position -0.02
           dampingConstant 0.002
           staticFriction 0.025
         }
         endPoint Solid {
-          translation 0.005 -0.037 -0.122
-          rotation 0.585 -0.5735 -0.5735 2.0829
+          translation -0.005 0.037 -0.122
+          rotation 0.5697 0.5812 0.5812 2.106
           children [
             DEF DPelvYLShape Shape {
               appearance USE METAL_APPEARANCE
@@ -823,16 +823,16 @@ PROTO Darwin-op-Hinge2 [
         ]
         jointParameters HingeJointParameters {
           axis 0 0 -1
-          anchor 0.005 0.037 -0.1222
+          anchor -0.005 -0.037 -0.1222
           position -0.01
           dampingConstant 0.002
           staticFriction 0.025
         }
         endPoint Solid {
-          translation 0.005 0.037 -0.122
-          rotation 0.5812 -0.5754 -0.5754 2.0886
+          translation -0.005 -0.037 -0.122
+          rotation 0.5735 0.5793 0.5793 2.1002
           children [
-            DEF DPelvYRShape Shape {
+            DEF DPelvYRShape Shape { # Motors
               appearance USE METAL_APPEARANCE
               geometry IndexedFaceSet {
                 coord Coordinate {
@@ -846,7 +846,7 @@ PROTO Darwin-op-Hinge2 [
                 creaseAngle 0.2
               }
             }
-            Transform { # Motors
+            Transform {
               rotation 0 0 -1 0.02
               children [
                 DEF DPelvRShape Shape {
@@ -1030,7 +1030,7 @@ PROTO Darwin-op-Hinge2 [
                                 translation 0 -0.093 0
                                 rotation -1 0 0 1.22
                                 children [
-                                  DEF DAnkleRShape Shape { # Right foot motors
+                                  DEF DAnkleRShape Shape { # Motors
                                     appearance USE MOTOR_APPEARANCE
                                     geometry IndexedFaceSet {
                                       coord Coordinate {
@@ -1044,7 +1044,7 @@ PROTO Darwin-op-Hinge2 [
                                       creaseAngle 0.2
                                     }
                                   }
-                                  Transform { # Right foot
+                                  Transform { # Foot
                                     rotation 0 0 1 0.05
                                     children [
                                       DEF RIGHT_FOOT_SLOT Group {
@@ -1172,7 +1172,7 @@ PROTO Darwin-op-Hinge2 [
                   }
                 ]
               }
-              Transform { # Motor
+              Transform { # Motors
                 translation -0.00020999 -0.0104979  -0.023
                 rotation 0 0 1 -0.02
                 children [
@@ -1206,15 +1206,15 @@ PROTO Darwin-op-Hinge2 [
           }
         ]
         jointParameters HingeJointParameters {
-          axis 0 -1 0
-          anchor -0.0 -0.082 -0.0
+          axis 0 1 0
+          anchor -0.0 0.082 0.0
           position 0.72
           dampingConstant 0.002
           staticFriction 0.025
         }
         endPoint Solid {
-          translation 0 -0.082 0
-          rotation 0.6734 -0.6734 -0.3051 2.5494
+          translation 0 0.082 0
+          rotation 0.6734 0.6734 0.3051 2.5494
           children [
             DEF DShoulderLShape Shape {
               appearance USE METAL_APPEARANCE
@@ -1412,7 +1412,7 @@ PROTO Darwin-op-Hinge2 [
             density -1
             mass 0.025913
             centerOfMass [
-              -0.00139 0.01352 0.01264
+              0.00139 -0.01352 0.01264
             ]
             inertiaMatrix [
               9.7758165e-06 1.0511104e-05 5.4767980e-06 1.6911839e-06 -4.5174329e-07 3.3406955e-07
@@ -1437,15 +1437,15 @@ PROTO Darwin-op-Hinge2 [
           }
         ]
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0.0 0.082 0.0
+          axis 0 -1 0
+          anchor 0.0 -0.082 -0.0
           position -0.84
           dampingConstant 0.002
           staticFriction 0.025
         }
         endPoint Solid {
-          translation 0 0.082 0
-          rotation 0.6826 -0.6826 -0.2611 2.6307
+          translation 0 -0.082 0
+          rotation 0.6826 0.6826 0.2611 2.6307
           children [
             DEF DShoulderRShape Shape {
               appearance USE METAL_APPEARANCE
@@ -1643,7 +1643,7 @@ PROTO Darwin-op-Hinge2 [
             density -1
             mass 0.025913
             centerOfMass [
-              -0.00139 -0.01352 0.01024
+              0.00139 0.01352 0.01024
             ]
             inertiaMatrix [
               9.7758165e-06 1.0511104e-05 5.4767980e-06 -1.6911839e-06 4.5174329e-07 3.3406955e-07
@@ -1652,12 +1652,11 @@ PROTO Darwin-op-Hinge2 [
         }
       }
       DEF DHeadBackLED Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
-        translation 0.056 0.01 -0.01
+        rotation 0.5774 0.5773 0.5773 2.0944
         %{ if has_jersey then }%
-          translation 0.056 0.01 -0.01
+          translation -0.056 -0.01 -0.01
         %{ else }%
-          translation 0.076 0.01 -0.01
+          translation -0.076 -0.01 -0.01
         %{ end }%
         children [
           Shape {
@@ -1674,13 +1673,12 @@ PROTO Darwin-op-Hinge2 [
         ]
       }
       DEF DEyeBackLED Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
+        rotation 0.5774 0.5773 0.5773 2.0944
         %{ if has_jersey then }%
-          translation 0.056 0.015 -0.01
+          translation -0.056 -0.015 -0.01
         %{ else }%
-          translation 0.076 0.015 -0.01
+          translation -0.076 -0.015 -0.01
         %{ end }%
-        translation 0.056 0.015 -0.01
         children [
           Shape {
             appearance PBRAppearance {
@@ -1699,8 +1697,8 @@ PROTO Darwin-op-Hinge2 [
     boundingObject Group {
       children [
         Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
-          translation 0.025 0 -0.059
+          rotation 0.5774 0.5773 0.5773 2.0944
+          translation -0.025 0 -0.059
           children [
             Box {
               size 0.1 0.058 0.091
@@ -1708,8 +1706,8 @@ PROTO Darwin-op-Hinge2 [
           ]
         }
         Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
-          translation 0.038 0 -0.029
+          rotation 0.5774 0.5773 0.5773 2.0944
+          translation -0.038 0 -0.029
           children [
             Box {
               size 0.114 0.045 0.076
@@ -1717,8 +1715,8 @@ PROTO Darwin-op-Hinge2 [
           ]
         }
         Transform {
-          translation 0.027 0 -0.006
-          rotation 0.5957 -0.5957 -0.5389 2.1531
+          translation -0.027 0 -0.006
+          rotation 0.5957 0.5957 0.5389 2.1531
           children [
             Box {
               size 0.114 0.058 0.076
@@ -1726,8 +1724,8 @@ PROTO Darwin-op-Hinge2 [
           ]
         }
         Transform {
-          rotation -0.5774 0.5773 0.5774 -2.0944
-          translation -0.028 0 -0.042
+          rotation 0.5774 0.5773 0.5773 2.0944
+          translation 0.028 0 -0.042
           children [
             Box {
               size 0.114 0.046 0.016
@@ -1743,7 +1741,7 @@ PROTO Darwin-op-Hinge2 [
       density -1
       mass 0.975599
       centerOfMass [
-        0.05 0.0 -0.08
+        -0.05 0.0 -0.08
       ]
       inertiaMatrix [
         3.1081800e-03 6.3787776e-03 5.3316425e-03 -2.5460189e-04 2.0318174e-03 1.6417863e-04
