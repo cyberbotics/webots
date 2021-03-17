@@ -177,6 +177,11 @@ void WbReceiver::updateTransmissionSetup() {
   WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBaudRate, -1, -1);
   WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 
+  if (!isChannelAllowed()) {
+    parsingWarn(tr("'channel' is not included in 'allowedChannels'. Setting 'channel' to %1").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
   mNeedToConfigure = true;
 }
 

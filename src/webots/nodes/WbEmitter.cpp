@@ -127,7 +127,6 @@ void WbEmitter::updateAllowedChannels() {
     parsingWarn(
       tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
     mChannel->setValue(mAllowedChannels->item(0));
-    mNeedToSetChannel = true;
   }
 
   mNeedToSetAllowedChannels = true;
@@ -135,9 +134,10 @@ void WbEmitter::updateAllowedChannels() {
 
 void WbEmitter::updateChannel() {
   if (!isChannelAllowed()) {
-    parsingWarn(tr("'channel' is not included in 'allowedChannels'"));
-    return;
+    parsingWarn(tr("'channel' is not included in 'allowedChannels'. Setting 'channel' to %1").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
   }
+
   mNeedToSetChannel = true;
 }
 
