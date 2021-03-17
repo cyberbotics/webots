@@ -586,13 +586,13 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
   // ignore collision if bodies are connected by a chain of HingeJoint (or derivatives) sharing a same anchor
   if (b1 && b2) {
-    WbNode *n; // climb up the chain from the lowest level
-    dBodyID b; // stop when we reach this body
-    if (s1->level() > s2->level()) { 
-      n = dynamic_case<WbNode *>(s1);
+    WbNode *n;  // climb up the chain from the lowest level
+    dBodyID b;  // stop when we reach this body
+    if (s1->level() > s2->level()) {
+      n = dynamic_cast<WbNode *>(s1);
       b = b2;
     } else {
-      n = dynamic_case<WbNode *>(s2);
+      n = dynamic_cast<WbNode *>(s2);
       b = b1;
     }
 
