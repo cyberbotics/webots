@@ -32,10 +32,10 @@ Viewpoint {
   position -10.918806145468938 -9.442194213986694 6.060809393740457
 }
 TexturedBackground {
-  texture "stadium"
+  texture "stadium_dry"
 }
 TexturedBackgroundLight {
-  texture "stadium"
+  texture "stadium_dry"
 }
 RobocupSoccerField {
   size "kid"
