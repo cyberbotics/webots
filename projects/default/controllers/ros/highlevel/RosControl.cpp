@@ -30,8 +30,9 @@ namespace highlevel {
   }
 
   void RosControl::read() {
-    mWebotsHW->read();
-    mControllerManager->update(ros::Time::now(), ros::Time::now() - mLastUpdate);
+    const ros::Duration duration = ros::Time::now() - mLastUpdate;
+    mWebotsHW->read(duration);
+    mControllerManager->update(ros::Time::now(), duration);
     mLastUpdate = ros::Time::now();
   }
 
