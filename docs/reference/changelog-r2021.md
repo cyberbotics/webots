@@ -24,6 +24,7 @@ Released on June, Xth, 2021.
       - Integrated `ros_control` (activated through the `--use-ros-control` flag) to allow the usage of a `diff_drive_controller` and `joint_state_controller` from the [`ros_controllers`](https://github.com/ros-controls/ros_controllers) package.
       - Added an option (activated through the `--auto-publish` flag) to automatically enable all devices on startup and create the corresponding topics.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
+    - Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
     - Exposed `stopERP` and `stopCFM` parameters in [HingeJointParameters](hingejointparameters.md) that define the local `ERP` and `CFM` used by joint limits.
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
@@ -33,8 +34,6 @@ Released on June, Xth, 2021.
   - Bug fixes:
     - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
-  - Enhancements
-    -  Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
 
