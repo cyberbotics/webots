@@ -8,3 +8,4 @@ However, in some instances it is necessary to more accurately describe the real 
 | Icon | PROTO | Description |
 | :---: | --- | --- |
 | ![HingeJointWithBacklash](images/joints/HingeJointWithBacklash/HingeJointWithBacklash_icon.png) | [HingeJointWithBacklash](hinge-joint-with-backlash.md) | *Models the effect of backlash on a hinge joint.* |
+| ![Hinge2JointWithBacklash](images/joints/Hinge2JointWithBacklash/Hinge2JointWithBacklash_icon.png) | [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) | *Models the effect of backlash on a hinge2 joint.* |

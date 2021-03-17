@@ -35,7 +35,7 @@
 
 // size of the ground
 #define GROUND_X 100
-#define GROUND_Z 100
+#define GROUND_Y 100
 
 static WbDeviceTag display, display2;
 static WbImageRef background, background2;
@@ -125,8 +125,10 @@ int main() {
     for (i = 0; i < laser_width; i++) {
       if (buffer[i] > 25)  // range up to 25 metres
         buffer[i] = 25;
-      pxfill[i] = width * (translation[X] + GROUND_X / 2 + sin(rotation[3] - pi / 2 - i * pi / 180) * buffer[i]) / GROUND_X;
-      pyfill[i] = height * (translation[Z] + GROUND_Z / 2 + cos(rotation[3] - pi / 2 - i * pi / 180) * buffer[i]) / GROUND_Z;
+      pxfill[i] =
+        width * (translation[X] + GROUND_X / 2 + sin(rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_X;
+      pyfill[i] =
+        height * (-translation[Y] + GROUND_Y / 2 + cos(rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_Y;
     }
 
     wb_display_fill_polygon(display, pxfill, pyfill, 180);

@@ -59,10 +59,13 @@ namespace highlevel {
     registerInterface(&mVelocityJointInteraface);
   }
 
-  void WebotsHW::read() {
+  void WebotsHW::read(const ros::Duration &duration) {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      controlledMotor.position = controlledMotor.motor->getPositionSensor()->getValue();
-      controlledMotor.velocity = controlledMotor.motor->getVelocity();
+      const double previousPosition = controlledMotor.position;
+      const double newPosition = controlledMotor.motor->getPositionSensor()->getValue();
+
+      controlledMotor.position = newPosition;
+      controlledMotor.velocity = (newPosition - previousPosition) / duration.toSec();
     }
   }
 

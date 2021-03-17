@@ -41,7 +41,7 @@ namespace highlevel {
   public:
     explicit WebotsHW(webots::Robot *robot);
     WebotsHW() = delete;
-    void read();
+    void read(const ros::Duration &duration);
     void write();
     void doSwitch(const std::list<hardware_interface::ControllerInfo> &startList,
                   const std::list<hardware_interface::ControllerInfo> &stopList) override;

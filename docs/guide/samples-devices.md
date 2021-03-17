@@ -208,6 +208,15 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
 When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
 
+### [hinge\_2\_joint\_with\_backlash.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hinge_2_joint_with_backlash.wbt)
+
+**Keywords**: Backlash, [Hinge2Joint](../reference/hinge2joint.md)
+
+![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md).
+The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) with a large backlash.
+Given the added joint play, in the presence of gravity, at rest the end-point is unstable and therefore slumps down compared to the case without backlash.
+In a real scenario, this is analogous to having a large clearance in between the driving and driven gear.
+
 ### [hokuyo.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hokuyo.wbt)
 
 **Keywords**: Hokuyo, [Lidar](../reference/lidar.md), [Display](../reference/display.md) plot
