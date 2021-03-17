@@ -6,11 +6,10 @@ WorldInfo {
   ]
   title "ROBOTIS OP2"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0011992682327232674 -0.9993458203626979 -0.036145443410093576 3.1894633020890004
-  position -0.16732985797694916 0.33750223138314533 -1.0000644329082466
+  orientation 0.8639317934183355 -0.30075289908716074 -0.4039425082999393 1.4226194492376472
+  position -0.8998906260596103 -1.1437627349167612 0.6028563267624886
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -18,16 +17,13 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RobotisOp2 {
-  translation -0.4 0.236 0
-  controller "walk"
-  selfCollision TRUE
-}
-RobotisOp2_MODIF {
-  translation 0 0.236 0
+  translation 0 0 0.236
+  rotation 0 1 0 0.09
   controller "walk"
   selfCollision TRUE
 }
 Floor {
+  rotation 1 0 0 1.5707963267948966
   size 1000 1000
   tileSize 1 1
   appearance Parquetry {

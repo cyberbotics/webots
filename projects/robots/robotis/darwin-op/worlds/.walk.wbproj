@@ -7,3 +7,4 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/walk/main.cpp" "controllers/walk/Walk.cpp" "controllers/walk/Walk.hpp"
 consoles: Console:All:All
+renderingDevicePerspectives: ROBOTIS OP2:Camera;0;0.86875;0;0
