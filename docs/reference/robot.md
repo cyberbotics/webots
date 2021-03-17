@@ -61,7 +61,9 @@ This is useful for complex articulated robots for which the controller doesn't p
 Enabling self collision is, however, likely to decrease the simulation speed, as more collisions will be generated during the simulation.
 Note that only collisions between non-consecutive solids will be detected.
 For consecutive solids, e.g., two solids attached to each other with a joint, no collision detection is performed, even if the self collision is enabled.
-The reason is that this type of collision detection is usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
+Collision detection is also ignored for longer chains of consecutive solids in the event that all intermediary joints connecting the two colliding bodies all share the same `anchor` point.
+If even just one of them is different, standard rules apply.
+The reason for these exceptions is that these types of collision detections are usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
 To prevent two consecutive solid nodes from penetrating each other, the `minStop` and `maxStop` fields of the corresponding joint node should be adjusted accordingly.
 Here is an example of a robot leg with self collision enabled:
 
