@@ -38,8 +38,11 @@ except ImportError:
 LOAD_THRESHOLD = 99  # disable a simulation server when its load is 99% or more
 LOAD_REFRESH = 5  # query load of simulation servers every 5 seconds
 
-availability = False
 
+class GlobalVars:
+    def __init__(self):
+        self.simulation_server_loads = []
+        self.availability = False
 
 def expand_path(path):
     """Expand user and environmental variables in a string."""
@@ -48,6 +51,8 @@ def expand_path(path):
 
 class SessionHandler(tornado.web.RequestHandler):
     """Handle simulation session requests."""
+    def __init__(self,global_variables):
+        self.sessionhandlerglobal = global_variables
 
     def set_default_headers(self):
         """Set headers needed to avoid cross-origin resources sharing (CORS) errors."""
@@ -58,14 +63,13 @@ class SessionHandler(tornado.web.RequestHandler):
     def get(self):
         """Return the less loaded simulation server."""
         global LOAD_THRESHOLD
-        global simulation_server_loads
         minimum = LOAD_THRESHOLD
         minimally_loaded_server = ''
         for i in range(len(config['simulationServers'])):
-            if simulation_server_loads[i] >= LOAD_THRESHOLD:
+            if self.sessionhandlerglobal.simulation_server_loads[i] >= LOAD_THRESHOLD:
                 continue
-            if simulation_server_loads[i] < minimum:
-                minimum = simulation_server_loads[i]
+            if self.sessionhandlerglobal.simulation_server_loads[i] < minimum:
+                minimum = self.sessionhandlerglobal.simulation_server_loads[i]
                 minimally_loaded_server = config['simulationServers'][i]
         if minimum < LOAD_THRESHOLD:
             if config['ssl'] or config['portRewrite']:
@@ -79,7 +83,8 @@ class SessionHandler(tornado.web.RequestHandler):
 
 class MonitorHandler(tornado.web.RequestHandler):
     """Display the monitor web page."""
-
+    def __init__(self,global_variables):
+        self.monitorhandlerglobal = global_variables
     def get(self):
         """Write the web page content."""
         self.write("<!DOCTYPE html>\n")
@@ -101,15 +106,15 @@ class MonitorHandler(tornado.web.RequestHandler):
                 url += "s"
             url += "://" + config['simulationServers'][i] + "/monitor"
             self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
-            if simulation_server_loads[i] >= LOAD_THRESHOLD:
+            if self.monitorhandlerglobal.simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("<font color='red'>")
-            if simulation_server_loads[i] == 1000:
+            if self.monitorhandlerglobal.simulation_server_loads[i] == 1000:
                 value = "N/A"
             else:
-                value = str(simulation_server_loads[i]) + "%"
+                value = str(self.monitorhandlerglobal.simulation_server_loads[i]) + "%"
             self.write(value)
-            average_load += simulation_server_loads[i]
-            if simulation_server_loads[i] >= LOAD_THRESHOLD:
+            average_load += self.monitorhandlerglobal.simulation_server_loads[i]
+            if self.monitorhandlerglobal.simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("</font>")
             self.write("</td></tr>\n")
         if nServer > 1:
@@ -127,7 +132,8 @@ class MonitorHandler(tornado.web.RequestHandler):
 
 class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
     """This class handles websocket connections."""
-
+    def __init__(self,global_variables):
+        self.clientwebsockethandlerglobal = global_variables
     clients = set()
 
     def check_origin(self, origin):
@@ -136,10 +142,9 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         """Open a new connection for an incoming client."""
-        global availability
         self.set_nodelay(True)
         ClientWebSocketHandler.clients.add(self)
-        if availability:
+        if self.clientwebsockethandlerglobal.availability:
             message = '1'
         else:
             message = '0'
@@ -147,7 +152,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         logging.info('[' + self.request.host + '] New client')
 
     def on_message(self, message):
-        """Log message received from client."""
+        """Log message received from clientlity = False."""
         logging.info('[' + self.request.host + '] Ignored client message: ' + str(message))
 
     def on_close(self):
@@ -182,9 +187,8 @@ def send_email(subject, content):
         logging.error("Error: unable to send email to " + config['administrator'] + "\n")
 
 
-def retrieve_load(url, i):
+def retrieve_load(url, i,global_variables):
     """Contact the i-th simulation server and retrieve its load."""
-    global simulation_server_loads
     if config['portRewrite']:
         url = 'http://' + url.replace('/', ':', 1)
     elif config['ssl']:
@@ -206,49 +210,47 @@ def retrieve_load(url, i):
     try:
         response = urlopen(url, timeout=5)
     except URLError:
-        if simulation_server_loads[i] != 1000:
+        if global_variables.simulation_server_loads[i] != 1000:
             if 'administrator' in config:
                 send_email("Simulation server not responding", "Hello,\n\n" + config['simulationServers'][i] +
                            " simulation server may be down, as it is not responding to the requests of the session server" +
                            "...\n" + check_string)
             else:
                 logging.info(config['simulationServers'][i] + " simulation server is not responding (assuming 100% load)")
-            simulation_server_loads[i] = 1000
+            global_variables.simulation_server_loads[i] = 1000
     except socket.timeout:
-        if simulation_server_loads[i] != 1000:
+        if global_variables.simulation_server_loads[i] != 1000:
             logging.info(config['simulationServers'][i] +
                          " simulation server is taking too long to respond (assuming 100% load)")
-            simulation_server_loads[i] = 1000
+            global_variables.simulation_server_loads[i] = 1000
     else:
         load = float(response.read())
-        if simulation_server_loads[i] == 1000:
+        if global_variables.simulation_server_loads[i] == 1000:
             message = config['simulationServers'][i] + " simulation server is up and running again (load = " + str(load) + "%)"
             if 'administrator' in config:
                 send_email("Simulation server working again", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
-        elif simulation_server_loads[i] < LOAD_THRESHOLD and load >= LOAD_THRESHOLD:
+        elif global_variables.simulation_server_loads[i] < LOAD_THRESHOLD and load >= LOAD_THRESHOLD:
             message = config['simulationServers'][i] + " simulation server has reached maximum load (" + str(load) + "%)"
             if 'administrator' in config:
                 send_email("Simulation server reached maximum load", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
-        elif simulation_server_loads[i] >= LOAD_THRESHOLD and load < LOAD_THRESHOLD:
+        elif global_variables.simulation_server_loads[i] >= LOAD_THRESHOLD and load < LOAD_THRESHOLD:
             message = config['simulationServers'][i] + " simulation server is available again (load = " + str(load) + "%)"
             if 'administrator' in config:
                 send_email("Simulation server available again", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
-        simulation_server_loads[i] = load
+        global_variables.simulation_server_loads[i] = load
 
 
-def update_load():
+def update_load(global_variables):
     """Check regularly the simulation servers load and notify the client if availability changed."""
     """This function should take no more than 1 second because the timeout is set to this value and requests are threaded."""
     global LOAD_REFRESH
-    global availability
-    global simulation_server_loads
-    threads = [threading.Thread(target=retrieve_load, args=(config['simulationServers'][i], i))
+    threads = [threading.Thread(target=retrieve_load, args=(config['simulationServers'][i], i, global_variables))
                for i in range(len(config['simulationServers']))]
     for t in threads:
         t.start()
@@ -256,11 +258,11 @@ def update_load():
         t.join()
     new_availability = False
     for i in range(len(config['simulationServers'])):
-        if simulation_server_loads[i] < LOAD_THRESHOLD:
+        if global_variables.simulation_server_loads[i] < LOAD_THRESHOLD:
             new_availability = True
-    if new_availability != availability:
-        availability = new_availability
-        if availability:
+    if new_availability != global_variables.availability:
+        global_variables.availability = new_availability
+        if global_variables.availability:
             message = '1'
         else:
             message = '0'
@@ -291,8 +293,7 @@ def main():
     # debug:              debug mode (output to stdout).
     #
     global config
-    global simulation_server_loads
-
+    global_variables = GlobalVars()
     # logging system
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
@@ -323,7 +324,7 @@ def main():
     tornado_access_log = logging.getLogger('tornado.access')
     tornado_access_log.setLevel(logging.WARNING)
 
-    simulation_server_loads = [0] * len(config['simulationServers'])
+    global_variables.simulation_server_loads = [0] * len(config['simulationServers'])
     config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     if 'administrator' in config:
         if 'mailServer' not in config:
