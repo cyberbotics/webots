@@ -591,27 +591,20 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     WbNode *n = nodeS1->level() > nodeS2->level() ? nodeS1 : nodeS2;  // climb the chain from the lowest level
     dBodyID b = nodeS1->level() > nodeS2->level() ? b2 : b1;          // stop when we reach this body
 
-    QVector<WbVector3> anchors;
+    WbVector3 firstAnchor(NAN, NAN, NAN);
     while (n && n->level() >= 1) {
       const WbSolid *s = dynamic_cast<WbSolid *>(n);
-      if (s && s->body() == b)
-        break;
+      if (s && s->body() == b && !firstAnchor.isNan())
+        return;  // one intermediary joint is mandatory to ignore collisions at this level, otherwise it's taken care elsewhere
 
       const WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(n);
-      if (joint)
-        anchors.append(joint->anchor());
-
+      if (joint) {
+        if (firstAnchor.isNan())
+          firstAnchor = joint->anchor();
+        if (!firstAnchor.almostEquals(joint->anchor()))
+          break;
+      }
       n = n->parentNode();
-    }
-
-    if (anchors.size() > 1) {  // the case where a single joint separates the two bodies is taken care already
-      bool isSameAnchor = true;
-      for (int i = 1; i < anchors.size(); ++i)
-        if (!anchors.at(i).almostEquals(anchors.at(0)))
-          isSameAnchor = false;
-
-      if (isSameAnchor)
-        return;
     }
   }
 
