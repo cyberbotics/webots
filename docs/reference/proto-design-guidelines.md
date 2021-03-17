@@ -13,6 +13,19 @@ PROTO names should use upper camel case, e.g., each word should begin with a cap
 > **Note**: The PROTO file name should match exactly the PROTO name.
 For example the `SmallWoodenChair` PROTO should be defined in a file named `SmallWoodenChair.proto`.
 
+### Orientation
+
+PROTO nodes should be oriented in a way they appear nicely in a ENU coordinate system (which is the default in [WorldInfo](worldinfo.md)).
+If an object has at least two sides defined (for example up and front) it should be oriented using the FLU system:
+- **F**orward direction along the positive X-axis,
+- **L**eft direction along the positive Y-axis, and 
+- **U**p direction along the positive Z-axis.
+Typical candidates for the FLU system are a TV set, a rubber duck, or a robot.
+Objects such as a flower pot don't have any front, back, right or left side.
+In such cases, only the up direction should be set correctly: the upright position should be along the positive Z-axis.
+Objects such as a soccer ball don't have any up, down, front, back, right or left side.
+In such cases, the orientation has no importance.
+
 ### Header
 
 The first line of a PROTO file is called the header.
@@ -54,9 +67,15 @@ It doesn't cover PROTO nodes derived from other primitives (such as geometries) 
 
 Real objects can be placed at different locations and orientations in the world.
 Therefore the corresponding PROTO should expose at least a `translation` and a `rotation` field to allow the users to move and rotate the object easily.
+
 The default value for the translation should be preferably the origin (0, 0, 0) and should correspond to the object in a normal position, e.g., laying on the floor rather than sinking into the floor.
 That means the origin of an object should not be at its 3D geometrical center, but rather in the middle of the surface in contact with the floor.
-The rotation axis should be already well positioned, e.g., usually vertical, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
+However, there are some exceptions to this rule:
+- Legged robots should have their origin in their main body as it is difficult to know the extension of the legs of the robot towards the floor.
+- Balls should have their origin at their geometrical center, as they can roll and don't have an upright position.
+- Any other object which doesn't have a clear or stable upright position.
+
+The rotation axis should be already well positioned, e.g., usually along the Z-axis with a 0 value for the angle, e.g., `0 0 1 0`, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
 
 #### "enableBoundingObject"
 
