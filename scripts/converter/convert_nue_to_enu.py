@@ -42,7 +42,7 @@ def convert_to_enu(filename):
                 if field['name'] == 'coordinateSystem':
                     # remove the 'coordinateSystem ENU'
                     del node['fields'][node['fields'].index(field)]
-        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
+        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:
