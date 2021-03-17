@@ -23301,7 +23301,7 @@ If you check here in this link with every MF field they are arrays
 ##### swebdev 12/22/2019 21:34:09
 `@Tahir` Makes sense, thanks!
 
-##### casey 12/23/2019 03:45:27
+##### c.w 12/23/2019 03:45:27
 I follow this tutorial, [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Beginner\_programming\_Exercises](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Beginner_programming_Exercises)
 
 but I don't know  how to open the BotStudio, I believe `@Stefania Pedrazzi` said that 

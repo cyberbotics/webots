@@ -4,6 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/15/2021 15:33:46
+**Webots and `ros_control`**
+
+
+
+For ROS 1 users, `ros_control` is now a part of the standard Webots `ros` controller!
+
+
+
+See more details:
+
+[https://discourse.ros.org/t/webots-and-ros-control/19463](https://discourse.ros.org/t/webots-and-ros-control/19463)
+
 ##### Soft\_illusion 03/07/2021 17:17:57
 Special Thanks to `@Olivier Michel` `@Darko Lukić` `@David Mansolino`
 
