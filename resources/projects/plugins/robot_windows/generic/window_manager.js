@@ -1,4 +1,4 @@
-/* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget */
+/* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget, Canvas */
 /* exported menuTabCallback */
 /* exported openMenu */
 /* exported closeMenu */
@@ -11,8 +11,13 @@
 
 var windowIsHidden;
 var widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+var selectedDeviceType = null;
 
 function menuTabCallback(deviceType) {
+  if (document.getElementById(deviceType + '-section').style.display === 'block')
+    // tab already selected
+    return;
+
   let i, x, tablinks;
   x = document.getElementsByClassName('devices-container');
   for (i = 0; i < x.length; ++i)
@@ -22,12 +27,23 @@ function menuTabCallback(deviceType) {
     tablinks[i].className = tablinks[i].className.replace(' menu-button-selected', '');
   document.getElementById(deviceType + '-section').style.display = 'block';
   document.getElementById(deviceType + '-menu-button').className += ' menu-button-selected';
+  selectedDeviceType = deviceType;
 
-  // force widgets refresh when they are shown.
+  // Clear canvas
+  // Plots will be refreshed when the animation is over
+  const canvas = new Canvas();
+  canvas.clearCanvas();
+}
+
+function refreshCallback() {
+  const canvas = new Canvas();
+  canvas.resizeCanvas();
   Object.keys(widgets).forEach(function(deviceName) {
     const widget = widgets[deviceName];
-    if (widget && widget.device.type === deviceType)
-      widget.refresh();
+    if (widget && selectedDeviceType && widget.device.type === selectedDeviceType) {
+      widget.resize();
+      widget.refresh(true);
+    }
   });
 }
 
@@ -35,20 +51,14 @@ function openMenu() {
   document.getElementById('menu').style.display = 'flex';
   document.getElementById('menu-open-button').style.display = 'none';
   document.getElementById('content').style.marginLeft = document.getElementById('menu').offsetWidth + 'px';
-  resizeWidgets();
+  refreshCallback();
 }
 
 function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
-  resizeWidgets();
-}
-
-function resizeWidgets() {
-  Object.keys(widgets).forEach(function(deviceName) {
-    widgets[deviceName].resize();
-  });
+  refreshCallback();
 }
 
 function appendNewElement(id, newElement) {
@@ -82,7 +92,7 @@ function addTab(type, isDevice, deviceSwitch) {
   } else
     buttonsDiv = '';
 
-  appendNewElement('content',
+  const section = appendNewElement('content',
     '<div id="' + type + '-section" class="devices-container animate-left">' +
       '<h1>' + type + '</h1>' + buttonsDiv +
       '<section id="' + type + '-layout" class="devices-layout"/>' +
@@ -91,6 +101,10 @@ function addTab(type, isDevice, deviceSwitch) {
   appendNewElement('menu',
     '<button id="' + type + '-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'' + type + '\')">' + type + '</button>'
   );
+
+  section.addEventListener('webkitAnimationEnd', refreshCallback, false);
+  section.addEventListener('animationend', refreshCallback, false);
+  section.addEventListener('oanimationend', refreshCallback, false);
 }
 
 function setDeviceModeCallback(_checkbox, _deviceType) {
@@ -179,6 +193,9 @@ function setupWindow() {
     windowIsHidden = document.visibilityState === 'hidden';
     window.robotWindow.send('window ' + (windowIsHidden ? 'hidden' : 'visible'));
   });
+
+  window.addEventListener('resize', refreshCallback);
+  window.addEventListener('scroll', refreshCallback);
 }
 
 function alphabetical(a, b) {
