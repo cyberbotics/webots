@@ -1,4 +1,3 @@
-
 function Canvas() {
   if (!Canvas._instance) {
     Canvas._instance = this;
