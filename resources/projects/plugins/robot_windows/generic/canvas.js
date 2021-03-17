@@ -15,8 +15,8 @@ function Canvas() {
 
 Canvas.prototype.getWebglContext = function() {
   if (!this.webglContext) {
-    var webglNames = ['webgl', 'experimental-webgl'];
-    for (var i = 0; i < webglNames.length; ++i) {
+    const webglNames = ['webgl', 'experimental-webgl'];
+    for (let i = 0; i < webglNames.length; ++i) {
       const canvas = document.getElementById('canvas');
       this.webglContext = canvas.getContext(webglNames[i], { antialias: false });
       if (this.webglContext !== null)
