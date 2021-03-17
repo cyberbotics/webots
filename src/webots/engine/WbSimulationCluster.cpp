@@ -606,10 +606,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
     if (anchors.size() > 1) {  // the case where a single joint separates the two bodies is taken care already
       bool isSameAnchor = true;
-      for (int i = 1; i < anchors.size(); ++i) {
+      for (int i = 1; i < anchors.size(); ++i)
         if (!anchors.at(i).almostEquals(anchors.at(0)))
           isSameAnchor = false;
-      }
 
       if (isSameAnchor)
         return;

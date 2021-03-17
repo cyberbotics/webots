@@ -25,6 +25,7 @@ Released on June, Xth, 2021.
       - Added an option (activated through the `--auto-publish` flag) to automatically enable all devices on startup and create the corresponding topics.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
     - Exposed `stopERP` and `stopCFM` parameters in [HingeJointParameters](hingejointparameters.md) that define the local `ERP` and `CFM` used by joint limits.
+    - Altered the collision detection logic to ignore longer chains of joints if the intermediary joints share the same `anchor` point ([#2868](https://github.com/cyberbotics/webots/pull/2868)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added HingeJointWithBacklash proto that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
