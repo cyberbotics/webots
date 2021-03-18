@@ -118,18 +118,18 @@ for release in repo.get_releases():
                     print('Asset "%s" already present in release "%s".' % (file, title))
                 else:
                     print('Uploading "%s"' % file)
-                    remainingTrials = 5
-                    while remainingTrials > 0:
+                    retryCount = 0
+                    while retryCount < 5:
+                        if retryCount > 0:
+                            time.sleep(retryCount * 60)  # wait some minutes before retry
                         try:
                             release.upload_asset(path)
                             break
                         except requests.exceptions.ConnectionError:
-                            remainingTrials -= 1
                             print('Release upload failed due to connection error (remaining trials: %d)' % remainingTrials)
                         except requests.exceptions.HTTPError:
-                            remainingTrials -= 1
                             print('Release upload failed due to server error (remaining trials: %d)' % remainingTrials)
-                        time.sleep(120)  # wait 2 minutes before retry
+                        retryCount += 1
                     if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
                             branchName not in release.body):
                         print('Updating release description')
