@@ -7,6 +7,7 @@
 /* exported parseJSONMessage */
 /* exported enableAllDevicesCallback */
 /* exported setupWindow */
+/* exported refreshSelectedTab */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var windowIsHidden;
@@ -35,30 +36,40 @@ function menuTabCallback(deviceType) {
   canvas.clearCanvas();
 }
 
-function refreshCallback() {
+function refreshSelectedTab() {
+  const tabWidgets = widgets[selectedDeviceType];
+  Object.keys(tabWidgets).forEach(function(deviceName) {
+    tabWidgets[deviceName].refresh();
+  });
+};
+
+function updateTabCallback() {
   const canvas = new Canvas();
   canvas.resizeCanvas();
-  Object.keys(widgets).forEach(function(deviceName) {
-    const widget = widgets[deviceName];
-    if (widget && selectedDeviceType && widget.device.type === selectedDeviceType) {
-      widget.resize();
-      widget.refresh(true);
-    }
-  });
+  if (selectedDeviceType) {
+    const tabWidgets = widgets[selectedDeviceType];
+    Object.keys(tabWidgets).forEach(function(deviceName) {
+      const widget = tabWidgets[deviceName];
+      if (widget) {
+        widget.resize();
+        widget.refresh(true);
+      }
+    });
+  }
 }
 
 function openMenu() {
   document.getElementById('menu').style.display = 'flex';
   document.getElementById('menu-open-button').style.display = 'none';
   document.getElementById('content').style.marginLeft = document.getElementById('menu').offsetWidth + 'px';
-  refreshCallback();
+  updateTabCallback();
 }
 
 function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
-  refreshCallback();
+  updateTabCallback();
 }
 
 function appendNewElement(id, newElement) {
@@ -102,9 +113,9 @@ function addTab(type, isDevice, deviceSwitch) {
     '<button id="' + type + '-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'' + type + '\')">' + type + '</button>'
   );
 
-  section.addEventListener('webkitAnimationEnd', refreshCallback, false);
-  section.addEventListener('animationend', refreshCallback, false);
-  section.addEventListener('oanimationend', refreshCallback, false);
+  section.addEventListener('webkitAnimationEnd', updateTabCallback, false);
+  section.addEventListener('animationend', updateTabCallback, false);
+  section.addEventListener('oanimationend', updateTabCallback, false);
 }
 
 function setDeviceModeCallback(_checkbox, _deviceType) {
@@ -112,9 +123,16 @@ function setDeviceModeCallback(_checkbox, _deviceType) {
 }
 
 function enableAllDevicesCallback(deviceType, enabled) {
-  Object.keys(widgets).forEach(function(deviceName) {
-    if (!deviceType || widgets[deviceName].device.type === deviceType)
-      widgets[deviceName].enable(enabled);
+  if (deviceType) {
+    Object.keys(widgets[deviceType]).forEach(function(deviceName) {
+      widgets[deviceType][deviceName].enable(enabled);
+    });
+    return;
+  }
+  Object.keys(widgets).forEach(function(deviceType) {
+    Object.keys(widgets[deviceType]).forEach(function(deviceName) {
+      widgets[deviceType][deviceName].enable(enabled);
+    });
   });
 };
 
@@ -194,8 +212,8 @@ function setupWindow() {
     window.robotWindow.send('window ' + (windowIsHidden ? 'hidden' : 'visible'));
   });
 
-  window.addEventListener('resize', refreshCallback);
-  window.addEventListener('scroll', refreshCallback);
+  window.addEventListener('resize', updateTabCallback);
+  window.addEventListener('scroll', updateTabCallback);
 }
 
 function alphabetical(a, b) {

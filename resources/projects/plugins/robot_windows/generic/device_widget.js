@@ -12,9 +12,9 @@ function DeviceWidget(basicTimeStep, device) {
   this.initialize(device);
 }
 
-DeviceWidget.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+DeviceWidget.deviceNameToType = {}; // Dictionary {deviceName: deviceType }
+DeviceWidget.widgets = {}; // Dictionary {deviceType: {deviceName: DeviceWidget} }
 DeviceWidget.commands = []; // Commands to be sent to the C library.
-DeviceWidget.motorWidgets = {}; // Dictionary {deviceName -> DeviceWidget }
 DeviceWidget.motorCommands = []; // Motor commands to be sent to the C library.
 DeviceWidget.touchedCheckboxes = [];
 DeviceWidget.supportedDeviceTypes = [
@@ -120,15 +120,14 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
     ' device="' + device.htmlName + '"' +
     ' disabled=true' +
     '>');
-  slider.oninput = function() { DeviceWidget.motorSetPosition(device.name, slider.value); };
-  slider.onmousedown = function() { DeviceWidget.motorSetPosition(device.name, slider.value); };
-  slider.onmouseup = function() { DeviceWidget.motorUnsetPosition(device.name); };
-  slider.onmouseleave = function() { DeviceWidget.motorUnsetPosition(device.name); };
+  slider.oninput = function() { DeviceWidget.motorSetPosition(device.type, device.name, slider.value); };
+  slider.onmousedown = function() { DeviceWidget.motorSetPosition(device.type, device.name, slider.value); };
+  slider.onmouseup = function() { DeviceWidget.motorUnsetPosition(device.type, device.name); };
+  slider.onmouseleave = function() { DeviceWidget.motorUnsetPosition(device.type, device.name); };
   const widget = new TimeplotWidget(document.getElementById(device.name + '-content'), this.basicTimeStep, autoRange, {'min': minValue, 'max': maxValue}, {'x': 'Time [s]', 'y': yLabel}, device);
   widget.setLabel(document.getElementById(device.name + '-label'));
   widget.setSlider(slider);
   this.plots = [widget];
-  DeviceWidget.motorWidgets[device.name] = this;
 };
 
 DeviceWidget.prototype.createGenericImageDevice = function(device) {
@@ -143,7 +142,7 @@ DeviceWidget.prototype.createGeneric1DDevice = function(device, autoRange, minY,
 
 DeviceWidget.prototype.createGeneric3DDevice = function(device, autoRange, minRange, maxRange, units) {
   appendNewElement(device.name,
-    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" device="' + device.htmlName + '">' +
+    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + ' deviceType=' + device.type + '">' +
     '  <option>Time</option>' +
     '  <option>XY</option>' +
     '  <option>YZ</option>' +
@@ -175,8 +174,8 @@ DeviceWidget.prototype.enable = function(enabled) {
 
 DeviceWidget.prototype.refresh = function() {
   if (this.plots) {
-    this.plots.forEach(function(widget) {
-      widget.refresh();
+    this.plots.forEach(function(plot) {
+      plot.refresh();
     });
   }
 };
@@ -192,7 +191,10 @@ DeviceWidget.prototype.resize = function() {
 
 DeviceWidget.createWidget = function(basicTimeStep, device) {
   const widget = new DeviceWidget(basicTimeStep, device);
-  DeviceWidget.widgets[device.name] = widget;
+  if (!DeviceWidget.widgets[device.type])
+    DeviceWidget.widgets[device.type] = {};
+  DeviceWidget.widgets[device.type][device.name] = widget;
+  DeviceWidget.deviceNameToType[device.name] = device.type;
 };
 
 DeviceWidget.updateMotorSlider = function(deviceName, enabled) {
@@ -239,22 +241,24 @@ DeviceWidget.pointCloudCheckboxCallback = function(checkbox) {
 };
 
 DeviceWidget.comboboxCallback = function(combobox) {
-  const devicePlots = DeviceWidget.widgets[combobox.getAttribute('device')].plots;
+  const type = combobox.getAttribute('deviceType');
+  const name = combobox.getAttribute('deviceName');
+  const devicePlots = DeviceWidget.widgets[type][name].plots;
   devicePlots.forEach(function(widget) {
     widget.show(false);
   });
   devicePlots[combobox.selectedIndex].show(true);
 };
 
-DeviceWidget.motorSetPosition = function(deviceName, value) {
-  DeviceWidget.motorWidgets[deviceName].plots.forEach(function(widget) {
+DeviceWidget.motorSetPosition = function(deviceType, deviceName, value) {
+  DeviceWidget.widgets[deviceType][deviceName].plots.forEach(function(widget) {
     widget.blockSliderUpdate(true);
   });
   DeviceWidget.motorCommands[deviceName] = value;
 };
 
-DeviceWidget.motorUnsetPosition = function(deviceName) {
-  DeviceWidget.motorWidgets[deviceName].plots.forEach(function(widget) {
+DeviceWidget.motorUnsetPosition = function(deviceType, deviceName) {
+  DeviceWidget.widgets[deviceType][deviceName].plots.forEach(function(widget) {
     widget.blockSliderUpdate(false);
   });
   delete DeviceWidget.motorCommands[deviceName];
@@ -263,12 +267,15 @@ DeviceWidget.motorUnsetPosition = function(deviceName) {
 DeviceWidget.updateDeviceWidgets = function(data) {
   if (data.devices == null)
     return;
-  Object.keys(data.devices).forEach(function(key) {
-    const value = data.devices[key];
-    key = key.replace(/&quot;/g, '"');
+  Object.keys(data.devices).forEach(function(deviceName) {
+    const value = data.devices[deviceName];
+    deviceName = deviceName.replace(/&quot;/g, '"');
+    const deviceType = DeviceWidget.deviceNameToType[deviceName];
+    if (!deviceType)
+      return;
 
-    const checkbox = document.getElementById(key + '-enable-checkbox');
-    const widget = DeviceWidget.widgets[key];
+    const checkbox = document.getElementById(deviceName + '-enable-checkbox');
+    const widget = DeviceWidget.widgets[deviceType][deviceName];
     if (!widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
@@ -279,7 +286,6 @@ DeviceWidget.updateDeviceWidgets = function(data) {
         value.update.forEach(function(u) {
           plot.addValue({'x': u.time, 'y': u.value });
         });
-        plot.refresh();
       });
       if (checkbox && value.update.length > 0)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
@@ -288,18 +294,18 @@ DeviceWidget.updateDeviceWidgets = function(data) {
       if (checkbox)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
       if (value.cloudPointEnabled !== undefined) {
-        const cloudPointCheckbox = document.getElementById(key + '-cloud-point-checkbox');
+        const cloudPointCheckbox = document.getElementById(deviceName + '-cloud-point-checkbox');
         DeviceWidget.applyToUntouchedCheckbox(cloudPointCheckbox, value.cloudPointEnabled);
       }
       if (value.recognitionEnabled !== undefined) {
-        const recognitionCheckbox = document.getElementById(key + '-recognition-checkbox');
+        const recognitionCheckbox = document.getElementById(deviceName + '-recognition-checkbox');
         DeviceWidget.applyToUntouchedCheckbox(recognitionCheckbox, value.recognitionEnabled);
-        const segmentationCheckbox = document.getElementById(key + '-segmentation-checkbox');
+        const segmentationCheckbox = document.getElementById(deviceName + '-segmentation-checkbox');
         if (segmentationCheckbox)
           segmentationCheckbox.disabled = !value.recognitionEnabled;
       }
       if (value.segmentationEnabled !== undefined) {
-        const segmentationCheckbox = document.getElementById(key + '-segmentation-checkbox');
+        const segmentationCheckbox = document.getElementById(deviceName + '-segmentation-checkbox');
         DeviceWidget.applyToUntouchedCheckbox(segmentationCheckbox, value.segmentationEnabled);
       }
     } else if (value.targets !== undefined && widget.plots) {
