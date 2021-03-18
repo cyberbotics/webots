@@ -912,7 +912,7 @@ If you are starting the controller 'manually' by SSH, use the -X option when sta
 export DISPLAY=:0 ./my-controller
 ```
 
-#### Activating the backlash flag renders the robot unable to stand
+#### Activating the Backlash Flag Renders the Robot Unable to Stand
 
 Due to the small amount of backlash present in the motors, for correct modeling of this effect it is required to lower the `basicTimestep` in [WorldInfo](../reference/worldinfo.md) to 8 or less.
 
