@@ -42,7 +42,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 RobotisOp2 {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "ROBOTIS OP2"
   SFString   controller      "motion_player"
   MFString   controllerArgs  []
