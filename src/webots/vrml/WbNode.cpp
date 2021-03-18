@@ -2213,6 +2213,7 @@ const WbNode *WbNode::findRobotRootNode() const {
 }
 
 QString WbNode::getUrdfPrefix() const {
+  return "";
   return findRobotRootNode()->mUrdfPrefix;
 }
 

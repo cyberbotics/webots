@@ -216,6 +216,8 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
+    else if (arg == "convert")
+      mTask = CONVERT;
     else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
