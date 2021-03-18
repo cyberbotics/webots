@@ -1,0 +1,93 @@
+syntax = "proto3"
+
+message Vector3 {
+  double X = 1;
+  double Y = 2;
+  double Z = 3;
+}
+
+message PositionSensorMeasurement {
+  string name = 1;
+  double value = 2;
+}
+
+message AccelerometerMeasurement {
+  string name = 1;
+  Vector3 value = 2;  // [m/sˆ2], x-axis, y-axis, z-axis
+}
+
+message GyroMeasurement {
+  string name = 1;
+  Vector3 value = 2;  // [rad/s], x-axis, y-axis, z-axis
+}
+
+message BumperMeasurement {
+  string name = 1;
+  bool value = 2;
+}
+
+message ForceMeasurement {
+  string name = 1;
+  double value = 2;  // [N]
+}
+
+message Force3DMeasurement {
+  string name = 1;
+  Vector3 value = 2;  // [N], x-axis, y-axis, z-axis
+}
+
+message Force6DMeasurement {  // not yet implemented
+  string name = 1;
+  Vector3 force = 2;   // [N], x-axis, y-axis, z-axis
+  Vector3 torque = 3;  // [N.m], x-axis, y-axis, z-axis
+}
+
+message CameraMeasurement {
+  string name = 1;
+  int32 width = 2;
+  int32 height = 3;
+  int32 quality = 4;  // 100 = no compression, 0 = high compression
+  byte data = 5;  // JPEG encoded data
+  double horizontalFieldOfView;  // degrees
+  int32 centerX;  // horizontal optical center in pixels
+  int32 centerY;  // vertical optical center in pixels
+  double radialCoefficients;
+  double tangentialCoefficients;
+}
+
+message SensorMeasurements {
+  double time = 1;  // time stamp at which the measurements were performed expressed in [s]
+  repeated PositionSensorMeasurement position_sensor = 2;
+  repeated AccelerometerMeasurement accelerometer = 3;
+  repeated GyroMeasurement gyro = 4;
+  repeated BumperMeasurement bumper = 5;
+  repeated Force3DMeasurement force_3d = 6;
+  repeated Force6DMeasurement force_6d = 7;
+  repeated CameraMeasurement camera = 8;
+}
+
+message MotorRequest {
+  string name = 1;
+  double position = 2;  // linear or angular target position expressed in [m] or [rad]
+  double velocity = 3;  // linear or angular target velocity expressed in [m/s] or [rad/s]
+  double force = 4;     // target force or torque expressed in [N] or [N.m]
+  Vector3 PID;          // PID controller values
+}
+
+message SensorRequest { // apply to a PositionSensor, Gyro, Accelerometer or TouchSensor
+  string name = 1;
+  double timeStep = 2;  // time between two measurements expressed in [s], disabled if 0
+}
+
+message CameraRequest {
+  string name = 1;
+  double timeStep = 2;  // time between two images expressed in [s], disabled if 0
+  int32 quality = 3;    // JPEG quality
+  double exposure = 4;  // exposure time
+}
+
+message ActuatorRequests {
+  repeated MotorRequest motor = 1;
+  repeated SensorRequest position_sensor = 2;
+  repeated CameraRequest camera = 3;
+}
