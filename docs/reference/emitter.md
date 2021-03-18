@@ -313,7 +313,7 @@ channel = wb_emitter_get_channel(tag)
 *set and get the emitter's channel.*
 
 The `wb_emitter_set_channel` function allows the controller to change the transmission channel.
-Target channel must be present between `allowedChannels` or `allowedChannels` is empty.
+The target channel must be included in `allowedChannels` or `allowedChannels` should be empty.
 This modifies the `channel` field of the corresponding [Emitter](#emitter) node.
 Normally, an emitter can send data only to receivers that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used for broadcasting to all channels.
