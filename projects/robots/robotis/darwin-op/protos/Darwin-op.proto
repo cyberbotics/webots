@@ -29,7 +29,7 @@ PROTO Darwin-op [
   field SFNode     jersey          NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
   field SFInt32    channel         0                          # Defines the channel for the `Emitter` and `Receiver` devices.
   field SFBool     showWindow      FALSE                      # Is `Robot.showWindow`.
-  field SFBool     enableBacklash  FALSE                      # Enables backlash on all joints.
+  field SFBool     backlash        FALSE                      # Enables backlash on all joints.
   field MFNode     bodySlot        []                         # Extends the robot with new nodes in the body slot.
   field MFNode     headSlot        []                         # Extends the robot with new nodes in the head slot.
   field MFNode     leftFootSlot    []                         # Extends the robot with new nodes in the left foot slot.
@@ -43,19 +43,20 @@ PROTO Darwin-op [
 {
   %{
     local has_jersey = fields.jersey.value
-    local enable_backlash = fields.enableBacklash.value
+    local enable_backlash = fields.backlash.value
     -- tune backlash on joints
-    local backlash_head = 0.04
-    local backlash_neck = 0.04
-    local backlash_shoulder = 0.04
-    local backlash_arm_upper = 0.04
-    local backlash_arm_lower = 0.04
-    local backlash_pelv_y = 0.04
-    local backlash_pelv = 0.04
-    local backlash_leg_upper = 0.04
-    local backlash_leg_lower = 0.04
-    local backlash_ankle = 0.04
-    local backlash_foot = 0.04
+    local backlash = 0.01
+    local backlash_head = backlash
+    local backlash_neck = backlash
+    local backlash_shoulder = backlash
+    local backlash_arm_upper = backlash
+    local backlash_arm_lower = backlash
+    local backlash_pelv_y = backlash
+    local backlash_pelv = backlash
+    local backlash_leg_upper = backlash
+    local backlash_leg_lower = backlash
+    local backlash_ankle = backlash
+    local backlash_foot = backlash
   }%
   Robot {
     translation IS translation
