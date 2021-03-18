@@ -11,6 +11,7 @@ Released on XX Xth, 2021.
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
+    - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
     - Fixed reset of [Charger](charger.md) energy when the recharging [Robot](robot.md) battery is full ([#2879](https://github.com/cyberbotics/webots/pull/2879)).
     - Fixed [PedestrianCrossing](../guide/object-traffic.md#pedestriancrossing) PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
