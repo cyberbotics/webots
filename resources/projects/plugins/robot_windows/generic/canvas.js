@@ -47,8 +47,8 @@ Canvas.prototype.getWebglContext = function() {
 
 Canvas.prototype.clearCanvas = function() {
   const gl = this.getWebglContext();
+  gl.disable(gl.SCISSOR_TEST);
   gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
-  gl.scissor(0, 0, this.canvasWidth, this.canvasHeight);
   gl.clearColor(0.0, 0.0, 0.0, 0.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 };

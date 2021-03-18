@@ -112,6 +112,7 @@ TimeplotWidget.prototype.initialize = function() {
   if (this.initialized)
     return;
 
+  this.initialized = true;
   this.canvas = new Canvas();
   const id = this.container.getAttribute('id');
   this.plotDiv = this.appendChildToContainer('<div id="' + id + '-canvas" class="plot-canvas" />');
@@ -139,9 +140,7 @@ TimeplotWidget.prototype.initialize = function() {
     this.values = [];
   }
 
-  this.initialized = true;
   this.show(this.shown);
-  this.computePlotRect();
 };
 
 TimeplotWidget.prototype.refresh = function() {
@@ -158,10 +157,8 @@ TimeplotWidget.prototype.refresh = function() {
   gl.viewport(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
   gl.scissor(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
   gl.canvas.style.transform = `translateY(${window.scrollY}px)`;
-  this.clearPlot();
+  this.clearPlot(gl);
 
-  gl.viewport(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
-  gl.scissor(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
   gl.useProgram(this.canvas.shaderProgram);
   gl.uniformMatrix2fv(this.canvas.scaleUniformLocation, false, [ 2.0 / this.xRangeSize, 0.0, 0.0, 2.0 / (this.yRange['max'] - this.yRange['min']) ]);
 
@@ -177,6 +174,7 @@ TimeplotWidget.prototype.refresh = function() {
       this.lastY.push(this.lines[i].lastY());
     }
   }
+  gl.disable(gl.SCISSOR_TEST);
 
   if (this.pendingSliderPositionUpdate)
     this.updateSliderPosition();
@@ -252,9 +250,8 @@ TimeplotWidget.prototype.refreshLabels = function() {
   this.lastLabelRefresh = this.lastX;
 };
 
-TimeplotWidget.prototype.clearPlot = function() {
-  const gl = this.canvas.getWebglContext();
-  gl.clearColor(1.0, 1.0, 1.0, 0.0);
+TimeplotWidget.prototype.clearPlot = function(gl) {
+  gl.clearColor(1.0, 1.0, 1.0, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 };
 
