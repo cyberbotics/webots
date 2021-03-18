@@ -55,7 +55,7 @@ jobs:
         sudo apt install --yes rename
         rename 's/\.tar.bz2$/_ubuntu-18.04.tar.bz2/' distribution/*.tar.bz2
     - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
+      if: ${{ (contains(github.event.pull_request.labels.*.name, 'test distribution') || github.event_name == 'schedule' }}
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
