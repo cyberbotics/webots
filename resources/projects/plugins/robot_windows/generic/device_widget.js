@@ -78,7 +78,7 @@ DeviceWidget.prototype.initialize = function(device) {
   else if (device.type === 'LightSensor')
     this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, 0, 1024, 'Raw');
   else if (device.type === 'PositionSensor')
-    this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.JUMP, -Math.PI, Math.PI, 'Angle [Rad]');
+    this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.ADAPT, -Math.PI, Math.PI, 'Angle [Rad]');
   else if (device.type === 'Radar')
     this.createRadar(device);
   else if (device.type === 'RangeFinder')
@@ -90,7 +90,7 @@ DeviceWidget.prototype.initialize = function(device) {
     if (minPosition === 0.0 && maxPosition === 0.0) {
       minPosition = device.type === 'RotationalMotor' ? -Math.PI : -1.0;
       maxPosition = device.type === 'RotationalMotor' ? Math.PI : 1.0;
-      autoRange = device.type === 'RotationalMotor' ? TimeplotWidget.AutoRangeType.JUMP : TimeplotWidget.AutoRangeType.STRETCH;
+      autoRange = device.type === 'RotationalMotor' ? TimeplotWidget.AutoRangeType.ADAPT : TimeplotWidget.AutoRangeType.STRETCH;
     }
     this.createMotor(device, autoRange, minPosition, maxPosition, device.type === 'RotationalMotor' ? 'Angle [rad]' : 'Distance [m]');
   } else if (device.type === 'TouchSensor') {
