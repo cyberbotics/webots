@@ -13,8 +13,8 @@
 
 PROTO RobotisOp2Hinge2 [
   field SFVec3f    translation     0 0 0                  # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                # Is `Transform.rotation`.
-  field SFString   name            "ROBOTIS OP2 HINGE2"   # Is `Solid.name`.
+  field SFRotation rotation        0 0 1 0                # Is `Transform.rotation`.
+  field SFString   name            "ROBOTIS OP2 Hinge2"   # Is `Solid.name`.
   field SFString   controller      "motion_player"        # Is `Robot.controller`.
   field MFString   controllerArgs  []                     # Is `Robot.controllerArgs`.
   field SFString   customData      ""                     # Is `Robot.customData`.
@@ -37,7 +37,7 @@ PROTO RobotisOp2Hinge2 [
   field MFNode     rightHandSlot   []                     # Extends the robot with new nodes in the right hand slot.
 ]
 {
-  Darwin-op-Hinge2 {
+  Darwin-opHinge2 {
     translation     IS translation
     rotation        IS rotation
     controller      IS controller

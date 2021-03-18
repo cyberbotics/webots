@@ -12,10 +12,10 @@
 # - camera
 # - realistic physics
 
-PROTO Darwin-op-Hinge2 [
+PROTO Darwin-opHinge2 [
   field SFVec3f    translation      0 0 0                      # Is `Transform.translation`.
-  field SFRotation rotation         0 1 0 0                    # Is `Transform.rotation`.
-  field SFString   name             "DARwIn-OP-Hinge2"         # Is `Solid.name`.
+  field SFRotation rotation         0 0 1 0                    # Is `Transform.rotation`.
+  field SFString   name             "DARwIn-OP Hinge2"         # Is `Solid.name`.
   field SFString   controller       "motion_player"            # Is `Robot.controller`.
   field MFString   controllerArgs   []                         # Is `Robot.controllerArgs`.
   field SFString   customData       ""                         # Is `Robot.customData`.
@@ -37,7 +37,7 @@ PROTO Darwin-op-Hinge2 [
   field MFNode     leftHandSlot     []                         # Extends the robot with new nodes in the left hand slot.
   field MFNode     rightHandSlot    []                         # Extends the robot with new nodes in the right hand slot.
 #protected
-  hiddenField SFString _model       "DARwIn-OP-Hinge2"
+  hiddenField SFString _model       "DARwIn-OP Hinge2"
   hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer, upgraded to use hinge2 joints."
 ]
 {

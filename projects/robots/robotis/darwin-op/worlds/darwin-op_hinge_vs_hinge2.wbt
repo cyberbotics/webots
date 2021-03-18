@@ -5,7 +5,7 @@ WorldInfo {
     "The ROBOTIS OP2 robot simulation model can be programmed using the ROBOTIS OP2 motions files and the ROBOTIS OP2 walk control library."
   ]
   title "ROBOTIS OP2 modeling comparison"
-  basicTimeStep 8
+  basicTimeStep 16
 }
 Viewpoint {
   orientation 0.5773502691896258 -0.5773502691896258 -0.5773502691896257 2.0943951023931953
