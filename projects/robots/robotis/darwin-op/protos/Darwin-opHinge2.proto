@@ -63,10 +63,14 @@ PROTO Darwin-opHinge2 [
       DEF BODY_SLOT Group {
         children IS bodySlot
       }
-      DEF JERSEY_SLOT Slot {
+      Transform {
         rotation 0.5774 0.5773 0.5773 2.0944
-        type "robotis jersey"
-        endPoint IS jersey
+        children [
+          DEF JERSEY_SLOT Slot {
+            type "robotis jersey"
+            endPoint IS jersey
+          }
+        ]
       }
       Transform {
         rotation 0.5774 0.5773 0.5773 2.0944
