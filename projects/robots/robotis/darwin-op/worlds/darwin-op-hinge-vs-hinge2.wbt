@@ -1,32 +1,31 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "ROBOTIS OP2 robot."
+    "ROBOTIS OP2 robot, comparison between the implementation using HingeJoints and Hinge2Joints."
     "The ROBOTIS OP2 robot simulation model can be programmed using the ROBOTIS OP2 motions files and the ROBOTIS OP2 walk control library."
   ]
-  title "ROBOTIS OP2"
+  title "ROBOTIS OP2 modeling comparison"
   basicTimeStep 8
 }
 Viewpoint {
   orientation 0.5773502691896258 -0.5773502691896258 -0.5773502691896257 2.0943951023931953
-  position -2.5851152524517595 0.520512669688838 0.3272577846104696
-  follow "ROBOTIS OP2"
+  position -2.1662069725255897 0.2655544555546841 0.3354822431309262
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RobotisOp2 {
-  translation 0 1 0.236
+  translation 0 0.5 0.236
   rotation 0 1 0 0.09
-  name "Darwin-Op hinge version"
+  name "Darwin-Op HingeJoint version"
   controller "walk"
   selfCollision TRUE
 }
 RobotisOp2Hinge2 {
   translation 0 0 0.236
   rotation 0 1 0 0.09
-  name "Darwin-Op hinge2 version"
+  name "Darwin-Op Hinge2Joint version"
   controller "walk"
   selfCollision TRUE
 }
