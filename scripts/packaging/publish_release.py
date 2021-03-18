@@ -23,6 +23,7 @@ import re
 import requests
 import urllib3
 import sys
+import time
 from github import Github
 from github.GithubException import UnknownObjectException
 
@@ -121,13 +122,14 @@ for release in repo.get_releases():
                     while remainingTrials > 0:
                         try:
                             release.upload_asset(path)
-                            remainingTrials = 0
+                            break
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed due to connection error (remaining trials: %d)' % remainingTrials)
                         except requests.exceptions.HTTPError:
                             remainingTrials -= 1
                             print('Release upload failed due to server error (remaining trials: %d)' % remainingTrials)
+                        time.sleep(120)  # wait 2 minutes before retry
                     if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
                             branchName not in release.body):
                         print('Updating release description')
