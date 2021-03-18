@@ -242,7 +242,7 @@ PROTO Darwin-op-Hinge2 [
             }
           ]
           jointParameters2 JointParameters {
-            axis -1 0 0
+            axis 0 -1 0
             position 0.19
             dampingConstant 0.002
             staticFriction 0.025
