@@ -645,7 +645,7 @@ channel = wb_receiver_get_channel(tag)
 *set and get the receiver's channel.*
 
 The `wb_receiver_set_channel` function allows a receiver to change its reception channel.
-Target channel must be present between `allowedChannels` or `allowedChannels` is empty.
+The target channel must be included in `allowedChannels` or `allowedChannels` should be empty.
 It modifies the `channel` field of the corresponding [Receiver](#receiver) node.
 Normally, a receiver can only receive data packets from emitters that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used to listen simultaneously to all channels.
