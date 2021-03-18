@@ -126,9 +126,9 @@ for release in repo.get_releases():
                             release.upload_asset(path)
                             break
                         except requests.exceptions.ConnectionError:
-                            print('Release upload failed due to connection error (remaining trials: %d)' % remainingTrials)
+                            print('Release upload failed due to connection error (remaining trials: %d)' % (4 - retryCount))
                         except requests.exceptions.HTTPError:
-                            print('Release upload failed due to server error (remaining trials: %d)' % remainingTrials)
+                            print('Release upload failed due to server error (remaining trials: %d)' % (4 - retryCount))
                         retryCount += 1
                     if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
                             branchName not in release.body):
