@@ -23,7 +23,12 @@ WorldInfo {
       coulombFriction [
         0.5
       ]
+      bounce 0.76
       softCFM 0.05
+    }
+    ContactProperties {
+      material2 "robocup soccer ball"
+      bounce 0.76
     }
   ]
 }
