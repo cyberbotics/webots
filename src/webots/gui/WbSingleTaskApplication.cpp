@@ -55,19 +55,19 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT) {
-    exportProtoTo();
+    convertProto();
   }
 
   emit finished(mTask == WbGuiApplication::FAILURE ? EXIT_FAILURE : EXIT_SUCCESS);
 }
 
-void WbSingleTaskApplication::exportProtoTo() const {
+void WbSingleTaskApplication::convertProto() const {
   QCommandLineParser cliParser;
   cliParser.setApplicationDescription("Convert a PROTO file to URDF, WBO, or WRL file");
   cliParser.addHelpOption();
   cliParser.addPositionalArgument("input", "Path to the input PROTO file.");
   cliParser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
-  cliParser.addOption(QCommandLineOption("p", "Change default PROTO parameters.", "parameter=value"));
+  cliParser.addOption(QCommandLineOption("p", "Override default PROTO parameters.", "parameter=value"));
   cliParser.process(mTaskArguments);
   QStringList positionalArguments = cliParser.positionalArguments();
   if (positionalArguments.size() != 2)

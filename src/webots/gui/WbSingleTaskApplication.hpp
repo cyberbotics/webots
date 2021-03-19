@@ -46,7 +46,7 @@ private:
   QStringList mTaskArguments;
   QString mStartupPath;
 
-  void exportProtoTo() const;
+  void convertProto() const;
   void showHelp() const;
   void showSysInfo() const;
   void updateProtoCacheFiles() const;
