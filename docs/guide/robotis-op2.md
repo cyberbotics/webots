@@ -197,7 +197,7 @@ Use the self collision check only if you need it, because it is an expensive com
 It is possible to model the effect of backlash present in the motors by setting the `backlash` field to `true`.
 Doing so will add a backlash of 0.01 [rad] to every joint in the robot.
 The modeling of this effect is achieved by replacing the existing joints with [HingeJointWithBacklash](hinge-joint-with-backlash.md) which effectively doubles their number.
-Additionally, for the correct enforcing of this effect, the value of the `basicTimestep` in [WorldInfo](../reference/worldinfo.md) should be set to 8 or lower.
+Additionally, for the correct enforcing of this effect, the value of the `basicTimestep` in [WorldInfo](../reference/worldinfo.md) should probably be set to a smaller value when enabling the backlash.
 For these reasons, activating this option is very computationally expensive and will significantly slow down the simulation speed.
 
 ### Non-Simulated Devices
