@@ -329,7 +329,7 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArguments, this);
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
     if (mMainWindow)
       connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else

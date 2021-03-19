@@ -62,34 +62,43 @@ void WbSingleTaskApplication::run() {
 }
 
 void WbSingleTaskApplication::exportProtoTo() const {
-  // webots convert projects/robots/adept/pioneer3/protos/Pioneer3dx.proto exported.urdf
-  QCommandLineParser parser;
-  parser.setApplicationDescription("Convert PROTO to URDF, WBO, or WRL file");
-  parser.addHelpOption();
-  parser.addPositionalArgument("input", "Path to the input PROTO file.");
-  parser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
-  parser.addOption(QCommandLineOption("p", "Change default PROTO parameters.", "parameter=value"));
-  parser.process(mTaskArguments);
-  QStringList positionalArguments = parser.positionalArguments();
+  QCommandLineParser cliParser;
+  cliParser.setApplicationDescription("Convert a PROTO file to URDF, WBO, or WRL file");
+  cliParser.addHelpOption();
+  cliParser.addPositionalArgument("input", "Path to the input PROTO file.");
+  cliParser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
+  cliParser.addOption(QCommandLineOption("p", "Change default PROTO parameters.", "parameter=value"));
+  cliParser.process(mTaskArguments);
+  QStringList positionalArguments = cliParser.positionalArguments();
   if (positionalArguments.size() != 2)
-    parser.showHelp(1);
+    cliParser.showHelp(1);
+
+  // Compute absolute paths for input and output files
+  QString inputFile = positionalArguments[0];
+  QString outputFile = positionalArguments[1];
+  if (QDir::isRelativePath(inputFile))
+    inputFile = mStartupPath + '/' + inputFile;
+  if (QDir::isRelativePath(outputFile))
+    outputFile = mStartupPath + '/' + outputFile;
 
   // Get user parameters strings
   QMap<QString, QString> userParameters;
-  for (QString param : parser.values("p")) {
+  for (QString param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
       cout << tr("A parameter is not properly formated!\n").toUtf8().constData();
-      parser.showHelp(1);
+      cliParser.showHelp(1);
     }
     userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
   }
 
-  // TODO: We will need more paths
-  new WbProtoList(QDir::currentPath());
+  // Parse PROTO
+  new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoList::current()->readModel(positionalArguments[0], "");
+  WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
+  cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
+  // Combine the user parameters with the default ones
   QVector<WbField *> fields;
   for (WbFieldModel *model : model->fieldModels()) {
     WbField *field = new WbField(model);
@@ -99,8 +108,7 @@ void WbSingleTaskApplication::exportProtoTo() const {
       field->readValue(&tokenizer, "");
     }
 
-    // field->setValue(WbValue())
-    cout << tr("Field %1 [%2] = %3")
+    cout << tr("  field %1 [%2] = %3")
               .arg(field->name())
               .arg(field->stringType())
               .arg(field->value()->toString())
@@ -110,19 +118,22 @@ void WbSingleTaskApplication::exportProtoTo() const {
     fields.append(field);
   }
 
+  // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
-  QString fileName(positionalArguments[1]);
-  QFile file(fileName);
+
+  // Write to a file
+  QFile file(outputFile);
   if (!file.open(QIODevice::WriteOnly)) {
     cout << tr("Cannot open the file!\n").toUtf8().constData();
-    return;
+    cliParser.showHelp(1);
   }
-  WbVrmlWriter writer(&file, fileName);
-  writer.writeHeader(fileName);
+  WbVrmlWriter writer(&file, outputFile);
+  writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();
   file.close();
+  cout << tr("The %1 PROTO is written to the file.").arg(model->name()).toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showHelp() const {
@@ -161,6 +172,8 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
   cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
+  cout << "  convert" << endl;
+  cout << tr("    Convert a PROTO file to URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
   cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 

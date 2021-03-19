@@ -39,8 +39,10 @@ public:
   void restart();
 
   enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_PROTO_CACHE, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT, CONVERT };
-#ifdef __APPLE__
+  WbApplication *application() const { return mApplication; };
+
 protected:
+#ifdef __APPLE__
   virtual bool event(QEvent *event);
 #endif
 

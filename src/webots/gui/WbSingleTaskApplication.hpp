@@ -28,10 +28,12 @@ class WbSingleTaskApplication : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbSingleTaskApplication(WbGuiApplication::Task task, const QStringList &taskArgument = QStringList(), QObject *parent = 0) :
+  explicit WbSingleTaskApplication(WbGuiApplication::Task task, const QStringList &taskArgument = QStringList(),
+                                   QObject *parent = 0, QString startupPath = "") :
     QObject(parent),
     mTask(task),
-    mTaskArguments(taskArgument) {}
+    mTaskArguments(taskArgument),
+    mStartupPath(startupPath) {}
 
 public slots:
   void run();
@@ -42,6 +44,7 @@ signals:
 private:
   WbGuiApplication::Task mTask;
   QStringList mTaskArguments;
+  QString mStartupPath;
 
   void exportProtoTo() const;
   void showHelp() const;
