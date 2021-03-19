@@ -15,15 +15,16 @@
 #include "WbSingleTaskApplication.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbConcreteNodeFactory.hpp"
+#include "WbField.hpp"
+#include "WbGroup.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
+#include "WbProtoModel.hpp"
+#include "WbRobot.hpp"
 #include "WbSysInfo.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
-#include "WbConcreteNodeFactory.hpp"
-#include "WbProtoList.hpp"
-#include "WbProtoModel.hpp"
-#include "WbField.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -52,30 +53,38 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT) {
-      new WbProtoList(QDir::currentPath());
-      WbNode::setInstantiateMode(false);
-      WbProtoModel* model = WbProtoList::current()->readModel("projects/robots/adept/pioneer3/protos/Pioneer3dx.proto", "");
-      
-      QVector<WbField *> fields;
-      for (WbFieldModel *model : model->fieldModels()) {
-        WbField *field = new WbField(model);
-        fields.append(field);
-        QTextStream(stdout) << field->name() << ": " << field->value()->toString() << "\n";
-      }
-      WbNode* node = model->generateRoot(fields, "");
-      QTextStream(stdout) << node->fullName() << "\n";
-      
-      QString fileName("exported.urdf");
-      QFile file(fileName);
-      if (!file.open(QIODevice::WriteOnly)) {
-        QTextStream(stdout) << "Cannot open the file\n";
-        return;
-      }
-      WbVrmlWriter writer(&file, fileName);
-      writer.writeHeader(fileName);
-      node->write(writer);
-      writer.writeFooter();
-      file.close();
+    new WbProtoList(QDir::currentPath());
+    WbNode::setInstantiateMode(false);
+    WbProtoModel *model = WbProtoList::current()->readModel("projects/robots/adept/pioneer3/protos/Pioneer3dx.proto", "");
+
+    QVector<WbField *> fields;
+    for (WbFieldModel *model : model->fieldModels()) {
+      WbField *field = new WbField(model);
+      fields.append(field);
+      QTextStream(stdout) << field->name() << ": " << field->value()->toString() << "\n";
+    }
+
+    WbNode::setInstantiateMode(true);
+    WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
+
+    QTextStream(stdout) << node->fullName() << "\n";
+    for (WbNode *child : node->subNodes(false)) {
+      QTextStream(stdout) << child->fullName() << "\n";
+      QTextStream(stdout) << dynamic_cast<WbGroup *>(child) << "\n";
+    }
+
+    QString fileName("exported.urdf");
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+      QTextStream(stdout) << "Cannot open the file\n";
+      return;
+    }
+    QTextStream(stdout) << "Is robot:" << dynamic_cast<WbRobot *>(node) << "\n";
+    WbVrmlWriter writer(&file, fileName);
+    writer.writeHeader(fileName);
+    node->write(writer);
+    writer.writeFooter();
+    file.close();
   }
 
   emit finished(mTask == WbGuiApplication::FAILURE ? EXIT_FAILURE : EXIT_SUCCESS);
