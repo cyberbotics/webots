@@ -914,7 +914,7 @@ export DISPLAY=:0 ./my-controller
 
 #### Activating the Backlash Flag Renders the Robot Unable to Stand
 
-Due to the small amount of backlash present in the motors, for correct modeling of this effect it is required to lower the `basicTimestep` in [WorldInfo](../reference/worldinfo.md) to 8 or less.
+Due to the small amount of backlash present in the motors, for correct modeling of this effect it is required to lower the `basicTimestep` in [WorldInfo](../reference/worldinfo.md). It was observed that setting the `basicTimeStep` to 8 ms gives good results.
 
 ### Appendix
 
