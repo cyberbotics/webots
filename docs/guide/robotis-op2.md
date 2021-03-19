@@ -95,6 +95,14 @@ RobotisOp2 {
 
 - `rightHandSlot`: Extends the robot with new nodes in the right hand slot.
 
+#### RobotisOp2Hinge2 Variant
+
+A variant of this [PROTO](../reference/proto.md) where the joints of the ankles, hips and neck have been modeled using [Hinge2Joint](../reference/hinge2joint.md) instead of [HingeJoint](../reference/hingejoint.md) nodes is also available.
+
+This variant is more computationally efficient while still modeling the robot with great accuracy.
+
+> **File location**: "WEBOTS\_HOME/projects/robots/robotis/darwin-op/protos/RobotisOp2Hinge2.proto"
+
 ### Simulated Devices
 
 The simulation model is mounted with the following sensors and actuators:
@@ -876,6 +884,14 @@ This example works in remote compilation but you will need to connect a USB keyb
 Otherwise, it is recommended to test this example with the remote control in order to use the computer's keyboard instead.
 
 This example can also be used to explore and test all the parameters of the gait.
+
+#### darwin-op\_hinge\_vs\_hinge2.wbt
+
+![darwin-op_hinge_vs_hinge2.wbt.png](images/robots/robotis-op2/darwin-op_hinge_vs_hinge2.wbt.thumbnail.jpg) This example showcases the classic ROBOTIS OP2, which is modeled using [HingeJoint](../reference/hingejoint.md) for all of its joints, side by side with the same robot where the ankles, hips and neck have been modeled using [Hinge2Joint](../reference/hinge2joint.md) instead.
+
+The advantage of this version is that it's more computationally efficient while retaining the same properties of the original.
+
+This example can be used to compare the behavior of each variant.
 
 ### FAQ
 
