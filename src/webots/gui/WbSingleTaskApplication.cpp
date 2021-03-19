@@ -173,7 +173,7 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
   cout << "  convert" << endl;
-  cout << tr("    Convert a PROTO file to URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
+  cout << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
   cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 

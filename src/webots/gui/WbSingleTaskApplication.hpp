@@ -29,7 +29,7 @@ class WbSingleTaskApplication : public QObject {
 
 public:
   explicit WbSingleTaskApplication(WbGuiApplication::Task task, const QStringList &taskArgument = QStringList(),
-                                   QObject *parent = 0, QString startupPath = "") :
+                                   QObject *parent = 0, const QString &startupPath = QString()) :
     QObject(parent),
     mTask(task),
     mTaskArguments(taskArgument),
