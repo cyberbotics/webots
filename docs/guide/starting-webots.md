@@ -124,8 +124,11 @@ You can get more information about web streaming in [this section](web-streaming
 
 The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
 You can use a `-p` flag to override default PROTO parameters.
-Example usage `webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto pioneer3dx.urdf`.
-For more details user: `webots convert --help`.
+Usage example:
+```
+webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto pioneer3dx.urdf
+```
+For more details use: `webots convert --help`.
 
 ### Safe Mode
 
