@@ -80,7 +80,7 @@ DEF RED_3 Darwin-opHinge2 {
   translation 0.8 -0.5 0.24
   rotation -6.897009999981874e-08 -2.291579999993978e-06 0.9999999999973721 3.14159
   name "player red 3"
-  controller "soccer"
+  controller "player"
   selfCollision TRUE
   cameraWidth 320
   cameraHeight 240
