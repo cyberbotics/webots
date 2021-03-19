@@ -192,7 +192,7 @@ The physical model is very realistic and self collision check is available.
 To activate the self collision expand the ROBOTIS OP2 node in the scene tree and set `selfCollision` field to `true`.
 Use the self collision check only if you need it, because it is an expensive computation feature and can therefore significantly slow down the simulation speed.
 
-*Backlash*
+#### Backlash
 
 It is possible to model the effect of backlash present in the motors by setting the `backlash` field to `true`.
 Doing so will add a backlash of 0.01 [rad] to every joint in the robot.
