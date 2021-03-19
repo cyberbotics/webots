@@ -39,6 +39,7 @@ public:
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
   void writeAnswer(QDataStream &) override;
+  void writeConfigure(QDataStream &) override;
   bool refreshSensorIfNeeded() override;
   void reset() override;
 
