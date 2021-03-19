@@ -1,4 +1,4 @@
-syntax = "proto3"
+syntax = "proto3";
 
 message Vector3 {
   double X = 1;
@@ -46,13 +46,13 @@ message CameraMeasurement {
   string name = 1;
   int32 width = 2;
   int32 height = 3;
-  int32 quality = 4;  // 100 = no compression, 0 = high compression
-  byte data = 5;  // JPEG encoded data
-  double horizontalFieldOfView;  // degrees
-  int32 centerX;  // horizontal optical center in pixels
-  int32 centerY;  // vertical optical center in pixels
-  double radialCoefficients;
-  double tangentialCoefficients;
+  int32 quality = 4;                 // 100 = no compression, 0 = high compression
+  bytes data = 5;                     // JPEG encoded data
+  double horizontalFieldOfView = 6;  // express in [rad]
+  int32 centerX = 7;                 // horizontal optical center in pixels
+  int32 centerY= 8;                  // vertical optical center in pixels
+  double radialCoefficients = 9;
+  double tangentialCoefficients = 10;
 }
 
 message SensorMeasurements {
@@ -66,28 +66,53 @@ message SensorMeasurements {
   repeated CameraMeasurement camera = 8;
 }
 
-message MotorRequest {
+message MotorPosition {
   string name = 1;
   double position = 2;  // linear or angular target position expressed in [m] or [rad]
-  double velocity = 3;  // linear or angular target velocity expressed in [m/s] or [rad/s]
-  double force = 4;     // target force or torque expressed in [N] or [N.m]
-  Vector3 PID;          // PID controller values
 }
 
-message SensorRequest { // apply to a PositionSensor, Gyro, Accelerometer or TouchSensor
+message MotorVelocity {
+  string name = 1;
+  double velocity = 2;  // linear or angular target velocity expressed in [m/s] or [rad/s]
+}
+
+message MotorForce {
+  string name = 1;
+  double force = 2;  // target force expressed in [N]
+}
+
+message MotorTorque {
+  string name = 1;
+  double torque = 2;  // target torque expressed in [N.m]
+}
+
+message MotorPID {
+  string name = 1;
+  Vector3 PID = 2;  // PID controller values
+}
+
+message SensorTimeStep { // apply to a Accelerometer, Camera, Gyro, PositionSensor or TouchSensor
   string name = 1;
   double timeStep = 2;  // time between two measurements expressed in [s], disabled if 0
 }
 
-message CameraRequest {
+message CameraQuality {
   string name = 1;
-  double timeStep = 2;  // time between two images expressed in [s], disabled if 0
-  int32 quality = 3;    // JPEG quality
-  double exposure = 4;  // exposure time
+  int32 quality = 2;  // JPEG quality
+}
+
+message CameraExposure {
+  string name = 1;
+  double exposure = 2;  // exposure time
 }
 
 message ActuatorRequests {
-  repeated MotorRequest motor = 1;
-  repeated SensorRequest position_sensor = 2;
-  repeated CameraRequest camera = 3;
+  repeated MotorPosition motor_position = 1;
+  repeated MotorVelocity motor_velocity = 2;
+  repeated MotorForce motor_force = 3;
+  repeated MotorTorque motor_torque = 4;
+  repeated MotorPID motor_pid = 5;
+  repeated SensorTimeStep sensor_time_step = 6;
+  repeated CameraQuality camera_quality = 7;
+  repeated CameraExposure camera_exposure = 8;
 }
