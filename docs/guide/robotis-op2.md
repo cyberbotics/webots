@@ -92,7 +92,7 @@ RobotisOp2 {
 
 - `rightHandSlot`: Extends the robot with new nodes in the right hand slot.
 
-#### RobotisOp2Hinge2 variant
+#### RobotisOp2Hinge2 Variant
 
 A variant of this [PROTO](../reference/proto.md) where the joints of the ankles, hips and neck have been modeled using [Hinge2Joint](../reference/hinge2joint.md) instead of [HingeJoint](../reference/hingejoint.md) nodes is also available.
 
