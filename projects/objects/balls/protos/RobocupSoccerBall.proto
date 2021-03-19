@@ -73,8 +73,8 @@ PROTO RobocupSoccerBall [
       density -1
       centerOfMass [ 0 0 0.0001 ]  # to introduce some randomness in motion
       damping Damping {
-        linear 0.7
-        angular 0.7
+        linear 0.77
+        angular 0.77
       }
     }
   }
