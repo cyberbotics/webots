@@ -23,16 +23,17 @@
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSysInfo.hpp"
+#include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/QCommandLineParser>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
 #include <QtOpenGL/QGLWidget>
 #include <QtWidgets/QMainWindow>
-#include <QtCore/QCommandLineParser>
 
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
@@ -67,13 +68,23 @@ void WbSingleTaskApplication::exportProtoTo() const {
   parser.addHelpOption();
   parser.addPositionalArgument("input", "Path to the input PROTO file.");
   parser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
-  parser.addOption(QCommandLineOption("field", "Filed value"));
+  parser.addOption(QCommandLineOption("p", "Change default PROTO parameters.", "parameter=value"));
   parser.process(mTaskArguments);
   QStringList positionalArguments = parser.positionalArguments();
   if (positionalArguments.size() != 2)
     parser.showHelp(1);
-  QTextStream(stdout) << parser.values("field").size() << "\n";
-  
+
+  // Get user parameters strings
+  QMap<QString, QString> userParameters;
+  for (QString param : parser.values("p")) {
+    QStringList pair = param.split("=");
+    if (pair.size() != 2) {
+      cout << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      parser.showHelp(1);
+    }
+    userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
+  }
+
   // TODO: We will need more paths
   new WbProtoList(QDir::currentPath());
   WbNode::setInstantiateMode(false);
@@ -82,8 +93,21 @@ void WbSingleTaskApplication::exportProtoTo() const {
   QVector<WbField *> fields;
   for (WbFieldModel *model : model->fieldModels()) {
     WbField *field = new WbField(model);
+    if (userParameters.contains(field->name())) {
+      WbTokenizer tokenizer;
+      tokenizer.tokenizeString(userParameters[field->name()]);
+      field->readValue(&tokenizer, "");
+    }
+
+    // field->setValue(WbValue())
+    cout << tr("Field %1 [%2] = %3")
+              .arg(field->name())
+              .arg(field->stringType())
+              .arg(field->value()->toString())
+              .toUtf8()
+              .constData()
+         << endl;
     fields.append(field);
-    QTextStream(stdout) << "Field " << field->name() << " = " << field->value()->toString() << "\n";
   }
 
   WbNode::setInstantiateMode(true);
@@ -91,7 +115,7 @@ void WbSingleTaskApplication::exportProtoTo() const {
   QString fileName(positionalArguments[1]);
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
-    QTextStream(stdout) << "Cannot open the file\n";
+    cout << tr("Cannot open the file!\n").toUtf8().constData();
     return;
   }
   WbVrmlWriter writer(&file, fileName);

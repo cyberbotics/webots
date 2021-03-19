@@ -100,6 +100,7 @@ public:
   // the field's type (shortcuts for WbValue)
   WbFieldType type() const;        // e.g. WB_MF_NODE
   WbFieldType singleType() const;  // e.g. returns WB_SF_NODE for a WB_MF_NODE
+  QString stringType() const;
   bool isMultiple() const;
   bool isSingle() const;
   bool isHidden() const;
