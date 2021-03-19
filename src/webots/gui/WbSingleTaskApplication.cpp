@@ -61,16 +61,23 @@ void WbSingleTaskApplication::run() {
 }
 
 void WbSingleTaskApplication::exportProtoTo() const {
+  // webots convert projects/robots/adept/pioneer3/protos/Pioneer3dx.proto exported.urdf
   QCommandLineParser parser;
-  parser.addPositionalArgument("input", "Path to the input PROTO file");
-  parser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file");
-  parser.parse(mTaskArguments);
-  QStringList parserArgs = parser.positionalArguments();
-
+  parser.setApplicationDescription("Convert PROTO to URDF, WBO, or WRL file");
+  parser.addHelpOption();
+  parser.addPositionalArgument("input", "Path to the input PROTO file.");
+  parser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
+  parser.addOption(QCommandLineOption("field", "Filed value"));
+  parser.process(mTaskArguments);
+  QStringList positionalArguments = parser.positionalArguments();
+  if (positionalArguments.size() != 2)
+    parser.showHelp(1);
+  QTextStream(stdout) << parser.values("field").size() << "\n";
+  
   // TODO: We will need more paths
   new WbProtoList(QDir::currentPath());
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoList::current()->readModel("projects/robots/adept/pioneer3/protos/Pioneer3dx.proto", "");
+  WbProtoModel *model = WbProtoList::current()->readModel(positionalArguments[0], "");
 
   QVector<WbField *> fields;
   for (WbFieldModel *model : model->fieldModels()) {
@@ -81,7 +88,7 @@ void WbSingleTaskApplication::exportProtoTo() const {
 
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
-  QString fileName("exported.urdf");
+  QString fileName(positionalArguments[1]);
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
     QTextStream(stdout) << "Cannot open the file\n";

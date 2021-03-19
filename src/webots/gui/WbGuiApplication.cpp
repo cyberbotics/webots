@@ -218,7 +218,8 @@ void WbGuiApplication::parseArguments() {
       mShouldDoRendering = false;
     else if (arg == "convert") {
       mTask = CONVERT;
-      mTaskArguments = args.mid(i + 1);
+      mTaskArguments = args.mid(i);
+      break;
     } else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
