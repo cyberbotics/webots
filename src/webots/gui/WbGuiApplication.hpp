@@ -55,7 +55,7 @@ private:
   bool mShouldDoRendering;
 
   Task mTask;
-  QString mTaskArgument;
+  QStringList mTaskArguments;
 
   WbStreamingServer *mStreamingServer;
 

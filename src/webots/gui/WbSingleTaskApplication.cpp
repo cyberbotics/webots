@@ -32,6 +32,7 @@
 #include <QtGui/QOpenGLFunctions>
 #include <QtOpenGL/QGLWidget>
 #include <QtWidgets/QMainWindow>
+#include <QtCore/QCommandLineParser>
 
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
@@ -49,45 +50,48 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::VERSION)
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
   else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
-    updateProtoCacheFiles(mTaskArgument);
+    updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT) {
-    new WbProtoList(QDir::currentPath());
-    WbNode::setInstantiateMode(false);
-    WbProtoModel *model = WbProtoList::current()->readModel("projects/robots/adept/pioneer3/protos/Pioneer3dx.proto", "");
-
-    QVector<WbField *> fields;
-    for (WbFieldModel *model : model->fieldModels()) {
-      WbField *field = new WbField(model);
-      fields.append(field);
-      QTextStream(stdout) << field->name() << ": " << field->value()->toString() << "\n";
-    }
-
-    WbNode::setInstantiateMode(true);
-    WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
-
-    QTextStream(stdout) << node->fullName() << "\n";
-    for (WbNode *child : node->subNodes(false)) {
-      QTextStream(stdout) << child->fullName() << "\n";
-      QTextStream(stdout) << dynamic_cast<WbGroup *>(child) << "\n";
-    }
-
-    QString fileName("exported.urdf");
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly)) {
-      QTextStream(stdout) << "Cannot open the file\n";
-      return;
-    }
-    QTextStream(stdout) << "Is robot:" << dynamic_cast<WbRobot *>(node) << "\n";
-    WbVrmlWriter writer(&file, fileName);
-    writer.writeHeader(fileName);
-    node->write(writer);
-    writer.writeFooter();
-    file.close();
+    exportProtoTo();
   }
 
   emit finished(mTask == WbGuiApplication::FAILURE ? EXIT_FAILURE : EXIT_SUCCESS);
+}
+
+void WbSingleTaskApplication::exportProtoTo() const {
+  QCommandLineParser parser;
+  parser.addPositionalArgument("input", "Path to the input PROTO file");
+  parser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file");
+  parser.parse(mTaskArguments);
+  QStringList parserArgs = parser.positionalArguments();
+
+  // TODO: We will need more paths
+  new WbProtoList(QDir::currentPath());
+  WbNode::setInstantiateMode(false);
+  WbProtoModel *model = WbProtoList::current()->readModel("projects/robots/adept/pioneer3/protos/Pioneer3dx.proto", "");
+
+  QVector<WbField *> fields;
+  for (WbFieldModel *model : model->fieldModels()) {
+    WbField *field = new WbField(model);
+    fields.append(field);
+    QTextStream(stdout) << "Field " << field->name() << " = " << field->value()->toString() << "\n";
+  }
+
+  WbNode::setInstantiateMode(true);
+  WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
+  QString fileName("exported.urdf");
+  QFile file(fileName);
+  if (!file.open(QIODevice::WriteOnly)) {
+    QTextStream(stdout) << "Cannot open the file\n";
+    return;
+  }
+  WbVrmlWriter writer(&file, fileName);
+  writer.writeHeader(fileName);
+  node->write(writer);
+  writer.writeFooter();
+  file.close();
 }
 
 void WbSingleTaskApplication::showHelp() const {
@@ -172,7 +176,8 @@ void WbSingleTaskApplication::showSysInfo() const {
   delete context;
 }
 
-void WbSingleTaskApplication::updateProtoCacheFiles(const QString &path) const {
+void WbSingleTaskApplication::updateProtoCacheFiles() const {
+  const QString path = (mTaskArguments.size() > 0) ? mTaskArguments[0] : "";
   QFileInfo argumentInfo(path);
   if (argumentInfo.isFile()) {
     if (argumentInfo.completeSuffix() == "proto")

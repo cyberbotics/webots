@@ -216,9 +216,10 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
-    else if (arg == "convert")
+    else if (arg == "convert") {
       mTask = CONVERT;
-    else if (arg == "--help")
+      mTaskArguments = args.mid(i + 1);
+    } else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
       mTask = SYSINFO;
@@ -230,9 +231,9 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArgument = items[1];
+        mTaskArguments.append(items[1]);
       else
-        mTaskArgument.clear();
+        mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
@@ -327,7 +328,7 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArgument, this);
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this);
     if (mMainWindow)
       connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else
