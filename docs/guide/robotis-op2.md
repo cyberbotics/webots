@@ -186,7 +186,7 @@ sudo apt-get install espeak
 
 For more information on the use of all of these sensors/actuators refer to the [Reference Manual](http://www.cyberbotics.com/reference) of Webots.
 
-*Self Collision*
+#### Self Collision
 
 The physical model is very realistic and self collision check is available.
 To activate the self collision expand the ROBOTIS OP2 node in the scene tree and set `selfCollision` field to `true`.
