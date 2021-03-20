@@ -15,13 +15,10 @@
 #include "WbSingleTaskApplication.hpp"
 
 #include "WbApplicationInfo.hpp"
-#include "WbConcreteNodeFactory.hpp"
 #include "WbField.hpp"
-#include "WbGroup.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
-#include "WbRobot.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
