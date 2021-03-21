@@ -9,8 +9,8 @@ HingeJointParameters {
   SFFloat suspensionSpringConstant  0       # [0, inf)
   SFFloat suspensionDampingConstant 0       # [0, inf)
   SFVec3f suspensionAxis            1 0 0   # unit axis
-  SFFloat stopERP                   -1      # [0, inf)
-  SFFloat stopCFM                   -1      # (0, inf)
+  SFFloat stopERP                   -1      # -1 or [0, inf)
+  SFFloat stopCFM                   -1      # -1 or (0, inf)
 }
 ```
 
