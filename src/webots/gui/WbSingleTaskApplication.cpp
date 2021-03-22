@@ -117,7 +117,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Generate a node structure
   WbNode::setInstantiateMode(true);
-  WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
+  const WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
 
   // Write to a file
   QFile file(outputFile);
