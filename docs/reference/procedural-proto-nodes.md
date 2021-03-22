@@ -139,7 +139,6 @@ PROTO SimpleStairs [
    -- load lua-gd module and create a uniform texture
    local gd = require("gd")
    local debug = require("debug")
-   local os = require('os')
    local im = gd.createTrueColor(128, 128)
    color = im:colorAllocate(fields.color.value.r * 255, fields.color.value.g * 255, fields.color.value.b * 255)
    im:filledRectangle(0, 0, 127, 127, color)
