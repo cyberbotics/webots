@@ -14,7 +14,7 @@ PROTO PipeBoundingObject [
 {
   %{
     local wbrandom = require('wbrandom')
-
+    wbrandom.seed(context.id)
     -- parameter checking
     local subdivision = fields.subdivision.value
     if subdivision > 200 then

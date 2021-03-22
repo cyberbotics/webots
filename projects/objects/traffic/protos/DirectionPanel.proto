@@ -38,9 +38,6 @@ PROTO DirectionPanel [
 ]
 {
   %{
-    local wbrandom = require('wbrandom')
-    local os = require('os')
-    wbrandom.seed(os.clock() + os.time())
     local width = fields.width.value
     if width <= 0.0 then
       width = fields.width.defaultValue
@@ -127,7 +124,7 @@ PROTO DirectionPanel [
       -- save the images
       local debug = require('debug')
       fileNamePrefix = debug.getinfo(1,'S').source  -- get the name of the current file
-      fileNamePrefix = fileNamePrefix .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+      fileNamePrefix = fileNamePrefix .. context.id  -- prevent name clashes
       i = 0  -- make sure the file does not already exist
       local file = io.open(fileNamePrefix .. i .. "front.png", "r")
       while file do
