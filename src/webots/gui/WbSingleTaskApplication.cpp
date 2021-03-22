@@ -51,9 +51,8 @@ void WbSingleTaskApplication::run() {
     updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
-  else if (mTask == WbGuiApplication::CONVERT) {
+  else if (mTask == WbGuiApplication::CONVERT)
     convertProto();
-  }
 
   emit finished(mTask == WbGuiApplication::FAILURE ? EXIT_FAILURE : EXIT_SUCCESS);
 }
