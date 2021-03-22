@@ -80,7 +80,7 @@ void WbSingleTaskApplication::convertProto() const {
   // Get user parameters strings
   QMap<QString, QString> userParameters;
   for (QString param : cliParser.values("p")) {
-    const QStringList pair = param.split("=");
+    QStringList pair = param.split("=");
     if (pair.size() != 2) {
       cout << tr("A parameter is not properly formated!\n").toUtf8().constData();
       cliParser.showHelp(1);
@@ -91,7 +91,7 @@ void WbSingleTaskApplication::convertProto() const {
   // Parse PROTO
   new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
   WbNode::setInstantiateMode(false);
-  const WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
+  WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
   cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
   // Combine the user parameters with the default ones
