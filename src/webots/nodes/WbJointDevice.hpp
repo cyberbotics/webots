@@ -31,7 +31,7 @@ public:
   virtual ~WbJointDevice();
 
   // inherited from WbBaseNode
-  void postFinalize() override;
+  void preFinalize() override;
 
   WbJoint *joint() const;          // joint attached to the device
   WbPropeller *propeller() const;  // propeller attached to the device

@@ -19,6 +19,7 @@
 #include "WbDistanceSensor.hpp"
 #include "WbFluid.hpp"
 #include "WbGeometry.hpp"
+#include "WbHingeJoint.hpp"
 #include "WbImmersionProperties.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
@@ -429,7 +430,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
-void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
+void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
     dSpaceCollide2(o1, o2, data, odeNearCallback);
@@ -439,7 +440,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     if (dGeomIsSpace(o2))
       dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
   }
+}
 
+void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
   WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
@@ -455,6 +458,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
     const int pluginContacts = physicsPlugin->collide(o1, o2);
 
+    if (pluginContacts == 0)
+      handleCollisionIfSpace(data, o1, o2);
     if (pluginContacts == 2) {  // Webots will change the boundingObject color to notify collision
       if (webotsGeom1) {
         s1 = odeGeomData1->solid();
@@ -471,7 +476,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     } else if (pluginContacts == 1 || !webotsGeom1 || !webotsGeom2)  // Webots won't attempt to manipulate user-defined dGeoms
       return;
-  }
+  } else
+    handleCollisionIfSpace(data, o1, o2);
 
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2))
     return;
@@ -578,6 +584,35 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
         (b2 && dAreConnectedExcluding(b2, b1, dJointTypeContact)))))
     return;
 
+  // ignore collision if bodies are connected by a chain of HingeJoint (or derivatives) sharing a same anchor
+  if (b1 && b2) {
+    WbNode *n;  // climb up the chain from the lowest level
+    dBodyID b;  // stop when we reach this body
+    if (s1->level() > s2->level()) {
+      n = dynamic_cast<WbNode *>(s1);
+      b = b2;
+    } else {
+      n = dynamic_cast<WbNode *>(s2);
+      b = b1;
+    }
+
+    WbVector3 firstAnchor(NAN, NAN, NAN);
+    while (n && n->level() >= 1) {
+      const WbSolid *s = dynamic_cast<WbSolid *>(n);
+      if (s && s->body() == b && !firstAnchor.isNan())
+        return;  // one intermediary joint is mandatory to ignore collisions at this level, otherwise it's taken care elsewhere
+
+      const WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(n);
+      if (joint) {
+        if (firstAnchor.isNan())
+          firstAnchor = joint->anchor();
+        else if (!firstAnchor.almostEquals(joint->anchor()))
+          break;
+      }
+      n = n->parentNode();
+    }
+  }
+
   dContact contact[10];
   const int n = dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
   if (n == 0)
@@ -599,8 +634,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       for (int i = 1; i < n; ++i)
         if (contact[i].geom.depth < contact[ix].geom.depth)
           ix = i;
-      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide call-back
-      // function of ODE. Should we be worried?
+      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide
+      // call-back function of ODE. Should we be worried?
       assert(o1 == contact[ix].geom.g1 && o2 == contact[ix].geom.g2);
       ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[ix].geom);
       return;

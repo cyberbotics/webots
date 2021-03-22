@@ -1,6 +1,6 @@
 /* global webots: false */
 /* global DeviceWidget: false */
-/* global menuTabCallback, openMenu, closeMenu, addSettingsTab */
+/* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
@@ -20,9 +20,9 @@ function setDeviceModeCallback(switchButton, deviceType) {
   commands.push(message);
 
   // force widgets refresh when they are shown.
-  Object.keys(window.widgets).forEach(function(deviceName) {
-    const widget = window.widgets[deviceName];
-    if (widget && widget.device.type === deviceType) {
+  Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+    const widget = window.widgets[deviceType][deviceName];
+    if (widget) {
       const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
       DeviceWidget.checkboxCallback(checkbox);
     }
@@ -65,8 +65,10 @@ function receive(message, _robot) {
     return;
   else if (message.indexOf('update ') === 0) {
     data = parseJSONMessage(message.substring(7));
-    if (data)
+    if (data) {
       DeviceWidget.updateDeviceWidgets(data, window.widgets);
+      refreshSelectedTab();
+    }
   } else
     console.log("Unexpected message received: '" + message + "'");
 

@@ -576,7 +576,7 @@ Shape or colour/texture?
 
 If shape [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
 
-##### ContrastNull 04/09/2020 12:35:55
+##### Sanket Khadse 04/09/2020 12:35:55
 Hey, I want to use a ship mast in my simulation,  which basically has a tower like structure and a radar (dish),  which continuously moves around in a 90° angle.  
 
 So the problem is,  I dont know how to make the part moving in the manner I need.  
@@ -591,7 +591,7 @@ About the first issue, you mean you don't now how to make the radar moving ?
 
 About the second issue, I would use the Supervisor API to move the whole mast: [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
-##### ContrastNull 04/09/2020 12:43:17
+##### Sanket Khadse 04/09/2020 12:43:17
 `@David Mansolino`,  in the first question, after I imported the model into webots,  how should I define the movement of that radar part as needed?
 
 ##### David Mansolino [Cyberbotics] 04/09/2020 12:48:38
@@ -600,7 +600,7 @@ You can either use the Supervisor API to change it's rotation field either mount
 
 Did you follow our tutorials? If not I would strongly advice to follow tutorials 1 to 6: [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
-##### ContrastNull 04/09/2020 12:49:57
+##### Sanket Khadse 04/09/2020 12:49:57
 Sure,  I will look into them and let you know if it helps! 😊
 
 
@@ -613,7 +613,7 @@ Neither it is considered as other objects in the world's, because while I tried 
 What must be the problem here?
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 05:21:51
-Hi `@ContrastNull`, the VRML import does indeed import only the visual meshes of the object, you then have to recreate the structure of the object yourself. I would recommend to follow these tutorials to create an objet (1 to 7): [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+Hi `@Sanket Khadse`, the VRML import does indeed import only the visual meshes of the object, you then have to recreate the structure of the object yourself. I would recommend to follow these tutorials to create an objet (1 to 7): [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 
 Note also that a customizable door is already available in Webots: [https://cyberbotics.com/doc/guide/object-apartment-structure#door](https://cyberbotics.com/doc/guide/object-apartment-structure#door)
@@ -935,7 +935,7 @@ oh lordy 😅
 
 I'll give it a try
 
-##### ContrastNull 05/13/2020 16:43:42
+##### Sanket Khadse 05/13/2020 16:43:42
 Hey, could you tell me how to multi-select things in scene-tree? 
 
 I can't find a way to. I imported a VRML97 model into Webots, the model was quite large, and it's difficult to select, cut and paste each 'transform' object into a robot node's children attribute.
@@ -943,7 +943,7 @@ I can't find a way to. I imported a VRML97 model into Webots, the model was quit
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/13/2020 16:44:11
 Unfortunately, this is not possible.
 
-##### ContrastNull 05/13/2020 16:45:26
+##### Sanket Khadse 05/13/2020 16:45:26
 Oh, thank you for letting me know!
 
 Keep it as a suggestion for the next update. 😄
@@ -951,11 +951,11 @@ Keep it as a suggestion for the next update. 😄
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/13/2020 16:47:12
 Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 
-##### ContrastNull 05/13/2020 17:11:36
+##### Sanket Khadse 05/13/2020 17:11:36
 `@Simon Steinmann` that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/13/2020 18:04:16
-`@ContrastNull`  perhaps direct .proto file edit can help
+`@Sanket Khadse`  perhaps direct .proto file edit can help
 
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Simon Steinmann` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
@@ -981,14 +981,14 @@ Awesome, thank you so much. That makes things easier
 ##### Jesusmd 05/15/2020 01:49:44
 `@David Mansolino` Hi, I am using python, I would like to work with several distance sensors at the same time and comparing their data in console. But instead of obtain the type, I got a number.
 
-##### ContrastNull 05/15/2020 03:02:49
+##### Sanket Khadse 05/15/2020 03:02:49
 Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already available into Webots, or a custom made) moves up and down and shifts constantly in one direction even if no such behaviour is defined in the controller code?
 
 ##### David Mansolino [Cyberbotics] 05/15/2020 04:55:43
 `@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb\_distance\_sensor\_get\_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
 
 
-`@ContrastNull` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
+`@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
 ##### Alfian 05/21/2020 04:09:02
 There is no controller for lock position of the DJI Mavic 2 Pro
@@ -1014,13 +1014,13 @@ Thanks in advance
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 06:48:43
 Please open an issue on [https://github.com/cyberbotics/urdf2webots/issues/new](https://github.com/cyberbotics/urdf2webots/issues/new) and upload your URDF file as a ZIP file.
 
-##### ContrastNull 05/22/2020 13:18:06
+##### Sanket Khadse 05/22/2020 13:18:06
 Hey, I was trying to simulate a world on a HTTP web page. But I couldn't link the controller to the world. I can only move the viewpoint. How should I link the controllers to that file? So that the robots in my simulation should work.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 14:27:44
 If your robots move in Webots, they should also move in the web view. Don't they?
 
-##### ContrastNull 05/22/2020 15:28:54
+##### Sanket Khadse 05/22/2020 15:28:54
 `@Olivier Michel` you see, no other option or window opens. neither the drone moves. But in webots, it moves. Any suggestions?
 %figure
 ![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
@@ -1035,13 +1035,13 @@ Do you want to export an animation or to stream a live simulation?
 
 Please refer to the user guide: [https://cyberbotics.com/doc/guide/web-interface](https://cyberbotics.com/doc/guide/web-interface)
 
-##### ContrastNull 05/22/2020 15:37:09
+##### Sanket Khadse 05/22/2020 15:37:09
 Yes, I have already read it. I need to simulate my world on a web browser using HTML file. I mean anyone with the file can open the simulation on the web. Server streaming or already recorded animation isn't the case.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 15:41:18
 Exporting a to HTML will simply export a static scene (no motion), so you probably want to either export an animation or stream a live simulation?
 
-##### ContrastNull 05/22/2020 15:45:40
+##### Sanket Khadse 05/22/2020 15:45:40
 So could you tell me how can I make this static scene to moving? (by using my controller code of course).
 
 No, as I said, its none of these two cases.
@@ -1049,7 +1049,7 @@ No, as I said, its none of these two cases.
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 15:46:11
 This is not possible.
 
-##### ContrastNull 05/22/2020 15:50:50
+##### Sanket Khadse 05/22/2020 15:50:50
 `@Olivier Michel` , would you please take a look at this. So it will be easy to help me out.
 
 [http://www.aerialroboticscompetition.org/assets/downloads/simulation\_challenge\_rules\_1.1.pdf](http://www.aerialroboticscompetition.org/assets/downloads/simulation_challenge_rules_1.1.pdf)
@@ -1059,13 +1059,13 @@ Go for " Challenge Rules - 1 ".
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 16:00:06
 Are you a competitor or an organizer/developer of this contest?
 
-##### ContrastNull 05/22/2020 16:01:57
+##### Sanket Khadse 05/22/2020 16:01:57
 I am a competitor, sir.
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/22/2020 16:02:54
 OK, then you should probably run Webots in the cloud and stream your simulation to the web.
 
-##### ContrastNull 05/22/2020 16:03:44
+##### Sanket Khadse 05/22/2020 16:03:44
 Alright, thank you for your understanding!
 
 ##### hrsh12 05/24/2020 21:21:56
@@ -1616,7 +1616,7 @@ what do u think
 
 where is the problem
 
-##### ContrastNull 07/07/2020 04:53:42
+##### Sanket Khadse 07/07/2020 04:53:42
 I was trying to see what's inside this - "Visual\_tracking.wbt" sample world inside Webots. Unfortunately I didn't found a github link to the file for reference, but this screenshot should be helpful.
 
 My question was, how does the RubberDuck move? I noticed it has an immersion properties node, with fluid name - "water". But I don't see any fluid node in the scene tree. Also there's no controller code, for it's movement.
@@ -1633,7 +1633,7 @@ Any explanation please?
 
 > Any explanation please?
 
-`@ContrastNull` here is the link: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual\_tracking](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual_tracking)
+`@Sanket Khadse` here is the link: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual\_tracking](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual_tracking)
 
 The duck is moved by with a Supervisor, here is the controller of the Supervisor: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking\_benchmark/visual\_tracking\_benchmark.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking_benchmark/visual_tracking_benchmark.py)
 
@@ -2411,13 +2411,13 @@ I wonder if the link-setup information could be extracted straight from the prot
 
 > **Attachment**: [ik3.mp4](https://cdn.discordapp.com/attachments/565155651395780609/744971358995349504/ik3.mp4)
 
-##### Dennet 08/17/2020 19:31:23
+##### Albens Gladius 08/17/2020 19:31:23
 > I wonder if the link-setup information could be extracted straight from the protofile. Then it would truly be an universal controller, that wouldn't need any adjustments between robot arms
 
 `@Simon Steinmann` where did you upload the controller?
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 08/17/2020 19:36:55
-`@Dennet` have not uploaded it yet
+`@Albens Gladius` have not uploaded it yet
 
 
 do you need help with IK?
@@ -7249,7 +7249,7 @@ Thanks `@Darko Lukić` , can't do it now but I'll try just rotating the inertial
 
 `@DrVoodoo` It seems inconsistent, but it is done to better match OpenCV convention which is important in case of Camera, Lidar and RangeFinder.
 
-##### udits 11/03/2020 10:13:02
+##### Srivastav\_Udit 11/03/2020 10:13:02
 Hi! I'm new to using Webots and I am supposed to import a robot (.STL file) from Fusion360. I managed to import the 3D model but I am unsure on how I should proceed to define the joints and write the controller to get the robot moving.
 
 ##### DrVoodoo [Moderator] 11/03/2020 10:35:21
@@ -7302,13 +7302,13 @@ const std::array<double,9> matrix
 ```
 
 
-`@udits` can you give some more details. what sort of robot, have you imported as a single object or as individual parts?
+`@Srivastav_Udit` can you give some more details. what sort of robot, have you imported as a single object or as individual parts?
 
-##### udits 11/03/2020 10:56:57
+##### Srivastav\_Udit 11/03/2020 10:56:57
 `@DrVoodoo` It's a small robot aimed at swarm robotic applications. I'm importing it as a single object but all the joints connecting the individual components are already defined in Fusion360 before saving as a .STL file
 
 ##### MumsDad 11/03/2020 11:06:21
-`@udits` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
+`@Srivastav_Udit` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
 
 
 
@@ -7318,7 +7318,7 @@ read up on what stl actually is, it is simply a file format which saves your geo
 
 [https://www.youtube.com/watch?v=s151UClAnEk](https://www.youtube.com/watch?v=s151UClAnEk)
 
-##### udits 11/03/2020 11:09:29
+##### Srivastav\_Udit 11/03/2020 11:09:29
 `@MumsDad` Thanks! I'll have a look and let you know how it goes!
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 11/03/2020 14:29:19
@@ -7673,7 +7673,7 @@ Yes. However, we are not yet at this point, but that's on the roadmap.
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 11/20/2020 13:50:01
 Awesome! Happy to hear that 🙂
 
-##### udits 11/24/2020 14:14:13
+##### Srivastav\_Udit 11/24/2020 14:14:13
 Hi, I have imported a robot from Fusion360 to Webots but I am having difficulty defining hinge joints and getting it to move using my controller code. I had defined rigid joints and revolute joints in Fusion360 as well.
 
 
@@ -7685,13 +7685,13 @@ I am facing this issue even after defining the hinge joint in Webots.
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 11/24/2020 14:18:37
 I would recommend you to start building the joint structure of your robot first in Webots (or with a text editor) and add the 3D parts, one-by-one, in a second step. You should probably follow the Webots tutorials from the user guide to understand how to build the joint structure.
 
-##### udits 11/24/2020 14:25:37
+##### Srivastav\_Udit 11/24/2020 14:25:37
 Could you please direct me to this tutorial?
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 11/24/2020 14:27:37
 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) from 1 to 7 at least.
 
-##### udits 11/24/2020 14:28:29
+##### Srivastav\_Udit 11/24/2020 14:28:29
 Thanks, I'll go through these and get back to you.
 
 ## December
@@ -7968,20 +7968,20 @@ will do
 
 Partially figured it out [https://github.com/cyberbotics/webots/issues/2503](https://github.com/cyberbotics/webots/issues/2503)
 
-##### Vu Nam Nguyen 12/06/2020 07:53:23
+##### Steven37 12/06/2020 07:53:23
 Hi, I just want to ask a simple question that how can I attach a sensor, for example, the lidar LMS 291 to a robot existing in Webots, Pioneer3 for instance? Can anyone show me, please?
 
 ##### Whizbuzzer 12/06/2020 07:59:16
 Some robots have an additional spot for that e.g. E-puck has a turret slot where you can add additional nodes. Check out the Pioneer3 documentation
 
-##### Vu Nam Nguyen 12/06/2020 08:16:26
+##### Steven37 12/06/2020 08:16:26
 I saw this picture in the pioneer3's document so how can I attach the lidar like that?
 %figure
 ![pioneer3at_avoidance.png](https://cdn.discordapp.com/attachments/565155651395780609/785057048277811200/pioneer3at_avoidance.png)
 %end
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/06/2020 13:39:18
-`@Vu Nam Nguyen` select the extensionSlot, click on the plus on top and select whatever you want to attach
+`@Steven37` select the extensionSlot, click on the plus on top and select whatever you want to attach
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138302314610698/unknown.png)
 %end
@@ -7992,7 +7992,7 @@ you can use the "Find" function in the top right of the window to search for "li
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785138891249811456/unknown.png)
 %end
 
-##### Vu Nam Nguyen 12/06/2020 13:50:21
+##### Steven37 12/06/2020 13:50:21
 `@Simon Steinmann` thank you so so much!
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/07/2020 11:18:48

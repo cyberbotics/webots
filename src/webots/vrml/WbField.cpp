@@ -78,6 +78,14 @@ WbField::~WbField() {
   mModel->unref();
 }
 
+void WbField::listenToValueSizeChanges() const {
+  if (isSingle())
+    return;
+  const WbMultipleValue *mf = static_cast<WbMultipleValue *>(mValue);
+  connect(mf, &WbMultipleValue::itemRemoved, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
+  connect(mf, &WbMultipleValue::itemInserted, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
+}
+
 const QString &WbField::name() const {
   return mModel->name();
 }

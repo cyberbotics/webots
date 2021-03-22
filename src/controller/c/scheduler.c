@@ -47,10 +47,8 @@ GPipe *scheduler_pipe = NULL;
 
 int scheduler_init(const char *pipe) {
   scheduler_pipe = g_pipe_new(pipe);
-  if (scheduler_pipe == NULL) {
-    fprintf(stderr, "Cannot connect to Webots on pipe: %s\n", pipe);
+  if (scheduler_pipe == NULL)
     return false;
-  }
   // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
   char pipe_buffer[64];
 #ifdef _WIN32

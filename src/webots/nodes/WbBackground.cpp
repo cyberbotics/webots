@@ -415,11 +415,12 @@ void WbBackground::applyColorToWren(const WbRgb &color) {
 bool WbBackground::loadTexture(int i) {
   if (mTexture[i])
     return true;
+  const int urlFieldIndex = gCoordinateSystemSwap(i);
   QString url;
   QIODevice *device;
 
   if (mDownloader[i]) {
-    url = mUrlFields[i]->item(0);
+    url = mUrlFields[urlFieldIndex]->item(0);
     if (!mDownloader[i]->error().isEmpty()) {
       warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
       delete mDownloader[i];
@@ -429,11 +430,11 @@ bool WbBackground::loadTexture(int i) {
     assert(mDownloader[i]->device());
     device = mDownloader[i]->device();
   } else {
-    if (mUrlFields[i]->size() == 0)
+    if (mUrlFields[urlFieldIndex]->size() == 0)
       return false;
-    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[i]->item(0), false);
+    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[urlFieldIndex]->item(0), false);
     if (url == WbUrl::missingTexture() || url.isEmpty()) {
-      warn(tr("Texture not found: '%1'").arg(mUrlFields[i]->item(0)));
+      warn(tr("Texture not found: '%1'").arg(mUrlFields[urlFieldIndex]->item(0)));
       return false;
     }
     device = new QFile(url);

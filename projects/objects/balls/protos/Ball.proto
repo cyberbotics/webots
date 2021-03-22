@@ -5,8 +5,8 @@
 # You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 PROTO Ball [
-  field SFVec3f    translation     0 0.0325 0
-  field SFRotation rotation        0 1 0 0
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "ball"
   field SFColor    color           1.0 0.54 0.08  # Defines the color of the ball.
   field SFFloat    radius          0.0325         # Defines the radius of the ball.

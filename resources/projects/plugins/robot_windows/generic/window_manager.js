@@ -1,4 +1,4 @@
-/* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget */
+/* global DeviceWidget, TimeplotWidget, PlotWidget, RadarWidget, Canvas */
 /* exported menuTabCallback */
 /* exported openMenu */
 /* exported closeMenu */
@@ -7,11 +7,17 @@
 /* exported parseJSONMessage */
 /* exported enableAllDevicesCallback */
 /* exported setupWindow */
+/* exported refreshSelectedTab */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var windowIsHidden;
+var selectedDeviceType = null;
 
 function menuTabCallback(deviceType) {
+  if (document.getElementById(deviceType + '-section').style.display === 'block')
+    // tab already selected
+    return;
+
   let i, x, tablinks;
   x = document.getElementsByClassName('devices-container');
   for (i = 0; i < x.length; ++i)
@@ -21,33 +27,48 @@ function menuTabCallback(deviceType) {
     tablinks[i].className = tablinks[i].className.replace(' menu-button-selected', '');
   document.getElementById(deviceType + '-section').style.display = 'block';
   document.getElementById(deviceType + '-menu-button').className += ' menu-button-selected';
+  selectedDeviceType = deviceType;
 
-  // force widgets refresh when they are shown.
-  Object.keys(window.widgets).forEach(function(deviceName) {
-    const widget = window.widgets[deviceName];
-    if (widget && widget.device.type === deviceType)
-      widget.refresh();
+  // Clear canvas
+  // Plots will be refreshed when the animation is over
+  const canvas = new Canvas();
+  canvas.clearCanvas();
+}
+
+function refreshSelectedTab() {
+  const tabWidgets = window.widgets[selectedDeviceType];
+  Object.keys(tabWidgets).forEach(function(deviceName) {
+    tabWidgets[deviceName].refresh();
   });
+};
+
+function updateTabCallback() {
+  const canvas = new Canvas();
+  canvas.resizeCanvas();
+  if (selectedDeviceType) {
+    const tabWidgets = widgets[selectedDeviceType];
+    Object.keys(tabWidgets).forEach(function(deviceName) {
+      const widget = tabWidgets[deviceName];
+      if (widget) {
+        widget.resize();
+        widget.refresh(true);
+      }
+    });
+  }
 }
 
 function openMenu() {
   document.getElementById('menu').style.display = 'flex';
   document.getElementById('menu-open-button').style.display = 'none';
   document.getElementById('content').style.marginLeft = document.getElementById('menu').offsetWidth + 'px';
-  resizeWidgets();
+  updateTabCallback();
 }
 
 function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
-  resizeWidgets();
-}
-
-function resizeWidgets() {
-  Object.keys(window.widgets).forEach(function(deviceName) {
-    window.widgets[deviceName].resize();
-  });
+  updateTabCallback();
 }
 
 function appendNewElement(id, newElement) {
@@ -81,7 +102,7 @@ function addTab(type, isDevice, deviceSwitch) {
   } else
     buttonsDiv = '';
 
-  appendNewElement('content',
+  const section = appendNewElement('content',
     '<div id="' + type + '-section" class="devices-container animate-left">' +
       '<h1>' + type + '</h1>' + buttonsDiv +
       '<section id="' + type + '-layout" class="devices-layout"/>' +
@@ -90,6 +111,10 @@ function addTab(type, isDevice, deviceSwitch) {
   appendNewElement('menu',
     '<button id="' + type + '-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'' + type + '\')">' + type + '</button>'
   );
+
+  section.addEventListener('webkitAnimationEnd', updateTabCallback, false);
+  section.addEventListener('animationend', updateTabCallback, false);
+  section.addEventListener('oanimationend', updateTabCallback, false);
 }
 
 function setDeviceModeCallback(_checkbox, _deviceType) {
@@ -97,9 +122,16 @@ function setDeviceModeCallback(_checkbox, _deviceType) {
 }
 
 function enableAllDevicesCallback(deviceType, enabled) {
-  Object.keys(window.widgets).forEach(function(deviceName) {
-    if (!deviceType || window.widgets[deviceName].device.type === deviceType)
-      window.widgets[deviceName].enable(enabled);
+  if (deviceType) {
+    Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+      window.widgets[deviceType][deviceName].enable(enabled);
+    });
+    return;
+  }
+  Object.keys(window.widgets).forEach(function(deviceType) {
+    Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+      window.widgets[deviceType][deviceName].enable(enabled);
+    });
   });
 };
 
@@ -178,6 +210,9 @@ function setupWindow() {
     windowIsHidden = document.visibilityState === 'hidden';
     window.robotWindow.send('window ' + (windowIsHidden ? 'hidden' : 'visible'));
   });
+
+  window.addEventListener('resize', updateTabCallback);
+  window.addEventListener('scroll', updateTabCallback);
 }
 
 function alphabetical(a, b) {

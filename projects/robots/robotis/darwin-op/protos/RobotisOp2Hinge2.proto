@@ -1,0 +1,67 @@
+#VRML_SIM R2021b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/robotis-op2
+# ROBOTIS OP2 is an open platform, miniature humanoid robot used for research, education and outreach
+# The model contains principally:
+# - the 20 DOF
+# - LEDs
+# - accelerometer
+# - gyro
+# - camera
+# - realistic physics
+
+PROTO RobotisOp2Hinge2 [
+  field SFVec3f    translation     0 0 0                  # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0                # Is `Transform.rotation`.
+  field SFString   name            "ROBOTIS OP2 Hinge2"   # Is `Solid.name`.
+  field SFString   controller      "motion_player"        # Is `Robot.controller`.
+  field MFString   controllerArgs  []                     # Is `Robot.controllerArgs`.
+  field SFString   customData      ""                     # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE                  # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE                   # Is `Robot.synchronization`.
+  field SFBool     selfCollision   FALSE                  # Is `Robot.selfCollision`.
+  field SFColor    plasticColor    0.8 0.8 0.8            # Is `Material.plasticColor`.
+  field SFInt32    cameraWidth     160                    # Is `Camera.width`.
+  field SFInt32    cameraHeight    120                    # Is `Camera.height`.
+  field MFFloat    battery         []                     # Is `Robot.battery`.
+  field SFNode     jersey          NULL                   # Extends the robot with a jersey: typically RobotisJersey.proto.
+  field SFInt32    channel         0                      # Defines the channel for the `Emitter` and `Receiver` devices.
+  field SFBool     showWindow      FALSE                  # Is `Robot.showWindow`.
+  field SFBool     backlash        FALSE                  # Enables backlash on all joints.
+  field MFNode     bodySlot        []                     # Extends the robot with new nodes in the body slot.
+  field MFNode     headSlot        []                     # Extends the robot with new nodes in the head slot.
+  field MFNode     leftFootSlot    []                     # Extends the robot with new nodes in the left foot slot.
+  field MFNode     rightFootSlot   []                     # Extends the robot with new nodes in the right foot slot.
+  field MFNode     leftHandSlot    []                     # Extends the robot with new nodes in the left hand slot.
+  field MFNode     rightHandSlot   []                     # Extends the robot with new nodes in the right hand slot.
+]
+{
+  Darwin-opHinge2 {
+    translation     IS translation
+    rotation        IS rotation
+    controller      IS controller
+    controllerArgs  IS controllerArgs
+    customData      IS customData
+    supervisor      IS supervisor
+    synchronization IS synchronization
+    selfCollision   IS selfCollision
+    name            IS name
+    plasticColor    IS plasticColor
+    cameraWidth     IS cameraWidth
+    cameraHeight    IS cameraHeight
+    battery         IS battery
+    jersey          IS jersey
+    channel         IS channel
+    showWindow      IS showWindow
+    backlash        IS backlash
+    bodySlot        IS bodySlot
+    headSlot        IS headSlot
+    leftFootSlot    IS leftFootSlot
+    rightFootSlot   IS rightFootSlot
+    leftHandSlot    IS leftHandSlot
+    rightHandSlot   IS rightHandSlot
+    _model             "ROBOTIS OP2 Hinge2"
+    _description       "ROBOTIS OP2 modeled by Fabien Rohrer and adapted by Daniel Braikeh, modeled using hinge2 joints instead."
+  }
+}
