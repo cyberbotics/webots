@@ -107,7 +107,7 @@ void WbSingleTaskApplication::convertProto() const {
 
     cout << tr("  field %1 [%2] = %3")
               .arg(field->name())
-              .arg(field->stringType())
+              .arg(field->value()->vrmlTypeName())
               .arg(field->value()->toString())
               .toUtf8()
               .constData()
