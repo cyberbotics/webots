@@ -66,7 +66,7 @@ void WbSingleTaskApplication::convertProto() const {
   cliParser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
   cliParser.addOption(QCommandLineOption("p", "Override default PROTO parameters.", "parameter=value"));
   cliParser.process(mTaskArguments);
-  QStringList positionalArguments = cliParser.positionalArguments();
+  const QStringList positionalArguments = cliParser.positionalArguments();
   if (positionalArguments.size() != 2)
     cliParser.showHelp(1);
 
