@@ -26,6 +26,7 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-x86_64-libzip"   # Robotis OP2 robot window
   "mingw-w64-x86_64-boost"    # to recompile ROS controller
   "mingw-w64-x86_64-cmake"    # Thymio II dashel library
+  "mingw-w64-x86_64-protobuf" # Robocup player controller
   "mingw-w64-i686-gcc"        # libController (32 bit)
 )
 
