@@ -139,7 +139,7 @@ void WbHingeJoint::applyToOdeStopErp() {
 
   const WbHingeJointParameters *const p = hingeJointParameters();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const double erp = p ? p->stopErp() : wi->erp();
+  const double erp = (p && p->stopErp() != -1) ? p->stopErp() : wi->erp();
 
   if (nodeType() == WB_NODE_HINGE_JOINT)
     dJointSetHingeParam(mJoint, dParamStopERP, erp);
@@ -150,7 +150,7 @@ void WbHingeJoint::applyToOdeStopCfm() {
 
   const WbHingeJointParameters *const p = hingeJointParameters();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const double cfm = p ? p->stopCfm() : wi->cfm();
+  const double cfm = (p && p->stopCfm() != -1) ? p->stopCfm() : wi->cfm();
 
   if (nodeType() == WB_NODE_HINGE_JOINT)
     dJointSetHingeParam(mJoint, dParamStopCFM, cfm);
