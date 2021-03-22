@@ -52,7 +52,7 @@ RobocupSoccerBall {
 DEF RED_1 Darwin-opHinge2 {
   translation 6.51 0 0.24
   rotation 5.25424e-07 -1.21381e-06 1 3.14159
-  name "player red 1"
+  name "red player 1"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 640
@@ -64,7 +64,7 @@ DEF RED_1 Darwin-opHinge2 {
 DEF RED_2 Darwin-opHinge2 {
   translation 1.75 0 0.24
   rotation 5.25424e-07 -1.21381e-06 1 3.14159
-  name "player red 2"
+  name "red player 2"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 640
@@ -79,7 +79,7 @@ DEF RED_2 Darwin-opHinge2 {
 DEF BLUE_1 Darwin-opHinge2 {
   translation -6.51 0 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 1"
+  name "blue player 1"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 640
@@ -94,7 +94,7 @@ DEF BLUE_1 Darwin-opHinge2 {
 DEF BLUE_2 Darwin-opHinge2 {
   translation -1.75 0 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 2"
+  name "blue player 2"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 640

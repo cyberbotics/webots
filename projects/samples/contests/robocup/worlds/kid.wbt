@@ -52,7 +52,7 @@ RobocupSoccerBall {
 DEF RED_1 Darwin-opHinge2 {
   translation 4 0 0.24
   rotation 5.25424e-07 -1.21381e-06 1 3.14159
-  name "player red 1"
+  name "red player 1"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -64,7 +64,7 @@ DEF RED_1 Darwin-opHinge2 {
 DEF RED_2 Darwin-opHinge2 {
   translation 2.5 0 0.24
   rotation 5.25424e-07 -1.21381e-06 1 3.14159
-  name "player red 2"
+  name "red player 2"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -79,7 +79,7 @@ DEF RED_2 Darwin-opHinge2 {
 DEF RED_3 Darwin-opHinge2 {
   translation 0.8 -0.5 0.24
   rotation -6.897009999981874e-08 -2.291579999993978e-06 0.9999999999973721 3.14159
-  name "player red 3"
+  name "red player 3"
   controller "player"
   selfCollision TRUE
   cameraWidth 320
@@ -94,7 +94,7 @@ DEF RED_3 Darwin-opHinge2 {
 DEF RED_4 Darwin-opHinge2 {
   translation 0.8 0.5 0.24
   rotation 5.25424e-07 -1.21381e-06 1 3.14159
-  name "player red 4"
+  name "red player 4"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -109,7 +109,7 @@ DEF RED_4 Darwin-opHinge2 {
 DEF BLUE_1 Darwin-opHinge2 {
   translation -4 0 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 1"
+  name "blue player 1"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -124,7 +124,7 @@ DEF BLUE_1 Darwin-opHinge2 {
 DEF BLUE_2 Darwin-opHinge2 {
   translation -2.5 0 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 2"
+  name "blue player 2"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -139,7 +139,7 @@ DEF BLUE_2 Darwin-opHinge2 {
 DEF BLUE_3 Darwin-opHinge2 {
   translation -0.8 -0.5 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 3"
+  name "blue player 3"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
@@ -154,7 +154,7 @@ DEF BLUE_3 Darwin-opHinge2 {
 DEF BLUE_4 Darwin-opHinge2 {
   translation -0.8 0.5 0.24
   rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
-  name "player blue 4"
+  name "blue player 4"
   controller "soccer"
   selfCollision TRUE
   cameraWidth 320
