@@ -289,52 +289,6 @@ WbFieldType WbField::singleType() const {
   return mValue->singleType();
 }
 
-QString WbField::stringType() const {
-  switch (mValue->type()) {
-    case WB_NO_FIELD:
-      return "WB_NO_FIELD";
-    case WB_SF_BOOL:
-      return "WB_SF_BOOL";
-    case WB_SF_INT32:
-      return "WB_SF_INT32";
-    case WB_SF_FLOAT:
-      return "WB_SF_FLOAT";
-    case WB_SF_VEC2F:
-      return "WB_SF_VEC2F";
-    case WB_SF_VEC3F:
-      return "WB_SF_VEC3F";
-    case WB_SF_ROTATION:
-      return "WB_SF_ROTATION";
-    case WB_SF_COLOR:
-      return "WB_SF_COLOR";
-    case WB_SF_STRING:
-      return "WB_SF_STRING";
-    case WB_SF_NODE:
-      return "WB_SF_NODE";
-    case WB_MF:
-      return "WB_MF";
-    case WB_MF_BOOL:
-      return "WB_MF_BOOL";
-    case WB_MF_INT32:
-      return "WB_MF_INT32";
-    case WB_MF_FLOAT:
-      return "WB_MF_FLOAT";
-    case WB_MF_VEC2F:
-      return "WB_MF_VEC2F";
-    case WB_MF_VEC3F:
-      return "WB_MF_VEC3F";
-    case WB_MF_ROTATION:
-      return "WB_MF_ROTATION";
-    case WB_MF_COLOR:
-      return "WB_MF_COLOR";
-    case WB_MF_STRING:
-      return "WB_MF_STRING";
-    case WB_MF_NODE:
-      return "WB_MF_NODE";
-  }
-  return "";
-}
-
 bool WbField::isMultiple() const {
   return mModel->isMultiple();
 }
