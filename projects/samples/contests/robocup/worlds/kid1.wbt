@@ -1,0 +1,66 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (kid size)"
+    "Version 0.2"
+  ]
+  title "Robocup V-HL Kid"
+  basicTimeStep 8
+  optimalThreadCount 8
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.03
+    }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      bounce 0.76
+      softCFM 0.05
+    }
+    ContactProperties {
+      material2 "robocup soccer ball"
+      bounce 0.76
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.8938498316033444 -0.2697810913064417 -0.35812098698090605 1.4005817359063022
+  position -8.658964597484593 -10.448717096347492 4.001015029323764
+}
+TexturedBackground {
+  texture "stadium_dry"
+}
+TexturedBackgroundLight {
+  texture "stadium_dry"
+}
+RobocupSoccerField {
+  size "kid"
+}
+RobocupSoccerBall {
+  translation 0 0 0.08
+}
+DEF RED_3 Darwin-opHinge2 {
+  translation 0.8 -0.5 0.24
+  rotation -6.897009999981874e-08 -2.291579999993978e-06 0.9999999999973721 3.14159
+  name "red player 3"
+  controller "player"
+  selfCollision TRUE
+  cameraWidth 320
+  cameraHeight 240
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_3_red.png"
+    ]
+  }
+  backlash TRUE
+}
