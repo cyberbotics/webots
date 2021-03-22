@@ -401,10 +401,9 @@ TimeplotWidget.prototype.adaptRange = function(y, values) {
   }
   const delta = Math.abs(this.initialYRange['max'] - this.initialYRange['min']);
   let halfOffset = 0;
-  if (Math.abs(max - min) < delta) {
-    // Minimum size of range is defined by the initial values.
-    halfOffset = (delta - max + min) * 0.5;
-  } else if (y > this.yRange['max'])
+  if (Math.abs(max - min) < delta)
+    halfOffset = (delta - max + min) * 0.5; // Minimum size of range is defined by the initial values.
+  else if (y > this.yRange['max'])
     max += 0.05 * delta; // Add small offset to make the value visible in the graph and try to slightly reduce plot redraws.
   else if (y < this.yRange['min'])
     min -= 0.05 * delta; // Add small offset to make the value visible in the graph and try to slightly reduce plot redraws.
