@@ -142,7 +142,7 @@ void WbSingleTaskApplication::convertProto() const {
   else {
     QFile file(outputFile);
     if (!file.open(QIODevice::WriteOnly)) {
-      cout << tr("Cannot open the file!\n").toUtf8().constData();
+      cerr << tr("Cannot open the file!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
     file.write(output.toUtf8());
