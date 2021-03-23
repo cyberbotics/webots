@@ -139,9 +139,6 @@ PROTO SimpleStairs [
    -- load lua-gd module and create a uniform texture
    local gd = require("gd")
    local debug = require("debug")
-   local os = require('os')
-   local wbrandom = require('wbrandom')
-   wbrandom.seed(os.clock() + os.time())
    local im = gd.createTrueColor(128, 128)
    color = im:colorAllocate(fields.color.value.r * 255, fields.color.value.g * 255, fields.color.value.b * 255)
    im:filledRectangle(0, 0, 127, 127, color)
@@ -151,7 +148,7 @@ PROTO SimpleStairs [
    im:stringFT(textColor, "Arial", 20, 0, 5, 60, fields.text.value)
    -- save the image in a png file
    local name = debug.getinfo(1,'S').source  -- get the name of the current file
-   name = name .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+   name = name .. context.id  -- prevent name clashes
    local i = 0  -- make sure the file does not already exist
    local file = io.open(name .. i .. ".png", "r")
    while file do

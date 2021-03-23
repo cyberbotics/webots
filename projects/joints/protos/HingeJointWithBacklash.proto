@@ -15,10 +15,6 @@ PROTO HingeJointWithBacklash [
 ]
 {
   %{
-    -- load modules
-    local os = require('os')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(os.clock() + os.time())
     -- parameter retrieval
     local axis = fields.jointParameters.value.fields.axis.value
     local anchor = fields.jointParameters.value.fields.anchor.value
@@ -49,7 +45,7 @@ PROTO HingeJointWithBacklash [
       endPoint IS endPoint
     %{ else }%
       endPoint Solid {
-        name %{='"start_point_'..wbrandom.integer(0, 100000)..'"'}% # prevent name clashes
+        name %{='"start_point_' .. context.id .. '"'}% # prevent name clashes
         children [
           %{ if fields.startPoint.value ~= nil then}%
           Group {
