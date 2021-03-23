@@ -16,6 +16,10 @@
 #else
 #include <jpeglib.h>
 #endif
+#include <assert.h>
+
+#include <google/protobuf/text_format.h>
+
 #include <webots/Accelerometer.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Gyro.hpp>
@@ -179,15 +183,33 @@ int main(int argc, char *argv[]) {
       int number = select(client_fd + 1, &rfds, NULL, NULL, &tv);
       if (number) {  // some data is available from the socket
         char data[256];
-        int n = recv(client_fd, data, 256, 0);
-        if (n < 0) {
+        int n = recv(client_fd, data, sizeof(int), 0);
+        if (n <= 0) {
           printf("Closed connection\n");
           close_socket(client_fd);
           client_fd = -1;
         } else {
-          data[n] = '\0';
-          printf("Received %d bytes: %s\n", n, data);
-          send(client_fd, "OK", 3, 0);
+          assert(n == sizeof(int));
+          int l = ntohl(*((int *)data));
+          printf("packet size = %d %d\n", l, n);
+          MotorPosition motorPosition;
+          // motorPosition.ParseFromFileDescriptor(client_fd);
+          int n = recv(client_fd, data, l, 0);
+          assert(n == l);
+          if (n <= 0) {
+            printf("Broke connection\n");
+            close_socket(client_fd);
+            client_fd = -1;
+          } else {
+            data[n] = '\0';
+            printf("Received %d bytes\n", n);
+            ActuatorRequests actuatorRequests;
+            actuatorRequests.ParseFromArray(data, n);
+            std::string output;
+            google::protobuf::TextFormat::PrintToString(actuatorRequests, &output);
+            std::cout << output << std::endl;
+            send(client_fd, "OK", 3, 0);
+          }
         }
       }
     }

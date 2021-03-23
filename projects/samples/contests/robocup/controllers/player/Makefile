@@ -25,17 +25,21 @@ INCLUDE = -I"$(RESOURCES_PATH)/libraries/managers/include" -I"$(RESOURCES_PATH)/
 LIBRARIES = -L"$(RESOURCES_PATH)/libraries/robotis-op2" -lrobotis-op2 -L"$(RESOURCES_PATH)/libraries/managers" -lmanagers -lprotobuf -ljpeg -lturbojpeg
 CXX_SOURCES = player.cpp messages.pb.cpp
 FILES_TO_REMOVE = messages.pb.* client.exe client
-
 ifeq ($(OS),Windows_NT)
 # on Windows, need to link with WinSock2
 LIBRARIES += -lws2_32
+endif
+ifeq ($(MAKECMDGOALS),)
+GOAL = release
+else
+GOAL := $(MAKECMDGOALS)
 endif
 
 defaut: release
 
 release debug profile: clients
 
-clients: build/$(MAKECMDGOALS)/messages.pb.o
+clients: build/$(GOAL)/messages.pb.o
 	$(MAKE) -f Makefile.client $(MAKECMDGOALS)
 
 messages.pb.cpp message.pb.h:	messages.proto

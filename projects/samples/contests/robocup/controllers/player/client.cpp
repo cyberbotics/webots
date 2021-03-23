@@ -107,11 +107,21 @@ int main(int argc, char *argv[]) {
     if (strncmp(buffer, "exit", 4) == 0)
       break;
     int n = strlen(buffer);
-    buffer[n] = '\0';
-    MotorPosition motorPosition;
-    motorPosition.set_name("toto");
-    motorPosition.set_position(1.0);
-    send(fd, buffer, n - 1, 0);
+    if (buffer[n - 1] == '\n')
+      buffer[n - 1] = '\0';
+    else
+      buffer[n] = '\0';
+    ActuatorRequests actuatorRequests;
+    MotorPosition *motorPosition = actuatorRequests.add_motor_position();
+    motorPosition->set_name(buffer);
+    motorPosition->set_position(1.0);
+    int size = actuatorRequests.ByteSizeLong();
+    char *output = (char *)malloc(sizeof(int) + size);
+    int *output_size = (int *)output;
+    *output_size = htonl(size);
+    actuatorRequests.SerializeToArray(&output[sizeof(int)], size);
+    // should use SerializeToFileDescriptor instead.
+    send(fd, output, sizeof(int) + size, 0);
     n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';
     printf("Answer is: %s\n", buffer);
