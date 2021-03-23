@@ -31,7 +31,6 @@ PROTO RandomBuilding [
   %{
     local wbcore = require('wbcore')
     local wbrandom = require('wbrandom')
-
     local wallTypes = {
       "glass building",
       "classic building",
