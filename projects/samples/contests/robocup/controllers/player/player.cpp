@@ -207,6 +207,14 @@ int main(int argc, char *argv[]) {
             actuatorRequests.ParseFromArray(data, n);
             std::string output;
             google::protobuf::TextFormat::PrintToString(actuatorRequests, &output);
+            for (int i = 0; i < actuatorRequests.motor_position_size(); i++) {
+              const MotorPosition motorPosition = actuatorRequests.motor_position(i);
+              webots::Motor *motor = robot->getMotor(motorPosition.name());
+              if (motor)
+                motor->setPosition(motorPosition.position());
+              else
+                fprintf(stderr, "Motor \"%s\" not found.\n", motorPosition.name().c_str());
+            }
             std::cout << output << std::endl;
             send(client_fd, "OK", 3, 0);
           }

@@ -32,6 +32,9 @@
 #include <unistd.h>
 #endif
 
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/text_format.h>
+
 #include "messages.pb.h"
 
 static void close_socket(int fd) {
@@ -40,6 +43,23 @@ static void close_socket(int fd) {
 #else
   close(fd);
 #endif
+}
+
+static char *read_file(const char *filename) {
+  char *buffer = NULL;
+  FILE *fp = fopen(filename, "r");
+  if (!fp)
+    return NULL;
+  if (fseek(fp, 0L, SEEK_END) == 0) {
+    const long size = ftell(fp);
+    assert(size != -1);
+    buffer = (char *)malloc(sizeof(char) * (size + 1));
+    fseek(fp, 0L, SEEK_SET);
+    const size_t len = fread(buffer, sizeof(char), size, fp);
+    buffer[len] = '\0';
+  }
+  fclose(fp);
+  return buffer;
 }
 
 int main(int argc, char *argv[]) {
@@ -101,28 +121,28 @@ int main(int argc, char *argv[]) {
   }
   printf("Connected %s:%d\n", host, port);
   for (;;) {
-    printf("Enter command: ");
-    fflush(stdout);
-    fgets(buffer, sizeof(buffer), stdin);
-    if (strncmp(buffer, "exit", 4) == 0)
-      break;
-    int n = strlen(buffer);
-    if (buffer[n - 1] == '\n')
-      buffer[n - 1] = '\0';
-    else
-      buffer[n] = '\0';
+    const char *message = read_file("actuator_requests.txt");
+    printf("Message = %s\n", message);
+
     ActuatorRequests actuatorRequests;
-    MotorPosition *motorPosition = actuatorRequests.add_motor_position();
-    motorPosition->set_name(buffer);
-    motorPosition->set_position(1.0);
+    google::protobuf::TextFormat::ParseFromString(message, &actuatorRequests);
+#ifndef _WIN32
+    // This doesn't work on Windows, we should implement SocketOutputStream to make it work efficiently on Windows
+    // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
+    int size = htonl(actuatorRequests.ByteSizeLong());
+    send(fd, (char *)(&size), sizeof(int), 0);
+    google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream = new google::protobuf::io::FileOutputStream(fd);
+    actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream);
+    delete zeroCopyStream;
+#else  // here we make a useless copy
     int size = actuatorRequests.ByteSizeLong();
     char *output = (char *)malloc(sizeof(int) + size);
     int *output_size = (int *)output;
     *output_size = htonl(size);
     actuatorRequests.SerializeToArray(&output[sizeof(int)], size);
-    // should use SerializeToFileDescriptor instead.
     send(fd, output, sizeof(int) + size, 0);
-    n = recv(fd, buffer, 256, 0);
+#endif
+    const int n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';
     printf("Answer is: %s\n", buffer);
   }
