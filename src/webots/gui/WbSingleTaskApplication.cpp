@@ -91,7 +91,7 @@ void WbSingleTaskApplication::convertProto() const {
   for (QString param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
-      cout << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
     userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
