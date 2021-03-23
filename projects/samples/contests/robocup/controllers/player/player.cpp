@@ -71,7 +71,7 @@ static int create_socket_server(int port) {
   /* initialize the socket api */
   WSADATA info;
 
-  rc = WSAStartup(MAKEWORD(1, 1), &info); /* Winsock 1.1 */
+  rc = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
   if (rc != 0) {
     printf("cannot initialize Winsock\n");
     return -1;

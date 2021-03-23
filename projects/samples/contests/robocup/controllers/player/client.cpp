@@ -15,12 +15,7 @@
  */
 
 /*
- * Description:  A simple client program to connect to the TCP/IP server thanks to Darren Smith
- */
-
-/*
- * Linux:   compile with gcc -Wall client.c -o client
- * Windows: compile with gcc -Wall -mno-cygwin client.c -o client -lws2_32
+ * Description:  A simple client program to connect to the TCP/IP
  */
 
 #include <stdio.h>
@@ -59,19 +54,19 @@ int main(int argc, char *argv[]) {
       printf("Usage: client <IP:port> or <IP> or <port>\n");
       return 0;
     }
-    char *n = strchr(argv[1], ':');
+    const char *n = strchr(argv[1], ':');
     if (n > 0) {
       port = atoi(n + 1);
-      strncpy(host, argv[1], 255);
+      strncpy(host, argv[1], sizeof(host) - 1);
       host[n - argv[1]] = '\0';
     } else if (strchr(argv[1], '.') || !isdigit(argv[1][0]))
-      strncpy(host, argv[1], 255);
+      strncpy(host, argv[1], sizeof(host) - 1);
     else
       port = atoi(argv[1]);
   }
 #ifdef _WIN32
   WSADATA info;
-  rc = WSAStartup(MAKEWORD(1, 1), &info);  // Winsock 1.1
+  rc = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
   if (rc != 0) {
     fprintf(stderr, "Cannot initialize Winsock\n");
     return 1;
@@ -105,16 +100,13 @@ int main(int argc, char *argv[]) {
     printf("Enter command: ");
     fflush(stdout);
     fgets(buffer, sizeof(buffer), stdin);
-    int n = strlen(buffer);
-    printf("length = %d\n", n);
-    buffer[n++] = '\n';
-    buffer[n] = '\0';
-    n = send(fd, buffer, n, 0);
     if (strncmp(buffer, "exit", 4) == 0)
       break;
+    int n = strlen(buffer);
+    send(fd, buffer, n - 1, 0);
     n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';
-    printf("Answer is: %s", buffer);
+    printf("Answer is: %s\n", buffer);
   }
   close_socket(fd);
   return 0;

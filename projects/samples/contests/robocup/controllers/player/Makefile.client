@@ -1,18 +1,18 @@
 ifeq ($(OS),Windows_NT)
 TARGET = client.exe
-LIBS=-lws2_32
-CC=gcc
+LIBS = -lws2_32
+CXX=g++
 else
 TARGET = client
-LIBS=
+LIBS =
 endif
 
 .PHONY = build release debug profile
 
 build release debug profile: $(TARGET)
 
-$(TARGET): client.c
-	$(CC) $(CFLAGS) $< -o $@ $(LIBS)
+$(TARGET): client.cpp
+	$(CXX) $< -o $@ $(LIBS)
 
 clean:
 	rm -f client.o client client.exe
