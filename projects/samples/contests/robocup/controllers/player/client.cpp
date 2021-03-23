@@ -145,6 +145,7 @@ int main(int argc, char *argv[]) {
     const int n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';
     printf("Answer is: %s\n", buffer);
+    break;
   }
   close_socket(fd);
   return 0;
