@@ -1,6 +1,7 @@
 #VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# tags: static
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall is selected randomly.
 # The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
@@ -30,7 +31,7 @@ PROTO RandomBuilding [
   %{
     local wbcore = require('wbcore')
     local wbrandom = require('wbrandom')
-    wbrandom.seed(context.id)
+
     local wallTypes = {
       "glass building",
       "classic building",
