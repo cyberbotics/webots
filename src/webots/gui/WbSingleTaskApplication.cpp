@@ -62,19 +62,28 @@ void WbSingleTaskApplication::convertProto() const {
   cliParser.setApplicationDescription("Convert a PROTO file to URDF, WBO, or WRL file");
   cliParser.addHelpOption();
   cliParser.addPositionalArgument("input", "Path to the input PROTO file.");
-  cliParser.addPositionalArgument("output", "Path to the output URDF, WBO, or WRL file.");
+  cliParser.addOption(QCommandLineOption("t", "Output type (URDF, WBO, or WRL).", "type", "URDF"));
+  cliParser.addOption(QCommandLineOption("o", "Path to the output file.", "output"));
   cliParser.addOption(QCommandLineOption("p", "Override default PROTO parameters.", "parameter=value"));
   cliParser.process(mTaskArguments);
   const QStringList positionalArguments = cliParser.positionalArguments();
-  if (positionalArguments.size() != 2)
+  if (positionalArguments.size() != 1)
     cliParser.showHelp(1);
+
+  const bool toStdout = cliParser.values("o").size() == 0;
+
+  QString type = cliParser.values("t")[0];
+  QString outputFile;
+  if (!toStdout) {
+    outputFile = cliParser.values("o")[0];
+    type = outputFile.mid(outputFile.lastIndexOf(".")).toLower();
+  }
 
   // Compute absolute paths for input and output files
   QString inputFile = positionalArguments[0];
-  QString outputFile = positionalArguments[1];
   if (QDir::isRelativePath(inputFile))
     inputFile = mStartupPath + '/' + inputFile;
-  if (QDir::isRelativePath(outputFile))
+  if (!toStdout && QDir::isRelativePath(outputFile))
     outputFile = mStartupPath + '/' + outputFile;
 
   // Get user parameters strings
@@ -92,7 +101,8 @@ void WbSingleTaskApplication::convertProto() const {
   new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
   WbNode::setInstantiateMode(false);
   WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
-  cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
+  if (!toStdout)
+    cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
   // Combine the user parameters with the default ones
   QVector<WbField *> fields;
@@ -104,13 +114,14 @@ void WbSingleTaskApplication::convertProto() const {
       field->readValue(&tokenizer, "");
     }
 
-    cout << tr("  field %1 [%2] = %3")
-              .arg(field->name())
-              .arg(field->value()->vrmlTypeName())
-              .arg(field->value()->toString())
-              .toUtf8()
-              .constData()
-         << endl;
+    if (!toStdout)
+      cout << tr("  field %1 [%2] = %3")
+                .arg(field->name())
+                .arg(field->value()->vrmlTypeName())
+                .arg(field->value()->toString())
+                .toUtf8()
+                .constData()
+           << endl;
     fields.append(field);
   }
 
@@ -118,18 +129,28 @@ void WbSingleTaskApplication::convertProto() const {
   WbNode::setInstantiateMode(true);
   const WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
 
-  // Write to a file
-  QFile file(outputFile);
-  if (!file.open(QIODevice::WriteOnly)) {
-    cout << tr("Cannot open the file!\n").toUtf8().constData();
-    cliParser.showHelp(1);
-  }
-  WbVrmlWriter writer(&file, outputFile);
+  // Export
+  QString output;
+  WbVrmlWriter writer(&output, node->modelName() + "." + type);
   writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();
-  file.close();
-  cout << tr("The %1 PROTO is written to the file.").arg(model->name()).toUtf8().constData() << endl;
+
+  // Output the content
+  if (toStdout)
+    cout << output.toUtf8().toStdString() << endl;
+  else {
+    QFile file(outputFile);
+    if (!file.open(QIODevice::WriteOnly)) {
+      cout << tr("Cannot open the file!\n").toUtf8().constData();
+      cliParser.showHelp(1);
+    }
+    file.write(output.toUtf8());
+    file.close();
+  }
+
+  if (!toStdout)
+    cout << tr("The %1 PROTO is written to the file.").arg(model->name()).toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showHelp() const {

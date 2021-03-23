@@ -126,7 +126,7 @@ The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WR
 You can use a `-p` flag to override default PROTO parameters.
 Usage example:
 ```
-webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto pioneer3dx.urdf
+webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto -o pioneer3dx.urdf
 ```
 For more details use: `webots convert --help`.
 
