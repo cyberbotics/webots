@@ -1,5 +1,4 @@
 #VRML_SIM R2021b utf8
-# tags: static
 
 PROTO TemplateStatic [
   field SFVec3f    translation 0 0 0
