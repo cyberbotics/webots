@@ -1,15 +1,13 @@
 #VRML_SIM R2021b utf8
 
-PROTO TemplateNonStatic [
+PROTO TemplateDeterministic [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFFloat    width       0.01
-  field SFInt32    seed        0
 ]
 {
 %{
   local wbrandom = require('wbrandom')
-  wbrandom.seed(fields.seed.value)
 }%
 Solid {
   translation IS translation
