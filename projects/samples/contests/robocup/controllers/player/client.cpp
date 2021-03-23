@@ -32,6 +32,8 @@
 #include <unistd.h>
 #endif
 
+#include "messages.pb.h"
+
 static void close_socket(int fd) {
 #ifdef _WIN32
   closesocket(fd);
@@ -47,6 +49,8 @@ int main(int argc, char *argv[]) {
   char buffer[256];
   int port = 10003;
   char host[256];  // localhost
+
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   sprintf(host, "127.0.0.1");
   if (argc > 1) {
@@ -103,6 +107,10 @@ int main(int argc, char *argv[]) {
     if (strncmp(buffer, "exit", 4) == 0)
       break;
     int n = strlen(buffer);
+    buffer[n] = '\0';
+    MotorPosition motorPosition;
+    motorPosition.set_name("toto");
+    motorPosition.set_position(1.0);
     send(fd, buffer, n - 1, 0);
     n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';

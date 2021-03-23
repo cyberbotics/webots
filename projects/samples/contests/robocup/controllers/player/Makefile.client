@@ -6,13 +6,20 @@ else
 TARGET = client
 LIBS =
 endif
+ifeq ($(MAKECMDGOALS),)
+GOAL = release
+else
+GOAL = $(MAKECMDGOALS)
+endif
+
+LIBS += -lprotobuf
 
 .PHONY = build release debug profile
 
 build release debug profile: $(TARGET)
 
 $(TARGET): client.cpp
-	$(CXX) $< -o $@ $(LIBS)
+	$(CXX) $< build/$(GOAL)/messages.pb.o -o $@ $(LIBS)
 
 clean:
 	rm -f client.o client client.exe

@@ -68,39 +68,31 @@ static int create_socket_server(int port) {
   struct sockaddr_in address;
 
 #ifdef _WIN32
-  /* initialize the socket api */
   WSADATA info;
-
   rc = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
   if (rc != 0) {
-    printf("cannot initialize Winsock\n");
+    fprintf(stderr, "Cannot initialize Winsock\n");
     return -1;
   }
 #endif
-  /* create the socket */
+
   server_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (server_fd == -1) {
-    printf("cannot create socket\n");
+    fprintf(stderr, "Cannot create socket\n");
     return -1;
   }
-
-  /* fill in socket address */
   memset(&address, 0, sizeof(struct sockaddr_in));
   address.sin_family = AF_INET;
   address.sin_port = htons((unsigned short)port);
   address.sin_addr.s_addr = INADDR_ANY;
-
-  /* bind to port */
   rc = bind(server_fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
   if (rc == -1) {
-    printf("cannot bind port %d\n", port);
+    fprintf(stderr, "Cannot bind port %d\n", port);
     close_socket(server_fd);
     return -1;
   }
-
-  /* listen for connections */
   if (listen(server_fd, 1) == -1) {
-    printf("cannot listen for connections\n");
+    fprintf(stderr, "Cannot listen for connections\n");
     close_socket(server_fd);
     return -1;
   }
@@ -195,7 +187,7 @@ int main(int argc, char *argv[]) {
         } else {
           data[n] = '\0';
           printf("Received %d bytes: %s\n", n, data);
-          send(client_fd, "OK\r\n", 3, 0);
+          send(client_fd, "OK", 3, 0);
         }
       }
     }
