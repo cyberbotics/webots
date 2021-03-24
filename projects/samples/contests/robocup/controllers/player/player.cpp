@@ -24,6 +24,7 @@
 #include <webots/Camera.hpp>
 #include <webots/Gyro.hpp>
 #include <webots/Motor.hpp>
+#include <webots/Node.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
@@ -252,13 +253,61 @@ int main(int argc, char *argv[]) {
               else
                 warn(sensorMeasurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
             }
+            for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
+              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
+              webots::Device *device = robot->getDevice(sensorTimeStep.name());
+              if (device) {
+                const int timeStep = sensorTimeStep.timestep();
+                const int basicTimeStep = robot->getBasicTimeStep();
+                if (timeStep != 0 && timeStep < basicTimeStep)
+                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
+                                             std::to_string(basicTimeStep) + ", ignoring " + std::to_string(timeStep) +
+                                             " value.");
+                else if (timeStep % basicTimeStep != 0)
+                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
+                                             std::to_string(basicTimeStep) + ", ignoring " + std::to_string(timeStep) +
+                                             " value.");
+                else
+                  switch (device->getNodeType()) {
+                    case webots::Node::ACCELEROMETER: {
+                      webots::Accelerometer *accelerometer = (webots::Accelerometer *)device;
+                      accelerometer->enable(timeStep);
+                      break;
+                    }
+                    case webots::Node::CAMERA: {
+                      webots::Camera *camera = (webots::Camera *)device;
+                      camera->enable(timeStep);
+                      break;
+                    }
+                    case webots::Node::GYRO: {
+                      webots::Gyro *gyro = (webots::Gyro *)device;
+                      gyro->enable(timeStep);
+                      break;
+                    }
+                    case webots::Node::POSITION_SENSOR: {
+                      webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
+                      positionSensor->enable(timeStep);
+                      break;
+                    }
+                    case webots::Node::TOUCH_SENSOR: {
+                      webots::TouchSensor *touchSensor = (webots::TouchSensor *)device;
+                      touchSensor->enable(timeStep);
+                      break;
+                    }
+                    default:
+                      warn(sensorMeasurements,
+                           "Device \"" + sensorTimeStep.name() + "\" is not supported, time step command, ignored.");
+                  }
+              } else
+                warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
+            }
             for (int i = 0; i < actuatorRequests.camera_quality_size(); i++) {
               const CameraQuality cameraQuality = actuatorRequests.camera_quality(i);
               webots::Camera *camera = robot->getCamera(cameraQuality.name());
               if (camera)
                 warn(sensorMeasurements, "CameraQuality is not yet implemented, ignored.");
               else
-                warn(sensorMeasurements, "Camera \"" + cameraQuality.name() + "\" not found quality command, ignored.");
+                warn(sensorMeasurements, "Camera \"" + cameraQuality.name() + "\" not found, quality command ignored.");
             }
             for (int i = 0; i < actuatorRequests.camera_exposure_size(); i++) {
               const CameraExposure cameraExposure = actuatorRequests.camera_exposure(i);
@@ -266,7 +315,7 @@ int main(int argc, char *argv[]) {
               if (camera)
                 camera->setExposure(cameraExposure.exposure());
               else
-                warn(sensorMeasurements, "Camera \"" + cameraExposure.name() + "\" not found exposure command, ignored.");
+                warn(sensorMeasurements, "Camera \"" + cameraExposure.name() + "\" not found, exposure command ignored.");
             }
 
             std::string output;
