@@ -16,6 +16,7 @@ PROTO Hinge2JointWithBacklash [
   field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
   field MFNode{PositionSensor{}}               outputSensor2     [ ]    # {PositionSensor}.
   field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Transform{}, Shape{}}  startPoint2       NULL   # {Group, Transform, or Shape}.
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
@@ -61,21 +62,27 @@ PROTO Hinge2JointWithBacklash [
       print("No backlash on the second axis. 'outputSensor2' is ignored.")
     end
   }%
-  Hinge2Joint {
-    jointParameters IS jointParameters
-    jointParameters2 IS jointParameters2
-    device IS device
-    device2 IS device2
-    %{ if backlash == 0 then }% # skip first limiter
-      %{ if backlash2 == 0 then }% # skip second limiter
-        endPoint IS endPoint # revert PROTO to a classic Hinge2Joint
-      %{ else }% # insert limiter2
+  %{ if backlash == 0 then }% # skip first limiter
+    %{ if backlash2 == 0 then }% # skip second limiter
+      Hinge2Joint { # revert PROTO to a classic Hinge2Joint
+        jointParameters IS jointParameters
+        jointParameters2 IS jointParameters2
+        device IS device
+        device2 IS device2
+        endPoint IS endPoint
+      }
+    %{ else }% # only limiter2 is present
+      Hinge2Joint { # free to move
+        jointParameters IS jointParameters
+        jointParameters2 IS jointParameters2
+        device IS device
+        device2 IS device2
         endPoint Solid {
           name %{= '"limiter_axis2_' .. context.id .. '"' }% # prevent name clashes
           children [
-            %{ if fields.startPoint.value ~= nil then }%
+            %{ if fields.startPoint2.value ~= nil then }%
             Group {
-              children IS startPoint
+              children IS startPoint2
             }
             %{ end }%
             HingeJoint {
@@ -97,8 +104,12 @@ PROTO Hinge2JointWithBacklash [
             mass IS gearMass2
           }
         }
-      %{ end }%
-    %{ else }% # insert first limiter
+      }
+    %{ end }%
+  %{ else }%
+    HingeJoint { # the first HingeJoint is free to turn, the Hinge2 will be the limiter
+      jointParameters IS jointParameters
+      device IS device
       endPoint Solid {
         name %{= '"limiter_axis_' .. context.id .. '"' }% # prevent name clashes
         children [
@@ -107,7 +118,7 @@ PROTO Hinge2JointWithBacklash [
             children IS startPoint
           }
           %{ end }%
-          HingeJoint {
+          Hinge2Joint {
             jointParameters HingeJointParameters {
               axis %{= axis.x }% %{= axis.y }% %{= axis.z }%
               anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
@@ -115,13 +126,20 @@ PROTO Hinge2JointWithBacklash [
               maxStop %{= backlash*0.5 }%
               stopERP 0
             }
+            jointParameters2 IS jointParameters2
             device IS outputSensor
-            %{ if backlash2 == 0 then }% # finish
+            device2 IS device2
+            %{ if backlash2 == 0 then }% # no need for limiter2
               endPoint IS endPoint
-            %{ else }% # insert limiter2
+            %{ else }%
               endPoint Solid {
                 name %{= '"limiter_axis2_' .. context.id .. '"' }% # prevent name clashes
                 children [
+                  %{ if fields.startPoint2.value ~= nil then }%
+                  Group {
+                    children IS startPoint2
+                  }
+                  %{ end }%
                   HingeJoint {
                     jointParameters HingeJointParameters {
                       axis %{= axis2.x }% %{= axis2.y }% %{= axis2.z }%
@@ -151,6 +169,6 @@ PROTO Hinge2JointWithBacklash [
           mass IS gearMass
         }
       }
-    %{ end }%
-  }
+    }
+  %{ end }%
 }
