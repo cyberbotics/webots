@@ -132,8 +132,9 @@ for release in repo.get_releases():
                             print('Release upload failed due to server error (remaining trials: %d)' % (4 - retryCount))
                         except GithubException:
                             print('Release upload failed due to GitHub error (remaining trials: %d): %s' % (4 - retryCount))
-                        except:
+                        except Exception as e:
                             print('Release upload failed due to unexpected error (remaining trials: %d)' % (4 - retryCount))
+                            print('Error message', e)
                         retryCount += 1
                     if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
                             branchName not in release.body):
