@@ -129,7 +129,7 @@ for release in repo.get_releases():
                             print('Release upload failed due to connection error (remaining trials: %d)' % (4 - retryCount))
                         except requests.exceptions.HTTPError:
                             print('Release upload failed due to server error (remaining trials: %d)' % (4 - retryCount))
-                        except GithubException:
+                        except github.GithubException:
                             print('Release upload failed due to GitHub error (remaining trials: %d): %s' % (4 - retryCount))
                         except:
                             print('Release upload failed due to unexpected error (remaining trials: %d)' % (4 - retryCount))
