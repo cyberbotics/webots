@@ -55,15 +55,26 @@ message CameraMeasurement {
   double tangentialCoefficients = 10;
 }
 
+message Message {
+  enum MessageType {
+    ERROR_MESSAGE = 0;
+    WARNING_MESSAGE = 1;
+    INFO_MESSAGE = 2;
+  }
+  MessageType message_type = 1;
+  string text = 2;
+}
+
 message SensorMeasurements {
   double time = 1;  // time stamp at which the measurements were performed expressed in [s]
-  repeated PositionSensorMeasurement position_sensor = 2;
-  repeated AccelerometerMeasurement accelerometer = 3;
-  repeated GyroMeasurement gyro = 4;
-  repeated BumperMeasurement bumper = 5;
-  repeated Force3DMeasurement force_3d = 6;
-  repeated Force6DMeasurement force_6d = 7;
-  repeated CameraMeasurement camera = 8;
+  repeated Message message = 2;
+  repeated PositionSensorMeasurement position_sensor = 3;
+  repeated AccelerometerMeasurement accelerometer = 4;
+  repeated GyroMeasurement gyro = 5;
+  repeated BumperMeasurement bumper = 6;
+  repeated Force3DMeasurement force_3d = 7;
+  repeated Force6DMeasurement force_6d = 8;
+  repeated CameraMeasurement camera = 9;
 }
 
 message MotorPosition {

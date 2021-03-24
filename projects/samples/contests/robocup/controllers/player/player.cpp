@@ -140,6 +140,12 @@ static void free_jpeg(unsigned char *buffer) {
 #endif
 }
 
+static void warn(SensorMeasurements &sensorMeasurements, std::string text) {
+  Message *message = sensorMeasurements.add_message();
+  message->set_message_type(Message::WARNING_MESSAGE);
+  message->set_text(text);
+}
+
 int main(int argc, char *argv[]) {
   const std::string player_names[] = {
     "red player 1",  "red player 2",  "red player 3",  "red player 4",
@@ -205,16 +211,66 @@ int main(int argc, char *argv[]) {
             printf("Received %d bytes\n", n);
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
-            std::string output;
-            google::protobuf::TextFormat::PrintToString(actuatorRequests, &output);
+            SensorMeasurements sensorMeasurements;
             for (int i = 0; i < actuatorRequests.motor_position_size(); i++) {
               const MotorPosition motorPosition = actuatorRequests.motor_position(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
               if (motor)
                 motor->setPosition(motorPosition.position());
               else
-                fprintf(stderr, "Motor \"%s\" not found.\n", motorPosition.name().c_str());
+                warn(sensorMeasurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
             }
+            for (int i = 0; i < actuatorRequests.motor_velocity_size(); i++) {
+              const MotorVelocity motorVelocity = actuatorRequests.motor_velocity(i);
+              webots::Motor *motor = robot->getMotor(motorVelocity.name());
+              if (motor)
+                motor->setVelocity(motorVelocity.velocity());
+              else
+                warn(sensorMeasurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
+            }
+            for (int i = 0; i < actuatorRequests.motor_force_size(); i++) {
+              const MotorForce motorForce = actuatorRequests.motor_force(i);
+              webots::Motor *motor = robot->getMotor(motorForce.name());
+              if (motor)
+                motor->setForce(motorForce.force());
+              else
+                warn(sensorMeasurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
+            }
+            for (int i = 0; i < actuatorRequests.motor_torque_size(); i++) {
+              const MotorTorque motorTorque = actuatorRequests.motor_torque(i);
+              webots::Motor *motor = robot->getMotor(motorTorque.name());
+              if (motor)
+                motor->setTorque(motorTorque.torque());
+              else
+                warn(sensorMeasurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
+            }
+            for (int i = 0; i < actuatorRequests.motor_pid_size(); i++) {
+              const MotorPID motorPID = actuatorRequests.motor_pid(i);
+              webots::Motor *motor = robot->getMotor(motorPID.name());
+              if (motor)
+                motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
+              else
+                warn(sensorMeasurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
+            }
+            for (int i = 0; i < actuatorRequests.camera_quality_size(); i++) {
+              const CameraQuality cameraQuality = actuatorRequests.camera_quality(i);
+              webots::Camera *camera = robot->getCamera(cameraQuality.name());
+              if (camera)
+                warn(sensorMeasurements, "CameraQuality is not yet implemented, ignored.");
+              else
+                warn(sensorMeasurements, "Camera \"" + cameraQuality.name() + "\" not found quality command, ignored.");
+            }
+            for (int i = 0; i < actuatorRequests.camera_exposure_size(); i++) {
+              const CameraExposure cameraExposure = actuatorRequests.camera_exposure(i);
+              webots::Camera *camera = robot->getCamera(cameraExposure.name());
+              if (camera)
+                camera->setExposure(cameraExposure.exposure());
+              else
+                warn(sensorMeasurements, "Camera \"" + cameraExposure.name() + "\" not found exposure command, ignored.");
+            }
+
+            std::string output;
+            google::protobuf::TextFormat::PrintToString(actuatorRequests, &output);
             std::cout << output << std::endl;
             send(client_fd, "OK", 3, 0);
           }
