@@ -1846,8 +1846,8 @@ void WbNode::setCreationCompleted() {
 
 void WbNode::reset(const QString &id) {
   mCurrentStateId = id;
-  if (isTemplate() && !mProto->isStatic())
-    // make sure non-static procedural PROTO are regenerated
+  if (isTemplate() && !mProto->isDeterministic())
+    // nonDeterministic procedural PROTO must be regenerated on reset
     setRegenerationRequired(true);
 }
 
