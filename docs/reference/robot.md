@@ -597,7 +597,7 @@ In C++ or Java, users should use the device specific typed methods, for example 
 These functions return a reference to an object corresponding to a specified `name`.
 Depending on the called function, this object can be an instance of a `Device` subclass.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function `getDistanceSensor` will return a reference to a [DistanceSensor](distancesensor.md) object.
-If the specified device is not found, the function returns `NULL` in C++ and `null` in Java.
+If the specified device is not found, the function returns `NULL` in C++ or `null` in Java.
 
 ---
 
