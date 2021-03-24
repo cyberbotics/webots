@@ -155,7 +155,7 @@ TimeplotWidget.prototype.initialize = function() {
 
 TimeplotWidget.prototype.refresh = function() {
   // Do nothing if the div is hidden.
-  if (this.container.offsetParent === null || this.plotOffscreen)
+  if (!this.shown || this.container.offsetParent === null || this.plotOffscreen)
     return;
 
   // Initialize if required.

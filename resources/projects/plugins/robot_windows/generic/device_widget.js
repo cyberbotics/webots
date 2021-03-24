@@ -142,7 +142,7 @@ DeviceWidget.prototype.createGeneric1DDevice = function(device, autoRange, minY,
 
 DeviceWidget.prototype.createGeneric3DDevice = function(device, autoRange, minRange, maxRange, units) {
   appendNewElement(device.name,
-    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + ' deviceType=' + device.type + '">' +
+    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + '" deviceType="' + device.type + '">' +
     '  <option>Time</option>' +
     '  <option>XY</option>' +
     '  <option>YZ</option>' +
