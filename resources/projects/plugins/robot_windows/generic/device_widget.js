@@ -142,7 +142,7 @@ DeviceWidget.prototype.createGeneric1DDevice = function(device, autoRange, minY,
 
 DeviceWidget.prototype.createGeneric3DDevice = function(device, autoRange, minRange, maxRange, units) {
   appendNewElement(device.name,
-    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + ' deviceType=' + device.type + '">' +
+    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + '" deviceType="' + device.type + '">' +
     '  <option>Time</option>' +
     '  <option>XY</option>' +
     '  <option>YZ</option>' +
@@ -248,6 +248,7 @@ DeviceWidget.comboboxCallback = function(combobox) {
     widget.show(false);
   });
   devicePlots[combobox.selectedIndex].show(true);
+  devicePlots[combobox.selectedIndex].refresh();
 };
 
 DeviceWidget.motorSetPosition = function(deviceType, deviceName, value) {
@@ -264,9 +265,10 @@ DeviceWidget.motorUnsetPosition = function(deviceType, deviceName) {
   delete DeviceWidget.motorCommands[deviceName];
 };
 
-DeviceWidget.updateDeviceWidgets = function(data) {
+DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
   if (data.devices == null)
     return;
+  let resquestTabUpdate = false;
   Object.keys(data.devices).forEach(function(deviceName) {
     const value = data.devices[deviceName];
     deviceName = deviceName.replace(/&quot;/g, '"');
@@ -279,6 +281,8 @@ DeviceWidget.updateDeviceWidgets = function(data) {
     if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
+    if (!resquestTabUpdate && selectedDeviceType === deviceType)
+      resquestTabUpdate = true;
     widget.firstUpdate = false;
 
     if (value.update !== undefined && widget.plots) {
@@ -314,6 +318,7 @@ DeviceWidget.updateDeviceWidgets = function(data) {
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     }
   });
+  return resquestTabUpdate;
 };
 
 DeviceWidget.applyToUntouchedCheckbox = function(checkbox, state) {

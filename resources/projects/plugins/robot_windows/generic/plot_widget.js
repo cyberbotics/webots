@@ -45,7 +45,7 @@ PlotWidget.prototype.addValue = function(value) {
 PlotWidget.prototype.initialize = function() {
   const id = this.container.getAttribute('id');
 
-  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
+  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas plot-canvas-background" />');
   this.xLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x">' + this.labels['x'] + '</p>');
   this.xMinLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-min">' + roundLabel(this.xRange['min']) + '</p>');
   this.xMaxLabel = this.appendChildToContainer('<p class="plot-axis-label plot-axis-label-x-max">' + roundLabel(this.xRange['max']) + '</p>');
@@ -69,7 +69,7 @@ PlotWidget.prototype.initialize = function() {
 
 PlotWidget.prototype.refresh = function() {
   // Do nothing if the div is hidden.
-  if (this.container.offsetParent === null)
+  if (!this.shown || this.container.offsetParent === null)
     return;
 
   // Initialize if required.

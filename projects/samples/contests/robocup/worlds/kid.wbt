@@ -14,7 +14,7 @@ WorldInfo {
     ContactProperties {
       material1 "grass"
       coulombFriction [
-        0.1
+        0.5
       ]
       softCFM 0.03
     }

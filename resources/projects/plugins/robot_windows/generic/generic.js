@@ -7,6 +7,7 @@
 var robotName = '';
 var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+window.selectedDeviceType = null;
 
 function setDeviceModeCallback(switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
@@ -66,8 +67,8 @@ function receive(message, _robot) {
   else if (message.indexOf('update ') === 0) {
     data = parseJSONMessage(message.substring(7));
     if (data) {
-      DeviceWidget.updateDeviceWidgets(data, window.widgets);
-      refreshSelectedTab();
+      if (DeviceWidget.updateDeviceWidgets(data, window.selectedDeviceType))
+        refreshSelectedTab();
     }
   } else
     console.log("Unexpected message received: '" + message + "'");

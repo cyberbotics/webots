@@ -24,8 +24,6 @@ PROTO SolidPipe [
 {
   %{
     local wbgeometry = require('wbgeometry')
-    local wbrandom = require('wbrandom')
-
     -- parameter checking
     local subdivision = fields.subdivision.value
     if subdivision > 200 then
