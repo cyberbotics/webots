@@ -318,10 +318,17 @@ int main(int argc, char *argv[]) {
                 warn(sensorMeasurements, "Camera \"" + cameraExposure.name() + "\" not found, exposure command ignored.");
             }
 
-            std::string output;
-            google::protobuf::TextFormat::PrintToString(actuatorRequests, &output);
-            std::cout << output << std::endl;
-            send(client_fd, "OK", 3, 0);
+            std::string printout;
+            google::protobuf::TextFormat::PrintToString(actuatorRequests, &printout);
+            std::cout << printout << std::endl;
+
+            const int size = sensorMeasurements.ByteSizeLong();
+            char *output = (char *)malloc(sizeof(int) + size);
+            int *output_size = (int *)output;
+            *output_size = htonl(size);
+            sensorMeasurements.SerializeToArray(&output[sizeof(int)], size);
+            send(client_fd, output, sizeof(int) + size, 0);
+            free(output);
           }
         }
       }

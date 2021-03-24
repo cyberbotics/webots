@@ -129,18 +129,19 @@ int main(int argc, char *argv[]) {
 #ifndef _WIN32
     // This doesn't work on Windows, we should implement SocketOutputStream to make it work efficiently on Windows
     // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
-    int size = htonl(actuatorRequests.ByteSizeLong());
+    const int size = htonl(actuatorRequests.ByteSizeLong());
     send(fd, (char *)(&size), sizeof(int), 0);
     google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream = new google::protobuf::io::FileOutputStream(fd);
     actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream);
     delete zeroCopyStream;
-#else  // here we make a useless copy
-    int size = actuatorRequests.ByteSizeLong();
+#else  // here we make a useless malloc, copy and free
+    const int size = actuatorRequests.ByteSizeLong();
     char *output = (char *)malloc(sizeof(int) + size);
     int *output_size = (int *)output;
     *output_size = htonl(size);
     actuatorRequests.SerializeToArray(&output[sizeof(int)], size);
     send(fd, output, sizeof(int) + size, 0);
+    free(output);
 #endif
     const int n = recv(fd, buffer, 256, 0);
     buffer[n] = '\0';
