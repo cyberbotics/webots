@@ -71,13 +71,14 @@ TimeplotWidget.prototype.addValue = function(value) {
   if (newOffset > this.xOffset)
     this.xOffset = newOffset;
 
+  const isArray = Array.isArray(value.y);
+  const y = isArray ? value.y : [value.y];
+  this.lastY = y;
   if (this.initialized) {
-    const isArray = Array.isArray(value.y);
     const size = isArray ? value.y.length : 1;
     if (this.lines.length < size)
       this.createLines(size);
 
-    const y = isArray ? value.y : [value.y];
     for (let i = 0; i < size; ++i)
       this.lines[i].addPoint(value.x, y[i]);
   } else {
@@ -166,8 +167,9 @@ TimeplotWidget.prototype.refresh = function() {
   gl.enable(gl.SCISSOR_TEST);
   gl.viewport(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
   gl.scissor(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
-  gl.canvas.style.transform = `translateY(${window.scrollY}px)`;
-  this.clearPlot(gl);
+  gl.canvas.style.transform = `translate(${window.scrollX}px, ${window.scrollY}px)`;
+  gl.clearColor(1.0, 1.0, 1.0, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
 
   gl.useProgram(this.canvas.shaderProgram);
   gl.uniformMatrix2fv(this.canvas.scaleUniformLocation, false, [ 2.0 / this.xRangeSize, 0.0, 0.0, 2.0 / (this.yRange['max'] - this.yRange['min']) ]);
@@ -178,11 +180,8 @@ TimeplotWidget.prototype.refresh = function() {
     gl.uniform1f(this.canvas.pointSizeUniformLocation, 0.8);
     gl.uniform2fv(this.canvas.offsetUniformLocation, [this.xOffset, this.yRange['min']]);
     this.lastX = this.lines[0].lastX();
-    this.lastY = [];
-    for (let i = 0; i < this.lines.length; ++i) {
+    for (let i = 0; i < this.lines.length; ++i)
       this.drawLine(this.lines[i], this.lines[i].color, 2.0, gl.POINTS);
-      this.lastY.push(this.lines[i].lastY());
-    }
   }
   gl.disable(gl.SCISSOR_TEST);
 
@@ -204,6 +203,18 @@ TimeplotWidget.prototype.show = function(show) {
   this.yMaxLabel.style.visibility = visibility;
   if (this.slider)
     this.slider.style.visibility = visibility;
+
+  if (!this.shown) {
+    // clear plot and make it transparent
+    const gl = this.canvas.getWebglContext();
+    gl.enable(gl.SCISSOR_TEST);
+    gl.viewport(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
+    gl.scissor(this.plotLeft, this.plotBottom, this.plotWidth, this.plotHeight);
+    gl.canvas.style.transform = `translate(${window.scrollX}px, ${window.scrollY}px)`;
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.disable(gl.SCISSOR_TEST);
+  }
 };
 
 TimeplotWidget.prototype.resize = function() {
@@ -228,7 +239,7 @@ TimeplotWidget.prototype.appendChildToContainer = function(child) {
 
 TimeplotWidget.prototype.refreshLabels = function() {
   // Refresh the labels only if the container is visible.
-  if (!this.initialized || this.container.plotOffscreen)
+  if (!this.initialized || this.container.offsetParent == null || this.container.plotOffscreen)
     return;
 
   if (this.lastLabelRefresh !== this.lastX) {
@@ -258,11 +269,6 @@ TimeplotWidget.prototype.refreshLabels = function() {
       this.label.textContent = ': ' + roundLabel(v[0], this.decimals);
   }
   this.lastLabelRefresh = this.lastX;
-};
-
-TimeplotWidget.prototype.clearPlot = function(gl) {
-  gl.clearColor(1.0, 1.0, 1.0, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
 };
 
 TimeplotWidget.prototype.createLines = function(size) {

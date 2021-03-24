@@ -248,6 +248,7 @@ DeviceWidget.comboboxCallback = function(combobox) {
     widget.show(false);
   });
   devicePlots[combobox.selectedIndex].show(true);
+  devicePlots[combobox.selectedIndex].refresh();
 };
 
 DeviceWidget.motorSetPosition = function(deviceType, deviceName, value) {
