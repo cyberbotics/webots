@@ -265,9 +265,10 @@ DeviceWidget.motorUnsetPosition = function(deviceType, deviceName) {
   delete DeviceWidget.motorCommands[deviceName];
 };
 
-DeviceWidget.updateDeviceWidgets = function(data) {
+DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
   if (data.devices == null)
     return;
+  let resquestTabUpdate = false;
   Object.keys(data.devices).forEach(function(deviceName) {
     const value = data.devices[deviceName];
     deviceName = deviceName.replace(/&quot;/g, '"');
@@ -280,6 +281,8 @@ DeviceWidget.updateDeviceWidgets = function(data) {
     if (!widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
+    if (!resquestTabUpdate && selectedDeviceType === deviceType)
+      resquestTabUpdate = true;
     widget.firstUpdate = false;
 
     if (value.update !== undefined && widget.plots) {
@@ -315,6 +318,7 @@ DeviceWidget.updateDeviceWidgets = function(data) {
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     }
   });
+  return resquestTabUpdate;
 };
 
 DeviceWidget.applyToUntouchedCheckbox = function(checkbox, state) {
