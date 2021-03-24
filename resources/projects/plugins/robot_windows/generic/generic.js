@@ -2,7 +2,7 @@
 /* global DeviceWidget: false */
 /* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
-/* global widgets */
+/* global widgets, selectedDeviceType */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotName = '';
@@ -66,8 +66,8 @@ function receive(message, _robot) {
   else if (message.indexOf('update ') === 0) {
     data = parseJSONMessage(message.substring(7));
     if (data) {
-      DeviceWidget.updateDeviceWidgets(data, widgets);
-      refreshSelectedTab();
+      if (DeviceWidget.updateDeviceWidgets(data, selectedDeviceType))
+        refreshSelectedTab();
     }
   } else
     console.log("Unexpected message received: '" + message + "'");

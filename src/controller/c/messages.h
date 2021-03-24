@@ -145,6 +145,7 @@
 #define C_EMITTER_SET_RANGE 2
 // sim -> ctr
 #define C_EMITTER_SET_BUFFER_SIZE 3
+#define C_EMITTER_SET_ALLOWED_CHANNELS 4
 
 // for the receiver device
 // ctr -> sim

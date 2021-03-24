@@ -1395,7 +1395,7 @@ The valid `state_name` value means that the state is saved with the `wb_supervis
 The state in the beginning of the simulation is saved under the magic name `__init__`.
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given node and its descendants.
-If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
+If the specified node is physics-enabled, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
 

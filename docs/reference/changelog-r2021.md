@@ -30,6 +30,7 @@ Released on June, Xth, 2021.
     - Exposed `stopERP` and `stopCFM` parameters in [HingeJointParameters](hingejointparameters.md) that define the local `ERP` and `CFM` used by joint limits.
     - Made the [TIAGo](../guide/tiago-base.md) robot more sturdy by increasing the `suspensionSpringConstant` value ([#2876](https://github.com/cyberbotics/webots/pull/2876)).
     - Altered the collision detection logic for [Robot.selfCollision](robot.md) to ignore chains of joints if the intermediary joints all share the same `anchor` point ([#2868](https://github.com/cyberbotics/webots/pull/2868)).
+    - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Added flag to [RobotisOp2](../guide/robotis-op2.md) that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
@@ -37,6 +38,7 @@ Released on June, Xth, 2021.
     - Added Hinge2JointWithBacklash proto that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
     - Added a generic gear proto and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
     - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
+    - Made the `static` behavior the default for PROTO files and removal of the tag. Non static cases must be labeled as such using the `nonDeterministic` tag instead ([#2903](https://github.com/cyberbotics/webots/pull/2903)).
   - Bug fixes:
     - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
@@ -55,7 +57,9 @@ Released on XX Xth, 2021.
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
+    - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed reset of [Charger](charger.md) energy when the recharging [Robot](robot.md) battery is full ([#2879](https://github.com/cyberbotics/webots/pull/2879)).
     - Fixed [PedestrianCrossing](../guide/object-traffic.md#pedestriancrossing) PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
     - Fixed start-up of extern controllers in case a remaining temporary folder resulting from a previous Webots crash was still there ([#2800](https://github.com/cyberbotics/webots/pull/2800)).
     - Fixed erasing [Pen](pen.md) ink on simulation reset ([#2796](https://github.com/cyberbotics/webots/pull/2796)).
