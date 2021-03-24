@@ -86,7 +86,7 @@ for release in repo.get_releases():
                 ref = repo.get_git_ref('tags/' + releaseTagName)
                 if ref:
                     print('Deleting tag "%s"' % releaseTagName)
-                    # ref.delete()
+                    ref.delete()
             except UnknownObjectException:
                 pass  # tag was already deleted
 
