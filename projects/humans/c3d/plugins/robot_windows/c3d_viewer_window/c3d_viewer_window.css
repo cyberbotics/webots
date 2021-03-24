@@ -88,6 +88,9 @@
   height: 200px;
   border: 1px solid darkgrey;
 }
+.plot-canvas-background {
+  background-color: white;
+}
 .plot-axis-label {
   font-size: 0.8em;
   position: absolute;
