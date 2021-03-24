@@ -32,8 +32,6 @@ PROTO SimpleBuilding [
 {
   %{
     local wbcore = require('wbcore')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(context.id)
 
     local roofTypes = {
       ["tiled"]  =      { textureSize = 2 },
