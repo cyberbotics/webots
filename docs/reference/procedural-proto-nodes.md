@@ -103,7 +103,7 @@ Typical cases of `nonDeterministic` PROTO files are those where the end result d
 
 > **Note**: when randomness is concerned, what defines determinism in a PROTO file, or lack of it, is the nature of the seed used by the random number generator.
 Using a time-based seed (e.g. `wbrandom.seed(os.clock() + os.time())`) or a seed based on the id of the node (e.g. `wbrandom.seed(context.id)`) are typical non-deterministic situations.
-If the same seed is used every time or if it is not specified (i.e using the default seed) leads instead to deterministic results.
+If the same seed is used every time or if it is not specified (i.e using the default seed), it leads instead to deterministic results.
 
 ### Example
 
