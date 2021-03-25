@@ -697,7 +697,11 @@ PROTO Darwin-opHinge2 [
                                         }
                                       ]
                                       jointParameters2 JointParameters {
-                                        axis 0 0 1
+                                        %{ if enable_backlash then }%
+                                          axis 0 0.942495 0.334218
+                                        %{ else }%
+                                          axis 0 0 1
+                                        %{ end }%
                                         position -0.02
                                         dampingConstant 0.002
                                         staticFriction 0.025
@@ -1101,7 +1105,11 @@ PROTO Darwin-opHinge2 [
                                         }
                                       ]
                                       jointParameters2 JointParameters {
-                                        axis 0 0 1
+                                        %{ if enable_backlash then }%
+                                          axis 0 0.938987 0.343951
+                                        %{ else }%
+                                          axis 0 0 1
+                                        %{ end }%
                                         position 0.05
                                         dampingConstant 0.002
                                         staticFriction 0.025
