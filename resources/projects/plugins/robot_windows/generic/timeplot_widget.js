@@ -84,16 +84,16 @@ TimeplotWidget.prototype.addValue = function(value) {
   }
 
   if (this.autoRange === TimeplotWidget.AutoRangeType.STRETCH)
-    this.stretchRange(value.y);
+    this.stretchRange(y);
   else if (this.autoRange === TimeplotWidget.AutoRangeType.JUMP)
-    this.jumpToRange(value.y);
+    this.jumpToRange(y);
   else if (this.autoRange === TimeplotWidget.AutoRangeType.ADAPT) {
     if (this.initialize) {
       this.values.push(value);
       while (this.values.length > 0 && this.values[0].x < newOffset)
         this.values.shift();
     }
-    this.adaptRange(value.y, this.values);
+    this.adaptRange(this.values);
   }
 };
 
@@ -372,16 +372,27 @@ TimeplotWidget.prototype.computePlotRect = function() {
 
 // Jump to a new y range based on the initial range and the new y value.
 TimeplotWidget.prototype.jumpToRange = function(y) {
-  console.assert(isNumber(y));
-  const jumpUp = y > this.yRange['max'];
-  const jumpDown = y < this.yRange['min'];
+  console.assert(Array.isArray(y));
+  let jumpUp = false;
+  let jumpDown = false;
+  let yMin, yMax;
+  for (let i = 0; i < y.length; ++i) {
+    if (!jumpUp) {
+      jumpUp = y[i] > this.yRange['max'];
+      yMax = y[i];
+    }
+    if (!jumpDown) {
+      jumpDown = y[i] < this.yRange['min'];
+      yMin = y[i];
+    }
+  }
   if (jumpUp || jumpDown) {
     const delta = Math.abs(this.initialYRange['max'] - this.initialYRange['min']);
     if (jumpUp) {
-      this.yRange['max'] = y + 0.05 * delta;
+      this.yRange['max'] = yMax + 0.05 * delta;
       this.yRange['min'] = this.yRange['max'] - delta;
     } else {
-      this.yRange['min'] = y - 0.05 * delta;
+      this.yRange['min'] = yMin - 0.05 * delta;
       this.yRange['max'] = this.yRange['min'] + delta;
     }
     this.updateRange();
@@ -389,25 +400,25 @@ TimeplotWidget.prototype.jumpToRange = function(y) {
 };
 
 // Adapt range to current values.
-TimeplotWidget.prototype.adaptRange = function(y, values) {
+TimeplotWidget.prototype.adaptRange = function(values) {
   let min = null;
   let max = null;
   for (let i = 0; i < values.length; ++i) {
-    const y = Array.isArray(values[i].y) ? values[i].y : [values[i].y];
-    for (let j = 0; j < y.length; j++) {
-      if (min == null || y[j] < min)
-        min = y[j];
-      if (max == null || y[j] > max)
-        max = y[j];
+    const v = Array.isArray(values[i].y) ? values[i].y : [values[i].y];
+    for (let j = 0; j < v.length; j++) {
+      if (min == null || v[j] < min)
+        min = v[j];
+      if (max == null || v[j] > max)
+        max = v[j];
     }
   }
   const delta = Math.abs(this.initialYRange['max'] - this.initialYRange['min']);
   let halfOffset = 0;
   if (Math.abs(max - min) < delta)
     halfOffset = (delta - max + min) * 0.5; // Minimum size of range is defined by the initial values.
-  else if (y > this.yRange['max'])
+  else if (max > this.yRange['max'])
     max += 0.05 * delta; // Add small offset to make the value visible in the graph and try to slightly reduce plot redraws.
-  else if (y < this.yRange['min'])
+  else if (min < this.yRange['min'])
     min -= 0.05 * delta; // Add small offset to make the value visible in the graph and try to slightly reduce plot redraws.
   this.yRange['max'] = max + halfOffset;
   this.yRange['min'] = min - halfOffset;
@@ -416,26 +427,16 @@ TimeplotWidget.prototype.adaptRange = function(y, values) {
 
 // Stretch the y range based on a new y list.
 TimeplotWidget.prototype.stretchRange = function(y) {
+  console.assert(Array.isArray(y));
   var increaseFactor = 1.5; // Increase 50% more than targeted to reduce plot redraws.
   var changed = false;
-  if (Array.isArray(y)) {
-    for (let i = 0; i < y.length; ++i) {
-      const v = y[i];
-      if (v < this.yRange['min']) {
-        this.yRange['min'] = increaseFactor * v;
-        changed = true;
-      } else if (v > this.yRange['max']) {
-        this.yRange['max'] = increaseFactor * v;
-        changed = true;
-      }
-    }
-  } else {
-    console.assert(isNumber(y));
-    if (y < this.yRange['min']) {
-      this.yRange['min'] = increaseFactor * y;
+  for (let i = 0; i < y.length; ++i) {
+    const v = y[i];
+    if (v < this.yRange['min']) {
+      this.yRange['min'] = increaseFactor * v;
       changed = true;
-    } else if (y > this.yRange['max']) {
-      this.yRange['max'] = increaseFactor * y;
+    } else if (v > this.yRange['max']) {
+      this.yRange['max'] = increaseFactor * v;
       changed = true;
     }
   }
