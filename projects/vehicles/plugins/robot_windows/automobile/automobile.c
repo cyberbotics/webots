@@ -135,19 +135,19 @@ static void configure_automobile_robot_window() {
   // send vehicle config data
   char buf[32];
   buffer_append("configure-vehicle { \"front-track\": ");
-  snprintf(buf, 32, "%.4g", wbu_car_get_track_front());
+  snprintf(buf, 32, "%.17g", wbu_car_get_track_front());
   buffer_append(buf);
   buffer_append(",\"rear-track\": ");
-  snprintf(buf, 32, "%.4g", wbu_car_get_track_rear());
+  snprintf(buf, 32, "%.17g", wbu_car_get_track_rear());
   buffer_append(buf);
   buffer_append(",\"wheelbase\": ");
-  snprintf(buf, 32, "%.4g", wbu_car_get_wheelbase());
+  snprintf(buf, 32, "%.17g", wbu_car_get_wheelbase());
   buffer_append(buf);
   buffer_append(",\"front-wheel-radius\": ");
-  snprintf(buf, 32, "%.4g", wbu_car_get_front_wheel_radius());
+  snprintf(buf, 32, "%.17g", wbu_car_get_front_wheel_radius());
   buffer_append(buf);
   buffer_append(",\"rear-wheel-radius\": ");
-  snprintf(buf, 32, "%.4g", wbu_car_get_rear_wheel_radius());
+  snprintf(buf, 32, "%.17g", wbu_car_get_rear_wheel_radius());
   buffer_append(buf);
   buffer_append(",\"gear-number\": ");
   snprintf(buf, 32, "%d", wbu_driver_get_gear_number());
@@ -182,18 +182,18 @@ static void configure_automobile_robot_window() {
 static void append_overview_data(WbuDriverControlMode control_mode) {
   char buf[32];
   buffer_append(", \"overview\": {\"speed\": ");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_current_speed());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_current_speed());
   buffer_append(buf);
   buffer_append(",\"steering\": [");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_steering_angle());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_steering_angle());
   buffer_append(buf);
-  snprintf(buf, 32, ",%.4g", wbu_car_get_right_steering_angle());
+  snprintf(buf, 32, ",%.17g", wbu_car_get_right_steering_angle());
   buffer_append(buf);
-  snprintf(buf, 32, ",%.4g", wbu_car_get_left_steering_angle());
+  snprintf(buf, 32, ",%.17g", wbu_car_get_left_steering_angle());
   buffer_append(buf);
   if (control_mode == TORQUE) {
     buffer_append("],\"rpm\": ");
-    snprintf(buf, 32, "%.4g", wbu_driver_get_rpm());
+    snprintf(buf, 32, "%.17g", wbu_driver_get_rpm());
     buffer_append(buf);
     buffer_append(",\"gearbox\": ");
     snprintf(buf, 32, "%d", wbu_driver_get_gear());
@@ -202,7 +202,7 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
   } else {
     buffer_append("],\"rpm\": 0, \"gearbox\": 0");
     buffer_append(",\"target-speed\": ");
-    snprintf(buf, 32, "%.4g", wbu_driver_get_target_cruising_speed());
+    snprintf(buf, 32, "%.17g", wbu_driver_get_target_cruising_speed());
     buffer_append(buf);
   }
   if (control_mode == UNDEFINED_CONTROL_MODE && wheelMotors == NULL) {
@@ -216,14 +216,14 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     buffer_append(buf);
     buffer_append("\": { \"speed\": ");
     if (control_mode != UNDEFINED_CONTROL_MODE)
-      snprintf(buf, 32, "%.4g", wbu_car_get_wheel_speed(i));
+      snprintf(buf, 32, "%.17g", wbu_car_get_wheel_speed(i));
     else
-      snprintf(buf, 32, "%.4g", wb_motor_get_velocity(wheelMotors[i]));
+      snprintf(buf, 32, "%.17g", wb_motor_get_velocity(wheelMotors[i]));
     buffer_append(buf);
     buffer_append(", \"encoder\": ");
     const double encoder_value = wbu_car_get_wheel_encoder(i);
     if (encoder_value == encoder_value) {
-      snprintf(buf, 32, "%.4g", encoder_value);
+      snprintf(buf, 32, "%.17g", encoder_value);
       buffer_append(buf);
     } else  // NaN
       buffer_append("0");
@@ -237,14 +237,14 @@ static void append_speed_data(WbuDriverControlMode control_mode) {
   buffer_append(",\"speed\": {");
   if (control_mode == SPEED) {
     buffer_append("\"cruising-speed\": ");
-    snprintf(buf, 32, "%.4g,", wbu_driver_get_target_cruising_speed());
+    snprintf(buf, 32, "%.17g,", wbu_driver_get_target_cruising_speed());
     buffer_append(buf);
   }
   buffer_append("\"update\":[{\"time\":");
-  snprintf(buf, 32, "%.4g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\":");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_current_speed());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_current_speed());
   buffer_append(buf);
   buffer_append("}]}");
 }
@@ -252,14 +252,14 @@ static void append_speed_data(WbuDriverControlMode control_mode) {
 static void append_steering_data() {
   char buf[32];
   buffer_append(", \"steering\": {\"time\": ");
-  snprintf(buf, 32, "%.4g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": [");
-  snprintf(buf, 32, "%.4g,", wbu_driver_get_steering_angle());
+  snprintf(buf, 32, "%.17g,", wbu_driver_get_steering_angle());
   buffer_append(buf);
-  snprintf(buf, 32, "%.4g,", wbu_car_get_right_steering_angle());
+  snprintf(buf, 32, "%.17g,", wbu_car_get_right_steering_angle());
   buffer_append(buf);
-  snprintf(buf, 32, "%.4g", wbu_car_get_left_steering_angle());
+  snprintf(buf, 32, "%.17g", wbu_car_get_left_steering_angle());
   buffer_append(buf);
   buffer_append("]}");
 }
@@ -267,10 +267,10 @@ static void append_steering_data() {
 static void append_throttle_data() {
   char buf[32];
   buffer_append(", \"throttle\": {\"time\": ");
-  snprintf(buf, 32, "%.4g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": ");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_throttle());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_throttle());
   buffer_append(buf);
   buffer_append("}");
 }
@@ -278,10 +278,10 @@ static void append_throttle_data() {
 static void append_rpm_data() {
   char buf[32];
   buffer_append(", \"rpm\": {\"time\": ");
-  snprintf(buf, 32, "%.4g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": ");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_rpm());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_rpm());
   buffer_append(buf);
   buffer_append("}");
 }
@@ -289,10 +289,10 @@ static void append_rpm_data() {
 static void append_brake_data() {
   char buf[32];
   buffer_append(", \"brake\": {\"time\": ");
-  snprintf(buf, 32, "%.4g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": ");
-  snprintf(buf, 32, "%.4g", wbu_driver_get_brake_intensity());
+  snprintf(buf, 32, "%.17g", wbu_driver_get_brake_intensity());
   buffer_append(buf);
   buffer_append("}");
 }
@@ -300,16 +300,16 @@ static void append_brake_data() {
 static void append_encoders_data() {
   char buf[32];
   buffer_append(", \"encoders\": {\"time\": ");
-  snprintf(buf, 32, "%.17g", wb_robot_get_time());
+  snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": [");
-  snprintf(buf, 32, "%.4g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_RIGHT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.4g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_LEFT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_LEFT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.4g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_RIGHT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.4g", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_LEFT));
+  snprintf(buf, 32, "%.17g", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_LEFT));
   buffer_append(buf);
   buffer_append("]}");
 }
