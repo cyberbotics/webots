@@ -24,7 +24,6 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   // Refresh parameters
   this.lastX = 0;
   this.lastY = [];
-  this.refreshLabelsRate = 3; // [Hz]
   this.lastLabelRefresh = 0; // [simulated seconds]
   this.blockSliderUpdateFlag = false;
   this.pendingSliderPositionUpdate = false;
@@ -48,9 +47,6 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
 
   // Compute vertical grid steps.
   this.updateGridConstants();
-
-  var that = this;
-  setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
 }
 
 TimeplotWidget.recordDataInBackground = false;

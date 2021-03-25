@@ -175,16 +175,26 @@ DeviceWidget.prototype.enable = function(enabled) {
 DeviceWidget.prototype.refresh = function() {
   if (this.plots) {
     this.plots.forEach(function(plot) {
-      plot.refresh();
+      if (typeof plot.refresh === 'function')
+        plot.refresh();
+    });
+  }
+};
+
+DeviceWidget.prototype.refreshLabels = function() {
+  if (this.plots) {
+    this.plots.forEach(function(plot) {
+      if (typeof plot.refreshLabels === 'function')
+        plot.refreshLabels();
     });
   }
 };
 
 DeviceWidget.prototype.resize = function() {
   if (this.plots) {
-    this.plots.forEach(function(widget) {
-      if (typeof widget.resize === 'function')
-        widget.resize();
+    this.plots.forEach(function(plot) {
+      if (typeof plot.resize === 'function')
+        plot.resize();
     });
   }
 };

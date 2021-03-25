@@ -10,8 +10,12 @@
 /* exported refreshSelectedTab */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
+const REFRESH_LABELS_RATE = 3; // Hz
+const REFRESH_CONTENT_RATE = 10; // Hz
+
 var windowIsHidden;
 var selectedDeviceType = null;
+var selectedTabModified = false;
 
 function menuTabCallback(deviceType) {
   if (document.getElementById(deviceType + '-section').style.display === 'block')
@@ -36,6 +40,23 @@ function menuTabCallback(deviceType) {
 }
 
 function refreshSelectedTab() {
+  selectedTabModified = true;
+};
+
+function refreshLabels() {
+  if (!selectedDeviceType || !selectedTabModified)
+    return;
+  const tabWidgets = window.widgets[selectedDeviceType];
+  Object.keys(tabWidgets).forEach(function(deviceName) {
+    if (typeof tabWidgets[deviceName].refreshLabels === 'function')
+      tabWidgets[deviceName].refreshLabels();
+  });
+  selectedTabModified = false;
+}
+
+function refreshContent() {
+  if (!selectedDeviceType || !selectedTabModified)
+    return;
   const tabWidgets = window.widgets[selectedDeviceType];
   Object.keys(tabWidgets).forEach(function(deviceName) {
     tabWidgets[deviceName].refresh();
@@ -46,7 +67,7 @@ function updateTabCallback() {
   const canvas = new Canvas();
   canvas.resizeCanvas();
   if (selectedDeviceType) {
-    const tabWidgets = widgets[selectedDeviceType];
+    const tabWidgets = window.widgets[selectedDeviceType];
     Object.keys(tabWidgets).forEach(function(deviceName) {
       const widget = tabWidgets[deviceName];
       if (widget) {
@@ -213,6 +234,8 @@ function setupWindow() {
 
   window.addEventListener('resize', updateTabCallback);
   window.addEventListener('scroll', updateTabCallback);
+  setInterval(function() { refreshLabels(); }, 1000 / REFRESH_LABELS_RATE);
+  setInterval(function() { refreshContent(); }, 1000 / REFRESH_CONTENT_RATE);
 }
 
 function alphabetical(a, b) {
