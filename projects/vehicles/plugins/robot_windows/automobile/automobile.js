@@ -3,15 +3,15 @@
 /* global TimeplotWidget: false */
 /* global VehicleTimeplotWidget: false */
 /* global OverviewWidget: false */
-/* global menuTabCallback, openMenu, closeMenu, addTab, addSettingsTab, appendNewElement */
+/* global menuTabCallback, openMenu, closeMenu, addTab, addSettingsTab, appendNewElement, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage, roundLabel */
-/* global widgets */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotName = '';
 var basicTimeStep = -1;
 var commands = []; // Commands to be sent to the C library.
-window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+window.widgets = {}; // Dictionary {deviceType -> {deviceName -> DeviceWidget }}
+window.selectedDeviceType = null;
 var automobileWidgets = {}; // Dictionary {tabName -> automobile widget }
 
 const DRIVER_SPEED_MODE = 0;
@@ -31,7 +31,7 @@ function updateControlMode(controlMode) {
   document.getElementById('rpm-label').textContent = labelText;
   document.getElementById('throttle-enable-checkbox').disabled = !isTorqueMode;
   document.getElementById('rpm-enable-checkbox').disabled = !isTorqueMode;
-  labelText = (isSpeedMode || isTorqueMode) ? '' : 'Vehicle speed not set using the Driver library';
+  labelText = (isSpeedMode || isTorqueMode) ? 'Target speed: -' : 'Vehicle speed not set using the Driver library';
   document.getElementById('target-speed-label').textContent = labelText;
   document.getElementById('speed-enable-checkbox').disabled = !isSpeedMode && !isTorqueMode;
   overviewWidget.updateControlMode(isSpeedMode, isTorqueMode);
@@ -48,12 +48,14 @@ function vehicleCheckboxCallback(checkbox) {
 }
 
 function addDriverInfo(device, label, min, max) {
-  if (document.getElementById(name + '-section'))
+  if (document.getElementById(device.name))
     return; // check if already exists
 
-  let div = '<div id="' + device.name + '-section" class="vehicle-device device">';
+  const lowerDeviceName = device.name.toLowerCase();
+
+  let div = '<div id="' + device.name + '" class="vehicle-device device">';
   div += '<h2>';
-  div += '<input type="checkbox" title="Enable/disable this plot." id="' + device.name.toLowerCase() + '-enable-checkbox" device="' + device.name + '" onclick="vehicleCheckboxCallback(this)" />';
+  div += '<input type="checkbox" title="Enable/disable this plot." id="' + lowerDeviceName + '-enable-checkbox" device="' + device.name + '" onclick="vehicleCheckboxCallback(this)" />';
   div += device.name + '<span id="' + device.name + '-label"></span></h2>';
   div += '<div id="' + device.name + '-content" class="vehicle-device-content device-content"/>';
   div += '</div>';
@@ -62,18 +64,19 @@ function addDriverInfo(device, label, min, max) {
 
   let decimals = 3;
   let plotLabels = {'x': 'Time [s]', 'y': label};
-  let autoRange = TimeplotWidget.prototype.AutoRangeType.STRETCH;
-  if (device.name.toLowerCase() === 'steering') {
+  let autoRange = TimeplotWidget.AutoRangeType.STRETCH;
+  if (lowerDeviceName === 'steering') {
     plotLabels['legend'] = ['steering angle', 'right steering angle', 'left steering angle'];
     decimals = 4;
-  } else if (device.name.toLowerCase() === 'encoders') {
+  } else if (lowerDeviceName === 'encoders') {
     plotLabels['legend'] = ['front right', 'front left', 'rear right', 'rear left'];
     decimals = 1;
+    autoRange = TimeplotWidget.AutoRangeType.ADAPT;
   }
 
   const widget = new VehicleTimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, autoRange, {'min': min, 'max': max}, plotLabels, device, decimals);
   widget.setLabel(document.getElementById(device.name + '-label'));
-  automobileWidgets[device.name.toLowerCase()] = widget;
+  automobileWidgets[lowerDeviceName] = widget;
 }
 
 function setDeviceModeCallback(switchButton, deviceType) {
@@ -88,9 +91,10 @@ function setDeviceModeCallback(switchButton, deviceType) {
   commands.push(message);
 
   // force widgets refresh when they are shown.
-  Object.keys(window.widgets).forEach(function(deviceName) {
-    const widget = window.widgets[deviceName];
-    if (widget && widget.device.type === deviceType) {
+  let tabWidgets = window.widgets[deviceType];
+  Object.keys(tabWidgets).forEach(function(deviceName) {
+    const widget = tabWidgets[deviceName];
+    if (widget) {
       const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
       DeviceWidget.checkboxCallback(checkbox);
     }
@@ -136,11 +140,18 @@ function configure(data) {
   addDriverInfo({name: 'RPM'}, '[RPM]', 0, 200);
 
   // Parse the devices once to prepare the device type list.
+  // Devices widgets will be added to window.widgets.
+  window.widgets = {};
   configureDevices(data, true);
 
   addSettingsTab();
 
-  window.widgets = Object.assign(window.widgets, {'overview': overviewWidget}, automobileWidgets);
+  window.widgets = Object.assign(window.widgets, {'overview': {'overview': overviewWidget}});
+  Object.keys(automobileWidgets).forEach(function(deviceName) {
+    const widget = automobileWidgets[deviceName];
+    window.widgets[widget.device.name] = {};
+    window.widgets[widget.device.name][deviceName] = widget;
+  });
 
   // Set the focus on the Overview tab
   menuTabCallback('overview');
@@ -149,6 +160,7 @@ function configure(data) {
 
 function update(data) {
   if (data.vehicle != null) {
+    let refreshRequired = false;
     Object.keys(data.vehicle).forEach(function(key) {
       key = key.replace(/&quot;/g, '"');
 
@@ -162,6 +174,9 @@ function update(data) {
       if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
         return;
 
+      // Request autmomobile-specific tab refresh only if modified.
+      if (!refreshRequired && window.selectedDeviceType.toLowerCase() === key.toLowerCase())
+        refreshRequired = true;
       widget.firstUpdate = false;
 
       if (key === 'overview')
@@ -178,7 +193,6 @@ function update(data) {
             attributeValue.forEach(function(u) {
               plot.addValue({'x': u.time, 'y': u.value });
             });
-            widget.refresh();
           }
         });
       } else if (key === 'steering' || key === 'encoders' || key === 'brake' || key === 'throttle' || key === 'rpm') {
@@ -186,12 +200,14 @@ function update(data) {
         const measurement = data.vehicle[key]['value'];
         let plot = widget.timeplot;
         plot.addValue({'x': time, 'y': measurement });
-        widget.refresh();
       }
     });
+    if (refreshRequired)
+      refreshSelectedTab();
   }
 
-  DeviceWidget.updateDeviceWidgets(data, widgets);
+  if (DeviceWidget.updateDeviceWidgets(data, window.selectedDeviceType))
+    refreshSelectedTab();
 }
 
 function receive(message, _robot) {
@@ -224,10 +240,6 @@ function receive(message, _robot) {
     commands = [];
   }
 }
-
-window.onresize = function() {
-  overviewWidget.resize();
-};
 
 window.onload = function() {
   window.robotWindow = webots.window();

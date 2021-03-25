@@ -13,10 +13,6 @@ function VehicleTimeplotWidget(container, basicTimeStep, autoRange, yRange, labe
   this.timeplot.stylePrefix = 'vehicle-';
   this.firstUpdate = true;
   this.device = device;
-  this.refreshLabelsRate = 3; // Hz
-
-  var that = this;
-  setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
 }
 
 VehicleTimeplotWidget.prototype.applyVehicleStyle = function(container) {
@@ -53,7 +49,7 @@ VehicleTimeplotWidget.prototype.applyVehicleStyle = function(container) {
 VehicleTimeplotWidget.prototype.initialize = function() {
   this.timeplot.initialize();
   this.applyVehicleStyle();
-  this.timeplot.computeCanvasSize();
+  this.timeplot.resize();
 };
 
 VehicleTimeplotWidget.prototype.refresh = function() {
@@ -105,6 +101,6 @@ VehicleTimeplotWidget.prototype.addValue = function(value) {
 };
 
 VehicleTimeplotWidget.prototype.resize = function() {
-  if (this.timeplot && this.timeplot.resize === 'function')
+  if (this.timeplot && typeof this.timeplot.resize === 'function')
     this.timeplot.resize();
 };

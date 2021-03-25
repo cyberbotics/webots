@@ -22,13 +22,12 @@ function OverviewWidget(container) {
     '<button id="overview-menu-button" class="menu-button tablink" onclick="menuTabCallback(\'overview\')">Overview</button>'
   );
 
-  this.refreshLabelsRate = 3; // [Hz]
-  this.refreshInterval = null;
   this.modified = true;
-
-  var that = this;
-  setInterval(function() { that.update(); }, 1000 / that.refreshLabelsRate);
 }
+
+OverviewWidget.prototype.refreshLabels = function() {
+  this.update();
+};
 
 OverviewWidget.prototype.refresh = function() {
   this.paint();
@@ -150,8 +149,6 @@ OverviewWidget.prototype.paint = function() {
   this.drawRotatedRectangle(ctx, this.frontAxisLeftPosition[0] + startX, this.frontAxisLeftPosition[1] + startY, 20, 50, this.steering[2]);
   this.drawRotatedRectangle(ctx, this.rearAxisRightPosition[0] + startX, this.rearAxisRightPosition[1] + startY, 20, 50, 0);
   this.drawRotatedRectangle(ctx, this.rearAxisLeftPosition[0] + startX, this.rearAxisLeftPosition[1] + startY, 20, 50, 0);
-
-  this.modified = false;
 };
 
 OverviewWidget.prototype.setStaticInformation = function(data) {
@@ -165,11 +162,11 @@ OverviewWidget.prototype.setStaticInformation = function(data) {
   document.getElementById('overview-front-track-label').textContent = roundLabel(data['front-track'], 3);
   document.getElementById('overview-rear-track-label').textContent = roundLabel(data['rear-track'], 3);
   document.getElementById('overview-wheelbase-label').textContent = roundLabel(data['wheelbase'], 3);
-  this.resize();
 };
 
 OverviewWidget.prototype.updateInformation = function(data) {
   this.data = data;
+  this.steering = this.data.steering;
   this.modified = true;
 };
 
@@ -179,8 +176,6 @@ OverviewWidget.prototype.update = function() {
   if (!this.initialized)
     this.initialize();
 
-  const firstCall = this.steering === [0, 0, 0];
-  this.steering = this.data.steering;
   if (this.isUndefinedMode) {
     document.getElementById('overview-speed-label').textContent = '-';
     document.getElementById('overview-target-speed-label').textContent = '-';
@@ -201,8 +196,7 @@ OverviewWidget.prototype.update = function() {
   document.getElementById('overview-wheel3-encoder-label').textContent = this.data.wheel3.encoder.toExponential(1);
   document.getElementById('overview-wheel4-speed-label').textContent = roundLabel(this.data.wheel4.speed, 1);
   document.getElementById('overview-wheel4-encoder-label').textContent = this.data.wheel4.encoder.toExponential(1);
-  if (firstCall)
-    this.resize();
+  this.modified = false;
   this.paint();
 };
 
