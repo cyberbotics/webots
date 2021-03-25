@@ -28,7 +28,7 @@ VehicleTimeplotWidget.prototype.applyVehicleStyle = function(container) {
     {'name': '.plot-axis-label-x-max', 'topOffset': labelsHeight},
     {'name': '.plot-axis-label-y', 'topOffset': labelsHeight},
     {'name': '.plot-axis-label-y-min', 'topOffset': labelsHeight},
-    {'name': '.plot-axis-label-y-max', 'topOffset': labelsHeight}
+    {'name': '.plot-axis-label-y-max', 'topOffset': labelsHeight - 15}
   ];
   const layout = document.getElementById(this.device.name + '-layout');
   for (let c = 0; c < classes.length; c++) {
