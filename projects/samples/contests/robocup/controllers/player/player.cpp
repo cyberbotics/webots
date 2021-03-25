@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
   };
   const int ports[] = {10001, 10002, 10003, 10004, 10021, 100022, 100023, 100024};
   webots::Robot *robot = new webots::Robot();
-  const double timeStep = robot->getBasicTimeStep();
+  const double time_step = robot->getBasicTimeStep();
   const size_t size = sizeof(player_names) / sizeof(player_names[0]);
   const std::string name = robot->getName();
   int client_fd = -1;
@@ -171,11 +171,13 @@ int main(int argc, char *argv[]) {
   set_blocking(server_fd, false);
 
   std::set<webots::Device *> sensors;
-
-  while (robot->step(timeStep) != -1) {
-    if (client_fd == -1)
+  int controller_time = 0;
+  while (robot->step(time_step) != -1) {
+    if (client_fd == -1) {
       client_fd = accept_client(server_fd);
-    else {
+      controller_time = 0;
+    } else {
+      controller_time += time_step;
       FD_ZERO(&rfds);
       FD_SET(client_fd, &rfds);
       struct timeval tv = {0, 0};
@@ -249,45 +251,45 @@ int main(int argc, char *argv[]) {
               const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
               webots::Device *device = robot->getDevice(sensorTimeStep.name());
               if (device) {
-                const int timeStep = sensorTimeStep.timestep();
-                if (timeStep)
+                const int sensor_time_step = sensorTimeStep.timestep();
+                if (sensor_time_step)
                   sensors.insert(device);
                 else
                   sensors.erase(device);
-                const int basicTimeStep = robot->getBasicTimeStep();
-                if (timeStep != 0 && timeStep < basicTimeStep)
+                const int basic_time_step = robot->getBasicTimeStep();
+                if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
                   warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
-                                             std::to_string(basicTimeStep) + ", ignoring " + std::to_string(timeStep) +
-                                             " value.");
-                else if (timeStep % basicTimeStep != 0)
+                                             std::to_string(basic_time_step) + ", ignoring " +
+                                             std::to_string(sensor_time_step) + " value.");
+                else if (sensor_time_step % basic_time_step != 0)
                   warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
-                                             std::to_string(basicTimeStep) + ", ignoring " + std::to_string(timeStep) +
-                                             " value.");
+                                             std::to_string(basic_time_step) + ", ignoring " +
+                                             std::to_string(sensor_time_step) + " value.");
                 else
                   switch (device->getNodeType()) {
                     case webots::Node::ACCELEROMETER: {
                       webots::Accelerometer *accelerometer = (webots::Accelerometer *)device;
-                      accelerometer->enable(timeStep);
+                      accelerometer->enable(sensor_time_step);
                       break;
                     }
                     case webots::Node::CAMERA: {
                       webots::Camera *camera = (webots::Camera *)device;
-                      camera->enable(timeStep);
+                      camera->enable(sensor_time_step);
                       break;
                     }
                     case webots::Node::GYRO: {
                       webots::Gyro *gyro = (webots::Gyro *)device;
-                      gyro->enable(timeStep);
+                      gyro->enable(sensor_time_step);
                       break;
                     }
                     case webots::Node::POSITION_SENSOR: {
                       webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
-                      positionSensor->enable(timeStep);
+                      positionSensor->enable(sensor_time_step);
                       break;
                     }
                     case webots::Node::TOUCH_SENSOR: {
                       webots::TouchSensor *touchSensor = (webots::TouchSensor *)device;
-                      touchSensor->enable(timeStep);
+                      touchSensor->enable(sensor_time_step);
                       break;
                     }
                     default:
@@ -321,6 +323,8 @@ int main(int argc, char *argv[]) {
             for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); it++) {
               webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
               if (accelerometer) {
+                if (controller_time % accelerometer->getSamplingPeriod())
+                  continue;
                 AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometer();
                 measurement->set_name(accelerometer->getName());
                 const double *values = accelerometer->getValues();
@@ -332,6 +336,8 @@ int main(int argc, char *argv[]) {
               }
               webots::Camera *camera = dynamic_cast<webots::Camera *>(*it);
               if (camera) {
+                if (controller_time % camera->getSamplingPeriod())
+                  continue;
                 CameraMeasurement *measurement = sensorMeasurements.add_camera();
                 measurement->set_name(camera->getName());
                 measurement->set_width(camera->getWidth());
@@ -351,6 +357,8 @@ int main(int argc, char *argv[]) {
               }
               webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
               if (gyro) {
+                if (controller_time % gyro->getSamplingPeriod())
+                  continue;
                 GyroMeasurement *measurement = sensorMeasurements.add_gyro();
                 measurement->set_name(gyro->getName());
                 const double *values = gyro->getValues();
@@ -362,6 +370,8 @@ int main(int argc, char *argv[]) {
               }
               webots::PositionSensor *position_sensor = dynamic_cast<webots::PositionSensor *>(*it);
               if (position_sensor) {
+                if (controller_time % position_sensor->getSamplingPeriod())
+                  continue;
                 PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensor();
                 measurement->set_name(position_sensor->getName());
                 measurement->set_value(position_sensor->getValue());
@@ -369,6 +379,8 @@ int main(int argc, char *argv[]) {
               }
               webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(*it);
               if (touch_sensor) {
+                if (controller_time % touch_sensor->getSamplingPeriod())
+                  continue;
                 webots::TouchSensor::Type type = touch_sensor->getType();
                 switch (type) {
                   case webots::TouchSensor::BUMPER: {
