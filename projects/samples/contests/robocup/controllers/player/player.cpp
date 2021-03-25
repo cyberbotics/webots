@@ -247,58 +247,6 @@ int main(int argc, char *argv[]) {
               else
                 warn(sensorMeasurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
-              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
-              webots::Device *device = robot->getDevice(sensorTimeStep.name());
-              if (device) {
-                const int sensor_time_step = sensorTimeStep.timestep();
-                if (sensor_time_step)
-                  sensors.insert(device);
-                else
-                  sensors.erase(device);
-                const int basic_time_step = robot->getBasicTimeStep();
-                if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
-                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
-                                             std::to_string(basic_time_step) + ", ignoring " +
-                                             std::to_string(sensor_time_step) + " value.");
-                else if (sensor_time_step % basic_time_step != 0)
-                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
-                                             std::to_string(basic_time_step) + ", ignoring " +
-                                             std::to_string(sensor_time_step) + " value.");
-                else
-                  switch (device->getNodeType()) {
-                    case webots::Node::ACCELEROMETER: {
-                      webots::Accelerometer *accelerometer = (webots::Accelerometer *)device;
-                      accelerometer->enable(sensor_time_step);
-                      break;
-                    }
-                    case webots::Node::CAMERA: {
-                      webots::Camera *camera = (webots::Camera *)device;
-                      camera->enable(sensor_time_step);
-                      break;
-                    }
-                    case webots::Node::GYRO: {
-                      webots::Gyro *gyro = (webots::Gyro *)device;
-                      gyro->enable(sensor_time_step);
-                      break;
-                    }
-                    case webots::Node::POSITION_SENSOR: {
-                      webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
-                      positionSensor->enable(sensor_time_step);
-                      break;
-                    }
-                    case webots::Node::TOUCH_SENSOR: {
-                      webots::TouchSensor *touchSensor = (webots::TouchSensor *)device;
-                      touchSensor->enable(sensor_time_step);
-                      break;
-                    }
-                    default:
-                      warn(sensorMeasurements,
-                           "Device \"" + sensorTimeStep.name() + "\" is not supported, time step command, ignored.");
-                  }
-              } else
-                warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
-            }
             for (int i = 0; i < actuatorRequests.camera_quality_size(); i++) {
               const CameraQuality cameraQuality = actuatorRequests.camera_quality(i);
               webots::Camera *camera = robot->getCamera(cameraQuality.name());
@@ -408,6 +356,61 @@ int main(int argc, char *argv[]) {
                 }
               }
             }
+            // we need to enable the sensors after we sent the sensor value to avoid
+            // sending values for disabled sensors.
+            for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
+              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
+              webots::Device *device = robot->getDevice(sensorTimeStep.name());
+              if (device) {
+                const int sensor_time_step = sensorTimeStep.timestep();
+                if (sensor_time_step)
+                  sensors.insert(device);
+                else
+                  sensors.erase(device);
+                const int basic_time_step = robot->getBasicTimeStep();
+                if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
+                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
+                                             std::to_string(basic_time_step) + ", ignoring " +
+                                             std::to_string(sensor_time_step) + " value.");
+                else if (sensor_time_step % basic_time_step != 0)
+                  warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
+                                             std::to_string(basic_time_step) + ", ignoring " +
+                                             std::to_string(sensor_time_step) + " value.");
+                else
+                  switch (device->getNodeType()) {
+                    case webots::Node::ACCELEROMETER: {
+                      webots::Accelerometer *accelerometer = (webots::Accelerometer *)device;
+                      accelerometer->enable(sensor_time_step);
+                      break;
+                    }
+                    case webots::Node::CAMERA: {
+                      webots::Camera *camera = (webots::Camera *)device;
+                      camera->enable(sensor_time_step);
+                      break;
+                    }
+                    case webots::Node::GYRO: {
+                      webots::Gyro *gyro = (webots::Gyro *)device;
+                      gyro->enable(sensor_time_step);
+                      break;
+                    }
+                    case webots::Node::POSITION_SENSOR: {
+                      webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
+                      positionSensor->enable(sensor_time_step);
+                      break;
+                    }
+                    case webots::Node::TOUCH_SENSOR: {
+                      webots::TouchSensor *touchSensor = (webots::TouchSensor *)device;
+                      touchSensor->enable(sensor_time_step);
+                      break;
+                    }
+                    default:
+                      warn(sensorMeasurements,
+                           "Device \"" + sensorTimeStep.name() + "\" is not supported, time step command, ignored.");
+                  }
+              } else
+                warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
+            }
+
             const int size = sensorMeasurements.ByteSizeLong();
             char *output = (char *)malloc(sizeof(int) + size);
             int *output_size = (int *)output;
