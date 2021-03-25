@@ -57,14 +57,16 @@ static void packet_destroy(PacketStruct *ps) {
 }
 
 typedef struct {
-  int enable : 1;       // need to enable device ?
-  int set_channel : 1;  // need to change receiver's channel ?
-  int sampling_period;  // milliseconds
-  int channel;          // receiver's channel
-  PacketStruct *queue;  // reception queue
-  int queue_length;     // number of packets in the reception queue
-  int buffer_size;      // reception buffer size (as in Receiver.bufferSize)
-  int buffer_used;      // sum of all packet data size
+  int enable : 1;             // need to enable device ?
+  int set_channel : 1;        // need to change receiver's channel ?
+  int sampling_period;        // milliseconds
+  int channel;                // receiver's channel
+  int *allowed_channels;      // allowed channels receiver is allowed to listen to
+  PacketStruct *queue;        // reception queue
+  int queue_length;           // number of packets in the reception queue
+  int buffer_size;            // reception buffer size (as in Receiver.bufferSize)
+  int buffer_used;            // sum of all packet data size
+  int allowed_channels_size;  // size of allowed_channels array
 } Receiver;
 
 static Receiver *receiver_create() {
@@ -73,10 +75,12 @@ static Receiver *receiver_create() {
   rs->set_channel = false;
   rs->sampling_period = 0;
   rs->channel = -1;
+  rs->allowed_channels = NULL;
   rs->queue = NULL;
   rs->queue_length = 0;
   rs->buffer_size = -1;
   rs->buffer_used = 0;
+  rs->allowed_channels_size = -1;
   return rs;
 }
 
@@ -127,6 +131,10 @@ static void receiver_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE:
       rs->buffer_size = request_read_int32(r);
       rs->channel = request_read_int32(r);
+      rs->allowed_channels_size = request_read_int32(r);
+      rs->allowed_channels = (int *)realloc(rs->allowed_channels, rs->allowed_channels_size * sizeof(int));
+      for (int i = 0; i < rs->allowed_channels_size; i++)
+        rs->allowed_channels[i] = request_read_int32(r);
       break;
 
     case C_RECEIVER_RECEIVE: {
@@ -175,6 +183,7 @@ static void receiver_write_request(WbDevice *d, WbRequest *r) {
 static void receiver_cleanup(WbDevice *d) {
   Receiver *rs = d->pdata;
   receiver_empty_queue(rs);
+  free(rs->allowed_channels);
   free(rs);
 }
 
@@ -238,8 +247,26 @@ void wb_receiver_set_channel(WbDeviceTag tag, int channel) {
   if (!rs)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else if (channel != rs->channel) {
-    rs->set_channel = true;
-    rs->channel = channel;
+    bool is_allowed = true;
+
+    if (rs->allowed_channels_size > 0) {
+      is_allowed = false;
+      for (int i = 0; i < rs->allowed_channels_size; i++) {
+        if (rs->allowed_channels[i] == channel) {
+          is_allowed = true;
+          break;
+        }
+      }
+    }
+
+    if (!is_allowed)
+      fprintf(stderr,
+              "Error: %s() called with channel=%d, which is not between allowed channels. Please use an allowed channel.\n",
+              __FUNCTION__, channel);
+    else {
+      rs->set_channel = true;
+      rs->channel = channel;
+    }
   }
   robot_mutex_unlock_step();
 }

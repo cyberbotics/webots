@@ -1,5 +1,5 @@
 #VRML_SIM R2021b utf8
-# tags: hidden, static
+# tags: hidden
 
 PROTO NaoRightWristH21 [
   field SFString name "right wrist"

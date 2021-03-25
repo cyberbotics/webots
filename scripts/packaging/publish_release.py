@@ -21,7 +21,9 @@ import optparse
 import os
 import re
 import requests
+import urllib3
 import sys
+import time
 from github import Github
 from github.GithubException import UnknownObjectException
 
@@ -34,7 +36,10 @@ optParser.add_option("--branch", dest="branch", default="", help="specifies the 
 optParser.add_option("--commit", dest="commit", default="", help="specifies the commit from which is uploaded the release.")
 options, args = optParser.parse_args()
 
-g = Github(options.key)
+# status codes returned on random github server errors
+status_forcelist = (500, 502, 504)
+retry = urllib3.Retry(total=10, status_forcelist=status_forcelist)
+g = Github(options.key, retry=retry)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
@@ -113,14 +118,18 @@ for release in repo.get_releases():
                     print('Asset "%s" already present in release "%s".' % (file, title))
                 else:
                     print('Uploading "%s"' % file)
-                    remainingTrials = 5
-                    while remainingTrials > 0:
+                    retryCount = 0
+                    while retryCount < 5:
+                        if retryCount > 0:
+                            time.sleep(retryCount * 60)  # wait some minutes before retry
                         try:
                             release.upload_asset(path)
-                            remainingTrials = 0
+                            break
                         except requests.exceptions.ConnectionError:
-                            remainingTrials -= 1
-                            print('Release upload failed (remaining trials: %d)' % remainingTrials)
+                            print('Release upload failed due to connection error (remaining trials: %d)' % (4 - retryCount))
+                        except requests.exceptions.HTTPError:
+                            print('Release upload failed due to server error (remaining trials: %d)' % (4 - retryCount))
+                        retryCount += 1
                     if (releaseExists and tagName.startswith('nightly_') and not releaseCommentModified and
                             branchName not in release.body):
                         print('Updating release description')

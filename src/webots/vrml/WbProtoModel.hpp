@@ -81,7 +81,7 @@ public:
 
   // template
   bool isTemplate() const { return mTemplate; }
-  bool isStatic() const { return mIsStatic; }
+  bool isDeterministic() const { return mIsDeterministic; }
 
   // proto derived from another proto
   bool isDerived() const { return mDerived; }
@@ -114,14 +114,14 @@ private:
   // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoModel)
 
-  QMap<QString, QString> mStaticContentMap;
+  QMap<QString, QString> mDeterministicContentMap;
   QString mContent;
 
   bool mTemplate;
   WbVersion mFileVersion;
   QString mName;
   QString mInfo;
-  bool mIsStatic;  // has the 'static' tag
+  bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
   QString mFileName;  // .proto file name
   QString mPath;      // path of .proto file

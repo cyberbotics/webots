@@ -20,6 +20,7 @@ If an object has at least two sides defined (for example up and front) it should
 - **F**orward direction along the positive X-axis,
 - **L**eft direction along the positive Y-axis, and 
 - **U**p direction along the positive Z-axis.
+
 Typical candidates for the FLU system are a TV set, a rubber duck, or a robot.
 Objects such as a flower pot don't have any front, back, right or left side.
 In such cases, only the up direction should be set correctly: the upright position should be along the positive Z-axis.
