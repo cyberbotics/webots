@@ -397,7 +397,6 @@ int main(int argc, char *argv[]) {
                 }
               }
             }
-
             const int size = sensorMeasurements.ByteSizeLong();
             char *output = (char *)malloc(sizeof(int) + size);
             int *output_size = (int *)output;
