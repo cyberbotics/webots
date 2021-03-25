@@ -43,24 +43,13 @@ TexturedBackground {
 TexturedBackgroundLight {
   texture "stadium_dry"
 }
+Robot {
+  supervisor TRUE
+  controller "referee"
+}
 RobocupSoccerField {
   size "kid"
 }
 RobocupSoccerBall {
   translation 0 0 0.08
-}
-DEF RED_3 Darwin-opHinge2 {
-  translation 0.8 -0.5 0.24
-  rotation -6.897009999981874e-08 -2.291579999993978e-06 0.9999999999973721 3.14159
-  name "red player 3"
-  controller "player"
-  selfCollision TRUE
-  cameraWidth 320
-  cameraHeight 240
-  jersey RobotisJersey {
-    jerseyTexture [
-      "textures/robotis-op2_3_red.png"
-    ]
-  }
-  backlash TRUE
 }
