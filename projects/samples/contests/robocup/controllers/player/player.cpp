@@ -172,17 +172,7 @@ int main(int argc, char *argv[]) {
 
   std::set<webots::Device *> sensors;
 
-  webots::Camera *camera = robot->getCamera("Camera");
-  camera->enable(timeStep);
-  int width = camera->getWidth();
-  int height = camera->getHeight();
-  unsigned char *buffer = NULL;
-  unsigned long bufferSize = 0;
   while (robot->step(timeStep) != -1) {
-    const unsigned char *image = camera->getImage();
-    encode_jpeg(image, width, height, 95, &bufferSize, &buffer);
-    free_jpeg(buffer);
-    buffer = NULL;
     if (client_fd == -1)
       client_fd = accept_client(server_fd);
     else {
@@ -348,6 +338,15 @@ int main(int argc, char *argv[]) {
                 measurement->set_height(camera->getHeight());
                 measurement->set_quality(-1);  // raw image (JPEG compression not yet supported)
                 measurement->set_image((const char *)camera->getImage());
+
+                // testing JPEG compression (impacts the performance)
+                unsigned char *buffer = NULL;
+                long unsigned int bufferSize = 0;
+                const unsigned char *image = camera->getImage();
+                encode_jpeg(image, camera->getWidth(), camera->getHeight(), 95, &bufferSize, &buffer);
+                free_jpeg(buffer);
+                buffer = NULL;
+
                 continue;
               }
               webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
