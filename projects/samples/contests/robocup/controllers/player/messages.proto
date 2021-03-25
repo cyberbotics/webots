@@ -46,13 +46,8 @@ message CameraMeasurement {
   string name = 1;
   int32 width = 2;
   int32 height = 3;
-  int32 quality = 4;                 // 100 = no compression, 0 = high compression
-  bytes data = 5;                     // JPEG encoded data
-  double horizontalFieldOfView = 6;  // express in [rad]
-  int32 centerX = 7;                 // horizontal optical center in pixels
-  int32 centerY= 8;                  // vertical optical center in pixels
-  double radialCoefficients = 9;
-  double tangentialCoefficients = 10;
+  int32 quality = 4;                 // -1 = raw image, 100 = no compression, 0 = high compression
+  bytes image = 5;                   // JPEG encoded data
 }
 
 message Message {
@@ -68,13 +63,14 @@ message Message {
 message SensorMeasurements {
   double time = 1;  // time stamp at which the measurements were performed expressed in [s]
   repeated Message message = 2;
-  repeated PositionSensorMeasurement position_sensor = 3;
-  repeated AccelerometerMeasurement accelerometer = 4;
-  repeated GyroMeasurement gyro = 5;
-  repeated BumperMeasurement bumper = 6;
-  repeated Force3DMeasurement force_3d = 7;
-  repeated Force6DMeasurement force_6d = 8;
-  repeated CameraMeasurement camera = 9;
+  repeated AccelerometerMeasurement accelerometer = 3;
+  repeated BumperMeasurement bumper = 4;
+  repeated CameraMeasurement camera = 5;
+  repeated ForceMeasurement force = 6;
+  repeated Force3DMeasurement force3d = 7;
+  repeated Force6DMeasurement force6d = 8;
+  repeated GyroMeasurement gyro = 9;
+  repeated PositionSensorMeasurement position_sensor = 10;
 }
 
 message MotorPosition {

@@ -170,6 +170,8 @@ int main(int argc, char *argv[]) {
   server_fd = create_socket_server(port);
   set_blocking(server_fd, false);
 
+  std::set<webots::Device *> sensors;
+
   webots::Camera *camera = robot->getCamera("Camera");
   camera->enable(timeStep);
   int width = camera->getWidth();
@@ -258,6 +260,10 @@ int main(int argc, char *argv[]) {
               webots::Device *device = robot->getDevice(sensorTimeStep.name());
               if (device) {
                 const int timeStep = sensorTimeStep.timestep();
+                if (timeStep)
+                  sensors.insert(device);
+                else
+                  sensors.erase(device);
                 const int basicTimeStep = robot->getBasicTimeStep();
                 if (timeStep != 0 && timeStep < basicTimeStep)
                   warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
@@ -321,6 +327,76 @@ int main(int argc, char *argv[]) {
             std::string printout;
             google::protobuf::TextFormat::PrintToString(actuatorRequests, &printout);
             std::cout << printout << std::endl;
+
+            for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); it++) {
+              webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
+              if (accelerometer) {
+                AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometer();
+                measurement->set_name(accelerometer->getName());
+                const double *values = accelerometer->getValues();
+                Vector3 *vector3 = measurement->mutable_value();
+                vector3->set_x(values[0]);
+                vector3->set_y(values[1]);
+                vector3->set_z(values[2]);
+                continue;
+              }
+              webots::Camera *camera = dynamic_cast<webots::Camera *>(*it);
+              if (camera) {
+                CameraMeasurement *measurement = sensorMeasurements.add_camera();
+                measurement->set_name(camera->getName());
+                measurement->set_width(camera->getWidth());
+                measurement->set_height(camera->getHeight());
+                measurement->set_quality(-1);  // raw image (JPEG compression not yet supported)
+                measurement->set_image((const char *)camera->getImage());
+                continue;
+              }
+              webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
+              if (gyro) {
+                GyroMeasurement *measurement = sensorMeasurements.add_gyro();
+                measurement->set_name(gyro->getName());
+                const double *values = gyro->getValues();
+                Vector3 *vector3 = measurement->mutable_value();
+                vector3->set_x(values[0]);
+                vector3->set_y(values[1]);
+                vector3->set_z(values[2]);
+                continue;
+              }
+              webots::PositionSensor *position_sensor = dynamic_cast<webots::PositionSensor *>(*it);
+              if (position_sensor) {
+                PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensor();
+                measurement->set_name(position_sensor->getName());
+                measurement->set_value(position_sensor->getValue());
+                continue;
+              }
+              webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(*it);
+              if (touch_sensor) {
+                webots::TouchSensor::Type type = touch_sensor->getType();
+                switch (type) {
+                  case webots::TouchSensor::BUMPER: {
+                    BumperMeasurement *measurement = sensorMeasurements.add_bumper();
+                    measurement->set_name(touch_sensor->getName());
+                    measurement->set_value(touch_sensor->getValue() == 1.0);
+                    continue;
+                  }
+                  case webots::TouchSensor::FORCE: {
+                    ForceMeasurement *measurement = sensorMeasurements.add_force();
+                    measurement->set_name(touch_sensor->getName());
+                    measurement->set_value(touch_sensor->getValue());
+                    continue;
+                  }
+                  case webots::TouchSensor::FORCE3D: {
+                    Force3DMeasurement *measurement = sensorMeasurements.add_force3d();
+                    measurement->set_name(touch_sensor->getName());
+                    const double *values = touch_sensor->getValues();
+                    Vector3 *vector3 = measurement->mutable_value();
+                    vector3->set_x(values[0]);
+                    vector3->set_y(values[1]);
+                    vector3->set_z(values[2]);
+                    continue;
+                  }
+                }
+              }
+            }
 
             const int size = sensorMeasurements.ByteSizeLong();
             char *output = (char *)malloc(sizeof(int) + size);

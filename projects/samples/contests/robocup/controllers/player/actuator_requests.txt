@@ -6,3 +6,7 @@ motor_position {
   name: "Head"
   position: 1.8
 }
+sensor_time_step {
+  name: "Camera"
+  timeStep: 16
+}
