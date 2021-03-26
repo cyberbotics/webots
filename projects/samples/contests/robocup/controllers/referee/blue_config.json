@@ -36,7 +36,7 @@
     "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
     "halfTimeStartingPose": {
       "translation": [-0.8, 0.5, 0.24],
-      "rotation": [0, 0, 1, 0]
+      "rotation": [0, 0, 1, -0.5]
     },
     "reentryStartingPose": {
       "translation": [-3, -3.11, 0.24],
@@ -52,7 +52,7 @@
     "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
     "halfTimeStartingPose": {
       "translation": [-0.8, -0.5, 0.24],
-      "rotation": [0, 0, 1, 0]
+      "rotation": [0, 0, 1, 0.5]
     },
     "reentryStartingPose": {
       "translation": [-3, -3.11, 0.24],

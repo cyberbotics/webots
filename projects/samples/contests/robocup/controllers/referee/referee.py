@@ -1,27 +1,32 @@
 import json
+import math
+
 from controller import Supervisor
 
+
+def spawn_team(color, children):
+    with open(color + '_config.json') as json_file:
+        config = json.load(json_file)
+        for number in config:
+            model = config[number]['proto']
+            translation = config[number]['halfTimeStartingPose']['translation']
+            rotation = config[number]['halfTimeStartingPose']['rotation']
+            if color == 'blue':  # symmetry with respect to the central line of the field
+                translation[0] = -translation[0]
+                rotation[3] = math.pi - rotation[3]
+            string = f'{model}{{name "{color} player {number}" ' + \
+                f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
+                f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}}}'
+            children.importMFNodeFromString(-1, string)
+
+
+# spawing the teams
 robot = Supervisor()
-
-with open('red_config.json') as json_file:
-    red_config = json.load(json_file)
-
-with open('blue_config.json') as json_file:
-    blue_config = json.load(json_file)
-
-time_step = int(robot.getBasicTimeStep())
-
-# spawing the robots
 root = robot.getRoot()
 children = root.getField('children')
-for number in red_config:
-    model = red_config[number]['proto']
-    translation = red_config[number]['halfTimeStartingPose']['translation']
-    rotation = red_config[number]['halfTimeStartingPose']['rotation']
-    string = f'{model}{{name "red player {number}" ' + \
-        f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
-        f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}}}'
-    print(string)
-    children.importMFNodeFromString(-1, string)
+spawn_team('red', children)
+spawn_team('blue', children)
+
+time_step = int(robot.getBasicTimeStep())
 while robot.step(time_step) != -1:
     print('Hello World!')
