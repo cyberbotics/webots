@@ -1,0 +1,5 @@
+{
+  "type": "match",
+  "red_team": "team_1.json",
+  "blue_team": "team_2.json"
+}

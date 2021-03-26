@@ -1,32 +1,96 @@
+from controller import Supervisor
 import json
 import math
-
-from controller import Supervisor
-
-
-def spawn_team(color, children):
-    with open(color + '_config.json') as json_file:
-        config = json.load(json_file)
-        for number in config:
-            model = config[number]['proto']
-            translation = config[number]['halfTimeStartingPose']['translation']
-            rotation = config[number]['halfTimeStartingPose']['rotation']
-            if color == 'blue':  # symmetry with respect to the central line of the field
-                translation[0] = -translation[0]
-                rotation[3] = math.pi - rotation[3]
-            string = f'{model}{{name "{color} player {number}" ' + \
-                f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
-                f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}}}'
-            children.importMFNodeFromString(-1, string)
+import random
+from types import SimpleNamespace
 
 
-# spawing the teams
-robot = Supervisor()
-root = robot.getRoot()
+global supervisor, game, red_team, blue_team
+
+
+def spawn_team(team, color, red_on_right, children):
+    for number in team['players']:
+        model = team['players'][number]['proto']
+        translation = team['players'][number]['halfTimeStartingPose']['translation']
+        rotation = team['players'][number]['halfTimeStartingPose']['rotation']
+        if red_on_right:  # symmetry with respect to the central line of the field
+            translation[0] = -translation[0]
+            rotation[3] = math.pi - rotation[3]
+        string = f'{model}{{name "{color} player {number}" ' + \
+            f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
+            f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}}}'
+        children.importMFNodeFromString(-1, string)
+
+
+def display_score():
+    red = 0xd62929
+    blue = 0x2943d6
+    black = 0x000000
+    white = 0xffffff
+    n = len(red_team['name'])
+    red_team_name = ' ' * 27 + red_team['name'] if game.red_on_right else (20 - n) * ' ' + red_team['name']
+    n = len(blue_team['name'])
+    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.red_on_right else ' ' * 27 + blue_team['name']
+    red_score = str(red_team['score'])
+    blue_score = str(blue_team['score'])
+    if game.red_on_right:
+        red_score = ' ' * 24 + red_score
+        offset = 21 if len(blue_score) == 2 else 22
+        blue_score = ' ' * offset + blue_score
+    else:
+        blue_score = ' ' * 24 + blue_score
+        offset = 21 if len(red_score) == 2 else 22
+        red_score = ' ' * offset + red_score
+    transparency = 0.2
+    # default background
+    x = game.overlay_x
+    y = game.overlay_y
+    size = game.font_size
+    font = game.font
+    supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 14, x, y, size, white, transparency, font)
+    # team name background
+    supervisor.setLabel(1, ' ' * 7 + '█' * 14 + ' ' * 5 + 14 * '█', x, y, size, white, transparency * 2, font)
+    supervisor.setLabel(2, ' 00:00', x, y, size, black, transparency, font)
+    supervisor.setLabel(3, red_team_name, x, y, size, red, transparency, font)
+    supervisor.setLabel(4, blue_team_name, x, y, size, blue, transparency, font)
+    supervisor.setLabel(5, red_score, x, y, size, black, transparency, font)
+    supervisor.setLabel(6, blue_score, x, y, size, black, transparency, font)
+    supervisor.setLabel(7, ' ' * 23 + '-', x, y, size, black, transparency, font)
+    supervisor.setLabel(8, ' ' * 41 + game.status, x, y, size, black, transparency, font)
+
+
+# read configuration files
+with open('game.json') as json_file:
+    game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
+with open(game.red_team) as json_file:
+    red_team = json.load(json_file)
+with open(game.blue_team) as json_file:
+    blue_team = json.load(json_file)
+
+# start the webots supervisor
+supervisor = Supervisor()
+root = supervisor.getRoot()
 children = root.getField('children')
-spawn_team('red', children)
-spawn_team('blue', children)
+game.red_on_right = bool(random.getrandbits(1))  # toss a coin to determine who is playing on which side
+game.font_size = 0.1
+game.font = 'Lucida Console'
+game.overlay_x = 0.02
+game.overlay_y = 0.01
+spawn_team(red_team, 'red', game.red_on_right, children)
+spawn_team(blue_team, 'blue', not game.red_on_right, children)
+red_team['score'] = 0
+blue_team['score'] = 0
+game.status = 'KICK-OFF'
+display_score()
 
-time_step = int(robot.getBasicTimeStep())
-while robot.step(time_step) != -1:
-    print('Hello World!')
+time_step = int(supervisor.getBasicTimeStep())
+time_count = 0
+previous_seconds = -1
+while supervisor.step(time_step) != -1:
+    seconds = (int)(time_count / 1000) % 60
+    if seconds != previous_seconds:
+        previous_seconds = seconds
+        minutes = (int)(time_count / 60000)
+        supervisor.setLabel(2, f' {minutes:02d}:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2,
+                            game.font)
+    time_count += time_step
