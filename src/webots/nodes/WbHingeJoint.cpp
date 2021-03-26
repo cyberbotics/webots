@@ -143,6 +143,8 @@ void WbHingeJoint::applyToOdeStopErp() {
 
   if (nodeType() == WB_NODE_HINGE_JOINT)
     dJointSetHingeParam(mJoint, dParamStopERP, erp);
+  if (nodeType() == WB_NODE_HINGE_2_JOINT)
+    dJointSetHinge2Param(mJoint, dParamStopERP, erp);
 }
 
 void WbHingeJoint::applyToOdeStopCfm() {
@@ -154,6 +156,8 @@ void WbHingeJoint::applyToOdeStopCfm() {
 
   if (nodeType() == WB_NODE_HINGE_JOINT)
     dJointSetHingeParam(mJoint, dParamStopCFM, cfm);
+  if (nodeType() == WB_NODE_HINGE_2_JOINT)
+    dJointSetHinge2Param(mJoint, dParamStopCFM, cfm);
 }
 
 void WbHingeJoint::applyToOdeAxis() {

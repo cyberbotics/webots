@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 
     // Test: no endpoint should swing beyond neither the current nor the maximal value reached by the reference.
     // check against the maxima
-    tolerance = 1e-10;
+    tolerance = 1e-8;
     ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_BOTH][Z],
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached the reference's maximal Z position.");
     ts_assert_double_is_bigger(reference_max_z + tolerance, end_point_position[BACKLASH_ON_AXIS][Z] + 0.25,
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 
     // TEST: assert if behavior is consistent (those with backlash behave all the same, those without as well)
     // (BACKLASH_ON_BOTH, BACKLASH_ON_AXIS2) should behave in the same manner
-    tolerance = 1e-8;
+    tolerance = 1e-7;
     ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
                             end_point_position[BACKLASH_ON_BOTH][Z], end_point_position[BACKLASH_ON_AXIS2][X],
                             end_point_position[BACKLASH_ON_AXIS2][Y], end_point_position[BACKLASH_ON_AXIS2][Z] + 0.50,
