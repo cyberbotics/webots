@@ -574,7 +574,7 @@ PROTO TiagoFrontArm [
                                                       ]
                                                     }
                                                   ]
-                                                  name "wrist_ft_tool_link"
+                                                  name "arm_tool_link"
                                                   boundingObject Transform {
                                                     rotation 0 0 -1 -1.57
                                                     children [
