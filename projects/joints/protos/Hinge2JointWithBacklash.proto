@@ -56,9 +56,9 @@ PROTO Hinge2JointWithBacklash [
     if (backlash == 0 and backlash2 == 0) then
       print("No backlash on either axis, 'Hinge2JointWithBacklash' reverted to a 'Hinge2Joint'. All other parameters are ignored.")
     elseif (backlash == 0 and backlash2 ~= 0) then
-      print("No backlash on the first axis. 'outputSensor' is ignored.")
+      print("No backlash on the first axis. 'outputSensor' and 'startPoint' are ignored.")
     elseif (backlash ~= 0 and backlash2 == 0) then
-      print("No backlash on the second axis. 'outputSensor2' is ignored.")
+      print("No backlash on the second axis. 'outputSensor2' and 'startPoint2' are ignored.")
     end
   }%
   %{ if backlash == 0 then }% # skip first limiter
