@@ -1,8 +1,27 @@
+// Copyright 1996-2021 Cyberbotics Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include <assert.h>
+#include <stdio.h>
+
 #ifdef _WIN32
 #include <winsock.h>
+typedef int socklen_t;
 #else
-#include <arpa/inet.h>  /* definition of inet_ntoa */
-#include <netdb.h>      /* definition of gethostbyname */
+#include <arpa/inet.h> /* definition of inet_ntoa */
+#include <fcntl.h>
+#include <netdb.h> /* definition of gethostbyname */
 #include <netinet/in.h> /* definition of struct sockaddr_in */
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -16,7 +35,6 @@
 #else
 #include <jpeglib.h>
 #endif
-#include <assert.h>
 
 #include <google/protobuf/text_format.h>
 
@@ -49,8 +67,7 @@ static bool set_blocking(int fd, bool blocking) {
 static int accept_client(int server_fd) {
   int cfd;
   struct sockaddr_in client;
-  int size;
-  size = sizeof(struct sockaddr_in);
+  socklen_t size = sizeof(struct sockaddr_in);
   cfd = accept(server_fd, (struct sockaddr *)&client, &size);
   if (cfd != -1) {
     struct hostent *client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
