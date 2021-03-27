@@ -1,3 +1,6 @@
+#include <assert.h>
+#include <stdio.h>
+
 #ifdef _WIN32
 #include <winsock.h>
 #else
@@ -7,6 +10,7 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <unistd.h> /* definition of close */
+#include <fcntl.h>
 #endif
 // #define TURBOJPEG 1
 // It turns out that the libjpeg interface to turbojpeg runs faster than the native turbojpeg interface
@@ -16,7 +20,6 @@
 #else
 #include <jpeglib.h>
 #endif
-#include <assert.h>
 
 #include <google/protobuf/text_format.h>
 
@@ -49,8 +52,7 @@ static bool set_blocking(int fd, bool blocking) {
 static int accept_client(int server_fd) {
   int cfd;
   struct sockaddr_in client;
-  int size;
-  size = sizeof(struct sockaddr_in);
+  socklen_t size = sizeof(struct sockaddr_in);
   cfd = accept(server_fd, (struct sockaddr *)&client, &size);
   if (cfd != -1) {
     struct hostent *client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
