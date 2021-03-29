@@ -31,8 +31,6 @@ class TestProtos(unittest.TestCase):
         self.protoFiles = []
         for directory in ['projects', 'resources']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
-                if rootPath[-7:] != os.path.sep + 'protos' and os.path.sep + 'protos' + os.path.sep not in rootPath:
-                    continue
                 for fileName in fnmatch.filter(fileNames, '*.proto'):
                     self.protos.append(fileName)
                     if fileName not in self.protoPath:

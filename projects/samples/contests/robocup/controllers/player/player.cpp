@@ -19,21 +19,14 @@
 #include <winsock.h>
 typedef int socklen_t;
 #else
-#include <arpa/inet.h>
+#include <arpa/inet.h> /* definition of inet_ntoa */
 #include <fcntl.h>
-#include <netdb.h>
-#include <netinet/in.h>
+#include <netdb.h> /* definition of gethostbyname */
+#include <netinet/in.h> /* definition of struct sockaddr_in */
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <unistd.h>
+#include <unistd.h> /* definition of close */
 #endif
-
-#include <google/protobuf/text_format.h>
-#include "messages.pb.h"
-#if GOOGLE_PROTOBUF_VERSION < 3006001
-#define ByteSizeLong ByteSize
-#endif
-
 // #define TURBOJPEG 1
 // It turns out that the libjpeg interface to turbojpeg runs faster than the native turbojpeg interface
 // Alternatives to be considered: NVIDIA CUDA nvJPEG Encoder, Intel IPP JPEG encoder
@@ -43,6 +36,8 @@ typedef int socklen_t;
 #include <jpeglib.h>
 #endif
 
+#include <google/protobuf/text_format.h>
+
 #include <webots/Accelerometer.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Gyro.hpp>
@@ -51,14 +46,7 @@ typedef int socklen_t;
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
-
-//  red team will connect player 1 to port 10001, player 2 to port 10002, player 3 to port 10003, player 4 to port 10004
-// blue team will connect player 1 to port 10021, player 2 to port 10022, player 3 to port 10023, player 4 to port 10024
-#define PORT_BASE 10000
-#define PORT_OFFSET 20
-
-// teams are limited to a bandwdith of 100 MB/s from the server evaluated on a floating time window of 1000 milliseconds.
-#define TEAM_QUOTA (100 * 1024 * 1024)
+#include "messages.pb.h"
 
 static int server_fd = -1;
 static fd_set rfds;
@@ -170,47 +158,8 @@ static void free_jpeg(unsigned char *buffer) {
 #endif
 }
 
-static int bandwidth_usage(size_t new_packet_size, int port, int controller_time, int basic_time_step) {
-  static int *data_transferred = NULL;
-  const int window_size = 1000 / basic_time_step;
-  const int index = (controller_time / basic_time_step) % window_size;
-  int sum = 0;
-  char filename[32];
-  if (data_transferred == NULL) {
-    data_transferred = (int *)malloc(sizeof(int) * window_size);
-    for (int i = 0; i < window_size; i++)
-      data_transferred[i] = 0;
-  }
-  data_transferred[index] = new_packet_size;
-  snprintf(filename, sizeof(filename), "quota-%d.txt", port);
-  FILE *fd = fopen(filename, "w");
-  for (int i = 0; i < window_size; i++) {
-    sum += data_transferred[i];
-    fprintf(fd, "%d\n", data_transferred[i]);
-  }
-  fclose(fd);
-  const int port_base = (port > PORT_BASE + PORT_OFFSET) ? PORT_BASE + PORT_OFFSET : PORT_BASE;
-  for (int i = port_base + 1; i < port_base + PORT_OFFSET + 1; i++) {
-    if (i == port)
-      continue;
-    snprintf(filename, sizeof(filename), "quota-%d.txt", i);
-    fd = fopen(filename, "r");
-    if (fd == NULL)
-      continue;
-    while (!feof(fd)) {
-      int v = -1;
-      fscanf(fd, "%d\n", &v);
-      if (v == -1)
-        break;
-      sum += v;
-    }
-    fclose(fd);
-  }
-  return sum;
-}
-
 static void warn(SensorMeasurements &sensorMeasurements, std::string text) {
-  Message *message = sensorMeasurements.add_messages();
+  Message *message = sensorMeasurements.add_message();
   message->set_message_type(Message::WARNING_MESSAGE);
   message->set_text(text);
 }
@@ -220,16 +169,9 @@ int main(int argc, char *argv[]) {
     "red player 1",  "red player 2",  "red player 3",  "red player 4",
     "blue player 1", "blue player 2", "blue player 3", "blue player 4",
   };
-  const int ports[] = {PORT_BASE + 1,
-                       PORT_BASE + 2,
-                       PORT_BASE + 3,
-                       PORT_BASE + 4,
-                       PORT_BASE + PORT_OFFSET + 1,
-                       PORT_BASE + PORT_OFFSET + 2,
-                       PORT_BASE + PORT_OFFSET + 3,
-                       PORT_BASE + PORT_OFFSET + 4};
+  const int ports[] = {10001, 10002, 10003, 10004, 10021, 100022, 100023, 100024};
   webots::Robot *robot = new webots::Robot();
-  const int basic_time_step = robot->getBasicTimeStep();
+  const double time_step = robot->getBasicTimeStep();
   const size_t size = sizeof(player_names) / sizeof(player_names[0]);
   const std::string name = robot->getName();
   int client_fd = -1;
@@ -247,12 +189,12 @@ int main(int argc, char *argv[]) {
 
   std::set<webots::Device *> sensors;
   int controller_time = 0;
-  while (robot->step(basic_time_step) != -1) {
+  while (robot->step(time_step) != -1) {
     if (client_fd == -1) {
       client_fd = accept_client(server_fd);
       controller_time = 0;
     } else {
-      controller_time += basic_time_step;
+      controller_time += time_step;
       FD_ZERO(&rfds);
       FD_SET(client_fd, &rfds);
       struct timeval tv = {0, 0};
@@ -282,56 +224,56 @@ int main(int argc, char *argv[]) {
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
-            for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
-              const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
+            for (int i = 0; i < actuatorRequests.motor_position_size(); i++) {
+              const MotorPosition motorPosition = actuatorRequests.motor_position(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
               if (motor)
                 motor->setPosition(motorPosition.position());
               else
                 warn(sensorMeasurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
-              const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
+            for (int i = 0; i < actuatorRequests.motor_velocity_size(); i++) {
+              const MotorVelocity motorVelocity = actuatorRequests.motor_velocity(i);
               webots::Motor *motor = robot->getMotor(motorVelocity.name());
               if (motor)
                 motor->setVelocity(motorVelocity.velocity());
               else
                 warn(sensorMeasurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
-              const MotorForce motorForce = actuatorRequests.motor_forces(i);
+            for (int i = 0; i < actuatorRequests.motor_force_size(); i++) {
+              const MotorForce motorForce = actuatorRequests.motor_force(i);
               webots::Motor *motor = robot->getMotor(motorForce.name());
               if (motor)
                 motor->setForce(motorForce.force());
               else
                 warn(sensorMeasurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
-              const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
+            for (int i = 0; i < actuatorRequests.motor_torque_size(); i++) {
+              const MotorTorque motorTorque = actuatorRequests.motor_torque(i);
               webots::Motor *motor = robot->getMotor(motorTorque.name());
               if (motor)
                 motor->setTorque(motorTorque.torque());
               else
                 warn(sensorMeasurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
-              const MotorPID motorPID = actuatorRequests.motor_pids(i);
+            for (int i = 0; i < actuatorRequests.motor_pid_size(); i++) {
+              const MotorPID motorPID = actuatorRequests.motor_pid(i);
               webots::Motor *motor = robot->getMotor(motorPID.name());
               if (motor)
                 motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
               else
                 warn(sensorMeasurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.camera_qualities_size(); i++) {
-              const CameraQuality cameraQuality = actuatorRequests.camera_qualities(i);
+            for (int i = 0; i < actuatorRequests.camera_quality_size(); i++) {
+              const CameraQuality cameraQuality = actuatorRequests.camera_quality(i);
               webots::Camera *camera = robot->getCamera(cameraQuality.name());
               if (camera)
                 warn(sensorMeasurements, "CameraQuality is not yet implemented, ignored.");
               else
                 warn(sensorMeasurements, "Camera \"" + cameraQuality.name() + "\" not found, quality command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.camera_exposures_size(); i++) {
-              const CameraExposure cameraExposure = actuatorRequests.camera_exposures(i);
+            for (int i = 0; i < actuatorRequests.camera_exposure_size(); i++) {
+              const CameraExposure cameraExposure = actuatorRequests.camera_exposure(i);
               webots::Camera *camera = robot->getCamera(cameraExposure.name());
               if (camera)
                 camera->setExposure(cameraExposure.exposure());
@@ -343,12 +285,12 @@ int main(int argc, char *argv[]) {
             google::protobuf::TextFormat::PrintToString(actuatorRequests, &printout);
             std::cout << printout << std::endl;
 
-            for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); ++it) {
+            for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); it++) {
               webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
               if (accelerometer) {
                 if (controller_time % accelerometer->getSamplingPeriod())
                   continue;
-                AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometers();
+                AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometer();
                 measurement->set_name(accelerometer->getName());
                 const double *values = accelerometer->getValues();
                 Vector3 *vector3 = measurement->mutable_value();
@@ -361,7 +303,7 @@ int main(int argc, char *argv[]) {
               if (camera) {
                 if (controller_time % camera->getSamplingPeriod())
                   continue;
-                CameraMeasurement *measurement = sensorMeasurements.add_cameras();
+                CameraMeasurement *measurement = sensorMeasurements.add_camera();
                 measurement->set_name(camera->getName());
                 measurement->set_width(camera->getWidth());
                 measurement->set_height(camera->getHeight());
@@ -382,7 +324,7 @@ int main(int argc, char *argv[]) {
               if (gyro) {
                 if (controller_time % gyro->getSamplingPeriod())
                   continue;
-                GyroMeasurement *measurement = sensorMeasurements.add_gyros();
+                GyroMeasurement *measurement = sensorMeasurements.add_gyro();
                 measurement->set_name(gyro->getName());
                 const double *values = gyro->getValues();
                 Vector3 *vector3 = measurement->mutable_value();
@@ -395,7 +337,7 @@ int main(int argc, char *argv[]) {
               if (position_sensor) {
                 if (controller_time % position_sensor->getSamplingPeriod())
                   continue;
-                PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensors();
+                PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensor();
                 measurement->set_name(position_sensor->getName());
                 measurement->set_value(position_sensor->getValue());
                 continue;
@@ -407,19 +349,19 @@ int main(int argc, char *argv[]) {
                 webots::TouchSensor::Type type = touch_sensor->getType();
                 switch (type) {
                   case webots::TouchSensor::BUMPER: {
-                    BumperMeasurement *measurement = sensorMeasurements.add_bumpers();
+                    BumperMeasurement *measurement = sensorMeasurements.add_bumper();
                     measurement->set_name(touch_sensor->getName());
                     measurement->set_value(touch_sensor->getValue() == 1.0);
                     continue;
                   }
                   case webots::TouchSensor::FORCE: {
-                    ForceMeasurement *measurement = sensorMeasurements.add_forces();
+                    ForceMeasurement *measurement = sensorMeasurements.add_force();
                     measurement->set_name(touch_sensor->getName());
                     measurement->set_value(touch_sensor->getValue());
                     continue;
                   }
                   case webots::TouchSensor::FORCE3D: {
-                    Force3DMeasurement *measurement = sensorMeasurements.add_force3ds();
+                    Force3DMeasurement *measurement = sensorMeasurements.add_force3d();
                     measurement->set_name(touch_sensor->getName());
                     const double *values = touch_sensor->getValues();
                     Vector3 *vector3 = measurement->mutable_value();
@@ -433,8 +375,8 @@ int main(int argc, char *argv[]) {
             }
             // we need to enable the sensors after we sent the sensor value to avoid
             // sending values for disabled sensors.
-            for (int i = 0; i < actuatorRequests.sensor_time_steps_size(); i++) {
-              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_steps(i);
+            for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
+              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
               webots::Device *device = robot->getDevice(sensorTimeStep.name());
               if (device) {
                 const int sensor_time_step = sensorTimeStep.timestep();
@@ -442,6 +384,7 @@ int main(int argc, char *argv[]) {
                   sensors.insert(device);
                 else
                   sensors.erase(device);
+                const int basic_time_step = robot->getBasicTimeStep();
                 if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
                   warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
                                              std::to_string(basic_time_step) + ", ignoring " +
@@ -484,13 +427,8 @@ int main(int argc, char *argv[]) {
               } else
                 warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
             }
+
             const int size = sensorMeasurements.ByteSizeLong();
-            if (bandwidth_usage(size, port, controller_time, basic_time_step) > TEAM_QUOTA) {
-              sensorMeasurements.Clear();
-              Message *message = sensorMeasurements.add_messages();
-              message->set_message_type(Message::ERROR_MESSAGE);
-              message->set_text(std::to_string(TEAM_QUOTA) + " MB/s quota exceeded.");
-            }
             char *output = (char *)malloc(sizeof(int) + size);
             int *output_size = (int *)output;
             *output_size = htonl(size);

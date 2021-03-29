@@ -23,6 +23,7 @@ import re
 from PIL import Image
 
 ignoredProtos = [
+    "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
 ]
 
 
@@ -34,8 +35,6 @@ class TestIcons(unittest.TestCase):
         # 1. Get all the PROTO files from projects
         protos = []
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
-            if rootPath[-7:] != os.path.sep + 'protos' and os.path.sep + 'protos' + os.path.sep not in rootPath:
-                continue
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
                 shouldIgnore = False

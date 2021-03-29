@@ -1,12 +1,5 @@
 {
-  "type": "NORMAL",
-  "class": "KID",
-  "red": {
-    "id": 1,
-    "config": "team_1.json"
-  },
-  "blue": {
-    "id": 2,
-    "config": "team_2.json"
-  }
+  "type": "match",
+  "red_team": "team_1.json",
+  "blue_team": "team_2.json"
 }
