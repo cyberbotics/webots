@@ -175,7 +175,7 @@ int main(int argc, char *argv[]) {
   };
   const int ports[] = {10001, 10002, 10003, 10004, 10021, 100022, 100023, 100024};
   webots::Robot *robot = new webots::Robot();
-  const double time_step = robot->getBasicTimeStep();
+  const int basic_time_step = robot->getBasicTimeStep();
   const size_t size = sizeof(player_names) / sizeof(player_names[0]);
   const std::string name = robot->getName();
   int client_fd = -1;
@@ -193,12 +193,12 @@ int main(int argc, char *argv[]) {
 
   std::set<webots::Device *> sensors;
   int controller_time = 0;
-  while (robot->step(time_step) != -1) {
+  while (robot->step(basic_time_step) != -1) {
     if (client_fd == -1) {
       client_fd = accept_client(server_fd);
       controller_time = 0;
     } else {
-      controller_time += time_step;
+      controller_time += basic_time_step;
       FD_ZERO(&rfds);
       FD_SET(client_fd, &rfds);
       struct timeval tv = {0, 0};
@@ -388,7 +388,6 @@ int main(int argc, char *argv[]) {
                   sensors.insert(device);
                 else
                   sensors.erase(device);
-                const int basic_time_step = robot->getBasicTimeStep();
                 if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
                   warn(sensorMeasurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
                                              std::to_string(basic_time_step) + ", ignoring " +

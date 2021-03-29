@@ -44,10 +44,10 @@ message Force6DMeasurement {  // not yet implemented
 
 message CameraMeasurement {
   string name = 1;
-  int32 width = 2;
-  int32 height = 3;
-  int32 quality = 4;  // -1 = raw image, 100 = no compression, 0 = high compression
-  bytes image = 5;    // RAW or JPEG encoded data (note: JPEG is not yet implemented)
+  uint32 width = 2;
+  uint32 height = 3;
+  sint32 quality = 4;  // -1 = raw image, 100 = no compression, 0 = high compression
+  bytes image = 5;     // RAW or JPEG encoded data (note: JPEG is not yet implemented)
 }
 
 message Message {
@@ -60,7 +60,7 @@ message Message {
 }
 
 message SensorMeasurements {
-  double time = 1;  // time stamp at which the measurements were performed expressed in [s]
+  uint32 time = 1;  // time stamp at which the measurements were performed expressed in [ms]
   repeated Message messages = 2;
   repeated AccelerometerMeasurement accelerometers = 3;
   repeated BumperMeasurement bumpers = 4;
@@ -99,12 +99,12 @@ message MotorPID {
 
 message SensorTimeStep { // apply to all sensors: Accelerometer, Camera, Gyro, PositionSensor and TouchSensor
   string name = 1;
-  double timeStep = 2;  // time between two measurements expressed in [s], disabled if 0
+  uint32 timeStep = 2;  // time between two measurements expressed in [ms], disabled if 0
 }
 
 message CameraQuality {
   string name = 1;
-  int32 quality = 2;  // JPEG quality
+  sint32 quality = 2;  // JPEG quality
 }
 
 message CameraExposure {
