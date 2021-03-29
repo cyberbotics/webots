@@ -81,6 +81,12 @@ with open(game.red_team) as json_file:
 with open(game.blue_team) as json_file:
     blue_team = json.load(json_file)
 
+# check team name length (should be at most 12 characters long, trim them if too long)
+if len(red_team['name']) > 12:
+    red_team['name'] = red_team['name'][:12]
+if len(blue_team['name']) > 12:
+    blue_team['name'] = blue_team['name'][:12]
+
 # start the webots supervisor
 supervisor = Supervisor()
 root = supervisor.getRoot()
