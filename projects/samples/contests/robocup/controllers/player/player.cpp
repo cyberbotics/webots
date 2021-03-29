@@ -163,7 +163,7 @@ static void free_jpeg(unsigned char *buffer) {
 }
 
 static void warn(SensorMeasurements &sensorMeasurements, std::string text) {
-  Message *message = sensorMeasurements.add_message();
+  Message *message = sensorMeasurements.add_messages();
   message->set_message_type(Message::WARNING_MESSAGE);
   message->set_text(text);
 }
@@ -228,56 +228,56 @@ int main(int argc, char *argv[]) {
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
-            for (int i = 0; i < actuatorRequests.motor_position_size(); i++) {
-              const MotorPosition motorPosition = actuatorRequests.motor_position(i);
+            for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
+              const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
               if (motor)
                 motor->setPosition(motorPosition.position());
               else
                 warn(sensorMeasurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_velocity_size(); i++) {
-              const MotorVelocity motorVelocity = actuatorRequests.motor_velocity(i);
+            for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
+              const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
               webots::Motor *motor = robot->getMotor(motorVelocity.name());
               if (motor)
                 motor->setVelocity(motorVelocity.velocity());
               else
                 warn(sensorMeasurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_force_size(); i++) {
-              const MotorForce motorForce = actuatorRequests.motor_force(i);
+            for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
+              const MotorForce motorForce = actuatorRequests.motor_forces(i);
               webots::Motor *motor = robot->getMotor(motorForce.name());
               if (motor)
                 motor->setForce(motorForce.force());
               else
                 warn(sensorMeasurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_torque_size(); i++) {
-              const MotorTorque motorTorque = actuatorRequests.motor_torque(i);
+            for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
+              const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
               webots::Motor *motor = robot->getMotor(motorTorque.name());
               if (motor)
                 motor->setTorque(motorTorque.torque());
               else
                 warn(sensorMeasurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.motor_pid_size(); i++) {
-              const MotorPID motorPID = actuatorRequests.motor_pid(i);
+            for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
+              const MotorPID motorPID = actuatorRequests.motor_pids(i);
               webots::Motor *motor = robot->getMotor(motorPID.name());
               if (motor)
                 motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
               else
                 warn(sensorMeasurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.camera_quality_size(); i++) {
-              const CameraQuality cameraQuality = actuatorRequests.camera_quality(i);
+            for (int i = 0; i < actuatorRequests.camera_qualities_size(); i++) {
+              const CameraQuality cameraQuality = actuatorRequests.camera_qualities(i);
               webots::Camera *camera = robot->getCamera(cameraQuality.name());
               if (camera)
                 warn(sensorMeasurements, "CameraQuality is not yet implemented, ignored.");
               else
                 warn(sensorMeasurements, "Camera \"" + cameraQuality.name() + "\" not found, quality command ignored.");
             }
-            for (int i = 0; i < actuatorRequests.camera_exposure_size(); i++) {
-              const CameraExposure cameraExposure = actuatorRequests.camera_exposure(i);
+            for (int i = 0; i < actuatorRequests.camera_exposures_size(); i++) {
+              const CameraExposure cameraExposure = actuatorRequests.camera_exposures(i);
               webots::Camera *camera = robot->getCamera(cameraExposure.name());
               if (camera)
                 camera->setExposure(cameraExposure.exposure());
@@ -294,7 +294,7 @@ int main(int argc, char *argv[]) {
               if (accelerometer) {
                 if (controller_time % accelerometer->getSamplingPeriod())
                   continue;
-                AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometer();
+                AccelerometerMeasurement *measurement = sensorMeasurements.add_accelerometers();
                 measurement->set_name(accelerometer->getName());
                 const double *values = accelerometer->getValues();
                 Vector3 *vector3 = measurement->mutable_value();
@@ -307,7 +307,7 @@ int main(int argc, char *argv[]) {
               if (camera) {
                 if (controller_time % camera->getSamplingPeriod())
                   continue;
-                CameraMeasurement *measurement = sensorMeasurements.add_camera();
+                CameraMeasurement *measurement = sensorMeasurements.add_cameras();
                 measurement->set_name(camera->getName());
                 measurement->set_width(camera->getWidth());
                 measurement->set_height(camera->getHeight());
@@ -328,7 +328,7 @@ int main(int argc, char *argv[]) {
               if (gyro) {
                 if (controller_time % gyro->getSamplingPeriod())
                   continue;
-                GyroMeasurement *measurement = sensorMeasurements.add_gyro();
+                GyroMeasurement *measurement = sensorMeasurements.add_gyros();
                 measurement->set_name(gyro->getName());
                 const double *values = gyro->getValues();
                 Vector3 *vector3 = measurement->mutable_value();
@@ -341,7 +341,7 @@ int main(int argc, char *argv[]) {
               if (position_sensor) {
                 if (controller_time % position_sensor->getSamplingPeriod())
                   continue;
-                PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensor();
+                PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensors();
                 measurement->set_name(position_sensor->getName());
                 measurement->set_value(position_sensor->getValue());
                 continue;
@@ -353,19 +353,19 @@ int main(int argc, char *argv[]) {
                 webots::TouchSensor::Type type = touch_sensor->getType();
                 switch (type) {
                   case webots::TouchSensor::BUMPER: {
-                    BumperMeasurement *measurement = sensorMeasurements.add_bumper();
+                    BumperMeasurement *measurement = sensorMeasurements.add_bumpers();
                     measurement->set_name(touch_sensor->getName());
                     measurement->set_value(touch_sensor->getValue() == 1.0);
                     continue;
                   }
                   case webots::TouchSensor::FORCE: {
-                    ForceMeasurement *measurement = sensorMeasurements.add_force();
+                    ForceMeasurement *measurement = sensorMeasurements.add_forces();
                     measurement->set_name(touch_sensor->getName());
                     measurement->set_value(touch_sensor->getValue());
                     continue;
                   }
                   case webots::TouchSensor::FORCE3D: {
-                    Force3DMeasurement *measurement = sensorMeasurements.add_force3d();
+                    Force3DMeasurement *measurement = sensorMeasurements.add_force3ds();
                     measurement->set_name(touch_sensor->getName());
                     const double *values = touch_sensor->getValues();
                     Vector3 *vector3 = measurement->mutable_value();
@@ -379,8 +379,8 @@ int main(int argc, char *argv[]) {
             }
             // we need to enable the sensors after we sent the sensor value to avoid
             // sending values for disabled sensors.
-            for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
-              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
+            for (int i = 0; i < actuatorRequests.sensor_time_steps_size(); i++) {
+              const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_steps(i);
               webots::Device *device = robot->getDevice(sensorTimeStep.name());
               if (device) {
                 const int sensor_time_step = sensorTimeStep.timestep();
