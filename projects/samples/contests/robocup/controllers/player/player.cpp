@@ -48,6 +48,9 @@ typedef int socklen_t;
 #include <webots/TouchSensor.hpp>
 #include "messages.pb.h"
 
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/text_format.h>
+
 static int server_fd = -1;
 static fd_set rfds;
 
@@ -202,6 +205,7 @@ int main(int argc, char *argv[]) {
       if (number) {  // some data is available from the socket
         char data[256];
         int n = recv(client_fd, data, sizeof(int), 0);
+        // std::cout<<"n:"<<n<<std::endl;
         if (n <= 0) {
           printf("Closed connection\n");
           close_socket(client_fd);
@@ -209,6 +213,7 @@ int main(int argc, char *argv[]) {
         } else {
           assert(n == sizeof(int));
           int l = ntohl(*((int *)data));
+          // std::cout<<"l:"<<l<<std::endl;
           printf("packet size = %d %d\n", l, n);
           MotorPosition motorPosition;
           // motorPosition.ParseFromFileDescriptor(client_fd);
@@ -224,6 +229,7 @@ int main(int argc, char *argv[]) {
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
+            // sensorMeasurements.ParseFromArray(data, n);
             for (int i = 0; i < actuatorRequests.motor_position_size(); i++) {
               const MotorPosition motorPosition = actuatorRequests.motor_position(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
@@ -285,6 +291,7 @@ int main(int argc, char *argv[]) {
             google::protobuf::TextFormat::PrintToString(actuatorRequests, &printout);
             std::cout << printout << std::endl;
 
+            std::cout<<"siz of sensors: "<<sensors.size()<<std::endl;
             for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); it++) {
               webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
               if (accelerometer) {
@@ -337,9 +344,11 @@ int main(int argc, char *argv[]) {
               if (position_sensor) {
                 if (controller_time % position_sensor->getSamplingPeriod())
                   continue;
+                std::cout<<"Position sensor requested"<<std::endl;
                 PositionSensorMeasurement *measurement = sensorMeasurements.add_position_sensor();
                 measurement->set_name(position_sensor->getName());
                 measurement->set_value(position_sensor->getValue());
+                std::cout<<"Sensor name,value: "<<position_sensor->getName()<<"  "<<position_sensor->getValue()<<std::endl;
                 continue;
               }
               webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(*it);
@@ -375,6 +384,7 @@ int main(int argc, char *argv[]) {
             }
             // we need to enable the sensors after we sent the sensor value to avoid
             // sending values for disabled sensors.
+            // std::cout<<"SIZE OF REQUESTS:::::::  "<<actuatorRequests.sensor_time_step_size()<<std::endl;
             for (int i = 0; i < actuatorRequests.sensor_time_step_size(); i++) {
               const SensorTimeStep sensorTimeStep = actuatorRequests.sensor_time_step(i);
               webots::Device *device = robot->getDevice(sensorTimeStep.name());
@@ -411,6 +421,7 @@ int main(int argc, char *argv[]) {
                       break;
                     }
                     case webots::Node::POSITION_SENSOR: {
+                      std::cout<<"Position sensor enabling..."<<std::endl;
                       webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
                       positionSensor->enable(sensor_time_step);
                       break;
@@ -431,9 +442,11 @@ int main(int argc, char *argv[]) {
             const int size = sensorMeasurements.ByteSizeLong();
             char *output = (char *)malloc(sizeof(int) + size);
             int *output_size = (int *)output;
-            *output_size = htonl(size);
+            *output_size = size;
+            // std::cout<<"Output size: "<<int(*output_size)<<std::endl;
             sensorMeasurements.SerializeToArray(&output[sizeof(int)], size);
             send(client_fd, output, sizeof(int) + size, 0);
+            // std::cout<<"Size of data::  "<<size<<std::endl;
             free(output);
           }
         }
