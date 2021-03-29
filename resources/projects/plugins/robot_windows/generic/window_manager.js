@@ -10,9 +10,12 @@
 /* exported refreshSelectedTab */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
+const REFRESH_LABELS_RATE = 3; // Hz
+const REFRESH_CONTENT_RATE = 10; // Hz
+
 var windowIsHidden;
-var widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 var selectedDeviceType = null;
+var selectedTabModified = false;
 
 function menuTabCallback(deviceType) {
   if (document.getElementById(deviceType + '-section').style.display === 'block')
@@ -37,7 +40,24 @@ function menuTabCallback(deviceType) {
 }
 
 function refreshSelectedTab() {
-  const tabWidgets = widgets[selectedDeviceType];
+  selectedTabModified = true;
+};
+
+function refreshLabels() {
+  if (!selectedDeviceType || !selectedTabModified)
+    return;
+  const tabWidgets = window.widgets[selectedDeviceType];
+  Object.keys(tabWidgets).forEach(function(deviceName) {
+    if (typeof tabWidgets[deviceName].refreshLabels === 'function')
+      tabWidgets[deviceName].refreshLabels();
+  });
+  selectedTabModified = false;
+}
+
+function refreshContent() {
+  if (!selectedDeviceType || !selectedTabModified)
+    return;
+  const tabWidgets = window.widgets[selectedDeviceType];
   Object.keys(tabWidgets).forEach(function(deviceName) {
     tabWidgets[deviceName].refresh();
   });
@@ -47,7 +67,7 @@ function updateTabCallback() {
   const canvas = new Canvas();
   canvas.resizeCanvas();
   if (selectedDeviceType) {
-    const tabWidgets = widgets[selectedDeviceType];
+    const tabWidgets = window.widgets[selectedDeviceType];
     Object.keys(tabWidgets).forEach(function(deviceName) {
       const widget = tabWidgets[deviceName];
       if (widget) {
@@ -124,14 +144,14 @@ function setDeviceModeCallback(_checkbox, _deviceType) {
 
 function enableAllDevicesCallback(deviceType, enabled) {
   if (deviceType) {
-    Object.keys(widgets[deviceType]).forEach(function(deviceName) {
-      widgets[deviceType][deviceName].enable(enabled);
+    Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+      window.widgets[deviceType][deviceName].enable(enabled);
     });
     return;
   }
-  Object.keys(widgets).forEach(function(deviceType) {
-    Object.keys(widgets[deviceType]).forEach(function(deviceName) {
-      widgets[deviceType][deviceName].enable(enabled);
+  Object.keys(window.widgets).forEach(function(deviceType) {
+    Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+      window.widgets[deviceType][deviceName].enable(enabled);
     });
   });
 };
@@ -168,7 +188,7 @@ function configureDevices(data, controlDevices) {
     }
   });
 
-  widgets = Object.assign({}, widgets, DeviceWidget.widgets);
+  window.widgets = Object.assign({}, DeviceWidget.widgets);
   return deviceTypes;
 }
 
@@ -214,6 +234,8 @@ function setupWindow() {
 
   window.addEventListener('resize', updateTabCallback);
   window.addEventListener('scroll', updateTabCallback);
+  setInterval(function() { refreshLabels(); }, 1000 / REFRESH_LABELS_RATE);
+  setInterval(function() { refreshContent(); }, 1000 / REFRESH_CONTENT_RATE);
 }
 
 function alphabetical(a, b) {

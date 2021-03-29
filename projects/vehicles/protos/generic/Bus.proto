@@ -18,6 +18,7 @@ PROTO Bus [
   field     MFNode     sensorsSlotRear   [ ]
   field     MFNode     sensorsSlotTop    [ ]
   field     MFNode     sensorsSlotCenter [ ]
+  field     SFString   window            "automobile"
 ]
 {
 Car {
@@ -134,5 +135,6 @@ Car {
   }
   brakeCoefficient 3500
   time0To100 25
+  window IS window
 }
 }

@@ -24,9 +24,9 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
   // Refresh parameters
   this.lastX = 0;
   this.lastY = [];
-  this.refreshLabelsRate = 3; // [Hz]
   this.lastLabelRefresh = 0; // [simulated seconds]
   this.blockSliderUpdateFlag = false;
+  this.pendingRangeLabelsUpdate = false;
   this.pendingSliderPositionUpdate = false;
 
   this.canvas = null;
@@ -48,9 +48,6 @@ function TimeplotWidget(container, basicTimeStep, autoRange, yRange, labels, dev
 
   // Compute vertical grid steps.
   this.updateGridConstants();
-
-  var that = this;
-  setInterval(function() { that.refreshLabels(); }, 1000 / that.refreshLabelsRate);
 }
 
 TimeplotWidget.recordDataInBackground = false;
@@ -242,6 +239,11 @@ TimeplotWidget.prototype.refreshLabels = function() {
   if (!this.initialized || this.container.offsetParent == null || this.container.plotOffscreen)
     return;
 
+  if (this.pendingRangeLabelsUpdate) {
+    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
+    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
+    this.pendingRangeLabelsUpdate = false;
+  }
   if (this.lastLabelRefresh !== this.lastX) {
     // Update the x labels.
     this.xMinLabel.textContent = roundLabel(this.xOffset, this.decimals);
@@ -376,16 +378,33 @@ TimeplotWidget.prototype.computePlotRect = function() {
 
 // Jump to a new y range based on the initial range and the new y value.
 TimeplotWidget.prototype.jumpToRange = function(y) {
-  console.assert(isNumber(y));
-  const jumpUp = y > this.yRange['max'];
-  const jumpDown = y < this.yRange['min'];
+  let jumpUp;
+  let jumpDown;
+  let yMin, yMax;
+  if (Array.isArray(y)) {
+    for (let i = 0; i < y.length; ++i) {
+      if (!jumpUp) {
+        jumpUp = y[i] > this.yRange['max'];
+        yMax = y[i];
+      }
+      if (!jumpDown) {
+        jumpDown = y[i] < this.yRange['min'];
+        yMin = y[i];
+      }
+    }
+  } else {
+    jumpUp = y > this.yRange['max'];
+    jumpDown = y < this.yRange['max'];
+    yMin = y;
+    yMax = y;
+  }
   if (jumpUp || jumpDown) {
     const delta = Math.abs(this.initialYRange['max'] - this.initialYRange['min']);
     if (jumpUp) {
-      this.yRange['max'] = y + 0.05 * delta;
+      this.yRange['max'] = yMax + 0.05 * delta;
       this.yRange['min'] = this.yRange['max'] - delta;
     } else {
-      this.yRange['min'] = y - 0.05 * delta;
+      this.yRange['min'] = yMin - 0.05 * delta;
       this.yRange['max'] = this.yRange['min'] + delta;
     }
     this.updateRange();
@@ -454,10 +473,8 @@ TimeplotWidget.prototype.updateRange = function() {
 
   this.updateGridConstants();
 
-  if (this.yMinLabel && this.yMaxLabel) {
-    this.yMinLabel.textContent = roundLabel(this.yRange['min'], this.decimals);
-    this.yMaxLabel.textContent = roundLabel(this.yRange['max'], this.decimals);
-  }
+  if (this.yMinLabel && this.yMaxLabel)
+    this.pendingRangeLabelsUpdate = true;
 
   if (this.slider) {
     this.slider.setAttribute('min', this.yRange['min']);

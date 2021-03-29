@@ -12,12 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=automobile.Makefile automobile_window.Makefile
+# Webots Makefile system
+#
+# You may add some variable definitions hereafter to customize the build process
+# See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-.PHONY: release debug profile clean
+USE_C_API = true
+C_SOURCES = $(wildcard *.c)
+LIBRARIES = -ldriver -lcar -lgeneric_robot_window
 
-release debug profile clean: $(TARGETS)
-
-%.Makefile:
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+null :=
+space := $(null) $(null)
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.include

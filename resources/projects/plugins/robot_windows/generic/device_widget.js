@@ -175,16 +175,26 @@ DeviceWidget.prototype.enable = function(enabled) {
 DeviceWidget.prototype.refresh = function() {
   if (this.plots) {
     this.plots.forEach(function(plot) {
-      plot.refresh();
+      if (typeof plot.refresh === 'function')
+        plot.refresh();
+    });
+  }
+};
+
+DeviceWidget.prototype.refreshLabels = function() {
+  if (this.plots) {
+    this.plots.forEach(function(plot) {
+      if (typeof plot.refreshLabels === 'function')
+        plot.refreshLabels();
     });
   }
 };
 
 DeviceWidget.prototype.resize = function() {
   if (this.plots) {
-    this.plots.forEach(function(widget) {
-      if (typeof widget.resize === 'function')
-        widget.resize();
+    this.plots.forEach(function(plot) {
+      if (typeof plot.resize === 'function')
+        plot.resize();
     });
   }
 };
@@ -278,7 +288,7 @@ DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
 
     const checkbox = document.getElementById(deviceName + '-enable-checkbox');
     const widget = DeviceWidget.widgets[deviceType][deviceName];
-    if (!widget || !(widget.firstUpdate || checkbox.checked))
+    if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
     if (!resquestTabUpdate && selectedDeviceType === deviceType)
