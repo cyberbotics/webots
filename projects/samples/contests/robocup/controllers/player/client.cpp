@@ -29,8 +29,10 @@
 
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/text_format.h>
-
 #include "messages.pb.h"
+#if GOOGLE_PROTOBUF_VERSION < 3006001
+#define ByteSizeLong ByteSize
+#endif
 
 static void close_socket(int fd) {
 #ifdef _WIN32
@@ -115,39 +117,19 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   printf("Connected %s:%d\n", host, port);
-
-  const char *message2 = read_file("actuator_requests.txt");
-  ActuatorRequests actuatorRequests;
-  google::protobuf::TextFormat::ParseFromString(message2, &actuatorRequests);
-  const int size2 = htonl(actuatorRequests.ByteSizeLong());
-  send(fd, (char *)(&size2), sizeof(int), 0);
-  google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream1 = new google::protobuf::io::FileOutputStream(fd);
-  actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream1);
-  delete zeroCopyStream1;
-  
-  for (int cnt=0; cnt<2; cnt++) {
-
-    // const char *message2 = read_file("actuator_requests.txt");
-    // ActuatorRequests actuatorRequests;
-    // google::protobuf::TextFormat::ParseFromString(message2, &actuatorRequests);
-    // const int size2 = htonl(actuatorRequests.ByteSizeLong());
-    // send(fd, (char *)(&size2), sizeof(int), 0);
-    // google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream2 = new google::protobuf::io::FileOutputStream(fd);
-    // actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream2);
-    // delete zeroCopyStream2;
-
-    const char *message = read_file("sensor_requests.txt");
+  for (;;) {
+    const char *message = read_file("actuator_requests.txt");
     printf("Message = %s\n", message);
 
-    SensorMeasurements sensorMeasurements;
-    google::protobuf::TextFormat::ParseFromString(message, &sensorMeasurements);
+    ActuatorRequests actuatorRequests;
+    google::protobuf::TextFormat::ParseFromString(message, &actuatorRequests);
 #ifndef _WIN32
     // This doesn't work on Windows, we should implement SocketOutputStream to make it work efficiently on Windows
     // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
-    const int size = htonl(sensorMeasurements.ByteSizeLong());
+    const int size = htonl(actuatorRequests.ByteSizeLong());
     send(fd, (char *)(&size), sizeof(int), 0);
     google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream = new google::protobuf::io::FileOutputStream(fd);
-    sensorMeasurements.SerializeToZeroCopyStream(zeroCopyStream);
+    actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream);
     delete zeroCopyStream;
 #else  // here we make a useless malloc, copy and free
     const int size = actuatorRequests.ByteSizeLong();
