@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
   int fd, rc;
-  char buffer[256];
+  char *buffer;
   int port = 10003;
   char host[256];  // localhost
 
@@ -139,10 +139,16 @@ int main(int argc, char *argv[]) {
     send(fd, output, sizeof(int) + size, 0);
     free(output);
 #endif
-    const int n = recv(fd, buffer, 256, 0);
-    buffer[n] = '\0';
-    printf("Answer is: %s\n", buffer);
-    break;
+    int s;
+    int n = recv(fd, (char *)&s, sizeof(int), 0);
+    const int answer_size = ntohl(s);
+    SensorMeasurements sensorMeasurements;
+    if (answer_size) {
+      buffer = (char *)malloc(answer_size);
+      n = recv(fd, buffer, answer_size, 0);
+      sensorMeasurements.ParseFromArray(buffer, answer_size);
+      free(buffer);
+    }
   }
   close_socket(fd);
   return 0;

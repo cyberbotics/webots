@@ -7,6 +7,6 @@ motor_positions {
   position: 1.8
 }
 sensor_time_steps {
-  name: "Camera"
-  timeStep: 16
+  name: "NeckS"
+  timeStep: 8
 }
