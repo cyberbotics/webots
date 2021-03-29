@@ -16,10 +16,11 @@ from controller import Supervisor
 import json
 import math
 import random
+import socket
 from types import SimpleNamespace
 
 
-global supervisor, game, red_team, blue_team
+global supervisor, game, red_team, blue_team, game_controller, game_controller_message_id
 
 
 def spawn_team(team, color, red_on_right, children):
@@ -73,6 +74,20 @@ def display_score():
     supervisor.setLabel(8, ' ' * 41 + game.status, x, y, size, black, transparency, font)
 
 
+def game_controller_send(message):
+    if game_controller:
+        game_controller_send.id += 1
+        message = f'{game_controller_send.id}:' + message
+        game_controller.sendall(message.encode('ascii'))
+        data = game_controller.recv(1024)
+        if data == f'{game_controller_send.id}:OK':
+            return True
+        else:
+            return False
+
+
+game_controller_send.id = 0
+
 # read configuration files
 with open('game.json') as json_file:
     game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
@@ -97,10 +112,15 @@ blue_team['score'] = 0
 game.status = 'KICK-OFF'
 display_score()
 
+# connect to the GameController
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as game_controller:
+    game_controller.connect(('localhost', 8750))
+
 time_step = int(supervisor.getBasicTimeStep())
 time_count = 0
 previous_seconds = -1
 while supervisor.step(time_step) != -1:
+    game_controller_send(f'CLOCK:{time_count}')
     seconds = (int)(time_count / 1000) % 60
     if seconds != previous_seconds:
         previous_seconds = seconds
