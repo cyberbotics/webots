@@ -146,7 +146,9 @@ int main(int argc, char *argv[]) {
     SensorMeasurements sensorMeasurements;
     if (answer_size) {
       buffer = (char *)malloc(answer_size);
-      n = recv(fd, buffer, answer_size, 0);
+      int i = 0;
+      while (i < answer_size)
+        i += recv(fd, &buffer[i], answer_size, 0);
       sensorMeasurements.ParseFromArray(buffer, answer_size);
       free(buffer);
     }

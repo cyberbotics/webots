@@ -170,6 +170,7 @@ static void free_jpeg(unsigned char *buffer) {
 #endif
 }
 
+// this function updates the bandwith usage in the files quota-%d.txt and returns the total bandwith of the current time window
 static int bandwidth_usage(size_t new_packet_size, int port, int controller_time, int basic_time_step) {
   static int *data_transferred = NULL;
   const int window_size = 1000 / basic_time_step;
