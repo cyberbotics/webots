@@ -27,6 +27,13 @@ typedef int socklen_t;
 #include <sys/time.h>
 #include <unistd.h> /* definition of close */
 #endif
+
+#include <google/protobuf/text_format.h>
+#include "messages.pb.h"
+#if GOOGLE_PROTOBUF_VERSION < 3006001
+#define ByteSizeLong ByteSize
+#endif
+
 // #define TURBOJPEG 1
 // It turns out that the libjpeg interface to turbojpeg runs faster than the native turbojpeg interface
 // Alternatives to be considered: NVIDIA CUDA nvJPEG Encoder, Intel IPP JPEG encoder
@@ -36,8 +43,6 @@ typedef int socklen_t;
 #include <jpeglib.h>
 #endif
 
-#include <google/protobuf/text_format.h>
-
 #include <webots/Accelerometer.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Gyro.hpp>
@@ -46,7 +51,6 @@ typedef int socklen_t;
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
-#include "messages.pb.h"
 
 static int server_fd = -1;
 static fd_set rfds;
@@ -427,7 +431,6 @@ int main(int argc, char *argv[]) {
               } else
                 warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
             }
-
             const int size = sensorMeasurements.ByteSizeLong();
             char *output = (char *)malloc(sizeof(int) + size);
             int *output_size = (int *)output;
