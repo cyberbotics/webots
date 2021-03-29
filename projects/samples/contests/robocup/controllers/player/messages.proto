@@ -44,33 +44,32 @@ message Force6DMeasurement {  // not yet implemented
 
 message CameraMeasurement {
   string name = 1;
-  int32 width = 2;
-  int32 height = 3;
-  int32 quality = 4;                 // -1 = raw image, 100 = no compression, 0 = high compression
-  bytes image = 5;                   // JPEG encoded data
+  uint32 width = 2;
+  uint32 height = 3;
+  sint32 quality = 4;  // -1 = raw image, 100 = no compression, 0 = high compression
+  bytes image = 5;     // RAW or JPEG encoded data (note: JPEG is not yet implemented)
 }
 
 message Message {
   enum MessageType {
     ERROR_MESSAGE = 0;
     WARNING_MESSAGE = 1;
-    INFO_MESSAGE = 2;
   }
   MessageType message_type = 1;
   string text = 2;
 }
 
 message SensorMeasurements {
-  double time = 1;  // time stamp at which the measurements were performed expressed in [s]
-  repeated Message message = 2;
-  repeated AccelerometerMeasurement accelerometer = 3;
-  repeated BumperMeasurement bumper = 4;
-  repeated CameraMeasurement camera = 5;
-  repeated ForceMeasurement force = 6;
-  repeated Force3DMeasurement force3d = 7;
-  repeated Force6DMeasurement force6d = 8;
-  repeated GyroMeasurement gyro = 9;
-  repeated PositionSensorMeasurement position_sensor = 10;
+  uint32 time = 1;  // time stamp at which the measurements were performed expressed in [ms]
+  repeated Message messages = 2;
+  repeated AccelerometerMeasurement accelerometers = 3;
+  repeated BumperMeasurement bumpers = 4;
+  repeated CameraMeasurement cameras = 5;
+  repeated ForceMeasurement forces = 6;
+  repeated Force3DMeasurement force3ds = 7;
+  repeated Force6DMeasurement force6ds = 8;
+  repeated GyroMeasurement gyros = 9;
+  repeated PositionSensorMeasurement position_sensors = 10;
 }
 
 message MotorPosition {
@@ -98,28 +97,28 @@ message MotorPID {
   Vector3 PID = 2;  // PID controller values
 }
 
-message SensorTimeStep { // apply to a Accelerometer, Camera, Gyro, PositionSensor or TouchSensor
+message SensorTimeStep { // apply to all sensors: Accelerometer, Camera, Gyro, PositionSensor and TouchSensor
   string name = 1;
-  double timeStep = 2;  // time between two measurements expressed in [s], disabled if 0
+  uint32 timeStep = 2;  // time between two measurements expressed in [ms], disabled if 0
 }
 
 message CameraQuality {
   string name = 1;
-  int32 quality = 2;  // JPEG quality
+  sint32 quality = 2;  // JPEG quality
 }
 
 message CameraExposure {
   string name = 1;
-  double exposure = 2;  // exposure time
+  double exposure = 2;  // photometric exposure of the scene in joule per square meter [J/m^2]
 }
 
 message ActuatorRequests {
-  repeated MotorPosition motor_position = 1;
-  repeated MotorVelocity motor_velocity = 2;
-  repeated MotorForce motor_force = 3;
-  repeated MotorTorque motor_torque = 4;
-  repeated MotorPID motor_pid = 5;
-  repeated SensorTimeStep sensor_time_step = 6;
-  repeated CameraQuality camera_quality = 7;
-  repeated CameraExposure camera_exposure = 8;
+  repeated MotorPosition motor_positions = 1;
+  repeated MotorVelocity motor_velocities = 2;
+  repeated MotorForce motor_forces = 3;
+  repeated MotorTorque motor_torques = 4;
+  repeated MotorPID motor_pids = 5;
+  repeated SensorTimeStep sensor_time_steps = 6;
+  repeated CameraQuality camera_qualities = 7;
+  repeated CameraExposure camera_exposures = 8;
 }
