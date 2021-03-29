@@ -14,7 +14,7 @@
 
 .PHONY: release debug profile clean
 
-release debug profile clean: player.Makefile
+release debug profile clean: player.Makefile readyTestClassic.Makefile
 
 %.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)

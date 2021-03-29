@@ -20,7 +20,9 @@ import os
 import fnmatch
 
 ignoredProtos = [
-    'projects/samples/tutorials/protos/FourWheelsRobot.proto'
+    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
+    'projects/samples/tutorials/protos/FourWheelsRobot.proto',
+    'projects/samples/contests/robocup/controllers/player/messages.proto'
 ]
 
 skippedDirectories = [
@@ -44,8 +46,6 @@ class TestHeaderVersion(unittest.TestCase):
         self.files = []
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
-            if rootPath[-7:] != os.path.sep + 'protos' and os.path.sep + 'protos' + os.path.sep not in rootPath:
-                continue
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
                 shouldIgnore = False
