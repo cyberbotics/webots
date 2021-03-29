@@ -54,7 +54,6 @@ message Message {
   enum MessageType {
     ERROR_MESSAGE = 0;
     WARNING_MESSAGE = 1;
-    INFO_MESSAGE = 2;
   }
   MessageType message_type = 1;
   string text = 2;
