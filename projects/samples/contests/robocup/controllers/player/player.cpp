@@ -161,6 +161,45 @@ static void free_jpeg(unsigned char *buffer) {
 #endif
 }
 
+// this function updates the bandwith usage in the files quota-%d.txt and returns the total bandwith of the current time window
+static int bandwidth_usage(size_t new_packet_size, int port, int controller_time, int basic_time_step) {
+  static int *data_transferred = NULL;
+  const int window_size = 1000 / basic_time_step;
+  const int index = (controller_time / basic_time_step) % window_size;
+  int sum = 0;
+  char filename[32];
+  if (data_transferred == NULL) {
+    data_transferred = (int *)malloc(sizeof(int) * window_size);
+    for (int i = 0; i < window_size; i++)
+      data_transferred[i] = 0;
+  }
+  data_transferred[index] = new_packet_size;
+  snprintf(filename, sizeof(filename), "quota-%d.txt", port);
+  FILE *fd = fopen(filename, "w");
+  for (int i = 0; i < window_size; i++) {
+    sum += data_transferred[i];
+    fprintf(fd, "%d\n", data_transferred[i]);
+  }
+  fclose(fd);
+  const int port_base = (port > PORT_BASE + PORT_OFFSET) ? PORT_BASE + PORT_OFFSET : PORT_BASE;
+  for (int i = port_base + 1; i < port_base + PORT_OFFSET + 1; i++) {
+    if (i == port)
+      continue;
+    snprintf(filename, sizeof(filename), "quota-%d.txt", i);
+    fd = fopen(filename, "r");
+    if (fd == NULL)
+      continue;
+    while (!feof(fd)) {
+      int v;
+      if (fscanf(fd, "%d\n", &v) == 0)
+        break;
+      sum += v;
+    }
+    fclose(fd);
+  }
+  return sum;
+}
+
 static void warn(SensorMeasurements &sensorMeasurements, std::string text) {
   Message *message = sensorMeasurements.add_message();
   message->set_message_type(Message::WARNING_MESSAGE);
