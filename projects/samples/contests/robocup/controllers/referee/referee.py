@@ -76,9 +76,9 @@ def display_score():
 # read configuration files
 with open('game.json') as json_file:
     game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
-with open(game.red_team) as json_file:
+with open(game.red.config) as json_file:
     red_team = json.load(json_file)
-with open(game.blue_team) as json_file:
+with open(game.blue.config) as json_file:
     blue_team = json.load(json_file)
 
 # check team name length (should be at most 12 characters long, trim them if too long)
