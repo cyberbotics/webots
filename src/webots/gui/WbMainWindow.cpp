@@ -66,6 +66,7 @@
 #include "WbTemplateManager.hpp"
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
+#include "WbVisualBoundingSphere.hpp"
 #include "WbWebotsUpdateDialog.hpp"
 #include "WbWebotsUpdateManager.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -1078,6 +1079,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
   WbClipboard::deleteInstance();
+  WbVisualBoundingSphere::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
@@ -1351,6 +1353,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
   mSimulationView->prepareWorldLoading();
+  WbVisualBoundingSphere::deleteInstance();
 
   foreach (WbConsole *console, mConsoles) {
     mDockWidgets.removeAll(console);
@@ -1387,6 +1390,11 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_RENDERING)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
   mSimulationView->disableRendering(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
+  if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
+    WbVisualBoundingSphere::enable(perspective->isGlobalOptionalRenderingEnabled("BoundingSphere"), NULL);
+    connect(mSimulationView->sceneTree(), &WbSceneTree::nodeSelected, WbVisualBoundingSphere::instance(),
+            &WbVisualBoundingSphere::show);
+  }
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();
