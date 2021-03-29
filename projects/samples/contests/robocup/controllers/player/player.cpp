@@ -19,13 +19,13 @@
 #include <winsock.h>
 typedef int socklen_t;
 #else
-#include <arpa/inet.h>  // definition of inet_ntoa
+#include <arpa/inet.h>
 #include <fcntl.h>
-#include <netdb.h>  // definition of gethostbyname
-#include <netinet/in.h>  // definition of struct sockaddr_in
+#include <netdb.h>
+#include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <unistd.h>  // definition of close
+#include <unistd.h>
 #endif
 
 #include <google/protobuf/text_format.h>
@@ -162,7 +162,10 @@ static void free_jpeg(unsigned char *buffer) {
 #endif
 }
 
-static bool check_quota(int port, size_t new_packet_size, int controller_time) {
+static int quota(int port, int controller_time, int basic_time_step) {
+}
+
+static bool check_quota(int port, size_t new_packet_size, int controller_time, int basic_time_step) {
   char filename[32];
   snprintf(filename, sizeof(filename), "quota-%d.txt", port);
   FILE *file = fopen(filename, "w");
@@ -440,7 +443,7 @@ int main(int argc, char *argv[]) {
                 warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
             }
             const int size = sensorMeasurements.ByteSizeLong();
-            if (!check_quota(port, size, controller_time)) {
+            if (!check_quota(port, size, controller_time, basic_time_step)) {
               sensorMeasurements.Clear();
               Message *message = sensorMeasurements.add_messages();
               message->set_message_type(Message::ERROR_MESSAGE);
