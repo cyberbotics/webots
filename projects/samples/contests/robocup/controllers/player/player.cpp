@@ -198,9 +198,8 @@ static int bandwidth_usage(size_t new_packet_size, int port, int controller_time
     if (fd == NULL)
       continue;
     while (!feof(fd)) {
-      int v = -1;
-      fscanf(fd, "%d\n", &v);
-      if (v == -1)
+      int v;
+      if (fscanf(fd, "%d\n", &v) == 0)
         break;
       sum += v;
     }

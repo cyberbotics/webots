@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 #ifdef _WIN32
 #include <winsock.h>
@@ -149,6 +150,9 @@ int main(int argc, char *argv[]) {
       sensorMeasurements.ParseFromArray(buffer, answer_size);
       free(buffer);
     }
+    std::string printout;
+    google::protobuf::TextFormat::PrintToString(sensorMeasurements, &printout);
+    std::cout << printout << std::endl;
   }
   close_socket(fd);
   return 0;
