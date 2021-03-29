@@ -12,7 +12,7 @@ else
 GOAL = $(MAKECMDGOALS)
 endif
 
-LIBS += -lprotobuf
+LIBS += `pkg-config --cflags --libs protobuf`
 
 .PHONY = build release debug profile
 

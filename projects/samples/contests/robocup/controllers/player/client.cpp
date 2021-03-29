@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 #ifdef _WIN32
 #include <winsock.h>
@@ -60,7 +61,7 @@ int main(int argc, char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
   int fd, rc;
-  char buffer[256];
+  char *buffer;
   int port = 10003;
   char host[256];  // localhost
 
@@ -114,19 +115,39 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   printf("Connected %s:%d\n", host, port);
-  for (;;) {
-    const char *message = read_file("actuator_requests.txt");
+
+  const char *message2 = read_file("actuator_requests.txt");
+  ActuatorRequests actuatorRequests;
+  google::protobuf::TextFormat::ParseFromString(message2, &actuatorRequests);
+  const int size2 = htonl(actuatorRequests.ByteSizeLong());
+  send(fd, (char *)(&size2), sizeof(int), 0);
+  google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream1 = new google::protobuf::io::FileOutputStream(fd);
+  actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream1);
+  delete zeroCopyStream1;
+  
+  for (int cnt=0; cnt<2; cnt++) {
+
+    // const char *message2 = read_file("actuator_requests.txt");
+    // ActuatorRequests actuatorRequests;
+    // google::protobuf::TextFormat::ParseFromString(message2, &actuatorRequests);
+    // const int size2 = htonl(actuatorRequests.ByteSizeLong());
+    // send(fd, (char *)(&size2), sizeof(int), 0);
+    // google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream2 = new google::protobuf::io::FileOutputStream(fd);
+    // actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream2);
+    // delete zeroCopyStream2;
+
+    const char *message = read_file("sensor_requests.txt");
     printf("Message = %s\n", message);
 
-    ActuatorRequests actuatorRequests;
-    google::protobuf::TextFormat::ParseFromString(message, &actuatorRequests);
+    SensorMeasurements sensorMeasurements;
+    google::protobuf::TextFormat::ParseFromString(message, &sensorMeasurements);
 #ifndef _WIN32
     // This doesn't work on Windows, we should implement SocketOutputStream to make it work efficiently on Windows
     // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
-    const int size = htonl(actuatorRequests.ByteSizeLong());
+    const int size = htonl(sensorMeasurements.ByteSizeLong());
     send(fd, (char *)(&size), sizeof(int), 0);
     google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream = new google::protobuf::io::FileOutputStream(fd);
-    actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream);
+    sensorMeasurements.SerializeToZeroCopyStream(zeroCopyStream);
     delete zeroCopyStream;
 #else  // here we make a useless malloc, copy and free
     const int size = actuatorRequests.ByteSizeLong();
@@ -137,10 +158,21 @@ int main(int argc, char *argv[]) {
     send(fd, output, sizeof(int) + size, 0);
     free(output);
 #endif
-    const int n = recv(fd, buffer, 256, 0);
-    buffer[n] = '\0';
-    printf("Answer is: %s\n", buffer);
-    break;
+    int s;
+    int n = recv(fd, (char *)&s, sizeof(int), 0);
+    const int answer_size = ntohl(s);
+    SensorMeasurements sensorMeasurements;
+    if (answer_size) {
+      buffer = (char *)malloc(answer_size);
+      int i = 0;
+      while (i < answer_size)
+        i += recv(fd, &buffer[i], answer_size, 0);
+      sensorMeasurements.ParseFromArray(buffer, answer_size);
+      free(buffer);
+    }
+    std::string printout;
+    google::protobuf::TextFormat::PrintToString(sensorMeasurements, &printout);
+    std::cout << printout << std::endl;
   }
   close_socket(fd);
   return 0;
