@@ -289,7 +289,7 @@ int main(int argc, char *argv[]) {
             google::protobuf::TextFormat::PrintToString(actuatorRequests, &printout);
             std::cout << printout << std::endl;
 
-            for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); it++) {
+            for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); ++it) {
               webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
               if (accelerometer) {
                 if (controller_time % accelerometer->getSamplingPeriod())
