@@ -20,7 +20,6 @@ import os
 import fnmatch
 
 ignoredProtos = [
-    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
     'projects/samples/tutorials/protos/FourWheelsRobot.proto'
 ]
 
