@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 #ifdef _WIN32
 #include <winsock.h>
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
   int fd, rc;
-  char buffer[256];
+  char *buffer;
   int port = 10003;
   char host[256];  // localhost
 
@@ -139,10 +140,21 @@ int main(int argc, char *argv[]) {
     send(fd, output, sizeof(int) + size, 0);
     free(output);
 #endif
-    const int n = recv(fd, buffer, 256, 0);
-    buffer[n] = '\0';
-    printf("Answer is: %s\n", buffer);
-    break;
+    int s;
+    int n = recv(fd, (char *)&s, sizeof(int), 0);
+    const int answer_size = ntohl(s);
+    SensorMeasurements sensorMeasurements;
+    if (answer_size) {
+      buffer = (char *)malloc(answer_size);
+      int i = 0;
+      while (i < answer_size)
+        i += recv(fd, &buffer[i], answer_size, 0);
+      sensorMeasurements.ParseFromArray(buffer, answer_size);
+      free(buffer);
+    }
+    std::string printout;
+    google::protobuf::TextFormat::PrintToString(sensorMeasurements, &printout);
+    std::cout << printout << std::endl;
   }
   close_socket(fd);
   return 0;
