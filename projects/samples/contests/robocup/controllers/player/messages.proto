@@ -110,7 +110,7 @@ message CameraQuality {
 
 message CameraExposure {
   string name = 1;
-  double exposure = 2;  // exposure time
+  double exposure = 2;  // photometric exposure of the scene in joule per square meter [J/m^2]
 }
 
 message ActuatorRequests {
