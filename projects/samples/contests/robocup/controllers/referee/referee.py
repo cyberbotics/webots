@@ -20,12 +20,14 @@ import socket
 from types import SimpleNamespace
 
 
-global supervisor, game, red_team, blue_team, game_controller, game_controller_message_id
+global supervisor, game, red_team, blue_team, game_controller
 
 
 def spawn_team(team, color, red_on_right, children):
     for number in team['players']:
         model = team['players'][number]['proto']
+        n = int(number) - 1
+        port = game.red.ports[n] if color == 'red' else game.blue.ports[n]
         translation = team['players'][number]['halfTimeStartingPose']['translation']
         rotation = team['players'][number]['halfTimeStartingPose']['rotation']
         if red_on_right:  # symmetry with respect to the central line of the field
@@ -33,7 +35,8 @@ def spawn_team(team, color, red_on_right, children):
             rotation[3] = math.pi - rotation[3]
         string = f'{model}{{name "{color} player {number}" ' + \
             f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
-            f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}}}'
+            f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]} ' + \
+            f'controllerArgs ["{port}"] }}'
         children.importMFNodeFromString(-1, string)
 
 

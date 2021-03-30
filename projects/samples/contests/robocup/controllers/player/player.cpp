@@ -52,16 +52,15 @@ typedef int socklen_t;
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
 
-//  red team will connect player 1 to port 10001, player 2 to port 10002, player 3 to port 10003, player 4 to port 10004
-// blue team will connect player 1 to port 10021, player 2 to port 10022, player 3 to port 10023, player 4 to port 10024
-#define PORT_BASE 10000
-#define PORT_OFFSET 20
-
 // teams are limited to a bandwdith of 100 MB/s from the server evaluated on a floating time window of 1000 milliseconds.
 #define TEAM_QUOTA (100 * 1024 * 1024)
 
 static int server_fd = -1;
 static fd_set rfds;
+static int player_id = -1;
+#define RED 0
+#define BLUE 1
+static int player_team = -1;
 
 static bool set_blocking(int fd, bool blocking) {
 #ifdef _WIN32
@@ -171,7 +170,7 @@ static void free_jpeg(unsigned char *buffer) {
 }
 
 // this function updates the bandwith usage in the files quota-%d.txt and returns the total bandwith of the current time window
-static int bandwidth_usage(size_t new_packet_size, int port, int controller_time, int basic_time_step) {
+static int bandwidth_usage(size_t new_packet_size, int controller_time, int basic_time_step) {
   static int *data_transferred = NULL;
   const int window_size = 1000 / basic_time_step;
   const int index = (controller_time / basic_time_step) % window_size;
@@ -183,18 +182,17 @@ static int bandwidth_usage(size_t new_packet_size, int port, int controller_time
       data_transferred[i] = 0;
   }
   data_transferred[index] = new_packet_size;
-  snprintf(filename, sizeof(filename), "quota-%d.txt", port);
+  snprintf(filename, sizeof(filename), "quota-%s-%d.txt", player_team == 0 ? "red" : "blue", player_id);
   FILE *fd = fopen(filename, "w");
   for (int i = 0; i < window_size; i++) {
     sum += data_transferred[i];
     fprintf(fd, "%d\n", data_transferred[i]);
   }
   fclose(fd);
-  const int port_base = (port > PORT_BASE + PORT_OFFSET) ? PORT_BASE + PORT_OFFSET : PORT_BASE;
-  for (int i = port_base + 1; i < port_base + PORT_OFFSET + 1; i++) {
-    if (i == port)
+  for (int i = 1; i < 5; i++) {
+    if (i == player_id)
       continue;
-    snprintf(filename, sizeof(filename), "quota-%d.txt", i);
+    snprintf(filename, sizeof(filename), "quota-%s-%d.txt", player_team == 0 ? "red" : "blue", i);
     fd = fopen(filename, "r");
     if (fd == NULL)
       continue;
@@ -216,32 +214,19 @@ static void warn(SensorMeasurements &sensorMeasurements, std::string text) {
 }
 
 int main(int argc, char *argv[]) {
-  const std::string player_names[] = {
-    "red player 1",  "red player 2",  "red player 3",  "red player 4",
-    "blue player 1", "blue player 2", "blue player 3", "blue player 4",
-  };
-  const int ports[] = {PORT_BASE + 1,
-                       PORT_BASE + 2,
-                       PORT_BASE + 3,
-                       PORT_BASE + 4,
-                       PORT_BASE + PORT_OFFSET + 1,
-                       PORT_BASE + PORT_OFFSET + 2,
-                       PORT_BASE + PORT_OFFSET + 3,
-                       PORT_BASE + PORT_OFFSET + 4};
+  if (argc < 2) {
+    fprintf(stderr, "Missing port argument");
+    return 1;
+  }
+  const int port = atoi(argv[1]);
   webots::Robot *robot = new webots::Robot();
   const int basic_time_step = robot->getBasicTimeStep();
-  const size_t size = sizeof(player_names) / sizeof(player_names[0]);
   const std::string name = robot->getName();
+  player_id = std::stoi(name.substr(name.find_last_of(' ') + 1));
+  player_team = name[0] == 'r' ? RED : BLUE;
   int client_fd = -1;
-  int player_id = -1;
-  int port = -1;
-  for (unsigned int i = 0; i < size; i++)
-    if (name.compare(player_names[i]) == 0) {
-      player_id = i;
-      port = ports[i];
-      break;
-    }
-  std::cout << name << ": player ID = " << player_id << " running on port " << port << std::endl;
+  std::cout << "player_id = " << player_id << std::endl;
+  std::cout << name << " running on port " << port << std::endl;
   server_fd = create_socket_server(port);
   set_blocking(server_fd, false);
 
@@ -485,7 +470,7 @@ int main(int argc, char *argv[]) {
                 warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
             }
             const int size = sensorMeasurements.ByteSizeLong();
-            if (bandwidth_usage(size, port, controller_time, basic_time_step) > TEAM_QUOTA) {
+            if (bandwidth_usage(size, controller_time, basic_time_step) > TEAM_QUOTA) {
               sensorMeasurements.Clear();
               Message *message = sensorMeasurements.add_messages();
               message->set_message_type(Message::ERROR_MESSAGE);

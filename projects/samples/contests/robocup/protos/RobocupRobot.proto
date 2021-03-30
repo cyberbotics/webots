@@ -4,17 +4,22 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/robotis-op2
 # This is an example of robot model for the Robocup Virtual Humanoid League
 # It is derived from the Darwin-opHinge2.proto included in Webots
+# You shoud implement the same interface in your own robots, including the
+# translation, rotation, name and controllerArgs fields, so that they can
+# be properly inserted into Robocup games.
 
 PROTO RobocupRobot [
-  field SFVec3f                 translation 0 0 0   # Is `Transform.translation`.
-  field SFRotation              rotation    0 0 1 0 # Is `Transform.rotation`.
-  field SFString                name        ""      # Is `Solid.name`.
+  field SFVec3f                 translation    0 0 0   # Is `Transform.translation`.
+  field SFRotation              rotation       0 0 1 0 # Is `Transform.rotation`.
+  field SFString                name           ""      # Is `Solid.name`.
+  field MFString                controllerArgs []      # Is `Robot.controllerArgs`.
 ]
 {
   Darwin-opHinge2 {
     translation IS translation
     rotation IS rotation
     name IS name
+    controllerArgs IS controllerArgs
     controller "player"
     selfCollision TRUE
     cameraWidth 320
