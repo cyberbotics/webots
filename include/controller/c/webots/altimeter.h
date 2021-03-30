@@ -15,7 +15,7 @@
  */
 
 /**********************************************************************************/
-/* Description:  Webots C programming interface for the Altimeter node            */    */
+/* Description:  Webots C programming interface for the Altimeter node            */
 /**********************************************************************************/
 
 #ifndef WB_ALTIMETER_H
