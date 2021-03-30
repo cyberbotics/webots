@@ -56,12 +56,12 @@ def display_score():
     black = 0x000000
     white = 0xffffff
     n = len(red_team['name'])
-    red_team_name = ' ' * 27 + red_team['name'] if game.red_on_right else (20 - n) * ' ' + red_team['name']
+    red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
     n = len(blue_team['name'])
-    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.red_on_right else ' ' * 27 + blue_team['name']
+    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
     red_score = str(red_team['score'])
     blue_score = str(blue_team['score'])
-    if game.red_on_right:
+    if game.side_left == game.blue.id:
         red_score = ' ' * 24 + red_score
         offset = 21 if len(blue_score) == 2 else 22
         blue_score = ' ' * offset + blue_score
@@ -123,7 +123,7 @@ if len(blue_team['name']) > 12:
 # check if the host parameter of the game.json file correspond to the actual host
 host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
-    print('Warning: host is not correctly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
+    print('Warning: host is not correctly defined in game.json file, it should be ' + host + ' instead of ' + game.host,
           file=sys.stderr)
 
 # launch the GameController
@@ -151,13 +151,14 @@ root = supervisor.getRoot()
 children = root.getField('children')
 field_size = getattr(game, 'class').lower()
 children.importMFNodeFromString(-2, f'RobocupSoccerField {{ size "{field_size}" }}')
-game.red_on_right = bool(random.getrandbits(1))  # toss a coin to determine who is playing on which side
+game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
+game.kickoff = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine which team has kickoff
 game.font_size = 0.1
 game.font = 'Lucida Console'
 game.overlay_x = 0.02
 game.overlay_y = 0.01
-spawn_team(red_team, 'red', game.red_on_right, children)
-spawn_team(blue_team, 'blue', not game.red_on_right, children)
+spawn_team(red_team, 'red', game.side_left == game.blue.id, children)
+spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
 red_team['score'] = 0
 blue_team['score'] = 0
 game.status = 'KICK-OFF'
@@ -184,6 +185,13 @@ while True:
             game_controller = None
             break
 print('Connected to GameControllerSimulator at localhost:8750')
+
+game.state = 'READY'
+# FIXME: due to a possible bug in GameControllerSimulator, any other message than 'CLOCK' is not returning any answer
+# thus blocking the execution of the referee. The 3 following line are commented out until the bug is fixed.
+# game_controller_send(f'SIDE_LEFT:{game.side_left}')
+# game_controller_send(f'KICKOFF:{game.kickoff}')
+# game_controller_send(f'STATE:{game.state}')
 
 time_count = 0
 previous_seconds = -1
