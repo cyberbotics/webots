@@ -36,7 +36,11 @@ def spawn_team(team, color, red_on_right, children):
         string = f'{model}{{name "{color} player {number}" ' + \
             f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
             f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]} ' + \
-            f'controllerArgs ["{port}"] }}'
+            f'controllerArgs ["{port}"'
+        hosts = game.red.hosts if color == 'red' else game.blue.hosts
+        for host in hosts:
+            string += f', "{host}"'
+        string += '] }}'
         children.importMFNodeFromString(-1, string)
 
 
@@ -122,8 +126,10 @@ game.status = 'KICK-OFF'
 display_score()
 
 # connect to the GameController
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as game_controller:
-    game_controller.connect(('localhost', 8750))
+# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as game_controller:
+#    game_controller.connect(('localhost', 8750))
+
+game_controller = None
 
 time_step = int(supervisor.getBasicTimeStep())
 time_count = 0

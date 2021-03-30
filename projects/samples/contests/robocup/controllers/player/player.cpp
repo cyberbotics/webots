@@ -61,6 +61,8 @@ static int player_id = -1;
 #define RED 0
 #define BLUE 1
 static int player_team = -1;
+static char **allowed_hosts = NULL;
+static int n_allowed_hosts = 0;
 
 static bool set_blocking(int fd, bool blocking) {
 #ifdef _WIN32
@@ -75,6 +77,14 @@ static bool set_blocking(int fd, bool blocking) {
 #endif
 }
 
+static void close_socket(int fd) {
+#ifdef _WIN32
+  closesocket(fd);
+#else
+  close(fd);
+#endif
+}
+
 static int accept_client(int server_fd) {
   int cfd;
   struct sockaddr_in client;
@@ -82,17 +92,24 @@ static int accept_client(int server_fd) {
   cfd = accept(server_fd, (struct sockaddr *)&client, &size);
   if (cfd != -1) {
     struct hostent *client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
-    printf("Accepted connection from: %s \n", client_info->h_name);
+    bool allowed = false;
+    for (int i = 0; i < n_allowed_hosts; i++) {
+      if (strncmp(client_info->h_name, allowed_hosts[i], strlen(allowed_hosts[i]) + 1) == 0) {
+        allowed = true;
+        break;
+      }
+    }
+    if (allowed) {
+      printf("Accepted connection from %s.\n", client_info->h_name);
+      send(cfd, "Welcome", 8, 0);
+    } else {
+      printf("Refused connection from %s.\n", client_info->h_name);
+      send(cfd, "Refused", 8, 0);
+      close_socket(cfd);
+      cfd = -1;
+    }
   }
   return cfd;
-}
-
-static void close_socket(int fd) {
-#ifdef _WIN32
-  closesocket(fd);
-#else
-  close(fd);
-#endif
 }
 
 static int create_socket_server(int port) {
@@ -219,6 +236,13 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   const int port = atoi(argv[1]);
+  n_allowed_hosts = argc - 2;
+  allowed_hosts = new char *[n_allowed_hosts];
+  for (int i = 0; i < n_allowed_hosts; i++) {
+    int length = strlen(argv[i + 2]) + 1;
+    allowed_hosts[i] = new char[length];
+    snprintf(allowed_hosts[i], length, "%s", argv[i + 2]);
+  }
   webots::Robot *robot = new webots::Robot();
   const int basic_time_step = robot->getBasicTimeStep();
   const std::string name = robot->getName();
@@ -487,6 +511,9 @@ int main(int argc, char *argv[]) {
       }
     }
   }
+  for (int i = 0; i < n_allowed_hosts; i++)
+    delete[] allowed_hosts[i];
+  delete[] allowed_hosts;
   delete robot;
   return 0;
 }

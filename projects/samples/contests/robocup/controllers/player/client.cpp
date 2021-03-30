@@ -59,6 +59,11 @@ static char *read_file(const char *filename) {
   return buffer;
 }
 
+static void socket_closed_exit() {
+  printf("Connection closed by server.\n");
+  exit(1);
+}
+
 int main(int argc, char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
@@ -116,7 +121,23 @@ int main(int argc, char *argv[]) {
     close_socket(fd);
     return 1;
   }
-  printf("Connected %s:%d\n", host, port);
+  char answer[8];
+  int n = recv(fd, answer, sizeof(answer), 0);
+  if (n > 0) {
+    if (strncmp(answer, "Welcome", 8) != 0) {
+      if (strncmp(answer, "Refused", 8) == 0)
+        printf("Connection to %s:%d refused: your IP address is not allowed in the game.json configuration file.\n", host,
+               port);
+      else
+        printf("Received unknown answer from server: %s\n", answer);
+      return 1;
+    }
+  } else {
+    answer[0] = '\0';
+    printf("Connection closed.\n");
+    return 1;
+  }
+  printf("Connected to %s:%d\n", host, port);
   for (;;) {
     const char *message = read_file("actuator_requests.txt");
     printf("Message = %s\n", message);
@@ -127,7 +148,8 @@ int main(int argc, char *argv[]) {
     // This doesn't work on Windows, we should implement SocketOutputStream to make it work efficiently on Windows
     // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
     const int size = htonl(actuatorRequests.ByteSizeLong());
-    send(fd, (char *)(&size), sizeof(int), 0);
+    if (send(fd, (char *)(&size), sizeof(int), 0) == -1)
+      socket_closed_exit();
     google::protobuf::io::ZeroCopyOutputStream *zeroCopyStream = new google::protobuf::io::FileOutputStream(fd);
     actuatorRequests.SerializeToZeroCopyStream(zeroCopyStream);
     delete zeroCopyStream;
@@ -137,18 +159,26 @@ int main(int argc, char *argv[]) {
     int *output_size = (int *)output;
     *output_size = htonl(size);
     actuatorRequests.SerializeToArray(&output[sizeof(int)], size);
-    send(fd, output, sizeof(int) + size, 0);
+    if (send(fd, output, sizeof(int) + size, 0) == -1) {
+      free(output);
+      socket_closed_exit();
+    }
     free(output);
 #endif
     int s;
-    int n = recv(fd, (char *)&s, sizeof(int), 0);
+    if (recv(fd, (char *)&s, sizeof(int), 0) == -1)
+      socket_closed_exit();
     const int answer_size = ntohl(s);
     SensorMeasurements sensorMeasurements;
     if (answer_size) {
       buffer = (char *)malloc(answer_size);
       int i = 0;
-      while (i < answer_size)
-        i += recv(fd, &buffer[i], answer_size, 0);
+      while (i < answer_size) {
+        n = recv(fd, &buffer[i], answer_size, 0);
+        if (n == -1)
+          socket_closed_exit();
+        i += n;
+      }
       sensorMeasurements.ParseFromArray(buffer, answer_size);
       free(buffer);
     }
@@ -157,5 +187,6 @@ int main(int argc, char *argv[]) {
     std::cout << printout << std::endl;
   }
   close_socket(fd);
+  printf("Connection closed.\n");
   return 0;
 }
