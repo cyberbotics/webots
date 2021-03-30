@@ -17,6 +17,7 @@ import json
 import math
 import random
 import socket
+import sys
 from types import SimpleNamespace
 
 
@@ -124,6 +125,11 @@ red_team['score'] = 0
 blue_team['score'] = 0
 game.status = 'KICK-OFF'
 display_score()
+
+host = socket.gethostbyname(socket.gethostname())
+if host != '127.0.0.1' and host != game.host:
+    print('Warning: host is not properly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
+          file=sys.stderr)
 
 # connect to the GameController
 # with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as game_controller:
