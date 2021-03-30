@@ -261,6 +261,5 @@ PROTO RobocupGoal [
         }
       ]
     }
-    locked TRUE
   }
 }
