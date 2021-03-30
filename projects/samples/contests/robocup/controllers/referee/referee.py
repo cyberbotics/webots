@@ -12,12 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller import Supervisor
+from controller import Supervisor, AnsiCodes
 import json
 import math
+import os
 import random
 import socket
+import subprocess
 import sys
+import time
 from types import SimpleNamespace
 
 
@@ -85,12 +88,13 @@ def display_score():
 def game_controller_send(message):
     if game_controller:
         game_controller_send.id += 1
-        message = f'{game_controller_send.id}:' + message
+        message = f'{game_controller_send.id}:{message}\n'
         game_controller.sendall(message.encode('ascii'))
-        data = game_controller.recv(1024)
-        if data == f'{game_controller_send.id}:OK':
+        answer = game_controller.recv(1024).decode('ascii')
+        if answer == f'{game_controller_send.id}:OK':
             return True
         else:
+            print('Warning: received unexepected answer from GameController: ' + answer)
             return False
 
 
@@ -109,6 +113,22 @@ if len(red_team['name']) > 12:
     red_team['name'] = red_team['name'][:12]
 if len(blue_team['name']) > 12:
     blue_team['name'] = blue_team['name'][:12]
+
+# launch the GameController
+JAVA_HOME = os.environ['JAVA_HOME']
+game_controller_process = None
+if JAVA_HOME is None:
+    print('Warning: JAVA_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
+    GAME_CONTROLLER_HOME = None
+else:
+    GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
+    if GAME_CONTROLLER_HOME:
+        # path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'GameControllerSimulator.jar')
+        game_controller_process = subprocess.Popen(
+          [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar'],
+          cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
+    else:
+        print('Warning: GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
 
 # start the webots supervisor
 supervisor = Supervisor()
@@ -131,13 +151,28 @@ if host != '127.0.0.1' and host != game.host:
     print('Warning: host is not correctly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
           file=sys.stderr)
 
-# connect to the GameController
-# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as game_controller:
-#    game_controller.connect(('localhost', 8750))
-
-game_controller = None
-
 time_step = int(supervisor.getBasicTimeStep())
+
+game_controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+retry = 0
+while True:
+    try:
+        game_controller.connect(('localhost', 8750))
+        break
+    except socket.error as msg:
+        retry += 1
+        if retry <= 10:
+            print(f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}' +
+                  f'Warning: could not connect to GameController at localhost:8750: {msg}. ' +
+                  f'Retrying ({retry}/10)...{AnsiCodes.RESET}')
+            time.sleep(1)  # give some time to allow the GameControllerSimulator to start-up
+            supervisor.step(time_step)
+        else:
+            print('Warning: could not connect to GameController at localhost:8750: Giving up.', file=sys.stderr)
+            game_controller = None
+            break
+print('Connected to GameControllerSimulator at localhost:8750')
+
 time_count = 0
 previous_seconds = -1
 while supervisor.step(time_step) != -1:
@@ -149,3 +184,8 @@ while supervisor.step(time_step) != -1:
         supervisor.setLabel(2, f' {minutes:02d}:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2,
                             game.font)
     time_count += time_step
+
+if game_controller:
+    game_controller.close()
+if game_controller_process:
+    game_controller_process.terminate()
