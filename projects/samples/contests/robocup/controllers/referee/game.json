@@ -1,7 +1,7 @@
 {
   "type": "NORMAL",
   "class": "KID",
-  "host": "192.168.123.11",
+  "host": "192.168.1.133",
   "red": {
     "id": 1,
     "config": "team_1.json",
