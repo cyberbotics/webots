@@ -95,9 +95,13 @@ def game_controller_send(message):
         answer = game_controller.recv(1024).decode('ascii')
         if answer == f'{game_controller_send.id}:OK':
             return True
+        elif answer == f'{game_controller_send.id}:ILLEGAL':
+            print('Warning: received illegal answer from GameController.', file=sys.stderr)
+        elif answer == f'{game_controller_send.id}:INVALID':
+            print('Warning: received invalid answer from GameController.', file=sys.stderr)
         else:
-            print('Warning: received unexepected answer from GameController: ' + answer)
-            return False
+            print(f'Warning: received unknown answer from GameController: {answer}.', file=sys.stderr)
+        return False
 
 
 game_controller_send.id = 0
