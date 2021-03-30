@@ -47,6 +47,6 @@ Robot {
   supervisor TRUE
   controller "referee"
 }
-RobocupSoccerBall {
+DEF BALL RobocupSoccerBall {
   translation 0 0 0.08
 }

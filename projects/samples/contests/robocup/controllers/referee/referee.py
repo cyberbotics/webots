@@ -84,7 +84,7 @@ def display_score():
     supervisor.setLabel(5, red_score, x, y, size, black, transparency, font)
     supervisor.setLabel(6, blue_score, x, y, size, black, transparency, font)
     supervisor.setLabel(7, ' ' * 23 + '-', x, y, size, black, transparency, font)
-    supervisor.setLabel(8, ' ' * 41 + game.status, x, y, size, black, transparency, font)
+    supervisor.setLabel(8, ' ' * 41 + game.state, x, y, size, black, transparency, font)
 
 
 def game_controller_send(message):
@@ -151,8 +151,11 @@ root = supervisor.getRoot()
 children = root.getField('children')
 field_size = getattr(game, 'class').lower()
 children.importMFNodeFromString(-2, f'RobocupSoccerField {{ size "{field_size}" }}')
+game.field_size_y = 3 if field_size == 'kid' else 4.5
+game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
 game.kickoff = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine which team has kickoff
+game.state = 'INIT'
 game.font_size = 0.1
 game.font = 'Lucida Console'
 game.overlay_x = 0.02
@@ -161,7 +164,6 @@ spawn_team(red_team, 'red', game.side_left == game.blue.id, children)
 spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
 red_team['score'] = 0
 blue_team['score'] = 0
-game.status = 'KICK-OFF'
 display_score()
 
 time_step = int(supervisor.getBasicTimeStep())
@@ -193,6 +195,7 @@ game.state = 'READY'
 # game_controller_send(f'KICKOFF:{game.kickoff}')
 # game_controller_send(f'STATE:{game.state}')
 
+game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 time_count = 0
 previous_seconds = -1
 while supervisor.step(time_step) != -1:
@@ -203,6 +206,10 @@ while supervisor.step(time_step) != -1:
         minutes = (int)(time_count / 60000)
         supervisor.setLabel(2, f' {minutes:02d}:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2,
                             game.font)
+    ball_translation = game.ball_translation.getSFVec3f()
+    if ball_translation[1] > game.field_size_y:
+        ball_translation[1] = game.field_size_y
+        game.ball_translation.setSFVec3f(ball_translation)
     time_count += time_step
 
 if game_controller:
