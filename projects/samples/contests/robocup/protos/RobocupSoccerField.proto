@@ -255,6 +255,7 @@ PROTO RobocupSoccerField [
   Solid {
     translation IS translation
     rotation IS rotation
+    locked TRUE
     children [
       %{ if fields.turfPhysics.value then }%
       DEF BLADES Solid {

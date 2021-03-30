@@ -39,6 +39,7 @@ PROTO RobocupGoal [
   Solid {
     translation IS translation
     rotation IS rotation
+    locked TRUE
     children [
       DEF HORIZONTAL_POST_TRANS Transform {
         translation 0 0 %{= post_height }%
