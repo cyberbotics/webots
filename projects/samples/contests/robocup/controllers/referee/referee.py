@@ -17,6 +17,7 @@ import json
 import math
 import os
 import random
+from shutil import copyfile
 import socket
 import subprocess
 import sys
@@ -37,7 +38,8 @@ def spawn_team(team, color, red_on_right, children):
         if red_on_right:  # symmetry with respect to the central line of the field
             translation[0] = -translation[0]
             rotation[3] = math.pi - rotation[3]
-        string = f'{model}{{name "{color} player {number}" ' + \
+        defname = color.upper() + '_PLAYER_' + number
+        string = f'DEF {defname} {model}{{name "{color} player {number}" ' + \
             f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
             f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]} ' + \
             f'controllerArgs ["{port}"'
@@ -123,7 +125,10 @@ if JAVA_HOME is None:
 else:
     GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
     if GAME_CONTROLLER_HOME:
-        # path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'GameControllerSimulator.jar')
+
+        # FIXME: instead of that we should pass the game.json file to GameControllerSimulator when it supports it
+        copyfile('game.json', os.path.join(GAME_CONTROLLER_HOME, 'resources', 'config', 'sim', 'game.json'))
+
         game_controller_process = subprocess.Popen(
           [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar'],
           cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
