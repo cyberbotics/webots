@@ -128,7 +128,7 @@ display_score()
 
 host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
-    print('Warning: host is not properly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
+    print('Warning: host is not correctly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
           file=sys.stderr)
 
 # connect to the GameController
