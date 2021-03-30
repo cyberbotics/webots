@@ -47,9 +47,6 @@ Robot {
   supervisor TRUE
   controller "referee"
 }
-RobocupSoccerField {
-  size "kid"
-}
 RobocupSoccerBall {
   translation 0 0 0.08
 }

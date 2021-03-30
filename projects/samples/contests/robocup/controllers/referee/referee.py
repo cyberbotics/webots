@@ -116,6 +116,12 @@ if len(red_team['name']) > 12:
 if len(blue_team['name']) > 12:
     blue_team['name'] = blue_team['name'][:12]
 
+# check if the host parameter of the game.json file correspond to the actual host
+host = socket.gethostbyname(socket.gethostname())
+if host != '127.0.0.1' and host != game.host:
+    print('Warning: host is not correctly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
+          file=sys.stderr)
+
 # launch the GameController
 JAVA_HOME = os.environ['JAVA_HOME']
 game_controller_process = None
@@ -139,6 +145,8 @@ else:
 supervisor = Supervisor()
 root = supervisor.getRoot()
 children = root.getField('children')
+field_size = getattr(game, 'class').lower()
+children.importMFNodeFromString(-2, f'RobocupSoccerField {{ size "{field_size}" }}')
 game.red_on_right = bool(random.getrandbits(1))  # toss a coin to determine who is playing on which side
 game.font_size = 0.1
 game.font = 'Lucida Console'
@@ -150,11 +158,6 @@ red_team['score'] = 0
 blue_team['score'] = 0
 game.status = 'KICK-OFF'
 display_score()
-
-host = socket.gethostbyname(socket.gethostname())
-if host != '127.0.0.1' and host != game.host:
-    print('Warning: host is not correctly defined in game.json file, it should be ' + game.host + ' instead of ' + host,
-          file=sys.stderr)
 
 time_step = int(supervisor.getBasicTimeStep())
 
