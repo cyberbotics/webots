@@ -133,7 +133,6 @@ int main(int argc, char *argv[]) {
       return 1;
     }
   } else {
-    answer[0] = '\0';
     printf("Connection closed.\n");
     return 1;
   }
