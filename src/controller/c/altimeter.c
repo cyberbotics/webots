@@ -130,7 +130,7 @@ int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
   return sampling_period;
 }
 
-const double wb_altimeter_get_value(WbDeviceTag tag) {
+double wb_altimeter_get_value(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock_step();
   Altimeter *altimeter = altimeter_get_struct(tag);
