@@ -1467,3 +1467,76 @@ wb_motor_set_velocity(left_motor, 0.0);
 wb_motor_set_velocity(right_motor, 0.0);
 ```
 
+##### Ginzo1 03/25/2021 18:22:47
+Hello everyone! I need to create a spraying device for my simulation - the form and size do not matter so I wondered if something similar's been done before and it is available to use. Also any suggestions for the implementation are more than welcome 🙂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/25/2021 18:52:23
+You can use the Pen node:
+
+[https://cyberbotics.com/doc/reference/pen](https://cyberbotics.com/doc/reference/pen)
+
+##### Ginzo1 03/25/2021 19:33:18
+Thank you!
+
+##### Vial 03/25/2021 23:35:00
+Hi, I'm trying to implement a new endpoint for lidars in remote control library but I have some questions about the API, I thought it would be much easier for everyone with screenshots. Hence the pdf file, it's mostly screenshots.
+
+Thanks by advance for considering this question
+> **Attachment**: [Question-remote-api.pdf](https://cdn.discordapp.com/attachments/565155651395780609/824788493434617886/Question-remote-api.pdf)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/26/2021 08:08:39
+Hello Vial, It would be very nice to extend the remote library to support Lidars!  
+
+
+
+Hopefully I managed to understand details of your problem.
+
+
+
+> Why is c→image→data remains null in remote
+
+> control mode (figure 4), where is the memory allocated
+
+> for this field or should I calloc it myself
+
+You should populate the Lidar image in your plugin:
+
+```c
+const unsigned char *lidar_data_from_robot = malloc(...);
+wbr_lidar_set_image(camera->tag(), lidar_data_from_robot);
+```
+
+
+
+I would strongly advise you to open a PR and put the everything inside, so we can easily review it. Just mark it is as a `Draft` and keep iterating until you have a question or it is ready to be merged.
+
+##### Spur 03/27/2021 05:05:26
+dumb question but does anyone know what the lidar point cloud returns and how to access it?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/27/2021 13:58:42
+It should be clear from the documentation:
+
+[https://cyberbotics.com/doc/reference/lidar#wb\_lidar\_get\_point\_cloud](https://cyberbotics.com/doc/reference/lidar#wb_lidar_get_point_cloud)
+
+
+
+Let us know if there is something unclear.
+
+##### ouur 03/28/2021 15:49:44
+Hello everyone. im using python and trying to get self node but it gives me error. Any idea?
+
+TypeError: in method 'Supervisor\_getSelf', argument 1 of type 'webots::Supervisor const *'
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/28/2021 18:30:49
+`@ouur` show us your code
+
+##### Srivastav\_Udit 03/30/2021 03:22:47
+Thank you so much!
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/30/2021 19:22:27
+I found a very strange issue. The wheel seems to move the robot in the same direction, regardless of which way it is spinning
+> **Attachment**: [simple\_crashderby\_1.mp4](https://cdn.discordapp.com/attachments/565155651395780609/826536875283447818/simple_crashderby_1.mp4)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/30/2021 19:26:39
+What's that? Which world?
+
