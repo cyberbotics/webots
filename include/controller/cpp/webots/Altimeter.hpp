@@ -27,7 +27,7 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
 
-    const double getValue() const; 
+    double getValue() const; 
   };
 } // namespace webots
 
