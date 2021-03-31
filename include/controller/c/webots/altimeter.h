@@ -32,7 +32,7 @@ void wb_altimeter_enable(WbDeviceTag tag, int sampling_period);
 void wb_altimeter_disable(WbDeviceTag tag);
 int wb_altimeter_get_sampling_period(WbDeviceTag tag);
 
-const double wb_altimeter_get_value(WbDeviceTag tag);
+double wb_altimeter_get_value(WbDeviceTag tag);
 
 #ifdef __cplusplus
 }
