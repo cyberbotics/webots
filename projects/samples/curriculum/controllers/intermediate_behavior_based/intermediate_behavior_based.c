@@ -15,8 +15,8 @@
  */
 
 // Included libraries
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <webots/camera.h>
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
