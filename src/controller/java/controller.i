@@ -289,7 +289,7 @@ namespace webots {
     return pixelGetGray(pixel);
   }
 
-  public CameraRecognitionObject[] getCameraRecognitionObjects() {
+  public CameraRecognitionObject[] getRecognitionObjects() {
     int numberOfObjects = wrapperJNI.Camera_getRecognitionNumberOfObjects(swigCPtr, this);
     CameraRecognitionObject ret[] = new CameraRecognitionObject[numberOfObjects];
     for (int i = 0; i < numberOfObjects; ++i)
