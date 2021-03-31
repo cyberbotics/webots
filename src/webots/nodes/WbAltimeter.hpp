@@ -49,8 +49,6 @@ private:
   WbSFDouble *mAccuracy;
   WbSFDouble *mNoiseCorrelation;
   WbSFDouble *mResolution;
-  // GPS has SpeedNoise and Resolution
-  // but altimeter shouldn't need these metrics
 
   // other fields
   WbSensor *mSensor;
