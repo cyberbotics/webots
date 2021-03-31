@@ -42,7 +42,7 @@ public:
   const WbVector3 axis() const { return mAxis ? mAxis->value() : WbVector3(); }
 
   void setPosition(double p) { mPosition->setValue(p); }
-  void setPositionFromOde(double p) { mPosition->setValueFromOde(p); }
+  void setPositionFromOde(double p) { mPosition->setValueNoSignal(p); }
 
 signals:
   void positionChanged();
