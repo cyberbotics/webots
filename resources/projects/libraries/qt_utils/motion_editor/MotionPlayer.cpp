@@ -72,10 +72,10 @@ void MotionPlayer::writeActuators() {
   foreach (Pose *pose, mMotion->poses()) {
     int poseTime = pose->time();
     if (poseTime <= currentTime) {
-      if (!beforePose || ((poseTime != currentTime && poseTime > beforePose->time()))
+      if (!beforePose || (poseTime != currentTime && poseTime > beforePose->time()))
         beforePose = pose;
     } else if (poseTime >= currentTime) {
-      if (!afterPose || ((poseTime != currentTime && poseTime > afterPose->time()))
+      if (!afterPose || (poseTime != currentTime && poseTime > afterPose->time()))
         afterPose = pose;
     }
   }
