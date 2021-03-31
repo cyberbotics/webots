@@ -24188,16 +24188,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### Rebrow 07/07/2020 11:47:56
+##### O N I 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 07/07/2020 11:50:45
-`@Rebrow` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@O N I` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### Rebrow 07/07/2020 12:09:20
+##### O N I 07/07/2020 12:09:20
 `@Simon Steinmann` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -28294,7 +28294,7 @@ Ok, thanks 🙂
 ##### David Mansolino [Cyberbotics] 07/31/2020 10:05:13
 You're welcome
 
-##### teetangh 07/31/2020 10:58:15
+##### kaustav\_ghosh 07/31/2020 10:58:15
 Hello everyone. Hope everyone is safe and sound during the corona times.
 
 I'm Kaustav. I wanted to attach a lidar to my differential drive and also make a cpp controller for it.
@@ -28308,7 +28308,7 @@ Hi, have you tried our ROS tutorial?
 
 We have an example of SLAM simulation: [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT)
 
-##### teetangh 07/31/2020 11:02:58
+##### kaustav\_ghosh 07/31/2020 11:02:58
 Thank you `@David Mansolino` . I will try the same and let you know
 
 ##### JacobW 07/31/2020 19:00:19
