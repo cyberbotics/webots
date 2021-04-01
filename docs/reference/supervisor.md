@@ -874,15 +874,8 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-The `wb_supervisor_node_get_relative_pose` function returns a transformation matrix that represents a relative transform between two nodes.
-The matrix consists of 16 values:
-```
-[ R[0] R[1] R[2] R[3] ]
-[ R[4] R[5] R[6] R[7] ]
-[ R[8] R[9] R[10] R[11] ]
-[ R[12] R[13] R[14] R[15] ]
-```
-in R[:3, :3] represent a rotation matrix and R[3, :3] represent a relative translation.
+The `wb_supervisor_node_get_relative_pose` function returns an array of 16 values.
+The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents a relative transform between two nodes.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
