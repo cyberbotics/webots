@@ -758,6 +758,7 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 #### `wb_supervisor_node_get_position`
 #### `wb_supervisor_node_get_orientation`
+#### `wb_supervisor_node_get_relative_pose`
 
 %tab-component "language"
 
@@ -768,6 +769,7 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
+const double *wb_supervisor_node_get_relative_pose(WbNodeRef from_node, WbNodeRef to_node);
 ```
 
 %tab-end
@@ -781,6 +783,7 @@ namespace webots {
   class Node {
     const double *getPosition() const;
     const double *getOrientation() const;
+    const double *getRelativePose(const Node* toNode) const;
     // ...
   }
 }
@@ -796,6 +799,7 @@ from controller import Node
 class Node:
     def getPosition(self):
     def getOrientation(self):
+    def getRelativePose(self, toNode):
     # ...
 ```
 
@@ -809,6 +813,7 @@ import com.cyberbotics.webots.controller.Node;
 public class Node {
   public double[] getPosition();
   public double[] getOrientation();
+  public double[] getRelativePose(Node toNode);
   // ...
 }
 ```
@@ -820,6 +825,7 @@ public class Node {
 ```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
+pose = wb_supervisor_node_get_relative_pose(from_node, to_node)
 ```
 
 %tab-end
@@ -868,48 +874,15 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-%spoiler "**Python Example**: How to calculate relative positions and orientations?"
-
-The following Python example calculates the position and orientation of a node relatively to another node.
-It should be easily adaptable to any other language, as it uses simple matrix and vector calculations.
-
-```python
-from controller import Supervisor
-import numpy as np
-
-robot = Supervisor()
-ur10e = robot.getFromDef('ur10e')
-box = robot.getFromDef('box')
-
-# Get the transposed rotation matrix of the robot, so we can calculate poses of
-# everything relative to it.
-# Get orientation of the Node we want as our new reference frame and turn it into
-# a numpy array. Returns 1-dim list of len=9.
-rot_ur10e = np.array(ur10e.getOrientation())
-# reshape into a 3x3 rotation matrix
-rot_ur10e.reshape(3, 3)
-# Transpose the matrix, because we need world relative to the robot, not the
-# robot relative to world.
-rot_ur10e = np.transpose(rot_ur10e)
-
-# Get the translation between the robot and the world (basically where the origin
-# of our new relative frame is).
-# No need to use the reverse vector, as we will subtract instead of add it later.
-pos_ur10e = np.array(ur10e.getPosition())
-
-
-# Box position relative to world.
-box_pos_world = np.array(box.getPosition())
-# Calculate the relative translation between the box and the robot.
-box_pos_world = np.subtract(box_pos_world, pos_ur10e)
-# Matrix multiplication with rotation matrix: box posistion relative to robot.
-box_pos_robot = np.dot(rot_ur10e, box_pos_world)
-
-# Calculate the orientation of the box, relative to the robot, all in one line.
-box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3))
+The `wb_supervisor_node_get_relative_pose` function returns a transformation matrix that represents a relative transform between two nodes.
+The matrix consists of 16 values:
 ```
-
-%end
+[ R[0] R[1] R[2] R[3] ]
+[ R[4] R[5] R[6] R[7] ]
+[ R[8] R[9] R[10] R[11] ]
+[ R[12] R[13] R[14] R[15] ]
+```
+in R[:3, :3] represent a rotation matrix and R[3, :3] represent a relative translation.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 

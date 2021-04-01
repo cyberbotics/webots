@@ -388,8 +388,8 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static double *relative_pose = NULL;
-static WbNodeRef relative_pose_node_ref = NULL;
-static WbNodeRef relative_pose_other_node_ref = NULL;
+static WbNodeRef relative_pose_from_node_ref = NULL;
+static WbNodeRef relative_pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -662,10 +662,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
   }
-  if (relative_pose_node_ref && relative_pose_other_node_ref) {
-    request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
-    request_write_uint32(r, relative_pose_node_ref->id);
-    request_write_uint32(r, relative_pose_other_node_ref->id);
+  if (relative_pose_from_node_ref && relative_pose_to_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_RELATIVE_POSE);
+    request_write_uint32(r, relative_pose_from_node_ref->id);
+    request_write_uint32(r, relative_pose_to_node_ref->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -1872,11 +1872,11 @@ const double *wb_supervisor_node_get_relative_pose(WbNodeRef node, WbNodeRef oth
   }
 
   robot_mutex_lock_step();
-  relative_pose_node_ref = node;
-  relative_pose_other_node_ref = other_node;
+  relative_pose_from_node_ref = node;
+  relative_pose_to_node_ref = other_node;
   wb_robot_flush_unlocked();
-  relative_pose_node_ref = NULL;
-  relative_pose_other_node_ref = NULL;
+  relative_pose_from_node_ref = NULL;
+  relative_pose_to_node_ref = NULL;
   robot_mutex_unlock_step();
   return relative_pose ? relative_pose : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }

@@ -774,13 +774,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbTransform *const transform1 = dynamic_cast<WbTransform *>(node1);
       mNodeGetRelativePose.first = transform1;
       if (!transform1)
-        mRobot->warn(tr("wb_supervisor_node_get_relative_orientation() can exclusively be used with Transform (or derived)."));
+        mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
 
       WbNode *const node2 = getProtoParameterNodeInstance(WbNode::findNode(id2));
       WbTransform *const transform2 = dynamic_cast<WbTransform *>(node2);
       mNodeGetRelativePose.second = transform2;
       if (!transform2)
-        mRobot->warn(tr("wb_supervisor_node_get_relative_orientation() can exclusively be used with Transform (or derived)."));
+        mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS: {
@@ -1527,11 +1527,11 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     const WbVector3 &s1 = m1.scale();
     m1.scale(1.0 / s1.x(), 1.0 / s1.y(), 1.0 / s1.z());
 
-    WbMatrix4 m2(mNodeGetRelativePose.first->matrix());
+    WbMatrix4 m2(mNodeGetRelativePose.second->matrix());
     const WbVector3 &s2 = m2.scale();
     m2.scale(1.0 / s2.x(), 1.0 / s2.y(), 1.0 / s2.z());
 
-    WbMatrix4 m = m2.transposed() * m1;
+    WbMatrix4 m = m1.pseudoInversed() * m2;
 
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_RELATIVE_POSE;
@@ -1539,7 +1539,9 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
     stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
-    mNodeGetOrientation = NULL;
+  
+    mNodeGetRelativePose.first = NULL;
+    mNodeGetRelativePose.second = NULL;
   }
   if (mNodeGetCenterOfMass) {
     const WbVector3 &com = mNodeGetCenterOfMass->computedGlobalCenterOfMass();
