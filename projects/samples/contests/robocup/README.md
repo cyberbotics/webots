@@ -10,7 +10,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 ## Installation
 
 1. [Build Webots from the source](https://github.com/cyberbotics/webots/wiki) from the [feature-robocup-controllers](https://github.com/cyberbotics/webots/tree/feature-robocup-controllers) branch (recommended) or install the latest nightly build of [Webots R2021b](https://github.com/cyberbotics/webots/releases) and checkout the content of this folder locally.
-2. Install the latest version of the [GameController](https://github.com/sheepsy90/GameController).
+2. Build the latest version of the [GameController](https://github.com/sheepsy90/GameController).
 3. Define the `GAME_CONTROLLER_HOME` environment variable to point to the `GameController` folder: `export GAME_CONTROLLER_HOME=/my/folder/GameController`
 
 ## Run the Demo
