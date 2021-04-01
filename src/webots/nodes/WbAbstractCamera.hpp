@@ -144,6 +144,7 @@ protected:
 
   // other stuff
   WbSensor *mSensor;
+  short mRefreshRate;
   WbSharedMemory *mImageShm;
   unsigned char *mImageData;
   char mCharType;
