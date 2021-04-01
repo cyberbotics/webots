@@ -234,6 +234,7 @@ QT_SOURCES += \
   WbActionManager.cpp \
   WbAddInertiaMatrixDialog.cpp \
   WbAddNodeDialog.cpp \
+  WbAltimeter.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
