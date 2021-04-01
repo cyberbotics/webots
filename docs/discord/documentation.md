@@ -1815,3 +1815,18 @@ Webots\projects\devices\sharp\protos is where mine is located
 ##### Elizaveta\_Potemkina 03/02/2021 17:33:23
 Thanks, just found it actually!
 
+##### Shyam 03/20/2021 19:58:06
+is there something wrong with the documentation page on website?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
+%end
+
+##### harunkurt00 03/20/2021 20:03:57
+Yes , same with me this documentation website
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/22/2021 07:26:31
+I believe this is now fixed.
+
+##### Shyam 03/22/2021 10:37:54
+Yes, thank you for the update `@Olivier Michel`
+

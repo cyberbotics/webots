@@ -233,8 +233,8 @@ class AnsiCodes(object):
   PyObject *get_size() {
     const double *size = $self->size;
     PyObject *ret = PyList_New(2);
-    PyList_SetItem(ret, 0, PyInt_FromLong(size[0]));
-    PyList_SetItem(ret, 1, PyInt_FromLong(size[1]));
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(size[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(size[1]));
     return ret;
   }
   PyObject *get_position_on_image() {

@@ -7307,7 +7307,7 @@ const std::array<double,9> matrix
 ##### Srivastav\_Udit 11/03/2020 10:56:57
 `@DrVoodoo` It's a small robot aimed at swarm robotic applications. I'm importing it as a single object but all the joints connecting the individual components are already defined in Fusion360 before saving as a .STL file
 
-##### MumsDad 11/03/2020 11:06:21
+##### ChristopherD 11/03/2020 11:06:21
 `@Srivastav_Udit` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
 
 
@@ -7319,7 +7319,7 @@ read up on what stl actually is, it is simply a file format which saves your geo
 [https://www.youtube.com/watch?v=s151UClAnEk](https://www.youtube.com/watch?v=s151UClAnEk)
 
 ##### Srivastav\_Udit 11/03/2020 11:09:29
-`@MumsDad` Thanks! I'll have a look and let you know how it goes!
+`@ChristopherD` Thanks! I'll have a look and let you know how it goes!
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 11/03/2020 14:29:19
 `@DrVoodoo`  For future transformation issues, I find these two things really help:
