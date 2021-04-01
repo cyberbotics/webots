@@ -777,7 +777,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
       mNodeGetRelativePose.second = transformTo;
 
-      if (!transformTo || transformFrom)
+      if (!transformTo || !transformFrom)
         mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
       return;
     }

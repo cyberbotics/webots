@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   const double *pose = wb_supervisor_node_get_relative_pose(node_parent, node);
   const double POSE[] = {-1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.3, 0.0, 0.0, 0.0, 1.0};
 
-  ts_assert_doubles_in_delta(16, pose, POSE, 0.001,
+  ts_assert_doubles_in_delta(16, pose, POSE, 0.0001,
                              "wb_supervisor_node_get_relative_pose() did not return the expected values.");
 
   ts_send_success();

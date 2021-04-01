@@ -106,7 +106,7 @@ typedef struct WbNodeStructPrivate {
 
 static WbNodeStruct *node_list = NULL;
 
-static const double invalid_vector[9] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
+static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
 // These functions may be used for debugging:
 //
