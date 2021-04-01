@@ -156,27 +156,32 @@ if host != '127.0.0.1' and host != game.host:
           file=sys.stderr)
 
 # launch the GameController
-JAVA_HOME = os.environ['JAVA_HOME']
-game_controller_process = None
-if JAVA_HOME is None:
-    print('Warning: JAVA_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
-    GAME_CONTROLLER_HOME = None
-else:
-    GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
-    if GAME_CONTROLLER_HOME:
-
-        # FIXME: instead of that we should pass the game.json file to GameControllerSimulator when it supports it
-        copyfile('game.json', os.path.join(GAME_CONTROLLER_HOME, 'resources', 'config', 'sim', 'game.json'))
-        path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'config', f'hl_sim_{field_size}', 'teams.cfg')
-        red_line = f'{game.red.id}={red_team["name"]}\n'
-        blue_line = f'{game.blue.id}={blue_team["name"]}\n'
-        with open(path, 'w') as file:
-            file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
-        game_controller_process = subprocess.Popen(
-          [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar'],
-          cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
-    else:
+try:
+    JAVA_HOME = os.environ['JAVA_HOME']
+    try:
+        GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
+        if not os.path.exists(GAME_CONTROLLER_HOME):
+            print(f'Error: {GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.', file=sys.stderr)
+            game_controller_process = None
+        else:
+            copyfile('game.json', os.path.join(GAME_CONTROLLER_HOME, 'resources', 'config', 'sim', 'game.json'))
+            path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'config', f'hl_sim_{field_size}', 'teams.cfg')
+            red_line = f'{game.red.id}={red_team["name"]}\n'
+            blue_line = f'{game.blue.id}={blue_team["name"]}\n'
+            with open(path, 'w') as file:
+                file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
+            game_controller_process = subprocess.Popen(
+              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar'],
+              cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
+    except KeyError:
+        GAME_CONTROLLER_HOME = None
+        game_controller_process = None
         print('Warning: GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
+except KeyError:
+    JAVA_HOME = None
+    GAME_CONTROLLER_HOME = None
+    game_controller_process = None
+    print('Warning: JAVA_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
 
 # start the webots supervisor
 supervisor = Supervisor()
@@ -190,7 +195,8 @@ game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
 ball_size = 1 if field_size == 'kid' else 5
-children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} size {ball_size} }}')
+children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
+                                f'size {ball_size} }}')
 game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
 game.kickoff = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine which team has kickoff
 game.state = 'INIT'
@@ -206,26 +212,29 @@ update_display()
 
 time_step = int(supervisor.getBasicTimeStep())
 
-game_controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-retry = 0
-while True:
-    try:
-        game_controller.connect(('localhost', 8750))
-        game_controller.setblocking(False)
-        break
-    except socket.error as msg:
-        retry += 1
-        if retry <= 10:
-            print(f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}' +
-                  f'Warning: could not connect to GameController at localhost:8750: {msg}. ' +
-                  f'Retrying ({retry}/10)...{AnsiCodes.RESET}')
-            time.sleep(1)  # give some time to allow the GameControllerSimulator to start-up
-            supervisor.step(time_step)
-        else:
-            print('Warning: could not connect to GameController at localhost:8750: Giving up.', file=sys.stderr)
-            game_controller = None
+if game_controller_process:
+    game_controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    retry = 0
+    while True:
+        try:
+            game_controller.connect(('localhost', 8750))
+            game_controller.setblocking(False)
             break
-print('Connected to GameControllerSimulator at localhost:8750')
+        except socket.error as msg:
+            retry += 1
+            if retry <= 10:
+                print(f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}' +
+                      f'Warning: could not connect to GameController at localhost:8750: {msg}. ' +
+                      f'Retrying ({retry}/10)...{AnsiCodes.RESET}')
+                time.sleep(1)  # give some time to allow the GameControllerSimulator to start-up
+                supervisor.step(time_step)
+            else:
+                print('Warning: could not connect to GameController at localhost:8750: Giving up.', file=sys.stderr)
+                game_controller = None
+                break
+    print('Connected to GameControllerSimulator at localhost:8750')
+else:
+    game_controller = None
 
 game.state = 'READY'
 update_display()
