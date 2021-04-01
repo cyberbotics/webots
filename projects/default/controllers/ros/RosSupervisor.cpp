@@ -96,6 +96,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
                                                                    &RosSupervisor::nodeGetOrientationCallback, this);
+  mNodeGetRelativePoseServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_relative_pose",
+                                                                    &RosSupervisor::nodeGetRelativePoseCallback, this);
   mNodeGetCenterOfMassServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_center_of_mass",
                                                                     &RosSupervisor::nodeGetCenterOfMassCallback, this);
   mNodeGetNumberOfContactPointsServer =
@@ -236,6 +238,7 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetParentNodeServer.shutdown();
   mNodeGetPositionServer.shutdown();
   mNodeGetOrientationServer.shutdown();
+  mNodeGetRelativePoseServer.shutdown();
   mNodeGetCenterOfMassServer.shutdown();
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
@@ -574,6 +577,25 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
   const double *matrix;
   matrix = node->getOrientation();
   RosMathUtils::matrixToQuaternion(matrix, res.orientation);
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetRelativePoseCallback(webots_ros::node_get_relative_pose::Request &req,
+                                                webots_ros::node_get_relative_pose::Response &res) {
+  assert(this);
+  if (!req.node_from)
+    return false;
+  if (!req.node_to)
+    return false;
+  Node *nodeFrom = reinterpret_cast<Node *>(req.node_from);
+  Node *nodeTo = reinterpret_cast<Node *>(req.node_to);
+  const double *m = nodeFrom->getRelativePose(nodeTo);
+  const double rotation[9] = {m[0], m[1], m[2], m[4], m[5], m[6], m[8], m[9], m[10]};
+  RosMathUtils::matrixToQuaternion(rotation, res.pose.rotation);
+  res.pose.translation.x = m[3];
+  res.pose.translation.y = m[7];
+  res.pose.translation.z = m[11];
   return true;
 }
 

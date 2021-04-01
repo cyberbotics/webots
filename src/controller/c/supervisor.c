@@ -1881,7 +1881,6 @@ const double *wb_supervisor_node_get_relative_pose(WbNodeRef node, WbNodeRef oth
   return relative_pose ? relative_pose : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }
 
-
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
