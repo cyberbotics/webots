@@ -52,7 +52,7 @@ void WbMotor::init() {
   mForceOrTorqueLastValue = 0.0;
   mKinematicVelocitySign = 0;
   mRequestedDeviceTag = NULL;
-  mCoupledMotorsTags.clear();
+  mCoupledMotors.clear();
 
   mMotorForceOrTorque = 0.0;
   mTargetVelocity = 0.0;
@@ -91,6 +91,7 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 }
 
 WbMotor::~WbMotor() {
+  // TODO: when one motor is deleted, need to remove coupled reference too
   printf("destroy motor\n");
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
@@ -184,14 +185,14 @@ double WbMotor::energyConsumption() const {
 }
 
 void WbMotor::inferMotorCouplings() {
-  for (int i = 0; i < cMotors.size(); i++) {
+  for (int i = 0; i < cMotors.size(); ++i) {
     if (cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
-      mCoupledMotorsTags.append(cMotors[i]->tag());
+      mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
   }
 
   printf("my motor tag is %d\n", tag());
-  for (int i = 0; i < mCoupledMotorsTags.size(); i++) {
-    printf(" > coupled with %d\n", mCoupledMotorsTags[i]);
+  for (int i = 0; i < mCoupledMotors.size(); i++) {
+    printf(" > coupled: %d\n", mCoupledMotors[i]->tag());
   }
 }
 
@@ -488,17 +489,14 @@ void WbMotor::handleMessage(QDataStream &stream) {
       double position;
       stream >> position;
       setTargetPosition(position);
+      relayTargetPositionToCoupledMotors(position);
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
-      stream >> mTargetVelocity;
-      const double m = mMaxVelocity->value();
-      const bool isNegative = mTargetVelocity < 0.0;
-      if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
-        warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
-        mTargetVelocity = isNegative ? -m : m;
-      }
-      awake();
+      double velocity;
+      stream >> velocity;
+      setTargetVelocity(velocity);
+      relayTargetVelocityToCoupledMotors(velocity);
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
@@ -643,6 +641,29 @@ void WbMotor::setTargetPosition(double tp) {
 
   mUserControl = false;
   awake();
+}
+
+void WbMotor::relayTargetPositionToCoupledMotors(double tp) {
+  for (int i = 0; i < mCoupledMotors.size(); ++i) {
+    mCoupledMotors[i]->setTargetPosition(tp);
+  }
+}
+
+void WbMotor::setTargetVelocity(double tv) {
+  mTargetVelocity = tv;
+  const double m = mMaxVelocity->value();
+  const bool isNegative = mTargetVelocity < 0.0;
+  if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
+    warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
+    mTargetVelocity = isNegative ? -m : m;
+  }
+  awake();
+}
+
+void WbMotor::relayTargetVelocityToCoupledMotors(double tv) {
+  for (int i = 0; i < mCoupledMotors.size(); ++i) {
+    mCoupledMotors[i]->setTargetVelocity(tv);
+  }
 }
 
 void WbMotor::resetPhysics() {

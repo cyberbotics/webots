@@ -54,6 +54,7 @@ public:
   double currentVelocity() const { return mCurrentVelocity; }
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
   void setTargetPosition(double tp);
+  void setTargetVelocity(double tv);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;
@@ -107,6 +108,8 @@ private:
 
   void addConfigureToStream(QDataStream &stream);
   void inferMotorCouplings();
+  void relayTargetPositionToCoupledMotors(double tp);
+  void relayTargetVelocityToCoupledMotors(double tv);
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
@@ -136,7 +139,8 @@ private:
   WbDeviceTag *mRequestedDeviceTag;
   WbDownloader *mDownloader;
   WbSFDouble *mMultiplier;
-  QList<WbDeviceTag> mCoupledMotorsTags;
+  // QList<WbDeviceTag> mCoupledMotorsTags;
+  QList<WbMotor *> mCoupledMotors;
 
 private slots:
   void updateSound();
