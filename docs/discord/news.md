@@ -4,6 +4,13 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/19/2021 15:03:06
+Robotbenchmark got nominated at WSIS PRIZES 2021!
+
+You can vote for us here: [https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start](https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start)
+
+So, far we already received about 1500 votes, but we need more.
+
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/15/2021 15:33:46
 **Webots and `ros_control`**
 

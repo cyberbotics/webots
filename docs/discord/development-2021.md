@@ -1442,3 +1442,28 @@ Hello everyone! I need to draw lines on the floor that my robot will follow for 
 
 [https://youtu.be/XUSCD7aYtQ8](https://youtu.be/XUSCD7aYtQ8)
 
+##### Srivastav\_Udit 03/23/2021 07:12:09
+Hi! I need to replace this line wb\_differential\_wheels\_set\_encoders(0, 0); with code that is accepted for Position Sensors by Webots. Are there any recommendations?
+
+##### Stefania Pedrazzi [Cyberbotics] 03/24/2021 07:43:54
+Hi, the `DifferentialWheels` node is replaced by `Motor` and `PositionSensor` nodes. `PositionSensor` just returns the position value of the motor. If you want to set the encoders, i.e., motor position, you should use the `Motor` API:
+
+[https://www.cyberbotics.com/doc/reference/motor](https://www.cyberbotics.com/doc/reference/motor)
+
+Depending if you want to control the motor using position directly, velocity or force/torque there are different functions to use:
+
+* [https://www.cyberbotics.com/doc/reference/motor#position-control](https://www.cyberbotics.com/doc/reference/motor#position-control)
+
+* [https://www.cyberbotics.com/doc/reference/motor#velocity-control](https://www.cyberbotics.com/doc/reference/motor#velocity-control)
+
+* [https://www.cyberbotics.com/doc/reference/motor#force-and-torque-control](https://www.cyberbotics.com/doc/reference/motor#force-and-torque-control)
+
+When converting the default Webots worlds using `DifferentialWheels` node we used the *velocity* control and thus replaced the `wb_differential_wheels_set_encoders(0, 0)` function with:
+
+```
+wb_motor_set_position(left_motor, INFINITY);
+wb_motor_set_position(right_motor, INFINITY);
+wb_motor_set_velocity(left_motor, 0.0);
+wb_motor_set_velocity(right_motor, 0.0);
+```
+
