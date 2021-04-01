@@ -15,6 +15,7 @@
 #include "WbConcreteNodeFactory.hpp"
 
 #include "WbAccelerometer.hpp"
+#include "WbAltimeter.hpp"
 #include "WbAppearance.hpp"
 #include "WbBackground.hpp"
 #include "WbBallJoint.hpp"
@@ -112,6 +113,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
                                           const QString *protoFilePath) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
+  if (modelName == "Altimeter")
+    return new WbAltimeter(tokenizer);
   if (modelName == "Appearance")
     return new WbAppearance(tokenizer);
   if (modelName == "Background")
@@ -302,6 +305,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
 
   if (modelName == "Accelerometer")
     return new WbAccelerometer(original);
+  if (modelName == "Altimeter")
+    return new WbAltimeter(original);
   if (modelName == "Appearance")
     return new WbAppearance(original);
   if (modelName == "Background")
