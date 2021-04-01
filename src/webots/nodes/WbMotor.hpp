@@ -45,6 +45,7 @@ public:
   double maxVelocity() const { return mMaxVelocity->value(); }
   double minPosition() const { return mMinPosition->value(); }
   double maxPosition() const { return mMaxPosition->value(); }
+  double multiplier() const { return mMultiplier->value(); }
   void setMinPosition(double position) { mMinPosition->setValue(position); }
   void setMaxPosition(double position) { mMaxPosition->setValue(position); }
   const QString &sound() const { return mSound->value(); }
@@ -110,6 +111,7 @@ private:
   void inferMotorCouplings();
   void relayTargetPositionToCoupledMotors(double tp);
   void relayTargetVelocityToCoupledMotors(double tv);
+  const WbMotor *referenceMotor();
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
