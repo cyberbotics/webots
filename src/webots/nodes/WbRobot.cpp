@@ -353,10 +353,16 @@ void WbRobot::addDevices(WbNode *node) {
   }
 
   // check if there are duplicated names, and print a warning if necessary
+  printf("%s node, checking for duplicated\n", node->usefulName().toUtf8().constData());
   if (dynamic_cast<const WbRobot *>(node)) {  // top node
     QStringList displayedWarnings;
     foreach (WbDevice *deviceA, mDevices) {
       foreach (WbDevice *deviceB, mDevices) {
+        printf("comparing %s %s\n", deviceA->deviceName().toUtf8().constData(), deviceB->deviceName().toUtf8().constData());
+        /*if ((deviceA->deviceNodeType() == WB_NODE_ROTATIONAL_MOTOR || deviceA->deviceNodeType() == WB_NODE_LINEAR_MOTOR) &&
+            (deviceB->deviceNodeType() == WB_NODE_ROTATIONAL_MOTOR || deviceB->deviceNodeType() == WB_NODE_LINEAR_MOTOR))
+          continue;
+        */
         if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName() &&
             !displayedWarnings.contains(deviceA->deviceName())) {
           parsingWarn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
@@ -381,12 +387,14 @@ void WbRobot::clearDevices() {
 void WbRobot::updateDevicesAfterDestruction() {
   clearDevices();
   addDevices(this);
+  assignMotorCoupling();
 }
 
 void WbRobot::updateDevicesAfterInsertion() {
   clearDevices();
   addDevices(this);
   assignDeviceTags(false);
+  assignMotorCoupling();
 }
 
 void WbRobot::pinToStaticEnvironment(bool pin) {
@@ -611,6 +619,31 @@ void WbRobot::assignDeviceTags(bool reset) {
     }
   }
   mNextTag = i;
+}
+
+void WbRobot::assignMotorCoupling() {
+  foreach (WbDevice *deviceA, mDevices) {
+    foreach (WbDevice *deviceB, mDevices) {
+      if ((deviceA->deviceNodeType() != WB_NODE_ROTATIONAL_MOTOR && deviceA->deviceNodeType() != WB_NODE_LINEAR_MOTOR) &&
+          (deviceA->deviceNodeType() != WB_NODE_ROTATIONAL_MOTOR && deviceA->deviceNodeType() != WB_NODE_LINEAR_MOTOR))
+        continue;
+      // printf("comparing %s %s\n", deviceA->deviceName().toUtf8().constData(), deviceB->deviceName().toUtf8().constData());
+      if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName()) {
+        // deviceA.addCoupledMotor(deviceB->tag());
+      }
+    }
+  }
+
+  /*
+  foreach (WbDevice *const device, mDevices) {
+    if (reset || !device->hasTag()) {
+      device->setTag(i++);
+      if (!reset)
+        mNewlyAddedDevices << device;
+    }
+  }
+  mNextTag = i;
+  */
 }
 
 double WbRobot::currentEnergy() const {

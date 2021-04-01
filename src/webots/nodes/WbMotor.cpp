@@ -52,6 +52,7 @@ void WbMotor::init() {
   mForceOrTorqueLastValue = 0.0;
   mKinematicVelocitySign = 0;
   mRequestedDeviceTag = NULL;
+  mCoupledMotorsTags.clear();
 
   mMotorForceOrTorque = 0.0;
   mTargetVelocity = 0.0;
@@ -69,9 +70,12 @@ void WbMotor::init() {
   mMinPosition = findSFDouble("minPosition");
   mMaxPosition = findSFDouble("maxPosition");
   mMaxVelocity = findSFDouble("maxVelocity");
+  mMultiplier = findSFDouble("multiplier");
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
   mDownloader = NULL;
+
+  printf("init motor\n");
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
@@ -87,6 +91,7 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 }
 
 WbMotor::~WbMotor() {
+  printf("destroy motor\n");
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
 }
@@ -127,6 +132,8 @@ void WbMotor::postFinalize() {
   if (!mMuscles->isEmpty() || robot()->maxEnergy() > 0)
     setupJointFeedback();
 
+  inferMotorCouplings();
+
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
     dynamic_cast<WbMuscle *>(it.next())->postFinalize();
@@ -141,6 +148,8 @@ void WbMotor::postFinalize() {
   connect(mSound, &WbSFString::changed, this, &WbMotor::updateSound);
   connect(mMuscles, &WbSFNode::changed, this, &WbMotor::updateMuscles);
   connect(mMaxForceOrTorque, &WbSFDouble::changed, this, &WbMotor::updateMaxForceOrTorque);
+  connect(mMultiplier, &WbSFDouble::changed, this, &WbMotor::updateMultiplier);
+  connect(mDeviceName, &WbSFString::changed, this, &WbMotor::inferMotorCouplings);
 }
 
 void WbMotor::createWrenObjects() {
@@ -172,6 +181,18 @@ double WbMotor::energyConsumption() const {
     return 0.0;
 
   return fabs(computeFeedback()) * mConsumptionFactor->value();
+}
+
+void WbMotor::inferMotorCouplings() {
+  for (int i = 0; i < cMotors.size(); i++) {
+    if (cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
+      mCoupledMotorsTags.append(cMotors[i]->tag());
+  }
+
+  printf("my motor tag is %d\n", tag());
+  for (int i = 0; i < mCoupledMotorsTags.size(); i++) {
+    printf(" > coupled with %d\n", mCoupledMotorsTags[i]);
+  }
 }
 
 /////////////
@@ -260,6 +281,10 @@ void WbMotor::updateMuscles() {
 void WbMotor::updateMaxAcceleration() {
   WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
   mNeedToConfigure = true;
+}
+
+void WbMotor::updateMultiplier() {
+  printf("updateMultiplier\n");
 }
 
 void WbMotor::setMaxVelocity(double v) {

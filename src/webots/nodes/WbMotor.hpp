@@ -106,6 +106,7 @@ private:
   static QList<const WbMotor *> cMotors;
 
   void addConfigureToStream(QDataStream &stream);
+  void inferMotorCouplings();
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
@@ -134,6 +135,8 @@ private:
   QList<WbJointDevice *> mChangedAssociatedDevices;
   WbDeviceTag *mRequestedDeviceTag;
   WbDownloader *mDownloader;
+  WbSFDouble *mMultiplier;
+  QList<WbDeviceTag> mCoupledMotorsTags;
 
 private slots:
   void updateSound();
@@ -141,6 +144,7 @@ private slots:
   void updateMaxAcceleration();
   void updateControlPID();
   void updateMuscles();
+  void updateMultiplier();
 };
 
 #endif
