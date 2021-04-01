@@ -82,7 +82,7 @@ using namespace std;
   else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
   else if (test != "getRelativePose")
-    $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
+    $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
 }
 %apply double[] {double *};
 

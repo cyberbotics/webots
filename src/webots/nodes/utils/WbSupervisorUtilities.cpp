@@ -764,22 +764,20 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_NODE_GET_RELATIVE_POSE: {
-      unsigned int id1;
-      unsigned int id2;
+      unsigned int idFrom;
+      unsigned int idTo;
 
-      stream >> id1;
-      stream >> id2;
+      stream >> idFrom;
+      stream >> idTo;
 
-      WbNode *const node1 = getProtoParameterNodeInstance(WbNode::findNode(id1));
-      WbTransform *const transform1 = dynamic_cast<WbTransform *>(node1);
-      mNodeGetRelativePose.first = transform1;
-      if (!transform1)
-        mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
+      WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
+      WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
+      mNodeGetRelativePose.first = transformFrom;
+      WbNode *const nodeTo = getProtoParameterNodeInstance(WbNode::findNode(idTo));
+      WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
+      mNodeGetRelativePose.second = transformTo;
 
-      WbNode *const node2 = getProtoParameterNodeInstance(WbNode::findNode(id2));
-      WbTransform *const transform2 = dynamic_cast<WbTransform *>(node2);
-      mNodeGetRelativePose.second = transform2;
-      if (!transform2)
+      if (!transformTo || transformFrom)
         mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
       return;
     }
@@ -1523,15 +1521,15 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mNodeGetOrientation = NULL;
   }
   if (mNodeGetRelativePose.first && mNodeGetRelativePose.second) {
-    WbMatrix4 m1(mNodeGetRelativePose.first->matrix());
-    const WbVector3 &s1 = m1.scale();
-    m1.scale(1.0 / s1.x(), 1.0 / s1.y(), 1.0 / s1.z());
+    WbMatrix4 mFrom(mNodeGetRelativePose.first->matrix());
+    const WbVector3 &sFrom = mFrom.scale();
+    mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
 
-    WbMatrix4 m2(mNodeGetRelativePose.second->matrix());
-    const WbVector3 &s2 = m2.scale();
-    m2.scale(1.0 / s2.x(), 1.0 / s2.y(), 1.0 / s2.z());
+    WbMatrix4 mTo(mNodeGetRelativePose.second->matrix());
+    const WbVector3 &sTo = mTo.scale();
+    mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
 
-    WbMatrix4 m = m1.pseudoInversed() * m2;
+    WbMatrix4 m = mFrom.pseudoInversed() * mTo;
 
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_RELATIVE_POSE;
@@ -1539,7 +1537,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
     stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
-  
+
     mNodeGetRelativePose.first = NULL;
     mNodeGetRelativePose.second = NULL;
   }
