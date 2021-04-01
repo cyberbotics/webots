@@ -87,7 +87,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
   } else if (useCase) {
     if (isAValidUseableNode) {
       const WbNode::NodeUse nodeUse = node->nodeUse();
-      bool match;
+      bool match = false;
       bool typeMatch = false;
       WbBaseNode *definitionNode = NULL;
       const int ind = useNestingDegree - 1;
