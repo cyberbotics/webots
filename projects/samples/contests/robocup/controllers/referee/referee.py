@@ -182,13 +182,15 @@ else:
 supervisor = Supervisor()
 root = supervisor.getRoot()
 children = root.getField('children')
-children.importMFNodeFromString(-2, f'RobocupSoccerField {{ size "{field_size}" }}')
+children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.goal_half_width = 1.3
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
+ball_size = 1 if field_size == 'kid' else 5
+children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} size {ball_size} }}')
 game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
 game.kickoff = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine which team has kickoff
 game.state = 'INIT'
