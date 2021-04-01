@@ -204,6 +204,8 @@ const WbMotor *WbMotor::referenceMotor() {
     if (mCoupledMotors[i]->multiplier() == 1.0)  // a motor to use as reference is required
       return mCoupledMotors[i];
 
+  // TODO: what if -1?
+
   return NULL;
 }
 
@@ -235,11 +237,13 @@ void WbMotor::updateMinAndMaxPosition() {
 }
 
 void WbMotor::updateMaxForceOrTorque() {
+  printf("updateMaxForceOrTorque\n");
   WbFieldChecker::resetDoubleIfNegative(this, mMaxForceOrTorque, 10.0);
   mNeedToConfigure = true;
 }
 
 void WbMotor::updateMaxVelocity() {
+  printf("updateMaxVelocity\n");
   WbFieldChecker::resetDoubleIfNegative(this, mMaxVelocity, -mMaxVelocity->value());
   mNeedToConfigure = true;
 }
@@ -299,6 +303,11 @@ void WbMotor::updateMultiplier() {
   printf("updateMultiplier\n");
   const WbMotor *reference = referenceMotor();
 
+  if (multiplier() == 0.0) {
+    mMultiplier->setValue(1.0);
+    parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
+  }
+
   if (reference == NULL) {
     mMultiplier->setValue(1.0);
     if (mCoupledMotors.size() == 0)
@@ -341,14 +350,19 @@ void WbMotor::updateMultiplier() {
     mMaxForceOrTorque->setValue(potentialMaximalForceOrTorque);
   }
 
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-  }
-  // TODO: need to send info to API?
+  printf("multiplier is now %f\n", multiplier());
+
+  // TODO: somewhere, check that if there are more motors that are "reference" (mult = 1), they must have same limits among
+  // themselves or do check for all of them.
+
+  // TODO: minmaxposition must be the same?
   mNeedToConfigure = true;
 }
 
 void WbMotor::setMaxVelocity(double v) {
   mTargetVelocity = v;
+
+  // TODO: what about this one?
   awake();
 }
 
@@ -581,17 +595,10 @@ void WbMotor::handleMessage(QDataStream &stream) {
       break;
     }
     case C_MOTOR_SET_AVAILABLE_FORCE: {
-      stream >> mMotorForceOrTorque;
-      const double m = mMaxForceOrTorque->value();
-      if (mMotorForceOrTorque > m) {
-        if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
-          warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m));
-        else
-          warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m));
-
-        mMotorForceOrTorque = m;
-      }
-      awake();
+      double motorForceOrTorque;
+      stream >> motorForceOrTorque;
+      setAvailableForceOrTorque(motorForceOrTorque);
+      relayAvailableForceOrTorqueToCoupledMotors(motorForceOrTorque);
       break;
     }
     case C_MOTOR_SET_CONTROL_PID: {
@@ -717,12 +724,34 @@ void WbMotor::setTargetVelocity(double tv) {
     warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
     mTargetVelocity = isNegative ? -m : m;
   }
+  mTargetVelocity *= multiplier();
   awake();
 }
 
 void WbMotor::relayTargetVelocityToCoupledMotors(double tv) {
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
     mCoupledMotors[i]->setTargetVelocity(tv);
+  }
+}
+
+void WbMotor::setAvailableForceOrTorque(double forceOrTorque) {
+  mMotorForceOrTorque = forceOrTorque / multiplier();
+  const double m = mMaxForceOrTorque->value();
+  if (mMotorForceOrTorque > m) {
+    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
+      warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m));
+    else
+      warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m));
+
+    mMotorForceOrTorque = m;
+  }
+
+  awake();
+}
+
+void WbMotor::relayAvailableForceOrTorqueToCoupledMotors(double forceOrTorque) {
+  for (int i = 0; i < mCoupledMotors.size(); ++i) {
+    mCoupledMotors[i]->setAvailableForceOrTorque(forceOrTorque);
   }
 }
 

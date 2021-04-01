@@ -56,6 +56,7 @@ public:
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
   void setTargetPosition(double tp);
   void setTargetVelocity(double tv);
+  void setAvailableForceOrTorque(double forceOrTorque);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;
@@ -111,6 +112,7 @@ private:
   void inferMotorCouplings();
   void relayTargetPositionToCoupledMotors(double tp);
   void relayTargetVelocityToCoupledMotors(double tv);
+  void relayAvailableForceOrTorqueToCoupledMotors(double forceOrTorque);
   const WbMotor *referenceMotor();
 
   WbMotor &operator=(const WbMotor &);  // non copyable
