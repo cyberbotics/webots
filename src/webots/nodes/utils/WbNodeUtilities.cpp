@@ -1233,6 +1233,8 @@ bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
   if (modelName == "Accelerometer")
     return true;
+  if (modelName == "Altimeter")
+    return true;
   if (modelName == "Camera")
     return true;
   if (modelName == "Compass")
