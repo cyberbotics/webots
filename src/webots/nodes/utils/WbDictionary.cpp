@@ -94,18 +94,18 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       assert(ind >= 0 && ind < mNestedDictionaries.size());
       const QList<WbNode *> &defNodes = mNestedDictionaries.at(ind).values(useName);
       const int numberOfDefs = defNodes.size();
-      for (int defIndex = 0; defIndex < numberOfDefs; ++defIndex) {
+      // cppcheck-suppress knownConditionTrueFalse
+      for (int defIndex = 0; !match && defIndex < numberOfDefs; ++defIndex) {
         definitionNode = static_cast<WbBaseNode *>(defNodes[defIndex]);
         QString error;
         assert(node->parentField() && node->parentNode());
         typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(),
                                                        error, nodeUse, QString(), QStringList(definitionNode->nodeModelName()));
         match = typeMatch && !definitionNode->isAnAncestorOf(node);
-        if (match)
-          break;
       }
 
       WbNode *matchingNode = NULL;
+      // cppcheck-suppress knownConditionTrueFalse
       if (!match && !mNestedUseNodes.isEmpty()) {
         definitionNode = NULL;
         const WbNode *const upperUseNode = mNestedUseNodes.last();
