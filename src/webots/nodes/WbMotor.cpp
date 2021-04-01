@@ -297,7 +297,6 @@ void WbMotor::updateMaxAcceleration() {
 
 void WbMotor::updateMultiplier() {
   printf("updateMultiplier\n");
-
   const WbMotor *reference = referenceMotor();
 
   if (reference == NULL) {
@@ -312,6 +311,36 @@ void WbMotor::updateMultiplier() {
   }
 
   // ensure consistency across coupled motors
+  double potentialMaximalVelocity = reference->maxVelocity() * fabs(this->multiplier());
+  if (this->maxVelocity() < potentialMaximalVelocity) {
+    parsingWarn(tr("With a multiplier of %1, the potential maximal velocity reached by this motor is %2 which is above the "
+                   "current value of 'maxVelocity'. 'maxVelocity' adjusted from %3 to %4.")
+                  .arg(this->multiplier())
+                  .arg(potentialMaximalVelocity)
+                  .arg(this->maxVelocity())
+                  .arg(potentialMaximalVelocity));
+    mMaxVelocity->setValue(potentialMaximalVelocity);
+  }
+
+  double potentialMaximalForceOrTorque = reference->maxForceOrTorque() / fabs(this->multiplier());
+  if (this->maxForceOrTorque() < potentialMaximalForceOrTorque) {
+    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
+      parsingWarn(tr("With a multiplier of %1, the potential maximal torque reached by this motor is %2 which is above the "
+                     "current value of 'maxForceOrTorque'. 'maxForceOrTorque' adjusted from %3 to %4.")
+                    .arg(this->multiplier())
+                    .arg(potentialMaximalForceOrTorque)
+                    .arg(this->maxForceOrTorque())
+                    .arg(potentialMaximalForceOrTorque));
+    if (nodeType() == WB_NODE_LINEAR_MOTOR)
+      parsingWarn(tr("With a multiplier of %1, the potential maximal force reached by this motor is %2 which is above the "
+                     "current value of 'maxForceOrTorque'. 'maxForceOrTorque' adjusted from %3 to %4.")
+                    .arg(this->multiplier())
+                    .arg(potentialMaximalForceOrTorque)
+                    .arg(this->maxForceOrTorque())
+                    .arg(potentialMaximalForceOrTorque));
+    mMaxForceOrTorque->setValue(potentialMaximalForceOrTorque);
+  }
+
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
   }
   // TODO: need to send info to API?
