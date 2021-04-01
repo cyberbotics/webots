@@ -9,7 +9,6 @@ PROTO RobocupGoal [
   field SFVec3f    translation        0 0 0
   field SFRotation rotation           0 1 0 0
   field SFString   name               "robotstadium goal"
-  field SFColor    frameColor         1 1 1               # Defines the color of the goal frame.
   field SFColor    netColor           0.3 0.3 0.3         # Defines the color of the net.
   field SFString{"adult", "kid"} size "kid"               # Defines the size of the field.
 ]
@@ -47,7 +46,7 @@ PROTO RobocupGoal [
         children [
           Shape {
             appearance DEF POST_APP PBRAppearance {
-              baseColor IS frameColor
+              baseColor 1 1 1
               metalness 0
               roughness 0.2
             }
