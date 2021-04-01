@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from gamestate import GameState, ReturnData, GAME_CONTROLLER_RESPONSE_VERSION
 from controller import Supervisor, AnsiCodes
+
 import json
 import math
 import os
@@ -23,7 +25,6 @@ import subprocess
 import sys
 import time
 from types import SimpleNamespace
-
 
 global supervisor, game, red_team, blue_team, game_controller
 
@@ -55,18 +56,14 @@ def update_time_display():
         value = '00:00'
     else:
         value = '00.00'
-    supervisor.setLabel(2, ' ' + value, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+    supervisor.setLabel(5, ' ' + value, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
 
 
-def update_display():
-    red = 0xd62929
-    blue = 0x2943d6
-    black = 0x000000
-    white = 0xffffff
-    n = len(red_team['name'])
-    red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
-    n = len(blue_team['name'])
-    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
+def update_state_display():
+    supervisor.setLabel(6, ' ' * 41 + game.state, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+
+
+def update_score_display():
     red_score = str(red_team['score'])
     blue_score = str(blue_team['score'])
     if game.side_left == game.blue.id:
@@ -77,22 +74,35 @@ def update_display():
         blue_score = ' ' * 24 + blue_score
         offset = 21 if len(red_score) == 2 else 22
         red_score = ' ' * offset + red_score
+    supervisor.setLabel(7, red_score, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+    supervisor.setLabel(8, blue_score, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+
+
+def setup_display():
+    red = 0xd62929
+    blue = 0x2943d6
+    black = 0x000000
+    white = 0xffffff
+    n = len(red_team['name'])
+    red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
+    n = len(blue_team['name'])
+    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
     transparency = 0.2
     # default background
     x = game.overlay_x
     y = game.overlay_y
     size = game.font_size
     font = game.font
+    # default background
     supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 14, x, y, size, white, transparency, font)
     # team name background
     supervisor.setLabel(1, ' ' * 7 + '█' * 14 + ' ' * 5 + 14 * '█', x, y, size, white, transparency * 2, font)
+    supervisor.setLabel(2, red_team_name, x, y, size, red, transparency, font)
+    supervisor.setLabel(3, blue_team_name, x, y, size, blue, transparency, font)
+    supervisor.setLabel(4, ' ' * 23 + '-', x, y, size, black, transparency, font)
     update_time_display()
-    supervisor.setLabel(3, red_team_name, x, y, size, red, transparency, font)
-    supervisor.setLabel(4, blue_team_name, x, y, size, blue, transparency, font)
-    supervisor.setLabel(5, red_score, x, y, size, black, transparency, font)
-    supervisor.setLabel(6, blue_score, x, y, size, black, transparency, font)
-    supervisor.setLabel(7, ' ' * 23 + '-', x, y, size, black, transparency, font)
-    supervisor.setLabel(8, ' ' * 41 + game.state, x, y, size, black, transparency, font)
+    update_state_display()
+    update_score_display()
 
 
 def game_controller_send(message):
@@ -208,7 +218,7 @@ spawn_team(red_team, 'red', game.side_left == game.blue.id, children)
 spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
 red_team['score'] = 0
 blue_team['score'] = 0
-update_display()
+setup_display()
 
 time_step = int(supervisor.getBasicTimeStep())
 
@@ -233,11 +243,17 @@ if game_controller_process:
                 game_controller = None
                 break
     print('Connected to GameControllerSimulator at localhost:8750')
+    game_controller_udp_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    game_controller_udp_in.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    game_controller_udp_in.bind(('0.0.0.0', 3838))
+    game_controller_udp_in.setblocking(False)
+    game_controller_udp_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    game_controller_udp_out.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 else:
     game_controller = None
 
 game.state = 'READY'
-update_display()
+update_state_display()
 game_controller_send(f'SIDE_LEFT:{game.side_left}')
 game_controller_send(f'KICKOFF:{game.kickoff}')
 game_controller_send(f'STATE:{game.state}')
@@ -245,7 +261,6 @@ game_controller_send(f'STATE:{game.state}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited = 0
-game.extra_time = 0
 time_count = 0
 time_offset = 0
 previous_seconds = -1
@@ -256,33 +271,33 @@ while supervisor.step(time_step) != -1:
         seconds = 45 - (int)((time_count - time_offset) / 1000)
         if seconds != previous_seconds:
             previous_seconds = seconds
-            supervisor.setLabel(2, f' 00:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
+            supervisor.setLabel(5, f' 00:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
                                 0x000000, 0.2, game.font)
         if time_count >= 45000 + time_offset:
             game.state = 'SET'
             previous_seconds = -1
             time_offset = time_count
             game_controller_send(f'STATE:{game.state}')
-            update_display()
+            update_state_display()
     elif game.state == 'SET':
         seconds = 5 - (int)((time_count - time_offset) / 1000)
         if seconds != previous_seconds:
             previous_seconds = seconds
-            supervisor.setLabel(2, f' 00:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
+            supervisor.setLabel(5, f' 00:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
                                 0x000000, 0.2, game.font)
         if time_count >= 5000 + time_offset:
             game.state = 'PLAY'
             previous_seconds = -1
             time_offset = time_count
             game_controller_send(f'STATE:{game.state}')
-            update_display()
+            update_state_display()
     elif game.state == 'PLAY':
         countdown = 600000 - time_count + time_offset
         seconds = (int)(countdown / 1000) % 60
         if seconds != previous_seconds:
             previous_seconds = seconds
             minutes = (int)(countdown / 60000)
-            supervisor.setLabel(2, f' {minutes:02d}:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
+            supervisor.setLabel(5, f' {minutes:02d}:{seconds:02d}', game.overlay_x, game.overlay_y, game.font_size,
                                 0x000000, 0.2, game.font)
         ball_translation = game.ball_translation.getSFVec3f()
         if game.ball_exited == 0 and \
@@ -291,7 +306,6 @@ while supervisor.step(time_step) != -1:
              ball_translation[0] > game.field_size_x or
              ball_translation[0] < -game.field_size_x):
             game.ball_exited = 2000  # wait 2 seconds after ball exited to replace it
-            game.extra_time += game.ball_exited
             game.ball_exit_translation = ball_translation
             scoring_team = None
             if game.ball_exit_translation[1] > game.field_size_y:
@@ -319,7 +333,8 @@ while supervisor.step(time_step) != -1:
                     blue_team['score'] += 1
                 game.state = 'READY'
                 time_offset = time_count
-                update_display()
+                update_score_display()
+                update_state_display()
 
         if game.ball_exited > 0:
             game.ball_exited -= time_step
