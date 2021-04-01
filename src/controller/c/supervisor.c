@@ -1855,25 +1855,25 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
   return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }
 
-const double *wb_supervisor_node_get_relative_pose(WbNodeRef node, WbNodeRef other_node) {
+const double *wb_supervisor_node_get_relative_pose(WbNodeRef node_from, WbNodeRef node_to) {
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
-  if (!is_node_ref_valid(node)) {
+  if (!is_node_ref_valid(node_from)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
-  if (!is_node_ref_valid(other_node)) {
+  if (!is_node_ref_valid(node_to)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'other_node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_to' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
   robot_mutex_lock_step();
-  relative_pose_from_node_ref = node;
-  relative_pose_to_node_ref = other_node;
+  relative_pose_from_node_ref = node_from;
+  relative_pose_to_node_ref = node_to;
   wb_robot_flush_unlocked();
   relative_pose_from_node_ref = NULL;
   relative_pose_to_node_ref = NULL;
