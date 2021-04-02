@@ -47,7 +47,6 @@ private:
   // user accessible fields
   WbSFString *mType;
   WbSFDouble *mAccuracy;
-  WbSFDouble *mNoiseCorrelation;
   WbSFDouble *mResolution;
 
   // other fields
@@ -63,7 +62,6 @@ private:
 
 private slots:
   void updateResolution();
-  void updateCorrelation();
 };
 
 #endif

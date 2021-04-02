@@ -30,7 +30,6 @@
 void WbAltimeter::init() {
   mType = findSFString("type");
   mAccuracy = findSFDouble("accuracy");
-  mNoiseCorrelation = findSFDouble("noiseCorrelation");
   mResolution = findSFDouble("resolution");
 
   mSensor = NULL;
@@ -60,16 +59,11 @@ void WbAltimeter::preFinalize() {
 void WbAltimeter::postFinalize() {
   WbSolidDevice::postFinalize();
 
-  connect(mNoiseCorrelation, &WbSFDouble::changed, this, &WbAltimeter::updateCorrelation);
   connect(mResolution, &WbSFDouble::changed, this, &WbAltimeter::updateResolution);
 }
 
 void WbAltimeter::updateResolution() {
   WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
-}
-
-void WbAltimeter::updateCorrelation() {
-  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mNoiseCorrelation, 0.0, 1.0, 0.0);
 }
 
 bool WbAltimeter::refreshSensorIfNeeded() {
@@ -80,12 +74,6 @@ bool WbAltimeter::refreshSensorIfNeeded() {
 
   // compute current altitude
   double accuracy = mAccuracy->value();
-  double correlation = mNoiseCorrelation->value();
-  static double noise = 0;
-  double ratio = 0;
-  if (accuracy != 0.0 && correlation != 0.0) {
-    ratio = pow(correlation, mSensor->elapsedTime() / 1000.0);
-  }
   
   WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
   const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
@@ -99,10 +87,7 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   mMeasuredAltitude += reference[upIndex];
   // add noise if necessary
   if (accuracy != 0.0) {
-    // generate correlated gaussian number from previous one
-    // https://www.cmu.edu/biolphys/deserno/pdf/corr_gaussian_random.pdf
-    noise = ratio * noise + sqrt(1 - pow(ratio, 2)) * WbRandom::nextGaussian();
-    mMeasuredAltitude += accuracy * noise;
+    mMeasuredAltitude += accuracy * WbRandom::nextGaussian();
   }
   // apply resolution if necessary
   if (mResolution->value() != -1.0) {
