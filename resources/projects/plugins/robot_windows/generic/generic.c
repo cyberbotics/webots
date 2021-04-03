@@ -4,6 +4,7 @@
 #include <webots/utils/default_robot_window.h>
 
 #include <webots/accelerometer.h>
+#include <webots/altimeter.h>
 #include <webots/camera.h>
 #include <webots/compass.h>
 #include <webots/differential_wheels.h>
@@ -34,6 +35,9 @@ static void enable_device(WbDeviceTag tag, bool enable) {
   switch (type) {
     case WB_NODE_ACCELEROMETER:
       wb_accelerometer_enable(tag, enableRate);
+      break;
+    case WB_NODE_ALTIMETER:
+      wb_altimeter_enable(tag, enableRate);
       break;
     case WB_NODE_CAMERA:
       wb_camera_enable(tag, enableRate);
