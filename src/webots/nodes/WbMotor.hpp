@@ -54,9 +54,10 @@ public:
   bool runKinematicControl(double ms, double &position);
   double currentVelocity() const { return mCurrentVelocity; }
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
-  void setTargetPosition(double tp);
-  void setTargetVelocity(double tv);
-  void setAvailableForceOrTorque(double forceOrTorque);
+  void setTargetPosition(double targetPosition);
+  void setTargetVelocity(double targetVelocity);
+  void setForceOrTorque(double forceOrTorque);
+  void setAvailableForceOrTorque(double availableForceOrTorque);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;
@@ -110,10 +111,7 @@ private:
 
   void addConfigureToStream(QDataStream &stream);
   void inferMotorCouplings();
-  void relayTargetPositionToCoupledMotors(double tp);
-  void relayTargetVelocityToCoupledMotors(double tv);
-  void relayAvailableForceOrTorqueToCoupledMotors(double forceOrTorque);
-  const WbMotor *referenceMotor();
+  // const WbMotor *referenceMotor();
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
