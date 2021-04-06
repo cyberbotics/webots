@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A customizable fence.
 # Dimensions, path and appearance of the fence can be set.
 # If subdivision is bigger than 1, B-Splines are used to interpolate path of the fence.

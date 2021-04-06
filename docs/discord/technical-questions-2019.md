@@ -2426,7 +2426,7 @@ right, thanks
 ##### David Mansolino [Cyberbotics] 05/08/2019 09:51:44
 You're welcome
 
-##### avnishsachar 05/08/2019 12:35:59
+##### Avnish Sachar 05/08/2019 12:35:59
 Hi, is there a way to print a custom message on the console even when the simulation is paused?
 
 ##### Fabien Rohrer [Moderator] 05/08/2019 12:38:14
@@ -2435,7 +2435,7 @@ Unfortunately, this is not possible.
 
 Could you write your output into a file instead? Or use a debugger?
 
-##### avnishsachar 05/08/2019 12:44:09
+##### Avnish Sachar 05/08/2019 12:44:09
 Yes, I can write into a file instead. Thanks!
 
 ##### Hussein 05/09/2019 09:34:16
@@ -23301,7 +23301,7 @@ If you check here in this link with every MF field they are arrays
 ##### swebdev 12/22/2019 21:34:09
 `@Tahir` Makes sense, thanks!
 
-##### casey 12/23/2019 03:45:27
+##### c.w 12/23/2019 03:45:27
 I follow this tutorial, [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Beginner\_programming\_Exercises](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Beginner_programming_Exercises)
 
 but I don't know  how to open the BotStudio, I believe `@Stefania Pedrazzi` said that 

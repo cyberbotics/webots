@@ -28,7 +28,7 @@ RadarWidget.prototype.addTarget = function(x, y) {
 RadarWidget.prototype.initialize = function() {
   const id = this.container.getAttribute('id');
 
-  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas" />');
+  this.canvas = this.appendChildToContainer('<canvas id="' + id + '-canvas" class="plot-canvas plot-canvas-background" />');
 
   // Let the canvas size match with the element size (-2 because of the border), otherwise
   // the sizes are not matching causing a aliased zoom-like effect.

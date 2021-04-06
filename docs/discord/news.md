@@ -4,6 +4,37 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/19/2021 15:03:06
+Robotbenchmark got nominated at WSIS PRIZES 2021!
+
+You can vote for us here: [https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start](https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start)
+
+So, far we already received about 1500 votes, but we need more.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/15/2021 15:33:46
+**Webots and `ros_control`**
+
+
+
+For ROS 1 users, `ros_control` is now a part of the standard Webots `ros` controller!
+
+
+
+See more details:
+
+[https://discourse.ros.org/t/webots-and-ros-control/19463](https://discourse.ros.org/t/webots-and-ros-control/19463)
+
+##### Soft\_illusion 03/07/2021 17:17:57
+Special Thanks to `@Olivier Michel` `@Darko Lukić` `@David Mansolino`
+
+
+It's true, when you are willing to learn, teach and share knowledge, we grow together as a community. 📚Today as we reach 1000 subscribers, we wish to thank and congratulate each one of you who's reading this. 🥳🎉 It's the curiosity and eagerness to learn from each one of you that keeps us going. 📈 If you aren't a part of our growing robotics community yet, do subscribe so that you don't miss out on more interesting content. 🤖 
+
+[https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ)
+%figure
+![1000SubscribersMilestone.png](https://cdn.discordapp.com/attachments/568354695513374730/818170409890349056/1000SubscribersMilestone.png)
+%end
+
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/01/2021 14:14:31
 **Tesla Model 3 simulation in Webots: The first step towards ROS 2 automobile integration **
 

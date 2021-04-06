@@ -96,7 +96,7 @@ DEF SOLID4 Solid {
 }
 DEF TEST_SUITE_SUPERVISOR TestSuiteSupervisor {
 }
-NonStaticSupervisor {
+NonDeterministicSupervisor {
   controller "supervisor_reset_simulation"
   controllerArgs [
     "supervisor_reset_simulation_iteration_0"

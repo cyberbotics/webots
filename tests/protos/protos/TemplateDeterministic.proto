@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# tags: static
 
-PROTO TemplateStatic [
+PROTO TemplateDeterministic [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFFloat    width       0.01

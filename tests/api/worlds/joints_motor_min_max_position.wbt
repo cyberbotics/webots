@@ -5,8 +5,6 @@ Viewpoint {
 }
 Background {
 }
-ParserTestSupervisor {
-}
 DEF ROBOT Robot {
   children [
     DEF SLIDER_JOINT_LOWER_LIMIT SliderJoint {
@@ -170,4 +168,6 @@ DEF ROBOT Robot {
   ]
   controller "joints_motor_min_max_position"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }

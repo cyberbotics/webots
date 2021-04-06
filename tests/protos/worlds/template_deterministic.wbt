@@ -11,18 +11,18 @@ Background {
 }
 DirectionalLight {
 }
-TemplateNonStatic {
+TemplateNonDeterministic {
   translation 0.1 0 -0.7
   seed 1
 }
-TemplateNonStatic {
+TemplateNonDeterministic {
   translation 0.2 0 -0.7
   seed 2
 }
-TemplateStatic {
+TemplateDeterministic {
   translation 0 0 -0.7
 }
-TemplateStatic {
+TemplateDeterministic {
   translation -0.1 0 -0.7
 }
 Robot {
@@ -32,7 +32,7 @@ Robot {
     DistanceSensor {
       translation 0.2 0 0
       rotation 0 1 0 1.5707997
-      name "non static 1"
+      name "non deterministic 1"
       lookupTable [
         0 0 0
         2 2 0
@@ -41,7 +41,7 @@ Robot {
     DistanceSensor {
       translation 0.1 0 0
       rotation 0 1 0 1.5707997
-      name "non static 2"
+      name "non deterministic 2"
       lookupTable [
         0 0 0
         2 2 0
@@ -49,7 +49,7 @@ Robot {
     }
     DistanceSensor {
       rotation 0 1 0 1.5707997
-      name "static 1"
+      name "deterministic 1"
       lookupTable [
         0 0 0
         2 2 0
@@ -58,14 +58,14 @@ Robot {
     DistanceSensor {
       translation -0.1 0 0
       rotation 0 1 0 1.5707997
-      name "static 2"
+      name "deterministic 2"
       lookupTable [
         0 0 0
         2 2 0
       ]
     }
   ]
-  controller "template_static"
+  controller "template_deterministic"
   supervisor TRUE
 }
 TestSuiteSupervisor {

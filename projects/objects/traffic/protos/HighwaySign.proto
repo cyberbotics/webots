@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Resizable sign with front texture option.
 
 PROTO HighwaySign [

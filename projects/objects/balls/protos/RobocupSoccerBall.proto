@@ -6,7 +6,7 @@
 
 PROTO RobocupSoccerBall [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "robocup soccer ball"
   field SFInt32{1,2,3,4,5}      size 1 # Defines the ball size and mass according to FIFA standards.
 ]
@@ -63,6 +63,7 @@ PROTO RobocupSoccerBall [
     ]
     name IS name
     model "soccer ball"
+    contactMaterial "robocup soccer ball"
     boundingObject Sphere {
       radius %{= radius / scale }%
       subdivision 3
@@ -70,6 +71,11 @@ PROTO RobocupSoccerBall [
     physics Physics {
       mass %{= mass }%
       density -1
+      centerOfMass [ 0 0 0.0001 ]  # to introduce some randomness in motion
+      damping Damping {
+        linear 0.77
+        angular 0.77
+      }
     }
   }
 }
