@@ -69,7 +69,7 @@ GameState = "gamedata" / Struct(
                         STATE_PLAYING=3,    # start play
                         STATE_FINISHED=4),  # game over
     "first_half" / Flag,
-    "kick_of_team" / Byte,
+    "kickoff_team" / Byte,
     "secondary_state" / Enum(Byte,
                              STATE_NORMAL=0,
                              STATE_PENALTYSHOOT=1,
