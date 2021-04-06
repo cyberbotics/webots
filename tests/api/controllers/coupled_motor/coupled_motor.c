@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
   wb_motor_set_position(reference_motor, INFINITY);
   wb_motor_set_velocity(reference_motor, 0.2);
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 500; i++) {
     wb_robot_step(TIME_STEP);
     double position_reference = wb_position_sensor_get_value(reference_sensor);
     double position_positive_multiplier = wb_position_sensor_get_value(positive_multiplier_sensor);
@@ -33,10 +33,10 @@ int main(int argc, char **argv) {
                               "The position of the motor isn't %d times that of the reference", -MULTIPLIER);
   }
 
-  wb_motor_set_position(reference_motor, 0.0);
-  wb_motor_set_velocity(reference_motor, 10);
+  wb_motor_set_position(reference_motor, 0);
+  wb_motor_set_velocity(reference_motor, 1);
 
-  for (int i = 0; i < 5000; i++) {
+  for (int i = 0; i < 200; i++) {
     wb_robot_step(TIME_STEP);
     double position_reference = wb_position_sensor_get_value(reference_sensor);
     double position_positive_multiplier = wb_position_sensor_get_value(positive_multiplier_sensor);
@@ -49,6 +49,23 @@ int main(int argc, char **argv) {
                               "The position of the motor isn't %d times that of the reference", -MULTIPLIER);
     */
   }
+
+  wb_motor_set_torque(reference_motor, 0.001);
+
+  for (int i = 0; i < 500; i++) {
+    wb_robot_step(TIME_STEP);
+    double position_reference = wb_position_sensor_get_value(reference_sensor);
+    double position_positive_multiplier = wb_position_sensor_get_value(positive_multiplier_sensor);
+    double position_negative_multiplier = wb_position_sensor_get_value(negative_multiplier_sensor);
+    printf("%f %f %f\n", position_reference, position_positive_multiplier, position_negative_multiplier);
+    /*
+    ts_assert_double_in_delta(position_positive_multiplier, position_reference * MULTIPLIER, 1e-9,
+                              "The position of the motor isn't %d times that of the reference", MULTIPLIER);
+    ts_assert_double_in_delta(position_negative_multiplier, position_reference * (-MULTIPLIER), 1e-9,
+                              "The position of the motor isn't %d times that of the reference", -MULTIPLIER);
+    */
+  }
+
   // wb_robot_step(TIME_STEP);
 
   /*

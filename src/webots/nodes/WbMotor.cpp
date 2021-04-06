@@ -200,10 +200,6 @@ void WbMotor::inferMotorCouplings() {
 
 void WbMotor::updateMinAndMaxPosition() {
   printf("updateMinAndMaxPosition\n");
-  if (mMaxPosition->value() == 0.0 && mMinPosition->value() == 0.0)
-    // no limits
-    return;
-
   enforceMotorLimitsInsideJointLimits();
 
   double potentialMinimalPosition, potentialMaximalPosition;
@@ -418,24 +414,14 @@ double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
     const double outputValue =
       mControlPID->value().x() * error + mControlPID->value().y() * mErrorIntegral + mControlPID->value().z() * errorDerivative;
     mPreviousError = error;
-    /*
-    if (fabs(outputValue) > mTargetVelocity)
-      velocity = outputValue > 0.0 ? mTargetVelocity : -mTargetVelocity;
-    else
-      velocity = outputValue;
-    */
 
-    if (fabs(outputValue) < mTargetVelocity) {
+    if (fabs(outputValue) < fabs(mTargetVelocity))
       velocity = -outputValue;
-      printf("a\n");
-    } else if (error < 0.0) {
-      velocity = mTargetVelocity;
-      printf("b\n");
-    } else {
-      printf("x\n");
-    }
+    else
+      velocity = outputValue > 0.0 ? -fabs(mTargetVelocity) : fabs(mTargetVelocity);
 
-    printf("pid control, error %f / %f // %f || %f\n", error, outputValue, mTargetVelocity, velocity);
+    // printf("pid control, E %f | outputValue %f | mTargetVelocity %f | velocity %f\n", error, outputValue, mTargetVelocity,
+    // velocity);
   }
 
   // try to get closer to velocity
@@ -774,6 +760,7 @@ void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) 
     warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
     mTargetVelocity = isNegative ? -m : m;
   }
+  printf("setTargetVelocity ==> %f :: %f\n", targetVelocity, mTargetVelocity);
   awake();
 }
 
@@ -798,6 +785,7 @@ void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
 }
 
 void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
+  printf("setForceOrTorque\n");
   if (!mUserControl)  // we were previously using motor force
     turnOffMotor();
   mUserControl = true;
@@ -810,6 +798,8 @@ void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
       warn(tr("The requested motor force %1 exceeds 'maxForce' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
     mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
   }
+
+  printf(">> %d ]  enforcing torque %f ( my multi is %f )\n", tag(), mRawInput, multiplier());
   awake();
 }
 
@@ -828,6 +818,13 @@ void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMulti
 }
 
 void WbMotor::enforceMotorLimitsInsideJointLimits() {
+  printf("enforceMotorLimitsInsideJointLimits\n");
+  if (mMaxPosition->value() == 0.0 && mMinPosition->value() == 0.0) {
+    printf("ignored\n");
+    // no limits
+    return;
+  }
+
   WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
   if (parentJoint) {
