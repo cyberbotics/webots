@@ -189,25 +189,10 @@ void WbMotor::inferMotorCouplings() {
     if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
       mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
 
-  // if (referenceMotor() == NULL && mCoupledMotors.size() > 0)
-  //  parsingWarn(tr("At least one among the motors named '%1' must have a multiplier of 1 or -1.").arg(deviceName()));
-
   printf("my motor tag is %d\n", tag());
   for (int i = 0; i < mCoupledMotors.size(); i++)
-    printf(" > coupled: %d\n", mCoupledMotors[i]->tag());
+    printf(" > coupled with: %d\n", mCoupledMotors[i]->tag());
 }
-
-/*
-const WbMotor *WbMotor::referenceMotor() {
-  for (int i = 0; i < mCoupledMotors.size(); ++i)
-    if (mCoupledMotors[i]->multiplier() == 1.0 ||)  // a motor to use as reference is required
-      return mCoupledMotors[i];
-
-  // TODO: what if -1?
-
-  return NULL;
-}
-*/
 
 /////////////
 // Updates //
@@ -304,26 +289,11 @@ void WbMotor::updateMaxAcceleration() {
 
 void WbMotor::updateMultiplier() {
   printf("updateMultiplier\n");
-  // const WbMotor *reference = referenceMotor();
 
   if (mMultiplier->value() == 0.0) {
     mMultiplier->setValue(1.0);
     parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
   }
-
-  /*
-  if (reference == NULL) {
-    mMultiplier->setValue(1.0);
-    if (mCoupledMotors.size() == 0)
-      parsingWarn(tr("There are no other motors coupled with device '%1', 'multiplier' has no effect. Value reverted to 1.")
-                    .arg(deviceName()));
-    else
-      parsingWarn(
-        tr("At least one among the motors named '%1' must have a multiplier of 1 or -1. Define the new reference motor "
-           "before changing the multiplier.")
-          .arg(deviceName()));
-  }
-  */
 
   // ensure that this new multiplier value wouldn't break the current maxVelocity or maxForce/Torque limits whatever
   // velocity or force/torque is enforced on any of its coupled siblings
