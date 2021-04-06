@@ -90,9 +90,9 @@ To let you model more realistic robots and environments we expanded our `PBRAppe
 
 | | | |
 | :---: | :---: | :---: |
-| ![Copper](images/appearances/Copper.thumbnail.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
-| ![DryMud](images/appearances/DryMud.thumbnail.png) | ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
-| ![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png) | ![TireRubber](images/appearances/TireRubber.thumbnail.png) |  |
+| ![Copper](images/appearances/Copper.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.png) |
+| ![DryMud](images/appearances/DryMud.png) | ![FormedConcrete](images/appearances/FormedConcrete.png) |  ![Pcb](images/appearances/Pcb.png) |
+| ![RoughPolymer](images/appearances/RoughPolymer.png) | ![TireRubber](images/appearances/TireRubber.png) |  |
 
 ---
 
@@ -106,7 +106,7 @@ Instead we restored the standard `<cube_face>Url` VRML fields and added the new 
 So now we have a better performance with the same realistic rendering quality.
 
 %figure "New structure of Background node"
-![New Background Fields](images/background_new_fields.thumbnail.png)
+![New Background Fields](images/background_new_fields.png)
 %end
 
 But do not worry about the compatibility of your custom HDR backgrounds!

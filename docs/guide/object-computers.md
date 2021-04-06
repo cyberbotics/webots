@@ -6,7 +6,7 @@ A computer mouse.
 
 %figure
 
-![ComputerMouse](images/objects/computers/ComputerMouse/model.thumbnail.png)
+![ComputerMouse](images/objects/computers/ComputerMouse/model.png)
 
 %end
 
@@ -42,7 +42,7 @@ A computer tower.
 
 %figure
 
-![DesktopComputer](images/objects/computers/DesktopComputer/model.thumbnail.png)
+![DesktopComputer](images/objects/computers/DesktopComputer/model.png)
 
 %end
 
@@ -75,7 +75,7 @@ A computer keyboard.
 
 %figure
 
-![Keyboard](images/objects/computers/Keyboard/model.thumbnail.png)
+![Keyboard](images/objects/computers/Keyboard/model.png)
 
 %end
 
@@ -108,7 +108,7 @@ A simple laptop.
 
 %figure
 
-![Laptop](images/objects/computers/Laptop/model.thumbnail.png)
+![Laptop](images/objects/computers/Laptop/model.png)
 
 %end
 
@@ -139,7 +139,7 @@ A computer monitor.
 
 %figure
 
-![Monitor](images/objects/computers/Monitor/model.thumbnail.png)
+![Monitor](images/objects/computers/Monitor/model.png)
 
 %end
 

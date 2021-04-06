@@ -2,7 +2,7 @@
 
 %figure "The Village Center world"
 
-![village_center.png](images/village_center.thumbnail.jpg)
+![village_center.png](images/village_center.png)
 
 %end
 

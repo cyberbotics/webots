@@ -1,6 +1,6 @@
 ## ROBOTIS' Robotis OP3
 
-%robot robotis-op3 images/robots/robotis-op3/model.thumbnail.png
+%robot robotis-op3 images/robots/robotis-op3/model.png
 
 The ROBOTIS OP3 is an open source miniature humanoid robot platform with advanced computational power.
 It is developed and manufactured by ROBOTIS (a Korean robot manufacturer) in collaboration with the University of Pennsylvania.
@@ -88,5 +88,5 @@ Please refer to [this documenation](robotis-op2.md#motion-manager).
 
 #### robotis\_op3.wbt
 
-![robotis_op3.wbt.png](images/robots/robotis-op3/robotis_op3.wbt.thumbnail.jpg) In this example, the ROBOTIS OP3 robot plays successively motions loaded from the ROBOTIS OP3 motion file of the real robot.
+![robotis_op3.wbt.png](images/robots/robotis-op3/robotis_op3.wbt.png) In this example, the ROBOTIS OP3 robot plays successively motions loaded from the ROBOTIS OP3 motion file of the real robot.
 It demonstrates also the use of its loudspeaker.

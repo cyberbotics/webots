@@ -195,7 +195,7 @@ If the [Recognition](recognition.md).`segmentation` field is also set to TRUE, a
 
 %figure "Display of a recognized object."
 
-![camera_recognition.png](images/camera_recognition.thumbnail.jpg)
+![camera_recognition.png](images/camera_recognition.png)
 
 %end
 

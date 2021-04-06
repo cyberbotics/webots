@@ -8,7 +8,7 @@ A cardboard box.
 
 %figure
 
-![CardboardBox](images/objects/containers/CardboardBox/model.thumbnail.png)
+![CardboardBox](images/objects/containers/CardboardBox/model.png)
 
 %end
 
@@ -42,7 +42,7 @@ A metal storage box.
 
 %figure
 
-![MetalStorageBox](images/objects/containers/MetalStorageBox/model.thumbnail.png)
+![MetalStorageBox](images/objects/containers/MetalStorageBox/model.png)
 
 %end
 
@@ -68,7 +68,7 @@ A plastic crate.
 
 %figure
 
-![PlasticCrate](images/objects/containers/PlasticCrate/model.thumbnail.png)
+![PlasticCrate](images/objects/containers/PlasticCrate/model.png)
 
 %end
 
@@ -96,7 +96,7 @@ A plastic box.
 
 %figure
 
-![PlasticFruitBox](images/objects/containers/PlasticFruitBox/model.thumbnail.png)
+![PlasticFruitBox](images/objects/containers/PlasticFruitBox/model.png)
 
 %end
 
@@ -123,7 +123,7 @@ A wooden box.
 
 %figure
 
-![WoodenBox](images/objects/containers/WoodenBox/model.thumbnail.png)
+![WoodenBox](images/objects/containers/WoodenBox/model.png)
 
 %end
 
@@ -160,7 +160,7 @@ A customizable conveyor belt moving at a constant speed.
 
 %figure
 
-![ConveyorBelt](images/objects/conveyors/ConveyorBelt/model.thumbnail.png)
+![ConveyorBelt](images/objects/conveyors/ConveyorBelt/model.png)
 
 %end
 
@@ -208,7 +208,7 @@ The conveyor contains 3 controllable LEDs.
 
 %figure
 
-![ConveyorPlatform](images/objects/conveyors/ConveyorPlatform/model.thumbnail.png)
+![ConveyorPlatform](images/objects/conveyors/ConveyorPlatform/model.png)
 
 %end
 
@@ -251,7 +251,7 @@ A simple fire extinguisher with optional physics.
 
 %figure
 
-![FireExtinguisher](images/objects/fire_extinguisher/FireExtinguisher/model.thumbnail.png)
+![FireExtinguisher](images/objects/fire_extinguisher/FireExtinguisher/model.png)
 
 %end
 
@@ -283,7 +283,7 @@ A simple square manhole.
 
 %figure
 
-![SquareManhole](images/objects/manhole/SquareManhole/model.thumbnail.png)
+![SquareManhole](images/objects/manhole/SquareManhole/model.png)
 
 %end
 
@@ -318,7 +318,7 @@ Simple and configurable wooden pallet.
 
 %figure
 
-![WoodenPallet](images/objects/pallet/WoodenPallet/model.thumbnail.png)
+![WoodenPallet](images/objects/pallet/WoodenPallet/model.png)
 
 %end
 
@@ -361,7 +361,7 @@ Simple and configurable wooden pallet stack.
 
 %figure
 
-![WoodenPalletStack](images/objects/pallet/WoodenPalletStack/model.thumbnail.png)
+![WoodenPalletStack](images/objects/pallet/WoodenPalletStack/model.png)
 
 %end
 
@@ -415,7 +415,7 @@ WoodenPalletStack {
 
 %figure
 
-![LJoint](images/objects/pipes/LJoint/model.thumbnail.png)
+![LJoint](images/objects/pipes/LJoint/model.png)
 
 %end
 
@@ -446,7 +446,7 @@ A section of pipe.
 
 %figure
 
-![PipeSection](images/objects/pipes/PipeSection/model.thumbnail.png)
+![PipeSection](images/objects/pipes/PipeSection/model.png)
 
 %end
 
@@ -485,7 +485,7 @@ PipeSection {
 
 %figure
 
-![TJoint](images/objects/pipes/TJoint/model.thumbnail.png)
+![TJoint](images/objects/pipes/TJoint/model.png)
 
 %end
 
@@ -555,7 +555,7 @@ A cap screw with variable radius and length.
 
 %figure
 
-![CapScrew](images/objects/tools/CapScrew/model.thumbnail.png)
+![CapScrew](images/objects/tools/CapScrew/model.png)
 
 %end
 
@@ -599,7 +599,7 @@ The bounding object and physics are optional.
 
 %figure
 
-![ElectricalPlug](images/objects/tools/ElectricalPlug/model.thumbnail.png)
+![ElectricalPlug](images/objects/tools/ElectricalPlug/model.png)
 
 %end
 
@@ -668,7 +668,7 @@ An eye screw with variable radius and length.
 
 %figure
 
-![EyeScrew](images/objects/tools/EyeScrew/model.thumbnail.png)
+![EyeScrew](images/objects/tools/EyeScrew/model.png)
 
 %end
 
@@ -705,7 +705,7 @@ A 25cm asymmetric club hammer.
 
 %figure
 
-![Hammer](images/objects/tools/Hammer/model.thumbnail.png)
+![Hammer](images/objects/tools/Hammer/model.png)
 
 %end
 
@@ -768,7 +768,7 @@ A 4kg bucket of paint, with HingeJoint-based handle.
 
 %figure
 
-![PaintBucket](images/objects/tools/PaintBucket/model.thumbnail.png)
+![PaintBucket](images/objects/tools/PaintBucket/model.png)
 
 %end
 
@@ -794,7 +794,7 @@ A platform cart with overall dimensions 90Lx50Wx85H cm.
 
 %figure
 
-![PlatformCart](images/objects/tools/PlatformCart/model.thumbnail.png)
+![PlatformCart](images/objects/tools/PlatformCart/model.png)
 
 %end
 
@@ -825,7 +825,7 @@ A screw hole with variable radius and depth.
 
 %figure
 
-![ScrewHole](images/objects/tools/ScrewHole/model.thumbnail.png)
+![ScrewHole](images/objects/tools/ScrewHole/model.png)
 
 %end
 
@@ -852,7 +852,7 @@ A Philips screwdriver. The blade and handle are balanced.
 
 %figure
 
-![Screwdriver](images/objects/tools/Screwdriver/model.thumbnail.png)
+![Screwdriver](images/objects/tools/Screwdriver/model.png)
 
 %end
 
@@ -915,7 +915,7 @@ A 15cm Open-End wrench.
 
 %figure
 
-![Wrench](images/objects/tools/Wrench/model.thumbnail.png)
+![Wrench](images/objects/tools/Wrench/model.png)
 
 %end
 
@@ -948,7 +948,7 @@ Large Wheel-based valve. Handle can be moved in either direction by the angle (r
 
 %figure
 
-![LargeValve](images/objects/valves/LargeValve/model.thumbnail.png)
+![LargeValve](images/objects/valves/LargeValve/model.png)
 
 %end
 
@@ -986,7 +986,7 @@ Lever-based valve. Handle can be moved in either direction (from up) of 45 degre
 
 %figure
 
-![LeverValve](images/objects/valves/LeverValve/model.thumbnail.png)
+![LeverValve](images/objects/valves/LeverValve/model.png)
 
 %end
 
@@ -1017,7 +1017,7 @@ Small Wheel-based valve. Handle can be moved in either direction by the angle (r
 
 %figure
 
-![SmallValve](images/objects/valves/SmallValve/model.thumbnail.png)
+![SmallValve](images/objects/valves/SmallValve/model.png)
 
 %end
 

@@ -2,7 +2,7 @@
 
 %figure "The city world"
 
-![city.png](images/city.thumbnail.jpg)
+![city.png](images/city.png)
 
 %end
 

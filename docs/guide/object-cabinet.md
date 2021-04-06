@@ -12,7 +12,7 @@ The coordinate origin (1,1) of the grid layout is at the bottom left corner.
 
 %figure
 
-![Cabinet](images/objects/cabinet/Cabinet/model.thumbnail.png)
+![Cabinet](images/objects/cabinet/Cabinet/model.png)
 
 %end
 
@@ -89,7 +89,7 @@ A handle for the Cabinet PROTO.
 
 %figure
 
-![CabinetHandle](images/objects/cabinet/CabinetHandle/model.thumbnail.png)
+![CabinetHandle](images/objects/cabinet/CabinetHandle/model.png)
 
 %end
 

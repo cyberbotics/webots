@@ -4,7 +4,7 @@ A wide range of lidar sensors have been modelled.
 
 %figure "Lidar simulation"
 
-![ibeo.png](images/sensors/lidar_simulation.thumbnail.jpg)
+![ibeo.png](images/sensors/lidar_simulation.png)
 
 %end
 
@@ -16,7 +16,7 @@ The model of the `Ibeo LUX` contains a spherical projection, a fixed resolution 
 
 %figure "Ibeo LUX lidar"
 
-![ibeo.png](images/sensors/ibeo.thumbnail.png)
+![ibeo.png](images/sensors/ibeo.png)
 
 %end
 
@@ -40,7 +40,7 @@ The `fastModel` field can be used to simplify the model of the sensor by removin
 
 %figure "Hokuyo URG-04LX model"
 
-![hokuyo_urg_04lx.png](images/sensors/hokuyo_urg_04lx.thumbnail.png)
+![hokuyo_urg_04lx.png](images/sensors/hokuyo_urg_04lx.png)
 
 %end
 
@@ -69,7 +69,7 @@ HokuyoUrg04lx [
 
 %figure "Hokuyo URG-04LX-UG01 model"
 
-![hokuyo_urg_04lx_ug01.png](images/sensors/hokuyo_urg_04lx_ug01.thumbnail.png)
+![hokuyo_urg_04lx_ug01.png](images/sensors/hokuyo_urg_04lx_ug01.png)
 
 %end
 
@@ -98,7 +98,7 @@ HokuyoUrg04lxug01 [
 
 %figure "Hokuyo UTM-30LX model"
 
-![hokuyo_utm_30lx.png](images/sensors/hokuyo_utm_30lx.thumbnail.png)
+![hokuyo_utm_30lx.png](images/sensors/hokuyo_utm_30lx.png)
 
 %end
 
@@ -209,7 +209,7 @@ In comparison to the real sensor, the simulated model has the following limitati
 
 %figure "SICK LD-MRS lidar"
 
-![sick.png](images/sensors/sick_ld_mrs.thumbnail.png)
+![sick.png](images/sensors/sick_ld_mrs.png)
 
 %end
 
@@ -274,7 +274,7 @@ The model of the `Velodyne HDL 32` contains a gaussian noise with a standard dev
 
 %figure "Velodyne HDL 32E lidar"
 
-![velodyne_hdl_32e.png](images/sensors/velodyne_hdl_32e.thumbnail.png)
+![velodyne_hdl_32e.png](images/sensors/velodyne_hdl_32e.png)
 
 %end
 
@@ -295,7 +295,7 @@ The model of the `Velodyne HDL 64` contains a gaussian noise with a standard dev
 
 %figure "Velodyne HDL 64E lidar"
 
-![velodyne_hdl_64e.png](images/sensors/velodyne_hdl_64e.thumbnail.png)
+![velodyne_hdl_64e.png](images/sensors/velodyne_hdl_64e.png)
 
 %end
 

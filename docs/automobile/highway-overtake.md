@@ -2,7 +2,7 @@
 
 %figure "The Highway overtake world"
 
-![highway_overtake.png](images/highway_overtake.thumbnail.jpg)
+![highway_overtake.png](images/highway_overtake.png)
 
 %end
 

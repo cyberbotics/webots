@@ -2,7 +2,7 @@
 
 %figure "The City traffic world"
 
-![city_traffic.png](images/city_traffic.thumbnail.jpg)
+![city_traffic.png](images/city_traffic.png)
 
 %end
 

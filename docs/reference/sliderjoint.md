@@ -13,7 +13,7 @@ SliderJoint {
 
 %figure "Slider joint"
 
-![sliderJoint.png](images/sliderJoint.thumbnail.png)
+![sliderJoint.png](images/sliderJoint.png)
 
 %end
 

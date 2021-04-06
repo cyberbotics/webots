@@ -6,7 +6,7 @@ A rock (10 cm).
 
 %figure
 
-![Rock10cm](images/objects/rocks/Rock10cm/model.thumbnail.png)
+![Rock10cm](images/objects/rocks/Rock10cm/model.png)
 
 %end
 
@@ -41,7 +41,7 @@ A rock (17 cm).
 
 %figure
 
-![Rock17cm](images/objects/rocks/Rock17cm/model.thumbnail.png)
+![Rock17cm](images/objects/rocks/Rock17cm/model.png)
 
 %end
 

@@ -2,7 +2,7 @@
 
 %figure "The SUMO interface example world"
 
-![sumo_interface_example.png](images/sumo_interface_example.thumbnail.jpg)
+![sumo_interface_example.png](images/sumo_interface_example.png)
 
 %end
 

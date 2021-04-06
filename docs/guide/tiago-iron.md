@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo Iron
 
-%robot tiago-iron images/robots/tiago_iron/model.thumbnail.png
+%robot tiago-iron images/robots/tiago_iron/model.png
 
 Designed by PAL Robotics, TIAGo Iron is a two-wheeled human-like robot with a torso and a head but no articulated arm.
 The model is a modular mobile platform that allows human-robot interaction. It is completely ROS based and customizable with accessories to adapt to any specific need.
@@ -34,4 +34,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_iron.wbt
 
-![tiago_iron.wbt.png](images/robots/tiago_iron/tiago_iron.wbt.thumbnail.jpg) This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_iron.wbt.png](images/robots/tiago_iron/tiago_iron.wbt.png) This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

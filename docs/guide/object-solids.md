@@ -8,7 +8,7 @@ The UV-mapping is defined in a metric way (the textures are not deformed - the r
 
 %figure
 
-![SolidBox](images/objects/solids/SolidBox/model.thumbnail.png)
+![SolidBox](images/objects/solids/SolidBox/model.png)
 
 %end
 
@@ -52,7 +52,7 @@ The 'accuracy' field defines how much boxes position can differ on y-axis: a 0 v
 
 %figure
 
-![SolidPipe](images/objects/solids/SolidPipe/model.thumbnail.png)
+![SolidPipe](images/objects/solids/SolidPipe/model.png)
 
 %end
 
@@ -103,7 +103,7 @@ The box has similar properties as the VRML Box node in term of axis and fields.
 
 %figure
 
-![SolidRoundedBox](images/objects/solids/SolidRoundedBox/model.thumbnail.png)
+![SolidRoundedBox](images/objects/solids/SolidRoundedBox/model.png)
 
 %end
 
@@ -149,7 +149,7 @@ Physically, the SolidTorus is defined as a set of N spheres, where N is the subd
 
 %figure
 
-![SolidTorus](images/objects/solids/SolidTorus/model.thumbnail.png)
+![SolidTorus](images/objects/solids/SolidTorus/model.png)
 
 %end
 
