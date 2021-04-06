@@ -232,7 +232,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "NeckS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -252,7 +252,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "HeadS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters2 JointParameters {
@@ -454,7 +454,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "NeckS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -497,7 +497,7 @@ PROTO Darwin-opHinge2 [
                   }
                   PositionSensor {
                     name "HeadS"
-                    resolution %{= mx28_resolution}%
+                    resolution %{= mx28_resolution }%
                   }
                 ]
                 jointParameters HingeJointParameters {
@@ -693,7 +693,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "PelvYLS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -765,7 +765,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "PelvLS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
@@ -785,7 +785,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "LegUpperLS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters2 JointParameters {
@@ -846,7 +846,7 @@ PROTO Darwin-opHinge2 [
                                 }
                                 PositionSensor {
                                   name "LegLowerLS"
-                                  resolution %{= mx28_resolution}%
+                                  resolution %{= mx28_resolution }%
                                 }
                               ]
                               jointParameters HingeJointParameters {
@@ -895,7 +895,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                         PositionSensor {
                                           name "AnkleLS"
-                                          resolution %{= mx28_resolution}%
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters HingeJointParameters {
@@ -916,7 +916,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                         PositionSensor {
                                           name "FootLS"
-                                          resolution %{= mx28_resolution}%
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters2 JointParameters {
@@ -1111,7 +1111,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "PelvYRS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -1179,7 +1179,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "PelvRS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
@@ -1199,7 +1199,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "LegUpperRS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters2 JointParameters {
@@ -1260,7 +1260,7 @@ PROTO Darwin-opHinge2 [
                                 }
                                 PositionSensor {
                                   name "LegLowerRS"
-                                  resolution %{= mx28_resolution}%
+                                  resolution %{= mx28_resolution }%
                                 }
                               ]
                               jointParameters HingeJointParameters {
@@ -1309,7 +1309,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                         PositionSensor {
                                           name "AnkleRS"
-                                          resolution %{= mx28_resolution}%
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters HingeJointParameters {
@@ -1330,7 +1330,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                         PositionSensor {
                                           name "FootRS"
-                                          resolution %{= mx28_resolution}%
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters2 JointParameters {
@@ -1525,7 +1525,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "ShoulderLS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -1572,7 +1572,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "ArmUpperLS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
@@ -1633,7 +1633,7 @@ PROTO Darwin-opHinge2 [
                             }
                             PositionSensor {
                               name "ArmLowerLS"
-                              resolution %{= mx28_resolution}%
+                              resolution %{= mx28_resolution }%
                             }
                           ]
                           jointParameters HingeJointParameters {
@@ -1774,7 +1774,7 @@ PROTO Darwin-opHinge2 [
             }
             PositionSensor {
               name "ShoulderRS"
-              resolution %{= mx28_resolution}%
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
@@ -1821,7 +1821,7 @@ PROTO Darwin-opHinge2 [
                     }
                     PositionSensor {
                       name "ArmUpperRS"
-                      resolution %{= mx28_resolution}%
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
@@ -1882,7 +1882,7 @@ PROTO Darwin-opHinge2 [
                             }
                             PositionSensor {
                               name "ArmLowerRS"
-                              resolution %{= mx28_resolution}%
+                              resolution %{= mx28_resolution }%
                             }
                           ]
                           jointParameters HingeJointParameters {
