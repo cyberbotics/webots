@@ -48,7 +48,6 @@ typedef struct {
   double previous_control_p;
   double previous_control_i;
   double previous_control_d;
-  double multiplier;
   bool configured;
   WbJointType type;
   int requested_device_type;
@@ -82,7 +81,6 @@ static Motor *motor_create() {
   motor->previous_control_p = 10.0;
   motor->previous_control_i = 0.0;
   motor->previous_control_d = 0.0;
-  motor->multiplier = 1.0;
   // to be sure available_force is not overwritten after first configure
   motor->configured = false;
   motor->requested_device_type = 0;
@@ -176,7 +174,6 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
       m->control_i = m->previous_control_i;
       m->control_d = m->previous_control_d;
       m->position = request_read_double(r);
-      m->multiplier = request_read_double(r);
       m->configured = true;
       break;
     case C_MOTOR_FEEDBACK:
