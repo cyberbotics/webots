@@ -56,6 +56,7 @@ public:
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
   void setTargetPosition(double targetPosition);
   void setTargetVelocity(double targetVelocity);
+  void enforceAcceleration(double desiredAcceleration);
   void setForceOrTorque(double forceOrTorque);
   void setAvailableForceOrTorque(double availableForceOrTorque);
   void resetPhysics();
@@ -111,7 +112,7 @@ private:
 
   void addConfigureToStream(QDataStream &stream);
   void inferMotorCouplings();
-  // const WbMotor *referenceMotor();
+  void enforceMotorLimitsInsideJointLimits();
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
@@ -132,6 +133,7 @@ private:
   bool mHasAllocatedJointFeedback;
   void setMaxAcceleration(double acc);
   void setMaxVelocity(double v);
+  void setMaxForceOrTorque(double forceOrTorque);
   void awake() const;
   double mErrorIntegral;
   double mPreviousError;
