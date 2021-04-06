@@ -114,6 +114,13 @@ private:
   void inferMotorCouplings();
   void enforceMotorLimitsInsideJointLimits();
 
+  void checkMinAndMaxPositionAcrossCoupledMotors();
+  // void checkMaxPositionAcrossCoupledMotors();
+  void checkMaxVelocityAcrossCoupledMotors();
+  void checkMaxAccelerationAcrossCoupledMotors();
+  void checkMaxForceOrTorqueAcrossCoupledMotors();
+  void checkMultiplierAcrossCoupledMotors();
+
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
   WbSFDouble *mAcceleration;

@@ -14,7 +14,208 @@ Background {
 }
 TexturedBackgroundLight {
 }
-Robot {
+
+DEF CHECK_MULTIPLIER_LOAD Robot {
+  children [
+    Transform {
+      translation 0 0 -0.5
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.5 0 -0.5
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.5 0 -0.5
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 -0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+          #maxVelocity 10
+          #maxTorque 10
+          multiplier 2
+          acceleration 10
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -0.5
+        children [
+          DEF PIVOT_CYLINDER Transform {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE Appearance {
+                  material Material {
+                    specularColor 1 1 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        name "TODO"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 -0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+          #maxVelocity 10
+          #maxTorque 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 -0.5
+        children [
+          DEF PIVOT_CYLINDER Transform {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE Appearance {
+                  material Material {
+                    specularColor 1 1 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        name "TODO"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 -0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+          #maxVelocity 10
+          #maxTorque 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 -0.5
+        children [
+          DEF PIVOT_CYLINDER Transform {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE Appearance {
+                  material Material {
+                    specularColor 1 1 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        name "TODO"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "multiplier limit adjustment at load"
+}
+DEF CHECK_MOTION Robot {
   children [
     Transform {
       children [
