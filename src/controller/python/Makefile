@@ -82,7 +82,7 @@ endif
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
-LD_FLAGS        = -shared
+LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
