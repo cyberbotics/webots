@@ -6,7 +6,7 @@ A desk (1.2 x 0.72 x 0.7 m).
 
 %figure
 
-![Desk](images/objects/tables/Desk/model.png)
+![Desk](images/objects/tables/Desk/model.thumbnail.png)
 
 %end
 
@@ -37,7 +37,7 @@ A round table (2 x 0.76 x 2 m).
 
 %figure
 
-![RoundTable](images/objects/tables/RoundTable/model.png)
+![RoundTable](images/objects/tables/RoundTable/model.thumbnail.png)
 
 %end
 
@@ -70,7 +70,7 @@ Customizable table.
 
 %figure
 
-![Table](images/objects/tables/Table/model.png)
+![Table](images/objects/tables/Table/model.thumbnail.png)
 
 %end
 

@@ -46,7 +46,7 @@ For example if `MultiSenseS21.name` is set to "MultiSense S21" the inertial unit
 
 %figure "MultiSenseS21 stereoscopic camera"
 
-![multisense_s21.png](images/sensors/multisense_s21.png)
+![multisense_s21.png](images/sensors/multisense_s21.thumbnail.png)
 
 %end
 

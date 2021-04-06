@@ -1,6 +1,6 @@
 ## Universal Robots UR3e, UR5e and UR10e
 
-%robot ure images/robots/ure/model.png
+%robot ure images/robots/ure/model.thumbnail.png
 
 The Universal Robots [UR3e](https://www.universal-robots.com/products/ur3-robot/), [UR5e](https://www.universal-robots.com/products/ur5-robot/) and [UR10e](https://www.universal-robots.com/products/ur10-robot/) are flexible collaborative robot arms with 6 degrees of freedom.
 
@@ -45,7 +45,7 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### [ure.wbt]({{ url.github_tree }}/projects/robots/universal_robots/worlds/ure.wbt)
 
-![ure.wbt.png](images/robots/ure/ure.wbt.png) This simulation shows an UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
+![ure.wbt.png](images/robots/ure/ure.wbt.thumbnail.jpg) This simulation shows an UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
 
 ### ROS
 

@@ -191,7 +191,7 @@ The power returned by the target is computed using the following formulas:
 
 %figure "Received power"
 
-![radar_received_power.png](images/radar_received_power.png)
+![radar_received_power.png](images/radar_received_power.thumbnail.png)
 
 %end
 

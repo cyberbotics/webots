@@ -6,7 +6,7 @@ Customizable bed with feet and one or 2 pillows.
 
 %figure
 
-![Bed](images/objects/bedroom/Bed/model.png)
+![Bed](images/objects/bedroom/Bed/model.thumbnail.png)
 
 %end
 

@@ -7,7 +7,7 @@ An asphalt material. The color can be overridden using the `colorOverride` field
 
 %figure
 
-![Asphalt](images/appearances/Asphalt.png)
+![Asphalt](images/appearances/Asphalt.thumbnail.png)
 
 %end
 
@@ -42,7 +42,7 @@ A bakelite plastic.
 
 |     |     |
 |:---:|:---:|
-| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.png) |
+| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.thumbnail.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.thumbnail.png) |
 
 %end
 
@@ -75,7 +75,7 @@ A blanket fabric material.
 
 %figure
 
-![BlanketFabric](images/appearances/BlanketFabric.png)
+![BlanketFabric](images/appearances/BlanketFabric.thumbnail.png)
 
 %end
 
@@ -108,7 +108,7 @@ A brushed aluminum material.
 
 %figure
 
-![BrushedAluminium](images/appearances/BrushedAluminium.png)
+![BrushedAluminium](images/appearances/BrushedAluminium.thumbnail.png)
 
 %end
 
@@ -141,7 +141,7 @@ A brushed steel material.
 
 %figure
 
-![BrushedSteel](images/appearances/BrushedSteel.png)
+![BrushedSteel](images/appearances/BrushedSteel.thumbnail.png)
 
 %end
 
@@ -176,8 +176,8 @@ A woolen carpet material.
 
 |     |     |
 |:---:|:---:|
-| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.png) |
-| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.png) | |
+| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.thumbnail.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.thumbnail.png) |
+| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.thumbnail.png) | |
 
 %end
 
@@ -213,7 +213,7 @@ A cement tiles material.
 
 %figure
 
-![CementTiles](images/appearances/CementTiles.png)
+![CementTiles](images/appearances/CementTiles.thumbnail.png)
 
 %end
 
@@ -246,7 +246,7 @@ A copper material.
 
 %figure
 
-![Copper](images/appearances/Copper.png)
+![Copper](images/appearances/Copper.thumbnail.png)
 
 %end
 
@@ -276,7 +276,7 @@ A corroded metal material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![CorrodedMetal](images/appearances/CorrodedMetal.png)
+![CorrodedMetal](images/appearances/CorrodedMetal.thumbnail.png)
 
 %end
 
@@ -309,7 +309,7 @@ A corrugated metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![CorrugatedMetal](images/appearances/CorrugatedMetal.png)
+![CorrugatedMetal](images/appearances/CorrugatedMetal.thumbnail.png)
 
 %end
 
@@ -342,7 +342,7 @@ A corrugated plates material. The color can be overridden using the `colorOverri
 
 %figure
 
-![CorrugatedPlates](images/appearances/CorrugatedPlates.png)
+![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png)
 
 %end
 
@@ -375,7 +375,7 @@ A corrugated PVC material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![CorrugatedPvc](images/appearances/CorrugatedPvc.png)
+![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png)
 
 %end
 
@@ -408,7 +408,7 @@ A damascus steel material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![DamascusSteel](images/appearances/DamascusSteel.png)
+![DamascusSteel](images/appearances/DamascusSteel.thumbnail.png)
 
 %end
 
@@ -441,7 +441,7 @@ A dry mud material with cracks.
 
 %figure
 
-![DryMud](images/appearances/DryMud.png)
+![DryMud](images/appearances/DryMud.thumbnail.png)
 
 %end
 
@@ -471,7 +471,7 @@ An electric conduit material. The color can be overridden using the `colorOverri
 
 %figure
 
-![ElectricConduit](images/appearances/ElectricConduit.png)
+![ElectricConduit](images/appearances/ElectricConduit.thumbnail.png)
 
 %end
 
@@ -504,7 +504,7 @@ A flexible aluminium duct material. The color can be overridden using the `color
 
 %figure
 
-![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.png)
+![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.thumbnail.png)
 
 %end
 
@@ -537,7 +537,7 @@ A formed concrete material.
 
 %figure
 
-![FormedConcrete](images/appearances/FormedConcrete.png)
+![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png)
 
 %end
 
@@ -567,7 +567,7 @@ A galvanized metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![GalvanizedMetal](images/appearances/GalvanizedMetal.png)
+![GalvanizedMetal](images/appearances/GalvanizedMetal.thumbnail.png)
 
 %end
 
@@ -600,7 +600,7 @@ A glossy paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![GlossyPaint](images/appearances/GlossyPaint.png)
+![GlossyPaint](images/appearances/GlossyPaint.thumbnail.png)
 
 %end
 
@@ -635,8 +635,8 @@ A grass material containing several grass types.
 
 |     |     |
 |:---:|:---:|
-| ![Grass_a.png](images/appearances/Grass_a.png) |![Grass_b.png](images/appearances/Grass_b.png) |
-| ![Grass_c.png](images/appearances/Grass_c.png) |![Grass_d.png](images/appearances/Grass_d.png) |
+| ![Grass_a.png](images/appearances/Grass_a.thumbnail.png) |![Grass_b.png](images/appearances/Grass_b.thumbnail.png) |
+| ![Grass_c.png](images/appearances/Grass_c.thumbnail.png) |![Grass_d.png](images/appearances/Grass_d.thumbnail.png) |
 
 %end
 
@@ -672,7 +672,7 @@ An hammered copper steel material. The color can be overridden using the `colorO
 
 %figure
 
-![HammeredCopper](images/appearances/HammeredCopper.png)
+![HammeredCopper](images/appearances/HammeredCopper.thumbnail.png)
 
 %end
 
@@ -707,8 +707,8 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Leather_a.png](images/appearances/Leather_a.png) |![Leather_b.png](images/appearances/Leather_b.png) |
-| ![Leather_c.png](images/appearances/Leather_c.png) | |
+| ![Leather_a.png](images/appearances/Leather_a.thumbnail.png) |![Leather_b.png](images/appearances/Leather_b.thumbnail.png) |
+| ![Leather_c.png](images/appearances/Leather_c.thumbnail.png) | |
 
 %end
 
@@ -747,7 +747,7 @@ A led strip material.
 
 %figure
 
-![LedStrip](images/appearances/LedStrip.png)
+![LedStrip](images/appearances/LedStrip.thumbnail.png)
 
 %end
 
@@ -783,7 +783,7 @@ A beige marble material.
 
 %figure
 
-![Marble](images/appearances/Marble.png)
+![Marble](images/appearances/Marble.thumbnail.png)
 
 %end
 
@@ -816,7 +816,7 @@ A marble tiles material.
 
 %figure
 
-![MarbleTiles](images/appearances/MarbleTiles.png)
+![MarbleTiles](images/appearances/MarbleTiles.thumbnail.png)
 
 %end
 
@@ -849,7 +849,7 @@ A matte paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![MattePaint](images/appearances/MattePaint.png)
+![MattePaint](images/appearances/MattePaint.thumbnail.png)
 
 %end
 
@@ -882,7 +882,7 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %figure
 
-![MetalPipePaint](images/appearances/MetalPipePaint.png)
+![MetalPipePaint](images/appearances/MetalPipePaint.thumbnail.png)
 
 %end
 
@@ -912,7 +912,7 @@ A stainless steel cable appearance.
 
 %figure
 
-![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.png)
+![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png)
 
 %end
 
@@ -942,7 +942,7 @@ An old plywood material.
 
 %figure
 
-![OldPlywood](images/appearances/OldPlywood.png)
+![OldPlywood](images/appearances/OldPlywood.thumbnail.png)
 
 %end
 
@@ -975,7 +975,7 @@ An old battered steel material.
 
 %figure
 
-![OldSteel](images/appearances/OldSteel.png)
+![OldSteel](images/appearances/OldSteel.thumbnail.png)
 
 %end
 
@@ -1008,7 +1008,7 @@ An OSB wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![OsbWood](images/appearances/OsbWood.png)
+![OsbWood](images/appearances/OsbWood.thumbnail.png)
 
 %end
 
@@ -1041,7 +1041,7 @@ A painted wood material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![PaintedWood](images/appearances/PaintedWood.png)
+![PaintedWood](images/appearances/PaintedWood.thumbnail.png)
 
 %end
 
@@ -1078,8 +1078,8 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Parquetry_a.png](images/appearances/Parquetry_a.png) |![Parquetry_b.png](images/appearances/Parquetry_b.png) |
-| ![Parquetry_c.png](images/appearances/Parquetry_c.png) |![Parquetry_d.png](images/appearances/Parquetry_d.png) |
+| ![Parquetry_a.png](images/appearances/Parquetry_a.thumbnail.png) |![Parquetry_b.png](images/appearances/Parquetry_b.thumbnail.png) |
+| ![Parquetry_c.png](images/appearances/Parquetry_c.thumbnail.png) |![Parquetry_d.png](images/appearances/Parquetry_d.thumbnail.png) |
 
 %end
 
@@ -1119,9 +1119,9 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Pavement_a.png](images/appearances/Pavement_a.png) |![Pavement_b.png](images/appearances/Pavement_b.png) |
-| ![Pavement_c.png](images/appearances/Pavement_c.png) |![Pavement_d.png](images/appearances/Pavement_d.png) |
-| ![Pavement_e.png](images/appearances/Pavement_e.png) |![Pavement_f.png](images/appearances/Pavement_f.png) |
+| ![Pavement_a.png](images/appearances/Pavement_a.thumbnail.png) |![Pavement_b.png](images/appearances/Pavement_b.thumbnail.png) |
+| ![Pavement_c.png](images/appearances/Pavement_c.thumbnail.png) |![Pavement_d.png](images/appearances/Pavement_d.thumbnail.png) |
+| ![Pavement_e.png](images/appearances/Pavement_e.thumbnail.png) |![Pavement_f.png](images/appearances/Pavement_f.thumbnail.png) |
 
 %end
 
@@ -1157,7 +1157,7 @@ A PCB material.
 
 %figure
 
-![Pcb](images/appearances/Pcb.png)
+![Pcb](images/appearances/Pcb.thumbnail.png)
 
 %end
 
@@ -1187,7 +1187,7 @@ A perforated metal material.
 
 %figure
 
-![PerforatedMetal](images/appearances/PerforatedMetal.png)
+![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png)
 
 %end
 
@@ -1220,7 +1220,7 @@ A plaster material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Plaster](images/appearances/Plaster.png)
+![Plaster](images/appearances/Plaster.thumbnail.png)
 
 %end
 
@@ -1255,7 +1255,7 @@ A plastic material containing several types.
 
 |     |     |
 |:---:|:---:|
-| ![Plastic_a.png](images/appearances/Plastic_a.png) |![Plastic_b.png](images/appearances/Plastic_b.png) |
+| ![Plastic_a.png](images/appearances/Plastic_a.thumbnail.png) |![Plastic_b.png](images/appearances/Plastic_b.thumbnail.png) |
 
 %end
 
@@ -1291,7 +1291,7 @@ A porcelain chevron tiles material.
 
 %figure
 
-![PorcelainChevronTiles](images/appearances/PorcelainChevronTiles.png)
+![PorcelainChevronTiles](images/appearances/PorcelainChevronTiles.thumbnail.png)
 
 %end
 
@@ -1324,7 +1324,7 @@ A tiled brick material. Useful with the `Wall` PROTO.
 
 %figure
 
-![RedBricks](images/appearances/RedBricks.png)
+![RedBricks](images/appearances/RedBricks.thumbnail.png)
 
 %end
 
@@ -1354,7 +1354,7 @@ A reflective surface material.
 
 %figure
 
-![ReflectiveSurface](images/appearances/ReflectiveSurface.png)
+![ReflectiveSurface](images/appearances/ReflectiveSurface.thumbnail.png)
 
 %end
 
@@ -1391,7 +1391,7 @@ A rough concrete material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![RoughConcrete](images/appearances/RoughConcrete.png)
+![RoughConcrete](images/appearances/RoughConcrete.thumbnail.png)
 
 %end
 
@@ -1424,7 +1424,7 @@ A rough oak material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughOak](images/appearances/RoughOak.png)
+![RoughOak](images/appearances/RoughOak.thumbnail.png)
 
 %end
 
@@ -1457,7 +1457,7 @@ A pine wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughPine](images/appearances/RoughPine.png)
+![RoughPine](images/appearances/RoughPine.thumbnail.png)
 
 %end
 
@@ -1490,7 +1490,7 @@ A rough polymer material.
 
 %figure
 
-![RoughPolymer](images/appearances/RoughPolymer.png)
+![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png)
 
 %end
 
@@ -1523,7 +1523,7 @@ A rough plaster material. Useful with the `Wall` PROTO.
 
 %figure
 
-![Roughcast](images/appearances/Roughcast.png)
+![Roughcast](images/appearances/Roughcast.thumbnail.png)
 
 %end
 
@@ -1559,7 +1559,7 @@ The type of rubber can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![Rubber_a.png](images/appearances/Rubber_a.png) |![Rubber_b.png](images/appearances/Rubber_b.png) |
+| ![Rubber_a.png](images/appearances/Rubber_a.thumbnail.png) |![Rubber_b.png](images/appearances/Rubber_b.thumbnail.png) |
 
 %end
 
@@ -1593,7 +1593,7 @@ The color can be overridden using the `colorOverride` field and the amount of ru
 
 %figure
 
-![RustyMetal](images/appearances/RustyMetal.png)
+![RustyMetal](images/appearances/RustyMetal.thumbnail.png)
 
 %end
 
@@ -1629,7 +1629,7 @@ A sand material.
 
 %figure
 
-![Sand](images/appearances/Sand.png)
+![Sand](images/appearances/Sand.thumbnail.png)
 
 %end
 
@@ -1659,7 +1659,7 @@ A sandy ground material. The color can be selected using the `colorOverride` fie
 
 %figure
 
-![SandyGround](images/appearances/SandyGround.png)
+![SandyGround](images/appearances/SandyGround.thumbnail.png)
 
 %end
 
@@ -1692,7 +1692,7 @@ A scratched paint material.
 
 %figure
 
-![ScratchedPaint](images/appearances/ScratchedPaint.png)
+![ScratchedPaint](images/appearances/ScratchedPaint.thumbnail.png)
 
 %end
 
@@ -1728,7 +1728,7 @@ A screw thread material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![ScrewThread](images/appearances/ScrewThread.png)
+![ScrewThread](images/appearances/ScrewThread.thumbnail.png)
 
 %end
 
@@ -1761,7 +1761,7 @@ A shiny leather material. The color can be selected using the `colorOverride` fi
 
 %figure
 
-![ShinyLeather](images/appearances/ShinyLeather.png)
+![ShinyLeather](images/appearances/ShinyLeather.thumbnail.png)
 
 %end
 
@@ -1796,7 +1796,7 @@ A soil material.
 
 |     |     |
 |:---:|:---:|
-| ![Soil_a.png](images/appearances/Soil_a.png) |![Soil_b.png](images/appearances/Soil_b.png) |
+| ![Soil_a.png](images/appearances/Soil_a.thumbnail.png) |![Soil_b.png](images/appearances/Soil_b.thumbnail.png) |
 
 %end
 
@@ -1830,7 +1830,7 @@ A solar panel cell material.
 
 %figure
 
-![SolarCell](images/appearances/SolarCell.png)
+![SolarCell](images/appearances/SolarCell.thumbnail.png)
 
 %end
 
@@ -1863,7 +1863,7 @@ The type of metal surface can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.png) |
+| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.thumbnail.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.thumbnail.png) |
 
 %end
 
@@ -1902,7 +1902,7 @@ It can be a car tire or a bike tire.
 
 |     |     |
 |:---:|:---:|
-| ![TireRubber_a.png](images/appearances/TireRubber_a.png) |![TireRubber_b.png](images/appearances/TireRubber_b.png) |
+| ![TireRubber_a.png](images/appearances/TireRubber_a.thumbnail.png) |![TireRubber_b.png](images/appearances/TireRubber_b.thumbnail.png) |
 
 %end
 
@@ -1935,7 +1935,7 @@ A pine wood material covered with a layer of varnish. The color can be overridde
 
 %figure
 
-![VarnishedPine](images/appearances/VarnishedPine.png)
+![VarnishedPine](images/appearances/VarnishedPine.thumbnail.png)
 
 %end
 
@@ -1968,7 +1968,7 @@ A wire fence material. The color can be overridden using the `colorOverride` fie
 
 %figure
 
-![WireFence](images/appearances/WireFence.png)
+![WireFence](images/appearances/WireFence.thumbnail.png)
 
 %end
 

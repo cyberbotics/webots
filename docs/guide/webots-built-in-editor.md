@@ -6,7 +6,7 @@ The editor features syntax highlighting for Webots supported language (C/C++, Ja
 
 %figure "Webots Text Editor"
 
-![text_editor.png](images/text_editor.png)
+![text_editor.png](images/text_editor.thumbnail.jpg)
 
 %end
 

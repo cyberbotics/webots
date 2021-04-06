@@ -4,7 +4,7 @@ The objective of this first tutorial is to familiarize yourself with the user in
 You will create your first simulation containing a simple environment: an arena with floor and walls, a few boxes, an e-puck robot and a controller program that will make the robot move.
 
 %figure "What you should see at the end of the first tutorial."
-![tutorial_e-puck.png](images/tutorial_e-puck.png)
+![tutorial_e-puck.png](images/tutorial_e-puck.thumbnail.jpg)
 %end
 
 ### Start Webots

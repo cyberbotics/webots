@@ -30,5 +30,5 @@ You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/
 
 #### Ned.wbt
 
-![ned.wbt.png](images/robots/ned/ned.wbt.png) This simulation shows Ned in a working environment. You can control the robot with your keyboard, launch a demo and run a pick and place. Feel free to use this simulation in order to make your own world and controller with Ned. 
+![ned.wbt.png](images/robots/ned/ned.wbt.thumbnail.jpg) This simulation shows Ned in a working environment. You can control the robot with your keyboard, launch a demo and run a pick and place. Feel free to use this simulation in order to make your own world and controller with Ned. 
 

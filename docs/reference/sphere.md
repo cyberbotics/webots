@@ -31,7 +31,7 @@ By default [Sphere](#sphere) nodes created in Webots are icosahedrons with `subd
 
 %figure "Sphere tessellations"
 
-![sphere_tessellation.png](images/sphere_tessellation.png)
+![sphere_tessellation.png](images/sphere_tessellation.thumbnail.png)
 
 %end
 

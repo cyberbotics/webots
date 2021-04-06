@@ -1,6 +1,6 @@
 ## F&P Robotics P-Rob 3
 
-%robot p-rob3 images/robots/p-rob3/model.png
+%robot p-rob3 images/robots/p-rob3/model.thumbnail.png
 
 The [P-Rob 3](https://www.fp-robotics.com/en/p-rob) is a lightweight and soft covered collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com/en/).
 
@@ -43,7 +43,7 @@ The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be a
 
 %figure "P-Grip"
 
-![pioneer3at_wheels.png](images/robots/p-rob3/p_grip.png)
+![pioneer3at_wheels.png](images/robots/p-rob3/p_grip.thumbnail.png)
 
 %end
 

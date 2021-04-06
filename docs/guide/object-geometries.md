@@ -7,7 +7,7 @@ The shape (defined by the 'crossSection' field) is extruded along the path defin
 
 %figure
 
-![Extrusion](images/objects/geometries/Extrusion/model.png)
+![Extrusion](images/objects/geometries/Extrusion/model.thumbnail.png)
 
 %end
 
@@ -56,7 +56,7 @@ Single/double sided and adjustable rectangle shape.
 
 %figure
 
-![Rectangle](images/objects/geometries/Rectangle/model.png)
+![Rectangle](images/objects/geometries/Rectangle/model.thumbnail.png)
 
 %end
 
@@ -95,7 +95,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedBox](images/objects/geometries/TexturedBox/model.png)
+![TexturedBox](images/objects/geometries/TexturedBox/model.thumbnail.png)
 
 %end
 
@@ -156,7 +156,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedParallelepiped](images/objects/geometries/TexturedParallelepiped/model.png)
+![TexturedParallelepiped](images/objects/geometries/TexturedParallelepiped/model.thumbnail.png)
 
 %end
 

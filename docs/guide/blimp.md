@@ -1,6 +1,6 @@
 ## LIS Blimp
 
-%robot blimp images/robots/blimp/model.png
+%robot blimp images/robots/blimp/model.thumbnail.png
 
 The "Blimp" robot is a Zeppelin-like aerial robot developed by the [EPFL LIS laboratory](https://lis.epfl.ch/).
 
@@ -34,7 +34,7 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 ### blimp\_lis.wbt
 
-![blimp.png](images/robots/blimp/blimp.wbt.png) This is an example of the flying blimp robot developed at the Laboratory of Intelligent Systems (LIS) at EPFL.
+![blimp.png](images/robots/blimp/blimp.wbt.thumbnail.jpg) This is an example of the flying blimp robot developed at the Laboratory of Intelligent Systems (LIS) at EPFL.
 You can use your keyboard, or a joystick to control the Blimp's motion across the room.
 Use the up, down, right, left, page up, page down and space (reset) keys.
 Various [Transform](../reference/transform.md) and [IndexedFaceSet](../reference/indexedfaceset.md) nodes are used to model the room using textures and transparency.

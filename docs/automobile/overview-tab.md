@@ -4,7 +4,7 @@ In addition to the usual tabs for each sensors/actuators, the car robot-window's
 
 %figure "The Overview tab of the car robot-window"
 
-![overview_tab.png](images/overview_tab.png)
+![overview_tab.png](images/overview_tab.thumbnail.jpg)
 
 %end
 

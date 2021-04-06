@@ -1,6 +1,6 @@
 ## Boston Dynamics' Spot
 
-%robot spot images/robots/spot/model.png
+%robot spot images/robots/spot/model.thumbnail.png
 
 The "Spot" robot, previously called "SpotMini", is is a four-legged dog-like robot developed by [Boston Dynamics](https://www.bostondynamics.com/spot).
 
@@ -52,5 +52,5 @@ You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robot
 
 ### [spot.wbt]({{ url.github_tree }}/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
-![spot.wbt.png](images/robots/spot/spot.wbt.png) This simulation shows a Spot robot in a simple environment.
+![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows a Spot robot in a simple environment.
 The robot is saying hello with its right leg.

@@ -58,7 +58,7 @@ A simple way to get the traffic light Ids and indexes is to open the network fil
 In the traffic lights mode you can simply select a traffic light and right click on one of the connections to get all the required information.
 
 %figure "Netedit in traffic lights mode. Here the 'trafficLightID' is equal to '-1320' and the trafficLightIndex is equal to '2'"
-![sumo_traffic_light.png](images/sumo_traffic_light.png)
+![sumo_traffic_light.png](images/sumo_traffic_light.thumbnail.jpg)
 %end
 
 ### The SumoInterface PROTO

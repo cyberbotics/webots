@@ -16,8 +16,8 @@ In this directory, you will find the following world files:
 
 |     |     |
 |:---:|:---:|
-| ![apartment_a.png](images/samples/apartment_a.png) | ![apartment_b.png](images/samples/apartment_b.png) |
-| ![apartment_c.png](images/samples/apartment_c.png) | ![apartment_d.png](images/samples/apartment_d.png) |
+| ![apartment_a.png](images/samples/apartment_a.thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b.thumbnail.jpg) |
+| ![apartment_c.png](images/samples/apartment_c.thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d.thumbnail.jpg) |
 
 %end
 
@@ -36,8 +36,8 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 |     |     |
 |:---:|:---:|
-| ![break_room_a.png](images/samples/break_room_a.png) | ![break_room_b.png](images/samples/break_room_b.png) |
-| ![break_room_c.png](images/samples/break_room_c.png) | ![break_room_d.png](images/samples/break_room_d.png) |
+| ![break_room_a.png](images/samples/break_room_a.thumbnail.jpg) | ![break_room_b.png](images/samples/break_room_b.thumbnail.jpg) |
+| ![break_room_c.png](images/samples/break_room_c.thumbnail.jpg) | ![break_room_d.png](images/samples/break_room_d.thumbnail.jpg) |
 
 %end
 
@@ -54,8 +54,8 @@ This means that a robot can open a drawer, leave an object inside it, and close 
 
 |     |     |
 |:---:|:---:|
-| ![complete_apartment_a.png](images/samples/complete_apartment_a.png) | ![complete_apartment_b.png](images/samples/complete_apartment_b.png) |
-| ![complete_apartment_c.png](images/samples/complete_apartment_c.png) | ![complete_apartment_d.png](images/samples/complete_apartment_d.png) |
+| ![complete_apartment_a.png](images/samples/complete_apartment_a.thumbnail.jpg) | ![complete_apartment_b.png](images/samples/complete_apartment_b.thumbnail.jpg) |
+| ![complete_apartment_c.png](images/samples/complete_apartment_c.thumbnail.jpg) | ![complete_apartment_d.png](images/samples/complete_apartment_d.thumbnail.jpg) |
 
 %end
 
@@ -71,7 +71,7 @@ This example is similar to the previous one but the apartement is more complete,
 
 |     |     |
 |:---:|:---:|
-| ![factory_a.png](images/samples/factory_a.png) | ![factory_b.png](images/samples/factory_b.png) |
+| ![factory_a.png](images/samples/factory_a.thumbnail.jpg) | ![factory_b.png](images/samples/factory_b.thumbnail.jpg) |
 
 %end
 
@@ -88,8 +88,8 @@ This means that a robot could grab a hammer, or turn a valve handle.
 
 |     |     |
 |:---:|:---:|
-| ![hall_a.png](images/samples/hall_a.png) | ![hall_b.png](images/samples/hall_b.png) |
-| ![hall_c.png](images/samples/hall_c.png) | ![hall_d.png](images/samples/hall_d.png) |
+| ![hall_a.png](images/samples/hall_a.thumbnail.jpg) | ![hall_b.png](images/samples/hall_b.thumbnail.jpg) |
+| ![hall_c.png](images/samples/hall_c.thumbnail.jpg) | ![hall_d.png](images/samples/hall_d.thumbnail.jpg) |
 
 %end
 
@@ -104,7 +104,7 @@ This environment is sponsored by the [ROSin european project](http://rosin-proje
 
 **Keywords**: kitchen, utensil
 
-![kitchen.png](images/samples/kitchen.png) This example shows a kitchen created by using some of the domestic objects included in Webots.
+![kitchen.png](images/samples/kitchen.thumbnail.jpg) This example shows a kitchen created by using some of the domestic objects included in Webots.
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other kitchen layouts.
 A robot can interact with the kitchen utensils, the glasses, the bottles, the plates, the pans or the food.
 The shelves doors and drawers are also interactive.

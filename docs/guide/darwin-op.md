@@ -2,7 +2,7 @@
 
 %figure "DARwIn-OP model in Webots"
 
-![model.png](images/robots/darwin-op/model.png)
+![model.png](images/robots/darwin-op/model.thumbnail.png)
 
 %end
 

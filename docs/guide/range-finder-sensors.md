@@ -4,7 +4,7 @@
 
 %figure "Microsoft Kinect model"
 
-![kinect.png](images/sensors/kinect.png)
+![kinect.png](images/sensors/kinect.thumbnail.png)
 
 %end
 

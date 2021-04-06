@@ -252,7 +252,7 @@ Once installed, if you observe 3D rendering anomalies or if Webots crashes, it i
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
 %figure "Windows SmartScreen warning"
-![windows_smartscreen_1.png](images/windows_smartscreen_1.png)
+![windows_smartscreen_1.png](images/windows_smartscreen_1.thumbnail.jpg)
 %end
 
 This is likely caused by the fact that the release of Webots is recent and was not yet approved by Microsoft.
@@ -260,7 +260,7 @@ If the Webots installer was downloaded from the [official Cyberbotics web site](
 You can pass this warning and install Webots by clicking on the "More info" link and the "Run anyway" button depicted below:
 
 %figure "Windows SmartScreen pass"
-![windows_smartscreen_2.png](images/windows_smartscreen_2.png)
+![windows_smartscreen_2.png](images/windows_smartscreen_2.thumbnail.jpg)
 %end
 
 ### Installation on macOS
@@ -321,7 +321,7 @@ Then, macOS should propose to open the application anyway (see [this figure](#un
 
 %figure "Open Webots anyway"
 
-![mac-open-anyway.png](images/mac-open-anyway.png)
+![mac-open-anyway.png](images/mac-open-anyway.thumbnail.jpg)
 
 %end
 
