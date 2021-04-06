@@ -1,19 +1,19 @@
-#VRML_SIM R2020b utf8
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the NedGripper
-# Extracted from: niryo_ned.urdf.xacro
+#VRML_SIM R2021a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/ned
+# A 6-axis collaborative robot based on open-source technologies designed for Education, Professional Training and Research.
 
 PROTO NedGripper [
-  field  SFVec3f     translation     0 0 0
-  field  SFRotation  rotation        0 1 0 0
-  field  SFString    name            "NedGripper"  # Is `Robot.name`.
-  field  SFString    controller      "void"        # Is `Robot.controller`.
-  field  MFString    controllerArgs  []            # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""            # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE         # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE          # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE         # Is `Robot.selfCollision`.
+  field  SFVec3f     translation     0 0 0              # Is `Transform.translation`.
+  field  SFRotation  rotation        0 1 0 0            # Is `Transform.rotation`.
+  field  SFString    name            "NedGripper"       # Is `Robot.name`.
+  field  SFString    controller      "ned_c_controller" # Is `Robot.controller`.
+  field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""                 # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE              # Is `Robot.selfCollision`.
 ]
 {
   Robot {

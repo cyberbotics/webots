@@ -1,24 +1,38 @@
+"""
+ * Copyright 1996-2020 Cyberbotics Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+"""
+
 # Ned_Controller controller in python.
 
 # Webots controller for the Niryo Ned robot. 
 # With this controller, you can see the 6 different axis of the robot moving
-# You can also control the robots with your keyboard
+# You can also control the robots with your keyboard and launch a Pick and Pack
 
 
 # Import the Webots simulator API and the Keyboard libray.
 from controller import Robot
 from controller import Keyboard
 
-
 # Make request to the simulator to make give orders to the robot (Ned)
 robot = Robot()
 
-#Start the controller
+# Start the controller
 print(".....Load Ned_Controller.....")
 robot_name = robot.getName()
-print"Name of the robot: ", robot_name
+print('Name of the robot: ' + robot_name)
 print(" ")
-
 
 # Init the motors - the Ned robot is a 6-axis robot arm
 # You can find the name of the rotationalMotors is the device parameters of each HingeJoints
@@ -31,7 +45,6 @@ m6 = robot.getDevice('joint_6')
 m7 = robot.getDevice('joint_base_to_mors_1')
 m8 = robot.getDevice('joint_base_to_mors_2')
 
-
 # Set the motor velocity
 # First we make sure that every joints are at their initial positions
 m1.setPosition(0)
@@ -43,7 +56,6 @@ m6.setPosition(0)
 m7.setPosition(0)
 m8.setPosition(0)
 
-
 # Set the motors speed. Here we put 1 or 2 radian/second
 m1.setVelocity(1)
 m2.setVelocity(1)
@@ -54,125 +66,144 @@ m6.setVelocity(1)
 m7.setVelocity(1)
 m8.setVelocity(1)
 
-#----Function to realize a demo of the Ned robot moving----
-def demo():
 
+# ----Function to realize a demo of the Ned robot moving----
+def demo():
     m1.setVelocity(1)
     m2.setVelocity(1)
     m3.setVelocity(1)
-        
+
     status = robot.step(0)
-    if status == -1: return
-    m1.setPosition(2)
+    if status == -1:
+        return
+    m1.setPosition(1.6)
     m7.setPosition(0.01)
     m8.setPosition(0.01)
-    
+
     status = robot.step(1500)
-    if status == -1: return
+    if status == -1:
+        return
     m1.setPosition(0)
-        
+
     status = robot.step(1500)
-    if status == -1: return
+    if status == -1:
+        return
     m2.setPosition(0.5)
-    
+
     status = robot.step(700)
-    if status == -1: return
+    if status == -1:
+        return
     m2.setPosition(0)
 
     status = robot.step(700)
-    if status == -1: return
+    if status == -1:
+        return
     m1.setPosition(-0.5)
-    m4.setPosition(2)
-        
+    m4.setPosition(1.4)
+
     status = robot.step(1500)
-    if status == -1: return
+    if status == -1:
+        return
     m4.setPosition(0)
-    
+
     status = robot.step(1500)
-    if status == -1: return
+    if status == -1:
+        return
     m5.setPosition(-1)
 
     status = robot.step(700)
-    if status == -1: return
+    if status == -1:
+        return
     m5.setPosition(0)
-    
+
     status = robot.step(1000)
-    if status == -1: return
+    if status == -1:
+        return
     m3.setPosition(0)
     m1.setPosition(0)
-        
-    
+
     status = robot.step(500)
-    if status == -1: return
+    if status == -1:
+        return
     m6.setPosition(1.5)
-    
+
     status = robot.step(1000)
-    if status == -1: return
+    if status == -1:
+        return
     m6.setPosition(0)
 
     status = robot.step(1000)
-    if status == -1: return
+    if status == -1:
+        return
     m7.setPosition(0)
     m8.setPosition(0)
 
     status = robot.step(500)
-    if status == -1: return
+    if status == -1:
+        return
     m7.setPosition(0.01)
     m8.setPosition(0.01)
 
 
 def pick_place():
-
     m1.setVelocity(0.5)
     m2.setVelocity(0.5)
     m3.setVelocity(0.5)
-        
+
     status = robot.step(0)
-    if status == -1: return
-    m1.setPosition(2)
-    m2.setPosition(0.75)
+    if status == -1:
+        return
+    m1.setPosition(1.6)
+    m2.setPosition(0.69)
     m7.setPosition(0.01)
     m8.setPosition(0.01)
-    
+
     status = robot.step(4200)
-    if status == -1: return
+    if status == -1:
+        return
     m3.setPosition(0.5)
-    
+
     status = robot.step(1200)
-    if status == -1: return
+    if status == -1:
+        return
     m7.setPosition(0)
     m8.setPosition(0)
-    
-    
+
     status = robot.step(1500)
-    if status == -1: return
+    if status == -1:
+        return
     m3.setPosition(0.3)
 
     status = robot.step(1200)
-    if status == -1: return
+    if status == -1:
+        return
     m1.setPosition(0)
-    
+
     status = robot.step(5000)
-    if status == -1: return
+    if status == -1:
+        return
     m3.setPosition(0.5)
 
     status = robot.step(500)
-    if status == -1: return
+    if status == -1:
+        return
     m7.setPosition(0.01)
     m8.setPosition(0.01)
-    
+
     status = robot.step(500)
-    if status == -1: return
+    if status == -1:
+        return
     m3.setPosition(0)
     m2.setPosition(0)
- 
-#------------------------------------------------
+
+
+# ------------------------------------------------
 
 
 # In the while you can find the different command to control the Ned robot
 # You can also launch a demonstrator 
 while True:
-    
+
     print("------------COMMANDS--------------")
     print("Launch demo --> SHIFT+D")
     print("Move_Joint1 --> SHIFT+A or SHIFT+Z")
@@ -184,83 +215,79 @@ while True:
     print("Open/Close Gripper --> SHIFT+L or SHIFT+M")
     print("Launch Pick and Place --> SHIFT+P")
     print("----------------------------------")
-    
-    #Init of the Keyboard control
+
+    # Init of the Keyboard control
     timestep = int(robot.getBasicTimeStep())
-    keyboard=Keyboard()
+    keyboard = Keyboard()
     keyboard.enable(timestep)
-    
-    
+
     # Here you can see all the command to control the robot
     while robot.step(timestep) != -1:
-    
-        key=keyboard.getKey()
-        
-        if (key==Keyboard.SHIFT+ord('A')):
+
+        key = keyboard.getKey()
+
+        if key == Keyboard.SHIFT + ord('A'):
             print("Move --> Joint_1 left")
             m1.setPosition(-1.5)
 
-        elif (key==Keyboard.SHIFT+ord('Z')):
+        elif key == Keyboard.SHIFT + ord('Z'):
             print("Move --> Joint_1 right")
             m1.setPosition(1.5)
-    
-        elif (key==Keyboard.SHIFT+ord('Q')):
+
+        elif key == Keyboard.SHIFT + ord('Q'):
             print("Move --> Joint_2 left")
             m2.setPosition(0.5)
-          
-        elif (key==Keyboard.SHIFT+ord('S')):
+
+        elif key == Keyboard.SHIFT + ord('S'):
             print("Move --> Joint_2 right")
             m2.setPosition(-0.5)
-   
-        elif (key==Keyboard.SHIFT+ord('W')):
+
+        elif key == Keyboard.SHIFT + ord('W'):
             print("Move --> Joint_3 left")
             m3.setPosition(0.5)
-            
-        elif (key==Keyboard.SHIFT+ord('X')):
+
+        elif key == Keyboard.SHIFT + ord('X'):
             print("Move --> Joint_3 right")
             m3.setPosition(-0.5)
-            
-        elif (key==Keyboard.SHIFT+ord('Y')):
+
+        elif key == Keyboard.SHIFT + ord('Y'):
             print("Move --> Joint_4 left")
             m4.setPosition(1)
-            
-        elif (key==Keyboard.SHIFT+ord('U')):
+
+        elif key == Keyboard.SHIFT + ord('U'):
             print("Move --> Joint_4 right")
             m4.setPosition(-1)
-            
-        elif (key==Keyboard.SHIFT+ord('H')):
+
+        elif key == Keyboard.SHIFT + ord('H'):
             print("Move --> Joint_5 left")
             m5.setPosition(1.5)
-            
-        elif (key==Keyboard.SHIFT+ord('J')):
+
+        elif key == Keyboard.SHIFT + ord('J'):
             print("Move --> Joint_5 right")
             m5.setPosition(-1.5)
-            
-        elif (key==Keyboard.SHIFT+ord('B')):
+
+        elif key == Keyboard.SHIFT + ord('B'):
             print("Move --> Joint_6 left")
             m6.setPosition(1.5)
-            
-        elif (key==Keyboard.SHIFT+ord('N')):
+
+        elif key == Keyboard.SHIFT + ord('N'):
             print("Move --> Joint_6 right")
             m6.setPosition(-1.5)
-            
-        elif (key==Keyboard.SHIFT+ord('L')):
+
+        elif key == Keyboard.SHIFT + ord('L'):
             print("Move --> Open Gripper")
             m7.setPosition(0.01)
             m8.setPosition(0.01)
-            
-        elif (key==Keyboard.SHIFT+ord('M')):
+
+        elif key == Keyboard.SHIFT + ord('M'):
             print("Move --> Close Gripper")
             m7.setPosition(0)
             m8.setPosition(0)
 
-        elif (key==Keyboard.SHIFT+ord('D')):
+        elif key == Keyboard.SHIFT + ord('D'):
             print("Demonstrator Move Joints")
             demo()
-            
-        elif (key==Keyboard.SHIFT+ord('P')):
+
+        elif key == Keyboard.SHIFT + ord('P'):
             print("Demonstrator Pick And Place")
             pick_place()
-            
-
-           
