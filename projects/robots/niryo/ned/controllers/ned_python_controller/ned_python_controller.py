@@ -16,7 +16,7 @@
 
 # Ned_Controller controller in python.
 
-# Webots controller for the Niryo Ned robot. 
+# Webots controller for the Niryo Ned robot.
 # With this controller, you can see the 6 different axis of the robot moving
 # You can also control the robots with your keyboard and launch a Pick and Pack
 
@@ -201,7 +201,7 @@ def pick_place():
 
 
 # In the while you can find the different command to control the Ned robot
-# You can also launch a demonstrator 
+# You can also launch a demonstrator
 while True:
 
     print("------------COMMANDS--------------")
@@ -260,11 +260,11 @@ while True:
 
         elif key == Keyboard.SHIFT + ord('H'):
             print("Move --> Joint_5 left")
-            m5.setPosition(1.5)
+            m5.setPosition(1.4)
 
         elif key == Keyboard.SHIFT + ord('J'):
             print("Move --> Joint_5 right")
-            m5.setPosition(-1.5)
+            m5.setPosition(-1.4)
 
         elif key == Keyboard.SHIFT + ord('B'):
             print("Move --> Joint_6 left")
