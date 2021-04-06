@@ -6,7 +6,7 @@ An armchair (1 x 0.8 x 1.1 m).
 
 %figure
 
-![Armchair](images/objects/living_room_furniture/Armchair/model.png)
+![Armchair](images/objects/living_room_furniture/Armchair/model.thumbnail.png)
 
 %end
 
@@ -40,7 +40,7 @@ A carpet (2.4 x 0.02 x 1.6 m).
 
 %figure
 
-![Carpet](images/objects/living_room_furniture/Carpet/model.png)
+![Carpet](images/objects/living_room_furniture/Carpet/model.thumbnail.png)
 
 %end
 
@@ -70,7 +70,7 @@ A sofa for two people (1 x 0.8 x 1.8 m).
 
 %figure
 
-![Sofa](images/objects/living_room_furniture/Sofa/model.png)
+![Sofa](images/objects/living_room_furniture/Sofa/model.thumbnail.png)
 
 %end
 

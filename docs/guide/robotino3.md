@@ -1,6 +1,6 @@
 ## Festo's Robotino 3
 
-%robot robotino3 images/robots/robotino3/model.png
+%robot robotino3 images/robots/robotino3/model.thumbnail.png
 
 Designed by Festo, [Robotino 3](robotino3.md) is a three-wheeled (mecanum) robot.
 The model is a modular mobile platform used for educational, training and research purposes.
@@ -66,4 +66,4 @@ And in [WorldInfo](../reference/worldinfo.md) the coordinateSystem must be set t
 
 #### robotino3.wbt
 
-![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.png) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.
+![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.

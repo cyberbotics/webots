@@ -1,6 +1,6 @@
 ## Clearpath Robotics' PR2
 
-%robot pr2 images/robots/pr2/model.png
+%robot pr2 images/robots/pr2/model.thumbnail.png
 
 The [clearpath's PR2 robot](http://wiki.ros.org/Robots/PR2) is a mobile manipulation platform.
 The robot is mounted on four directional wheels, had two articulated arms with grippers, an articulated body and head.
@@ -41,4 +41,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### pr2.wbt
 
-![pr2.wbt.png](images/robots/pr2/pr2.wbt.png) This simulation shows a PR2 robot grabbing biscuit boxes from one table, and putting them on another table.
+![pr2.wbt.png](images/robots/pr2/pr2.wbt.thumbnail.jpg) This simulation shows a PR2 robot grabbing biscuit boxes from one table, and putting them on another table.

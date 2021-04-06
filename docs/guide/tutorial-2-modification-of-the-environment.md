@@ -91,7 +91,7 @@ Select the `appearance` field of the [Shape](../reference/shape.md) node and use
 
 %figure "Your first rigid body in Webots."
 
-![tutorial_ball.png](images/tutorial_ball.png)
+![tutorial_ball.png](images/tutorial_ball.thumbnail.jpg)
 
 %end
 
@@ -141,7 +141,7 @@ Later this mechanism will turn out to be very useful for some sensors.
 
 %figure "DEF-USE mechanism on the Sphere node called BALL_GEOMETRY."
 
-![tutorial_def_use.png](images/tutorial_def_use.png)
+![tutorial_def_use.png](images/tutorial_def_use.thumbnail.jpg)
 
 %end
 
@@ -185,7 +185,7 @@ To compare your world with the solution, go to your files and find the folder na
 
 %figure "The simulation state at the end of this second tutorial."
 
-![tutorial_walls.png](images/tutorial_walls.png)
+![tutorial_walls.png](images/tutorial_walls.thumbnail.jpg)
 
 %end
 

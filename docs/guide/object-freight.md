@@ -6,7 +6,7 @@ An intermodal container is a large standardized shipping container, designed and
 
 %figure
 
-![IntermodalContainer](images/objects/freight/IntermodalContainer/model.png)
+![IntermodalContainer](images/objects/freight/IntermodalContainer/model.thumbnail.png)
 
 %end
 
@@ -37,7 +37,7 @@ An intermodal container with an office room.
 
 %figure
 
-![IntermodalOfficeContainer](images/objects/freight/IntermodalOfficeContainer/model.png)
+![IntermodalOfficeContainer](images/objects/freight/IntermodalOfficeContainer/model.thumbnail.png)
 
 %end
 

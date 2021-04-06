@@ -38,7 +38,7 @@ For example it won't be possible to call the `worldReload` function from a `Robo
 
 %figure "A small subset of Webots oriented-object APIs"
 
-![oo_api.png](images/oo_api.png)
+![oo_api.png](images/oo_api.thumbnail.png)
 
 %end
 

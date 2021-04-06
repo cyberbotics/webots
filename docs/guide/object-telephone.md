@@ -6,7 +6,7 @@ A model of a telephone, sourced from the GLTF PBR reference implementation, foun
 
 %figure
 
-![Telephone](images/objects/telephone/Telephone/model.png)
+![Telephone](images/objects/telephone/Telephone/model.thumbnail.png)
 
 %end
 
@@ -30,7 +30,7 @@ An office telephone with optional physics.
 
 %figure
 
-![OfficeTelephone](images/objects/telephone/OfficeTelephone/model.png)
+![OfficeTelephone](images/objects/telephone/OfficeTelephone/model.thumbnail.png)
 
 %end
 

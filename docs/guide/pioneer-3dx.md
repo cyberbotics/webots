@@ -1,6 +1,6 @@
 ## Adept's Pioneer 3-DX
 
-%robot pioneer-3dx images/robots/pioneer-3dx/model.png
+%robot pioneer-3dx images/robots/pioneer-3dx/model.thumbnail.png
 
 The Pioneer 3-DX robot is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 Pioneer 3-DX is caracterized by a set of features listed in [this table](#pioneer-3-dx-characteristics).
@@ -103,23 +103,23 @@ The worlds and controllers can be accessed in the "WEBOTS\_HOME/projects/robots/
 
 #### pioneer3dx.wbt
 
-![pioneer3dx_example.png](images/robots/pioneer-3dx/pioneer3dx.wbt.png) The "pioneer3dx.wbt" world file shows a simulation example of an avoidance algorithm based on the use of the 16 sonar sensors (see the "pioneer3dx\_collision\_avoidance.c" controller file).
+![pioneer3dx_example.png](images/robots/pioneer-3dx/pioneer3dx.wbt.thumbnail.jpg) The "pioneer3dx.wbt" world file shows a simulation example of an avoidance algorithm based on the use of the 16 sonar sensors (see the "pioneer3dx\_collision\_avoidance.c" controller file).
 The three [LEDs](../reference/led.md) are switched on and off periodically.
 
 #### pioneer3dx\_collision\_avoidance.wbt
 
-![pioneer3dx_collision_avoidance.png](images/robots/pioneer-3dx/pioneer3dx_collision_avoidance.wbt.png) The "pioneer3dx\_collision\_avoidance.wbt" world file is a simulation example of an avoidance algorithm based on the use of the 16 sonar sensors in a dark environment (see the "pioneer3dx\_obstacle\_avoidance.c" controller file).
+![pioneer3dx_collision_avoidance.png](images/robots/pioneer-3dx/pioneer3dx_collision_avoidance.wbt.thumbnail.jpg) The "pioneer3dx\_collision\_avoidance.wbt" world file is a simulation example of an avoidance algorithm based on the use of the 16 sonar sensors in a dark environment (see the "pioneer3dx\_obstacle\_avoidance.c" controller file).
 
 #### pioneer3dx\_gripper.wbt
 
-![pioneer3dx_gripper.png](images/robots/pioneer-3dx/pioneer3dx_gripper.wbt.png) The "pioneer3dx_gripper.wbt" world file is a simulation example where a gripper is used to move a ball (see the "pioneer3dx\_gripper.c" controller file).
+![pioneer3dx_gripper.png](images/robots/pioneer-3dx/pioneer3dx_gripper.wbt.thumbnail.jpg) The "pioneer3dx_gripper.wbt" world file is a simulation example where a gripper is used to move a ball (see the "pioneer3dx\_gripper.c" controller file).
 The `Pioneer3Gripper` PROTO is mounted on the `extensionSlot` of the `Pioneer3dx` PROTO node.
 
 #### pioneer3dx\_matlab.wbt
 
-![pioneer3dx_matlab.png](images/robots/pioneer-3dx/pioneer3dx_matlab.wbt.png) The "pioneer3dx_matlab.wbt" world file is a simulation example an obstacle avoidance behavior using a MATLAB controller (see the "pioneer3dx\_matlab.m" controller file).
+![pioneer3dx_matlab.png](images/robots/pioneer-3dx/pioneer3dx_matlab.wbt.thumbnail.jpg) The "pioneer3dx_matlab.wbt" world file is a simulation example an obstacle avoidance behavior using a MATLAB controller (see the "pioneer3dx\_matlab.m" controller file).
 
 #### pioneer3dx\_with\_kinect.wbt
 
-![pioneer3dx_with_kinect.png](images/robots/pioneer-3dx/pioneer3dx_with_kinect.wbt.png) The "pioneer3dx\_with\_kinect.wbt" world file is a simple simulation example of an obstacle avoidance behavior based on a Microsoft Kinect sensor (see the "pioneer3dx\_obstacle\_avoidance\_kinect.c" controller file).
+![pioneer3dx_with_kinect.png](images/robots/pioneer-3dx/pioneer3dx_with_kinect.wbt.thumbnail.jpg) The "pioneer3dx\_with\_kinect.wbt" world file is a simple simulation example of an obstacle avoidance behavior based on a Microsoft Kinect sensor (see the "pioneer3dx\_obstacle\_avoidance\_kinect.c" controller file).
 The `Kinect` PROTO is mounted in the `extensionSlot` field of the `Pioneer3dx` PROTO node.

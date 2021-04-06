@@ -20,7 +20,7 @@ We are excited for this next chapter of Webots' life and we hope you will join u
 ## Next-Gen Graphics
 
 %figure "Left: Before Graphics Update, Right: After Graphics Update"
-![new graphics](images/graphics_before_after.png)
+![new graphics](images/graphics_before_after.thumbnail.jpg)
 %end
 
 You may remember from the release of Webots R2018b that we implemented our own bespoke rendering engine, WREN (Webots Renderer).

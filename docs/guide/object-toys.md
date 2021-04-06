@@ -6,7 +6,7 @@ A paper boat (42.8 x 14.2 x 10.6 cm).
 
 %figure
 
-![PaperBoat](images/objects/toys/PaperBoat/model.png)
+![PaperBoat](images/objects/toys/PaperBoat/model.thumbnail.png)
 
 %end
 
@@ -49,7 +49,7 @@ A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 
 %figure
 
-![RubberDuck](images/objects/toys/RubberDuck/model.png)
+![RubberDuck](images/objects/toys/RubberDuck/model.thumbnail.png)
 
 %end
 
