@@ -186,7 +186,7 @@ double WbMotor::energyConsumption() const {
 
 void WbMotor::inferMotorCouplings() {
   for (int i = 0; i < cMotors.size(); ++i)
-    if (cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
+    if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
       mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
 
   // if (referenceMotor() == NULL && mCoupledMotors.size() > 0)
