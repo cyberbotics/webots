@@ -35,7 +35,7 @@ Note that Webots have to be installed on all the machines where a simulation ser
 
 %figure "Web simulation server network infrastructure"
 
-![context_menu.png](images/web_simulation_network_infrastructure.thumbnail.png)
+![context_menu.png](images/web_simulation_network_infrastructure.png)
 
 %end
 

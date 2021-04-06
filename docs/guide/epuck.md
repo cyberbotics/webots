@@ -15,7 +15,7 @@ E-puck is also available for [purchase](https://www.cyberbotics.com/buy) from Cy
 
 %figure "The e-puck robot at work"
 
-![real_robot.png](images/robots/epuck/real_robot.thumbnail.jpg)
+![real_robot.png](images/robots/epuck/real_robot.png)
 
 %end
 
@@ -144,7 +144,7 @@ The resolution of the camera was limited to 52x39 pixels, as this is the maximum
 
 %figure "e-puck2 model"
 
-![epuck2.png](images/robots/epuck/epuck2.thumbnail.png)
+![epuck2.png](images/robots/epuck/epuck2.png)
 
 %end
 
@@ -263,7 +263,7 @@ Changing this `window` to an empty string will disable this control window.
 
 %figure "BotStudio window"
 
-![botstudio.png](images/robots/epuck/botstudio.thumbnail.jpg)
+![botstudio.png](images/robots/epuck/botstudio.png)
 
 %end
 
@@ -393,22 +393,22 @@ Several simulation examples are located in the "WEBOTS\_HOME/projects/robots/gct
 
 #### e-puck.wbt
 
-![e-puck.wbt.png](images/robots/epuck/e-puck.wbt.thumbnail.jpg) The "e-puck.wbt" is a simple example of collision avoidance behavior using a Braitenberg based controller.
+![e-puck.wbt.png](images/robots/epuck/e-puck.wbt.png) The "e-puck.wbt" is a simple example of collision avoidance behavior using a Braitenberg based controller.
 This is done using the distance sensors of the e-puck.
 
 #### e-puck2.wbt
 
-![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is the same simulation as the above one, except that it uses an "e-puck2" model.
+![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is the same simulation as the above one, except that it uses an "e-puck2" model.
 
 #### e-puck2\_pi-puck.wbt
 
-![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.thumbnail.jpg) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
+![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.png) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
 
 >**Note**: The model of the pi-puck extension was sponsored by the [ROSin european project](https://www.rosin-project.eu/ftp/ros2-for-the-e-puck2-robot).
 
 #### e-puck2\_server.wbt
 
-![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.
+![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.
 The e-puck2 Wi-Fi protocol is available on the real e-puck2 when running the Wi-Fi enabled firmware.
 As a consequence, it is possible to connect the Wi-Fi version of the GCTronic `EPuckMonitor` program to this controller (running on port 1000).
 This allows users to test the behavior of the simulated e-puck2 robot with the TCP/IP Advance Sercom protocol commands.
@@ -416,7 +416,7 @@ The controller folder also contains an `e-puck2.vi` LabVIEW Virtual Instrument t
 
 #### e-puck\_line.wbt
 
-![e-puck_line.wbt.png](images/robots/epuck/e-puck_line.wbt.thumbnail.jpg) The "e-puck\_line.wbt" world especially examplifies the use of ground sensors.
+![e-puck_line.wbt.png](images/robots/epuck/e-puck_line.wbt.png) The "e-puck\_line.wbt" world especially examplifies the use of ground sensors.
 Ground sensors can be added to a real e-puck robot by inserting a special extension card with three sensors just below the camera of the robot.
 These sensors are actually simple infra-red sensors which allow the e-puck robot to see the color level of the ground at three locations in a line across its front.
 The `groundSensorSlot` field of the standard E-puck PROTO is expressly provided to equip the simulated e-puck robot with the ground sensors extension modeled in the `E-puckGroundSensors` PROTO.
@@ -424,24 +424,24 @@ This is particularly useful for implementing line following behaviors.
 
 #### e-puck\_line\_demo.wbt
 
-![e-puck_line_demo.wbt.png](images/robots/epuck/e-puck_line_demo.wbt.thumbnail.jpg) The "e-puck\_line" controller program contains the source code for a simple line following system which, as an exercise, can be improved to obtain the behavior demonstrated in the "e-puck\_line\_demo.wbt" demo, in which the e-puck robot is able to follow the line drawn on the floor, but also to avoid obstacles and return to the line following behavior afterwards.
+![e-puck_line_demo.wbt.png](images/robots/epuck/e-puck_line_demo.wbt.png) The "e-puck\_line" controller program contains the source code for a simple line following system which, as an exercise, can be improved to obtain the behavior demonstrated in the "e-puck\_line\_demo.wbt" demo, in which the e-puck robot is able to follow the line drawn on the floor, but also to avoid obstacles and return to the line following behavior afterwards.
 This model was contributed by Jean-Christophe Zufferey from the EPFL, who sets up a series of exercises with Webots and extended e-puck robots.
 
 #### e-puck\_botstudio.wbt
 
-![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
+![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.png) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
 The BotStudio windows appears upon double clicking on the e-puck allowing the user to see which command is executed.
 
 #### e-puck\_botstudio\_with\_floor\_sensors.wbt
 
-![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_with\_floor\_sensors.wbt" is an example world similar to that of "e-puck\_botstudio\_example.wbt" but where the e-puck has a line following behavior based on its floor sensors.
+![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.png) The "e-puck\_botstudio\_with\_floor\_sensors.wbt" is an example world similar to that of "e-puck\_botstudio\_example.wbt" but where the e-puck has a line following behavior based on its floor sensors.
 
 #### e-puck\_cross-compilation.wbt
 
-![e-puck_cross-compilation.wbt.png](images/robots/epuck/e-puck_cross-compilation.wbt.thumbnail.jpg) The "e-puck\_cross-compilation.wbt" is an example using a cross-compilation controller.
+![e-puck_cross-compilation.wbt.png](images/robots/epuck/e-puck_cross-compilation.wbt.png) The "e-puck\_cross-compilation.wbt" is an example using a cross-compilation controller.
 
 #### e-puck\_kinematic.wbt
 
-![e-puck_kinematic.wbt.png](images/robots/epuck/e-puck_kinematic.wbt.thumbnail.jpg) The "e-puck\_kinematic.wbt" is an example world similar to "e-puck.wbt" but where the kinematic field of the E-puck PROTO node is true.
+![e-puck_kinematic.wbt.png](images/robots/epuck/e-puck_kinematic.wbt.png) The "e-puck\_kinematic.wbt" is an example world similar to "e-puck.wbt" but where the kinematic field of the E-puck PROTO node is true.
 This allows the robot's motion to be calculated according to 2D kinematics algorithms and the collision detection to be calculated with 3D algorithms.
 More information on the kinematic mode in Webots can be found [here](../reference/differentialwheels.md).

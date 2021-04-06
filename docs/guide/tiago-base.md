@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo Base
 
-%robot tiago-base images/robots/tiago_base/model.thumbnail.png
+%robot tiago-base images/robots/tiago_base/model.png
 
 Designed by PAL Robotics, TIAGo Base is a two-wheeled robot.
 The model is a modular mobile platform that automates deliveries in industrial environment. It is completely ROS based and customizable with accessories to adapt to any specific need.
@@ -42,4 +42,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_base.wbt
 
-![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.png) This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

@@ -16,7 +16,7 @@ BallJoint {
 
 %figure "Ball joint"
 
-![ballJoint.png](images/ballJoint.thumbnail.png)
+![ballJoint.png](images/ballJoint.png)
 
 %end
 

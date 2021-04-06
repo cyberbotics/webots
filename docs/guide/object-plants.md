@@ -6,7 +6,7 @@ Five sun flowers into a pot (0.17 x 0.95 x 0.17 m).
 
 %figure
 
-![BunchOfSunFlowers](images/objects/plants/BunchOfSunFlowers/model.thumbnail.png)
+![BunchOfSunFlowers](images/objects/plants/BunchOfSunFlowers/model.png)
 
 %end
 
@@ -40,7 +40,7 @@ A potted tree (0.3 x 1.3 x 0.3 m).
 
 %figure
 
-![PottedTree](images/objects/plants/PottedTree/model.thumbnail.png)
+![PottedTree](images/objects/plants/PottedTree/model.png)
 
 %end
 

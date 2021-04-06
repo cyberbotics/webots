@@ -6,7 +6,7 @@ A configurable standard ceiling.
 
 %figure
 
-![Ceiling](images/objects/apartment_structure/Ceiling/model.thumbnail.png)
+![Ceiling](images/objects/apartment_structure/Ceiling/model.png)
 
 %end
 
@@ -44,7 +44,7 @@ A cutomizable openable door.
 
 %figure
 
-![Door](images/objects/apartment_structure/Door/model.thumbnail.png)
+![Door](images/objects/apartment_structure/Door/model.png)
 
 %end
 
@@ -117,7 +117,7 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %figure
 
-![DoorKnob](images/objects/apartment_structure/DoorKnob/model.thumbnail.png)
+![DoorKnob](images/objects/apartment_structure/DoorKnob/model.png)
 
 %end
 
@@ -163,7 +163,7 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %figure
 
-![DoorLever](images/objects/apartment_structure/DoorLever/model.thumbnail.png)
+![DoorLever](images/objects/apartment_structure/DoorLever/model.png)
 
 %end
 
@@ -220,7 +220,7 @@ A generic varnished, painted wooden door's appearance.
 
 %figure
 
-![GenericDoorAppearance](images/objects/apartment_structure/GenericDoorAppearance/model.thumbnail.png)
+![GenericDoorAppearance](images/objects/apartment_structure/GenericDoorAppearance/model.png)
 
 %end
 
@@ -247,7 +247,7 @@ A radiator with a variable number of fins and optional bounding object.
 
 %figure
 
-![Radiator](images/objects/apartment_structure/Radiator/model.thumbnail.png)
+![Radiator](images/objects/apartment_structure/Radiator/model.png)
 
 %end
 
@@ -284,7 +284,7 @@ A customizable wall.
 
 %figure
 
-![Wall](images/objects/apartment_structure/Wall/model.thumbnail.png)
+![Wall](images/objects/apartment_structure/Wall/model.png)
 
 %end
 
@@ -317,7 +317,7 @@ An electrical wall plug with optional bounding object.
 
 %figure
 
-![WallPlug](images/objects/apartment_structure/WallPlug/model.thumbnail.png)
+![WallPlug](images/objects/apartment_structure/WallPlug/model.png)
 
 %end
 
@@ -353,7 +353,7 @@ A customizable window including walls above and below.
 
 %figure
 
-![Window](images/objects/apartment_structure/Window/model.thumbnail.png)
+![Window](images/objects/apartment_structure/Window/model.png)
 
 %end
 

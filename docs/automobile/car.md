@@ -94,7 +94,7 @@ They represent different models of car:
 
 %figure "Models of cars created using the Car PROTO"
 
-![cars.png](images/cars.thumbnail.png)
+![cars.png](images/cars.png)
 
 %end
 
@@ -125,7 +125,7 @@ There are currently two trailers to be used: a regular one and a tank shaped mod
 
 %figure "Models of the bus and truck created using the `Car` PROTO"
 
-![heavy_weights.png](images/heavy_weights.thumbnail.png)
+![heavy_weights.png](images/heavy_weights.png)
 
 %end
 
@@ -190,7 +190,7 @@ The different simple versions of the car PROTO nodes represent the different mod
 
 %figure "Models of cars created using the CarSimple PROTO"
 
-![cars.png](images/cars.thumbnail.png)
+![cars.png](images/cars.png)
 
 %end
 
@@ -221,6 +221,6 @@ ScooterSimple and MotorbikeSimple are examples of actual TwoWheelerSimple PROTO 
 
 %figure "Models of ScooterSimple and MotorbikeSimple currently available"
 
-![two_wheelers.png](images/two_wheelers.thumbnail.png)
+![two_wheelers.png](images/two_wheelers.png)
 
 %end

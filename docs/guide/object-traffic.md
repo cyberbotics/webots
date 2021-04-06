@@ -6,7 +6,7 @@ Traffic panel: Caution panel.
 
 %figure
 
-![CautionPanel](images/objects/traffic/CautionPanel/model.thumbnail.png)
+![CautionPanel](images/objects/traffic/CautionPanel/model.png)
 
 %end
 
@@ -40,7 +40,7 @@ Traffic sign: Caution sign.
 
 %figure
 
-![CautionSign](images/objects/traffic/CautionSign/model.thumbnail.png)
+![CautionSign](images/objects/traffic/CautionSign/model.png)
 
 %end
 
@@ -79,7 +79,7 @@ Simple model of a controlled street light including a customizable SpotLight.
 
 %figure
 
-![ControlledStreetLight](images/objects/traffic/ControlledStreetLight/model.thumbnail.png)
+![ControlledStreetLight](images/objects/traffic/ControlledStreetLight/model.png)
 
 %end
 
@@ -128,7 +128,7 @@ Four roads crossing traffic light.
 
 %figure
 
-![CrossRoadsTrafficLight](images/objects/traffic/CrossRoadsTrafficLight/model.thumbnail.png)
+![CrossRoadsTrafficLight](images/objects/traffic/CrossRoadsTrafficLight/model.png)
 
 %end
 
@@ -176,7 +176,7 @@ Alternatively it is possible to add other *.ttf files in the PROJECT\_HOME/fonts
 
 %figure
 
-![DirectionPanel](images/objects/traffic/DirectionPanel/model.thumbnail.png)
+![DirectionPanel](images/objects/traffic/DirectionPanel/model.png)
 
 %end
 
@@ -236,7 +236,7 @@ A divergent indicator block.
 
 %figure
 
-![DivergentIndicator](images/objects/traffic/DivergentIndicator/model.thumbnail.png)
+![DivergentIndicator](images/objects/traffic/DivergentIndicator/model.png)
 
 %end
 
@@ -275,7 +275,7 @@ Traffic panel: Exit panel.
 
 %figure
 
-![ExitPanel](images/objects/traffic/ExitPanel/model.thumbnail.png)
+![ExitPanel](images/objects/traffic/ExitPanel/model.png)
 
 %end
 
@@ -309,7 +309,7 @@ Traffic sign: Exit sign.
 
 %figure
 
-![ExitSign](images/objects/traffic/ExitSign/model.thumbnail.png)
+![ExitSign](images/objects/traffic/ExitSign/model.png)
 
 %end
 
@@ -348,7 +348,7 @@ A generic traffic light with configurable timming.
 
 %figure
 
-![GenericTrafficLight](images/objects/traffic/GenericTrafficLight/model.thumbnail.png)
+![GenericTrafficLight](images/objects/traffic/GenericTrafficLight/model.png)
 
 %end
 
@@ -388,7 +388,7 @@ Different types of poles are available: "cylinder", "box", or "H-shape".
 
 %figure
 
-![HighwayPole](images/objects/traffic/HighwayPole/model.thumbnail.png)
+![HighwayPole](images/objects/traffic/HighwayPole/model.png)
 
 %end
 
@@ -448,7 +448,7 @@ Resizable sign with front texture option.
 
 %figure
 
-![HighwaySign](images/objects/traffic/HighwaySign/model.thumbnail.png)
+![HighwaySign](images/objects/traffic/HighwaySign/model.png)
 
 %end
 
@@ -491,7 +491,7 @@ Traffic panel: Order panel.
 
 %figure
 
-![OrderPanel](images/objects/traffic/OrderPanel/model.thumbnail.png)
+![OrderPanel](images/objects/traffic/OrderPanel/model.png)
 
 %end
 
@@ -525,7 +525,7 @@ Traffic sign: Order sign.
 
 %figure
 
-![OrderSign](images/objects/traffic/OrderSign/model.thumbnail.png)
+![OrderSign](images/objects/traffic/OrderSign/model.png)
 
 %end
 
@@ -564,7 +564,7 @@ Parking lines for several consecutive cars.
 
 %figure
 
-![ParkingLines](images/objects/traffic/ParkingLines/model.thumbnail.png)
+![ParkingLines](images/objects/traffic/ParkingLines/model.png)
 
 %end
 
@@ -602,7 +602,7 @@ A parking meter.
 
 %figure
 
-![ParkingMeter](images/objects/traffic/ParkingMeter/model.thumbnail.png)
+![ParkingMeter](images/objects/traffic/ParkingMeter/model.png)
 
 %end
 
@@ -627,7 +627,7 @@ A pedestrian crossing 20 x 8 meters (0.1m thick).
 
 %figure
 
-![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.thumbnail.png)
+![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.png)
 
 %end
 
@@ -663,7 +663,7 @@ A metallic pole for the traffic lights.
 
 %figure
 
-![Pole](images/objects/traffic/Pole/model.thumbnail.png)
+![Pole](images/objects/traffic/Pole/model.png)
 
 %end
 
@@ -693,7 +693,7 @@ A simple rectangular traffic pannel.
 
 %figure
 
-![RectangularPanel](images/objects/traffic/RectangularPanel/model.thumbnail.png)
+![RectangularPanel](images/objects/traffic/RectangularPanel/model.png)
 
 %end
 
@@ -730,7 +730,7 @@ Customizable direction panel on pole with the possibility of adding more panels.
 
 %figure
 
-![SignPole](images/objects/traffic/SignPole/model.thumbnail.png)
+![SignPole](images/objects/traffic/SignPole/model.png)
 
 %end
 
@@ -769,7 +769,7 @@ Traffic panel: Speed limit panel (5mph to 80mph) or one way panel.
 
 %figure
 
-![SpeedLimitPanel](images/objects/traffic/SpeedLimitPanel/model.thumbnail.png)
+![SpeedLimitPanel](images/objects/traffic/SpeedLimitPanel/model.png)
 
 %end
 
@@ -803,7 +803,7 @@ Traffic sign: Speed limit sign (5mph to 80mph) or one way sign.
 
 %figure
 
-![SpeedLimitSign](images/objects/traffic/SpeedLimitSign/model.thumbnail.png)
+![SpeedLimitSign](images/objects/traffic/SpeedLimitSign/model.png)
 
 %end
 
@@ -842,7 +842,7 @@ Traffic panel: Stop panel.
 
 %figure
 
-![StopPanel](images/objects/traffic/StopPanel/model.thumbnail.png)
+![StopPanel](images/objects/traffic/StopPanel/model.png)
 
 %end
 
@@ -876,7 +876,7 @@ Traffic sign: Stop sign.
 
 %figure
 
-![StopSign](images/objects/traffic/StopSign/model.thumbnail.png)
+![StopSign](images/objects/traffic/StopSign/model.png)
 
 %end
 
@@ -916,7 +916,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![StreetLight](images/objects/traffic/StreetLight/model.thumbnail.png)
+![StreetLight](images/objects/traffic/StreetLight/model.png)
 
 %end
 
@@ -967,7 +967,7 @@ Traffic cone.
 
 %figure
 
-![TrafficCone](images/objects/traffic/TrafficCone/model.thumbnail.png)
+![TrafficCone](images/objects/traffic/TrafficCone/model.png)
 
 %end
 
@@ -993,7 +993,7 @@ Basic traffic light without lamp.
 
 %figure
 
-![TrafficLight](images/objects/traffic/TrafficLight/model.thumbnail.png)
+![TrafficLight](images/objects/traffic/TrafficLight/model.png)
 
 %end
 
@@ -1036,7 +1036,7 @@ A traffic light lamp with an adjustable arrow.
 
 %figure
 
-![TrafficLightArrowLampGeometry](images/objects/traffic/TrafficLightArrowLampGeometry/model.thumbnail.png)
+![TrafficLightArrowLampGeometry](images/objects/traffic/TrafficLightArrowLampGeometry/model.png)
 
 %end
 
@@ -1058,7 +1058,7 @@ A big metallic pole above the road for traffic lights.
 
 %figure
 
-![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.thumbnail.png)
+![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.png)
 
 %end
 
@@ -1094,7 +1094,7 @@ Horizontal traffic light without lamp to put on the big pole above the road.
 
 %figure
 
-![TrafficLightHorizontal](images/objects/traffic/TrafficLightHorizontal/model.thumbnail.png)
+![TrafficLightHorizontal](images/objects/traffic/TrafficLightHorizontal/model.png)
 
 %end
 
@@ -1137,7 +1137,7 @@ A traffic light lamp with a standard geometry.
 
 %figure
 
-![TrafficLightStandardLampGeometry](images/objects/traffic/TrafficLightStandardLampGeometry/model.thumbnail.png)
+![TrafficLightStandardLampGeometry](images/objects/traffic/TrafficLightStandardLampGeometry/model.png)
 
 %end
 
@@ -1159,7 +1159,7 @@ A work barrier with optional physics.
 
 %figure
 
-![WorkBarrier](images/objects/traffic/WorkBarrier/model.thumbnail.png)
+![WorkBarrier](images/objects/traffic/WorkBarrier/model.png)
 
 %end
 
@@ -1189,7 +1189,7 @@ Traffic panel: Yield panel.
 
 %figure
 
-![YieldPanel](images/objects/traffic/YieldPanel/model.thumbnail.png)
+![YieldPanel](images/objects/traffic/YieldPanel/model.png)
 
 %end
 
@@ -1226,7 +1226,7 @@ Traffic sign: Yield sign.
 
 %figure
 
-![YieldSign](images/objects/traffic/YieldSign/model.thumbnail.png)
+![YieldSign](images/objects/traffic/YieldSign/model.png)
 
 %end
 

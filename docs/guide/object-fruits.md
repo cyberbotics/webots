@@ -6,7 +6,7 @@ An apple (0.05 x 0.05 x 0.05 m).
 
 %figure
 
-![Apple](images/objects/fruits/Apple/model.thumbnail.png)
+![Apple](images/objects/fruits/Apple/model.png)
 
 %end
 
@@ -37,7 +37,7 @@ A fruit bowl (0.146 x 0.146 x 0.146 m).
 
 %figure
 
-![FruitBowl](images/objects/fruits/FruitBowl/model.thumbnail.png)
+![FruitBowl](images/objects/fruits/FruitBowl/model.png)
 
 %end
 
@@ -70,7 +70,7 @@ An orange (0.05 x 0.05 x 0.05 m).
 
 %figure
 
-![Orange](images/objects/fruits/Orange/model.thumbnail.png)
+![Orange](images/objects/fruits/Orange/model.png)
 
 %end
 

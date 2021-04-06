@@ -1,6 +1,6 @@
 ## Tinkerbots
 
-%robot tinkerbots images/robots/tinkerbots/model.thumbnail.png
+%robot tinkerbots images/robots/tinkerbots/model.png
 
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
@@ -24,7 +24,7 @@ Derived from [Robot](../reference/robot.md).
 
 %figure
 
-![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.thumbnail.png)
+![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.png)
 
 %end
 
@@ -66,7 +66,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.thumbnail.png)
+![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.png)
 
 %end
 
@@ -92,7 +92,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.thumbnail.png)
+![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.png)
 
 %end
 
@@ -122,7 +122,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.thumbnail.png)
+![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.png)
 
 %end
 
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.thumbnail.png)
+![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.png)
 
 %end
 
@@ -197,7 +197,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.thumbnail.png)
+![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.png)
 
 %end
 
@@ -222,7 +222,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.thumbnail.png)
+![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.png)
 
 %end
 
@@ -476,7 +476,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross-" type.
 
 %figure
 
-![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.thumbnail.png)
+![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.png)
 
 %end
 
@@ -499,13 +499,13 @@ You will find the following examples in this folder: "WEBOTS\_HOME/projects/robo
 
 #### tinkerbots\_demo.wbt
 
-![tinkerbots_demo.wbt.png](images/robots/tinkerbots/tinkerbots_demo.wbt.thumbnail.jpg) In this example, two robots work collaboratively in a fictitious factory.
+![tinkerbots_demo.wbt.png](images/robots/tinkerbots/tinkerbots_demo.wbt.png) In this example, two robots work collaboratively in a fictitious factory.
 A plastic object passes from one robot to the other with the help of two conveyor belts.
 The robots detect the presence of the plastic objects using their distance sensors.
 
 #### android\_l30.wbt
 
-![android_l30.wbt.png](images/robots/tinkerbots/android_l30.wbt.thumbnail.jpg) This example probably shows the simplest possible model.
+![android_l30.wbt.png](images/robots/tinkerbots/android_l30.wbt.png) This example probably shows the simplest possible model.
 Indeed, it has only one motor and two wheels plugged on it.
 It is controlled by the random controller called "tinkerbots_demo".
 This demo controller actuates the motors with random sinusoidal functions and chooses the color of the LEDs from a predefined color set.
@@ -513,23 +513,23 @@ This controller is used in most of the following examples.
 
 #### braitenberg.wbt
 
-![braitenberg.wbt.png](images/robots/tinkerbots/braitenberg.wbt.thumbnail.jpg) In this example, a robot with two motors and two distance sensors moves avoiding obstacles in a circular world.
+![braitenberg.wbt.png](images/robots/tinkerbots/braitenberg.wbt.png) In this example, a robot with two motors and two distance sensors moves avoiding obstacles in a circular world.
 In addition, it pushes a Tinkerbots cubie.
 Note that the custom controller of this robot is written in Python.
 
 #### grabber\_base.wbt
 
-![grabber_base.wbt.png](images/robots/tinkerbots/grabber_base.wbt.thumbnail.jpg) The crane in this example can be controlled by the computer keyboard following the instructions displayed in the Webots console.
+![grabber_base.wbt.png](images/robots/tinkerbots/grabber_base.wbt.png) The crane in this example can be controlled by the computer keyboard following the instructions displayed in the Webots console.
 
 #### vision\_car.wbt
 
-![vision_car.wbt.wbt.png](images/robots/tinkerbots/vision_car.wbt.thumbnail.jpg) In this example, a robot moves forward until it detects an obstacle.
+![vision_car.wbt.wbt.png](images/robots/tinkerbots/vision_car.wbt.png) In this example, a robot moves forward until it detects an obstacle.
 
 #### roadster.wbt and racer.wbt
 
 | | |
 |:---:|:---:|
-| ![roadster.wbt.png](images/robots/tinkerbots/roadster.wbt.thumbnail.jpg) | ![racer.wbt.png](images/robots/tinkerbots/racer.wbt.thumbnail.jpg) |
+| ![roadster.wbt.png](images/robots/tinkerbots/roadster.wbt.png) | ![racer.wbt.png](images/robots/tinkerbots/racer.wbt.png) |
 
 In these two examples, two car-looking robots move randomly using the "two_wheeled_vehicle" controller.
 
@@ -537,11 +537,11 @@ In these two examples, two car-looking robots move randomly using the "two_wheel
 
 | | |
 |:---:|:---:|
-| ![top_dog.wbt.png](images/robots/tinkerbots/top_dog.wbt.thumbnail.jpg) | ![donnergugi.wbt.png](images/robots/tinkerbots/donnergugi.wbt.thumbnail.jpg) |
+| ![top_dog.wbt.png](images/robots/tinkerbots/top_dog.wbt.png) | ![donnergugi.wbt.png](images/robots/tinkerbots/donnergugi.wbt.png) |
 
 In these two examples, two animal-like robots move randomly using "tinkerbots_demo" controller.
 
 #### sensoric\_mega\_set.wbt
 
-![sensoric_mega_set.wbt.png](images/robots/tinkerbots/sensoric_mega_set.wbt.thumbnail.jpg) This example shows a robot made up of all Tinkerbots blocks that contain an Arduino component.
+![sensoric_mega_set.wbt.png](images/robots/tinkerbots/sensoric_mega_set.wbt.png) This example shows a robot made up of all Tinkerbots blocks that contain an Arduino component.
 Here too, the robot moves randomly.
