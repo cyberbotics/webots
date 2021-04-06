@@ -32,34 +32,90 @@ class WbWrenShaders {
   }
 
   static async buildAll() {
+    console.time('startID');
     WbWrenShaders.phongShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.phongStencilAmbientEmissiveShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.phongStencilDiffuseSpecularShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.pbrShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.pbrStencilAmbientEmissiveShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.pbrStencilDiffuseSpecularShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.fogShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.iblBrdfBakingShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.shadowVolumeShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.hdrResolveShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.hdrClearShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.skyboxShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.passThroughShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.iblSpecularIrradianceBakingShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.gtaoShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.gtaoSpatialDenoiseShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.gtaoTemporalDenoiseShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.gtaoCombineShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.brightPassShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.gaussianBlur13TapShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.bloomBlendShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.lineSetShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.smaaEdgeDetectionShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.smaaBlendingWeightCalculationShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.smaaFinalBlendShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.pointSetShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.pickingShader();
+    console.timeEnd('startID');
+    console.time('startID');
     WbWrenShaders.depthPixelShader();
+    console.timeEnd('startID');
   }
 
   static defaultShader() {
@@ -357,7 +413,7 @@ class WbWrenShaders {
     if (!WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE]) {
       WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE] = _wr_shader_program_new();
 
-      const projectionAndViewDefaults = new Array(16).fill(0.0);
+      const projectionAndViewDefaults = [16].fill(0.0);
       const projectionAndViewDefaultsPointer = arrayXPointer(projectionAndViewDefaults);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], 'projection', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, projectionAndViewDefaultsPointer]);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_IBL_SPECULAR_IRRADIANCE_BAKE], 'view', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, projectionAndViewDefaultsPointer]);
@@ -428,7 +484,7 @@ class WbWrenShaders {
 
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], ENUM.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-      const previousInverseViewMatrix = new Array(16).fill(0.0);
+      const previousInverseViewMatrix = [16].fill(0.0);
       const previousInverseViewMatrixPointer = arrayXPointer(previousInverseViewMatrix);
       Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO_TEMPORAL_DENOISE], 'previousInverseViewMatrix', ENUM.WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F, previousInverseViewMatrixPointer]);
 
