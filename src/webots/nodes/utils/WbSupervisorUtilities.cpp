@@ -770,14 +770,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> idFrom;
       stream >> idTo;
 
-      WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
-      WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
-      mNodeGetPose.first = transformFrom;
+      if (idFrom) {
+        WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
+        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
+        mNodeGetPose.first = transformFrom;
+      } else
+        mNodeGetPose.first = NULL;
       WbNode *const nodeTo = getProtoParameterNodeInstance(WbNode::findNode(idTo));
       WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
       mNodeGetPose.second = transformTo;
 
-      if (!transformTo || !transformFrom)
+      if (!transformTo)
         mRobot->warn(tr("wb_supervisor_node_get_pose() can exclusively be used with Transform (or derived)."));
       return;
     }
@@ -1520,16 +1523,21 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2);
     mNodeGetOrientation = NULL;
   }
-  if (mNodeGetPose.first && mNodeGetPose.second) {
-    WbMatrix4 mFrom(mNodeGetPose.first->matrix());
-    const WbVector3 &sFrom = mFrom.scale();
-    mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
+  if (mNodeGetPose.second) {
+    WbMatrix4 m;
 
     WbMatrix4 mTo(mNodeGetPose.second->matrix());
     const WbVector3 &sTo = mTo.scale();
     mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
 
-    WbMatrix4 m = mFrom.pseudoInversed() * mTo;
+    if (mNodeGetPose.first) {
+      WbMatrix4 mFrom(mNodeGetPose.first->matrix());
+      const WbVector3 &sFrom = mFrom.scale();
+      mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
+
+      m = mFrom.pseudoInversed() * mTo;
+    } else
+      m = mTo;
 
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_POSE;

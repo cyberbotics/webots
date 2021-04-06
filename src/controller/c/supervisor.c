@@ -662,9 +662,9 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
   }
-  if (pose_from_node_ref && pose_to_node_ref) {
+  if (pose_to_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
-    request_write_uint32(r, pose_from_node_ref->id);
+    request_write_uint32(r, pose_from_node_ref ? pose_from_node_ref->id : 0);
     request_write_uint32(r, pose_to_node_ref->id);
   }
   if (center_of_mass_node_ref) {
@@ -1859,7 +1859,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
-  if (!is_node_ref_valid(from_node)) {
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
     return invalid_vector;
@@ -1867,7 +1867,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_to' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 

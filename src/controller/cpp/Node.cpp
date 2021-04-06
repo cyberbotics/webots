@@ -105,7 +105,11 @@ const double *Node::getOrientation() const {
   return wb_supervisor_node_get_orientation(nodeRef);
 }
 
-const double *Node::getPose(const Node *fromNode=nullptr) const {
+const double *Node::getPose() const {
+  return wb_supervisor_node_get_pose(nodeRef, NULL);
+}
+
+const double *Node::getPose(const Node *fromNode) const {
   return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
 }
 

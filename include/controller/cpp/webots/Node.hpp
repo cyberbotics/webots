@@ -130,6 +130,7 @@ namespace webots {
     Field *getProtoField(const std::string &fieldName) const;
     const double *getPosition() const;
     const double *getOrientation() const;
+    const double *getPose() const;
     const double *getPose(const Node *fromNode) const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;

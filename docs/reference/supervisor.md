@@ -769,7 +769,7 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
-const double *wb_supervisor_node_get_pose(WbNodeRef node[, WbNodeRef from_node]);
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
 ```
 
 %tab-end
@@ -825,7 +825,7 @@ public class Node {
 ```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
-pose = wb_supervisor_node_get_pose(node[, from_node])
+pose = wb_supervisor_node_get_pose(node, from_node=0)
 ```
 
 %tab-end
