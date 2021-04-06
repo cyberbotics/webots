@@ -1,6 +1,6 @@
 ## Niryo's Ned
 
-%robot ned images/robots/ned/model.png
+%robot ned images/robots/ned/model.thumbnail.png
 
 "Ned" is a 6-axis collaborative robot developed by [Niryo](https://niryo.com/). It is  based on open-source technologies designed for Education, Professional Training and Research.
 
