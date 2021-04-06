@@ -1,4 +1,5 @@
 import {Stream} from './stream.js';
+import {webots} from './webots.js';
 
 class Server {
   constructor(url, view, onready) {
@@ -21,39 +22,34 @@ class Server {
   }
 
   connect() {
-    let xhr = new XMLHttpRequest();
     const n = this.url.indexOf('/session?url=', 6);
     const url = 'http' + (n > 0 ? this.url.substring(2, n + 8) : this.url.substring(2, this.url.indexOf('/', 6)) + '/session');
-    xhr.open('GET', url, true);
     $('#webotsProgressMessage').html('Connecting to session server...');
-    xhr.onreadystatechange = (e) => {
-      if (xhr.readyState !== 4)
-        return;
-      if (xhr.status !== 200)
-        return;
-      const data = xhr.responseText;
-      if (data.startsWith('Error:')) {
-        $('#webotsProgress').hide();
-        let errorMessage = data.substring(6).trim();
-        errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
-        webots.alert('Session server error', errorMessage);
-        return;
-      }
-      this.socket = new WebSocket(data + '/client');
-      this.socket.onopen = (event) => {
-        this.onOpen(event);
-      };
-      this.socket.onmessage = (event) => {
-        this.onMessage(event);
-      };
-      this.socket.onclose = (event) => {
-        console.log('Disconnected from the Webots server.');
-      };
-      this.socket.onerror = (event) => {
-        console.error('Cannot connect to the simulation server');
-      };
-    };
-    xhr.send();
+    let self = this;
+    fetch(url)
+      .then(response => response.text())
+      .then(function(data) {
+        if (data.startsWith('Error:')) {
+          $('#webotsProgress').hide();
+          let errorMessage = data.substring(6).trim();
+          errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
+          webots.alert('Session server error', errorMessage);
+          return;
+        }
+        self.socket = new WebSocket(data + '/client');
+        self.socket.onopen = (event) => {
+          self.onOpen(event);
+        };
+        self.socket.onmessage = (event) => {
+          self.onMessage(event);
+        };
+        self.socket.onclose = (event) => {
+          console.log('Disconnected from the Webots server.');
+        };
+        self.socket.onerror = (event) => {
+          console.error('Cannot connect to the simulation server');
+        };
+      });
   }
 
   onOpen(event) {
