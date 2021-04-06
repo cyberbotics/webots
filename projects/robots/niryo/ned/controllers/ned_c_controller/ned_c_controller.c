@@ -150,29 +150,29 @@ int main(int argc, char **argv) {
       wb_motor_set_position(motors[5], 1.4);
       break;
 
-    case 66:
+    case 'B':
       printf("Move --> Joint6");
       wb_motor_set_position(motors[6], 1.5);
       break;
 
-    case 78:
+    case 'N':
       printf("Move --> Joint6");
       wb_motor_set_position(motors[6], -1.5);
       break;
 
-    case 76:
+    case 'L':
       printf("Open Gripper");
       wb_motor_set_position(gripper[1], 0.01);
       wb_motor_set_position(gripper[2], 0.01);
       break;
 
-    case 77:
+    case 'M':
       printf("Close Gripper");
       wb_motor_set_position(gripper[1], 0.0);
       wb_motor_set_position(gripper[2], 0.0);
       break;
 
-    case 68: // demo
+    case 'D': // demo
 
       wb_motor_set_velocity(motors[1], 1.0);
       wb_motor_set_velocity(motors[2], 1.0);
@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
       wb_motor_set_position(gripper[2], 0.01);
       break;
 
-    case 80: // pick and place
+    case 'P': // pick and place
 
       wb_motor_set_velocity(motors[1], 0.5);
       wb_motor_set_velocity(motors[2], 0.5);
