@@ -758,7 +758,7 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 #### `wb_supervisor_node_get_position`
 #### `wb_supervisor_node_get_orientation`
-#### `wb_supervisor_node_get_relative_pose`
+#### `wb_supervisor_node_get_pose`
 
 %tab-component "language"
 
@@ -769,7 +769,7 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
-const double *wb_supervisor_node_get_relative_pose(WbNodeRef from_node, WbNodeRef to_node);
+const double *wb_supervisor_node_get_pose(WbNodeRef node[, WbNodeRef from_node]);
 ```
 
 %tab-end
@@ -783,7 +783,7 @@ namespace webots {
   class Node {
     const double *getPosition() const;
     const double *getOrientation() const;
-    const double *getRelativePose(const Node* toNode) const;
+    const double *getPose(const Node* fromNode = nullptr) const;
     // ...
   }
 }
@@ -799,7 +799,7 @@ from controller import Node
 class Node:
     def getPosition(self):
     def getOrientation(self):
-    def getRelativePose(self, toNode):
+    def getPose(self, fromNode=None):
     # ...
 ```
 
@@ -813,7 +813,7 @@ import com.cyberbotics.webots.controller.Node;
 public class Node {
   public double[] getPosition();
   public double[] getOrientation();
-  public double[] getRelativePose(Node toNode);
+  public double[] getPose(Node fromNode=null);
   // ...
 }
 ```
@@ -825,7 +825,7 @@ public class Node {
 ```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
-pose = wb_supervisor_node_get_relative_pose(from_node, to_node)
+pose = wb_supervisor_node_get_pose(node[, from_node])
 ```
 
 %tab-end
@@ -836,6 +836,7 @@ pose = wb_supervisor_node_get_relative_pose(from_node, to_node)
 | --- | --- | --- | --- |
 | `/supervisor/node/get_position` | `service` | `webots_ros::node_get_position` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
 | `/supervisor/node/get_orientation` | `service` | `webots_ros::node_get_orientation` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
+| `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
 
 %tab-end
 
@@ -874,8 +875,9 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-The `wb_supervisor_node_get_relative_pose` function returns an array of 16 values.
-The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents a relative transform between two nodes.
+The `wb_supervisor_node_get_pose` function returns an array of 16 values.
+The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents an absolute transform of the node.
+If the `from_node` argument is given than the function returns a relative pose of the node in respect of the node `from_node`.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 

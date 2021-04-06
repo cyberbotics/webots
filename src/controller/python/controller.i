@@ -99,7 +99,7 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
-  else if (test == "getRelativePose")
+  else if (test == "getPose")
     len = 16;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)

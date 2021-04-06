@@ -388,8 +388,8 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static double *relative_pose = NULL;
-static WbNodeRef relative_pose_from_node_ref = NULL;
-static WbNodeRef relative_pose_to_node_ref = NULL;
+static WbNodeRef pose_from_node_ref = NULL;
+static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -662,10 +662,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
   }
-  if (relative_pose_from_node_ref && relative_pose_to_node_ref) {
-    request_write_uchar(r, C_SUPERVISOR_NODE_GET_RELATIVE_POSE);
-    request_write_uint32(r, relative_pose_from_node_ref->id);
-    request_write_uint32(r, relative_pose_to_node_ref->id);
+  if (pose_from_node_ref && pose_to_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
+    request_write_uint32(r, pose_from_node_ref->id);
+    request_write_uint32(r, pose_to_node_ref->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -973,7 +973,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       for (i = 0; i < 9; i++)
         orientation_node_ref->orientation[i] = request_read_double(r);
       break;
-    case C_SUPERVISOR_NODE_GET_RELATIVE_POSE:
+    case C_SUPERVISOR_NODE_GET_POSE:
       free(relative_pose);
       relative_pose = malloc(16 * sizeof(double));
       for (i = 0; i < 16; i++)
@@ -1855,7 +1855,7 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
   return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }
 
-const double *wb_supervisor_node_get_relative_pose(WbNodeRef from_node, WbNodeRef to_node) {
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
@@ -1865,18 +1865,18 @@ const double *wb_supervisor_node_get_relative_pose(WbNodeRef from_node, WbNodeRe
     return invalid_vector;
   }
 
-  if (!is_node_ref_valid(to_node)) {
+  if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_to' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
   robot_mutex_lock_step();
-  relative_pose_from_node_ref = from_node;
-  relative_pose_to_node_ref = to_node;
+  pose_from_node_ref = from_node;
+  pose_to_node_ref = node;
   wb_robot_flush_unlocked();
-  relative_pose_from_node_ref = NULL;
-  relative_pose_to_node_ref = NULL;
+  pose_from_node_ref = NULL;
+  pose_to_node_ref = NULL;
   robot_mutex_unlock_step();
   return relative_pose ? relative_pose : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }

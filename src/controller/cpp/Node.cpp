@@ -105,8 +105,8 @@ const double *Node::getOrientation() const {
   return wb_supervisor_node_get_orientation(nodeRef);
 }
 
-const double *Node::getRelativePose(const Node *toNode) const {
-  return wb_supervisor_node_get_relative_pose(nodeRef, toNode->nodeRef);
+const double *Node::getPose(const Node *fromNode=nullptr) const {
+  return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
 }
 
 const double *Node::getCenterOfMass() const {

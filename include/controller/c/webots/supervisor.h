@@ -109,7 +109,7 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);
-const double *wb_supervisor_node_get_relative_pose(WbNodeRef from_node, WbNodeRef to_node);
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
 bool wb_supervisor_node_get_static_balance(WbNodeRef node);
 const double *wb_supervisor_node_get_velocity(WbNodeRef node);
 void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]);

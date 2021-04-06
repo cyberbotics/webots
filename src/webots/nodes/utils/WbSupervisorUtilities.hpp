@@ -84,7 +84,7 @@ private:
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
-  QPair<WbTransform *, WbTransform *> mNodeGetRelativePose;
+  QPair<WbTransform *, WbTransform *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
   bool mGetContactPointsIncludeDescendants;

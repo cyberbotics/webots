@@ -44,11 +44,11 @@ int main(int argc, char **argv) {
   ts_assert_doubles_in_delta(9, orientation, ROTATION, 0.0001,
                              "wb_supervisor_node_get_orientation() did not return the expected values for scaled node.");
 
-  const double *pose = wb_supervisor_node_get_relative_pose(node_parent, node);
+  const double *pose = wb_supervisor_node_get_pose(node, node_parent);
   const double POSE[] = {-1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.3, 0.0, 0.0, 0.0, 1.0};
 
   ts_assert_doubles_in_delta(16, pose, POSE, 0.0001,
-                             "wb_supervisor_node_get_relative_pose() did not return the expected values.");
+                             "wb_supervisor_node_get_pose() did not return the expected values.");
 
   ts_send_success();
   return EXIT_SUCCESS;

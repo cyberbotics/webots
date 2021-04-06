@@ -763,7 +763,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."));
       return;
     }
-    case C_SUPERVISOR_NODE_GET_RELATIVE_POSE: {
+    case C_SUPERVISOR_NODE_GET_POSE: {
       unsigned int idFrom;
       unsigned int idTo;
 
@@ -772,13 +772,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
       WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
-      mNodeGetRelativePose.first = transformFrom;
+      mNodeGetPose.first = transformFrom;
       WbNode *const nodeTo = getProtoParameterNodeInstance(WbNode::findNode(idTo));
       WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
-      mNodeGetRelativePose.second = transformTo;
+      mNodeGetPose.second = transformTo;
 
       if (!transformTo || !transformFrom)
-        mRobot->warn(tr("wb_supervisor_node_get_relative_pose() can exclusively be used with Transform (or derived)."));
+        mRobot->warn(tr("wb_supervisor_node_get_pose() can exclusively be used with Transform (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS: {
@@ -1520,26 +1520,26 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2);
     mNodeGetOrientation = NULL;
   }
-  if (mNodeGetRelativePose.first && mNodeGetRelativePose.second) {
-    WbMatrix4 mFrom(mNodeGetRelativePose.first->matrix());
+  if (mNodeGetPose.first && mNodeGetPose.second) {
+    WbMatrix4 mFrom(mNodeGetPose.first->matrix());
     const WbVector3 &sFrom = mFrom.scale();
     mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
 
-    WbMatrix4 mTo(mNodeGetRelativePose.second->matrix());
+    WbMatrix4 mTo(mNodeGetPose.second->matrix());
     const WbVector3 &sTo = mTo.scale();
     mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
 
     WbMatrix4 m = mFrom.pseudoInversed() * mTo;
 
     stream << (short unsigned int)0;
-    stream << (unsigned char)C_SUPERVISOR_NODE_GET_RELATIVE_POSE;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_POSE;
     stream << (double)m(0, 0) << (double)m(0, 1) << (double)m(0, 2) << (double)m(0, 3);
     stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
     stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
 
-    mNodeGetRelativePose.first = NULL;
-    mNodeGetRelativePose.second = NULL;
+    mNodeGetPose.first = NULL;
+    mNodeGetPose.second = NULL;
   }
   if (mNodeGetCenterOfMass) {
     const WbVector3 &com = mNodeGetCenterOfMass->computedGlobalCenterOfMass();
