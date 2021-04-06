@@ -1,0 +1,301 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 0 1.8532829257529249 -0.00033219524735827424
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    Transform {
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor 0 0 0
+          }
+          device [
+            RotationalMotor {
+              name "reference motor"
+            }
+            PositionSensor {
+              name "reference sensor"
+            }
+          ]
+          endPoint Solid {
+            name "reference"
+            children [
+              DEF PIVOT_CYLINDER Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE Appearance {
+                      material Material {
+                        specularColor 1 1 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.02
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF ROD_CYLINDER Transform {
+                translation 0 0.05 -0.1
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.005
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF HEAD_CONE Transform {
+                translation 0 0.05 -0.25
+                rotation 1 0 0 -1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cone {
+                      bottomRadius 0.01
+                      height 0.04
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Group {
+              children [
+                USE PIVOT_CYLINDER
+                USE ROD_CYLINDER
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.1
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.5 0 0
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "reference motor"
+              multiplier 2
+            }
+            PositionSensor {
+              name "positive multiplier sensor"
+            }
+          ]
+          endPoint Solid {
+            name "positive multiplier"
+            children [
+              DEF PIVOT_CYLINDER Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE Appearance {
+                      material Material {
+                        specularColor 1 1 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.02
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF ROD_CYLINDER Transform {
+                translation 0 0.05 -0.1
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.005
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF HEAD_CONE Transform {
+                translation 0 0.05 -0.25
+                rotation 1 0 0 -1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cone {
+                      bottomRadius 0.01
+                      height 0.04
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Group {
+              children [
+                USE PIVOT_CYLINDER
+                USE ROD_CYLINDER
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.1
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.5 0 0
+      children [
+        DEF BASE_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "reference motor"
+              multiplier -2
+            }
+            PositionSensor {
+              name "negative multiplier sensor"
+            }
+          ]
+          endPoint Solid {
+            name "negative multiplier"
+            children [
+              DEF PIVOT_CYLINDER Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE Appearance {
+                      material Material {
+                        specularColor 1 1 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.02
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF ROD_CYLINDER Transform {
+                translation 0 0.05 -0.1
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.005
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF HEAD_CONE Transform {
+                translation 0 0.05 -0.25
+                rotation 1 0 0 -1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cone {
+                      bottomRadius 0.01
+                      height 0.04
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Group {
+              children [
+                USE PIVOT_CYLINDER
+                USE ROD_CYLINDER
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.1
+            }
+          }
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "coupled_motor"
+}
+TestSuiteSupervisor {
+}

@@ -382,10 +382,22 @@ double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
     const double outputValue =
       mControlPID->value().x() * error + mControlPID->value().y() * mErrorIntegral + mControlPID->value().z() * errorDerivative;
     mPreviousError = error;
-    if (fabs(outputValue) < mTargetVelocity)
+    if (fabs(outputValue) > mTargetVelocity)
+      velocity = outputValue > 0.0 ? mTargetVelocity : -mTargetVelocity;
+    else
+      velocity = outputValue;
+    /*
+    if (fabs(outputValue) < mTargetVelocity) {
       velocity = -outputValue;
-    else if (error < 0.0)
+      printf("a\n");
+    } else if (error < 0.0) {
       velocity = mTargetVelocity;
+      printf("b\n");
+    } else {
+      printf("x\n");
+    }
+    */
+    printf("pid control, error %f / %f // %f || %f\n", error, outputValue, mTargetVelocity, velocity);
   }
 
   // try to get closer to velocity
@@ -408,6 +420,7 @@ double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
 
 // run control without physics simulation
 bool WbMotor::runKinematicControl(double ms, double &position) {
+  printf("running kinematic\n");
   static const double TARGET_POSITION_THRESHOLD = 1e-6;
   bool doNothing = false;
   if (std::isinf(mTargetPosition)) {  // velocity control
@@ -697,8 +710,9 @@ void WbMotor::awake() const {
 void WbMotor::setTargetPosition(double targetPosition) {
   const double maxp = mMaxPosition->value();
   const double minp = mMinPosition->value();
-  mTargetPosition = targetPosition * mMultiplier->value();
-  const bool velocityControl = std::isinf(mTargetPosition);
+  const bool velocityControl = std::isinf(targetPosition);
+  mTargetPosition = velocityControl ? targetPosition : targetPosition * mMultiplier->value();
+  printf("received %f, target is %f\n", targetPosition, mTargetPosition);
   if (maxp != minp && !velocityControl) {
     if (targetPosition > maxp) {
       mTargetPosition = maxp;
