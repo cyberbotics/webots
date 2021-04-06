@@ -24,12 +24,16 @@ function parse(buffer) {
   let dec = new TextDecoder('utf-8');
   let dat = dec.decode(buffer);
   const lines = dat.split('\n');
-  const dimension = lines[3].split(' ');
+  let number = lines[3] === '' ? 4 : 3;
+  const dimension = lines[number].split(' ');
   let width = parseInt(dimension[1]);
   let height = parseInt(dimension[3]);
 
   const byteArray = new Uint8Array(buffer);
   byteArray.pos = lines[0].length + lines[1].length + lines[2].length + lines[3].length + 4;
+
+  if (number === 4)
+    byteArray.pos += lines[4].length + 1;
 
   const imageRgbaData = new Uint8Array(byteArray.subarray(byteArray.pos));
   let data;
