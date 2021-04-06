@@ -54,11 +54,11 @@ public:
   bool runKinematicControl(double ms, double &position);
   double currentVelocity() const { return mCurrentVelocity; }
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
-  void setTargetPosition(double targetPosition);
-  void setTargetVelocity(double targetVelocity);
-  void enforceAcceleration(double desiredAcceleration);
-  void setForceOrTorque(double forceOrTorque);
-  void setAvailableForceOrTorque(double availableForceOrTorque);
+  void setTargetPosition(double targetPosition, double senderMultiplier = 1.0);
+  void setTargetVelocity(double targetVelocity, double senderMultiplier = 1.0);
+  void enforceAcceleration(double desiredAcceleration, double senderMultiplier = 1.0);
+  void setForceOrTorque(double forceOrTorque, double senderMultiplier = 1.0);
+  void setAvailableForceOrTorque(double availableForceOrTorque, double senderMultiplier = 1.0);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;

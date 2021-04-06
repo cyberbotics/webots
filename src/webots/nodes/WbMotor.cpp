@@ -610,7 +610,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setTargetPosition(targetPosition);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setTargetPosition(targetPosition);
+        mCoupledMotors[i]->setTargetPosition(targetPosition, multiplier());
       }
       break;
     }
@@ -620,7 +620,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setTargetVelocity(targetVelocity);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setTargetVelocity(targetVelocity);
+        mCoupledMotors[i]->setTargetVelocity(targetVelocity, multiplier());
       }
       break;
     }
@@ -630,7 +630,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       enforceAcceleration(acceleration);
       // relay target acceleration to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->enforceAcceleration(acceleration);
+        mCoupledMotors[i]->enforceAcceleration(acceleration, multiplier());
       }
       break;
     }
@@ -640,7 +640,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setForceOrTorque(forceOrTorque);
       // relay force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setForceOrTorque(forceOrTorque);
+        mCoupledMotors[i]->setForceOrTorque(forceOrTorque, multiplier());
       }
       break;
     }
@@ -744,12 +744,14 @@ void WbMotor::awake() const {
   }
 }
 
-void WbMotor::setTargetPosition(double targetPosition) {
+void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) {
   const double maxp = mMaxPosition->value();
   const double minp = mMinPosition->value();
   const bool velocityControl = std::isinf(targetPosition);
-  mTargetPosition = velocityControl ? targetPosition : targetPosition * mMultiplier->value();
+  mTargetPosition = velocityControl ? targetPosition : targetPosition * mMultiplier->value() / senderMultiplier;
+
   printf("received %f, target is %f\n", targetPosition, mTargetPosition);
+
   if (maxp != minp && !velocityControl) {
     if (targetPosition > maxp) {
       mTargetPosition = maxp;
@@ -764,8 +766,8 @@ void WbMotor::setTargetPosition(double targetPosition) {
   awake();
 }
 
-void WbMotor::setTargetVelocity(double targetVelocity) {
-  mTargetVelocity = targetVelocity * mMultiplier->value();
+void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) {
+  mTargetVelocity = targetVelocity * mMultiplier->value() / senderMultiplier;
   const double m = mMaxVelocity->value();
   const bool isNegative = mTargetVelocity < 0.0;
   if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
@@ -775,8 +777,8 @@ void WbMotor::setTargetVelocity(double targetVelocity) {
   awake();
 }
 
-void WbMotor::enforceAcceleration(double desiredAcceleration) {
-  mAcceleration->setValue(desiredAcceleration * fabs(mMultiplier->value()));
+void WbMotor::enforceAcceleration(double desiredAcceleration, double senderMultiplier) {
+  mAcceleration->setValue(desiredAcceleration * fabs(mMultiplier->value() / fabs(senderMultiplier)));
   awake();
 }
 
@@ -795,12 +797,12 @@ void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
   awake();
 }
 
-void WbMotor::setForceOrTorque(double forceOrTorque) {
+void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
   if (!mUserControl)  // we were previously using motor force
     turnOffMotor();
   mUserControl = true;
 
-  mRawInput = forceOrTorque / mMultiplier->value();
+  mRawInput = forceOrTorque / mMultiplier->value() * senderMultiplier;
   if (fabs(mRawInput) > mMotorForceOrTorque) {
     if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
       warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
@@ -811,8 +813,8 @@ void WbMotor::setForceOrTorque(double forceOrTorque) {
   awake();
 }
 
-void WbMotor::setAvailableForceOrTorque(double forceOrTorque) {
-  mMotorForceOrTorque = forceOrTorque / mMultiplier->value();
+void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMultiplier) {
+  mMotorForceOrTorque = forceOrTorque / mMultiplier->value() * senderMultiplier;
   const double m = mMaxForceOrTorque->value();
   if (mMotorForceOrTorque > m) {
     if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
