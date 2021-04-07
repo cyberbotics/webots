@@ -28,7 +28,29 @@ import sys
 import time
 from types import SimpleNamespace
 
-global supervisor, game, red_team, blue_team
+global supervisor, game, red_team, blue_team, log_file, time_count
+global REAL_TIME_FACTOR
+
+
+def log(message, type):
+    console_message = f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}' if type == 'Warning' \
+                      else message
+    print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
+    if log_file:
+        real_time = int(1000 * time.time()) / 1000
+        log_file.write(f'[{real_time:.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+
+
+def info(message):
+    log(message, 'Info')
+
+
+def warning(message):
+    log(message, 'Warning')
+
+
+def error(message):
+    log(message, 'Error')
 
 
 def spawn_team(team, color, red_on_right, children):
@@ -66,7 +88,7 @@ def format_time(s):
 def update_time_display():
     if game.state:
         if game.state.seconds_remaining == 600 and game.state.game_state == 'STATE_PLAYING':
-            print('Error: GameController sent "600 seconds remaining"!', file=sys.stderr)
+            error('GameController sent "600 seconds remaining"!')
             return
         s = game.state.seconds_remaining
         if s < 0:
@@ -91,8 +113,6 @@ def update_state_display():
             if state == 'PLAYING':
                 state = 'PLAY'
             state += ': ' + format_time(sr)
-        elif state == 'PLAYING' and game.state.seconds_remaining <= 0:
-            state = 'EXTRA: ' + format_time(game.extra_seconds)
     else:
         state = ''
     supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
@@ -156,7 +176,7 @@ def game_controller_heartbeat():
     try:
         game.udp_out.sendto(ReturnData.build(heartbeat), ('127.0.0.1', 3939))
     except Exception as e:
-        print(f'Error: UDP out failure: {e}', file=sys.stderr)
+        error(f'UDP out failure: {e}')
         return
     data = None
     try:
@@ -164,10 +184,10 @@ def game_controller_heartbeat():
     except BlockingIOError:
         return
     except Exception as e:
-        print(f'Error: UDP input failure: {e}', file=sys.stderr)
+        error(f'UDP input failure: {e}')
         pass
     if not data:
-        print(f'No UDP data received', file=sys.stderr)
+        error(f'No UDP data received')
         return
     previous_seconds_remaining = game.state.seconds_remaining if game.state else None
     previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else None
@@ -182,7 +202,6 @@ def game_controller_heartbeat():
         previous_blue_score = 0
 
     game.state = GameState.parse(data)
-    # print(f'Score: {game.state.teams[0].score}-{game.state.teams[1].score}')
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
        game.state.seconds_remaining == 0:
@@ -194,7 +213,7 @@ def game_controller_heartbeat():
     if previous_red_score != game.state.teams[red].score or \
        previous_blue_score != game.state.teams[blue].score:
         update_score_display()
-    print(game.state)
+    # print(game.state)
     info = str(game.state.secondary_state_info)
     secondary_state = game.state.secondary_state
     if secondary_state != 'STATE_NORMAL':
@@ -214,29 +233,33 @@ def game_controller_send(message):
                     try:
                         id, result = answer.split(':')
                     except ValueError:
-                        print(f'Cannot split {answer}', file=sys.stderr)
+                        error(f'Cannot split {answer}')
                     try:
                         message = game_controller_send.unanswered[int(id)]
                         del game_controller_send.unanswered[int(id)]
                     except KeyError:
-                        print(f'Warning: received acknowledgment message for unknown message: {id}', file=sys.stderr)
+                        error(f'Received acknowledgment message for unknown message: {id}')
                         return
                     if result == 'OK':
                         return
                     if result == 'ILLEGAL':
-                        print(f'Warning: received illegal answer from GameController for message {id}:{message}.',
-                              file=sys.stderr)
+                        error(f'Received illegal answer from GameController for message {id}:{message}.')
                     elif result == 'INVALID':
-                        print(f'Warning: received invalid answer from GameController for message {id}:{message}.',
-                              file=sys.stderr)
+                        error(f'Received invalid answer from GameController for message {id}:{message}.')
                     else:
-                        print(f'Warning: received unknown answer from GameController: {answer}.', file=sys.stderr)
+                        error(f'Warning: received unknown answer from GameController: {answer}.')
             except BlockingIOError:
                 return
 
 
 game_controller_send.id = 0
 game_controller_send.unanswered = {}
+
+time_count = 0
+REAL_TIME_FACTOR = 3  # simulated time is running 3 times slower than real time
+# REAL_TIME_FACTOR = 1  # used for testing (runs faster)
+
+log_file = open('log.txt', 'w')
 
 # read configuration files
 with open('game.json') as json_file:
@@ -256,8 +279,7 @@ if len(blue_team['name']) > 12:
 # check if the host parameter of the game.json file correspond to the actual host
 host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
-    print('Warning: host is not correctly defined in game.json file, it should be ' + host + ' instead of ' + game.host,
-          file=sys.stderr)
+    error(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
 # launch the GameController
 try:
@@ -265,7 +287,7 @@ try:
     try:
         GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
         if not os.path.exists(GAME_CONTROLLER_HOME):
-            print(f'Error: {GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.', file=sys.stderr)
+            error(f'{GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.')
             game.controller_process = None
         else:
             copyfile('game.json', os.path.join(GAME_CONTROLLER_HOME, 'resources', 'config', 'sim', 'game.json'))
@@ -280,12 +302,12 @@ try:
     except KeyError:
         GAME_CONTROLLER_HOME = None
         game.controller_process = None
-        print('Warning: GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
+        error('GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.')
 except KeyError:
     JAVA_HOME = None
     GAME_CONTROLLER_HOME = None
     game.controller_process = None
-    print('Warning: JAVA_HOME environment variable not set, unable to launch GameController.', file=sys.stderr)
+    error('Warning: JAVA_HOME environment variable not set, unable to launch GameController.')
 
 # start the webots supervisor
 supervisor = Supervisor()
@@ -302,8 +324,8 @@ ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
                                 f'size {ball_size} }}')
 game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
+game.kickoff = random.randint(1, 2)
 game.state = None
-game.extra_seconds = 0
 game.font_size = 0.1
 game.font = 'Lucida Console'
 game.overlay_x = 0.02
@@ -327,16 +349,14 @@ if game.controller_process:
         except socket.error as msg:
             retry += 1
             if retry <= 10:
-                print(f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}' +
-                      f'Warning: could not connect to GameController at localhost:8750: {msg}. ' +
-                      f'Retrying ({retry}/10)...{AnsiCodes.RESET}')
+                warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
                 time.sleep(1)  # give some time to allow the GameControllerSimulator to start-up
                 supervisor.step(time_step)
             else:
-                print('Warning: could not connect to GameController at localhost:8750: Giving up.', file=sys.stderr)
+                error('Could not connect to GameController at localhost:8750.')
                 game.controller = None
                 break
-    print('Connected to GameControllerSimulator at localhost:8750')
+    info('Connected to GameControllerSimulator at localhost:8750')
     game.udp_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     game.udp_in.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     game.udp_in.bind(('0.0.0.0', 3838))
@@ -348,32 +368,34 @@ else:
 
 update_state_display()
 game_controller_send(f'SIDE_LEFT:{game.side_left}')
-game_controller_send(f'KICKOFF:{random.randint(1, 2)}')  # toss a coin to determine which team has kickoff
-game_controller_send(f'STATE:READY')
+info(f'Left side is {game.side_left}')
+game_controller_send(f'KICKOFF:{game.kickoff}')  # toss a coin to determine which team has kickoff
+info(f'Kickoff is {game.kickoff}')
 
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
+game.ready_countdown = (int)(120000 / (REAL_TIME_FACTOR * time_step))  # 2 real minutes before we enter the ready state
 game.play_countdown = 0
 game.finish_countdown = 0
-time_count = 0
 previous_seconds_remaining = 0
+real_time_start = time.time()
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
     game_controller_heartbeat()
     if game.state is None:
-        continue
-    if game.state.game_state == 'STATE_PLAYING':
+        pass
+    elif game.state.game_state == 'STATE_PLAYING':
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
-            print(f'{game.state.seconds_remaining}:{game.extra_seconds}')
             previous_seconds_remaining = game.state.seconds_remaining
-            if game.state.seconds_remaining + game.extra_seconds <= 0:
-                game.extra_seconds = 0
-                if game.state.first_half:
-                    print('End of first half')
-                    game.finish_countdown = int(2000 / time_step)  # two seconds half time break
+            if game.state.seconds_remaining <= 0:
                 game_controller_send(f'STATE:FINISH')
+                if game.state.first_half:
+                    info('End of first half')
+                    game.finish_countdown = int(15000 / (REAL_TIME_FACTOR * time_step))  # 15 real seconds for half time break
+                else:
+                    info('End of match')
         ball_translation = game.ball_translation.getSFVec3f()
         if game.ball_exited_countdown == 0 and \
             (ball_translation[1] > game.field_size_y or
@@ -402,7 +424,7 @@ while supervisor.step(time_step) != -1:
             if scoring_team:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_team}')
-                game.extra_seconds += 50  # 45 seconds for READY state, plus 5 seconds for SET state.
+                info(f'Score: {scoring_team}')
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
@@ -412,17 +434,22 @@ while supervisor.step(time_step) != -1:
         game.play_countdown -= 1
         if game.play_countdown == 0:
             game_controller_send(f'STATE:PLAY')
+            info('State: PLAYING')
     elif game.state.game_state == 'STATE_FINISHED':
+        game.finish_countdown -= 1
         if game.state.first_half:
             if game.finish_countdown == 0:
-                print('End of the game: the winner is...')
-            else:
-                game.finish_countdown -= 1
-                if game.finish_countdown == 0:
-                    game_controller_send('STATE:READY')  # begining of second half
+                game_controller_send('STATE:READY')  # begining of second half
+        else:
+            if game.finish_countdown == 0:
+                info('End of the game: the winner is...')
 
     elif game.state.game_state == 'STATE_INITIAL':
-        pass
+        if game.ready_countdown > 0:
+            game.ready_countdown -= 1
+            if game.ready_countdown == 0:
+                game_controller_send(f'STATE:READY')
+                info('State: READY')
 
     if game.ball_exited_countdown > 0:
         game.ball_exited_countdown -= 1
@@ -431,7 +458,12 @@ while supervisor.step(time_step) != -1:
             game.ball.resetPhysics()
 
     time_count += time_step
+    delta_time = real_time_start - time.time() + REAL_TIME_FACTOR * time_count / 1000
+    if delta_time > 0:
+        time.sleep(delta_time)
 
+if log_file:
+    log_file.close()
 if game.controller:
     game.controller.close()
 if game.controller_process:
