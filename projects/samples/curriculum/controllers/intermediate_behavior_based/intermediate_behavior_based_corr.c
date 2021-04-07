@@ -93,6 +93,7 @@ int find_middle(int tab[], int sizeTab) {
         index = j;
       }
     }
+    assert(index >= 0);
     index_bests[i] = index;
     copy[index] = 0;
   }
