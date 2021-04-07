@@ -825,7 +825,8 @@ public class Node {
 ```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
-pose = wb_supervisor_node_get_pose(node, from_node=0)
+pose = wb_supervisor_node_get_pose(node)
+pose = wb_supervisor_node_get_pose(node, from_node)
 ```
 
 %tab-end
