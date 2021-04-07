@@ -104,7 +104,7 @@ void WbCamera::init() {
   mExposure = findSFDouble("exposure");
 
   // backward compatibility
-  WbSFString *type = findSFString("type");
+  const WbSFString *type = findSFString("type");
   if (type->value().startsWith('r', Qt::CaseInsensitive))
     parsingWarn("Range finder type is not available for camera since Webots 8.4, please use a RangeFinder node instead.");
 
@@ -282,51 +282,44 @@ void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, do
   // check if mouse is over an object
   int objectIndex = -1;
   for (int i = 0; i < mRecognizedObjects.size(); ++i) {
-    if (overlayX < (mRecognizedObjects.at(i)->positionOnImage().x()) - (mRecognizedObjects.at(i)->pixelSize().x() / 2))
+    const WbVector2 positionOnImage = mRecognizedObjects.at(i)->positionOnImage();
+    const WbVector2 pixelsSize = mRecognizedObjects.at(i)->pixelSize();
+    if (overlayX < positionOnImage.x() - pixelsSize.x() / 2)
       continue;
-    if (overlayX > (mRecognizedObjects.at(i)->positionOnImage().x()) + (mRecognizedObjects.at(i)->pixelSize().x() / 2))
+    if (overlayX > positionOnImage.x() + pixelsSize.x() / 2)
       continue;
-    if (overlayY < (mRecognizedObjects.at(i)->positionOnImage().y()) - (mRecognizedObjects.at(i)->pixelSize().y() / 2))
+    if (overlayY < positionOnImage.y() - pixelsSize.y() / 2)
       continue;
-    if (overlayY > (mRecognizedObjects.at(i)->positionOnImage().y()) + (mRecognizedObjects.at(i)->pixelSize().y() / 2))
+    if (overlayY > positionOnImage.y() + pixelsSize.y() / 2)
       continue;
     objectIndex = i;
     break;
   }
   // display information of the object (if any) in an overlay
   if (objectIndex >= 0) {
-    QString text(mRecognizedObjects.at(objectIndex)->model());
-    text += tr("\nId: %1").arg(mRecognizedObjects.at(objectIndex)->id());
+    const WbRecognizedObject *object = mRecognizedObjects.at(objectIndex);
+    QString text(object->model());
+    text += tr("\nId: %1").arg(object->id());
     text += tr("\nRelative position: %1 %2 %3")
-              .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->objectRelativePosition().x(),
-                                               WbPrecision::GUI_LOW))
-              .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->objectRelativePosition().y(),
-                                               WbPrecision::GUI_LOW))
-              .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->objectRelativePosition().z(),
-                                               WbPrecision::GUI_LOW));
-    text +=
-      tr("\nRelative orientation: %1 %2 %3 %4")
-        .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->relativeOrientation().x(), WbPrecision::GUI_LOW))
-        .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->relativeOrientation().y(), WbPrecision::GUI_LOW))
-        .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->relativeOrientation().z(), WbPrecision::GUI_LOW))
-        .arg(
-          WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->relativeOrientation().angle(), WbPrecision::GUI_LOW));
+              .arg(WbPrecision::doubleToString(object->objectRelativePosition().x(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->objectRelativePosition().y(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->objectRelativePosition().z(), WbPrecision::GUI_LOW));
+    text += tr("\nRelative orientation: %1 %2 %3 %4")
+              .arg(WbPrecision::doubleToString(object->relativeOrientation().x(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->relativeOrientation().y(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->relativeOrientation().z(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->relativeOrientation().angle(), WbPrecision::GUI_LOW));
     text += tr("\nSize: %1 %2")
-              .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->objectSize().x(), WbPrecision::GUI_LOW))
-              .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->objectSize().y(), WbPrecision::GUI_LOW));
-    text += tr("\nPosition on the image: %1 %2")
-              .arg(mRecognizedObjects.at(objectIndex)->positionOnImage().x())
-              .arg(mRecognizedObjects.at(objectIndex)->positionOnImage().y());
-    text += tr("\nSize on the image: %1 %2")
-              .arg(mRecognizedObjects.at(objectIndex)->pixelSize().x())
-              .arg(mRecognizedObjects.at(objectIndex)->pixelSize().y());
-    for (int i = 0; i < mRecognizedObjects.at(objectIndex)->colors().size(); ++i)
-      text +=
-        tr("\nColor %1: %2 %3 %4")
-          .arg(i)
-          .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->colors().at(i).red(), WbPrecision::GUI_LOW))
-          .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->colors().at(i).green(), WbPrecision::GUI_LOW))
-          .arg(WbPrecision::doubleToString(mRecognizedObjects.at(objectIndex)->colors().at(i).blue(), WbPrecision::GUI_LOW));
+              .arg(WbPrecision::doubleToString(object->objectSize().x(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->objectSize().y(), WbPrecision::GUI_LOW));
+    text += tr("\nPosition on the image: %1 %2").arg(object->positionOnImage().x()).arg(object->positionOnImage().y());
+    text += tr("\nSize on the image: %1 %2").arg(object->pixelSize().x()).arg(object->pixelSize().y());
+    for (int i = 0; i < object->colors().size(); ++i)
+      text += tr("\nColor %1: %2 %3 %4")
+                .arg(i)
+                .arg(WbPrecision::doubleToString(object->colors().at(i).red(), WbPrecision::GUI_LOW))
+                .arg(WbPrecision::doubleToString(object->colors().at(i).green(), WbPrecision::GUI_LOW))
+                .arg(WbPrecision::doubleToString(object->colors().at(i).blue(), WbPrecision::GUI_LOW));
     if (mLabelOverlay == NULL) {
       mLabelOverlay = WbWrenLabelOverlay::createOrRetrieve(WbWrenLabelOverlay::cameraCaptionOverlayId(),
                                                            WbStandardPaths::fontsPath() + "Arial.ttf");
@@ -387,14 +380,11 @@ void WbCamera::displayRecognizedObjectsInOverlay() {
     wr_texture_change_data(mRecognizedObjectsTexture, clearData, 0, 0, w, h);
 
     for (int i = 0; i < mRecognizedObjects.size(); ++i) {
-      const int x1 =
-        qMax(0, (int)(mRecognizedObjects.at(i)->positionOnImage().x() - mRecognizedObjects.at(i)->pixelSize().x() / 2 - 1));
-      const int x2 =
-        qMin(w - 1, (int)(mRecognizedObjects.at(i)->positionOnImage().x() + mRecognizedObjects.at(i)->pixelSize().x() / 2 + 1));
-      const int y1 =
-        qMax(0, (int)(mRecognizedObjects.at(i)->positionOnImage().y() - mRecognizedObjects.at(i)->pixelSize().y() / 2 - 1));
-      const int y2 =
-        qMin(h - 1, (int)(mRecognizedObjects.at(i)->positionOnImage().y() + mRecognizedObjects.at(i)->pixelSize().y() / 2 + 1));
+      const WbRecognizedObject *object = mRecognizedObjects.at(i);
+      const int x1 = qMax(0, (int)(object->positionOnImage().x() - object->pixelSize().x() / 2 - 1));
+      const int x2 = qMin(w - 1, (int)(object->positionOnImage().x() + object->pixelSize().x() / 2 + 1));
+      const int y1 = qMax(0, (int)(object->positionOnImage().y() - object->pixelSize().y() / 2 - 1));
+      const int y2 = qMin(h - 1, (int)(object->positionOnImage().y() + object->pixelSize().y() / 2 + 1));
 
       wr_texture_change_data(mRecognizedObjectsTexture, data, x1, y1, frameThickness, y2 - y1);
       wr_texture_change_data(mRecognizedObjectsTexture, data, x2 - frameThickness, y1, frameThickness, y2 - y1);
@@ -469,12 +459,13 @@ void WbCamera::updateRaysSetupIfNeeded() {
 
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
-  WbMatrix3 cameraRotation = rotationMatrix();
-  WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
-  double horizontalFieldOfView = fieldOfView();
-  double verticalFieldOfView = WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
-  WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView,
-                                                                         horizontalFieldOfView, recognition()->maxRange());
+  const WbMatrix3 cameraRotation = rotationMatrix();
+  const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
+  const double horizontalFieldOfView = fieldOfView();
+  const double verticalFieldOfView =
+    WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
+  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
+    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
@@ -546,10 +537,10 @@ void WbCamera::writeAnswer(QDataStream &stream) {
     if (refreshRecognitionSensorIfNeeded() || mRecognitionSensor->hasPendingValue()) {
       stream << tag();
       stream << (unsigned char)C_CAMERA_OBJECTS;
-      int numberOfObjects = mRecognizedObjects.size();
+      const int numberOfObjects = mRecognizedObjects.size();
       stream << (int)numberOfObjects;
       for (int i = 0; i < numberOfObjects; ++i) {
-        WbRecognizedObject *recognizedObject = mRecognizedObjects.at(i);
+        const WbRecognizedObject *recognizedObject = mRecognizedObjects.at(i);
         // id
         stream << (int)recognizedObject->id();
         // relative position
@@ -571,7 +562,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
         stream << (int)recognizedObject->pixelSize().x();
         stream << (int)recognizedObject->pixelSize().y();
         // colors
-        int numberOfColors = recognizedObject->colors().size();
+        const int numberOfColors = recognizedObject->colors().size();
         stream << (int)numberOfColors;
         for (int j = 0; j < numberOfColors; ++j) {
           stream << (double)recognizedObject->colors().at(j).red();
@@ -579,7 +570,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
           stream << (double)recognizedObject->colors().at(j).blue();
         }
         // model
-        QByteArray model = recognizedObject->model().toUtf8();
+        const QByteArray model = recognizedObject->model().toUtf8();
         stream.writeRawData(model.constData(), model.size() + 1);
       }
 
@@ -601,7 +592,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
         stream << (unsigned char)C_CAMERA_SEGMENTATION_SHARED_MEMORY;
         if (mSegmentationShm) {
           stream << (int)(mSegmentationShm->size());
-          QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
+          const QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
           stream.writeRawData(n.constData(), n.size() + 1);
         } else
           stream << (int)(0);
@@ -629,7 +620,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
       double fov;
       stream >> fov;
 
-      WbZoom *z = zoom();
+      const WbZoom *z = zoom();
       if (z) {
         if (fov >= z->minFieldOfView() && fov <= z->maxFieldOfView())
           mFieldOfView->setValue(fov);
@@ -693,15 +684,15 @@ void WbCamera::handleMessage(QDataStream &stream) {
 void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
   // compute the camera referential
   const WbVector3 cameraPosition = matrix().translation();
-  WbMatrix3 cameraRotation = rotationMatrix();
-  WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
-  double horizontalFieldOfView = fieldOfView();
-  double verticalFieldOfView = (horizontalFieldOfView * height()) / width();
-  WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView,
-                                                                         horizontalFieldOfView, recognition()->maxRange());
+  const WbMatrix3 cameraRotation = rotationMatrix();
+  const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
+  const double horizontalFieldOfView = fieldOfView();
+  const double verticalFieldOfView = (horizontalFieldOfView * height()) / width();
+  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
+    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
 
   // loop for each possible target to check if it is visible
-  QList<WbSolid *> objects = WbWorld::instance()->cameraRecognitionObjects();
+  const QList<WbSolid *> objects = WbWorld::instance()->cameraRecognitionObjects();
   for (int i = 0; i < objects.size(); i++) {
     WbSolid *object = objects.at(i);
     if (object == this || robot() == object || robot()->solidChildren().contains(object))
@@ -714,7 +705,8 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
     WbRecognizedObject *generatedObject =
       new WbRecognizedObject(this, object, needCollisionDetection, recognition()->maxRange());
     if (finalSetup) {
-      bool valid = computeObject(cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes, generatedObject, false);
+      const bool valid =
+        computeObject(cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes, generatedObject, false);
       if (!valid) {
         delete generatedObject;
         continue;
@@ -764,13 +756,13 @@ bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &c
   recognizedObject->setModel(recognizedObject->object()->model());
 
   // compute position and size in the camera image
-  WbVector3 objectSize = recognizedObject->objectSize();
-  WbVector2 centerPosition = projectOnImage(recognizedObject->objectRelativePosition());
+  const WbVector3 objectSize = recognizedObject->objectSize();
+  const WbVector2 centerPosition = projectOnImage(recognizedObject->objectRelativePosition());
   double minU = centerPosition.x();
   double minV = centerPosition.y();
   double maxU = centerPosition.x();
   double maxV = centerPosition.y();
-  WbVector3 corners[8] = {
+  const WbVector3 corners[8] = {
     // corners of the bounding box of the object in the camera referential
     recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), objectSize.y(), objectSize.z()),
     recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), objectSize.y(), objectSize.z()),
@@ -781,7 +773,7 @@ bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &c
     recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), -objectSize.y(), -objectSize.z()),
     recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), -objectSize.y(), -objectSize.z())};
   for (int i = 0; i < 8; ++i) {  // project each of the corners in the camera image
-    WbVector2 positionOnImage = projectOnImage(corners[i]);
+    const WbVector2 &positionOnImage = projectOnImage(corners[i]);
     if (positionOnImage.x() < minU)
       minU = positionOnImage.x();
     if (positionOnImage.y() < minV)
@@ -807,8 +799,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
 
   if (!recognition()->occlusion())
     // no need of ODE ray collision detection
-    // rays can be created at the end of the step when all the body positions
-    // are up-to-date
+    // rays can be created at the end of the step when all the body positions are up-to-date
     computeObjects(true, false);
 
   // post process objects
@@ -819,7 +810,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
   if (recognition()->maxObjects() > 0 && mRecognizedObjects.size() > recognition()->maxObjects()) {
     QMultiMap<int, WbRecognizedObject *> objectsMap;
     for (int i = 0; i < mRecognizedObjects.size(); ++i) {
-      int pixelSurface = mRecognizedObjects.at(i)->pixelSize().x() * mRecognizedObjects.at(i)->pixelSize().y();
+      const int pixelSurface = mRecognizedObjects.at(i)->pixelSize().x() * mRecognizedObjects.at(i)->pixelSize().y();
       objectsMap.insert(pixelSurface, mRecognizedObjects.at(i));
     }
     mRecognizedObjects.clear();

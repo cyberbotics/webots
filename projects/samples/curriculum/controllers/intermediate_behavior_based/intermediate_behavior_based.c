@@ -15,6 +15,7 @@
  */
 
 // Included libraries
+#include <assert.h>
 #include <stdlib.h>
 #include <webots/camera.h>
 #include <webots/distance_sensor.h>
@@ -97,6 +98,7 @@ int find_middle(int tab[], int sizeTab) {
         index = j;
       }
     }
+    assert(index >= 0);
     index_bests[i] = index;
     copy[index] = 0;
   }
