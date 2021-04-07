@@ -280,6 +280,13 @@
     <child link="base_cover_link"/>
     <origin xyz="0 0 0.03" rpy="0 0 0"/>
   </joint>
+  <link name="base_footprint">
+  </link>
+  <joint name="base_link_base_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0 0 -0.095" rpy="0 0 0"/>
+  </joint>
   <link name="gyro">
   </link>
   <joint name="base_link_gyro_joint" type="fixed">
