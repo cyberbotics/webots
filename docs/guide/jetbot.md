@@ -1,4 +1,4 @@
-## nvidia JetBot
+## NVIDIA JetBot
 
 %robot jetbot images/robots/jetbot/model.thumbnail.png
 
