@@ -55,15 +55,16 @@ static void show_commands() {
 
 int main(int argc, char **argv) {
   /* initialize Webots */
-  wb_robot_init();   // init the robot
-  command_manager(); // show commands
+  wb_robot_init(); // init the robot
+  show_commands(); // show commands
 
   // init of the Keyboard control
   int time_step = (int)wb_robot_get_basic_time_step();
   wb_keyboard_enable(time_step);
 
   //----------------------Init all the motors of the Ned---------------------
-  WbDeviceTag motors[8];
+  WbDeviceTag motors[7];
+  WbDeviceTag gripper[3];
   motors[1] = wb_robot_get_device("joint_1");
   motors[2] = wb_robot_get_device("joint_2");
   motors[3] = wb_robot_get_device("joint_3");
