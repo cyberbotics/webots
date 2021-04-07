@@ -1,0 +1,29 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  lineScale 3
+  contactProperties [
+    ContactProperties {
+      material2 "chassis"
+      coulombFriction [
+        0
+      ]
+      forceDependentSlip [
+        1
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.21405400357153 -0.6054612598766158 -0.766549115415066 3.6708889011026464
+  position 0.19918906702694938 0.24681628131710442 0.13568754239943362
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 1 0 0 1.5708
+  floorSize 100 100
+}
+JetBot {
+}

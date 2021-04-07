@@ -1,0 +1,1194 @@
+#VRML_SIM R2021a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/jetbot
+# JetBot open source robot based on NVIDIA Jetson Nano.
+# More info here: https://jetbot.org/v0.4.3/.
+# Some of the meshes are taken from the original robot GitHub repository: https://github.com/NVIDIA-AI-IOT/jetbot
+
+PROTO JetBot [
+  field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.
+  field SFRotation         rotation                     0 1 0 0                  # Is `Transform.rotation`.
+  field SFString           name                         "JetBot"                 # Is `Solid.name`.
+  field SFString           controller                   "jetbot"                 # Is `Robot.controller`.
+  field MFString           controllerArgs               []                       # Is `Robot.controllerArgs`.
+  field SFString           customData                   ""                       # Is `Robot.customData`.
+  field SFBool             supervisor                   FALSE                    # Is `Robot.supervisor`.
+  field SFBool             synchronization              TRUE                     # Is `Robot.synchronization`.
+  field SFColor            chassis_color                0.571 0.817 0.479        # Color of the chassis.
+  field SFFloat            camera_fieldOfView           2.79253                  # Is `Camera.fieldOfView`.
+  field SFInt32            camera_width                 1280                     # Is `Camera.width`.
+  field SFInt32            camera_height                720                      # Is `Camera.height`.
+  field SFFloat            camera_near                  0.01                     # Is `Camera.near`.
+  field SFFloat            camera_far                   1.0                      # Is `Camera.far`.
+  field MFNode             extensionSlot                []                       # Extends the robot with new nodes.
+  field SFString           window                       "generic"                # Is `Robot.window`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BODY Transform {
+        translation 0 0 0.043
+        rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+        children [
+          DEF CHASSIS Transform {
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor IS chassis_color
+                  roughness 0.5
+                  metalness 0.2
+                }
+                geometry Mesh {
+                  url [
+                    "meshes/chassis.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          DEF LEFT_MOTOR Transform {
+            translation 0.034 -0.01 0.01
+            children [
+              Shape {
+                appearance DEF YELLOW_APPEARANCE PBRAppearance {
+                  baseColor 0.929412 0.831373 0
+                  roughness 0.5
+                  metalness 0.2
+                }
+                geometry Box {
+                  size 0.013 0.014 0.065
+                }
+              }
+              Transform {
+                translation 0.002 -0.0026 0.0209
+                rotation 0 0 1 -1.5707953071795862
+                children [
+                  Shape {
+                    appearance DEF LIGHT_YELLOW_APPEARANCE PBRAppearance {
+                      baseColor 1 0.968627 0.690196
+                      roughness 0.5
+                      metalness 0.1
+                    }
+                    geometry Cylinder {
+                      height 0.038
+                      radius 0.0019
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF RIGHT_MOTOR Transform {
+            translation -0.034 -0.01 0.01
+            children [
+              Shape {
+                appearance USE YELLOW_APPEARANCE
+                geometry Box {
+                  size 0.013 0.014 0.065
+                }
+              }
+              Transform {
+                translation -0.002 -0.0026 0.0209
+                rotation 0 0 1 -1.5707953071795862
+                children [
+                  Shape {
+                    appearance DEF LIGHT_GRAY_APPEARANCE PBRAppearance {
+                      baseColor 0.729412 0.741176 0.713725
+                      roughness 0.5
+                      metalness 0.2
+                    }
+                    geometry Cylinder {
+                      height 0.038
+                      radius 0.0019
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF HEAT_SINK Transform {
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance DEF BLACK_APPEARANCE PBRAppearance {
+                  baseColor 0.180392 0.203922 0.211765
+                  roughness 0.5
+                  metalness 0.2
+                }
+                geometry Mesh {
+                  url [
+                    "meshes/heat_sink.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          DEF POWER_BANK Transform {
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance USE BLACK_APPEARANCE
+                geometry Mesh {
+                  url [
+                    "meshes/power_bank.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          DEF BOARD_DOWN Transform {
+            translation 0.0019 0.0289 -0.013
+            children [
+              Shape {
+                appearance Pcb {
+                }
+                geometry Box {
+                  size 0.079 0.0012 0.1
+                }
+              }
+              DEF PINS_A Transform {
+                translation -0.0069 0.002 -0.04
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.051 0.0026 0.005
+                    }
+                  }
+                  Transform {
+                    translation 0.02407 0.0022 0.00127
+                    children [
+                      DEF PIN Shape {
+                        appearance BrushedAluminium {
+                        }
+                        geometry Box {
+                          size 0.00065 0.012 0.00065
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.02407 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0215 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0215 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0189 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0189 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0164 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0164 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0139 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0139 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0113 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0113 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0088 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0088 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0062 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0062 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0037 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0037 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0012 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0012 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0014 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0014 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0039 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0039 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0064 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0064 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.009 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.009 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0115 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0115 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0141 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0141 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0166 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0166 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0191 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0191 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0216 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0216 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0242 0.0022 0.00127
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0242 0.0022 -0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              DEF PINS_B Transform {
+                translation -0.0358 0.002 -0.046
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.0054 0.0026 0.005
+                    }
+                  }
+                  Transform {
+                    translation 0.0014 0.0022 0.0011
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0011 0.0022 0.0011
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0014 0.0022 -0.0015
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0011 0.0022 -0.0015
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              DEF PINS_C Transform {
+                translation 0.0143 0.002 -0.0276
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.006 0.0026 0.0105
+                    }
+                  }
+                  Transform {
+                    translation 0.0004 0.0049 0.0036
+                    children [
+                      DEF PIN Shape {
+                        appearance PBRAppearance {
+                        }
+                        geometry Box {
+                          size 0.00065 0.0077 0.00065
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.0004 0.0049 0.0011
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0004 0.0049 -0.0015
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0004 0.0049 -0.004
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              DEF PINS_D Transform {
+                translation -0.0311 0.002 0.0401
+                rotation 0 1 0 1.5708
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.0025 0.0026 0.0153
+                    }
+                  }
+                  Transform {
+                    translation 0 0.0022 0.0064
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 0.0038
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 -0.0012
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 -0.0037
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 -0.0063
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              DEF PINS_E Transform {
+                translation -0.0261 0.002 0.047
+                rotation 0 1 0 1.5708
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.005 0.0026 0.01
+                    }
+                  }
+                  Transform {
+                    translation 0.0013 0.0022 0.0038
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0013 0.0022 0.0038
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0013 0.0022 0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0013 0.0022 0.0013
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0013 0.0022 -0.0012
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0013 0.0022 -0.0012
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0.0013 0.0022 -0.0037
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation -0.0013 0.0022 -0.0037
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              DEF PINS_F Transform {
+                translation 0.0078 0.002 0.047
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.0023 0.0026 0.005
+                    }
+                  }
+                  Transform {
+                    translation 0 0.0022 0.0012
+                    children [
+                      USE PIN
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0022 -0.0012
+                    children [
+                      USE PIN
+                    ]
+                  }
+                ]
+              }
+              Transform {
+                translation -0.0069 0.0046 0.0462
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.0225 0.0078 0.004
+                    }
+                  }
+                ]
+              }
+              DEF POWER_PORT Transform {
+                translation 0.0335 0.0029 0.044
+                children [
+                  Shape {
+                    appearance USE BLACK_APPEARANCE
+                    geometry Box {
+                      size 0.0145 0.0041 0.009
+                    }
+                  }
+                  Transform {
+                    translation 0.0003 0.004 0
+                    rotation 0 0 1 1.5707996938995747
+                    children [
+                      Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Cylinder {
+                          bottom FALSE
+                          height 0.014
+                          radius 0.0045
+                        }
+                      }
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "textures/power_plug.jpg"
+                            ]
+                          }
+                          roughness 0.5
+                          metalness 0.2
+                        }
+                        geometry Cylinder {
+                          height 0.014
+                          radius 0.0045
+                          side FALSE
+                          top FALSE
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+              DEF VIDEO_PORT Transform {
+                translation 0.0319 0.0105 0.0262
+                children [
+                  Shape {
+                    appearance BrushedAluminium {
+                    }
+                    geometry TexturedBox {
+                      size 0.0173 0.019 0.0165
+                      mapping "default"
+                      right FALSE
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/video_port.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                        ]
+                      }
+                      textureTransform TextureTransform {
+                      }
+                    }
+                    geometry TexturedBox {
+                      size 0.0173 0.019 0.0165
+                      mapping "default"
+                      front FALSE
+                      back FALSE
+                      left FALSE
+                      top FALSE
+                      bottom FALSE
+                    }
+                  }
+                ]
+              }
+              DEF USB1_PORT Transform {
+                translation 0.032 0.009 -0.0095
+                children [
+                  DEF USB_SHAPE Shape {
+                    appearance BrushedAluminium {
+                    }
+                    geometry TexturedBox {
+                      size 0.017 0.016 0.0152
+                      mapping "default"
+                      right FALSE
+                    }
+                  }
+                  DEF USB_FRONT_SHAPE Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/usb_port.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                        ]
+                      }
+                      metalness 0.7
+                      normalMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                        ]
+                      }
+                      textureTransform TextureTransform {
+                      }
+                    }
+                    geometry TexturedBox {
+                      size 0.017 0.016 0.0152
+                      mapping "default"
+                      front FALSE
+                      back FALSE
+                      left FALSE
+                      top FALSE
+                      bottom FALSE
+                    }
+                  }
+                ]
+              }
+              DEF USB2_PORT Transform {
+                translation 0.032 0.009 0.0073
+                children [
+                  USE USB_SHAPE
+                  USE USB_FRONT_SHAPE
+                ]
+              }
+              DEF ETHERNET_PORT Transform {
+                translation 0.03 0.0065 -0.027
+                children [
+                  Shape {
+                    appearance BrushedAluminium {
+                    }
+                    geometry TexturedBox {
+                      size 0.021 0.011 0.0155
+                      mapping "default"
+                      right FALSE
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/ethernet_port.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                        ]
+                      }
+                      metalness 0.7
+                      normalMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                        ]
+                      }
+                      textureTransform TextureTransform {
+                      }
+                    }
+                    geometry TexturedBox {
+                      size 0.021 0.011 0.0155
+                      mapping "default"
+                      front FALSE
+                      back FALSE
+                      left FALSE
+                      top FALSE
+                      bottom FALSE
+                    }
+                  }
+                ]
+              }
+              DEF MICRO_PORT Transform {
+                translation 0.036 0.002 -0.042
+                children [
+                  Shape {
+                    appearance BrushedAluminium {
+                    }
+                    geometry TexturedBox {
+                      size 0.0073 0.0034 0.008
+                      mapping "default"
+                      right FALSE
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/usb_mini_port.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                        ]
+                      }
+                      metalness 0.7
+                      normalMap ImageTexture {
+                        url [
+                          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                        ]
+                      }
+                      textureTransform TextureTransform {
+                      }
+                    }
+                    geometry TexturedBox {
+                      size 0.0073 0.0034 0.008
+                      mapping "default"
+                      front FALSE
+                      back FALSE
+                      left FALSE
+                      top FALSE
+                      bottom FALSE
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF BOARD_UP Transform {
+            translation -0.0165 0.0383 -0.011
+            children [
+              DEF SCREW Transform {
+                translation 0.02 -0.004 0.032
+                children [
+                  DEF SCREW_SHAPE Shape {
+                    appearance USE LIGHT_YELLOW_APPEARANCE
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0026
+                      subdivision 6
+                    }
+                  }
+                ]
+              }
+              DEF SCREW Transform {
+                translation -0.018 -0.004 0.032
+                children [
+                  USE SCREW_SHAPE
+                ]
+              }
+              DEF SCREW Transform {
+                translation -0.018 -0.004 -0.032
+                children [
+                  USE SCREW_SHAPE
+                ]
+              }
+              DEF SCREW Transform {
+                translation 0.02 -0.004 -0.032
+                children [
+                  USE SCREW_SHAPE
+                ]
+              }
+              Shape {
+                appearance USE BLACK_APPEARANCE
+                geometry Box {
+                  size 0.045 0.0012 0.07
+                }
+              }
+            ]
+          }
+          DEF DISPLAY Transform {
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.470588 0.517647 0.792157
+                  roughness 0.5
+                  metalness 0.2
+                }
+                geometry Mesh {
+                  url [
+                    "meshes/display.stl"
+                  ]
+                }
+              }
+              Display {
+                translation 10.3 40.4 -62.6
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 0.5
+                      metalness 0.2
+                    }
+                    geometry Plane {
+                      size 31 11
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CAMERA Transform {
+            translation 2.65107e-14 0.042 0.0488
+            rotation 0.17464594566014496 0.17464694565983382 -0.9690186984966619 1.60227
+            children [
+              TexturedBoxShape {
+                size 0.024 0.024 0.001
+                textureUrl [
+                  "textures/raspeberry_pi_camera.jpg"
+                ]
+              }
+              Transform {
+                translation 0 0 -0.0025
+                children [
+                  Shape {
+                    appearance USE LIGHT_GRAY_APPEARANCE
+                    geometry Box {
+                      size 0.024 0.022 0.004
+                    }
+                  }
+                ]
+                rotationStep 0
+              }
+              Transform {
+                translation 0.0034 0 -0.004
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.333333 0.341176 0.32549
+                      roughness 0.4
+                      metalness 0.2
+                    }
+                    geometry Box {
+                      size 0.0185 0.027 0.004
+                    }
+                  }
+                ]
+                rotationStep 0
+              }
+            ]
+            rotationStep 0
+          }
+          Transform {
+            translation 0 0.027 0.041
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.333333 0.341176 0.32549
+                  roughness 0.4
+                  metalness 0.2
+                }
+                geometry Box {
+                  size 0.035 0.01 0.007
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF REAR_WHEEL Solid {
+        translation -0.051 0 0.025
+        rotation 1 0 0 1.5708003061004252
+        children [
+          Shape {
+            appearance USE BLACK_APPEARANCE
+            geometry Cylinder {
+              height 0.032
+              radius 0.0153
+            }
+          }
+          Transform {
+            translation 0 -0.0123 0
+            children [
+              Shape {
+                appearance USE LIGHT_GRAY_APPEARANCE
+                geometry Sphere {
+                  radius 0.0126
+                }
+              }
+            ]
+          }
+        ]
+        name "rear_wheel"
+        contactMaterial "jetbot_rear_wheel"
+        boundingObject Group {
+          children [
+            DEF REAR_WHEEL Transform {
+              translation 0 -0.0123 0
+              children [
+                Sphere {
+                  radius 0.0127
+                }
+              ]
+            }
+            Transform {
+              children [
+                Cylinder {
+                  height 0.032
+                  radius 0.0153
+                }
+              ]
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+      DEF LEFT_WHEEL_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          position -2.166075283053669e-09
+          axis 0 1 0
+          anchor 0.03 0.05215 0.03
+        }
+        device [
+          RotationalMotor {
+            name "left_wheel_hinge"
+          }
+        ]
+        endPoint DEF LEFT_WHEEL Solid {
+          translation 0.030000006847380994 0.0521500000157608 0.03000053415098986
+          rotation 9.001921986231733e-10 -1.241383373472994e-09 1 1.5707999999726359
+          scale 0.001 0.001 0.001
+          children [
+            DEF WHEEL_SHAPE Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.5
+                metalness 0.2
+              }
+              geometry Mesh {
+                url [
+                  "meshes/wheel.stl"
+                ]
+              }
+            }
+          ]
+          name "left wheel"
+          boundingObject Transform {
+            translation 4.01 0 0
+            rotation 0 0 1 1.5708
+            children [
+              Cylinder {
+                height 7.8
+                radius 29.9
+              }
+            ]
+          }
+          physics Physics {
+          }
+          translationStep 0.001
+        }
+      }
+      DEF RIGHT_WHEEL_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          position -2.1895041033680007e-09
+          axis 0 1 0
+          anchor 0.03 -0.0595 0.03
+        }
+        device [
+          RotationalMotor {
+            name "right_wheel_hinge"
+          }
+        ]
+        endPoint DEF RIGHT_WHEEL Solid {
+          translation 0.03000000689397781 -0.05949999998422251 0.030000540571122995
+          rotation 9.173892360923732e-10 -1.2499268609165539e-09 1 1.570796319972449
+          scale 0.001 0.001 0.001
+          children [
+            USE WHEEL_SHAPE
+          ]
+          name "right wheel"
+          boundingObject Transform {
+            translation 4.01 0 0
+            rotation 0 0 1 1.5708
+            children [
+              Cylinder {
+                height 7.8
+                radius 29.9
+              }
+            ]
+          }
+          physics Physics {
+          }
+          translationStep 0.001
+        }
+      }
+      DEF CAMERA_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          position 0.25
+          axis 0 1 0
+          anchor 0.0552 0 0.0857
+        }
+        device [
+          RotationalMotor {
+            name "camera_joint"
+          }
+        ]
+        endPoint Camera {
+          translation 0.0552 0 0.0857
+          rotation 0 -1 0 1.3208
+          fieldOfView IS camera_fieldOfView
+          width IS camera_width
+          height IS camera_height
+          near IS camera_near
+          far IS camera_far
+        }
+      }
+      Transform {
+        translation 0 0 0.725
+        children IS extensionSlot
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        Transform {
+          translation -0.004 0 0.0565
+          children [
+            Box {
+              size 0.13 0.085 0.023
+            }
+          ]
+        }
+        Transform {
+          translation -0.0129 0.0013 0.0843
+          children [
+            Box {
+              size 0.098 0.08 0.029
+            }
+          ]
+        }
+        Transform {
+          translation -0.0007 -0.034 0.0308
+          children [
+            Box {
+              size 0.135 0.016 0.028
+            }
+          ]
+        }
+        Transform {
+          translation -0.0007 0.034 0.0308
+          children [
+            Box {
+              size 0.135 0.016 0.028
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.5
+      centerOfMass [
+        -0.04 0 0.005
+      ]
+    }
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    window IS window
+  }
+}
