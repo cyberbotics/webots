@@ -16,6 +16,7 @@
 #include "Ros.hpp"
 
 #include "RosAccelerometer.hpp"
+#include "RosAltimeter.hpp"
 #include "RosBatterySensor.hpp"
 #include "RosBrake.hpp"
 #include "RosCamera.hpp"
