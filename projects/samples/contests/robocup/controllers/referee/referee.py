@@ -73,6 +73,8 @@ def spawn_team(team, color, red_on_right, children):
             string += f', "{host}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
+        info(f'Spawned {defname} {model} on port {port} at translation {translation[0]} {translation[1]} {translation[2]}, ' +
+             f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}')
 
 
 def format_time(s):
@@ -256,8 +258,8 @@ game_controller_send.id = 0
 game_controller_send.unanswered = {}
 
 time_count = 0
-REAL_TIME_FACTOR = 3  # simulated time is running 3 times slower than real time
-# REAL_TIME_FACTOR = 1  # used for testing (runs faster)
+# REAL_TIME_FACTOR = 3  # simulated time is running 3 times slower than real time
+REAL_TIME_FACTOR = 0.1  # used for testing (runs faster)
 
 log_file = open('log.txt', 'w')
 
@@ -368,14 +370,14 @@ else:
 
 update_state_display()
 game_controller_send(f'SIDE_LEFT:{game.side_left}')
-info(f'Left side is {game.side_left}')
+info(f'Left side is {"RED" if game.side_left == game.red.id else "BLUE"}')
 game_controller_send(f'KICKOFF:{game.kickoff}')  # toss a coin to determine which team has kickoff
-info(f'Kickoff is {game.kickoff}')
+info(f'Kickoff is {"RED" if game.kickoff == game.red.id else "BLUE"}')
 
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ready_countdown = (int)(120000 / (REAL_TIME_FACTOR * time_step))  # 2 real minutes before we enter the ready state
+game.ready_countdown = (int)(120000 * REAL_TIME_FACTOR / time_step)  # 2 real minutes before we enter the ready state
 game.play_countdown = 0
 game.finish_countdown = 0
 previous_seconds_remaining = 0
@@ -393,7 +395,7 @@ while supervisor.step(time_step) != -1:
                 game_controller_send(f'STATE:FINISH')
                 if game.state.first_half:
                     info('End of first half')
-                    game.finish_countdown = int(15000 / (REAL_TIME_FACTOR * time_step))  # 15 real seconds for half time break
+                    game.finish_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
                 else:
                     info('End of match')
         ball_translation = game.ball_translation.getSFVec3f()
@@ -424,7 +426,7 @@ while supervisor.step(time_step) != -1:
             if scoring_team:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_team}')
-                info(f'Score: {scoring_team}')
+                info(f'Score by {"RED" if scoring_team == game.red.id else "BLUE"}')
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
