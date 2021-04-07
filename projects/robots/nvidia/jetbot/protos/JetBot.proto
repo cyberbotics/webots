@@ -936,7 +936,7 @@ PROTO JetBot [
               TexturedBoxShape {
                 size 0.024 0.024 0.001
                 textureUrl [
-                  "textures/raspeberry_pi_camera.jpg"
+                  "textures/raspberry_pi_camera.jpg"
                 ]
               }
               Transform {
