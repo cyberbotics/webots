@@ -81,6 +81,7 @@ signals:
   // emitted after the content of the value was changed
   void changed();
   void changedByOde();
+  void changedByFakeOde();
   void changedByUser(bool changedFromSupervisor);
   void changedByWebots();
 

@@ -142,6 +142,7 @@ private slots:
   void parameterNodeRemoved(int index);
   void fieldChanged();
   void fieldChangedByOde();
+  void fieldChangedByFakeOde();
   void removeInternalField(QObject *field);
   void checkValueIsAccepted();
 };

@@ -351,6 +351,11 @@ void WbField::redirectTo(WbField *parameter) {
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
   // else if (fieldName == "position")
   //  connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+
+  if (fieldName == "translation")
+    connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
+  if (fieldName == "rotation")
+    connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
 }
 
 void WbField::removeInternalField(QObject *field) {
@@ -415,6 +420,15 @@ void WbField::fieldChangedByOde() {
   mValue->copyFrom(static_cast<WbValue *>(sender()));
   mValue->blockSignals(false);
   mValue->emitChangedByOde();
+}
+
+void WbField::fieldChangedByFakeOde() {
+  // do not propagate a node change back to the proto parameter otherwise we would loop infinitly
+  // because the break condition (node == node) is not fully functional
+  mValue->blockSignals(true);
+  mValue->copyFrom(static_cast<WbValue *>(sender()));
+  mValue->blockSignals(false);
+  // mValue->emitChangedByOde();
 }
 
 void WbField::copyValueFrom(const WbField *other) {

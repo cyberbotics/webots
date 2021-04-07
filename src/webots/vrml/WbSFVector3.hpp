@@ -55,6 +55,10 @@ public:
     mValue.setXyz(x, y, z);
     emit changedByOde();
   }
+  void setValueFromFakeOde(double x, double y, double z) {
+    mValue.setXyz(x, y, z);
+    emit changedByFakeOde();
+  }
   void setValueFromOde(const WbVector3 &v) {
     mValue.setXyz(v.x(), v.y(), v.z());
     emit changedByOde();

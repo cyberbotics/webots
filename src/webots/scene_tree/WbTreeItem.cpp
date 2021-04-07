@@ -81,7 +81,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
       } else if (fieldName == "rotation") {
         const WbSFRotation *const rotation = dynamic_cast<WbSFRotation *>(singleValue);
         if (rotation)
-          connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
+          connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
       } else if (fieldName == "position") {
         const WbSFDouble *const position = dynamic_cast<WbSFDouble *>(singleValue);
         if (position)
