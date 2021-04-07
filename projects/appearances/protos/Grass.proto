@@ -19,9 +19,9 @@ PROTO Grass [
       ]
     }
     %{ if fields.type.value == "artificial_white" then }%
-      	roughness 0
+	roughness 0
     %{ else }%
-    	roughness 1
+	roughness 1
     %{ end }%
     %{ if fields.type.value == "prickly" then }%
       roughnessMap ImageTexture {
