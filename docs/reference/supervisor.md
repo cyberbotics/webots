@@ -878,7 +878,7 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 
 The `wb_supervisor_node_get_pose` function returns an array of 16 values.
 The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents an absolute transform of the node.
-If the `from_node` argument is given than the function returns a relative pose of the node in respect of the node `from_node`.
+The function returns the relative pose of the node with respect to the node specified in `from_node`. If `from_node` is null, it returns the absolute pose of the node in the global coordinate system.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
