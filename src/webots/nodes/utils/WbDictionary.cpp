@@ -94,7 +94,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       assert(ind >= 0 && ind < mNestedDictionaries.size());
       const QList<WbNode *> &defNodes = mNestedDictionaries.at(ind).values(useName);
       const int numberOfDefs = defNodes.size();
-      for (int defIndex = 0; (!match) && defIndex < numberOfDefs; ++defIndex) {
+      // cppcheck-suppress knownConditionTrueFalse
+      for (int defIndex = 0; !match && defIndex < numberOfDefs; ++defIndex) {
         definitionNode = static_cast<WbBaseNode *>(defNodes[defIndex]);
         QString error;
         assert(node->parentField() && node->parentNode());
@@ -104,6 +105,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       }
 
       WbNode *matchingNode = NULL;
+      // cppcheck-suppress knownConditionTrueFalse
       if (!match && !mNestedUseNodes.isEmpty()) {
         definitionNode = NULL;
         const WbNode *const upperUseNode = mNestedUseNodes.last();

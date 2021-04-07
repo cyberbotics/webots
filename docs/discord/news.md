@@ -4,7 +4,21 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/19/2021 15:03:06
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/29/2021 15:25:52
+**Cyberbotics helped to deploy ROS 2 on Raspberry Pi Pico**
+
+
+
+Ubuntu has recently published a very nice article about deploying ROS 2 on Raspberry Pi Pico. The article is based on an example that Cyberbotics contributed.  It shows Cyberbotic's initiative to contribute to ROS 2 in aspects other than simulation.
+
+ 
+
+[https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico](https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico)
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/26/2021 13:12:39
+Here is a new tutorial on how to install and run Webots with ROS2: [https://automaticaddison.com/how-to-install-and-demo-the-webots-robot-simulator-for-ros-2/](https://automaticaddison.com/how-to-install-and-demo-the-webots-robot-simulator-for-ros-2/)
+
+
 Robotbenchmark got nominated at WSIS PRIZES 2021!
 
 You can vote for us here: [https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start](https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start)
