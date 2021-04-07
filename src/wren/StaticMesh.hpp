@@ -62,8 +62,8 @@ namespace wren {
     const Mesh::Triangle &triangle(size_t index) const override { return mCacheData->mTriangles[index]; }
 
     void readData(float *coordData, float *normalData, float *texCoordData, unsigned int *indexData);
-    int vertexCount();
-    int indexCount();
+    int vertexCount() const;
+    int indexCount() const;
 
     void bind() override;
     void release() override;
