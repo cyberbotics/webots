@@ -141,7 +141,7 @@ void WbMotor::postFinalize() {
   checkMaxVelocityAcrossCoupledMotors();
   checkMaxAccelerationAcrossCoupledMotors();
   checkMaxForceOrTorqueAcrossCoupledMotors();
-  checkMultiplierAcrossCoupledMotors();
+  // checkMultiplierAcrossCoupledMotors();
 
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
@@ -221,20 +221,20 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
   double potentialMinimalPosition, potentialMaximalPosition;
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
     potentialMinimalPosition = this->minPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-    potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
     if (mCoupledMotors[i]->minPosition() > potentialMinimalPosition) {
-      parsingWarn(tr("With a 'minPosition' of %1, one among the coupled motors could potentially reach a position which is "
-                     "below its current lower limit. Adjusting its 'minPosition' from %2 to %3.")
-                    .arg(this->minPosition())
+      parsingWarn(tr("Among the motors named '%1' at least one has a 'minPosition' that its siblings can't follow (due to the "
+                     "multiplier). Adjusting their 'minPosition' from %2 to %3.")
+                    .arg(deviceName())
                     .arg(mCoupledMotors[i]->minPosition())
                     .arg(potentialMinimalPosition));
       mCoupledMotors[i]->setMinPosition(potentialMinimalPosition);
       mCoupledMotors[i]->enforceMotorLimitsInsideJointLimits();
     }
-    if (mCoupledMotors[i]->maxPosition() < potentialMinimalPosition) {
-      parsingWarn(tr("With a 'maxPosition' of %1, one among the coupled motors could potentially reach a position which is "
-                     "above its current upper limit. Adjusting its 'maxPosition' from %2 to %3.")
-                    .arg(this->maxPosition())
+    potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
+    if (mCoupledMotors[i]->maxPosition() < potentialMaximalPosition) {
+      parsingWarn(tr("Among the motors named '%1' at least one has a 'maxPosition' that its siblings can't follow (due to the "
+                     "multiplier). Adjusting their 'maxPosition' from %2 to %3.")
+                    .arg(deviceName())
                     .arg(mCoupledMotors[i]->maxPosition())
                     .arg(potentialMaximalPosition));
       mCoupledMotors[i]->setMaxPosition(potentialMaximalPosition);
@@ -260,15 +260,11 @@ void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
     potentialMaximalForceOrTorque = this->maxForceOrTorque() * fabs(this->multiplier()) / fabs(mCoupledMotors[i]->multiplier());
     if (mCoupledMotors[i]->maxForceOrTorque() < potentialMaximalForceOrTorque) {
-      QString thisLimitType = this->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "maxTorque" : "maxForce";
-      QString siblingLimitType = mCoupledMotors[i]->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "maxTorque" : "maxForce";
-      QString siblingForceType = mCoupledMotors[i]->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "torque" : "force";
-      parsingWarn(tr("With a '%1' of %2, one among the coupled motors could potentially reach a %3 which is above its current"
-                     "upper limit. Adjusting its '%4' limit from %5 to %6.")
-                    .arg(thisLimitType)
-                    .arg(potentialMaximalForceOrTorque)
-                    .arg(siblingForceType)
-                    .arg(siblingLimitType)
+      QString limitType = this->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "maxTorque" : "maxForce";
+      parsingWarn(tr("Among the motors named '%1' at least one has a '%2' that its siblings can't follow (due to the "
+                     "multiplier). Adjusting their '%2' from %3 to %4.")
+                    .arg(deviceName())
+                    .arg(limitType)
                     .arg(mCoupledMotors[i]->maxForceOrTorque())
                     .arg(potentialMaximalForceOrTorque));
       mCoupledMotors[i]->setMaxForceOrTorque(potentialMaximalForceOrTorque);
@@ -292,9 +288,9 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
     potentialMaximalVelocity = this->maxVelocity() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
     if (mCoupledMotors[i]->maxVelocity() < potentialMaximalVelocity) {
-      parsingWarn(tr("With a 'maxVelocity' of %1, one among the coupled motors could potentially reach a velocity which is "
-                     "above its current upper limit. Adjusting its 'maxVelocity' from %2 to %3.")
-                    .arg(this->maxVelocity())
+      parsingWarn(tr("Among the motors named '%1' at least one has a 'maxVelocity' that its siblings can't follow (due to the "
+                     "multiplier). Adjusting their 'maxVelocity' from %2 to %3.")
+                    .arg(deviceName())
                     .arg(mCoupledMotors[i]->maxVelocity())
                     .arg(potentialMaximalVelocity));
       mCoupledMotors[i]->setMaxVelocity(potentialMaximalVelocity);
@@ -411,6 +407,11 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
     parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
   }
 
+  checkMaxVelocityAcrossCoupledMotors();
+  checkMaxForceOrTorqueAcrossCoupledMotors();
+  checkMaxAccelerationAcrossCoupledMotors();
+
+  /*
   // ensure that this new multiplier value wouldn't break the current maxVelocity or maxForce/Torque limits whatever
   // velocity or force/torque is enforced on any of its coupled siblings
   double potentialMaximalVelocity, potentialMaximalForceOrTorque;
@@ -444,6 +445,7 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
       this->setMaxForceOrTorque(potentialMaximalForceOrTorque);
     }
   }
+  */
 }
 
 double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {

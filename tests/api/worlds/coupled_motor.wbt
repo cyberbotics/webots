@@ -15,62 +15,9 @@ Background {
 TexturedBackgroundLight {
 }
 
-DEF CHECK_MULTIPLIER_LOAD Robot {
+DEF CHECK_PARAMETER_LOAD Robot {
   children [
-    Transform {
-      translation 0 0 -0.5
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0.5 0 -0.5
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
-    Transform {
-      translation -0.5 0 -0.5
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
+    # acceleration check
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
@@ -78,11 +25,9 @@ DEF CHECK_MULTIPLIER_LOAD Robot {
       }
       device [
         RotationalMotor {
-          name "motor"
-          #maxVelocity 10
-          #maxTorque 10
+          name "motor A"
+          acceleration 5
           multiplier 2
-          acceleration 10
         }
       ]
       endPoint Solid {
@@ -106,7 +51,7 @@ DEF CHECK_MULTIPLIER_LOAD Robot {
             ]
           }
         ]
-        name "TODO"
+        name "acceleration center solid"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -125,34 +70,17 @@ DEF CHECK_MULTIPLIER_LOAD Robot {
       }
       device [
         RotationalMotor {
-          name "motor"
-          #maxVelocity 10
-          #maxTorque 10
+          name "motor A"
+          acceleration 10
           multiplier 2
         }
       ]
       endPoint Solid {
         translation 0.5 0 -0.5
         children [
-          DEF PIVOT_CYLINDER Transform {
-            translation 0 0.05 0
-            children [
-              Shape {
-                appearance DEF GRAY_APPEARANCE Appearance {
-                  material Material {
-                    specularColor 1 1 1
-                  }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.02
-                  subdivision 24
-                }
-              }
-            ]
-          }
+          USE PIVOT_CYLINDER
         ]
-        name "TODO"
+        name "acceleration right solid"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -171,34 +99,17 @@ DEF CHECK_MULTIPLIER_LOAD Robot {
       }
       device [
         RotationalMotor {
-          name "motor"
-          #maxVelocity 10
-          #maxTorque 10
+          name "motor A"
+          acceleration 20
           multiplier 2
         }
       ]
       endPoint Solid {
         translation -0.5 0 -0.5
         children [
-          DEF PIVOT_CYLINDER Transform {
-            translation 0 0.05 0
-            children [
-              Shape {
-                appearance DEF GRAY_APPEARANCE Appearance {
-                  material Material {
-                    specularColor 1 1 1
-                  }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.02
-                  subdivision 24
-                }
-              }
-            ]
-          }
+          USE PIVOT_CYLINDER
         ]
-        name "TODO"
+        name "acceleration left solid"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -210,207 +121,28 @@ DEF CHECK_MULTIPLIER_LOAD Robot {
         }
       }
     }
-    TestSuiteEmitter {
-    }
-  ]
-  name "multiplier limit adjustment at load"
-}
-DEF CHECK_MOTION Robot {
-  children [
-    Transform {
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0.5 0 0
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
-    Transform {
-      translation -0.5 0 0
-      children [
-        DEF BASE_SHAPE Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0.854902 0.113725 0.113725
-              specularColor 0.984314 0.909804 0.909804
-            }
-          }
-          geometry Cylinder {
-            height 0.05
-            radius 0.05
-            subdivision 24
-          }
-        }
-      ]
-    }
+    # velocity check
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
+        anchor 0 0 -1
       }
       device [
         RotationalMotor {
-          name "reference motor"
-        }
-        PositionSensor {
-          name "reference sensor"
-        }
-      ]
-      endPoint Solid {
-        children [
-          DEF PIVOT_CYLINDER Transform {
-            translation 0 0.05 0
-            children [
-              Shape {
-                appearance DEF GRAY_APPEARANCE Appearance {
-                  material Material {
-                    specularColor 1 1 1
-                  }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.02
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF ROD_CYLINDER Transform {
-            translation 0 0.05 -0.1
-            rotation 1 0 0 1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cylinder {
-                  height 0.3
-                  radius 0.005
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF HEAD_CONE Transform {
-            translation 0 0.05 -0.25
-            rotation 1 0 0 -1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cone {
-                  bottomRadius 0.01
-                  height 0.04
-                  subdivision 24
-                }
-              }
-            ]
-          }
-        ]
-        name "reference"
-        boundingObject Group {
-          children [
-            USE PIVOT_CYLINDER
-            USE ROD_CYLINDER
-          ]
-        }
-        physics Physics {
-          density -1
-          mass 1
-        }
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0.5 0 0
-      }
-      device [
-        RotationalMotor {
-          name "reference motor"
+          name "motor B"
+          maxVelocity 5
           multiplier 2
         }
-        PositionSensor {
-          name "positive multiplier sensor"
-        }
       ]
       endPoint Solid {
-        translation 0.5 0 0
+        translation 0 0 -1
         children [
-          DEF PIVOT_CYLINDER Transform {
-            translation 0 0.05 0
-            children [
-              Shape {
-                appearance DEF GRAY_APPEARANCE Appearance {
-                  material Material {
-                    specularColor 1 1 1
-                  }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.02
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF ROD_CYLINDER Transform {
-            translation 0 0.05 -0.1
-            rotation 1 0 0 1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cylinder {
-                  height 0.3
-                  radius 0.005
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF HEAD_CONE Transform {
-            translation 0 0.05 -0.25
-            rotation 1 0 0 -1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cone {
-                  bottomRadius 0.01
-                  height 0.04
-                  subdivision 24
-                }
-              }
-            ]
-          }
+          USE PIVOT_CYLINDER
         ]
-        name "positive multiplier"
+        name "velocity center solid"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
-            USE ROD_CYLINDER
           ]
         }
         physics Physics {
@@ -422,71 +154,329 @@ DEF CHECK_MOTION Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 0
+        anchor 0.5 0 -1
       }
       device [
         RotationalMotor {
-          name "reference motor"
-          multiplier -2
-        }
-        PositionSensor {
-          name "negative multiplier sensor"
+          name "motor B"
+          maxVelocity 10
+          multiplier 2
         }
       ]
       endPoint Solid {
-        translation -0.5 0 0
+        translation 0.5 0 -1
         children [
-          DEF PIVOT_CYLINDER Transform {
-            translation 0 0.05 0
-            children [
-              Shape {
-                appearance DEF GRAY_APPEARANCE Appearance {
-                  material Material {
-                    specularColor 1 1 1
-                  }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.02
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF ROD_CYLINDER Transform {
-            translation 0 0.05 -0.1
-            rotation 1 0 0 1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cylinder {
-                  height 0.3
-                  radius 0.005
-                  subdivision 24
-                }
-              }
-            ]
-          }
-          DEF HEAD_CONE Transform {
-            translation 0 0.05 -0.25
-            rotation 1 0 0 -1.5708
-            children [
-              Shape {
-                appearance USE GRAY_APPEARANCE
-                geometry Cone {
-                  bottomRadius 0.01
-                  height 0.04
-                  subdivision 24
-                }
-              }
-            ]
-          }
+          USE PIVOT_CYLINDER
         ]
-        name "negative multiplier"
+        name "velocity right solid"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
-            USE ROD_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 -1
+      }
+      device [
+        RotationalMotor {
+          name "motor B"
+          maxVelocity 20
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 -1
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "velocity left solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    # min/max position check
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 -1.5
+      }
+      device [
+        RotationalMotor {
+          name "motor C"
+          minPosition -5
+          maxPosition 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -1.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "position center solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 -1.5
+      }
+      device [
+        RotationalMotor {
+          name "motor C"
+          minPosition -10
+          maxPosition 20
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 -1.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "position right solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 -1.5
+      }
+      device [
+        RotationalMotor {
+          name "motor C"
+          minPosition -20
+          maxPosition 40
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 -1.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "position left solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    # maxTorque limit check
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 -2
+      }
+      device [
+        RotationalMotor {
+          name "motor D"
+          maxTorque 5
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "torque center solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 -2
+      }
+      device [
+        RotationalMotor {
+          name "motor D"
+          maxTorque 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 -2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "torque right solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 -2
+      }
+      device [
+        RotationalMotor {
+          name "motor D"
+          maxTorque 20
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 -2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "torque left solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    # multiplier limits check
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 -2.5
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          multiplier 2
+          maxTorque 10
+          maxVelocity 10
+          acceleration 10
+          minPosition -1
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -2.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "multiplier center solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 -2.5
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          multiplier 0.5
+          maxTorque 10
+          maxVelocity 10
+          acceleration 10
+          minPosition -1
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 -2.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "multiplier right solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 -2.5
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          multiplier 4
+          maxTorque 10
+          maxVelocity 10
+          acceleration 10
+          minPosition -1
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 -2.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "multiplier left solid"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
           ]
         }
         physics Physics {
@@ -498,6 +488,7 @@ DEF CHECK_MOTION Robot {
     TestSuiteEmitter {
     }
   ]
+  name "acceleration limit adjustment at load"
   controller "coupled_motor"
 }
 TestSuiteSupervisor {
