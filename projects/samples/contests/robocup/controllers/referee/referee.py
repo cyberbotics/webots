@@ -73,6 +73,7 @@ def spawn_team(team, color, red_on_right, children):
             string += f', "{host}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
+        team['players'][number]['robot'] = supervisor.getFromDef(defname)
         info(f'Spawned {defname} {model} on port {port} at translation {translation[0]} {translation[1]} {translation[2]}, ' +
              f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}')
 
@@ -252,6 +253,35 @@ def game_controller_send(message):
                         error(f'Warning: received unknown answer from GameController: {answer}.')
             except BlockingIOError:
                 return
+
+
+def point_inside_field(point):
+    if point[2] > 0.01:  # in the air
+        return False
+    if point[0] > game.field_size_x or point[0] < -game.field_size_x or \
+       point[1] > game.field_size_y or point[1] < -game.field_size_y:
+        return False
+    return True
+
+
+def check_team_position(team):
+    for number in team['players']:
+        robot = team['players'][number]['robot']
+        n = robot.getNumberOfContactPoints(True)
+        for i in range(0, n):
+            point = robot.getContactPoint(i)
+            if point_inside_field(point):
+                team['player'][number]['penalty'] = 'INCAPABLE'
+
+
+def send_penalties(team, color):
+    for number in team['players']:
+        if 'penalty' in team['players'][number]:
+            penalty = team['players'][number]['penalty']
+            team['players'][number].remove('penalty')
+            team_id = game.red.id if color == 'red' else game.blue.id
+            game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
+            info(f'{penalty} penalty for {color} player {number}')
 
 
 game_controller_send.id = 0
@@ -447,11 +477,15 @@ while supervisor.step(time_step) != -1:
                 info('End of the game: the winner is...')
 
     elif game.state.game_state == 'STATE_INITIAL':
+        check_team_position(red_team, 'red')
+        check_team_position(blue_team, 'blue')
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 game_controller_send(f'STATE:READY')
                 info('State: READY')
+                send_penalties(red_team, 'red')
+                send_penalties(blue_team, 'blue')
 
     if game.ball_exited_countdown > 0:
         game.ball_exited_countdown -= 1
