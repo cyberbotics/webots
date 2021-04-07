@@ -15,7 +15,7 @@
 import {WbVector3} from './wbVector3.js';
 
 class WbMatrix3 {
-  constructor(m0 = 1.0, m1 = 1.0, m2 = 1.0, m3 = 1.0, m4 = 1.0, m5 = 1.0, m6 = 1.0, m7 = 1.0, m8 = 1.0) {
+  constructor(m0 = 1.0, m1 = 0, m2 = 0, m3 = 0, m4 = 1.0, m5 = 0, m6 = 0, m7 = 0, m8 = 1.0) {
     this.m = [9];
     this.m[0] = m0;
     this.m[1] = m1;
