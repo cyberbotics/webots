@@ -91,6 +91,7 @@
     - [iCub](icub.md)
     - [IRB 4600/40](irb4600-40.md)
     - [IPR](ipr.md)
+    - [JetBot](jetbot.md)
     - [KHR-2HV](khr-2hv.md)
     - [KHR-3HV](khr-3hv.md)
     - [Khepera I](khepera1.md)
