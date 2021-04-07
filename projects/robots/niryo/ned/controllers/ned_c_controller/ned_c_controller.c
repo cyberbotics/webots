@@ -101,145 +101,145 @@ int main(int argc, char **argv) {
 
     int c = wb_keyboard_get_key(); // get the keyboard key
     switch (c) {
-    case 'A':
-      wb_motor_set_position(motors[1], -1.5);
-      printf("Move --> Joint1");
-      break;
+      case 'A':
+        wb_motor_set_position(motors[1], -1.5);
+        printf("Move --> Joint1");
+        break;
 
-    case 'Z':
-      wb_motor_set_position(motors[1], 1.5);
-      printf("Move --> Joint1");
-      break;
+      case 'Z':
+        wb_motor_set_position(motors[1], 1.5);
+        printf("Move --> Joint1");
+        break;
 
-    case 'Q':
-      printf("Move --> Joint2");
-      wb_motor_set_position(motors[2], -0.5);
-      break;
+      case 'Q':
+        printf("Move --> Joint2");
+        wb_motor_set_position(motors[2], -0.5);
+        break;
 
-    case 'S':
-      printf("Move --> Joint2");
-      wb_motor_set_position(motors[2], 0.5);
-      break;
+      case 'S':
+        printf("Move --> Joint2");
+        wb_motor_set_position(motors[2], 0.5);
+        break;
 
-    case 'W':
-      printf("Move --> Joint3");
-      wb_motor_set_position(motors[3], -0.5);
-      break;
+      case 'W':
+        printf("Move --> Joint3");
+        wb_motor_set_position(motors[3], -0.5);
+        break;
 
-    case 'X':
-      printf("Move --> Joint3");
-      wb_motor_set_position(motors[3], 0.5);
-      break;
+      case 'X':
+        printf("Move --> Joint3");
+        wb_motor_set_position(motors[3], 0.5);
+        break;
 
-    case 'Y':
-      printf("Move --> Joint4");
-      wb_motor_set_position(motors[4], -1);
-      break;
+      case 'Y':
+        printf("Move --> Joint4");
+        wb_motor_set_position(motors[4], -1);
+        break;
 
-    case 'U':
-      printf("Move --> Joint4");
-      wb_motor_set_position(motors[4], 1);
-      break;
+      case 'U':
+        printf("Move --> Joint4");
+        wb_motor_set_position(motors[4], 1);
+        break;
 
-    case 'H':
-      printf("Move --> Joint5");
-      wb_motor_set_position(motors[5], -1.4);
-      break;
+      case 'H':
+        printf("Move --> Joint5");
+        wb_motor_set_position(motors[5], -1.4);
+        break;
 
-    case 'J':
-      printf("Move --> Joint5");
-      wb_motor_set_position(motors[5], 1.4);
-      break;
+      case 'J':
+        printf("Move --> Joint5");
+        wb_motor_set_position(motors[5], 1.4);
+        break;
 
-    case 'B':
-      printf("Move --> Joint6");
-      wb_motor_set_position(motors[6], 1.5);
-      break;
+      case 'B':
+        printf("Move --> Joint6");
+        wb_motor_set_position(motors[6], 1.5);
+        break;
 
-    case 'N':
-      printf("Move --> Joint6");
-      wb_motor_set_position(motors[6], -1.5);
-      break;
+      case 'N':
+        printf("Move --> Joint6");
+        wb_motor_set_position(motors[6], -1.5);
+        break;
 
-    case 'L':
-      printf("Open Gripper");
-      wb_motor_set_position(gripper[1], 0.01);
-      wb_motor_set_position(gripper[2], 0.01);
-      break;
+      case 'L':
+        printf("Open Gripper");
+        wb_motor_set_position(gripper[1], 0.01);
+        wb_motor_set_position(gripper[2], 0.01);
+        break;
 
-    case 'M':
-      printf("Close Gripper");
-      wb_motor_set_position(gripper[1], 0.0);
-      wb_motor_set_position(gripper[2], 0.0);
-      break;
+      case 'M':
+        printf("Close Gripper");
+        wb_motor_set_position(gripper[1], 0.0);
+        wb_motor_set_position(gripper[2], 0.0);
+        break;
 
-    case 'D': // demo
+      case 'D': // demo
 
-      wb_motor_set_velocity(motors[1], 1.0);
-      wb_motor_set_velocity(motors[2], 1.0);
-      wb_motor_set_velocity(motors[3], 1.0);
+        wb_motor_set_velocity(motors[1], 1.0);
+        wb_motor_set_velocity(motors[2], 1.0);
+        wb_motor_set_velocity(motors[3], 1.0);
 
-      wb_motor_set_position(motors[1], 1.5);
-      wb_motor_set_position(gripper[1], 0.01);
-      wb_motor_set_position(gripper[2], 0.01);
-      passive_wait(1.5);
-      wb_motor_set_position(motors[1], 0.0);
-      passive_wait(1.5);
-      wb_motor_set_position(motors[2], 0.5);
-      passive_wait(0.7);
-      wb_motor_set_position(motors[2], 0.0);
-      passive_wait(0.7);
-      wb_motor_set_position(motors[1], -0.5);
-      wb_motor_set_position(motors[4], 1.45);
-      passive_wait(1.5);
-      wb_motor_set_position(motors[4], 0.0);
-      passive_wait(1.5);
-      wb_motor_set_position(motors[5], -1.0);
-      passive_wait(0.7);
-      wb_motor_set_position(motors[5], 0.0);
-      passive_wait(1.0);
-      wb_motor_set_position(motors[3], 0.0);
-      wb_motor_set_position(motors[1], 0.0);
-      passive_wait(0.5);
-      wb_motor_set_position(motors[6], 1.5);
-      passive_wait(1.0);
-      wb_motor_set_position(motors[6], 0);
-      passive_wait(1.0);
-      wb_motor_set_position(gripper[1], 0);
-      wb_motor_set_position(gripper[2], 0);
-      passive_wait(0.5);
-      wb_motor_set_position(gripper[1], 0.01);
-      wb_motor_set_position(gripper[2], 0.01);
-      break;
+        wb_motor_set_position(motors[1], 1.5);
+        wb_motor_set_position(gripper[1], 0.01);
+        wb_motor_set_position(gripper[2], 0.01);
+        passive_wait(1.5);
+        wb_motor_set_position(motors[1], 0.0);
+        passive_wait(1.5);
+        wb_motor_set_position(motors[2], 0.5);
+        passive_wait(0.7);
+        wb_motor_set_position(motors[2], 0.0);
+        passive_wait(0.7);
+        wb_motor_set_position(motors[1], -0.5);
+        wb_motor_set_position(motors[4], 1.45);
+        passive_wait(1.5);
+        wb_motor_set_position(motors[4], 0.0);
+        passive_wait(1.5);
+        wb_motor_set_position(motors[5], -1.0);
+        passive_wait(0.7);
+        wb_motor_set_position(motors[5], 0.0);
+        passive_wait(1.0);
+        wb_motor_set_position(motors[3], 0.0);
+        wb_motor_set_position(motors[1], 0.0);
+        passive_wait(0.5);
+        wb_motor_set_position(motors[6], 1.5);
+        passive_wait(1.0);
+        wb_motor_set_position(motors[6], 0);
+        passive_wait(1.0);
+        wb_motor_set_position(gripper[1], 0);
+        wb_motor_set_position(gripper[2], 0);
+        passive_wait(0.5);
+        wb_motor_set_position(gripper[1], 0.01);
+        wb_motor_set_position(gripper[2], 0.01);
+        break;
 
-    case 'P': // pick and place
+      case 'P': // pick and place
 
-      wb_motor_set_velocity(motors[1], 0.5);
-      wb_motor_set_velocity(motors[2], 0.5);
-      wb_motor_set_velocity(motors[3], 0.5);
+        wb_motor_set_velocity(motors[1], 0.5);
+        wb_motor_set_velocity(motors[2], 0.5);
+        wb_motor_set_velocity(motors[3], 0.5);
 
-      wb_motor_set_position(motors[1], 1.5);
-      wb_motor_set_position(motors[2], 0.70);
-      wb_motor_set_position(gripper[1], 0.01);
-      wb_motor_set_position(gripper[2], 0.01);
-      passive_wait(4.2);
-      wb_motor_set_position(motors[3], 0.5);
-      passive_wait(1.2);
-      wb_motor_set_position(gripper[1], 0.0);
-      wb_motor_set_position(gripper[2], 0.0);
-      passive_wait(1.5);
-      wb_motor_set_position(motors[3], 0.3);
-      passive_wait(1.2);
-      wb_motor_set_position(motors[1], 0.0);
-      passive_wait(5.0);
-      wb_motor_set_position(motors[3], 0.5);
-      passive_wait(0.5);
-      wb_motor_set_position(gripper[1], 0.01);
-      wb_motor_set_position(gripper[2], 0.01);
-      passive_wait(0.5);
-      wb_motor_set_position(motors[2], 0.0);
-      wb_motor_set_position(motors[3], 0.0);
-      break;
+        wb_motor_set_position(motors[1], 1.5);
+        wb_motor_set_position(motors[2], 0.70);
+        wb_motor_set_position(gripper[1], 0.01);
+        wb_motor_set_position(gripper[2], 0.01);
+        passive_wait(4.2);
+        wb_motor_set_position(motors[3], 0.5);
+        passive_wait(1.2);
+        wb_motor_set_position(gripper[1], 0.0);
+        wb_motor_set_position(gripper[2], 0.0);
+        passive_wait(1.5);
+        wb_motor_set_position(motors[3], 0.3);
+        passive_wait(1.2);
+        wb_motor_set_position(motors[1], 0.0);
+        passive_wait(5.0);
+        wb_motor_set_position(motors[3], 0.5);
+        passive_wait(0.5);
+        wb_motor_set_position(gripper[1], 0.01);
+        wb_motor_set_position(gripper[2], 0.01);
+        passive_wait(0.5);
+        wb_motor_set_position(motors[2], 0.0);
+        wb_motor_set_position(motors[3], 0.0);
+        break;
     }
   }
 
