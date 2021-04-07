@@ -54,9 +54,9 @@ static void show_commands() {
 }
 
 int main(int argc, char **argv) {
-  /* initialize Webots */
-  wb_robot_init(); // init the robot
-  show_commands(); // show commands
+  // initialize Webots
+  wb_robot_init();
+  show_commands();
 
   // init of the Keyboard control
   int time_step = (int)wb_robot_get_basic_time_step();
@@ -98,8 +98,8 @@ int main(int argc, char **argv) {
 
   // control with keyboard
   while (wb_robot_step(time_step) != -1) {
-
-    int c = wb_keyboard_get_key(); // get the keyboard key
+    // get the keyboard key
+    int c = wb_keyboard_get_key();
     switch (c) {
       case 'A':
         wb_motor_set_position(motors[1], -1.5);
@@ -173,7 +173,8 @@ int main(int argc, char **argv) {
         wb_motor_set_position(gripper[2], 0.0);
         break;
 
-      case 'D': // demo
+      // demo
+      case 'D':
 
         wb_motor_set_velocity(motors[1], 1.0);
         wb_motor_set_velocity(motors[2], 1.0);
@@ -212,7 +213,8 @@ int main(int argc, char **argv) {
         wb_motor_set_position(gripper[2], 0.01);
         break;
 
-      case 'P': // pick and place
+      // pick and place
+      case 'P':
 
         wb_motor_set_velocity(motors[1], 0.5);
         wb_motor_set_velocity(motors[2], 0.5);
