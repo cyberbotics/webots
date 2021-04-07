@@ -1931,10 +1931,8 @@ void WbSolid::applyPhysicsTransform() {
   if (mLinearVelocity && mAngularVelocity) {
     const double *const l = dBodyGetLinearVel(b);
     const double *const a = dBodyGetAngularVel(b);
-    mLinearVelocity->setValueNoSignal(l[0], l[1], l[2]);
-    updateIsLinearVelocityNull();
-    mAngularVelocity->setValueNoSignal(a[0], a[1], a[2]);
-    updateIsAngularVelocityNull();
+    mLinearVelocity->setValue(l[0], l[1], l[2]);
+    mAngularVelocity->setValue(a[0], a[1], a[2]);
   }
 
   // find Solid merger's frame center in world coordinates
