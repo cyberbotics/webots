@@ -53,6 +53,17 @@ PROTO Darwin-opHinge2 [
     local backlash_pelv = backlash
     local backlash_leg_lower = backlash
     local backlash_ankle = backlash
+    -- MX28 specifications extracted from: https://emanual.robotis.com/docs/en/dxl/mx/mx-28/
+    -- Most of the data are extracted from performance graph (1.1) which seems to
+    -- be based on 11.1 V
+    -- Critical values that can be observed are:
+    -- - Torque 1.30 N.m at  7 rpm (i.e. ~0.73 rad/s)
+    -- - Torque 0.14 N.m at 48 rpm (i.e. ~5.03 rad/s)
+    local mx28_max_torque = 2.3 -- StallTorque at 11.1V [N.m]
+    local mx28_max_velocity = 5.24 -- [rad/s] ~= 50 rpm
+    local mx28_damping_constant = 0.27 -- [N.m/(rad/s)] (1.30-0.14)/(5.03-0.73) ~= 0.27
+    local mx28_static_friction = 0.80 -- [N.m] ~= 2.3 - (1.3 + 0.27*0.73)
+    local mx28_resolution = 0.0015 -- [rad] ~= 2pi/4096
   }%
   Robot {
     translation IS translation
@@ -214,39 +225,41 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "Neck"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -1.81
               maxPosition 1.81
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "NeckS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 0 1
             anchor 0.0 -0.0 0.051
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           device2 [
             RotationalMotor {
               name "Head"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -0.36
               maxPosition 0.94
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "HeadS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters2 JointParameters {
             axis 0 -1 0
             position 0.19
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           startPoint Transform {
             rotation 0.5774 0.5773 0.5773 2.0944
@@ -434,20 +447,21 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "Neck"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -1.81
               maxPosition 1.81
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "NeckS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 0 1
             anchor 0.0 -0.0 0.051
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           endPoint Solid {
             translation 0 0 0.051
@@ -476,20 +490,21 @@ PROTO Darwin-opHinge2 [
                   RotationalMotor {
                     name "Head"
                     acceleration 55
-                    maxVelocity 12.26
+                    maxVelocity %{= mx28_max_velocity }%
                     minPosition -0.36
                     maxPosition 0.94
-                    maxTorque 2.5
+                    maxTorque %{= mx28_max_torque }%
                   }
                   PositionSensor {
                     name "HeadS"
+                    resolution %{= mx28_resolution }%
                   }
                 ]
                 jointParameters HingeJointParameters {
                   axis -1 0 0
                   position 0.19
-                  dampingConstant 0.002
-                  staticFriction 0.025
+                  dampingConstant %{= mx28_damping_constant }%
+                  staticFriction %{= mx28_static_friction }%
                 }
                 endPoint Solid {
                   rotation -1 0 0 -0.5954
@@ -671,21 +686,22 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "PelvYL"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -0.69
               maxPosition 2.5
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "PelvYLS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 0 -1
             anchor -0.005 0.037 -0.1222
             position -0.02
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           endPoint Solid {
             translation -0.005 0.037 -0.122
@@ -742,39 +758,41 @@ PROTO Darwin-opHinge2 [
                     RotationalMotor {
                       name "PelvL"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -1
                       maxPosition 0.93
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "PelvLS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
                     axis 0 0 -1
                     position -0.01
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   device2 [
                     RotationalMotor {
                       name "LegUpperL"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -0.5
                       maxPosition 1.68
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "LegUpperLS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters2 JointParameters {
                     axis -1 0 0
                     position 1.15
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   endPoint Solid {
                     children [
@@ -821,21 +839,22 @@ PROTO Darwin-opHinge2 [
                                 RotationalMotor {
                                   name "LegLowerL"
                                   acceleration 55
-                                  maxVelocity 12.26
+                                  maxVelocity %{= mx28_max_velocity }%
                                   minPosition -2.25
                                   maxPosition 0.03
-                                  maxTorque 2.5
+                                  maxTorque %{= mx28_max_torque }%
                                 }
                                 PositionSensor {
                                   name "LegLowerLS"
+                                  resolution %{= mx28_resolution }%
                                 }
                               ]
                               jointParameters HingeJointParameters {
                                 axis -1 0 0
                                 anchor -0 -0.093 0
                                 position -2.25
-                                dampingConstant 0.002
-                                staticFriction 0.025
+                                dampingConstant %{= mx28_damping_constant }%
+                                staticFriction %{= mx28_static_friction }%
                               }
                               endPoint Solid {
                                 translation -0 -0.093 0
@@ -869,33 +888,35 @@ PROTO Darwin-opHinge2 [
                                         RotationalMotor {
                                           name "AnkleL"
                                           acceleration 55
-                                          maxVelocity 12.26
+                                          maxVelocity %{= mx28_max_velocity }%
                                           minPosition -1.39
                                           maxPosition 1.22
-                                          maxTorque 2.5
+                                          maxTorque %{= mx28_max_torque }%
                                         }
                                         PositionSensor {
                                           name "AnkleLS"
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters HingeJointParameters {
                                         axis 1 0 0
                                         anchor 0 -0.093 0
                                         position -1.23
-                                        dampingConstant 0.002
-                                        staticFriction 0.025
+                                        dampingConstant %{= mx28_damping_constant }%
+                                        staticFriction %{= mx28_static_friction }%
                                       }
                                       device2 [
                                         RotationalMotor {
                                           name "FootL"
                                           acceleration 55
-                                          maxVelocity 12.26
+                                          maxVelocity %{= mx28_max_velocity }%
                                           minPosition -1.02
                                           maxPosition 0.6
-                                          maxTorque 2.5
+                                          maxTorque %{= mx28_max_torque }%
                                         }
                                         PositionSensor {
                                           name "FootLS"
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters2 JointParameters {
@@ -905,8 +926,8 @@ PROTO Darwin-opHinge2 [
                                           axis 0 0 1
                                         %{ end }%
                                         position -0.02
-                                        dampingConstant 0.002
-                                        staticFriction 0.025
+                                        dampingConstant %{= mx28_damping_constant }%
+                                        staticFriction %{= mx28_static_friction }%
                                       }
                                       endPoint Solid {
                                         translation 0 -0.093 0
@@ -1083,21 +1104,22 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "PelvYR"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -2.42
               maxPosition 0.66
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "PelvYRS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 0 -1
             anchor -0.005 -0.037 -0.1222
             position -0.01
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           endPoint Solid {
             translation -0.005 -0.037 -0.122
@@ -1150,39 +1172,41 @@ PROTO Darwin-opHinge2 [
                     RotationalMotor {
                       name "PelvR"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -1.01
                       maxPosition 1.01
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "PelvRS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
                     axis 0 0 -1
                     position 0.02
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   device2 [
                     RotationalMotor {
                       name "LegUpperR"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -1.77
                       maxPosition 0.45
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "LegUpperRS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters2 JointParameters {
                     axis 1 0 0
                     position -1.15
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   endPoint Solid {
                     children [
@@ -1229,21 +1253,22 @@ PROTO Darwin-opHinge2 [
                                 RotationalMotor {
                                   name "LegLowerR"
                                   acceleration 55
-                                  maxVelocity 12.26
+                                  maxVelocity %{= mx28_max_velocity }%
                                   minPosition -0.02
                                   maxPosition 2.25
-                                  maxTorque 2.5
+                                  maxTorque %{= mx28_max_torque }%
                                 }
                                 PositionSensor {
                                   name "LegLowerRS"
+                                  resolution %{= mx28_resolution }%
                                 }
                               ]
                               jointParameters HingeJointParameters {
                                 axis 1 0 0
                                 anchor -0 -0.093 0
                                 position 2.25
-                                dampingConstant 0.002
-                                staticFriction 0.025
+                                dampingConstant %{= mx28_damping_constant }%
+                                staticFriction %{= mx28_static_friction }%
                               }
                               endPoint Solid {
                                 translation -0 -0.093 0
@@ -1277,33 +1302,35 @@ PROTO Darwin-opHinge2 [
                                         RotationalMotor {
                                           name "AnkleR"
                                           acceleration 55
-                                          maxVelocity 12.26
+                                          maxVelocity %{= mx28_max_velocity }%
                                           minPosition -1.24
                                           maxPosition 1.38
-                                          maxTorque 2.5
+                                          maxTorque %{= mx28_max_torque }%
                                         }
                                         PositionSensor {
                                           name "AnkleRS"
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters HingeJointParameters {
                                         axis -1 0 0
                                         anchor 0 -0.093 0
                                         position 1.22
-                                        dampingConstant 0.002
-                                        staticFriction 0.025
+                                        dampingConstant %{= mx28_damping_constant }%
+                                        staticFriction %{= mx28_static_friction }%
                                       }
                                       device2 [
                                         RotationalMotor {
                                           name "FootR"
                                           acceleration 55
-                                          maxVelocity 12.26
+                                          maxVelocity %{= mx28_max_velocity }%
                                           minPosition -0.68
                                           maxPosition 1.04
-                                          maxTorque 2.5
+                                          maxTorque %{= mx28_max_torque }%
                                         }
                                         PositionSensor {
                                           name "FootRS"
+                                          resolution %{= mx28_resolution }%
                                         }
                                       ]
                                       jointParameters2 JointParameters {
@@ -1313,8 +1340,8 @@ PROTO Darwin-opHinge2 [
                                           axis 0 0 1
                                         %{ end }%
                                         position 0.05
-                                        dampingConstant 0.002
-                                        staticFriction 0.025
+                                        dampingConstant %{= mx28_damping_constant }%
+                                        staticFriction %{= mx28_static_friction }%
                                       }
                                       endPoint Solid {
                                         translation 0 -0.093 0
@@ -1491,21 +1518,22 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "ShoulderL"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -3.14
               maxPosition 2.85
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "ShoulderLS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 1 0
             anchor -0.0 0.082 0.0
             position 0.72
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           endPoint Solid {
             translation 0 0.082 0
@@ -1537,21 +1565,22 @@ PROTO Darwin-opHinge2 [
                     RotationalMotor {
                       name "ArmUpperL"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -2.25
                       maxPosition 0.77
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "ArmUpperLS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
                     axis 0 0 -1
                     anchor 0 -0.016 0
                     position 0.36
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   endPoint Solid {
                     translation 0 -0.016 0
@@ -1597,21 +1626,22 @@ PROTO Darwin-opHinge2 [
                             RotationalMotor {
                               name "ArmLowerL"
                               acceleration 55
-                              maxVelocity 12.26
+                              maxVelocity %{= mx28_max_velocity }%
                               minPosition -1.18
                               maxPosition 1.63
-                              maxTorque 2.5
+                              maxTorque %{= mx28_max_torque }%
                             }
                             PositionSensor {
                               name "ArmLowerLS"
+                              resolution %{= mx28_resolution }%
                             }
                           ]
                           jointParameters HingeJointParameters {
                             axis 1 0 0
                             anchor 0 -0.06 0.016
                             position -0.52
-                            dampingConstant 0.002
-                            staticFriction 0.025
+                            dampingConstant %{= mx28_damping_constant }%
+                            staticFriction %{= mx28_static_friction }%
                           }
                           endPoint Solid {
                             translation 0 -0.06 0.016
@@ -1737,21 +1767,22 @@ PROTO Darwin-opHinge2 [
             RotationalMotor {
               name "ShoulderR"
               acceleration 55
-              maxVelocity 12.26
+              maxVelocity %{= mx28_max_velocity }%
               minPosition -3.14
               maxPosition 3.14
-              maxTorque 2.5
+              maxTorque %{= mx28_max_torque }%
             }
             PositionSensor {
               name "ShoulderRS"
+              resolution %{= mx28_resolution }%
             }
           ]
           jointParameters HingeJointParameters {
             axis 0 -1 0
             anchor 0.0 -0.082 -0.0
             position -0.84
-            dampingConstant 0.002
-            staticFriction 0.025
+            dampingConstant %{= mx28_damping_constant }%
+            staticFriction %{= mx28_static_friction }%
           }
           endPoint Solid {
             translation 0 -0.082 0
@@ -1783,21 +1814,22 @@ PROTO Darwin-opHinge2 [
                     RotationalMotor {
                       name "ArmUpperR"
                       acceleration 55
-                      maxVelocity 12.26
+                      maxVelocity %{= mx28_max_velocity }%
                       minPosition -0.68
                       maxPosition 2.3
-                      maxTorque 2.5
+                      maxTorque %{= mx28_max_torque }%
                     }
                     PositionSensor {
                       name "ArmUpperRS"
+                      resolution %{= mx28_resolution }%
                     }
                   ]
                   jointParameters HingeJointParameters {
                     axis 0 0 -1
                     anchor 0 -0.016 0
                     position -0.33
-                    dampingConstant 0.002
-                    staticFriction 0.025
+                    dampingConstant %{= mx28_damping_constant }%
+                    staticFriction %{= mx28_static_friction }%
                   }
                   endPoint Solid {
                     translation 0 -0.016 0
@@ -1843,21 +1875,22 @@ PROTO Darwin-opHinge2 [
                             RotationalMotor {
                               name "ArmLowerR"
                               acceleration 55
-                              maxVelocity 12.26
+                              maxVelocity %{= mx28_max_velocity }%
                               minPosition -1.65
                               maxPosition 1.16
-                              maxTorque 2.5
+                              maxTorque %{= mx28_max_torque }%
                             }
                             PositionSensor {
                               name "ArmLowerRS"
+                              resolution %{= mx28_resolution }%
                             }
                           ]
                           jointParameters HingeJointParameters {
                             axis -1 0 0
                             anchor 0 -0.06 0.016
                             position 0.51
-                            dampingConstant 0.002
-                            staticFriction 0.025
+                            dampingConstant %{= mx28_damping_constant }%
+                            staticFriction %{= mx28_static_friction }%
                           }
                           endPoint Solid {
                             translation 0 -0.06 0.016
