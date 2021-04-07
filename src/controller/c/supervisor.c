@@ -387,7 +387,7 @@ static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
-static double *relative_pose = NULL;
+static double node_pose[16];
 static WbNodeRef pose_from_node_ref = NULL;
 static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
@@ -974,10 +974,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         orientation_node_ref->orientation[i] = request_read_double(r);
       break;
     case C_SUPERVISOR_NODE_GET_POSE:
-      free(relative_pose);
-      relative_pose = malloc(16 * sizeof(double));
       for (i = 0; i < 16; i++)
-        relative_pose[i] = request_read_double(r);
+        node_pose[i] = request_read_double(r);
       break;
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
@@ -1878,7 +1876,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   pose_from_node_ref = NULL;
   pose_to_node_ref = NULL;
   robot_mutex_unlock_step();
-  return relative_pose ? relative_pose : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
+  return node_pose;
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
