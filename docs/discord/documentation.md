@@ -1815,3 +1815,63 @@ Webots\projects\devices\sharp\protos is where mine is located
 ##### Elizaveta\_Potemkina 03/02/2021 17:33:23
 Thanks, just found it actually!
 
+##### Shyam 03/20/2021 19:58:06
+is there something wrong with the documentation page on website?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
+%end
+
+##### harunkurt00 03/20/2021 20:03:57
+Yes , same with me this documentation website
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/22/2021 07:26:31
+I believe this is now fixed.
+
+##### Shyam 03/22/2021 10:37:54
+Yes, thank you for the update `@Olivier Michel`
+
+##### Westin 03/24/2021 15:49:09
+Is anyone else having issues with the docs page?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/824308871422017536/unknown.png)
+%end
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:50:50
+Can you check again now?
+
+##### Westin 03/24/2021 15:51:01
+Yes its working, thanks.
+
+
+There is also an issue in the webots download link. Pressing the drop down button gets you there, but the main button gets a 404.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/824309651982123028/unknown.png)
+%end
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:53:14
+Strange, I don't get any 404 with the main button...
+
+
+From which browser are you trying this?
+
+
+The "NaN undefined NaN - undefined" seems to indicate that our Javascript is unable to determine your platform (Window, macOS or Linux).
+
+
+Which is your operating system?
+
+##### Westin 03/24/2021 15:56:25
+I'm not having the issue now. I tried on Edge and Chrome on Windows 10 and got the same result each time.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:57:13
+Do you mean the issue disappeared suddenly?
+
+##### Westin 03/24/2021 15:59:40
+Yes I loaded the page again after a few minutes and it displays properly.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:59:56
+Strange...
+
+##### Westin 03/24/2021 16:00:39
+Yep.
+

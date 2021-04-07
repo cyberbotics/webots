@@ -590,16 +590,16 @@ Devices are available through their services.
 
 *get a unique identifier to a device*
 
-The `wb_robot_get_device` function (available in C and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
+The `wb_robot_get_device` function (available in C, Python and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function will return the unique identifier of that device.
 This `WbDeviceTag` identifier will be used subsequently for enabling, sending commands to, or reading data from this device.
-If the specified device is not found, the function returns 0.
+If the specified device is not found, the function returns 0 in C and MATLAB or `None` in Python.
 
-In C++, Java or Python, users should use the device specific typed methods, for example `getDistanceSensor`.
+In C++ or Java, users should use the device specific typed methods, for example `getDistanceSensor`.
 These functions return a reference to an object corresponding to a specified `name`.
 Depending on the called function, this object can be an instance of a `Device` subclass.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function `getDistanceSensor` will return a reference to a [DistanceSensor](distancesensor.md) object.
-If the specified device is not found, the function returns `NULL` in C++, `null` in Java or the `none` in Python.
+If the specified device is not found, the function returns `NULL` in C++ or `null` in Java.
 
 ---
 
