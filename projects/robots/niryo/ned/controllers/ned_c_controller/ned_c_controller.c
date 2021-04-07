@@ -40,7 +40,7 @@ static void passive_wait(double sec) {
 
 // function to show the different commands
 static void show_commands() {
-  printf("------------COMMANDS--------------\n");
+  printf("------------COMMANDS---------------\n");
   printf("Launch demo --> D\n");
   printf("Move joint1 --> A and Z\n");
   printf("Move joint2 --> Q and S\n");
@@ -50,7 +50,7 @@ static void show_commands() {
   printf("Move joint6 --> B and N\n");
   printf("Open Close Gripper --> L or M\n");
   printf("Launch Pick and Place --> P\n");
-  printf("----------------------------------\n");
+  printf("-----------------------------------\n");
 }
 
 int main(int argc, char **argv) {
