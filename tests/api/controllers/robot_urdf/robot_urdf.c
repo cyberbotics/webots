@@ -67,8 +67,7 @@ int main(int argc, char **argv) {
   FILE *f_urdf_ref = fopen(reference_filename, "r");
   int line = compare_files(f_urdf_ref, f_urdf);
 
-  
-  if (line != 0) {
+    if (line != 0) {
     int unused __attribute__((unused));
     char *file_contents;
     fseek(f_urdf, 0, SEEK_END);
