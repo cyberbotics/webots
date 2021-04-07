@@ -348,8 +348,8 @@ void WbField::redirectTo(WbField *parameter) {
     connect(static_cast<WbSFVector2 *>(mValue), &WbSFVector2::changedByWebots, mParameter, &WbField::fieldChangedByOde);
   } else if (fieldName == "rotation")
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
-  else if (fieldName == "position")
-    connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+  // else if (fieldName == "position")
+  //  connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
 }
 
 void WbField::removeInternalField(QObject *field) {
