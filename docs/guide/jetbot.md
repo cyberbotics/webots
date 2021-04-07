@@ -21,6 +21,7 @@ JetBot {
   SFString     customData         ""
   SFBool       supervisor         FALSE
   SFBool       synchronization    TRUE
+  SFColor      chassis_color      0.571 0.817 0.479
   SFFloat      camera_fieldOfView 2.79253
   SFInt32      camera_width       1280
   SFInt32      camera_height      720
@@ -35,6 +36,7 @@ JetBot {
 
 #### JetBot Field Summary
 
+- `chassis_color`:  Defines the color of the robot's chassis.
 - `camera_fieldOfView`:  Defines the `fieldOfView` field of the [Camera](../reference/camera.md).
 - `camera_width`: Defines the `width` field of the [Camera](../reference/camera.md).
 - `camera_height`: Defines the `height` field of the [Camera](../reference/camera.md).
