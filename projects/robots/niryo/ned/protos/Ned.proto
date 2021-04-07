@@ -4,10 +4,10 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/ned
 # A 6-axis collaborative robot based on open-source technologies designed for Education, Professional Training and Research.
 
-PROTO NedGripper [
+PROTO Ned [
   field  SFVec3f     translation     0 0 0              # Is `Transform.translation`.
   field  SFRotation  rotation        0 1 0 0            # Is `Transform.rotation`.
-  field  SFString    name            "NedGripper"       # Is `Robot.name`.
+  field  SFString    name            "Ned"              # Is `Robot.name`.
   field  SFString    controller      "ned_c_controller" # Is `Robot.controller`.
   field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
   field  SFString    customData      ""                 # Is `Robot.customData`.
@@ -493,7 +493,7 @@ PROTO NedGripper [
                         HingeJoint {
                           jointParameters HingeJointParameters {
                             axis -0.000796 1.000000 0.000001
-                            anchor 0.032000 0.062500 0.000000
+                            anchor 0.022000 0.072500 0.000000
                             dampingConstant 0.0
                             staticFriction 0.0
                           }
@@ -507,7 +507,7 @@ PROTO NedGripper [
                             }
                           ]
                           endPoint Solid {
-                            translation 0.032000 0.062500 0.000000
+                            translation 0.022000 0.072500 0.000000
                             rotation -0.577503 -0.577503 -0.577044 2.093475
                             children [
                               Transform {
