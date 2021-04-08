@@ -10,11 +10,11 @@
       },
       "reentryStartingPose": {
         "translation": [-3, -3.11, 0.24],
-        "rotation": [0.0, 0.707, 0.707, 3.14]
+        "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
-        "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+        "rotation": [0, 0, 1, 1.57]
       }
     },
     "2": {
