@@ -477,29 +477,29 @@ while supervisor.step(time_step) != -1:
                     info('End of match')
         ball_translation = game.ball_translation.getSFVec3f()
         if game.ball_exited_countdown == 0 and \
-            (ball_translation[1] > game.field_size_y or
-             ball_translation[1] < -game.field_size_y or
-             ball_translation[0] > game.field_size_x or
-             ball_translation[0] < -game.field_size_x):
+            (ball_translation[1] - game.ball_radius > game.field_size_y or
+             ball_translation[1] + game.ball_radius < -game.field_size_y or
+             ball_translation[0] - game.ball_radius > game.field_size_x or
+             ball_translation[0] + game.ball_radius < -game.field_size_x):
             game.ball_exited_countdown = int(2000 / time_step)  # wait 2 seconds after ball exited to replace it
             game.ball_exit_translation = ball_translation
             scoring_team = None
-            if game.ball_exit_translation[1] > game.field_size_y:
-                game.ball_exit_translation[1] = game.field_size_y
-            elif game.ball_exit_translation[1] < -game.field_size_y:
-                game.ball_exit_translation[1] = -game.field_size_y
-            if game.ball_exit_translation[0] > game.field_size_x:
+            if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
+                game.ball_exit_translation[1] = game.field_size_y - 0.025
+            elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
+                game.ball_exit_translation[1] = -game.field_size_y + 0.025
+            if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
                     scoring_team = game.side_left
                 else:
-                    game.ball_exit_translation[0] = game.field_size_x
-            elif game.ball_exit_translation[0] < -game.field_size_x:
+                    game.ball_exit_translation[0] = game.field_size_x - 0.025
+            elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 else:
-                    game.ball_exit_translation[0] = -game.field_size_x
+                    game.ball_exit_translation[0] = -game.field_size_x + 0.025
             if scoring_team:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_team}')
@@ -539,8 +539,8 @@ while supervisor.step(time_step) != -1:
     if game.ball_exited_countdown > 0:
         game.ball_exited_countdown -= 1
         if game.ball_exited_countdown == 0:
-            game.ball_translation.setSFVec3f(game.ball_exit_translation)
             game.ball.resetPhysics()
+            game.ball_translation.setSFVec3f(game.ball_exit_translation)
 
     time_count += time_step
     delta_time = real_time_start - time.time() + REAL_TIME_FACTOR * time_count / 1000
