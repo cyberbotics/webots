@@ -11,11 +11,24 @@ WorldInfo {
         1
       ]
     }
+    ContactProperties {
+      material2 "jetbot rear wheel"
+      coulombFriction [
+        0
+      ]
+      forceDependentSlip [
+        1
+      ]
+    }
+    ContactProperties {
+      material2 "jetbot wheel"
+    }
   ]
 }
 Viewpoint {
-  orientation -0.21405400357153 -0.6054612598766158 -0.766549115415066 3.6708889011026464
-  position 0.19918906702694938 0.24681628131710442 0.13568754239943362
+  orientation -0.010521174493511854 -0.6809775398591578 -0.7322287177478404 3.1642177095526614
+  position -0.0024757883725285493 0.38229419677255455 0.07805698590240168
+  follow "JetBot"
 }
 TexturedBackground {
 }

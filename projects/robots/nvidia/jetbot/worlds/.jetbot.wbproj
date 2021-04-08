@@ -6,6 +6,8 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 projectionMode: PERSPECTIVE
 orthographicViewHeight: 0.0520463
-textFiles: 1 "worlds/jetbot.wbt" "protos/JetBot.proto"
-globalOptionalRendering: JointAxes::CoordinateSystem::CameraFrustums::AllBoundingObjects
+textFiles: 1 "protos/JetBot.proto" "controllers/jetbot/jetbot.py"
+globalOptionalRendering: JointAxes::CoordinateSystem::CameraFrustums
 consoles: Console:All:All
+renderingDevicePerspectives: JetBot:camera;0;0.710938;0;0
+renderingDevicePerspectives: JetBot:display;0;1;0;0

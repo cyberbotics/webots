@@ -926,6 +926,8 @@ PROTO JetBot [
                     }
                   }
                 ]
+                width 128
+                height 32
               }
             ]
           }
@@ -1011,7 +1013,7 @@ PROTO JetBot [
           }
         ]
         name "rear_wheel"
-        contactMaterial "jetbot_rear_wheel"
+        contactMaterial "jetbot rear wheel"
         boundingObject Group {
           children [
             DEF REAR_WHEEL Transform {
@@ -1065,6 +1067,7 @@ PROTO JetBot [
             }
           ]
           name "left wheel"
+          contactMaterial "jetbot wheel"
           boundingObject Transform {
             translation 4.01 0 0
             rotation 0 0 1 1.5708
@@ -1099,6 +1102,7 @@ PROTO JetBot [
             USE WHEEL_SHAPE
           ]
           name "right wheel"
+          contactMaterial "jetbot wheel"
           boundingObject Transform {
             translation 4.01 0 0
             rotation 0 0 1 1.5708
@@ -1181,7 +1185,7 @@ PROTO JetBot [
       density -1
       mass 0.5
       centerOfMass [
-        -0.04 0 0.005
+        -0.007 0 0.068
       ]
     }
     controller IS controller
