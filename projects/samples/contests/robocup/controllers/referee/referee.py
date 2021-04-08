@@ -21,7 +21,6 @@ import json
 import math
 import os
 import random
-from shutil import copyfile
 import socket
 import subprocess
 import sys
@@ -142,17 +141,22 @@ def update_score_display():
     supervisor.setLabel(8, blue_score, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
 
 
-def setup_display():
+def update_team_display():
     red = 0xd62929
     blue = 0x2943d6
-    black = 0x000000
-    white = 0xffffff
     n = len(red_team['name'])
     red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
     n = len(blue_team['name'])
     blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
+    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, red, 0.2, game.font)
+    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, blue, 0.2, game.font)
+    update_score_display()
+
+
+def setup_display():
+    black = 0x000000
+    white = 0xffffff
     transparency = 0.2
-    # default background
     x = game.overlay_x
     y = game.overlay_y
     size = game.font_size
@@ -161,12 +165,10 @@ def setup_display():
     supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 14, x, y, size, white, transparency, font)
     # team name background
     supervisor.setLabel(1, ' ' * 7 + '█' * 14 + ' ' * 5 + 14 * '█', x, y, size, white, transparency * 2, font)
-    supervisor.setLabel(2, red_team_name, x, y, size, red, transparency, font)
-    supervisor.setLabel(3, blue_team_name, x, y, size, blue, transparency, font)
-    supervisor.setLabel(4, ' ' * 23 + '-', x, y, size, black, transparency, font)
+    supervisor.setLabel(2, ' ' * 23 + '-', x, y, size, black, transparency, font)
+    update_team_display()
     update_time_display()
     update_state_display()
-    update_score_display()
 
 
 def game_controller_heartbeat():
@@ -228,10 +230,12 @@ def game_controller_send(message):
         game_controller_send.id += 1
         message = f'{game_controller_send.id}:{message}\n'
         game.controller.sendall(message.encode('ascii'))
+        # info(f'sending {message.strip()} to GameController')
         game_controller_send.unanswered[game_controller_send.id] = message.strip()
         while True:
             try:
                 answers = game.controller.recv(1024).decode('ascii').split('\n')
+                # info(f'received {answers} from GameController')
                 for answer in answers:
                     try:
                         id, result = answer.split(':')
@@ -297,9 +301,30 @@ def send_penalties(team, color):
             robot.resetPhysics()
             translation = robot.getField('translation')
             rotation = robot.getField('rotation')
-            translation.setSFVec3f(team['players'][number]['reentryStartingPose']['translation'])
-            rotation.setSFRotation(team['players'][number]['reentryStartingPose']['rotation'])
+            t = team['players'][number]['reentryStartingPose']['translation']
+            r = team['players'][number]['reentryStartingPose']['rotation']
+            swap = (game.side_left == game.blue.id) if color == 'red' else (game.side_left == game.red.id)
+            if swap:
+                t[0] = -t[0]
+                r[3] = math.pi - r[3]
+            translation.setSFVec3f(t)
+            rotation.setSFRotation(r)
             info(f'{penalty} penalty for {color} player {number}: {reason}.')
+
+
+def reset_to_kickoff_pose(team, color):
+    for number in team['players']:
+        robot = team['players'][number]['robot']
+        robot.resetPhysics()
+        translation = robot.getField('translation')
+        rotation = robot.getField('rotation')
+        t = team['players'][number]['halfTimeStartingPose']['translation']
+        r = team['players'][number]['halfTimeStartingPose']['rotation']
+        t[0] = -t[0]
+        r[3] = math.pi - r[3]
+        translation.setSFVec3f(t)
+        rotation.setSFRotation(r)
+        info(f'{color} player {number} reset to halfTimeStartingPose for second half.')
 
 
 game_controller_send.id = 0
@@ -443,6 +468,10 @@ while supervisor.step(time_step) != -1:
                 game_controller_send('STATE:FINISH')
                 if game.state.first_half:
                     info('End of first half')
+                    game.side_left = 2 if game.side_left == 1 else 1  # swap sides (the GameController does it automatically)
+                    update_team_display()
+                    reset_to_kickoff_pose(red_team, 'red')
+                    reset_to_kickoff_pose(blue_team, 'blue')
                     game.finish_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
                 else:
                     info('End of match')
