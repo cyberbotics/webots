@@ -44,8 +44,6 @@ QSize WbMultimediaStreamingLimiter::fullResolution() const {
 void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {
   mIsStopped = false;
   mResolutionChanged = false;
-  if (mIsStopped)
-    return;
 
   if (skippedImages > 0)
     mIncreasingSteps++;

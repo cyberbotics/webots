@@ -292,8 +292,10 @@ PROTO RobocupSoccerField [
         }
       }
       DEF LINES Shape {
-        appearance WhiteGrass {
+        appearance Grass {
           colorOverride 1 1 1
+          type "artificial_white"
+          IBLStrength 1.5
           textureTransform TextureTransform {
             scale %{= 2 * A }% %{= 2 * A }%
           }

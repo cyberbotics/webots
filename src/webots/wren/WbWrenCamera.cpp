@@ -764,7 +764,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mBloomThreshold != -1.0f && mType == 'c')
     mWrenBloom[index]->setup(mCameraViewport[index]);
@@ -870,7 +870,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
