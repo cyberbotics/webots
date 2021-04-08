@@ -264,7 +264,7 @@ def point_inside_field(point):
     return True
 
 
-def check_team_position(team):
+def check_team_position(team, color):
     for number in team['players']:
         robot = team['players'][number]['robot']
         n = robot.getNumberOfContactPoints(True)
@@ -272,13 +272,25 @@ def check_team_position(team):
             point = robot.getContactPoint(i)
             if point_inside_field(point):
                 team['players'][number]['penalty'] = 'INCAPABLE'
+                team['players'][number]['penalty_reason'] = 'halfTimeStartingPose inside field'
+            else:  # check if player are fully on their side of the field
+                if game.side_left == (game.red.id if color == 'red' else game.blue.id):
+                    if point[0] > -0.025:  # line width is 5 cm
+                        team['players'][number]['penalty'] = 'INCAPABLE'
+                        team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
+                else:
+                    if point[0] < 0.025:
+                        team['players'][number]['penalty'] = 'INCAPABLE'
+                        team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
 
 
 def send_penalties(team, color):
     for number in team['players']:
         if 'penalty' in team['players'][number]:
             penalty = team['players'][number]['penalty']
+            reason = team['players'][number]['penalty_reason']
             del team['players'][number]['penalty']
+            del team['players'][number]['penalty_reason']
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             robot = team['players'][number]['robot']
@@ -287,7 +299,7 @@ def send_penalties(team, color):
             rotation = robot.getField('rotation')
             translation.setSFVec3f(team['players'][number]['reentryStartingPose']['translation'])
             rotation.setSFRotation(team['players'][number]['reentryStartingPose']['rotation'])
-            info(f'{penalty} penalty for {color} player {number}')
+            info(f'{penalty} penalty for {color} player {number}: {reason}.')
 
 
 game_controller_send.id = 0
@@ -483,8 +495,8 @@ while supervisor.step(time_step) != -1:
                 info('End of the game: the winner is...')
 
     elif game.state.game_state == 'STATE_INITIAL':
-        check_team_position(red_team)
-        check_team_position(blue_team)
+        check_team_position(red_team, 'red')
+        check_team_position(blue_team, 'blue')
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
