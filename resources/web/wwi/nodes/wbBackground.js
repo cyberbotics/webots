@@ -207,7 +207,7 @@ class WbBackground extends WbBaseNode {
       }
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.
-      if (this.cubeMapTexture !== 'undefined') {
+      if (typeof this.cubeMapTexture !== 'undefined') {
         this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(this.cubeMapTexture, WbWrenShaders.iblSpecularIrradianceBakingShader(), 64);
         _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
       }

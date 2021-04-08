@@ -360,10 +360,6 @@ class Parser {
   }
 
   async parseTransform(node, currentNode, isBoundingObject) {
-    const isPropeller = getNodeAttribute(node, 'name', 'false').toLowerCase() === 'display';
-    if(isPropeller){
-      console.log(node)
-    }
     const use = await this.checkUse(node, currentNode);
     if (typeof use !== 'undefined')
       return use;
