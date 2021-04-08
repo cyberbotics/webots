@@ -340,14 +340,14 @@ try:
             error(f'{GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.')
             game.controller_process = None
         else:
-            copyfile('game.json', os.path.join(GAME_CONTROLLER_HOME, 'resources', 'config', 'sim', 'game.json'))
             path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'config', f'hl_sim_{field_size}', 'teams.cfg')
             red_line = f'{game.red.id}={red_team["name"]}\n'
             blue_line = f'{game.blue.id}={blue_team["name"]}\n'
+            json_file = os.path.join(os.getcwd(), 'game.json')
             with open(path, 'w') as file:
                 file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
             game.controller_process = subprocess.Popen(
-              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar'],
+              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar', '--config', json_file],
               cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
@@ -489,10 +489,12 @@ while supervisor.step(time_step) != -1:
         game.finish_countdown -= 1
         if game.state.first_half:
             if game.finish_countdown == 0:
-                game_controller_send('STATE:READY')  # begining of second half
+                info('Begining of second half.')
+                game_controller_send('STATE:READY')
         else:
             if game.finish_countdown == 0:
-                info('End of the game: the winner is...')
+                info('End of the game.')
+                break
 
     elif game.state.game_state == 'STATE_INITIAL':
         check_team_position(red_team, 'red')
