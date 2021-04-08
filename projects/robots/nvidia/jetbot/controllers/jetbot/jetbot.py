@@ -8,7 +8,6 @@ class JetBot(Robot):
     def init(self):
         self.left_motor = self.getDevice('left_wheel_hinge')
         self.right_motor = self.getDevice('right_wheel_hinge')
-        self.camera_motor = self.getDevice('camera_joint')
         self.camera = self.getDevice('camera')
         self.display = self.getDevice('display')
         self.right_motor.setPosition(float('+inf'))
