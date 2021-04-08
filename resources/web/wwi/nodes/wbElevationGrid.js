@@ -25,7 +25,7 @@ class WbElevationGrid extends WbGeometry {
     this.zSpacing = zSpacing;
     this.thickness = thickness;
 
-    this.wrenMesh = undefined;
+    this.wrenMesh;
   }
 
   delete() {
@@ -71,8 +71,6 @@ class WbElevationGrid extends WbGeometry {
 
     _free(heightDataPointer);
 
-    // This must be done after WbGeometry::computeWrenRenderable() otherwise
-    // the outline scaling is applied to the wrong WREN transform
     if (createOutlineMesh)
       this.updateLineScale();
     else

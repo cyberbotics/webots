@@ -14,8 +14,8 @@
 
 class WbImage {
   constructor() {
-    this.url = undefined;
-    this.bits = undefined;
+    this.url;
+    this.bits;
     this.width = 0;
     this.height = 0;
     this.isTranslucent = false;

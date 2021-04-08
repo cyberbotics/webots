@@ -34,13 +34,13 @@ class WbImageTexture extends WbBaseNode {
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0;
 
-    this.wrenTexture = undefined;
-    this.wrenTextureTransform = undefined;
-    this.wrenBackgroundTexture = undefined;
+    this.wrenTexture;
+    this.wrenTextureTransform;
+    this.wrenBackgroundTexture;
     this.externalTexture = false;
     this.externalTextureRatio = new WbVector2(1.0, 1.0);
 
-    this.type = undefined; // use in pbr appearance to know what is the role of this image
+    this.type; // use in pbr appearance to know what is the role of this image
   }
 
   delete() {

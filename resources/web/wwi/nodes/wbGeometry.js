@@ -23,14 +23,12 @@ import {Selector} from './../selector.js';
 class WbGeometry extends WbBaseNode {
   constructor(id) {
     super(id);
-    this.wrenScaleTransform = undefined;
-    this.wrenRenderable = undefined;
-    this.wrenMesh = undefined;
+    this.wrenScaleTransform;
+    this.wrenRenderable;
+    this.wrenMesh;
 
     this.pickable = false;
     this.isShadedGeometryPickable = true;
-
-    this.LINE_SCALE_FACTOR = 250.0;
   }
 
   delete() {
@@ -47,7 +45,7 @@ class WbGeometry extends WbBaseNode {
   }
 
   setPickable(pickable) {
-    if (!this.wrenRenderable || super.isInBoundingObject())
+    if (typeof this.wrenRenderable === 'undefined'|| super.isInBoundingObject())
       return;
 
     this.pickable = pickable && this.isShadedGeometryPickable;
@@ -67,18 +65,18 @@ class WbGeometry extends WbBaseNode {
     if (super.isInBoundingObject()) {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
-      _wr_renderable_set_drawing_mode(this.renRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+      _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
     }
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
 
-    this.applyVisibilityFlagToWren(this.isSelected());
+    this.updateBoundingObjectVisibility();
 
     this.computeCastShadows(true);
   }
 
   applyVisibilityFlagToWren(selected) {
-    if (!this.wrenScaleTransform)
+    if (typeof this.wrenScaleTransform === 'undefined')
       return;
 
     if (super.isInBoundingObject()) {
@@ -141,8 +139,8 @@ class WbGeometry extends WbBaseNode {
     if (!super.isInBoundingObject())
       return false;
 
-    const ut = super.upperTransform();
-    if (typeof ut !== 'undefined' && ut.isInBoundingObject() && ut.geometry !== this)
+    const upperTransform = super.upperTransform();
+    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry !== this)
       return false;
 
     return true;
@@ -153,6 +151,7 @@ class WbGeometry extends WbBaseNode {
       return true;
     else if (typeof this.parent !== 'undefined')
       return Selector.checkIfParentisSelected(this);
+      
     return false;
   }
 }
