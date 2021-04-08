@@ -36,7 +36,6 @@ class WbImageTexture extends WbBaseNode {
 
     this.wrenTexture;
     this.wrenTextureTransform;
-    this.wrenBackgroundTexture;
     this.externalTexture = false;
     this.externalTextureRatio = new WbVector2(1.0, 1.0);
 
@@ -101,22 +100,7 @@ class WbImageTexture extends WbBaseNode {
       }
     }
 
-    _wr_material_set_texture(wrenMaterial, this.wrenBackgroundTexture, backgroundTextureIndex);
-    if (typeof this.wrenBackgroundTexture !== 'undefined') {
-      console.log(this.url);
-      // background texture can't be transparent
-      _wr_texture_set_translucent(this.wrenBackgroundTexture, false);
-
-      // if there's an opaque background texture, we can't treat the foreground texture as opaque, as we're going to alpha blend
-      // them in the shader anyway
-      if (typeof this.wrenTexture !== 'undefined')
-        _wr_texture_set_translucent(this.wrenTexture, false);
-
-      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, backgroundTextureIndex);
-      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, backgroundTextureIndex);
-      _wr_material_set_texture_enable_interpolation(wrenMaterial, false, backgroundTextureIndex);
-      _wr_material_set_texture_enable_mip_maps(wrenMaterial, false, backgroundTextureIndex);
-    }
+    _wr_material_set_texture(wrenMaterial, null, backgroundTextureIndex);
   }
 
   async updateWrenTexture() {
@@ -152,10 +136,6 @@ class WbImageTexture extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
     this.updateFiltering();
-  }
-
-  postFinalize() {
-    super.postFinalize();
   }
 
   async updateUrl() {

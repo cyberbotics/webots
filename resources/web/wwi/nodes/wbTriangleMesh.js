@@ -57,7 +57,7 @@ class WbTriangleMesh {
     return this.nonRecursiveTextureCoordinates[2 * this.index(triangle, vertex) + component];
   }
 
-  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, creaseAngle, counterClockwise, normalPerVertex) {
+  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, counterClockwise, normalPerVertex) {
     this.normalPerVertex = normalPerVertex;
 
     // initial obvious check
@@ -82,7 +82,7 @@ class WbTriangleMesh {
     this.normalsValid = isNormalDefined;
     if (this.normalPerVertex) {
       if (isNormalDefined && isNormalIndexDefined && normalIndex.length !== coordIndex.length) {
-        console.warn("Invalid normal definition: the sizes of 'coordIndex' and 'normalIndex' mismatch. The normals will be computed using the creaseAngle.");
+        console.warn("Invalid normal definition: the sizes of 'coordIndex' and 'normalIndex' mismatch.");
         this.normalsValid = false;
       }
     }
@@ -93,14 +93,14 @@ class WbTriangleMesh {
     this.numberOfTriangles = this.coordIndices.length / 3;
 
     if (this.normalsValid && !this.normalPerVertex && this.numberOfTriangles > normal.length) {
-      console.warn("Invalid normal definition: the size of 'normal' should equal the number of triangles when 'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle.");
+      console.warn("Invalid normal definition: the size of 'normal' should equal the number of triangles when 'normalPerVertex' is FALSE.");
       this.normalsValid = false;
     }
 
     if (!counterClockwise)
       this.reverseIndexOrder();
 
-    this.finalPass(coord, normal, texCoord, creaseAngle);
+    this.finalPass(coord, normal, texCoord);
 
     // final obvious check
     if (this.numberOfTriangles <= 0) {
@@ -137,7 +137,7 @@ class WbTriangleMesh {
   }
 
   // populate this.coordinates, this.textureCoordinates and this.normals
-  finalPass(coord, normal, texCoord, creaseAngle) {
+  finalPass(coord, normal, texCoord) {
     const texCoordSize = typeof texCoord !== 'undefined' ? texCoord.length : 0;
     const normalSize = typeof normal !== 'undefined' ? normal.length : 0;
     const coordSize = coord.length;

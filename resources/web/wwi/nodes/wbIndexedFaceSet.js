@@ -15,7 +15,7 @@
 import {WbTriangleMeshGeometry} from './wbTriangleMeshGeometry.js';
 
 class WbIndexedFaceSet extends WbTriangleMeshGeometry {
-  constructor(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, creaseAngle, ccw, normalPerVertex) {
+  constructor(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, ccw, normalPerVertex) {
     super(id);
 
     this.coordIndex = coordIndex;
@@ -26,18 +26,17 @@ class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.texCoord = texCoord;
     this.normal = normal;
 
-    this.creaseAngle = creaseAngle;
     this.ccw = ccw;
     this.normalPerVertex = normalPerVertex;
   }
 
   updateTriangleMesh() {
-    this.triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.creaseAngle, this.ccw, this.normalPerVertex);
+    this.triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.ccw, this.normalPerVertex);
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbIndexedFaceSet(customID, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.creaseAngle, this.ccw, this.normalPerVertex);
+    return new WbIndexedFaceSet(customID, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.ccw, this.normalPerVertex);
   }
 }
 
