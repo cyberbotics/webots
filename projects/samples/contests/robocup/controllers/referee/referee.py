@@ -207,6 +207,8 @@ def game_controller_heartbeat():
         previous_blue_score = 0
 
     game.state = GameState.parse(data)
+    if previous_state != game.state.game_state:
+        info(f'New state received from GameController: {game.state.game_state}')
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
        game.state.seconds_remaining == 0:
@@ -219,15 +221,17 @@ def game_controller_heartbeat():
        previous_blue_score != game.state.teams[blue].score:
         update_score_display()
     # print(game.state)
-    info = str(game.state.secondary_state_info)
+    secondary_state_info = str(game.state.secondary_state_info)
     secondary_state = game.state.secondary_state
     if secondary_state != 'STATE_NORMAL':
-        print(f'GameController {secondary_state}: {info}')
+        print(f'GameController {secondary_state}: {secondary_state_info}')
 
 
 def game_controller_send(message):
     if game.controller:
         game_controller_send.id += 1
+        if message[:6] == 'STATE:':
+            info(f'Sending {message} to GameController')
         message = f'{game_controller_send.id}:{message}\n'
         game.controller.sendall(message.encode('ascii'))
         # info(f'sending {message.strip()} to GameController')
@@ -452,7 +456,6 @@ game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
 game.ready_countdown = (int)(120000 * REAL_TIME_FACTOR / time_step)  # 2 real minutes before we enter the ready state
 game.play_countdown = 0
-game.finish_countdown = 0
 previous_seconds_remaining = 0
 real_time_start = time.time()
 while supervisor.step(time_step) != -1:
@@ -472,7 +475,6 @@ while supervisor.step(time_step) != -1:
                     update_team_display()
                     reset_to_kickoff_pose(red_team, 'red')
                     reset_to_kickoff_pose(blue_team, 'blue')
-                    game.finish_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
                 else:
                     info('End of match')
         ball_translation = game.ball_translation.getSFVec3f()
@@ -515,16 +517,15 @@ while supervisor.step(time_step) != -1:
             game_controller_send('STATE:PLAY')
             info('State: PLAYING')
     elif game.state.game_state == 'STATE_FINISHED':
-        game.finish_countdown -= 1
         if game.state.first_half:
-            if game.finish_countdown == 0:
+            if game.ready_countdown == 0:
+                print('state FINISHED!')
                 info('Begining of second half.')
-                game_controller_send('STATE:SECOND-HALF')
-                game_controller_send('STATE:READY')
+                game.ready_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
+
         else:
-            if game.finish_countdown == 0:
-                info('End of the game.')
-                break
+            info('End of the game.')
+            break
 
     elif game.state.game_state == 'STATE_INITIAL':
         check_team_position(red_team, 'red')
