@@ -190,7 +190,7 @@ def game_controller_heartbeat():
         error(f'UDP input failure: {e}')
         pass
     if not data:
-        error(f'No UDP data received')
+        error('No UDP data received')
         return
     previous_seconds_remaining = game.state.seconds_remaining if game.state else None
     previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else None
@@ -271,16 +271,22 @@ def check_team_position(team):
         for i in range(0, n):
             point = robot.getContactPoint(i)
             if point_inside_field(point):
-                team['player'][number]['penalty'] = 'INCAPABLE'
+                team['players'][number]['penalty'] = 'INCAPABLE'
 
 
 def send_penalties(team, color):
     for number in team['players']:
         if 'penalty' in team['players'][number]:
             penalty = team['players'][number]['penalty']
-            team['players'][number].remove('penalty')
+            del team['players'][number]['penalty']
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
+            robot = team['players'][number]['robot']
+            robot.resetPhysics()
+            translation = robot.getField('translation')
+            rotation = robot.getField('rotation')
+            translation.setSFVec3f(team['players'][number]['reentryStartingPose']['translation'])
+            rotation.setSFRotation(team['players'][number]['reentryStartingPose']['rotation'])
             info(f'{penalty} penalty for {color} player {number}')
 
 
@@ -422,7 +428,7 @@ while supervisor.step(time_step) != -1:
             update_state_display()
             previous_seconds_remaining = game.state.seconds_remaining
             if game.state.seconds_remaining <= 0:
-                game_controller_send(f'STATE:FINISH')
+                game_controller_send('STATE:FINISH')
                 if game.state.first_half:
                     info('End of first half')
                     game.finish_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
@@ -465,7 +471,7 @@ while supervisor.step(time_step) != -1:
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
         game.play_countdown -= 1
         if game.play_countdown == 0:
-            game_controller_send(f'STATE:PLAY')
+            game_controller_send('STATE:PLAY')
             info('State: PLAYING')
     elif game.state.game_state == 'STATE_FINISHED':
         game.finish_countdown -= 1
@@ -477,12 +483,12 @@ while supervisor.step(time_step) != -1:
                 info('End of the game: the winner is...')
 
     elif game.state.game_state == 'STATE_INITIAL':
-        check_team_position(red_team, 'red')
-        check_team_position(blue_team, 'blue')
+        check_team_position(red_team)
+        check_team_position(blue_team)
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
-                game_controller_send(f'STATE:READY')
+                game_controller_send('STATE:READY')
                 info('State: READY')
                 send_penalties(red_team, 'red')
                 send_penalties(blue_team, 'blue')
