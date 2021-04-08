@@ -151,7 +151,7 @@ class WbGeometry extends WbBaseNode {
       return true;
     else if (typeof this.parent !== 'undefined')
       return Selector.checkIfParentisSelected(this);
-      
+
     return false;
   }
 }

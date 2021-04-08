@@ -9,7 +9,8 @@ const int backgroundTextureIndex = 2;
 in vec2 texUv;
 in vec2 penTexUv;
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[3];
 
@@ -44,4 +45,6 @@ void main() {
     vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
     fragColor = vec4(mix(fragColor.xyz, penColor.xyz, penColor.w), fragColor.w);
   }
+  
+  fragNormal = vec4(1.0);
 }
