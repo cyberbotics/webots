@@ -94,6 +94,8 @@ public class Altimeter extends Device {
 %tab-end
 
 %tab "MATLAB"
+
+```MATLAB
 wb_altimeter_enable(tag, sampling_period)
 wb_altimeter_disable(tag)
 period = wb_altimeter_get_sampling_period(tag)
@@ -106,4 +108,26 @@ altitude = wb_altimeter_get_value(tag)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
+| `/<device_name>/value` | `topic` | webots_ros::float64stamped | [`Header`](https://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
+| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | | 
+| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
+%tab-end
+
+#end
+
+##### Description
+
+*enable, disable, and read last altimeter measurement*
+
+The `wb_altimeter_enable` function allows the user to enable touch sensor measurements.
+The `sampling_period` arguement specifies the sampling period of the sensor and is expressed in milliseconds.
+Note that the first measurement will be available only after the first sampling period has elapsed.
+
+The `wb_altimeter_disable` function turns the touch sensor off, saving computation time.
+
+The `wb_altimeter_get_value` function returns the last value measured by the altimeter.
+
+The `wb_altimeter_get_sampling_period` function returns the period given into the `wb_altimeter_enable` function, or 0 if the device is disabled.
+
+---
