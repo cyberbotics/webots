@@ -9,16 +9,16 @@
 Derived from [Robot](../reference/robot.md).
 
 ```
-PROTO NedGripper {
-  field  SFVec3f     translation     0 0 0              # Is `Transform.translation`.
-  field  SFRotation  rotation        0 1 0 0            # Is `Transform.rotation`.
-  field  SFString    name            "NedGripper"       # Is `Robot.name`.
-  field  SFString    controller      "ned_c_controller" # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                 # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE              # Is `Robot.selfCollision`.
+PROTO Ned {
+  field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.
+  field  SFRotation  rotation        0 1 0 0   # Is `Transform.rotation`.
+  field  SFString    name            "Ned"     # Is `Robot.name`.
+  field  SFString    controller      "ned"     # Is `Robot.controller`.
+  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""        # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
 }
 ```
 

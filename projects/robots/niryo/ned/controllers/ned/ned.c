@@ -42,12 +42,12 @@ static void passive_wait(double sec) {
 static void show_commands() {
   printf("------------COMMANDS---------------\n");
   printf("Launch demo --> D\n");
-  printf("Move joint1 --> A and Z\n");
-  printf("Move joint2 --> Q and S\n");
-  printf("Move joint3 --> W and X\n");
-  printf("Move joint4 --> Y and U\n");
-  printf("Move joint5 --> H and J\n");
-  printf("Move joint6 --> B and N\n");
+  printf("Move joint_1 --> A and Z\n");
+  printf("Move joint_2 --> Q and S\n");
+  printf("Move joint_3 --> W and X\n");
+  printf("Move joint_4 --> Y and U\n");
+  printf("Move joint_5 --> H and J\n");
+  printf("Move joint_6 --> B and N\n");
   printf("Open Close Gripper --> L or M\n");
   printf("Launch Pick and Place --> P\n");
   printf("-----------------------------------\n");
@@ -103,61 +103,61 @@ int main(int argc, char **argv) {
     switch (c) {
       case 'A':
         wb_motor_set_position(motors[1], -1.5);
-        printf("Move --> Joint1");
+        printf("Move --> joint_1");
         break;
 
       case 'Z':
         wb_motor_set_position(motors[1], 1.5);
-        printf("Move --> Joint1");
+        printf("Move --> joint_1");
         break;
 
       case 'Q':
-        printf("Move --> Joint2");
+        printf("Move --> joint_2");
         wb_motor_set_position(motors[2], -0.5);
         break;
 
       case 'S':
-        printf("Move --> Joint2");
+        printf("Move --> joint_2");
         wb_motor_set_position(motors[2], 0.5);
         break;
 
       case 'W':
-        printf("Move --> Joint3");
+        printf("Move --> joint_3");
         wb_motor_set_position(motors[3], -0.5);
         break;
 
       case 'X':
-        printf("Move --> Joint3");
+        printf("Move --> joint_3");
         wb_motor_set_position(motors[3], 0.5);
         break;
 
       case 'Y':
-        printf("Move --> Joint4");
+        printf("Move --> joint_4");
         wb_motor_set_position(motors[4], -1);
         break;
 
       case 'U':
-        printf("Move --> Joint4");
+        printf("Move --> joint_4");
         wb_motor_set_position(motors[4], 1);
         break;
 
       case 'H':
-        printf("Move --> Joint5");
+        printf("Move --> Joint_5");
         wb_motor_set_position(motors[5], -1.4);
         break;
 
       case 'J':
-        printf("Move --> Joint5");
+        printf("Move --> joint_5");
         wb_motor_set_position(motors[5], 1.4);
         break;
 
       case 'B':
-        printf("Move --> Joint6");
+        printf("Move --> joint_6");
         wb_motor_set_position(motors[6], 1.5);
         break;
 
       case 'N':
-        printf("Move --> Joint6");
+        printf("Move --> joint_6");
         wb_motor_set_position(motors[6], -1.5);
         break;
 

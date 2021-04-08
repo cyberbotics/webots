@@ -194,22 +194,18 @@ def pick_place():
     m3.setPosition(0)
     m2.setPosition(0)
 
-
-# ------------------------------------------------
-
-
 # In the while you can find the different command to control the Ned robot
 # You can also launch a demonstrator
 while True:
 
     print("------------COMMANDS--------------")
     print("Launch demo --> SHIFT+D")
-    print("Move_Joint1 --> SHIFT+A or SHIFT+Z")
-    print("Move_Joint2 --> SHIFT+Q or SHIFT+S")
-    print("Move_Joint3 --> SHIFT+W or SHIFT+X")
-    print("Move_Joint4 --> SHIFT+Y or SHIFT+U")
-    print("Move_Joint5 --> SHIFT+J or SHIFT+K")
-    print("Move_Joint6 --> SHIFT+B or SHIFT+N")
+    print("Move joint_1 --> SHIFT+A or SHIFT+Z")
+    print("Move joint_2 --> SHIFT+Q or SHIFT+S")
+    print("Move joint_3 --> SHIFT+W or SHIFT+X")
+    print("Move joint_4 --> SHIFT+Y or SHIFT+U")
+    print("Move joint_5 --> SHIFT+J or SHIFT+K")
+    print("Move joint_6 --> SHIFT+B or SHIFT+N")
     print("Open/Close Gripper --> SHIFT+L or SHIFT+M")
     print("Launch Pick and Place --> SHIFT+P")
     print("----------------------------------")
@@ -225,51 +221,51 @@ while True:
         key = keyboard.getKey()
 
         if key == Keyboard.SHIFT + ord('A'):
-            print("Move --> Joint_1 left")
+            print("Move --> joint_1 left")
             m1.setPosition(-1.5)
 
         elif key == Keyboard.SHIFT + ord('Z'):
-            print("Move --> Joint_1 right")
+            print("Move --> joint_1 right")
             m1.setPosition(1.5)
 
         elif key == Keyboard.SHIFT + ord('Q'):
-            print("Move --> Joint_2 left")
+            print("Move --> joint_2 left")
             m2.setPosition(0.5)
 
         elif key == Keyboard.SHIFT + ord('S'):
-            print("Move --> Joint_2 right")
+            print("Move --> joint_2 right")
             m2.setPosition(-0.5)
 
         elif key == Keyboard.SHIFT + ord('W'):
-            print("Move --> Joint_3 left")
+            print("Move --> joint_3 left")
             m3.setPosition(0.5)
 
         elif key == Keyboard.SHIFT + ord('X'):
-            print("Move --> Joint_3 right")
+            print("Move --> joint_3 right")
             m3.setPosition(-0.5)
 
         elif key == Keyboard.SHIFT + ord('Y'):
-            print("Move --> Joint_4 left")
+            print("Move --> joint_4 left")
             m4.setPosition(1)
 
         elif key == Keyboard.SHIFT + ord('U'):
-            print("Move --> Joint_4 right")
+            print("Move --> joint_4 right")
             m4.setPosition(-1)
 
         elif key == Keyboard.SHIFT + ord('H'):
-            print("Move --> Joint_5 left")
+            print("Move --> joint_5 left")
             m5.setPosition(1.4)
 
         elif key == Keyboard.SHIFT + ord('J'):
-            print("Move --> Joint_5 right")
+            print("Move --> joint_5 right")
             m5.setPosition(-1.4)
 
         elif key == Keyboard.SHIFT + ord('B'):
-            print("Move --> Joint_6 left")
+            print("Move --> joint_6 left")
             m6.setPosition(1.5)
 
         elif key == Keyboard.SHIFT + ord('N'):
-            print("Move --> Joint_6 right")
+            print("Move --> joint_6 right")
             m6.setPosition(-1.5)
 
         elif key == Keyboard.SHIFT + ord('L'):
