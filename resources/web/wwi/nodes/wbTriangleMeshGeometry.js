@@ -84,7 +84,6 @@ class WbTriangleMeshGeometry extends WbGeometry {
 
     const buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
     this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
-
     const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
     const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
     const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
@@ -179,6 +178,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
       }
       buffers.index = i;
     }
+
     buffers.vertexIndex = buffers.vertexIndex + this.estimateVertexCount() * 3;
   }
 

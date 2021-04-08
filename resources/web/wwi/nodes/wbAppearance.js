@@ -59,7 +59,7 @@ class WbAppearance extends WbAbstractAppearance {
     else
       _wr_material_set_texture(wrenMaterial, null, 0);
 
-    if (this.textureTransform)
+    if (typeof this.textureTransform !== 'undefined')
       this.textureTransform.modifyWrenMaterial(wrenMaterial);
     else
       _wr_material_set_texture_transform(wrenMaterial, null);
@@ -68,7 +68,7 @@ class WbAppearance extends WbAbstractAppearance {
   }
 
   static fillWrenDefaultMaterial(wrenMaterial) {
-    if (!wrenMaterial) {
+    if (typeof wrenMaterial === 'undefined') {
       _wr_material_delete(wrenMaterial);
       wrenMaterial = _wr_phong_material_new();
     }

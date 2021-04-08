@@ -58,12 +58,12 @@ class WbPointLight extends WbLight {
   }
 
   applyNodeLocationToWren() {
-    const position = _wrjs_color_array(this.location.x, this.location.y, this.location.z);
+    const position = _wrjs_array3(this.location.x, this.location.y, this.location.z);
     _wr_point_light_set_position_relative(this.wrenLight, position);
   }
 
   applyLightColorToWren() {
-    const pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
 
     _wr_point_light_set_color(this.wrenLight, pointer);
   }

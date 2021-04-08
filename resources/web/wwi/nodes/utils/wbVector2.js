@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {M_PI} from './../wbConstants.js';
-
 class WbVector2 {
   constructor(x = 0.0, y = 0.0) {
     this.x = x;
     this.y = y;
   }
 
-  add(vec) {
-    return new WbVector2(this.x + vec.x, this.y + vec.y);
+  add(vector) {
+    return new WbVector2(this.x + vector.x, this.y + vector.y);
   }
 
-  sub(vec) {
-    return new WbVector2(this.x - vec.x, this.y - vec.y);
+  sub(vector) {
+    return new WbVector2(this.x - vector.x, this.y - vector.y);
   }
 
   mul(number) {
@@ -36,8 +34,8 @@ class WbVector2 {
     return new WbVector2(this.x / number, this.y / number);
   }
 
-  equal(v) {
-    return this.x === v.x && this.y === v.y;
+  equal(vector) {
+    return this.x === vector.x && this.y === vector.y;
   }
 
   normalize() {
@@ -69,9 +67,9 @@ class WbVector2 {
   }
 
   // angle between two vectors (in radians)
-  angle(v) {
-    const s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
-    return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : Math.acos(s);
+  angle(vector) {
+    const s = this.dot(vector) / Math.sqrt(this.length2() * vector.length2());
+    return (s >= 1.0) ? 0 : (s <= -1.0) ? Math.PI : Math.acos(s);
   }
 
   get(index) {

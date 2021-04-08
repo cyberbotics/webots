@@ -77,7 +77,7 @@ class WbViewpoint extends WbBaseNode {
 
     this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
 
-    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_color_array(0.0, 0.0, 0.0));
+    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_array3(0.0, 0.0, 0.0));
     this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
     this.applyPositionToWren();
     this.applyOrientationToWren();
@@ -89,7 +89,7 @@ class WbViewpoint extends WbBaseNode {
   }
 
   applyPositionToWren() {
-    _wr_camera_set_position(this.wrenCamera, _wrjs_color_array(this.position.x, this.position.y, this.position.z));
+    _wr_camera_set_position(this.wrenCamera, _wrjs_array3(this.position.x, this.position.y, this.position.z));
   }
 
   applyOrientationToWren() {

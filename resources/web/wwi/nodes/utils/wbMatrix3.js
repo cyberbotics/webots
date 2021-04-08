@@ -28,10 +28,10 @@ class WbMatrix3 {
     this.m[8] = m8;
   }
 
-  mulByVec3(v) {
-    return new WbVector3(this.m[0] * v.x + this.m[1] * v.y + this.m[2] * v.z,
-      this.m[3] * v.x + this.m[4] * v.y + this.m[5] * v.z,
-      this.m[6] * v.x + this.m[7] * v.y + this.m[8] * v.z);
+  mulByVec3(vector) {
+    return new WbVector3(this.m[0] * vector.x + this.m[1] * vector.y + this.m[2] * vector.z,
+      this.m[3] * vector.x + this.m[4] * vector.y + this.m[5] * vector.z,
+      this.m[6] * vector.x + this.m[7] * vector.y + this.m[8] * vector.z);
   }
 }
 export {WbMatrix3};

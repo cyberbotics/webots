@@ -24,34 +24,34 @@ class WbMatrix4 {
     return new WbMatrix3(this.m[0], this.m[1], this.m[2], this.m[4], this.m[5], this.m[6], this.m[8], this.m[9], this.m[10]);
   }
 
-  mulByVec4(v) {
-    return new WbVector4(this.m[0] * v.x + this.m[1] * v.y + this.m[2] * v.z + this.m[3] * v.w,
-      this.m[4] * v.x + this.m[5] * v.y + this.m[6] * v.z + this.m[7] * v.w,
-      this.m[8] * v.x + this.m[9] * v.y + this.m[10] * v.z + this.m[11] * v.w,
-      this.m[12] * v.x + this.m[13] * v.y + this.m[14] * v.z + this.m[15] * v.w);
+  mulByVec4(vector) {
+    return new WbVector4(this.m[0] * vector.x + this.m[1] * vector.y + this.m[2] * vector.z + this.m[3] * vector.w,
+      this.m[4] * vector.x + this.m[5] * vector.y + this.m[6] * vector.z + this.m[7] * vector.w,
+      this.m[8] * vector.x + this.m[9] * vector.y + this.m[10] * vector.z + this.m[11] * vector.w,
+      this.m[12] * vector.x + this.m[13] * vector.y + this.m[14] * vector.z + this.m[15] * vector.w);
   }
 
-  mul(m) {
+  mul(matrix) {
     const mat = new WbMatrix4();
-    mat.set(this.m[0] * m.m[0] + this.m[1] * m.m[4] + this.m[2] * m.m[8] + this.m[3] * m.m[12],
-      this.m[0] * m.m[1] + this.m[1] * m.m[5] + this.m[2] * m.m[9] + this.m[3] * m.m[13],
-      this.m[0] * m.m[2] + this.m[1] * m.m[6] + this.m[2] * m.m[10] + this.m[3] * m.m[14],
-      this.m[0] * m.m[3] + this.m[1] * m.m[7] + this.m[2] * m.m[11] + this.m[3] * m.m[15],
+    mat.set(this.m[0] * matrix.m[0] + this.m[1] * matrix.m[4] + this.m[2] * matrix.m[8] + this.m[3] * matrix.m[12],
+      this.m[0] * matrix.m[1] + this.m[1] * matrix.m[5] + this.m[2] * matrix.m[9] + this.m[3] * matrix.m[13],
+      this.m[0] * matrix.m[2] + this.m[1] * matrix.m[6] + this.m[2] * matrix.m[10] + this.m[3] * matrix.m[14],
+      this.m[0] * matrix.m[3] + this.m[1] * matrix.m[7] + this.m[2] * matrix.m[11] + this.m[3] * matrix.m[15],
 
-      this.m[4] * m.m[0] + this.m[5] * m.m[4] + this.m[6] * m.m[8] + this.m[7] * m.m[12],
-      this.m[4] * m.m[1] + this.m[5] * m.m[5] + this.m[6] * m.m[9] + this.m[7] * m.m[13],
-      this.m[4] * m.m[2] + this.m[5] * m.m[6] + this.m[6] * m.m[10] + this.m[7] * m.m[14],
-      this.m[4] * m.m[3] + this.m[5] * m.m[7] + this.m[6] * m.m[11] + this.m[7] * m.m[15],
+      this.m[4] * matrix.m[0] + this.m[5] * matrix.m[4] + this.m[6] * matrix.m[8] + this.m[7] * matrix.m[12],
+      this.m[4] * matrix.m[1] + this.m[5] * matrix.m[5] + this.m[6] * matrix.m[9] + this.m[7] * matrix.m[13],
+      this.m[4] * matrix.m[2] + this.m[5] * matrix.m[6] + this.m[6] * matrix.m[10] + this.m[7] * matrix.m[14],
+      this.m[4] * matrix.m[3] + this.m[5] * matrix.m[7] + this.m[6] * matrix.m[11] + this.m[7] * matrix.m[15],
 
-      this.m[8] * m.m[0] + this.m[9] * m.m[4] + this.m[10] * m.m[8] + this.m[11] * m.m[12],
-      this.m[8] * m.m[1] + this.m[9] * m.m[5] + this.m[10] * m.m[9] + this.m[11] * m.m[13],
-      this.m[8] * m.m[2] + this.m[9] * m.m[6] + this.m[10] * m.m[10] + this.m[11] * m.m[14],
-      this.m[8] * m.m[3] + this.m[9] * m.m[7] + this.m[10] * m.m[11] + this.m[11] * m.m[15],
+      this.m[8] * matrix.m[0] + this.m[9] * matrix.m[4] + this.m[10] * matrix.m[8] + this.m[11] * matrix.m[12],
+      this.m[8] * matrix.m[1] + this.m[9] * matrix.m[5] + this.m[10] * matrix.m[9] + this.m[11] * matrix.m[13],
+      this.m[8] * matrix.m[2] + this.m[9] * matrix.m[6] + this.m[10] * matrix.m[10] + this.m[11] * matrix.m[14],
+      this.m[8] * matrix.m[3] + this.m[9] * matrix.m[7] + this.m[10] * matrix.m[11] + this.m[11] * matrix.m[15],
 
-      this.m[12] * m.m[0] + this.m[13] * m.m[4] + this.m[14] * m.m[8] + this.m[15] * m.m[12],
-      this.m[12] * m.m[1] + this.m[13] * m.m[5] + this.m[14] * m.m[9] + this.m[15] * m.m[13],
-      this.m[12] * m.m[2] + this.m[13] * m.m[6] + this.m[14] * m.m[10] + this.m[15] * m.m[14],
-      this.m[12] * m.m[3] + this.m[13] * m.m[7] + this.m[14] * m.m[11] + this.m[15] * m.m[15]);
+      this.m[12] * matrix.m[0] + this.m[13] * matrix.m[4] + this.m[14] * matrix.m[8] + this.m[15] * matrix.m[12],
+      this.m[12] * matrix.m[1] + this.m[13] * matrix.m[5] + this.m[14] * matrix.m[9] + this.m[15] * matrix.m[13],
+      this.m[12] * matrix.m[2] + this.m[13] * matrix.m[6] + this.m[14] * matrix.m[10] + this.m[15] * matrix.m[14],
+      this.m[12] * matrix.m[3] + this.m[13] * matrix.m[7] + this.m[14] * matrix.m[11] + this.m[15] * matrix.m[15]);
     return mat;
   }
 

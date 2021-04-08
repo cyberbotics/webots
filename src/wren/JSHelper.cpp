@@ -51,11 +51,11 @@ namespace wren {
   }  // namespace JSHelper
 }  // namespace wren
 
-float *wrjs_color_array(float r, float g, float b) {
+float *wrjs_array3(float element0, float element1, float element2) {
   static float array[3];
-  array[0] = r;
-  array[1] = g;
-  array[2] = b;
+  array[0] = element0;
+  array[1] = element1;
+  array[2] = element2;
 
   return array;
 }
@@ -68,16 +68,6 @@ float *wrjs_array4(float element0, float element1, float element2, float element
   array[3] = element3;
 
   return array;
-}
-
-char *wrjs_array4_char(float element0, float element1, float element2, float element3) {
-  static float array[4];
-  array[0] = element0;
-  array[1] = element1;
-  array[2] = element2;
-  array[3] = element3;
-
-  return reinterpret_cast<char *>(array);
 }
 
 char *wrjs_pointerOnFloat(float number) {

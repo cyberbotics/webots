@@ -59,7 +59,7 @@ class WbTransform extends WbGroup {
   }
 
   applyTranslationToWren() {
-    const translation = _wrjs_color_array(this.translation.x, this.translation.y, this.translation.z);
+    const translation = _wrjs_array3(this.translation.x, this.translation.y, this.translation.z);
     _wr_transform_set_position(this.wrenNode, translation);
   }
 
@@ -69,7 +69,7 @@ class WbTransform extends WbGroup {
   }
 
   applyScaleToWren() {
-    const scale = _wrjs_color_array(this.scale.x, this.scale.y, this.scale.z);
+    const scale = _wrjs_array3(this.scale.x, this.scale.y, this.scale.z);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 

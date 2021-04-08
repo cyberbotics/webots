@@ -97,7 +97,7 @@ class WbShape extends WbBaseNode {
   }
 
   createWrenMaterial(type) {
-    const defaultColor = _wrjs_color_array(1.0, 1.0, 1.0);
+    const defaultColor = _wrjs_array3(1.0, 1.0, 1.0);
     if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);
 

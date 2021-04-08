@@ -61,13 +61,13 @@ class WbSphere extends WbGeometry {
 
     const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
     const scaledRadius = this.radius * (1.0 + offset);
-    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
   }
 
   updateScale() {
     const scaledRadius = this.radius;
 
-    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(scaledRadius, scaledRadius, scaledRadius));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
   }
 
   isAValidBoundingObject() {

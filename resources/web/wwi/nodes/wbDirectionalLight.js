@@ -17,7 +17,8 @@ import {WbLight} from './wbLight.js';
 class WbDirectionalLight extends WbLight {
   constructor(id, on, color, direction, intensity, castShadows, ambientIntensity) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
-    this.wrenLight = undefined;
+    this.wrenLight;
+    
     this.direction = direction;
   }
 
@@ -36,12 +37,12 @@ class WbDirectionalLight extends WbLight {
   }
 
   applyLightDirectionToWren() {
-    const pointer = _wrjs_color_array(this.direction.x, this.direction.y, this.direction.z);
+    const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
     _wr_directional_light_set_direction(this.wrenLight, pointer);
   }
 
   applyLightColorToWren() {
-    const pointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
 
     _wr_directional_light_set_color(this.wrenLight, pointer);
   }

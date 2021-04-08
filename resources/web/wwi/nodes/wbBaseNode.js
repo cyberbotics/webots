@@ -18,8 +18,8 @@ import {WbWorld} from './wbWorld.js';
 class WbBaseNode {
   constructor(id) {
     this.id = id;
-    this.parent = undefined;
-    this.wrenNode = undefined;
+    this.parent;
+    this.wrenNode;
 
     this.wrenObjectsCreatedCalled = false;
     this.isPreFinalizeCalled = false;
@@ -36,7 +36,7 @@ class WbBaseNode {
 
   delete() {
     if (this.useList.length !== 0) {
-      let newDef;
+      let newDef = undefined;
       let index = 0;
       while (typeof newDef === 'undefined' && index < this.useList.length) {
         newDef = WbWorld.instance.nodes.get(this.useList[index]);

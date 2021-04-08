@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {M_PI} from './../wbConstants.js';
-
 class WbVector3 {
   constructor(x = 0.0, y = 0.0, z = 0.0) {
     this.x = x;
@@ -21,12 +19,12 @@ class WbVector3 {
     this.z = z;
   }
 
-  add(vec) {
-    return new WbVector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+  add(vector) {
+    return new WbVector3(this.x + vector.x, this.y + vector.y, this.z + vector.z);
   }
 
-  sub(vec) {
-    return new WbVector3(this.x - vec.x, this.y - vec.y, this.z - vec.z);
+  sub(vector) {
+    return new WbVector3(this.x - vector.x, this.y - vector.y, this.z - vector.z);
   }
 
   mul(number) {
@@ -36,17 +34,17 @@ class WbVector3 {
   div(number) {
     return new WbVector3(this.x / number, this.y / number, this.z / number);
   }
-  // cross product
-  cross(v) {
-    return new WbVector3(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
+
+  cross(vector) {
+    return new WbVector3(this.y * vector.z - this.z * vector.y, this.z * vector.x - this.x * vector.z, this.x * vector.y - this.y * vector.x);
   }
 
-  almostEquals(v, tolerance) {
-    return Math.abs(this.x - v.x) < tolerance && Math.abs(this.y - v.y) < tolerance && Math.abs(this.z - v.z) < tolerance;
+  almostEquals(vector, tolerance) {
+    return Math.abs(this.x - vector.x) < tolerance && Math.abs(this.y - vector.y) < tolerance && Math.abs(this.z - vector.z) < tolerance;
   }
 
-  equal(v) {
-    return this.x === v.x && this.y === v.y && this.z === v.z;
+  equal(vector) {
+    return this.x === vector.x && this.y === vector.y && this.z === vector.z;
   }
 
   normalize() {
@@ -69,8 +67,8 @@ class WbVector3 {
   }
 
   // dot product
-  dot(v) {
-    return this.x * v.x + this.y * v.y + this.z * v.z;
+  dot(vector) {
+    return this.x * vector.x + this.y * vector.y + this.z * vector.z;
   }
 
   // null test
@@ -79,9 +77,9 @@ class WbVector3 {
   }
 
   // angle between two vectors (in radians)
-  angle(v) {
-    const s = this.dot(v) / Math.sqrt(this.length2() * v.length2());
-    return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : Math.acos(s);
+  angle(vector) {
+    const s = this.dot(vector) / Math.sqrt(this.length2() * vector.length2());
+    return (s >= 1.0) ? 0 : (s <= -1.0) ? Math.PI : Math.acos(s);
   }
 
   get(index) {

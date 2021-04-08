@@ -27,20 +27,20 @@ class WbBackground extends WbBaseNode {
     this.cubeArray = cubeArray;
     this.irradianceCubeArray = irradianceCubeArray;
 
-    this.skyboxShaderProgram = undefined;
-    this.skyboxMaterial = undefined;
-    this.skyboxRenderable = undefined;
-    this.skyboxMesh = undefined;
-    this.skyboxTransform = undefined;
+    this.skyboxShaderProgram;
+    this.skyboxMaterial;
+    this.skyboxRenderable;
+    this.skyboxMesh;
+    this.skyboxTransform;
 
-    this.hdrClearShaderProgram = undefined;
-    this.hdrClearMaterial = undefined;
-    this.hdrClearRenderable = undefined;
-    this.hdrClearMesh = undefined;
-    this.hdrClearTransform = undefined;
+    this.hdrClearShaderProgram;
+    this.hdrClearMaterial;
+    this.hdrClearRenderable;
+    this.hdrClearMesh;
+    this.hdrClearTransform;
 
-    this.cubeMapTexture = undefined;
-    this.irradianceCubeTexture = undefined;
+    this.cubeMapTexture;
+    this.irradianceCubeTexture;
   }
 
   delete() {
@@ -120,10 +120,10 @@ class WbBackground extends WbBaseNode {
   }
 
   applyColourToWren() {
-    const colorPointer = _wrjs_color_array(this.skyColor.x, this.skyColor.y, this.skyColor.z);
+    const colorPointer = _wrjs_array3(this.skyColor.x, this.skyColor.y, this.skyColor.z);
 
     _wr_viewport_set_clear_color_rgb(_wr_scene_get_viewport(_wr_scene_get_instance()), colorPointer);
-    if (this.wrenObjectsCreatedCalled) {
+    if (typeof this.wrenObjectsCreatedCalled !== 'undefined') {
       // use wren's set_diffuse to transform to linear color space
       _wr_phong_material_set_diffuse(this.hdrClearMaterial, colorPointer);
 
@@ -134,7 +134,7 @@ class WbBackground extends WbBaseNode {
       for (let i = 0; i < 3; ++i)
         hdrColor[i] = -Math.log(1.000000001 - hdrColor[i]) / exposure;
 
-      const hdrColorPointer = _wrjs_color_array(hdrColor[0], hdrColor[1], hdrColor[2]);
+      const hdrColorPointer = _wrjs_array3(hdrColor[0], hdrColor[1], hdrColor[2]);
       _wr_phong_material_set_linear_diffuse(this.hdrClearMaterial, hdrColorPointer);
       _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
     }
@@ -161,13 +161,12 @@ class WbBackground extends WbBaseNode {
     this.destroySkyBox();
 
     // 1. Load the background.
-    if (this.cubeArray.length === 6) {
+    if (this.cubeArray !== 'undefined' && this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
       _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
       const bitsPointers = [];
       for (let i = 0; i < 6; ++i) {
-        // TODO Check if some rotations are needed for ENU
         bitsPointers[i] = arrayXPointer(this.cubeArray[i].bits);
         _wr_texture_cubemap_set_data(this.cubeMapTexture, bitsPointers[i], i);
       }
@@ -185,43 +184,39 @@ class WbBackground extends WbBaseNode {
     }
 
     // 2. Load the irradiance map.
-    const cm = _wr_texture_cubemap_new();
+    const cubeMap = _wr_texture_cubemap_new();
     const hdrImageData = [];
-    if (this.irradianceCubeArray.length === 6) {
-      _wr_texture_set_internal_format(cm, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+    if (this.cubeArray !== 'undefined' && this.irradianceCubeArray.length === 6) {
+      _wr_texture_set_internal_format(cubeMap, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
       for (let i = 0; i < 6; ++i) {
         hdrImageData[i] = arrayXPointerFloat(this.irradianceCubeArray[i].bits);
-        _wr_texture_cubemap_set_data(cm, hdrImageData[i], i);
+        _wr_texture_cubemap_set_data(cubeMap, hdrImageData[i], i);
       }
 
-      _wr_texture_set_size(cm, this.irradianceCubeArray[0].width, this.irradianceCubeArray[0].height);
-      _wr_texture_set_texture_unit(cm, 13);
-      _wr_texture_setup(cm);
+      _wr_texture_set_size(cubeMap, this.irradianceCubeArray[0].width, this.irradianceCubeArray[0].height);
+      _wr_texture_set_texture_unit(cubeMap, 13);
+      _wr_texture_setup(cubeMap);
 
-      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width);
+      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cubeMap, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
-      if (this.irradianceCubeTexture) {
+      if (this.irradianceCubeTexture !== 'undefined') {
         _wr_texture_delete(this.irradianceCubeTexture);
         this.irradianceCubeTexture = null;
       }
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.
-      if (this.cubeMapTexture) {
+      if (this.cubeMapTexture !== 'undefined') {
         this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(this.cubeMapTexture, WbWrenShaders.iblSpecularIrradianceBakingShader(), 64);
         _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
       }
     }
 
-    _wr_texture_delete(cm);
+    _wr_texture_delete(cubeMap);
 
     for (let i = 0; i < hdrImageData.length; ++i)
       _free(hdrImageData[i]);
-  }
-
-  preFinalize() {
-    super.preFinalize();
   }
 
   postFinalize() {
@@ -242,6 +237,6 @@ class WbBackground extends WbBaseNode {
   }
 }
 
-WbBackground.instance = undefined;
+WbBackground.instance;
 
 export {WbBackground};

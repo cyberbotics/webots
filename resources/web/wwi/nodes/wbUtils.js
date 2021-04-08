@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {M_PI} from './wbConstants.js';
 import {WbVector3} from './utils/wbVector3.js';
 import {WbVector4} from './utils/wbVector4.js';
 import {WbTransform} from './wbTransform.js';
@@ -109,7 +108,7 @@ function quaternionToVec4(quat) {
   if (quat.w >= 1.0)
     angle = 0.0;
   else if (quat.w <= -1.0)
-    angle = 2.0 * M_PI;
+    angle = 2.0 * Math.PI;
   else
     angle = 2.0 * Math.acos(quat.w);
 

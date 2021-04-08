@@ -52,7 +52,7 @@ class WbFog extends WbBaseNode {
     else
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_NONE;
 
-    const colorPointer = _wrjs_color_array(this.color.x, this.color.y, this.color.z);
+    const colorPointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
     _wr_scene_set_fog(_wr_scene_get_instance(), this.wrenFogType, ENUM.WR_SCENE_FOG_DEPTH_TYPE_POINT, colorPointer, density, 0.0, this.visibilityRange);
   }
 
@@ -64,7 +64,7 @@ class WbFog extends WbBaseNode {
   updateFogType() {
     if (this.fogType === 'EXPONENTIAL')
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_EXPONENTIAL;
-    else if (this.fogType == 'EXPONENTIAL2')
+    else if (this.fogType === 'EXPONENTIAL2')
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_EXPONENTIAL2;
     else
       this.wrenFogType = ENUM.WR_SCENE_FOG_TYPE_LINEAR;

@@ -78,7 +78,7 @@ class WbLight extends WbBaseNode {
       }
     });
 
-    _wr_scene_set_ambient_light(_wrjs_color_array(rgb.x, rgb.y, rgb.z));
+    _wr_scene_set_ambient_light(_wrjs_array3(rgb.x, rgb.y, rgb.z));
   }
 
   preFinalize() {

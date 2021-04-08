@@ -54,14 +54,14 @@ class WbPlane extends WbGeometry {
 
     // allow the bounding sphere to scale down
     const scaleY = 0.1 * Math.min(this.size.x, this.size.y);
-    wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x * (1.0 + offset), scaleY, this.size.y * (1.0 + offset)));
+    wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x * (1.0 + offset), scaleY, this.size.y * (1.0 + offset)));
   }
 
   updateScale() {
     // allow the bounding sphere to scale down
     const scaleY = 0.1 * Math.min(this.size.x, this.size.y);
 
-    const scale = _wrjs_color_array(this.size.x, scaleY, this.size.y);
+    const scale = _wrjs_array3(this.size.x, scaleY, this.size.y);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 

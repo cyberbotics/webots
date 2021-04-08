@@ -24,7 +24,7 @@ class WbCapsule extends WbGeometry {
     this.side = side;
     this.top = top;
 
-    this.wrenMesh = undefined;
+    this.wrenMesh;
   }
 
   delete() {

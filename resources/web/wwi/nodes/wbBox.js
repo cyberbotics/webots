@@ -19,7 +19,7 @@ class WbBox extends WbGeometry {
     super(id);
     this.size = size;
 
-    this.wrenMesh = undefined;
+    this.wrenMesh;
   }
 
   delete() {
@@ -44,7 +44,7 @@ class WbBox extends WbGeometry {
     if (super.isInBoundingObject())
       this.updateLineScale();
     else
-      _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x, this.size.y, this.size.z));
+      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
   }
 
   updateLineScale() {
@@ -52,7 +52,7 @@ class WbBox extends WbGeometry {
       return;
 
     const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
-    _wr_transform_set_scale(this.wrenNode, _wrjs_color_array(this.size.x + offset, this.size.y + offset, this.size.z + offset));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
   }
 
   clone(customID) {
@@ -67,6 +67,7 @@ WbBox.IntersectedFace = {
   LEFT_FACE: 2,
   RIGHT_FACE: 3,
   TOP_FACE: 4,
-  BOTTOM_FACE: 5};
+  BOTTOM_FACE: 5
+};
 
 export {WbBox};

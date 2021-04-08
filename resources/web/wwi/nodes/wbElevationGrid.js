@@ -82,7 +82,7 @@ class WbElevationGrid extends WbGeometry {
   }
 
   updateScale() {
-    const scalePointer = _wrjs_color_array(this.xSpacing, 1.0, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.zSpacing);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
@@ -92,7 +92,7 @@ class WbElevationGrid extends WbGeometry {
 
     const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
 
-    const scalePointer = _wrjs_color_array(this.xSpacing, 1.0 + offset, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
 
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }

@@ -17,25 +17,17 @@ import {WbVector4} from './wbVector4.js';
 
 class WbWrenMeshBuffers {
   constructor(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
-    this.vertexBuffer = null;
-    this.normalBuffer = null;
-    this.colorBuffer = null;
-    this.texCoordBuffer = null;
-    this.unwrappedTexCoordsBuffer = null;
-    this.indexBuffer = null;
+    this.vertexBuffer;
+    this.normalBuffer;
+    this.colorBuffer;
+    this.texCoordBuffer;
+    this.unwrappedTexCoordsBuffer;
+    this.indexBuffer;
 
     this.vertexIndex = 0;
     this.index = 0;
-    this.colorIndex = 0;
 
-    this.texCoordSetsCount = texCoordSetsCount;
-    this.verticesCount = verticesCount;
-    this.indicesCount = indicesCount;
-
-    this.isExternalVertexBuffer = false;
-    this.isExternalNormalBuffer = false;
-
-    this.resetAll(verticesCount, indicesCount, this.texCoordSetsCount, colorBufferSize);
+    this.resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize);
   }
 
   resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
@@ -57,35 +49,14 @@ class WbWrenMeshBuffers {
   }
 
   clear() {
-    this.deleteVertexBuffer();
-    this.deleteNormalBuffer();
-    this.deleteColorBuffer();
-    this.deleteTexCoordBuffer();
-    this.deleteIndexBuffer();
-  }
-
-  deleteVertexBuffer() {
     this.vertexBuffer = undefined;
-    this.vertexIndex = 0;
-    this.isExternalVertexBuffer = false;
-  }
-
-  deleteNormalBuffer() {
     this.normalBuffer = undefined;
-    this.isExternalNormalBuffer = false;
-  }
-
-  deleteColorBuffer() {
     this.colorBuffer = undefined;
-  }
-
-  deleteTexCoordBuffer() {
     this.texCoordBuffer = undefined;
     this.unwrappedTexCoordsBuffer = undefined;
-  }
-
-  deleteIndexBuffer() {
     this.indexBuffer = undefined;
+
+    this.vertexIndex = 0;
     this.index = 0;
   }
 
