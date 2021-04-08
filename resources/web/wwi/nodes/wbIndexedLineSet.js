@@ -21,7 +21,7 @@ class WbIndexedLineSet extends WbGeometry {
     this.coord = coord;
     this.coordIndex = coordIndex;
 
-    this.wrenMesh = undefined;
+    this.wrenMesh;
     this.isShadedGeometryPickable = false;
   }
 

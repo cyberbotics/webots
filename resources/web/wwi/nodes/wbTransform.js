@@ -27,7 +27,7 @@ class WbTransform extends WbGroup {
     this.rotation = rotation;
 
     this.children = [];
-    this.boundingObject = undefined;
+    this.boundingObject;
   }
 
   delete(isBoundingObject) {

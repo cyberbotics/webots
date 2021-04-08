@@ -70,7 +70,7 @@ class WbPointSet extends WbGeometry {
     super.setWrenMaterial(material, castShadows);
     if (typeof material !== 'undefined') {
       _wr_material_set_default_program(material, WbWrenShaders.pointSetShader());
-      if (this.color !== 'undefined')
+      if (typeof this.color !== 'undefined')
         _wr_phong_material_set_color_per_vertex(material, true);
       else
         _wr_phong_material_set_color_per_vertex(material, false);

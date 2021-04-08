@@ -23,8 +23,8 @@ class WbWrenPicker {
     this.width = 0;
     this.height = 0;
 
-    this.frameBuffer = undefined;
-    this.outputTexture = undefined;
+    this.frameBuffer;
+    this.outputTexture;
     this.viewport = _wr_viewport_new();
     this.viewportDepth = _wr_viewport_new();
 

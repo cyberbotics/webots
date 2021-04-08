@@ -23,9 +23,9 @@ import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 class WbTriangleMeshGeometry extends WbGeometry {
   constructor(id) {
     super(id);
-    this.triangleMesh = undefined;
-    this.normalsMaterial = undefined;
-    this.normalsRenderable = undefined;
+    this.triangleMesh;
+    this.normalsMaterial;
+    this.normalsRenderable;
   }
 
   delete() {

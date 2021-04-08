@@ -161,7 +161,7 @@ class WbBackground extends WbBaseNode {
     this.destroySkyBox();
 
     // 1. Load the background.
-    if (this.cubeArray !== 'undefined' && this.cubeArray.length === 6) {
+    if (typeof this.cubeArray !== 'undefined' && this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
       _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
@@ -186,7 +186,7 @@ class WbBackground extends WbBaseNode {
     // 2. Load the irradiance map.
     const cubeMap = _wr_texture_cubemap_new();
     const hdrImageData = [];
-    if (this.cubeArray !== 'undefined' && this.irradianceCubeArray.length === 6) {
+    if (typeof this.cubeArray !== 'undefined' && this.irradianceCubeArray.length === 6) {
       _wr_texture_set_internal_format(cubeMap, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
       for (let i = 0; i < 6; ++i) {
@@ -201,7 +201,7 @@ class WbBackground extends WbBaseNode {
       this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cubeMap, WbWrenShaders.iblSpecularIrradianceBakingShader(), this.irradianceCubeArray[0].width);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
-      if (this.irradianceCubeTexture !== 'undefined') {
+      if (typeof this.irradianceCubeTexture !== 'undefined') {
         _wr_texture_delete(this.irradianceCubeTexture);
         this.irradianceCubeTexture = null;
       }

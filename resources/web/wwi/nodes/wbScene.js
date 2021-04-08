@@ -20,10 +20,10 @@ import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 class WbScene {
   constructor(id, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
     this.id = id;
-    this.wrenMainFrameBuffer = null;
-    this.wrenMainFrameBufferTexture = null;
-    this.wrenNormalFrameBufferTexture = null;
-    this.wrenDepthFrameBufferTexture = null;
+    this.wrenMainFrameBuffer;
+    this.wrenMainFrameBufferTexture;
+    this.wrenNormalFrameBufferTexture;
+    this.wrenDepthFrameBufferTexture;
 
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     // To have the same display size as in webots
@@ -43,16 +43,16 @@ class WbScene {
   }
 
   updateFrameBuffer() {
-    if (this.wrenMainFrameBuffer)
+    if (typeof this.wrenMainFrameBuffer !== 'undefined')
       _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
 
-    if (this.wrenMainFrameBufferTexture)
+    if (typeof this.wrenMainFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenMainFrameBufferTexture);
 
-    if (this.wrenNormalFrameBufferTexture)
+    if (typeof this.wrenNormalFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenNormalFrameBufferTexture);
 
-    if (this.wrenDepthFrameBufferTexture)
+    if (typeof this.wrenDepthFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenDepthFrameBufferTexture);
 
     this.wrenMainFrameBuffer = _wr_frame_buffer_new();
@@ -88,16 +88,16 @@ class WbScene {
   destroy() {
     WbWrenPostProcessingEffects.clearResources();
 
-    if (this.wrenMainFrameBuffer !== 'undefined')
+    if (typeof this.wrenMainFrameBuffer !== 'undefined')
       _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
 
-    if (this.wrenMainFrameBufferTexture !== 'undefined')
+    if (typeof this.wrenMainFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenMainFrameBufferTexture);
 
-    if (this.wrenNormalFrameBufferTexture !== 'undefined')
+    if (typeof this.wrenNormalFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenNormalFrameBufferTexture);
 
-    if (this.wrenDepthFrameBufferTexture !== 'undefined')
+    if (typeof this.wrenDepthFrameBufferTexture !== 'undefined')
       _wr_texture_delete(this.wrenDepthFrameBufferTexture);
 
     this.wrenMainFrameBuffer = undefined;

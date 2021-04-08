@@ -18,8 +18,8 @@ class WbTriangleMesh {
   constructor() {
     this.isValid = false;
 
-    this.numberOfTriangles = undefined;
-    this.normalPerVertex = undefined;
+    this.numberOfTriangles;
+    this.normalPerVertex;
 
     this.coordinates = [];
     this.coordIndices = [];

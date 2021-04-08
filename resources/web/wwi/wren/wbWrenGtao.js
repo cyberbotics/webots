@@ -21,8 +21,8 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     super();
     this.halfResolution = false;
 
-    this.gtaoPass = null;
-    this.temporalPass = null;
+    this.gtaoPass;
+    this.temporalPass;
     this.near = 0.0;
     this.far = 0.0;
     this.fov = 0.78;
@@ -36,11 +36,11 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.offsets = [0.0, 0.5, 0.25, 0.75];
     this.previousInverseViewMatrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
-    this.clipInfoPointer = undefined;
-    this.paramsPointer = undefined;
-    this.radiusPointer = undefined;
-    this.flipNormalYPointer = undefined;
-    this.previousInverseViewMatrixPointer = undefined;
+    this.clipInfoPointer;
+    this.paramsPointer;
+    this.radiusPointer;
+    this.flipNormalYPointer;
+    this.previousInverseViewMatrixPointer;
 
     this.previousAllocation = false;
   }

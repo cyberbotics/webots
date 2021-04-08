@@ -20,7 +20,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   constructor() {
     super();
     this.threshold = 10.0;
-    this.thresholdPointer = undefined;
+    this.thresholdPointer;
   }
 
   setup(viewport) {

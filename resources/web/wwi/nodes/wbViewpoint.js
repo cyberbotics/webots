@@ -47,15 +47,15 @@ class WbViewpoint extends WbBaseNode {
     this.equilibriumVector = new WbVector3();
     this.velocity = new WbVector3();
 
-    this.inverseViewMatrix = undefined;
+    this.inverseViewMatrix;
 
     this.wrenHdr = new WbWrenHdr();
     this.wrenGtao = new WbWrenGtao();
     this.wrenBloom = new WbWrenBloom();
     this.wrenSmaa = new WbWrenSmaa();
 
-    this.wrenViewport = undefined;
-    this.wrenCamera = undefined;
+    this.wrenViewport;
+    this.wrenCamera;
   }
 
   delete() {
