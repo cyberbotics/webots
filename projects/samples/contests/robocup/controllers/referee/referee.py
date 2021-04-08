@@ -519,6 +519,7 @@ while supervisor.step(time_step) != -1:
         if game.state.first_half:
             if game.finish_countdown == 0:
                 info('Begining of second half.')
+                game_controller_send('STATE:SECOND-HALF')
                 game_controller_send('STATE:READY')
         else:
             if game.finish_countdown == 0:
