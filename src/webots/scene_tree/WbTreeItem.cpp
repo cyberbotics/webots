@@ -56,12 +56,13 @@ WbTreeItem::WbTreeItem(WbField *field) {
   mParent = NULL;
   mField = field;
 
-  /*
   connect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
 
   WbValue *const value = mField->value();
+  /*
   WbSingleValue *const singleValue = dynamic_cast<WbSingleValue *>(value);
   if (singleValue) {
+
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode) {
       connect(sfnode, &WbSFNode::changed, this, &WbTreeItem::sfnodeChanged);
@@ -83,24 +84,23 @@ WbTreeItem::WbTreeItem(WbField *field) {
       } else if (fieldName == "rotation") {
         const WbSFRotation *const rotation = dynamic_cast<WbSFRotation *>(singleValue);
         if (rotation)
-          ;
-        //  connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
-        connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
+          //  connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
+          connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
       } else if (fieldName == "position") {
         const WbSFDouble *const position = dynamic_cast<WbSFDouble *>(singleValue);
         if (position)
           connect(position, &WbSFDouble::changedByOde, this, &WbTreeItem::propagateDataChange);
       }
-    }
-    return;
+
   }
 
+    return;
+  }
+  */
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
-
-  */
 }
 
 WbTreeItem::WbTreeItem(WbField *field, int index) {
@@ -415,6 +415,7 @@ void WbTreeItem::del() {
 
 // invalidate item and sub-items and return the total number of lines (item) to be removed in the Scene Tree
 int WbTreeItem::makeInvalid() {
+  printf("makeInvalid\n");
   mType = INVALID;
   mNode = NULL;
 
