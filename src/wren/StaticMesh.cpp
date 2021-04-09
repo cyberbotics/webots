@@ -1990,14 +1990,14 @@ namespace wren {
     }
   }
 
-  int StaticMesh::vertexCount() {
+  int StaticMesh::vertexCount() const {
     if (mCoords.size() > 0)
       return mCoords.size();
     else
       return mCacheData->mVertexCount;
   }
 
-  int StaticMesh::indexCount() {
+  int StaticMesh::indexCount() const {
     if (mIndices.size() > 0)
       return mIndices.size();
     else

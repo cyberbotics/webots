@@ -121,20 +121,20 @@ namespace wren {
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 
-    void sortRenderQueueByState(RenderQueueIterator first, RenderQueueIterator last);
+    static void sortRenderQueueByState(RenderQueueIterator first, RenderQueueIterator last);
     void sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last);
 
-    void renderDefault(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
-    void renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadwoReceiver,
+    static void renderDefault(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
+    void renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadowReceiver,
                                RenderQueueIterator last);
     void renderStencilShadowVolumesDepthPass(ShadowVolumeCaster *shadowVolume, LightNode *light);
     void renderStencilShadowVolumesDepthFail(ShadowVolumeCaster *shadowVolume, LightNode *light);
-    void renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last);
-    void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
-                                      bool applyShadows = true);
-    void renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last);
+    static void renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last);
+    static void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
+                                             bool applyShadows = true);
     void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last);
-    void renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
+    static void renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last);
+    static void renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
 
     static Scene *cInstance;
 

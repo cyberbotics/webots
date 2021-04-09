@@ -51,7 +51,8 @@ namespace wren {
     if (mTextures[0].first)
       textureId = static_cast<size_t>(mTextures[0].first->glName());
 
-    return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
+    return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) |
+           (mHasPremultipliedAlpha ? 1 : 0);
   }
 
   PhongMaterial *PhongMaterial::createMaterial() {
