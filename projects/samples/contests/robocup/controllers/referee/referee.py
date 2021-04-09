@@ -28,7 +28,6 @@ import time
 from types import SimpleNamespace
 
 global supervisor, game, red_team, blue_team, log_file, time_count
-global REAL_TIME_FACTOR
 
 
 def log(message, type):
@@ -353,8 +352,6 @@ game_controller_send.id = 0
 game_controller_send.unanswered = {}
 
 time_count = 0
-# REAL_TIME_FACTOR = 3  # simulated time is running 3 times slower than real time
-REAL_TIME_FACTOR = 0.1  # used for testing (runs faster)
 
 log_file = open('log.txt', 'w')
 
@@ -406,17 +403,22 @@ except KeyError:
     game.controller_process = None
     error('Warning: JAVA_HOME environment variable not set, unable to launch GameController.')
 
-# start the webots supervisor
-supervisor = Supervisor()
-root = supervisor.getRoot()
-children = root.getField('children')
-children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
+# finalize the game object
+if not hasattr(game, 'real_time_factor'):
+    game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
+info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.goal_half_width = 1.3
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
+
+# start the webots supervisor
+supervisor = Supervisor()
+root = supervisor.getRoot()
+children = root.getField('children')
+children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
                                 f'size {ball_size} }}')
@@ -470,7 +472,7 @@ info(f'Kickoff is {"RED" if game.kickoff == game.red.id else "BLUE"}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ready_countdown = (int)(120000 * REAL_TIME_FACTOR / time_step)  # 2 real minutes before we enter the ready state
+game.ready_countdown = (int)(120000 * game.real_time_factor / time_step)  # 2 real minutes before we enter the ready state
 game.play_countdown = 0
 game.sent_finish = False
 previous_seconds_remaining = 0
@@ -540,7 +542,7 @@ while supervisor.step(time_step) != -1:
             if game.ready_countdown == 0:
                 print('state FINISHED!')
                 info('Beginning of second half.')
-                game.ready_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
+                game.ready_countdown = int(15000 * game.real_time_factor / time_step)  # 15 real seconds for half time break
 
         else:
             info('End of the game.')
@@ -580,8 +582,8 @@ while supervisor.step(time_step) != -1:
 
     time_count += time_step
 
-    # slow down the simulation if needed to respect the REAL_TIME_FACTOR constraint
-    delta_time = real_time_start - time.time() + REAL_TIME_FACTOR * time_count / 1000
+    # slow down the simulation if needed to respect the real time factor constraint
+    delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
     if delta_time > 0:
         time.sleep(delta_time)
 
