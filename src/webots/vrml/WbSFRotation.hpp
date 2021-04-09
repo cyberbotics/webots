@@ -51,6 +51,7 @@ public:
   void setValue(double x, double y, double z, double angle);
   void inline setValueFromOde(double x, double y, double z, double angle);
   void inline setValueFromFakeOde(double x, double y, double z, double angle);
+  void inline setValueDoNothing(double x, double y, double z, double angle);
   void setValueByUser(const WbRotation &v, bool changedFromSupervisor);
   void setX(double x) { setComponent(0, x); }
   void setY(double y) { setComponent(1, y); }
@@ -88,6 +89,14 @@ void inline WbSFRotation::setValueFromOde(const WbRotation &v) {
 
   mValue = v;
   emit changedByOde();
+}
+
+void inline WbSFRotation::setValueDoNothing(double x, double y, double z, double angle) {
+  if (mValue == WbRotation(x, y, z, angle))
+    return;
+
+  mValue.setAxisAngle(x, y, z, angle);
+  // emit changedByFakeOde();
 }
 
 #endif

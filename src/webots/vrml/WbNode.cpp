@@ -228,6 +228,7 @@ WbNode::WbNode(const WbNode &other) :
       } else {
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
+        printf("AA REDIRECT\n");
         field->redirectTo(parameterNodeField);
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
@@ -1277,6 +1278,7 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         field->setAlias(QString());
       } else {
         gProtoParameterNodeFlag = true;
+        printf("BB REDIRECT\n");
         field->redirectTo(param);
         gProtoParameterNodeFlag = tmpProtoFlag;
       }
@@ -1672,6 +1674,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {
             gParent = internalField->parentNode();
+            printf("CC REDIRECT\n");
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
           }

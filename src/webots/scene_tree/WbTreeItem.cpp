@@ -56,6 +56,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
   mParent = NULL;
   mField = field;
 
+  /*
   connect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
 
   WbValue *const value = mField->value();
@@ -72,7 +73,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
       if (fieldName == "translation") {
         const WbSFVector3 *const translation = dynamic_cast<WbSFVector3 *>(singleValue);
         if (translation)
-          connect(translation, &WbSFVector3::changedByOde, this, &WbTreeItem::propagateDataChange);
+          //  connect(translation, &WbSFVector3::changedByOde, this, &WbTreeItem::propagateDataChange);
+          connect(translation, &WbSFVector3::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
         else {
           const WbSFVector2 *const translation2 = dynamic_cast<WbSFVector2 *>(singleValue);
           if (translation2)
@@ -81,7 +83,9 @@ WbTreeItem::WbTreeItem(WbField *field) {
       } else if (fieldName == "rotation") {
         const WbSFRotation *const rotation = dynamic_cast<WbSFRotation *>(singleValue);
         if (rotation)
-          connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
+          ;
+        //  connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
+        connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
       } else if (fieldName == "position") {
         const WbSFDouble *const position = dynamic_cast<WbSFDouble *>(singleValue);
         if (position)
@@ -95,6 +99,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
+
+  */
 }
 
 WbTreeItem::WbTreeItem(WbField *field, int index) {
@@ -110,11 +116,13 @@ WbTreeItem::~WbTreeItem() {
 }
 
 void WbTreeItem::propagateDataChange() {
+  printf("propagateDataChange\n");
   if (gUpdatesEnabled)
     emit dataChanged();
 }
 
 void WbTreeItem::refreshData() {
+  printf("refreshData\n");
   if (gUpdatesEnabled) {
     mIsDataRefreshNeeded = false;
     emit dataChanged();
