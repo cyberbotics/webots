@@ -375,6 +375,32 @@ def check_touch(point, team, color):  # check which player in a team has touch t
                     info(f'Ball touched again by same player.')
 
 
+def check_fallen(team, color):
+    for number in team['players']:
+        n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        already_down = 'fallen' in team['players'][number]
+        fallen = False
+        for i in range(0, n):
+            r_point = team['players'][number]['robot'].getContactPoint(i)
+            if r_point[2] > 0.01:  # not a contact with the ground
+                continue
+            node = team['players'][number]['robot'].getContactPointNode(i)
+            name = node.getField('name').getSFString()
+            if name[:-6] == '[feet]':
+                continue
+            fallen = True
+            if already_down:
+                break
+            team['players'][number]['fallen'] = time_count
+            break
+        if already_down:
+            if fallen:
+                if time_count - team['players'][number]['fallen'] > 20000:  # more than 20 seconds down
+                    info(f'{color} player {number} has fallen and didn\'t recover in the last 20 seconds.')
+            else:  # recovered on time
+                del team['players'][number]['fallen']
+
+
 game_controller_send.id = 0
 game_controller_send.unanswered = {}
 
@@ -436,6 +462,7 @@ if not hasattr(game, 'real_time_factor'):
 info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
+game.center_circle_radius = 0.75 if field_size == 'kid' else 1.5
 game.goal_height = GOAL_HEIGHT_KID if field_size == 'kid' else GOAL_HEIGHT_ADULT
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
@@ -619,6 +646,7 @@ while supervisor.step(time_step) != -1:
             info('Ball respawned at '
                  f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}')
 
+    # determine which robot touched the ball if any
     n = game.ball.getNumberOfContactPoints()
     for i in range(0, n):
         point = game.ball.getContactPoint(i)
@@ -626,6 +654,10 @@ while supervisor.step(time_step) != -1:
             continue
         check_touch(point, red_team, 'red')
         check_touch(point, blue_team, 'blue')
+
+    # detect fallen robots
+    check_fallen(red_team, 'red')
+    check_fallen(blue_team, 'blue')
 
     time_count += time_step
 
