@@ -57,7 +57,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   }
 
   applyOldInverseViewMatrixToWren() {
-    if (!this.wrenPostProcessingEffect)
+    if (typeof this.wrenPostProcessingEffect === 'undefined')
       return;
 
     if (this.previousAllocation)
@@ -79,7 +79,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
   }
 
   setup(viewport) {
-    if (this.wrenPostProcessingEffect) {
+    if (typeof this.wrenPostProcessingEffect !== 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
       if (this.wrenViewport === viewport)
         _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
