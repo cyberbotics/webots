@@ -36,8 +36,11 @@ def log(message, type):
                       else message
     print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
     if log_file:
-        real_time = int(1000 * time.time()) / 1000
-        log_file.write(f'[{real_time:.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+        real_time = int(1000 * (time.time() - log.start_time)) / 1000
+        log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+
+
+log.start_time = time.time()
 
 
 def info(message):
@@ -240,7 +243,7 @@ def game_controller_heartbeat():
 def game_controller_send(message):
     if game.controller:
         game_controller_send.id += 1
-        if message[:6] == 'STATE:':
+        if message[:6] != 'CLOCK:':
             info(f'Sending {message} to GameController')
         message = f'{game_controller_send.id}:{message}\n'
         game.controller.sendall(message.encode('ascii'))
@@ -545,7 +548,6 @@ while supervisor.step(time_step) != -1:
         game.play_countdown -= 1
         if game.play_countdown == 0:
             game_controller_send('STATE:PLAY')
-            info('State: PLAYING')
     elif game.state.game_state == 'STATE_FINISHED':
         game.sent_finish = False
         if game.state.first_half:
@@ -565,7 +567,6 @@ while supervisor.step(time_step) != -1:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 game_controller_send('STATE:READY')
-                info('State: READY')
                 send_penalties(red_team, 'red')
                 send_penalties(blue_team, 'blue')
 
