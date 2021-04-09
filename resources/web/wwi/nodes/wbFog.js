@@ -21,8 +21,6 @@ class WbFog extends WbBaseNode {
     this.color = color;
     this.visibilityRange = visibilityRange;
     this.fogType = fogType;
-
-    this.wrenFogType;
   }
 
   delete() {
@@ -58,7 +56,7 @@ class WbFog extends WbBaseNode {
 
   preFinalize() {
     super.preFinalize();
-    
+
     this.updateFogType();
   }
 

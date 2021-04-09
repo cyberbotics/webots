@@ -22,8 +22,6 @@ class WbCone extends WbGeometry {
     this.subdivision = subdivision;
     this.side = side;
     this.bottom = bottom;
-
-    this.wrenMesh;
   }
 
   delete() {

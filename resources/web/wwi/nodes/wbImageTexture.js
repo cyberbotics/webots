@@ -33,13 +33,6 @@ class WbImageTexture extends WbBaseNode {
 
     this.wrenTextureIndex = 0;
     this.usedFiltering = 0;
-
-    this.wrenTexture;
-    this.wrenTextureTransform;
-    this.externalTexture = false;
-    this.externalTextureRatio = new WbVector2(1.0, 1.0);
-
-    this.type; // use in pbr appearance to know what is the role of this image
   }
 
   delete() {
@@ -91,13 +84,6 @@ class WbImageTexture extends WbBaseNode {
       _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this.wrenTextureIndex);
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
-
-      if (this.externalTexture && !WbWorld.instance.nodes.get(this.parent).textureTransform) {
-        _wr_texture_transform_delete(this.wrenTextureTransform);
-        this.wrenTextureTransform = _wr_texture_transform_new();
-        _wr_texture_transform_set_scale(this.wrenTextureTransform, this.externalTextureRatio.x, this.externalTextureRatio.y);
-        _wr_material_set_texture_transform(wrenMaterial, this.wrenTextureTransform);
-      }
     }
 
     _wr_material_set_texture(wrenMaterial, null, backgroundTextureIndex);
@@ -124,8 +110,7 @@ class WbImageTexture extends WbBaseNode {
   }
 
   destroyWrenTexture() {
-    if (!this.externalTexture)
-      _wr_texture_delete(this.wrenTexture);
+    _wr_texture_delete(this.wrenTexture);
 
     _wr_texture_transform_delete(this.wrenTextureTransform);
 

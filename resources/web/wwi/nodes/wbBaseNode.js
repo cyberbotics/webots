@@ -18,8 +18,6 @@ import {WbWorld} from './wbWorld.js';
 class WbBaseNode {
   constructor(id) {
     this.id = id;
-    this.parent;
-    this.wrenNode;
 
     this.wrenObjectsCreatedCalled = false;
     this.isPreFinalizeCalled = false;

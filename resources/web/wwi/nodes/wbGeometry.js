@@ -23,9 +23,6 @@ import {Selector} from './../selector.js';
 class WbGeometry extends WbBaseNode {
   constructor(id) {
     super(id);
-    this.wrenScaleTransform;
-    this.wrenRenderable;
-    this.wrenMesh;
 
     this.pickable = false;
     this.isShadedGeometryPickable = true;

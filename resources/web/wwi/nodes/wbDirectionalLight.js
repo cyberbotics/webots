@@ -17,7 +17,6 @@ import {WbLight} from './wbLight.js';
 class WbDirectionalLight extends WbLight {
   constructor(id, on, color, direction, intensity, castShadows, ambientIntensity) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
-    this.wrenLight;
 
     this.direction = direction;
   }

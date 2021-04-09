@@ -26,21 +26,6 @@ class WbBackground extends WbBaseNode {
     this.luminosity = luminosity;
     this.cubeArray = cubeArray;
     this.irradianceCubeArray = irradianceCubeArray;
-
-    this.skyboxShaderProgram;
-    this.skyboxMaterial;
-    this.skyboxRenderable;
-    this.skyboxMesh;
-    this.skyboxTransform;
-
-    this.hdrClearShaderProgram;
-    this.hdrClearMaterial;
-    this.hdrClearRenderable;
-    this.hdrClearMesh;
-    this.hdrClearTransform;
-
-    this.cubeMapTexture;
-    this.irradianceCubeTexture;
   }
 
   delete() {

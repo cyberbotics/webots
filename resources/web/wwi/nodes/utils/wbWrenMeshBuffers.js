@@ -17,13 +17,6 @@ import {WbVector4} from './wbVector4.js';
 
 class WbWrenMeshBuffers {
   constructor(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
-    this.vertexBuffer;
-    this.normalBuffer;
-    this.colorBuffer;
-    this.texCoordBuffer;
-    this.unwrappedTexCoordsBuffer;
-    this.indexBuffer;
-
     this.vertexIndex = 0;
     this.index = 0;
 

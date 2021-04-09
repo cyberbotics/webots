@@ -23,8 +23,6 @@ class WbCylinder extends WbGeometry {
     this.bottom = bottom;
     this.side = side;
     this.top = top;
-
-    this.wrenMesh;
   }
 
   delete() {
