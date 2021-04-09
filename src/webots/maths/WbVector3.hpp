@@ -222,7 +222,7 @@ public:
   }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level=WbPrecision::DOUBLE_MAX) const {
     return QString("%1 %2 %3")
       .arg(WbPrecision::doubleToString(mX, level))
       .arg(WbPrecision::doubleToString(mY, level))

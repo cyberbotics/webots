@@ -71,7 +71,7 @@ void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 
   // handle both kinds of appearance nodes
-  WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mAppearance->value());
+  WbBaseNode *baseNode = NULL; // dynamic_cast<WbBaseNode *>(mAppearance->value());
   if (baseNode)
     baseNode->preFinalize();
 
