@@ -42,6 +42,7 @@ WRAPPER         = $(addprefix $(SWIG_OUTPUT_PATH)/,$(INTERFACE:.i=_wrap.cpp))
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 JAR_FILE        = $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar
 JAVA_FILES      = Accelerometer.java \
+                  Altimeter.java \
                   AnsiCodes.java \
                   Brake.java \
                   Camera.java \
