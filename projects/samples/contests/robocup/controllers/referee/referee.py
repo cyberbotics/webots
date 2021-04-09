@@ -14,7 +14,7 @@
 
 from gamestate import GameState
 
-from controller import Supervisor, AnsiCodes, Node
+from controller import Supervisor, AnsiCodes
 
 import json
 import math
@@ -30,6 +30,9 @@ SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let 
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
+LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
+
+HALF_LINE_WIDTH = LINE_WIDTH / 2
 
 global supervisor, game, red_team, blue_team, log_file, time_count
 
@@ -287,11 +290,11 @@ def check_team_position(team, color):
                 team['players'][number]['penalty_reason'] = 'halfTimeStartingPose inside field'
             else:  # check if player are fully on their side of the field
                 if game.side_left == (game.red.id if color == 'red' else game.blue.id):
-                    if point[0] > -0.025:  # line width is 5 cm
+                    if point[0] > -HALF_LINE_WIDTH:
                         team['players'][number]['penalty'] = 'INCAPABLE'
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
                 else:
-                    if point[0] < 0.025:
+                    if point[0] < HALF_LINE_WIDTH:
                         team['players'][number]['penalty'] = 'INCAPABLE'
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
 
@@ -533,9 +536,9 @@ while supervisor.step(time_step) != -1:
             game.ball_exit_translation = ball_translation
             scoring_side = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
-                game.ball_exit_translation[1] = game.field_size_y - 0.025
+                game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
-                game.ball_exit_translation[1] = -game.field_size_y + 0.025
+                game.ball_exit_translation[1] = -game.field_size_y + HALF_LINE_WIDTH
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
@@ -545,9 +548,9 @@ while supervisor.step(time_step) != -1:
                        game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
                         game.ball_exit_translation[0] = 0  # reset the ball of the centerline
                     else:  # corner kick
-                        game.ball_exit_translation[0] = game.field_size_x - 0.025
-                        game.ball_exit_translation[1] = game.field_size_y - 0.025 if game.ball_exit_translation[1] > 0 \
-                            else -game.field_size_y + 0.025
+                        game.ball_exit_translation[0] = game.field_size_x - HALF_LINE_WIDTH
+                        game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH \
+                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + HALF_LINE_WIDTH
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
@@ -557,9 +560,9 @@ while supervisor.step(time_step) != -1:
                        game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
                         game.ball_exit_translation[0] = 0  # reset the ball of the centerline
                     else:  # corner kick
-                        game.ball_exit_translation[0] = -game.field_size_x + 0.025
-                        game.ball_exit_translation[1] = game.field_size_y - 0.025 if game.ball_exit_translation[1] > 0 \
-                            else -game.field_size_y + 0.025
+                        game.ball_exit_translation[0] = -game.field_size_x + HALF_LINE_WIDTH
+                        game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH \
+                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + HALF_LINE_WIDTH
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
