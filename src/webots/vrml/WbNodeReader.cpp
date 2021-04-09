@@ -54,17 +54,21 @@ WbNodeReader::~WbNodeReader() {
 #endif
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
-  if (mMode == NORMAL)
+  if (mMode == NORMAL) {
+    printf("== %s (normal mode)\n", modelName.toUtf8().constData());
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
+  }
 
   WbNodeModel *const model = WbNodeModel::findModel(modelName);
-  if (model)
+  if (model) {
+    printf("== %s (model)\n", modelName.toUtf8().constData());
     return new WbNode(modelName, worldPath, tokenizer);
-
+  }
   WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
-  if (proto)
+  if (proto) {
+    printf("== %s (proto)\n", modelName.toUtf8().constData());
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
-
+  }
   tokenizer->reportError(QObject::tr("Skipped unknown '%1' node or PROTO").arg(modelName));
   return NULL;
 }

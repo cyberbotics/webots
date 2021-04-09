@@ -114,6 +114,7 @@ void WbField::write(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << " ";
   const bool notAString = type() != WB_SF_STRING;
+  printf("writing %s\n", name().toUtf8().constData());
   writer.writeFieldStart(name(), notAString);
   mValue->write(writer);
   writer.writeFieldEnd(notAString);
@@ -317,22 +318,22 @@ void WbField::redirectTo(WbField *parameter) {
   // propagate top -> down the template regenerator flag
   if (isTemplateRegenerator())
     parameter->setTemplateRegenerator(true);
-  printf(">>>>>\n");
+  // printf(">>>>>\n");
   mParameter = parameter;
   mParameter->mInternalFields.append(this);
   connect(this, &QObject::destroyed, mParameter, &WbField::removeInternalField);
-  printf(">> %s = A\n", name().toUtf8().constData());
+  // printf(">> %s = A\n", name().toUtf8().constData());
   // copy parameter value to field
   mValue->copyFrom(mParameter->value());
 
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
-    printf(">> %s = B\n", name().toUtf8().constData());
+    // printf(">> %s = B\n", name().toUtf8().constData());
     connect(mfnode, &WbMFNode::itemInserted, mParameter, &WbField::parameterNodeInserted, Qt::UniqueConnection);
     connect(mfnode, &WbMFNode::itemRemoved, mParameter, &WbField::parameterNodeRemoved, Qt::UniqueConnection);
 
   } else {
-    printf(">> %s = C\n", name().toUtf8().constData());
+    // printf(">> %s = C\n", name().toUtf8().constData());
     // make sure the field gets updated when the parameter changes, e.g. by Scene Tree or Supervisor, etc.
     connect(mParameter, &WbField::valueChanged, mParameter, &WbField::parameterChanged, Qt::UniqueConnection);
     connect(mParameter->value(), &WbValue::changedByUser, this->value(), &WbValue::changedByUser, Qt::UniqueConnection);
@@ -341,13 +342,16 @@ void WbField::redirectTo(WbField *parameter) {
     // "rotation" fields with the mouse. In these cases we need to propagate the change back to the proto parameters, e.g. in
     // order to update the Scene Tree
     if (!isHidden()) {  // hidden fields shouldn't be propagated
-      printf(">> %s = D\n", name().toUtf8().constData());
+      // printf(">> %s = D\n", name().toUtf8().constData());
       connect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
     }
   }
 
   // ODE updates
+
   const QString &fieldName = name();
+  printf("> %s\n", name().toUtf8().constData());
+  /*
   if (fieldName == "translation") {
     printf(">> %s = E\n", name().toUtf8().constData());
     connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByOde, mParameter, &WbField::fieldChangedByOde);
@@ -355,16 +359,20 @@ void WbField::redirectTo(WbField *parameter) {
   } else if (fieldName == "rotation") {
     printf(">> %s = F\n", name().toUtf8().constData());
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
-  }
-  // else if (fieldName == "position")
-  //  connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
-
+  } else if (fieldName == "position")
+    connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+  */
   if (fieldName == "translation")
     connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
   if (fieldName == "rotation")
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
 
-  printf("<<<<<\n");
+  if (fieldName == "position") {
+    // connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
+    connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByFakeOde);
+  }
+
+  // printf("<<<<<\n");
 }
 
 void WbField::removeInternalField(QObject *field) {
@@ -434,6 +442,7 @@ void WbField::fieldChangedByOde() {
 }
 
 void WbField::fieldChangedByFakeOde() {
+  printf("fieldChangedByFakeOde\n");
   // do not propagate a node change back to the proto parameter otherwise we would loop infinitly
   // because the break condition (node == node) is not fully functional
   mValue->blockSignals(true);
