@@ -14,9 +14,6 @@
 
 class WbWrenAbstractPostProcessingEffect {
   constructor() {
-    this.wrenPostProcessingEffect;
-    this.wrenViewport;
-
     this.hasBeenSetup = false;
   }
 

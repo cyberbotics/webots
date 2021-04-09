@@ -22,7 +22,6 @@ class WbTextureTransform extends WbBaseNode {
     this.rotation = rotation;
     this.scale = scale;
     this.translation = translation;
-    this.wrenTextureTransform;
   }
 
   delete() {

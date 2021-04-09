@@ -29,8 +29,6 @@ class WbShape extends WbBaseNode {
 
     this.appearance = appearance;
     this.geometry = geometry;
-
-    this.wrenMaterial;
   }
 
   delete(isBoundingObject) {

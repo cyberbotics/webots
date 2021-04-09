@@ -20,8 +20,6 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   constructor() {
     super();
     this.exposure = 1.0;
-
-    this.exposurePointer;
   }
 
   setup(viewport) {

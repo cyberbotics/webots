@@ -20,10 +20,6 @@ import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 class WbScene {
   constructor(id, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
     this.id = id;
-    this.wrenMainFrameBuffer;
-    this.wrenMainFrameBufferTexture;
-    this.wrenNormalFrameBufferTexture;
-    this.wrenDepthFrameBufferTexture;
 
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
     // To have the same display size as in webots

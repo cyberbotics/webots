@@ -21,13 +21,6 @@ import {WbWrenRenderingContext} from './../wren/wbWrenRenderingContext.js';
 import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 
 class WbTriangleMeshGeometry extends WbGeometry {
-  constructor(id) {
-    super(id);
-    this.triangleMesh;
-    this.normalsMaterial;
-    this.normalsRenderable;
-  }
-
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 

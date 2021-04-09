@@ -14,11 +14,6 @@
 
 class WbWorld {
   constructor() {
-    // We can keep the viewpoint outside of the children list because
-    // it is independant from Webots during the simulation so we don't need to retrieve it to apply update
-    this.viewpoint;
-    this.scene;
-
     this.hasFog = false;
     this.basicTimeStep = 32;
     this.coordinateSystem = 'NUE';

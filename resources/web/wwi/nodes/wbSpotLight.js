@@ -25,8 +25,6 @@ class WbSpotLight extends WbLight {
     this.location = location;
     this.radius = radius;
 
-    this.wrenLight;
-
     if (typeof parent !== 'undefined')
       this.parent = parent.id;
   }
