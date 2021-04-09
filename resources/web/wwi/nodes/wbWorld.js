@@ -17,7 +17,7 @@ class WbWorld {
     this.hasFog = false;
     this.basicTimeStep = 32;
     this.coordinateSystem = 'NUE';
-    this.upVector = glm.vec3(0,1,0);
+    this.upVector = glm.vec3(0, 1, 0);
     // Only the top level nodes are represented here
     this.sceneTree = [];
     // All the nodes are included here so it is easier to retrieve them for update
@@ -34,5 +34,4 @@ class WbWorld {
   }
 }
 
-WbWorld.instance;
 export {WbWorld};

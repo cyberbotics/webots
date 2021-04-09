@@ -222,6 +222,4 @@ class WbBackground extends WbBaseNode {
   }
 }
 
-WbBackground.instance;
-
 export {WbBackground};

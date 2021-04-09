@@ -353,9 +353,4 @@ class WbWrenPostProcessingEffects {
   }
 }
 
-// WbWrenPostProcessingEffects static variable
-WbWrenPostProcessingEffects.smaaAreaTexture = null;
-WbWrenPostProcessingEffects.smaaSearchTexture = null;
-WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
-
 export {WbWrenPostProcessingEffects};
