@@ -194,7 +194,7 @@ static int bandwidth_usage(size_t new_packet_size, int controller_time, int basi
   int sum = 0;
   char filename[32];
   if (data_transferred == NULL) {
-    data_transferred = (int *)malloc(sizeof(int) * window_size);
+    data_transferred = new int[window_size];
     for (int i = 0; i < window_size; i++)
       data_transferred[i] = 0;
   }
@@ -277,8 +277,6 @@ int main(int argc, char *argv[]) {
           assert(n == sizeof(int));
           int l = ntohl(*((int *)data));
           printf("packet size = %d %d\n", l, n);
-          MotorPosition motorPosition;
-          // motorPosition.ParseFromFileDescriptor(client_fd);
           int n = recv(client_fd, data, l, 0);
           assert(n == l);
           if (n <= 0) {
@@ -500,12 +498,12 @@ int main(int argc, char *argv[]) {
               message->set_message_type(Message::ERROR_MESSAGE);
               message->set_text(std::to_string(TEAM_QUOTA) + " MB/s quota exceeded.");
             }
-            char *output = (char *)malloc(sizeof(int) + size);
+            char *output = new char[sizeof(int) + size];
             int *output_size = (int *)output;
             *output_size = htonl(size);
             sensorMeasurements.SerializeToArray(&output[sizeof(int)], size);
             send(client_fd, output, sizeof(int) + size, 0);
-            free(output);
+            delete output;
           }
         }
       }
