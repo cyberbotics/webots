@@ -15,7 +15,7 @@
 from gamestate import GameState, ReturnData, GAME_CONTROLLER_RESPONSE_VERSION
 from construct import Container
 
-from controller import Supervisor, AnsiCodes
+from controller import Supervisor, AnsiCodes, Node
 
 import json
 import math
@@ -184,21 +184,9 @@ def setup_display():
     update_state_display()
 
 
-def game_controller_heartbeat():
-    heartbeat = Container(
-        header=b"RGrt",
-        version=GAME_CONTROLLER_RESPONSE_VERSION,
-        team=0,
-        player=1,
-        message=2)
+def game_controller_receive():
     try:
-        game.udp_out.sendto(ReturnData.build(heartbeat), ('127.0.0.1', 3939))
-    except Exception as e:
-        error(f'UDP out failure: {e}')
-        return
-    data = None
-    try:
-        data, peer = game.udp_in.recvfrom(GameState.sizeof())
+        data, peer = game.udp.recvfrom(GameState.sizeof())
     except BlockingIOError:
         return
     except Exception as e:
@@ -466,12 +454,10 @@ if game.controller_process:
                 game.controller = None
                 break
     info('Connected to GameControllerSimulator at localhost:8750')
-    game.udp_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp_in.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    game.udp_in.bind(('0.0.0.0', 3838))
-    game.udp_in.setblocking(False)
-    game.udp_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp_out.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    game.udp.bind(('0.0.0.0', 3838))
+    game.udp.setblocking(False)
 else:
     game.controller = None
 
@@ -491,7 +477,7 @@ previous_seconds_remaining = 0
 real_time_start = time.time()
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
-    game_controller_heartbeat()
+    game_controller_receive()
     if game.state is None:
         pass
     elif game.state.game_state == 'STATE_PLAYING':
@@ -576,7 +562,25 @@ while supervisor.step(time_step) != -1:
             game.ball.resetPhysics()
             game.ball_translation.setSFVec3f(game.ball_exit_translation)
 
+    n = game.ball.getNumberOfContactPoints()
+    for i in range(0, n):
+        point = game.ball.getContactPoint(i)
+        if point[2] <= 0.01:  # contact with the ground
+            continue
+        node = game.ball.getContactPointNode(i)
+        while True:
+            print(f'Ball touched {node.getTypeName()}.')
+            node = node.getParentNode()
+            if not node or node.getType() == Node.ROBOT:
+                break
+        if node:
+            print(f'Ball touched {node.getDef()}.')
+        else:
+            print('Ball touched something')
+
     time_count += time_step
+
+    # slow down the simulation if needed to respect the REAL_TIME_FACTOR constraint
     delta_time = real_time_start - time.time() + REAL_TIME_FACTOR * time_count / 1000
     if delta_time > 0:
         time.sleep(delta_time)
