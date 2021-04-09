@@ -352,6 +352,22 @@ def reset_teams(pose):
         reset_player('blue', number, pose)
 
 
+def check_touch(point, team, color):  # check which player in a team has touch the ball at specified point
+    for number in team['players']:
+        n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        for i in range(0, n):
+            r_point = team['players'][number]['robot'].getContactPoint(i)
+            if r_point[2] <= 0.01:  # contact with the ground
+                continue
+            if point[0] == r_point[0] and point[1] == r_point[1] and point[2] == r_point[2]:
+                if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
+                    game.ball_last_touch_team = color
+                    game.ball_last_touch_player = int(number)
+                    info(f'Ball touched by {color} player {number}.')
+                else:
+                    info(f'Ball touched again by same player.')
+
+
 game_controller_send.id = 0
 game_controller_send.unanswered = {}
 
@@ -427,7 +443,7 @@ ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
                                 f'size {ball_size} }}')
 game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
-game.kickoff = random.randint(1, 2)
+game.kickoff = random.randint(1, 2)  # toss a coin to determine which team has kickoff
 game.state = None
 game.font_size = 0.1
 game.font = 'Lucida Console'
@@ -453,7 +469,7 @@ if game.controller_process:
             retry += 1
             if retry <= 10:
                 warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
-                time.sleep(1)  # give some time to allow the GameControllerSimulator to start-up
+                time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
                 supervisor.step(time_step)
             else:
                 error('Could not connect to GameController at localhost:8750.')
@@ -468,14 +484,19 @@ else:
     game.controller = None
 
 update_state_display()
+
+info(f'Red team is {red_team["name"]}')
+info(f'Blue team is {blue_team["name"]}')
+info(f'Left side is {"red" if game.side_left == game.red.id else "blue"}')
+info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
 game_controller_send(f'SIDE_LEFT:{game.side_left}')
-info(f'Left side is {"RED" if game.side_left == game.red.id else "BLUE"}')
-game_controller_send(f'KICKOFF:{game.kickoff}')  # toss a coin to determine which team has kickoff
-info(f'Kickoff is {"RED" if game.kickoff == game.red.id else "BLUE"}')
+game_controller_send(f'KICKOFF:{game.kickoff}')
 
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
+game.ball_last_touch_team = 0
+game.ball_last_touch_player = 0
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 * game.real_time_factor / time_step)
 game.play_countdown = 0
 game.sent_finish = False
@@ -506,9 +527,11 @@ while supervisor.step(time_step) != -1:
              ball_translation[1] + game.ball_radius < -game.field_size_y or
              ball_translation[0] - game.ball_radius > game.field_size_x or
              ball_translation[0] + game.ball_radius < -game.field_size_x):
+            info(f'Ball left the field at {ball_translation[0]} {ball_translation[1]} {ball_translation[2]} after being '
+                 f'touched by {game.ball_last_touch_team} player {game.ball_last_touch_player}.')
             game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = ball_translation
-            scoring_team = None
+            scoring_side = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
                 game.ball_exit_translation[1] = game.field_size_y - 0.025
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
@@ -516,19 +539,33 @@ while supervisor.step(time_step) != -1:
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
-                    scoring_team = game.side_left
+                    scoring_side = game.side_left
                 else:
-                    game.ball_exit_translation[0] = game.field_size_x - 0.025
+                    if game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
+                       game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
+                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
+                    else:  # corner kick
+                        game.ball_exit_translation[0] = game.field_size_x - 0.025
+                        game.ball_exit_translation[1] = game.field_size_y - 0.025 if game.ball_exit_translation[1] > 0 \
+                            else -game.field_size_y + 0.025
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < game.goal_half_width and \
                    game.ball_exit_translation[1] > -game.goal_half_width:
-                    scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
+                    scoring_side = game.red.id if game.blue.id == game.side_left else game.blue.id
                 else:
-                    game.ball_exit_translation[0] = -game.field_size_x + 0.025
-            if scoring_team:
+                    if game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
+                       game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
+                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
+                    else:  # corner kick
+                        game.ball_exit_translation[0] = -game.field_size_x + 0.025
+                        game.ball_exit_translation[1] = game.field_size_y - 0.025 if game.ball_exit_translation[1] > 0 \
+                            else -game.field_size_y + 0.025
+            if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
-                game_controller_send(f'SCORE:{scoring_team}')
-                info(f'Score by {"RED" if scoring_team == game.red.id else "BLUE"}')
+                game_controller_send(f'SCORE:{scoring_side}')
+                goal = 'red' if scoring_side == game.blue.id else 'blue'
+                game.kickoff = scoring_side
+                info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
@@ -549,6 +586,12 @@ while supervisor.step(time_step) != -1:
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 * game.real_time_factor / time_step)
         else:
             info('End of the game.')
+            info(f'The score is {game.state.teams[0].score}-{game.state.teams[1].score}.')
+            if game.state.teams[0].score == game.state.teams[1].score:
+                info('This is a draw.')
+            else:
+                winner = 0 if game.state.teams[0].score > game.state.teams[1].score else 1
+                info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
@@ -566,22 +609,16 @@ while supervisor.step(time_step) != -1:
         if game.ball_exited_countdown == 0:
             game.ball.resetPhysics()
             game.ball_translation.setSFVec3f(game.ball_exit_translation)
+            info('Ball respawned at '
+                 f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}')
 
     n = game.ball.getNumberOfContactPoints()
     for i in range(0, n):
         point = game.ball.getContactPoint(i)
         if point[2] <= 0.01:  # contact with the ground
             continue
-        node = game.ball.getContactPointNode(i)
-        while True:
-            print(f'Ball touched {node.getTypeName()}.')
-            node = node.getParentNode()
-            if not node or node.getType() == Node.ROBOT:
-                break
-        if node:
-            print(f'Ball touched {node.getDef()}.')
-        else:
-            print('Ball touched something')
+        check_touch(point, red_team, 'red')
+        check_touch(point, blue_team, 'blue')
 
     time_count += time_step
 
