@@ -30,29 +30,22 @@ The following should happen:
 The following information should be contained in logs (among others):
 
 ```
-[00:00:00:000][HH:MM:SS:xxx] Red 1 spawn at [-4.0, -2.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Red 2 spawn at [-4.0, 3.02, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Red 3 spawn at [-0.75, -3.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Red 4 spawn at [-0.75, 3.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Blue 1 spawn at [-4.7, -2.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Blue 2 spawn at [-4.55, 2.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Blue 3 spawn at [-0.75, -3.06, 0.24]
-[00:00:00:000][HH:MM:SS:xxx] Blue 4 spawn at [1.75, 3.06, 0.24]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Setting state to READY
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Red 1: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Red 1 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Red 2: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Red 2 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Blue 2: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Blue 2 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Blue 4: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Blue 4 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Red 1: illegal entry
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Red 1 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Setting state to SET
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Red 4: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Red 4 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Penalty PICKUP for Blue 3: illegal position
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Blue 3 moved to [x,x,x]
-[HH:MM:SS:xxx][HH:MM:SS:xxx] Setting state to PLAY
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_1 RobocupRobot on port 10001 at halfTimeStartingPose: translation 4.0 -2.06 0.24, rotation 0 0 1 1.57
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_2 RobocupRobot on port 10002 at halfTimeStartingPose: translation 4.0 3.02 0.24, rotation 0 0 1 4.71
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_3 RobocupRobot on port 10003 at halfTimeStartingPose: translation 0.75 -3.06 0.24, rotation 0 0 1 1.57
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_4 RobocupRobot on port 10004 at halfTimeStartingPose: translation 0.75 3.06 0.24, rotation 0 0 1 4.71
+[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_1 RobocupRobot on port 10021 at halfTimeStartingPose: translation -4.7 -2.06 0.24, rotation 0 0 1 0
+[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_2 RobocupRobot on port 10022 at halfTimeStartingPose: translation -4.55 2.06 0.24, rotation 0 0 1 0
+[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_3 RobocupRobot on port 10023 at halfTimeStartingPose: translation -0.75 -3.06 0.24, rotation 0 0 1 1.57
+[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_4 RobocupRobot on port 10024 at halfTimeStartingPose: translation 1.75 3.06 0.24, rotation 0 0 1 -1.57
+[SSSS.xxx|SSSS.xxx] Info: Sending STATE:READY to GameController
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 2: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 2: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 4: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: illegal field entry. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Setting state to SET
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 4: illegal set position. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 3: illegal set position. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Setting state to PLAY
 ```
