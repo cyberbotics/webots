@@ -134,7 +134,7 @@ void WbSingleTaskApplication::convertProto() const {
   robotNode->setConfigureRequest(false);
   for (WbNode* subNode : robotNode->subNodes(true, true, true))
     if (dynamic_cast<WbBasicJoint *>(subNode))
-      static_cast<WbBasicJoint *>(subNode)->preFinalize();
+      static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
 
   // Export
   QString output;
