@@ -385,6 +385,8 @@ def check_fallen(team, color):
             if r_point[2] > 0.01:  # not a contact with the ground
                 continue
             node = team['players'][number]['robot'].getContactPointNode(i)
+            if not node:  # FIXME: bug here?
+                continue
             name = node.getField('name').getSFString()
             if name[:-6] == '[feet]':
                 continue
