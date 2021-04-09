@@ -23,7 +23,6 @@
 #include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
-#include "WbRobot.hpp"
 #include "WbBasicJoint.hpp"
 
 #include <QtCore/QCommandLineParser>
@@ -130,9 +129,7 @@ void WbSingleTaskApplication::convertProto() const {
   // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
-  WbRobot *robotNode = dynamic_cast<WbRobot *>(node);
-  robotNode->setConfigureRequest(false);
-  for (WbNode* subNode : robotNode->subNodes(true, true, true))
+  for (WbNode* subNode : node->subNodes(true, true, true))
     if (dynamic_cast<WbBasicJoint *>(subNode))
       static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
 
@@ -140,7 +137,7 @@ void WbSingleTaskApplication::convertProto() const {
   QString output;
   WbVrmlWriter writer(&output, "robot." + type);
   writer.writeHeader(outputFile);
-  robotNode->write(writer);
+  node->write(writer);
   writer.writeFooter();
 
   // Output the content
