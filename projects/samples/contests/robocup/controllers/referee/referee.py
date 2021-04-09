@@ -31,8 +31,12 @@ SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET stat
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
+GOAL_WIDTH = 2.6                          # width of the goal
+GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
+GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size league
 
-HALF_LINE_WIDTH = LINE_WIDTH / 2
+LINE_HALF_WIDTH = LINE_WIDTH / 2
+GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
 global supervisor, game, red_team, blue_team, log_file, time_count
 
@@ -290,11 +294,11 @@ def check_team_position(team, color):
                 team['players'][number]['penalty_reason'] = 'halfTimeStartingPose inside field'
             else:  # check if player are fully on their side of the field
                 if game.side_left == (game.red.id if color == 'red' else game.blue.id):
-                    if point[0] > -HALF_LINE_WIDTH:
+                    if point[0] > -LINE_HALF_WIDTH:
                         team['players'][number]['penalty'] = 'INCAPABLE'
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
                 else:
-                    if point[0] < HALF_LINE_WIDTH:
+                    if point[0] < LINE_HALF_WIDTH:
                         team['players'][number]['penalty'] = 'INCAPABLE'
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
 
@@ -432,7 +436,7 @@ if not hasattr(game, 'real_time_factor'):
 info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
-game.goal_half_width = 1.3
+game.goal_height = GOAL_HEIGHT_KID if field_size == 'kid' else GOAL_HEIGHT_ADULT
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
@@ -536,33 +540,33 @@ while supervisor.step(time_step) != -1:
             game.ball_exit_translation = ball_translation
             scoring_side = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
-                game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH
+                game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
-                game.ball_exit_translation[1] = -game.field_size_y + HALF_LINE_WIDTH
+                game.ball_exit_translation[1] = -game.field_size_y + LINE_HALF_WIDTH
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
-                if game.ball_exit_translation[1] < game.goal_half_width and \
-                   game.ball_exit_translation[1] > -game.goal_half_width:
+                if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
                     scoring_side = game.side_left
                 else:
                     if game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
                        game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
                         game.ball_exit_translation[0] = 0  # reset the ball of the centerline
                     else:  # corner kick
-                        game.ball_exit_translation[0] = game.field_size_x - HALF_LINE_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + HALF_LINE_WIDTH
+                        game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
+                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
+                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
-                if game.ball_exit_translation[1] < game.goal_half_width and \
-                   game.ball_exit_translation[1] > -game.goal_half_width:
+                if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
                     scoring_side = game.red.id if game.blue.id == game.side_left else game.blue.id
                 else:
                     if game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
                        game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
                         game.ball_exit_translation[0] = 0  # reset the ball of the centerline
                     else:  # corner kick
-                        game.ball_exit_translation[0] = -game.field_size_x + HALF_LINE_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - HALF_LINE_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + HALF_LINE_WIDTH
+                        game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
+                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
+                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
