@@ -33,10 +33,14 @@ class WbWrenPicker {
   }
 
   cleanup() {
-    _wr_texture_delete(this.outputTexture);
-    _wr_frame_buffer_delete(this.frameBuffer);
-    _wr_texture_delete(this.outputTextureDepth);
-    _wr_frame_buffer_delete(this.frameBufferDepth);
+    if (typeof this.outputTexture !== 'undefined')
+      _wr_texture_delete(this.outputTexture);
+    if (typeof this.frameBuffer !== 'undefined')
+      _wr_frame_buffer_delete(this.frameBuffer);
+    if (typeof this.outputTextureDepth !== 'undefined')
+      _wr_texture_delete(this.outputTextureDepth);
+    if (typeof this.frameBufferDepth !== 'undefined')
+      _wr_frame_buffer_delete(this.frameBufferDepth);
   }
 
   setup() {
@@ -140,6 +144,7 @@ class WbWrenPicker {
 
   pick(x, y) {
     const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    // This fix a bug that occurs when switching between different worlds
     _wr_viewport_set_camera(this.viewport, _wr_viewport_get_camera(viewport));
     _wr_viewport_set_camera(this.viewportDepth, _wr_viewport_get_camera(viewport));
 

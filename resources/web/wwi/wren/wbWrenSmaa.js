@@ -17,7 +17,7 @@ import {WbWrenPostProcessingEffects} from './wbWrenPostProcessingEffects.js';
 
 class WbWrenSmaa extends WbWrenAbstractPostProcessingEffect {
   setup(viewport) {
-    if (this.wrenPostProcessingEffect) {
+    if (typeof this.wrenPostProcessingEffect === 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
       if (this.wrenViewport === viewport)
         _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);

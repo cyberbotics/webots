@@ -51,13 +51,13 @@ class MouseEvents {
     this.state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
-      case MouseEvents.Click.RIGHT_CLICK: // enum
+      case MouseEvents.Click.RIGHT_CLICK:
         this.state.mouseDown |= 1;
         break;
-      case MouseEvents.Click.LEFT_CLICK:// enum
+      case MouseEvents.Click.LEFT_CLICK:
         this.state.mouseDown |= 4;
         break;
-      case MouseEvents.Click.WHEEL_CLICK:// enum
+      case MouseEvents.Click.WHEEL_CLICK:
         this.state.mouseDown |= 2;
         break;
     }

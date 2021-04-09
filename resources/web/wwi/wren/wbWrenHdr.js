@@ -14,6 +14,7 @@
 
 import {pointerOnFloat} from './../nodes/wbUtils.js';
 import {WbWrenAbstractPostProcessingEffect} from './wbWrenAbstractPostProcessingEffect.js';
+import {WbWrenRenderingContext} from './wbWrenRenderingContext.js';
 import {WbWrenShaders} from './wbWrenShaders.js';
 
 class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
@@ -23,7 +24,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   }
 
   setup(viewport) {
-    if (this.wrenPostProcessingEffect) {
+    if (typeof this.wrenPostProcessingEffect !== 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
       if (this.wrenViewport === viewport)
         _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
@@ -55,7 +56,9 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
+
     const firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect);
+    if (typeof this.exposurePointer !== 'undefined')
     _free(this.exposurePointer);
     this.exposurePointer = pointerOnFloat(this.exposure);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this.exposurePointer]);
@@ -63,7 +66,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
 
   hdrResolve(width, height) {
     const hdrResolveEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, 7); // enum
+    _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, WbWrenRenderingContext.PP_HDR);
 
     const hdrPass = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [hdrPass, 'hdrResolve']);
@@ -72,7 +75,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     _wr_post_processing_effect_pass_set_alpha_blending(hdrPass, false);
     _wr_post_processing_effect_pass_set_input_texture_count(hdrPass, 1);
     _wr_post_processing_effect_pass_set_output_texture_count(hdrPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8); // enum: try with rgba
+    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
     _wr_post_processing_effect_append_pass(hdrResolveEffect, hdrPass);
 
     _wr_post_processing_effect_set_result_program(hdrResolveEffect, WbWrenShaders.passThroughShader());

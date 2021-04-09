@@ -14,6 +14,7 @@
 
 import {arrayXPointer} from './../nodes/wbUtils.js';
 import {WbWrenShaders} from './wbWrenShaders.js';
+import {WbWrenRenderingContext} from './wbWrenRenderingContext.js';
 
 class WbWrenPostProcessingEffects {
   static loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
@@ -23,19 +24,20 @@ class WbWrenPostProcessingEffects {
   }
 
   static clearResources() {
-    if (WbWrenPostProcessingEffects.smaaAreaTexture !== null)
+    if (WbWrenPostProcessingEffects.smaaAreaTexture !== 'undefined')
       _wr_texture_delete(WbWrenPostProcessingEffects.smaaAreaTexture);
 
-    if (WbWrenPostProcessingEffects.smaaSearchTexture !== null)
+    if (WbWrenPostProcessingEffects.smaaSearchTexture !== 'undefined')
       _wr_texture_delete(WbWrenPostProcessingEffects.smaaSearchTexture);
 
-    if (WbWrenPostProcessingEffects.gtaoNoiseTexture !== null)
+    if (WbWrenPostProcessingEffects.gtaoNoiseTexture !== 'undefined')
       _wr_texture_delete(WbWrenPostProcessingEffects.gtaoNoiseTexture);
 
-    WbWrenPostProcessingEffects.smaaAreaTexture = null;
-    WbWrenPostProcessingEffects.smaaSearchTexture = null;
-    WbWrenPostProcessingEffects.gtaoNoiseTexture = null;
+    WbWrenPostProcessingEffects.smaaAreaTexture = undefined;
+    WbWrenPostProcessingEffects.smaaSearchTexture = undefined;
+    WbWrenPostProcessingEffects.gtaoNoiseTexture = undefined;
   }
+
   static loadImage(image) {
     const targetTexture = _wr_texture_2d_new();
     _wr_texture_set_translucent(targetTexture, true);
@@ -53,7 +55,7 @@ class WbWrenPostProcessingEffects {
 
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
     const gtaoEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(gtaoEffect, 1);// enum
+    _wr_post_processing_effect_set_drawing_index(gtaoEffect, WbWrenRenderingContext.PP_GTAO);
 
     const colorPassThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
@@ -205,7 +207,7 @@ class WbWrenPostProcessingEffects {
 
   static bloom(width, height, textureFormat) {
     const bloomEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(bloomEffect, 5); // enum
+    _wr_post_processing_effect_set_drawing_index(bloomEffect, WbWrenRenderingContext.PP_BLOOM);
 
     const colorPassThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
@@ -291,7 +293,7 @@ class WbWrenPostProcessingEffects {
 
   static smaa(width, height, textureFormat) {
     const smaaEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(smaaEffect, 13);
+    _wr_post_processing_effect_set_drawing_index(smaaEffect, WbWrenRenderingContext.PP_SMAA);
 
     const passThrough = _wr_post_processing_effect_pass_new();
     Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [passThrough, 'LensFlarePassToBlend']);
