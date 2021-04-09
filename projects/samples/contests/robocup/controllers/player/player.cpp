@@ -289,6 +289,7 @@ int main(int argc, char *argv[]) {
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
+            sensorMeasurements.set_time(controller_time);
             for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
               const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
