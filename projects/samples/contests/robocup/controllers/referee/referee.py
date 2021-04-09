@@ -12,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from gamestate import GameState, ReturnData, GAME_CONTROLLER_RESPONSE_VERSION
-from construct import Container
+from gamestate import GameState
 
-from controller import Supervisor, AnsiCodes
+from controller import Supervisor, AnsiCodes, Node
 
 import json
 import math
@@ -27,8 +26,12 @@ import sys
 import time
 from types import SimpleNamespace
 
+SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let it run for 2 simulated seconds and replacing it
+SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
+HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
+REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
+
 global supervisor, game, red_team, blue_team, log_file, time_count
-global REAL_TIME_FACTOR
 
 
 def log(message, type):
@@ -36,8 +39,11 @@ def log(message, type):
                       else message
     print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
     if log_file:
-        real_time = int(1000 * time.time()) / 1000
-        log_file.write(f'[{real_time:.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+        real_time = int(1000 * (time.time() - log.start_time)) / 1000
+        log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+
+
+log.start_time = time.time()
 
 
 def info(message):
@@ -57,24 +63,34 @@ def spawn_team(team, color, red_on_right, children):
         model = team['players'][number]['proto']
         n = int(number) - 1
         port = game.red.ports[n] if color == 'red' else game.blue.ports[n]
-        translation = team['players'][number]['halfTimeStartingPose']['translation']
-        rotation = team['players'][number]['halfTimeStartingPose']['rotation']
+        halfTimeStartingTranslation = team['players'][number]['halfTimeStartingPose']['translation']
+        halfTimeStartingRotation = team['players'][number]['halfTimeStartingPose']['rotation']
+        reentryStartingTranslation = team['players'][number]['reentryStartingPose']['translation']
+        reentryStartingRotation = team['players'][number]['reentryStartingPose']['rotation']
+        shootoutStartingTranslation = team['players'][number]['shootoutStartingPose']['translation']
+        shootoutStartingRotation = team['players'][number]['shootoutStartingPose']['rotation']
         if red_on_right:  # symmetry with respect to the central line of the field
-            translation[0] = -translation[0]
-            rotation[3] = math.pi - rotation[3]
+            halfTimeStartingTranslation[0] = -halfTimeStartingTranslation[0]
+            reentryStartingTranslation[0] = -reentryStartingTranslation[0]
+            shootoutStartingTranslation[0] = -shootoutStartingTranslation[0]
+            halfTimeStartingRotation[3] = math.pi - halfTimeStartingRotation[3]
+            reentryStartingRotation[3] = math.pi - reentryStartingRotation[3]
+            shootoutStartingRotation[3] = math.pi - shootoutStartingRotation[3]
         defname = color.upper() + '_PLAYER_' + number
-        string = f'DEF {defname} {model}{{name "{color} player {number}" ' + \
-            f'translation {translation[0]} {translation[1]} {translation[2]} ' + \
-            f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]} ' + \
-            f'controllerArgs ["{port}"'
+        string = f'DEF {defname} {model}{{name "{color} player {number}" translation ' + \
+            f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]} rotation ' + \
+            f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
+            f'{halfTimeStartingRotation[3]} controllerArgs ["{port}"'
         hosts = game.red.hosts if color == 'red' else game.blue.hosts
         for host in hosts:
             string += f', "{host}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
-        info(f'Spawned {defname} {model} on port {port} at translation {translation[0]} {translation[1]} {translation[2]}, ' +
-             f'rotation {rotation[0]} {rotation[1]} {rotation[2]} {rotation[3]}')
+        info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation ' +
+             f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}, rotation ' +
+             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
+             f'{halfTimeStartingRotation[3]}')
 
 
 def format_time(s):
@@ -171,21 +187,9 @@ def setup_display():
     update_state_display()
 
 
-def game_controller_heartbeat():
-    heartbeat = Container(
-        header=b"RGrt",
-        version=GAME_CONTROLLER_RESPONSE_VERSION,
-        team=0,
-        player=1,
-        message=2)
+def game_controller_receive():
     try:
-        game.udp_out.sendto(ReturnData.build(heartbeat), ('127.0.0.1', 3939))
-    except Exception as e:
-        error(f'UDP out failure: {e}')
-        return
-    data = None
-    try:
-        data, peer = game.udp_in.recvfrom(GameState.sizeof())
+        data, peer = game.udp.recvfrom(GameState.sizeof())
     except BlockingIOError:
         return
     except Exception as e:
@@ -230,7 +234,7 @@ def game_controller_heartbeat():
 def game_controller_send(message):
     if game.controller:
         game_controller_send.id += 1
-        if message[:6] == 'STATE:':
+        if message[:6] != 'CLOCK:':
             info(f'Sending {message} to GameController')
         message = f'{game_controller_send.id}:{message}\n'
         game.controller.sendall(message.encode('ascii'))
@@ -307,36 +311,51 @@ def send_penalties(team, color):
             rotation = robot.getField('rotation')
             t = team['players'][number]['reentryStartingPose']['translation']
             r = team['players'][number]['reentryStartingPose']['rotation']
-            swap = (game.side_left == game.blue.id) if color == 'red' else (game.side_left == game.red.id)
-            if swap:
-                t[0] = -t[0]
-                r[3] = math.pi - r[3]
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
-            info(f'{penalty} penalty for {color} player {number}: {reason}.')
+            info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to reentryStartingPose: ' +
+                 f'translation {t[0]} {t[1]} {t[2]}, rotation {r[0]} {r[1]} {r[2]} {r[3]}')
 
 
-def reset_to_kickoff_pose(team, color):
-    for number in team['players']:
-        robot = team['players'][number]['robot']
-        robot.resetPhysics()
-        translation = robot.getField('translation')
-        rotation = robot.getField('rotation')
-        t = team['players'][number]['halfTimeStartingPose']['translation']
-        r = team['players'][number]['halfTimeStartingPose']['rotation']
-        t[0] = -t[0]
-        r[3] = math.pi - r[3]
-        translation.setSFVec3f(t)
-        rotation.setSFRotation(r)
-        info(f'{color} player {number} reset to halfTimeStartingPose for second half.')
+def flip_pose(pose):
+    pose['translation'][0] = -pose['translation'][0]
+    pose['rotation'][3] = math.pi - pose['rotation'][3]
+
+
+def flip_sides():
+    game.side_left = 2 if game.side_left == 1 else 1  # flip sides (no need to notify GameController, it does it automatically)
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            flip_pose(team['players'][number]['halfTimeStartingPose'])
+            flip_pose(team['players'][number]['reentryStartingPose'])
+            flip_pose(team['players'][number]['shootoutStartingPose'])
+
+
+def reset_player(color, number, pose):
+    team = red_team if color == 'red' else blue_team
+    player = team['players'][str(number)]
+    player['robot'].resetPhysics()
+    translation = player['robot'].getField('translation')
+    rotation = player['robot'].getField('rotation')
+    t = player[pose]['translation']
+    r = player[pose]['rotation']
+    translation.setSFVec3f(t)
+    rotation.setSFRotation(r)
+    info(f'{color} player {number} reset to {pose}: ' +
+         f'translation {t[0]} {t[1]} {t[2]}, rotation {r[0]} {r[1]} {r[2]} {r[3]}')
+
+
+def reset_teams(pose):
+    for number in red_team['players']:
+        reset_player('red', number, pose)
+    for number in blue_team['players']:
+        reset_player('blue', number, pose)
 
 
 game_controller_send.id = 0
 game_controller_send.unanswered = {}
 
 time_count = 0
-# REAL_TIME_FACTOR = 3  # simulated time is running 3 times slower than real time
-REAL_TIME_FACTOR = 0.1  # used for testing (runs faster)
 
 log_file = open('log.txt', 'w')
 
@@ -388,17 +407,22 @@ except KeyError:
     game.controller_process = None
     error('Warning: JAVA_HOME environment variable not set, unable to launch GameController.')
 
-# start the webots supervisor
-supervisor = Supervisor()
-root = supervisor.getRoot()
-children = root.getField('children')
-children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
+# finalize the game object
+if not hasattr(game, 'real_time_factor'):
+    game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
+info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.goal_half_width = 1.3
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
+
+# start the webots supervisor
+supervisor = Supervisor()
+root = supervisor.getRoot()
+children = root.getField('children')
+children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
                                 f'size {ball_size} }}')
@@ -436,12 +460,10 @@ if game.controller_process:
                 game.controller = None
                 break
     info('Connected to GameControllerSimulator at localhost:8750')
-    game.udp_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp_in.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    game.udp_in.bind(('0.0.0.0', 3838))
-    game.udp_in.setblocking(False)
-    game.udp_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp_out.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    game.udp.bind(('0.0.0.0', 3838))
+    game.udp.setblocking(False)
 else:
     game.controller = None
 
@@ -454,27 +476,28 @@ info(f'Kickoff is {"RED" if game.kickoff == game.red.id else "BLUE"}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ready_countdown = (int)(120000 * REAL_TIME_FACTOR / time_step)  # 2 real minutes before we enter the ready state
+game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 * game.real_time_factor / time_step)
 game.play_countdown = 0
+game.sent_finish = False
 previous_seconds_remaining = 0
 real_time_start = time.time()
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
-    game_controller_heartbeat()
+    game_controller_receive()
     if game.state is None:
         pass
     elif game.state.game_state == 'STATE_PLAYING':
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
             previous_seconds_remaining = game.state.seconds_remaining
-            if game.state.seconds_remaining <= 0:
+            if not game.sent_finish and game.state.seconds_remaining <= 0:
                 game_controller_send('STATE:FINISH')
+                game.sent_finish = True
                 if game.state.first_half:
                     info('End of first half')
-                    game.side_left = 2 if game.side_left == 1 else 1  # swap sides (the GameController does it automatically)
+                    flip_sides()
+                    reset_teams('halfTimeStartingPose')
                     update_team_display()
-                    reset_to_kickoff_pose(red_team, 'red')
-                    reset_to_kickoff_pose(blue_team, 'blue')
                 else:
                     info('End of match')
         ball_translation = game.ball_translation.getSFVec3f()
@@ -483,7 +506,7 @@ while supervisor.step(time_step) != -1:
              ball_translation[1] + game.ball_radius < -game.field_size_y or
              ball_translation[0] - game.ball_radius > game.field_size_x or
              ball_translation[0] + game.ball_radius < -game.field_size_x):
-            game.ball_exited_countdown = int(2000 / time_step)  # wait 2 seconds after ball exited to replace it
+            game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = ball_translation
             scoring_team = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
@@ -509,20 +532,21 @@ while supervisor.step(time_step) != -1:
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
-        # the referee should wait about 5 seconds since the state SET started before sending the PLAY state
-        game.play_countdown = int(5000 / time_step)
+        # the referee should wait a little time since the state SET started before sending the PLAY state
+        game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
+        game.ball.resetPhysics()
+        game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
         game.play_countdown -= 1
         if game.play_countdown == 0:
             game_controller_send('STATE:PLAY')
-            info('State: PLAYING')
     elif game.state.game_state == 'STATE_FINISHED':
+        game.sent_finish = False
         if game.state.first_half:
             if game.ready_countdown == 0:
                 print('state FINISHED!')
-                info('Begining of second half.')
-                game.ready_countdown = int(15000 * REAL_TIME_FACTOR / time_step)  # 15 real seconds for half time break
-
+                info('Beginning of second half.')
+                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 * game.real_time_factor / time_step)
         else:
             info('End of the game.')
             break
@@ -534,7 +558,6 @@ while supervisor.step(time_step) != -1:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 game_controller_send('STATE:READY')
-                info('State: READY')
                 send_penalties(red_team, 'red')
                 send_penalties(blue_team, 'blue')
 
@@ -544,8 +567,26 @@ while supervisor.step(time_step) != -1:
             game.ball.resetPhysics()
             game.ball_translation.setSFVec3f(game.ball_exit_translation)
 
+    n = game.ball.getNumberOfContactPoints()
+    for i in range(0, n):
+        point = game.ball.getContactPoint(i)
+        if point[2] <= 0.01:  # contact with the ground
+            continue
+        node = game.ball.getContactPointNode(i)
+        while True:
+            print(f'Ball touched {node.getTypeName()}.')
+            node = node.getParentNode()
+            if not node or node.getType() == Node.ROBOT:
+                break
+        if node:
+            print(f'Ball touched {node.getDef()}.')
+        else:
+            print('Ball touched something')
+
     time_count += time_step
-    delta_time = real_time_start - time.time() + REAL_TIME_FACTOR * time_count / 1000
+
+    # slow down the simulation if needed to respect the real time factor constraint
+    delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
     if delta_time > 0:
         time.sleep(delta_time)
 
@@ -555,3 +596,7 @@ if game.controller:
     game.controller.close()
 if game.controller_process:
     game.controller_process.terminate()
+
+supervisor.simulationQuit(0)
+while supervisor.step(time_step) != -1:
+    pass

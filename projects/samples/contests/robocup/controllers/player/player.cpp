@@ -194,7 +194,7 @@ static int bandwidth_usage(size_t new_packet_size, int controller_time, int basi
   int sum = 0;
   char filename[32];
   if (data_transferred == NULL) {
-    data_transferred = (int *)malloc(sizeof(int) * window_size);
+    data_transferred = new int[window_size];
     for (int i = 0; i < window_size; i++)
       data_transferred[i] = 0;
   }
@@ -268,18 +268,16 @@ int main(int argc, char *argv[]) {
       int number = select(client_fd + 1, &rfds, NULL, NULL, &tv);
       if (number) {  // some data is available from the socket
         char data[256];
-        int n = recv(client_fd, data, sizeof(int), 0);
+        uint32_t n = recv(client_fd, data, sizeof(int), 0);
         if (n <= 0) {
           printf("Closed connection\n");
           close_socket(client_fd);
           client_fd = -1;
         } else {
           assert(n == sizeof(int));
-          int l = ntohl(*((int *)data));
-          printf("packet size = %d %d\n", l, n);
-          MotorPosition motorPosition;
-          // motorPosition.ParseFromFileDescriptor(client_fd);
-          int n = recv(client_fd, data, l, 0);
+          uint32_t l = ntohl(*((uint32_t *)data));
+          printf("packet size = %u %u\n", l, n);
+          uint32_t n = recv(client_fd, data, l, 0);
           assert(n == l);
           if (n <= 0) {
             printf("Broke connection\n");
@@ -287,10 +285,11 @@ int main(int argc, char *argv[]) {
             client_fd = -1;
           } else {
             data[n] = '\0';
-            printf("Received %d bytes\n", n);
+            printf("Received %u bytes\n", n);
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
+            sensorMeasurements.set_time(controller_time);
             for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
               const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
@@ -493,19 +492,19 @@ int main(int argc, char *argv[]) {
               } else
                 warn(sensorMeasurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
             }
-            const int size = sensorMeasurements.ByteSizeLong();
+            const uint32_t size = sensorMeasurements.ByteSizeLong();
             if (bandwidth_usage(size, controller_time, basic_time_step) > TEAM_QUOTA) {
               sensorMeasurements.Clear();
               Message *message = sensorMeasurements.add_messages();
               message->set_message_type(Message::ERROR_MESSAGE);
               message->set_text(std::to_string(TEAM_QUOTA) + " MB/s quota exceeded.");
             }
-            char *output = (char *)malloc(sizeof(int) + size);
-            int *output_size = (int *)output;
+            char *output = new char[sizeof(uint32_t) + size];
+            uint32_t *output_size = (uint32_t *)output;
             *output_size = htonl(size);
-            sensorMeasurements.SerializeToArray(&output[sizeof(int)], size);
-            send(client_fd, output, sizeof(int) + size, 0);
-            free(output);
+            sensorMeasurements.SerializeToArray(&output[sizeof(uint32_t)], size);
+            send(client_fd, output, sizeof(uint32_t) + size, 0);
+            delete output;
           }
         }
       }
