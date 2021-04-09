@@ -39,35 +39,13 @@ class WbPointSet extends WbGeometry {
   }
 
   updateCoord() {
-    if (!this.sanitizeFields())
-      return;
-
     if (this.wrenObjectsCreatedCalled)
       this.buildWrenMesh();
-
-    if (this.boundingSphere)
-      this.boundingSphere.setOwnerSizeChanged();
-  }
-
-  sanitizeFields() {
-    if (typeof this.coord === 'undefined' || this.coord.length === 0) {
-      console.warn("A non-empty 'Coordinate' node should be present in the 'coord' field.");
-      return false;
-    }
-
-    if (typeof this.color !== 'undefined' && this.color.length !== this.coord.length) {
-      console.warn("If a 'Color' node is present in the 'color' field, it should have the same number of component as the 'Coordinate' node in the 'coord' field.");
-      if (this.color.length === 0)
-        return false;
-      else
-        console.warn('Only the first ' + Math.min(this.color.length, this.coord.length) + ' points will be drawn.');
-    }
-
-    return true;
   }
 
   setWrenMaterial(material, castShadows) {
     super.setWrenMaterial(material, castShadows);
+
     if (typeof material !== 'undefined') {
       _wr_material_set_default_program(material, WbWrenShaders.pointSetShader());
       if (typeof this.color !== 'undefined')
@@ -80,8 +58,10 @@ class WbPointSet extends WbGeometry {
   buildWrenMesh() {
     super.deleteWrenRenderable();
 
-    _wr_static_mesh_delete(this.wrenMesh);
-    this.wrenMesh = undefined;
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
 
     if (typeof this.coord === 'undefined' || this.coord.length === 0)
       return;

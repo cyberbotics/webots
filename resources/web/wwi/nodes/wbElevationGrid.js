@@ -40,8 +40,10 @@ class WbElevationGrid extends WbGeometry {
   buildWrenMesh() {
     super.deleteWrenRenderable();
 
-    _wr_static_mesh_delete(this.wrenMesh);
-    this.wrenMesh = undefined;
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
 
     if (this.xDimension < 2 || this.zDimension < 2)
       return;
@@ -86,7 +88,7 @@ class WbElevationGrid extends WbGeometry {
     if (this.isAValidBoundingObject())
       return;
 
-    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
     const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
 

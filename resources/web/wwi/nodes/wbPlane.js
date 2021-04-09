@@ -50,7 +50,7 @@ class WbPlane extends WbGeometry {
     if (!this.isAValidBoundingObject())
       return;
 
-    const offset = _wr_config_get_line_scale() / this.LINE_SCALE_FACTOR;
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
     // allow the bounding sphere to scale down
     const scaleY = 0.1 * Math.min(this.size.x, this.size.y);

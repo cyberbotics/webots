@@ -37,38 +37,22 @@ class WbIndexedLineSet extends WbGeometry {
   }
 
   updateCoord() {
-    if (!this.sanitizeFields())
-      return;
-
     if (this.wrenObjectsCreatedCalled)
       this.buildWrenMesh();
-  }
-
-  sanitizeFields() {
-    if (typeof this.coord === 'undefined' || this.coord.length === 0) {
-      console.warn("A 'Coordinate' node should be present in the 'coord' field with at least two items.");
-      return false;
-    }
-
-    if (typeof this.coordIndex === 'undefined' || this.estimateIndexCount() < 2) {
-      console.warn("The 'coordIndex' field should have at least two items.");
-      return false;
-    }
-
-    return true;
   }
 
   buildWrenMesh() {
     super.deleteWrenRenderable();
 
-    _wr_static_mesh_delete(this.wrenMesh);
-    this.wrenMesh = undefined;
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
 
     super.computeWrenRenderable();
 
     _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
 
-    // In the worst case we end up with 2 * this.coordIndex->size() - 1 coordinates
     const coordsData = [];
     const coordsCount = this.computeCoordsData(coordsData);
 
@@ -113,18 +97,6 @@ class WbIndexedLineSet extends WbGeometry {
     }
 
     return count;
-  }
-
-  estimateIndexCount() {
-    let ni = 0;
-    const s1 = this.coord.length;
-
-    for (let i = 0; i < this.coordIndex.length - 1; i++) {
-      let j = i + 1;
-      if (this.coordIndex[i] !== -1 && this.coordIndex[j] !== -1 && this.coordIndex[i] < s1 && this.coordIndex[j] < s1)
-        ni += 2;
-    }
-    return ni;
   }
 
   clone(customID) {

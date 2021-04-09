@@ -285,7 +285,6 @@ class WbPBRAppearance extends WbAbstractAppearance {
   }
 }
 
-WbPBRAppearance.cBrdfTexture = undefined;
 WbPBRAppearance.cInstanceCounter = 0;
 
 export {WbPBRAppearance};

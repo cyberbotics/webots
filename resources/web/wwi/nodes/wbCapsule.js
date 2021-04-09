@@ -40,8 +40,10 @@ class WbCapsule extends WbGeometry {
   buildWrenMesh() {
     super.deleteWrenRenderable();
 
-    _wr_static_mesh_delete(this.wrenMesh);
-    this.wrenMesh = undefined;
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
 
     if (!this.bottom && !this.side && !this.top)
       return;

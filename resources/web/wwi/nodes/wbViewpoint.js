@@ -26,16 +26,16 @@ import {WbWrenBloom} from './../wren/wbWrenBloom.js';
 import {WbWrenSmaa} from './../wren/wbWrenSmaa.js';
 
 class WbViewpoint extends WbBaseNode {
-  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius) {
+  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius) {
     super(id);
     this.orientation = this.initialOrientation = orientation;
     this.position = this.initialPosition = position;
 
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
-    this.near = zNear;
+    this.near = near;
     this.far = far;
-    this.aspectRatio = canvas.width / canvas.height;// 800/600;
+    this.aspectRatio = canvas.width / canvas.height;
     this.fieldOfView = fieldOfView;
     this.fieldOfViewY = M_PI_4;
     this.tanHalfFieldOfViewY = TAN_M_PI_8;
@@ -134,7 +134,7 @@ class WbViewpoint extends WbBaseNode {
   updateFieldOfViewY() {
     this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);
 
-    // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
+    // According to VRML standards, the meaning of fieldOfView depends on the aspect ratio:
     // the view angle is taken with respect to the largest dimension
     if (this.aspectRatio < 1.0)
       this.fieldOfViewY = this.fieldOfView;
@@ -358,5 +358,4 @@ class WbViewpoint extends WbBaseNode {
 }
 
 WbViewpoint.DEFAULT_FAR = 1000000.0;
-WbViewpoint.z = -1;
 export {WbViewpoint};

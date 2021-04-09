@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export const GTAO_LEVEL = 4;
-export const disableAntiAliasing = 0;
+export const GTAO_LEVEL = 4; // [0 - 4], 0 disable it
+export const disableAntiAliasing = false;
 export const disableShadows = false;
-export const textureQuality = 2; // between 0 and 2
-export const textureFiltering = 4;
+export const textureQuality = 2; // [0 - 2]
+export const textureFiltering = 5; // [0 - 5]

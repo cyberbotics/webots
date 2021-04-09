@@ -16,7 +16,6 @@ import {arrayXPointer} from './wbUtils.js';
 import {textureFiltering} from './wbPreferences.js';
 import {WbAppearance} from './wbAppearance.js';
 import {WbBaseNode} from './wbBaseNode.js';
-import {WbVector2} from './utils/wbVector2.js';
 import {WbWorld} from './wbWorld.js';
 
 import {Parser} from './../parser.js';

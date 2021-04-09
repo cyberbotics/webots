@@ -15,7 +15,7 @@
 import {WbTriangleMeshGeometry} from './wbTriangleMeshGeometry.js';
 
 class WbIndexedFaceSet extends WbTriangleMeshGeometry {
-  constructor(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, ccw, normalPerVertex) {
+  constructor(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, ccw) {
     super(id);
 
     this.coordIndex = coordIndex;
@@ -27,11 +27,10 @@ class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.normal = normal;
 
     this.ccw = ccw;
-    this.normalPerVertex = normalPerVertex;
   }
 
   updateTriangleMesh() {
-    this.triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.ccw, this.normalPerVertex);
+    this.triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.ccw);
   }
 
   clone(customID) {

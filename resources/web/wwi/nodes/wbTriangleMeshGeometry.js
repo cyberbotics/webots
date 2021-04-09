@@ -15,7 +15,7 @@
 import {arrayXPointerFloat, arrayXPointerInt} from './wbUtils.js';
 import {WbGeometry} from './wbGeometry.js';
 import {WbMatrix4} from './utils/wbMatrix4.js';
-import {WbTriangleMesh} from './wbTriangleMesh.js';
+import {WbTriangleMesh} from './utils/wbTriangleMesh.js';
 import {WbWrenMeshBuffers} from './utils/wbWrenMeshBuffers.js';
 import {WbWrenRenderingContext} from './../wren/wbWrenRenderingContext.js';
 import {WbWrenShaders} from './../wren/wbWrenShaders.js';
@@ -36,20 +36,26 @@ class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   deleteWrenRenderable() {
-    if (this.normalsMaterial)
+    if (typeof this.normalsMaterial !== 'undefined') {
       _wr_material_delete(this.normalsMaterial);
-    this.normalsMaterial = undefined;
-    if (this.normalsRenderable)
+      this.normalsMaterial = undefined;
+    }
+
+    if (typeof this.normalsRenderable !== 'undefined') {
       _wr_node_delete(this.normalsRenderable);
-    this.normalsRenderable = undefined;
+      this.normalsRenderable = undefined;
+    }
 
     super.deleteWrenRenderable();
   }
 
   buildWrenMesh(updateCache) {
     this.deleteWrenRenderable();
-    _wr_static_mesh_delete(this.wrenMesh);
-    this.wrenMesh = undefined;
+
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
 
     if (!this.triangleMesh.isValid)
       return;
@@ -76,7 +82,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
-    this.buildGeomIntoBuffers(buffers, new WbMatrix4(), !this.triangleMesh.areTextureCoordinatesValid);
+    this.buildGeomIntoBuffers(buffers, new WbMatrix4());
     const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
     const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
     const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
@@ -110,7 +116,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     return 3 * this.triangleMesh.numberOfTriangles;
   }
 
-  buildGeomIntoBuffers(buffers, m, generateUserTexCoords) {
+  buildGeomIntoBuffers(buffers, m) {
     if (!this.triangleMesh.isValid)
       return;
 
@@ -149,13 +155,9 @@ class WbTriangleMeshGeometry extends WbGeometry {
           tBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
           tBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
 
-          if (generateUserTexCoords) {
-            utBuf[i] = this.triangleMesh.nonRecursiveTextureCoordinate(t, v, 0);
-            utBuf[i + 1] = this.triangleMesh.nonRecursiveTextureCoordinate(t, v, 1);
-          } else {
-            utBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
-            utBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
-          }
+          utBuf[i] = this.triangleMesh.textureCoordinate(t, v, 0);
+          utBuf[i + 1] = this.triangleMesh.textureCoordinate(t, v, 1);
+
           i += 2;
         }
       }

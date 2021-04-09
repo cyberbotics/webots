@@ -153,4 +153,6 @@ class WbGeometry extends WbBaseNode {
   }
 }
 
+WbGeometry.LINE_SCALE_FACTOR = 250.0;
+
 export {WbGeometry};

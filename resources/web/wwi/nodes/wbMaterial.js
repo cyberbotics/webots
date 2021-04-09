@@ -44,9 +44,8 @@ class WbMaterial extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, textured) {
     let ambient, diffuse, specular, shininess;
 
-    ambient = new WbVector3(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity);
-
     if (textured) {
+      ambient = new WbVector3(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity);
       diffuse = new WbVector3(1.0, 1.0, 1.0);
       specular = new WbVector3(1.0, 1.0, 1.0);
       shininess = 0.0;

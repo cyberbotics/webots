@@ -241,12 +241,12 @@ class Parser {
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold'));
     const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
-    const zNear = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
+    const near = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
     const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, zNear, far, followSmoothness, followedId, ambientOcclusionRadius);
+    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius);
   }
 
   async parseBackground(node) {
@@ -728,8 +728,8 @@ class Parser {
     }
 
     const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
-    const normalPerVertex = parseFloat(getNodeAttribute(node, 'normalPerVertex', '1'));
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw, normalPerVertex);
+
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;

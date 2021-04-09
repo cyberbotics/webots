@@ -17,7 +17,7 @@ import {WbWorld} from './wbWorld.js';
 
 import {Parser} from './../parser.js';
 
-// Is also used to represent a solid
+// Also used to represent a solid
 class WbTransform extends WbGroup {
   constructor(id, isSolid, translation, scale, rotation) {
     super(id);
