@@ -26,6 +26,11 @@ import sys
 import time
 from types import SimpleNamespace
 
+SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let it run for 2 simulated seconds and replacing it
+SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
+HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
+REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
+
 global supervisor, game, red_team, blue_team, log_file, time_count
 
 
@@ -471,7 +476,7 @@ info(f'Kickoff is {"RED" if game.kickoff == game.red.id else "BLUE"}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ready_countdown = (int)(120000 * game.real_time_factor / time_step)  # 2 real minutes before we enter the ready state
+game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 * game.real_time_factor / time_step)
 game.play_countdown = 0
 game.sent_finish = False
 previous_seconds_remaining = 0
@@ -501,7 +506,7 @@ while supervisor.step(time_step) != -1:
              ball_translation[1] + game.ball_radius < -game.field_size_y or
              ball_translation[0] - game.ball_radius > game.field_size_x or
              ball_translation[0] + game.ball_radius < -game.field_size_x):
-            game.ball_exited_countdown = int(2000 / time_step)  # wait 2 seconds after ball exited to replace it
+            game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = ball_translation
             scoring_team = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
@@ -527,8 +532,8 @@ while supervisor.step(time_step) != -1:
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
-        # the referee should wait about 5 seconds since the state SET started before sending the PLAY state
-        game.play_countdown = int(5000 / time_step)
+        # the referee should wait a little time since the state SET started before sending the PLAY state
+        game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
         game.ball.resetPhysics()
         game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
@@ -541,8 +546,7 @@ while supervisor.step(time_step) != -1:
             if game.ready_countdown == 0:
                 print('state FINISHED!')
                 info('Beginning of second half.')
-                game.ready_countdown = int(15000 * game.real_time_factor / time_step)  # 15 real seconds for half time break
-
+                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 * game.real_time_factor / time_step)
         else:
             info('End of the game.')
             break
