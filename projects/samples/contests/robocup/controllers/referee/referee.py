@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from gamestate import GameState, ReturnData, GAME_CONTROLLER_RESPONSE_VERSION
-from construct import Container
+from gamestate import GameState
 
 from controller import Supervisor, AnsiCodes, Node
 
