@@ -39,10 +39,10 @@ The following information should be contained in logs (among others):
 [SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_3 RobocupRobot on port 10023 at halfTimeStartingPose: translation -0.75 -3.06 0.24, rotation 0 0 1 1.57
 [SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_4 RobocupRobot on port 10024 at halfTimeStartingPose: translation 1.75 3.06 0.24, rotation 0 0 1 -1.57
 [SSSS.xxx|SSSS.xxx] Info: Sending STATE:READY to GameController
-[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
-[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 2: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
-[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 2: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
-[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 4: invalid halfTimeStartingPose. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: halfTimeStartingPose inside field. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 2: halfTimeStartingPose inside field. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 2: halfTimeStartingPose inside field. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 4: halfTimeStartingPose outside team side. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: illegal field entry. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
 [SSSS.xxx|SSSS.xxx] Setting state to SET
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 4: illegal set position. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx

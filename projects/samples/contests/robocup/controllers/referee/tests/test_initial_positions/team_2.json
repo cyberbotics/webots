@@ -10,7 +10,7 @@
       },
       "reentryStartingPose": {
         "translation": [-3, -3.11, 0.24],
-        "rotation": [0.0, 0.707, 0.707, 3.14]
+        "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
@@ -26,7 +26,7 @@
       },
       "reentryStartingPose": {
         "translation": [-3, -3.11, 0.24],
-        "rotation": [0.0, 0.707, 0.707, 3.14]
+        "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
@@ -42,7 +42,7 @@
       },
       "reentryStartingPose": {
         "translation": [-3, -3.11, 0.24],
-        "rotation": [0.0, 0.707, 0.707, 3.14]
+        "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
@@ -58,7 +58,7 @@
       },
       "reentryStartingPose": {
         "translation": [-3, -3.11, 0.24],
-        "rotation": [0.0, 0.707, 0.707, 3.14]
+        "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
