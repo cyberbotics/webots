@@ -19,7 +19,7 @@ The following should happen:
    appropriate locations.
 5. Simulation is paused, `Red 1`, `Red 3` and `Blue 1` are manually moved inside
    the field, simulation is resumed.
-6. Removal penalty is applied to `Red 1` (illegal entry).
+6. Removal penalty and a yellow card is applied to `Red 1` (illegal entry).
 7. Time elapses and game state changes to `SET`.
 8. Robots `Red 4` and `Blue 3` are removed from the field by the auto-referee.
 9. Time elapses and game state changes to `PLAY`.
@@ -44,6 +44,7 @@ The following information should be contained in logs (among others):
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 2: halfTimeStartingPose inside field. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 4: halfTimeStartingPose outside team side. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 1: illegal field entry. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Yellow card shown to red player 1
 [SSSS.xxx|SSSS.xxx] Setting state to SET
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for red player 4: illegal set position. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
 [SSSS.xxx|SSSS.xxx] INCAPABLE penalty for blue player 3: illegal set position. sent to reentryStartingPose: translation x.xx x.xx x.xx orientation x.xx x.xx x.xx
