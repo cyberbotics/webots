@@ -166,7 +166,7 @@ void WbNode::init() {
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
   mModel(WbNodeModel::findModel(modelName)) {
-  printf("creating NODE %s from model\n", modelName.toUtf8().constData());
+  // printf("creating NODE %s from model\n", modelName.toUtf8().constData());
   init();
 
   // create fields from model
@@ -191,7 +191,7 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
 
-  printf("done creating NODE %s\n", modelName.toUtf8().constData());
+  // printf("done creating NODE %s\n", modelName.toUtf8().constData());
 }
 
 WbNode::WbNode(const WbNode &other) :
@@ -201,7 +201,7 @@ WbNode::WbNode(const WbNode &other) :
   mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
-  printf("creating NODE %s from OTHER\n", usefulName().toUtf8().constData());
+  // printf("creating NODE %s from OTHER\n", usefulName().toUtf8().constData());
   if (gRestoreUniqueIdOnClone)
     setUniqueId(other.mUniqueId);
 
@@ -1458,6 +1458,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    printf(" appending %s\n", defaultParameter->name().toUtf8().constData());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1477,6 +1478,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   const bool previousParameterNodeFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = true;
 
+  printf("3)\n");
   // 3. populate the parameters from the tokenizer if existing
   QSet<QString> parameterNames;
   if (tokenizer) {
@@ -1487,7 +1489,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
       QString parameterName = tokenizer->nextWord();
-      printf(">> param name %s\n", parameterName.toUtf8().constData());
+      printf("[word][%s]\n", parameterName.toUtf8().constData());
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
@@ -1565,7 +1567,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameter->name()).arg(proto->name()));
           }
         }
-
+        printf("A\n");
         if (tokenizer->peekWord() == "IS") {
           tokenizer->skipToken("IS");
           const QString &alias = tokenizer->nextWord();
@@ -1573,13 +1575,21 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             parameter->setAlias(alias);
             copyAliasValue(parameter, alias);
           }
-        } else if (!hidden)
+        } else if (!hidden) {
+          printf("B\n");
+          // if (parameter->type() == WB_MF_NODE || parameter->type() == WB_SF_NODE) {
+          //  toBeDeleted = true;
+          //  continue;
+          //} else {
           parameter->readValue(tokenizer, worldPath);
-
+          printf("C\n");
+          //}
+        }
         if (toBeDeleted)
           delete parameter;
       } else
         tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameterName).arg(proto->name()));
+      printf("D\n");
     }
 
     if (hasDefaultDefNodes) {
@@ -1594,7 +1604,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     }
     tokenizer->skipToken("}");
   }
-
+  printf("3) done\n");
   parametersDefMap.clear();
   gProtoParameterNodeFlag = previousParameterNodeFlag;
   gDerivedProtoFlag = gDerivedProtoParentFlag;
@@ -1602,9 +1612,10 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (topParameter && !insertedProto)
     gTopParameterFlag = false;
 
-  printf("setupDescendantAndNestedProtoFlags\n");
+  // printf("setupDescendantAndNestedProtoFlags\n");
   setupDescendantAndNestedProtoFlags(parameters, topParameter || insertedProto);
   // printf("]] %d %d\n", topParameter, insertedProto);
+  printf("  createProtoInstanceFromParameters\n");
   WbNode *instance = createProtoInstanceFromParameters(proto, parameters, protoLevel < 1, worldPath);
 
   protoLevel = previousProtoLevel;
@@ -1613,6 +1624,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (insertedProto)
     gTopParameterFlag = previousTopParameterFlag;
 
+  printf("4)\n");
   return instance;
 }
 
@@ -1636,7 +1648,7 @@ WbNode *WbNode::regenerateProtoInstanceFromParameters(WbProtoModel *proto, const
 
 WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVector<WbField *> &parameters, bool isTopLevel,
                                                   const QString &worldPath, bool fromSceneTree, int uniqueId) {
-  printf("createProtoInstanceFromParameters\n");
+  // printf("createProtoInstanceFromParameters\n");
   ProtoParameters *p = new ProtoParameters;
   p->params = &parameters;
   gProtoParameterList << p;
@@ -1839,7 +1851,7 @@ void WbNode::updateNestedProtoFlag() {
 void WbNode::setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree) {
   mIsProtoDescendant = !isTopNode;
   mIsNestedProtoNode = !(isTopNode || isInsertedFromSceneTree) && isProtoInstance();
-  printf("mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance %d)\n",
+  printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance %d)\n",
          mIsProtoDescendant, mIsNestedProtoNode, isTopNode, isInsertedFromSceneTree, isProtoInstance());
   if (isTopParameterDescendant)
     mIsTopParameterDescendant = true;
@@ -2238,16 +2250,15 @@ QString WbNode::getUrdfPrefix() const {
   return findRobotRootNode()->mUrdfPrefix;
 }
 
-/*
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
   for (int i = 0; i < level; ++i)
     indent += "  ";
 
   QString line;
-  line.sprintf("%sNode %s %p parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
-               protoParameterNode());
-  qDebug() << line;
+  printf("%sNode %s %p parameterNode %p\n", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
+         protoParameterNode());
+
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
 }
@@ -2261,9 +2272,8 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    line.sprintf("%s%s %s %p (alias %p):", indent.toStdString().c_str(), type.toStdString().c_str(),
-                 p->name().toStdString().c_str(), p, p->parameter());
-    qDebug() << line;
+    printf("%s%s %s %p (alias %p):\n", indent.toStdString().c_str(), type.toStdString().c_str(),
+           p->name().toStdString().c_str(), p, p->parameter());
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)
@@ -2276,9 +2286,7 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
           n->printDebugNodeStructure(level + 1);
       }
     } else {
-      line.sprintf("%s  %s", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
-      qDebug() << line;
+      printf("%s  %s\n", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
     }
   }
 }
-*/

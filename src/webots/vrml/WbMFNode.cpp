@@ -38,11 +38,14 @@ WbMFNode::~WbMFNode() {
 }
 
 void WbMFNode::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
+  printf("WbMFNode::readAndAddItem\n");
   WbNode *node;
-  if (WbNodeReader::current())
+  if (WbNodeReader::current()) {
+    printf("  regular node\n");
     // reading a regular list of nodes (file scope)
     node = WbNodeReader::current()->readNode(tokenizer, worldPath);
-  else {
+  } else {
+    printf("  proto param node\n");
     // reading a default proto parameter (private scope)
     WbNodeReader reader(WbNodeReader::PROTO_MODEL);
     node = reader.readNode(tokenizer, worldPath);
@@ -51,6 +54,7 @@ void WbMFNode::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) 
     mVector.append(node);
     node->setInsertionCompleted();
   }
+  printf("WbMFNode::readAndAddItem DONE\n");
 }
 
 void WbMFNode::clear() {

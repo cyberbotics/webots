@@ -276,8 +276,8 @@ public:
   virtual const QString &stateId() const { return mCurrentStateId; };
 
   // debug utility functions
-  // void printDebugNodeStructure(int level = 0);
-  // void printDebugNodeFields(int level, bool printParameters);
+  void printDebugNodeStructure(int level = 0);
+  void printDebugNodeFields(int level, bool printParameters);
   const WbNode *findRobotRootNode() const;
   virtual const bool isRobot() const { return false; };
 

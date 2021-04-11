@@ -99,10 +99,12 @@ bool WbField::isDeprecated() const {
 }
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
+  printf("reading value of field %s\n", name().toUtf8().constData());
   if (mWasRead)
     tokenizer->reportError(tr("Duplicate field value."));
 
   mValue->read(tokenizer, worldPath);
+  printf("done reading\n");
   mWasRead = true;
   if (hasRestrictedValues())
     checkValueIsAccepted();
@@ -350,7 +352,7 @@ void WbField::redirectTo(WbField *parameter) {
   // ODE updates
 
   const QString &fieldName = name();
-  printf("> %s\n", name().toUtf8().constData());
+  // printf("> %s\n", name().toUtf8().constData());
   /*
   if (fieldName == "translation") {
     printf(">> %s = E\n", name().toUtf8().constData());
