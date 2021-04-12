@@ -18,6 +18,7 @@ from controller import Supervisor, AnsiCodes
 
 import copy
 import json
+import math
 import os
 import random
 import socket
@@ -308,6 +309,10 @@ def rotate_along_z(axis_and_angle):
     return [v[0], v[1], v[2], a]
 
 
+def distance(v1, v2):
+    return math.sqrt((v1[0] - v2[0]) ** 2 + (v1[1] - v2[1]) ** 2 + (v1[2] - v2[2]) ** 2)
+
+
 def send_penalties(team, color):
     for number in team['players']:
         if 'penalty' in team['players'][number]:
@@ -329,6 +334,22 @@ def send_penalties(team, color):
                 if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
                     t[1] = -t[1]
                     r = rotate_along_z(r)
+                # check if position is already occupied by a penalized robot
+                while True:
+                    moved = False
+                    for n in team['players']:
+                        other_robot = team['players'][n]['robot']
+                        other_t = other_robot.getField('translation').getSFVec3f()
+                        if distance(other_t, t) < game.robot_radius:
+                            t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
+                            moved = True
+                    if not moved:
+                        break
+                # test if position is behind the goal line (note: it should never end up beyond the center line)
+                if t[0] > game.field_size_x:
+                    t[0] -= 4 * game.penalty_offset
+                elif t[0] < -game.field_size_x:
+                    t[0] += 4 * game.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
@@ -485,7 +506,9 @@ info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
+game.penalty_offset = 0.6 if field_size == 'kid' else 1
 game.center_circle_radius = 0.75 if field_size == 'kid' else 1.5
+game.robot_radius = 0.3 if field_size == 'kid' else 0.5
 game.goal_height = GOAL_HEIGHT_KID if field_size == 'kid' else GOAL_HEIGHT_ADULT
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
