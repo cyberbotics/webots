@@ -49,6 +49,4 @@ void main() {
     vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
     fragColor = vec4(mix(fragColor.xyz, penColor.xyz, penColor.w), fragColor.w);
   }
-
-  fragNormal = vec4(1.0);
 }
