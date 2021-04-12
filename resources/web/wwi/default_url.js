@@ -1,4 +1,3 @@
-/* exported DefaultUrl */
 'use strict';
 
 class DefaultUrl {
@@ -10,8 +9,8 @@ class DefaultUrl {
         let src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
-        if (src.endsWith('setup_viewer.js') || src.endsWith('init_animation.js') || src.endsWith('a.out.js')) {
-          src = src.substring(0, src.lastIndexOf('/')); // remove "webots.js"
+        if (src.endsWith('setup_viewer.js') || src.endsWith('enum.js') || src.endsWith('wrenjs.js')) {
+          src = src.substring(0, src.lastIndexOf('/')); // remove "wrenjs.js"
           this._wwiUrl = src.substring(0, src.lastIndexOf('/') + 1); // remove "streaming_viewer"
           break;
         }
@@ -20,7 +19,7 @@ class DefaultUrl {
     return this._wwiUrl;
   }
 
-  static wwiImagesUrl(name) {
+  static wwiImagesUrl() {
     return this.wwiUrl() + 'wwi/images/';
   }
 
@@ -29,28 +28,6 @@ class DefaultUrl {
     url = url.substring(0, url.lastIndexOf('/') + 1); // remove "web"
 
     return url + 'wren/textures/';
-  }
-
-  static currentScriptUrl() {
-    // Get the directory path to the currently executing script file
-    // for example: https://cyberbotics.com/wwi/8.6/
-    const scripts = document.querySelectorAll('script[src]');
-    for (let i in scripts) {
-      let src = scripts[i].src;
-      if (typeof src === 'undefined')
-        continue;
-      let index = src.indexOf('?');
-
-      if (index > 0)
-        src = src.substring(0, index); // remove query string
-      if (!src.endsWith('setup_viewer.js') && !src.endsWith('init_animation.js') && !src.endsWith('a.out.js'))
-        continue;
-      index = src.lastIndexOf('/');
-      src = src.substring(0, index); // remove name of file;
-      src = src.substring(0, src.lastIndexOf('/') + 1) + 'wwi/';
-      return src;
-    }
-    return '';
   }
 };
 

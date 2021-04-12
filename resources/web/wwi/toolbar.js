@@ -1,6 +1,5 @@
 import {DefaultUrl} from './default_url.js';
 import {DialogWindow} from './dialog_window.js';
-import {HelpWindow} from './help_window.js';
 import {webots} from './webots.js';
 
 class Toolbar {
@@ -65,8 +64,6 @@ class Toolbar {
 
     this.domElement.right = document.createElement('div');
     this.domElement.right.className = 'toolBarRight';
-    this.domElement.right.appendChild(this.createToolBarButton('help', 'Get help on the simulator'));
-    this.helpButton.onclick = () => { this.toggleHelp(); };
 
     if (this.view.fullscreenEnabled) {
       this.domElement.right.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
@@ -101,22 +98,6 @@ class Toolbar {
     } else {
       this.view.infoWindow.open();
       this.infoButton.classList.add('toolBarButtonActive');
-    }
-  }
-
-  toggleHelp() {
-    if (!this.view.helpWindow) {
-      let webotsDocUrl;
-      if (!this.view.broadcast && webots.webotsDocUrl)
-        webotsDocUrl = webots.webotsDocUrl;
-      this.view.helpWindow = new HelpWindow(this.view.view3D, this.view.mobileDevice, webotsDocUrl);
-      this.helpButton.classList.add('toolBarButtonActive');
-    } else if ($('#webotsHelp').is(':visible')) {
-      $('#webotsHelp').dialog('close');
-      this.helpButton.classList.remove('toolBarButtonActive');
-    } else {
-      $('#webotsHelp').dialog('open');
-      this.helpButton.classList.add('toolBarButtonActive');
     }
   }
 

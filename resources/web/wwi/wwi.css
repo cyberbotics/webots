@@ -317,19 +317,6 @@ button::-moz-focus-inner {
   border: solid 1px #003eff;
 }
 
-#webotsHelpGuide {
-  height: calc(100% - 30px);
-  padding-top: 0px;
-  padding-bottom: 0px;
-  overflow: auto;
-}
-
-#webotsHelpReference {
-  height: calc(100% - 30px);
-  width: 100%;
-  padding: 0;
-}
-
 .webotsLabel {
   position: absolute;
   white-space: pre;
