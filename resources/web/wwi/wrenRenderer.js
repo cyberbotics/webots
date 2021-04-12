@@ -18,8 +18,8 @@ class WrenRenderer {
   }
 
   setSize(width, height) {
-    canvas.width = width;
-    canvas.height = height;
+    this.canvas.width = width;
+    this.canvas.height = height;
   }
 
   render() {
@@ -30,7 +30,6 @@ class WrenRenderer {
       WbWorld.instance.viewpoint.updatePostProcessingParameters();
 
       _wr_scene_render(_wr_scene_get_instance(), null, true);
-      // console.log("render");
     } catch (error) {
       console.log('No Context');
     }

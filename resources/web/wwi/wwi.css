@@ -176,81 +176,12 @@ button::-moz-focus-inner {
   position: relative;
 }
 
-#webotsConsole {
-  overflow-y: scroll;
-  font-family: monospace;
-  padding: 0px;
-}
-
-.webotsConsoleLogs {
-  padding: 10px;
-}
-
-.webotsConsoleButtons {
-  text-align: right;
-  top: 0;
-  position: sticky;
-  background-color: white;
-  border-bottom: 1px solid lightgray;
-}
-
-.webotsConsoleButton {
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  padding: 6px;
-}
-
-.webotsConsoleButton:disabled {
-  opacity: 0.3;
-}
-
-.webotsConsoleButtonIcon {
-  height: 15px;
-}
-
 .webotsTime {
   padding-top: 8px;
   color: #ccc;
   font-size: 14px;
   font-family: monospace;
   line-height: normal;
-}
-
-.webotsTabContainer {
-  padding: 2px 0px 4px 0px !important;
-}
-
-.webotsTab {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: calc(100% - 54px);
-  border-width: 0px;
-}
-
-.webotsTabs {
-  padding: 0px;
-  background: none;
-  border-width: 0px !important;
-  height: 100%;
-}
-
-.webotsTabs .ui-tabs-nav {
-  padding: 0px;
-  background: transparent;
-  border-width: 0px 0px 1px 0px;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-}
-
-.webotsTabs .ui-tabs-nav li {
-  font-size: 80%;
-}
-
-.webotsTabs .ui-tabs-panel {
-  border-width: 0px 1px 1px 1px;
 }
 
 .webotsLabel {

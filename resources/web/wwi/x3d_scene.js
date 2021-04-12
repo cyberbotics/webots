@@ -45,23 +45,7 @@ class X3dScene {
   }
 
   renderMinimal() {
-    // Set maximum rendering frequency.
-    // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
-    // and the rendering is performed only at a given maximum frequency.
-    // To be sure that no rendering request is lost, a timeout is set.
-    const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
-    const currentTime = (new Date()).getTime();
-    if (this.nextRenderingTime && this.nextRenderingTime > currentTime) {
-      if (!this.renderingTimeout)
-        this.renderingTimeout = setTimeout(() => this.render(), this.nextRenderingTime - currentTime);
-      return;
-    }
-
     this.renderer.renderMinimal();
-
-    this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
-    clearTimeout(this.renderingTimeout);
-    this.renderingTimeout = null;
   }
 
   resize() {
@@ -76,11 +60,6 @@ class X3dScene {
     if (typeof WbWorld.instance.viewpoint !== 'undefined')
       WbWorld.instance.viewpoint.updatePostProcessingEffects();
 
-    this.render();
-  }
-
-  onSceneUpdate() {
-    this.sceneModified = true;
     this.render();
   }
 
@@ -106,15 +85,13 @@ class X3dScene {
   }
 
   deleteObject(id) {
-    console.log(id);
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
 
     object.delete();
 
-    this.onSceneUpdate();
-    console.log(WbWorld.instance);
+    this.render();
   }
 
   loadWorldFile(url, onLoad) {
@@ -144,7 +121,7 @@ class X3dScene {
 
     this.loader.parse(x3dObject, this.renderer, parentNode, callback);
 
-    this.onSceneUpdate();
+    this.render();
   }
 
   applyPose(pose, time) {
@@ -172,24 +149,18 @@ class X3dScene {
   }
 
   applyPoseToObject(pose, object, time) {
-    const fields = [];
-
     for (let key in pose) {
       if (key === 'id')
-        continue;
-      if (fields.indexOf(key) !== -1)
         continue;
 
       if (key === 'translation' && object instanceof WbTransform) {
         const translation = convertStringToVec3(pose[key]);
         object.translation = translation;
         object.applyTranslationToWren();
-        fields.push(key);
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
         object.rotation = quaternion;
         object.applyRotationToWren();
-        fields.push(key);
       } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -231,7 +202,7 @@ class X3dScene {
             this.applyPose(frame.poses[i]);
         }
 
-        this.onSceneUpdate();
+        this.render();
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);

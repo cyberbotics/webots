@@ -62,15 +62,9 @@ webots.View = class View {
       window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
-      if (typeof this.x3dScene !== 'undefined') {
-        // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
-        // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-        if (this.x3dScene.root === null) {
-          setTimeout(this.onresize, 0);
-          return;
-        }
+      if (typeof this.x3dScene !== 'undefined')
         this.x3dScene.resize();
-      } else if (typeof this.multimediaClient !== 'undefined')
+      else if (typeof this.multimediaClient !== 'undefined')
         this.multimediaClient.requestNewSize();
     };
 
@@ -100,7 +94,6 @@ webots.View = class View {
 
     this.debug = false;
     this.timeout = 60 * 1000; // default to one minute
-    this.time = undefined;
     this.deadline = this.timeout;
     this.runOnLoad = false;
     this.quitting = false;
@@ -117,10 +110,6 @@ webots.View = class View {
     this.deadline = this.timeout;
     if (typeof this.time !== 'undefined')
       this.deadline += this.time;
-  }
-
-  setWebotsDocUrl(url) {
-    webots.webotsDocUrl = url;
   }
 
   setAnimation(url, gui, loop) {
@@ -146,7 +135,7 @@ webots.View = class View {
           if (tmp[0] === parameterName)
             return decodeURIComponent(tmp[1]);
         }
-        return null;
+        return undefined;
       }
 
       if (typeof this.progress === 'undefined') {
@@ -204,11 +193,6 @@ webots.View = class View {
 
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
-
-      if (typeof this.x3dScene !== 'undefined')
-        // Force a rendering after 1 second.
-        // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
-        setTimeout(() => this.x3dScene.render(), 1000);
     };
 
     if (this.broadcast)
@@ -249,30 +233,6 @@ webots.View = class View {
       this.server.socket.close();
     if (this.stream)
       this.stream.close();
-  }
-
-  sendRobotMessage(message, robot) {
-    this.stream.socket.send('robot:' + robot + ':' + message);
-    if (this.toolBar.isPaused()) // if paused, make a simulation step
-      webots.currentView.stream.socket.send('step'); // so that the robot controller handles the message
-    // FIXME: there seems to be a bug here: after that step, the current time is not incremented in the web interface,
-    // this is because the next 'application/json:' is not received, probably because it gets overwritten by the
-    // answer to the robot message...
-  }
-
-  getControllerUrl(name) {
-    if (!this.server)
-      return;
-    let port = 0;
-    for (let i in this.server.controllers) {
-      if (this.server.controllers[i].name === name) {
-        port = this.server.controllers[i].port;
-        break;
-      }
-    }
-    if (port === 0)
-      return;
-    return this.url.substring(0, this.url.indexOf(':', 6) + 1) + port;
   }
 
   // Functions for internal use.

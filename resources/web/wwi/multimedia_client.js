@@ -1,5 +1,6 @@
 'use strict';
 import {SystemInfo} from './system_info.js';
+import {webots} from './webots.js';
 
 class MultimediaClient {
   constructor(view, parentObject) {
