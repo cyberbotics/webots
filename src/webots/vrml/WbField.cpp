@@ -99,12 +99,12 @@ bool WbField::isDeprecated() const {
 }
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
-  printf("reading value of field %s\n", name().toUtf8().constData());
+  // printf("reading value of field %s\n", name().toUtf8().constData());
   if (mWasRead)
     tokenizer->reportError(tr("Duplicate field value."));
 
   mValue->read(tokenizer, worldPath);
-  printf("done reading\n");
+  // printf("done reading\n");
   mWasRead = true;
   if (hasRestrictedValues())
     checkValueIsAccepted();
@@ -353,17 +353,18 @@ void WbField::redirectTo(WbField *parameter) {
 
   const QString &fieldName = name();
   // printf("> %s\n", name().toUtf8().constData());
-  /*
+
   if (fieldName == "translation") {
-    printf(">> %s = E\n", name().toUtf8().constData());
+    // printf(">> %s = E\n", name().toUtf8().constData());
     connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByOde, mParameter, &WbField::fieldChangedByOde);
     connect(static_cast<WbSFVector2 *>(mValue), &WbSFVector2::changedByWebots, mParameter, &WbField::fieldChangedByOde);
   } else if (fieldName == "rotation") {
-    printf(">> %s = F\n", name().toUtf8().constData());
+    // printf(">> %s = F\n", name().toUtf8().constData());
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
   } else if (fieldName == "position")
     connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
-  */
+
+  /*
   if (fieldName == "translation")
     connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
   if (fieldName == "rotation")
@@ -373,6 +374,7 @@ void WbField::redirectTo(WbField *parameter) {
     // connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByFakeOde, mParameter, &WbField::fieldChangedByFakeOde);
     connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByFakeOde);
   }
+  */
 
   // printf("<<<<<\n");
 }

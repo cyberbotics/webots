@@ -187,6 +187,15 @@ void WbWorld::finalize() {
   QSet<const QString> topSolidNameSet;
   foreach (WbSolid *s, mTopSolids)
     s->resolveNameClashIfNeeded(false, true, mTopSolids, &topSolidNameSet);
+
+  // simplify node structure, if possible
+  collapseNestedProtos();
+}
+
+void WbWorld::collapseNestedProtos() {
+  printf("=============================\n");
+  mRoot->printDebugNodeStructure();
+  printf("=============================\n");
 }
 
 WbWorld::~WbWorld() {

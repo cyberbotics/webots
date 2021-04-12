@@ -34,7 +34,7 @@ WbSFNode::WbSFNode(const WbSFNode &other) {
 }
 
 void WbSFNode::readSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
-  printf("WbSFNode::readSFNode\n");
+  // printf("WbSFNode::readSFNode\n");
   delete mValue;
 
   if (WbNodeReader::current())

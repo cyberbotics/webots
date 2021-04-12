@@ -59,10 +59,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
   connect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
 
   WbValue *const value = mField->value();
-  /*
   WbSingleValue *const singleValue = dynamic_cast<WbSingleValue *>(value);
   if (singleValue) {
-
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode) {
       connect(sfnode, &WbSFNode::changed, this, &WbTreeItem::sfnodeChanged);
@@ -74,8 +72,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
       if (fieldName == "translation") {
         const WbSFVector3 *const translation = dynamic_cast<WbSFVector3 *>(singleValue);
         if (translation)
-          //  connect(translation, &WbSFVector3::changedByOde, this, &WbTreeItem::propagateDataChange);
-          connect(translation, &WbSFVector3::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
+          connect(translation, &WbSFVector3::changedByOde, this, &WbTreeItem::propagateDataChange);
         else {
           const WbSFVector2 *const translation2 = dynamic_cast<WbSFVector2 *>(singleValue);
           if (translation2)
@@ -84,19 +81,17 @@ WbTreeItem::WbTreeItem(WbField *field) {
       } else if (fieldName == "rotation") {
         const WbSFRotation *const rotation = dynamic_cast<WbSFRotation *>(singleValue);
         if (rotation)
-          //  connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
-          connect(rotation, &WbSFRotation::changedByFakeOde, this, &WbTreeItem::propagateDataChange);
+          connect(rotation, &WbSFRotation::changedByOde, this, &WbTreeItem::propagateDataChange);
       } else if (fieldName == "position") {
         const WbSFDouble *const position = dynamic_cast<WbSFDouble *>(singleValue);
         if (position)
           connect(position, &WbSFDouble::changedByOde, this, &WbTreeItem::propagateDataChange);
       }
-
-  }
+    }
 
     return;
   }
-  */
+
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
@@ -116,13 +111,13 @@ WbTreeItem::~WbTreeItem() {
 }
 
 void WbTreeItem::propagateDataChange() {
-  printf("propagateDataChange\n");
+  // printf("propagateDataChange\n");
   if (gUpdatesEnabled)
     emit dataChanged();
 }
 
 void WbTreeItem::refreshData() {
-  printf("refreshData\n");
+  // printf("refreshData\n");
   if (gUpdatesEnabled) {
     mIsDataRefreshNeeded = false;
     emit dataChanged();

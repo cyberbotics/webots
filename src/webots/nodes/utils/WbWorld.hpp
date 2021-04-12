@@ -201,6 +201,7 @@ private:
   bool mIsCleaning;
   bool mIsVideoRecording;
 
+  void collapseNestedProtos();
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 

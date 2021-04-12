@@ -1458,7 +1458,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
-    printf(" appending %s\n", defaultParameter->name().toUtf8().constData());
+    // printf(" appending %s\n", defaultParameter->name().toUtf8().constData());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1478,7 +1478,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   const bool previousParameterNodeFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = true;
 
-  printf("3)\n");
+  // printf("3)\n");
   // 3. populate the parameters from the tokenizer if existing
   QSet<QString> parameterNames;
   if (tokenizer) {
@@ -1489,7 +1489,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
       QString parameterName = tokenizer->nextWord();
-      printf("[word][%s]\n", parameterName.toUtf8().constData());
+      // printf("[word][%s]\n", parameterName.toUtf8().constData());
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
@@ -1567,7 +1567,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameter->name()).arg(proto->name()));
           }
         }
-        printf("A\n");
+        // printf("A\n");
         if (tokenizer->peekWord() == "IS") {
           tokenizer->skipToken("IS");
           const QString &alias = tokenizer->nextWord();
@@ -1576,20 +1576,20 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             copyAliasValue(parameter, alias);
           }
         } else if (!hidden) {
-          printf("B\n");
+          // printf("B\n");
           // if (parameter->type() == WB_MF_NODE || parameter->type() == WB_SF_NODE) {
           //  toBeDeleted = true;
           //  continue;
           //} else {
           parameter->readValue(tokenizer, worldPath);
-          printf("C\n");
+          // printf("C\n");
           //}
         }
         if (toBeDeleted)
           delete parameter;
       } else
         tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameterName).arg(proto->name()));
-      printf("D\n");
+      // printf("D\n");
     }
 
     if (hasDefaultDefNodes) {
@@ -1604,7 +1604,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     }
     tokenizer->skipToken("}");
   }
-  printf("3) done\n");
+  // printf("3) done\n");
   parametersDefMap.clear();
   gProtoParameterNodeFlag = previousParameterNodeFlag;
   gDerivedProtoFlag = gDerivedProtoParentFlag;
@@ -1615,7 +1615,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   // printf("setupDescendantAndNestedProtoFlags\n");
   setupDescendantAndNestedProtoFlags(parameters, topParameter || insertedProto);
   // printf("]] %d %d\n", topParameter, insertedProto);
-  printf("  createProtoInstanceFromParameters\n");
+  // printf("  createProtoInstanceFromParameters\n");
   WbNode *instance = createProtoInstanceFromParameters(proto, parameters, protoLevel < 1, worldPath);
 
   protoLevel = previousProtoLevel;
@@ -1624,7 +1624,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (insertedProto)
     gTopParameterFlag = previousTopParameterFlag;
 
-  printf("4)\n");
+  // printf("4)\n");
   return instance;
 }
 
@@ -1851,8 +1851,8 @@ void WbNode::updateNestedProtoFlag() {
 void WbNode::setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree) {
   mIsProtoDescendant = !isTopNode;
   mIsNestedProtoNode = !(isTopNode || isInsertedFromSceneTree) && isProtoInstance();
-  printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance %d)\n",
-         mIsProtoDescendant, mIsNestedProtoNode, isTopNode, isInsertedFromSceneTree, isProtoInstance());
+  // printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance %d)\n",
+  //       mIsProtoDescendant, mIsNestedProtoNode, isTopNode, isInsertedFromSceneTree, isProtoInstance());
   if (isTopParameterDescendant)
     mIsTopParameterDescendant = true;
   setupDescendantAndNestedProtoFlags(fields() + parameters(), isTopParameterDescendant);
