@@ -22,7 +22,7 @@ Robot {
     }
   ]
   name "supervisor"
-  controller "supervisor_get_position_orientation"
+  controller "supervisor_get_position_orientation_pose"
   supervisor TRUE
 }
 DEF ROBOT Robot {
