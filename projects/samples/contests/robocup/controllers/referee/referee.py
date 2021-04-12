@@ -91,6 +91,7 @@ def spawn_team(team, color, red_on_right, children):
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
+        team['players'][number]['moved'] = False
         info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation ' +
              f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}, rotation ' +
              f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
@@ -284,6 +285,9 @@ def check_team_start_position(team, color):
     for number in team['players']:
         robot = team['players'][number]['robot']
         n = robot.getNumberOfContactPoints(True)
+        if n == 0:
+            continue
+        team['players'][number]['moved'] = True
         for i in range(0, n):
             point = robot.getContactPoint(i)
             if point_inside_field(point):
@@ -304,7 +308,10 @@ def update_team_kickoff_position(team, color):
     for number in team['players']:
         robot = team['players'][number]['robot']
         n = robot.getNumberOfContactPoints(True)
-        if n > 0 and 'kickoff' in team['players'][number]:
+        if n == 0:
+            continue
+        team['players'][number]['moved'] = True
+        if 'kickoff' in team['players'][number]:
             del team['players'][number]['kickoff']
         for i in range(0, n):
             point = robot.getContactPoint(i)
@@ -330,7 +337,10 @@ def update_team_kickoff_position(team, color):
 
 def check_team_kickoff_position(team, color):
     for number in team['players']:
-        if 'kickoff' in team['players'][number]:
+        if not team['players'][number]['moved']:
+            team['players'][number]['penalty'] = 'INCAPABLE'
+            team['players'][number]['penalty_reason'] = 'did not move to kickoff position'
+        elif 'kickoff' in team['players'][number]:
             team['players'][number]['penalty'] = 'INCAPABLE'
             team['players'][number]['penalty_reason'] = team['players'][number]['kickoff']
             del team['players'][number]['kickoff']
@@ -362,29 +372,33 @@ def send_penalties(team, color):
             robot.resetPhysics()
             translation = robot.getField('translation')
             rotation = robot.getField('rotation')
-            t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
-            r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
-            ball_translation = game.ball_translation.getSFVec3f()
-            t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
-            if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
-                t[1] = -t[1]
-                r = rotate_along_z(r)
-            # check if position is already occupied by a penalized robot
-            while True:
-                moved = False
-                for n in team['players']:
-                    other_robot = team['players'][n]['robot']
-                    other_t = other_robot.getField('translation').getSFVec3f()
-                    if distance(other_t, t) < game.robot_radius:
-                        t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
-                        moved = True
-                if not moved:
-                    break
-            # test if position is behind the goal line (note: it should never end up beyond the center line)
-            if t[0] > game.field_size_x:
-                t[0] -= 4 * game.penalty_offset
-            elif t[0] < -game.field_size_x:
-                t[0] += 4 * game.penalty_offset
+            if reason[0:20] == 'halfTimeStartingPose':
+                t = team['players'][number]['halfTimeStartingPose']['translation']
+                r = team['players'][number]['halfTimeStartingPose']['rotation']
+            else:
+                t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
+                r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
+                ball_translation = game.ball_translation.getSFVec3f()
+                t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
+                if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
+                    t[1] = -t[1]
+                    r = rotate_along_z(r)
+                # check if position is already occupied by a penalized robot
+                while True:
+                    moved = False
+                    for n in team['players']:
+                        other_robot = team['players'][n]['robot']
+                        other_t = other_robot.getField('translation').getSFVec3f()
+                        if distance(other_t, t) < game.robot_radius:
+                            t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
+                            moved = True
+                    if not moved:
+                        break
+                # test if position is behind the goal line (note: it should never end up beyond the center line)
+                if t[0] > game.field_size_x:
+                    t[0] -= 4 * game.penalty_offset
+                elif t[0] < -game.field_size_x:
+                    t[0] += 4 * game.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
@@ -430,6 +444,9 @@ def reset_teams(pose):
 def check_touch(point, team, color):  # check which player in a team has touch the ball at specified point
     for number in team['players']:
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        if n == 0:
+            continue
+        team['players'][number]['moved'] = True
         for i in range(0, n):
             r_point = team['players'][number]['robot'].getContactPoint(i)
             if r_point[2] <= game.turf_depth:  # contact with the ground
@@ -446,6 +463,8 @@ def check_touch(point, team, color):  # check which player in a team has touch t
 def check_fallen(team, color):
     for number in team['players']:
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        if n > 0:
+            team['players'][number]['moved'] = True
         already_down = 'fallen' in team['players'][number]
         fallen = False if n > 0 else already_down
         for i in range(0, n):
