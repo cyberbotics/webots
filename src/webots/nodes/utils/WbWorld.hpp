@@ -26,6 +26,7 @@
 
 class WbGroup;
 class WbNode;
+class WbField;
 class WbPerspective;
 class WbRobot;
 class WbSolid;
@@ -201,6 +202,7 @@ private:
   bool mIsCleaning;
   bool mIsVideoRecording;
 
+  void tmpRecursion();
   void collapseNestedProtos();
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;

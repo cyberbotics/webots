@@ -18,6 +18,7 @@
 #include "WbBackground.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"
@@ -196,6 +197,30 @@ void WbWorld::collapseNestedProtos() {
   printf("=============================\n");
   mRoot->printDebugNodeStructure();
   printf("=============================\n");
+
+  QList<WbNode *> subNodes = mRoot->subNodes(true, true, true);
+
+  for (int i = 0; i < subNodes.size(); ++i) {
+    printf("[%2d]NODE: %s (%p)\n", i, subNodes[i]->usefulName().toUtf8().constData(), subNodes[i]);
+    printf("    PARAMETER NODE: %p\n", subNodes[i]->protoParameterNode());
+  }
+
+  printf("\n-- connections --\n");
+  for (int i = 0; i < subNodes.size(); ++i) {
+    for (int j = 0; j < subNodes.size(); ++j) {
+      if (subNodes[j]->protoParameterNode() == subNodes[i]) {
+        printf("NODE %s (j = %d) IS CONNECTED TO NODE %s (i = %d)\n", subNodes[j]->usefulName().toUtf8().constData(), j,
+               subNodes[i]->usefulName().toUtf8().constData(), i);
+        // compare fields
+        QVector<WbField *> iFields = subNodes[i]->fields();
+        QVector<WbField *> jFields = subNodes[j]->fields();
+        for (int k = 0; k < jFields.size(); ++k) {
+          printf("  %s (%p) ---> %s (%p)\n", jFields[k]->name().toUtf8().constData(), jFields[k],
+                 iFields[k]->name().toUtf8().constData(), iFields[k]);
+        }
+      }
+    }
+  }
 }
 
 WbWorld::~WbWorld() {
