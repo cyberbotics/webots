@@ -1,5 +1,6 @@
 'use strict';
 import {DefaultUrl} from './default_url.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 
 class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -9,7 +10,6 @@ class Animation {
     this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this.loop = typeof loop === 'undefined' ? true : loop;
     this.sliding = false;
-    this.onReady = null;
   };
 
   init(onReady) {
@@ -52,15 +52,15 @@ class Animation {
     this._connectSliderEvents();
 
     div.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
-    this.exit_fullscreenButton.onclick = () => { this.exitFullscreen(); };
+    this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
     this.exit_fullscreenButton.style.display = 'none';
     div.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
-    this.fullscreenButton.onclick = () => { this.requestFullscreen(); };
+    this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
 
-    document.addEventListener('fullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('webkitfullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('mozfullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('MSFullscreenChange', () => { this.onFullscreenChange(); });
+    document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
 
     // Initialize animation data.
     this.start = new Date().getTime();
@@ -73,7 +73,7 @@ class Animation {
       this.onReady();
   }
 
-  createToolBarButton(name, tooltip) {
+  _createToolBarButton(name, tooltip) {
     const buttonName = name + 'Button';
     this[buttonName] = document.createElement('button');
     this[buttonName].id = buttonName;
@@ -81,41 +81,6 @@ class Animation {
     this[buttonName].title = tooltip;
     this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
     return this[buttonName];
-  }
-
-  requestFullscreen() {
-    const elem = this.view.view3D;
-    console.log(elem.id);
-    if (elem.requestFullscreen)
-      elem.requestFullscreen();
-    else if (elem.msRequestFullscreen)
-      elem.msRequestFullscreen();
-    else if (elem.mozRequestFullScreen)
-      elem.mozRequestFullScreen();
-    else if (elem.webkitRequestFullscreen)
-      elem.webkitRequestFullscreen();
-  }
-
-  exitFullscreen() {
-    if (document.exitFullscreen)
-      document.exitFullscreen();
-    else if (document.msExitFullscreen)
-      document.msExitFullscreen();
-    else if (document.mozCancelFullScreen)
-      document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen)
-      document.webkitExitFullscreen();
-  }
-
-  onFullscreenChange(event) {
-    const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
-    if (element != null) {
-      this.fullscreenButton.style.display = 'none';
-      this.exit_fullscreenButton.style.display = 'inline';
-    } else {
-      this.fullscreenButton.style.display = 'inline';
-      this.exit_fullscreenButton.style.display = 'none';
-    }
   }
 
   _elapsedTime() {
