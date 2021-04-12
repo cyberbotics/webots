@@ -393,6 +393,7 @@ def send_penalties(team, color):
 
 def flip_pose(pose):
     pose['translation'][0] = -pose['translation'][0]
+    pose['rotation'][3] = math.pi - pose['rotation'][3]
 
 
 def flip_sides():
