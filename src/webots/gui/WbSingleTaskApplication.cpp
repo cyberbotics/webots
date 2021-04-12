@@ -15,6 +15,7 @@
 #include "WbSingleTaskApplication.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbBasicJoint.hpp"
 #include "WbField.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
@@ -127,11 +128,14 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Generate a node structure
   WbNode::setInstantiateMode(true);
-  const WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, false, "");
+  WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
+  for (WbNode *subNode : node->subNodes(true, true, true))
+    if (dynamic_cast<WbBasicJoint *>(subNode))
+      static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
 
   // Export
   QString output;
-  WbVrmlWriter writer(&output, node->modelName() + "." + type);
+  WbVrmlWriter writer(&output, "robot." + type);
   writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();
