@@ -1,5 +1,4 @@
 import {Animation} from './animation.js';
-import {ContextMenu} from './context_menu.js';
 import {DefaultUrl} from './default_url.js';
 import {DialogWindow} from './dialog_window.js';
 import {Editor} from './editor.js';
@@ -234,22 +233,9 @@ webots.View = class View {
       this.setTimeout(-1);
     this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      let authenticatedUser = !this.broadcast;
-      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
-        authenticatedUser = Boolean(webots.User1Authentication);
-      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      this.contextMenu.onEditController = (controller) => {
-        this.editController(controller);
-      };
-    }
-
     if (mode === 'mjpeg') {
       this.url = url;
-      this.multimediaClient = new MultimediaClient(this, this.view3D, this.contextMenu);
-      this.contextMenu.onFollowObject = (id, mode) => {
-        this.multimediaClient.setFollowed(id, mode);
-      };
+      this.multimediaClient = new MultimediaClient(this, this.view3D);
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.getElementById('view3d');
       if (this.x3dDiv === null || typeof this.x3dDiv === 'undefined') {
@@ -268,7 +254,7 @@ webots.View = class View {
     }
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
-      this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, canvas, this.mobileDevice);
+      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
     }
 
     if (typeof this.editor === 'undefined')

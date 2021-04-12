@@ -7,9 +7,8 @@ import {WbWorld} from './nodes/wbWorld.js';
 import {WbWrenPicker} from './wren/wbWrenPicker.js';
 
 class MouseEvents {
-  constructor(scene, contextMenu, domElement, mobileDevice) {
+  constructor(scene, domElement, mobileDevice) {
     this.scene = scene;
-    this.contextMenu = contextMenu;
     this.domElement = domElement;
     this.mobileDevice = mobileDevice;
 
@@ -18,8 +17,7 @@ class MouseEvents {
       'mouseDown': 0,
       'moved': false,
       'wheelFocus': false,
-      'wheelTimeout': null,
-      'hiddenContextMenu': false
+      'wheelTimeout': null
     };
     this.moveParams = {};
     this.enableNavigation = true;
@@ -450,8 +448,6 @@ class MouseEvents {
     this.state.moved = false;
     this.state.initialTimeStamp = Date.now();
     this.state.longClick = false;
-    if (this.contextMenu)
-      this.hiddenContextMenu = this.contextMenu.toggle();
   }
 
   _setupMoveParameters(event) {

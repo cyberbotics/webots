@@ -126,7 +126,7 @@ class Stream {
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {
-      if (this.view.mode = "mjpeg")
+      if (this.view.mode === 'mjpeg')
         $('#webotsProgress').hide();
 
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());

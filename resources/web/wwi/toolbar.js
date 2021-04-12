@@ -84,7 +84,6 @@ class Toolbar {
     if (this.view.broadcast && this.quitButton) {
       this.quitButton.disabled = true;
       this.quitButton.classList.add('toolBarButtonDisabled');
-      this.view.contextMenu.disableEdit();
     }
 
     document.addEventListener('fullscreenchange', () => { this.onFullscreenChange(); });
@@ -94,7 +93,6 @@ class Toolbar {
   }
 
   toggleInfo() {
-    this.view.contextMenu.hide();
     if (!this.view.infoWindow)
       return;
     if (this.view.infoWindow.isOpen()) {
@@ -107,7 +105,6 @@ class Toolbar {
   }
 
   toggleHelp() {
-    this.view.contextMenu.hide();
     if (!this.view.helpWindow) {
       let webotsDocUrl;
       if (!this.view.broadcast && webots.webotsDocUrl)
@@ -124,7 +121,6 @@ class Toolbar {
   }
 
   exitFullscreen() {
-    this.view.contextMenu.hide();
     if (document.exitFullscreen)
       document.exitFullscreen();
     else if (document.msExitFullscreen)
@@ -136,7 +132,6 @@ class Toolbar {
   }
 
   requestFullscreen() {
-    this.view.contextMenu.hide();
     const elem = this.view.view3D;
     if (elem.requestFullscreen)
       elem.requestFullscreen();
@@ -231,14 +226,12 @@ class Toolbar {
   pause() {
     if (this.view.broadcast)
       return;
-    this.view.contextMenu.hide();
     this.view.stream.socket.send('pause');
   }
 
   realTime() {
     if (this.view.broadcast)
       return;
-    this.view.contextMenu.hide();
     this.view.stream.socket.send('real-time:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'none';
@@ -249,7 +242,6 @@ class Toolbar {
   run() {
     if (this.view.broadcast)
       return;
-    this.view.contextMenu.hide();
     this.view.stream.socket.send('fast:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'inline';
@@ -259,7 +251,6 @@ class Toolbar {
   step() {
     if (this.view.broadcast)
       return;
-    this.view.contextMenu.hide();
     this.pauseButton.style.display = 'none';
     this.real_timeButton.style.display = 'inline';
     if (typeof this.runButton !== 'undefined')

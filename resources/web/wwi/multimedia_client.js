@@ -2,7 +2,7 @@
 import {SystemInfo} from './system_info.js';
 
 class MultimediaClient {
-  constructor(view, parentObject, contextMenu) {
+  constructor(view, parentObject) {
     this.view = view;
     this.domElement = document.createElement('img');
     this.domElement.style.background = 'white';
@@ -11,7 +11,6 @@ class MultimediaClient {
     parentObject.appendChild(this.domElement);
 
     this.viewMode = false;
-    this.contextMenu = contextMenu;
     this.worldInfo = {title: null, infoWindow: null};
 
     this.mouseDown = 0;
@@ -31,7 +30,7 @@ class MultimediaClient {
     this.domElement.addEventListener('mouseup', (e) => { this._onMouseUp(e); }, false);
     this.domElement.addEventListener('wheel', (e) => { this._onWheel(e); }, false);
     this.domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
-    this.domElement.addEventListener('contextmenu', (e) => { this._onContextMenu(e); }, false);
+    this.domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
     this.view.toolBar.enableToolBarButtons(!this.viewMode);
     if (typeof onready === 'function')
       onready();
@@ -46,10 +45,6 @@ class MultimediaClient {
     if (!socket || socket.readyState !== 1)
       return;
     socket.send('follow: ' + mode + ',' + solidId);
-  }
-
-  showContextMenu(object) {
-    this.contextMenu.show(object, this.lastMousePosition);
   }
 
   requestNewSize() {
@@ -88,9 +83,6 @@ class MultimediaClient {
       let dataString = data.substring(data.indexOf(':') + 1).trim();
       let dataObject = JSON.parse(dataString);
       this.setWorldInfo(dataObject.title, dataObject.window);
-    } else if (data.startsWith('context menu: ')) {
-      let info = data.substring(data.indexOf(':') + 1).trim();
-      this.showContextMenu(JSON.parse(info));
     } else
       return false;
     return true;
@@ -156,11 +148,6 @@ class MultimediaClient {
       return false;
 
     this._sendMouseEvent(2, this._computeRemoteMouseEvent(event), Math.sign(event.deltaY));
-    return false;
-  }
-
-  _onContextMenu(event) {
-    event.preventDefault();
     return false;
   }
 
@@ -361,7 +348,6 @@ class MultimediaClient {
   }
 
   _sendMessage(message) {
-    this.contextMenu.hide();
     let socket = this.view.stream.socket;
     if (!socket || socket.readyState !== 1)
       return;
@@ -369,7 +355,6 @@ class MultimediaClient {
   }
 
   _sendMouseEvent(type, event, wheel) {
-    this.contextMenu.hide();
     this._sendMessage('mouse ' + type + ' ' + event.button + ' ' + event.buttons + ' ' +
                 event.offsetX + ' ' + event.offsetY + ' ' + event.modifier + ' ' + wheel);
     this.lastMousePosition = {x: event.offsetX, y: event.offsetY};
