@@ -41,6 +41,7 @@ public:
 
   // return the axis of the joint with coordinates relative to the parent Solid; defaults to unit z-axis
   WbVector3 axis() const override;
+  void updateEndPointZeroTranslationAndRotation() override;
 
 public slots:
   bool setJoint() override;
@@ -49,7 +50,6 @@ protected:
   WbLinearMotor *linearMotor() const;
   void updatePosition(double position) override;
   WbVector3 anchor() const override;
-  void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
   void writeExport(WbVrmlWriter &writer) const override;

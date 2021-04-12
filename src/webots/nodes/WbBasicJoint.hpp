@@ -71,6 +71,7 @@ public:
   WbBoundingSphere *boundingSphere() const override;
 
   void updateAfterParentPhysicsChanged();
+  virtual void updateEndPointZeroTranslationAndRotation() = 0;
 
 public slots:
   void updateEndPoint();
@@ -98,7 +99,6 @@ protected:
   // variables and methods about the endPoint Solid translation and rotation when joint position is 0
   WbVector3 mEndPointZeroTranslation;
   WbRotation mEndPointZeroRotation;
-  virtual void updateEndPointZeroTranslationAndRotation() = 0;
   void retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, WbRotation &ir) const;
   dJointID mSpringAndDamperMotor;  // ODE linear motor used to simulate spring and damper effects by means of stops
   virtual void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) = 0;
