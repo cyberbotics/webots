@@ -1,4 +1,5 @@
 import {DefaultUrl} from './default_url.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import {webots} from './webots.js';
 
 class Toolbar {
@@ -16,19 +17,16 @@ class Toolbar {
       this.quitButton.onclick = () => { this.view.quitSimulation(); };
     }
 
-    this.domElement.left.appendChild(this.createToolBarButton('info', 'Open the information window'));
-    this.infoButton.onclick = () => { this.toggleInfo(); };
-
     this.worldSelectionDiv = document.createElement('div');
     this.worldSelectionDiv.id = 'worldSelectionDiv';
     this.domElement.left.appendChild(this.worldSelectionDiv);
 
     if (webots.showRevert) { // disabled by default
-      this.domElement.left.appendChild(this.createToolBarButton('revert', 'Save controllers and revert the simulation'));
+      this.domElement.left.appendChild(this.createToolBarButton('revert', 'Revert the simulation'));
       this.revertButton.addEventListener('click', () => { this.reset(true); });
     }
 
-    this.domElement.left.appendChild(this.createToolBarButton('reset', 'Save controllers and reset the simulation'));
+    this.domElement.left.appendChild(this.createToolBarButton('reset', 'Reset the simulation'));
     this.resetButton.addEventListener('click', () => { this.reset(false); });
 
     this.domElement.left.appendChild(this.createToolBarButton('step', 'Perform one simulation step'));
@@ -66,10 +64,10 @@ class Toolbar {
 
     if (this.view.fullscreenEnabled) {
       this.domElement.right.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
-      this.exit_fullscreenButton.onclick = () => { this.exitFullscreen(); };
+      this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
       this.exit_fullscreenButton.style.display = 'none';
       this.domElement.right.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
-      this.fullscreenButton.onclick = () => { this.requestFullscreen(); };
+      this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
     }
 
     this.domElement.appendChild(this.domElement.left);
@@ -82,56 +80,10 @@ class Toolbar {
       this.quitButton.classList.add('toolBarButtonDisabled');
     }
 
-    document.addEventListener('fullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('webkitfullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('mozfullscreenchange', () => { this.onFullscreenChange(); });
-    document.addEventListener('MSFullscreenChange', () => { this.onFullscreenChange(); });
-  }
-
-  toggleInfo() {
-    if (!this.view.infoWindow)
-      return;
-    if (this.view.infoWindow.isOpen()) {
-      this.view.infoWindow.close();
-      this.infoButton.classList.remove('toolBarButtonActive');
-    } else {
-      this.view.infoWindow.open();
-      this.infoButton.classList.add('toolBarButtonActive');
-    }
-  }
-
-  exitFullscreen() {
-    if (document.exitFullscreen)
-      document.exitFullscreen();
-    else if (document.msExitFullscreen)
-      document.msExitFullscreen();
-    else if (document.mozCancelFullScreen)
-      document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen)
-      document.webkitExitFullscreen();
-  }
-
-  requestFullscreen() {
-    const elem = this.view.view3D;
-    if (elem.requestFullscreen)
-      elem.requestFullscreen();
-    else if (elem.msRequestFullscreen)
-      elem.msRequestFullscreen();
-    else if (elem.mozRequestFullScreen)
-      elem.mozRequestFullScreen();
-    else if (elem.webkitRequestFullscreen)
-      elem.webkitRequestFullscreen();
-  }
-
-  onFullscreenChange(event) {
-    const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
-    if (element != null) {
-      this.fullscreenButton.style.display = 'none';
-      this.exit_fullscreenButton.style.display = 'inline';
-    } else {
-      this.fullscreenButton.style.display = 'inline';
-      this.exit_fullscreenButton.style.display = 'none';
-    }
+    document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
   }
 
   reset(revert = false) {
@@ -142,7 +94,7 @@ class Toolbar {
       $('#webotsProgressMessage').html('Reverting simulation...');
     else
       $('#webotsProgressMessage').html('Restarting simulation...');
-    // $('#webotsProgress').show();
+    $('#webotsProgress').show();
     this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
 
@@ -198,7 +150,7 @@ class Toolbar {
   }
 
   enableToolBarButtons(enabled) {
-    const buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
+    const buttons = [this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this.view.broadcast)) {

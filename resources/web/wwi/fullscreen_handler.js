@@ -23,7 +23,7 @@ function exitFullscreen() {
 
 function onFullscreenChange(fullscreenButton, exitFullscreenButton) {
   const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullScreenElement || document.msFullScreenElement || document.webkitCurrentFullScreenElement;
-  if (typeof element !== 'undefined') {
+  if (element != null) {
     fullscreenButton.style.display = 'none';
     exitFullscreenButton.style.display = 'inline';
   } else {

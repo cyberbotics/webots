@@ -11,7 +11,7 @@ class MultimediaClient {
     parentObject.appendChild(this.domElement);
 
     this.viewMode = false;
-    this.worldInfo = {title: null, infoWindow: null};
+    this.worldInfo = {title: null};
 
     this.mouseDown = 0;
     this.onmousemove = (e) => { this._onMouseMove(e); };
@@ -36,8 +36,8 @@ class MultimediaClient {
       onready();
   }
 
-  setWorldInfo(title, infoWindowName) {
-    this.worldInfo = {title: title, infoWindow: infoWindowName};
+  setWorldInfo(title) {
+    this.worldInfo = {title: title};
   }
 
   setFollowed(solidId, mode) {

@@ -1,9 +1,5 @@
 // Retrieve the given GET value defined by its "variableName"
 // if not found, assign it "defaultValue" instead
-
-/* exported getGETQueryValue */
-/* exported getGETQueriesMatchingRegularExpression */
-
 function getGETQueryValue(variableName, defaultValue) {
   var query = window.location.search.substring(1);
   var vars = query.split('&');
@@ -29,3 +25,5 @@ function getGETQueriesMatchingRegularExpression(pattern) {
   }
   return values;
 }
+
+export {getGETQueryValue, getGETQueriesMatchingRegularExpression};

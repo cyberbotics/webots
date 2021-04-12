@@ -202,9 +202,6 @@ webots.View = class View {
       else if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
-      if (this.infoWindow && !this.broadcast) // at first load
-        this.toolBar.toggleInfo();
-
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
 

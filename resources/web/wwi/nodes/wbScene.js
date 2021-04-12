@@ -4,9 +4,7 @@ import {WbWrenPostProcessingEffects} from './../wren/wbWrenPostProcessingEffects
 import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 
 class WbScene {
-  constructor(id, smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
-    this.id = id;
-
+  constructor(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
 
     _wr_scene_init(_wr_scene_get_instance());
