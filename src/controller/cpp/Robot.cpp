@@ -457,7 +457,7 @@ Device *Robot::getOrCreateDevice(int tag) {
   const int size = (int)deviceList.size();
   // if new devices have been added, then count is greater than devices.length
   // deleted devices are not removed from the C API list and don't affect the number of devices
-  if (size == count && size > 0 && tag < size)
+  if (size == count + 1 && size > 0 && tag < size)
     return deviceList[tag];
 
   // (re-)initialize deviceList
