@@ -276,7 +276,7 @@ int main(int argc, char *argv[]) {
         } else {
           assert(n == sizeof(int));
           uint32_t l = ntohl(*((uint32_t *)data));
-          printf("packet size = %u %u\n", l, n);
+          printf("packet size = %u %d\n", l, n);
           int n = recv(client_fd, data, l, 0);
           assert(n == l);
           if (n <= 0) {
@@ -285,7 +285,7 @@ int main(int argc, char *argv[]) {
             client_fd = -1;
           } else {
             data[n] = '\0';
-            printf("Received %u bytes\n", n);
+            printf("Received %d bytes\n", n);
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
