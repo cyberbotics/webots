@@ -372,7 +372,7 @@ def check_touch(point, team, color):  # check which player in a team has touch t
                     game.ball_last_touch_player = int(number)
                     info(f'Ball touched by {color} player {number}.')
                 else:
-                    info(f'Ball touched again by same player.')
+                    info('Ball touched again by same player.')
 
 
 def check_fallen(team, color):
