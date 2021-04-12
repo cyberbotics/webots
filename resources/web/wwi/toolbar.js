@@ -1,5 +1,4 @@
 import {DefaultUrl} from './default_url.js';
-import {DialogWindow} from './dialog_window.js';
 import {webots} from './webots.js';
 
 class Toolbar {

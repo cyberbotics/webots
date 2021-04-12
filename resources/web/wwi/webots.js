@@ -1,6 +1,5 @@
 import {Animation} from './animation.js';
 import {DefaultUrl} from './default_url.js';
-import {DialogWindow} from './dialog_window.js';
 import {MouseEvents} from './mouse_events.js';
 import {MultimediaClient} from './multimedia_client.js';
 import {Toolbar} from './toolbar.js';
@@ -74,20 +73,7 @@ webots.View = class View {
       } else if (typeof this.multimediaClient !== 'undefined')
         this.multimediaClient.requestNewSize();
     };
-    this.ondialogwindow = (opening) => {
-      // Pause the simulation if needed when a pop-up dialog window is open
-      // and restart running the simulation when it is closed.
-      if (opening && typeof this.isAutomaticallyPaused === 'undefined') {
-        this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display ===
-          'inline';
-        if (this.toolBar)
-          this.toolBar.pauseButton.click();
-      } else if (!opening && this.isAutomaticallyPaused) {
-        if (this.toolBar)
-          this.toolBar.real_timeButton.click();
-        this.isAutomaticallyPaused = undefined;
-      }
-    };
+
     window.onresize = this.onresize;
 
     this.view3D = view3D;
@@ -383,7 +369,6 @@ webots.View = class View {
 };
 
 webots.alert = (title, message, callback) => {
-  webots.currentView.ondialogwindow(true);
   const parent = webots.currentView.view3D;
   let panel = document.getElementById('webotsAlert');
   if (!panel) {
@@ -394,12 +379,7 @@ webots.alert = (title, message, callback) => {
   panel.innerHTML = message;
   $('#webotsAlert').dialog({
     title: title,
-    resizeStart: DialogWindow.disablePointerEvents,
-    resizeStop: DialogWindow.enablePointerEvents,
-    dragStart: DialogWindow.disablePointerEvents,
-    dragStop: DialogWindow.enablePointerEvents,
     appendTo: parent,
-    open: () => { DialogWindow.openDialog(panel); },
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
@@ -408,43 +388,9 @@ webots.alert = (title, message, callback) => {
     close: () => {
       if (typeof callback === 'function')
         callback();
-      webots.currentView.ondialogwindow(false);
       $('#webotsAlert').remove();
     }
   });
-};
-
-webots.confirm = (title, message, okCallback, closeCallback) => {
-  webots.currentView.ondialogwindow(true);
-  const parent = webots.currentView.view3D;
-  const panel = document.createElement('div');
-  panel.id = 'webotsConfirm';
-  panel.innerHTML = message;
-  parent.appendChild(panel);
-  $('#webotsConfirm').dialog({
-    title: title,
-    resizeStart: DialogWindow.disablePointerEvents,
-    resizeStop: DialogWindow.enablePointerEvents,
-    dragStart: DialogWindow.disablePointerEvents,
-    dragStop: DialogWindow.enablePointerEvents,
-    appendTo: parent,
-    open: () => { DialogWindow.openDialog(panel); },
-    modal: true,
-    width: 400, // enough room to display the social network buttons in a line
-    buttons: {
-      Ok: () => {
-        if (typeof okCallback === 'function')
-          okCallback();
-        $('#webotsConfirm').dialog('close');
-      },
-      Cancel: () => { $('#webotsConfirm').dialog('close'); }
-    },
-    close: () => {
-      $('#webotsConfirm').dialog('destroy').remove();
-      webots.currentView.ondialogwindow(false);
-      if (typeof closeCallback === 'function')
-        closeCallback();
-    }});
 };
 
 webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
