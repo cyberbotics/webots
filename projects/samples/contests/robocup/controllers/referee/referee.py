@@ -272,7 +272,7 @@ def game_controller_send(message):
 
 
 def point_inside_field(point):
-    if point[2] > 0.01:  # in the air
+    if point[2] > game.turf_depth:  # in the air
         return False
     if point[0] > game.field_size_x or point[0] < -game.field_size_x or \
        point[1] > game.field_size_y or point[1] < -game.field_size_y:
@@ -280,7 +280,7 @@ def point_inside_field(point):
     return True
 
 
-def check_team_position(team, color):
+def check_team_start_position(team, color):
     for number in team['players']:
         robot = team['players'][number]['robot']
         n = robot.getNumberOfContactPoints(True)
@@ -298,6 +298,42 @@ def check_team_position(team, color):
                     if point[0] < LINE_HALF_WIDTH:
                         team['players'][number]['penalty'] = 'INCAPABLE'
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
+
+
+def update_team_kickoff_position(team, color):
+    for number in team['players']:
+        robot = team['players'][number]['robot']
+        n = robot.getNumberOfContactPoints(True)
+        if n > 0 and 'kickoff' in team['players'][number]:
+            del team['players'][number]['kickoff']
+        for i in range(0, n):
+            point = robot.getContactPoint(i)
+            if not point_inside_field(point):
+                team['players'][number]['kickoff'] = 'outside of field at kickoff'
+                break
+            # check if player are fully on their side of the field
+            if game.side_left == (game.red.id if color == 'red' else game.blue.id):
+                if point[0] > -LINE_HALF_WIDTH:
+                    team['players'][number]['kickoff'] = 'outside team side at kickoff'
+                    break
+            else:
+                if point[0] < LINE_HALF_WIDTH:
+                    team['players'][number]['kickoff'] = 'outside team side at kickoff'
+                    break
+            # check if player is inside center circle while not having kickoff
+            if (game.kickoff == game.side_left and point[0] > 0) or (game.kickoff != game.side_left and point[0] < 0):
+                # point should be outside of circle
+                if distance(point, [0, 0, game.turf_depth]) < game.center_circle_radius + LINE_HALF_WIDTH:
+                    team['players'][number]['kickoff'] = 'inside center circle during oppenent\'s kickoff'
+                    break
+
+
+def check_team_kickoff_position(team, color):
+    for number in team['players']:
+        if 'kickoff' in team['players'][number]:
+            team['players'][number]['penalty'] = 'INCAPABLE'
+            team['players'][number]['penalty_reason'] = team['players'][number]['kickoff']
+            del team['players'][number]['kickoff']
 
 
 def rotate_along_z(axis_and_angle):
@@ -328,28 +364,27 @@ def send_penalties(team, color):
             rotation = robot.getField('rotation')
             t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
             r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
-            if reason == 'fallen down':
-                ball_translation = game.ball_translation.getSFVec3f()
-                t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
-                if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
-                    t[1] = -t[1]
-                    r = rotate_along_z(r)
-                # check if position is already occupied by a penalized robot
-                while True:
-                    moved = False
-                    for n in team['players']:
-                        other_robot = team['players'][n]['robot']
-                        other_t = other_robot.getField('translation').getSFVec3f()
-                        if distance(other_t, t) < game.robot_radius:
-                            t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
-                            moved = True
-                    if not moved:
-                        break
-                # test if position is behind the goal line (note: it should never end up beyond the center line)
-                if t[0] > game.field_size_x:
-                    t[0] -= 4 * game.penalty_offset
-                elif t[0] < -game.field_size_x:
-                    t[0] += 4 * game.penalty_offset
+            ball_translation = game.ball_translation.getSFVec3f()
+            t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
+            if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
+                t[1] = -t[1]
+                r = rotate_along_z(r)
+            # check if position is already occupied by a penalized robot
+            while True:
+                moved = False
+                for n in team['players']:
+                    other_robot = team['players'][n]['robot']
+                    other_t = other_robot.getField('translation').getSFVec3f()
+                    if distance(other_t, t) < game.robot_radius:
+                        t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
+                        moved = True
+                if not moved:
+                    break
+            # test if position is behind the goal line (note: it should never end up beyond the center line)
+            if t[0] > game.field_size_x:
+                t[0] -= 4 * game.penalty_offset
+            elif t[0] < -game.field_size_x:
+                t[0] += 4 * game.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
@@ -396,7 +431,7 @@ def check_touch(point, team, color):  # check which player in a team has touch t
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
         for i in range(0, n):
             r_point = team['players'][number]['robot'].getContactPoint(i)
-            if r_point[2] <= 0.01:  # contact with the ground
+            if r_point[2] <= game.turf_depth:  # contact with the ground
                 continue
             if point[0] == r_point[0] and point[1] == r_point[1] and point[2] == r_point[2]:
                 if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
@@ -414,11 +449,10 @@ def check_fallen(team, color):
         fallen = False if n > 0 else already_down
         for i in range(0, n):
             r_point = team['players'][number]['robot'].getContactPoint(i)
-            if r_point[2] > 0.01:  # not a contact with the ground
+            if r_point[2] > game.turf_depth:  # not a contact with the ground
                 continue
             node = team['players'][number]['robot'].getContactPointNode(i)
             if not node:
-                print('No solid contact point!')
                 continue
             model_field = node.getField('model')
             if model_field is None:
@@ -644,7 +678,8 @@ while supervisor.step(time_step) != -1:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
                 goal = 'red' if scoring_side == game.blue.id else 'blue'
-                game.kickoff = scoring_side
+                game.kickoff = game.blue.id if scoring_side == game.red.id else game.red.id
+                info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
                 info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
 
     elif game.state.game_state == 'STATE_READY':
@@ -653,7 +688,11 @@ while supervisor.step(time_step) != -1:
         game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
         game.ball.resetPhysics()
         game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
+        update_team_kickoff_position(red_team, 'red')
+        update_team_kickoff_position(blue_team, 'blue')
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
+        check_team_kickoff_position(red_team, 'red')
+        check_team_kickoff_position(blue_team, 'blue')
         game.play_countdown -= 1
         if game.play_countdown == 0:
             game_controller_send('STATE:PLAY')
@@ -675,8 +714,8 @@ while supervisor.step(time_step) != -1:
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
-        check_team_position(red_team, 'red')
-        check_team_position(blue_team, 'blue')
+        check_team_start_position(red_team, 'red')
+        check_team_start_position(blue_team, 'blue')
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:

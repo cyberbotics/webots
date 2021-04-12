@@ -932,7 +932,7 @@ PROTO Darwin-opHinge2 [
                                       endPoint Solid {
                                         translation 0 -0.093 0
                                         rotation 1 0 0 -1.23
-                                        name "left foot [foot]"
+                                        model "foot"
                                         children [
                                           DEF DAnkleLShape Shape { # Motors
                                             appearance USE MOTOR_APPEARANCE
@@ -1347,7 +1347,7 @@ PROTO Darwin-opHinge2 [
                                       endPoint Solid {
                                         translation 0 -0.093 0
                                         rotation -1 0 0 1.22
-                                        name "right foot [foot]"
+                                        model "foot"
                                         children [
                                           DEF DAnkleRShape Shape { # Motors
                                             appearance USE MOTOR_APPEARANCE
@@ -2109,7 +2109,5 @@ PROTO Darwin-opHinge2 [
     synchronization IS synchronization
     selfCollision IS selfCollision
     showWindow IS showWindow
-    window "robotis-op2_window"
-    remoteControl "robotis-op2_tcpip"
   }
 }
