@@ -1,0 +1,69 @@
+{
+  "name": "Agile Lynxes",
+  "players": {
+    "1": {
+      "proto": "RobocupRobot",
+      "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
+      "halfTimeStartingPose": {
+        "translation": [-4.7, -2.06, 0.24],
+        "rotation": [0, 0, 1, 0]
+      },
+      "reentryStartingPose": {
+        "translation": [-3, -3.11, 0.24],
+        "rotation": [0, 0, 1, 1.57]
+      },
+      "shootoutStartingPose": {
+        "translation": [2, 0, 0.24],
+        "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      }
+    },
+    "2": {
+      "proto": "RobocupRobot",
+      "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
+      "halfTimeStartingPose": {
+        "translation": [-4.55, 2.06, 0.24],
+        "rotation": [0, 0, 1, 0]
+      },
+      "reentryStartingPose": {
+        "translation": [-3, -3.11, 0.24],
+        "rotation": [0, 0, 1, 1.57]
+      },
+      "shootoutStartingPose": {
+        "translation": [2, 0, 0.24],
+        "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      }
+    },
+    "3": {
+      "proto": "RobocupRobot",
+      "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
+      "halfTimeStartingPose": {
+        "translation": [-0.75, -3.06, 0.24],
+        "rotation": [0, 0, 1, 1.57]
+      },
+      "reentryStartingPose": {
+        "translation": [-3, -3.11, 0.24],
+        "rotation": [0, 0, 1, 1.57]
+      },
+      "shootoutStartingPose": {
+        "translation": [2, 0, 0.24],
+        "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      }
+    },
+    "4": {
+      "proto": "RobocupRobot",
+      "robotStartCmd": "TODO: docker pulling + starting with optional arguments",
+      "halfTimeStartingPose": {
+        "translation": [1.75, 3.06, 0.24],
+        "rotation": [0, 0, 1, -1.57]
+      },
+      "reentryStartingPose": {
+        "translation": [-3, -3.11, 0.24],
+        "rotation": [0, 0, 1, 1.57]
+      },
+      "shootoutStartingPose": {
+        "translation": [2, 0, 0.24],
+        "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      }
+    }
+  }
+}
