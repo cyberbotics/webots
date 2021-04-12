@@ -16,14 +16,16 @@ from gamestate import GameState
 
 from controller import Supervisor, AnsiCodes
 
+import copy
 import json
-import math
 import os
 import random
 import socket
 import subprocess
 import sys
 import time
+import transforms3d
+
 from types import SimpleNamespace
 
 SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let it run for 2 simulated seconds and replacing it
@@ -70,20 +72,14 @@ def spawn_team(team, color, red_on_right, children):
         model = team['players'][number]['proto']
         n = int(number) - 1
         port = game.red.ports[n] if color == 'red' else game.blue.ports[n]
+        if red_on_right:  # symmetry with respect to the central line of the field
+            player = team['players'][number]
+            flip_pose(player['halfTimeStartingPose'])
+            flip_pose(player['reentryStartingPose'])
+            flip_pose(player['shootoutStartingPose'])
+        defname = color.upper() + '_PLAYER_' + number
         halfTimeStartingTranslation = team['players'][number]['halfTimeStartingPose']['translation']
         halfTimeStartingRotation = team['players'][number]['halfTimeStartingPose']['rotation']
-        reentryStartingTranslation = team['players'][number]['reentryStartingPose']['translation']
-        reentryStartingRotation = team['players'][number]['reentryStartingPose']['rotation']
-        shootoutStartingTranslation = team['players'][number]['shootoutStartingPose']['translation']
-        shootoutStartingRotation = team['players'][number]['shootoutStartingPose']['rotation']
-        if red_on_right:  # symmetry with respect to the central line of the field
-            halfTimeStartingTranslation[0] = -halfTimeStartingTranslation[0]
-            reentryStartingTranslation[0] = -reentryStartingTranslation[0]
-            shootoutStartingTranslation[0] = -shootoutStartingTranslation[0]
-            halfTimeStartingRotation[3] = math.pi - halfTimeStartingRotation[3]
-            reentryStartingRotation[3] = math.pi - reentryStartingRotation[3]
-            shootoutStartingRotation[3] = math.pi - shootoutStartingRotation[3]
-        defname = color.upper() + '_PLAYER_' + number
         string = f'DEF {defname} {model}{{name "{color} player {number}" translation ' + \
             f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]} rotation ' + \
             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
@@ -303,6 +299,15 @@ def check_team_position(team, color):
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
 
 
+def rotate_along_z(axis_and_angle):
+    q = transforms3d.quaternions.axangle2quat([axis_and_angle[0], axis_and_angle[1], axis_and_angle[2]], axis_and_angle[3])
+    rz = [0, 0, 0, 1]
+    # rz = [0, 0, 0.7071068, 0.7071068]
+    r = transforms3d.quaternions.qmult(q, rz)
+    v, a = transforms3d.quaternions.quat2axangle(r)
+    return [v[0], v[1], v[2], a]
+
+
 def send_penalties(team, color):
     for number in team['players']:
         if 'penalty' in team['players'][number]:
@@ -316,26 +321,32 @@ def send_penalties(team, color):
             robot.resetPhysics()
             translation = robot.getField('translation')
             rotation = robot.getField('rotation')
-            t = team['players'][number]['reentryStartingPose']['translation']
-            r = team['players'][number]['reentryStartingPose']['rotation']
+            t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
+            r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
+            if reason == 'fallen down':
+                ball_translation = game.ball_translation.getSFVec3f()
+                t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
+                if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
+                    t[1] = -t[1]
+                    r = rotate_along_z(r)
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
-            info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to reentryStartingPose: ' +
+            info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
                  f'translation {t[0]} {t[1]} {t[2]}, rotation {r[0]} {r[1]} {r[2]} {r[3]}')
 
 
 def flip_pose(pose):
     pose['translation'][0] = -pose['translation'][0]
-    pose['rotation'][3] = math.pi - pose['rotation'][3]
 
 
 def flip_sides():
     game.side_left = 2 if game.side_left == 1 else 1  # flip sides (no need to notify GameController, it does it automatically)
     for team in [red_team, blue_team]:
         for number in team['players']:
-            flip_pose(team['players'][number]['halfTimeStartingPose'])
-            flip_pose(team['players'][number]['reentryStartingPose'])
-            flip_pose(team['players'][number]['shootoutStartingPose'])
+            player = team['players'][number]
+            flip_pose(player['halfTimeStartingPose'])
+            flip_pose(player['reentryStartingPose'])
+            flip_pose(player['shootoutStartingPose'])
 
 
 def reset_player(color, number, pose):
@@ -379,27 +390,36 @@ def check_fallen(team, color):
     for number in team['players']:
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
         already_down = 'fallen' in team['players'][number]
-        fallen = False
+        fallen = False if n > 0 else already_down
         for i in range(0, n):
             r_point = team['players'][number]['robot'].getContactPoint(i)
             if r_point[2] > 0.01:  # not a contact with the ground
                 continue
             node = team['players'][number]['robot'].getContactPointNode(i)
-            if not node:  # FIXME: bug here?
+            if not node:
+                print('No solid contact point!')
                 continue
-            name = node.getField('name').getSFString()
-            if name[:-6] == '[feet]':
+            model_field = node.getField('model')
+            if model_field is None:
+                continue
+            model = model_field.getSFString()
+            if model[-4:] == 'foot':
                 continue
             fallen = True
             if already_down:
                 break
+            info(f'{color} player {number} has fallen down.')
             team['players'][number]['fallen'] = time_count
             break
         if already_down:
             if fallen:
                 if time_count - team['players'][number]['fallen'] > 20000:  # more than 20 seconds down
-                    info(f'{color} player {number} has fallen and didn\'t recover in the last 20 seconds.')
+                    info(f'{color} player {number} has fallen down and didn\'t recover in the last 20 seconds.')
+                    team['players'][number]['penalty'] = 'INCAPABLE'
+                    team['players'][number]['penalty_reason'] = 'fallen down'
             else:  # recovered on time
+                delay = (int((time_count - team['players'][number]['fallen']) / 100)) / 10
+                info(f'{color} player {number} just recovered after {delay} seconds.')
                 del team['players'][number]['fallen']
 
 
@@ -464,6 +484,7 @@ if not hasattr(game, 'real_time_factor'):
 info(f'Real time factor is set to {game.real_time_factor}.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
+game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
 game.center_circle_radius = 0.75 if field_size == 'kid' else 1.5
 game.goal_height = GOAL_HEIGHT_KID if field_size == 'kid' else GOAL_HEIGHT_ADULT
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
@@ -637,8 +658,6 @@ while supervisor.step(time_step) != -1:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 game_controller_send('STATE:READY')
-                send_penalties(red_team, 'red')
-                send_penalties(blue_team, 'blue')
 
     if game.ball_exited_countdown > 0:
         game.ball_exited_countdown -= 1
@@ -660,6 +679,10 @@ while supervisor.step(time_step) != -1:
     # detect fallen robots
     check_fallen(red_team, 'red')
     check_fallen(blue_team, 'blue')
+
+    # send penalties if needed
+    send_penalties(red_team, 'red')
+    send_penalties(blue_team, 'blue')
 
     time_count += time_step
 
