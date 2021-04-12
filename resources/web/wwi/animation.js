@@ -51,10 +51,10 @@ class Animation {
     this.playSlider = $('#playSlider').slider();
     this._connectSliderEvents();
 
-    div.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
+    div.appendChild(this._createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
     this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
     this.exit_fullscreenButton.style.display = 'none';
-    div.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
+    div.appendChild(this._createToolBarButton('fullscreen', 'Enter fullscreen'));
     this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
 
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });

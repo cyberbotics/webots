@@ -245,76 +245,12 @@ button::-moz-focus-inner {
   border-radius: 0px;
 }
 
-#webotsEditorTabs .ui-tabs-nav {
-  padding-right: 30px;
-}
-
 .webotsTabs .ui-tabs-nav li {
   font-size: 80%;
 }
 
 .webotsTabs .ui-tabs-panel {
   border-width: 0px 1px 1px 1px;
-}
-
-.webotsEditorStatusMessage {
-  z-index: 100;
-  background: #f1f1f1;
-  color: #0074FF;
-  position:absolute;
-  bottom:0;
-  right:0;
-}
-
-#webotsEditorMenu {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  display: inline-block;
-}
-
-#webotsEditorMenu.pressed #webotsEditorMenuContent {
-  display: block;
-}
-
-#webotsEditorMenu.pressed #webotsEditorMenuImage {
-  background-color:  #dddddd;
-  border-radius: 2px;
-  border: none;
-}
-
-#webotsEditorMenuImage {
-  padding: 3px 3px;
-  background-color:transparent;
-  border: none;
-  outline: none;
-}
-
-#webotsEditorMenuContent {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 25px;
-  background-color: #f9f9f9;
-  border:1px solid #ccc;
-  border-radius: 2px;
-  min-width: 115px;
-  box-shadow: 0px 5px 16px 0px rgba(0,0,0,0.2);
-  padding: 4px 0px;
-  font-size: 14px;
-  z-index: 10;
-}
-
-.webotsEditorMenuContentItem {
-  padding: 3px 7px;
-  border: solid 1px transparent;
-  z-index: 10;
-}
-
-.webotsEditorMenuContentItem:hover {
-  color: white;
-  background-color: #007fff;
-  border: solid 1px #003eff;
 }
 
 .webotsLabel {

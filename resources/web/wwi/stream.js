@@ -82,14 +82,6 @@ class Stream {
       let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
-    } else if (data.startsWith('set controller:')) {
-      let slash = data.indexOf('/', 15);
-      let dirname = data.substring(15, slash);
-      let filename = data.substring(slash + 1, data.indexOf(':', slash + 1));
-      if (this.view.editor.dirname === dirname)
-        this.view.editor.addFile(filename, data.substring(data.indexOf('\n') + 1)); // remove the first line
-      else
-        console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + this.view.editor.dirname);
     } else if (data.startsWith('pause:') || data === 'paused by client') {
       if (this.view.toolBar !== null)
         this.view.toolBar.setMode('pause');

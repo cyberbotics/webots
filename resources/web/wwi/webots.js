@@ -1,7 +1,6 @@
 import {Animation} from './animation.js';
 import {DefaultUrl} from './default_url.js';
 import {DialogWindow} from './dialog_window.js';
-import {Editor} from './editor.js';
 import {MouseEvents} from './mouse_events.js';
 import {MultimediaClient} from './multimedia_client.js';
 import {Toolbar} from './toolbar.js';
@@ -257,9 +256,6 @@ webots.View = class View {
       this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
     }
 
-    if (typeof this.editor === 'undefined')
-      this.editor = new Editor(this.view3D, this.mobileDevice, this);
-
     initWorld();
   }
 
@@ -382,14 +378,6 @@ webots.View = class View {
       this.mouseEvents.picker.selectedId = -1;
       this.mouseEvents.picker.coordinates = new WbVector3();
       Selector.reset();
-    }
-  }
-
-  editController(controller) {
-    if (this.editor.dirname !== controller) {
-      this.editor.closeAllTabs();
-      this.editor.dirname = controller;
-      this.stream.socket.send('get controller:' + controller);
     }
   }
 };

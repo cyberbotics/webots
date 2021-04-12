@@ -14,7 +14,7 @@ class Toolbar {
 
     if (typeof webots.showQuit === 'undefined' || webots.showQuit) { // enabled by default
       this.domElement.left.appendChild(this.createToolBarButton('quit', 'Quit the simulation'));
-      this.quitButton.onclick = () => { this.requestQuit(); };
+      this.quitButton.onclick = () => { this.view.quitSimulation(); };
     }
 
     this.domElement.left.appendChild(this.createToolBarButton('info', 'Open the information window'));
@@ -135,42 +135,6 @@ class Toolbar {
     }
   }
 
-  requestQuit() {
-    if (this.view.editor.hasUnsavedChanges()) {
-      let text;
-      if (this.view.editor.unloggedFileModified || typeof webots.User1Id === 'undefined' || webots.User1Id === '')
-        text = 'Your changes to the robot controller will be lost because you are not logged in.';
-      else
-        text = 'Your unsaved changes to the robot controller will be lost.';
-      let quitDialog = document.getElementById('quitDialog');
-      if (!quitDialog) {
-        quitDialog = document.createElement('div');
-        quitDialog.id = 'quitDialog';
-        $(quitDialog).html(text);
-        this.view.view3D.appendChild(quitDialog);
-        $(quitDialog).dialog({
-          title: 'Quit the simulation?',
-          modal: true,
-          resizable: false,
-          appendTo: this.view.view3D,
-          open: () => { DialogWindow.openDialog(quitDialog); },
-          buttons: {
-            'Cancel': () => {
-              $(quitDialog).dialog('close');
-            },
-            'Quit': () => {
-              $(quitDialog).dialog('close');
-              this.view.quitSimulation();
-            }
-          }
-        });
-      } else
-        $(quitDialog).dialog('open');
-      return;
-    }
-    this.view.quitSimulation();
-  }
-
   reset(revert = false) {
     if (this.view.broadcast)
       return;
@@ -182,11 +146,6 @@ class Toolbar {
     // $('#webotsProgress').show();
     this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
-    for (let i in this.view.editor.filenames) {
-      this.view.editor.save(i);
-      if (this.view.editor.needToUploadFiles[i])
-        this.view.editor.upload(i);
-    }
 
     if (this.view.timeout >= 0) {
       this.view.deadline = this.view.timeout;
