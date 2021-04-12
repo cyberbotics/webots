@@ -107,8 +107,8 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Combine the user parameters with the default ones
   QVector<WbField *> fields;
-  for (WbFieldModel *model : model->fieldModels()) {
-    WbField *field = new WbField(model);
+  for (WbFieldModel *fieldModel : model->fieldModels()) {
+    WbField *field = new WbField(fieldModel);
     if (userParameters.contains(field->name())) {
       WbTokenizer tokenizer;
       tokenizer.tokenizeString(userParameters[field->name()]);
