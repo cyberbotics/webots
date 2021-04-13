@@ -11,10 +11,9 @@ class WbPointSet extends WbGeometry {
     this.isShadedGeometryPickable = false;
   }
 
-  delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbPointSet(customID, this.coord, this.color);
   }
 
   createWrenObjects() {
@@ -24,9 +23,10 @@ class WbPointSet extends WbGeometry {
     this._buildWrenMesh();
   }
 
-  _updateCoord() {
-    if (this.wrenObjectsCreatedCalled)
-      this._buildWrenMesh();
+  delete() {
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    super.delete();
   }
 
   setWrenMaterial(material, castShadows) {
@@ -40,6 +40,8 @@ class WbPointSet extends WbGeometry {
         _wr_phong_material_set_color_per_vertex(material, false);
     }
   }
+
+  // Private functions
 
   _buildWrenMesh() {
     super._deleteWrenRenderable();
@@ -59,7 +61,7 @@ class WbPointSet extends WbGeometry {
     if (typeof this.color !== 'undefined')
       colorData = [];
 
-    const coordsCount = this.computeCoordsAndColorData(coordsData, colorData);
+    const coordsCount = this._computeCoordsAndColorData(coordsData, colorData);
 
     const coordsDataPointer = arrayXPointerFloat(coordsData);
     const colorDataPointer = arrayXPointerFloat(colorData);
@@ -75,7 +77,7 @@ class WbPointSet extends WbGeometry {
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
   }
 
-  computeCoordsAndColorData(coordsData, colorData) {
+  _computeCoordsAndColorData(coordsData, colorData) {
     if (typeof this.coord === 'undefined')
       return 0;
 
@@ -102,9 +104,9 @@ class WbPointSet extends WbGeometry {
     return count;
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbPointSet(customID, this.coord, this.color);
+  _updateCoord() {
+    if (this.wrenObjectsCreatedCalled)
+      this._buildWrenMesh();
   }
 }
 

@@ -3,10 +3,90 @@ import {WbWrenShaders} from './wbWrenShaders.js';
 import {WbWrenRenderingContext} from './wbWrenRenderingContext.js';
 
 class WbWrenPostProcessingEffects {
-  static loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
-    WbWrenPostProcessingEffects.smaaAreaTexture = WbWrenPostProcessingEffects.loadImage(smaaAreaTexture);
-    WbWrenPostProcessingEffects.smaaSearchTexture = WbWrenPostProcessingEffects.loadImage(smaaSearchTexture);
-    WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture);
+  static bloom(width, height, textureFormat) {
+    const bloomEffect = _wr_post_processing_effect_new();
+    _wr_post_processing_effect_set_drawing_index(bloomEffect, WbWrenRenderingContext.PP_BLOOM);
+
+    const colorPassThrough = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
+    _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders.passThroughShader());
+    _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
+    _wr_post_processing_effect_pass_set_alpha_blending(colorPassThrough, false);
+    _wr_post_processing_effect_pass_set_input_texture_count(colorPassThrough, 1);
+    _wr_post_processing_effect_pass_set_output_texture_count(colorPassThrough, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
+    _wr_post_processing_effect_append_pass(bloomEffect, colorPassThrough);
+
+    const brightPass = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [brightPass, 'brightPassFilter']);
+    _wr_post_processing_effect_pass_set_program(brightPass, WbWrenShaders.brightPassShader());
+    _wr_post_processing_effect_pass_set_output_size(brightPass, width, height);
+    _wr_post_processing_effect_pass_set_alpha_blending(brightPass, false);
+    _wr_post_processing_effect_pass_set_input_texture_count(brightPass, 1);
+    _wr_post_processing_effect_pass_set_output_texture_count(brightPass, 1);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
+    _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
+
+    const blurPasses = [];
+    const downsamplePasses = [];
+
+    for (let i = 0; i < 6; ++i) {
+      const blurPass = _wr_post_processing_effect_pass_new();
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blurPass, 'blurPass' + i]);
+      _wr_post_processing_effect_pass_set_program(blurPass, WbWrenShaders.gaussianBlur13TapShader());
+      _wr_post_processing_effect_pass_set_output_size(blurPass, width / (1 << i), height / (1 << i));
+      _wr_post_processing_effect_pass_set_input_texture_count(blurPass, 2);
+      _wr_post_processing_effect_pass_set_alpha_blending(blurPass, false);
+      _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 0, true);
+      _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 1, true);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_output_texture_count(blurPass, 1);
+      _wr_post_processing_effect_pass_set_output_texture_format(blurPass, 0, textureFormat);
+      _wr_post_processing_effect_pass_set_iteration_count(blurPass, 2);
+      _wr_post_processing_effect_append_pass(bloomEffect, blurPass);
+      blurPasses[i] = blurPass;
+
+      const downsamplePass = _wr_post_processing_effect_pass_new();
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [downsamplePass, 'downsamplePass' + i]);
+      _wr_post_processing_effect_pass_set_program(downsamplePass, WbWrenShaders.passThroughShader());
+      _wr_post_processing_effect_pass_set_output_size(downsamplePass, width / (2 << i), height / (2 << i));
+      _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
+      _wr_post_processing_effect_pass_set_alpha_blending(downsamplePass, false);
+      _wr_post_processing_effect_pass_set_input_texture_interpolation(downsamplePass, 0, true);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_output_texture_count(downsamplePass, 1);
+      _wr_post_processing_effect_pass_set_output_texture_format(downsamplePass, 0, textureFormat);
+      _wr_post_processing_effect_append_pass(bloomEffect, downsamplePass);
+      downsamplePasses[i] = downsamplePass;
+    }
+
+    const blendPass = _wr_post_processing_effect_pass_new();
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blendPass, 'blendBloom']);
+    _wr_post_processing_effect_pass_set_alpha_blending(blendPass, false);
+    _wr_post_processing_effect_pass_set_program(blendPass, WbWrenShaders.bloomBlendShader());
+    _wr_post_processing_effect_pass_set_output_size(blendPass, width, height);
+    _wr_post_processing_effect_pass_set_input_texture_count(blendPass, 7);
+
+    for (let i = 0; i < 7; ++i)
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+
+    _wr_post_processing_effect_pass_set_output_texture_count(blendPass, 1);
+    _wr_post_processing_effect_pass_set_output_texture_format(blendPass, 0, textureFormat);
+    _wr_post_processing_effect_append_pass(bloomEffect, blendPass);
+
+    _wr_post_processing_effect_connect(bloomEffect, colorPassThrough, 0, blendPass, 0);
+    _wr_post_processing_effect_connect(bloomEffect, brightPass, 0, blurPasses[0], 0);
+    for (let i = 0; i < 5; ++i) {
+      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
+      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
+      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
+      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
+    }
+
+    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
+    return bloomEffect;
   }
 
   static clearResources() {
@@ -22,21 +102,6 @@ class WbWrenPostProcessingEffects {
     WbWrenPostProcessingEffects.smaaAreaTexture = undefined;
     WbWrenPostProcessingEffects.smaaSearchTexture = undefined;
     WbWrenPostProcessingEffects.gtaoNoiseTexture = undefined;
-  }
-
-  static loadImage(image) {
-    const targetTexture = _wr_texture_2d_new();
-    _wr_texture_set_translucent(targetTexture, true);
-    _wr_texture_set_size(targetTexture, image.width, image.height);
-
-    const bitsPointer = arrayXPointer(image.bits);
-    _wr_texture_2d_set_data(targetTexture, bitsPointer);
-    Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [targetTexture, image.url]);
-    _wr_texture_2d_set_cache_persistency(targetTexture, true);
-    _wr_texture_set_translucent(targetTexture, image.isTranslucent);
-    _wr_texture_setup(targetTexture);
-    _free(bitsPointer);
-    return targetTexture;
   }
 
   static gtao(width, height, textureFormat, depthTexture, normalTexture, halfRes) {
@@ -191,90 +256,25 @@ class WbWrenPostProcessingEffects {
     return gtaoEffect;
   }
 
-  static bloom(width, height, textureFormat) {
-    const bloomEffect = _wr_post_processing_effect_new();
-    _wr_post_processing_effect_set_drawing_index(bloomEffect, WbWrenRenderingContext.PP_BLOOM);
+  static loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
+    WbWrenPostProcessingEffects.smaaAreaTexture = WbWrenPostProcessingEffects.loadImage(smaaAreaTexture);
+    WbWrenPostProcessingEffects.smaaSearchTexture = WbWrenPostProcessingEffects.loadImage(smaaSearchTexture);
+    WbWrenPostProcessingEffects.gtaoNoiseTexture = WbWrenPostProcessingEffects.loadImage(gtaoNoiseTexture);
+  }
 
-    const colorPassThrough = _wr_post_processing_effect_pass_new();
-    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [colorPassThrough, 'colorPassThrough']);
-    _wr_post_processing_effect_pass_set_program(colorPassThrough, WbWrenShaders.passThroughShader());
-    _wr_post_processing_effect_pass_set_output_size(colorPassThrough, width, height);
-    _wr_post_processing_effect_pass_set_alpha_blending(colorPassThrough, false);
-    _wr_post_processing_effect_pass_set_input_texture_count(colorPassThrough, 1);
-    _wr_post_processing_effect_pass_set_output_texture_count(colorPassThrough, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(colorPassThrough, 0, textureFormat);
-    _wr_post_processing_effect_append_pass(bloomEffect, colorPassThrough);
+  static loadImage(image) {
+    const targetTexture = _wr_texture_2d_new();
+    _wr_texture_set_translucent(targetTexture, true);
+    _wr_texture_set_size(targetTexture, image.width, image.height);
 
-    const brightPass = _wr_post_processing_effect_pass_new();
-    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [brightPass, 'brightPassFilter']);
-    _wr_post_processing_effect_pass_set_program(brightPass, WbWrenShaders.brightPassShader());
-    _wr_post_processing_effect_pass_set_output_size(brightPass, width, height);
-    _wr_post_processing_effect_pass_set_alpha_blending(brightPass, false);
-    _wr_post_processing_effect_pass_set_input_texture_count(brightPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_count(brightPass, 1);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
-    _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
-
-    const blurPasses = [];
-    const downsamplePasses = [];
-
-    for (let i = 0; i < 6; ++i) {
-      const blurPass = _wr_post_processing_effect_pass_new();
-      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blurPass, 'blurPass' + i]);
-      _wr_post_processing_effect_pass_set_program(blurPass, WbWrenShaders.gaussianBlur13TapShader());
-      _wr_post_processing_effect_pass_set_output_size(blurPass, width / (1 << i), height / (1 << i));
-      _wr_post_processing_effect_pass_set_input_texture_count(blurPass, 2);
-      _wr_post_processing_effect_pass_set_alpha_blending(blurPass, false);
-      _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 0, true);
-      _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 1, true);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-      _wr_post_processing_effect_pass_set_output_texture_count(blurPass, 1);
-      _wr_post_processing_effect_pass_set_output_texture_format(blurPass, 0, textureFormat);
-      _wr_post_processing_effect_pass_set_iteration_count(blurPass, 2);
-      _wr_post_processing_effect_append_pass(bloomEffect, blurPass);
-      blurPasses[i] = blurPass;
-
-      const downsamplePass = _wr_post_processing_effect_pass_new();
-      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [downsamplePass, 'downsamplePass' + i]);
-      _wr_post_processing_effect_pass_set_program(downsamplePass, WbWrenShaders.passThroughShader());
-      _wr_post_processing_effect_pass_set_output_size(downsamplePass, width / (2 << i), height / (2 << i));
-      _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
-      _wr_post_processing_effect_pass_set_alpha_blending(downsamplePass, false);
-      _wr_post_processing_effect_pass_set_input_texture_interpolation(downsamplePass, 0, true);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-      _wr_post_processing_effect_pass_set_output_texture_count(downsamplePass, 1);
-      _wr_post_processing_effect_pass_set_output_texture_format(downsamplePass, 0, textureFormat);
-      _wr_post_processing_effect_append_pass(bloomEffect, downsamplePass);
-      downsamplePasses[i] = downsamplePass;
-    }
-
-    const blendPass = _wr_post_processing_effect_pass_new();
-    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [blendPass, 'blendBloom']);
-    _wr_post_processing_effect_pass_set_alpha_blending(blendPass, false);
-    _wr_post_processing_effect_pass_set_program(blendPass, WbWrenShaders.bloomBlendShader());
-    _wr_post_processing_effect_pass_set_output_size(blendPass, width, height);
-    _wr_post_processing_effect_pass_set_input_texture_count(blendPass, 7);
-
-    for (let i = 0; i < 7; ++i)
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-
-    _wr_post_processing_effect_pass_set_output_texture_count(blendPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(blendPass, 0, textureFormat);
-    _wr_post_processing_effect_append_pass(bloomEffect, blendPass);
-
-    _wr_post_processing_effect_connect(bloomEffect, colorPassThrough, 0, blendPass, 0);
-    _wr_post_processing_effect_connect(bloomEffect, brightPass, 0, blurPasses[0], 0);
-    for (let i = 0; i < 5; ++i) {
-      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, downsamplePasses[i], 0);
-      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blurPasses[i], 1);
-      _wr_post_processing_effect_connect(bloomEffect, downsamplePasses[i], 0, blurPasses[i + 1], 0);
-      _wr_post_processing_effect_connect(bloomEffect, blurPasses[i], 0, blendPass, i + 1);
-    }
-
-    _wr_post_processing_effect_set_result_program(bloomEffect, WbWrenShaders.passThroughShader());
-    return bloomEffect;
+    const bitsPointer = arrayXPointer(image.bits);
+    _wr_texture_2d_set_data(targetTexture, bitsPointer);
+    Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [targetTexture, image.url]);
+    _wr_texture_2d_set_cache_persistency(targetTexture, true);
+    _wr_texture_set_translucent(targetTexture, image.isTranslucent);
+    _wr_texture_setup(targetTexture);
+    _free(bitsPointer);
+    return targetTexture;
   }
 
   static smaa(width, height, textureFormat) {

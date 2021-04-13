@@ -17,7 +17,32 @@ class WbScene {
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
     WbWrenPostProcessingEffects.loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
-    this.updateWrenViewportDimensions();
+    this._updateWrenViewportDimensions();
+  }
+
+  destroy() {
+    WbWrenPostProcessingEffects.clearResources();
+
+    if (typeof this.wrenMainFrameBuffer !== 'undefined')
+      _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
+
+    if (typeof this.wrenMainFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenMainFrameBufferTexture);
+
+    if (typeof this.wrenNormalFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenNormalFrameBufferTexture);
+
+    if (typeof this.wrenDepthFrameBufferTexture !== 'undefined')
+      _wr_texture_delete(this.wrenDepthFrameBufferTexture);
+
+    this.wrenMainFrameBuffer = undefined;
+    this.wrenMainFrameBufferTexture = undefined;
+    this.wrenNormalFrameBufferTexture = undefined;
+    this.wrenDepthFrameBufferTexture = undefined;
+
+    _wr_scene_destroy();
+
+    WbWorld.instance.scene = undefined;
   }
 
   updateFrameBuffer() {
@@ -59,33 +84,9 @@ class WbScene {
     _wr_viewport_set_size(_wr_scene_get_viewport(_wr_scene_get_instance()), canvas.width, canvas.height);
   }
 
-  updateWrenViewportDimensions() {
+  // Private functions
+  _updateWrenViewportDimensions() {
     _wr_viewport_set_pixel_ratio(_wr_scene_get_viewport(_wr_scene_get_instance()), 1);
-  }
-
-  destroy() {
-    WbWrenPostProcessingEffects.clearResources();
-
-    if (typeof this.wrenMainFrameBuffer !== 'undefined')
-      _wr_frame_buffer_delete(this.wrenMainFrameBuffer);
-
-    if (typeof this.wrenMainFrameBufferTexture !== 'undefined')
-      _wr_texture_delete(this.wrenMainFrameBufferTexture);
-
-    if (typeof this.wrenNormalFrameBufferTexture !== 'undefined')
-      _wr_texture_delete(this.wrenNormalFrameBufferTexture);
-
-    if (typeof this.wrenDepthFrameBufferTexture !== 'undefined')
-      _wr_texture_delete(this.wrenDepthFrameBufferTexture);
-
-    this.wrenMainFrameBuffer = undefined;
-    this.wrenMainFrameBufferTexture = undefined;
-    this.wrenNormalFrameBufferTexture = undefined;
-    this.wrenDepthFrameBufferTexture = undefined;
-
-    _wr_scene_destroy();
-
-    WbWorld.instance.scene = undefined;
   }
 }
 

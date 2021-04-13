@@ -17,6 +17,55 @@ class WbShape extends WbBaseNode {
     this.geometry = geometry;
   }
 
+  applyMaterialToGeometry() {
+    if (!this.wrenMaterial)
+      this._createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
+    if (this.geometry) {
+      if (this.appearance instanceof WbAppearance) {
+        if (this.appearance.wrenObjectsCreatedCalled)
+          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+        else
+          this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
+      } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
+        this._createWrenMaterial();
+        if (this.appearance.wrenObjectsCreatedCalled)
+          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+      } else
+        this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
+      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+    }
+  }
+
+  async clone(customID) {
+    let geometry, appearance;
+    if (typeof this.geometry !== 'undefined') {
+      geometry = this.geometry.clone('n' + Parser.undefinedID++);
+      geometry.parent = customID;
+      WbWorld.instance.nodes.set(geometry.id, geometry);
+    }
+
+    if (typeof this.appearance !== 'undefined') {
+      appearance = await this.appearance.clone('n' + Parser.undefinedID++);
+      appearance.parent = customID;
+      WbWorld.instance.nodes.set(appearance.id, appearance);
+    }
+
+    this.useList.push(customID);
+    return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance);
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+    if (typeof this.appearance !== 'undefined')
+      this.appearance.createWrenObjects();
+
+    if (typeof this.geometry !== 'undefined') {
+      this.geometry.createWrenObjects();
+
+      this.applyMaterialToGeometry();
+    }
+  }
+
   delete(isBoundingObject) {
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
@@ -47,53 +96,30 @@ class WbShape extends WbBaseNode {
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-    if (typeof this.appearance !== 'undefined')
-      this.appearance.createWrenObjects();
-
-    if (typeof this.geometry !== 'undefined') {
-      this.geometry.createWrenObjects();
-
+  updateAppearance() {
+    if (this.wrenObjectsCreatedCalled)
       this.applyMaterialToGeometry();
-    }
   }
 
-  applyMaterialToGeometry() {
-    if (!this.wrenMaterial)
-      this.createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
-
-    if (this.geometry) {
-      if (this.appearance instanceof WbAppearance) {
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-        else
-          this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
-        this.createWrenMaterial();
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-      } else
-        this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-
-      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
-    }
+  updateBoundingObjectVisibility() {
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.updateBoundingObjectVisibility();
   }
 
-  createWrenMaterial(type) {
-    const defaultColor = _wrjs_array3(1.0, 1.0, 1.0);
-    if (typeof this.wrenMaterial !== 'undefined')
-      _wr_material_delete(this.wrenMaterial);
+  updateCastShadows() {
+    if (super.isInBoundingObject())
+      return;
 
-    if (type === ENUM.WR_MATERIAL_PHONG) {
-      this.wrenMaterial = _wr_phong_material_new();
-      _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
-      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.phongShader());
-    } else {
-      this.wrenMaterial = _wr_pbr_material_new();
-      _wr_pbr_material_set_base_color(this.wrenMaterial, defaultColor);
-      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.pbrShader());
-    }
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.computeCastShadows(this.castShadow);
+  }
+
+  updateIsPickable() {
+    if (super.isInBoundingObject())
+      return;
+
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.setPickable(this.isPickable);
   }
 
   preFinalize() {
@@ -123,48 +149,22 @@ class WbShape extends WbBaseNode {
     }
   }
 
-  updateAppearance() {
-    if (this.wrenObjectsCreatedCalled)
-      this.applyMaterialToGeometry();
-  }
+  // Private functions
 
-  updateCastShadows() {
-    if (super.isInBoundingObject())
-      return;
+  _createWrenMaterial(type) {
+    const defaultColor = _wrjs_array3(1.0, 1.0, 1.0);
+    if (typeof this.wrenMaterial !== 'undefined')
+      _wr_material_delete(this.wrenMaterial);
 
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.computeCastShadows(this.castShadow);
-  }
-
-  updateIsPickable() {
-    if (super.isInBoundingObject())
-      return;
-
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.setPickable(this.isPickable);
-  }
-
-  updateBoundingObjectVisibility() {
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.updateBoundingObjectVisibility();
-  }
-
-  async clone(customID) {
-    let geometry, appearance;
-    if (typeof this.geometry !== 'undefined') {
-      geometry = this.geometry.clone('n' + Parser.undefinedID++);
-      geometry.parent = customID;
-      WbWorld.instance.nodes.set(geometry.id, geometry);
+    if (type === ENUM.WR_MATERIAL_PHONG) {
+      this.wrenMaterial = _wr_phong_material_new();
+      _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
+      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.phongShader());
+    } else {
+      this.wrenMaterial = _wr_pbr_material_new();
+      _wr_pbr_material_set_base_color(this.wrenMaterial, defaultColor);
+      _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.pbrShader());
     }
-
-    if (typeof this.appearance !== 'undefined') {
-      appearance = await this.appearance.clone('n' + Parser.undefinedID++);
-      appearance.parent = customID;
-      WbWorld.instance.nodes.set(appearance.id, appearance);
-    }
-
-    this.useList.push(customID);
-    return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance);
   }
 }
 

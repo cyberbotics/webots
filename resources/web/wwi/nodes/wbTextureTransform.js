@@ -10,6 +10,11 @@ class WbTextureTransform extends WbBaseNode {
     this.translation = translation;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbTextureTransform(customID, this.center, this.rotation, this.scale, this.translation);
+  }
+
   delete() {
     if (typeof this.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(this.parent);
@@ -17,13 +22,13 @@ class WbTextureTransform extends WbBaseNode {
         parent.textureTransform = undefined;
     }
 
-    this.destroyWrenObjects();
+    this._destroyWrenObjects();
 
     super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial) {
-    this.destroyWrenObjects();
+    this._destroyWrenObjects();
 
     // apply translation before rotation
     this.wrenTextureTransform = _wr_texture_transform_new();
@@ -35,14 +40,11 @@ class WbTextureTransform extends WbBaseNode {
     _wr_material_set_texture_transform(wrenMaterial, this.wrenTextureTransform);
   }
 
-  destroyWrenObjects() {
+  // Private functions
+
+  _destroyWrenObjects() {
     if (typeof this.wrenTextureTransform !== 'undefined')
       _wr_texture_transform_delete(this.wrenTextureTransform);
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbTextureTransform(customID, this.center, this.rotation, this.scale, this.translation);
   }
 }
 

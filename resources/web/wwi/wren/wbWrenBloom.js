@@ -8,6 +8,12 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     this.threshold = 10.0;
   }
 
+  setThreshold(threshold) {
+    this.threshold = threshold;
+
+    this._applyParametersToWren();
+  }
+
   setup(viewport) {
     if (typeof this.wrenPostProcessingEffect !== 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
@@ -30,7 +36,7 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
 
     this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
-    this.applyParametersToWren();
+    this._applyParametersToWren();
 
     _wr_viewport_add_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
@@ -38,13 +44,9 @@ class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     this.hasBeenSetup = true;
   }
 
-  setThreshold(threshold) {
-    this.threshold = threshold;
+  // Private functions
 
-    this.applyParametersToWren();
-  }
-
-  applyParametersToWren() {
+  _applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
     const pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'brightPassFilter']);

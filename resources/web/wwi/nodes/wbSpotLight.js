@@ -15,13 +15,9 @@ class WbSpotLight extends WbLight {
       this.parent = parent.id;
   }
 
-  delete() {
-    if (this.wrenObjectsCreatedCalled) {
-      this._detachFromUpperTransform();
-      _wr_node_delete(this.wrenLight);
-    }
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 
   createWrenObjects() {
@@ -35,16 +31,19 @@ class WbSpotLight extends WbLight {
     this._applyNodeLocationToWren();
   }
 
-  _attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      this._detachFromUpperTransform();
+      _wr_node_delete(this.wrenLight);
+    }
 
-    if (typeof upperTransform !== 'undefined')
-      _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
+    super.delete();
   }
 
-  _applyLightDirectionToWren() {
-    const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
-    _wr_spot_light_set_direction(this.wrenLight, pointer);
+  // Private functions
+  _applyLightAttenuationToWren() {
+    _wr_spot_light_set_radius(this.wrenLight, this.radius);
+    _wr_spot_light_set_attenuation(this.wrenLight, this.attenuation.x, this.attenuation.y, this.attenuation.z);
   }
 
   applyLightBeamWidthAndCutOffAngleToWren() {
@@ -52,23 +51,22 @@ class WbSpotLight extends WbLight {
     _wr_spot_light_set_cutoff_angle(this.wrenLight, this.cutOffAngle);
   }
 
-  _applyLightAttenuationToWren() {
-    _wr_spot_light_set_radius(this.wrenLight, this.radius);
-    _wr_spot_light_set_attenuation(this.wrenLight, this.attenuation.x, this.attenuation.y, this.attenuation.z);
-  }
-
-  _applyNodeLocationToWren() {
-    const pointer = _wrjs_array3(this.location.x, this.location.y, this.location.z);
-    _wr_spot_light_set_position_relative(this.wrenLight, pointer);
-  }
-
   _applyLightColorToWren() {
     const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
     _wr_spot_light_set_color(this.wrenLight, pointer);
   }
 
+  _applyLightDirectionToWren() {
+    const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
+    _wr_spot_light_set_direction(this.wrenLight, pointer);
+  }
+
   _applyLightIntensityToWren() {
     _wr_spot_light_set_intensity(this.wrenLight, this.intensity);
+  }
+
+  _applyLightShadowsToWren() {
+    _wr_spot_light_set_cast_shadows(this.wrenLight, this.castShadows);
   }
 
   _applyLightVisibilityToWren() {
@@ -80,8 +78,16 @@ class WbSpotLight extends WbLight {
       console.log("Maximum number of active spotlights has been reached, newly added lights won't be rendered.");
   }
 
-  _applyLightShadowsToWren() {
-    _wr_spot_light_set_cast_shadows(this.wrenLight, this.castShadows);
+  _applyNodeLocationToWren() {
+    const pointer = _wrjs_array3(this.location.x, this.location.y, this.location.z);
+    _wr_spot_light_set_position_relative(this.wrenLight, pointer);
+  }
+
+  _attachToUpperTransform() {
+    const upperTransform = findUpperTransform(this);
+
+    if (typeof upperTransform !== 'undefined')
+      _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }
 
   _detachFromUpperTransform() {
@@ -89,11 +95,6 @@ class WbSpotLight extends WbLight {
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 }
 

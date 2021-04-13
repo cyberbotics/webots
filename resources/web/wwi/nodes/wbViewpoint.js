@@ -39,6 +39,22 @@ class WbViewpoint extends WbBaseNode {
     this.wrenSmaa = new WbWrenSmaa();
   }
 
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+
+    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_array3(0.0, 0.0, 0.0));
+    this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
+    this._applyPositionToWren();
+    this._applyOrientationToWren();
+    this._applyNearToWren();
+    this._applyFarToWren();
+    this._applyFieldOfViewToWren();
+    this.updatePostProcessingEffects();
+    this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
+  }
+
   delete() {
     if (typeof this.wrenSmaa !== 'undefined')
       this.wrenSmaa.delete();
@@ -53,81 +69,55 @@ class WbViewpoint extends WbBaseNode {
       this.wrenBloom.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
+  preFinalize() {
+    super.preFinalize();
 
-    this.wrenViewport = _wr_scene_get_viewport(_wr_scene_get_instance());
+    this.updateFieldOfView();
+    this.updateNear();
+    this.updateFar();
+  }
 
-    _wr_viewport_set_clear_color_rgb(this.wrenViewport, _wrjs_array3(0.0, 0.0, 0.0));
-    this.wrenCamera = _wr_viewport_get_camera(this.wrenViewport);
-    this.applyPositionToWren();
-    this.applyOrientationToWren();
-    this.applyNearToWren();
-    this.applyFarToWren();
-    this.applyFieldOfViewToWren();
+  postFinalize() {
+    super.postFinalize();
+    if (typeof WbWorld.instance.nodes.get(this.followedId) !== 'undefined' && typeof WbWorld.instance.nodes.get(this.followedId).translation !== 'undefined')
+      this.followedSolidPreviousPosition = WbWorld.instance.nodes.get(this.followedId).translation;
+
     this.updatePostProcessingEffects();
-    this.inverseViewMatrix = _wr_transform_get_matrix(this.wrenCamera);
   }
 
-  applyPositionToWren() {
-    _wr_camera_set_position(this.wrenCamera, _wrjs_array3(this.position.x, this.position.y, this.position.z));
+  resetViewpoint() {
+    this.position = this.initialPosition;
+    this.orientation = this.initialOrientation;
+    this.updatePosition();
+    this.updateOrientation();
   }
 
-  applyOrientationToWren() {
-    _wr_camera_set_orientation(this.wrenCamera, _wrjs_array4(this.orientation.w, this.orientation.x, this.orientation.y, this.orientation.z));
-  }
+  // Converts screen coordinates to world coordinates
+  toWorld(pos) {
+    let zFar = this.far;
+    if (zFar === 0)
+      zFar = WbViewpoint.DEFAULT_FAR;
 
-  applyNearToWren() {
-    _wr_camera_set_near(this.wrenCamera, this.near);
-  }
+    const projection = new WbMatrix4();
+    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
+    const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
+    const center = eye.add(direction(this.orientation));
+    const upVec = up(this.orientation);
 
-  applyFarToWren() {
-    if (this.far > 0.0)
-      _wr_camera_set_far(this.wrenCamera, this.far);
-    else
-      _wr_camera_set_far(this.wrenCamera, WbViewpoint.DEFAULT_FAR);
-  }
+    const f = (center.sub(eye)).normalized();
+    const s = f.cross(upVec).normalized();
+    const u = s.cross(f);
 
-  applyFieldOfViewToWren() {
-    _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
-    if (this.wrenGtao)
-      this.wrenGtao.setFov(this.fieldOfViewY);
-  }
+    const view = new WbMatrix4();
+    view.set(-s.x, -s.y, -s.z, s.dot(eye), u.x, u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
 
-  updateNear() {
-    if (this.far > 0.0 && this.far < this.near)
-      this.near = this.far;
+    const inverse = projection.mul(view);
+    if (!inverse.inverse())
+      return;
 
-    if (this.wrenObjectsCreatedCalled)
-      this.applyNearToWren();
-  }
-
-  updateFar() {
-    if (this.far > 0.0 && this.far < this.near)
-      this.far = this.near + 1.0;
-
-    if (this.wrenObjectsCreatedCalled)
-      this.applyFarToWren();
-  }
-
-  updateFieldOfView() {
-    this.updateFieldOfViewY();
-
-    if (this.wrenObjectsCreatedCalled)
-      this.applyFieldOfViewToWren();
-  }
-
-  updateFieldOfViewY() {
-    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);
-
-    // According to VRML standards, the meaning of fieldOfView depends on the aspect ratio:
-    // the view angle is taken with respect to the largest dimension
-    if (this.aspectRatio < 1.0)
-      this.fieldOfViewY = this.fieldOfView;
-    else {
-      this.tanHalfFieldOfViewY /= this.aspectRatio;
-      this.fieldOfViewY = 2.0 * Math.atan(this.tanHalfFieldOfViewY);
-    }
+    let screenCoord = new WbVector4(pos.x, pos.y, pos.z, 1.0);
+    screenCoord = inverse.mulByVec4(screenCoord);
+    return screenCoord.div(screenCoord.w);
   }
 
   updateAspectRatio(renderWindowAspectRatio) {
@@ -137,83 +127,9 @@ class WbViewpoint extends WbBaseNode {
     this.aspectRatio = renderWindowAspectRatio;
     _wr_camera_set_aspect_ratio(this.wrenCamera, this.aspectRatio);
 
-    this.updateFieldOfViewY();
+    this._updateFieldOfViewY();
 
-    this.applyFieldOfViewToWren();
-  }
-
-  updatePostProcessingEffects() {
-    if (!this.wrenObjectsCreatedCalled)
-      return;
-
-    if (this.wrenSmaa) {
-      if (disableAntiAliasing)
-        this.wrenSmaa.detachFromViewport();
-      else
-        this.wrenSmaa.setup(this.wrenViewport);
-    }
-
-    if (this.wrenHdr) {
-      this.wrenHdr.setup(this.wrenViewport);
-      this.updateExposure();
-    }
-
-    if (this.wrenGtao) {
-      const qualityLevel = GTAO_LEVEL;
-      if (qualityLevel === 0)
-        this.wrenGtao.detachFromViewport();
-      else {
-        this.wrenGtao.setHalfResolution(qualityLevel <= 2);
-        this.wrenGtao.setup(this.wrenViewport);
-        this.updateNear();
-        this.updateFar();
-        this.updateFieldOfViewY();
-      }
-    }
-
-    if (this.wrenBloom) {
-      if (this.bloomThreshold === -1.0)
-        this.wrenBloom.detachFromViewport();
-      else
-        this.wrenBloom.setup(this.wrenViewport);
-
-      this.wrenBloom.setThreshold(this.bloomThreshold);
-    }
-
-    this.updateAspectRatio(canvas.width / canvas.height);
-  }
-
-  updatePostProcessingParameters() {
-    if (!this.wrenObjectsCreatedCalled)
-      return;
-
-    if (this.wrenHdr)
-      this.updateExposure();
-
-    if (this.wrenGtao) {
-      if (this.ambientOcclusionRadius === 0.0 || GTAO_LEVEL === 0) {
-        this.wrenGtao.detachFromViewport();
-        return;
-      } else if (!this.wrenGtao.hasBeenSetup)
-        this.wrenGtao.setup(this.wrenViewport);
-
-      const qualityLevel = GTAO_LEVEL;
-      this.updateNear();
-      this.wrenGtao.setRadius(this.ambientOcclusionRadius);
-      this.wrenGtao.setQualityLevel(qualityLevel);
-      this.wrenGtao.applyOldInverseViewMatrixToWren();
-      this.wrenGtao.copyNewInverseViewMatrix(this.inverseViewMatrix);
-    }
-
-    if (this.wrenBloom) {
-      if (this.bloomThreshold === -1.0) {
-        this.wrenBloom.detachFromViewport();
-        return;
-      } else if (!this.wrenBloom.hasBeenSetup)
-        this.wrenBloom.setup(this.wrenViewport);
-
-      this.wrenBloom.setThreshold(this.bloomThreshold);
-    }
+    this._applyFieldOfViewToWren();
   }
 
   updateExposure() {
@@ -221,14 +137,19 @@ class WbViewpoint extends WbBaseNode {
       this.wrenHdr.setExposure(this.exposure);
   }
 
-  updatePosition() {
+  updateFar() {
+    if (this.far > 0.0 && this.far < this.near)
+      this.far = this.near + 1.0;
+
     if (this.wrenObjectsCreatedCalled)
-      this.applyPositionToWren();
+      this._applyFarToWren();
   }
 
-  updateOrientation() {
+  updateFieldOfView() {
+    this._updateFieldOfViewY();
+
     if (this.wrenObjectsCreatedCalled)
-      this.applyOrientationToWren();
+      this._applyFieldOfViewToWren();
   }
 
   updateFollowUp(time) {
@@ -291,55 +212,136 @@ class WbViewpoint extends WbBaseNode {
     this.updatePosition();
   }
 
-  // Converts screen coordinates to world coordinates
-  toWorld(pos) {
-    let zFar = this.far;
-    if (zFar === 0)
-      zFar = WbViewpoint.DEFAULT_FAR;
+  updateNear() {
+    if (this.far > 0.0 && this.far < this.near)
+      this.near = this.far;
 
-    const projection = new WbMatrix4();
-    projection.set(1.0 / (this.aspectRatio * this.tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this.tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
-    const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
-    const center = eye.add(direction(this.orientation));
-    const upVec = up(this.orientation);
+    if (this.wrenObjectsCreatedCalled)
+      this._applyNearToWren();
+  }
 
-    const f = (center.sub(eye)).normalized();
-    const s = f.cross(upVec).normalized();
-    const u = s.cross(f);
+  updatePosition() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyPositionToWren();
+  }
 
-    const view = new WbMatrix4();
-    view.set(-s.x, -s.y, -s.z, s.dot(eye), u.x, u.y, u.z, -u.dot(eye), f.x, f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
-
-    const inverse = projection.mul(view);
-    if (!inverse.inverse())
+  updatePostProcessingEffects() {
+    if (!this.wrenObjectsCreatedCalled)
       return;
 
-    let screenCoord = new WbVector4(pos.x, pos.y, pos.z, 1.0);
-    screenCoord = inverse.mulByVec4(screenCoord);
-    return screenCoord.div(screenCoord.w);
+    if (this.wrenSmaa) {
+      if (disableAntiAliasing)
+        this.wrenSmaa.detachFromViewport();
+      else
+        this.wrenSmaa.setup(this.wrenViewport);
+    }
+
+    if (this.wrenHdr) {
+      this.wrenHdr.setup(this.wrenViewport);
+      this.updateExposure();
+    }
+
+    if (this.wrenGtao) {
+      const qualityLevel = GTAO_LEVEL;
+      if (qualityLevel === 0)
+        this.wrenGtao.detachFromViewport();
+      else {
+        this.wrenGtao.setHalfResolution(qualityLevel <= 2);
+        this.wrenGtao.setup(this.wrenViewport);
+        this.updateNear();
+        this.updateFar();
+        this._updateFieldOfViewY();
+      }
+    }
+
+    if (this.wrenBloom) {
+      if (this.bloomThreshold === -1.0)
+        this.wrenBloom.detachFromViewport();
+      else
+        this.wrenBloom.setup(this.wrenViewport);
+
+      this.wrenBloom.setThreshold(this.bloomThreshold);
+    }
+
+    this.updateAspectRatio(canvas.width / canvas.height);
   }
 
-  preFinalize() {
-    super.preFinalize();
+  updatePostProcessingParameters() {
+    if (!this.wrenObjectsCreatedCalled)
+      return;
 
-    this.updateFieldOfView();
-    this.updateNear();
-    this.updateFar();
+    if (this.wrenHdr)
+      this.updateExposure();
+
+    if (this.wrenGtao) {
+      if (this.ambientOcclusionRadius === 0.0 || GTAO_LEVEL === 0) {
+        this.wrenGtao.detachFromViewport();
+        return;
+      } else if (!this.wrenGtao.hasBeenSetup)
+        this.wrenGtao.setup(this.wrenViewport);
+
+      const qualityLevel = GTAO_LEVEL;
+      this.updateNear();
+      this.wrenGtao.setRadius(this.ambientOcclusionRadius);
+      this.wrenGtao.setQualityLevel(qualityLevel);
+      this.wrenGtao.applyOldInverseViewMatrixToWren();
+      this.wrenGtao.copyNewInverseViewMatrix(this.inverseViewMatrix);
+    }
+
+    if (this.wrenBloom) {
+      if (this.bloomThreshold === -1.0) {
+        this.wrenBloom.detachFromViewport();
+        return;
+      } else if (!this.wrenBloom.hasBeenSetup)
+        this.wrenBloom.setup(this.wrenViewport);
+
+      this.wrenBloom.setThreshold(this.bloomThreshold);
+    }
   }
 
-  postFinalize() {
-    super.postFinalize();
-    if (typeof WbWorld.instance.nodes.get(this.followedId) !== 'undefined' && typeof WbWorld.instance.nodes.get(this.followedId).translation !== 'undefined')
-      this.followedSolidPreviousPosition = WbWorld.instance.nodes.get(this.followedId).translation;
-
-    this.updatePostProcessingEffects();
+  updateOrientation() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyOrientationToWren();
   }
 
-  resetViewpoint() {
-    this.position = this.initialPosition;
-    this.orientation = this.initialOrientation;
-    this.updatePosition();
-    this.updateOrientation();
+  // Private functions
+
+  _applyFarToWren() {
+    if (this.far > 0.0)
+      _wr_camera_set_far(this.wrenCamera, this.far);
+    else
+      _wr_camera_set_far(this.wrenCamera, WbViewpoint.DEFAULT_FAR);
+  }
+
+  _applyFieldOfViewToWren() {
+    _wr_camera_set_fovy(this.wrenCamera, this.fieldOfViewY);
+    if (this.wrenGtao)
+      this.wrenGtao.setFov(this.fieldOfViewY);
+  }
+
+  _applyNearToWren() {
+    _wr_camera_set_near(this.wrenCamera, this.near);
+  }
+
+  _applyOrientationToWren() {
+    _wr_camera_set_orientation(this.wrenCamera, _wrjs_array4(this.orientation.w, this.orientation.x, this.orientation.y, this.orientation.z));
+  }
+
+  _applyPositionToWren() {
+    _wr_camera_set_position(this.wrenCamera, _wrjs_array3(this.position.x, this.position.y, this.position.z));
+  }
+
+  _updateFieldOfViewY() {
+    this.tanHalfFieldOfViewY = Math.tan(0.5 * this.fieldOfView);
+
+    // According to VRML standards, the meaning of fieldOfView depends on the aspect ratio:
+    // the view angle is taken with respect to the largest dimension
+    if (this.aspectRatio < 1.0)
+      this.fieldOfViewY = this.fieldOfView;
+    else {
+      this.tanHalfFieldOfViewY /= this.aspectRatio;
+      this.fieldOfViewY = 2.0 * Math.atan(this.tanHalfFieldOfViewY);
+    }
   }
 }
 

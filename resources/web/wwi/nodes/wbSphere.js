@@ -8,15 +8,41 @@ class WbSphere extends WbGeometry {
     this.subdivision = subdivision;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbSphere(customID, this.radius, this.ico, this.subdivision);
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+    this._buildWrenMesh();
+  }
+
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-    this._buildWrenMesh();
+  updateLineScale() {
+    if (!this._isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+    const scaledRadius = this.radius * (1.0 + offset);
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
+  }
+
+  updateScale() {
+    const scaledRadius = this.radius;
+
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
+  }
+
+  // Private functions
+
+  _isAValidBoundingObject() {
+    return super._isAValidBoundingObject() && this.radius > 0;
   }
 
   _buildWrenMesh() {
@@ -41,30 +67,6 @@ class WbSphere extends WbGeometry {
       this.updateLineScale();
     else
       this.updateScale();
-  }
-
-  updateLineScale() {
-    if (!this._isAValidBoundingObject())
-      return;
-
-    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
-    const scaledRadius = this.radius * (1.0 + offset);
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
-  }
-
-  updateScale() {
-    const scaledRadius = this.radius;
-
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
-  }
-
-  _isAValidBoundingObject() {
-    return super._isAValidBoundingObject() && this.radius > 0;
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbSphere(customID, this.radius, this.ico, this.subdivision);
   }
 }
 

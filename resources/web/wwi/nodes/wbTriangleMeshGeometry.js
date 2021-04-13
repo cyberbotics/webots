@@ -7,6 +7,12 @@ import {WbWrenRenderingContext} from './../wren/wbWrenRenderingContext.js';
 import {WbWrenShaders} from './../wren/wbWrenShaders.js';
 
 class WbTriangleMeshGeometry extends WbGeometry {
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    this._buildWrenMesh(false);
+  }
+
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
@@ -15,94 +21,18 @@ class WbTriangleMeshGeometry extends WbGeometry {
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-
-    this._buildWrenMesh(false);
-  }
-
-  _deleteWrenRenderable() {
-    if (typeof this.normalsMaterial !== 'undefined') {
-      _wr_material_delete(this.normalsMaterial);
-      this.normalsMaterial = undefined;
-    }
-
-    if (typeof this.normalsRenderable !== 'undefined') {
-      _wr_node_delete(this.normalsRenderable);
-      this.normalsRenderable = undefined;
-    }
-
-    super._deleteWrenRenderable();
-  }
-
-  _buildWrenMesh(updateCache) {
-    this._deleteWrenRenderable();
-
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
-    }
-
-    if (!this.triangleMesh.isValid)
+  preFinalize() {
+    if (this.isPreFinalizeCalled)
       return;
 
-    const createOutlineMesh = super.isInBoundingObject();
+    super.preFinalize();
 
-    this._computeWrenRenderable();
-
-    // normals representation
-    this.normalsMaterial = _wr_phong_material_new();
-    _wr_material_set_default_program(this.normalsMaterial, WbWrenShaders.lineSetShader());
-    _wr_phong_material_set_color_per_vertex(this.normalsMaterial, true);
-    _wr_phong_material_set_transparency(this.normalsMaterial, 0.4);
-
-    this.normalsRenderable = _wr_renderable_new();
-    _wr_renderable_set_cast_shadows(this.normalsRenderable, false);
-    _wr_renderable_set_receive_shadows(this.normalsRenderable, false);
-    _wr_renderable_set_material(this.normalsRenderable, this.normalsMaterial, null);
-    _wr_renderable_set_visibility_flags(this.normalsRenderable, WbWrenRenderingContext.VF_NORMALS);
-    _wr_renderable_set_drawing_mode(this.normalsRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
-    _wr_transform_attach_child(this.wrenNode, this.normalsRenderable);
-
-    // Restore pickable state
-    super.setPickable(this.isPickable);
-
-    const buffers = super._createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
-    this.buildGeomIntoBuffers(buffers, new WbMatrix4());
-    const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
-    const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
-    const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
-    const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
-    this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
-      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
-
-    _free(vertexBufferPointer);
-    _free(normalBufferPointer);
-    _free(texCoordBufferPointer);
-    _free(unwrappedTexCoordsBufferPointer);
-    _free(indexBufferPointer);
-
-    buffers.clear();
-
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    this._createTriangleMesh();
   }
 
-  estimateVertexCount() {
-    if (!this.triangleMesh.isValid)
-      return;
+  // Private functions
 
-    return 3 * this.triangleMesh.numberOfTriangles;
-  }
-
-  estimateIndexCount() {
-    if (!this.triangleMesh.isValid)
-      return;
-
-    return 3 * this.triangleMesh.numberOfTriangles;
-  }
-
-  buildGeomIntoBuffers(buffers, m) {
+  _buildGeomIntoBuffers(buffers, m) {
     if (!this.triangleMesh.isValid)
       return;
 
@@ -160,24 +90,96 @@ class WbTriangleMeshGeometry extends WbGeometry {
       buffers.index = i;
     }
 
-    buffers.vertexIndex = buffers.vertexIndex + this.estimateVertexCount() * 3;
+    buffers.vertexIndex = buffers.vertexIndex + this._estimateVertexCount() * 3;
   }
 
-  preFinalize() {
-    if (this.isPreFinalizeCalled)
+  _buildWrenMesh(updateCache) {
+    this._deleteWrenRenderable();
+
+    if (typeof this.wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.wrenMesh);
+      this.wrenMesh = undefined;
+    }
+
+    if (!this.triangleMesh.isValid)
       return;
 
-    super.preFinalize();
+    const createOutlineMesh = super.isInBoundingObject();
 
-    this.createTriangleMesh();
+    this._computeWrenRenderable();
+
+    // normals representation
+    this.normalsMaterial = _wr_phong_material_new();
+    _wr_material_set_default_program(this.normalsMaterial, WbWrenShaders.lineSetShader());
+    _wr_phong_material_set_color_per_vertex(this.normalsMaterial, true);
+    _wr_phong_material_set_transparency(this.normalsMaterial, 0.4);
+
+    this.normalsRenderable = _wr_renderable_new();
+    _wr_renderable_set_cast_shadows(this.normalsRenderable, false);
+    _wr_renderable_set_receive_shadows(this.normalsRenderable, false);
+    _wr_renderable_set_material(this.normalsRenderable, this.normalsMaterial, null);
+    _wr_renderable_set_visibility_flags(this.normalsRenderable, WbWrenRenderingContext.VF_NORMALS);
+    _wr_renderable_set_drawing_mode(this.normalsRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+    _wr_transform_attach_child(this.wrenNode, this.normalsRenderable);
+
+    // Restore pickable state
+    super.setPickable(this.isPickable);
+
+    const buffers = super._createMeshBuffers(this._estimateVertexCount(), this._estimateIndexCount());
+    this._buildGeomIntoBuffers(buffers, new WbMatrix4());
+    const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
+    const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
+    const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
+    const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
+    const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
+    this.wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
+      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+
+    _free(vertexBufferPointer);
+    _free(normalBufferPointer);
+    _free(texCoordBufferPointer);
+    _free(unwrappedTexCoordsBufferPointer);
+    _free(indexBufferPointer);
+
+    buffers.clear();
+
+    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
   }
 
-  createTriangleMesh() {
+  _createTriangleMesh() {
     this.triangleMesh = new WbTriangleMesh();
-    this.updateTriangleMesh();
+    this._updateTriangleMesh();
   }
 
-  updateTriangleMesh() {}
+  _deleteWrenRenderable() {
+    if (typeof this.normalsMaterial !== 'undefined') {
+      _wr_material_delete(this.normalsMaterial);
+      this.normalsMaterial = undefined;
+    }
+
+    if (typeof this.normalsRenderable !== 'undefined') {
+      _wr_node_delete(this.normalsRenderable);
+      this.normalsRenderable = undefined;
+    }
+
+    super._deleteWrenRenderable();
+  }
+
+  _estimateIndexCount() {
+    if (!this.triangleMesh.isValid)
+      return;
+
+    return 3 * this.triangleMesh.numberOfTriangles;
+  }
+
+  _estimateVertexCount() {
+    if (!this.triangleMesh.isValid)
+      return;
+
+    return 3 * this.triangleMesh.numberOfTriangles;
+  }
+
+  _updateTriangleMesh() {}
 }
 
 export {WbTriangleMeshGeometry};

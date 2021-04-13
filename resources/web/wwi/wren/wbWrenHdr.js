@@ -9,6 +9,12 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     this.exposure = 1.0;
   }
 
+  setExposure(exposure) {
+    this.exposure = exposure;
+
+    this._applyParametersToWren();
+  }
+
   setup(viewport) {
     if (typeof this.wrenPostProcessingEffect !== 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
@@ -23,9 +29,9 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     const width = _wr_viewport_get_width(this.wrenViewport);
     const height = _wr_viewport_get_height(this.wrenViewport);
 
-    this.wrenPostProcessingEffect = this.hdrResolve(width, height);
+    this.wrenPostProcessingEffect = this._hdrResolve(width, height);
 
-    this.applyParametersToWren();
+    this._applyParametersToWren();
 
     _wr_viewport_add_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
@@ -33,13 +39,9 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     this.hasBeenSetup = true;
   }
 
-  setExposure(exposure) {
-    this.exposure = exposure;
+  // Private functions
 
-    this.applyParametersToWren();
-  }
-
-  applyParametersToWren() {
+  _applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
 
@@ -50,7 +52,7 @@ class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this.exposurePointer]);
   }
 
-  hdrResolve(width, height) {
+  _hdrResolve(width, height) {
     const hdrResolveEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, WbWrenRenderingContext.PP_HDR);
 

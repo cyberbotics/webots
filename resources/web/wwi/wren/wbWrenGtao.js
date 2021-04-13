@@ -23,25 +23,6 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.previousAllocation = false;
   }
 
-  setHalfResolution(halfResolution) {
-    this.halfResolution = halfResolution;
-  }
-
-  setFov(fov) {
-    this.fov = fov;
-    this.applyParametersToWren();
-  }
-
-  setRadius(radius) {
-    this.radius = radius;
-    this.applyParametersToWren();
-  }
-
-  setQualityLevel(qualityLevel) {
-    this.params[2] = 2 << (qualityLevel - 1);
-    this.applyParametersToWren();
-  }
-
   applyOldInverseViewMatrixToWren() {
     if (typeof this.wrenPostProcessingEffect === 'undefined')
       return;
@@ -62,6 +43,25 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
 
   copyNewInverseViewMatrix(inverseViewMatrix) {
     this.previousInverseViewMatrix = inverseViewMatrix;
+  }
+
+  setFov(fov) {
+    this.fov = fov;
+    this._applyParametersToWren();
+  }
+
+  setHalfResolution(halfResolution) {
+    this.halfResolution = halfResolution;
+  }
+
+  setQualityLevel(qualityLevel) {
+    this.params[2] = 2 << (qualityLevel - 1);
+    this._applyParametersToWren();
+  }
+
+  setRadius(radius) {
+    this.radius = radius;
+    this._applyParametersToWren();
   }
 
   setup(viewport) {
@@ -92,7 +92,7 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
 
     this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'gtaoForwardPass']);
     this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'temporalDenoise']);
-    this.applyParametersToWren();
+    this._applyParametersToWren();
 
     _wr_viewport_set_ambient_occlusion_effect(this.wrenViewport, this.wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
@@ -100,7 +100,9 @@ class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     this.hasBeenSetup = true;
   }
 
-  applyParametersToWren() {
+  // Private functions
+
+  _applyParametersToWren() {
     if (!this.wrenPostProcessingEffect)
       return;
 
