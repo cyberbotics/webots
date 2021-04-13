@@ -618,7 +618,7 @@ game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
 game.ball_last_touch_team = 0
 game.ball_last_touch_player = 0
-game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 * game.real_time_factor / time_step)
+game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 / (game.real_time_factor * time_step))
 game.play_countdown = 0
 game.sent_finish = False
 previous_seconds_remaining = 0
@@ -709,7 +709,7 @@ while supervisor.step(time_step) != -1:
             if game.ready_countdown == 0:
                 print('state FINISHED!')
                 info('Beginning of second half.')
-                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 * game.real_time_factor / time_step)
+                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 / (game.real_time_factor * time_step))
         else:
             info('End of the game.')
             info(f'The score is {game.state.teams[0].score}-{game.state.teams[1].score}.')
