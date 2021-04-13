@@ -302,6 +302,11 @@ def check_team_start_position(team, color):
                         team['players'][number]['penalty_reason'] = 'halfTimeStartingPose outside team side'
 
 
+def init_team_kickoff_position(team):
+    for number in team['players']:
+        team['players'][number]['kickoff'] = 'did not move to kickoff position'
+
+
 def update_team_kickoff_position(team, color):
     for number in team['players']:
         robot = team['players'][number]['robot']
@@ -732,6 +737,8 @@ while supervisor.step(time_step) != -1:
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
+                init_team_kickoff_position(red_team)
+                init_team_kickoff_position(blue_team)
                 game_controller_send('STATE:READY')
 
     if game.ball_exited_countdown > 0:
