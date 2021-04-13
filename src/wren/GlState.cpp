@@ -353,14 +353,15 @@ namespace wren {
     }
 
     void setPolygonMode(unsigned int polygonMode) {
+#ifdef __EMSCRIPTEN__
+      cPolygonMode = polygonMode;
+#else
       if (cPolygonMode != polygonMode) {
         cPolygonMode = polygonMode;
-#ifdef __EMSCRIPTEN__
-#else
         glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
-#endif
       }
-    }
+#endif
+    }  // namespace glstate
 
     void setPolygonOffset(bool enable, float factor, float units) {
       if (cPolygonOffset != enable) {
@@ -386,16 +387,17 @@ namespace wren {
     }
 
     void enablePointSize(bool enable) {
+#ifdef __EMSCRIPTEN__
+      cPointSize = enable;
+#else
       if (cPointSize != enable) {
         cPointSize = enable;
-#ifdef __EMSCRIPTEN__
-#else
         if (enable)
           glEnable(GL_PROGRAM_POINT_SIZE);
         else
           glDisable(GL_PROGRAM_POINT_SIZE);
-#endif
       }
+#endif
     }
 
     void activateTextureUnit(int textureUnit) {
