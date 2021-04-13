@@ -819,7 +819,7 @@ WbRobot *WbNodeUtilities::findRobotAncestor(const WbNode *node) {
   if (!node)
     return NULL;
 
-  while (node->parentNode()) {
+  while (node) {
     if (isRobotTypeName(node->nodeModelName())) {
       const WbRobot *robot = reinterpret_cast<const WbRobot *>(node);
       return const_cast<WbRobot *>(robot);
