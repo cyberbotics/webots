@@ -91,7 +91,6 @@ def spawn_team(team, color, red_on_right, children):
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
-        team['players'][number]['moved'] = False
         info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation ' +
              f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}, rotation ' +
              f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
@@ -287,7 +286,6 @@ def check_team_start_position(team, color):
         n = robot.getNumberOfContactPoints(True)
         if n == 0:
             continue
-        team['players'][number]['moved'] = True
         for i in range(0, n):
             point = robot.getContactPoint(i)
             if point_inside_field(point):
@@ -310,7 +308,6 @@ def update_team_kickoff_position(team, color):
         n = robot.getNumberOfContactPoints(True)
         if n == 0:
             continue
-        team['players'][number]['moved'] = True
         if 'kickoff' in team['players'][number]:
             del team['players'][number]['kickoff']
         for i in range(0, n):
@@ -337,10 +334,7 @@ def update_team_kickoff_position(team, color):
 
 def check_team_kickoff_position(team, color):
     for number in team['players']:
-        if not team['players'][number]['moved']:
-            team['players'][number]['penalty'] = 'INCAPABLE'
-            team['players'][number]['penalty_reason'] = 'did not move to kickoff position'
-        elif 'kickoff' in team['players'][number]:
+        if 'kickoff' in team['players'][number]:
             team['players'][number]['penalty'] = 'INCAPABLE'
             team['players'][number]['penalty_reason'] = team['players'][number]['kickoff']
             del team['players'][number]['kickoff']
@@ -442,7 +436,6 @@ def check_touch(point, team, color):  # check which player in a team has touch t
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
         if n == 0:
             continue
-        team['players'][number]['moved'] = True
         for i in range(0, n):
             r_point = team['players'][number]['robot'].getContactPoint(i)
             if r_point[2] <= game.turf_depth:  # contact with the ground
@@ -459,8 +452,6 @@ def check_touch(point, team, color):  # check which player in a team has touch t
 def check_fallen(team, color):
     for number in team['players']:
         n = team['players'][number]['robot'].getNumberOfContactPoints(True)
-        if n > 0:
-            team['players'][number]['moved'] = True
         already_down = 'fallen' in team['players'][number]
         fallen = False if n > 0 else already_down
         for i in range(0, n):
@@ -759,8 +750,9 @@ while supervisor.step(time_step) != -1:
     check_fallen(blue_team, 'blue')
 
     # send penalties if needed
-    send_penalties(red_team, 'red')
-    send_penalties(blue_team, 'blue')
+    if game.state and game.state.game_state != 'STATE_INITIAL':
+        send_penalties(red_team, 'red')
+        send_penalties(blue_team, 'blue')
 
     time_count += time_step
 
