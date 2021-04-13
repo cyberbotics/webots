@@ -6,10 +6,12 @@ const int mainTextureIndex = 0;
 const int penTextureIndex = 1;
 const int backgroundTextureIndex = 2;
 
+in vec3 normalTransformed;
 in vec2 texUv;
 in vec2 penTexUv;
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[3];
 
@@ -25,6 +27,9 @@ material;
 
 void main() {
   fragColor = vec4(1.0);
+
+  vec3 fragmentNormal = normalize(normalTransformed);
+  fragNormal = vec4(fragmentNormal, 1.0) * 0.5 + 0.5;
 
   if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0)
     fragColor.w = 0.0;

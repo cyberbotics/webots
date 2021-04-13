@@ -268,7 +268,7 @@ int main(int argc, char *argv[]) {
       int number = select(client_fd + 1, &rfds, NULL, NULL, &tv);
       if (number) {  // some data is available from the socket
         char data[256];
-        uint32_t n = recv(client_fd, data, sizeof(int), 0);
+        int n = recv(client_fd, data, sizeof(int), 0);
         if (n <= 0) {
           printf("Closed connection\n");
           close_socket(client_fd);
@@ -276,8 +276,8 @@ int main(int argc, char *argv[]) {
         } else {
           assert(n == sizeof(int));
           uint32_t l = ntohl(*((uint32_t *)data));
-          printf("packet size = %u %u\n", l, n);
-          uint32_t n = recv(client_fd, data, l, 0);
+          printf("packet size = %u %d\n", l, n);
+          int n = recv(client_fd, data, l, 0);
           assert(n == l);
           if (n <= 0) {
             printf("Broke connection\n");
@@ -285,7 +285,7 @@ int main(int argc, char *argv[]) {
             client_fd = -1;
           } else {
             data[n] = '\0';
-            printf("Received %u bytes\n", n);
+            printf("Received %d bytes\n", n);
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, n);
             SensorMeasurements sensorMeasurements;
@@ -504,7 +504,7 @@ int main(int argc, char *argv[]) {
             *output_size = htonl(size);
             sensorMeasurements.SerializeToArray(&output[sizeof(uint32_t)], size);
             send(client_fd, output, sizeof(uint32_t) + size, 0);
-            delete output;
+            delete[] output;
           }
         }
       }
