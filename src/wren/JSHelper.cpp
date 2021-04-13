@@ -85,31 +85,6 @@ int *wrjs_pointerOnIntBis(int number) {
   return reinterpret_cast<int *>(&storedNumber);
 }
 
-// helper function to debug textures
-char *wrjs_dummy_texture() {
-  static char data[256 * 256 * 4];
-  for (int d = 0; d < (256 * 256); ++d) {
-    data[4 * d] = (d) % 0xff;
-    data[4 * d + 1] = (d + d) % 0xff;
-    data[4 * d + 2] = (d * d) % 0xff;
-    data[4 * d + 3] = 0xff;
-  }
-  return data;
-}
-
-// helper function to debug textures
-char *wrjs_dummy_small_texture() {
-  static char data[4 * 4 * 4];
-  for (int d = 0; d < 16; ++d) {
-    data[4 * d] = 255;
-    data[4 * d + 1] = 0;
-    data[4 * d + 2] = 0;
-    data[4 * d + 3] = 255;
-  }
-
-  return data;
-}
-
 void wrjs_init_context(int width, int height) {
   wren::JSHelper::initContext(width, height);
 }
