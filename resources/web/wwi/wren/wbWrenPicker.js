@@ -1,4 +1,4 @@
-import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/wbUtils.js';
+import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/utils/wbUtils.js';
 import {WbVector3} from './../nodes/utils/wbVector3.js';
 import {WbWrenShaders} from './wbWrenShaders.js';
 
@@ -169,7 +169,6 @@ class WbWrenPicker {
     data[3] = data[3] >= 0 ? data[3] : 256 + data[3];
 
     const id = (data[2] << 24) | (data[1] << 16) | (data[0] << 8) | data[3];
-    console.log(id);
     if (id === 0)
       return false;
     else

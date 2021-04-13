@@ -1,5 +1,5 @@
 import {M_PI_4, TAN_M_PI_8} from './wbConstants.js';
-import {direction, up} from './wbUtils.js';
+import {direction, up} from './utils/wbUtils.js';
 import {GTAO_LEVEL, disableAntiAliasing} from './wbPreferences.js';
 import {WbBaseNode} from './wbBaseNode.js';
 import {WbMatrix4} from './utils/wbMatrix4.js';

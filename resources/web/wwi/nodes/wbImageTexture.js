@@ -1,4 +1,4 @@
-import {arrayXPointer} from './wbUtils.js';
+import {arrayXPointer} from './utils/wbUtils.js';
 import {textureFiltering} from './wbPreferences.js';
 import {WbAppearance} from './wbAppearance.js';
 import {WbBaseNode} from './wbBaseNode.js';

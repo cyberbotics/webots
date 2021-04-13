@@ -1,4 +1,4 @@
-import {arrayXPointer} from './../nodes/wbUtils.js';
+import {arrayXPointer} from './../nodes/utils/wbUtils.js';
 
 class WbWrenShaders {
   static buildShader(shader, vertexShaderPath, fragmentShaderpath) {

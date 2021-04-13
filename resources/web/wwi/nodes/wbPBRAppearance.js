@@ -1,4 +1,4 @@
-import {array3Pointer} from './wbUtils.js';
+import {array3Pointer} from './utils/wbUtils.js';
 import {textureQuality} from './wbPreferences.js';
 import {WbAbstractAppearance} from './wbAbstractAppearance.js';
 import {WbBackground} from './wbBackground.js';

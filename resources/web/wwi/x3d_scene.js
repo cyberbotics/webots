@@ -2,7 +2,7 @@ import {Parser, convertStringToVec3, convertStringToQuaternion} from './parser.j
 import {webots} from './webots.js';
 import {WrenRenderer} from './wrenRenderer.js';
 
-import {getAncestor} from './nodes/wbUtils.js';
+import {getAncestor} from './nodes/utils/wbUtils.js';
 import {WbGroup} from './nodes/wbGroup.js';
 import {WbPBRAppearance} from './nodes/wbPBRAppearance.js';
 import {WbMaterial} from './nodes/wbMaterial.js';

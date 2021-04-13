@@ -1,4 +1,4 @@
-import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from './nodes/wbUtils.js';
+import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from './nodes/utils/wbUtils.js';
 import {Selector} from './selector.js';
 import {SystemInfo} from './system_info.js';
 import {webots} from './webots.js';

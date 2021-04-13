@@ -1,7 +1,7 @@
-import {WbVector3} from './utils/wbVector3.js';
-import {WbVector4} from './utils/wbVector4.js';
-import {WbTransform} from './wbTransform.js';
-import {WbWorld} from './wbWorld.js';
+import {WbVector3} from './wbVector3.js';
+import {WbVector4} from './wbVector4.js';
+import {WbTransform} from '../wbTransform.js';
+import {WbWorld} from '../wbWorld.js';
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);

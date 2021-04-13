@@ -1,4 +1,4 @@
-import {arrayXPointer, arrayXPointerFloat} from './wbUtils.js';
+import {arrayXPointer, arrayXPointerFloat} from './utils/wbUtils.js';
 import {WbBaseNode} from './wbBaseNode.js';
 import {WbPBRAppearance} from './wbPBRAppearance.js';
 import {WbVector3} from './utils/wbVector3.js';

@@ -1,4 +1,4 @@
-import {findUpperTransform, nodeIsInBoundingObject} from './wbUtils.js';
+import {findUpperTransform, nodeIsInBoundingObject} from './utils/wbUtils.js';
 import {WbWorld} from './wbWorld.js';
 
 class WbBaseNode {

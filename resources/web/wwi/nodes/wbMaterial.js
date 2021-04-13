@@ -1,4 +1,4 @@
-import {array3Pointer} from './wbUtils.js';
+import {array3Pointer} from './utils/wbUtils.js';
 import {WbBaseNode} from './wbBaseNode.js';
 import {WbVector3} from './utils/wbVector3.js';
 import {WbWorld} from './wbWorld.js';

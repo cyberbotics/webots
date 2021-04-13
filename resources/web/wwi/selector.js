@@ -1,4 +1,4 @@
-import {getAncestor} from './nodes/wbUtils.js';
+import {getAncestor} from './nodes/utils/wbUtils.js';
 import {WbTransform} from './nodes/wbTransform.js';
 import {WbWorld} from './nodes/wbWorld.js';
 

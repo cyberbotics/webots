@@ -1,4 +1,4 @@
-import {arrayXPointerFloat} from './wbUtils.js';
+import {arrayXPointerFloat} from './utils/wbUtils.js';
 import {WbGeometry} from './wbGeometry.js';
 
 class WbIndexedLineSet extends WbGeometry {
