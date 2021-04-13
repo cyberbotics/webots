@@ -20,8 +20,15 @@ class WbImageTexture extends WbBaseNode {
     this.usedFiltering = 0;
   }
 
+  clone(customID) {
+    const imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
+    imageTexture.updateUrl();
+    this.useList.push(customID);
+    return imageTexture;
+  }
+
   delete() {
-    this.destroyWrenTexture();
+    this._destroyWrenTexture();
 
     if (typeof this.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(this.parent);
@@ -74,8 +81,38 @@ class WbImageTexture extends WbBaseNode {
     _wr_material_set_texture(wrenMaterial, null, backgroundTextureIndex);
   }
 
-  async updateWrenTexture() {
-    this.destroyWrenTexture();
+  preFinalize() {
+    super.preFinalize();
+    this._updateFiltering();
+  }
+
+  async updateUrl() {
+    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+    this.url = this.url.replaceAll('\\', '/');
+
+    await this._updateWrenTexture();
+  }
+
+  // Private fonctions
+
+  _destroyWrenTexture() {
+    _wr_texture_delete(this.wrenTexture);
+
+    _wr_texture_transform_delete(this.wrenTextureTransform);
+
+    this.wrenTexture = undefined;
+    this.wrenTextureTransform = undefined;
+  }
+
+  _updateFiltering() {
+    // The filtering level has an upper bound defined by the maximum supported anisotropy level.
+    // A warning is not produced here because the maximum anisotropy level is not up to the user
+    // and may be repeatedly shown even though a minimum requirement warning was already given.
+    this.usedFiltering = Math.min(this.filtering, textureFiltering);
+  }
+
+  async _updateWrenTexture() {
+    this._destroyWrenTexture();
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
@@ -92,41 +129,6 @@ class WbImageTexture extends WbBaseNode {
       this.isTransparent = _wr_texture_is_translucent(texture);
 
     this.wrenTexture = texture;
-  }
-
-  destroyWrenTexture() {
-    _wr_texture_delete(this.wrenTexture);
-
-    _wr_texture_transform_delete(this.wrenTextureTransform);
-
-    this.wrenTexture = undefined;
-    this.wrenTextureTransform = undefined;
-  }
-
-  preFinalize() {
-    super.preFinalize();
-    this.updateFiltering();
-  }
-
-  async updateUrl() {
-    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-    this.url = this.url.replaceAll('\\', '/');
-
-    await this.updateWrenTexture();
-  }
-
-  updateFiltering() {
-    // The filtering level has an upper bound defined by the maximum supported anisotropy level.
-    // A warning is not produced here because the maximum anisotropy level is not up to the user
-    // and may be repeatedly shown even though a minimum requirement warning was already given.
-    this.usedFiltering = Math.min(this.filtering, textureFiltering);
-  }
-
-  clone(customID) {
-    const imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
-    imageTexture.updateUrl();
-    this.useList.push(customID);
-    return imageTexture;
   }
 }
 

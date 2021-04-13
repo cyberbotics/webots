@@ -11,10 +11,9 @@ class WbCylinder extends WbGeometry {
     this.top = top;
   }
 
-  delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
   }
 
   createWrenObjects() {
@@ -26,7 +25,7 @@ class WbCylinder extends WbGeometry {
     if (!this.bottom && !this.side && !this.top)
       return;
 
-    this.computeWrenRenderable();
+    this._computeWrenRenderable();
 
     this.wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
 
@@ -36,9 +35,10 @@ class WbCylinder extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
+  delete() {
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    super.delete();
   }
 }
 

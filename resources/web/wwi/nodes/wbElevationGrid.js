@@ -12,19 +12,42 @@ class WbElevationGrid extends WbGeometry {
     this.thickness = thickness;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+    this._buildWrenMesh();
+  }
+
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-    this.buildWrenMesh();
+  updateLineScale() {
+    if (this._isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+
+    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
+
+    _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
-  buildWrenMesh() {
-    super.deleteWrenRenderable();
+  updateScale() {
+    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.zSpacing);
+    _wr_transform_set_scale(this.wrenNode, scalePointer);
+  }
+
+  // Private functions
+
+  _buildWrenMesh() {
+    super._deleteWrenRenderable();
 
     if (typeof this.wrenMesh !== 'undefined') {
       _wr_static_mesh_delete(this.wrenMesh);
@@ -37,7 +60,7 @@ class WbElevationGrid extends WbGeometry {
     if (this.xSpacing === 0.0 || this.zSpacing === 0.0)
       return;
 
-    super.computeWrenRenderable();
+    super._computeWrenRenderable();
 
     // Restore pickable state
     super.setPickable(this.pickable);
@@ -65,37 +88,16 @@ class WbElevationGrid extends WbGeometry {
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
   }
 
-  updateScale() {
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.zSpacing);
-    _wr_transform_set_scale(this.wrenNode, scalePointer);
+  _isAValidBoundingObject() {
+    return this._isSuitableForInsertionInBoundingObject() && super._isAValidBoundingObject();
   }
 
-  updateLineScale() {
-    if (this.isAValidBoundingObject())
-      return;
-
-    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
-
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
-
-    _wr_transform_set_scale(this.wrenNode, scalePointer);
-  }
-
-  isSuitableForInsertionInBoundingObject() {
+  _isSuitableForInsertionInBoundingObject() {
     const invalidDimensions = this.xDimension < 2 || this.zDimension < 2;
     const invalidSpacings = this.xSpacing <= 0.0 || this.zSpacing < 0.0;
     const invalid = invalidDimensions || invalidSpacings;
 
     return !invalid;
-  }
-
-  isAValidBoundingObject() {
-    return this.isSuitableForInsertionInBoundingObject() && super.isAValidBoundingObject();
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
   }
 }
 

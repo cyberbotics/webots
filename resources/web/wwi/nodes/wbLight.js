@@ -14,6 +14,16 @@ class WbLight extends WbBaseNode {
     this.castShadows = castShadows;
   }
 
+  createWrenObjects() {
+    super.createWrenObjects();
+
+    this._applyLightColorToWren();
+    this._applyLightIntensityToWren();
+    this._applyLightVisibilityToWren();
+    this._applyLightShadowsToWren();
+    this._applySceneAmbientColorToWren();
+  }
+
   delete() {
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
@@ -28,32 +38,29 @@ class WbLight extends WbBaseNode {
 
     if (this.wrenObjectsCreatedCalled) {
       WbLight.lights.splice(this, 1);
-      this.applySceneAmbientColorToWren();
+      this._applySceneAmbientColorToWren();
     }
 
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-
-    this.applyLightColorToWren();
-    this.applyLightIntensityToWren();
-    this.applyLightVisibilityToWren();
-    this.applyLightShadowsToWren();
-    this.applySceneAmbientColorToWren();
+  preFinalize() {
+    super.preFinalize();
+    WbLight.lights.push(this);
   }
 
-  applyLightColorToWren() {}
-  applyLightIntensityToWren() {}
-  applyLightVisibilityToWren() {}
-  applyLightShadowsToWren() {}
+  // Private functions
 
-  applySceneAmbientColorToWren() {
-    this.computeAmbientLight();
+  _applyLightColorToWren() {}
+  _applyLightIntensityToWren() {}
+  _applyLightShadowsToWren() {}
+  _applyLightVisibilityToWren() {}
+
+  _applySceneAmbientColorToWren() {
+    this._computeAmbientLight();
   }
 
-  computeAmbientLight() {
+  _computeAmbientLight() {
     const rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach(light => {
@@ -65,11 +72,6 @@ class WbLight extends WbBaseNode {
     });
 
     _wr_scene_set_ambient_light(_wrjs_array3(rgb.x, rgb.y, rgb.z));
-  }
-
-  preFinalize() {
-    super.preFinalize();
-    WbLight.lights.push(this);
   }
 }
 

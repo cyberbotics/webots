@@ -10,7 +10,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
-    this.deleteWrenRenderable();
+    this._deleteWrenRenderable();
 
     super.delete();
   }
@@ -18,10 +18,10 @@ class WbTriangleMeshGeometry extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
 
-    this.buildWrenMesh(false);
+    this._buildWrenMesh(false);
   }
 
-  deleteWrenRenderable() {
+  _deleteWrenRenderable() {
     if (typeof this.normalsMaterial !== 'undefined') {
       _wr_material_delete(this.normalsMaterial);
       this.normalsMaterial = undefined;
@@ -32,11 +32,11 @@ class WbTriangleMeshGeometry extends WbGeometry {
       this.normalsRenderable = undefined;
     }
 
-    super.deleteWrenRenderable();
+    super._deleteWrenRenderable();
   }
 
-  buildWrenMesh(updateCache) {
-    this.deleteWrenRenderable();
+  _buildWrenMesh(updateCache) {
+    this._deleteWrenRenderable();
 
     if (typeof this.wrenMesh !== 'undefined') {
       _wr_static_mesh_delete(this.wrenMesh);
@@ -48,7 +48,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
 
     const createOutlineMesh = super.isInBoundingObject();
 
-    this.computeWrenRenderable();
+    this._computeWrenRenderable();
 
     // normals representation
     this.normalsMaterial = _wr_phong_material_new();
@@ -67,7 +67,7 @@ class WbTriangleMeshGeometry extends WbGeometry {
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    const buffers = super.createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
+    const buffers = super._createMeshBuffers(this.estimateVertexCount(), this.estimateIndexCount());
     this.buildGeomIntoBuffers(buffers, new WbMatrix4());
     const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
     const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);

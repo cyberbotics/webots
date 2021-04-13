@@ -13,6 +13,30 @@ class WbGroup extends WbBaseNode {
     this.currentHelix = -1; // to switch between fast and slow helix
   }
 
+  async clone(customID) {
+    const group = new WbGroup(customID, this.isPropeller);
+    const length = this.children.length;
+    for (let i = 0; i < length; i++) {
+      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
+      cloned.parent = customID;
+      WbWorld.instance.nodes.set(cloned.id, cloned);
+      group.children.push(cloned);
+    }
+
+    this.useList.push(customID);
+    return group;
+  }
+
+  createWrenObjects(isTransform) {
+    super.createWrenObjects();
+
+    if (!isTransform) {
+      this.children.forEach(child => {
+        child.createWrenObjects();
+      });
+    }
+  }
+
   delete(isBoundingObject) {
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
@@ -37,24 +61,6 @@ class WbGroup extends WbBaseNode {
 
     super.delete();
   }
-
-  createWrenObjects(isTransform) {
-    super.createWrenObjects();
-
-    if (!isTransform) {
-      this.children.forEach(child => {
-        child.createWrenObjects();
-      });
-    }
-  }
-
-  updateBoundingObjectVisibility() {
-    this.children.forEach(child => {
-      if (!(child instanceof WbLight))
-        child.updateBoundingObjectVisibility();
-    });
-  }
-
   preFinalize() {
     super.preFinalize();
 
@@ -87,18 +93,11 @@ class WbGroup extends WbBaseNode {
     }
   }
 
-  async clone(customID) {
-    const group = new WbGroup(customID, this.isPropeller);
-    const length = this.children.length;
-    for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
-      cloned.parent = customID;
-      WbWorld.instance.nodes.set(cloned.id, cloned);
-      group.children.push(cloned);
-    }
-
-    this.useList.push(customID);
-    return group;
+  updateBoundingObjectVisibility() {
+    this.children.forEach(child => {
+      if (!(child instanceof WbLight))
+        child.updateBoundingObjectVisibility();
+    });
   }
 }
 

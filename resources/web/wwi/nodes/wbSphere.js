@@ -16,18 +16,18 @@ class WbSphere extends WbGeometry {
 
   createWrenObjects() {
     super.createWrenObjects();
-    this.buildWrenMesh();
+    this._buildWrenMesh();
   }
 
-  buildWrenMesh() {
-    super.deleteWrenRenderable();
+  _buildWrenMesh() {
+    super._deleteWrenRenderable();
 
     if (typeof this.wrenMesh !== 'undefined') {
       _wr_static_mesh_delete(this.wrenMesh);
       this.wrenMesh = undefined;
     }
 
-    super.computeWrenRenderable();
+    super._computeWrenRenderable();
 
     const createOutlineMesh = super.isInBoundingObject();
     this.wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
@@ -44,7 +44,7 @@ class WbSphere extends WbGeometry {
   }
 
   updateLineScale() {
-    if (!this.isAValidBoundingObject())
+    if (!this._isAValidBoundingObject())
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
@@ -58,8 +58,8 @@ class WbSphere extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
   }
 
-  isAValidBoundingObject() {
-    return super.isAValidBoundingObject() && this.radius > 0;
+  _isAValidBoundingObject() {
+    return super._isAValidBoundingObject() && this.radius > 0;
   }
 
   clone(customID) {

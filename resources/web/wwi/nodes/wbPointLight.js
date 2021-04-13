@@ -12,52 +12,58 @@ class WbPointLight extends WbLight {
       this.parent = parent.id;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
+  }
+
+  createWrenObjects() {
+    this.wrenLight = _wr_point_light_new();
+    this._attachToUpperTransform();
+    super.createWrenObjects();
+
+    this._applyLightAttenuationToWren();
+    this._applyNodeLocationToWren();
+  }
+
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this.detachFromUpperTransform();
+      this._detachFromUpperTransform();
       _wr_node_delete(this.wrenLight);
     }
 
     super.delete();
   }
 
-  createWrenObjects() {
-    this.wrenLight = _wr_point_light_new();
-    this.attachToUpperTransform();
-    super.createWrenObjects();
+  // Private functions
 
-    this.applyLightAttenuationToWren();
-    this.applyNodeLocationToWren();
-  }
-
-  attachToUpperTransform() {
+  _attachToUpperTransform() {
     const upperTransform = findUpperTransform(this);
 
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }
 
-  applyLightAttenuationToWren() {
+  _applyLightAttenuationToWren() {
     _wr_point_light_set_radius(this.wrenLight, this.radius);
     _wr_point_light_set_attenuation(this.wrenLight, this.attenuation.x, this.attenuation.y, this.attenuation.z);
   }
 
-  applyNodeLocationToWren() {
-    const position = _wrjs_array3(this.location.x, this.location.y, this.location.z);
-    _wr_point_light_set_position_relative(this.wrenLight, position);
-  }
-
-  applyLightColorToWren() {
+  _applyLightColorToWren() {
     const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
 
     _wr_point_light_set_color(this.wrenLight, pointer);
   }
 
-  applyLightIntensityToWren() {
+  _applyLightIntensityToWren() {
     _wr_point_light_set_intensity(this.wrenLight, this.intensity);
   }
 
-  applyLightVisibilityToWren() {
+  _applyLightShadowsToWren() {
+    _wr_point_light_set_cast_shadows(this.wrenLight, this.castShadows);
+  }
+
+  _applyLightVisibilityToWren() {
     _wr_point_light_set_on(this.wrenLight, this.on);
 
     const maxCount = _wr_config_get_max_active_point_light_count();
@@ -66,20 +72,16 @@ class WbPointLight extends WbLight {
       console.log("Maximum number of active point lights has been reached, newly added lights won't be rendered.");
   }
 
-  applyLightShadowsToWren() {
-    _wr_point_light_set_cast_shadows(this.wrenLight, this.castShadows);
+  _applyNodeLocationToWren() {
+    const position = _wrjs_array3(this.location.x, this.location.y, this.location.z);
+    _wr_point_light_set_position_relative(this.wrenLight, position);
   }
 
-  detachFromUpperTransform() {
+  _detachFromUpperTransform() {
     const node = this.wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 }
 

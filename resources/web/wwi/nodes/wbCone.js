@@ -10,10 +10,9 @@ class WbCone extends WbGeometry {
     this.bottom = bottom;
   }
 
-  delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom);
   }
 
   createWrenObjects() {
@@ -22,7 +21,7 @@ class WbCone extends WbGeometry {
     if (!this.bottom && !this.side)
       return;
 
-    this.computeWrenRenderable();
+    this._computeWrenRenderable();
 
     this.wrenMesh = _wr_static_mesh_unit_cone_new(this.subdivision, this.side, this.bottom);
 
@@ -32,9 +31,10 @@ class WbCone extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbCone(customID, this.bottomRadius, this.height, this.subdivision, this.side, this.bottom);
+  delete() {
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    super.delete();
   }
 }
 

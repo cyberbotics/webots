@@ -10,37 +10,38 @@ class WbIndexedLineSet extends WbGeometry {
     this.isShadedGeometryPickable = false;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbIndexedLineSet(customID, this.coord, this.coordIndex);
+  }
+
+  createWrenObjects() {
+    super.createWrenObjects();
+    this._updateCoord();
+    this._buildWrenMesh();
+  }
+
   delete() {
     _wr_static_mesh_delete(this.wrenMesh);
 
     super.delete();
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-    this.updateCoord();
-    this.buildWrenMesh();
-  }
-
-  updateCoord() {
-    if (this.wrenObjectsCreatedCalled)
-      this.buildWrenMesh();
-  }
-
-  buildWrenMesh() {
-    super.deleteWrenRenderable();
+  // Private functions
+  _buildWrenMesh() {
+    super._deleteWrenRenderable();
 
     if (typeof this.wrenMesh !== 'undefined') {
       _wr_static_mesh_delete(this.wrenMesh);
       this.wrenMesh = undefined;
     }
 
-    super.computeWrenRenderable();
+    super._computeWrenRenderable();
 
     _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
 
     const coordsData = [];
-    const coordsCount = this.computeCoordsData(coordsData);
+    const coordsCount = this._computeCoordsData(coordsData);
 
     if (coordsCount > 0) {
       const coordsDataPointer = arrayXPointerFloat(coordsData);
@@ -50,7 +51,7 @@ class WbIndexedLineSet extends WbGeometry {
     }
   }
 
-  computeCoordsData(data) {
+  _computeCoordsData(data) {
     let count = 0;
     const size = this.coord.length;
     const invalidIndices = [];
@@ -85,9 +86,9 @@ class WbIndexedLineSet extends WbGeometry {
     return count;
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbIndexedLineSet(customID, this.coord, this.coordIndex);
+  _updateCoord() {
+    if (this.wrenObjectsCreatedCalled)
+      this._buildWrenMesh();
   }
 }
 

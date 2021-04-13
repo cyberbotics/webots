@@ -14,6 +14,11 @@ class WbMaterial extends WbBaseNode {
     this.transparency = transparency;
   }
 
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency);
+  }
+
   delete() {
     const parent = WbWorld.instance.nodes.get(this.parent);
 
@@ -54,11 +59,6 @@ class WbMaterial extends WbBaseNode {
     _free(diffuseColorPointer);
     _free(specularColorPointer);
     _free(emissiveColorPointer);
-  }
-
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency);
   }
 }
 

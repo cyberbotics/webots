@@ -18,9 +18,18 @@ class WbBaseNode {
     this.useList = [];
   }
 
+  createWrenObjects() {
+    this.wrenObjectsCreatedCalled = true;
+
+    if (typeof this.parent !== 'undefined')
+      this.wrenNode = WbWorld.instance.nodes.get(this.parent).wrenNode;
+    else
+      this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
+  }
+
   delete() {
     if (this.useList.length !== 0) {
-      let newDef = undefined;
+      let newDef;
       let index = 0;
       while (typeof newDef === 'undefined' && index < this.useList.length) {
         newDef = WbWorld.instance.nodes.get(this.useList[index]);
@@ -37,23 +46,15 @@ class WbBaseNode {
     WbWorld.instance.nodes.delete(this.id);
   }
 
-  createWrenObjects() {
-    this.wrenObjectsCreatedCalled = true;
+  finalize() {
+    if (!this.isPreFinalizeCalled)
+      this.preFinalize();
 
-    if (typeof this.parent !== 'undefined')
-      this.wrenNode = WbWorld.instance.nodes.get(this.parent).wrenNode;
-    else
-      this.wrenNode = _wr_scene_get_root(_wr_scene_get_instance());
-  }
+    if (!this.wrenObjectsCreatedCalled)
+      this.createWrenObjects();
 
-  upperTransform() {
-    if (this.upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
+    if (!this.isPostFinalizeCalled)
+      this.postFinalize();
   }
 
   isInBoundingObject() {
@@ -66,15 +67,14 @@ class WbBaseNode {
     return this.isInBoundingObject;
   }
 
-  finalize() {
-    if (!this.isPreFinalizeCalled)
-      this.preFinalize();
+  upperTransform() {
+    if (this.upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.upperTransformFirstTimeSearch = false;
+    }
 
-    if (!this.wrenObjectsCreatedCalled)
-      this.createWrenObjects();
-
-    if (!this.isPostFinalizeCalled)
-      this.postFinalize();
+    return this.upperTransform;
   }
 
   preFinalize() {

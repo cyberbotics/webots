@@ -17,7 +17,7 @@ class WbSpotLight extends WbLight {
 
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this.detachFromUpperTransform();
+      this._detachFromUpperTransform();
       _wr_node_delete(this.wrenLight);
     }
 
@@ -27,22 +27,22 @@ class WbSpotLight extends WbLight {
   createWrenObjects() {
     this.wrenLight = _wr_spot_light_new();
     super.createWrenObjects();
-    this.attachToUpperTransform();
+    this._attachToUpperTransform();
 
-    this.applyLightDirectionToWren();
+    this._applyLightDirectionToWren();
     this.applyLightBeamWidthAndCutOffAngleToWren();
-    this.applyLightAttenuationToWren();
-    this.applyNodeLocationToWren();
+    this._applyLightAttenuationToWren();
+    this._applyNodeLocationToWren();
   }
 
-  attachToUpperTransform() {
+  _attachToUpperTransform() {
     const upperTransform = findUpperTransform(this);
 
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.wrenLight);
   }
 
-  applyLightDirectionToWren() {
+  _applyLightDirectionToWren() {
     const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
     _wr_spot_light_set_direction(this.wrenLight, pointer);
   }
@@ -52,26 +52,26 @@ class WbSpotLight extends WbLight {
     _wr_spot_light_set_cutoff_angle(this.wrenLight, this.cutOffAngle);
   }
 
-  applyLightAttenuationToWren() {
+  _applyLightAttenuationToWren() {
     _wr_spot_light_set_radius(this.wrenLight, this.radius);
     _wr_spot_light_set_attenuation(this.wrenLight, this.attenuation.x, this.attenuation.y, this.attenuation.z);
   }
 
-  applyNodeLocationToWren() {
+  _applyNodeLocationToWren() {
     const pointer = _wrjs_array3(this.location.x, this.location.y, this.location.z);
     _wr_spot_light_set_position_relative(this.wrenLight, pointer);
   }
 
-  applyLightColorToWren() {
+  _applyLightColorToWren() {
     const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
     _wr_spot_light_set_color(this.wrenLight, pointer);
   }
 
-  applyLightIntensityToWren() {
+  _applyLightIntensityToWren() {
     _wr_spot_light_set_intensity(this.wrenLight, this.intensity);
   }
 
-  applyLightVisibilityToWren() {
+  _applyLightVisibilityToWren() {
     _wr_spot_light_set_on(this.wrenLight, this.on);
 
     const maxCount = _wr_config_get_max_active_spot_light_count();
@@ -80,11 +80,11 @@ class WbSpotLight extends WbLight {
       console.log("Maximum number of active spotlights has been reached, newly added lights won't be rendered.");
   }
 
-  applyLightShadowsToWren() {
+  _applyLightShadowsToWren() {
     _wr_spot_light_set_cast_shadows(this.wrenLight, this.castShadows);
   }
 
-  detachFromUpperTransform() {
+  _detachFromUpperTransform() {
     const node = this.wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')

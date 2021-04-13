@@ -6,15 +6,14 @@ class WbBox extends WbGeometry {
     this.size = size;
   }
 
-  delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbBox(customID, this.size);
   }
 
   createWrenObjects() {
     super.createWrenObjects();
-    super.computeWrenRenderable();
+    super._computeWrenRenderable();
 
     const createOutlineMesh = super.isInBoundingObject();
     this.wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
@@ -24,24 +23,25 @@ class WbBox extends WbGeometry {
     this.updateSize();
   }
 
-  updateSize() {
-    if (super.isInBoundingObject())
-      this.updateLineScale();
-    else
-      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
+  delete() {
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    super.delete();
   }
 
   updateLineScale() {
-    if (!this.isAValidBoundingObject())
+    if (!this._isAValidBoundingObject())
       return;
 
     const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbBox(customID, this.size);
+  updateSize() {
+    if (super.isInBoundingObject())
+      this.updateLineScale();
+    else
+      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
   }
 }
 

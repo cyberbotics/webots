@@ -6,16 +6,15 @@ class WbPlane extends WbGeometry {
     this.size = size;
   }
 
-  delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
-
-    super.delete();
+  clone(customID) {
+    this.useList.push(customID);
+    return new WbPlane(customID, this.size);
   }
 
   createWrenObjects() {
     super.createWrenObjects();
 
-    this.computeWrenRenderable();
+    this._computeWrenRenderable();
 
     const createOutlineMesh = super.isInBoundingObject();
     const wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
@@ -25,15 +24,14 @@ class WbPlane extends WbGeometry {
     this.updateSize();
   }
 
-  updateSize() {
-    if (super.isInBoundingObject())
-      updateLineScale();
-    else
-      this.updateScale();
+  delete() {
+    _wr_static_mesh_delete(this.wrenMesh);
+
+    super.delete();
   }
 
   updateLineScale() {
-    if (!this.isAValidBoundingObject())
+    if (!this._isAValidBoundingObject())
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
@@ -51,13 +49,17 @@ class WbPlane extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  isSuitableForInsertionInBoundingObject() {
-    return super.isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0);
+  updateSize() {
+    if (super.isInBoundingObject())
+      this.updateLineScale();
+    else
+      this.updateScale();
   }
 
-  clone(customID) {
-    this.useList.push(customID);
-    return new WbPlane(customID, this.size);
+  // Private functions
+
+  _isSuitableForInsertionInBoundingObject() {
+    return super._isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0);
   }
 }
 

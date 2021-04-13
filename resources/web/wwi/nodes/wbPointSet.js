@@ -20,13 +20,13 @@ class WbPointSet extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
     _wr_config_enable_point_size(true);
-    this.updateCoord();
-    this.buildWrenMesh();
+    this._updateCoord();
+    this._buildWrenMesh();
   }
 
-  updateCoord() {
+  _updateCoord() {
     if (this.wrenObjectsCreatedCalled)
-      this.buildWrenMesh();
+      this._buildWrenMesh();
   }
 
   setWrenMaterial(material, castShadows) {
@@ -41,8 +41,8 @@ class WbPointSet extends WbGeometry {
     }
   }
 
-  buildWrenMesh() {
-    super.deleteWrenRenderable();
+  _buildWrenMesh() {
+    super._deleteWrenRenderable();
 
     if (typeof this.wrenMesh !== 'undefined') {
       _wr_static_mesh_delete(this.wrenMesh);
@@ -52,7 +52,7 @@ class WbPointSet extends WbGeometry {
     if (typeof this.coord === 'undefined' || this.coord.length === 0)
       return;
 
-    super.computeWrenRenderable();
+    super._computeWrenRenderable();
 
     const coordsData = [];
     let colorData;
