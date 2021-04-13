@@ -508,6 +508,14 @@ def check_fallen(team, color):
                 del team['players'][number]['fallen']
 
 
+def corner_kick():
+    t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+    game_controller_send(f'CORNERKICK:{t}')
+    c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+    info(f'Corner kick for {c} team.')
+    game_controller_send(f'CORNERKICK:{t}:READY')
+
+
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -695,11 +703,7 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
-                        game_controller_send(f'CORNERKICK:{t}')
-                        c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
-                        info(f'Corner kick for {c} team.')
-                        game_controller_send(f'CORNERKICK:{t}:READY')
+                        corner_kick()
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
@@ -712,11 +716,7 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
-                        game_controller_send(f'CORNERKICK:{t}')
-                        c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
-                        info(f'Corner kick for {c} team.')
-                        game_controller_send(f'CORNERKICK:{t}:READY')
+                        corner_kick()
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
