@@ -11,14 +11,28 @@ class WbAppearance extends WbAbstractAppearance {
     this.texture = texture;
   }
 
-  delete() {
-    if (typeof this.material !== 'undefined')
-      this.material.delete();
+  async clone(customID) {
+    let material, texture, transform;
+    if (typeof this.material !== 'undefined') {
+      material = this.material.clone('n' + Parser.undefinedID++);
+      material.parent = customID;
+      WbWorld.instance.nodes.set(material.id, material);
+    }
 
-    if (typeof this.texture !== 'undefined')
-      this.texture.delete();
+    if (typeof this.texture !== 'undefined') {
+      texture = await this.texture.clone('n' + Parser.undefinedID++);
+      texture.parent = customID;
+      WbWorld.instance.nodes.set(texture.id, texture);
+    }
 
-    super.delete();
+    if (typeof this.textureTransform !== 'undefined') {
+      transform = this.textureTransform.clone('n' + Parser.undefinedID++);
+      transform.parent = customID;
+      WbWorld.instance.nodes.set(transform.id, transform);
+    }
+
+    this.useList.push(customID);
+    return new WbAppearance(customID, material, texture, transform);
   }
 
   createWrenObjects() {
@@ -28,6 +42,16 @@ class WbAppearance extends WbAbstractAppearance {
 
     if (typeof this.texture !== 'undefined')
       this.texture.createWrenObjects();
+  }
+
+  delete() {
+    if (typeof this.material !== 'undefined')
+      this.material.delete();
+
+    if (typeof this.texture !== 'undefined')
+      this.texture.delete();
+
+    super.delete();
   }
 
   modifyWrenMaterial(wrenMaterial) {
@@ -53,17 +77,6 @@ class WbAppearance extends WbAbstractAppearance {
     return wrenMaterial;
   }
 
-  static fillWrenDefaultMaterial(wrenMaterial) {
-    if (typeof wrenMaterial === 'undefined') {
-      _wr_material_delete(wrenMaterial);
-      wrenMaterial = _wr_phong_material_new();
-    }
-
-    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
-
-    return wrenMaterial;
-  }
-
   preFinalize() {
     super.preFinalize();
 
@@ -83,28 +96,17 @@ class WbAppearance extends WbAbstractAppearance {
       this.texture.postFinalize();
   }
 
-  async clone(customID) {
-    let material, texture, transform;
-    if (typeof this.material !== 'undefined') {
-      material = this.material.clone('n' + Parser.undefinedID++);
-      material.parent = customID;
-      WbWorld.instance.nodes.set(material.id, material);
+  // Static functions
+
+  static fillWrenDefaultMaterial(wrenMaterial) {
+    if (typeof wrenMaterial === 'undefined') {
+      _wr_material_delete(wrenMaterial);
+      wrenMaterial = _wr_phong_material_new();
     }
 
-    if (typeof this.texture !== 'undefined') {
-      texture = await this.texture.clone('n' + Parser.undefinedID++);
-      texture.parent = customID;
-      WbWorld.instance.nodes.set(texture.id, texture);
-    }
+    _wr_material_set_default_program(wrenMaterial, WbWrenShaders.defaultShader());
 
-    if (typeof this.textureTransform !== 'undefined') {
-      transform = this.textureTransform.clone('n' + Parser.undefinedID++);
-      transform.parent = customID;
-      WbWorld.instance.nodes.set(transform.id, transform);
-    }
-
-    this.useList.push(customID);
-    return new WbAppearance(customID, material, texture, transform);
+    return wrenMaterial;
   }
 }
 

@@ -7,6 +7,12 @@ class WbAbstractAppearance extends WbBaseNode {
     this.textureTransform = transform;
   }
 
+  createWrenObjects() {
+    super.createWrenObjects();
+    if (typeof this.textureTransform !== 'undefined')
+      this.textureTransform.createWrenObjects();
+  }
+
   delete() {
     if (typeof this.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(this.parent);
@@ -21,12 +27,6 @@ class WbAbstractAppearance extends WbBaseNode {
       this.textureTransform.delete();
 
     super.delete();
-  }
-
-  createWrenObjects() {
-    super.createWrenObjects();
-    if (typeof this.textureTransform !== 'undefined')
-      this.textureTransform.createWrenObjects();
   }
 
   preFinalize() {

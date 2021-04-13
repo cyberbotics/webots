@@ -10,16 +10,27 @@ class WbTriangleMesh {
     this.textureCoordinates = [];
   }
 
-  vertex(triangle, vertex, component) {
-    return this.coordinates[this.coordinateIndex(triangle, vertex, component)];
-  }
-
   coordinateIndex(triangle, vertex, component) {
     return 3 * this.coordIndices[this.index(triangle, vertex)] + component;
   }
 
   index(triangle, vertex) {
     return 3 * triangle + vertex;
+  }
+
+  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, counterClockwise) {
+    this.coordIndices = coordIndex;
+    this.tmpTexIndices = texCoordIndex;
+    this.tmpNormalIndices = normalIndex;
+    this.numberOfTriangles = this.coordIndices.length / 3;
+
+    if (!counterClockwise)
+      this._reverseIndexOrder();
+
+    this._finalPass(coord, normal, texCoord);
+
+    // validity switch
+    this.isValid = true;
   }
 
   normal(triangle, vertex, component) {
@@ -30,45 +41,14 @@ class WbTriangleMesh {
     return this.textureCoordinates[2 * this.index(triangle, vertex) + component];
   }
 
-  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, counterClockwise) {
-    this.coordIndices = coordIndex;
-    this.tmpTexIndices = texCoordIndex;
-    this.tmpNormalIndices = normalIndex;
-    this.numberOfTriangles = this.coordIndices.length / 3;
-
-    if (!counterClockwise)
-      this.reverseIndexOrder();
-
-    this.finalPass(coord, normal, texCoord);
-
-    // validity switch
-    this.isValid = true;
+  vertex(triangle, vertex, component) {
+    return this.coordinates[this.coordinateIndex(triangle, vertex, component)];
   }
 
-  // reverse the order of the second and third element
-  // of each triplet of the this.coordIndices and this.tmpTexIndices arrays
-  reverseIndexOrder() {
-    const coordIndicesSize = this.coordIndices.length;
-    if (coordIndicesSize % 3 !== 0)
-      return;
-    if (coordIndicesSize !== this.tmpTexIndices.length && this.tmpTexIndices.length !== 0)
-      return;
-
-    for (let i = 0; i < coordIndicesSize; i += 3) {
-      const i1 = i + 1;
-      const i2 = i + 2;
-      const third = this.coordIndices[i2];
-      this.coordIndices[i2] = this.coordIndices[i1];
-      this.coordIndices[i1] = third;
-
-      const thirdIndex = this.tmpTexIndices[i2];
-      this.tmpTexIndices[i2] = this.tmpTexIndices[i1];
-      this.tmpTexIndices[i1] = thirdIndex;
-    }
-  }
+  // Private functions
 
   // populate this.coordinates, this.textureCoordinates and this.normals
-  finalPass(coord, normal, texCoord) {
+  _finalPass(coord, normal, texCoord) {
     const texCoordSize = typeof texCoord !== 'undefined' ? texCoord.length : 0;
     const normalSize = typeof normal !== 'undefined' ? normal.length : 0;
 
@@ -104,6 +84,28 @@ class WbTriangleMesh {
           this.textureCoordinates.push(0.5);
         }
       }
+    }
+  }
+
+  // reverse the order of the second and third element
+  // of each triplet of the this.coordIndices and this.tmpTexIndices arrays
+  _reverseIndexOrder() {
+    const coordIndicesSize = this.coordIndices.length;
+    if (coordIndicesSize % 3 !== 0)
+      return;
+    if (coordIndicesSize !== this.tmpTexIndices.length && this.tmpTexIndices.length !== 0)
+      return;
+
+    for (let i = 0; i < coordIndicesSize; i += 3) {
+      const i1 = i + 1;
+      const i2 = i + 2;
+      const third = this.coordIndices[i2];
+      this.coordIndices[i2] = this.coordIndices[i1];
+      this.coordIndices[i1] = third;
+
+      const thirdIndex = this.tmpTexIndices[i2];
+      this.tmpTexIndices[i2] = this.tmpTexIndices[i1];
+      this.tmpTexIndices[i1] = thirdIndex;
     }
   }
 }

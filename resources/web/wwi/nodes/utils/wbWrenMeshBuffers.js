@@ -9,6 +9,18 @@ class WbWrenMeshBuffers {
     this.resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize);
   }
 
+  clear() {
+    this.vertexBuffer = undefined;
+    this.normalBuffer = undefined;
+    this.colorBuffer = undefined;
+    this.texCoordBuffer = undefined;
+    this.unwrappedTexCoordsBuffer = undefined;
+    this.indexBuffer = undefined;
+
+    this.vertexIndex = 0;
+    this.index = 0;
+  }
+
   resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
     this.clear();
 
@@ -27,17 +39,7 @@ class WbWrenMeshBuffers {
       this.colorBuffer = [];
   }
 
-  clear() {
-    this.vertexBuffer = undefined;
-    this.normalBuffer = undefined;
-    this.colorBuffer = undefined;
-    this.texCoordBuffer = undefined;
-    this.unwrappedTexCoordsBuffer = undefined;
-    this.indexBuffer = undefined;
-
-    this.vertexIndex = 0;
-    this.index = 0;
-  }
+  // Static functions
 
   static writeCoordinates(x, y, z, m, buffer, index) {
     const result = m.mulByVec4(new WbVector4(x, y, z, 1.0));

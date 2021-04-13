@@ -14,45 +14,6 @@ class WbBackground extends WbBaseNode {
     this.irradianceCubeArray = irradianceCubeArray;
   }
 
-  delete() {
-    if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
-    }
-
-    this.destroySkyBox();
-
-    this.skyColor = new WbVector3(0, 0, 0);
-    this.applyColourToWren();
-
-    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), null);
-    // Delete skybox
-    // Shader program is not deleted, a singleton instance is kept in WbWrenShaders
-    _wr_node_delete(this.skyboxRenderable);
-
-    if (typeof this.skyboxMaterial !== 'undefined')
-      _wr_material_delete(this.skyboxMaterial);
-
-    _wr_node_delete(this.skyboxTransform);
-    _wr_static_mesh_delete(this.skyboxMesh);
-
-    _wr_node_delete(this.hdrClearRenderable);
-    this.hdrClearRenderable = null;
-    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
-
-    if (typeof this.hdrClearMaterial !== 'undefined')
-      _wr_material_delete(this.hdrClearMaterial);
-
-    _wr_node_delete(this.hdrClearTransform);
-    _wr_static_mesh_delete(this.hdrClearMesh);
-
-    WbBackground.instance = undefined;
-
-    this.updatePBRs();
-
-    super.delete();
-  }
-
   createWrenObjects() {
     super.createWrenObjects();
 
@@ -87,10 +48,57 @@ class WbBackground extends WbBaseNode {
     this.hdrClearTransform = _wr_transform_new();
     _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
 
-    this.applyColourToWren();
+    this._applyColourToWren();
   }
 
-  applyColourToWren() {
+  delete() {
+    if (typeof this.parent === 'undefined') {
+      const index = WbWorld.instance.sceneTree.indexOf(this);
+      WbWorld.instance.sceneTree.splice(index, 1);
+    }
+
+    this._destroySkyBox();
+
+    this.skyColor = new WbVector3(0, 0, 0);
+    this._applyColourToWren();
+
+    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), null);
+    // Delete skybox
+    // Shader program is not deleted, a singleton instance is kept in WbWrenShaders
+    _wr_node_delete(this.skyboxRenderable);
+
+    if (typeof this.skyboxMaterial !== 'undefined')
+      _wr_material_delete(this.skyboxMaterial);
+
+    _wr_node_delete(this.skyboxTransform);
+    _wr_static_mesh_delete(this.skyboxMesh);
+
+    _wr_node_delete(this.hdrClearRenderable);
+    this.hdrClearRenderable = null;
+    _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.hdrClearRenderable);
+
+    if (typeof this.hdrClearMaterial !== 'undefined')
+      _wr_material_delete(this.hdrClearMaterial);
+
+    _wr_node_delete(this.hdrClearTransform);
+    _wr_static_mesh_delete(this.hdrClearMesh);
+
+    WbBackground.instance = undefined;
+
+    this._updatePBRs();
+
+    super.delete();
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    this._applySkyBoxToWren();
+    this._updatePBRs();
+  }
+
+  // Private functions
+  _applyColourToWren() {
     const colorPointer = _wrjs_array3(this.skyColor.x, this.skyColor.y, this.skyColor.z);
 
     _wr_viewport_set_clear_color_rgb(_wr_scene_get_viewport(_wr_scene_get_instance()), colorPointer);
@@ -111,25 +119,8 @@ class WbBackground extends WbBaseNode {
     }
   }
 
-  destroySkyBox() {
-    _wr_scene_set_skybox(_wr_scene_get_instance(), null);
-
-    if (typeof this.skyboxMaterial !== 'undefined')
-      _wr_material_set_texture_cubemap(this.skyboxMaterial, null, 0);
-
-    if (typeof this.cubeMapTexture !== 'undefined') {
-      _wr_texture_delete(this.cubeMapTexture);
-      this.cubeMapTexture = undefined;
-    }
-
-    if (typeof this.irradianceCubeTexture !== 'undefined') {
-      _wr_texture_delete(this.irradianceCubeTexture);
-      this.irradianceCubeTexture = undefined;
-    }
-  }
-
-  applySkyBoxToWren() {
-    this.destroySkyBox();
+  _applySkyBoxToWren() {
+    this._destroySkyBox();
 
     // 1. Load the background.
     if (typeof this.cubeArray !== 'undefined' && this.cubeArray.length === 6) {
@@ -190,14 +181,24 @@ class WbBackground extends WbBaseNode {
       _free(hdrImageData[i]);
   }
 
-  postFinalize() {
-    super.postFinalize();
+  _destroySkyBox() {
+    _wr_scene_set_skybox(_wr_scene_get_instance(), null);
 
-    this.applySkyBoxToWren();
-    this.updatePBRs();
+    if (typeof this.skyboxMaterial !== 'undefined')
+      _wr_material_set_texture_cubemap(this.skyboxMaterial, null, 0);
+
+    if (typeof this.cubeMapTexture !== 'undefined') {
+      _wr_texture_delete(this.cubeMapTexture);
+      this.cubeMapTexture = undefined;
+    }
+
+    if (typeof this.irradianceCubeTexture !== 'undefined') {
+      _wr_texture_delete(this.irradianceCubeTexture);
+      this.irradianceCubeTexture = undefined;
+    }
   }
 
-  updatePBRs() {
+  _updatePBRs() {
     WbWorld.instance.nodes.forEach((value, key, map) => {
       if (value instanceof WbPBRAppearance && typeof value.parent !== 'undefined') {
         const parent = WbWorld.instance.nodes.get(value.parent);
