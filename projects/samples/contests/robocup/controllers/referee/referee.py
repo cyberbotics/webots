@@ -129,8 +129,6 @@ def update_state_display():
     if game.state:
         state = game.state.game_state[6:]
         sr = game.state.secondary_seconds_remaining
-        if sr > 65000:  # bug in GameController sometimes sending value like 65534
-            sr = 0
         if sr > 0:
             if state == 'PLAYING':
                 state = 'PLAY'
@@ -219,7 +217,7 @@ def game_controller_receive():
         info(f'New state received from GameController: {game.state.game_state}')
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
-       game.state.seconds_remaining == 0:
+       game.state.seconds_remaining <= 0:
         update_state_display()
     if previous_seconds_remaining != game.state.seconds_remaining:
         update_time_display()
@@ -228,47 +226,67 @@ def game_controller_receive():
     if previous_red_score != game.state.teams[red].score or \
        previous_blue_score != game.state.teams[blue].score:
         update_score_display()
-    # print(game.state)
-    secondary_state_info = str(game.state.secondary_state_info)
+    # print(game.state.game_state)
     secondary_state = game.state.secondary_state
-    if secondary_state != 'STATE_NORMAL':
+    secondary_state_info = game.state.secondary_state_info
+    if secondary_state == 'STATE_CORNERKICK':
+        if secondary_state_info[1] == 0:
+            info('corner kick.')
+        elif secondary_state_info[1] == 1:
+            if game.state.secondary_seconds_remaining <= 0:
+                if game_controller_send(f'CORNERKICK:{secondary_state_info[0]}:PREPARE'):
+                    info('prepare for corner kick.')
+        elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
+            if game_controller_send(f'CORNERKICK:{secondary_state_info[0]}:EXECUTE'):
+                info('execute corner kick.')
+    elif secondary_state != 'STATE_NORMAL':
         print(f'GameController {secondary_state}: {secondary_state_info}')
 
 
 def game_controller_send(message):
-    if game.controller:
-        game_controller_send.id += 1
-        if message[:6] != 'CLOCK:':
-            info(f'Sending {message} to GameController')
-        message = f'{game_controller_send.id}:{message}\n'
-        game.controller.sendall(message.encode('ascii'))
-        # info(f'sending {message.strip()} to GameController')
-        game_controller_send.unanswered[game_controller_send.id] = message.strip()
-        while True:
-            try:
-                answers = game.controller.recv(1024).decode('ascii').split('\n')
-                # info(f'received {answers} from GameController')
-                for answer in answers:
-                    try:
-                        id, result = answer.split(':')
-                    except ValueError:
-                        error(f'Cannot split {answer}')
-                    try:
-                        message = game_controller_send.unanswered[int(id)]
-                        del game_controller_send.unanswered[int(id)]
-                    except KeyError:
-                        error(f'Received acknowledgment message for unknown message: {id}')
-                        return
-                    if result == 'OK':
-                        return
-                    if result == 'ILLEGAL':
-                        error(f'Received illegal answer from GameController for message {id}:{message}.')
-                    elif result == 'INVALID':
-                        error(f'Received invalid answer from GameController for message {id}:{message}.')
-                    else:
-                        error(f'Warning: received unknown answer from GameController: {answer}.')
-            except BlockingIOError:
-                return
+    if message[:6] != 'CLOCK:':  # we don't want to send twice the same message (ignoring clock messages)
+        if game_controller_send.sent_once == message:
+            return False
+        game_controller_send.sent_once = message
+        info(f'Sending {game_controller_send.id + 1}:{message} to GameController')
+    game_controller_send.id += 1
+    message = f'{game_controller_send.id}:{message}\n'
+    game.controller.sendall(message.encode('ascii'))
+    # info(f'sending {message.strip()} to GameController')
+    game_controller_send.unanswered[game_controller_send.id] = message.strip()
+    while True:
+        try:
+            answers = game.controller.recv(1024).decode('ascii').split('\n')
+            # info(f'received {answers} from GameController')
+            for answer in answers:
+                if answer == '':
+                    continue
+                try:
+                    id, result = answer.split(':')
+                except ValueError:
+                    error(f'Cannot split {answer}')
+                try:
+                    message = game_controller_send.unanswered[int(id)]
+                    del game_controller_send.unanswered[int(id)]
+                except KeyError:
+                    error(f'Received acknowledgment message for unknown message: {id}')
+                    continue
+                if result == 'OK':
+                    continue
+                if result == 'INVALID':
+                    error(f'Received invalid answer from GameController for message {message}.')
+                elif result == 'ILLEGAL':
+                    error(f'Received illegal answer from GameController for message {message}.')
+                else:
+                    error(f'Warning: received unknown answer from GameController: {answer}.')
+        except BlockingIOError:
+            break
+    return True
+
+
+game_controller_send.id = 0
+game_controller_send.unanswered = {}
+game_controller_send.sent_once = None
 
 
 def point_inside_field(point):
@@ -490,9 +508,6 @@ def check_fallen(team, color):
                 del team['players'][number]['fallen']
 
 
-game_controller_send.id = 0
-game_controller_send.unanswered = {}
-
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -680,6 +695,11 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
+                        t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+                        game_controller_send(f'CORNERKICK:{t}')
+                        c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+                        info(f'Corner kick for {c} team.')
+                        game_controller_send(f'CORNERKICK:{t}:READY')
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
@@ -692,6 +712,11 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
+                        t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+                        game_controller_send(f'CORNERKICK:{t}')
+                        c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+                        info(f'Corner kick for {c} team.')
+                        game_controller_send(f'CORNERKICK:{t}:READY')
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
