@@ -543,7 +543,12 @@ except KeyError:
 # finalize the game object
 if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
-info(f'Real time factor is set to {game.real_time_factor}.')
+message = f'Real time factor is set to {game.real_time_factor}.'
+if game.real_time_factor == 0:
+    message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
+else:
+    message += f' Simulation will run at {1/game.real_time_factor:.2f}x, real time waiting times will be respected.'
+info(message)
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
@@ -618,7 +623,8 @@ game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
 game.ball_last_touch_team = 0
 game.ball_last_touch_player = 0
-game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * 1000 / (game.real_time_factor * time_step))
+game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
+game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
 game.sent_finish = False
 previous_seconds_remaining = 0
@@ -709,7 +715,7 @@ while supervisor.step(time_step) != -1:
             if game.ready_countdown == 0:
                 print('state FINISHED!')
                 info('Beginning of second half.')
-                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * 1000 / (game.real_time_factor * time_step))
+                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         else:
             info('End of the game.')
             info(f'The score is {game.state.teams[0].score}-{game.state.teams[1].score}.')
@@ -756,10 +762,11 @@ while supervisor.step(time_step) != -1:
 
     time_count += time_step
 
-    # slow down the simulation if needed to respect the real time factor constraint
-    delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
-    if delta_time > 0:
-        time.sleep(delta_time)
+    if game.real_time_factor != 0:
+        # slow down the simulation if needed to respect the real time factor constraint
+        delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
+        if delta_time > 0:
+            time.sleep(delta_time)
 
 if log_file:
     log_file.close()
