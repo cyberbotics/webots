@@ -79,6 +79,8 @@ GameState = "gamedata" / Struct(
                              STATE_INDIRECT_FREEKICK=5,
                              STATE_PENALTYKICK=6,
                              STATE_CORNERKICK=7,
+                             STATE_GOALKICK=8,
+                             STATE_THROWIN=9,
                              DROPBALL=128,
                              UNKNOWN=255),
     "secondary_state_info" / Bytes(4),
