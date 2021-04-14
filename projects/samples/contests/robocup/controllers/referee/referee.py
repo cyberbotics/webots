@@ -706,8 +706,8 @@ game_controller_send(f'KICKOFF:{game.kickoff}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ball_last_touch_team = 0
-game.ball_last_touch_player = 0
+game.ball_last_touch_team = None
+game.ball_last_touch_player = None
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
 game.interruption = None
 game.interruption_team = None
@@ -747,28 +747,32 @@ while supervisor.step(time_step) != -1:
             game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = ball_translation
             scoring_team = None
+            right_way = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
                 game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
                 throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
                 throw_in(left_side=True)
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
+                right_way = game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
+                    game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
-                    scoring_team = game.side_left
+                    scoring_team = game.side_left  # goal
                 else:
-                    if game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
-                       game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
+                    if right_way:
                         goal_kick()
                     else:
                         corner_kick(left_side=False)
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
+                right_way = game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
+                    game.ball_last_touch_team == 'blue' and game.side_left == game.red.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
+                    # goal
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 else:
-                    if game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
-                       game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
+                    if right_way:
                         goal_kick()
                     else:
                         corner_kick(left_side=True)
@@ -776,13 +780,19 @@ while supervisor.step(time_step) != -1:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 goal = 'red' if scoring_team == game.blue.id else 'blue'
                 game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
-                if game.state.teams[scoring_team - 1].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
+                team = game.red.id if game.ball_last_touch_team == 'red' else game.blue.id
+                if game.state.teams[team - 1].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
+                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                elif not right_way:  # own goal
+                    game_controller_send(f'SCORE:{scoring_team}')
+                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player} (own goal)')
+                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
                 else:
                     info(f'Invalidated score in {goal} goal by penalized ' +
                          f'{game.ball_last_touch_team} player {game.ball_last_touch_player}')
-                info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                    goal_kick()
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
