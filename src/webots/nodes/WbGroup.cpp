@@ -375,7 +375,7 @@ void WbGroup::writeParameters(WbVrmlWriter &writer) const {
           const WbVector3 *const p = it.value();
           assert(p);
           const int jointIndex = it.key();
-          for (int j = 0; j < 2; ++j) {
+          for (int j = 0; j < 3; ++j) {
             const double pj = (*p)[j];
             if (!std::isnan(pj)) {
               QString axisIndex;
