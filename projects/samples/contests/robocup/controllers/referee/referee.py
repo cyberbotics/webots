@@ -33,10 +33,22 @@ SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let 
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
+IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
 GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size league
+RED_COLOR = 0xd62929                      # red team color used for the display
+BLUE_COLOR = 0x2943d6                     # blue team color used for the display
+
+# game interruptions requiring a free kick procedure
+GAME_INTERRUPTIONS = {
+    'DIRECT_FREEKICK': 'direct free kick',
+    'INDIRECT_FREEKICK': 'indirect free kick',
+    'PENALTYKICK': 'penalty kick',
+    'CORNERKICK': 'corner kick',
+    'GOALKICK': 'goal kick',
+    'THROWIN': 'throw in'}
 
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
@@ -128,16 +140,28 @@ def update_time_display():
 def update_state_display():
     if game.state:
         state = game.state.game_state[6:]
-        sr = game.state.secondary_seconds_remaining
-        if sr > 65000:  # bug in GameController sometimes sending value like 65534
-            sr = 0
+        if state == 'READY' or state == 'SET':  # kickoff
+            color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
+        elif game.interruption_team is not None:  # interruption
+            color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
+        else:
+            color = 0x000000
+        sr = IN_PLAY_TIMEOUT - game.interruption_seconds + game.state.seconds_remaining \
+            if game.interruption_seconds is not None \
+            else game.state.secondary_seconds_remaining
         if sr > 0:
-            if state == 'PLAYING':
-                state = 'PLAY'
-            state += ': ' + format_time(sr)
+            if game.interruption is None:  # kickoff
+                color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
+                state = 'PLAY' if state == 'PLAYING' else 'READY'
+            else:  # interruption
+                state = 'PLAY' if state == 'PLAYING' and game.interruption_seconds is not None else 'READY'
+            state += ' ' + format_time(sr)
+        elif game.interruption is not None:
+            state = game.interruption
     else:
         state = ''
-    supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+        color = 0x000000
+    supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, color, 0.2, game.font)
 
 
 def update_score_display():
@@ -162,14 +186,12 @@ def update_score_display():
 
 
 def update_team_display():
-    red = 0xd62929
-    blue = 0x2943d6
     n = len(red_team['name'])
     red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
     n = len(blue_team['name'])
     blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
-    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, red, 0.2, game.font)
-    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, blue, 0.2, game.font)
+    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, RED_COLOR, 0.2, game.font)
+    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, BLUE_COLOR, 0.2, game.font)
     update_score_display()
 
 
@@ -219,56 +241,84 @@ def game_controller_receive():
         info(f'New state received from GameController: {game.state.game_state}')
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
-       game.state.seconds_remaining == 0:
+       game.state.seconds_remaining <= 0:
         update_state_display()
     if previous_seconds_remaining != game.state.seconds_remaining:
+        if game.interruption_seconds is not None:
+            if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
+                game.interruption = None
+                game.interruption_team = None
+                game.interruption_seconds = None
+            update_state_display()
         update_time_display()
     red = 0 if game.state.teams[0].team_color == 'RED' else 1
     blue = 1 if red == 0 else 0
     if previous_red_score != game.state.teams[red].score or \
        previous_blue_score != game.state.teams[blue].score:
         update_score_display()
-    # print(game.state)
-    secondary_state_info = str(game.state.secondary_state_info)
+    # print(game.state.game_state)
     secondary_state = game.state.secondary_state
-    if secondary_state != 'STATE_NORMAL':
+    secondary_state_info = game.state.secondary_state_info
+    if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in GAME_INTERRUPTIONS:
+        kick = secondary_state[6:]
+        if secondary_state_info[1] == 0:
+            info(f'awarding a {GAME_INTERRUPTIONS[kick]}.')
+        elif secondary_state_info[1] == 1:
+            if game.state.secondary_seconds_remaining <= 0:
+                if game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE'):
+                    info(f'prepare for {GAME_INTERRUPTIONS[kick]}.')
+        elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
+            if game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE'):
+                info(f'execute {GAME_INTERRUPTIONS[kick]}.')
+                game.interruption_seconds = game.state.seconds_remaining
+    elif secondary_state != 'STATE_NORMAL':
         print(f'GameController {secondary_state}: {secondary_state_info}')
 
 
 def game_controller_send(message):
-    if game.controller:
-        game_controller_send.id += 1
-        if message[:6] != 'CLOCK:':
-            info(f'Sending {message} to GameController')
-        message = f'{game_controller_send.id}:{message}\n'
-        game.controller.sendall(message.encode('ascii'))
-        # info(f'sending {message.strip()} to GameController')
-        game_controller_send.unanswered[game_controller_send.id] = message.strip()
-        while True:
-            try:
-                answers = game.controller.recv(1024).decode('ascii').split('\n')
-                # info(f'received {answers} from GameController')
-                for answer in answers:
-                    try:
-                        id, result = answer.split(':')
-                    except ValueError:
-                        error(f'Cannot split {answer}')
-                    try:
-                        message = game_controller_send.unanswered[int(id)]
-                        del game_controller_send.unanswered[int(id)]
-                    except KeyError:
-                        error(f'Received acknowledgment message for unknown message: {id}')
-                        return
-                    if result == 'OK':
-                        return
-                    if result == 'ILLEGAL':
-                        error(f'Received illegal answer from GameController for message {id}:{message}.')
-                    elif result == 'INVALID':
-                        error(f'Received invalid answer from GameController for message {id}:{message}.')
-                    else:
-                        error(f'Warning: received unknown answer from GameController: {answer}.')
-            except BlockingIOError:
-                return
+    if message[:6] != 'CLOCK:':  # we don't want to send twice the same message (ignoring clock messages)
+        if game_controller_send.sent_once == message:
+            return False
+        game_controller_send.sent_once = message
+        info(f'Sending {game_controller_send.id + 1}:{message} to GameController')
+    game_controller_send.id += 1
+    message = f'{game_controller_send.id}:{message}\n'
+    game.controller.sendall(message.encode('ascii'))
+    # info(f'sending {message.strip()} to GameController')
+    game_controller_send.unanswered[game_controller_send.id] = message.strip()
+    while True:
+        try:
+            answers = game.controller.recv(1024).decode('ascii').split('\n')
+            # info(f'received {answers} from GameController')
+            for answer in answers:
+                if answer == '':
+                    continue
+                try:
+                    id, result = answer.split(':')
+                except ValueError:
+                    error(f'Cannot split {answer}')
+                try:
+                    message = game_controller_send.unanswered[int(id)]
+                    del game_controller_send.unanswered[int(id)]
+                except KeyError:
+                    error(f'Received acknowledgment message for unknown message: {id}')
+                    continue
+                if result == 'OK':
+                    continue
+                if result == 'INVALID':
+                    error(f'Received invalid answer from GameController for message {message}.')
+                elif result == 'ILLEGAL':
+                    error(f'Received illegal answer from GameController for message {message}.')
+                else:
+                    error(f'Warning: received unknown answer from GameController: {answer}.')
+        except BlockingIOError:
+            break
+    return True
+
+
+game_controller_send.id = 0
+game_controller_send.unanswered = {}
+game_controller_send.sent_once = None
 
 
 def point_inside_field(point):
@@ -490,8 +540,57 @@ def check_fallen(team, color):
                 del team['players'][number]['fallen']
 
 
-game_controller_send.id = 0
-game_controller_send.unanswered = {}
+def check_penalized_in_field(team, color):
+    for number in team['players']:
+        team_id = game.red.id if color == 'red' else game.blue.id
+        if game.state.teams[team_id - 1].players[int(number) - 1].secs_till_unpenalized == 0:
+            continue  # skip non penalized players
+        n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        inside = False
+        for i in range(0, n):
+            if point_inside_field(team['players'][number]['robot'].getContactPoint(i)):
+                inside = True
+                break
+        if not inside:
+            continue
+        info(f'Penalized {color} player {number} re-entered the field: shown yellow card.')
+        game_controller_send(f'CARD:{team_id}:{number}:YELLOW')
+        team['players'][number]['penalty'] = 'INCAPABLE'
+        team['players'][number]['penalty_reason'] = 'penalized player re-entered field'
+
+
+def interruption(type):  # supported types: "CORNERKICK"
+    game.interruption = type
+    game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+    game_controller_send(f'{game.interruption}:{game.interruption_team}')
+    color = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+    if type == 'CORNERKICK':
+        info(f'Corner kick awarded to {color} team.')
+
+
+def throw_in(left_side):
+    # set the ball on the touch line for throw in
+    sign = -1 if left_side else 1
+    game.ball_exit_translation[1] = sign * (game.field_size_y - LINE_HALF_WIDTH)
+    interruption('THROWIN')
+
+
+def corner_kick(left_side):
+    # set the ball in the right corner for corner kick
+    sign = -1 if left_side else 1
+    game.ball_exit_translation[0] = sign * (game.field_size_x - LINE_HALF_WIDTH)
+    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field_size_y + LINE_HALF_WIDTH
+    interruption('CORNERKICK')
+
+
+def goal_kick():
+    # set the ball at intersection between the centerline and touchline
+    game.ball_exit_translation[0] = 0
+    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field_size_y + LINE_HALF_WIDTH
+    interruption('GOALKICK')
+
 
 time_count = 0
 
@@ -626,9 +725,12 @@ game_controller_send(f'KICKOFF:{game.kickoff}')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exited_countdown = 0
-game.ball_last_touch_team = 0
-game.ball_last_touch_player = 0
+game.ball_last_touch_team = None
+game.ball_last_touch_player = None
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
+game.interruption = None
+game.interruption_team = None
+game.interruption_seconds = None
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
 game.sent_finish = False
@@ -663,42 +765,53 @@ while supervisor.step(time_step) != -1:
                  f'touched by {game.ball_last_touch_team} player {game.ball_last_touch_player}.')
             game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = ball_translation
-            scoring_side = None
+            scoring_team = None
+            right_way = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
                 game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
+                throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
-                game.ball_exit_translation[1] = -game.field_size_y + LINE_HALF_WIDTH
+                throw_in(left_side=True)
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
+                right_way = game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
+                    game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
-                    scoring_side = game.side_left
+                    scoring_team = game.side_left  # goal
                 else:
-                    if game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
-                       game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
-                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
-                    else:  # corner kick
-                        game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
+                    if right_way:
+                        goal_kick()
+                    else:
+                        corner_kick(left_side=False)
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
+                right_way = game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
+                    game.ball_last_touch_team == 'blue' and game.side_left == game.red.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
-                    scoring_side = game.red.id if game.blue.id == game.side_left else game.blue.id
+                    # goal
+                    scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 else:
-                    if game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
-                       game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
-                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
-                    else:  # corner kick
-                        game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-            if scoring_side:
+                    if right_way:
+                        goal_kick()
+                    else:
+                        corner_kick(left_side=True)
+            if scoring_team:
                 game.ball_exit_translation = game.ball_kickoff_translation
-                game_controller_send(f'SCORE:{scoring_side}')
-                goal = 'red' if scoring_side == game.blue.id else 'blue'
-                game.kickoff = game.blue.id if scoring_side == game.red.id else game.red.id
-                info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
-                info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
+                goal = 'red' if scoring_team == game.blue.id else 'blue'
+                game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
+                team = game.red.id if game.ball_last_touch_team == 'red' else game.blue.id
+                if game.state.teams[team - 1].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
+                    game_controller_send(f'SCORE:{scoring_team}')
+                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
+                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                elif not right_way:  # own goal
+                    game_controller_send(f'SCORE:{scoring_team}')
+                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player} (own goal)')
+                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                else:
+                    info(f'Invalidated score in {goal} goal by penalized ' +
+                         f'{game.ball_last_touch_team} player {game.ball_last_touch_player}')
+                    goal_kick()
 
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
@@ -748,24 +861,31 @@ while supervisor.step(time_step) != -1:
             game.ball_translation.setSFVec3f(game.ball_exit_translation)
             info('Ball respawned at '
                  f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}')
+            if game.interruption:
+                game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
-    # determine which robot touched the ball if any
-    n = game.ball.getNumberOfContactPoints()
-    for i in range(0, n):
-        point = game.ball.getContactPoint(i)
-        if point[2] <= 0.01:  # contact with the ground
-            continue
-        check_touch(point, red_team, 'red')
-        check_touch(point, blue_team, 'blue')
+    if game.state:
+        # determine which robot touched the ball if any
+        n = game.ball.getNumberOfContactPoints()
+        for i in range(0, n):
+            point = game.ball.getContactPoint(i)
+            if point[2] <= 0.01:  # contact with the ground
+                continue
+            check_touch(point, red_team, 'red')
+            check_touch(point, blue_team, 'blue')
 
-    # detect fallen robots
-    check_fallen(red_team, 'red')
-    check_fallen(blue_team, 'blue')
+        # detect fallen robots
+        check_fallen(red_team, 'red')
+        check_fallen(blue_team, 'blue')
 
-    # send penalties if needed
-    if game.state and game.state.game_state != 'STATE_INITIAL':
-        send_penalties(red_team, 'red')
-        send_penalties(blue_team, 'blue')
+        # check for penalized robots inside the field
+        check_penalized_in_field(red_team, 'red')
+        check_penalized_in_field(blue_team, 'blue')
+
+        # send penalties if needed
+        if game.state.game_state != 'STATE_INITIAL':
+            send_penalties(red_team, 'red')
+            send_penalties(blue_team, 'blue')
 
     time_count += time_step
 
