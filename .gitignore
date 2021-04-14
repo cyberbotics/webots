@@ -68,6 +68,3 @@ Thumbs.db
 /webots.lnk
 /webots_debug_output.txt
 /util
-
-#niryo ignore file
-/projects/robots/niryo/ned/controllers/ned/ned
