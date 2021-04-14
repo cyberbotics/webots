@@ -19,18 +19,13 @@
 # You can also control the robots with your keyboard and launch a Pick and Pack
 
 
-# Import the Webots simulator API and the Keyboard libray.
 from controller import Robot
 from controller import Keyboard
 
-# Make request to the simulator to make give orders to the robot (Ned)
 robot = Robot()
 
-# Start the controller
-print(".....Load Ned_Controller.....")
 robot_name = robot.getName()
-print('Name of the robot: ' + robot_name)
-print(" ")
+print('Name of the robot: ' + robot_name + '\n')
 
 # Init the motors - the Ned robot is a 6-axis robot arm
 # You can find the name of the rotationalMotors is the device parameters of each HingeJoints
@@ -54,7 +49,7 @@ m6.setPosition(0)
 m7.setPosition(0)
 m8.setPosition(0)
 
-# Set the motors speed. Here we put 1 or 2 radian/second
+# Set the motors speed. Here we set it to 1 radian/second
 m1.setVelocity(1)
 m2.setVelocity(1)
 m3.setVelocity(1)
@@ -71,8 +66,7 @@ def demo():
     m2.setVelocity(1)
     m3.setVelocity(1)
 
-    status = robot.step(0)
-    if status == -1:
+    if robot.step(0) == -1:
         return
     m1.setPosition(1.6)
     m7.setPosition(0.01)
@@ -194,8 +188,6 @@ def pick_place():
     m3.setPosition(0)
     m2.setPosition(0)
 
-# In the while you can find the different command to control the Ned robot
-# You can also launch a demonstrator
 while True:
 
     print("------------COMMANDS--------------")
@@ -210,12 +202,10 @@ while True:
     print("Launch Pick and Place --> SHIFT+P")
     print("----------------------------------")
 
-    # Init of the Keyboard control
     timestep = int(robot.getBasicTimeStep())
     keyboard = Keyboard()
     keyboard.enable(timestep)
 
-    # Here you can see all the command to control the robot
     while robot.step(timestep) != -1:
 
         key = keyboard.getKey()
@@ -279,9 +269,9 @@ while True:
             m8.setPosition(0)
 
         elif key == Keyboard.SHIFT + ord('D'):
-            print("Demonstrator Move Joints")
+            print("Demonstrator: Move Joints")
             demo()
 
         elif key == Keyboard.SHIFT + ord('P'):
-            print("Demonstrator Pick And Place")
+            print("Demonstrator: Pick And Place")
             pick_place()

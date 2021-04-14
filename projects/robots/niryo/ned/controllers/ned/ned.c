@@ -21,16 +21,15 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 32
+static int time_step;
 
 static void step() {
-  if (wb_robot_step(TIME_STEP) == -1) {
+  if (wb_robot_step(time_step) == -1) {
     wb_robot_cleanup();
     exit(EXIT_SUCCESS);
   }
 }
 
-// function to create a timer
 static void passive_wait(double sec) {
   double start_time = wb_robot_get_time();
   do
@@ -38,7 +37,6 @@ static void passive_wait(double sec) {
   while (start_time + sec > wb_robot_get_time());
 }
 
-// function to show the different commands
 static void show_commands() {
   printf("------------COMMANDS---------------\n");
   printf("Launch demo --> D\n");
@@ -54,15 +52,12 @@ static void show_commands() {
 }
 
 int main(int argc, char **argv) {
-  // initialize Webots
   wb_robot_init();
   show_commands();
 
-  // init of the Keyboard control
-  int time_step = (int)wb_robot_get_basic_time_step();
+  time_step = (int)wb_robot_get_basic_time_step();
   wb_keyboard_enable(time_step);
 
-  //----------------------Init all the motors of the Ned---------------------
   WbDeviceTag motors[7];
   WbDeviceTag gripper[3];
   motors[1] = wb_robot_get_device("joint_1");
@@ -75,7 +70,7 @@ int main(int argc, char **argv) {
   gripper[2] = wb_robot_get_device("joint_base_to_mors_2");
 
   // set the motor velocity
-  // first we make sure that every joints are at their initial positions
+  // first we make sure that every joint is at its initial position
   wb_motor_set_position(motors[1], 0.0);
   wb_motor_set_position(motors[2], 0.0);
   wb_motor_set_position(motors[3], 0.0);
@@ -85,7 +80,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(gripper[1], 0.0);
   wb_motor_set_position(gripper[2], 0.0);
 
-  // set the motors speed. Here we put 1 or 2 radian/second
+  // set the motors speed. Here we set it to 1 radian/second
   wb_motor_set_velocity(motors[1], 1.0);
   wb_motor_set_velocity(motors[2], 1.0);
   wb_motor_set_velocity(motors[3], 1.0);
@@ -94,11 +89,9 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(motors[6], 1.0);
   wb_motor_set_velocity(gripper[1], 1.0);
   wb_motor_set_velocity(gripper[2], 1.0);
-  //--------------------------------------------------------------------------------
 
   // control with keyboard
   while (wb_robot_step(time_step) != -1) {
-    // get the keyboard key
     int c = wb_keyboard_get_key();
     switch (c) {
       case 'A':
@@ -175,7 +168,6 @@ int main(int argc, char **argv) {
 
       // demo
       case 'D':
-
         wb_motor_set_velocity(motors[1], 1.0);
         wb_motor_set_velocity(motors[2], 1.0);
         wb_motor_set_velocity(motors[3], 1.0);
@@ -215,7 +207,6 @@ int main(int argc, char **argv) {
 
       // pick and place
       case 'P':
-
         wb_motor_set_velocity(motors[1], 0.5);
         wb_motor_set_velocity(motors[2], 0.5);
         wb_motor_set_velocity(motors[3], 0.5);
