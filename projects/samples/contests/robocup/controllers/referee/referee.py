@@ -41,6 +41,15 @@ GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size lea
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
+# states requiring a free kick procedure
+KICK_STATES = {
+    'DIRECT_FREEKICK': 'direct free kick',
+    'INDIRECT_FREEKICK': 'indirect free kick',
+    'PENALTYKICK': 'penalty kick',
+    'CORNERKICK': 'corner kick',
+    'GOALKICK': 'goal kick',
+    'THROWIN': 'throw in'}
+
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
@@ -234,7 +243,6 @@ def game_controller_receive():
         update_state_display()
     if previous_seconds_remaining != game.state.seconds_remaining:
         if game.interruption_seconds is not None:
-            print(f'interruption second remaining: {game.interruption_seconds - game.state.seconds_remaining}')
             if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
                 game.interruption = None
                 game.interruption_team = None
@@ -249,16 +257,17 @@ def game_controller_receive():
     # print(game.state.game_state)
     secondary_state = game.state.secondary_state
     secondary_state_info = game.state.secondary_state_info
-    if secondary_state == 'STATE_CORNERKICK':
+    if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in KICK_STATES:
+        kick = secondary_state[6:]
         if secondary_state_info[1] == 0:
-            info('corner kick.')
+            info(f'awarding a {KICK_STATES[kick]}.')
         elif secondary_state_info[1] == 1:
             if game.state.secondary_seconds_remaining <= 0:
-                if game_controller_send(f'CORNERKICK:{secondary_state_info[0]}:PREPARE'):
-                    info('prepare for corner kick.')
+                if game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE'):
+                    info(f'prepare for {KICK_STATES[kick]}.')
         elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
-            if game_controller_send(f'CORNERKICK:{secondary_state_info[0]}:EXECUTE'):
-                info('execute corner kick.')
+            if game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE'):
+                info(f'execute {KICK_STATES[kick]}.')
                 game.interruption_seconds = game.state.seconds_remaining
     elif secondary_state != 'STATE_NORMAL':
         print(f'GameController {secondary_state}: {secondary_state_info}')
