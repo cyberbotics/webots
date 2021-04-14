@@ -168,7 +168,6 @@ int main(int argc, char **argv) {
 
       // demo
       case 'D':
-
         wb_motor_set_velocity(motors[1], 1.0);
         wb_motor_set_velocity(motors[2], 1.0);
         wb_motor_set_velocity(motors[3], 1.0);
