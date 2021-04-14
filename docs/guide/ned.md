@@ -2,7 +2,7 @@
 
 %robot ned images/robots/ned/model.thumbnail.png
 
-"Ned" is a 6-axis collaborative robot developed by [Niryo](https://niryo.com/). It is  based on open-source technologies designed for Education, Professional Training and Research.
+Ned is a 6-axis collaborative robot developed by [Niryo](https://niryo.com/). It is  based on open-source technologies designed for education, professional training and research.
 
 ### Ned PROTO
 
@@ -31,4 +31,3 @@ You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/
 #### Ned.wbt
 
 ![ned.wbt.png](images/robots/ned/ned.wbt.thumbnail.jpg) This simulation shows Ned in a working environment. You can control the robot with your keyboard, launch a demo and run a pick and place. Feel free to use this simulation in order to make your own world and controller with Ned. 
-
