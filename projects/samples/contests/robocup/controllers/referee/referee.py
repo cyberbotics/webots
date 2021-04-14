@@ -540,6 +540,25 @@ def check_fallen(team, color):
                 del team['players'][number]['fallen']
 
 
+def check_penalized_in_field(team, color):
+    for number in team['players']:
+        team_id = game.red.id if color == 'red' else game.blue.id
+        if game.state.teams[team_id - 1].players[int(number) - 1].secs_till_unpenalized == 0:
+            continue  # skip non penalized players
+        n = team['players'][number]['robot'].getNumberOfContactPoints(True)
+        inside = False
+        for i in range(0, n):
+            if point_inside_field(team['players'][number]['robot'].getContactPoint(i)):
+                inside = True
+                break
+        if not inside:
+            continue
+        info(f'Penalized {color} player {number} re-entered the field: shown yellow card.')
+        game_controller_send(f'CARD:{team_id}:{number}:YELLOW')
+        team['players'][number]['penalty'] = 'INCAPABLE'
+        team['players'][number]['penalty_reason'] = 'penalized player re-entered field'
+
+
 def interruption(type):  # supported types: "CORNERKICK"
     game.interruption = type
     game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
@@ -845,23 +864,28 @@ while supervisor.step(time_step) != -1:
             if game.interruption:
                 game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
-    # determine which robot touched the ball if any
-    n = game.ball.getNumberOfContactPoints()
-    for i in range(0, n):
-        point = game.ball.getContactPoint(i)
-        if point[2] <= 0.01:  # contact with the ground
-            continue
-        check_touch(point, red_team, 'red')
-        check_touch(point, blue_team, 'blue')
+    if game.state:
+        # determine which robot touched the ball if any
+        n = game.ball.getNumberOfContactPoints()
+        for i in range(0, n):
+            point = game.ball.getContactPoint(i)
+            if point[2] <= 0.01:  # contact with the ground
+                continue
+            check_touch(point, red_team, 'red')
+            check_touch(point, blue_team, 'blue')
 
-    # detect fallen robots
-    check_fallen(red_team, 'red')
-    check_fallen(blue_team, 'blue')
+        # detect fallen robots
+        check_fallen(red_team, 'red')
+        check_fallen(blue_team, 'blue')
 
-    # send penalties if needed
-    if game.state and game.state.game_state != 'STATE_INITIAL':
-        send_penalties(red_team, 'red')
-        send_penalties(blue_team, 'blue')
+        # check for penalized robots inside the field
+        check_penalized_in_field(red_team, 'red')
+        check_penalized_in_field(blue_team, 'blue')
+
+        # send penalties if needed
+        if game.state.game_state != 'STATE_INITIAL':
+            send_penalties(red_team, 'red')
+            send_penalties(blue_team, 'blue')
 
     time_count += time_step
 
