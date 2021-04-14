@@ -49,7 +49,7 @@ m6.setPosition(0)
 m7.setPosition(0)
 m8.setPosition(0)
 
-# Set the motors speed. Here we put 1 or 2 radian/second
+# Set the motors speed. Here we set it to 1 radian/second
 m1.setVelocity(1)
 m2.setVelocity(1)
 m3.setVelocity(1)
