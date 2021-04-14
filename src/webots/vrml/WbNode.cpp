@@ -1263,7 +1263,7 @@ bool WbNode::isDefault() const {
 }
 
 void WbNode::unlinkProtoParameter() {
-  printf("unlinking %s\n", usefulName().toUtf8().constData());
+  printf("unlinking %s (%p)\n", usefulName().toUtf8().constData(), this);
 
   QVector<WbField *> fieldsList = fields();
   for (int i = 0; i < fieldsList.size(); ++i) {
@@ -1280,7 +1280,7 @@ void WbNode::unlinkProtoParameter() {
 
 void WbNode::printFieldsAndParams() {
   printf("---------------------\n");
-  printf("NODE %s\n", usefulName().toUtf8().constData());
+  printf("NODE %s (%p)\n", usefulName().toUtf8().constData(), this);
   QVector<WbField *> fieldsList = fields();
   QVector<WbField *> parametersList = parameters();
 
@@ -2291,6 +2291,9 @@ const WbNode *WbNode::findRobotRootNode() const {
 
 QString WbNode::getUrdfPrefix() const {
   return findRobotRootNode()->mUrdfPrefix;
+}
+
+void recursiveUnlink(WbNode *node) {
 }
 
 void WbNode::printDebugNodeStructure(int level) {

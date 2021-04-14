@@ -193,46 +193,68 @@ void WbWorld::finalize() {
   collapseNestedProtos();
 }
 
+bool WbWorld::isParameterNodeCollapsable(WbNode *node, int depth) {
+  if (node && node->protoParameterNode())
+    isParameterNodeCollapsable(node->protoParameterNode(), depth + 1);
+  else {
+    if (depth == 0 || WbNodeUtilities::isVisible(node))
+      return false;
+    else
+      return true;
+  }
+}
+
+void WbWorld::recursiveUnlink(WbNode *node, int depth) {
+  if (!node)
+    return;
+
+  if (depth == 0) {  // nothing to remove in the first level
+    recursiveUnlink(node->protoParameterNode(), depth + 1);
+    return;
+  }
+
+  if (node->isProtoParameterNode()) {
+    // remove reference from internal nodes
+    QVector<WbNode *> parameterInstances = node->protoParameterNodeInstances();
+    for (int j = 0; j < parameterInstances.size(); ++j) {
+      printf("node %s (%p) is an instance of node %s (%p)\n", parameterInstances[j]->usefulName().toUtf8().constData(),
+             parameterInstances[j], node->usefulName().toUtf8().constData(), node);
+      parameterInstances[j]->unlinkProtoParameter();
+      parameterInstances[j]->clearRefProtoParameterNode();
+    }
+    node->clearRefProtoParameterNodeInstances();
+  }
+
+  // take care of references at the nested proto level
+  if (node->isNestedProtoNode()) {
+    QVector<WbField *> fieldsList = node->fields();
+    for (int j = 0; j < fieldsList.size(); ++j)
+      fieldsList[j]->setParameter(NULL);
+  }
+
+  recursiveUnlink(node->protoParameterNode(), depth + 1);
+}
+
 void WbWorld::collapseNestedProtos() {
   printf("=============================\n");
   mRoot->printDebugNodeStructure();
   printf("=============================\n");
 
   QList<WbNode *> nodes = mRoot->subNodes(true, true, true);
-
   for (int i = 0; i < nodes.size(); ++i) {
     printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
            nodes[i]->isProtoParameterNode());
     printf("    PARAMETER NODE: %p\n", nodes[i]->protoParameterNode());
   }
-  /*
-  printf("\n-- connections --\n");
-  for (int i = 0; i < nodes.size(); ++i) {
-    for (int j = 0; j < nodes.size(); ++j) {
-      if (nodes[j]->protoParameterNode() == nodes[i]) {
-        printf("NODE %s (j = %d) IS CONNECTED TO NODE %s (i = %d)\n", nodes[j]->usefulName().toUtf8().constData(), j,
-               nodes[i]->usefulName().toUtf8().constData(), i);
-        // compare fields
-        QVector<WbField *> iFields = nodes[i]->fields();
-        QVector<WbField *> jFields = nodes[j]->fields();
-        for (int k = 0; k < jFields.size(); ++k) {
-          printf("  %s (%p) ---> %s (%p)\n", jFields[k]->name().toUtf8().constData(), jFields[k],
-                 iFields[k]->name().toUtf8().constData(), iFields[k]);
-        }
-      }
-    }
-  }
-  */
   for (int i = 0; i < nodes.size(); ++i) {
     nodes[i]->printFieldsAndParams();
   }
-
   printf("\nNODE FLAGS\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
-    printf("%s : visibility %d, isProtoParameterNode %d, isNestedProtoNode %d\n", nodes[i]->usefulName().toUtf8().constData(),
-           WbNodeUtilities::isVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode());
+    printf("%d) %s :  %d, %d, %d, %d | %d \n", i, nodes[i]->usefulName().toUtf8().constData(),
+           WbNodeUtilities::isVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
+           nodes[i]->protoParameterNode() != NULL, isParameterNodeCollapsable(nodes[i]));
   }
-
   printf("\nVISIBILITY\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
     printf("%s visibility: %d\n", nodes[i]->usefulName().toUtf8().constData(), WbNodeUtilities::isVisible(nodes[i]));
@@ -244,29 +266,33 @@ void WbWorld::collapseNestedProtos() {
   }
 
   printf("\n\n>>>> BEGIN COLLAPSE <<<\n\n");
+  for (int i = 0; i < nodes.size(); ++i) {
+    if (isParameterNodeCollapsable(nodes[i])) {
+      recursiveUnlink(nodes[i]);
+      // delete unnecessary nodes/fields
+    }
+  }
 
+  // -- previous method --
   for (int i = nodes.size() - 1; i >= 0; --i) {
-    // TODO: only PROTO instances with no direct scene-tree connection should be collapsed, doing all for now
-    // printf("%d %d %d\n", i, nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode());
     // take care of nodes instantiated at the PROTO parameter level
     if (nodes[i]->isProtoParameterNode()) {
       // remove reference from internal nodes
       QVector<WbNode *> parameterInstances = nodes[i]->protoParameterNodeInstances();
       for (int j = 0; j < parameterInstances.size(); ++j) {
-        printf("node %s (%p) is an instance\n", parameterInstances[j]->usefulName().toUtf8().constData(),
-               parameterInstances[j]);
-        parameterInstances[j]->unlinkProtoParameter();
-        parameterInstances[j]->clearRefProtoParameterNode();
+        printf("node %s (%p) is an instance of node %s (%p)\n", parameterInstances[j]->usefulName().toUtf8().constData(),
+               parameterInstances[j], nodes[i]->usefulName().toUtf8().constData(), nodes[i]);
+        // parameterInstances[j]->unlinkProtoParameter();
+        // parameterInstances[j]->clearRefProtoParameterNode();
       }
-      nodes[i]->clearRefProtoParameterNodeInstances();
+      // nodes[i]->clearRefProtoParameterNodeInstances();
     }
 
     // take care of references at the nested proto level
     if (nodes[i]->isNestedProtoNode()) {
-      // nodes[i]->printFieldsAndParams();
       QVector<WbField *> fieldsList = nodes[i]->fields();
       for (int j = 0; j < fieldsList.size(); ++j)
-        fieldsList[j]->setParameter(NULL);
+        ;  // fieldsList[j]->setParameter(NULL);
     }
   }
   // now that the cross references have been removed, we can delete
@@ -274,11 +300,12 @@ void WbWorld::collapseNestedProtos() {
     if (nodes[i]->isNestedProtoNode()) {
       QVector<WbField *> parametersList = nodes[i]->fieldsOrParameters();
       for (int j = parametersList.size() - 1; j >= 0; --j) {
-        delete parametersList[j];
-        nodes[i]->removeFromParameters(parametersList[j]);
+        // delete parametersList[j];
+        // nodes[i]->removeFromParameters(parametersList[j]);
       }
     }
   }
+  // -- previous method --
 
   nodes = mRoot->subNodes(true, true, true);
   printf("\n>>>> END COLLAPSE <<<\n\n");

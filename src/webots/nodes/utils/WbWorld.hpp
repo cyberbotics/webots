@@ -95,6 +95,10 @@ public:
   double orthographicViewHeight() const;
   void setOrthographicViewHeight(double ovh) const;
 
+  // node structure proto simplification
+  bool isParameterNodeCollapsable(WbNode *node, int depth = 0);
+  void recursiveUnlink(WbNode *node, int depth = 0);
+
   // current perspective
   WbPerspective *perspective() const { return mPerspective; }
   bool reloadPerspective();
