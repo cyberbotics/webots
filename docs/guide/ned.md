@@ -26,7 +26,8 @@ PROTO Ned {
 
 ### Samples
 
-You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/niryo/ned/worlds".
+You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/niryo/ned/worlds](https://github.com/omichel/webots/tree/released/projects/robots/niryo/ned/worlds).
+
 
 #### Ned.wbt
 
