@@ -21,10 +21,10 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 32
+static int time_step;
 
 static void step() {
-  if (wb_robot_step(TIME_STEP) == -1) {
+  if (wb_robot_step(time_step) == -1) {
     wb_robot_cleanup();
     exit(EXIT_SUCCESS);
   }
