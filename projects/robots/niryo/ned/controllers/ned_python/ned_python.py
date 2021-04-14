@@ -273,5 +273,5 @@ while True:
             demo()
 
         elif key == Keyboard.SHIFT + ord('P'):
-            print("Demonstrator Pick And Place")
+            print("Demonstrator: Pick And Place")
             pick_place()
