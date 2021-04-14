@@ -66,8 +66,7 @@ def demo():
     m2.setVelocity(1)
     m3.setVelocity(1)
 
-    status = robot.step(0)
-    if status == -1:
+    if robot.step(0) == -1:
         return
     m1.setPosition(1.6)
     m7.setPosition(0.01)
