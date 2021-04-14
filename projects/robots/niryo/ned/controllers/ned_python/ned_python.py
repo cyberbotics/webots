@@ -206,7 +206,6 @@ while True:
     keyboard = Keyboard()
     keyboard.enable(timestep)
 
-    # Here you can see all the command to control the robot
     while robot.step(timestep) != -1:
 
         key = keyboard.getKey()
