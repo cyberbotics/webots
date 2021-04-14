@@ -1,4 +1,4 @@
-On this test scenario, we have some robots initially placed outside of the field in valid positions and are going to be in an illegal popsition after finishing ready state:
+On this test scenario, we have some robots initially placed outside of the field in valid positions and are going to be in illegal positions after finishing ready state:
 
 The following should happen:
 
