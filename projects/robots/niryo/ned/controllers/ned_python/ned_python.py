@@ -26,8 +26,6 @@ from controller import Keyboard
 # Make request to the simulator to make give orders to the robot (Ned)
 robot = Robot()
 
-# Start the controller
-print(".....Load Ned_Controller.....")
 robot_name = robot.getName()
 print('Name of the robot: ' + robot_name)
 print(" ")
