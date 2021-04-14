@@ -269,7 +269,7 @@ while True:
             m8.setPosition(0)
 
         elif key == Keyboard.SHIFT + ord('D'):
-            print("Demonstrator Move Joints")
+            print("Demonstrator: Move Joints")
             demo()
 
         elif key == Keyboard.SHIFT + ord('P'):
