@@ -38,7 +38,6 @@ static void passive_wait(double sec) {
   while (start_time + sec > wb_robot_get_time());
 }
 
-// function to show the different commands
 static void show_commands() {
   printf("------------COMMANDS---------------\n");
   printf("Launch demo --> D\n");
