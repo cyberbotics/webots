@@ -52,7 +52,6 @@ static void show_commands() {
 }
 
 int main(int argc, char **argv) {
-  // initialize Webots
   wb_robot_init();
   show_commands();
 
