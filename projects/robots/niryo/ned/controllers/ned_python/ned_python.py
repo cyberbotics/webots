@@ -188,8 +188,6 @@ def pick_place():
     m3.setPosition(0)
     m2.setPosition(0)
 
-# In the while you can find the different command to control the Ned robot
-# You can also launch a demonstrator
 while True:
 
     print("------------COMMANDS--------------")
