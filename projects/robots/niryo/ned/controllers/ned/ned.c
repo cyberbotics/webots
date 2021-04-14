@@ -58,7 +58,6 @@ int main(int argc, char **argv) {
   int time_step = (int)wb_robot_get_basic_time_step();
   wb_keyboard_enable(time_step);
 
-  //----------------------Init all the motors of the Ned---------------------
   WbDeviceTag motors[7];
   WbDeviceTag gripper[3];
   motors[1] = wb_robot_get_device("joint_1");
