@@ -2916,7 +2916,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
 
       if (j->nodeType() == WB_NODE_HINGE_2_JOINT || j->nodeType() == WB_NODE_BALL_JOINT) {
         const WbJointParameters *const p2 = j->parameters2();
-        if ((p2 == NULL || !WbNodeUtilities::isVisible(p2->findField("position"))) && (j->position(2) != j->initialPosition(2)))
+        if ((p2 == NULL || !WbNodeUtilities::isVisible(p2->findField("position"))) && j->position(2) != j->initialPosition(2))
           v[1] = j->position(2);
       }
 
