@@ -508,12 +508,13 @@ def check_fallen(team, color):
                 del team['players'][number]['fallen']
 
 
-def corner_kick():
-    t = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
-    game_controller_send(f'CORNERKICK:{t}')
-    c = 'red' if game.ball_last_touch_team == 'blue' else 'red'
-    info(f'Corner kick for {c} team.')
-    game_controller_send(f'CORNERKICK:{t}:READY')
+def interruption(type):  # supported types: "CORNERKICK"
+    game.interruption = type
+    game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+    game_controller_send(f'{game.interruption}:{game.interruption_team}')
+    color = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+    if type == 'CORNERKICK':
+        info(f'Corner kick awarded to {color} team.')
 
 
 time_count = 0
@@ -652,6 +653,8 @@ game.ball_exited_countdown = 0
 game.ball_last_touch_team = 0
 game.ball_last_touch_player = 0
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
+game.interruption = None
+game.interruption_team = None
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
 game.sent_finish = False
@@ -703,7 +706,7 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        corner_kick()
+                        interruption('CORNERKICK')
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
@@ -716,7 +719,7 @@ while supervisor.step(time_step) != -1:
                         game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
                         game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
                             if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        corner_kick()
+                        interruption('CORNERKICK')
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
@@ -773,6 +776,8 @@ while supervisor.step(time_step) != -1:
             game.ball_translation.setSFVec3f(game.ball_exit_translation)
             info('Ball respawned at '
                  f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}')
+            if game.interruption:
+                game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
     # determine which robot touched the ball if any
     n = game.ball.getNumberOfContactPoints()
