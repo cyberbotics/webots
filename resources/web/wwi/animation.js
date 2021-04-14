@@ -128,7 +128,7 @@ class Animation {
     this._updateAnimationState(requestedStep);
   }
 
-  async _updateAnimationState(requestedStep = undefined) {
+  _updateAnimationState(requestedStep = undefined) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
@@ -188,7 +188,7 @@ class Animation {
     x3dScene.render();
   }
 
-  async _updateAnimation() {
+  _updateAnimation() {
     if (this.gui === 'real_time' && !this.sliding)
       this._updateAnimationState();
 
