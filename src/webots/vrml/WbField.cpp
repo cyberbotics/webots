@@ -72,6 +72,7 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 }
 
 WbField::~WbField() {
+  printf("  > deleting field %s (%p)\n", name().toUtf8().constData(), this);
   foreach (WbField *const field, mInternalFields)
     field->mParameter = NULL;
   delete mValue;
@@ -380,6 +381,7 @@ void WbField::redirectTo(WbField *parameter) {
 }
 
 void WbField::removeInternalField(QObject *field) {
+  printf("removeInternalField\n");
   mInternalFields.removeAll(static_cast<WbField *>(field));
 }
 
@@ -419,6 +421,7 @@ void WbField::parameterNodeInserted(int index) {
 
 // propagate node remotion to internal fields of parameter
 void WbField::parameterNodeRemoved(int index) {
+  printf("parameterNodeRemoved\n");
   WbMFNode *mfnode = NULL;
   foreach (WbField *const field, mInternalFields) {
     mfnode = dynamic_cast<WbMFNode *>(field->value());

@@ -321,6 +321,7 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
+  printf("> deleting node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -360,6 +361,8 @@ WbNode::~WbNode() {
   // delete the PROTO instance temporary file if any
   if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
     QFile::remove(mProtoInstanceFilePath);
+
+  printf("> done removing node %s (%p)\n", usefulName().toUtf8().constData(), this);
 }
 
 const QString &WbNode::modelName() const {
@@ -1291,6 +1294,11 @@ void WbNode::printFieldsAndParams() {
            parametersList[i]->parameter());
   }
   printf("---------------------\n");
+}
+
+void WbNode::removeFromParameters(WbField *item) {
+  printf("removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
+  mParameters.removeAll(item);
 }
 
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
@@ -2307,8 +2315,8 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    printf("%s%s %s %p (alias %p): *** %p\n", indent.toStdString().c_str(), type.toStdString().c_str(),
-           p->name().toStdString().c_str(), p, p->parameter(), this);
+    printf("%s%s %s %p (alias %p)\n", indent.toStdString().c_str(), type.toStdString().c_str(), p->name().toStdString().c_str(),
+           p, p->parameter());
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)
@@ -2321,7 +2329,7 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
           n->printDebugNodeStructure(level + 1);
       }
     } else {
-      printf("%s  %s\n", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
+      // printf("%s  %s\n", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
     }
   }
 }

@@ -187,6 +187,7 @@ public:
   void clearRefProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
   void clearRefProtoParameterNode() { mProtoParameterNode = NULL; }
   void printFieldsAndParams();
+  void removeFromParameters(WbField *item);
   // ----
 
   // return if 'node' is a direct child of this PROTO parameters
