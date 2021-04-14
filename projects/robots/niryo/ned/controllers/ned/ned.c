@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(gripper[1], 0.0);
   wb_motor_set_position(gripper[2], 0.0);
 
-  // set the motors speed. Here we put 1 or 2 radian/second
+  // set the motors speed. Here we set it to 1 radian/second
   wb_motor_set_velocity(motors[1], 1.0);
   wb_motor_set_velocity(motors[2], 1.0);
   wb_motor_set_velocity(motors[3], 1.0);
