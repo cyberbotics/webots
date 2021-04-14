@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
   show_commands();
 
-  int time_step = (int)wb_robot_get_basic_time_step();
+  time_step = (int)wb_robot_get_basic_time_step();
   wb_keyboard_enable(time_step);
 
   WbDeviceTag motors[7];
