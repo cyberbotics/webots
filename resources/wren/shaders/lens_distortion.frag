@@ -24,9 +24,9 @@ void main() {
   float d2 = 1 / (4 * radialDistortionCoeffs.x * r + 6 * radialDistortionCoeffs.y * r * r +
                   8 * tangentialDistortionCoeffs.x * relativeUv.y + 8 * tangentialDistortionCoeffs.y * relativeUv.x + 1);
   distortedUv.x = texUv.x - d2 * (d1 * relativeUv.x + 2 * tangentialDistortionCoeffs.x * relativeUv.x * relativeUv.y +
-                                  tangentialDistortionCoeffs.y * ( r + 2 * relativeUv.x * relativeUv.x));
+                                  tangentialDistortionCoeffs.y * (r + 2 * relativeUv.x * relativeUv.x));
   distortedUv.y = texUv.y - d2 * (d1 * relativeUv.y + 2 * tangentialDistortionCoeffs.y * relativeUv.x * relativeUv.y +
-                                  tangentialDistortionCoeffs.x * ( r + 2 * relativeUv.y * relativeUv.y));
+                                  tangentialDistortionCoeffs.x * (r + 2 * relativeUv.y * relativeUv.y));
 
   fragColor = texture(inputTextures[0], distortedUv);
 }
