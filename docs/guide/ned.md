@@ -22,7 +22,7 @@ PROTO Ned {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/niryo/ned/protos/NedGripper.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/niryo/ned/protos/Ned.proto"
 
 ### Samples
 
