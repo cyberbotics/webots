@@ -10,7 +10,7 @@ function init() {
 if (!!window.chrome)
   init();
 else {
-  Module['onRuntimeInitialized'] = function() {
+  Module['onRuntimeInitialized'] = _ => {
     console.log('wasm loaded ');
     init();
   };

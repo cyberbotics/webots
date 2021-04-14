@@ -41,7 +41,7 @@ function connect() {
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
 
-  view.onready = function() {
+  view.onready = _ => {
     connectButton.value = 'Disconnect';
     connectButton.onclick = disconnect;
     connectButton.disabled = false;
