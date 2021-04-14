@@ -16,16 +16,15 @@
 
 /*
 * Description:  This controller is used to move the mecanum-wheeled robot Summit-XL Steel in an industrial environment
-                using the keyboard. The keys are the following:
-                
-                vx: ↑/↓
-                vy: ←/→
-                ω: +/-
-                Belt*: Page Up/Page Down
-                STOP: S
-
-                *It is assumed that its Conveyor Platform runs the 'keyboard-belt-control' controller (these keys are
-                handled only by the latter).
+*               using the keyboard. The keys are the following:
+*
+*               vx: ↑/↓
+*               vy: ←/→
+*               ω: +/-
+*               Belt*: Page Up/Page Down
+*               STOP: S
+*               *It is assumed that its Conveyor Platform runs the 'keyboard-belt-control' controller (these keys are
+*               handled only by the latter).
 */
 
 #include <math.h>
@@ -63,97 +62,97 @@ int main() {
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0; // waiting counter (to avoid registering too much clicks when user long-clicks.
 
-    void increase_target_speed() {
-      if ( (speed_id != -1) || (sign == 0) ) {
-        target_speed[speed_id] += sign * SPEED_INCREMENT;
-        if(sign > 0) {
-          if (target_speed[speed_id] > MAX_SPEED)
-          target_speed[speed_id] = MAX_SPEED;
-        }
-        else if(sign < 0){
-          if (target_speed[speed_id] < -MAX_SPEED)
-          target_speed[speed_id] = -MAX_SPEED;
-        }
-        else
-        {
-          for (int i = 0; i < 3; ++i)
-          target_speed[i] = 0;
-        }
-        printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
-        waiting_counter = 10;
+  void increase_target_speed() {
+    if ( (speed_id != -1) || (sign == 0) ) {
+      target_speed[speed_id] += sign * SPEED_INCREMENT;
+      if (sign > 0) {
+        if (target_speed[speed_id] > MAX_SPEED)
+        target_speed[speed_id] = MAX_SPEED;
       }
-      speed_id = -1;
-      sign = 1;
+      else if (sign < 0){
+        if (target_speed[speed_id] < -MAX_SPEED)
+        target_speed[speed_id] = -MAX_SPEED;
+      }
+      else
+      {
+        for (int i = 0; i < 3; ++i)
+        target_speed[i] = 0;
+      }
+      printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
+      waiting_counter = 10;
     }
-
-    printf("To move the Summit-XL Steel with your keyboard, click first inside the simulation window and press:\n \
-    vx: ↑/↓                 \n \
-    vy: ←/→                 \n \
-    ω: +/-                  \n \
-    Belt: Page Up/Page Down \n \
-    STOP: S                 \n");
-
-
-    while (wb_robot_step(TIME_STEP) != -1) {
-      if(waiting_counter == 0) {
-
-        int key = wb_keyboard_get_key();
-
-        switch (key) {
-          case WB_KEYBOARD_UP:
-          speed_id = 0;
-          sign = 1;
-          break;
-
-          case WB_KEYBOARD_DOWN:
-          speed_id = 0;
-          sign = -1;
-          break;
-
-          case WB_KEYBOARD_LEFT:
-          speed_id = 1;
-          sign = 1;
-          break;
-
-          case WB_KEYBOARD_RIGHT:
-          speed_id = 1;
-          sign = -1;
-          break;
-
-          case '+':
-          speed_id = 2;
-          sign = 1;
-          break;
-
-          case '-':
-          speed_id = 2;
-          sign = -1;
-          break;
-
-          case 'S':
-          speed_id = -1;
-          sign = 0;
-          break;
-        }
-      }
-      else {
-        waiting_counter -= 1;
-      }
-
-      increase_target_speed();
-
-      // Computes the wheel motors speeds from vx, vy and ω.
-      motor_speed[0] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] - (LX + LY) * target_speed[2]);
-      motor_speed[1] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] + (LX + LY) * target_speed[2]);
-      motor_speed[2] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] - (LX + LY) * target_speed[2]);
-      motor_speed[3] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] + (LX + LY) * target_speed[2]);
-
-      wb_motor_set_velocity(motor_fl, motor_speed[0]);
-      wb_motor_set_velocity(motor_fr, motor_speed[1]);
-      wb_motor_set_velocity(motor_bl, motor_speed[2]);
-      wb_motor_set_velocity(motor_br, motor_speed[3]);
-    }
-
-    wb_robot_cleanup();
-    return 0;
+    speed_id = -1;
+    sign = 1;
   }
+
+  printf("To move the Summit-XL Steel with your keyboard, click first inside the simulation window and press:\n \
+  vx: ↑/↓                 \n \
+  vy: ←/→                 \n \
+  ω: +/-                  \n \
+  Belt: Page Up/Page Down \n \
+  STOP: S                 \n");
+
+
+  while (wb_robot_step(TIME_STEP) != -1) {
+    if (waiting_counter == 0) {
+
+      int key = wb_keyboard_get_key();
+
+      switch (key) {
+        case WB_KEYBOARD_UP:
+        speed_id = 0;
+        sign = 1;
+        break;
+
+        case WB_KEYBOARD_DOWN:
+        speed_id = 0;
+        sign = -1;
+        break;
+
+        case WB_KEYBOARD_LEFT:
+        speed_id = 1;
+        sign = 1;
+        break;
+
+        case WB_KEYBOARD_RIGHT:
+        speed_id = 1;
+        sign = -1;
+        break;
+
+        case '+':
+        speed_id = 2;
+        sign = 1;
+        break;
+
+        case '-':
+        speed_id = 2;
+        sign = -1;
+        break;
+
+        case 'S':
+        speed_id = -1;
+        sign = 0;
+        break;
+      }
+    }
+    else {
+      waiting_counter -= 1;
+    }
+
+    increase_target_speed();
+
+    // Computes the wheel motors speeds from vx, vy and ω.
+    motor_speed[0] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] - (LX + LY) * target_speed[2]);
+    motor_speed[1] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] + (LX + LY) * target_speed[2]);
+    motor_speed[2] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] - (LX + LY) * target_speed[2]);
+    motor_speed[3] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] + (LX + LY) * target_speed[2]);
+
+    wb_motor_set_velocity(motor_fl, motor_speed[0]);
+    wb_motor_set_velocity(motor_fr, motor_speed[1]);
+    wb_motor_set_velocity(motor_bl, motor_speed[2]);
+    wb_motor_set_velocity(motor_br, motor_speed[3]);
+  }
+
+  wb_robot_cleanup();
+  return 0;
+}
