@@ -92,7 +92,6 @@ int main(int argc, char **argv) {
 
   // control with keyboard
   while (wb_robot_step(time_step) != -1) {
-    // get the keyboard key
     int c = wb_keyboard_get_key();
     switch (c) {
       case 'A':
