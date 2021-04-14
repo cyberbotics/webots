@@ -89,7 +89,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(motors[6], 1.0);
   wb_motor_set_velocity(gripper[1], 1.0);
   wb_motor_set_velocity(gripper[2], 1.0);
-  //--------------------------------------------------------------------------------
 
   // control with keyboard
   while (wb_robot_step(time_step) != -1) {
