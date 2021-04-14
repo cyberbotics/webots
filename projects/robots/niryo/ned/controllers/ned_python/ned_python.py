@@ -19,7 +19,6 @@
 # You can also control the robots with your keyboard and launch a Pick and Pack
 
 
-# Import the Webots simulator API and the Keyboard libray.
 from controller import Robot
 from controller import Keyboard
 
