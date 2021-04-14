@@ -1,4 +1,4 @@
-On this test scenario, we have some robots initially placed outside of the field in valid positions and are going to be in an illegal popsition after finishing ready state:
+On this test scenario, we have some robots initially placed outside of the field in valid positions. There is going to be a complete match including first and second half. Some goals are going to be scored and there will be a team winning the match at the end:
 
 The following should happen:
 
