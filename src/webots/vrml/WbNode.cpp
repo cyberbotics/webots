@@ -1259,6 +1259,40 @@ bool WbNode::isDefault() const {
   return true;
 }
 
+void WbNode::unlinkProtoParameter() {
+  printf("unlinking %s\n", usefulName().toUtf8().constData());
+
+  QVector<WbField *> fieldsList = fields();
+  for (int i = 0; i < fieldsList.size(); ++i) {
+    // printf("was %s: %p\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i]->parameter());
+    fieldsList[i]->setParameter(NULL);
+  }
+  /*
+  fieldsList = fields();
+  for (int i = 0; i < fieldsList.size(); ++i) {
+    printf("is %s: %p\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i]->parameter());
+  }
+  */
+}
+
+void WbNode::printFieldsAndParams() {
+  printf("---------------------\n");
+  printf("NODE %s\n", usefulName().toUtf8().constData());
+  QVector<WbField *> fieldsList = fields();
+  QVector<WbField *> parametersList = parameters();
+
+  printf("FIELDS\n");
+  for (int i = 0; i < fieldsList.size(); ++i) {
+    printf(" > field %s (%p (-> %p))\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i], fieldsList[i]->parameter());
+  }
+  printf("PARAMETERS\n");
+  for (int i = 0; i < parametersList.size(); ++i) {
+    printf(" > %s (%p (-> %p))\n", parametersList[i]->name().toUtf8().constData(), parametersList[i],
+           parametersList[i]->parameter());
+  }
+  printf("---------------------\n");
+}
+
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
 // the search does not look up inside fields of other PROTO instances or PROTO parameter node instances
 // because the scope of a PROTO parameter must be local to a PROTO instance
@@ -1851,7 +1885,8 @@ void WbNode::updateNestedProtoFlag() {
 void WbNode::setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree) {
   mIsProtoDescendant = !isTopNode;
   mIsNestedProtoNode = !(isTopNode || isInsertedFromSceneTree) && isProtoInstance();
-  // printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance %d)\n",
+  // printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance
+  // %d)\n",
   //       mIsProtoDescendant, mIsNestedProtoNode, isTopNode, isInsertedFromSceneTree, isProtoInstance());
   if (isTopParameterDescendant)
     mIsTopParameterDescendant = true;
@@ -2272,8 +2307,8 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    printf("%s%s %s %p (alias %p):\n", indent.toStdString().c_str(), type.toStdString().c_str(),
-           p->name().toStdString().c_str(), p, p->parameter());
+    printf("%s%s %s %p (alias %p): *** %p\n", indent.toStdString().c_str(), type.toStdString().c_str(),
+           p->name().toStdString().c_str(), p, p->parameter(), this);
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)

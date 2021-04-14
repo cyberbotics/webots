@@ -198,22 +198,23 @@ void WbWorld::collapseNestedProtos() {
   mRoot->printDebugNodeStructure();
   printf("=============================\n");
 
-  QList<WbNode *> subNodes = mRoot->subNodes(true, true, true);
+  QList<WbNode *> nodes = mRoot->subNodes(true, true, true);
 
-  for (int i = 0; i < subNodes.size(); ++i) {
-    printf("[%2d]NODE: %s (%p)\n", i, subNodes[i]->usefulName().toUtf8().constData(), subNodes[i]);
-    printf("    PARAMETER NODE: %p\n", subNodes[i]->protoParameterNode());
+  for (int i = 0; i < nodes.size(); ++i) {
+    printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
+           nodes[i]->isProtoParameterNode());
+    printf("    PARAMETER NODE: %p\n", nodes[i]->protoParameterNode());
   }
 
   printf("\n-- connections --\n");
-  for (int i = 0; i < subNodes.size(); ++i) {
-    for (int j = 0; j < subNodes.size(); ++j) {
-      if (subNodes[j]->protoParameterNode() == subNodes[i]) {
-        printf("NODE %s (j = %d) IS CONNECTED TO NODE %s (i = %d)\n", subNodes[j]->usefulName().toUtf8().constData(), j,
-               subNodes[i]->usefulName().toUtf8().constData(), i);
+  for (int i = 0; i < nodes.size(); ++i) {
+    for (int j = 0; j < nodes.size(); ++j) {
+      if (nodes[j]->protoParameterNode() == nodes[i]) {
+        printf("NODE %s (j = %d) IS CONNECTED TO NODE %s (i = %d)\n", nodes[j]->usefulName().toUtf8().constData(), j,
+               nodes[i]->usefulName().toUtf8().constData(), i);
         // compare fields
-        QVector<WbField *> iFields = subNodes[i]->fields();
-        QVector<WbField *> jFields = subNodes[j]->fields();
+        QVector<WbField *> iFields = nodes[i]->fields();
+        QVector<WbField *> jFields = nodes[j]->fields();
         for (int k = 0; k < jFields.size(); ++k) {
           printf("  %s (%p) ---> %s (%p)\n", jFields[k]->name().toUtf8().constData(), jFields[k],
                  iFields[k]->name().toUtf8().constData(), iFields[k]);
@@ -221,6 +222,78 @@ void WbWorld::collapseNestedProtos() {
       }
     }
   }
+
+  // nodes[2]->printFieldsAndParams();
+  nodes[3]->printFieldsAndParams();
+  nodes[4]->printFieldsAndParams();
+  nodes[5]->printFieldsAndParams();
+  printf(">> begin <<\n");
+
+  for (int i = nodes.size() - 1; i >= 0; --i) {  // traverse backwards
+    // take care of nodes instantiated at the PROTO parameter level
+    if (nodes[i]->isProtoParameterNode()) {
+      // remove link from internal nodes
+      QVector<WbNode *> parameterInstances = nodes[i]->protoParameterNodeInstances();
+      for (int j = 0; j < parameterInstances.size(); ++j) {
+        printf("node %s (%p) is an instance\n", parameterInstances[j]->usefulName().toUtf8().constData(),
+               parameterInstances[j]);
+        parameterInstances[j]->unlinkProtoParameter();
+        parameterInstances[j]->clearRefProtoParameterNode();
+      }
+      nodes[i]->clearRefProtoParameterNodeInstances();
+    }
+
+    // take care of references at the nested proto level
+    if (nodes[i]->isNestedProtoNode()) {
+      // TODO: only PROTO instances with no direct scene-tree connection should be collapsed, doing all for now
+      // nodes[i]->printFieldsAndParams();
+
+      // check if a connection exists betwen the internal field and the parameter
+      QVector<WbField *> fieldsList = nodes[i]->fields();
+      QVector<WbField *> parametersList = nodes[i]->fieldsOrParameters();
+
+      for (int j = 0; j < fieldsList.size(); ++j)
+        fieldsList[j]->setParameter(NULL);
+
+      // delete parameters
+    }
+  }
+
+  /*
+  for (int i = 0; i < nodes.size(); ++i) {
+    if (nodes[i]->isProtoParameterNode()) {
+      printf("i = %d\n", i);
+      QVector<WbNode *> parameterInstances = nodes[i]->protoParameterNodeInstances();  // target internal node
+      for (int j = 0; j < parameterInstances.size(); ++j) {
+        printf("node %s (%p) is an instance\n", parameterInstances[j]->usefulName().toUtf8().constData(),
+               parameterInstances[j]);
+        parameterInstances[j]->unlinkProtoParameter();
+        parameterInstances[j]->clearRefProtoParameterNode();
+      }
+      nodes[i]->clearRefProtoParameterNodeInstances();
+      // additionally, we need to unlink parameters present in the header of a PROTO that aren't actually "overwritten"
+      // these appear as simple fields (internal) <-> parameter (external) links without any intermediary node being involved
+
+      // now that all links have been removed, we can safely delete the parameter node
+    }
+  }
+  */
+  // delete nodes[5];
+  // nodes = mRoot->subNodes(true, true, true);
+  printf(">> end << \n");
+  nodes[3]->printFieldsAndParams();
+  nodes[4]->printFieldsAndParams();
+  nodes[5]->printFieldsAndParams();
+
+  for (int i = 0; i < nodes.size(); ++i) {
+    printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
+           nodes[i]->isProtoParameterNode());
+    printf("    PARAMETER NODE: %p\n", nodes[i]->protoParameterNode());
+  }
+
+  printf("=============================\n");
+  mRoot->printDebugNodeStructure();
+  printf("=============================\n");
 }
 
 WbWorld::~WbWorld() {

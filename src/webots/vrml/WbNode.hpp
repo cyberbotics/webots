@@ -181,10 +181,21 @@ public:
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
 
+  // ----
+  // function for the unlinking of a node internal to a PROTO and the corresponding external parameter
+  void unlinkProtoParameter();
+  void clearRefProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
+  void clearRefProtoParameterNode() { mProtoParameterNode = NULL; }
+  void printFieldsAndParams();
+  // ----
+
   // return if 'node' is a direct child of this PROTO parameters
   bool isProtoParameterChild(const WbNode *node) const;
   // is a parameter node contained in a PROTO instance
   bool isProtoParameterNode() const;
+
+  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
+
   // return the node instances redirected to this PROTO parameter node
   QVector<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
   bool hasAProtoAncestor() const;
@@ -319,7 +330,6 @@ protected:
   virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
-  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
 
   QString getUrdfPrefix() const;
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
