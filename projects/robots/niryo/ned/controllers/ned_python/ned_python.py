@@ -22,7 +22,6 @@
 from controller import Robot
 from controller import Keyboard
 
-# Make request to the simulator to make give orders to the robot (Ned)
 robot = Robot()
 
 robot_name = robot.getName()
