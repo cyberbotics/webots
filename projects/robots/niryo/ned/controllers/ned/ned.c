@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   gripper[2] = wb_robot_get_device("joint_base_to_mors_2");
 
   // set the motor velocity
-  // first we make sure that every joints are at their initial positions
+  // first we make sure that every joint is at its initial position
   wb_motor_set_position(motors[1], 0.0);
   wb_motor_set_position(motors[2], 0.0);
   wb_motor_set_position(motors[3], 0.0);
