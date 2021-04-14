@@ -66,8 +66,8 @@ int main(int argc, char **argv) {
   motors[4] = wb_robot_get_device("joint_4");
   motors[5] = wb_robot_get_device("joint_5");
   motors[6] = wb_robot_get_device("joint_6");
-  gripper[1] = wb_robot_get_device("joint_base_to_mors_1");
-  gripper[2] = wb_robot_get_device("joint_base_to_mors_2");
+  gripper[1] = wb_robot_get_device("joint_base_to_jaw_1");
+  gripper[2] = wb_robot_get_device("joint_base_to_jaw_2");
 
   // set the motor velocity
   // first we make sure that every joint is at its initial position

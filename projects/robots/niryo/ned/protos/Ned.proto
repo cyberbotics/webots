@@ -1,19 +1,19 @@
-#VRML_SIM R2020b utf8
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the Ned
-# Extracted from: niryo_ned.urdf.xacro
+#VRML_SIM R2021a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/ned
+# A 6-axis collaborative robot based on open-source technologies designed for education, professional training and research.
 
 PROTO Ned [
-  field  SFVec3f     translation     0 0 0
-  field  SFRotation  rotation        0 1 0 0
-  field  SFString    name            "Ned"  # Is `Robot.name`.
-  field  SFString    controller      "void" # Is `Robot.controller`.
-  field  MFString    controllerArgs  []     # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""     # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE  # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE   # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE  # Is `Robot.selfCollision`.
+  field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.
+  field  SFRotation  rotation        0 1 0 0   # Is `Transform.rotation`.
+  field  SFString    name            "Ned"     # Is `Robot.name`.
+  field  SFString    controller      "ned"     # Is `Robot.controller`.
+  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""        # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
 ]
 {
   Robot {
@@ -740,14 +740,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_mors_1"
+                                                    name "joint_base_to_jaw_1"
                                                     maxVelocity 5.0
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1.0
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_mors_1_sensor"
+                                                    name "joint_base_to_jaw_1_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -755,7 +755,7 @@ PROTO Ned [
                                                   rotation 1.000000 0.000000 0.000000 1.570800
                                                   children [
                                                     Shape {
-                                                      appearance DEF mors_1_material PBRAppearance {
+                                                      appearance DEF jaw_1_material PBRAppearance {
                                                         baseColor 0.498040 0.498040 0.498040
                                                         transparency 0.000000
                                                         roughness 1.000000
@@ -775,7 +775,7 @@ PROTO Ned [
                                                       }
                                                     }
                                                   ]
-                                                  name "mors_1"
+                                                  name "jaw_1"
                                                   boundingObject USE mors_1
                                                   physics Physics {
                                                     density -1
@@ -796,14 +796,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_mors_2"
+                                                    name "joint_base_to_jaw_2"
                                                     maxVelocity 5.0
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1.0
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_mors_2_sensor"
+                                                    name "joint_base_to_jaw_2_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -831,7 +831,7 @@ PROTO Ned [
                                                       }
                                                     }
                                                   ]
-                                                  name "mors_2"
+                                                  name "jaw_2"
                                                   boundingObject USE mors_2
                                                   physics Physics {
                                                     density -1

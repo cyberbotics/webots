@@ -35,8 +35,8 @@ m3 = robot.getDevice('joint_3')
 m4 = robot.getDevice('joint_4')
 m5 = robot.getDevice('joint_5')
 m6 = robot.getDevice('joint_6')
-m7 = robot.getDevice('joint_base_to_mors_1')
-m8 = robot.getDevice('joint_base_to_mors_2')
+m7 = robot.getDevice('joint_base_to_jaw_1')
+m8 = robot.getDevice('joint_base_to_jaw_2')
 
 # Set the motor velocity
 # First we make sure that every joints are at their initial positions
