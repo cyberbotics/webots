@@ -33,10 +33,13 @@ SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let 
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
+IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
 GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size league
+RED_COLOR = 0xd62929                      # red team color used for the display
+BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
@@ -128,14 +131,29 @@ def update_time_display():
 def update_state_display():
     if game.state:
         state = game.state.game_state[6:]
-        sr = game.state.secondary_seconds_remaining
+        if state == 'READY' or state == 'SET':  # kickoff
+            color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
+        elif game.interruption_team is not None:  # interruption
+            color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
+        else:
+            color = 0x000000
+        sr = IN_PLAY_TIMEOUT - game.interruption_seconds + game.state.seconds_remaining \
+            if game.interruption_seconds is not None \
+            else game.state.secondary_seconds_remaining
         if sr > 0:
-            if state == 'PLAYING':
+            if state == 'PLAYING':  # in play timeout
                 state = 'PLAY'
+                if game.interruption is None:  # kickoff
+                    color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
+            else:
+                state = 'READY'
             state += ': ' + format_time(sr)
+        elif game.interruption is not None:
+            state = game.interruption
     else:
         state = ''
-    supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+        color = 0x000000
+    supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, color, 0.2, game.font)
 
 
 def update_score_display():
@@ -160,14 +178,12 @@ def update_score_display():
 
 
 def update_team_display():
-    red = 0xd62929
-    blue = 0x2943d6
     n = len(red_team['name'])
     red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
     n = len(blue_team['name'])
     blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
-    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, red, 0.2, game.font)
-    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, blue, 0.2, game.font)
+    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, RED_COLOR, 0.2, game.font)
+    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, BLUE_COLOR, 0.2, game.font)
     update_score_display()
 
 
@@ -220,6 +236,13 @@ def game_controller_receive():
        game.state.seconds_remaining <= 0:
         update_state_display()
     if previous_seconds_remaining != game.state.seconds_remaining:
+        if game.interruption_seconds is not None:
+            print(f'interruption second remaining: {game.interruption_seconds - game.state.seconds_remaining}')
+            if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
+                game.interruption = None
+                game.interruption_team = None
+                game.interruption_seconds = None
+            update_state_display()
         update_time_display()
     red = 0 if game.state.teams[0].team_color == 'RED' else 1
     blue = 1 if red == 0 else 0
@@ -239,6 +262,7 @@ def game_controller_receive():
         elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
             if game_controller_send(f'CORNERKICK:{secondary_state_info[0]}:EXECUTE'):
                 info('execute corner kick.')
+                game.interruption_seconds = game.state.seconds_remaining
     elif secondary_state != 'STATE_NORMAL':
         print(f'GameController {secondary_state}: {secondary_state_info}')
 
@@ -655,6 +679,7 @@ game.ball_last_touch_player = 0
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
 game.interruption = None
 game.interruption_team = None
+game.interruption_seconds = None
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
 game.sent_finish = False
