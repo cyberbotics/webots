@@ -25,8 +25,7 @@ from controller import Keyboard
 robot = Robot()
 
 robot_name = robot.getName()
-print('Name of the robot: ' + robot_name)
-print(" ")
+print('Name of the robot: ' + robot_name + '\n')
 
 # Init the motors - the Ned robot is a 6-axis robot arm
 # You can find the name of the rotationalMotors is the device parameters of each HingeJoints
