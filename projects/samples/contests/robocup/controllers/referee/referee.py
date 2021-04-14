@@ -41,8 +41,8 @@ GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size lea
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
-# states requiring a free kick procedure
-KICK_STATES = {
+# game interruptions requiring a free kick procedure
+GAME_INTERRUPTIONS = {
     'DIRECT_FREEKICK': 'direct free kick',
     'INDIRECT_FREEKICK': 'indirect free kick',
     'PENALTYKICK': 'penalty kick',
@@ -257,17 +257,17 @@ def game_controller_receive():
     # print(game.state.game_state)
     secondary_state = game.state.secondary_state
     secondary_state_info = game.state.secondary_state_info
-    if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in KICK_STATES:
+    if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in GAME_INTERRUPTIONS:
         kick = secondary_state[6:]
         if secondary_state_info[1] == 0:
-            info(f'awarding a {KICK_STATES[kick]}.')
+            info(f'awarding a {GAME_INTERRUPTIONS[kick]}.')
         elif secondary_state_info[1] == 1:
             if game.state.secondary_seconds_remaining <= 0:
                 if game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE'):
-                    info(f'prepare for {KICK_STATES[kick]}.')
+                    info(f'prepare for {GAME_INTERRUPTIONS[kick]}.')
         elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
             if game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE'):
-                info(f'execute {KICK_STATES[kick]}.')
+                info(f'execute {GAME_INTERRUPTIONS[kick]}.')
                 game.interruption_seconds = game.state.seconds_remaining
     elif secondary_state != 'STATE_NORMAL':
         print(f'GameController {secondary_state}: {secondary_state_info}')
@@ -547,6 +547,13 @@ def interruption(type):  # supported types: "CORNERKICK"
         info(f'Corner kick awarded to {color} team.')
 
 
+def throw_in(left_side):
+    # set the ball on the touch line for throw in
+    sign = -1 if left_side else 1
+    game.ball_exit_translation[1] = sign * (game.field_size_y - LINE_HALF_WIDTH)
+    interruption('THROWIN')
+
+
 def corner_kick(left_side):
     # set the ball in the right corner for corner kick
     sign = -1 if left_side else 1
@@ -740,8 +747,9 @@ while supervisor.step(time_step) != -1:
             scoring_side = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
                 game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
+                throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
-                game.ball_exit_translation[1] = -game.field_size_y + LINE_HALF_WIDTH
+                throw_in(left_side=True)
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
