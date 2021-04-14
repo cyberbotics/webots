@@ -207,7 +207,6 @@ int main(int argc, char **argv) {
 
       // pick and place
       case 'P':
-
         wb_motor_set_velocity(motors[1], 0.5);
         wb_motor_set_velocity(motors[2], 0.5);
         wb_motor_set_velocity(motors[3], 0.5);
