@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0017903831161345833 0.9885379344959108 0.1509620700403123 3.1407229449898604
-  position 0.31680407442880987 1.74411182186696 1.9916713877373224
+  orientation 0.0006569081890748612 0.9755576247191259 0.21974277991326183 3.1307190450652684
+  position 0.4640675820281545 2.1404915753701634 2.225455337302852
   followType "None"
 }
 TexturedBackground {
@@ -30,29 +30,286 @@ PointLight {
   location 5 6 5
 }
 SoccerBall {
-  translation -1.24 0.11205823981583654 10.18
+  translation -1.24 0.11205838377347895 10.18
   name "soccer ball(1)"
 }
 Can {
-  translation 0.022800296164951966 0.8010313300104995 4.58287888161399
-  rotation 1.2302273952633995e-11 1 -2.8930748061204628e-11 -3.4745503713077205e-06
+  translation 0.028400878493287054 0.8010313406254276 4.588636654572984
+  rotation 6.468931892868181e-12 0.9999999999999999 1.91202557778678e-11 -5.790917298830526e-06
 }
 Can {
-  translation 1.71 0.8010313300104995 4.87
-  rotation -2.4844699424459078e-11 1 2.1979948121340553e-11 -2.316366904413983e-06
+  translation 1.71 0.8010313406254276 4.87
+  rotation -8.274271836452769e-11 1 1.6953851002562738e-14 -2.3163669033909555e-06
   name "can(2)"
 }
 Can {
-  translation -2.09 0.8010313300104995 4.58
-  rotation -9.033970363054468e-11 1 -4.537336408824789e-11 -2.316366904631492e-06
+  translation -2.09 0.8010313406254276 4.58
+  rotation -3.46869428554669e-11 1 4.833563313888964e-11 -2.316366903159556e-06
   name "can(1)"
 }
 OfficeChair {
-  translation -0.19000000000411896 -0.00012897013070928276 3.720000000373222
-  rotation 0.999974819157692 -1.3731870645550432e-06 0.007096551884940219 -0.00012655930032345547
+  hidden position_0_0 -0.010271785373401067
+  hidden rotation_1 0 -1 0 0.010271785373397223
+  translation -0.2053177701540811 -0.00012894906797536465 3.7373990495592175
+  rotation 0.0010631968797543327 0.9999994315096622 8.119573443119865e-05 -0.11875131205755643
 }
-DEF Ned Robot {
-  translation 0.532929 0.739998 4.37879
+OfficeChair {
+  hidden position_0_0 -5.094497553291253e-05
+  hidden rotation_1 0 -0.9999999999999999 0 5.094497589818897e-05
+  translation -0.1900000000103101 -0.00012895020045861072 7.610000001119426
+  rotation 0.9999744870271454 -1.559646243030205e-06 0.007143199028767754 -0.0001265398200072278
+  name "office chair(10)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497553232262e-05
+  hidden rotation_1 0 -0.9999999999999999 0 5.094497589818897e-05
+  translation -1.6900000000103041 -0.00012895020045861072 3.7800000011195993
+  rotation 0.9999744870271565 -1.5525585579688287e-06 0.007143199028787482 -0.00012653982000726917
+  name "office chair(5)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497553117468e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation -1.690000000010305 -0.00012895020045861072 7.650000001119424
+  rotation 0.9999744870271505 -1.559646516896878e-06 0.007143199028078569 -0.0001265398200072561
+  name "office chair(11)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497553045481e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation 1.3599999996961882 -0.00012895020045866623 3.750000001076824
+  rotation 0.0004801260462437654 0.9999998825149553 6.670124035609266e-05 -0.26179530709841614
+  name "office chair(1)"
+}
+OfficeChair {
+  hidden position_0_0 -5.09449755315253e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation 1.3599999999896955 -0.00012895020045861072 7.630000001119419
+  rotation 0.9999744870277238 -7.303318308770584e-07 0.007143199080754574 -0.00012653982000709177
+  name "office chair(9)"
+}
+Door {
+  hidden translation_5 8.389289263277533e-11 2.220446049250313e-16 0.0010000002674440123
+  translation -3.62 0.02 10.1
+  rotation 0 1 0 1.5707963
+  position -4.9394785852945324e-08
+  doorAppearance GlossyPaint {
+    baseColor 0.16 0.16 0.16
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.35 0.3503166247043564 0.35
+  }
+}
+Floor {
+  translation 0 7 4.22
+  rotation 0 0 1 3.1415926
+  size 20 16.4
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/asphalt.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Table {
+  translation -0.238828 0 8.77029
+  name "table(1)"
+  size 4.5 0.74 1.5
+  trayAppearance VarnishedPine {
+    colorOverride 0.85 0.8 0.808
+    textureTransform TextureTransform {
+      scale 10 10
+    }
+  }
+  legAppearance VarnishedPine {
+    colorOverride 0.85 0.8 0.8
+    textureTransform TextureTransform {
+      scale 4 5
+    }
+  }
+}
+Table {
+  translation -0.238828 0 4.85029
+  name "table(2)"
+  size 4.5 0.74 1.5
+  trayAppearance VarnishedPine {
+    colorOverride 0.85 0.8 0.808
+    textureTransform TextureTransform {
+      scale 10 10
+    }
+  }
+  legAppearance VarnishedPine {
+    colorOverride 0.85 0.8 0.8
+    textureTransform TextureTransform {
+      scale 4 5
+    }
+  }
+}
+Monitor {
+  translation 1.28187 0.75 8.54238
+  rotation 0 1 0 -5.307179586466759e-06
+  name "monitor(7)"
+}
+Monitor {
+  translation -1.67813 0.75 8.39238
+  rotation 0 1 0 -5.307179586466759e-06
+  name "monitor(8)"
+}
+Monitor {
+  translation 1.42187 0.75 5.37238
+  rotation 0 1 0 3.14159
+  name "monitor(3)"
+}
+Monitor {
+  translation 1.75187 0.75 4.54238
+  rotation 0 1 0 -1.5707953071795862
+  name "monitor(10)"
+}
+Monitor {
+  translation 0.11187 0.75 5.37238
+  rotation 0 1 0 3.14159
+  name "monitor(4)"
+}
+Monitor {
+  translation -1.59813 0.75 5.37238
+  rotation 0 1 0 3.14159
+  name "monitor(9)"
+}
+Monitor {
+  translation -0.25813 0.75 9.12238
+  rotation 0 1 0 3.14159
+  name "monitor(5)"
+}
+Monitor {
+  translation -1.74813 0.75 9.12238
+  rotation 0 1 0 3.14159
+  name "monitor(6)"
+}
+Monitor {
+  translation -0.25813 0.75 4.42238
+  rotation 0 -1 0 5.307156870259904e-06
+  name "monitor(1)"
+}
+Monitor {
+  translation -1.67813 0.75 4.42238
+  rotation 0 -1 0 5.307156870259904e-06
+  name "monitor(2)"
+}
+Wall {
+  translation -0.88 0 11.48
+  name "wall(3)"
+  size 8 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 7 1.83
+    }
+  }
+}
+Wall {
+  translation -0.88 0 0.25
+  name "wall(1)"
+  size 8 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 7 1.83
+    }
+  }
+}
+Wall {
+  translation 3.04997 0 5.88017
+  rotation 0 -1 0 4.7123353
+  name "wall(2)"
+  size 11.4 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 7 1.83
+    }
+  }
+}
+Wall {
+  translation -3.55003 0 5.88051
+  rotation 0 -1 0 4.7123353
+  name "wall(4)"
+  size 11.4 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 7 1.83
+    }
+  }
+}
+OfficeChair {
+  hidden position_0_0 -5.0944975534535326e-05
+  hidden rotation_1 0 -0.9999999999999999 0 5.094497589818897e-05
+  translation -1.7799999995548843 -0.00012895020045866623 5.959999992758056
+  rotation 8.781313037691319e-06 -0.9999999979637684 -6.32087959357838e-05 -2.879795307252138
+  name "office chair(2)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497553173078e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation 1.4999999998573184 -0.00012895020045872174 5.95999999274892
+  rotation 7.87741390929603e-06 0.9999999979637685 6.332779557562532e-05 -2.879795307164871
+  name "office chair(3)"
+}
+OfficeChair {
+  hidden position_0_0 -5.0944975529417594e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation 1.2799999997160203 -0.000128950200458694 9.939999998913919
+  rotation 7.87741390929914e-06 0.9999999979637685 6.332779557558946e-05 -2.879795307164867
+  name "office chair(6)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497552842785e-05
+  hidden rotation_1 0 -1 0 5.094497589818897e-05
+  translation -0.3399999999896892 -0.0001289502004585552 9.93999999888038
+  rotation -4.5203350350152123e-07 0.9999999979984593 6.326829515829454e-05 3.1415900001937755
+  name "office chair(7)"
+}
+OfficeChair {
+  hidden position_0_0 -5.094497553143545e-05
+  hidden rotation_1 0 -0.9999999999999999 0 5.094497589818897e-05
+  translation -1.8399999996961827 -0.00012895020045866623 9.939999998923174
+  rotation 8.781313037668776e-06 -0.9999999979637683 -6.320879593574373e-05 -2.879795307252134
+  name "office chair(8)"
+}
+Blackboard {
+  translation -0.270025 1.36 11.37
+  rotation 0 1 0 3.14159
+}
+Blackboard {
+  translation 2.94997 1.36 9.33
+  rotation 0 1 0 -1.5707953071795862
+  name "blackboard(1)"
+}
+DEF NedBox SolidBox {
+  translation 0.327149 0.762476165391023 4.14774
+  rotation 7.010081065772821e-17 -0.9999999999999999 1.4788110810187997e-18 0.7853950095849122
+  name "NedBox"
+  size 0.015 0.045 0.03
+  appearance PBRAppearance {
+    baseColor 0 0.639216 1
+    baseColorMap ImageTexture {
+      url [
+        ""
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density 3000
+    damping Damping {
+      linear 0
+      angular 0
+    }
+  }
+}
+Robot {
+  translation 0.537071 0.739996 4.37293
   rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 -1.7177753071795863
   children [
     Transform {
@@ -264,6 +521,7 @@ DEF Ned Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position -7.775652299159687e-13
         axis 0 0 1
         anchor 0 0 0.1065
       }
@@ -318,6 +576,7 @@ DEF Ned Robot {
           }
           HingeJoint {
             jointParameters HingeJointParameters {
+              position 5.603313026531215e-07
               axis -1 0 0.000796
               anchor 0 0 0.065
             }
@@ -332,7 +591,7 @@ DEF Ned Robot {
             ]
             endPoint Solid {
               translation 0 0 0.065
-              rotation 0 -1 0 1.57
+              rotation -2.80165743003315e-07 -0.9999999999999214 2.803887520166825e-07 1.5700000000000758
               children [
                 Transform {
                   rotation 0 0 -1 1.57
@@ -405,8 +664,9 @@ DEF Ned Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
+                    position 5.116034810078746e-07
                     axis 0 0 1
-                    anchor 0.221 -0.012 0
+                    anchor 0.221 0.012 0
                   }
                   device [
                     RotationalMotor {
@@ -418,11 +678,10 @@ DEF Ned Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0.221 -0.012 0
-                    rotation 0 0 1 0
+                    translation 0.22086384631252387 0.012000000125210098 -1.0837882167879679e-07
+                    rotation -0.0007137348351247626 0.024203870801605288 0.9997067886239467 4.826504282802014e-06
                     children [
                       Transform {
-                        translation -0.01 0.03 0
                         rotation 0 0 -1 1.57
                         children [
                           Shape {
@@ -445,7 +704,6 @@ DEF Ned Robot {
                         ]
                       }
                       Transform {
-                        translation -0.01 0.03 0
                         rotation 0 0 -1 1.57
                         children [
                           Shape {
@@ -470,8 +728,9 @@ DEF Ned Robot {
                       }
                       HingeJoint {
                         jointParameters HingeJointParameters {
+                          position 1.645352214271291e-08
                           axis -0.000796 1 1e-06
-                          anchor 0.022 0.0725 0
+                          anchor 0.032 0.042 0
                         }
                         device [
                           RotationalMotor {
@@ -483,8 +742,8 @@ DEF Ned Robot {
                           }
                         ]
                         endPoint Solid {
-                          translation 0.022 0.0725 0
-                          rotation -0.5775032287046065 -0.5775032287046065 -0.5770442285228318 2.093475
+                          translation 0.032 0.042 0
+                          rotation -0.5775032334547542 -0.5775032263304769 -0.5770442261449236 2.0934749928813905
                           children [
                             Transform {
                               translation 0 0 0.02
@@ -556,6 +815,7 @@ DEF Ned Robot {
                             }
                             HingeJoint {
                               jointParameters HingeJointParameters {
+                                position -9.6751443682439e-09
                                 axis -1 0 1e-06
                                 anchor 0 0 0.188
                               }
@@ -570,7 +830,7 @@ DEF Ned Robot {
                               ]
                               endPoint Solid {
                                 translation 0 0 0.188
-                                rotation -0.000397999936955223 -0.9999998415960377 0.000397999936955223 1.570796
+                                rotation -0.0003979945432802965 -0.999999841600331 0.00039799454327212546 1.5707959999956838
                                 children [
                                   Shape {
                                     appearance PBRAppearance {
@@ -610,6 +870,7 @@ DEF Ned Robot {
                                   }
                                   HingeJoint {
                                     jointParameters HingeJointParameters {
+                                      position -3.807940495256641e-09
                                       axis 1 0 0.000796
                                       anchor 0.0197 0.00925 0
                                     }
@@ -624,11 +885,11 @@ DEF Ned Robot {
                                     ]
                                     endPoint Solid {
                                       translation 0.0197 0.00925 0
-                                      rotation 0 1 0 1.57
+                                      rotation 1.0372162576507321e-09 1 1.0380418709878509e-09 1.5699999999999834
                                       children [
                                         Shape {
                                           appearance PBRAppearance {
-                                            baseColor 0 0 0
+                                            baseColor 0.792157 0.819608 0.933333
                                             roughness 0.575817
                                             metalness 0
                                           }
@@ -646,7 +907,7 @@ DEF Ned Robot {
                                         }
                                         Shape {
                                           appearance PBRAppearance {
-                                            baseColor 0.180392 0.203922 0.211765
+                                            baseColor 0.25098 0.25098 0.25098
                                             roughness 0.87451
                                             metalness 0
                                           }
@@ -686,6 +947,7 @@ DEF Ned Robot {
                                             }
                                             SliderJoint {
                                               jointParameters JointParameters {
+                                                position 0.009999998062084368
                                                 axis 0 -4e-06 1
                                               }
                                               device [
@@ -701,7 +963,7 @@ DEF Ned Robot {
                                                 }
                                               ]
                                               endPoint Solid {
-                                                translation 0.01455 -0.0796 0.009614
+                                                translation 0.01455 -0.07960003999999225 0.019613998062004367
                                                 rotation 1 0 0 1.5708
                                                 children [
                                                   Shape {
@@ -736,10 +998,13 @@ DEF Ned Robot {
                                                     -2.1129e-08 1.0185e-07 1.7669e-07
                                                   ]
                                                 }
+                                                linearVelocity 1.9396962022568038e-08 -5.638638818649632e-08 1.9366101099711748e-08
+                                                angularVelocity 4.0944264156719377e-08 1.2617484301741554e-11 -4.0881922224672316e-08
                                               }
                                             }
                                             SliderJoint {
                                               jointParameters JointParameters {
+                                                position 0.009999997957781424
                                                 axis 0 4e-06 -1
                                               }
                                               device [
@@ -755,7 +1020,7 @@ DEF Ned Robot {
                                                 }
                                               ]
                                               endPoint Solid {
-                                                translation 0.01455 -0.0796 -0.011066
+                                                translation 0.01455 -0.07959996000000817 -0.021065997957701428
                                                 rotation 1 0 0 1.5708
                                                 children [
                                                   Shape {
@@ -790,6 +1055,8 @@ DEF Ned Robot {
                                                     2.1129e-08 1.0185e-07 -1.7669e-07
                                                   ]
                                                 }
+                                                linearVelocity -2.1978184904489454e-08 2.4072892735483835e-08 -2.194430432785683e-08
+                                                angularVelocity 4.0942249758033634e-08 1.165973888711598e-11 -4.088005987850771e-08
                                               }
                                             }
                                           ]
@@ -820,6 +1087,8 @@ DEF Ned Robot {
                                           0 0 0
                                         ]
                                       }
+                                      linearVelocity -1.667038682832093e-09 -7.705155244724364e-10 -1.6701372683705214e-09
+                                      angularVelocity 4.094327991449664e-08 1.271204024702641e-11 -4.088092069648463e-08
                                     }
                                   }
                                 ]
@@ -835,6 +1104,8 @@ DEF Ned Robot {
                                     0 0 0
                                   ]
                                 }
+                                linearVelocity -1.710581173037468e-11 3.3163649120121125e-13 -1.7540032864685402e-11
+                                angularVelocity -5.873923569765795e-11 1.6400870664901856e-11 5.6411172029887296e-11
                               }
                             }
                           ]
@@ -850,6 +1121,8 @@ DEF Ned Robot {
                               0 0 0
                             ]
                           }
+                          linearVelocity -1.5174690977842266e-11 7.746208832742121e-13 -1.5798655812630556e-11
+                          angularVelocity -4.459099756104483e-11 1.6238385310875233e-11 4.230926720083521e-11
                         }
                       }
                     ]
@@ -865,6 +1138,8 @@ DEF Ned Robot {
                         0 0 0
                       ]
                     }
+                    linearVelocity -1.162913492993263e-11 2.601990469842099e-13 -1.1998390055846293e-11
+                    angularVelocity -4.4288128719927045e-11 1.5765818519042823e-11 4.199781263499365e-11
                   }
                 }
               ]
@@ -880,6 +1155,8 @@ DEF Ned Robot {
                   0 0 0
                 ]
               }
+              linearVelocity -6.651453058038889e-12 4.0622848778348946e-13 -6.928857474016447e-12
+              angularVelocity -2.979779386199275e-11 1.520884575686072e-11 2.8117360291920103e-11
             }
           }
         ]
@@ -895,243 +1172,11 @@ DEF Ned Robot {
             0 0 0
           ]
         }
+        linearVelocity -2.0594496143082336e-12 -5.011660605185461e-13 -1.4297681760349086e-12
+        angularVelocity -1.4516092032105616e-11 1.4624373730103485e-11 1.4525861994722317e-11
       }
     }
   ]
-  name "Ned"
-  controller "ned_c_controller"
-}
-OfficeChair {
-  translation -0.19000000000411912 -0.00012897013070928276 7.6100000003730415
-  rotation 0.9999748191576813 -1.380272859207615e-06 0.007096551885058656 -0.00012655930032345718
-  name "office chair(10)"
-}
-OfficeChair {
-  translation -1.690000000004112 -0.00012897013070928276 3.7800000003732204
-  rotation 0.9999748191576923 -1.3731872246654374e-06 0.007096551884884468 -0.00012655930032351136
-  name "office chair(5)"
-}
-OfficeChair {
-  translation -1.6900000000041127 -0.00012897013070928276 7.650000000373041
-  rotation 0.9999748191576835 -1.3802733699814124e-06 0.007096551884785 -0.0001265593003234257
-  name "office chair(11)"
-}
-OfficeChair {
-  translation 1.3599999998953431 -0.00012897013070928276 3.750000000357473
-  rotation 0.000480203071192044 0.9999998824787798 6.668910814927977e-05 -0.2617953071304493
-  name "office chair(1)"
-}
-OfficeChair {
-  translation 1.3599999999958876 -0.000128970130709255 7.630000000373036
-  rotation 0.9999748191581109 -5.510869438306133e-07 0.007096551937368843 -0.00012655930032333163
-  name "office chair(9)"
-}
-Door {
-  translation -3.62 0.02 10.1
-  rotation 0 1 0 1.5707963
-  position -4.88317458823353e-08
-  doorAppearance GlossyPaint {
-    baseColor 0.16 0.16 0.16
-  }
-  frameAppearance GlossyPaint {
-    baseColor 0.35 0.3503166247043564 0.35
-  }
-}
-Floor {
-  translation 0 7 4.22
-  rotation 0 0 1 3.1415926
-  size 20 16.4
-  tileSize 1 1
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/asphalt.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
-}
-Table {
-  translation -0.238828 0 8.77029
-  name "table(1)"
-  size 4.5 0.74 1.5
-  trayAppearance VarnishedPine {
-    colorOverride 0.85 0.8 0.808
-    textureTransform TextureTransform {
-      scale 10 10
-    }
-  }
-  legAppearance VarnishedPine {
-    colorOverride 0.85 0.8 0.8
-    textureTransform TextureTransform {
-      scale 4 5
-    }
-  }
-}
-Table {
-  translation -0.238828 0 4.85029
-  name "table(2)"
-  size 4.5 0.74 1.5
-  trayAppearance VarnishedPine {
-    colorOverride 0.85 0.8 0.808
-    textureTransform TextureTransform {
-      scale 10 10
-    }
-  }
-  legAppearance VarnishedPine {
-    colorOverride 0.85 0.8 0.8
-    textureTransform TextureTransform {
-      scale 4 5
-    }
-  }
-}
-Monitor {
-  translation 1.28187 0.75 8.54238
-  rotation 0 1 0 -5.307179586466759e-06
-  name "monitor(7)"
-}
-Monitor {
-  translation -1.67813 0.75 8.39238
-  rotation 0 1 0 -5.307179586466759e-06
-  name "monitor(8)"
-}
-Monitor {
-  translation 1.42187 0.75 5.37238
-  rotation 0 1 0 3.14159
-  name "monitor(3)"
-}
-Monitor {
-  translation 1.75187 0.75 4.54238
-  rotation 0 1 0 -1.5707953071795862
-  name "monitor(10)"
-}
-Monitor {
-  translation 0.11187 0.75 5.37238
-  rotation 0 1 0 3.14159
-  name "monitor(4)"
-}
-Monitor {
-  translation -1.59813 0.75 5.37238
-  rotation 0 1 0 3.14159
-  name "monitor(9)"
-}
-Monitor {
-  translation -0.25813 0.75 9.12238
-  rotation 0 1 0 3.14159
-  name "monitor(5)"
-}
-Monitor {
-  translation -1.74813 0.75 9.12238
-  rotation 0 1 0 3.14159
-  name "monitor(6)"
-}
-Monitor {
-  translation -0.25813 0.75 4.42238
-  rotation 0 -1 0 5.307156870259904e-06
-  name "monitor(1)"
-}
-Monitor {
-  translation -1.67813 0.75 4.42238
-  rotation 0 -1 0 5.307156870259904e-06
-  name "monitor(2)"
-}
-Wall {
-  translation -0.88 0 11.48
-  name "wall(3)"
-  size 8 7 0.2
-  appearance Roughcast {
-    textureTransform TextureTransform {
-      scale 7 1.83
-    }
-  }
-}
-Wall {
-  translation -0.88 0 0.25
-  name "wall(1)"
-  size 8 7 0.2
-  appearance Roughcast {
-    textureTransform TextureTransform {
-      scale 7 1.83
-    }
-  }
-}
-Wall {
-  translation 3.04997 0 5.88017
-  rotation 0 -1 0 4.7123353
-  name "wall(2)"
-  size 11.4 7 0.2
-  appearance Roughcast {
-    textureTransform TextureTransform {
-      scale 7 1.83
-    }
-  }
-}
-Wall {
-  translation -3.55003 0 5.88051
-  rotation 0 -1 0 4.7123353
-  name "wall(4)"
-  size 11.4 7 0.2
-  appearance Roughcast {
-    textureTransform TextureTransform {
-      scale 7 1.83
-    }
-  }
-}
-OfficeChair {
-  translation -1.7799999997540403 -0.00012897013070928276 5.959999993477397
-  rotation 8.779715838878987e-06 -0.9999999979631413 -6.321893631353929e-05 -2.8797953072296294
-  name "office chair(2)"
-}
-OfficeChair {
-  translation 1.5000000000445142 -0.00012897013070933827 5.959999993471461
-  rotation 7.881581188547825e-06 0.9999999979631412 6.333717705119771e-05 -2.8797953071877056
-  name "office chair(3)"
-}
-OfficeChair {
-  translation 1.2799999999032154 -0.00012897013070931052 9.939999999636486
-  rotation 7.88158118858505e-06 0.9999999979631412 6.333717705124288e-05 -2.8797953071877016
-  name "office chair(6)"
-}
-OfficeChair {
-  translation -0.33999999999588243 -0.00012897013070922725 9.939999999626705
-  rotation -4.491512774177092e-07 0.9999999979978431 6.32780560887657e-05 3.141590000171105
-  name "office chair(7)"
-}
-OfficeChair {
-  translation -1.8399999998953378 -0.000128970130709255 9.939999999642511
-  rotation 8.779715838908857e-06 -0.9999999979631413 -6.321893631351148e-05 -2.879795307229626
-  name "office chair(8)"
-}
-Blackboard {
-  translation -0.270025 1.36 11.37
-  rotation 0 1 0 3.14159
-}
-Blackboard {
-  translation 2.94997 1.36 9.33
-  rotation 0 1 0 -1.5707953071795862
-  name "blackboard(1)"
-}
-DEF NedBox SolidBox {
-  translation 0.327149 0.762476 4.14774
-  rotation -9.431668345551097e-17 -1 -2.713097166270946e-16 0.7853950095849124
-  name "NedBox"
-  size 0.015 0.045 0.03
-  appearance PBRAppearance {
-    baseColor 0 0.639216 1
-    baseColorMap ImageTexture {
-      url [
-        ""
-      ]
-    }
-    roughness 0.5
-    metalness 0
-  }
-  physics Physics {
-    density 3000
-    damping Damping {
-      linear 0
-      angular 0
-    }
-  }
+  name "Ned(1)"
+  controller "ned"
 }
