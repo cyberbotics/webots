@@ -30,7 +30,6 @@ static void step() {
   }
 }
 
-// function to create a timer
 static void passive_wait(double sec) {
   double start_time = wb_robot_get_time();
   do
