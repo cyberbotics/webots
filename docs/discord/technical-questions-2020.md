@@ -9287,15 +9287,6 @@ thanks :)
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/07/2020 22:16:41
 You are welcome, I am glad it works!
 
-##### Agriope 04/08/2020 03:01:35
-Hello. New user trying to learn how to use Webots. Things going smoothly so far, until I tried reading output from the generic Distance Sensors. Does anyone happen to know what I am doing wrong here? I am not getting an error, but the wb\_distance\_sensor\_get\_value() function is returning a 1.
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/697279949954089040/unknown.png)
-%end
-
-
-I figured it out. I wasn't including the <webots/distance\_sensor.h> library, and ignored the warnings when compiling.
-
 ##### brainybot 04/08/2020 04:12:39
 how to set battery in the proto file？
 
@@ -10532,24 +10523,11 @@ Can anyone tell me why I am getting this error
 ![JPEG_20200417_063251.jpg](https://cdn.discordapp.com/attachments/565154703139405824/700511870318018640/JPEG_20200417_063251.jpg)
 %end
 
-##### Agriope 04/17/2020 01:05:23
-I had a similar issue not too long ago. Are you making sure to include all the appropriate libraries?
 
-##### nikzzzlegrande 04/17/2020 01:06:13
 Are there any libraries for accelerometer and gyro in webots?  `@Agriope`
 
-##### Agriope 04/17/2020 01:07:21
-I believe so. Try adding these to the top of your code:
 
-\#include <webots/accelerometer.h>
-
-\#include <webots/gyro.h>
-
-##### nikzzzlegrande 04/17/2020 01:09:32
 `@Agriope` yeah thanks that was the issue
-
-##### Agriope 04/17/2020 01:10:53
-Awesome. Here is a great reference for the code for each component, with examples of implementations, if it is needed: [https://www.cyberbotics.com/doc/reference/nodes-and-api-functions](https://www.cyberbotics.com/doc/reference/nodes-and-api-functions)
 
 ##### David Mansolino [Cyberbotics] 04/17/2020 05:14:22
 > Is it possible to detect RGB colours of LED using a camera ?
@@ -28294,7 +28272,7 @@ Ok, thanks 🙂
 ##### David Mansolino [Cyberbotics] 07/31/2020 10:05:13
 You're welcome
 
-##### kaustav\_ghosh 07/31/2020 10:58:15
+##### kaustav 07/31/2020 10:58:15
 Hello everyone. Hope everyone is safe and sound during the corona times.
 
 I'm Kaustav. I wanted to attach a lidar to my differential drive and also make a cpp controller for it.
@@ -28308,7 +28286,7 @@ Hi, have you tried our ROS tutorial?
 
 We have an example of SLAM simulation: [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT)
 
-##### kaustav\_ghosh 07/31/2020 11:02:58
+##### kaustav 07/31/2020 11:02:58
 Thank you `@David Mansolino` . I will try the same and let you know
 
 ##### JacobW 07/31/2020 19:00:19
@@ -40752,7 +40730,7 @@ Hello. I'm having trouble adding an ImageTexture to a shape. My image is in a fo
 ##### Justin Fisher 10/03/2020 19:31:44
 That sounds like it should work to me.  I can confirm that I have a similar setup where the url for my baseColorMap ImageTexture is "textures/filename.png" and the file is located in worlds/textures/filename.png    Are you getting an error message?
 
-##### sinasartip 10/03/2020 19:50:10
+##### Deleted User 10/03/2020 19:50:10
 Hi everyone I have been trying to import a 3D model of a wall (STL file) into webots using the import 3D model feature. I've been trying to get it to work by screwing around but haven't had any luck. I was wondering if there were any tutorials available. The ones I found all seem to be from before the import 3D feature was added.
 
 For context the issue I am having is that the model ends up going all over the place after I add physics to it, as if the bounding box is different from the actual geometry, but I am using solid node which USE the geometry definition of the model. The model itself is a shape child node.
