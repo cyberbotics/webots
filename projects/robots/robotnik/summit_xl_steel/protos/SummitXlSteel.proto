@@ -14,7 +14,7 @@ PROTO SummitXlSteel [
   field  SFBool      supervisor      FALSE             # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE              # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE             # Is `Robot.selfCollision`.
-  field  MFNode      frontLidarSlot  []                # Extends the robot with a front lidar sensor
+  field  MFNode      frontLidarSlot  []                # Extends the robot with a front lidar sensor.
   field  MFNode      backLidarSlot   []                # Extends the robot with a back lidar sensor.
   field  MFNode      bodySlot        []                # Extends the robot (with a conveyor platform for example).
 ]
@@ -136,7 +136,7 @@ PROTO SummitXlSteel [
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
                     baseColor 0.381347 0.381347 0.381347
                     transparency 0
-                    roughness 0
+                    roughness 0.8
                     metalness 0
                     emissiveColor 0.202 0.202 0.202
                   }
@@ -150,7 +150,7 @@ PROTO SummitXlSteel [
                   appearance DEF ROLLERS_APPEARANCE PBRAppearance {
                     baseColor 0.081320 0.081320 0.081320
                     transparency 0
-                    roughness 0
+                    roughness 0.8
                     metalness 0
                     emissiveColor 0 0 0
                   }
