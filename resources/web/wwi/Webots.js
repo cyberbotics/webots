@@ -293,6 +293,7 @@ webots.View = class View {
   }
 
   resetSimulation() {
+    $('#webotsProgress').hide();
     this.removeLabels();
     $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
     this.deadline = this.timeout;
