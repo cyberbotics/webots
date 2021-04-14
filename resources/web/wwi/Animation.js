@@ -33,9 +33,9 @@ export default class Animation {
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
-    const canvas = document.getElementById('canvas');
-    canvas.insertAdjacentHTML('afterend', "<div id='playBar'></div>");
-    const div = document.getElementById('playBar');
+    const div = document.createElement('div');
+    div.id = 'playBar';
+    //this.view.view3D.appendChild(div2);
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
