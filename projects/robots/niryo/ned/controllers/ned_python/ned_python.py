@@ -202,7 +202,6 @@ while True:
     print("Launch Pick and Place --> SHIFT+P")
     print("----------------------------------")
 
-    # Init of the Keyboard control
     timestep = int(robot.getBasicTimeStep())
     keyboard = Keyboard()
     keyboard.enable(timestep)
