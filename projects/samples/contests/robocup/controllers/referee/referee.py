@@ -141,13 +141,10 @@ def update_state_display():
             if game.interruption_seconds is not None \
             else game.state.secondary_seconds_remaining
         if sr > 0:
-            if state == 'PLAYING':  # in play timeout
-                state = 'PLAY'
-                if game.interruption is None:  # kickoff
-                    color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
-            else:
-                state = 'READY'
-            state += ': ' + format_time(sr)
+            if game.interruption is None:  # kickoff
+                color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
+            state = 'PLAY' if state == 'PLAYING' and game.interruption_seconds is not None else 'READY'
+            state += ' ' + format_time(sr)
         elif game.interruption is not None:
             state = game.interruption
     else:
@@ -541,6 +538,23 @@ def interruption(type):  # supported types: "CORNERKICK"
         info(f'Corner kick awarded to {color} team.')
 
 
+def corner_kick(left_side):
+    # set the ball in the right corner for corner kick
+    sign = -1 if left_side else 1
+    game.ball_exit_translation[0] = sign * (game.field_size_x - LINE_HALF_WIDTH)
+    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field_size_y + LINE_HALF_WIDTH
+    interruption('CORNERKICK')
+
+
+def goal_kick():
+    # set the ball at intersection between the centerline and touchline
+    game.ball_exit_translation[0] = 0
+    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field_size_y + LINE_HALF_WIDTH
+    interruption('GOALKICK')
+
+
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -726,12 +740,9 @@ while supervisor.step(time_step) != -1:
                 else:
                     if game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
                        game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id:
-                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
-                    else:  # corner kick
-                        game.ball_exit_translation[0] = game.field_size_x - LINE_HALF_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        interruption('CORNERKICK')
+                        goal_kick()
+                    else:
+                        corner_kick(left_side=False)
             elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
@@ -739,12 +750,9 @@ while supervisor.step(time_step) != -1:
                 else:
                     if game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
                        game.ball_last_touch_team == 'blue' and game.side_left == game.red.id:
-                        game.ball_exit_translation[0] = 0  # reset the ball of the centerline
-                    else:  # corner kick
-                        game.ball_exit_translation[0] = -game.field_size_x + LINE_HALF_WIDTH
-                        game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH \
-                            if game.ball_exit_translation[1] > 0 else -game.field_size_y + LINE_HALF_WIDTH
-                        interruption('CORNERKICK')
+                        goal_kick()
+                    else:
+                        corner_kick(left_side=True)
             if scoring_side:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 game_controller_send(f'SCORE:{scoring_side}')
