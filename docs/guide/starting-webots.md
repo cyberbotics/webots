@@ -133,7 +133,7 @@ Using  GUI:
 2. Add a new `WEBOTS_SAFE_MODE` user environment variable. To do so, in the `user variables` panel, click on the `New` button and add a `New User Variable` named `WEBOTS_SAFE_MODE` with a value of `true`.
 3. Start Webots as usual.
 
-Using cmd:
+From the `cmd` command prompt:
 ```
 setx WEBOTS_SAFE_MODE true
 ```
