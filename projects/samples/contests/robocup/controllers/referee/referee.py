@@ -34,6 +34,7 @@ SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET stat
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
+FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
@@ -537,7 +538,7 @@ def check_fallen(team, color):
             break
         if already_down:
             if fallen:
-                if time_count - team['players'][number]['fallen'] > 20000:  # more than 20 seconds down
+                if time_count - team['players'][number]['fallen'] > 1000 * FALLEN_TIMEOUT:
                     info(f'{color} player {number} has fallen down and didn\'t recover in the last 20 seconds.')
                     team['players'][number]['penalty'] = 'INCAPABLE'
                     team['players'][number]['penalty_reason'] = 'fallen down'
