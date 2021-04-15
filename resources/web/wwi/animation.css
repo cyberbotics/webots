@@ -39,14 +39,6 @@ body {
   cursor: pointer;
 }
 
-.playBar div {
-  transition: opacity 1s;
-}
-
-.playBar div.opacity-toggle {
-  opacity: 0;
-}
-
 input[type='range'].time-slider {
   height: 3px;
   -webkit-appearance: none;
@@ -134,12 +126,9 @@ span {
   text-shadow: 2px 2px 2px rgb(104,104,104);
 }
    
- button:first-of-type {
-   margin-right: 6px;
-}
+button:first-of-type { margin-right: 6px; }
  
- .left
- {
+.left {
   position: absolute;
   bottom: 0px;
   left: 1%;
@@ -172,13 +161,9 @@ span {
 }
 
 
-.current-time {
-  margin-left: 8px;
-}
+.current-time { margin-left: 8px; }
 
-.total-time {
-  margin-right: 8px;
-}
+.total-time { margin-right: 8px; }
 
 
 .ui-icon {

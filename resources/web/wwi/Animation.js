@@ -114,16 +114,6 @@ export default class Animation {
       this.onReady();
   }
 
-  _createToolBarButton(name, tooltip) {
-    const buttonName = name + 'Button';
-    this[buttonName] = document.createElement('button');
-    this[buttonName].id = buttonName;
-    this[buttonName].className = 'toolBarButton';
-    this[buttonName].title = tooltip;
-    this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
-    return this[buttonName];
-  }
-
   _elapsedTime() {
     const end = new Date().getTime();
     return end - this.start;
@@ -145,23 +135,6 @@ export default class Animation {
 
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
     this.button.className = 'player-btn icon-' + action;
-  }
-
-  _connectSliderEvents() {
-    this.playSlider = this.playSlider.slider({
-      change: (e, ui) => {
-        this._updateSlider(ui.value);
-        // continue running the animation
-        this._updateAnimation();
-      },
-      slide: (e, ui) => { this._updateSlider(ui.value); },
-      start: (e, ui) => { this.sliding = true; },
-      stop: (e, ui) => { this.sliding = false; }
-    });
-  }
-
-  _disconnectSliderEvents() {
-    this.playSlider.slider({change: null, slide: null});
   }
 
   _updateSlider(value) {
@@ -239,10 +212,6 @@ export default class Animation {
       this._updateAnimationState();
 
     window.requestAnimationFrame(() => { this._updateAnimation(); });
-  }
-
-  _getIconBaseName() {
-    return this.gui === 'real_time' ? 'real_time' : 'pause';
   }
 
   _updateSliderBackground(value) {
