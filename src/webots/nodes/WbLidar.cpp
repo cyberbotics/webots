@@ -725,13 +725,13 @@ void WbLidar::updateHorizontalResolution() {
     if (isRotating()) {
       requiredResolution *= 2.0 * M_PI / actualFieldOfView();
       parsingWarn(
-        tr("Impossible to have a so small 'horizontalResolution' unsing this 'numberOfLayers' and 'verticalFieldOfView'. "
+        tr("Impossible to have a so small 'horizontalResolution' using this 'numberOfLayers' and 'verticalFieldOfView'. "
            "'horizontalResolution' should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. "
            "'horizontalResolution' set to %1.")
           .arg(requiredResolution));
     } else
       parsingWarn(
-        tr("Impossible to have a so small 'horizontalResolution' unsing this 'fieldOfView', 'numberOfLayers' and "
+        tr("Impossible to have a so small 'horizontalResolution' using this 'fieldOfView', 'numberOfLayers' and "
            "'verticalFieldOfView'. 'horizontalResolution' should be bigger or equal to numberOfLayers * fieldOfView / "
            "verticalFieldOfView. 'horizontalResolution' set to %1.")
           .arg(requiredResolution));
@@ -753,13 +753,13 @@ void WbLidar::updateVerticalFieldOfView() {
     double requiredVerticalFieldOfView = (actualNumberOfLayers() * actualFieldOfView()) / width();
     if (isRotating())
       parsingWarn(
-        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'numberOfLayers' and 'horizontalResolution'. "
+        tr("Impossible to have a so small 'verticalFieldOfView' using this 'numberOfLayers' and 'horizontalResolution'. "
            "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
            "'verticalFieldOfView' set to %1.")
           .arg(requiredVerticalFieldOfView));
     else
       parsingWarn(
-        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'fieldOfView', 'numberOfLayers' and "
+        tr("Impossible to have a so small 'verticalFieldOfView' using this 'fieldOfView', 'numberOfLayers' and "
            "'horizontalResolution'. 'verticalFieldOfView' should be bigger or equal to numberOfLayers * fieldOfView / "
            "horizontalResolution. 'verticalFieldOfView' set to %1.")
           .arg(requiredVerticalFieldOfView));
@@ -782,12 +782,12 @@ void WbLidar::updateNumberOfLayers() {
     int requiredNumberOfLayers = height();
     if (isRotating())
       parsingWarn(
-        tr("Impossible to have a so big 'numberOfLayers' unsing this 'verticalFieldOfView' and 'horizontalResolution'. "
+        tr("Impossible to have a so big 'numberOfLayers' using this 'verticalFieldOfView' and 'horizontalResolution'. "
            "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "
            "M_PI). 'numberOfLayers' set to %1.")
           .arg(requiredNumberOfLayers));
     else
-      parsingWarn(tr("Impossible to have a so big 'numberOfLayers' unsing this 'fieldOfView', 'verticalFieldOfView' and "
+      parsingWarn(tr("Impossible to have a so big 'numberOfLayers' using this 'fieldOfView', 'verticalFieldOfView' and "
                      "'horizontalResolution'. 'numberOfLayers' should be smaller or equal to verticalFieldOfView * "
                      "horizontalResolution / fieldOfView. 'numberOfLayers' set to %1.")
                     .arg(requiredNumberOfLayers));
