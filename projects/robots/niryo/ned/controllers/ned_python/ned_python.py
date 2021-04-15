@@ -72,66 +72,54 @@ def demo():
     m7.setPosition(0.01)
     m8.setPosition(0.01)
 
-    status = robot.step(1500)
-    if status == -1:
+    if robot.step(1500) == -1:
         return
     m1.setPosition(0)
 
-    status = robot.step(1500)
-    if status == -1:
+    if robot.step(1500) == -1:
         return
     m2.setPosition(0.5)
 
-    status = robot.step(700)
-    if status == -1:
+    if robot.step(700) == -1:
         return
     m2.setPosition(0)
 
-    status = robot.step(700)
-    if status == -1:
+    if robot.step(700) == -1:
         return
     m1.setPosition(-0.5)
     m4.setPosition(1.4)
 
-    status = robot.step(1500)
-    if status == -1:
+    if robot.step(1500) == -1:
         return
     m4.setPosition(0)
 
-    status = robot.step(1500)
-    if status == -1:
+    if robot.step(1500) == -1:
         return
     m5.setPosition(-1)
 
-    status = robot.step(700)
-    if status == -1:
+    if robot.step(700) == -1:
         return
     m5.setPosition(0)
 
-    status = robot.step(1000)
-    if status == -1:
+    if robot.step(1000) == -1:
         return
     m3.setPosition(0)
     m1.setPosition(0)
 
-    status = robot.step(500)
-    if status == -1:
+    if robot.step(500) == -1:
         return
     m6.setPosition(1.5)
 
-    status = robot.step(1000)
-    if status == -1:
+    if robot.step(1000) == -1:
         return
     m6.setPosition(0)
 
-    status = robot.step(1000)
-    if status == -1:
+    if robot.step(1000) == -1:
         return
     m7.setPosition(0)
     m8.setPosition(0)
 
-    status = robot.step(500)
-    if status == -1:
+    if robot.step(500) == -1:
         return
     m7.setPosition(0.01)
     m8.setPosition(0.01)
@@ -142,48 +130,40 @@ def pick_place():
     m2.setVelocity(0.5)
     m3.setVelocity(0.5)
 
-    status = robot.step(0)
-    if status == -1:
+    if robot.step(0) == -1:
         return
     m1.setPosition(1.6)
     m2.setPosition(0.69)
     m7.setPosition(0.01)
     m8.setPosition(0.01)
 
-    status = robot.step(4200)
-    if status == -1:
+    if robot.step(4200) == -1:
         return
     m3.setPosition(0.5)
 
-    status = robot.step(1200)
-    if status == -1:
+    if robot.step(1200) == -1:
         return
     m7.setPosition(0)
     m8.setPosition(0)
 
-    status = robot.step(1500)
-    if status == -1:
+    if robot.step(1500) == -1:
         return
     m3.setPosition(0.3)
 
-    status = robot.step(1200)
-    if status == -1:
+    if robot.step(1200) == -1:
         return
     m1.setPosition(0)
 
-    status = robot.step(5000)
-    if status == -1:
+    if robot.step(5000) == -1:
         return
     m3.setPosition(0.5)
 
-    status = robot.step(500)
-    if status == -1:
+    if robot.step(500) == -1:
         return
     m7.setPosition(0.01)
     m8.setPosition(0.01)
 
-    status = robot.step(500)
-    if status == -1:
+    if robot.step(500) == -1:
         return
     m3.setPosition(0)
     m2.setPosition(0)

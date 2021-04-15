@@ -714,7 +714,7 @@ PROTO Ned [
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
-                                                  baseColor 0.500000 0.500000 0.500000
+                                                  baseColor 0.180392 0.203922 0.211765
                                                   transparency 0.000000
                                                   roughness 1.000000
                                                   metalness 0
@@ -756,7 +756,7 @@ PROTO Ned [
                                                   children [
                                                     Shape {
                                                       appearance DEF jaw_1_material PBRAppearance {
-                                                        baseColor 0.498040 0.498040 0.498040
+                                                        baseColor 0.180392 0.203922 0.211765
                                                         transparency 0.000000
                                                         roughness 1.000000
                                                         metalness 0
@@ -812,7 +812,7 @@ PROTO Ned [
                                                   children [
                                                     Shape {
                                                       appearance PBRAppearance {
-                                                        baseColor 0.500000 0.500000 0.500000
+                                                        baseColor 0.180392 0.203922 0.211765
                                                         transparency 0.000000
                                                         roughness 1.000000
                                                         metalness 0
