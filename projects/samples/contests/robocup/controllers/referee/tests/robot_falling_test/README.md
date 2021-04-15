@@ -10,9 +10,14 @@ The following should happen:
    
    `Red 1`: `2 -2 0.24`\
    `Red 2`: `3 -2 0.24` (if the team red is on the right side)
-4. The simulation is resumed, and then, both robots are manually fallen.
-5. Robot `Red 1` receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half at the height of the penalty mark. ([#21](https://github.com/RoboCup-Humanoid-TC/webots/issues/21))
-6. Robot `Red 2` also receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half 60 cm away from the other robot that is already suffering from a removal penalty. ([#22](https://github.com/RoboCup-Humanoid-TC/webots/issues/22))
+4. The ball is moved to the point that makes the referee re-spawn the robots (if they can not recover from fall) at the other side. The ball is exactly moved to:\
+   `-2.5 -1 0.08` (if the team red is on the left side)\
+   `2.5 -1 0.08` (if the team red is on the right side)\
+5. The simulation is resumed, 5 simulated seconds elapses and then, the simulation is paused again.
+6. Robot `Red 1` is manually fallen. The simulation is resumed, 5 simulated seconds elapses and then, the simulation is paused again.
+7. Robot `Red 2` is manually fallen. The simulation is resumed.
+8. After elapsing 20 seconds that robot `Red 1` doesn't recover from fall, it receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half at the height of the penalty mark. ([#21](https://github.com/RoboCup-Humanoid-TC/webots/issues/21))
+9. After elapsing 20 seconds that robot `Red 2` doesn't recover from fall (5 simulated seconds after penalizing 'Red 1'), it also receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half 60 cm away from the other robot that is already suffering from a removal penalty. ([#22](https://github.com/RoboCup-Humanoid-TC/webots/issues/22))
 
 The following information should be contained in logs (among others):
 
