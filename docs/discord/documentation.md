@@ -1164,19 +1164,19 @@ Thank you `@David Mansolino` ! In the mass tab, it seems that moment of inertia 
 
 Then you will be able to select the children Solid nodes and get their inertia matrix too.
 
-##### Kricklobderno 08/21/2020 11:31:48
+##### Kamil Kaya 08/21/2020 11:31:48
 Hi, How can I use display node? When I add it to the child node of camera controller crashes.
 
 ##### David Mansolino [Cyberbotics] 08/21/2020 11:33:36
 Hi, you should have a look at the examples provided within Webots, e.g. [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt)
 
-##### Kricklobderno 08/21/2020 16:57:44
+##### Kamil Kaya 08/21/2020 16:57:44
 But Can I put the display node to camera as child node? I want to achieve the hough circle transform by taking frames from the camera, processing it and after than showing it to display screen.
 
 ##### David Mansolino [Cyberbotics] 08/24/2020 05:51:00
 You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
-##### Kricklobderno 08/24/2020 10:15:49
+##### Kamil Kaya 08/24/2020 10:15:49
 > You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
 `@David Mansolino` Thank you. I achieved it as you refer.
@@ -1755,4 +1755,138 @@ Hi, link1 should be a Solid node.
 Here is an example of gripper: [https://www.cyberbotics.com/doc/guide/khepera3#khepera3\_gripper-wbt](https://www.cyberbotics.com/doc/guide/khepera3#khepera3_gripper-wbt)
 
 The gripper  model is saved in a PROTO file. But if you select it, tight-click on it to open the context menu and choose the "Convert to Base Node(s)" options then you will be able to check the internal structure directly from the Webots scene tree.
+
+##### HANEEN AL ALI 02/10/2021 15:20:16
+`@Stefania Pedrazzi` thank you so much for ur reply.  Can u explain why link 1 should be a solid node, pleased? I choose it as transform node
+
+##### Stefania Pedrazzi [Cyberbotics] 02/10/2021 15:24:37
+You can define link 1 in a `Transform` node, but between the `HingeJoint` node and the link 1 node you need a `Solid` node because the `HingeJoint.endPoint` field expects a `Solid` or derived node.
+
+##### HANEEN AL ALI 02/10/2021 17:08:21
+I went to khepera3 but I couldn't find the model for khepera3\_gripper. I just found Khepera3 robot with a two- wheeled.
+
+
+
+Please please can u tell where I can find the model with the gripper?
+
+##### Chernayaten 02/10/2021 18:20:25
+`@HANEEN AL ALI`  You're looking in ..\Webots\projects\robots\k-team\khepera3\worlds and you can't find the gripper wbt file? I found it in my installation
+
+You can probably copy missing files from here [https://github.com/cyberbotics/webots/tree/master/projects/robots/k-team/khepera3](https://github.com/cyberbotics/webots/tree/master/projects/robots/k-team/khepera3)
+
+##### HANEEN AL ALI 02/10/2021 20:10:19
+`@Chernayaten` ya, it is this one i am looking for. so i can have an idea how to build my design. however i do know how to add it to the robot node, do you have an idea on how to add it?
+
+##### Chernayaten 02/10/2021 20:21:53
+I do not know how to use grippers. If I wanted to learn them I would add a khepera with a gripper and then do what stefania suggested, convert to base nodes so that I can study how its done and mimic it
+
+##### Stefania Pedrazzi [Cyberbotics] 02/11/2021 07:25:25
+In the Webots samples library there is a world called `khepera3_gripper.wbt`. You can find it by openining the File > Open Sample World.. dialog and type the world name.
+
+The gripper is specified in a separated PROTO called `Khepera3_Gripper`. You can added it to any Robot node:
+
+1. Select a `children` or `*Slot` (in case of PROTO robot node) fields
+
+2. Click the "Add node" button
+
+3. Type in the "Find" text field "Khepera3\_Gripper" and select it
+
+##### BeastFromTheEast 02/24/2021 14:52:33
+Is documentation page down for anyone else atm?
+
+##### DDaniel [Cyberbotics] 02/24/2021 14:52:50
+yes, looking into it at the moment
+
+##### BeastFromTheEast 02/24/2021 14:53:03
+Thank you
+
+##### DDaniel [Cyberbotics] 02/24/2021 14:58:32
+`@BeastFromTheEast` should be back now
+
+##### Elizaveta\_Potemkina 03/02/2021 17:18:46
+Hi guys, I'm looking for the proto file for the Sharp GP2Y0A02YK0F sensor - where in the docs would I be able to find it?
+
+##### Chernayaten 03/02/2021 17:33:07
+Webots\projects\devices\sharp\protos is where mine is located
+
+
+`@Elizaveta_Potemkina`
+
+##### Elizaveta\_Potemkina 03/02/2021 17:33:23
+Thanks, just found it actually!
+
+##### Shyam 03/20/2021 19:58:06
+is there something wrong with the documentation page on website?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
+%end
+
+##### harunkurt00 03/20/2021 20:03:57
+Yes , same with me this documentation website
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/22/2021 07:26:31
+I believe this is now fixed.
+
+##### Shyam 03/22/2021 10:37:54
+Yes, thank you for the update `@Olivier Michel`
+
+##### Westin 03/24/2021 15:49:09
+Is anyone else having issues with the docs page?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/824308871422017536/unknown.png)
+%end
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:50:50
+Can you check again now?
+
+##### Westin 03/24/2021 15:51:01
+Yes its working, thanks.
+
+
+There is also an issue in the webots download link. Pressing the drop down button gets you there, but the main button gets a 404.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/824309651982123028/unknown.png)
+%end
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:53:14
+Strange, I don't get any 404 with the main button...
+
+
+From which browser are you trying this?
+
+
+The "NaN undefined NaN - undefined" seems to indicate that our Javascript is unable to determine your platform (Window, macOS or Linux).
+
+
+Which is your operating system?
+
+##### Westin 03/24/2021 15:56:25
+I'm not having the issue now. I tried on Edge and Chrome on Windows 10 and got the same result each time.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:57:13
+Do you mean the issue disappeared suddenly?
+
+##### Westin 03/24/2021 15:59:40
+Yes I loaded the page again after a few minutes and it displays properly.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/24/2021 15:59:56
+Strange...
+
+##### Westin 03/24/2021 16:00:39
+Yep.
+
+##### reinaldobianchi 04/06/2021 13:04:53
+Hi. I have a doubt about the Sensors on the Pioneer AT3. Is the figure on page [https://cyberbotics.com/doc/guide/pioneer-3at](https://cyberbotics.com/doc/guide/pioneer-3at) wrong?
+
+It looks like the sensors that are in front should be in the back...
+
+Sensors 0 to 7 should be in the back, and sensors 8 to 15 in the front, no?
+
+I also think that the Front and Back views of the robot are switched...
+
+
+This is wrong for the Pioneer 3 DX and AT
+
+##### Srivastav\_Udit 04/07/2021 01:33:16
+Is there any particular reason why the sensors orientation on the epuck is the way it is?
 

@@ -62,7 +62,7 @@ for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep 
 fileList = sorted(fileList)
 
 # create the 'appearances' page
-with open('appearances.md', 'w', encoding='utf-8') as file:
+with open('appearances.md', 'w', encoding='utf-8', newline='\n') as file:
     file.write(u'# Appearances\n')
     file.write(u'This chapter describes the list of available appearance PROTO nodes based on the '
                '[PBRAppearance](../reference/pbrappearance.md) node.\n\n')
@@ -100,7 +100,7 @@ for proto in prioritaryProtoList + fileList:
     fieldEnumeration = {}
     skipProto = False
     # parse the PROTO file
-    with open(proto, 'r') as file:
+    with open(proto, 'r', encoding='utf-8') as file:
         content = file.read()
         # header
         matches = re.finditer(r'^#.*\n', content, re.MULTILINE)
@@ -190,7 +190,7 @@ for proto in prioritaryProtoList + fileList:
     # use the cache file to get the baseType
     cacheFile = proto.replace(os.path.basename(proto), '.' + os.path.basename(proto)).replace('.proto', '.cache')
     if os.path.isfile(cacheFile):
-        with open(cacheFile, 'r') as file:
+        with open(cacheFile, 'r', encoding='utf-8') as file:
             for line in file.readlines():
                 match = re.match(r'baseType:\s*([a-zA-Z]*)', line)
                 if match:
@@ -206,7 +206,7 @@ for proto in prioritaryProtoList + fileList:
         filename = 'appearances.md'
     elif upperCategory not in upperCategories:
         mode = 'w'
-    with open(filename, mode, encoding='utf-8') as file:
+    with open(filename, mode, encoding='utf-8', newline='\n') as file:
         if upperCategory not in upperCategories and not upperCategory == category and not upperCategory == 'projects':
             file.write(u'# %s\n\n' % upperCategory.replace('_', ' ').title())
         headerPrefix = u'#'
@@ -273,7 +273,7 @@ for proto in prioritaryProtoList + fileList:
         file.write(u'}\n')
         file.write(u'```\n\n')
         location = proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
-        file.write(u'> **File location**: "[WEBOTS\\_HOME%s](https://github.com/cyberbotics/webots/tree/released%s)"\n\n' %
+        file.write(u'> **File location**: "[WEBOTS\\_HOME%s]({{ url.github_tree }}%s)"\n\n' %
                    (location.replace('_', '\\_'), location))
         if license:
             file.write(u'> **License**: %s\n' % license)
@@ -305,7 +305,10 @@ for proto in prioritaryProtoList + fileList:
                             else:
                                 file.write(u'`%s`.' % value.strip())
                         elif i == len(values) - 2:
-                            file.write(u'`%s` and ' % value.strip())
+                            if len(values) == 2:
+                                file.write(u'`%s` and ' % value.strip())
+                            else:
+                                file.write(u'`%s`, and ' % value.strip())
                         else:
                             file.write(u'`%s`, ' % value.strip())
                 file.write(u'\n\n')
@@ -320,7 +323,7 @@ for proto in prioritaryProtoList + fileList:
 del upperCategories['projects']
 upperCategoriesList = sorted(upperCategories.keys())
 categoriesList = []
-with open('objects.md', 'w', encoding='utf-8') as file:
+with open('objects.md', 'w', encoding='utf-8', newline='\n') as file:
     file.write(u'# Objects\n\n')
     file.write(u'## Sections\n\n')
     for upperCategory in upperCategoriesList:

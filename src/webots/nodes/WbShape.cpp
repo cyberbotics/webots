@@ -274,7 +274,7 @@ void WbShape::applyMaterialToGeometry() {
 // ray cast to a shape: pick the collided color
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
-void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness, double *occlusion) const {
+void WbShape::pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness, double *occlusion) const {
   WbAppearance *const app = appearance();
   WbPbrAppearance *const pbrApp = pbrAppearance();
   WbGeometry *const geom = geometry();
@@ -291,6 +291,8 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
     *occlusion = 0.0;
 
   if (geom) {
+    float paintContribution = 0.0f;
+
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
     if (paintTexture) {
       const bool success = geom->pickUVCoordinate(uv, ray, 0);
@@ -321,7 +323,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         return;
       }
       // retrieve the corresponding color in the paint texture
-      paintTexture->pickColor(paintColor, uv);
+      paintTexture->pickColor(uv, paintColor, &paintContribution);
     }
 
     if (app) {
@@ -347,7 +349,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         }
 
         // retrieve the corresponding color in the texture
-        app->pickColorInTexture(textureColor, uv);
+        app->pickColorInTexture(uv, textureColor);
       }
 
     } else if (pbrApp) {
@@ -387,9 +389,12 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
       return;  // default value
 
     // combine colors
-    pickedColor.setRed(diffuseColor.red() * textureColor.red() * paintColor.red());
-    pickedColor.setGreen(diffuseColor.green() * textureColor.green() * paintColor.green());
-    pickedColor.setBlue(diffuseColor.blue() * textureColor.blue() * paintColor.blue());
+    pickedColor.setRed((1.0f - paintContribution) * diffuseColor.red() * textureColor.red() +
+                       paintContribution * paintColor.red());
+    pickedColor.setGreen((1.0f - paintContribution) * diffuseColor.green() * textureColor.green() +
+                         paintContribution * paintColor.green());
+    pickedColor.setBlue((1.0f - paintContribution) * diffuseColor.blue() * textureColor.blue() +
+                        paintContribution * paintColor.blue());
   }
 }
 

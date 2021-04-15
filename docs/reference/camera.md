@@ -1258,7 +1258,7 @@ Sample code showing how to use the returned segmentation image object in the dif
 The `wb_camera_recognition_save_segmentation_image` function allows the user to save the latest segmentation image.
 Further details about the arguments and the return value can be found in the description of the [`wb_camera_save_image`](#wb_camera_save_image) function.
 
-##### Camera Recognition Object
+### Camera Recognition Object
 
 A camera recognition object is defined by the following structure:
 

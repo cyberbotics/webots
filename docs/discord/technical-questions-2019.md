@@ -2426,7 +2426,7 @@ right, thanks
 ##### David Mansolino [Cyberbotics] 05/08/2019 09:51:44
 You're welcome
 
-##### avnishsachar 05/08/2019 12:35:59
+##### Avnish Sachar 05/08/2019 12:35:59
 Hi, is there a way to print a custom message on the console even when the simulation is paused?
 
 ##### Fabien Rohrer [Moderator] 05/08/2019 12:38:14
@@ -2435,7 +2435,7 @@ Unfortunately, this is not possible.
 
 Could you write your output into a file instead? Or use a debugger?
 
-##### avnishsachar 05/08/2019 12:44:09
+##### Avnish Sachar 05/08/2019 12:44:09
 Yes, I can write into a file instead. Thanks!
 
 ##### Hussein 05/09/2019 09:34:16
@@ -4110,14 +4110,14 @@ how can i start with webots ..
 
 Is there any online course ?
 
-##### Bizzaropoulos 06/10/2019 00:08:45
+##### PanosXron 06/10/2019 00:08:45
 what are the formats for Display.imageNew(data,format) in Python?
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 06:16:43
 `@Mu.Hesham` We recommend to start with our tutorial: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 
-`@Bizzaropoulos` Formats are:
+`@PanosXron` Formats are:
 
 
 class Display (Device):
@@ -4992,11 +4992,11 @@ Are there any simulations that uses reinforcement learning?
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 06/17/2019 15:26:52
 Hi, not in the examples provided in Webots. It is up to you to implement it, like many Webots users did.
 
-##### Bizzaropoulos 06/17/2019 17:11:43
+##### PanosXron 06/17/2019 17:11:43
 Hello I am trying to use OpenCV(Python) but the image captured from the camera object is in a different format from OpenCV. How can I convert between formats?
 
 ##### Fabien Rohrer [Moderator] 06/18/2019 06:35:29
-`@Bizzaropoulos` You could refer to the following example/snippets:
+`@PanosXron` You could refer to the following example/snippets:
 
 
 [https://cyberbotics.com/forum?message=8666](https://cyberbotics.com/forum?message=8666) Here is a small snippet to convert the camera image to a numpy array (the input of Python OpenCV)
@@ -11705,7 +11705,7 @@ Hi `@David Mansolino` , thanks for your reply!
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/29/2019 05:49:14
 `@Frodo`: did you try print()? Note you need to call Robot.step() so that your print command is sent to Webots and displayed in the console.
 
-##### xyz 08/29/2019 14:04:36
+##### Smruti(P) 08/29/2019 14:04:36
 hello, how can i convert .txt to .motion that webots can understand?I have a .txt file that contains the angle of each joints.Now i want nao to be in that position specified in that .txt file. For that reason i have to convert it into .motion file. So how should i do that?Can anyone help
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:06:13
@@ -11723,19 +11723,19 @@ You should try to forge a similar file.
 
 Basically, the header list the motor names, and each line contain a pose (time,posName,motorPositions*)
 
-##### xyz 08/29/2019 14:39:34
+##### Smruti(P) 08/29/2019 14:39:34
 actually i m getting my data from kinect and using that data i m getting my joints angle (motor positions)using python . Now i have information of angles of left shoulder pitch and roll, left elbow pitch and roll.Now i want it to be in a file that webots can read.so how should i do that?Continuosly i will be getting data from kinect which will be given to webots .So how should i continuosly convert it to motion files?
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:42:26
 Using the motion mechanism is certainly overkilled. Why not simply and directly actuating the simulated robot motors? (cf. Motor.setPosition(double pos))
 
-##### xyz 08/29/2019 14:43:18
+##### Smruti(P) 08/29/2019 14:43:18
 sorry i can't get u
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:45:51
 The Webots motion file mechanism aims to play back a stored motion in simulation. You would like to map the Kinect and the Webots simulated robot in real-time, right? In this case, it seems more appropriated to not use the Webots motion file mechanism, but rather to directly move the simulated robot actuators.
 
-##### xyz 08/29/2019 14:48:48
+##### Smruti(P) 08/29/2019 14:48:48
 okay thank you
 
 ##### ClLebi 08/29/2019 15:21:59
@@ -17282,13 +17282,13 @@ The rover is getting stuck and I am not able to get the simulation of both quadc
 
 In connection with [https://github.com/cyberbotics/webots/issues/1081](https://github.com/cyberbotics/webots/issues/1081) , could anyone let me know any tips as to how I can fix it for now?
 
-##### Kairu 11/08/2019 17:16:52
+##### kairu 11/08/2019 17:16:52
 hey everyone is there a way to attach a receiver to a robot like the epuck?
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:18:41
-`@Kairu` yes of course, you can add it in the 'turretSlot' field.
+`@kairu` yes of course, you can add it in the 'turretSlot' field.
 
-##### Kairu 11/08/2019 17:31:24
+##### kairu 11/08/2019 17:31:24
 ty!
 
 ##### David Mansolino [Cyberbotics] 11/08/2019 17:56:59
@@ -23301,7 +23301,7 @@ If you check here in this link with every MF field they are arrays
 ##### swebdev 12/22/2019 21:34:09
 `@Tahir` Makes sense, thanks!
 
-##### casey 12/23/2019 03:45:27
+##### c.w 12/23/2019 03:45:27
 I follow this tutorial, [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Beginner\_programming\_Exercises](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Beginner_programming_Exercises)
 
 but I don't know  how to open the BotStudio, I believe `@Stefania Pedrazzi` said that 

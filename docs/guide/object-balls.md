@@ -47,6 +47,37 @@ Ball {
 
 - `angularDamping`: Defines the angular damping of the ball.
 
+## FifaSoccerBall
+
+A black and white FIFA soccer ball with customizable size.
+This object is physics-enabled so it will roll or bounce when hit.
+
+%figure
+
+![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+FifaSoccerBall {
+  SFVec3f     translation 0 0 0
+  SFRotation  rotation    0 1 0 0
+  SFString    name        "fifa soccer ball"
+  SFInt32     size        5
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/FifaSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/FifaSoccerBall.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### FifaSoccerBall Field Summary
+
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
+
 ## PingPongBall
 
 A ping pong ball.
@@ -77,6 +108,31 @@ PingPongBall {
 ### PingPongBall Field Summary
 
 - `textureUrl`: Defines the texture used for the ball.
+
+## RobocupSoccerBall
+
+A black and white soccer ball with customizable radius and mass.
+This object is physics-enabled so it will roll or bounce when hit.
+
+Derived from [Solid](../reference/solid.md).
+
+```
+RobocupSoccerBall {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 1 0 0
+  SFString   name         "robocup soccer ball"
+  SFInt32                 size 1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/RobocupSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/RobocupSoccerBall.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### RobocupSoccerBall Field Summary
+
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## SoccerBall
 

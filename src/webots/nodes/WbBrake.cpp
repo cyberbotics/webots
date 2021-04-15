@@ -39,10 +39,6 @@ void WbBrake::init() {
   mRequestedDeviceTag = NULL;
 }
 
-void WbBrake::postFinalize() {
-  WbJointDevice::postFinalize();
-}
-
 void WbBrake::reset() {
   WbJointDevice::reset();
 
