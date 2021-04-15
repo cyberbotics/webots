@@ -1,6 +1,7 @@
 'use strict';
 import DefaultUrl from './Default_url.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
+import {webots} from './Webots.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -35,32 +36,71 @@ export default class Animation {
 
     const div = document.createElement('div');
     div.id = 'playBar';
-    //this.view.view3D.appendChild(div2);
+    this.view.view3D.appendChild(div);
+    let leftPane = document.createElement('div');
+    leftPane.className = 'left';
+    leftPane.id = 'leftPane';
+
+    let rightPane = document.createElement('div');
+    rightPane.className = 'right';
+    rightPane.id = 'rightPane';
+
+    this.timeSlider = document.createElement('input');
+    this.timeSlider.className = 'time-slider';
+    this.timeSlider.type = 'range';
+    this.timeSlider.min = 0;
+    this.timeSlider.max = 100;
+    this.timeSlider.step = 1;
+    this.timeSlider.value = 0;
+    this.timeSlider.id = 'timeSlider';
+    let those = this;
+    this.timeSlider.oninput = function() {
+      those._updateSlider(this.value);
+    };
 
     this.button = document.createElement('button');
-    this.button.id = 'playPauseButton';
-    const action = (this.gui === 'real_time') ? 'pause' : 'real_time';
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
-    this.button.style.padding = '0';
+    const action = (this.gui === 'real_time') ? 'pause' : 'play';
+    this.button.className = 'player-btn icon-' + action;
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
-    div.appendChild(this.button);
 
-    const slider = document.createElement('div');
-    slider.id = 'playSlider';
-    div.appendChild(slider);
-    this.playSlider = $('#playSlider').slider();
-    this._connectSliderEvents();
-
-    div.appendChild(this._createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
-    this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
-    this.exit_fullscreenButton.style.display = 'none';
-    div.appendChild(this._createToolBarButton('fullscreen', 'Enter fullscreen'));
+    this.fullscreenButton = document.createElement('button');
+    this.fullscreenButton.className = 'player-btn icon-fullscreen';
     this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+
+    this.exit_fullscreenButton = document.createElement('button');
+    this.exit_fullscreenButton.className = 'player-btn icon-partscreen';
+    this.exit_fullscreenButton.style.display = 'none';
+    this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
 
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
     document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
     document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
     document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+
+    this.currentTime = document.createElement('span');
+    this.currentTime.innerHTML = '00:00.<small>000</small>';
+    this.currentTime.className = 'current-time';
+    this.currentTime.disabled = false;
+    this.currentTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.data.frames[0].time);
+
+    let timeDivider = document.createElement('span');
+    timeDivider.innerHTML = '\\';
+    timeDivider.className = 'time-divider';
+
+    let totalTime = document.createElement('span');
+    totalTime.innerHTML = '00:00.<small>000</small>';
+    totalTime.className = 'total-time';
+    totalTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.data.frames[this.data.frames.length - 1].time);
+
+    document.getElementById('playBar').appendChild(this.timeSlider);
+    document.getElementById('playBar').appendChild(leftPane);
+    document.getElementById('playBar').appendChild(rightPane);
+    document.getElementById('leftPane').appendChild(this.button);
+    document.getElementById('leftPane').appendChild(this.currentTime);
+    document.getElementById('leftPane').appendChild(timeDivider);
+    document.getElementById('leftPane').appendChild(totalTime);
+    document.getElementById('rightPane').appendChild(this.fullscreenButton);
+    document.getElementById('rightPane').appendChild(this.exit_fullscreenButton);
 
     // Initialize animation data.
     this.start = new Date().getTime();
@@ -89,7 +129,6 @@ export default class Animation {
   }
 
   _triggerPlayPauseButton() {
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this._getIconBaseName(this.gui) + '.png)';
     if (this.gui === 'real_time') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -102,6 +141,9 @@ export default class Animation {
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
+
+    const action = (this.gui === 'real_time') ? 'pause' : 'play';
+    this.button.className = 'player-btn icon-' + action;
   }
 
   _connectSliderEvents() {
@@ -122,6 +164,7 @@ export default class Animation {
   }
 
   _updateSlider(value) {
+    this._triggerPlayPauseButton();
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
     const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
@@ -178,13 +221,15 @@ export default class Animation {
         }
       }
     }
-    if (automaticMove) {
-      this._disconnectSliderEvents();
-      this.playSlider.slider('option', 'value', 100 * this.step / this.data.frames.length);
-      this._connectSliderEvents();
-    }
+    if (automaticMove)
+      this.timeSlider.value = 100 * this.step / this.data.frames.length;
+    else
+      this._triggerPlayPauseButton();
+
+    this._updateSliderBackground(this.timeSlider.value);
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
+    this.currentTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
     x3dScene.render();
   }
 
@@ -198,4 +243,10 @@ export default class Animation {
   _getIconBaseName() {
     return this.gui === 'real_time' ? 'real_time' : 'pause';
   }
+
+  _updateSliderBackground(value) {
+    // Hack for webkit-browsers which don't support input range progress indication
+    let percent = (value / 100) * 100;
+    document.getElementById('timeSlider').style.background = '-webkit-linear-gradient(left, #F00 0%, #F00 ' + percent + '%, rgba(240,240,240, 1) ' + percent + '%)';
+  };
 }
