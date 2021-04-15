@@ -372,13 +372,15 @@ PROTO SummitXlSteel [
         # mass neglected (0.001kg).
       }
       Transform {
-        translation 0.2865 -0.20894 0.18
+        translation 0.2865 -0.20894 0.193
         rotation -0.8629 -0.3574 0.3574 1.7178
+        #rotation 0.9239 -0.3827 0 3.14159 # For FLU-oriented lidars.
         children IS frontLidarSlot
       }
       Transform {
-        translation -0.2865 0.20894 0.18
+        translation -0.2865 0.20894 0.193
         rotation 0.2811 -0.6786 0.6786 -2.5936
+        #rotation 0.3827 0.9239 0 3.14159 # For FLU-oriented lidars.
         children IS backLidarSlot
       }
       Solid {

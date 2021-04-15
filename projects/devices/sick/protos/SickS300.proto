@@ -1,25 +1,25 @@
 #VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: TODO
+# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-s300
 # Model of SickS300 (lidar device).
 # The mesh was taken from the original GitHub repository: https://github.com/RobotnikAutomation/robotnik_sensors.
 # specs:
 #  - field of view: 270 [deg]
-#  - range : up to 30 [m] (distance measuring range)
-#  - number of fields : 3
-#  - angular resolution : 0.5°
-#  - resolution : 1620 (3 * 270° / 0.5°)
-#  - dimension : 	0.102 x 0.152 x 0.106 [m]
-#  - weight : 1.2 [kg]
+#  - range: up to 30 [m] (distance measuring range)
+#  - number of layers: 3
+#  - angular resolution: 0.5°
+#  - resolution: 1620 (3 * 270° / 0.5°)
+#  - dimension: 0.102 x 0.152 x 0.106 [m]
+#  - weight: 1.2 [kg]
 
 PROTO SickS300 [
 field SFVec3f    translation    0 0 0
 field SFRotation rotation       0 1 0 0
-field SFString   name           "Sick S300" # Is `Lidar.fieldOfView`.
-field SFFloat    noise          0.0         # Is `Lidar.fieldOfView`.
-field SFInt32    resolution     1620        # Is `Lidar.resolution`.
-field SFBool     enablePhysics  FALSE       # Defines whether the lidar should be affected by physics.
+field SFString   name           "Sick S300"  # Is `Lidar.fieldOfView`.
+field SFFloat    noise          0.0          # Is `Lidar.fieldOfView`.
+field SFInt32    resolution     1620         # Is `Lidar.horizontalResolution`.
+field SFBool     enablePhysics  FALSE        # Defines whether the lidar should be affected by physics.
 ]
 {
   Lidar {
@@ -35,7 +35,19 @@ field SFBool     enablePhysics  FALSE       # Defines whether the lidar should b
         }
         geometry Mesh {
           url [
-            "meshes/sick_s300.dae"
+            "meshes/sick_s300_black.dae"
+          ]
+        }
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0.969 0.8 0.016
+          roughness 0.5
+          metalness 0.2
+        }
+        geometry Mesh {
+          url [
+            "meshes/sick_s300_yellow.dae"
           ]
         }
       }
