@@ -2293,17 +2293,14 @@ QString WbNode::getUrdfPrefix() const {
   return findRobotRootNode()->mUrdfPrefix;
 }
 
-void recursiveUnlink(WbNode *node) {
-}
-
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
   for (int i = 0; i < level; ++i)
     indent += "  ";
 
   QString line;
-  printf("%sNode %s %p parameterNode %p\n", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
-         protoParameterNode());
+  printf("%sNode %s %p parameterNode %p parentNode %p\n", indent.toStdString().c_str(), usefulName().toStdString().c_str(),
+         this, protoParameterNode(), parentNode());
 
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
@@ -2318,8 +2315,8 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    printf("%s%s %s %p (alias %p)\n", indent.toStdString().c_str(), type.toStdString().c_str(), p->name().toStdString().c_str(),
-           p, p->parameter());
+    printf("%s%s %s %p (alias %p) parentNode %p\n", indent.toStdString().c_str(), type.toStdString().c_str(),
+           p->name().toStdString().c_str(), p, p->parameter(), this->parentNode());
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)

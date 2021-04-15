@@ -95,10 +95,6 @@ public:
   double orthographicViewHeight() const;
   void setOrthographicViewHeight(double ovh) const;
 
-  // node structure proto simplification
-  bool isParameterNodeCollapsable(WbNode *node, int depth = 0);
-  void recursiveUnlink(WbNode *node, int depth = 0);
-
   // current perspective
   WbPerspective *perspective() const { return mPerspective; }
   bool reloadPerspective();
@@ -206,8 +202,16 @@ private:
   bool mIsCleaning;
   bool mIsVideoRecording;
 
+  // --
   void tmpRecursion();
   void collapseNestedProtos();
+  // node structure proto simplification
+  bool isParameterNodeChainCollapsable(WbNode *node, int depth = 0);
+  bool isProtoParameterNodeChainCollapsable(WbNode *node);
+  void printInstances(WbNode *node, int depth = 0);
+  void recursiveAliasUnlink(WbNode *currentNode, WbNode *previousNode = NULL, int depth = 0);
+  // --
+
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 

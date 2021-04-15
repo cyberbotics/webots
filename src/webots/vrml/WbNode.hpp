@@ -185,7 +185,8 @@ public:
   // function for the unlinking of a node internal to a PROTO and the corresponding external parameter
   void unlinkProtoParameter();
   void clearRefProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
-  void clearRefProtoParameterNode() { mProtoParameterNode = NULL; }
+  void popBackProtoParameterNodeInstances() { mProtoParameterNodeInstances.pop_back(); }
+  void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
   void printFieldsAndParams();
   void removeFromParameters(WbField *item);
   // ----
