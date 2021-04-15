@@ -72,6 +72,6 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 And in [WorldInfo](../reference/worldinfo.md) the coordinateSystem must be set to "NUE".
 
-#### summit_xl_steel.wbt
+#### summit\_xl\_steel.wbt
 
 ![summit_xl_steel.wbt.png](images/robots/summit_xl_steel/summit_xl_steel.wbt.thumbnail.jpg) This simulation shows a Summit-XL Steel mounted with a `ConveyorPlatform` that can be controlled to move in an industrial environment using the keyboard.
