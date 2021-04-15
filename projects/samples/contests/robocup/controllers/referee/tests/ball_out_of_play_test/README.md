@@ -4,30 +4,22 @@ The following should happen:
 
 1. The robots are spawned and the game state is `INITIAL`.
 2. Time elapses and game state changes to `READY`.
-3. - Simulation is paused,
-   - All the robots are moved into their own field. Here is some exact locations as a test (rotations are not altered):
-   - `Red 1`:  `-3.5 -2 0.24` (if the robot is on the left side)\
-   `Red 1`:  `3.5 -2 0.24` (if the robot is on the right side)
-
-   - `Blue 1`:  `-3.5 -2 0.24` (if the robot is on the left side)\
-   `Blue 1`:  `3.5 -2 0.24` (if the robot is on the right side)
-   - Then, the simulation is resumed.
-4. Time elapses and game state changes to `SET`.
-5. Time elapses and game state changes to `PLAY`.
-6. The ball is manually touched by the `Red 1`, and then it entirely crosses the touchline, from `0 3.08 0.08`.
-7. It is re-spawned on the field line.([#14](https://github.com/RoboCup-Humanoid-TC/webots/issues/14))
-8. The ball again is is manually touched by the `Red 1`, and then it is about to leave the field, but it doesn't entirely leave the field. It is at `0 3.06 0.08`.
-9. The game continues without any interference by the AutoRef. ([#16](https://github.com/RoboCup-Humanoid-TC/webots/issues/16))
-10. The ball is manually touched by the `Red 1`, and then it entirely crosses the goal line on the side of team blue, from:\
+3. Time elapses and game state changes to `SET`.
+4. Time elapses and game state changes to `PLAY`.
+5. The robot `Red 1` is manually moved into the field, the ball is manually touched by the `Red 1`, and then it entirely crosses the touchline, from `1 3.08 0.08`.
+6. The ball is re-spawned on the touchline at the position it left the field.([#14](https://github.com/RoboCup-Humanoid-TC/webots/issues/14))
+7. The ball again is is manually touched by the `Red 1`, and then it is about to leave the field, but it doesn't entirely leave the field. It is at `1 3.06 0.08`.
+8. The game continues without any interference by the AutoRef. ([#16](https://github.com/RoboCup-Humanoid-TC/webots/issues/16))
+9. The ball is manually touched by the `Red 1`, and then it entirely crosses the goal line on the side of team blue, from:\
    `4.58 -2 0.08` (if the robot `Red 1` is on the left side)\
    `-4.58 -2 0.08` (if the robot `Red 1` is on the right side)
-11. the ball is replaced on the centerline at the intersection with the centerline on the side the ball left the field. ([#17](https://github.com/RoboCup-Humanoid-TC/webots/issues/17))
-12. The ball is manually touched by the `Red 1`, and then it entirely crosses the goal line on the side of team red, from:\
+10. the ball is replaced on the touchline at the intersection with the centerline on the side the ball left the field. ([#17](https://github.com/RoboCup-Humanoid-TC/webots/issues/17))
+11. The ball is manually touched by the `Red 1`, and then it entirely crosses the goal line on the side of team red, from:\
    `-4.58 -2 0.08` (if the robot `Red 1` is on the left side)\
    `4.58 -2 0.08` (if the robot `Red 1` is on the right side)
-13. The ball is replaced on the corner of the touch line and goal line on side the ball left the field. ([#19](https://github.com/RoboCup-Humanoid-TC/webots/issues/19))
-14. One goal is manually scored for each team by the UI of the game controller.
-15. Time elapses until the end of the game. AutoRef declares the game to be a draw after the end of the game and game state switches to `FINISHED`. ([#13](https://github.com/RoboCup-Humanoid-TC/webots/issues/13))
+12. The ball is replaced on the corner of the touch line and goal line on side the ball left the field. ([#19](https://github.com/RoboCup-Humanoid-TC/webots/issues/19))
+13. One goal is manually scored for each team by the UI of the game controller.
+14. Time elapses until the end of the game. AutoRef declares the game to be a draw after the end of the game and game state switches to `FINISHED`. ([#13](https://github.com/RoboCup-Humanoid-TC/webots/issues/13))
 
 The following information should be contained in logs (among others):
 
@@ -40,10 +32,10 @@ The following information should be contained in logs (among others):
 [SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_PLAYING
 [SSSS.xxx|SSSS.xxx] Info: Ball touched by red player 1.
 [SSSS.xxx|SSSS.xxx] Info: Ball left the field at 0 3.08 0.08 after being touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Ball respawned at 0 3 0.08
+[SSSS.xxx|SSSS.xxx] Info: Ball respawned at 1 3 0.08
 [SSSS.xxx|SSSS.xxx] Info: Ball touched again by same player.
 [SSSS.xxx|SSSS.xxx] Info: Ball left the field at 4.58 -2 0.08 after being touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Ball respawned at 0 -2 0.08
+[SSSS.xxx|SSSS.xxx] Info: Ball respawned at 0 -3 0.08
 [SSSS.xxx|SSSS.xxx] Info: Ball touched again by same player.
 [SSSS.xxx|SSSS.xxx] Info: Ball left the field at -4.58 -2 0.08 after being touched by red player 1.
 [SSSS.xxx|SSSS.xxx] Info: Ball respawned at -4.5 -3 0.08
