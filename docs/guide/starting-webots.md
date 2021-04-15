@@ -128,7 +128,7 @@ This action may cause a new crash.
 
 #### On Windows
 
-Using  GUI:
+From the Windows graphical user interface:
 1. Open the `Environment Variables` system dialog box. To do so, look for "environment variable" in the `search bar` of the Windows `start menu`, click on `Edit the system environment variables`, this will open up the `System Properties` dialog box to the `Advanced` tab. Click on the `Environment Variables` button at the bottom.
 2. Add a new `WEBOTS_SAFE_MODE` user environment variable. To do so, in the `user variables` panel, click on the `New` button and add a `New User Variable` named `WEBOTS_SAFE_MODE` with a value of `true`.
 3. Start Webots as usual.
