@@ -201,7 +201,7 @@ CarpetFibers {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, `"synthetic"` and `"pattern"`.
+- `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, `"synthetic"`, and `"pattern"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -660,7 +660,7 @@ Grass {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"prickly"` and `"mossy"`.
+- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"prickly"`, and `"mossy"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1101,7 +1101,7 @@ Parquetry {
 
 ### Parquetry Field Summary
 
-- `type`: Defines the parquetry type. This field accepts the following values: `"chequered"`, `"dark strip"`, `"light strip"` and `"mosaic"`.
+- `type`: Defines the parquetry type. This field accepts the following values: `"chequered"`, `"dark strip"`, `"light strip"`, and `"mosaic"`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1143,7 +1143,7 @@ Pavement {
 
 ### Pavement Field Summary
 
-- `type`: Defines the pavement type. This field accepts the following values: `"black stone"`, `"braun stone"`, `"braun square stone"`, `"grid"`, `"slate"` and `"tiles"`.
+- `type`: Defines the pavement type. This field accepts the following values: `"black stone"`, `"braun stone"`, `"braun square stone"`, `"grid"`, `"slate"`, and `"tiles"`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1994,3 +1994,4 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+

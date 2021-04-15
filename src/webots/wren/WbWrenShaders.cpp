@@ -870,6 +870,11 @@ WrShaderProgram *WbWrenShaders::pbrStencilAmbientEmissiveShader() {
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
+    int wireframeRendering = 0;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "wireframeRendering",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                            reinterpret_cast<const char *>(&wireframeRendering));
+
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE],
                                          WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PBR);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE],

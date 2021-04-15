@@ -16,7 +16,6 @@
 
 void WbDevice::init() {
   mTag = UNASSIGNED;
-  mRefreshRate = 0;
   mPowerOn = true;
   mWindow = 0;
 }

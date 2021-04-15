@@ -1361,7 +1361,7 @@ wb_supervisor_node_reset_physics(node)
 *stops the inertia of the given solid*
 
 The `wb_supervisor_node_reset_physics` function stops the inertia of the given solid.
-If the specified node is physics-enables, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
+If the specified node is physics-enabled, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
 The `node` argument must be a [Solid](solid.md) node (or a derived node).
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
@@ -1447,6 +1447,7 @@ wb_supervisor_node_restart_controller(node)
 The `wb_supervisor_node_restart_controller` function restarts the controller of the Robot passed to it.
 If a node other than a [Robot](robot.md) is passed to this function, no change is effected, and a warning message is printed to the console.
 Note that if a robot window is specified for the [Robot](robot.md) node, the robot window will be restarted as well.
+If an extern controller is used, then this function will only terminate the process, it will not start the controller again.
 
 ---
 

@@ -27,7 +27,7 @@
 //              or WbGeometry instance have a bounding sphere including bounding
 //              objects.
 //
-//              The WbBoundingSphere is also included in a tree of WbBounsingSphere
+//              The WbBoundingSphere is also included in a tree of WbBoundingSphere
 //              instances using the 'parent' and 'subBoundingSphere' concepts.
 //              But the sphere's radius and center are expressed in the owner node
 //              coordinate system.

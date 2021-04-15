@@ -351,7 +351,7 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
   WbImageTexture *tex = baseColorMap();
   if (tex) {
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
+    tex->pickColor(uvTransformed, pickedColor);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
 }
@@ -368,7 +368,7 @@ double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVe
   if (texture) {
     WbRgb pickedColor;
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    texture->pickColor(pickedColor, uvTransformed);
+    texture->pickColor(uvTransformed, pickedColor);
     return pickedColor.red();
   }
   return 0.0;  // default value

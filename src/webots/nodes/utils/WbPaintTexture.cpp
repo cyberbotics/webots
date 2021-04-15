@@ -95,6 +95,7 @@ void WbPaintTexture::clearTexture() {
     mData[++k] = 1.0f;
     mData[++k] = 0.0f;
   }
+  wr_drawable_texture_clear(mTexture);
 
   if (mEvaporation)
     memset(mEvaporation, 0, size * sizeof(double));
@@ -236,11 +237,6 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
   if (mEvaporation && !gEvaporationTextures.contains(this))
     gEvaporationTextures.append(this);
 
-  const float blue = density * color.blue();
-  const float green = density * color.green();
-  const float red = density * color.red();
-  const float existingColorPercentage = 1.0f - density;
-
   const int halfSize2 = (halfSize * halfSize);
   for (int ty = oy; ty <= sy; ++ty) {
     int rowOffset = ty * w;
@@ -248,13 +244,20 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
     int circleCondition = halfSize2 - (ty - y) * (ty - y);
     for (int tx = ox; tx <= sx; ++tx) {
       if ((tx - x) * (tx - x) <= circleCondition) {
-        mData[dataIndex] = existingColorPercentage * mData[dataIndex] + blue;
-        mData[dataIndex + 1] = existingColorPercentage * mData[dataIndex + 1] + green;
-        mData[dataIndex + 2] = existingColorPercentage * mData[dataIndex + 2] + red;
-        mData[dataIndex + 3] = 1.0f;
+        const float previousDensity = mData[dataIndex + 3];
+        const float oldDensityRatio = previousDensity / (density + previousDensity);
+        mData[dataIndex] = oldDensityRatio * mData[dataIndex] + (1.0f - oldDensityRatio) * color.blue();
+        mData[dataIndex + 1] = oldDensityRatio * mData[dataIndex + 1] + (1.0f - oldDensityRatio) * color.green();
+        mData[dataIndex + 2] = oldDensityRatio * mData[dataIndex + 2] + (1.0f - oldDensityRatio) * color.red();
+        mData[dataIndex + 3] += density;
+        if (mData[dataIndex + 3] > 1.0f)
+          mData[dataIndex + 3] = 1.0f;
 
-        if (mEvaporation)
-          mEvaporation[rowOffset + tx] = 1.0f;
+        if (mEvaporation) {
+          mEvaporation[rowOffset + tx] += (double)density;
+          if (mEvaporation[rowOffset + tx] > 1.0f)
+            mEvaporation[rowOffset + tx] = 1.0f;
+        }
 
         wr_drawable_texture_set_color(mTexture, &mData[dataIndex]);
         wr_drawable_texture_draw_pixel(mTexture, tx, ty);
@@ -265,7 +268,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
   }
 }
 
-void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
+void WbPaintTexture::pickColor(const WbVector2 &uv, WbRgb &pickedColor, float *pickedDensity) const {
   const int w = mTextureSize.x();
   const int h = mTextureSize.y();
   int x = uv.x() * w;
@@ -281,6 +284,8 @@ void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
 
   const int index = (y * w + x) * 4;
   pickedColor.setValue(mData[index + 2], mData[index + 1], mData[index]);
+  if (pickedDensity != NULL)
+    *pickedDensity = mData[index + 3];
 }
 
 WbVector2 WbPaintTexture::computeTextureSize(int imageTextureWidth, int imageTextureHeight) {

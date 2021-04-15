@@ -136,14 +136,14 @@ int main(int argc, char **argv) {
   // check camera 0
   color = computeImageMeanColor(0);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 207, 183, 183, 2,
-    "Pen \"pen0\" should print on the existing color obtaing color (r=207,g=183,b=183) and not (r=%d,g=%d,b=%d)", color.r,
+    color.r, color.g, color.b, 207, 178, 178, 2,
+    "Pen \"pen0\" should print on the existing color obtaing color (r=207,g=178,b=178) and not (r=%d,g=%d,b=%d)", color.r,
     color.g, color.b);
   // check camera 1
   color = computeImageMeanColor(1);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 194, 117, 207, 2,
-    "Pen \"pen1\" should overwrite previous color with color (r=194,g=117,b=207) and not (r=%d,g=%d,b=%d) if WRITE=FALSE",
+    color.r, color.g, color.b, 154, 178, 167, 2,
+    "Pen \"pen1\" should overwrite previous color with color (r=154,g=178,b=167) and not (r=%d,g=%d,b=%d) if WRITE=FALSE",
     color.r, color.g, color.b);
 
   // FIFTH STEP - check density
@@ -154,8 +154,8 @@ int main(int argc, char **argv) {
   // check camera 0
   color = computeImageMeanColor(0);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 207, 42, 42, 5,
-    "Pen \"pen0\" should print on the existing color obtaining color (r=207,g=42,b=42) and not (r=%d,g=%d,b=%d)", color.r,
+    color.r, color.g, color.b, 207, 0, 0, 5,
+    "Pen \"pen0\" should print on the existing color obtaining color (r=207,g=0,b=0) and not (r=%d,g=%d,b=%d)", color.r,
     color.g, color.b);
 
   ts_send_success();
