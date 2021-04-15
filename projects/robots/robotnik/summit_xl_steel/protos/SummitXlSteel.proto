@@ -1,22 +1,23 @@
 #VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/summit-xl-steel
 # This is a proto file for Webots for the robot Summit-XL Steel from Robotnik Automation (Spain).
 # The meshes are taken from the original GitHub repository: https://github.com/RobotnikAutomation/summit_xl_common.
 
 PROTO SummitXlSteel [
   field  SFVec3f     translation     0 0.118 0
   field  SFRotation  rotation        1 0 0 -1.5708
-  field  SFString    name            "Summit-XL Steel" # Is `Robot.name`.
-  field  SFString    controller      "void"            # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE             # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE              # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE             # Is `Robot.selfCollision`.
-  field  MFNode      frontLidarSlot  []                # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                # Extends the robot (with a conveyor platform for example).
+  field  SFString    name            "Summit-XL Steel"  # Is `Robot.name`.
+  field  SFString    controller      "void"             # Is `Robot.controller`.
+  field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""                 # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE              # Enables/disables the detection of collisions within the robot.
+  field  MFNode      frontLidarSlot  []                 # Extends the robot with a front lidar sensor.
+  field  MFNode      backLidarSlot   []                 # Extends the robot with a back lidar sensor.
+  field  MFNode      bodySlot        []                 # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
