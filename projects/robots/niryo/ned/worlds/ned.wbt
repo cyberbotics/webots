@@ -23,7 +23,6 @@ Floor {
   }
 }
 SoccerBall {
-  hidden linearVelocity_0 0 -9.47390314346846e-17 0
   translation -1.24 0.11205824000000002 10.18
   name "soccer ball(1)"
 }
