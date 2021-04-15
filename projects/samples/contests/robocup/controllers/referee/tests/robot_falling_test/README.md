@@ -1,0 +1,33 @@
+On this test scenario, we have robots who are going to fall in play state and the auto referee should penalize and re-spawn them at appropriate positions:
+
+The following should happen:
+
+1. The robots are spawned and the game state is `INITIAL`.
+2. Time elapses and game state changes to `READY`, `SET`, and `PLAY`.
+3. Simulation is paused, `Red 1`, and `Red 2` are manually moved inside the field, at:\
+   `Red 1`: `-2 -2 0.24`\
+   `Red 2`: `-3 -2 0.24` (if the team red is on the left side)
+   
+   `Red 1`: `2 -2 0.24`\
+   `Red 2`: `3 -2 0.24` (if the team red is on the right side)
+4. The simulation is resumed, and then, both robots are manually fallen.
+5. Robot `Red 1` receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half at the height of the penalty mark. ([#21](https://github.com/RoboCup-Humanoid-TC/webots/issues/21))
+6. Robot `Red 2` also receives a 30-second removal penalty and is respawned at a position outside the touchline which is further away from the ball in its own half 60 cm away from the other robot that is already suffering from a removal penalty. ([#22](https://github.com/RoboCup-Humanoid-TC/webots/issues/22))
+
+The following information should be contained in logs (among others):
+
+```
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_1 RobocupRobot on port 10001 at halfTimeStartingPose: translation -3.5 -3.06 0.24, rotation 0 0 1 1.57
+[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_2 RobocupRobot on port 10002 at halfTimeStartingPose: translation -3.5 3.06 0.24, rotation 0 0 1 -1.57
+[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_1 RobocupRobot on port 10021 at halfTimeStartingPose: translation 3.5 -3.06 0.24, rotation 0 0 1 1.571592653589793
+[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_INITIAL
+[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_READY
+[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_SET
+[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_PLAYING
+[SSSS.xxx|SSSS.xxx] Info: red player 1 has fallen down.
+[SSSS.xxx|SSSS.xxx] Info: red player 2 has fallen down.
+[SSSS.xxx|SSSS.xxx] Info: red player 1 has fallen down and didn't recover in the last 20 seconds.
+[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 1: fallen down. Sent to translation x.xx x.xx x.xx, rotation x.xx x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Info: red player 2 has fallen down and didn't recover in the last 20 seconds.
+[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 2: fallen down. Sent to translation x.xx x.xx x.xx, rotation x.xx x.xx x.xx x.xx
+```
