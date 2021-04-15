@@ -1,7 +1,6 @@
 'use strict';
 import DefaultUrl from './Default_url.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
-import {webots} from './Webots.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -37,6 +36,10 @@ export default class Animation {
     const div = document.createElement('div');
     div.id = 'playBar';
     this.view.view3D.appendChild(div);
+
+    div.addEventListener('mouseover', this._showPlayBar);
+    div.addEventListener('mouseout', this._hidePlayBar);
+
     let leftPane = document.createElement('div');
     leftPane.className = 'left';
     leftPane.id = 'leftPane';
@@ -78,19 +81,17 @@ export default class Animation {
     document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
 
     this.currentTime = document.createElement('span');
-    this.currentTime.innerHTML = '00:00.<small>000</small>';
     this.currentTime.className = 'current-time';
     this.currentTime.disabled = false;
-    this.currentTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.data.frames[0].time);
+    this.currentTime.innerHTML = this._formatTime(this.data.frames[0].time);
 
     let timeDivider = document.createElement('span');
     timeDivider.innerHTML = '\\';
     timeDivider.className = 'time-divider';
 
     let totalTime = document.createElement('span');
-    totalTime.innerHTML = '00:00.<small>000</small>';
     totalTime.className = 'total-time';
-    totalTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.data.frames[this.data.frames.length - 1].time);
+    totalTime.innerHTML = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
 
     document.getElementById('playBar').appendChild(this.timeSlider);
     document.getElementById('playBar').appendChild(leftPane);
@@ -229,7 +230,7 @@ export default class Animation {
     this._updateSliderBackground(this.timeSlider.value);
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    this.currentTime.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
+    this.currentTime.innerHTML = this._formatTime(this.view.time);
     x3dScene.render();
   }
 
@@ -249,4 +250,47 @@ export default class Animation {
     let percent = (value / 100) * 100;
     document.getElementById('timeSlider').style.background = '-webkit-linear-gradient(left, #F00 0%, #F00 ' + percent + '%, rgba(240,240,240, 1) ' + percent + '%)';
   };
+
+  _parseMillisecondsIntoReadableTime(milliseconds) {
+    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+    const absoluteHours = Math.floor(hours);
+    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+    const minutes = (hours - absoluteHours) * 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
+    if (ms < 10)
+      ms = '00' + ms;
+    else if (ms < 100)
+      ms = '0' + ms;
+    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
+  };
+
+  _formatTime(time) {
+    if (typeof this.unusedPrefix === 'undefined') {
+      let maxTime = this.data.frames[this.data.frames.length - 1].time;
+      if (maxTime < 60000)
+        this.unusedPrefix = 6;
+      else if (maxTime < 600000)
+        this.unusedPrefix = 4;
+      else if (maxTime < 3600000)
+        this.unusedPrefix = 3;
+      else if (maxTime < 36000000)
+        this.unusedPrefix = 1;
+    }
+
+    return this._parseMillisecondsIntoReadableTime(time).substring(this.unusedPrefix);
+  }
+
+  _showPlayBar(e) {
+    clearTimeout(this.timeout);
+    document.getElementById('playBar').style.opacity = '1';
+  }
+
+  _hidePlayBar(e) {
+    this.timeout = setTimeout(_ => { document.getElementById('playBar').style.opacity = '0';}, 500);
+  }
 }

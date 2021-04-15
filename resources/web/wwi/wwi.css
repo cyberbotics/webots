@@ -2,6 +2,153 @@ body {
   scroll-behavior: smooth;
 }
 
+iframe {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+#toolBar {
+  clear: both;
+  z-index: 1;
+  width: 100%;
+  height: 48px;
+  background-color: #666;
+}
+
+.toolBarRight {
+  display: flex;
+  float: right;
+}
+
+.toolBarLeft {
+  display: flex;
+  float: left;
+}
+
+.toolBarButton {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: none;
+  color: #ccc;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background-color: #ccc;
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+}
+
+.toolBarButton:hover {
+  background-color: #eee;
+}
+
+.toolBarButtonActive {
+  background-color: #111;
+}
+
+.toolBarButtonActive:hover {
+  background-color: #444;
+}
+
+ .toolBarButtonDisabled {
+   background-color: #444;
+ }
+
+.toolBarButtonDisabled:hover {
+  background-color: #444;
+}
+
+#worldSelectionDiv {
+  height: inherit;
+  display: inherit;
+}
+
+.select-css {
+  align-self: center;
+  padding: 0.4em 1.8em 0.3em 0.4em;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 0.5em;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right .7em top 55%, 0 0;
+  background-size: .65em auto, 100%;
+  filter: grayscale(1);
+  font-size: 14px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: Arial,Helvetica,sans-serif;
+}
+/* Hide arrow icon in IE browsers */
+.select-css::-ms-expand {
+  display: none;
+}
+/* Hide dashed box when on focus in Firefox browsers */
+.select-css:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+/* Set options to normal weight */
+.select-css option {
+  font-weight:normal;
+}
+
+#playBar {
+  display: flex;
+  float: left;
+  z-index: 1;
+  width: 100%;
+  height: 20px;
+  background-color: #666;
+}
+
+#playSlider {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin: 7px 15px;
+  background: #888;
+}
+
+.ui-slider {
+  height: 5px;
+}
+
+.ui-slider-handle {
+  height: 13px !important;
+  outline: 0;
+}
+
+/* fix conflict wit bulma.min.css */
+.ui-dialog {
+  box-sizing: content-box;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+#playPauseButton {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: none;
+  color: #ccc;
+  margin-left: 10px;
+  background-image: url(play.png);
+  background-color: #ccc;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+}
+
+#playPauseButton:hover {
+  background-color: #eee;
+}
+
 #webotsProgress {
   z-index: 1;
   position: absolute;
@@ -17,181 +164,41 @@ body {
   box-sizing: content-box;
 }
 
-#view3d {
- display: flex;
- position: relative
+.webotsView {
+  padding: 0px;
+  overflow: hidden;
 }
 
-#playBar {
+.webots3DView {
+  border: none;
   width: 100%;
-  height: 40px;
-  background-color: rgba(255,0,0,0);
-  position: absolute;
-  align-self: flex-end;
-}
-
-.time-slider {
-  position: absolute;
-  bottom: 41px;
-  left: 1%;
-  width: 98%;
-  
-  cursor: pointer;
-}
-
-input[type='range'].time-slider {
-	height: 3px;
-	-webkit-appearance: none;
-	background: -webkit-linear-gradient(left, #f00 0%, #f00 0%, rgba(0,0,0, 0) 0%);
-    box-shadow: 0px 0px 1px 1px rgb(104,104,104);
-
-}
-
-input[type='range'].time-slider::-webkit-slider-runnable-track {
-    height: 3px;
-    border: none;
-    background: rgba(240,240,240, 0.7);
-}
-
-input[type='range'].time-slider::-webkit-slider-thumb {
-    visibility: hidden;
-    opacity: 0;
-    -webkit-appearance: none;
-    border: none;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    background: #f00;
-    margin-top: -5px;
-    position: relative;
-    box-shadow: 0px 0px 1px 1px red;
-}
-
-input[type='range'].time-slider:hover {
-  height: 6px;
-  margin-bottom: -1px;
-}
-
-input[type='range'].time-slider:hover::-webkit-slider-thumb {
-   visibility: visible;
-    opacity: 1;
-}
-
-input[type='range'].time-slider:hover::-webkit-slider-runnable-track {
-    height: 6px;
-    background: rgba(255,255,255, 0.7);
-}
-
-input[type='range'].time-slider::-moz-range-track {
-  height: 3px;
-  border: none;
-  background: rgba(240, 240, 240, 0.7);
-}
- 
-input[type='range'].time-slider:hover::-moz-range-track {
-  height: 6px;
-  background: rgba(255, 255, 255, 0.7);
-}
-
-input[type='range'].time-slider::-moz-range-thumb {
-  visibility: hidden;
-  opacity: 0;
-  border: none;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background: #f00;
-  margin-top: -5px;
+  height: calc(100% - 48px);
   position: relative;
-  box-shadow: 0px 0px 1px 1px red;
 }
 
-input[type='range'].time-slider:hover::-moz-range-thumb {
-  visibility: visible;
-  opacity: 1;
+.webotsTime {
+  padding-top: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-family: monospace;
+  line-height: normal;
 }
 
-input[type='range'].time-slider::-moz-range-progress {
-    background: #f00;
-}
-
-input[type='range'].time-slider:hover::-moz-range-progress {
-    height: 6px;
-  }
-
-
- span {
-   display: inline-block;
-   padding: 11px 3px;
-   color: rgba(240, 240, 240, 1);
-   text-shadow: 2px 2px 2px rgb(104,104,104);
- }
-   
- button:first-of-type {
-   margin-right: 6px;
- }
- 
- .left
- {
-   position: absolute;
-   bottom: 0px;
-   left: 1%;
-   height: 40px;
- }
-
-.player-btn {
-  float: left;
-  height: 38px;
-  width: 38px;
-  box-sizing: border-box;
-  margin: 0 1px;
-
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  border: 2px solid transparent;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-image: url(../wwi/images/icons.svg);
-
-  cursor: pointer;
-
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &:focus {
-    border: 2px solid yellow;
-  }
-}
- 
-.right {
+.webotsLabel {
   position: absolute;
-  bottom: 0px;
-  height: 40px;
-  right: 1%;
+  white-space: pre;
 }
 
-
-.current-time {
-  margin-left: 8px;
+#remoteScene {
+  background: white;
+  width: 100%;
+  height: calc(100% - 48px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  /* get rid of whitespace after #remoteScene image */
+  display: block;
+  float: left;
 }
-
-.total-time {
-  margin-right: 8px;
-}
-
-
-.ui-icon {
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-image: url(../wwi/images/icons.svg);
-  width: 34px;
-  height: 34px;
-}
-
-.icon-play       { background-position:   -2px -2px }
-.icon-pause      { background-position:  -40px -2px }
-.icon-fullscreen { background-position: -420px -2px }
-.icon-partscreen { background-position: -458px -2px }
