@@ -22,17 +22,11 @@ The following should happen:
 The following information should be contained in logs (among others):
 
 ```
-[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_1 RobocupRobot on port 10001 at halfTimeStartingPose: translation -3.5 -3.06 0.24, rotation 0 0 1 1.57
-[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_2 RobocupRobot on port 10002 at halfTimeStartingPose: translation -3.5 3.06 0.24, rotation 0 0 1 -1.57
-[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_1 RobocupRobot on port 10021 at halfTimeStartingPose: translation 3.5 -3.06 0.24, rotation 0 0 1 1.571592653589793
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_INITIAL
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_READY
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_SET
 [SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_PLAYING
 [SSSS.xxx|SSSS.xxx] Info: red player 1 has fallen down.
 [SSSS.xxx|SSSS.xxx] Info: red player 2 has fallen down.
 [SSSS.xxx|SSSS.xxx] Info: red player 1 has fallen down and didn't recover in the last 20 seconds.
-[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 1: fallen down. Sent to translation x.xx x.xx x.xx, rotation x.xx x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 1: fallen down. Sent to translation -3 3.11 0.24, rotation 0.0 0.0 1.0 -1.57
 [SSSS.xxx|SSSS.xxx] Info: red player 2 has fallen down and didn't recover in the last 20 seconds.
-[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 2: fallen down. Sent to translation x.xx x.xx x.xx, rotation x.xx x.xx x.xx x.xx
+[SSSS.xxx|SSSS.xxx] Info: INCAPABLE penalty for red player 2: fallen down. Sent to translation -3.6 3.11 0.24, rotation 0 0 1 -1.57
 ```
