@@ -878,7 +878,7 @@ while supervisor.step(time_step) != -1:
             else:
                 winner = 0 if game.state.teams[0].score > game.state.teams[1].score else 1
                 info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
-            # break
+            break
 
     elif game.state.game_state == 'STATE_INITIAL':
         check_team_start_position(red_team, 'red')
@@ -930,6 +930,13 @@ while supervisor.step(time_step) != -1:
         delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
         if delta_time > 0:
             time.sleep(delta_time)
+
+print('Press a key to terminate')
+keyboard = supervisor.getKeyboard()
+keyboard.enable(time_step)
+while supervisor.step(time_step) != -1:
+    if keyboard.getKey() != -1:
+        break
 
 if log_file:
     log_file.close()
