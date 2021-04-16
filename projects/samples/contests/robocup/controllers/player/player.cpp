@@ -370,20 +370,29 @@ int main(int argc, char *argv[]) {
                 if (controller_time % camera->getSamplingPeriod())
                   continue;
                 CameraMeasurement *measurement = sensorMeasurements.add_cameras();
+                const int width = camera->getWidth();
+                const int height = camera->getHeight();
                 measurement->set_name(camera->getName());
-                measurement->set_width(camera->getWidth());
-                measurement->set_height(camera->getHeight());
+                measurement->set_width(width);
+                measurement->set_height(height);
                 measurement->set_quality(-1);  // raw image (JPEG compression not yet supported)
-                measurement->set_image((const char *)camera->getImage());
+                const unsigned char *rgba_image = camera->getImage();
+                const int rgb_image_size = width * height * 3;
+                static unsigned char *rgb_image = new unsigned char[rgb_image_size];
+                for (int i = 0; i < width * height; i++) {
+                  rgb_image[3 * i] = rgba_image[4 * i];
+                  rgb_image[3 * i + 1] = rgba_image[4 * i + 1];
+                  rgb_image[3 * i + 2] = rgba_image[4 * i + 2];
+                }
+                measurement->set_image(rgb_image, rgb_image_size);
+                delete[] rgb_image;
 
                 // testing JPEG compression (impacts the performance)
                 unsigned char *buffer = NULL;
                 long unsigned int bufferSize = 0;
-                const unsigned char *image = camera->getImage();
-                encode_jpeg(image, camera->getWidth(), camera->getHeight(), 95, &bufferSize, &buffer);
+                encode_jpeg(rgba_image, width, height, 95, &bufferSize, &buffer);
                 free_jpeg(buffer);
                 buffer = NULL;
-
                 continue;
               }
               webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
