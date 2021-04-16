@@ -210,6 +210,7 @@ private:
   bool isProtoParameterNodeChainCollapsable(WbNode *node);
   void printInstances(WbNode *node, int depth = 0);
   void recursiveAliasUnlink(WbNode *currentNode, WbNode *previousNode = NULL, int depth = 0);
+  void recursiveAliasCollapser(WbNode *node);
   // --
 
   void checkPresenceOfMandatoryNodes();

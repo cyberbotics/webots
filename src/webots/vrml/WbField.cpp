@@ -73,10 +73,19 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 
 WbField::~WbField() {
   printf("  > deleting field %s (%p)\n", name().toUtf8().constData(), this);
-  foreach (WbField *const field, mInternalFields)
+  foreach (WbField *const field, mInternalFields) {
+    printf("------- internal %s (%p -> NULL)\n", name().toUtf8().constData(), field->mParameter);
     field->mParameter = NULL;
+  }
   delete mValue;
   mModel->unref();
+}
+
+void WbField::printInternalFields() {
+  printf("INTERNAL FIELDS ARE:\n");
+  for (int i = 0; i < mInternalFields.size(); ++i) {
+    printf("### %s (%p)\n", mInternalFields[i]->name().toUtf8().constData(), mInternalFields[i]);
+  }
 }
 
 void WbField::listenToValueSizeChanges() const {
