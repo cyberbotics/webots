@@ -604,8 +604,14 @@ time_count = 0
 
 log_file = open('log.txt', 'w')
 
+# determine configuration file name
+game_config_file = os.environ['WEBOTS_ROBOCUP_GAME'] if 'WEBOTS_ROBOCUP_GAME' in os.environ \
+    else os.path.join(os.getcwd(), 'game.json')
+if not os.path.isfile(game_config_file):
+    error(f'Cannot read {game_config_file} game config file.')
+
 # read configuration files
-with open('game.json') as json_file:
+with open(game_config_file) as json_file:
     game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
 with open(game.red.config) as json_file:
     red_team = json.load(json_file)
@@ -636,11 +642,10 @@ try:
             path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'config', f'hl_sim_{field_size}', 'teams.cfg')
             red_line = f'{game.red.id}={red_team["name"]}\n'
             blue_line = f'{game.blue.id}={blue_team["name"]}\n'
-            json_file = os.path.join(os.getcwd(), 'game.json')
             with open(path, 'w') as file:
                 file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
             game.controller_process = subprocess.Popen(
-              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar', '--config', json_file],
+              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar', '--config', game_config_file],
               cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
