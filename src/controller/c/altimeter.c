@@ -43,7 +43,6 @@ static Altimeter *altimeter_get_struct(WbDeviceTag t) {
 
 static void altimeter_read_answer(WbDevice *d, WbRequest *r) {
   Altimeter *altimeter = d->pdata;
-  int i;
 
   switch (request_read_uchar(r)) {
     case C_ALTIMETER_DATA:
@@ -125,7 +124,7 @@ int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
   if (altimeter)
     sampling_period = altimeter->sampling_period;
   else
-    ffprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
