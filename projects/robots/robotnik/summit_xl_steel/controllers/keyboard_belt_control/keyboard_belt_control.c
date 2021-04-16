@@ -42,31 +42,30 @@ int main() {
 
   // Velocity control, so position must be set to infinity.
   wb_motor_set_position(motor_belt, INFINITY);
+  wb_motor_set_velocity(motor_belt, 0.0);
 
   double target_belt_speed = 0.0;  // in [m/s].
-  int speed_id = -1;
-  int sign = 1;
+  int sign = 0;
+  bool is_key_valid = 0;
 
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
   void increase_target_speed() {
-    if ((speed_id != -1) || (sign == 0)) {
-      target_belt_speed += sign * SPEED_INCREMENT;
-      if (sign > 0) {
-        if (target_belt_speed > MAX_SPEED)
-          target_belt_speed = MAX_SPEED;
-      } else if (sign < 0) {
-        if (target_belt_speed < -MAX_SPEED)
-          target_belt_speed = -MAX_SPEED;
-      } else {
-        target_belt_speed = 0.0;
-      }
-      printf("vbelt:%.1f\n", target_belt_speed);
-      waiting_counter = 10;
+    target_belt_speed += sign * SPEED_INCREMENT;
+    if (sign > 0) {
+      if (target_belt_speed > MAX_SPEED)
+        target_belt_speed = MAX_SPEED;
     }
-    speed_id = -1;
-    sign = 1;
+    else if (sign < 0) {
+      if (target_belt_speed < -MAX_SPEED)
+        target_belt_speed = -MAX_SPEED;
+    }
+    else {
+      target_belt_speed = 0.0;
+    }
+    printf("vbelt:%.1f\n", target_belt_speed);
+    waiting_counter = 10;
   }
 
   while (wb_robot_step(TIME_STEP) != -1) {
@@ -75,25 +74,34 @@ int main() {
 
       switch (key) {
         case WB_KEYBOARD_PAGEUP:
-          speed_id = 1;
+          is_key_valid = 1;
           sign = 1;
           break;
 
         case WB_KEYBOARD_PAGEDOWN:
-          speed_id = 1;
+          is_key_valid = 1;
           sign = -1;
           break;
 
         case 'S':
-          speed_id = -1;
+          is_key_valid = 1;
           sign = 0;
           break;
+
+        default:
+          is_key_valid = 0;
+          sign = 0;
       }
-    } else {
+
+      if(is_key_valid)
+      {
+        increase_target_speed();
+        wb_motor_set_velocity(motor_belt, target_belt_speed);
+      }
+    }
+    else {
       waiting_counter -= 1;
     }
-    increase_target_speed();
-    wb_motor_set_velocity(motor_belt, target_belt_speed);
   }
 
   wb_robot_cleanup();

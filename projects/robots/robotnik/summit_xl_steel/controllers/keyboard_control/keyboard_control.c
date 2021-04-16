@@ -54,32 +54,36 @@ int main() {
   wb_motor_set_position(motor_bl, INFINITY);
   wb_motor_set_position(motor_br, INFINITY);
 
+  wb_motor_set_velocity(motor_fl, 0.0);
+  wb_motor_set_velocity(motor_fr, 0.0);
+  wb_motor_set_velocity(motor_bl, 0.0);
+  wb_motor_set_velocity(motor_br, 0.0);
+
   double target_speed[3] = {0.0, 0.0, 0.0};      // vx [m/s], vy [m/s], ω [rad/s].
-  int speed_id = -1;                             // index to select either vx, vy, ω.
-  int sign = 1;                                  // sign of the increment (decrement if -1).
+  int speed_id = 0;                              // index to select either vx, vy, ω.
+  int sign = 0;                                  // sign of the increment (decrement if -1).
   double motor_speed[4] = {0.0, 0.0, 0.0, 0.0};  // wheels speed in [m/s], computed from vx, vy and ω.
+  bool is_key_valid = 0;
 
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
   void increase_target_speed() {
-    if ((speed_id != -1) || (sign == 0)) {
-      target_speed[speed_id] += sign * SPEED_INCREMENT;
-      if (sign > 0) {
-        if (target_speed[speed_id] > MAX_SPEED)
-          target_speed[speed_id] = MAX_SPEED;
-      } else if (sign < 0) {
-        if (target_speed[speed_id] < -MAX_SPEED)
-          target_speed[speed_id] = -MAX_SPEED;
-      } else {
-        for (int i = 0; i < 3; ++i)
-          target_speed[i] = 0;
-      }
-      printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
-      waiting_counter = 10;
+    target_speed[speed_id] += sign * SPEED_INCREMENT;
+    if (sign > 0) {
+      if (target_speed[speed_id] > MAX_SPEED)
+        target_speed[speed_id] = MAX_SPEED;
     }
-    speed_id = -1;
-    sign = 1;
+    else if (sign < 0) {
+      if (target_speed[speed_id] < -MAX_SPEED)
+        target_speed[speed_id] = -MAX_SPEED;
+    }
+    else {
+      for (int i = 0; i < 3; ++i)
+        target_speed[i] = 0;
+    }
+    printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
+    waiting_counter = 10;
   }
 
   printf("To move the Summit-XL Steel with your keyboard, click first inside the simulation window and press:\n \
@@ -95,56 +99,71 @@ int main() {
 
       switch (key) {
         case WB_KEYBOARD_UP:
+          is_key_valid = 1;
           speed_id = 0;
           sign = 1;
           break;
 
         case WB_KEYBOARD_DOWN:
+          is_key_valid = 1;
           speed_id = 0;
           sign = -1;
           break;
 
         case WB_KEYBOARD_LEFT:
+          is_key_valid = 1;
           speed_id = 1;
           sign = 1;
           break;
 
         case WB_KEYBOARD_RIGHT:
+          is_key_valid = 1;
           speed_id = 1;
           sign = -1;
           break;
 
         case '+':
+          is_key_valid = 1;
           speed_id = 2;
           sign = 1;
           break;
 
         case '-':
+          is_key_valid = 1;
           speed_id = 2;
           sign = -1;
           break;
 
         case 'S':
+          is_key_valid = 1;
           speed_id = -1;
           sign = 0;
           break;
+
+        default:
+          is_key_valid = 0;
+          sign = 0;
       }
-    } else {
+
+      if (is_key_valid)
+      {
+        increase_target_speed();
+
+        // Computes the wheel motors speeds from vx, vy and ω.
+        motor_speed[0] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] - (LX + LY) * target_speed[2]);
+        motor_speed[1] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] + (LX + LY) * target_speed[2]);
+        motor_speed[2] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] - (LX + LY) * target_speed[2]);
+        motor_speed[3] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] + (LX + LY) * target_speed[2]);
+
+        wb_motor_set_velocity(motor_fl, motor_speed[0]);
+        wb_motor_set_velocity(motor_fr, motor_speed[1]);
+        wb_motor_set_velocity(motor_bl, motor_speed[2]);
+        wb_motor_set_velocity(motor_br, motor_speed[3]);
+      }
+    }
+    else {
       waiting_counter -= 1;
     }
-
-    increase_target_speed();
-
-    // Computes the wheel motors speeds from vx, vy and ω.
-    motor_speed[0] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] - (LX + LY) * target_speed[2]);
-    motor_speed[1] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] + (LX + LY) * target_speed[2]);
-    motor_speed[2] = 1 / WHEEL_RADIUS * (target_speed[0] + target_speed[1] - (LX + LY) * target_speed[2]);
-    motor_speed[3] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] + (LX + LY) * target_speed[2]);
-
-    wb_motor_set_velocity(motor_fl, motor_speed[0]);
-    wb_motor_set_velocity(motor_fr, motor_speed[1]);
-    wb_motor_set_velocity(motor_bl, motor_speed[2]);
-    wb_motor_set_velocity(motor_br, motor_speed[3]);
   }
 
   wb_robot_cleanup();
