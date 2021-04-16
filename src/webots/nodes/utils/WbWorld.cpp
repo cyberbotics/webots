@@ -210,8 +210,6 @@ bool WbWorld::isProtoParameterNodeChainCollapsable(WbNode *node) {
   assert(node && parent);
   if (!WbNodeUtilities::isVisible(node) && node->isProtoParameterNode() &&
       node->protoParameterNode() == NULL) {  // && parent->isNestedProtoNode()
-    return true;
-    /*
     // check if any of the fields themselves are visible
     QVector<WbField *> fields = node->fields();
     for (int i = 0; i < fields.size(); ++i)
@@ -221,7 +219,6 @@ bool WbWorld::isProtoParameterNodeChainCollapsable(WbNode *node) {
         return false;
       }
     return true;
-    */
   } else
     return false;
 }
@@ -384,8 +381,8 @@ void WbWorld::collapseNestedProtos() {
   for (int i = 0; i < nodes.size(); ++i) {
     if (isProtoParameterNodeChainCollapsable(nodes[i]))
       collapsableNodes.append(nodes[i]);
-    if (nodes[i]->protoParameterNode() != NULL)
-      // if (collapsableNodes.contains(nodes[i]->protoParameterNode()))
+    // if (nodes[i]->protoParameterNode() != NULL)
+    if (collapsableNodes.contains(nodes[i]->protoParameterNode()))
       protoParameterNodes.append(nodes[i]);
   }
 
