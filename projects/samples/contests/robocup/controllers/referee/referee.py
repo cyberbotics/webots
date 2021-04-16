@@ -81,6 +81,23 @@ def error(message):
     log(message, 'Error')
 
 
+def toss_a_coin_if_needed(attribute):  # attribute should be either "side_left" or "kickoff"
+    # If game.json contains such an attribute, use it to determine field side and kick-off
+    # Supported values are "red", "blue" and "random". Default value is "random".
+    if hasattr(game, attribute):
+        if getattr(game, attribute) == 'red':
+            setattr(game, attribute, game.red.id)
+        elif getattr(game, attribute) == 'blue':
+            setattr(game, attribute, game.blue.id)
+        elif getattr(game, attribute) != 'random':
+            error(f'Unsupported value for "{attribute}" in game.json file: {getattr(game, attribute)}, using "random".')
+            setattr(game, attribute, 'random')
+    else:
+        setattr(game, attribute, 'random')
+    if getattr(game, attribute) == 'random':  # toss a coin to determine a random team
+        setattr(game, attribute, game.red.id if bool(random.getrandbits(1)) else game.blue.id)
+
+
 def spawn_team(team, color, red_on_right, children):
     for number in team['players']:
         model = team['players'][number]['proto']
@@ -679,16 +696,22 @@ game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
 
+toss_a_coin_if_needed('side_left')
+toss_a_coin_if_needed('kickoff')
+
 # start the webots supervisor
 supervisor = Supervisor()
 root = supervisor.getRoot()
 children = root.getField('children')
+
+if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
+    children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
+
 children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
                                 f'size {ball_size} }}')
-game.side_left = game.red.id if bool(random.getrandbits(1)) else game.blue.id  # toss a coin to determine field side
-game.kickoff = random.randint(1, 2)  # toss a coin to determine which team has kickoff
+
 game.state = None
 game.font_size = 0.1
 game.font = 'Lucida Console'

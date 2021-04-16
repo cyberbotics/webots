@@ -36,6 +36,9 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 ## Create your Own Robot Model
 
 Create your robot model in the [protos](protos) folder taking inspiration from [RobocupRobot.proto](protos/RobocupRobot.proto) and adjust your team configuration file accordingly.
+
+### Exposed Parameters
+
 Your proto should have the following exposed parameters:
 
 ```js
@@ -56,7 +59,11 @@ PROTO MyOwnRobocupRobot [
 }
 ```
 
-You should parse the `name` field and ensure your robot adapts to it to display its team color and player number:
+### Creating a Jersey with the Correct Color and Player Number
+
+The team color and player number of each robot is set by the referee in the `name` field of the robot when spawning it.
+It can takes values like "red player 1" or "blue player 3", etc.
+You should therefore parse this `name` field to determine the team color and player number of your robot:
 
 ```lua
   if fields.name.value ~= '' then
@@ -67,6 +74,37 @@ You should parse the `name` field and ensure your robot adapts to it to display 
     local number = words[3]
 ```
 
-Then, the `color` and `number` variables should be used by your PROTO file to display the requested color and player number.
+Then, the `color` and `number` variables should be used by your PROTO file to display the requested color and player number on the jersey of the robot.
 This can be achieved by forging a texture name from these variables or using them directly to assign material colors, create shapes, etc.
 More information about Webots PROTO is available from the [Webots Reference Manual](https://cyberbotics.com/doc/reference/proto).
+
+### Add Body Part Tags
+
+The referee needs to identify the different parts of your robot to apply the rules of the game.
+These parts include the foot, arms, legs, head, etc.
+In order to identify each part, you should set the `model` field of each [Solid](https://cyberbotics.com/doc/reference/solid) (or derived) node composing your robot with one of the following strings: `"foot"`, `"arm"`, `"shoulder"`, `"hip"`.
+
+## Continuous Integration Tests
+
+By default, the referee supervisor will read the [game.json](controllers/referee/game.json) file from its local folder.
+However, if a special environment variable is set, it will use it to load a different `game.json` file:
+
+```
+export WEBOTS_ROBOCUP_GAME="/path/to/my/special/game.json"
+```
+
+In order to facilitate Continuous Integration (CI) tests, a number of options are available in the [game.json](controllers/referee/game.json) file:
+
+```json
+{
+  "side_left": "red",
+  "kickoff": "blue",
+  "supervisor": "MyTestSupervisor"
+}
+```
+
+- "left_side" is used to determine which team will play on the left side of the field (x < 0). It can take the following values: "red", "blue", "random". The default value is "random".
+- "kickoff" is used to determine which team has the initial kickoff. It can take the same values as the "left_side" field.
+- "supervisor" is used to define an optional extra supervisor controller process that will run in parallel with the referee.
+This extra supervisor controller will be spawned by the referee at the beginning of the game.
+The following new node with be added to the scene after the referee robot: `Robot { supervisor TRUE controller "MyTestSupervisor" }`.
