@@ -35,8 +35,8 @@ PROTO SummitXlSteel [
         appearance PBRAppearance {
           baseColor 0 0 0
           transparency 0
-          roughness 1
-          metalness 0
+          roughness 0.5
+          metalness 0.2
           emissiveColor 0 0 0
         }
         geometry Mesh {
@@ -52,8 +52,8 @@ PROTO SummitXlSteel [
             appearance DEF DARKGREY PBRAppearance {
               baseColor 0.5 0.5 0.5
               transparency 0
-              roughness 1
-              metalness 0
+              roughness 0
+              metalness 0.9
               emissiveColor 0 0 0
             }
             geometry Mesh {
@@ -137,8 +137,8 @@ PROTO SummitXlSteel [
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
                     baseColor 0.381347 0.381347 0.381347
                     transparency 0
-                    roughness 0.8
-                    metalness 0
+                    roughness 0
+                    metalness 0.4
                     emissiveColor 0.202 0.202 0.202
                   }
                   geometry Mesh {
