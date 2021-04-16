@@ -251,7 +251,7 @@ The [SICK S300](https://www.sick.com/ag/en/opto-electronic-protective-devices/sa
 
 %figure "SICK S300 lidar"
 
-![sick_s300.png](images/sensors/sick_s300.png)
+![sick_s300.png](images/sensors/sick_s300.thumbnail.png)
 
 %end
 
