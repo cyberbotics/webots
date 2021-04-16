@@ -262,12 +262,15 @@ SickS300 [
   SFString   name           "Sick S300"
   SFFloat    noise          0.0
   SFInt32    resolution     540
+  SFBool     enablePhysics  TRUE
 ]
 ```
 
 The `noise` field specifies the standard deviation of the gaussian depth noise in meters.
 
 The `resolution` field specifies the number of points returned per layer per scan.
+
+The `enablePhysics` field specifies if the sensor should be affected by physics or not.
 
 ### Velodyne
 

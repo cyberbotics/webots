@@ -18,8 +18,8 @@ field SFVec3f    translation    0 0 0
 field SFRotation rotation       0 1 0 0
 field SFString   name           "Sick S300"  # Is `Lidar.fieldOfView`.
 field SFFloat    noise          0.0          # Is `Lidar.fieldOfView`.
-field SFInt32    resolution     1620         # Is `Lidar.horizontalResolution`.
-field SFBool     enablePhysics  FALSE        # Defines whether the lidar should be affected by physics.
+field SFInt32    resolution     540          # Is `Lidar.horizontalResolution`.
+field SFBool     enablePhysics  TRUE         # Defines whether the lidar should be affected by physics.
 ]
 {
   Lidar {
@@ -53,26 +53,44 @@ field SFBool     enablePhysics  FALSE        # Defines whether the lidar should 
       }
     ]
     %{ if fields.enablePhysics.value then }%
-    boundingObject Cylinder {
-      height 0.068
-      radius 0.047
-      subdivision 16
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 -0.0712 0.0315
+          children [
+            Shape {
+              geometry Box {
+                size 0.0995 0.0874 0.0443
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.06712 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.0956
+                radius 0.0498
+              }
+            }
+          ]
+        }
+        Cylinder {
+          height 0.068
+          radius 0.047
+          subdivision 16
+        }
+      ]
     }
     physics Physics {
       density -1
-      mass 0.1
-      centerOfMass [
-        0 0 0
-      ]
-      inertiaMatrix [
-        0.0002708333 0.0002708333 9.434e-05
-        0 0 0
-      ]
+      mass 1.2
     }
     %{ end }%
     fieldOfView 3.316
     horizontalResolution IS resolution
-    verticalFieldOfView %{= 3.316 / fields.resolution.value}%
+    verticalFieldOfView %{= 3 * (3.316  / fields.resolution.value) }%
     numberOfLayers 3
     maxRange 30
     noise IS noise
