@@ -193,6 +193,7 @@ void WbWorld::finalize() {
   collapseNestedProtos();
 }
 
+/*
 bool WbWorld::isParameterNodeChainCollapsable(WbNode *node, int depth) {
   if (node && node->protoParameterNode())
     isParameterNodeChainCollapsable(node->protoParameterNode(), depth + 1);
@@ -202,11 +203,12 @@ bool WbWorld::isParameterNodeChainCollapsable(WbNode *node, int depth) {
   else
     return true;
 }
+*/
 
 bool WbWorld::isProtoParameterNodeChainCollapsable(WbNode *node) {
   // it's sufficient for the top of the chain (which is a protoParameterNode that has no other protoParameterNode links)
   // not to be visible for it to be collapsable
-  const WbNode *parent = node->parentNode();
+  // const WbNode *parent = node->parentNode();
   assert(node && parent);
   if (!WbNodeUtilities::isVisible(node) && node->isProtoParameterNode() &&
       node->protoParameterNode() == NULL) {  // && parent->isNestedProtoNode()
@@ -221,101 +223,6 @@ bool WbWorld::isProtoParameterNodeChainCollapsable(WbNode *node) {
     return true;
   } else
     return false;
-}
-
-/*
-void WbWorld::recursiveAliasUnlink(WbNode *node, int depth) {
-  if (!node)
-    return;
-
-  if (depth == 0) {  // nothing to remove in the first level
-    recursiveAliasUnlink(node->protoParameterNode(), depth + 1);
-    return;
-  }
-
-  if (node->isProtoParameterNode()) {
-    // remove reference from internal nodes
-    QVector<WbNode *> parameterInstances = node->protoParameterNodeInstances();
-    for (int j = 0; j < parameterInstances.size(); ++j) {
-      printf("node %s (%p) is an instance of node %s (%p)\n", parameterInstances[j]->usefulName().toUtf8().constData(),
-             parameterInstances[j], node->usefulName().toUtf8().constData(), node);
-      parameterInstances[j]->unlinkProtoParameter();
-      parameterInstances[j]->clearRefProtoParameterNode();
-    }
-    node->clearRefProtoParameterNodeInstances();
-  }
-
-  // take care of references at the nested proto level
-  if (node->isNestedProtoNode()) {
-    QVector<WbField *> fieldsList = node->fields();
-    for (int j = 0; j < fieldsList.size(); ++j)
-      fieldsList[j]->setParameter(NULL);
-  }
-
-  recursiveAliasUnlink(node->protoParameterNode(), depth + 1);
-}
-*/
-
-void WbWorld::recursiveAliasUnlink(WbNode *currentNode, WbNode *previousNode, int depth) {
-  printf("recursiveAliasUnlink\n");
-  if (!currentNode)
-    return;
-
-  /*
-  // needed ????
-  if (depth == 0) {  // parent node of the first protoParameterNode is the nested proto node
-    const WbNode *parent = node->parentNode();
-    assert(parent->isNestedProtoNode());
-    // clear references at the level of the nested proto
-    QVector<WbField *> fields = parent->fields();
-    printf("%s\n", parent->usefulName().toUtf8().constData());
-    for (int i = 0; i < fields.size(); ++i) {
-      printf("> field %s set to NULL\n", fields[i]->name().toUtf8().constData());
-      fields[i]->setParameter(NULL);
-    }
-  }
-  */
-
-  // go to the bottom of the chain
-  QVector<WbNode *> instances = currentNode->protoParameterNodeInstances();
-  for (int i = instances.size() - 1; i >= 0; --i) {
-    recursiveAliasUnlink(instances[i], currentNode, depth + 1);
-  }
-
-  // NB: order matters, reach this point only when unwinding the recursion
-
-  if (!previousNode)  // it's NULL if it isn't a chain or if it finished unlinking
-    return;
-
-  QVector<WbField *> currentFields = currentNode->fields();
-  QVector<WbField *> previousFields = previousNode->fields();
-
-  assert(currentNode->model() == previousNode->model() && currentFields.size() == previousFields.size());
-
-  // swap current fields of this instance with the contents of the previous one. This is necessary if one of the fields is
-  // exposed (e.g. a single field of a SFNode since it doesn't create a full node for it, as is the case for an exposed SFNode,
-  // but just a field)
-
-  printf("%s\n", currentNode->usefulName().toUtf8().constData());
-  for (int i = 0; i < currentFields.size(); ++i) {
-    printf(" field %s set from %p to %p\n", currentFields[i]->name().toUtf8().constData(), currentFields[i]->parameter(),
-           previousFields[i]->parameter());
-    currentFields[i]->setParameter(previousFields[i]->parameter());
-  }
-
-  // remove ProtoParameterNode pointer
-  printf("(%d) %s setting mProtoParameterNode from %p to NULL\n", depth, currentNode->usefulName().toUtf8().constData(),
-         currentNode->protoParameterNode());
-  currentNode->setProtoParameterNode(NULL);
-}
-
-void recursiveAliasCollapser(WbNode *node) {
-  QList<WbNode *> subNodes = node->subNodes(true, true, true);
-
-  printf("%s %d subnodes\n", node->usefulName().toUtf8().constData(), subNodes.size());
-  for (int j = subNodes.size() - 1; j >= 0; --j) {
-    // printf("  %s (%p) --> alias (%p)\n", subNodes[j]->usefulName().toUtf8().constData(), subNodes[j]);
-  }
 }
 
 void WbWorld::printInstances(WbNode *node, int depth) {
@@ -336,11 +243,12 @@ void WbWorld::printInstances(WbNode *node, int depth) {
 }
 
 void WbWorld::collapseNestedProtos() {
+  QList<WbNode *> nodes = mRoot->subNodes(true, true, true);
+
   printf("=============================\n");
   mRoot->printDebugNodeStructure();
   printf("=============================\n");
 
-  QList<WbNode *> nodes = mRoot->subNodes(true, true, true);
   for (int i = 0; i < nodes.size(); ++i) {
     printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
            nodes[i]->isProtoParameterNode());
@@ -351,12 +259,12 @@ void WbWorld::collapseNestedProtos() {
   }
   printf("\nNODE FLAGS\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
-    printf("%d) %50s :  %d, %d, %d, %d | %d %d \n", i, nodes[i]->usefulName().toUtf8().constData(),
+    printf("%d) %50s :  %d, %d, %d, %d | %d \n", i, nodes[i]->usefulName().toUtf8().constData(),
            WbNodeUtilities::isVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
-           nodes[i]->protoParameterNode() != NULL, isParameterNodeChainCollapsable(nodes[i]),
-           isProtoParameterNodeChainCollapsable(nodes[i]));
+           nodes[i]->protoParameterNode() != NULL, isProtoParameterNodeChainCollapsable(nodes[i]));
   }
 
+  /*
   printf("\nINSTANCE CHAINS\n");
   for (int i = 0; i < nodes.size(); ++i) {
     printInstances(nodes[i]);
@@ -371,10 +279,9 @@ void WbWorld::collapseNestedProtos() {
              WbNodeUtilities::isVisible(parameterList[j]));
     }
   }
+  */
 
-  printf("\n\n>>>> BEGIN COLLAPSE "
-         "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-         "<<<<<<<<<<<<<<<\n\n");
+  printf("\n\n>>>> BEGIN COLLAPSE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
 
   QVector<WbNode *> collapsableNodes;
   QVector<WbNode *> protoParameterNodes;
@@ -411,7 +318,6 @@ void WbWorld::collapseNestedProtos() {
   printf("BEGIN SWAP\n");
   for (int i = 0; i < protoParameterNodes.size(); ++i) {
     int ixCollapsable = collapsableNodes.indexOf(protoParameterNodes[i]->protoParameterNode());
-
     assert(ixCollapsable != -1 && protoParameterNodes[i]->model() == collapsableNodes[ixCollapsable]->model());
 
     QVector<WbField *> internalFields = protoParameterNodes[i]->fields();
@@ -422,19 +328,20 @@ void WbWorld::collapseNestedProtos() {
     // swap current fields of this instance with the contents of the previous one. This is necessary if one of the fields is
     // exposed (e.g. a single field of a SFNode since it doesn't create a full node for it, as is the case for an exposed
     // SFNode, but just a field)
-    printf("Swapping aliases for node %s :\n", protoParameterNodes[i]->usefulName().toUtf8().constData());
+    // printf("Swapping aliases for node %s :\n", protoParameterNodes[i]->usefulName().toUtf8().constData());
     for (int j = 0; j < internalFields.size(); ++j) {
-      printf(" - field %s (%p -> %p / %p)", internalFields[j]->name().toUtf8().constData(), internalFields[j],
-             internalFields[j]->parameter(), exposedFields[j]->parameter());
-      internalFields[j]->setParameter(exposedFields[j]->parameter());
+      printf(" - field %s (%p -> %p)", internalFields[j]->name().toUtf8().constData(), internalFields[j],
+             internalFields[j]->parameter());
+      // internalFields[j]->setParameter(exposedFields[j]->parameter());
+      internalFields[j]->setParameter(NULL);
       // exposedFields[j]->setParameter(NULL);
       printf(" becomes (%p -> %p)\n", internalFields[j], internalFields[j]->parameter());
-    }
 
-    // clear internal field references first otherwise when deleting the protoParameterNode they're set to NULL which
-    // would nullify the alias collapsing for visible fields (single fields, not the full SFNode)
-    // if (i < 5)
-    // exposedFields[i]->clearInternalFields();
+      // ?
+      printf("- field %s, alias changed from %s to %s\n", internalFields[j]->name().toUtf8().constData(),
+             internalFields[j]->alias().toUtf8().constData(), exposedFields[j]->alias().toUtf8().constData());
+      internalFields[j]->setAlias(exposedFields[j]->alias());
+    }
 
     // break the mProtoParameterNode link
     printf("> setting mProtoParameterNode from %p to NULL for %s\n", protoParameterNodes[i]->protoParameterNode(),
@@ -443,6 +350,7 @@ void WbWorld::collapseNestedProtos() {
   }
   printf("END SWAP\n");
   printf("BEGIN CLEAR INTERNAL\n");
+  // prevent interal fields from being deleted when the parameter is deleted
   for (int i = collapsableNodes.size() - 1; i >= 0; --i) {
     QVector<WbField *> exposedFields = collapsableNodes[i]->fields();
     for (int j = exposedFields.size() - 1; j >= 0; --j) {
@@ -456,33 +364,8 @@ void WbWorld::collapseNestedProtos() {
   for (int i = collapsableNodes.size() - 1; i >= 0; --i) {
     WbNode *parent = collapsableNodes[i]->parentNode();  // make const
     if (parent && parent->isNestedProtoNode()) {
-      printf(">>>>> deleting %s (%p), its parent is %s (%p)\n", collapsableNodes[i]->usefulName().toUtf8().constData(),
+      printf("> deleting %s (%p), its parent is %s (%p)\n", collapsableNodes[i]->usefulName().toUtf8().constData(),
              collapsableNodes[i], parent->usefulName().toUtf8().constData(), parent);
-
-      QVector<WbField *> nestedNodeFields = parent->fields();
-      for (int j = nestedNodeFields.size() - 1; j >= 0; --j) {
-        if (nestedNodeFields[j]->type() == WB_SF_NODE) {
-          printf("field %s is SF_NODE (%p)\n", nestedNodeFields[j]->name().toUtf8().constData(), nestedNodeFields[j]);
-
-          /*
-          WbNode *n = dynamic_cast<WbSFNode *>(fields[j]->value())->value();
-          if (n) {
-            printf("  cast as node gives %s (%p)\n", n->usefulName().toUtf8().constData(), n);
-          }
-          */
-        } else if (nestedNodeFields[j]->type() == WB_MF_NODE) {
-          printf("field %s is MF_NODE (%p)\n", nestedNodeFields[j]->name().toUtf8().constData(), nestedNodeFields[j]);
-          /*
-          WbMFNode *mfnode = dynamic_cast<WbMFNode *>(nestedNodeFields[j]->value());
-          for (int i = 0; i < mfnode->size(); ++i) {
-            WbNode *n = mfnode->item(i);
-            if (n) {
-              printf("  cast as node gives %s (%p)\n", n->usefulName().toUtf8().constData(), n);
-            }
-          }
-          */
-        }
-      }
 
       QVector<WbField *> nestedNodeParameters = parent->parameters();
       for (int j = nestedNodeParameters.size() - 1; j >= 0; --j) {
@@ -515,104 +398,9 @@ void WbWorld::collapseNestedProtos() {
   }
   printf("END DELETE\n");
 
-  // delete todel[0];
-
-  /*
-  // -- 2nd method
-  for (int i = nodes.size() - 1; i >= 0; --i) {
-    if (isProtoParameterNodeChainCollapsable(nodes[i])) {
-      printf("BEGIN UNLINKING FOR %s\n", nodes[i]->usefulName().toUtf8().constData());
-      recursiveAliasUnlink(nodes[i]);
-      printf("done recursiveAliasUnlink\n");
-
-      WbNode *parent = nodes[i]->parentNode();  // is a nested proto node
-      assert(parent->isNestedProtoNode());
-
-      QVector<WbField *> parameters = parent->parameters();
-      bool FND = false;
-      for (int j = 0; j < parameters.size(); ++j) {
-        // find unlinked parameter and delete it
-        if (parameters[j]->parameter() == nodes[i]) {
-          FND = true;
-          printf("node %s deleting parameter %s (%p)\n", parent->usefulName().toUtf8().constData(),
-                 parameters[j]->name().toUtf8().constData(), parameters[j]);
-          delete parameters[j];
-          parent->removeFromParameters(parameters[j]);
-        }
-      }
-      if (!FND)
-        printf("DIDNT FND %s!!!!\n", parameters[i]->name().toUtf8().constData());
-    }
-  }
-  // -- 2nd method end
-  */
-
-  // -- previous method --
-  /*
-  nodes = mRoot->subNodes(true, true, true);
-  for (int i = nodes.size() - 1; i >= 0; --i) {
-    // take care of nodes instantiated at the PROTO parameter level
-    if (nodes[i]->isProtoParameterNode()) {
-      // remove reference from internal nodes
-      QVector<WbNode *> parameterInstances = nodes[i]->protoParameterNodeInstances();
-      for (int j = 0; j < parameterInstances.size(); ++j) {
-        // printf("node %s (%p) is an instance of node %s (%p)\n", parameterInstances[j]->usefulName().toUtf8().constData(),
-        //       parameterInstances[j], nodes[i]->usefulName().toUtf8().constData(), nodes[i]);
-        // parameterInstances[j]->unlinkProtoParameter();
-        // parameterInstances[j]->clearRefProtoParameterNode();
-      }
-      // nodes[i]->clearRefProtoParameterNodeInstances();
-    }
-
-    // take care of references at the nested proto level
-    if (nodes[i]->isNestedProtoNode()) {
-      QVector<WbField *> fieldsList = nodes[i]->fields();
-      for (int j = 0; j < fieldsList.size(); ++j)
-        ;  // fieldsList[j]->setParameter(NULL);
-    }
-  }
-  // now that the cross references have been removed, we can delete
-  for (int i = nodes.size() - 1; i >= 0; --i) {
-    if (nodes[i]->isNestedProtoNode()) {
-      QVector<WbField *> parametersList = nodes[i]->fieldsOrParameters();
-      for (int j = parametersList.size() - 1; j >= 0; --j) {
-        // delete parametersList[j];
-        // nodes[i]->removeFromParameters(parametersList[j]);
-      }
-    }
-  }
-  */
-
-  // -- previous method --
+  printf("\n\n>>>> END COLLAPSE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
 
   nodes = mRoot->subNodes(true, true, true);
-  printf("\n>>>> END COLLAPSE "
-         "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-         "<<<<<<<<<<<<<<<<<<<<\n\n");
-
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
-           nodes[i]->isProtoParameterNode());
-    printf("    PARAMETER NODE: %p\n", nodes[i]->protoParameterNode());
-  }
-
-  for (int i = 0; i < nodes.size(); ++i) {
-    nodes[i]->printFieldsAndParams();
-  }
-
-  printf("\nNODE FLAGS\n\n");
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("%d) %50s :  %d, %d, %d, %d | %d %d \n", i, nodes[i]->usefulName().toUtf8().constData(),
-           WbNodeUtilities::isVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
-           nodes[i]->protoParameterNode() != NULL, isParameterNodeChainCollapsable(nodes[i]),
-           isProtoParameterNodeChainCollapsable(nodes[i]));
-  }
-
-  printf("\nINSTANCE CHAINS\n");
-  for (int i = 0; i < nodes.size(); ++i) {
-    printInstances(nodes[i]);
-  }
-
   printf("=============================\n");
   mRoot->printDebugNodeStructure();
   printf("=============================\n");

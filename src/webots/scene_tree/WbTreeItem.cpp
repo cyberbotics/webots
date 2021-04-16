@@ -410,7 +410,7 @@ void WbTreeItem::del() {
 
 // invalidate item and sub-items and return the total number of lines (item) to be removed in the Scene Tree
 int WbTreeItem::makeInvalid() {
-  printf("makeInvalid\n");
+  // printf("makeInvalid\n");
   mType = INVALID;
   mNode = NULL;
 

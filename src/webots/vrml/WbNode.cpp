@@ -321,7 +321,7 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
-  printf("> deleting node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  // printf("> deleting node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -362,7 +362,7 @@ WbNode::~WbNode() {
   if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
     QFile::remove(mProtoInstanceFilePath);
 
-  printf("> done removing node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  // printf("> done removing node %s (%p)\n", usefulName().toUtf8().constData(), this);
 }
 
 const QString &WbNode::modelName() const {

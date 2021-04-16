@@ -77,7 +77,7 @@ public:
   }
 
   void clearInternalFields() {
-    printf("CLEARING INTERNAL\n");
+    // printf("CLEARING INTERNAL\n");
     mInternalFields.clear();
   }
 
