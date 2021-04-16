@@ -1540,3 +1540,28 @@ I found a very strange issue. The wheel seems to move the robot in the same dire
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/30/2021 19:26:39
 What's that? Which world?
 
+## April
+
+##### Krish 04/01/2021 11:48:12
+Is the other wheel pivoted?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/01/2021 21:13:50
+it's due to kinematics mode (no physics). It works for velocity control, but not position control
+
+##### Spur 04/02/2021 06:37:26
+does getRecognitionObjects() return a pointer to an array of objects or just to one? and how do I access the id of one of those object?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/03/2021 13:59:20
+See this example:
+
+[https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera\_recognition/camera\_recognition.c#L60-L75](https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera_recognition/camera_recognition.c#L60-L75)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/04/2021 01:21:49
+<@&568329906048598039> The webots docs directory is huge. I know that transparency is nice with the png files, but they are only included in white documents. These images could be compressed to jpg files, reducing the file size by about 10-20 times.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/828076864353730600/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 04/04/2021 07:27:53
+`@Simon Steinmann` it's in the works, the offline documentation might be removed entirely by default (with the option of downloading it if needed) among other things. [https://github.com/cyberbotics/webots/pull/2787](https://github.com/cyberbotics/webots/pull/2787)
+

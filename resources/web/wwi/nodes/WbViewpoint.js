@@ -156,18 +156,13 @@ export default class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
-    if (typeof time !== 'undefined' && time === 0) {
-      this.followedSolidPreviousPosition = new WbVector3();
-      this.equilibriumVector = new WbVector3();
-      this.velocity = new WbVector3();
-      this.resetViewpoint();
-    }
+    console.log(this.followedSolidPreviousPosition)
 
     const followedSolid = WbWorld.instance.nodes.get(this.followedId);
     const followedSolidPosition = followedSolid.translation;
     const delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
-    this.followedSolidPreviousPosition = followedSolidPosition;
 
+    this.followedSolidPreviousPosition = followedSolidPosition;
     this.equilibriumVector = this.equilibriumVector.add(delta);
     const mass = ((this.followSmoothness < 0.05) ? 0.0 : ((this.followSmoothness > 1.0) ? 1.0 : this.followSmoothness));
 
@@ -209,6 +204,7 @@ export default class WbViewpoint extends WbBaseNode {
 
       this.equilibriumVector = this.equilibriumVector.sub(deltaPosition);
     }
+
     this.updatePosition();
   }
 
