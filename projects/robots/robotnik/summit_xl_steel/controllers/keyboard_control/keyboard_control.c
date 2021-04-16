@@ -126,8 +126,7 @@ int main() {
           sign = 0;
       }
 
-      if (is_key_valid)
-      {
+      if (is_key_valid) {
         // Increase or decrease target speed, depending on the sign.
         if (sign > 0) {
           target_speed[speed_id] += SPEED_INCREMENT;

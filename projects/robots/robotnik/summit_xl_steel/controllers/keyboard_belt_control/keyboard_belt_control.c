@@ -76,8 +76,7 @@ int main() {
           sign = 0;
       }
 
-      if(is_key_valid)
-      {
+      if(is_key_valid) {
         // Increase or decrease target speed, depending on the sign.
         target_belt_speed += sign * SPEED_INCREMENT;
         if (sign > 0) {
