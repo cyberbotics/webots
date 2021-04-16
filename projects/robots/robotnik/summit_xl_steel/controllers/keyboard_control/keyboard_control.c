@@ -118,7 +118,6 @@ int main() {
 
         case 'S':
           is_key_valid = 1;
-          speed_id = -1;
           sign = 0;
           break;
 
@@ -130,12 +129,13 @@ int main() {
       if (is_key_valid)
       {
         // Increase or decrease target speed, depending on the sign.
-        target_speed[speed_id] += sign * SPEED_INCREMENT;
         if (sign > 0) {
+          target_speed[speed_id] += SPEED_INCREMENT;
           if (target_speed[speed_id] > MAX_SPEED)
             target_speed[speed_id] = MAX_SPEED;
         }
         else if (sign < 0) {
+          target_speed[speed_id] -= SPEED_INCREMENT;
           if (target_speed[speed_id] < -MAX_SPEED)
             target_speed[speed_id] = -MAX_SPEED;
         }
