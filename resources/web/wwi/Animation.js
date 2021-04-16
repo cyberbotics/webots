@@ -1,5 +1,4 @@
 'use strict';
-import DefaultUrl from './Default_url.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
 
 export default class Animation {
@@ -48,18 +47,10 @@ export default class Animation {
     rightPane.className = 'right';
     rightPane.id = 'rightPane';
 
-    this.timeSlider = document.createElement('input');
-    this.timeSlider.className = 'time-slider';
-    this.timeSlider.type = 'range';
-    this.timeSlider.min = 0;
-    this.timeSlider.max = 100;
-    this.timeSlider.step = 1;
-    this.timeSlider.value = 0;
+    this.timeSlider = document.createElement('my-slider');
     this.timeSlider.id = 'timeSlider';
     let those = this;
-    this.timeSlider.oninput = function() {
-      those._updateSlider(this.value);
-    };
+    document.addEventListener('slider_input', (e) => { those._updateSlider(e) })
 
     this.button = document.createElement('button');
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
@@ -137,7 +128,9 @@ export default class Animation {
     this.button.className = 'player-btn icon-' + action;
   }
 
-  _updateSlider(value) {
+  _updateSlider(event) {
+    let value = this.detail;
+    console.log(value);
     this._triggerPlayPauseButton();
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
     const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
@@ -196,11 +189,10 @@ export default class Animation {
       }
     }
     if (automaticMove)
-      this.timeSlider.value = 100 * this.step / this.data.frames.length;
+      this.timeSlider.setValue(100 * this.step / this.data.frames.length);
     else
       this._triggerPlayPauseButton();
 
-    this._updateSliderBackground(this.timeSlider.value);
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
     this.currentTime.innerHTML = this._formatTime(this.view.time);
@@ -213,12 +205,6 @@ export default class Animation {
 
     window.requestAnimationFrame(() => { this._updateAnimation(); });
   }
-
-  _updateSliderBackground(value) {
-    // Hack for webkit-browsers which don't support input range progress indication
-    let percent = (value / 100) * 100;
-    document.getElementById('timeSlider').style.background = '-webkit-linear-gradient(left, #F00 0%, #F00 ' + percent + '%, rgba(240,240,240, 1) ' + percent + '%)';
-  };
 
   _parseMillisecondsIntoReadableTime(milliseconds) {
     const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
@@ -260,6 +246,6 @@ export default class Animation {
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(_ => { document.getElementById('playBar').style.opacity = '0';}, 500);
+    this.timeout = setTimeout(_ => { document.getElementById('playBar').style.opacity = '0'; }, 500);
   }
 }

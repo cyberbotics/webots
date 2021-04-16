@@ -156,8 +156,6 @@ export default class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
-    console.log(this.followedSolidPreviousPosition)
-
     const followedSolid = WbWorld.instance.nodes.get(this.followedId);
     const followedSolidPosition = followedSolid.translation;
     const delta = followedSolidPosition.sub(this.followedSolidPreviousPosition);
