@@ -97,6 +97,7 @@ webots.View = class View {
     this.deadline = this.timeout;
     this.runOnLoad = false;
     this.quitting = false;
+    this.labelColor = 'rgba(255, 255, 255, 0.7)';
   }
 
   setTimeout(timeout) { // expressed in seconds
@@ -284,6 +285,19 @@ webots.View = class View {
     labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
     labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
+    if (properties.text.includes('█')) {
+      properties.text = properties.text.replaceAll(' █', ' <span style="background:' + this.labelColor + '"> ');
+      properties.text = properties.text.replaceAll('█ ', ' </span> ');
+      if (properties.text[0] === '█')
+        properties.text = properties.text.replace('█', '<span style="background:' + this.labelColor + '"> ');
+      if (properties.text[properties.text.length - 1] === '█')
+        properties.text = properties.text.substr(0, properties.text.length - 1) + ' </span>';
+      properties.text = properties.text.replaceAll('█', ' ');
+      if (this.labelColor === 'rgba(255, 255, 255, 0.7)')
+        this.labelColor = 'rgba(255, 255, 255, 0.5)';
+      else
+        this.labelColor = 'rgba(255, 255, 255, 0.7)';
+    }
     labelElement.innerHTML = properties.text;
   }
 
