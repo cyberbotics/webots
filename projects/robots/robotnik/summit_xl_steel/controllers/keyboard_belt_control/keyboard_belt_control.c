@@ -45,28 +45,11 @@ int main() {
   wb_motor_set_velocity(motor_belt, 0.0);
 
   double target_belt_speed = 0.0;  // in [m/s].
-  int sign = 0;
+  int sign;                        // sign of the increment (decrement if -1).
   bool is_key_valid = 0;
 
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
-
-  void increase_target_speed() {
-    target_belt_speed += sign * SPEED_INCREMENT;
-    if (sign > 0) {
-      if (target_belt_speed > MAX_SPEED)
-        target_belt_speed = MAX_SPEED;
-    }
-    else if (sign < 0) {
-      if (target_belt_speed < -MAX_SPEED)
-        target_belt_speed = -MAX_SPEED;
-    }
-    else {
-      target_belt_speed = 0.0;
-    }
-    printf("vbelt:%.1f\n", target_belt_speed);
-    waiting_counter = 10;
-  }
 
   while (wb_robot_step(TIME_STEP) != -1) {
     if (waiting_counter == 0) {
@@ -95,7 +78,22 @@ int main() {
 
       if(is_key_valid)
       {
-        increase_target_speed();
+        // Increase or decrease target speed, depending on the sign.
+        target_belt_speed += sign * SPEED_INCREMENT;
+        if (sign > 0) {
+          if (target_belt_speed > MAX_SPEED)
+            target_belt_speed = MAX_SPEED;
+        }
+        else if (sign < 0) {
+          if (target_belt_speed < -MAX_SPEED)
+            target_belt_speed = -MAX_SPEED;
+        }
+        else {
+          target_belt_speed = 0.0;
+        }
+        printf("vbelt:%.1f\n", target_belt_speed);
+        waiting_counter = 10;
+
         wb_motor_set_velocity(motor_belt, target_belt_speed);
       }
     }

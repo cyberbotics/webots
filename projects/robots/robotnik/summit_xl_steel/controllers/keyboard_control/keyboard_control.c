@@ -61,30 +61,12 @@ int main() {
 
   double target_speed[3] = {0.0, 0.0, 0.0};      // vx [m/s], vy [m/s], ω [rad/s].
   int speed_id = 0;                              // index to select either vx, vy, ω.
-  int sign = 0;                                  // sign of the increment (decrement if -1).
+  int sign;                                      // sign of the increment (decrement if -1).
   double motor_speed[4] = {0.0, 0.0, 0.0, 0.0};  // wheels speed in [m/s], computed from vx, vy and ω.
   bool is_key_valid = 0;
 
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
-
-  void increase_target_speed() {
-    target_speed[speed_id] += sign * SPEED_INCREMENT;
-    if (sign > 0) {
-      if (target_speed[speed_id] > MAX_SPEED)
-        target_speed[speed_id] = MAX_SPEED;
-    }
-    else if (sign < 0) {
-      if (target_speed[speed_id] < -MAX_SPEED)
-        target_speed[speed_id] = -MAX_SPEED;
-    }
-    else {
-      for (int i = 0; i < 3; ++i)
-        target_speed[i] = 0;
-    }
-    printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
-    waiting_counter = 10;
-  }
 
   printf("To move the Summit-XL Steel with your keyboard, click first inside the simulation window and press:\n \
   vx: ↑/↓                 \n \
@@ -147,7 +129,22 @@ int main() {
 
       if (is_key_valid)
       {
-        increase_target_speed();
+        // Increase or decrease target speed, depending on the sign.
+        target_speed[speed_id] += sign * SPEED_INCREMENT;
+        if (sign > 0) {
+          if (target_speed[speed_id] > MAX_SPEED)
+            target_speed[speed_id] = MAX_SPEED;
+        }
+        else if (sign < 0) {
+          if (target_speed[speed_id] < -MAX_SPEED)
+            target_speed[speed_id] = -MAX_SPEED;
+        }
+        else {
+          for (int i = 0; i < 3; ++i)
+            target_speed[i] = 0;
+        }
+        printf("vx:%.1f vy:%.1f ω:%.1f\n", target_speed[0], target_speed[1], target_speed[2]);
+        waiting_counter = 10;
 
         // Computes the wheel motors speeds from vx, vy and ω.
         motor_speed[0] = 1 / WHEEL_RADIUS * (target_speed[0] - target_speed[1] - (LX + LY) * target_speed[2]);
