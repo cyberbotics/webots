@@ -37,7 +37,7 @@ body {
   bottom: 41px;
   left: 1%;
   width: 98%;
-  
+
   cursor: pointer;
 }
 
@@ -88,7 +88,7 @@ input[type='range'].time-slider::-moz-range-track {
   border: none;
   background: rgba(240, 240, 240, 0.7);
 }
- 
+
 input[type='range'].time-slider:hover::-moz-range-track {
   height: 6px;
   background: rgba(255, 255, 255, 0.7);
@@ -127,9 +127,9 @@ span {
   color: rgba(240, 240, 240, 1);
   text-shadow: 2px 2px 2px rgb(104,104,104);
 }
-   
+
 button:first-of-type { margin-right: 6px; }
- 
+
 .left {
   position: absolute;
   bottom: 0px;
@@ -154,7 +154,7 @@ button:first-of-type { margin-right: 6px; }
 
   cursor: pointer;
 }
- 
+
 .right {
   position: absolute;
   bottom: 0px;
