@@ -170,8 +170,8 @@ PROTO RobocupSoccerField [
       end
     end
 
-    circle_add_pts(H / 2) -- Inner radius of central circle
-    circle_add_pts(H / 2 + LINE_WIDTH) -- Outer radius of central circle
+    circle_add_pts(H / 2 - LINE_WIDTH) -- Inner radius of central circle
+    circle_add_pts(H / 2) -- Outer radius of central circle
 
     --Add the triangles for the line of the central circle
     Npts = table.maxn(pts)
