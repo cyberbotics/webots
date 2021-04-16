@@ -85,6 +85,28 @@ static void close_socket(int fd) {
 #endif
 }
 
+static bool send_all(int socket, const char *buffer, size_t length) {
+  while (length > 0) {
+    int i = send(socket, buffer, length, 0);
+    if (i < 1)
+      return false;
+    buffer += i;
+    length -= i;
+  }
+  return true;
+}
+
+static bool recv_all(int socket, char *buffer, size_t length) {
+  while (length > 0) {
+    int i = recv(socket, buffer, length, 0);
+    if (i < 1)
+      return false;
+    buffer += i;
+    length -= i;
+  }
+  return true;
+}
+
 static int accept_client(int server_fd) {
   int cfd;
   struct sockaddr_in client;
@@ -101,10 +123,10 @@ static int accept_client(int server_fd) {
     }
     if (allowed) {
       printf("Accepted connection from %s.\n", client_info->h_name);
-      send(cfd, "Welcome", 8, 0);
+      send_all(cfd, "Welcome", 8);
     } else {
       printf("Refused connection from %s.\n", client_info->h_name);
-      send(cfd, "Refused", 8, 0);
+      send_all(cfd, "Refused", 8);
       close_socket(cfd);
       cfd = -1;
     }
@@ -267,27 +289,25 @@ int main(int argc, char *argv[]) {
       struct timeval tv = {0, 0};
       int number = select(client_fd + 1, &rfds, NULL, NULL, &tv);
       if (number) {  // some data is available from the socket
-        char data[256];
-        int n = recv(client_fd, data, sizeof(int), 0);
-        if (n <= 0) {
+        uint32_t size_n;
+        if (!recv_all(client_fd, (char *)&size_n, sizeof(uint32_t))) {
           printf("Closed connection\n");
           close_socket(client_fd);
           client_fd = -1;
         } else {
-          assert(n == sizeof(int));
-          uint32_t l = ntohl(*((uint32_t *)data));
-          printf("packet size = %u %d\n", l, n);
-          int n = recv(client_fd, data, l, 0);
-          assert(n == l);
-          if (n <= 0) {
+          uint32_t l = ntohl(size_n);
+          printf("packet size = %u\n", l);
+          char *data = new char[l];
+          if (!recv_all(client_fd, data, l)) {
             printf("Broke connection\n");
             close_socket(client_fd);
             client_fd = -1;
+            delete[] data;
           } else {
-            data[n] = '\0';
-            printf("Received %d bytes\n", n);
+            printf("Received %d bytes\n", l);
             ActuatorRequests actuatorRequests;
-            actuatorRequests.ParseFromArray(data, n);
+            actuatorRequests.ParseFromArray(data, l);
+            delete[] data;
             SensorMeasurements sensorMeasurements;
             sensorMeasurements.set_time(controller_time);
             for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
@@ -370,20 +390,29 @@ int main(int argc, char *argv[]) {
                 if (controller_time % camera->getSamplingPeriod())
                   continue;
                 CameraMeasurement *measurement = sensorMeasurements.add_cameras();
+                const int width = camera->getWidth();
+                const int height = camera->getHeight();
                 measurement->set_name(camera->getName());
-                measurement->set_width(camera->getWidth());
-                measurement->set_height(camera->getHeight());
+                measurement->set_width(width);
+                measurement->set_height(height);
                 measurement->set_quality(-1);  // raw image (JPEG compression not yet supported)
-                measurement->set_image((const char *)camera->getImage());
+                const unsigned char *rgba_image = camera->getImage();
+                const int rgb_image_size = width * height * 3;
+                static unsigned char *rgb_image = new unsigned char[rgb_image_size];
+                for (int i = 0; i < width * height; i++) {
+                  rgb_image[3 * i] = rgba_image[4 * i];
+                  rgb_image[3 * i + 1] = rgba_image[4 * i + 1];
+                  rgb_image[3 * i + 2] = rgba_image[4 * i + 2];
+                }
+                measurement->set_image(rgb_image, rgb_image_size);
+                delete[] rgb_image;
 
                 // testing JPEG compression (impacts the performance)
                 unsigned char *buffer = NULL;
                 long unsigned int bufferSize = 0;
-                const unsigned char *image = camera->getImage();
-                encode_jpeg(image, camera->getWidth(), camera->getHeight(), 95, &bufferSize, &buffer);
+                encode_jpeg(rgba_image, width, height, 95, &bufferSize, &buffer);
                 free_jpeg(buffer);
                 buffer = NULL;
-
                 continue;
               }
               webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
@@ -503,7 +532,7 @@ int main(int argc, char *argv[]) {
             uint32_t *output_size = (uint32_t *)output;
             *output_size = htonl(size);
             sensorMeasurements.SerializeToArray(&output[sizeof(uint32_t)], size);
-            send(client_fd, output, sizeof(uint32_t) + size, 0);
+            send_all(client_fd, output, sizeof(uint32_t) + size);
             delete[] output;
           }
         }
