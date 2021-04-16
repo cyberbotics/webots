@@ -82,12 +82,10 @@ int main() {
         if (sign > 0) {
           if (target_belt_speed > MAX_SPEED)
             target_belt_speed = MAX_SPEED;
-        }
-        else if (sign < 0) {
+        } else if (sign < 0) {
           if (target_belt_speed < -MAX_SPEED)
             target_belt_speed = -MAX_SPEED;
-        }
-        else {
+        } else {
           target_belt_speed = 0.0;
         }
         printf("vbelt:%.1f\n", target_belt_speed);
@@ -95,8 +93,7 @@ int main() {
 
         wb_motor_set_velocity(motor_belt, target_belt_speed);
       }
-    }
-    else {
+    } else {
       waiting_counter -= 1;
     }
   }

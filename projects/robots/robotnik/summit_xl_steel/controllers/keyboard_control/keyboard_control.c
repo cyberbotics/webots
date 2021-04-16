@@ -132,13 +132,11 @@ int main() {
           target_speed[speed_id] += SPEED_INCREMENT;
           if (target_speed[speed_id] > MAX_SPEED)
             target_speed[speed_id] = MAX_SPEED;
-        }
-        else if (sign < 0) {
+        } else if (sign < 0) {
           target_speed[speed_id] -= SPEED_INCREMENT;
           if (target_speed[speed_id] < -MAX_SPEED)
             target_speed[speed_id] = -MAX_SPEED;
-        }
-        else {
+        } else {
           for (int i = 0; i < 3; ++i)
             target_speed[i] = 0;
         }
@@ -156,8 +154,7 @@ int main() {
         wb_motor_set_velocity(motor_bl, motor_speed[2]);
         wb_motor_set_velocity(motor_br, motor_speed[3]);
       }
-    }
-    else {
+    } else {
       waiting_counter -= 1;
     }
   }
