@@ -338,7 +338,8 @@ void WbField::redirectTo(WbField *parameter) {
     // In some case Webots modifies the fields directly and not the proto parameters, e.g. changing "translation" or
     // "rotation" fields with the mouse. In these cases we need to propagate the change back to the proto parameters, e.g. in
     // order to update the Scene Tree
-    connect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
+    if (!isHidden())
+      connect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
   }
 
   // ODE updates

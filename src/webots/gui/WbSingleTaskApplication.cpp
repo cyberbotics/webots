@@ -129,7 +129,7 @@ void WbSingleTaskApplication::convertProto() const {
   // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
-  for (WbNode *subNode : node->subNodes(true, true, true))
+  for (WbNode *subNode : node->subNodes(true))
     if (dynamic_cast<WbBasicJoint *>(subNode))
       static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
 
