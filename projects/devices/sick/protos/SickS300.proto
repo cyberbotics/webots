@@ -2,8 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-s300
-# Model of SickS300 (lidar device).
-# The mesh was taken from the original GitHub repository: https://github.com/RobotnikAutomation/robotnik_sensors.
+# Model of Sick S300 (lidar device).
 # specs:
 #  - field of view: 270 [deg]
 #  - range: up to 30 [m] (distance measuring range)

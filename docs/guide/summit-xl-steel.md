@@ -1,9 +1,9 @@
 ## Robotnik's Summit-XL Steel
 
-%robot summit_xl_steel images/robots/summit_xl_steel/model.thumbnail.png
+%robot summit-xl-steel images/robots/summit_xl_steel/model.thumbnail.png
 
-Designed by Robotnik , [Summit-XL Steel](summit-xl-steel.md) is a four-wheeled (mecanum) robot.
-The model is a modular mobile platform used for logistics and indoor transport. It is well-suited for industries as its design enables it to carry a payload of up to 250 kg.
+Designed by Robotnik, [Summit-XL Steel](summit-xl-steel.md) is a four-wheeled (mecanum) robot.
+The model is a modular mobile platform used for logistics and indoor transport. It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
 More information on the Summit-XL Steel robot can be found on the [constructor website](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/).
 
 ### SummitXlSteel PROTO
@@ -15,12 +15,12 @@ SummitXlSteel {
   SFVec3f     translation     0 0.118 0
   SFRotation  rotation        1 0 0 -1.5708
   SFString    name            "Summit-XL Steel"
-  SFString    controller      "void" 
+  SFString    controller      "void"
   MFString    controllerArgs  []
   SFString    customData      ""
   SFBool      supervisor      FALSE
   SFBool      synchronization TRUE
-  SFBool      selfCollision   FALSE              # Enables/disables the detection of collisions within the robot.
+  SFBool      selfCollision   FALSE
   MFNode      frontLidarSlot  []
   MFNode      backLidarSlot   []
   MFNode      bodySlot        []
