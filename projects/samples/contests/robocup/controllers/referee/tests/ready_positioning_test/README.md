@@ -8,23 +8,19 @@ The following should happen:
    - The robot number 2 from the team that does not have the kick-off is manually moved to the center circle in it's own half.\
    The exact position for test:\
    `-0.40 0.00 0.24` (if the robot is on the left side)\
-   `0.40 0.00 0.24` (if the robot is on the right side)\
-   (the rotation is not chaged)
+   `0.40 0.00 0.24` (if the robot is on the right side)
    - The robot number 2 from the team having the kick-off is also manually moved to the center circle in it's own half.\
    The exact position for test:\
    `-0.40 0.00 0.24` (if the robot is on the left side)\
-   `0.40 0.00 0.24` (if the robot is on the right side)\
-   (the rotation is not chaged)
+   `0.40 0.00 0.24` (if the robot is on the right side)
    - The robot `Red 1` is moved to opponent's field.\
    The exact position for test:\
    `2 0.00 0.24` (if the robot is on the left side)\
-   `-2 0.00 0.24` (if the robot is on the right side)\
-   (the rotation is not chaged)
+   `-2 0.00 0.24` (if the robot is on the right side)
    - The robot `Blue 1` is moved to a valid position in its own field.\
    The exact position for test:\
-   `-1.5 0.00 0.24` (if the robot is on the left side)\
-   `1.5 0.00 0.24` (if the robot is on the right side)\
-   (the rotation is not chaged)
+   `-0.15 -2 0.24` (if the robot is on the left side)\
+   `0.15 -2 0.24` (if the robot is on the right side)
    - Simulation is resumed.
 4. Time elapses and game state changes to `SET`.
 5. The robot that is in the opponent's field is removed by the auto-referee. ([#25](https://github.com/RoboCup-Humanoid-TC/webots/issues/25))
@@ -33,7 +29,7 @@ The following should happen:
 8. Robots `Red 3`, `Red 4`, and `Blue 3` are removed by the auto-referee as they haven't moved before the end of `READY` phase. ([#31](https://github.com/RoboCup-Humanoid-TC/webots/issues/31))
 9. Then the simulation is paused before the game state is changed to `PLAY`. The robot `Blue 1` is manually fallen into the opponent's
    half of the field, simulation is resumed.
-10. Again before `PLAY` state, the robot touching opponent's field is removed the auto-referee. ([#26](https://github.com/RoboCup-Humanoid-TC/webots/issues/26))
+10. Again before `PLAY` state, the robot `Blue 1` who is touching opponent's field is removed the auto-referee. ([#26](https://github.com/RoboCup-Humanoid-TC/webots/issues/26))
 
 The following information should be contained in logs (among others):
 
