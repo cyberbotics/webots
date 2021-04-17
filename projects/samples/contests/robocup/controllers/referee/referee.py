@@ -704,9 +704,6 @@ supervisor = Supervisor()
 root = supervisor.getRoot()
 children = root.getField('children')
 
-if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
-    children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
-
 children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 0 0 {game.ball_kickoff_translation[2]} ' +
@@ -777,6 +774,8 @@ game.play_countdown = 0
 game.sent_finish = False
 previous_seconds_remaining = 0
 real_time_start = time.time()
+if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
+    children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
     game_controller_receive()

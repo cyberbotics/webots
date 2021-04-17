@@ -125,6 +125,18 @@ class Test:
         c._penalty = dic.get("penalty")
         return c
 
+    def _getTargetGCData(self, status):
+        splitted_target = self._target.split(" ")
+        if len(splitted_target) != 3:
+            raise RuntimeError("Invalid target to get GameController data from")
+        team_color = splitted_target[0].upper()
+        player_idx = int(splitted_target[2]) - 1
+        for i in range(2):
+            if status.gc_status.teams[i].team_color == team_color:
+                return status.gc_status.teams[i].players[player_idx]
+        return None
+
+
     def _testTargetPosition(self, status, supervisor):
         if self._target is None:
             raise RuntimeError("{self._name} tests position and has no target")
@@ -151,14 +163,26 @@ class Test:
     def _testTargetPenalty(self, status, supervisor):
         if self._target is None:
             raise RuntimeError("{self._name} tests position and has no target")
-        self._msg.append("Test of penalties is not implemented yet")
-        self._penalty = None
-        self._success = False
+        gc_data = self._getTargetGCData(status)
+        if gc_data.penalty != self._penalty:
+            failure_msg = f"Invalid penalty at {status.getFormattedTime()}: "\
+                f"for {self._target}: received {gc_data.penalty},"\
+                f"expecting {self._penalty}"
+            self._msg.append(failure_msg)
+            self._penalty = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
 
     def _testState(self, status, supervisor):
-        self._msg.append("Test of state is not implemented yet")
-        self._state = None
-        self._success = False
+        received_state = status.gc_status.game_state
+        expected_state = "STATE_" + self._state
+        if expected_state != received_state:
+            failure_msg = f"Invalid state at {status.getFormattedTime()}: "\
+                f"received {received_state}, expecting {expected_state}"
+            self._msg.append(failure_msg)
+            self._penalty = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
 
 class Action:
 

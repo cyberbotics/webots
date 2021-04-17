@@ -37,7 +37,7 @@
     },
     {
         "timing" : {
-            "time" : 121.0,
+            "time" : 125.0,
             "clock_type" : "System"
         },
         "tests" : [
@@ -74,7 +74,7 @@
     },
     {
         "timing" : {
-            "time" : 122.0,
+            "time" : 126.0,
             "clock_type" : "System"
         },
         "actions" : [
@@ -94,7 +94,7 @@
     },
     {
         "timing" : {
-            "time" : 123.0,
+            "time" : 128.0,
             "clock_type" : "System"
         },
         "tests" : [
@@ -120,7 +120,7 @@
     },
     {
         "timing" : {
-            "time" : 257,
+            "time" : 260,
             "clock_type" : "System"
         },
         "tests" : [
