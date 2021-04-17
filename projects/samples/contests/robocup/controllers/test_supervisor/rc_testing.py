@@ -160,6 +160,44 @@ class Test:
         self._state = None
         self._success = False
 
+class Action:
+
+    def __init__(self, target, position = None, force = None, velocity = None):
+        self._def_name = target_to_def_name(target)
+        self._position = position
+        self._force = force
+        self._velocity = velocity
+
+    def buildFromDictionary(dic):
+        a = Action(dic["target"])
+        a._position = dic.get("position")
+        a._force = dic.get("force")
+        a._velocity = dic.get("velocity")
+        return a
+
+
+    def perform(self, supervisor):
+        obj = supervisor.getFromDef(self._def_name)
+        obj.resetPhysics()
+        if self._position is not None:
+            self._setPosition(obj)
+        if self._force is not None:
+            self._setForce(obj)
+        if self._velocity is not None:
+            self._setVelocity(obj)
+
+    def _setPosition(self, obj):
+        print(f"Setting {self._def_name} to {self._position}")
+        obj.getField("translation").setSFVec3f(self._position)
+
+    def _setForce(self, obj):
+        obj.addForce(self._force)
+
+    def _setVelocity(self, obj):
+        obj.setVelocity(self._velocity)
+
+
+
 class Event:
     def __init__(self, time_spec, tests=[], actions=[], done=False):
         self._time_spec = time_spec
@@ -171,7 +209,8 @@ class Event:
         return self._time_spec.isActive(status)
 
     def isFinished(self, status):
-        #TODO an event might also been 'finished' if all tests have failed
+        #TODO an event might also been 'finished' if all tests have failed and
+        # no action is there
         return self._time_spec.isFinished(status)
 
     """
@@ -180,6 +219,8 @@ class Event:
     def perform(self, status, supervisor):
         for c in self._tests:
             c.perform(status, supervisor)
+        for a in self._actions:
+            a.perform(supervisor)
 
     def getNbTests(self):
         return len(self._tests)
@@ -201,7 +242,12 @@ class Event:
         if tests_str is not None:
             for test_dic in tests_str:
                 tests.append(Test.buildFromDictionary(test_dic))
-        event = Event(TimeSpecification.buildFromDictionary(dic["timing"]), tests)
+        actions_str = dic.get("actions")
+        actions = []
+        if actions_str is not None:
+            for action_dic in actions_str:
+                actions.append(Action.buildFromDictionary(action_dic))
+        event = Event(TimeSpecification.buildFromDictionary(dic["timing"]), tests, actions)
         # TODO build actions to add them
         return event
 
