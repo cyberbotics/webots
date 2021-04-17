@@ -4,7 +4,7 @@ The following should happen:
 
 1. The robots are spawned and the game state is `INITIAL`.
 2. Time elapses and game state changes to `READY`, then `SET`, and then `PLAY`.
-3. After changing the state to `PLAY`:\
+3. After changing the state to `PLAY`:
    - Simulation is paused. Then, robot `Red 1` is manually moved to near its own goal, exactly to:\
    `-4 0.00 0.24` (if the robot is on the left side)\
    `4 0.00 0.24` (if the robot is on the right side)
