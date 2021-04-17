@@ -1,4 +1,4 @@
-On this test scenario, we have some robots initially placed outside of the field in valid positions. There is going to be a complete match including first and second half. Some goals are going to be scored and there will be a team winning the match at the end:
+On this test scenario, the behavior of the AutoRef facing an own goal is going to be tested:
 
 The following should happen:
 
