@@ -61,6 +61,7 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed bug in the C++, Python and Java API where the [Robot.getDevice()](robot.md#wb_robot_get_device) methods were returning different objects when passing the same string argument for the device name ([#2957](https://github.com/cyberbotics/webots/pull/2957)).
     - Fixed return value type of [`CameraRecognitionObject.get_size`](camera.md#camera-recognition-object) Python function ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
     - Fixed [`Camera.getRecognitionObjects`](camera.md#wb_camera_recognition_get_objects) function not available and the return value of [`CameraRecognitionObject.getPositionOnImage`](camera.md#camera-recognition-object) and [`CameraRecognitionObject.getSizeOnImage`](camera.md#camera-recognition-object) in Java API ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
     - Fixed detection of scaled objects in the [Camera](camera.md) image using the [Recognition](recognition.md) functionality ([#2921](https://github.com/cyberbotics/webots/pull/2921)).
@@ -95,6 +96,7 @@ Released on XX Xth, 2021.
     - Fixed the return value handling from the `webots_physics_collide` when the [Group](group.md) node is one of the colliding objects ([#2781](https://github.com/cyberbotics/webots/pull/2781)).
     - Fixed the [Pen](pen.md) ink mixed with the background and other ink when the `inkDensity` is lower than 1.0 ([#2804](https://github.com/cyberbotics/webots/pull/2804)).
     - Fixed issue where motor position limits in [Hinge2Joint](hinge2joint.md) and [BallJoint](balljoint.md) were enforced incorrectly ([#2825](https://github.com/cyberbotics/webots/pull/2825)).
+    - Fixed issue where the hidden field of a [BallJoint](balljoint.md) is not stored in the world file when saving after the simulation has run ([#2964](https://github.com/cyberbotics/webots/pull/2964)).
   - Cleanup
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Dependency Updates

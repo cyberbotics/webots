@@ -1109,7 +1109,7 @@ namespace webots {
     int count = getNumberOfDevices();
     // if new devices have been added, then count is greater than devices.length
     // deleted devices are not removed from the C API list and don't affect the number of devices
-    if (devices != null && devices.length == count && tag < devices.length)
+    if (devices != null && devices.length == count + 1 && tag < devices.length)
         return devices[tag];
 
     // (re-)initialize devices list
