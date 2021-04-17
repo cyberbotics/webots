@@ -1875,3 +1875,18 @@ Strange...
 ##### Westin 03/24/2021 16:00:39
 Yep.
 
+##### reinaldobianchi 04/06/2021 13:04:53
+Hi. I have a doubt about the Sensors on the Pioneer AT3. Is the figure on page [https://cyberbotics.com/doc/guide/pioneer-3at](https://cyberbotics.com/doc/guide/pioneer-3at) wrong?
+
+It looks like the sensors that are in front should be in the back...
+
+Sensors 0 to 7 should be in the back, and sensors 8 to 15 in the front, no?
+
+I also think that the Front and Back views of the robot are switched...
+
+
+This is wrong for the Pioneer 3 DX and AT
+
+##### Srivastav\_Udit 04/07/2021 01:33:16
+Is there any particular reason why the sensors orientation on the epuck is the way it is?
+

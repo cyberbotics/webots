@@ -78,13 +78,16 @@ GameState = "gamedata" / Struct(
                              STATE_DIRECT_FREEKICK=4,
                              STATE_INDIRECT_FREEKICK=5,
                              STATE_PENALTYKICK=6,
+                             STATE_CORNERKICK=7,
+                             STATE_GOALKICK=8,
+                             STATE_THROWIN=9,
                              DROPBALL=128,
                              UNKNOWN=255),
     "secondary_state_info" / Bytes(4),
     "drop_in_team" / Flag,
     "drop_in_time" / Short,
     "seconds_remaining" / Int16sl,
-    "secondary_seconds_remaining" / Short,
+    "secondary_seconds_remaining" / Int16sl,
     "teams" / Array(2, "team" / TeamInfo)
 )
 

@@ -1,13 +1,11 @@
 {
-  "type": "KNOCKOUT",
+  "type": "NORMAL",
   "class": "KID",
-  "host": "192.168.1.133",
-  "real_time_factor": 0,
+  "host": "127.0.0.1",
   "red": {
     "id": 1,
-    "config": "team_1.json",
+    "config": "tests/test_initial_positions/team_1.json",
     "hosts": [
-      "127.0.0.1",
       "192.168.123.21",
       "192.168.123.22",
       "192.168.123.23",
@@ -22,9 +20,8 @@
   },
   "blue": {
     "id": 2,
-    "config": "team_2.json",
+    "config": "tests/test_initial_positions/team_2.json",
     "hosts": [
-      "127.0.0.1",
       "192.168.123.41",
       "192.168.123.42",
       "192.168.123.43",
