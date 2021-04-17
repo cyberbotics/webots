@@ -1,0 +1,191 @@
+[
+    {
+        "timing" : {
+            "time" : [1.0, 119.0],
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Staying in INITIAL for 2 minutes",
+                "state" : "INITIAL"
+            },
+            {
+                "name" : "Spawning a player inside field (Red 1)",
+                "target" : "red player 1",
+                "position" : [4.0,-2.06,0.24],
+                "rotation" : [0,0,1,1.57]
+            },
+            {
+                "name" : "Spawning a player outside field (Red 2)",
+                "target" : "red player 2",
+                "position" : [4.0,3.02,0.24],
+                "rotation" : [0,0,1,4.71]
+            },
+            {
+                "name" : "Spawning a player on other side (Blue 3)",
+                "target" : "blue player 3",
+                "position" : [-0.75,-3.06,0.24],
+                "rotation" : [0,0,1,1.57]
+            },
+            {
+                "name" : "Spawning a player on wrong side (Blue 4)",
+                "target" : "blue player 4",
+                "position" : [1.75,3.06,0.24],
+                "rotation" : [0,0,1,-1.57]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 121.0,
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Automatic switch to READY state",
+                "state" : "READY"
+            },
+            {
+                "name" : "halfTimeStartingPose in field -> Penalty",
+                "target" : "red player 1",
+                "penalty": 34
+            },
+            {
+                "name" : "halfTimeStartingPose partially on border line -> Penalty",
+                "target" : "red player 2",
+                "penalty": 34
+            },
+            {
+                "name" : "halfTimeStartingPose partially on goal line -> Penalty",
+                "target" : "blue player 2",
+                "penalty": 34
+            },
+            {
+                "name" : "halfTimeStartingPose partially on wrong side -> Penalty",
+                "target" : "blue player 4",
+                "penalty": 34
+            },
+            {
+                "name" : "halfTimeStartingPose valid -> No penalty",
+                "target" : "blue player 1",
+                "penalty": 0
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 122.0,
+            "clock_type" : "System"
+        },
+        "actions" : [
+            {
+                "target" : "red player 1",
+                "position" : [1.75,2.06,0.24]
+            },
+            {
+                "target" : "red player 3",
+                "position" : [0.75,2.36,0.24]
+            },
+            {
+                "target" : "blue player 1",
+                "position" : [-4.3,-2.06,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 123.0,
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Illegal entry -> penalty + yellow card",
+                "target" : "red player 1",
+                "penalty" : 34,
+                "yellow_card" : 1
+            },
+            {
+                "name" : "Unpenalized robot can move during ready (1)",
+                "target" : "red player 1",
+                "penalty" : 0,
+                "position" : [0.75,2.36,0.24]
+            },
+            {
+                "name" : "Unpenalized robot can move during ready (2)",
+                "target" : "blue player 1",
+                "penalty" : 0,
+                "position" : [-4.3,-2.06,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 257,
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Automatic switch to set",
+                "state" : "SET"
+            },
+            {
+                "name" : "Robot that did not move during ready -> penalized (1)",
+                "target" : "red player 4",
+                "penalty" : 34,
+                "position" : [3, -3.11, 0.24]
+            },
+            {
+                "name" : "Robot that did not move during ready -> penalized (2)",
+                "target" : "blue player 3",
+                "penalty" : 34,
+                "position" : [-3, -3.11, 0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 273,
+            "clock_type" : "System"
+        },
+        "actions" : [
+            {
+                "target" : "red player 1",
+                "position" : [4.0,-2.06,0.24]
+            },
+            {
+                "target" : "blue player 2",
+                "position" : [-4.0,2.06,0.24]
+            },
+            {
+                "target" : "blue player 3",
+                "position" : [-4.0,-2.06,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 274,
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Robot moving after set not penalized (1)",
+                "target" : "red player 1",
+                "position" : [4.0,-2.06,0.24],
+                "penalty" : 0
+            },
+            {
+                "name" : "Robot moving after set not penalized (2)",
+                "target" : "blue player 2",
+                "position" : [-4.0,2.06,0.24],
+                "penalty" : 0
+            },
+            {
+                "name" : "Robot moving after set not penalized (3)",
+                "target" : "blue player 3",
+                "position" : [-4.0,-2.06,0.24],
+                "penalty" : 0
+            }
+        ]
+    }
+]

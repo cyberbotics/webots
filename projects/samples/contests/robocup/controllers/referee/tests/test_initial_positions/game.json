@@ -1,6 +1,9 @@
 {
   "type": "NORMAL",
   "class": "KID",
+  "side_left": "blue",
+  "kickoff": "blue",
+  "supervisor": "test_supervisor",
   "host": "127.0.0.1",
   "red": {
     "id": 1,
