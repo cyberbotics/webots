@@ -1,4 +1,4 @@
-On this test scenario, we have some robots initially placed outside of the field in valid positions. The ball is going to leave the field from different lines and sides and the autoRef should take appropriate actions, also one goal is going to be scored for each team and the game is going to be a draw:
+On this test scenario, we have some robots initially placed outside of the field in valid positions. The ball is going to leave the field from the touchline after being touched by a player. The autoRef should respawn the ball at where it left the field:
 
 The following should happen:
 
