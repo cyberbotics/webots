@@ -9,6 +9,8 @@ import socket
 import time
 
 class GCListener:
+    """A simple UDP socket listening to the GameController broadcast messages"""
+
     def __init__(self):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

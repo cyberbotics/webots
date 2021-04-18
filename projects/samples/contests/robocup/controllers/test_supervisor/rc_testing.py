@@ -11,6 +11,32 @@ def target_to_def_name(target):
     return target.upper().replace(" ","_")
 
 class StatusInformation:
+    """Contains basic information over the Game Controller state and time properties
+
+    TODO make gc_status private and provide more accessors. Writing gc_status is dangerous, since setting up its value
+    without using the update method might compromise the getStateStart results.
+
+    Attributes
+    ----------
+    system_time : float
+        The number of seconds elapsed since the test supervisor was started
+    simulated_time : float
+        The number of seconds elapsed in the simulation world
+    gc_status : GameState
+        A structure containing the most recent information received from the Game Controller
+
+    Methods
+    -------
+    update(system_time, simulated_time, gc_status)
+        Updates the internal structure according to the provided parameters.
+    getFormattedTime()
+        Returns a string describing the current time in a pretty format
+    getGameState()
+        Returns the current game state, or None if no GameState has been made available yet.
+    getStateStart(state, clock_type)
+        Returns the time at which the provided state was reached first, or -1 if it has never been reached.
+    """
+
     def __init__(self, system_time, simulated_time, gc_status):
         self.system_time = system_time
         self.simulated_time = simulated_time
@@ -49,7 +75,22 @@ class StatusInformation:
                 }
         self.gc_status = gc_status
 
+
 class TimeSpecification(ABC):
+    """Defines when an event is active or finished based on clocks and GameController states
+
+    This class can be used to express times either based on the simulation time or the system time.
+    It is possible to define time at which an event occured based on the time since a specific state of the Game
+    Controller has been reached.
+
+    Methods
+    -------
+    isActive(status)
+        Return true if the event should be actived based on status, false otherwise.
+    isFinished(status)
+        Return true if the event has finished being processed and will never be active again.
+    """
+
     @abstractmethod
     def isActive(self, status):
         pass
@@ -84,7 +125,10 @@ class TimeSpecification(ABC):
            raise RuntimeError(f"Invalid size for time: {len(t)}")
        raise RuntimeError("Invalid type for time")
 
+
 class TimeInterval(TimeSpecification):
+    """An implementation of TimeSpecification which is active over an interval of time."""
+
     def __init__(self, start, end, clock_type, state):
        self._start = start
        self._end = end
@@ -101,7 +145,10 @@ class TimeInterval(TimeSpecification):
         t = self.getCurrentTime(status)
         return t > self._end
 
+
 class TimePoint(TimeSpecification):
+    """An implementation of TimeSpecification which is finished as soon as it is activated."""
+
     def __init__(self, t, clock_type, state):
        self._t = t
        self._clock_type = clock_type
@@ -120,7 +167,26 @@ class TimePoint(TimeSpecification):
     def __str__(self):
         return f"t:{self._t}, clock_type:{self._clock_type}, state: {self._state}"
 
+
 class Test:
+    """Defines a set of properties on the game that have to be compared with the game status.
+
+    This class allows to test properties of objects (position,orientation), but also properties
+    based on the status of the game controller (current game state, penalty status for robots).
+    It provides simple access to the result of the test and allows to easily print the cause of failure.
+    To avoid spamming messages, if one of the internal verifications fail once, a failure message is saved and the test
+    is not performed anymore.
+
+    Methods
+    -------
+    perform(status, supervisor)
+        Runs all appropriated checks based on the latest status information, using the supervisor in read only.
+    hasPassed()
+        Returns True if no test has failed until now.
+    printResult()
+        A pretty print version including the causes of failure, if applicable.
+    """
+
     def __init__(self, name, target = None, position = None, rotation = None,
                  state = None, penalty = None, yellow_cards = None):
         self._name = name
@@ -157,14 +223,18 @@ class Test:
                 print(f"\tCaused by {m}")
 
     def buildFromDictionary(dic):
-        c = Test(dic["name"])
-        c._target = dic.get("target")
-        c._position = dic.get("position")
-        c._rotation = dic.get("rotation")
-        c._state = dic.get("state")
-        c._penalty = dic.get("penalty")
-        c._yellow_cards = dic.get("yellow_cards")
-        return c
+        """Returns a Test based on the provided dictionary.
+
+        Only 'name' field is required, consistency of the values is not checked currently.
+        """
+        t = Test(dic["name"])
+        t._target = dic.get("target")
+        t._position = dic.get("position")
+        t._rotation = dic.get("rotation")
+        t._state = dic.get("state")
+        t._penalty = dic.get("penalty")
+        t._yellow_cards = dic.get("yellow_cards")
+        return t
 
     def _getTargetGCData(self, status):
         splitted_target = self._target.split(" ")
@@ -240,7 +310,19 @@ class Test:
             # Each test can only fail once to avoid spamming
             self._success = False
 
+
 class Action:
+    """Defines a way to interact with the current status of the game
+
+    Currently, only moving objects has been tested.
+
+    Methods
+    -------
+    buildFromDictionary()
+        This class method builds an Action from a dictionary
+    perform(supervisor)
+        Applies the required modifications to the supervisor
+    """
 
     def __init__(self, target, position = None, force = None, velocity = None):
         self._def_name = target_to_def_name(target)
@@ -249,6 +331,10 @@ class Action:
         self._velocity = velocity
 
     def buildFromDictionary(dic):
+        """Returns an Action based on the provided dictionary.
+
+        Only the 'target' field is required, consistency of the values is not checked currently.
+        """
         a = Action(dic["target"])
         a._position = dic.get("position")
         a._force = dic.get("force")
@@ -277,13 +363,23 @@ class Action:
         obj.setVelocity(self._velocity)
 
 
-
 class Event:
-    def __init__(self, time_spec, tests=[], actions=[], done=False):
+    """An event is a set of tests and actions that occur over a period of time.
+
+    Methods
+    -------
+    isActive(status)
+        Is the event active given the provided status?
+    isFinished(status)
+        Is the event finished given the provided status?
+    perform(status, supervisor)
+        Apply all tests and actions on the simulation
+    """
+
+    def __init__(self, time_spec, tests=[], actions=[]):
         self._time_spec = time_spec
         self._tests = tests
         self._actions = actions
-        self._done = done
 
     def isActive(self, status):
         return self._time_spec.isActive(status)
@@ -293,10 +389,9 @@ class Event:
         # no action is there
         return self._time_spec.isFinished(status)
 
-    """
-    Applies tests and *afterwards* apply actions
-    """
     def perform(self, status, supervisor):
+        """Applies all tests of the event and, apply actions *afterwards*
+        """
         for c in self._tests:
             c.perform(status, supervisor)
         for a in self._actions:
@@ -333,6 +428,23 @@ class Event:
 
 
 class Scenario:
+    """A scenario is composed of multiple events, it provides a global access to all of them.
+
+    Methods
+    -------
+    step(status, supervisor)
+        Perform all the events that are currently active.
+    isFinished()
+        Returns True if all the events of the scenario have been executed completely.
+    getNbTests()
+        Returns the number of tests in the scenario.
+    getNbTestsPassed()
+        Returns the number of tests that passed successfully.
+    printResults()
+        Print the results of all the tests and a final summary.
+    buildFromList()
+        Build a scenario from a list of events.
+    """
     def __init__(self, events = []):
         self._waiting_events = events
         self._finished_events = []
