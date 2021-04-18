@@ -1,0 +1,26 @@
+[
+    {
+        "timing" : {
+            "time" : [1.0, 119.0],
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Staying in INITIAL for 2 minutes",
+                "state" : "INITIAL"
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 125.0,
+            "clock_type" : "System"
+        },
+        "tests" : [
+            {
+                "name" : "Automatic switch to READY state",
+                "state" : "READY"
+            }
+        ]
+    }
+]

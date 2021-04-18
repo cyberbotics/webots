@@ -4,11 +4,10 @@
   "side_left": "blue",
   "kickoff": "blue",
   "supervisor": "test_supervisor",
-  "real_time_factor" : 0,
   "host": "127.0.0.1",
   "red": {
     "id": 1,
-    "config": "tests/test_initial_positions/team_1.json",
+    "config": "tests/test_initial_time/team_1.json",
     "hosts": [
       "192.168.123.21",
       "192.168.123.22",
@@ -24,7 +23,7 @@
   },
   "blue": {
     "id": 2,
-    "config": "tests/test_initial_positions/team_2.json",
+    "config": "tests/test_initial_time/team_2.json",
     "hosts": [
       "192.168.123.41",
       "192.168.123.42",

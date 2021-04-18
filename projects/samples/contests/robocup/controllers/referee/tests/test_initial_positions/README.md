@@ -12,8 +12,7 @@ The following should happen:
 
 1. All robots are spawned on their appropriate side, according to the team
    configuration files (except `Blue 4` who is on the wrong side).
-2. During 2 minutes (real-time not simulated time), game state is `INITIAL` all
-   robots stay static.
+2. While game state is `INITIAL` all robots stay static.
 3. AutoRef sends a message to the GameController, status is changed to `READY`
 4. Penalties are being called for illegaly positioned robots who are moved to
    appropriate locations.

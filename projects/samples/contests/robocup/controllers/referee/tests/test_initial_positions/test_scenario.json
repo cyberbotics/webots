@@ -1,12 +1,13 @@
 [
     {
         "timing" : {
-            "time" : [1.0, 119.0],
-            "clock_type" : "System"
+            "time" : [1.0, 11.0],
+            "clock_type" : "Simulated",
+            "state" : "INITIAL"
         },
         "tests" : [
             {
-                "name" : "Staying in INITIAL for 2 minutes",
+                "name" : "Staying in INITIAL for 12 simulated seconds",
                 "state" : "INITIAL"
             },
             {
@@ -37,8 +38,9 @@
     },
     {
         "timing" : {
-            "time" : 125.0,
-            "clock_type" : "System"
+            "time" : 2.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
         },
         "tests" : [
             {
@@ -74,8 +76,9 @@
     },
     {
         "timing" : {
-            "time" : 126.0,
-            "clock_type" : "System"
+            "time" : 4.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
         },
         "actions" : [
             {
@@ -94,8 +97,9 @@
     },
     {
         "timing" : {
-            "time" : 128.0,
-            "clock_type" : "System"
+            "time" : 6.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
         },
         "tests" : [
             {
@@ -106,7 +110,7 @@
             },
             {
                 "name" : "Unpenalized robot can move during ready (1)",
-                "target" : "red player 1",
+                "target" : "red player 3",
                 "penalty" : 0,
                 "position" : [0.75,2.36,0.24]
             },
@@ -120,8 +124,9 @@
     },
     {
         "timing" : {
-            "time" : 260,
-            "clock_type" : "System"
+            "time" : 46,
+            "clock_type" : "Simulated",
+            "state" : "READY"
         },
         "tests" : [
             {
@@ -144,9 +149,16 @@
     },
     {
         "timing" : {
-            "time" : 273,
-            "clock_type" : "System"
+            "time" : 7,
+            "clock_type" : "Simulated",
+            "state" : "SET"
         },
+        "tests" : [
+            {
+                "name" : "Automatic transition to PLAYING",
+                "state" : "PLAYING"
+            }
+        ],
         "actions" : [
             {
                 "target" : "red player 1",
@@ -164,8 +176,9 @@
     },
     {
         "timing" : {
-            "time" : 274,
-            "clock_type" : "System"
+            "time" : 5,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
         },
         "tests" : [
             {

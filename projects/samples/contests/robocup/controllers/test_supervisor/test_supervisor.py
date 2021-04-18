@@ -47,13 +47,15 @@ status = rc_testing.StatusInformation(0.0, 0.0, None)
 gc_listener = GCListener()
 
 finished = False
+simulated_time = 0
 
 while supervisor.step(time_step) != -1 and not finished:
     gc_listener.receive()
-    status.system_time = time.time() - system_start
-    status.simulated_time += time_step/1000
-    status.gc_status = gc_listener.getState()
-    test_scenario.step(status, supervisor)
+    simulated_time += time_step/1000
+    status.update(time.time() - system_start, simulated_time,
+                  gc_listener.getState())
+    if (status.gc_status is not None):
+        test_scenario.step(status, supervisor)
 
     if test_scenario.isFinished():
         print(f"{status.getFormattedTime()} END OF TESTING")
