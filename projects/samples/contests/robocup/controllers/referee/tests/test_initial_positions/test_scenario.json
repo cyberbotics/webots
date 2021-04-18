@@ -1,13 +1,13 @@
 [
     {
         "timing" : {
-            "time" : [1.0, 11.0],
+            "time" : [1.0, 4.0],
             "clock_type" : "Simulated",
             "state" : "INITIAL"
         },
         "tests" : [
             {
-                "name" : "Staying in INITIAL for 12 simulated seconds",
+                "name" : "Staying in INITIAL for a few seconds",
                 "state" : "INITIAL"
             },
             {
@@ -38,7 +38,7 @@
     },
     {
         "timing" : {
-            "time" : 2.0,
+            "time" : 8.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -76,7 +76,7 @@
     },
     {
         "timing" : {
-            "time" : 4.0,
+            "time" : 10.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -97,7 +97,7 @@
     },
     {
         "timing" : {
-            "time" : 6.0,
+            "time" : 15.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -124,7 +124,7 @@
     },
     {
         "timing" : {
-            "time" : 46,
+            "time" : 48,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -136,20 +136,18 @@
             {
                 "name" : "Robot that did not move during ready -> penalized (1)",
                 "target" : "red player 4",
-                "penalty" : 34,
-                "position" : [3, -3.11, 0.24]
+                "penalty" : 34
             },
             {
                 "name" : "Robot that did not move during ready -> penalized (2)",
                 "target" : "blue player 3",
-                "penalty" : 34,
-                "position" : [-3, -3.11, 0.24]
+                "penalty" : 34
             }
         ]
     },
     {
         "timing" : {
-            "time" : 7,
+            "time" : 8,
             "clock_type" : "Simulated",
             "state" : "SET"
         },
@@ -176,7 +174,7 @@
     },
     {
         "timing" : {
-            "time" : 5,
+            "time" : 8,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
