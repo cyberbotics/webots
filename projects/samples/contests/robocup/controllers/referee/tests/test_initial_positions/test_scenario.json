@@ -106,7 +106,7 @@
                 "name" : "Illegal entry -> penalty + yellow card",
                 "target" : "red player 1",
                 "penalty" : 34,
-                "yellow_card" : 1
+                "yellow_cards" : 1
             },
             {
                 "name" : "Unpenalized robot can move during ready (1)",

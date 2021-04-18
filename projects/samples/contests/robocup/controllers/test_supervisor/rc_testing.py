@@ -122,13 +122,14 @@ class TimePoint(TimeSpecification):
 
 class Test:
     def __init__(self, name, target = None, position = None, rotation = None,
-                 state = None, penalty = None):
+                 state = None, penalty = None, yellow_cards = None):
         self._name = name
         self._target = target
         self._position = position
         self._rotation = rotation
         self._state = state
         self._penalty = penalty
+        self._yellow_cards = yellow_cards
         self._msg = []
         self._success = True
 
@@ -139,6 +140,8 @@ class Test:
             self._testTargetRotation(status, supervisor)
         if self._penalty is not None:
             self._testTargetPenalty(status, supervisor)
+        if self._yellow_cards is not None:
+            self._testYellowCards(status, supervisor)
         if self._state is not None:
             self._testState(status, supervisor)
 
@@ -160,6 +163,7 @@ class Test:
         c._rotation = dic.get("rotation")
         c._state = dic.get("state")
         c._penalty = dic.get("penalty")
+        c._yellow_cards = dic.get("yellow_cards")
         return c
 
     def _getTargetGCData(self, status):
@@ -218,6 +222,21 @@ class Test:
                 f"received {received_state}, expecting {expected_state}"
             self._msg.append(failure_msg)
             self._state = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+    def _testYellowCards(self, status, supervisor):
+        if self._target is None:
+            raise RuntimeError("{self._name} tests position and has no target")
+        gc_data = self._getTargetGCData(status)
+        received = gc_data.number_of_yellow_cards
+        if received != self._penalty:
+            failure_msg = \
+                f"Invalid number of yellow cards at {status.getFormattedTime()}: "\
+                f"for {self._target}: received {received},"\
+                f"expecting {self._yellow_cards}"
+            self._msg.append(failure_msg)
+            self._yellow_cards = None
             # Each test can only fail once to avoid spamming
             self._success = False
 
