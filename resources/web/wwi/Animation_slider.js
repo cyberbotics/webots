@@ -8,21 +8,34 @@ template.innerHTML = `
   bottom: 41px;
   left: 1%;
   width: 98%;
-  height:5px;
+  height:3px;
   background:rgba(140,140,140,0.5);
   cursor: pointer;
+}
+
+.range:hover{
+  height: 5px;
+}
+
+.range:hover .slider{
+  height: 5px;
+}
+
+.range:hover .thumb{
+  visibility: visible
 }
 
 .slider {
   z-index: 3;
   background:red;
-  height: 5px;
+  height: 3px;
   width:50%;
   position: absolute;
   opacity:1;
 }
 
 .thumb {
+  visibility: hidden;
   z-index: 2;
   background: red;
   border-radius: 50%;
@@ -42,7 +55,7 @@ template.innerHTML = `
 </div>
 `;
 
-class Slider extends HTMLElement {
+export default class Animation_slider extends HTMLElement {
   constructor() {
     super();
     this._shadowRoot = this.attachShadow({ mode: 'open' });
@@ -58,33 +71,51 @@ class Slider extends HTMLElement {
     let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect()
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('my-slider').shadowRoot.getElementById('slider').style.width = x + '%';
-    //var event = document.createEvent('Event');
-    //event.initEvent('slider_input', true, true);
 
-    var event = new Event('slider_input', {
+    let event = new Event('slider_input', {
       bubbles: true,
-      cancelable: true,
-      detail: 5
+      cancelable: true
     });
-
+    event.click = true;
+    event.detail = x;
     document.dispatchEvent(event);
   }
 
   _mouseDown() {
-    Slider.isSelected = true;
+    Animation_slider.isSelected = true;
   }
 
   _mouseUp() {
-    Slider.isSelected = false;
+    if (Animation_slider.isSelected) {
+      let event = new Event('slider_input', {
+        bubbles: true,
+        cancelable: true
+      });
+
+      event.mouseup = true;
+      document.dispatchEvent(event);
+
+      Animation_slider.isSelected = false;
+    }
   }
 
   _mouseMove(e) {
-    if (Slider.isSelected) {
-      let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect()
+    if (Animation_slider.isSelected) {
+      let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
       if (x > 100)
-        x = 100
+        x = 100;
+      else if (x < 0)
+        x = 0;
+
       document.querySelector('my-slider').shadowRoot.getElementById('slider').style.width = x + '%';
+      let event = new Event('slider_input', {
+        bubbles: true,
+        cancelable: true
+      });
+      event.move = true;
+      event.detail = x;
+      document.dispatchEvent(event);
     }
   }
 
@@ -96,5 +127,3 @@ class Slider extends HTMLElement {
     document.querySelector('my-slider').shadowRoot.getElementById('slider').style.width = percentage + '%';
   }
 }
-
-window.customElements.define('my-slider', Slider);

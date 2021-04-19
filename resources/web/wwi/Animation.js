@@ -1,5 +1,6 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
+import Animation_slider from './Animation_slider.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -47,10 +48,11 @@ export default class Animation {
     rightPane.className = 'right';
     rightPane.id = 'rightPane';
 
+    window.customElements.define('my-slider', Animation_slider);
     this.timeSlider = document.createElement('my-slider');
     this.timeSlider.id = 'timeSlider';
     let those = this;
-    document.addEventListener('slider_input', (e) => { those._updateSlider(e) })
+    document.addEventListener('slider_input', (e) => { those._updateSlider(e); });
 
     this.button = document.createElement('button');
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
@@ -123,22 +125,37 @@ export default class Animation {
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
-
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
     this.button.className = 'player-btn icon-' + action;
   }
 
   _updateSlider(event) {
-    let value = this.detail;
-    console.log(value);
-    this._triggerPlayPauseButton();
+    if (event.mouseup) {
+      if (this.previousState === 'real_time' && this.gui === 'pause') {
+        this.previousState = undefined;
+        this._triggerPlayPauseButton();
+        this.isMoving = false;
+      }
+      return;
+    }
+
+    let value = event.detail;
+    if (event.move)
+      this.isMoving = true;
+    if (event.click && !this.isMoving)
+      this._triggerPlayPauseButton();
+    else if (this.gui === 'real_time') {
+      this.previousState = 'real_time';
+      this._triggerPlayPauseButton();
+    }
+
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
     const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
-    this._updateAnimationState(requestedStep);
+    this._updateAnimationState(requestedStep, event.click);
   }
 
-  _updateAnimationState(requestedStep = undefined) {
+  _updateAnimationState(requestedStep = undefined, click) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
@@ -157,46 +174,27 @@ export default class Animation {
           return;
       }
     }
-    if (requestedStep === this.step)
-      return;
-    this.step = requestedStep;
+    if (requestedStep !== this.step) {
+      this.step = requestedStep;
 
-    const appliedIds = [];
-    if (this.data.frames[this.step].hasOwnProperty('poses')) {
-      const poses = this.data.frames[this.step].poses;
-      for (let p = 0; p < poses.length; p++)
-        appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
-    }
-    const x3dScene = this.view.x3dScene;
-    // lookback mechanism: search in history
-    if (this.step !== this.previousStep + 1) {
-      let previousPoseStep;
-      if (this.step > this.previousStep)
-        // in forward animation check only the changes since last pose
-        previousPoseStep = this.previousStep;
-      else
-        previousPoseStep = 0;
-      for (let i in this.allIds) {
-        const id = this.allIds[i];
-        for (let f = this.step - 1; f >= previousPoseStep; f--) {
-          if (this.data.frames[f].poses) {
-            for (let p = 0; p < this.data.frames[f].poses.length; p++) {
-              if (this.data.frames[f].poses[p].id === id)
-                x3dScene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time);
-            }
-          }
-        }
+      const appliedIds = [];
+      if (this.data.frames[this.step].hasOwnProperty('poses')) {
+        const poses = this.data.frames[this.step].poses;
+        for (let p = 0; p < poses.length; p++)
+          appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
       }
-    }
-    if (automaticMove)
-      this.timeSlider.setValue(100 * this.step / this.data.frames.length);
-    else
-      this._triggerPlayPauseButton();
 
-    this.previousStep = this.step;
-    this.view.time = this.data.frames[this.step].time;
-    this.currentTime.innerHTML = this._formatTime(this.view.time);
-    x3dScene.render();
+      if (automaticMove)
+        this.timeSlider.setValue(100 * this.step / this.data.frames.length);
+
+      this.previousStep = this.step;
+      this.view.time = this.data.frames[this.step].time;
+      this.currentTime.innerHTML = this._formatTime(this.view.time);
+      this.scene.render();
+    }
+
+    if (click && !this.isMoving)
+      this._triggerPlayPauseButton();
   }
 
   _updateAnimation() {
@@ -246,6 +244,6 @@ export default class Animation {
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(_ => { document.getElementById('playBar').style.opacity = '0'; }, 500);
+    this.timeout = setTimeout(_ => { if (!Animation_slider.isSelected) document.getElementById('playBar').style.opacity = '0'; }, 500);
   }
 }
