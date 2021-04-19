@@ -76,6 +76,7 @@ void WbLidar::init() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
+  mActualType = mType->value();
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -384,6 +385,7 @@ void WbLidar::createWrenCamera() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
+  mActualType = mType->value();
 
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
@@ -679,7 +681,10 @@ void WbLidar::updateType() {
     parsingWarn(tr("'type' should either be 'fixed' or 'rotating', reset to 'fixed'"));
     mType->setValue("fixed");
   }
-  if (areWrenObjectsInitialized())
+  if (hasBeenSetup())
+    warn(tr("'type' has been modified. This modification will be taken into account after saving and reloading "
+            "the world."));
+  else if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
