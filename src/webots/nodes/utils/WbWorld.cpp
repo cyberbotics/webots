@@ -551,7 +551,7 @@ void WbWorld::collapseNestedProtos() {
       }
     }
 
-    // ?
+    // delete nested proto nodes (which are protoParameterNodes)
     if (tmp->isNestedProtoNode()) {
       delete tmp;
       continue;
