@@ -181,16 +181,8 @@ public:
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
   // ----
-  void clearRefProtoParameterNodeInstances() {
-    // int zz = mProtoParameterNodeInstances.size();
-    mProtoParameterNodeInstances.clear();
-    // printf("mProtoParameterNodeInstances was size %d, now is %d\n", zz, mProtoParameterNodeInstances.size());
-  }
-  void setProtoParameterNode(WbNode *node) {
-    // WbNode *pp = mProtoParameterNode;
-    mProtoParameterNode = node;
-    // printf("mProtoParameterNode was %p now is %p\n", pp, mProtoParameterNode);
-  }
+  void clearProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
+  void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
   void printFieldsAndParams();
   void removeFromFieldsOrParameters(WbField *item);
   bool isInternalNode() const;  // node internal to a proto file

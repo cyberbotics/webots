@@ -73,10 +73,7 @@ public:
 
   void setParameter(WbField *parameter) { mParameter = parameter; }
 
-  void clearInternalFields() {
-    // printf("CLEARING INTERNAL\n");
-    mInternalFields.clear();
-  }
+  void clearInternalFields() { mInternalFields.clear(); }
 
   void printInternalFields();
   void setParentNode(WbNode *node) { mParentNode = node; }
