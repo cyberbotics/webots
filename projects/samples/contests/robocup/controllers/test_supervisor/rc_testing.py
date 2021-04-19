@@ -353,7 +353,7 @@ class Action:
         obj.getField("translation").setSFVec3f(self._position)
 
     def _setForce(self, obj):
-        obj.addForce(self._force)
+        obj.addForce(self._force, False)
 
     def _setVelocity(self, obj):
         obj.setVelocity(self._velocity)
