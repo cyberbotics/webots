@@ -1982,6 +1982,13 @@ bool WbNode::isProtoParameterNode() const {
   return parent->isProtoParameterNode();
 }
 
+bool WbNode::isInternalNode() const {
+  if (!isProtoParameterNode() && mProtoParameterNode != NULL)
+    return true;
+  else
+    return false;
+}
+
 QList<WbNode *> WbNode::subNodes(bool recurse, bool searchInFields, bool searchInParameters) const {
   QList<WbNode *> result;
   QVector<WbField *> fields;

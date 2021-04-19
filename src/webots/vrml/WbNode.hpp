@@ -180,7 +180,6 @@ public:
   const QString &protoInstanceFilePath();
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
-
   // ----
   // function for the unlinking of a node internal to a PROTO and the corresponding external parameter
   void unlinkProtoParameter();
@@ -199,6 +198,7 @@ public:
   void removeFromParameters(WbField *item);
   void removeFromFields(WbField *item);
   void removeFromFieldsOrParameters(WbField *item);
+  bool isInternalNode() const;  // node internal to a proto file
   // ----
 
   // return if 'node' is a direct child of this PROTO parameters

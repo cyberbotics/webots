@@ -246,7 +246,8 @@ void WbWorld::printInstances(WbNode *node, int depth) {
   QVector<WbNode *> instances = node->protoParameterNodeInstances();
   printf("%s%p (%s) has %d instances:\n", indent.toUtf8().constData(), node, node->usefulName().toUtf8().constData(),
          instances.size());
-  // indent += "  ";
+  if (depth == 0)
+    printf("\n");
   if (instances.size() == 0)
     printf("%sNULL\n", indent.toUtf8().constData());
   for (int i = 0; i < instances.size(); ++i) {
@@ -281,19 +282,46 @@ void WbWorld::recursiveInternalFieldCleaner(WbNode *node) {
   }
 }
 
+void WbWorld::printChainCandidate(WbNode *node, int depth, bool end) {
+  if (node == NULL) {
+    return;
+  }
+
+  if (!end) {
+    if (depth > 0 && node->protoParameterNode() == NULL)
+      printChainCandidate(node->parentNode(), depth + 1, true);
+    else
+      printChainCandidate(node->protoParameterNode(), depth + 1);
+  }
+  QString indent = "";
+  for (int i = 0; i < depth; ++i) {
+    indent += "  ";
+  }
+
+  QString type = "";
+  if (node->isNestedProtoNode())
+    type = "[N]";
+  else if (node->isProtoParameterNode())
+    type = "[P]";
+  else if (node->isInternalNode())
+    type = "[I] ";
+  printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
+         node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
+}
+
 void WbWorld::collapseNestedProtos() {
   QList<WbNode *> nodes = mRoot->subNodes(true, true, true);
 
   printf("=============================\n");
   mRoot->printDebugNodeStructure();
   printf("=============================\n");
-
+  /*
   for (int i = 0; i < nodes.size(); ++i) {
     printf("[%2d]NODE: %s (%p) :: %d \n", i, nodes[i]->usefulName().toUtf8().constData(), nodes[i],
            nodes[i]->isProtoParameterNode());
     printf("    PARAMETER NODE: %p\n", nodes[i]->protoParameterNode());
   }
-  /*
+
   for (int i = 0; i < nodes.size(); ++i) {
     nodes[i]->printFieldsAndParams();
   }
@@ -309,9 +337,13 @@ void WbWorld::collapseNestedProtos() {
   /*
   printf("\nINSTANCE CHAINS\n");
   for (int i = 0; i < nodes.size(); ++i) {
+    printf("-------------------\n");
     printInstances(nodes[i]);
+    printf("-------------------\n");
   }
+  */
 
+  /*
   printf("\nVISIBILITY\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
     printf("%s visibility: %d\n", nodes[i]->usefulName().toUtf8().constData(), WbNodeUtilities::isVisible(nodes[i]));
@@ -330,10 +362,16 @@ void WbWorld::collapseNestedProtos() {
   printf("INITIAL CANDIDATES\n");
   QList<WbNode *> candidates;
   for (int i = 0; i < nodes.size(); ++i) {
-    if (nodes[i]->protoParameterNode() != NULL) {
+    if (nodes[i]->isInternalNode()) {
       printf("- %s\n", nodes[i]->usefulName().toUtf8().constData());
       candidates.append(nodes[i]);
     }
+  }
+
+  printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
+  for (int i = 0; i < candidates.size(); ++i) {
+    printf("\n");
+    printChainCandidate(candidates[i]);
   }
 
   // the internal node is used to keep track of what can be collapsed since it's the bottom of the chain and they're unique
