@@ -81,6 +81,8 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
   else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
+  else if (test != "getPose")
+    $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
 }
 %apply double[] {double *};
 
@@ -192,16 +194,25 @@ namespace webots {
 
 %rename WbCameraRecognitionObject CameraRecognitionObject;
 
+%javamethodmodifiers position_on_image "private"
+%javamethodmodifiers size_on_image "private"
+%javamethodmodifiers number_of_colors "private"
+
+%typemap(out) int [] {
+  $result = SWIG_JavaArrayOutInt(jenv, $1, 2);
+}
+%apply int[] {const int *};
+
 %include <webots/camera_recognition_object.h>
 
 %extend WbCameraRecognitionObject {
-  int * getPositionOnImage() {
+  const int *getPositionOnImage() const {
     return $self->position_on_image;
   }
-  int * getSizeOnImage() {
+  const int *getSizeOnImage() const {
     return $self->size_on_image;
   }
-  int getNumberOfColors() {
+  int getNumberOfColors() const {
     return $self->number_of_colors;
   }
 };
@@ -288,7 +299,7 @@ namespace webots {
     return pixelGetGray(pixel);
   }
 
-  public CameraRecognitionObject[] getCameraRecognitionObjects() {
+  public CameraRecognitionObject[] getRecognitionObjects() {
     int numberOfObjects = wrapperJNI.Camera_getRecognitionNumberOfObjects(swigCPtr, this);
     CameraRecognitionObject ret[] = new CameraRecognitionObject[numberOfObjects];
     for (int i = 0; i < numberOfObjects; ++i)
@@ -1098,7 +1109,7 @@ namespace webots {
     int count = getNumberOfDevices();
     // if new devices have been added, then count is greater than devices.length
     // deleted devices are not removed from the C API list and don't affect the number of devices
-    if (devices != null && devices.length == count && tag < devices.length)
+    if (devices != null && devices.length == count + 1 && tag < devices.length)
         return devices[tag];
 
     // (re-)initialize devices list

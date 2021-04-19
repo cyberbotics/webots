@@ -46,6 +46,10 @@ PROTO TiagoBase [
       }
       Gyro {
       }
+      Solid {
+        name "base_footprint"
+        translation 0 0 -0.095
+      }
       DEF BASE_MOBILE_SHAPE Group {
         children [
           DEF BASE Shape {

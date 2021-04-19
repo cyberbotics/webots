@@ -237,6 +237,8 @@ class jsJoystick {
 
       num_buttons = isp_num_needs - isp_num_axis;
       num_axes = isp_num_axis;
+      if (num_axes > _JS_MAX_AXES)
+        num_axes = _JS_MAX_AXES;
 
       for (int i = 0; i < num_axes; i++) {
         dead_band[i] = 0;

@@ -38,7 +38,6 @@
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
 #include "WbViewpoint.hpp"
-#include "WbVisualBoundingSphere.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 
@@ -794,10 +793,6 @@ void WbSimulationView::prepareWorldLoading() {
   disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   disconnect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
-  if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
-    disconnect(mSceneTree, &WbSceneTree::nodeSelected, WbVisualBoundingSphere::instance(), &WbVisualBoundingSphere::show);
-    WbVisualBoundingSphere::instance()->show(NULL);
-  }
 }
 
 void WbSimulationView::setWorld(WbSimulationWorld *w) {
@@ -828,9 +823,6 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
-  if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
-    connect(mSceneTree, &WbSceneTree::nodeSelected, WbVisualBoundingSphere::instance(), &WbVisualBoundingSphere::show);
-
   connect(WbActionManager::instance()->action(WbAction::FRONT_VIEW), &QAction::triggered,
           WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::frontView);
   connect(WbActionManager::instance()->action(WbAction::BACK_VIEW), &QAction::triggered,

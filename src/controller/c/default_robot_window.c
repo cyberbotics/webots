@@ -206,6 +206,7 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
   if (value == NULL)
     return;
 
+  const int last_index = ue->n_values;
   ue->n_values++;
   if (ue->values == NULL)
     ue->values = (double **)malloc(sizeof(double *));
@@ -215,11 +216,11 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
     ue->times = (double *)malloc(sizeof(double));
   else
     ue->times = (double *)realloc(ue->times, ue->n_values * sizeof(double));
-  int last_index = ue->n_values - 1;
   ue->values[last_index] = malloc(ue->n_components * sizeof(double *));
   ue->times[last_index] = update_time;
   int v;
   for (v = 0; v < ue->n_components; ++v)
+    // cppcheck-suppress objectIndex
     ue->values[last_index][v] = value[v];
 }
 

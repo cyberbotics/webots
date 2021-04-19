@@ -106,7 +106,7 @@ typedef struct WbNodeStructPrivate {
 
 static WbNodeStruct *node_list = NULL;
 
-static const double invalid_vector[9] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
+static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
 // These functions may be used for debugging:
 //
@@ -387,6 +387,9 @@ static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
+static double node_pose[16];
+static WbNodeRef pose_from_node_ref = NULL;
+static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -658,6 +661,11 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (orientation_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
+  }
+  if (pose_to_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
+    request_write_uint32(r, pose_from_node_ref ? pose_from_node_ref->id : 0);
+    request_write_uint32(r, pose_to_node_ref->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -964,6 +972,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       orientation_node_ref->orientation = malloc(9 * sizeof(double));
       for (i = 0; i < 9; i++)
         orientation_node_ref->orientation[i] = request_read_double(r);
+      break;
+    case C_SUPERVISOR_NODE_GET_POSE:
+      for (i = 0; i < 16; i++)
+        node_pose[i] = request_read_double(r);
       break;
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
@@ -1839,6 +1851,32 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
   orientation_node_ref = NULL;
   robot_mutex_unlock_step();
   return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
+}
+
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return invalid_vector;
+
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
+    return invalid_vector;
+  }
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return invalid_vector;
+  }
+
+  robot_mutex_lock_step();
+  pose_from_node_ref = from_node;
+  pose_to_node_ref = node;
+  wb_robot_flush_unlocked();
+  pose_from_node_ref = NULL;
+  pose_to_node_ref = NULL;
+  robot_mutex_unlock_step();
+  return node_pose;
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {

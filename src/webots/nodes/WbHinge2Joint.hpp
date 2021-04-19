@@ -51,6 +51,7 @@ public:
   WbBrake *brake2() const;
   WbJointDevice *device2(int index) const;
   virtual int devices2Number() const;
+  void updateEndPointZeroTranslationAndRotation() override;
 
 public slots:
   bool setJoint() override;
@@ -68,7 +69,6 @@ protected:
   QMap<QString, double> mSavedPositions2;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
-  void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
   void writeExport(WbVrmlWriter &writer) const override;

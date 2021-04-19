@@ -2801,7 +2801,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
   if (mSolidMerger == NULL || merger) {
     // TODO: implement an mIsVisible flag in WbNode for sake of efficiency
     WbBasicJoint *parentJoint = jointParent();
-    if (parentJoint && parentJoint->nodeType() != WB_NODE_BALL_JOINT) {
+    if (parentJoint) {
       // remove unquantified ODE effects on the endPoint Solid
       parentJoint->computeEndPointSolidPositionFromParameters(translationToBeCopied, rotationToBeCopied);
       // Note:
@@ -2840,23 +2840,24 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
     if (j) {
       WbVector3 v(NAN, NAN, NAN);
 
-      const WbJointParameters *const p = j->parameters();
       // TODO: implement an mIsVisible flag in WbNode for sake of efficiency
-      const bool invisible1 = p == NULL || !WbNodeUtilities::isVisible(p->findField("position"));
-      const double pos1 = j->position();
-      if (invisible1 && pos1 != j->initialPosition())
-        v[0] = pos1;
+      const WbJointParameters *const p = j->parameters();
+      if ((p == NULL || !WbNodeUtilities::isVisible(p->findField("position"))) && j->position() != j->initialPosition())
+        v[0] = j->position();
 
-      if (j->nodeType() == WB_NODE_HINGE_2_JOINT) {
+      if (j->nodeType() == WB_NODE_HINGE_2_JOINT || j->nodeType() == WB_NODE_BALL_JOINT) {
         const WbJointParameters *const p2 = j->parameters2();
-        // TODO: implement an mIsVisible flag in WbNode for sake of efficiency
-        const bool invisible2 = p2 == NULL || !WbNodeUtilities::isVisible(p2->findField("position"));
-        const double pos2 = j->position(2);
-        if (invisible2 && pos2 != j->initialPosition(2))
-          v[1] = pos2;
+        if ((p2 == NULL || !WbNodeUtilities::isVisible(p2->findField("position"))) && j->position(2) != j->initialPosition(2))
+          v[1] = j->position(2);
       }
 
-      if (!std::isnan(v[0]) || !std::isnan(v[1]))
+      if (j->nodeType() == WB_NODE_BALL_JOINT) {
+        const WbJointParameters *const p3 = j->parameters3();
+        if ((p3 == NULL || !WbNodeUtilities::isVisible(p3->findField("position"))) && j->position(3) != j->initialPosition(3))
+          v[2] = j->position(3);
+      }
+
+      if (!std::isnan(v[0]) || !std::isnan(v[1]) || !std::isnan(v[2]))
         positions.insert(i, new WbVector3(v));
     }
   }

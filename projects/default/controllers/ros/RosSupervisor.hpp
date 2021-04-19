@@ -45,6 +45,7 @@
 #include <webots_ros/node_get_number_of_contact_points.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
+#include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
@@ -136,6 +137,7 @@ public:
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
+  bool nodeGetPoseCallback(webots_ros::node_get_pose::Request &req, webots_ros::node_get_pose::Response &res);
   bool nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                    webots_ros::node_get_center_of_mass::Response &res);
   bool nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
@@ -239,6 +241,7 @@ private:
   ros::ServiceServer mNodeIsProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
+  ros::ServiceServer mNodeGetPoseServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
