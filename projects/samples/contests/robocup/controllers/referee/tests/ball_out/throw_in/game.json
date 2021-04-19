@@ -1,11 +1,11 @@
 {
-  "type": "KNOCKOUT",
+  "type": "NORMAL",
   "class": "KID",
   "host": "192.168.1.133",
   "real_time_factor": 0,
   "red": {
     "id": 1,
-    "config": "tests/second_half_test/team_1.json",
+    "config": "tests/ball_out/throw_in/team_1.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.21",
@@ -22,7 +22,7 @@
   },
   "blue": {
     "id": 2,
-    "config": "tests/second_half_test/team_2.json",
+    "config": "tests/ball_out/throw_in/team_2.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.41",

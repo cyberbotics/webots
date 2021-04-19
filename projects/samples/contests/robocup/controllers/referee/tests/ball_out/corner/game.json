@@ -5,7 +5,7 @@
   "real_time_factor": 0,
   "red": {
     "id": 1,
-    "config": "tests/ball_own_line_of_play_test/team_1.json",
+    "config": "tests/ball_out/corner/team_1.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.21",
@@ -22,7 +22,7 @@
   },
   "blue": {
     "id": 2,
-    "config": "tests/ball_own_line_of_play_test/team_2.json",
+    "config": "tests/ball_out/corner/team_2.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.41",
