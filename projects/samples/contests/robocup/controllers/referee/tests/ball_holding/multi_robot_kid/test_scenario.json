@@ -1,0 +1,76 @@
+[
+    {
+        "description" : "Moving robots before ready to avoid penalties",
+        "timing" : {
+            "time" : 8.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [1.75,2.06,0.24]
+            },
+            {
+                "target" : "RED_PLAYER_2",
+                "position" : [0.75,2.36,0.24]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [-4.3,-2.06,0.24]
+            }
+        ]
+    },
+    {
+        "description" : "Setting up situation a",
+        "timing" : {
+            "time" : 11.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1.0,2.06,0.08]
+            },
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [1.3,2.06,0.24]
+            },
+            {
+                "target" : "RED_PLAYER_2",
+                "position" : [0.7,2.06,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 13.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "Part A ends with direct freekick for BLUE",
+                "secondary_state" : "DIRECT_FREEKICK",
+                "secondary_team_id" : 2,
+                "secondary_phase" : 0
+            },
+            {
+                "name" : "Part A: robots are not penalized, RED1",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 0
+            },
+            {
+                "name" : "Part A: robots are not penalized, RED2",
+                "target" : "RED_PLAYER_2",
+                "penalty" : 0
+            },
+            {
+                "name" : "Part A: robots are not penalized, BLUE1",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 0
+            }
+        ]
+    }
+]
