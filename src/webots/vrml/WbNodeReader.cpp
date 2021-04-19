@@ -54,21 +54,17 @@ WbNodeReader::~WbNodeReader() {
 #endif
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
-  if (mMode == NORMAL) {
-    // printf("== createNode %s (normal mode)\n", modelName.toUtf8().constData());
+  if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
-  }
 
   WbNodeModel *const model = WbNodeModel::findModel(modelName);
-  if (model) {
-    // printf("== createNode %s (model)\n", modelName.toUtf8().constData());
+  if (model)
     return new WbNode(modelName, worldPath, tokenizer);
-  }
+
   WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
-  if (proto) {
-    // printf("== createNode %s (proto)\n", modelName.toUtf8().constData());
+  if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
-  }
+
   tokenizer->reportError(QObject::tr("Skipped unknown '%1' node or PROTO").arg(modelName));
   return NULL;
 }
@@ -133,15 +129,8 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
       return nodes;
     }
     WbNode *node = readNode(tokenizer, worldPath);
-    if (node) {
-      // printf("append node %s\n", node->usefulName().toUtf8().constData());
-
-      // printf("\n\n------------------------------------------\n");
-      // node->printDebugNodeStructure();
-      // printf("------------------------------------------\n\n");
-
+    if (node)
       nodes.append(node);
-    }
   }
 
   return nodes;

@@ -71,10 +71,7 @@ public:
   const QList<WbField *> &internalFields() const { return mInternalFields; }
   bool isParameter() const { return mInternalFields.size() != 0; }
 
-  void setParameter(WbField *parameter) {
-    // printf("------setting parameter to %p\n", parameter);
-    mParameter = parameter;
-  }
+  void setParameter(WbField *parameter) { mParameter = parameter; }
 
   void clearInternalFields() {
     // printf("CLEARING INTERNAL\n");
@@ -151,7 +148,6 @@ private slots:
   void parameterNodeRemoved(int index);
   void fieldChanged();
   void fieldChangedByOde();
-  void fieldChangedByFakeOde();
   void removeInternalField(QObject *field);
   void checkValueIsAccepted();
 };

@@ -202,20 +202,17 @@ private:
   bool mIsCleaning;
   bool mIsVideoRecording;
 
-  // --
-  void tmpRecursion();
+  // ---
   void collapseNestedProtos();
-  // node structure proto simplification
   bool isVisibleOrHasVisibleFields(WbNode *node);
-  bool isProtoParameterNodeChainCollapsable(WbNode *node);
-  void printInstances(WbNode *node, int depth = 0);
   void printChainCandidate(WbNode *node, int depth = 0, bool end = false);
-  void recursiveAliasUnlink(WbNode *currentNode, WbNode *previousNode = NULL, int depth = 0);
-  void recursiveAliasCollapser(WbNode *node);
   void recursiveInternalFieldCleaner(WbNode *node);
-  void recursiveNodeDeleter(WbNode *node);
-  void getCollapsableNodes(WbNode *node);
-  // --
+  // --- for debug only
+  void printNodeFlags();
+  void printNodeStructure();
+  void printFieldsAndParams();
+  void printNodeFieldVisibility();
+  // ---
 
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;

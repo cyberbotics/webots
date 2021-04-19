@@ -42,9 +42,6 @@
 
 #include <cassert>
 
-#include <chrono>
-using namespace std::chrono;
-
 WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
@@ -249,12 +246,9 @@ void WbSimulationWorld::step() {
     mPhysicsPlugin->stepEnd();
 
   // call postPhysicsStep on all Solids to assign new coordinates
-  // auto start = high_resolution_clock::now();
   foreach (WbSolid *const solid, l)
     solid->postPhysicsStep();
-  // auto stop = high_resolution_clock::now();
-  // auto duration = duration_cast<microseconds>(stop - start);
-  // printf("------\n> %lld\n", duration);
+
   emit physicsStepEnded();
 
   if (mResetRequested) {

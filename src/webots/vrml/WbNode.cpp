@@ -321,7 +321,7 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
-  printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  // printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -362,7 +362,7 @@ WbNode::~WbNode() {
   if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
     QFile::remove(mProtoInstanceFilePath);
 
-  printf("[D] node %s (%p) DONE\n", usefulName().toUtf8().constData(), this);
+  //  printf("[D] node %s (%p) DONE\n", usefulName().toUtf8().constData(), this);
 }
 
 const QString &WbNode::modelName() const {
@@ -1262,22 +1262,6 @@ bool WbNode::isDefault() const {
   return true;
 }
 
-void WbNode::unlinkProtoParameter() {
-  printf("unlinking %s (%p)\n", usefulName().toUtf8().constData(), this);
-
-  QVector<WbField *> fieldsList = fields();
-  for (int i = 0; i < fieldsList.size(); ++i) {
-    // printf("was %s: %p\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i]->parameter());
-    fieldsList[i]->setParameter(NULL);
-  }
-  /*
-  fieldsList = fields();
-  for (int i = 0; i < fieldsList.size(); ++i) {
-    printf("is %s: %p\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i]->parameter());
-  }
-  */
-}
-
 void WbNode::printFieldsAndParams() {
   printf("---------------------\n");
   printf("NODE %s (%p)\n", usefulName().toUtf8().constData(), this);
@@ -1296,31 +1280,23 @@ void WbNode::printFieldsAndParams() {
   printf("---------------------\n");
 }
 
-void WbNode::removeFromParameters(WbField *item) {
-  printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
-  mParameters.removeAll(item);
-}
-
-void WbNode::removeFromFields(WbField *item) {
-  printf("  removing %p (%s) from mFields\n", item, item->name().toUtf8().constData());
-  mFields.removeAll(item);
-}
-
 void WbNode::removeFromFieldsOrParameters(WbField *item) {
   if (isProtoInstance()) {
+    /*
     printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
     if (mParameters.contains(item))
       printf("    mParameters contains %s, removing it\n", item->name().toUtf8().constData());
     else
       printf("    mParameters DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-
+    */
     mParameters.removeAll(item);
   } else {
+    /*
     if (mFields.contains(item))
       printf("    mFields contains %s, removing it\n", item->name().toUtf8().constData());
     else
       printf("    mFields DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-
+    */
     mFields.removeAll(item);
   }
 }

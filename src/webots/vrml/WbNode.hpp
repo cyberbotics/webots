@@ -181,22 +181,17 @@ public:
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
   // ----
-  // function for the unlinking of a node internal to a PROTO and the corresponding external parameter
-  void unlinkProtoParameter();
   void clearRefProtoParameterNodeInstances() {
-    int zz = mProtoParameterNodeInstances.size();
+    // int zz = mProtoParameterNodeInstances.size();
     mProtoParameterNodeInstances.clear();
-    printf("mProtoParameterNodeInstances was size %d, now is %d\n", zz, mProtoParameterNodeInstances.size());
+    // printf("mProtoParameterNodeInstances was size %d, now is %d\n", zz, mProtoParameterNodeInstances.size());
   }
-  void popBackProtoParameterNodeInstances() { mProtoParameterNodeInstances.pop_back(); }
   void setProtoParameterNode(WbNode *node) {
-    WbNode *pp = mProtoParameterNode;
+    // WbNode *pp = mProtoParameterNode;
     mProtoParameterNode = node;
-    printf("mProtoParameterNode was %p now is %p\n", pp, mProtoParameterNode);
+    // printf("mProtoParameterNode was %p now is %p\n", pp, mProtoParameterNode);
   }
   void printFieldsAndParams();
-  void removeFromParameters(WbField *item);
-  void removeFromFields(WbField *item);
   void removeFromFieldsOrParameters(WbField *item);
   bool isInternalNode() const;  // node internal to a proto file
   // ----

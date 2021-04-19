@@ -111,13 +111,11 @@ WbTreeItem::~WbTreeItem() {
 }
 
 void WbTreeItem::propagateDataChange() {
-  // printf("propagateDataChange\n");
   if (gUpdatesEnabled)
     emit dataChanged();
 }
 
 void WbTreeItem::refreshData() {
-  // printf("refreshData\n");
   if (gUpdatesEnabled) {
     mIsDataRefreshNeeded = false;
     emit dataChanged();
@@ -410,7 +408,6 @@ void WbTreeItem::del() {
 
 // invalidate item and sub-items and return the total number of lines (item) to be removed in the Scene Tree
 int WbTreeItem::makeInvalid() {
-  // printf("makeInvalid\n");
   mType = INVALID;
   mNode = NULL;
 

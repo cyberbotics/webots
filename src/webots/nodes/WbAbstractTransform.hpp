@@ -196,8 +196,6 @@ private:
 
 void inline WbAbstractTransform::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry,
                                                                   double rz, double angle) {
-  // mTranslation->setValueFromFakeOde(tx, ty, tz);
-  // mRotation->setValueFromFakeOde(rx, ry, rz, angle);
   mTranslation->setValueFromOde(tx, ty, tz);
   mRotation->setValueFromOde(rx, ry, rz, angle);
 }

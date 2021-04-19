@@ -238,7 +238,6 @@ void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate, 
 }
 
 void WbMuscle::stretch() {
-  printf("WbMuscle::stretch\n");
   computeStretchedDimensions();
 }
 
