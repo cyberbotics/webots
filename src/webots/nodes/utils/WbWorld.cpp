@@ -325,30 +325,7 @@ void WbWorld::collapseNestedProtos() {
 
   printf("\n\n>>>> BEGIN COLLAPSE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
 
-  // QVector<WbNode *> collapsableNodes;
   QVector<WbNode *> protoParameterNodes;
-  /*
-  for (int i = 0; i < nodes.size(); ++i) {
-    if (isProtoParameterNodeChainCollapsable(nodes[i]))
-      collapsableNodes.append(nodes[i]);
-    // if (nodes[i]->protoParameterNode() != NULL)
-    if (collapsableNodes.contains(nodes[i]->protoParameterNode()))
-      protoParameterNodes.append(nodes[i]);
-  }
-  */
-
-  /*
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("%d node %s\n  ", i, nodes[i]->usefulName().toUtf8().constData());
-    for (int j = 0; j < nodes.size(); ++j) {
-      if (nodes[j]->isAnAncestorOf(nodes[i])) {
-        printf("%s ~", nodes[j]->usefulName().toUtf8().constData());
-      }
-    }
-    printf("\n");
-  }
-  return;
-  */
 
   printf("INITIAL CANDIDATES\n");
   QList<WbNode *> candidates;
@@ -395,8 +372,6 @@ void WbWorld::collapseNestedProtos() {
   QList<WbNode *> collapsableNodes;
 
   for (int i = 0; i < internalNodesOfCollapsableParameters.size(); ++i) {
-    // printf("%d checking %s, size %d\n", i, internalNodesOfCollapsableParameters[i]->usefulName().toUtf8().constData(),
-    //       collapsableNodes.size());
     WbNode *n = internalNodesOfCollapsableParameters[i];  //->protoParameterNode();
 
     while (n != NULL) {
@@ -421,35 +396,6 @@ void WbWorld::collapseNestedProtos() {
     }
   }
   printf("DONE\n");
-  /*
-  for (int i = 0; i < internalNodesOfCollapsableParameters.size(); ++i) {
-    WbNode *n = internalNodesOfCollapsableParameters[i]->protoParameterNode();
-
-    while (n) {
-      if (!n)
-        break;
-
-      if (collapsableNodes.size() == 0) {
-        collapsableNodes.append(n);
-        n = n->protoParameterNode();
-        continue;
-      }
-
-      bool added = false;
-      for (int j = 0; j < collapsableNodes.size(); ++j) {
-        if (n->level() > collapsableNodes[j]->level()) {
-          collapsableNodes.insert(j, n);
-          added = true;
-          break;
-        }
-      }
-
-      if (!added)
-        collapsableNodes.append(n);
-
-      n = n->protoParameterNode();
-    }
-  }*/
 
   printf("WHAT WILL BE COLLAPSED [external]\n");
   for (int i = 0; i < collapsableNodes.size(); ++i) {
@@ -519,55 +465,12 @@ void WbWorld::collapseNestedProtos() {
       }
     }
   }
-  /*
-  for (int i = 0; i < protoParameterNodes.size(); ++i) {
-    int ixCollapsable = collapsableNodes.indexOf(protoParameterNodes[i]->protoParameterNode());
-    assert(ixCollapsable != -1 && protoParameterNodes[i]->model() == collapsableNodes[ixCollapsable]->model());
-
-    QVector<WbField *> internalFields = protoParameterNodes[i]->fields();
-    QVector<WbField *> exposedFields = collapsableNodes[ixCollapsable]->fields();
-
-    assert(internalFields.size() == exposedFields.size());
-
-    // swap current fields of this instance with the contents of the previous one. This is necessary if one of the fields is
-    // exposed (e.g. a single field of a SFNode since it doesn't create a full node for it, as is the case for an exposed
-    // SFNode, but just a field)
-    // printf("Swapping aliases for node %s :\n", protoParameterNodes[i]->usefulName().toUtf8().constData());
-    for (int j = 0; j < internalFields.size(); ++j) {
-      printf(" - field %s (%p -> %p)", internalFields[j]->name().toUtf8().constData(), internalFields[j],
-             internalFields[j]->parameter());
-      internalFields[j]->setParameter(exposedFields[j]->parameter());
-      // internalFields[j]->setParameter(NULL);
-      // exposedFields[j]->setParameter(NULL);
-      printf(" becomes (%p -> %p)\n", internalFields[j], internalFields[j]->parameter());
-
-      // ?
-      // printf("- field %s, alias changed from %s to %s\n", internalFields[j]->name().toUtf8().constData(),
-      //       internalFields[j]->alias().toUtf8().constData(), exposedFields[j]->alias().toUtf8().constData());
-      // internalFields[j]->setAlias(exposedFields[j]->alias());
-    }
-
-    // break the mProtoParameterNode link
-    printf("> setting mProtoParameterNode from %p to NULL for %s\n", protoParameterNodes[i]->protoParameterNode(),
-           protoParameterNodes[i]->usefulName().toUtf8().constData());
-    protoParameterNodes[i]->setProtoParameterNode(NULL);
-  }
-  */
   printf("END SWAP\n");
   printf("BEGIN CLEAR INTERNAL\n");
   // prevent interal fields from being deleted when the parameter is deleted
   for (int i = 0; i < internalNodesOfCollapsableParameters.size(); ++i) {
     recursiveInternalFieldCleaner(internalNodesOfCollapsableParameters[i]);
   }
-  /*
-  // prevent interal fields from being deleted when the parameter is deleted
-  for (int i = collapsableNodes.size() - 1; i >= 0; --i) {
-    QVector<WbField *> exposedFields = collapsableNodes[i]->fields();
-    for (int j = exposedFields.size() - 1; j >= 0; --j) {
-      exposedFields[j]->clearInternalFields();
-    }
-  }
-  */
   printf("END CLEAR INTERNAL\n");
   printf("BEGIN DELETE\n");
 
@@ -601,106 +504,8 @@ void WbWorld::collapseNestedProtos() {
         }
       }
     }
-
-    // printf("[D] %s\n", collapsableNodes[i]->usefulName().toUtf8().constData());
-    // if (WbNodeOperations::instance()->deleteNode(tmp, false))
-    //  printf(">> SUCCESS\n");
-    // else
-    //  printf(">> FAIL\n");
   }
 
-  /*
-  QVector<WbField *> todel;
-  for (int i = 0; i < collapsableNodes.size(); ++i) {
-    WbNode *parent = collapsableNodes[i]->parentNode();
-    printf("\n%s (%p) parent of %s (%p) (PROTOINSTANCE? %d)\n", parent->usefulName().toUtf8().constData(), parent,
-           collapsableNodes[i]->usefulName().toUtf8().constData(), collapsableNodes[i], parent->isProtoInstance());
-
-    // TODO: HERE WE ASSUME PARENT IS NORMAL NODE, IF NESTED PROTO NODE WILL BE DIFFERENT: fields->params, removeFromFields
-    // ->removeFromParameters, ...
-
-    QVector<WbField *> parentFields = parent->fieldsOrParameters();
-    printf("found %d fieldsOrParameters in the parent\n", parentFields.size());
-    for (int j = 0; j < parentFields.size(); ++j) {
-      if (parentFields[j]->type() == WB_SF_NODE) {
-        WbNode *n = dynamic_cast<WbSFNode *>(parentFields[j]->value())->value();
-        if (n && n == collapsableNodes[i]) {
-          printf("%d) field %s is SF_NODE (%p)\n", j, parentFields[j]->name().toUtf8().constData(), parentFields[j]);
-          printf("  cast as node gives %s (%p) (MATCH!)\n", n->usefulName().toUtf8().constData(), n);
-          // todel.append(parentFields[j]);
-          printf("  %d) deleting %s\n", j, parentFields[j]->name().toUtf8().constData());
-          delete parentFields[j];
-          printf("  removing %s (%p) from fieldsOrParameters\n", parentFields[j]->name().toUtf8().constData(),
-  parentFields[j]); parent->removeFromFieldsOrParameters(parentFields[j]);
-          // parent->DOTHAT(parentFields[j]);
-        }
-      } else if (parentFields[j]->type() == WB_MF_NODE) {
-        WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentFields[j]->value());
-
-        QVector<int> todel;
-        for (int k = mfnode->size() - 1; k >= 0; --k) {
-          WbNode *n = mfnode->item(k);
-          if (n && n == collapsableNodes[i]) {
-            printf("%d) field %s is MF_NODE (%p)\n", j, parentFields[j]->name().toUtf8().constData(), parentFields[j]);
-            printf("  MFnodes has size %d\n", mfnode->size());
-
-            printf("  %d] cast as node gives %s (%p)  (MATCH!)\n", k, n->usefulName().toUtf8().constData(), n);
-            printf("  %d] deleting %s\n", k, n->usefulName().toUtf8().constData());
-            todel.append(k);
-            // delete n;
-            // mfnode->removeItem(k);
-            // todel.append(parentFields[j]);
-            // delete parentFields[j];
-            // printf("  %d] removing %s (%p) from fieldsOrParameters\n", k, parentFields[j]->name().toUtf8().constData(),
-            //       parentFields[j]);
-            // parent->removeFromFieldsOrParameters(parentFields[j]);
-          }
-        }
-        for (int i = 0; i < todel.size(); ++i)
-          mfnode->removeItem(todel[i]);
-      }
-    }
-  }
-  */
-
-  /*
-  // delete
-  for (int i = collapsableNodes.size() - 1; i >= 0; --i) {
-    WbNode *parent = collapsableNodes[i]->parentNode();  // make const
-    if (parent && parent->isNestedProtoNode()) {
-      printf("> deleting %s (%p), its parent is %s (%p)\n", collapsableNodes[i]->usefulName().toUtf8().constData(),
-             collapsableNodes[i], parent->usefulName().toUtf8().constData(), parent);
-
-      QVector<WbField *> nestedNodeParameters = parent->parameters();
-      for (int j = nestedNodeParameters.size() - 1; j >= 0; --j) {
-        if (nestedNodeParameters[j]->type() == WB_SF_NODE) {
-          printf("parameters %s is SF_NODE (%p)\n", nestedNodeParameters[j]->name().toUtf8().constData(),
-                 nestedNodeParameters[j]);
-
-          WbNode *n = dynamic_cast<WbSFNode *>(nestedNodeParameters[j]->value())->value();
-          if (n && n == collapsableNodes[i]) {
-            printf("  cast as node gives %s (%p) (MATCH!)\n", n->usefulName().toUtf8().constData(), n);
-            // todel.append(parameters[j]);
-            delete nestedNodeParameters[j];
-            parent->removeFromParameters(nestedNodeParameters[j]);
-          }
-        } else if (nestedNodeParameters[j]->type() == WB_MF_NODE) {
-          printf("parameters %s is MF_NODE (%p)\n", nestedNodeParameters[j]->name().toUtf8().constData(),
-                 nestedNodeParameters[j]);
-          WbMFNode *mfnode = dynamic_cast<WbMFNode *>(nestedNodeParameters[j]->value());
-          for (int k = mfnode->size() - 1; k >= 0; --k) {
-            WbNode *n = mfnode->item(k);
-            if (n && n == collapsableNodes[i]) {
-              printf("  cast as node gives %s (%p)  (MATCH!)\n", n->usefulName().toUtf8().constData(), n);
-              delete nestedNodeParameters[j];
-              parent->removeFromParameters(nestedNodeParameters[j]);
-            }
-          }
-        }
-      }
-    }
-  }
-  */
   printf("END DELETE\n");
 
   printf("\n\n>>>> END COLLAPSE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
