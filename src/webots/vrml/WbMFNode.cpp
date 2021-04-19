@@ -96,6 +96,16 @@ bool WbMFNode::removeNode(WbNode *node) {
   return true;
 }
 
+bool WbMFNode::removeNodeNoSignal(WbNode *node) {
+  const int index = mVector.indexOf(node);
+  if (index == -1)
+    return false;
+
+  mVector.remove(index);
+  // emit itemRemoved(index);
+  return true;
+}
+
 void WbMFNode::setItem(int index, WbNode *node) {
   assert(index >= 0 && index < size());
   // NULL nodes are illegal in an MFNode

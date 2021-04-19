@@ -213,6 +213,7 @@ private:
   void recursiveAliasCollapser(WbNode *node);
   void recursiveInternalFieldCleaner(WbNode *node);
   void recursiveNodeDeleter(WbNode *node);
+  void getCollapsableNodes(WbNode *node);
   // --
 
   void checkPresenceOfMandatoryNodes();

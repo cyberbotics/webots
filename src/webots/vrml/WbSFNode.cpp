@@ -72,6 +72,17 @@ void WbSFNode::setValue(WbNode *node) {
   delete tmp;
 }
 
+void WbSFNode::setValueNoSignal(WbNode *node) {
+  if (mValue == node)
+    return;
+
+  const WbNode *tmp = mValue;
+  mValue = node;
+  if (mValue)
+    mValue->setInsertionCompleted();
+  delete tmp;
+}
+
 WbSFNode &WbSFNode::operator=(const WbSFNode &other) {
   if (this == &other)
     return *this;

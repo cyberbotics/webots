@@ -46,6 +46,7 @@ public:
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
   void removeItem(int index) override;
   bool removeNode(WbNode *node);
+  bool removeNodeNoSignal(WbNode *node);
   void writeItem(WbVrmlWriter &writer, int index) const override;
   WbVariant variantValue(int index) const override {
     assert(index >= 0 && index < size());

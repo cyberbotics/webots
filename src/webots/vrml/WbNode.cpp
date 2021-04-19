@@ -1325,32 +1325,6 @@ void WbNode::removeFromFieldsOrParameters(WbField *item) {
   }
 }
 
-void WbNode::DOTHAT(WbField *item) {
-  if (isProtoInstance()) {
-    printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
-    int ix = mParameters.indexOf(item);
-    if (ix != -1)
-      printf("    mParameters contains %s, removing it\n", item->name().toUtf8().constData());
-    else
-      printf("    mParameters DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-
-    printf(".... %p ? %p ?\n", mParameters[ix], mParameters[ix]->parameter());
-
-    mParameters[ix]->setParameter(NULL);
-    // mParameters.removeAll(item);
-  } else {
-    int ix = mFields.indexOf(item);
-    if (ix != -1)
-      printf("    mFields contains %s, removing it\n", item->name().toUtf8().constData());
-    else
-      printf("    mFields DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-
-    printf(".... %p ? %p ?\n", mFields[ix], mFields[ix]->parameter());
-    mFields[ix] = NULL;
-    // mFields.removeAll(item);
-  }
-}
-
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
 // the search does not look up inside fields of other PROTO instances or PROTO parameter node instances
 // because the scope of a PROTO parameter must be local to a PROTO instance

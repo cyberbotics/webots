@@ -199,8 +199,6 @@ public:
   void removeFromParameters(WbField *item);
   void removeFromFields(WbField *item);
   void removeFromFieldsOrParameters(WbField *item);
-  void DOTHAT(WbField *item);
-
   // ----
 
   // return if 'node' is a direct child of this PROTO parameters
