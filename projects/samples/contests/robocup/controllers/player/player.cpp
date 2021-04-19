@@ -304,7 +304,7 @@ int main(int argc, char *argv[]) {
             client_fd = -1;
             delete[] data;
           } else {
-            printf("Received %d bytes\n", l);
+            printf("Received %u bytes\n", l);
             ActuatorRequests actuatorRequests;
             actuatorRequests.ParseFromArray(data, l);
             delete[] data;
