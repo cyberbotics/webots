@@ -94,7 +94,9 @@ button:first-of-type { margin-right: 6px; }
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
 }
-
+ul {
+  padding-left: 0px;
+}
 li {
   display: block;
   clear: both;
@@ -107,9 +109,19 @@ li:hover {
   cursor: pointer;
 }
 
+.firstLi {
+  border-bottom: 1px solid grey;
+  padding-left: 19px;
+}
+
 .spacer {
   display: inline-block;
   min-width: 30px;
+}
+
+.checkSpeed {
+  display: inline-block;
+  min-width: 12px;
 }
 
 .settingTitle {
@@ -136,6 +148,18 @@ li:hover {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.arrowLeft{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 10px;
+  left: 11px;
 }
 
 .ui-icon {

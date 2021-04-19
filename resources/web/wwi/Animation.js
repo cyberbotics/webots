@@ -68,13 +68,27 @@ export default class Animation {
     settingsPane.id = 'settingsPane';
     settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', _ => this._changeSettingsPaneVisibility(_));
+    document.getElementById('view3d').appendChild(settingsPane);
 
     let settingsList = document.createElement('ul');
     settingsList.id = 'settingsList';
+    document.getElementById('settingsPane').appendChild(settingsList);
+
+    let resetViewpoint = document.createElement('li');
+    resetViewpoint.id = 'resetViewpoint';
+    let label = document.createElement('span');
+    label.className = 'settingTitle';
+    label.innerHTML = 'Reset viewpoint';
+    resetViewpoint.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    resetViewpoint.appendChild(label);
+    resetViewpoint.onclick = () => this._resetViewpoint();
+    document.getElementById('settingsList').appendChild(resetViewpoint);
 
     let playBackLi = document.createElement('li');
     playBackLi.id = 'playBackLi';
-    let label = document.createElement('span');
+    label = document.createElement('span');
     label.innerHTML = 'Playback speed';
     label.className = 'settingTitle';
     playBackLi.appendChild(label);
@@ -83,22 +97,14 @@ export default class Animation {
     playBackLi.appendChild(label);
     label = document.createElement('span');
     label.className = 'speed';
-    label.innerHTML = '1';
+    label.innerHTML = 'Normale';
+    label.id = 'speedDisplay';
     playBackLi.appendChild(label);
     label = document.createElement('div');
     label.className = 'arrowRight';
     playBackLi.appendChild(label);
-
-    let resetViewpoint = document.createElement('li');
-    resetViewpoint.id = 'resetViewpoint';
-    label = document.createElement('span');
-    label.className = 'settingTitle';
-    label.innerHTML = 'Reset viewpoint';
-    resetViewpoint.appendChild(label);
-    label = document.createElement('div');
-    label.className = 'spacer';
-    resetViewpoint.appendChild(label);
-    resetViewpoint.onclick = () => this._resetViewpoint();
+    document.getElementById('settingsList').appendChild(playBackLi);
+    playBackLi.onclick = () => this._openSpeedPane();
 
     let graphicalSettings = document.createElement('li');
     graphicalSettings.id = 'graphicalSettings';
@@ -112,6 +118,53 @@ export default class Animation {
     label = document.createElement('div');
     label.className = 'arrowRight';
     graphicalSettings.appendChild(label);
+    document.getElementById('settingsList').appendChild(graphicalSettings);
+
+    let speedPane = document.createElement('div');
+    speedPane.className = 'jsm-settings';
+    speedPane.id = 'speedPane';
+    speedPane.style.width = settingsPane.style.width;
+    speedPane.style.visibility = 'hidden';
+
+    let speedList = document.createElement('ul');
+    speedList.id = 'speedList';
+    speedPane.appendChild(speedList);
+    document.getElementById('view3d').appendChild(speedPane);
+
+    playBackLi = document.createElement('li');
+    playBackLi.id = 'speedTitle';
+    playBackLi.className = 'firstLi';
+    label = document.createElement('div');
+    label.className = 'arrowLeft';
+    playBackLi.appendChild(label);
+    label = document.createElement('span');
+    label.innerHTML = 'Playback speed';
+    label.className = 'settingTitle';
+    playBackLi.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    playBackLi.appendChild(label);
+    playBackLi.onclick = () => this._closeSpeedPane();
+    speedList.appendChild(playBackLi);
+
+    for (let i of ['0.25', '0.5', '0.75', 'Normal', '1.25', '1.5', '1.75', '2']) {
+      playBackLi = document.createElement('li');
+      playBackLi.id = i;
+      label = document.createElement('span');
+      if (i === 'Normal')
+        label.innerHTML = '&check;';
+      label.className = 'checkSpeed';
+      playBackLi.appendChild(label);
+      label = document.createElement('span');
+      label.innerHTML = i;
+      label.className = 'settingTitle';
+      playBackLi.appendChild(label);
+      label = document.createElement('div');
+      label.className = 'spacer';
+      playBackLi.appendChild(label);
+      playBackLi.onclick = _ => this._changeSpeed(_);
+      speedList.appendChild(playBackLi);
+    }
 
     let fullscreenButton = document.createElement('button');
     fullscreenButton.className = 'player-btn icon-fullscreen';
@@ -143,7 +196,6 @@ export default class Animation {
     document.getElementById('playBar').appendChild(this.timeSlider);
     document.getElementById('playBar').appendChild(leftPane);
     document.getElementById('playBar').appendChild(rightPane);
-    document.getElementById('view3d').appendChild(settingsPane);
     document.getElementById('leftPane').appendChild(this.playButton);
     document.getElementById('leftPane').appendChild(this.currentTime);
     document.getElementById('leftPane').appendChild(timeDivider);
@@ -151,9 +203,6 @@ export default class Animation {
     document.getElementById('rightPane').appendChild(settingsButton);
     document.getElementById('rightPane').appendChild(fullscreenButton);
     document.getElementById('rightPane').appendChild(exitFullscreenButton);
-    document.getElementById('settingsPane').appendChild(resetViewpoint);
-    document.getElementById('settingsPane').appendChild(playBackLi);
-    document.getElementById('settingsPane').appendChild(graphicalSettings);
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
@@ -321,5 +370,22 @@ export default class Animation {
   _resetViewpoint() {
     WbWorld.instance.viewpoint.resetViewpoint();
     this.scene.render(); // render once to reset immediatly the viewpoint even if the animation is on pause
+  }
+
+  _changeSpeed(event) {
+    this.speed = event.srcElement.id;
+    document.getElementById('speedPane').style.visibility = 'hidden';
+    document.getElementById('speedDisplay').innerHTML = this.speed;
+    document.getElementById('settingsPane').style.visibility = 'visible';
+  }
+
+  _openSpeedPane() {
+    document.getElementById('settingsPane').style.visibility = 'hidden';
+    document.getElementById('speedPane').style.visibility = 'visible';
+  }
+
+  _closeSpeedPane() {
+    document.getElementById('settingsPane').style.visibility = 'visible';
+    document.getElementById('speedPane').style.visibility = 'hidden';
   }
 }
