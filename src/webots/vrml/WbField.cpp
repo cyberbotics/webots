@@ -72,19 +72,20 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 }
 
 WbField::~WbField() {
-  // printf("  > deleting field %s (%p)\n", name().toUtf8().constData(), this);
+  printf("[D] field %s (%p)\n", name().toUtf8().constData(), this);
   foreach (WbField *const field, mInternalFields) {
     // printf("------- internal %s (%p -> NULL)\n", name().toUtf8().constData(), field->mParameter);
     field->mParameter = NULL;
   }
+  // printf("IS %p\n", mValue);
   delete mValue;
   mModel->unref();
 }
 
 void WbField::printInternalFields() {
-  //  printf("INTERNAL FIELDS ARE:\n");
+  printf("INTERNAL FIELDS ARE:\n");
   for (int i = 0; i < mInternalFields.size(); ++i) {
-    // printf("### %s (%p)\n", mInternalFields[i]->name().toUtf8().constData(), mInternalFields[i]);
+    printf("[I] %s (%p)\n", mInternalFields[i]->name().toUtf8().constData(), mInternalFields[i]);
   }
 }
 
@@ -390,7 +391,7 @@ void WbField::redirectTo(WbField *parameter) {
 }
 
 void WbField::removeInternalField(QObject *field) {
-  printf("removeInternalField\n");
+  printf("removeInternalField, size  %d\n", mInternalFields.size());
   mInternalFields.removeAll(static_cast<WbField *>(field));
 }
 

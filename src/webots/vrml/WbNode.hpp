@@ -184,11 +184,23 @@ public:
   // ----
   // function for the unlinking of a node internal to a PROTO and the corresponding external parameter
   void unlinkProtoParameter();
-  void clearRefProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
+  void clearRefProtoParameterNodeInstances() {
+    int zz = mProtoParameterNodeInstances.size();
+    mProtoParameterNodeInstances.clear();
+    printf("mProtoParameterNodeInstances was size %d, now is %d\n", zz, mProtoParameterNodeInstances.size());
+  }
   void popBackProtoParameterNodeInstances() { mProtoParameterNodeInstances.pop_back(); }
-  void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
+  void setProtoParameterNode(WbNode *node) {
+    WbNode *pp = mProtoParameterNode;
+    mProtoParameterNode = node;
+    printf("mProtoParameterNode was %p now is %p\n", pp, mProtoParameterNode);
+  }
   void printFieldsAndParams();
   void removeFromParameters(WbField *item);
+  void removeFromFields(WbField *item);
+  void removeFromFieldsOrParameters(WbField *item);
+  void DOTHAT(WbField *item);
+
   // ----
 
   // return if 'node' is a direct child of this PROTO parameters

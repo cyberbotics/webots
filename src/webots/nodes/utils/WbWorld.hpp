@@ -206,11 +206,13 @@ private:
   void tmpRecursion();
   void collapseNestedProtos();
   // node structure proto simplification
-  bool isParameterNodeChainCollapsable(WbNode *node, int depth = 0);
+  bool isVisibleOrHasVisibleFields(WbNode *node);
   bool isProtoParameterNodeChainCollapsable(WbNode *node);
   void printInstances(WbNode *node, int depth = 0);
   void recursiveAliasUnlink(WbNode *currentNode, WbNode *previousNode = NULL, int depth = 0);
   void recursiveAliasCollapser(WbNode *node);
+  void recursiveInternalFieldCleaner(WbNode *node);
+  void recursiveNodeDeleter(WbNode *node);
   // --
 
   void checkPresenceOfMandatoryNodes();

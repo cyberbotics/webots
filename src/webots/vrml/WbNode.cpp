@@ -321,7 +321,7 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
-  // printf("> deleting node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -362,7 +362,7 @@ WbNode::~WbNode() {
   if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
     QFile::remove(mProtoInstanceFilePath);
 
-  // printf("> done removing node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  printf("[D] node %s (%p) DONE\n", usefulName().toUtf8().constData(), this);
 }
 
 const QString &WbNode::modelName() const {
@@ -1297,8 +1297,58 @@ void WbNode::printFieldsAndParams() {
 }
 
 void WbNode::removeFromParameters(WbField *item) {
-  printf("removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
+  printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
   mParameters.removeAll(item);
+}
+
+void WbNode::removeFromFields(WbField *item) {
+  printf("  removing %p (%s) from mFields\n", item, item->name().toUtf8().constData());
+  mFields.removeAll(item);
+}
+
+void WbNode::removeFromFieldsOrParameters(WbField *item) {
+  if (isProtoInstance()) {
+    printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
+    if (mParameters.contains(item))
+      printf("    mParameters contains %s, removing it\n", item->name().toUtf8().constData());
+    else
+      printf("    mParameters DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
+
+    mParameters.removeAll(item);
+  } else {
+    if (mFields.contains(item))
+      printf("    mFields contains %s, removing it\n", item->name().toUtf8().constData());
+    else
+      printf("    mFields DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
+
+    mFields.removeAll(item);
+  }
+}
+
+void WbNode::DOTHAT(WbField *item) {
+  if (isProtoInstance()) {
+    printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
+    int ix = mParameters.indexOf(item);
+    if (ix != -1)
+      printf("    mParameters contains %s, removing it\n", item->name().toUtf8().constData());
+    else
+      printf("    mParameters DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
+
+    printf(".... %p ? %p ?\n", mParameters[ix], mParameters[ix]->parameter());
+
+    mParameters[ix]->setParameter(NULL);
+    // mParameters.removeAll(item);
+  } else {
+    int ix = mFields.indexOf(item);
+    if (ix != -1)
+      printf("    mFields contains %s, removing it\n", item->name().toUtf8().constData());
+    else
+      printf("    mFields DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
+
+    printf(".... %p ? %p ?\n", mFields[ix], mFields[ix]->parameter());
+    mFields[ix] = NULL;
+    // mFields.removeAll(item);
+  }
 }
 
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
