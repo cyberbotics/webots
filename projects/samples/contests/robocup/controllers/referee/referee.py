@@ -14,7 +14,7 @@
 
 from gamestate import GameState
 
-from controller import Supervisor, AnsiCodes
+from controller import Supervisor, AnsiCodes, Node
 
 import copy
 import json
@@ -371,6 +371,25 @@ def rotate_along_z(axis_and_angle):
     r = transforms3d.quaternions.qmult(q, rz)
     v, a = transforms3d.quaternions.quat2axangle(r)
     return [v[0], v[1], v[2], a]
+
+
+def append_solid(solid, convex_hull):
+    convex_hull.append(solid.getPosition())
+    children = solid.getField('children')
+    for i in range(0, children.getCount()):
+        child = children.getMFNode(i)
+        if child.getType() not in [Node.ROBOT, Node.SOLID, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO, Node.TouchSensor]:
+            continue
+        append_solid(child, convex_hull)
+
+
+def update_convex_hull(team, color):
+    for number in team['players']:
+        player = team['players'][number]
+        robot = player['robot']
+        player['convex_hull'] = []
+        convex_hull = player['convex_hull']
+        append_solid(robot, convex_hull)
 
 
 def update_team_contacts(team, color):
