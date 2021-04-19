@@ -65,5 +65,61 @@
                 "penalty" : 0
             }
         ]
+    },
+    {
+        "description" : "Setting up variation b",
+        "timing" : {
+            "time" : 18.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [-2.6, 1.0, 0.3]
+            },
+            {
+                "target" : "RED_PLAYER_2",
+                "position" : [-2.0, 1.0, 0.24]
+            },
+            {
+                "target" : "BALL",
+                "position" : [-1.5, 1.0, 0.08]
+            }
+        ]
+    },
+    {
+        "description" : "b. moving R1 -> R2",
+        "timing" : {
+            "time" : [18.001, 19.8],
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "velocity" : [0.3, 0.0, 0.2]
+            }
+        ]
+    },
+    {
+        "description" : "b. testing result",
+        "timing" : {
+            "time" : [20.0, 25.0],
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "Collision within team -> No penalty (1)",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 0
+            },
+            {
+                "name" : "Collision within team -> No penalty (2)",
+                "target" : "RED_PLAYER_2",
+                "penalty" : 0
+            }
+        ]
     }
 ]
