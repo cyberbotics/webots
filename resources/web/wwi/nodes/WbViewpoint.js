@@ -14,8 +14,11 @@ import WbWrenSmaa from './../wren/WbWrenSmaa.js';
 export default class WbViewpoint extends WbBaseNode {
   constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius) {
     super(id);
-    this.orientation = this.initialOrientation = orientation;
-    this.position = this.initialPosition = position;
+
+    // the default orientation and position record the initial viewpoint and the modifications due to the follow
+    // of an object to allow a smooth reset of the viewpoint
+    this.orientation = this.defaultOrientation = orientation;
+    this.position = this.defaultPosition = position;
 
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
@@ -86,8 +89,8 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   resetViewpoint() {
-    this.position = this.initialPosition;
-    this.orientation = this.initialOrientation;
+    this.position = this.defaultPosition;
+    this.orientation = this.defaultOrientation;
     this.updatePosition();
     this.updateOrientation();
   }
@@ -167,6 +170,7 @@ export default class WbViewpoint extends WbBaseNode {
     // If mass is 0, we instantly move the viewpoint to its equilibrium position.
     if (mass === 0.0) {
       this.position = this.position.add(this.equilibriumVector);
+      this.defaultPosition = this.defaultPosition.add(this.equilibriumVector);
       this.velocity.setXyz(0.0, 0.0, 0.0);
       this.equilibriumVector.setXyz(0.0, 0.0, 0.0);
     } else { // Otherwise we apply a force and let physics do the rest.
@@ -199,6 +203,7 @@ export default class WbViewpoint extends WbBaseNode {
       const deltaPosition = this.velocity.mul(timeStep);
 
       this.position = this.position.add(deltaPosition);
+      this.defaultPosition = this.defaultPosition.add(deltaPosition);
 
       this.equilibriumVector = this.equilibriumVector.sub(deltaPosition);
     }

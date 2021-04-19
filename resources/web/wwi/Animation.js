@@ -1,6 +1,7 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
 import Animation_slider from './Animation_slider.js';
+import WbWorld from './nodes/WbWorld.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -97,6 +98,7 @@ export default class Animation {
     label = document.createElement('div');
     label.className = 'spacer';
     resetViewpoint.appendChild(label);
+    resetViewpoint.onclick = () => this._resetViewpoint();
 
     let graphicalSettings = document.createElement('li');
     graphicalSettings.id = 'graphicalSettings';
@@ -314,5 +316,10 @@ export default class Animation {
       document.getElementById('settingsPane').style.visibility = 'hidden';
       document.getElementById('settingsButton').style.transform = 'rotate(-5deg)';
     }
+  }
+
+  _resetViewpoint() {
+    WbWorld.instance.viewpoint.resetViewpoint();
+    this.scene.render(); // render once to reset immediatly the viewpoint even if the animation is on pause
   }
 }
