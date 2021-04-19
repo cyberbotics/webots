@@ -231,6 +231,12 @@ def setup_display():
     update_state_display()
 
 
+def team_index(color):
+    id = game.red.id if color == 'red' else game.blue.id
+    index = 0 if game.state.teams[0].team_number == id else 1
+    return index
+
+
 def game_controller_receive():
     try:
         data, peer = game.udp.recvfrom(GameState.sizeof())
@@ -443,10 +449,9 @@ def update_contacts():
 
 
 def check_team_fallen(team, color):
-    team_id = game.red.id if color == 'red' else game.blue.id
     penalty = False
     for number in team['players']:
-        if game.state.teams[team_id - 1].players[int(number) - 1].secs_till_unpenalized > 0:
+        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
             continue  # skip penalized players
         player = team['players'][number]
         if 'fallen' in player and time_count - player['fallen'] > 1000 * FALLEN_TIMEOUT:
@@ -489,7 +494,7 @@ def check_team_kickoff_position(team, color):
     team_id = game.red.id if color == 'red' else game.blue.id
     penalty = False
     for number in team['players']:
-        if game.state.teams[team_id - 1].players[int(number) - 1].secs_till_unpenalized > 0:
+        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
             continue  # skip penalized players
         player = team['players'][number]
         if not player['inside_field']:
@@ -516,14 +521,13 @@ def check_kickoff_position():
 def check_team_penalized_in_field(team, color):
     penalty = False
     for number in team['players']:
-        team_id = game.red.id if color == 'red' else game.blue.id
-        if game.state.teams[team_id - 1].players[int(number) - 1].secs_till_unpenalized == 0:
+        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized == 0:
             continue  # skip non penalized players
         player = team['players'][number]
         if player['outside_field']:
             continue
         info(f'Penalized {color} player {number} re-entered the field: shown yellow card.')
-        game_controller_send(f'CARD:{team_id}:{number}:YELLOW')
+        game_controller_send(f'CARD:{game.red.id if color == "red" else game.blue.id}:{number}:YELLOW')
         player['penalty'] = 'INCAPABLE'
         player['penalty_reason'] = 'penalized player re-entered field'
         penalty = True
@@ -890,8 +894,8 @@ while supervisor.step(time_step) != -1:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 goal = 'red' if scoring_team == game.blue.id else 'blue'
                 game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
-                team = game.red.id if game.ball_last_touch_team == 'red' else game.blue.id
-                if game.state.teams[team - 1].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
+                i = team_index(game.ball_last_touch_team)
+                if game.state.teams[i].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
                     info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
@@ -934,12 +938,17 @@ while supervisor.step(time_step) != -1:
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         else:
             info('End of the game.')
-            info(f'The score is {game.state.teams[0].score}-{game.state.teams[1].score}.')
-            if game.state.teams[0].score == game.state.teams[1].score:
-                info('This is a draw.')
+            if game.state.teams[0].score > game.state.teams[1].score:
+                winner = 0
+                loser = 1
             else:
-                winner = 0 if game.state.teams[0].score > game.state.teams[1].score else 1
+                winner = 1
+                loser = 1
+            info(f'The score is {game.state.teams[winner].score}-{game.state.teams[loser].score}.')
+            if game.state.teams[0].score != game.state.teams[1].score:
                 info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
+            else:
+                info('This is a draw.')
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
