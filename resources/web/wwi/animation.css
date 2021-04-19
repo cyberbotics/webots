@@ -32,11 +32,11 @@ body {
   align-self: flex-end;
 }
 
-span {
+.current-time, .total-time, .time-divider {
   display: inline-block;
   padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
-  text-shadow: 2px 2px 2px rgb(104,104,104);
+  text-shadow: 1px 1px 1px rgb(104,104,104);
 }
 
 button:first-of-type { margin-right: 6px; }
@@ -54,6 +54,7 @@ button:first-of-type { margin-right: 6px; }
   width: 38px;
   box-sizing: border-box;
   margin: 0 1px;
+  border:none;
 
   appearance: none;
   -moz-appearance: none;
@@ -64,6 +65,7 @@ button:first-of-type { margin-right: 6px; }
   background-image: url(../wwi/images/icons.svg);
 
   cursor: pointer;
+  outline:none;
 }
 
 .right {
@@ -73,11 +75,68 @@ button:first-of-type { margin-right: 6px; }
   right: 1%;
 }
 
-
 .current-time { margin-left: 8px; }
 
 .total-time { margin-right: 8px; }
 
+.jsm-settings {
+  position: absolute;
+  bottom: 55px;
+  right: 1%;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  background: rgba(0,0,0, 0.6);
+
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+}
+
+li {
+  display: block;
+  clear: both;
+  padding: 1px 8px 1px 8px;
+  position: relative;
+}
+
+li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+.spacer {
+  display: inline-block;
+  min-width: 30px;
+}
+
+.settingTitle {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 5px;
+}
+
+.speed {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 30px;
+  font-weight: 450;
+  font-size: 14px;
+}
+
+.arrowRight{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 
 .ui-icon {
   display: inline-block;
@@ -89,5 +148,14 @@ button:first-of-type { margin-right: 6px; }
 
 .icon-play       { background-position:   -2px -2px }
 .icon-pause      { background-position:  -40px -2px }
+.icon-settings   { background-position: -382px -2px }
 .icon-fullscreen { background-position: -420px -2px }
 .icon-partscreen { background-position: -458px -2px }
+
+.icon-play:hover,
+.icon-pause:hover,
+.icon-settings:hover,
+.icon-fullscreen:hover,
+.icon-partscreen:hover {
+  background-position-y: -40px;
+}

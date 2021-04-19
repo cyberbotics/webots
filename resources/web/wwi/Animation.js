@@ -9,7 +9,6 @@ export default class Animation {
     this.view = view;
     this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this.loop = typeof loop === 'undefined' ? true : loop;
-    this.sliding = false;
   };
 
   init(onReady) {
@@ -54,24 +53,77 @@ export default class Animation {
     let those = this;
     document.addEventListener('slider_input', (e) => { those._updateSlider(e); });
 
-    this.button = document.createElement('button');
+    this.playButton = document.createElement('button');
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
-    this.button.className = 'player-btn icon-' + action;
-    this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
+    this.playButton.className = 'player-btn icon-' + action;
+    this.playButton.addEventListener('click', () => this._triggerPlayPauseButton());
 
-    this.fullscreenButton = document.createElement('button');
-    this.fullscreenButton.className = 'player-btn icon-fullscreen';
-    this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+    let settingsButton = document.createElement('button');
+    settingsButton.className = 'player-btn icon-settings';
+    settingsButton.id = 'settingsButton';
 
-    this.exit_fullscreenButton = document.createElement('button');
-    this.exit_fullscreenButton.className = 'player-btn icon-partscreen';
-    this.exit_fullscreenButton.style.display = 'none';
-    this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
+    let settingsPane = document.createElement('div');
+    settingsPane.className = 'jsm-settings';
+    settingsPane.id = 'settingsPane';
+    settingsPane.style.visibility = 'hidden';
+    document.addEventListener('mouseup', _ => this._changeSettingsPaneVisibility(_));
 
-    document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
+    let settingsList = document.createElement('ul');
+    settingsList.id = 'settingsList';
+
+    let playBackLi = document.createElement('li');
+    playBackLi.id = 'playBackLi';
+    let label = document.createElement('span');
+    label.innerHTML = 'Playback speed';
+    label.className = 'settingTitle';
+    playBackLi.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    playBackLi.appendChild(label);
+    label = document.createElement('span');
+    label.className = 'speed';
+    label.innerHTML = '1';
+    playBackLi.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'arrowRight';
+    playBackLi.appendChild(label);
+
+    let resetViewpoint = document.createElement('li');
+    resetViewpoint.id = 'resetViewpoint';
+    label = document.createElement('span');
+    label.className = 'settingTitle';
+    label.innerHTML = 'Reset viewpoint';
+    resetViewpoint.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    resetViewpoint.appendChild(label);
+
+    let graphicalSettings = document.createElement('li');
+    graphicalSettings.id = 'graphicalSettings';
+    label = document.createElement('span');
+    label.className = 'settingTitle';
+    label.innerHTML = 'Graphical settings';
+    graphicalSettings.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    graphicalSettings.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'arrowRight';
+    graphicalSettings.appendChild(label);
+
+    let fullscreenButton = document.createElement('button');
+    fullscreenButton.className = 'player-btn icon-fullscreen';
+    fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+
+    let exitFullscreenButton = document.createElement('button');
+    exitFullscreenButton.className = 'player-btn icon-partscreen';
+    exitFullscreenButton.style.display = 'none';
+    exitFullscreenButton.onclick = () => { exitFullscreen(); };
+
+    document.addEventListener('fullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
 
     this.currentTime = document.createElement('span');
     this.currentTime.className = 'current-time';
@@ -89,13 +141,17 @@ export default class Animation {
     document.getElementById('playBar').appendChild(this.timeSlider);
     document.getElementById('playBar').appendChild(leftPane);
     document.getElementById('playBar').appendChild(rightPane);
-    document.getElementById('leftPane').appendChild(this.button);
+    document.getElementById('view3d').appendChild(settingsPane);
+    document.getElementById('leftPane').appendChild(this.playButton);
     document.getElementById('leftPane').appendChild(this.currentTime);
     document.getElementById('leftPane').appendChild(timeDivider);
     document.getElementById('leftPane').appendChild(totalTime);
-    document.getElementById('rightPane').appendChild(this.fullscreenButton);
-    document.getElementById('rightPane').appendChild(this.exit_fullscreenButton);
-
+    document.getElementById('rightPane').appendChild(settingsButton);
+    document.getElementById('rightPane').appendChild(fullscreenButton);
+    document.getElementById('rightPane').appendChild(exitFullscreenButton);
+    document.getElementById('settingsPane').appendChild(resetViewpoint);
+    document.getElementById('settingsPane').appendChild(playBackLi);
+    document.getElementById('settingsPane').appendChild(graphicalSettings);
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
@@ -105,6 +161,8 @@ export default class Animation {
     // Notify creation completed.
     if (typeof this.onReady === 'function')
       this.onReady();
+
+    console.time('time');
   }
 
   _elapsedTime() {
@@ -126,7 +184,7 @@ export default class Animation {
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
-    this.button.className = 'player-btn icon-' + action;
+    this.playButton.className = 'player-btn icon-' + action;
   }
 
   _updateSlider(event) {
@@ -160,6 +218,7 @@ export default class Animation {
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
       if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
+        console.timeEnd('time');
         if (this.loop) {
           if (requestedStep > this.data.frames.length) {
             requestedStep = 0;
@@ -198,7 +257,7 @@ export default class Animation {
   }
 
   _updateAnimation() {
-    if (this.gui === 'real_time' && !this.sliding)
+    if (this.gui === 'real_time')
       this._updateAnimationState();
 
     window.requestAnimationFrame(() => { this._updateAnimation(); });
@@ -244,6 +303,16 @@ export default class Animation {
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(_ => { if (!Animation_slider.isSelected) document.getElementById('playBar').style.opacity = '0'; }, 500);
+    this.timeout = setTimeout(() => { if (!Animation_slider.isSelected) document.getElementById('playBar').style.opacity = '0'; }, 500);
+  }
+
+  _changeSettingsPaneVisibility(event) {
+    if (event.target.id === 'settingsButton' && document.getElementById('settingsPane').style.visibility === 'hidden') {
+      document.getElementById('settingsPane').style.visibility = 'visible';
+      document.getElementById('settingsButton').style.transform = 'rotate(5deg)';
+    } else if (document.getElementById('settingsPane').style.visibility === 'visible') {
+      document.getElementById('settingsPane').style.visibility = 'hidden';
+      document.getElementById('settingsButton').style.transform = 'rotate(-5deg)';
+    }
   }
 }
