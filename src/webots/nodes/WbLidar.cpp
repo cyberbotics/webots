@@ -682,8 +682,7 @@ void WbLidar::updateType() {
     mType->setValue("fixed");
   }
   if (hasBeenSetup())
-    warn(tr("'type' has been modified. This modification will be taken into account after saving and reloading "
-            "the world."));
+    warn(tr("'type' has been modified. This modification will be taken into account after saving and reloading the world."));
   else if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
