@@ -7,9 +7,6 @@ POS_ABS_TOL = 0.03 # [m]
 
 VALID_STATES = ["INITIAL","READY","SET","PLAYING","FINISH"]
 
-def target_to_def_name(target):
-    return target.upper().replace(" ","_")
-
 class StatusInformation:
     """Contains basic information over the Game Controller state and time properties
 
@@ -237,10 +234,10 @@ class Test:
         return t
 
     def _getTargetGCData(self, status):
-        splitted_target = self._target.split(" ")
+        splitted_target = self._target.split("_")
         if len(splitted_target) != 3:
             raise RuntimeError("Invalid target to get GameController data from")
-        team_color = splitted_target[0].upper()
+        team_color = splitted_target[0]
         player_idx = int(splitted_target[2]) - 1
         for i in range(2):
             if status.gc_status.teams[i].team_color == team_color:
@@ -251,8 +248,7 @@ class Test:
     def _testTargetPosition(self, status, supervisor):
         if self._target is None:
             raise RuntimeError("{self._name} tests position and has no target")
-        def_name = target_to_def_name(self._target)
-        target = supervisor.getFromDef(def_name)
+        target = supervisor.getFromDef(self._target)
         received_pos = target.getField('translation').getSFVec3f()
         if not np.allclose(self._position, received_pos, atol = POS_ABS_TOL):
             failure_msg = f"Position Invalid at {status.getFormattedTime()}: "\
@@ -325,7 +321,7 @@ class Action:
     """
 
     def __init__(self, target, position = None, force = None, velocity = None):
-        self._def_name = target_to_def_name(target)
+        self._target = target
         self._position = position
         self._force = force
         self._velocity = velocity
@@ -343,7 +339,7 @@ class Action:
 
 
     def perform(self, supervisor):
-        obj = supervisor.getFromDef(self._def_name)
+        obj = supervisor.getFromDef(self._target)
         obj.resetPhysics()
         if self._position is not None:
             self._setPosition(obj)
@@ -353,7 +349,7 @@ class Action:
             self._setVelocity(obj)
 
     def _setPosition(self, obj):
-        print(f"Setting {self._def_name} to {self._position}")
+        print(f"Setting {self._target} to {self._position}")
         obj.getField("translation").setSFVec3f(self._position)
 
     def _setForce(self, obj):
