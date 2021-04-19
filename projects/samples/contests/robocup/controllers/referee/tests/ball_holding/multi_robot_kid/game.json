@@ -7,7 +7,7 @@
   "real_time_factor" : 0,
   "host": "127.0.0.1",
   "red": {
-    "id": 1,
+    "id": 9,
     "config": "tests/ball_holding/multi_robot_kid/team_1.json",
     "hosts": [
       "192.168.123.21",
@@ -23,7 +23,7 @@
     ]
   },
   "blue": {
-    "id": 2,
+    "id": 8,
     "config": "tests/ball_holding/multi_robot_kid/team_2.json",
     "hosts": [
       "192.168.123.41",

@@ -53,7 +53,7 @@
             {
                 "name" : "Part A ends with direct freekick for BLUE",
                 "secondary_state" : "DIRECT_FREEKICK",
-                "secondary_team_id" : 2,
+                "secondary_team_id" : 8,
                 "secondary_phase" : 0
             },
             {
