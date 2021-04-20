@@ -373,23 +373,49 @@ def rotate_along_z(axis_and_angle):
     return [v[0], v[1], v[2], a]
 
 
-def append_solid(solid, convex_hull):
-    convex_hull.append(solid.getPosition())
-    children = solid.getField('children')
+def append_solid(solid, solids):
+    solids.append(solid)
+    children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
     for i in range(0, children.getCount()):
         child = children.getMFNode(i)
-        if child.getType() not in [Node.ROBOT, Node.SOLID, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO, Node.TouchSensor]:
+        if child.getType() in [Node.ROBOT, Node.SOLID, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO, Node.TOUCH_SENSOR]:
+            append_solid(child, solids)
             continue
-        append_solid(child, convex_hull)
+        if child.getType() in [Node.HINGE_JOINT, Node.HINGE_2_JOINT, Node.SLIDER_JOINT, Node.BALL_JOINT]:
+            endPoint = child.getProtoField('endPoint') if child.isProto() else child.getField('endPoint')
+            solid = endPoint.getSFNode()
+            if solid.getType() == Node.NO_NODE:
+                continue
+            append_solid(solid, solids)
 
 
-def update_convex_hull(team, color):
+def list_team_solids(team):
     for number in team['players']:
         player = team['players'][number]
         robot = player['robot']
+        player['solids'] = []
+        solids = player['solids']
+        append_solid(robot, solids)
+
+
+def list_solids():
+    list_team_solids(red_team)
+    list_team_solids(blue_team)
+
+
+def update_team_convex_hulls(team):
+    for number in team['players']:
+        player = team['players'][number]
         player['convex_hull'] = []
         convex_hull = player['convex_hull']
-        append_solid(robot, convex_hull)
+        for solid in player['solids']:
+            position = solid.getPosition()
+            convex_hull.append([position[0], position[1]])
+
+
+def update_convex_hulls():
+    update_team_convex_hulls(red_team)
+    update_team_convex_hulls(blue_team)
 
 
 def update_team_contacts(team, color):
@@ -808,6 +834,8 @@ else:
 
 update_state_display()
 
+list_solids()  # prepare lists of solids to monitor in each robot to compute the convex hulls
+
 info(f'Game type is {game.type}.')
 info(f'Red team is {red_team["name"]}.')
 info(f'Blue team is {blue_team["name"]}.')
@@ -841,6 +869,7 @@ while supervisor.step(time_step) != -1:
         time_count += time_step
         continue
     update_contacts()  # check for collisions with the ground and ball
+    # update_convex_hulls() badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
