@@ -88,7 +88,7 @@ export default class WbGeometry extends WbBaseNode {
     if (super.isInBoundingObject()) {
       _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
-      _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+      _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
     }
 
     _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);

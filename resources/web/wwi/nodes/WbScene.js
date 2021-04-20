@@ -62,11 +62,11 @@ export default class WbScene {
     _wr_frame_buffer_set_size(this.wrenMainFrameBuffer, canvas.width, canvas.height);
 
     this.wrenMainFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    _wr_texture_set_internal_format(this.wrenMainFrameBufferTexture, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     this.wrenNormalFrameBufferTexture = _wr_texture_rtt_new();
 
-    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
     if (GTAO_LEVEL < 1)
       _wr_frame_buffer_append_output_texture_disable(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
@@ -75,7 +75,7 @@ export default class WbScene {
     _wr_frame_buffer_enable_depth_buffer(this.wrenMainFrameBuffer, true);
 
     this.wrenDepthFrameBufferTexture = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
+    _wr_texture_set_internal_format(this.wrenDepthFrameBufferTexture, Enum.WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
     _wr_frame_buffer_set_depth_texture(this.wrenMainFrameBuffer, this.wrenDepthFrameBufferTexture);
 
     _wr_frame_buffer_setup(this.wrenMainFrameBuffer);

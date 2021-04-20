@@ -166,9 +166,9 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
       const irradianceCubeTexture = background.irradianceCubeTexture;
       if (typeof irradianceCubeTexture !== 'undefined') {
         _wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
-        _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-        _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-        _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        _wr_material_set_texture_cubemap_wrap_r(wrenMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        _wr_material_set_texture_cubemap_wrap_s(wrenMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+        _wr_material_set_texture_cubemap_wrap_t(wrenMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
         _wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
         _wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 0);
         _wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);

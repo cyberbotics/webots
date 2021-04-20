@@ -27,7 +27,7 @@ export default class WbBackground extends WbBaseNode {
     _wr_renderable_set_receive_shadows(this.skyboxRenderable, false);
     _wr_renderable_set_mesh(this.skyboxRenderable, this.skyboxMesh);
     _wr_renderable_set_material(this.skyboxRenderable, this.skyboxMaterial, null);
-    _wr_renderable_set_drawing_mode(this.skyboxRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
+    _wr_renderable_set_drawing_mode(this.skyboxRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
     _wr_renderable_set_face_culling(this.skyboxRenderable, false);
 
     this.skyboxTransform = _wr_transform_new();
@@ -43,7 +43,7 @@ export default class WbBackground extends WbBaseNode {
     _wr_renderable_set_receive_shadows(this.hdrClearRenderable, false);
     _wr_renderable_set_mesh(this.hdrClearRenderable, this.hdrClearMesh);
     _wr_renderable_set_material(this.hdrClearRenderable, this.hdrClearMaterial, null);
-    _wr_renderable_set_drawing_mode(this.hdrClearRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
+    _wr_renderable_set_drawing_mode(this.hdrClearRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_TRIANGLES);
 
     this.hdrClearTransform = _wr_transform_new();
     _wr_transform_attach_child(this.hdrClearTransform, this.hdrClearRenderable);
@@ -125,7 +125,7 @@ export default class WbBackground extends WbBaseNode {
     // 1. Load the background.
     if (typeof this.cubeArray !== 'undefined' && this.cubeArray.length === 6) {
       this.cubeMapTexture = _wr_texture_cubemap_new();
-      _wr_texture_set_internal_format(this.cubeMapTexture, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+      _wr_texture_set_internal_format(this.cubeMapTexture, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
       const bitsPointers = [];
       for (let i = 0; i < 6; ++i) {
@@ -136,9 +136,9 @@ export default class WbBackground extends WbBaseNode {
       _wr_texture_set_size(this.cubeMapTexture, this.cubeArray[0].width, this.cubeArray[0].height);
       _wr_texture_setup(this.cubeMapTexture);
       _wr_material_set_texture_cubemap(this.skyboxMaterial, this.cubeMapTexture, 0);
-      _wr_material_set_texture_cubemap_wrap_r(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-      _wr_material_set_texture_cubemap_wrap_s(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-      _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+      _wr_material_set_texture_cubemap_wrap_r(this.skyboxMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+      _wr_material_set_texture_cubemap_wrap_s(this.skyboxMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+      _wr_material_set_texture_cubemap_wrap_t(this.skyboxMaterial, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       _wr_scene_set_skybox(_wr_scene_get_instance(), this.skyboxRenderable);
 
       for (let i = 0; i < 6; ++i)
@@ -149,7 +149,7 @@ export default class WbBackground extends WbBaseNode {
     const cubeMap = _wr_texture_cubemap_new();
     const hdrImageData = [];
     if (typeof this.cubeArray !== 'undefined' && this.irradianceCubeArray.length === 6) {
-      _wr_texture_set_internal_format(cubeMap, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+      _wr_texture_set_internal_format(cubeMap, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
       for (let i = 0; i < 6; ++i) {
         hdrImageData[i] = arrayXPointerFloat(this.irradianceCubeArray[i].bits);

@@ -34,7 +34,7 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     if (Math.min(width, height) <= 64.0)
       return;
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     this._applyParametersToWren();
 

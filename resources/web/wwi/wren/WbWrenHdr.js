@@ -63,7 +63,7 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     _wr_post_processing_effect_pass_set_alpha_blending(hdrPass, false);
     _wr_post_processing_effect_pass_set_input_texture_count(hdrPass, 1);
     _wr_post_processing_effect_pass_set_output_texture_count(hdrPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+    _wr_post_processing_effect_pass_set_output_texture_format(hdrPass, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
     _wr_post_processing_effect_append_pass(hdrResolveEffect, hdrPass);
 
     _wr_post_processing_effect_set_result_program(hdrResolveEffect, WbWrenShaders.passThroughShader());
