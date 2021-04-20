@@ -340,7 +340,6 @@ class Action:
 
     def perform(self, supervisor):
         obj = supervisor.getFromDef(self._target)
-        obj.resetPhysics()
         if self._position is not None:
             self._setPosition(obj)
         if self._force is not None:
@@ -350,10 +349,11 @@ class Action:
 
     def _setPosition(self, obj):
         print(f"Setting {self._target} to {self._position}")
+        obj.resetPhysics()
         obj.getField("translation").setSFVec3f(self._position)
 
     def _setForce(self, obj):
-        obj.addForce(self._force)
+        obj.addForce(self._force, False)
 
     def _setVelocity(self, obj):
         obj.setVelocity(self._velocity)
