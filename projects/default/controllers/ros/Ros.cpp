@@ -159,7 +159,7 @@ void Ros::launchRos(int argc, char **argv) {
   mNodeHandle = new ros::NodeHandle;
   ROS_INFO("The controller is now connected to the ROS master.");
 
-  mNamePublisher = mNodeHandle->advertise<std_msgs::String>("model_name", 1, true);
+  mNamePublisher = mNodeHandle->advertise<std_msgs::String>(mRobotName + "/model_name", 1, true);
   robotName.data = mRobotName;
   mNamePublisher.publish(robotName);
 
