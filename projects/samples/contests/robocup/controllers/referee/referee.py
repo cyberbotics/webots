@@ -486,7 +486,7 @@ def update_team_convex_hulls(team):
                     player['aabb'][3] = position[1]
         # check AABB for ball collision
         if not aabb_circle_collision(player['aabb'], game.ball_position[0], game.ball_position[1], game.ball_radius):
-            player['hold_ball'] = False
+            hold_ball = False
         else:  # compute convex hull of quad
             if point_in_triangle(shadow[0], shadow[1], shadow[2], shadow[3]):
                 del shadow[0]
@@ -497,13 +497,20 @@ def update_team_convex_hulls(team):
             if point_in_triangle(shadow[3], shadow[0], shadow[1], shadow[2]):
                 del shadow[3]
             if len(shadow) == 3:
-                player['hold_ball'] = triangle_circle_collision(shadow[0], shadow[1], shadow[2],
-                                                                game.ball_position, game.ball_radius)
+                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius)
             else:
-                player['hold_ball'] = triangle_circle_collision(shadow[0], shadow[1], shadow[2],
-                                                                game.ball_position, game.ball_radius) \
-                                   or triangle_circle_collision(shadow[3], shadow[1], shadow[2],
-                                                                game.ball_position, game.ball_radius)
+                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius) \
+                         or triangle_circle_collision(shadow[3], shadow[1], shadow[2], game.ball_position, game.ball_radius)
+        color = 'Red' if team == red_team else 'Blue'
+        if 'hold_ball' in player:
+            if hold_ball:
+                continue
+            delay = int((time_count - player['hold_ball']) / 100) / 10
+            info(f'{color} player {number} released the ball after {delay} seconds.')
+            del player['hold_ball']
+        elif hold_ball:
+            player['hold_ball'] = time_count
+            info(f'{color} player {number} is holding the ball.')
 
 
 def update_convex_hulls():
