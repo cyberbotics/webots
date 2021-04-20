@@ -1,0 +1,78 @@
+[
+    {
+        "description" : "Moving robots so they are not penalized on SET",
+        "timing" : {
+            "time" : 10.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_2",
+                "position" : [-1.4, 1.0, 0.24]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [2.0, 1.2, 0.24]
+            }
+        ]
+    },
+    {
+        "description" : "Part A. Moving robots for theoretical impact at [-2.0,1.0]",
+        "timing" : {
+            "time" : 11.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [-4.2, 1.0, 0.08]
+            },
+            {
+                "target" : "RED_PLAYER_2",
+                "position" : [-1.4, 1.0, 0.3]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [-2.0, 1.2, 0.3]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : [11.001, 13.5],
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_2",
+                "velocity" : [-0.15, 0, 0.24]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "velocity" : [0, -0.05, 0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : [13.0, 20.0],
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "Low speed collision far from ball -> No penalty (1)",
+                "target" : "RED_PLAYER_2",
+                "penalty" : 0
+            },
+            {
+                "name" : "Low speed collision far from ball -> No penalty (2)",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 0
+            }
+        ]
+    }
+]
