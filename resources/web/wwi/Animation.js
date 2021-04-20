@@ -107,22 +107,27 @@ export default class Animation {
     label = document.createElement('span');
     label.className = 'slider round';
     button.appendChild(label);
-    //resetViewpoint.onclick = () => this._resetViewpoint();
+    button.onclick = _ => changeShadows(event.target.checked);
     document.getElementById('settingsList').appendChild(shadowLi);
 
-    let graphicalSettings = document.createElement('li');
-    graphicalSettings.id = 'graphicalSettings';
+    let gtaoLi = document.createElement('li');
+    gtaoLi.id = 'graphicalSettings';
     label = document.createElement('span');
     label.className = 'settingTitle';
-    label.innerHTML = 'Ambiant Occlusion level';
-    graphicalSettings.appendChild(label);
+    label.innerHTML = 'Ambiant Occlusion';
+    gtaoLi.appendChild(label);
     label = document.createElement('div');
     label.className = 'spacer';
-    graphicalSettings.appendChild(label);
+    gtaoLi.appendChild(label);
+    label = document.createElement('span');
+    label.className = 'textSetting';
+    label.innerHTML = 'Normale';
+    label.id = 'gtaoDisplay';
+    gtaoLi.appendChild(label);
     label = document.createElement('div');
     label.className = 'arrowRight';
-    graphicalSettings.appendChild(label);
-    document.getElementById('settingsList').appendChild(graphicalSettings);
+    gtaoLi.appendChild(label);
+    document.getElementById('settingsList').appendChild(gtaoLi);
 
     let playBackLi = document.createElement('li');
     playBackLi.id = 'playBackLi';
@@ -134,7 +139,7 @@ export default class Animation {
     label.className = 'spacer';
     playBackLi.appendChild(label);
     label = document.createElement('span');
-    label.className = 'speed';
+    label.className = 'textSetting';
     label.innerHTML = 'Normale';
     label.id = 'speedDisplay';
     playBackLi.appendChild(label);

@@ -132,12 +132,13 @@ li:hover {
   pointer-events: none;
 }
 
-.speed {
+.textSetting {
   display: inline-block;
   vertical-align: middle;
   padding: 6px 30px;
   font-weight: 450;
   font-size: 14px;
+  float: right;
 }
 
 .arrowRight{
@@ -148,8 +149,8 @@ li:hover {
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 11px;
+  right: 17px;
 }
 
 .arrowLeft{
@@ -160,7 +161,7 @@ li:hover {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
   position: absolute;
-  top: 10px;
+  top: 11px;
   left: 11px;
 }
 
