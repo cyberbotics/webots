@@ -139,6 +139,7 @@ li:hover {
   font-weight: 450;
   font-size: 14px;
   float: right;
+  pointer-events: none;
 }
 
 .arrowRight{
@@ -151,6 +152,7 @@ li:hover {
   position: absolute;
   top: 11px;
   right: 17px;
+  pointer-events: none;
 }
 
 .arrowLeft{
@@ -172,12 +174,14 @@ li:hover {
   height: 17px;
   top: 10px;
   right: 11px;
+  pointer-events: none;
 }
 
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
+  pointer-events: none;
 }
 
 .slider {
@@ -188,8 +192,7 @@ li:hover {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  pointer-events: none;
 }
 
 .slider:before {
@@ -200,16 +203,17 @@ li:hover {
   left: -3px;
   top: -2px;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  pointer-events: none;
 }
 
 input:checked + .slider {
   background-color: red;
+  pointer-events: none;
 }
 
 input:focus + .slider {
   box-shadow: 0 0 1px red;
+  pointer-events: none;
 }
 
 input:checked + .slider:before {
@@ -217,15 +221,18 @@ input:checked + .slider:before {
   -ms-transform: translateX(23px);
   transform: translateX(23px);
   background-color: white;
+  pointer-events: none;
 }
 
 /* Rounded sliders */
 .slider.round {
   border-radius: 17px;
+  pointer-events: none;
 }
 
 .slider.round:before {
   border-radius: 50%;
+  pointer-events: none;
 }
 
 .ui-icon {

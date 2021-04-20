@@ -89,7 +89,7 @@ export default class Animation {
     document.getElementById('settingsList').appendChild(resetViewpoint);
 
     let shadowLi = document.createElement('li');
-    shadowLi.id = 'resetViewpoint';
+    shadowLi.id = 'enableShadows';
     label = document.createElement('span');
     label.className = 'settingTitle';
     label.innerHTML = 'Shadows';
@@ -106,8 +106,12 @@ export default class Animation {
     button.appendChild(label);
     label = document.createElement('span');
     label.className = 'slider round';
+    label.id = 'shadowSlider'
     button.appendChild(label);
-    button.onclick = _ => changeShadows(event.target.checked);
+    shadowLi.onclick = _ => {
+      button.click();
+      changeShadows();
+    };
     document.getElementById('settingsList').appendChild(shadowLi);
 
     let gtaoLi = document.createElement('li');
@@ -430,17 +434,24 @@ export default class Animation {
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(() => { if (!Animation_slider.isSelected) document.getElementById('playBar').style.opacity = '0'; }, 500);
+    this.timeout = setTimeout(() => { if (!Animation_slider.isSelected && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') document.getElementById('playBar').style.opacity = '0'; }, 3000);
   }
 
   _changeSettingsPaneVisibility(event) {
-    if (event.target.id === 'settingsButton' && document.getElementById('settingsPane').style.visibility === 'hidden') {
+    if (event.srcElement.id === 'enableShadows' || event.srcElement.id === 'playBackLi' || event.srcElement.id === 'gtaoSettings') // avoid to close the settings when modifying the shadows or the other options
+      return;
+
+    if (event.target.id === 'settingsButton' && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') {
       document.getElementById('settingsPane').style.visibility = 'visible';
       document.getElementById('settingsButton').style.transform = 'rotate(5deg)';
-    } else if (document.getElementById('settingsPane').style.visibility === 'visible') {
+    } else if (document.getElementById('settingsPane').style.visibility === 'visible' || document.getElementById('gtaoPane').style.visibility === 'visible' || document.getElementById('speedPane').style.visibility === 'visible') {
       document.getElementById('settingsPane').style.visibility = 'hidden';
-      document.getElementById('settingsButton').style.transform = 'rotate(-5deg)';
+      if (document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden')
+        document.getElementById('settingsButton').style.transform = 'rotate(-5deg)';
     }
+
+    document.getElementById('gtaoPane').style.visibility = 'hidden';
+    document.getElementById('speedPane').style.visibility = 'hidden';
   }
 
   _resetViewpoint() {

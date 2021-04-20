@@ -6,11 +6,8 @@ export let disableShadows = false;
 export const textureQuality = 2; // [0 - 2]
 export const textureFiltering = 5; // [0 - 5]
 
-function changeShadows(enable) {
-  if (typeof enable === 'undefined')
-    return;
-
-  disableShadows = !enable;
+function changeShadows() {
+  disableShadows = !disableShadows;
   _wr_config_enable_shadows(!disableShadows);
 }
 
