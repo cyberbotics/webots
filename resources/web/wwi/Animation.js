@@ -1,6 +1,6 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
-import Animation_slider from './Animation_slider.js';
+import AnimationSlider from './AnimationSlider.js';
 import WbWorld from './nodes/WbWorld.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 
@@ -188,7 +188,7 @@ export default class Animation {
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(() => { if (!Animation_slider.isSelected && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') document.getElementById('playBar').style.opacity = '0'; }, 3000);
+    this.timeout = setTimeout(() => { if (!AnimationSlider.isSelected && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') document.getElementById('playBar').style.opacity = '0'; }, 3000);
   }
 
   _changeSettingsPaneVisibility(event) {
@@ -322,7 +322,7 @@ export default class Animation {
   }
 
   _createSlider() {
-    window.customElements.define('my-slider', Animation_slider);
+    window.customElements.define('my-slider', AnimationSlider);
     let timeSlider = document.createElement('my-slider');
     timeSlider.id = 'timeSlider';
     let those = this;
