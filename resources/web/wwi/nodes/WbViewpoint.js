@@ -1,6 +1,6 @@
 import {M_PI_4, TAN_M_PI_8} from './WbConstants.js';
 import {direction, up} from './utils/WbUtils.js';
-import {GTAO_LEVEL, disableAntiAliasing} from './WbPreferences.js';
+import {GtaoLevel, disableAntiAliasing} from './WbPreferences.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -241,7 +241,7 @@ export default class WbViewpoint extends WbBaseNode {
     }
 
     if (this.wrenGtao) {
-      const qualityLevel = GTAO_LEVEL;
+      const qualityLevel = GtaoLevel;
       if (qualityLevel === 0)
         this.wrenGtao.detachFromViewport();
       else {
@@ -273,13 +273,13 @@ export default class WbViewpoint extends WbBaseNode {
       this.updateExposure();
 
     if (this.wrenGtao) {
-      if (this.ambientOcclusionRadius === 0.0 || GTAO_LEVEL === 0) {
+      if (this.ambientOcclusionRadius === 0.0 || GtaoLevel === 0) {
         this.wrenGtao.detachFromViewport();
         return;
       } else if (!this.wrenGtao.hasBeenSetup)
         this.wrenGtao.setup(this.wrenViewport);
 
-      const qualityLevel = GTAO_LEVEL;
+      const qualityLevel = GtaoLevel;
       this.updateNear();
       this.wrenGtao.setRadius(this.ambientOcclusionRadius);
       this.wrenGtao.setQualityLevel(qualityLevel);

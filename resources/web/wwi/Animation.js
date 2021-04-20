@@ -1,7 +1,8 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
 import Animation_slider from './Animation_slider.js';
-import WbWorld from './nodes/WbWorld.js';
+import WbWorld from './nodes/WbWorld.js'
+import {changeShadows, changeGtaoLevel} from './nodes/WbPreferences.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -87,6 +88,42 @@ export default class Animation {
     resetViewpoint.onclick = () => this._resetViewpoint();
     document.getElementById('settingsList').appendChild(resetViewpoint);
 
+    let shadowLi = document.createElement('li');
+    shadowLi.id = 'resetViewpoint';
+    label = document.createElement('span');
+    label.className = 'settingTitle';
+    label.innerHTML = 'Shadows';
+    shadowLi.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    shadowLi.appendChild(label);
+    let button = document.createElement('label');
+    button.className = 'switch';
+    shadowLi.appendChild(button);
+    label = document.createElement('input');
+    label.type = 'checkbox';
+    label.checked = true;
+    button.appendChild(label);
+    label = document.createElement('span');
+    label.className = 'slider round';
+    button.appendChild(label);
+    //resetViewpoint.onclick = () => this._resetViewpoint();
+    document.getElementById('settingsList').appendChild(shadowLi);
+
+    let graphicalSettings = document.createElement('li');
+    graphicalSettings.id = 'graphicalSettings';
+    label = document.createElement('span');
+    label.className = 'settingTitle';
+    label.innerHTML = 'Ambiant Occlusion level';
+    graphicalSettings.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    graphicalSettings.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'arrowRight';
+    graphicalSettings.appendChild(label);
+    document.getElementById('settingsList').appendChild(graphicalSettings);
+
     let playBackLi = document.createElement('li');
     playBackLi.id = 'playBackLi';
     label = document.createElement('span');
@@ -106,20 +143,6 @@ export default class Animation {
     playBackLi.appendChild(label);
     document.getElementById('settingsList').appendChild(playBackLi);
     playBackLi.onclick = () => this._openSpeedPane();
-
-    let graphicalSettings = document.createElement('li');
-    graphicalSettings.id = 'graphicalSettings';
-    label = document.createElement('span');
-    label.className = 'settingTitle';
-    label.innerHTML = 'Graphical settings';
-    graphicalSettings.appendChild(label);
-    label = document.createElement('div');
-    label.className = 'spacer';
-    graphicalSettings.appendChild(label);
-    label = document.createElement('div');
-    label.className = 'arrowRight';
-    graphicalSettings.appendChild(label);
-    document.getElementById('settingsList').appendChild(graphicalSettings);
 
     let speedPane = document.createElement('div');
     speedPane.className = 'jsm-settings';

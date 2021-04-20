@@ -1,5 +1,18 @@
-export const GTAO_LEVEL = 4; // [0 - 4], 0 disable it
+import WbWorld from './WbWorld.js';
+
+export let GtaoLevel = 4; // [0 - 4], 0 disable it
 export const disableAntiAliasing = false;
-export const disableShadows = false;
+export let disableShadows = false;
 export const textureQuality = 2; // [0 - 2]
 export const textureFiltering = 5; // [0 - 5]
+
+function changeShadows(enable) {
+  disableShadows = enable;
+  _wr_config_enable_shadows(!disableShadows);
+}
+
+function changeGtaoLevel(level) {
+  GtaoLevel = level;
+}
+
+export {changeShadows, changeGtaoLevel};
