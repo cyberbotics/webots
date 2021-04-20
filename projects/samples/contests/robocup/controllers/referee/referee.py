@@ -1061,10 +1061,13 @@ while supervisor.step(time_step) != -1:
         game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
         game.ball.resetPhysics()
         game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
+        game.checked_kickoff_position = False
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
+        if not game.checked_kickoff_position:
+            check_kickoff_position()
+            game.checked_kickoff_position = True
         game.play_countdown -= 1
         if game.play_countdown == 0:
-            check_kickoff_position()
             game_controller_send('STATE:PLAY')
     elif game.state.game_state == 'STATE_FINISHED':
         game.sent_finish = False
