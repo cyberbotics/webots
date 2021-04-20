@@ -22,7 +22,7 @@ D. R1 moves slowly, R2 moves at high speed-> penalty on R2
   - A. While R1 is moving at 0.15 m/s and R2 is moving at 0.05 m/s
   - B. While R1 is moving at 0.4 m/s and R2 is moving at 0.25 m/s
   - C. While R1 is moving at 0.5 m/s and R2 is moving at 0.25 m/s
-  - D. While R1 is moving at 0.05 m/s and R2 is moving at 0.25 m/s
+  - D. While R1 is moving at 0.05 m/s and R2 is moving at 0.3 m/s
 
 ## Expected outcome
 
