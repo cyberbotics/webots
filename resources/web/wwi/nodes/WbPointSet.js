@@ -1,4 +1,4 @@
-import {arrayXPointerFloat} from './utils/WbUtils.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 
@@ -72,7 +72,7 @@ export default class WbPointSet extends WbGeometry {
 
     _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
     _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
-    _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_POINTS);
+    _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_POINTS);
     _wr_renderable_set_point_size(this.wrenRenderable, 4.0);
     _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
   }

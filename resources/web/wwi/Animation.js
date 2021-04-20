@@ -1,6 +1,6 @@
 'use strict';
-import DefaultUrl from './Default_url.js';
-import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
+import DefaultUrl from './DefaultUrl.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {

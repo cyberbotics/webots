@@ -1,4 +1,4 @@
-import {pointerOnFloat} from './../nodes/utils/WbUtils.js';
+import {pointerOnFloat} from './../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 
@@ -34,7 +34,7 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     if (Math.min(width, height) <= 64.0)
       return;
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     this._applyParametersToWren();
 

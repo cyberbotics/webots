@@ -1,4 +1,4 @@
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/WbUtils.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbTriangleMesh from './utils/WbTriangleMesh.js';
@@ -119,7 +119,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     _wr_renderable_set_receive_shadows(this.normalsRenderable, false);
     _wr_renderable_set_material(this.normalsRenderable, this.normalsMaterial, null);
     _wr_renderable_set_visibility_flags(this.normalsRenderable, WbWrenRenderingContext.VF_NORMALS);
-    _wr_renderable_set_drawing_mode(this.normalsRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+    _wr_renderable_set_drawing_mode(this.normalsRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
     _wr_transform_attach_child(this.wrenNode, this.normalsRenderable);
 
     // Restore pickable state

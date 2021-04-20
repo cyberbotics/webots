@@ -1,4 +1,4 @@
-import {arrayXPointerFloat} from './utils/WbUtils.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 
 export default class WbIndexedLineSet extends WbGeometry {
@@ -38,7 +38,7 @@ export default class WbIndexedLineSet extends WbGeometry {
 
     super._computeWrenRenderable();
 
-    _wr_renderable_set_drawing_mode(this.wrenRenderable, ENUM.WR_RENDERABLE_DRAWING_MODE_LINES);
+    _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
 
     const coordsData = [];
     const coordsCount = this._computeCoordsData(coordsData);

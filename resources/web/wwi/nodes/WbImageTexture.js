@@ -1,5 +1,5 @@
-import {arrayXPointer} from './utils/WbUtils.js';
-import {textureFiltering} from './WbPreferences.js';
+import {arrayXPointer} from './utils/utils.js';
+import {textureFiltering} from './wb_preferences.js';
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
@@ -71,8 +71,8 @@ export default class WbImageTexture extends WbBaseNode {
     _wr_material_set_texture(wrenMaterial, this.wrenTexture, this.wrenTextureIndex);
     if (this.wrenTexture) {
       _wr_texture_set_translucent(this.wrenTexture, this.isTransparent);
-      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
-      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? ENUM.WR_TEXTURE_WRAP_MODE_REPEAT : ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
       _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this.wrenTextureIndex);
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);

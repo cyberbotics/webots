@@ -1,5 +1,5 @@
 'use strict';
-import SystemInfo from './System_info.js';
+import SystemInfo from './system_info.js';
 import {webots} from './Webots.js';
 
 export default class MultimediaClient {

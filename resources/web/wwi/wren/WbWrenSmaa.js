@@ -16,7 +16,7 @@ export default class WbWrenSmaa extends WbWrenAbstractPostProcessingEffect {
     const width = _wr_viewport_get_width(this.wrenViewport);
     const height = _wr_viewport_get_height(this.wrenViewport);
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.smaa(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.smaa(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
     _wr_viewport_set_anti_aliasing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);

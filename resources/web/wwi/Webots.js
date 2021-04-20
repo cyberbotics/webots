@@ -1,13 +1,13 @@
 import Animation from './Animation.js';
-import DefaultUrl from './Default_url.js';
-import MouseEvents from './Mouse_events.js';
-import MultimediaClient from './Multimedia_client.js';
+import DefaultUrl from './DefaultUrl.js';
+import MouseEvents from './MouseEvents.js';
+import MultimediaClient from './MultimediaClient.js';
 import Toolbar from './Toolbar.js';
 import Selector from './Selector.js';
 import Server from './Server.js';
 import Stream from './Stream.js';
-import SystemInfo from './System_info.js';
-import X3dScene from './X3d_scene.js';
+import SystemInfo from './system_info.js';
+import X3dScene from './X3dScene.js';
 
 import WbVector3 from './nodes/utils/WbVector3.js';
 

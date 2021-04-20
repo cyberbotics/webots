@@ -1,4 +1,4 @@
-import {findUpperTransform} from './utils/WbUtils.js';
+import {findUpperTransform} from './utils/utils.js';
 import WbLight from './WbLight.js';
 
 export default class WbPointLight extends WbLight {

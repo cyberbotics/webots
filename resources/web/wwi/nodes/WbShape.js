@@ -19,7 +19,7 @@ export default class WbShape extends WbBaseNode {
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
-      this._createWrenMaterial(ENUM.WR_MATERIAL_PHONG);
+      this._createWrenMaterial(Enum.WR_MATERIAL_PHONG);
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
@@ -156,7 +156,7 @@ export default class WbShape extends WbBaseNode {
     if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);
 
-    if (type === ENUM.WR_MATERIAL_PHONG) {
+    if (type === Enum.WR_MATERIAL_PHONG) {
       this.wrenMaterial = _wr_phong_material_new();
       _wr_phong_material_set_color(this.wrenMaterial, defaultColor);
       _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.phongShader());

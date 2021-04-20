@@ -1,4 +1,4 @@
-import {M_PI_4} from './nodes/WbConstants.js';
+import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
@@ -33,8 +33,8 @@ import WbVector4 from './nodes/utils/WbVector4.js';
 import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 
-import DefaultUrl from './Default_url.js';
-import loadHdr from './HdrLoader.js';
+import DefaultUrl from './DefaultUrl.js';
+import loadHdr from './hdr_loader.js';
 
 export default class Parser {
   constructor(prefix = '') {
