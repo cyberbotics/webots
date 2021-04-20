@@ -42,7 +42,6 @@ TexturedBackground {
   texture "factory"
 }
 SummitXlSteel {
-
   translation -6.23612 0.118 0.936359
   rotation -1 0 0 1.5708
   controller "keyboard_control"
