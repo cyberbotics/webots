@@ -20,7 +20,6 @@ SummitXlSteel {
   SFString    customData      ""
   SFBool      supervisor      FALSE
   SFBool      synchronization TRUE
-  SFBool      selfCollision   FALSE
   MFNode      frontLidarSlot  []
   MFNode      backLidarSlot   []
   MFNode      bodySlot        []
