@@ -38,7 +38,7 @@
     },
     {
         "timing" : {
-            "time" : 8.0,
+            "time" : 10.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -76,7 +76,7 @@
     },
     {
         "timing" : {
-            "time" : 10.0,
+            "time" : 15.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
@@ -97,7 +97,7 @@
     },
     {
         "timing" : {
-            "time" : 15.0,
+            "time" : 20.0,
             "clock_type" : "Simulated",
             "state" : "READY"
         },
