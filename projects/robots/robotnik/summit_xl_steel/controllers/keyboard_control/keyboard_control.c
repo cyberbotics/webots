@@ -35,8 +35,8 @@
 
 #define TIME_STEP 32
 #define WHEEL_RADIUS 0.127
-#define LX 0.215
-#define LY 0.240
+#define LX 0.2045 // lateral distance from robot's COM to wheel [m].
+#define LY 0.2225 // longitudinal distance from robot's COM to wheel [m]. 
 #define SPEED_INCREMENT 0.2
 #define MAX_SPEED 2.0
 
