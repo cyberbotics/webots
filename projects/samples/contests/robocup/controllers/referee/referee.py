@@ -35,6 +35,9 @@ HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulat
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
+GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
+PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
+HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
@@ -593,6 +596,32 @@ def update_contacts():
     update_team_contacts(blue_team, 'blue')
 
 
+def check_team_ball_holding(team):
+    for number in team['players']:
+        player = team['players'][number]
+        if 'hold_ball' in player:
+            color = 'Red' if team == red_team else 'Blue'
+            dt = (time_count - player['hold_ball']) / 1000
+            if number == '1':
+                if dt > GOAL_KEEPER_BALL_HOLDING_TIMEOUT:
+                    del player['hold_ball']
+                    info(f'{color} player {number} (goal keeper) has held the ball for too long.')
+                    return True
+            elif dt > PLAYER_BALL_HOLDING_TIMEOUT:
+                del player['hold_ball']
+                info(f'{color} player {number} has held the ball for too long.')
+                return True
+    return False
+
+
+def check_ball_holding():  # return the team id which gets a free kick in case of ball holding from the other team
+    if check_team_ball_holding(red_team):
+        return game.blue.id
+    if check_team_ball_holding(blue_team):
+        return game.red.id
+    return None
+
+
 def check_team_fallen(team, color):
     penalty = False
     for number in team['players']:
@@ -767,13 +796,25 @@ def reset_teams(pose):
         reset_player('blue', number, pose)
 
 
-def interruption(type):  # supported types: "CORNERKICK"
+def interruption(type, team=None):
     game.interruption = type
-    game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
-    game_controller_send(f'{game.interruption}:{game.interruption_team}')
-    color = 'red' if game.ball_last_touch_team == 'blue' else 'red'
+    if not team:
+        game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
+    else:
+        game.interruption_team = team
+    color = 'red' if game.interruption_team == game.red.id else 'blue'
     if type == 'CORNERKICK':
         info(f'Corner kick awarded to {color} team.')
+    elif type == 'GOALKICK':
+        info(f'Goal kick awarded to {color} team.')
+    elif type == 'THROWIN':
+        info(f'Throw in awarded to {color} team.')
+    elif type == 'DIRECT_FREEKICK':
+        info(f'Free kick awarded to {color} team.')
+    else:
+        error(f'Unsupported interuption: {type}')
+        return
+    game_controller_send(f'{game.interruption}:{game.interruption_team}')
 
 
 def throw_in(left_side):
@@ -1119,6 +1160,12 @@ while supervisor.step(time_step) != -1:
                 game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
     check_fallen()                                # detect fallen robots
+
+    if not game.interruption:
+        ball_holding = check_ball_holding()       # check for ball holding fouls
+        if ball_holding:
+            interruption('DIRECT_FREEKICK', ball_holding)
+
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
         send_penalties()
