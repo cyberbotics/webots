@@ -1,5 +1,5 @@
-import {array3Pointer} from './utils/WbUtils.js';
-import {textureQuality} from './WbPreferences.js';
+import {array3Pointer} from './utils/utils.js';
+import {textureQuality} from './wb_preferences.js';
 import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbBackground from './WbBackground.js';
 import WbVector3 from './utils/WbVector3.js';

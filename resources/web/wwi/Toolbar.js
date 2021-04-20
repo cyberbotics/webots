@@ -1,5 +1,5 @@
-import DefaultUrl from './Default_url.js';
-import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
+import DefaultUrl from './DefaultUrl.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import {webots} from './Webots.js';
 
 export default class Toolbar {

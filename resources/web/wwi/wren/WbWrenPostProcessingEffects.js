@@ -1,4 +1,4 @@
-import {arrayXPointer} from './../nodes/utils/WbUtils.js';
+import {arrayXPointer} from './../nodes/utils/utils.js';
 import WbWrenShaders from './WbWrenShaders.js';
 import WbWrenRenderingContext from './WbWrenRenderingContext.js';
 

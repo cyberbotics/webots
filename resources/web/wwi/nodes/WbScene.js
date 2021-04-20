@@ -1,4 +1,4 @@
-import {GTAO_LEVEL} from './WbPreferences.js';
+import {GTAO_LEVEL} from './wb_preferences.js';
 import WbWorld from './WbWorld.js';
 import WbWrenPostProcessingEffects from './../wren/WbWrenPostProcessingEffects.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';

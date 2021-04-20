@@ -1,4 +1,4 @@
-import {arrayXPointerFloat} from './utils/WbUtils.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 

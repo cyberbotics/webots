@@ -1,5 +1,5 @@
-import {arrayXPointer} from './utils/WbUtils.js';
-import {textureFiltering} from './WbPreferences.js';
+import {arrayXPointer} from './utils/utils.js';
+import {textureFiltering} from './wb_preferences.js';
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';

@@ -1,4 +1,4 @@
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/WbUtils.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbTriangleMesh from './utils/WbTriangleMesh.js';
