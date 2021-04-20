@@ -351,7 +351,11 @@ game_controller_send.unanswered = {}
 game_controller_send.sent_once = None
 
 
-def distance(v1, v2):
+def distance2(v1, v2):
+    return math.sqrt((v1[0] - v2[0]) ** 2 + (v1[1] - v2[1]) ** 2)
+
+
+def distance3(v1, v2):
     return math.sqrt((v1[0] - v2[0]) ** 2 + (v1[1] - v2[1]) ** 2 + (v1[2] - v2[2]) ** 2)
 
 
@@ -373,12 +377,18 @@ def rotate_along_z(axis_and_angle):
     return [v[0], v[1], v[2], a]
 
 
-def append_solid(solid, solids):
-    solids.append(solid)
+def append_solid(solid, solids):  # we list only the hands and feet
+    model_field = solid.getField('model')
+    if model_field:
+        model = model_field.getSFString()
+        suffix = model[-4:]
+        if suffix == 'hand' or suffix == 'foot':
+            solids.append(solid)
     children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
     for i in range(0, children.getCount()):
         child = children.getMFNode(i)
-        if child.getType() in [Node.ROBOT, Node.SOLID, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO, Node.TOUCH_SENSOR]:
+        if child.getType() in [Node.ROBOT, Node.SOLID, Node.GROUP, Node.TRANSFORM, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO,
+                               Node.TOUCH_SENSOR]:
             append_solid(child, solids)
             continue
         if child.getType() in [Node.HINGE_JOINT, Node.HINGE_2_JOINT, Node.SLIDER_JOINT, Node.BALL_JOINT]:
@@ -396,6 +406,9 @@ def list_team_solids(team):
         player['solids'] = []
         solids = player['solids']
         append_solid(robot, solids)
+        if len(solids) != 4:
+            color = 'red' if team == red_team else 'blue'
+            error(f'{color} player {number} is missing a hand or a foot.')
 
 
 def list_solids():
@@ -403,14 +416,94 @@ def list_solids():
     list_team_solids(blue_team)
 
 
+def area(x1, y1, x2, y2, x3, y3):
+    return abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0)
+
+
+def point_in_triangle(m, a, b, c):
+    abc = area(a[0], a[1], b[0], b[1], c[0], c[1])
+    mbc = area(m[0], m[1], b[0], b[1], c[0], c[1])
+    amc = area(a[0], a[1], m[0], m[1], c[0], c[1])
+    amb = area(a[0], a[1], b[0], b[1], m[0], m[1])
+    if abc == mbc + amc + amb:
+        return True
+    else:
+        return False
+
+
+def aabb_circle_collision(aabb, x, y, radius):
+    if x + radius < aabb[0]:
+        return False
+    if x - radius > aabb[2]:
+        return False
+    if y + radius < aabb[1]:
+        return False
+    if y - radius > aabb[3]:
+        return False
+    return True
+
+
+def segment_circle_collision(p1, p2, center, radius):
+    len = distance2(p1, p2)
+    dx = (p2[0] - p1[0]) / len
+    dy = (p2[1] - p1[1]) / len
+    t = dx * (center[0] - p1[0]) + dy * (center[1] - p1[1])
+    e = [t * dx + p1[0], t * dy + p1[1]]  # projection of circle center onto the segment
+    d = distance2(e, center)
+    return d < radius
+
+
+def triangle_circle_collision(p1, p2, p3, center, radius):
+    if distance2(p1, center) < radius or distance2(p2, center) < radius or distance2(p3, center) < radius:
+        return True
+    if point_in_triangle(center, p1, p2, p3):
+        return True
+    return segment_circle_collision(p1, p2, center, radius) \
+        or segment_circle_collision(p1, p3, center, radius) \
+        or segment_circle_collision(p2, p3, center, radius)
+
+
 def update_team_convex_hulls(team):
     for number in team['players']:
         player = team['players'][number]
-        player['convex_hull'] = []
-        convex_hull = player['convex_hull']
+        player['shadow'] = []
+        if 'aabb' in player:
+            del player['aabb']
+        shadow = player['shadow']
         for solid in player['solids']:
             position = solid.getPosition()
-            convex_hull.append([position[0], position[1]])
+            shadow.append([position[0], position[1]])
+            if 'aabb' not in player:
+                player['aabb'] = [position[0], position[1], position[0], position[1]]
+            else:
+                if position[0] < player['aabb'][0]:
+                    player['aabb'][0] = position[0]
+                elif position[0] > player['aabb'][2]:
+                    player['aabb'][2] = position[0]
+                if position[1] < player['aabb'][1]:
+                    player['aabb'][1] = position[1]
+                elif position[1] > player['aabb'][3]:
+                    player['aabb'][3] = position[1]
+        # check AABB for ball collision
+        if not aabb_circle_collision(player['aabb'], game.ball_position[0], game.ball_position[1], game.ball_radius):
+            player['hold_ball'] = False
+        else:  # compute convex hull of quad
+            if point_in_triangle(shadow[0], shadow[1], shadow[2], shadow[3]):
+                del shadow[0]
+            if point_in_triangle(shadow[1], shadow[0], shadow[2], shadow[3]):
+                del shadow[1]
+            if point_in_triangle(shadow[2], shadow[0], shadow[1], shadow[3]):
+                del shadow[2]
+            if point_in_triangle(shadow[3], shadow[0], shadow[1], shadow[2]):
+                del shadow[3]
+            if len(shadow) == 3:
+                player['hold_ball'] = triangle_circle_collision(shadow[0], shadow[1], shadow[2],
+                                                                game.ball_position, game.ball_radius)
+            else:
+                player['hold_ball'] = triangle_circle_collision(shadow[0], shadow[1], shadow[2],
+                                                                game.ball_position, game.ball_radius) \
+                                   or triangle_circle_collision(shadow[3], shadow[1], shadow[2],
+                                                                game.ball_position, game.ball_radius)
 
 
 def update_convex_hulls():
@@ -444,7 +537,7 @@ def update_team_contacts(team, color):
                             game.ball_last_touch_time = time_count
                             info('Ball touched again by same player.')
                 continue
-            if distance(point, [0, 0, game.turf_depth]) < game.center_circle_radius:
+            if distance3(point, [0, 0, game.turf_depth]) < game.center_circle_radius:
                 player['outside_circle'] = False
             if point_inside_field(point):
                 player['outside_field'] = False
@@ -600,9 +693,8 @@ def send_team_penalties(team, color):
             rotation = robot.getField('rotation')
             t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
             r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
-            ball_translation = game.ball_translation.getSFVec3f()
             t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
-            if (ball_translation[1] > 0 and t[1] > 0) or (ball_translation[1] < 0 and t[1] < 0):
+            if (game.ball_position[1] > 0 and t[1] > 0) or (game.ball_position[1] < 0 and t[1] < 0):
                 t[1] = -t[1]
                 r = rotate_along_z(r)
             # check if position is already occupied by a penalized robot
@@ -611,8 +703,8 @@ def send_team_penalties(team, color):
                 for n in team['players']:
                     other_robot = team['players'][n]['robot']
                     other_t = other_robot.getField('translation').getSFVec3f()
-                    if distance(other_t, t) < game.robot_radius:
-                        t[0] += game.penalty_offset if ball_translation[0] < t[0] else -game.penalty_offset
+                    if distance3(other_t, t) < game.robot_radius:
+                        t[0] += game.penalty_offset if game.ball_position[0] < t[0] else -game.penalty_offset
                         moved = True
                 if not moved:
                     break
@@ -869,8 +961,9 @@ while supervisor.step(time_step) != -1:
     if game.state is None:
         time_count += time_step
         continue
+    game.ball_position = game.ball_translation.getSFVec3f()
     update_contacts()  # check for collisions with the ground and ball
-    # update_convex_hulls() badly affects the performance (drop from 5x to 0.5x)
+    update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
@@ -898,16 +991,15 @@ while supervisor.step(time_step) != -1:
                     warning('PENALTY game not yet supported!')  # FIXME
                 else:
                     error(f'Unsupported game type: {game.type}.')
-        ball_translation = game.ball_translation.getSFVec3f()
         if game.ball_exited_countdown == 0 and \
-            (ball_translation[1] - game.ball_radius > game.field_size_y or
-             ball_translation[1] + game.ball_radius < -game.field_size_y or
-             ball_translation[0] - game.ball_radius > game.field_size_x or
-             ball_translation[0] + game.ball_radius < -game.field_size_x):
-            info(f'Ball left the field at ({ball_translation[0]} {ball_translation[1]} {ball_translation[2]}) after being '
-                 f'touched by {game.ball_last_touch_team} player {game.ball_last_touch_player}.')
+            (game.ball_position[1] - game.ball_radius > game.field_size_y or
+             game.ball_position[1] + game.ball_radius < -game.field_size_y or
+             game.ball_position[0] - game.ball_radius > game.field_size_x or
+             game.ball_position[0] + game.ball_radius < -game.field_size_x):
+            info(f'Ball left the field at ({game.ball_position[0]} {game.ball_position[1]} {game.ball_position[2]}) after '
+                 f'being touched by {game.ball_last_touch_team} player {game.ball_last_touch_player}.')
             game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
-            game.ball_exit_translation = ball_translation
+            game.ball_exit_translation = game.ball_position
             scoring_team = None
             right_way = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
