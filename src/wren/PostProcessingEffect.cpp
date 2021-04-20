@@ -60,7 +60,8 @@ namespace wren {
       inputOutput.mTextureOdd = TextureRtt::copyTextureRtt(inputOutput.mTextureEven);
       inputOutput.mOutputTextureIndexOdd = mFrameBuffer->outputTextures().size();
       mFrameBuffer->appendOutputTexture(inputOutput.mTextureOdd);
-
+      mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, true);
+      mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, false);
       mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
     }
 
