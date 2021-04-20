@@ -1,8 +1,8 @@
 'use strict';
-import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import Animation_slider from './Animation_slider.js';
 import WbWorld from './nodes/WbWorld.js';
-import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/WbPreferences.js';
+import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {

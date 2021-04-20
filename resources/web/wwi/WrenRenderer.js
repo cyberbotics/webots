@@ -1,5 +1,5 @@
 import WbWorld from './nodes/WbWorld.js';
-import {disableShadows} from './nodes/WbPreferences.js';
+import {disableShadows} from './nodes/wb_preferences.js';
 
 export default class WrenRenderer {
   constructor() {

@@ -1,4 +1,4 @@
-import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/utils/WbUtils.js';
+import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/utils/utils.js';
 import WbVector3 from './../nodes/utils/WbVector3.js';
 import WbWrenShaders from './WbWrenShaders.js';
 
@@ -183,7 +183,7 @@ export default class WbWrenPicker {
 
     this.frameBufferDepth = _wr_frame_buffer_new();
     this.outputTextureDepth = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this.outputTextureDepth, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    _wr_texture_set_internal_format(this.outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
     _wr_frame_buffer_set_size(this.frameBufferDepth, this.width, this.height);
     _wr_frame_buffer_enable_depth_buffer(this.frameBufferDepth, true);

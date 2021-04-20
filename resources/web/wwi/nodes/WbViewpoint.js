@@ -1,6 +1,6 @@
-import {M_PI_4, TAN_M_PI_8} from './WbConstants.js';
-import {direction, up} from './utils/WbUtils.js';
-import {GtaoLevel, disableAntiAliasing} from './WbPreferences.js';
+import {M_PI_4, TAN_M_PI_8} from './utils/constants.js';
+import {direction, up} from './utils/utils.js';
+import {GtaoLevel, disableAntiAliasing} from './wb_preferences.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';

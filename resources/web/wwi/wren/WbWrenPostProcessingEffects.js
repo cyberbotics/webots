@@ -1,4 +1,4 @@
-import {arrayXPointer} from './../nodes/utils/WbUtils.js';
+import {arrayXPointer} from './../nodes/utils/utils.js';
 import WbWrenShaders from './WbWrenShaders.js';
 import WbWrenRenderingContext from './WbWrenRenderingContext.js';
 
@@ -24,7 +24,7 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_alpha_blending(brightPass, false);
     _wr_post_processing_effect_pass_set_input_texture_count(brightPass, 1);
     _wr_post_processing_effect_pass_set_output_texture_count(brightPass, 1);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(brightPass, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_output_texture_format(brightPass, 0, textureFormat);
     _wr_post_processing_effect_append_pass(bloomEffect, brightPass);
 
@@ -40,8 +40,8 @@ export default class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_alpha_blending(blurPass, false);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 0, true);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(blurPass, 1, true);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blurPass, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
       _wr_post_processing_effect_pass_set_output_texture_count(blurPass, 1);
       _wr_post_processing_effect_pass_set_output_texture_format(blurPass, 0, textureFormat);
       _wr_post_processing_effect_pass_set_iteration_count(blurPass, 2);
@@ -55,7 +55,7 @@ export default class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
       _wr_post_processing_effect_pass_set_alpha_blending(downsamplePass, false);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(downsamplePass, 0, true);
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(downsamplePass, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
       _wr_post_processing_effect_pass_set_output_texture_count(downsamplePass, 1);
       _wr_post_processing_effect_pass_set_output_texture_format(downsamplePass, 0, textureFormat);
       _wr_post_processing_effect_append_pass(bloomEffect, downsamplePass);
@@ -70,7 +70,7 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_input_texture_count(blendPass, 7);
 
     for (let i = 0; i < 7; ++i)
-      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+      _wr_post_processing_effect_pass_set_input_texture_wrap_mode(blendPass, i, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
 
     _wr_post_processing_effect_pass_set_output_texture_count(blendPass, 1);
     _wr_post_processing_effect_pass_set_output_texture_format(blendPass, 0, textureFormat);
@@ -131,7 +131,7 @@ export default class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_input_texture(depthDownsamplePassThrough, 0, depthTexture);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(depthDownsamplePassThrough, 0, false);
       _wr_post_processing_effect_pass_set_output_texture_count(depthDownsamplePassThrough, 1);
-      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_R32F);
+      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
       _wr_post_processing_effect_append_pass(gtaoEffect, depthDownsamplePassThrough);
 
       normalDownsamplePassThrough = _wr_post_processing_effect_pass_new();
@@ -161,16 +161,16 @@ export default class WbWrenPostProcessingEffects {
     }
 
     _wr_post_processing_effect_pass_set_input_texture(gtaoForwardPass, 2, WbWrenPostProcessingEffects.gtaoNoiseTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(gtaoForwardPass, 2, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(gtaoForwardPass, 2, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(gtaoForwardPass, true);
     _wr_post_processing_effect_pass_set_alpha_blending(gtaoForwardPass, false);
     _wr_post_processing_effect_pass_set_output_texture_count(gtaoForwardPass, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(gtaoForwardPass, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, gtaoForwardPass);
 
     const spatialDenoise = _wr_post_processing_effect_pass_new();
@@ -184,14 +184,14 @@ export default class WbWrenPostProcessingEffects {
 
     _wr_post_processing_effect_pass_set_input_texture_count(spatialDenoise, 2);
     _wr_post_processing_effect_pass_set_input_texture(spatialDenoise, 1, depthTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(spatialDenoise, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 0, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(spatialDenoise, 1, false);
     _wr_post_processing_effect_pass_set_alpha_blending(spatialDenoise, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(spatialDenoise, true);
     _wr_post_processing_effect_pass_set_output_texture_count(spatialDenoise, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(spatialDenoise, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, spatialDenoise);
 
     const temporalDenoise = _wr_post_processing_effect_pass_new();
@@ -200,10 +200,10 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_size(temporalDenoise, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(temporalDenoise, 4);
     _wr_post_processing_effect_pass_set_input_texture(temporalDenoise, 3, depthTexture);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 3, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 2, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(temporalDenoise, 3, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 0, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 1, true);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(temporalDenoise, 2, false);
@@ -211,7 +211,7 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_alpha_blending(temporalDenoise, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(temporalDenoise, true);
     _wr_post_processing_effect_pass_set_output_texture_count(temporalDenoise, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(temporalDenoise, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RED);
     _wr_post_processing_effect_append_pass(gtaoEffect, temporalDenoise);
 
     const finalBlend = _wr_post_processing_effect_pass_new();
@@ -219,9 +219,9 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_program(finalBlend, WbWrenShaders.gtaoCombineShader());
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 3);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 2, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 0, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 1, false);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(finalBlend, 2, false);
@@ -229,8 +229,8 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_input_texture(finalBlend, 2, depthTexture);
     _wr_post_processing_effect_pass_set_output_texture_count(finalBlend, 3);
     _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, textureFormat);
-    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 1, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RED);
-    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 2, ENUM.WR_TEXTURE_INTERNAL_FORMAT_R32F);
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 1, Enum.WR_TEXTURE_INTERNAL_FORMAT_RED);
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 2, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
     _wr_post_processing_effect_append_pass(gtaoEffect, finalBlend);
 
     // color texture for blending at the end
@@ -288,7 +288,7 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_input_texture_count(passThrough, 1);
     _wr_post_processing_effect_pass_set_alpha_blending(passThrough, false);
     _wr_post_processing_effect_pass_set_output_texture_count(passThrough, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    _wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_post_processing_effect_append_pass(smaaEffect, passThrough);
 
     const edgeDetection = _wr_post_processing_effect_pass_new();
@@ -296,10 +296,10 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_program(edgeDetection, WbWrenShaders.smaaEdgeDetectionShader());
     _wr_post_processing_effect_pass_set_output_size(edgeDetection, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(edgeDetection, 1);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(edgeDetection, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(edgeDetection, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_clear_before_draw(edgeDetection, true);
     _wr_post_processing_effect_pass_set_output_texture_count(edgeDetection, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(edgeDetection, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RG8);
+    _wr_post_processing_effect_pass_set_output_texture_format(edgeDetection, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RG8);
     _wr_post_processing_effect_append_pass(smaaEffect, edgeDetection);
 
     const weightCalculation = _wr_post_processing_effect_pass_new();
@@ -307,16 +307,16 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_program(weightCalculation, WbWrenShaders.smaaBlendingWeightCalculationShader());
     _wr_post_processing_effect_pass_set_output_size(weightCalculation, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(weightCalculation, 3);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 2, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(weightCalculation, 2, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_input_texture(weightCalculation, 1, WbWrenPostProcessingEffects.smaaAreaTexture);
     _wr_post_processing_effect_pass_set_input_texture(weightCalculation, 2, WbWrenPostProcessingEffects.smaaSearchTexture);
     _wr_post_processing_effect_pass_set_input_texture_interpolation(weightCalculation, 2, false);
     _wr_post_processing_effect_pass_set_clear_before_draw(weightCalculation, true);
     _wr_post_processing_effect_pass_set_alpha_blending(weightCalculation, false);
     _wr_post_processing_effect_pass_set_output_texture_count(weightCalculation, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(weightCalculation, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    _wr_post_processing_effect_pass_set_output_texture_format(weightCalculation, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_post_processing_effect_append_pass(smaaEffect, weightCalculation);
 
     const finalBlend = _wr_post_processing_effect_pass_new();
@@ -325,10 +325,10 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_pass_set_output_size(finalBlend, width, height);
     _wr_post_processing_effect_pass_set_alpha_blending(finalBlend, false);
     _wr_post_processing_effect_pass_set_input_texture_count(finalBlend, 2);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
-    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, ENUM.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 0, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+    _wr_post_processing_effect_pass_set_input_texture_wrap_mode(finalBlend, 1, Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
     _wr_post_processing_effect_pass_set_output_texture_count(finalBlend, 1);
-    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+    _wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGB8);
     _wr_post_processing_effect_append_pass(smaaEffect, finalBlend);
 
     _wr_post_processing_effect_connect(smaaEffect, passThrough, 0, finalBlend, 0);

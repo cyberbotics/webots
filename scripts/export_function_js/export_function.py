@@ -59,14 +59,14 @@ try:
     # Eliminate the include guard
     all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.items() if not ("_H" in value[0])]
 
-    if os.path.exists("../../resources/web/streaming_viewer/Enum.js"):
-        os.remove("../../resources/web/streaming_viewer/Enum.js")
+    if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
+        os.remove("../../resources/web/streaming_viewer/enum.js")
 
-    f = open("../../resources/web/streaming_viewer/Enum.js", 'w')
+    f = open("../../resources/web/streaming_viewer/enum.js", 'w')
 
     values_string = ''.join(all_values)
     values_string = values_string[:len(values_string) - 3]
-    f.write("const ENUM = {\n" + values_string + "}")
+    f.write("const Enum = {\n" + values_string + "}")
 
     f.close()
 

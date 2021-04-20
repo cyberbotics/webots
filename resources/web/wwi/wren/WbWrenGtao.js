@@ -1,4 +1,4 @@
-import {arrayXPointerFloat, pointerOnFloat} from './../nodes/utils/WbUtils.js';
+import {arrayXPointerFloat, pointerOnFloat} from './../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 
@@ -88,7 +88,7 @@ export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     const depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
     const normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, ENUM.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F, depthTexture, normalTexture, this.halfResolution);
+    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F, depthTexture, normalTexture, this.halfResolution);
 
     this.gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'gtaoForwardPass']);
     this.temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this.wrenPostProcessingEffect, 'temporalDenoise']);
