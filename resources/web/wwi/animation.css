@@ -122,12 +122,14 @@ li:hover {
 .checkSpeed {
   display: inline-block;
   min-width: 12px;
+  pointer-events: none;
 }
 
 .settingTitle {
   display: inline-block;
   vertical-align: middle;
   padding: 6px 5px;
+  pointer-events: none;
 }
 
 .speed {

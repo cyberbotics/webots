@@ -10,6 +10,7 @@ export default class Animation {
     this.view = view;
     this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this.loop = typeof loop === 'undefined' ? true : loop;
+    this.speed = 1;
   };
 
   init(onReady) {
@@ -147,15 +148,19 @@ export default class Animation {
     playBackLi.onclick = () => this._closeSpeedPane();
     speedList.appendChild(playBackLi);
 
-    for (let i of ['0.25', '0.5', '0.75', 'Normal', '1.25', '1.5', '1.75', '2']) {
+    for (let i of ['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']) {
       playBackLi = document.createElement('li');
       playBackLi.id = i;
       label = document.createElement('span');
-      if (i === 'Normal')
+      if (i === '1')
         label.innerHTML = '&check;';
+      label.id = 'c' + i;
       label.className = 'checkSpeed';
       playBackLi.appendChild(label);
       label = document.createElement('span');
+      if (i === '1')
+        label.innerHTML = 'Normal';
+
       label.innerHTML = i;
       label.className = 'settingTitle';
       playBackLi.appendChild(label);
@@ -212,8 +217,6 @@ export default class Animation {
     // Notify creation completed.
     if (typeof this.onReady === 'function')
       this.onReady();
-
-    console.time('time');
   }
 
   _elapsedTime() {
@@ -231,7 +234,7 @@ export default class Animation {
         this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
     } else {
       this.gui = 'real_time';
-      this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
+      this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
@@ -267,9 +270,8 @@ export default class Animation {
   _updateAnimationState(requestedStep = undefined, click) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
-      requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
+      requestedStep = Math.floor(this._elapsedTime() * this.speed / this.data.basicTimeStep);
       if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
-        console.timeEnd('time');
         if (this.loop) {
           if (requestedStep > this.data.frames.length) {
             requestedStep = 0;
@@ -375,8 +377,15 @@ export default class Animation {
   _changeSpeed(event) {
     this.speed = event.srcElement.id;
     document.getElementById('speedPane').style.visibility = 'hidden';
-    document.getElementById('speedDisplay').innerHTML = this.speed;
+    document.getElementById('speedDisplay').innerHTML = this.speed === '1' ? 'Normal' : this.speed;
     document.getElementById('settingsPane').style.visibility = 'visible';
+    for (let i of document.getElementsByClassName('checkSpeed')) {
+      if (i.id === 'c' + this.speed)
+        i.innerHTML = '&check;';
+      else
+        i.innerHTML = '';
+    }
+    this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
   }
 
   _openSpeedPane() {
