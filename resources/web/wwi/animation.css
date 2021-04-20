@@ -119,7 +119,7 @@ li:hover {
   min-width: 30px;
 }
 
-.checkSpeed {
+.checkSpeed, .checkGtao{
   display: inline-block;
   min-width: 12px;
   pointer-events: none;

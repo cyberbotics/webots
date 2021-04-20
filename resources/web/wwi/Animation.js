@@ -2,7 +2,7 @@
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './Fullscreen_handler.js';
 import Animation_slider from './Animation_slider.js';
 import WbWorld from './nodes/WbWorld.js'
-import {changeShadows, changeGtaoLevel} from './nodes/WbPreferences.js';
+import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/WbPreferences.js';
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
@@ -111,7 +111,7 @@ export default class Animation {
     document.getElementById('settingsList').appendChild(shadowLi);
 
     let gtaoLi = document.createElement('li');
-    gtaoLi.id = 'graphicalSettings';
+    gtaoLi.id = 'gtaoSettings';
     label = document.createElement('span');
     label.className = 'settingTitle';
     label.innerHTML = 'Ambiant Occlusion';
@@ -121,13 +121,60 @@ export default class Animation {
     gtaoLi.appendChild(label);
     label = document.createElement('span');
     label.className = 'textSetting';
-    label.innerHTML = 'Normale';
+    label.innerHTML = this._gtaoLevelToText(GtaoLevel);
     label.id = 'gtaoDisplay';
     gtaoLi.appendChild(label);
     label = document.createElement('div');
     label.className = 'arrowRight';
     gtaoLi.appendChild(label);
     document.getElementById('settingsList').appendChild(gtaoLi);
+    gtaoLi.onclick = () => this._openGtaoPane();
+
+    let gtaoPane = document.createElement('div');
+    gtaoPane.className = 'jsm-settings';
+    gtaoPane.id = 'gtaoPane';
+    gtaoPane.style.visibility = 'hidden';
+
+    let gtaoList = document.createElement('ul');
+    gtaoList.id = 'gtaoList';
+    gtaoPane.appendChild(gtaoList);
+    document.getElementById('view3d').appendChild(gtaoPane);
+
+    let gtaoLevelLi = document.createElement('li');
+    gtaoLevelLi.id = 'gtaoTitle';
+    gtaoLevelLi.className = 'firstLi';
+    label = document.createElement('div');
+    label.className = 'arrowLeft';
+    gtaoLevelLi.appendChild(label);
+    label = document.createElement('span');
+    label.innerHTML = 'Ambiant Occlusion Level';
+    label.className = 'settingTitle';
+    gtaoLevelLi.appendChild(label);
+    label = document.createElement('div');
+    label.className = 'spacer';
+    gtaoLevelLi.appendChild(label);
+    gtaoLevelLi.onclick = () => this._closeGtaoPane();
+    gtaoList.appendChild(gtaoLevelLi);
+
+    for (let i of ['Low', 'Normal', 'High', 'Ultra']) {
+      gtaoLevelLi = document.createElement('li');
+      gtaoLevelLi.id = i;
+      label = document.createElement('span');
+      if (this._gtaoLevelToText(GtaoLevel) === i)
+        label.innerHTML = '&check;';
+      label.id = 'c' + i;
+      label.className = 'checkGtao';
+      gtaoLevelLi.appendChild(label);
+      label = document.createElement('span');
+      label.innerHTML = i;
+      label.className = 'settingTitle';
+      gtaoLevelLi.appendChild(label);
+      label = document.createElement('div');
+      label.className = 'spacer';
+      gtaoLevelLi.appendChild(label);
+      gtaoLevelLi.onclick = _ => this._changeGtao(_);
+      gtaoList.appendChild(gtaoLevelLi);
+    }
 
     let playBackLi = document.createElement('li');
     playBackLi.id = 'playBackLi';
@@ -140,7 +187,7 @@ export default class Animation {
     playBackLi.appendChild(label);
     label = document.createElement('span');
     label.className = 'textSetting';
-    label.innerHTML = 'Normale';
+    label.innerHTML = 'Normal';
     label.id = 'speedDisplay';
     playBackLi.appendChild(label);
     label = document.createElement('div');
@@ -152,7 +199,6 @@ export default class Animation {
     let speedPane = document.createElement('div');
     speedPane.className = 'jsm-settings';
     speedPane.id = 'speedPane';
-    speedPane.style.width = settingsPane.style.width;
     speedPane.style.visibility = 'hidden';
 
     let speedList = document.createElement('ul');
@@ -424,5 +470,69 @@ export default class Animation {
   _closeSpeedPane() {
     document.getElementById('settingsPane').style.visibility = 'visible';
     document.getElementById('speedPane').style.visibility = 'hidden';
+  }
+
+  _changeGtao(event) {
+    changeGtaoLevel(this.textToGtaoLevel(event.srcElement.id));
+    document.getElementById('gtaoPane').style.visibility = 'hidden';
+    document.getElementById('gtaoDisplay').innerHTML = event.srcElement.id;
+    document.getElementById('settingsPane').style.visibility = 'visible';
+    for (let i of document.getElementsByClassName('checkGtao')) {
+      if (i.id === 'c' + event.srcElement.id)
+        i.innerHTML = '&check;';
+      else
+        i.innerHTML = '';
+    }
+    this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
+  }
+
+  _openGtaoPane() {
+    document.getElementById('settingsPane').style.visibility = 'hidden';
+    document.getElementById('gtaoPane').style.visibility = 'visible';
+  }
+
+  _closeGtaoPane() {
+    document.getElementById('settingsPane').style.visibility = 'visible';
+    document.getElementById('gtaoPane').style.visibility = 'hidden';
+  }
+
+  _gtaoLevelToText(number) {
+    let string = '';
+    switch (number) {
+      case 1:
+        string = 'Low';
+        break;
+      case 2:
+        string = 'Medium';
+        break;
+      case 3:
+        string = 'High';
+        break;
+      case 4:
+        string = 'Ultra';
+        break;
+    }
+
+    return string;
+  }
+
+  textToGtaoLevel(text) {
+    let level = 4;
+    switch (text) {
+      case 'Low':
+        level = 1;
+        break;
+      case 'Medium':
+        level = 2;
+        break;
+      case 'High':
+        level = 3;
+        break;
+      case 'Ultra':
+        level = 4;
+        break;
+    }
+
+    return level;
   }
 }
