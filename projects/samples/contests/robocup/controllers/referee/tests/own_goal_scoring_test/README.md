@@ -29,13 +29,11 @@ The following information should be contained in logs (among others):
 
 ```
 [SSSS.xxx|SSSS.xxx] Info: Ball touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Ball left the field at (-4.5712084619910724 0.01775100835668539 0.07844848079007057) after being touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Sending 11232:SCORE:2 to GameController.
+[SSSS.xxx|SSSS.xxx] Info: Ball left the field at (-4.58 0 0.08) after being touched by red player 1.
 [SSSS.xxx|SSSS.xxx] Info: Score in red goal by red player 1
 [SSSS.xxx|SSSS.xxx] Info: Kickoff is red
 [SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_READY.
 [SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_SET.
 [SSSS.xxx|SSSS.xxx] Info: Ball respawned at 0 0 0.08.
-[SSSS.xxx|SSSS.xxx] Info: Sending 18344:STATE:PLAY to GameController.
 [SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_PLAYING.
 ```
