@@ -30,6 +30,12 @@ class StatusInformation:
         Returns a string describing the current time in a pretty format
     getGameState()
         Returns the current game state, or None if no GameState has been made available yet.
+    getSecondaryState()
+        Returns the current secondary state (e.g. DIRECT_FREEKICK)
+    getSecondaryTeamId()
+        Returns the Id of the team concerned by the secondary state
+    getSecondaryPhase()
+        Returns the state phase of the secondary state
     getStateStart(state, clock_type)
         Returns the time at which the provided state was reached first, or -1 if it has never been reached.
     """
@@ -53,6 +59,21 @@ class StatusInformation:
         if self.gc_status is None:
             return None
         return self.gc_status.game_state.split("_")[1]
+
+    def getSecondaryState(self):
+        if self.gc_status is None:
+            return None
+        return self.gc_status.secondary_state[6:]
+
+    def getSecondaryTeamId(self):
+        if self.gc_status is None:
+            return None
+        return int(self.gc_status.secondary_state_info[0])
+
+    def getSecondaryPhase(self):
+        if self.gc_status is None:
+            return None
+        return int(self.gc_status.secondary_state_info[1])
 
     def getStateStart(self, state, clock_type):
         state_start = self._state_starts.get(state)
@@ -185,7 +206,8 @@ class Test:
     """
 
     def __init__(self, name, target = None, position = None, rotation = None,
-                 state = None, penalty = None, yellow_cards = None):
+                 state = None, penalty = None, yellow_cards = None, secondary_state = None, secondary_team_id = None,
+                 secondary_phase = None):
         self._name = name
         self._target = target
         self._position = position
@@ -193,6 +215,9 @@ class Test:
         self._state = state
         self._penalty = penalty
         self._yellow_cards = yellow_cards
+        self._secondary_state = secondary_state
+        self._secondary_team_id = secondary_team_id
+        self._secondary_phase = secondary_phase
         self._msg = []
         self._success = True
 
@@ -207,6 +232,12 @@ class Test:
             self._testYellowCards(status, supervisor)
         if self._state is not None:
             self._testState(status, supervisor)
+        if self._secondary_state is not None:
+            self._testSecondaryState(status, supervisor)
+        if self._secondary_team_id is not None:
+            self._testSecondaryTeamId(status, supervisor)
+        if self._secondary_phase is not None:
+            self._testSecondaryPhase(status, supervisor)
 
     def hasPassed(self):
         return self._success
@@ -229,6 +260,9 @@ class Test:
         t._position = dic.get("position")
         t._rotation = dic.get("rotation")
         t._state = dic.get("state")
+        t._secondary_state = dic.get("secondary_state")
+        t._secondary_team_id = dic.get("secondary_team_id")
+        t._secondary_phase = dic.get("secondary_phase")
         t._penalty = dic.get("penalty")
         t._yellow_cards = dic.get("yellow_cards")
         return t
@@ -288,6 +322,39 @@ class Test:
                 f"received {received_state}, expecting {expected_state}"
             self._msg.append(failure_msg)
             self._state = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+    def _testSecondaryState(self, status, supervisor):
+        received_state = status.getSecondaryState()
+        expected_state = self._secondary_state
+        if expected_state != received_state:
+            failure_msg = f"Invalid secondary state at {status.getFormattedTime()}: "\
+                f"received {received_state}, expecting {expected_state}"
+            self._msg.append(failure_msg)
+            self._secondary_state = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+    def _testSecondaryTeamId(self, status, supervisor):
+        received_team_id = status.getSecondaryTeamId()
+        expected_team_id = self._secondary_team_id
+        if expected_team_id != received_team_id:
+            failure_msg = f"Invalid secondary team_id at {status.getFormattedTime()}: "\
+                f"received {received_team_id}, expecting {expected_team_id}"
+            self._msg.append(failure_msg)
+            self._secondary_team_id = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+    def _testSecondaryPhase(self, status, supervisor):
+        received_phase = status.getSecondaryPhase()
+        expected_phase = self._secondary_phase
+        if expected_phase != received_phase:
+            failure_msg = f"Invalid secondary phase at {status.getFormattedTime()}: "\
+                f"received {received_phase}, expecting {expected_phase}"
+            self._msg.append(failure_msg)
+            self._secondary_phase = None
             # Each test can only fail once to avoid spamming
             self._success = False
 
