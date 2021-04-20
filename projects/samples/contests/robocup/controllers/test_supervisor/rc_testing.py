@@ -363,7 +363,7 @@ class Test:
             raise RuntimeError("{self._name} tests position and has no target")
         gc_data = self._getTargetGCData(status)
         received = gc_data.number_of_yellow_cards
-        if received != self._penalty:
+        if received != self._yellow_cards:
             failure_msg = \
                 f"Invalid number of yellow cards at {status.getFormattedTime()}: "\
                 f"for {self._target}: received {received},"\
