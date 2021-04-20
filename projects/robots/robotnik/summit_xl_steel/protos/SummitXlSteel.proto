@@ -14,7 +14,6 @@ PROTO SummitXlSteel [
   field  SFString    customData      ""                 # Is `Robot.customData`.
   field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE              # Enables/disables the detection of collisions within the robot.
   field  MFNode      frontLidarSlot  []                 # Extends the robot with a front lidar sensor.
   field  MFNode      backLidarSlot   []                 # Extends the robot with a back lidar sensor.
   field  MFNode      bodySlot        []                 # Extends the robot with new nodes (such as the Robotino3Platform for example).
@@ -28,7 +27,6 @@ PROTO SummitXlSteel [
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
-    selfCollision IS selfCollision
     name IS name
     children [
       Shape {
