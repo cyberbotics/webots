@@ -52,7 +52,7 @@ SummitXlSteel {
   ]
   backLidarSlot [
     SickS300 {
-      name "rear_lidar"
+      name "back_lidar"
     }
   ]
   bodySlot [
