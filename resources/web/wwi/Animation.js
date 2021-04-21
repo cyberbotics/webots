@@ -182,13 +182,33 @@ export default class Animation {
     return this._parseMillisecondsIntoReadableTime(time).substring(this.unusedPrefix);
   }
 
-  _showPlayBar(e) {
+  _showPlayBar() {
     clearTimeout(this.timeout);
     document.getElementById('playBar').style.opacity = '1';
   }
 
   _hidePlayBar(e) {
-    this.timeout = setTimeout(() => { if (!AnimationSlider.isSelected && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') document.getElementById('playBar').style.opacity = '0'; }, 3000);
+    if (typeof e.relatedTarget !== 'undefined' && e.relatedTarget.id === 'canvas') {
+      this.timeout = setTimeout(() => {
+        this._hidePlayBarNow();
+      }, 3000);
+    } else
+      this._hidePlayBarNow();
+  }
+
+  _hidePlayBarNow() {
+    let isPlaying = document.getElementById('playButton').className === 'player-btn icon-pause';
+    if (!AnimationSlider.isSelected && isPlaying &&
+    document.getElementById('settingsPane').style.visibility === 'hidden' &&
+    document.getElementById('gtaoPane').style.visibility === 'hidden' &&
+    document.getElementById('speedPane').style.visibility === 'hidden')
+      document.getElementById('playBar').style.opacity = '0';
+  }
+
+  _onMouseLeave(e) {
+    if (typeof e.relatedTarget !== 'undefined' &&
+    e.relatedTarget.id !== 'canvas')
+      this.view.mouseEvents.onMouseLeave();
   }
 
   _changeSettingsPaneVisibility(event) {
@@ -249,6 +269,7 @@ export default class Animation {
         i.innerHTML = '';
     }
     this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
+    this.scene.render();
   }
 
   _openGtaoPane() {
@@ -306,8 +327,9 @@ export default class Animation {
     div.id = 'playBar';
     this.view.view3D.appendChild(div);
 
-    div.addEventListener('mouseover', this._showPlayBar);
-    div.addEventListener('mouseout', this._hidePlayBar);
+    div.addEventListener('mouseover', () => this._showPlayBar());
+    div.addEventListener('mouseout', _ => this._hidePlayBar(_));
+    div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
     let leftPane = document.createElement('div');
     leftPane.className = 'left';
@@ -319,6 +341,8 @@ export default class Animation {
 
     document.getElementById('playBar').appendChild(leftPane);
     document.getElementById('playBar').appendChild(rightPane);
+    this.view.mouseEvents.hidePlayBar = this._hidePlayBarNow;
+    this.view.mouseEvents.showPlayBar = this._showPlayBar;
   }
 
   _createSlider() {
@@ -433,6 +457,7 @@ export default class Animation {
     shadowLi.onclick = _ => {
       button.click();
       changeShadows();
+      this.scene.render();
     };
   }
 
@@ -585,8 +610,8 @@ export default class Animation {
       label = document.createElement('span');
       if (i === '1')
         label.innerHTML = 'Normal';
-
-      label.innerHTML = i;
+      else
+        label.innerHTML = i;
       label.className = 'settingTitle';
       playBackLi.appendChild(label);
       label = document.createElement('div');

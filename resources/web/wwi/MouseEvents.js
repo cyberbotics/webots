@@ -28,7 +28,7 @@ export default class MouseEvents {
     this.ontouchend = (event) => { this._onTouchEnd(event); };
     domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
     domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
-    domElement.addEventListener('mouseleave', (event) => { this._onMouseLeave(event); }, false);
+    domElement.addEventListener('mouseleave', (event) => { this.onMouseLeave(event); }, false);
     domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
     domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
@@ -257,17 +257,28 @@ export default class MouseEvents {
 
   _onMouseOver(event) {
     this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
+
+    if (typeof this.showPlayBar !== 'undefined')
+      this.showPlayBar();
   }
 
-  _onMouseLeave(event) {
+  onMouseLeave(event) {
+    if (typeof event !== 'undefined' && event.relatedTarget !== null &&
+      event.relatedTarget.id === 'timeSlider')
+      return;
+
     if (this.state.wheelTimeout != null) {
       clearTimeout(this.state.wheelTimeout);
       this.state.wheelTimeout = null;
     }
+
     this.state.wheelFocus = false;
 
     if (typeof webots.currentView.onmouseleave === 'function')
       webots.currentView.onmouseleave(event);
+
+    if (typeof this.hidePlayBar !== 'undefined')
+      this.hidePlayBar();
   }
 
   _onTouchMove(event) {

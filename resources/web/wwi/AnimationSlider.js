@@ -11,6 +11,10 @@ template.innerHTML = `
   height:3px;
   background:rgba(140,140,140,0.5);
   cursor: pointer;
+  padding: 3px 0px;
+  background-clip: content-box;
+  user-select: none; /*fix selection bug in chrome*/
+  -webkit-user-select: none;
 }
 
 .range:hover{
@@ -83,6 +87,9 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseDown() {
     AnimationSlider.isSelected = true;
+    document.querySelector('my-slider').shadowRoot.getElementById('thumb').style.visibility = 'visible';
+    document.querySelector('my-slider').shadowRoot.getElementById('slider').style.height = '5px';
+    document.querySelector('my-slider').shadowRoot.getElementById('range').style.height = '5px';
   }
 
   _mouseUp() {
@@ -96,6 +103,9 @@ export default class AnimationSlider extends HTMLElement {
       document.dispatchEvent(event);
 
       AnimationSlider.isSelected = false;
+      document.querySelector('my-slider').shadowRoot.getElementById('thumb').style.visibility = '';
+      document.querySelector('my-slider').shadowRoot.getElementById('slider').style.height = '';
+      document.querySelector('my-slider').shadowRoot.getElementById('range').style.height = '';
     }
   }
 
