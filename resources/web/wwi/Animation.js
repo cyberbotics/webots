@@ -99,6 +99,8 @@ export default class Animation {
     const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(requestedStep, event.click);
+
+    document.getElementById('timeSlider').setTime(this._formatTime(this.data.frames[requestedStep].time));
   }
 
   _updateAnimationState(requestedStep = undefined, click) {
@@ -353,6 +355,8 @@ export default class Animation {
     let those = this;
     document.addEventListener('slider_input', (e) => { those._updateSlider(e); });
     document.getElementById('playBar').appendChild(timeSlider);
+    document.querySelector('my-slider').shadowRoot.getElementById('range').addEventListener('mousemove', _ => this._updateFloatingTimePosition(_));
+    document.querySelector('my-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', _ => this._hideFloatingTimePosition(_));
   }
 
   _createPlayButton() {
@@ -384,8 +388,29 @@ export default class Animation {
 
     let totalTime = document.createElement('span');
     totalTime.className = 'total-time';
-    totalTime.innerHTML = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
+    let time = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
+    totalTime.innerHTML = time;
     document.getElementById('leftPane').appendChild(totalTime);
+
+    let offset;
+    switch (time.length) {
+      case 20:
+        offset = 19;
+        break;
+      case 22:
+        offset = 25;
+        break;
+      case 23:
+        offset = 30;
+        break;
+      case 25:
+        offset = 36;
+        break;
+      default:
+        offset = 0;
+    }
+
+    document.getElementById('timeSlider').setOffset(offset);
   }
 
   _createSettings() {
@@ -670,5 +695,26 @@ export default class Animation {
       this._triggerPlayPauseButton();
     else if (e.code === 'KeyF')
       this.fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.view);
+  }
+
+  _updateFloatingTimePosition(e) {
+    document.querySelector('my-slider').shadowRoot.getElementById('floating-time').style.visibility = 'visible';
+
+    let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
+    if (x > 100)
+      x = 100;
+    else if (x < 0)
+      x = 0;
+
+    const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
+    const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
+    document.getElementById('timeSlider').setTime(this._formatTime(this.data.frames[requestedStep].time));
+
+    document.getElementById('timeSlider').setFloatingTimePosition(e.clientX);
+  }
+
+  _hideFloatingTimePosition() {
+    document.querySelector('my-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 }
