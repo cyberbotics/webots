@@ -318,22 +318,25 @@ def game_controller_send(message):
         if game_controller_send.sent_once == message:
             return False
         game_controller_send.sent_once = message
-    if message[:6] != 'CLOCK:':
-        info(f'Sending {game_controller_send.id + 1}:{message} to GameController.')
     game_controller_send.id += 1
+    if message[:6] != 'CLOCK:':
+        info(f'Sending {game_controller_send.id}:{message} to GameController.')
     message = f'{game_controller_send.id}:{message}\n'
     game.controller.sendall(message.encode('ascii'))
     # info(f'sending {message.strip()} to GameController')
     game_controller_send.unanswered[game_controller_send.id] = message.strip()
+    answered = False
+    sent_id = game_controller_send.id
     while True:
         try:
             answers = game.controller.recv(1024).decode('ascii').split('\n')
-            # info(f'received {answers} from GameController')
             for answer in answers:
                 if answer == '':
                     continue
                 try:
                     id, result = answer.split(':')
+                    if int(id) == sent_id:
+                        answered = True
                 except ValueError:
                     error(f'Cannot split {answer}')
                 try:
@@ -351,7 +354,17 @@ def game_controller_send(message):
                 else:
                     error(f'Received unknown answer from GameController: {answer}.')
         except BlockingIOError:
-            break
+            if not game.game_controller_synchronization:
+                break
+            elif answered or message[:6] == 'CLOCK:':
+                break
+            else:  # keep sending CLOCK messages to keep the GameController happy
+                supervisor.step(time_step)
+                game_controller_send.id += 1
+                message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
+                game.controller.sendall(message.encode('ascii'))
+                game_controller_send.unanswered[game_controller_send.id] = message.strip()
+
     return True
 
 
@@ -903,6 +916,8 @@ if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
+if not hasattr(game, 'game_controller_synchronization'):
+    game.game_controller_synchronization = False
 message = f'Real time factor is set to {game.real_time_factor}.'
 if game.real_time_factor == 0:
     message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
