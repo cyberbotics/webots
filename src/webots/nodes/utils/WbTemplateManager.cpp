@@ -170,7 +170,6 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
 }
 
 void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
-  printf("regenerateNodeFromFieldChange\n");
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -179,7 +178,6 @@ void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
 }
 
 void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
-  printf("regenerateNodeFromParameterChange\n");
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -190,7 +188,6 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 // intermediate function to determine which node should be updated
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
-  printf("regenerateNodeFromField\n");
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   templateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
@@ -208,28 +205,27 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
   regenerateNode(templateNode);
 }
 
-bool WbTemplateManager::isVisibleOrHasVisibleFields(WbNode *node) {
-  // reach the highest parameter field in the chain
-  const WbNode *n = node;
-  while (n && n->protoParameterNode()) {
+bool WbTemplateManager::isInternalNodeVisible(WbNode *internal) const {
+  // reach the highest parameter node in the chain, there can be multiple in a heavily nested PROTO
+  const WbNode *n = internal;
+  while (n && n->protoParameterNode() != NULL)
     n = n->protoParameterNode();
-  }
-
-  // check the tip itself is visible
+  // check if the parameter node itself is visible
   if (WbNodeUtilities::isVisible(n))
     return true;
-
-  // check if any of the fields are visible
-  QVector<WbField *> fields = n->fields();
-  for (int i = 0; i < fields.size(); ++i) {
+  // or if it exposes any visible parameter. It's possible for it to expose a single field without exposing the parameter
+  // (usually the case when SFNodes are involved) so the test is made on the fields instead
+  const QVector<WbField *> fields = n->fields();
+  for (int i = 0; i < fields.size(); ++i)
     if (WbNodeUtilities::isVisible(fields[i]))
       return true;
-  }
 
   return false;
 }
 
 void WbTemplateManager::printChainCandidate(WbNode *node, int depth, bool end) {
+  // This function is only for debug purposes, no need to review it
+
   if (node == NULL) {
     return;
   }
@@ -270,12 +266,13 @@ void WbTemplateManager::printNodeFlags(WbNode *root) {
   for (int i = 0; i < nodes.size(); ++i) {
     printf("%d) %60s (%p) :  isVis %d / isVisOrVisField %d / isPPN %d / isNP %d / isPI %d / NN-PPN? %d / isDef %d\n", i,
            nodes[i]->usefulName().toUtf8().constData(), nodes[i], WbNodeUtilities::isVisible(nodes[i]),
-           isVisibleOrHasVisibleFields(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
+           isInternalNodeVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
            nodes[i]->isProtoInstance(), nodes[i]->protoParameterNode() != NULL, nodes[i]->isDefNode());
   }
 }
 
 void WbTemplateManager::printNodeStructure(WbNode *root) {
+  // This function is only for debug purposes, no need to review it
   QList<WbNode *> nodes = root->subNodes(true, true, true);
 
   printf("=============================\n");
@@ -284,6 +281,7 @@ void WbTemplateManager::printNodeStructure(WbNode *root) {
 }
 
 void WbTemplateManager::printFieldsAndParams(WbNode *root) {
+  // This function is only for debug purposes, no need to review it
   QList<WbNode *> nodes = root->subNodes(true, true, true);
 
   for (int i = 0; i < nodes.size(); ++i) {
@@ -292,31 +290,40 @@ void WbTemplateManager::printFieldsAndParams(WbNode *root) {
 }
 
 void WbTemplateManager::printNodeFieldVisibility(WbNode *root) {
+  // This function is only for debug purposes, no need to review it
   QList<WbNode *> nodes = root->subNodes(true, true, true);
 
   printf("\nNODE/FIELD VISIBILITY\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
     printf("%40s visibility: %d\n", nodes[i]->usefulName().toUtf8().constData(), WbNodeUtilities::isVisible(nodes[i]));
-    QVector<WbField *> parameterList = nodes[i]->fieldsOrParameters();
+
+    QVector<WbField *> fieldList = nodes[i]->fields();
+    for (int j = 0; j < fieldList.size(); ++j) {
+      printf("  %40s (field) visibility: %d\n", fieldList[j]->name().toUtf8().constData(),
+             WbNodeUtilities::isVisible(fieldList[j]));
+    }
+
+    QVector<WbField *> parameterList = nodes[i]->parameters();
     for (int j = 0; j < parameterList.size(); ++j) {
-      printf("  %40s visibility: %d\n", parameterList[j]->name().toUtf8().constData(),
+      printf("  %40s (param) visibility: %d\n", parameterList[j]->name().toUtf8().constData(),
              WbNodeUtilities::isVisible(parameterList[j]));
     }
   }
 }
 
 void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
-  // printNodeStructure(root);
+  // printNodeStructure(root);  // TODO: remove before merge
 
-  // printNodeFlags(root);
+  // printNodeFlags(root);  // TODO: remove before merge
 
-  // printFieldsAndParams(root);
+  // printFieldsAndParams(root);  // TODO: remove before merge
 
-  // printNodeFieldVisibility(root);
+  // printNodeFieldVisibility(root);  // TODO: remove before merge
 
-  QList<WbNode *> nodes = root->subNodes(true, true, true);
+  // when loading, root is the global root. When regenerating, root is the finalized node after the regeneration process
+  const QList<WbNode *> nodes = root->subNodes(true, true, true);
 
-  // the internal node is used to keep track of what can be collapsed since it's the bottom of the chain and they're unique
+  // the internal node is used to keep track of what can be collapsed since it's the bottom of the chain and it's unique
   // whereas the chain itself can be comprised of multiple parameter nodes which complicates keeping track of how they relate
   QList<WbNode *> internalProtoNodes;
 
@@ -324,7 +331,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
     if (nodes[i]->isInternalNode())
       internalProtoNodes.append(nodes[i]);
 
-  /*
+  /*  // TODO: remove before merge
   printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     printf("\n");
@@ -333,38 +340,31 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
   */
 
   QList<WbNode *> tmp = internalProtoNodes;
-
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    if (isVisibleOrHasVisibleFields(internalProtoNodes[i])) {
-      // cant collapse visible ones, so remove them
-      tmp.removeOne(internalProtoNodes[i]);
-
-      // also remove any ancestor to it or any node this is an ancestor to
-      for (int j = 0; j < internalProtoNodes.size(); ++j) {
-        if (internalProtoNodes[j]->isAnAncestorOf(internalProtoNodes[i]) ||
-            internalProtoNodes[i]->isAnAncestorOf(internalProtoNodes[j]))
-          tmp.removeOne(internalProtoNodes[j]);
-      }
+    if (isInternalNodeVisible(internalProtoNodes[i])) {
+      // cannot collapse visible nodes otherwise they no longer refresh on the interface
+      tmp.removeAll(internalProtoNodes[i]);
+      // also remove among the candidates any ancestor to this node otherwise it will be deleted indirectly
+      for (int j = 0; j < internalProtoNodes.size(); ++j)
+        if (internalProtoNodes[j]->isAnAncestorOf(internalProtoNodes[i]))
+          tmp.removeAll(internalProtoNodes[j]);
     }
   }
-
   internalProtoNodes = tmp;
 
-  QList<WbNode *> invisibleProtoParameterNodes;  // proto parameter nodes that can be removed
-
-  // follow the chain up from each internal node to extract all the protoParameterNodes associated with it
+  QList<WbNode *> invisibleProtoParameterNodes;
+  // follow the chain upwards, starting from the internal node, to extract all the protoParameterNodes that can be deleted
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     WbNode *n = internalProtoNodes[i]->protoParameterNode();
 
     while (n != NULL) {
       bool added = false;
-      for (int j = 0; j < invisibleProtoParameterNodes.size(); ++j) {
+      for (int j = 0; j < invisibleProtoParameterNodes.size(); ++j)
         if (n->level() > invisibleProtoParameterNodes[j]->level()) {  // insert them from lowest to highest level
           invisibleProtoParameterNodes.insert(j, n);
           added = true;
           break;  // need to break otherwise invisibleProtoParameterNodes grows infinitly
         }
-      }
 
       if (!added)
         invisibleProtoParameterNodes.append(n);
@@ -372,102 +372,80 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
       n = n->protoParameterNode();
     }
   }
-  /*
-  printf("INVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
+
+  /* // TODO: remove before merge
+  printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
   */
+
   if (invisibleProtoParameterNodes.size() == 0)
     return;
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    QVector<WbField *> fields = internalProtoNodes[i]->fields();
+    const QVector<WbField *> fields = internalProtoNodes[i]->fields();
 
     for (int j = 0; j < fields.size(); j++)
       fields[j]->setParameter(NULL);
 
-    // break link with proto parameter node
-    internalProtoNodes[i]->setProtoParameterNode(NULL);
+    internalProtoNodes[i]->setProtoParameterNode(NULL);  // break link with proto parameter node
   }
 
   // break link [parameter] -> [internal field] and [parameter node] -> [internal node] (from parameter node side)
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
-    // clear downward references
-    invisibleProtoParameterNodes[i]->clearProtoParameterNodeInstances();
+    invisibleProtoParameterNodes[i]->clearProtoParameterNodeInstances();  // clear downward references
 
-    // clear internal field references
-    QVector<WbField *> fields =
-      invisibleProtoParameterNodes[i]->fields();  // for protoParameterNodes, reference is kept in its fields
+    // clear internal field references (for protoParameterNodes the reference is kept in its fields)
+    QVector<WbField *> fields = invisibleProtoParameterNodes[i]->fields();
     for (int i = 0; i < fields.size(); ++i)
       fields[i]->clearInternalFields();
   }
 
-  QVector<WbNode *> todel;
-
+  // now the proto parameter nodes can be deleted, depending on the situation it can either be in the parameter or field side of
+  // the parent node. The signal is not emitted to prevent the internal node from being deleted as well in the process
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     WbNode *parameterNode = invisibleProtoParameterNodes[i];
     WbNode *parent = parameterNode->parentNode();
 
-    QVector<WbField *> fieldsOrParameters = parent->parameters();
-
-    for (int j = 0; j < fieldsOrParameters.size(); j++) {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
-      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fieldsOrParameters[j]->value());
+    const QVector<WbField *> fields = parent->fields();
+    for (int j = 0; j < fields.size(); ++j) {
+      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fields[j]->value());
+      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fields[j]->value());
 
       if (sfnode && sfnode->value() == parameterNode) {
         sfnode->setValueNoSignal(NULL);
-        parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+        parent->removeFromFieldsOrParameters(fields[j]);
       } else {
         if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
           mfnode->removeNodeNoSignal(parameterNode);
-          parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+          parent->removeFromFieldsOrParameters(fields[j]);
         }
       }
     }
 
-    fieldsOrParameters = parent->fields();
-    for (int j = 0; j < fieldsOrParameters.size(); j++) {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
-      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fieldsOrParameters[j]->value());
+    const QVector<WbField *> parameters = parent->parameters();
+    for (int j = 0; j < parameters.size(); j++) {
+      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parameters[j]->value());
+      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parameters[j]->value());
 
       if (sfnode && sfnode->value() == parameterNode) {
         sfnode->setValueNoSignal(NULL);
-        parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+        parent->removeFromFieldsOrParameters(parameters[j]);
       } else {
         if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
           mfnode->removeNodeNoSignal(parameterNode);
-          parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+          parent->removeFromFieldsOrParameters(parameters[j]);
         }
       }
     }
-    printf("will delete (%s) [%p]\n", parameterNode->usefulName().toUtf8().constData(), parameterNode);
-    todel.append(parameterNode);
   }
-
-  /*
-  for (int i = 1; i < todel.size(); i++) {
-    if (todel[i] == todel[i - 1])
-      continue;
-    else {
-      printf(">> del (%s) [%p]\n", todel[i - 1]->usefulName().toUtf8().constData(), todel[i - 1]);
-      delete todel[i - 1];
-
-      if (i == todel.size() - 1) {
-        printf(">> del (%s) [%p]\n", todel[i]->usefulName().toUtf8().constData(), todel[i]);
-        delete todel[i];
-      }
-    }
-  }
-  */
-
-  // printNodeStructure(root);
+  // printNodeStructure(root);  // TODO: remove before merge
 }
 
 void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
-  printf("regenerateNode %s\n", node->usefulName().toUtf8().constData());
   assert(node);
 
   if (mBlockRegeneration) {
@@ -673,6 +651,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     return;
   }
 
+  // after regeneration, check if any invisible proto parameter node can be removed from the new node
+  removeInvisibleProtoNodes(newNode);
+
   // if the viewpoint is being re-generated we need to re-get the correct pointer, not the old dangling pointer from before
   // the node was regenerated
   viewpoint = world->viewpoint();
@@ -681,8 +662,6 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   else if (!followedSolidName.isEmpty() && viewpoint->followedSolid() == NULL)
     // restore follow solid
     viewpoint->startFollowUp(WbSolid::findSolidFromUniqueName(followedSolidName), true);
-
-  removeInvisibleProtoNodes(newNode);
 
   cRegeneratingNodeCount--;
   assert(cRegeneratingNodeCount >= 0);

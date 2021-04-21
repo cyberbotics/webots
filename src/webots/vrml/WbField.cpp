@@ -72,17 +72,9 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 }
 
 WbField::~WbField() {
-  // printf("[D] field %s (%p)\n", name().toUtf8().constData(), this);
   foreach (WbField *const field, mInternalFields) { field->mParameter = NULL; }
   delete mValue;
   mModel->unref();
-}
-
-void WbField::printInternalFields() {
-  printf("INTERNAL FIELDS ARE:\n");
-  for (int i = 0; i < mInternalFields.size(); ++i) {
-    printf("[I] %s (%p)\n", mInternalFields[i]->name().toUtf8().constData(), mInternalFields[i]);
-  }
 }
 
 void WbField::listenToValueSizeChanges() const {
@@ -350,20 +342,17 @@ void WbField::redirectTo(WbField *parameter) {
   }
 
   // ODE updates
-
   const QString &fieldName = name();
-
   if (fieldName == "translation") {
     connect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByOde, mParameter, &WbField::fieldChangedByOde);
     connect(static_cast<WbSFVector2 *>(mValue), &WbSFVector2::changedByWebots, mParameter, &WbField::fieldChangedByOde);
-  } else if (fieldName == "rotation") {
+  } else if (fieldName == "rotation")
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
-  } else if (fieldName == "position")
+  else if (fieldName == "position")
     connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
 }
 
 void WbField::removeInternalField(QObject *field) {
-  // printf("removeInternalField, size  %d\n", mInternalFields.size());
   mInternalFields.removeAll(static_cast<WbField *>(field));
 }
 

@@ -26,7 +26,6 @@
 
 class WbGroup;
 class WbNode;
-class WbField;
 class WbPerspective;
 class WbRobot;
 class WbSolid;

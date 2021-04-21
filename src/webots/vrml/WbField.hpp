@@ -72,10 +72,8 @@ public:
   bool isParameter() const { return mInternalFields.size() != 0; }
 
   void setParameter(WbField *parameter) { mParameter = parameter; }
-
   void clearInternalFields() { mInternalFields.clear(); }
 
-  void printInternalFields();
   void setParentNode(WbNode *node) { mParentNode = node; }
   WbNode *parentNode() const { return mParentNode; }
 

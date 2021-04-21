@@ -41,17 +41,13 @@ public:
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
 
-  // ---
   void removeInvisibleProtoNodes(WbNode *root);
-  bool isVisibleOrHasVisibleFields(WbNode *node);
-  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);
-  void recursiveInternalFieldCleaner(WbNode *node);
-  // --- for debug only
-  void printNodeFlags(WbNode *root);
-  void printNodeStructure(WbNode *root);
-  void printFieldsAndParams(WbNode *root);
-  void printNodeFieldVisibility(WbNode *root);
-  // ---
+
+  void printNodeFlags(WbNode *root);                                        // TODO: remove before merge
+  void printNodeStructure(WbNode *root);                                    // TODO: remove before merge
+  void printFieldsAndParams(WbNode *root);                                  // TODO: remove before merge
+  void printNodeFieldVisibility(WbNode *root);                              // TODO: remove before merge
+  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);  // TODO: remove before merge
 
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
@@ -72,6 +68,9 @@ private:
 
   WbTemplateManager();
   virtual ~WbTemplateManager();
+
+  // methods used in the collapsing of invisible proto nodes
+  bool isInternalNodeVisible(WbNode *internal) const;
 
   bool nodeNeedsToSubscribe(WbNode *node);
   void recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant);

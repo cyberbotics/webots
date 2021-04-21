@@ -180,13 +180,12 @@ public:
   const QString &protoInstanceFilePath();
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
-  // ----
+
+  void removeFromFieldsOrParameters(WbField *item);
   void clearProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
   void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
-  void printFieldsAndParams();
-  void removeFromFieldsOrParameters(WbField *item);
   bool isInternalNode() const;  // node internal to a proto file
-  // ----
+  void printFieldsAndParams();  // TODO: remove before merge
 
   // return if 'node' is a direct child of this PROTO parameters
   bool isProtoParameterChild(const WbNode *node) const;

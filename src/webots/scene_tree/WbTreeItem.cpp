@@ -88,7 +88,6 @@ WbTreeItem::WbTreeItem(WbField *field) {
           connect(position, &WbSFDouble::changedByOde, this, &WbTreeItem::propagateDataChange);
       }
     }
-
     return;
   }
 

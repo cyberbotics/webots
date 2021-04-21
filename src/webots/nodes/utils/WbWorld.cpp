@@ -18,7 +18,6 @@
 #include "WbBackground.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
-#include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"

@@ -39,10 +39,10 @@ WbMFNode::~WbMFNode() {
 
 void WbMFNode::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
   WbNode *node;
-  if (WbNodeReader::current()) {
+  if (WbNodeReader::current())
     // reading a regular list of nodes (file scope)
     node = WbNodeReader::current()->readNode(tokenizer, worldPath);
-  } else {
+  else {
     // reading a default proto parameter (private scope)
     WbNodeReader reader(WbNodeReader::PROTO_MODEL);
     node = reader.readNode(tokenizer, worldPath);

@@ -166,18 +166,12 @@ void WbNode::init() {
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
   mModel(WbNodeModel::findModel(modelName)) {
-  // printf("creating NODE %s from model\n", modelName.toUtf8().constData());
   init();
 
   // create fields from model
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels())
     mFields.append(new WbField(fieldModel, this));
 
-  /*printf("found %d fields\n", mFields.size());
-  for (int i = 0; i < mFields.size(); ++i) {
-    printf("   %s\n", mFields[i]->name().toUtf8().constData());
-  }
-  */
   if (tokenizer)
     readFields(tokenizer, worldPath);
 
@@ -190,8 +184,6 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
     mIsProtoDescendant = true;
   if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
-
-  // printf("done creating NODE %s\n", modelName.toUtf8().constData());
 }
 
 WbNode::WbNode(const WbNode &other) :
@@ -213,8 +205,6 @@ WbNode::WbNode(const WbNode &other) :
 
   if (gDerivedProtoAncestorFlag && other.mProto && (parentNode() && parentNode()->mIsNestedProtoNode))
     mIsNestedProtoNode = true;
-  // printf("OTHER: %s ---> %d (%d %d %d)\n", other.usefulName().toUtf8().constData(), mIsNestedProtoNode,
-  //       gDerivedProtoAncestorFlag, other.mProto, (parentNode() && parentNode()->mIsNestedProtoNode));
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
   if (gDefCloneFlag || (parentNode() && parentNode()->mHasUseAncestor))
@@ -239,7 +229,6 @@ WbNode::WbNode(const WbNode &other) :
       } else {
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
-        // printf("AA REDIRECT\n");
         field->redirectTo(parameterNodeField);
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
@@ -321,7 +310,6 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
-  // printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -361,8 +349,6 @@ WbNode::~WbNode() {
   // delete the PROTO instance temporary file if any
   if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
     QFile::remove(mProtoInstanceFilePath);
-
-  //  printf("[D] node %s (%p) DONE\n", usefulName().toUtf8().constData(), this);
 }
 
 const QString &WbNode::modelName() const {
@@ -764,6 +750,7 @@ void WbNode::resetUseAncestorFlag() {
 
 // called after any field of this node has changed
 void WbNode::notifyFieldChanged() {
+  printf("notifyFieldChanged\n");
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
@@ -812,6 +799,8 @@ void WbNode::notifyFieldChanged() {
 }
 
 void WbNode::notifyParameterChanged() {
+  printf("notifyParameterChanged\n");
+
   WbField *const parameter = static_cast<WbField *>(sender());
 
   emit parameterChanged(parameter);
@@ -1281,24 +1270,10 @@ void WbNode::printFieldsAndParams() {
 }
 
 void WbNode::removeFromFieldsOrParameters(WbField *item) {
-  if (isProtoInstance()) {
-    /*
-    printf("  removing %p (%s) from mParameters\n", item, item->name().toUtf8().constData());
-    if (mParameters.contains(item))
-      printf("    mParameters contains %s, removing it\n", item->name().toUtf8().constData());
-    else
-      printf("    mParameters DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-    */
+  if (isProtoInstance())
     mParameters.removeAll(item);
-  } else {
-    /*
-    if (mFields.contains(item))
-      printf("    mFields contains %s, removing it\n", item->name().toUtf8().constData());
-    else
-      printf("    mFields DOESNT contain %s !!!!!!!!!!!\n", item->name().toUtf8().constData());
-    */
+  else
     mFields.removeAll(item);
-  }
 }
 
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
@@ -1331,7 +1306,6 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         field->setAlias(QString());
       } else {
         gProtoParameterNodeFlag = true;
-        // printf("BB REDIRECT\n");
         field->redirectTo(param);
         gProtoParameterNodeFlag = tmpProtoFlag;
       }
@@ -1388,8 +1362,6 @@ WbNode *WbNode::cloneDefNode() {
 WbNode *WbNode::cloneAndReferenceProtoInstance() {
   WbNode *copy = clone();
 
-  // printf("%s: %d %d %d %d\n", usefulName().toUtf8().constData(), copy != NULL, !copy->mHasUseAncestor, mIsProtoDescendant,
-  //       gProtoParameterNodeFlag);
   if (copy && !copy->mHasUseAncestor && mIsProtoDescendant && gProtoParameterNodeFlag) {
     // associate instance with respective PROTO parameter node
     // DEF/USE nodes should not be associated
@@ -1500,7 +1472,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
-    // printf(" appending %s\n", defaultParameter->name().toUtf8().constData());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1520,7 +1491,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   const bool previousParameterNodeFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = true;
 
-  // printf("3)\n");
   // 3. populate the parameters from the tokenizer if existing
   QSet<QString> parameterNames;
   if (tokenizer) {
@@ -1531,7 +1501,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
       QString parameterName = tokenizer->nextWord();
-      // printf("[word][%s]\n", parameterName.toUtf8().constData());
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
@@ -1617,16 +1586,9 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             parameter->setAlias(alias);
             copyAliasValue(parameter, alias);
           }
-        } else if (!hidden) {
-          // printf("B\n");
-          // if (parameter->type() == WB_MF_NODE || parameter->type() == WB_SF_NODE) {
-          //  toBeDeleted = true;
-          //  continue;
-          //} else {
+        } else if (!hidden)
           parameter->readValue(tokenizer, worldPath);
-          // printf("C\n");
-          //}
-        }
+
         if (toBeDeleted)
           delete parameter;
       } else
@@ -1646,7 +1608,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     }
     tokenizer->skipToken("}");
   }
-  // printf("3) done\n");
+
   parametersDefMap.clear();
   gProtoParameterNodeFlag = previousParameterNodeFlag;
   gDerivedProtoFlag = gDerivedProtoParentFlag;
@@ -1654,10 +1616,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (topParameter && !insertedProto)
     gTopParameterFlag = false;
 
-  // printf("setupDescendantAndNestedProtoFlags\n");
   setupDescendantAndNestedProtoFlags(parameters, topParameter || insertedProto);
-  // printf("]] %d %d\n", topParameter, insertedProto);
-  // printf("  createProtoInstanceFromParameters\n");
   WbNode *instance = createProtoInstanceFromParameters(proto, parameters, protoLevel < 1, worldPath);
 
   protoLevel = previousProtoLevel;
@@ -1666,7 +1625,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (insertedProto)
     gTopParameterFlag = previousTopParameterFlag;
 
-  // printf("4)\n");
   return instance;
 }
 
@@ -1690,7 +1648,6 @@ WbNode *WbNode::regenerateProtoInstanceFromParameters(WbProtoModel *proto, const
 
 WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVector<WbField *> &parameters, bool isTopLevel,
                                                   const QString &worldPath, bool fromSceneTree, int uniqueId) {
-  // printf("createProtoInstanceFromParameters\n");
   ProtoParameters *p = new ProtoParameters;
   p->params = &parameters;
   gProtoParameterList << p;
@@ -1745,7 +1702,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {
             gParent = internalField->parentNode();
-            // printf("CC REDIRECT\n");
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
           }
@@ -1893,9 +1849,6 @@ void WbNode::updateNestedProtoFlag() {
 void WbNode::setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree) {
   mIsProtoDescendant = !isTopNode;
   mIsNestedProtoNode = !(isTopNode || isInsertedFromSceneTree) && isProtoInstance();
-  // printf("  mIsProtoDescendant %d mIsNestedProtoNode %d (isTopNode %d / isInsertedFromSceneTree %d / isProtoInstance
-  // %d)\n",
-  //       mIsProtoDescendant, mIsNestedProtoNode, isTopNode, isInsertedFromSceneTree, isProtoInstance());
   if (isTopParameterDescendant)
     mIsTopParameterDescendant = true;
   setupDescendantAndNestedProtoFlags(fields() + parameters(), isTopParameterDescendant);
