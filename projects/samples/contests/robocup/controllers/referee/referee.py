@@ -38,6 +38,12 @@ FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
+FOUL_PUSHING_TIME = 1                     # 1 second
+FOUL_PUSHING_PERIOD = 2                   # 2 seconds
+FOUL_VINCITY_DISTANCE = 2                 # 2 meters
+FOUL_DISTANCE_THRESHOLD = 0.1             # 0.1 meter
+FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
+FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
@@ -340,7 +346,7 @@ def game_controller_send(message):
                 except ValueError:
                     error(f'Cannot split {answer}')
                 try:
-                    message = game_controller_send.unanswered[int(id)]
+                    answered_message = game_controller_send.unanswered[int(id)]
                     del game_controller_send.unanswered[int(id)]
                 except KeyError:
                     error(f'Received acknowledgment message for unknown message: {id}')
@@ -348,22 +354,23 @@ def game_controller_send(message):
                 if result == 'OK':
                     continue
                 if result == 'INVALID':
-                    error(f'Received invalid answer from GameController for message {message}.')
+                    error(f'Received invalid answer from GameController for message {answered_message}.')
                 elif result == 'ILLEGAL':
-                    error(f'Received illegal answer from GameController for message {message}.')
+                    error(f'Received illegal answer from GameController for message {answered_message}.')
                 else:
                     error(f'Received unknown answer from GameController: {answer}.')
         except BlockingIOError:
             if not game.game_controller_synchronization:
                 break
-            elif answered or message[:6] == 'CLOCK:':
+            elif answered or ':CLOCK:' in message:
                 break
             else:  # keep sending CLOCK messages to keep the GameController happy
-                supervisor.step(time_step)
+                info(f'Waiting for GameController to answer to {message.strip()}.')
+                time.sleep(0.2)
                 game_controller_send.id += 1
-                message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
-                game.controller.sendall(message.encode('ascii'))
-                game_controller_send.unanswered[game_controller_send.id] = message.strip()
+                clock_message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
+                game.controller.sendall(clock_message.encode('ascii'))
+                game_controller_send.unanswered[game_controller_send.id] = clock_message.strip()
 
     return True
 
@@ -545,6 +552,7 @@ def update_team_contacts(team, color):
         player = team['players'][number]
         robot = player['robot']
         n = robot.getNumberOfContactPoints(True)
+        player['contact_points'] = []
         if n == 0:
             continue
         player['outside_circle'] = True    # true if fully outside the center cicle
@@ -555,16 +563,18 @@ def update_team_contacts(team, color):
         for i in range(0, n):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
-                for ball_point in game.ball.contact_points:  # check ball contacts
-                    if ball_point == point:
-                        if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
-                            game.ball_last_touch_team = color
-                            game.ball_last_touch_player = int(number)
-                            game.ball_last_touch_time = time_count
-                            info(f'Ball touched by {color} player {number}.')
-                        elif time_count - game.ball_last_touch_time >= 1000:  # dont produce too many touched messages
-                            game.ball_last_touch_time = time_count
-                            info('Ball touched again by same player.')
+                if point in game.ball.contact_points:  # ball contact
+                    if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
+                        game.ball_last_touch_team = color
+                        game.ball_last_touch_player = int(number)
+                        game.ball_last_touch_time = time_count
+                        info(f'Ball touched by {color} player {number}.')
+                    elif time_count - game.ball_last_touch_time >= 1000:  # dont produce too many touched messages
+                        game.ball_last_touch_time = time_count
+                        info('Ball touched again by same player.')
+                    continue
+                # the robot touched something else than the ball or the ground
+                player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
                 continue
             if distance3(point, [0, 0, game.turf_depth]) < game.center_circle_radius:
                 player['outside_circle'] = False
