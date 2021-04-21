@@ -329,7 +329,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
 }
 
 void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
-  int n = mFieldSetRequests.size();
+  const int n = mFieldSetRequests.size();
   if (n == 0)
     return;
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -807,9 +807,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
-      if (solid)
+      if (solid) {
         solid->resetPhysics();
-      else
+        solid->pausePhysics(true);
+      } else
         mRobot->warn(tr("wb_supervisor_node_reset_physics() can exclusively be used with a Solid"));
       return;
     }

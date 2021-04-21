@@ -105,6 +105,7 @@ void WbSolid::init() {
   mIsPermanentlyKinematic = false;
   mIsKinematic = false;
   mUpdatedInStep = false;
+  mResetPhysicsInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
 
@@ -2050,6 +2051,16 @@ void WbSolid::applyPhysicsTransform() {
 void WbSolid::postPhysicsStep() {
   int i = 0;
   dBodyID body = this->body();
+
+  if (mResetPhysicsInStep) {
+    // physics reset from Supervisor: if the solid is also moved from Supervisor in the same step, ODE may overwrite velocities
+    // and forces based on the jerk
+    resetSingleSolidPhysics();
+    if (mSolidMerger)
+      mSolidMerger->setBodyArtificiallyDisabled(false);
+    mResetPhysicsInStep = false;
+  }
+
   if (body && dBodyIsEnabled(body))
     applyPhysicsTransform();
 
@@ -2401,13 +2412,23 @@ void WbSolid::resetSingleSolidPhysics() {
         dJointSetSliderParam(mJoint, dParamFMax, 0.0);
         dJointSetSliderParam(mJoint, dParamVel, 0.0);
         break;
-      default:  // only the two above joint types are currently implemented in Webots
+      case dJointTypeBall:
+        dJointSetBallParam(mJoint, dParamFMax, 0.0);
+        dJointSetBallParam(mJoint, dParamVel, 0.0);
+        dJointSetBallParam(mJoint, dParamFMax2, 0.0);
+        dJointSetBallParam(mJoint, dParamVel2, 0.0);
+        dJointSetBallParam(mJoint, dParamFMax3, 0.0);
+        dJointSetBallParam(mJoint, dParamVel3, 0.0);
+      default:  // only the above joint types are currently implemented in Webots
         break;
     }
   }
 }
 
-void WbSolid::pausePhysics() {
+void WbSolid::pausePhysics(bool resumeAutomatically) {
+  if (resumeAutomatically)
+    mResetPhysicsInStep = true;
+
   if (mSolidMerger)
     mSolidMerger->setBodyArtificiallyDisabled(true);
 
