@@ -41,6 +41,18 @@ public:
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
 
+  // ---
+  void removeInvisibleProtoNodes(WbNode *root);
+  bool isVisibleOrHasVisibleFields(WbNode *node);
+  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);
+  void recursiveInternalFieldCleaner(WbNode *node);
+  // --- for debug only
+  void printNodeFlags(WbNode *root);
+  void printNodeStructure(WbNode *root);
+  void printFieldsAndParams(WbNode *root);
+  void printNodeFieldVisibility(WbNode *root);
+  // ---
+
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
   void abortNodeRegeneration();

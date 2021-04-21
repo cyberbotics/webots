@@ -190,9 +190,10 @@ void WbWorld::finalize() {
     s->resolveNameClashIfNeeded(false, true, mTopSolids, &topSolidNameSet);
 
   // simplify node structure, if possible
-  removeInvisibleProtoNodes();
+  WbTemplateManager::instance()->removeInvisibleProtoNodes(mRoot);
 }
 
+/*
 bool WbWorld::isVisibleOrHasVisibleFields(WbNode *node) {
   // reach the highest parameter field in the chain
   const WbNode *n = node;
@@ -231,14 +232,21 @@ void WbWorld::printChainCandidate(WbNode *node, int depth, bool end) {
   }
 
   QString type = "";
-  if (node->isNestedProtoNode())
+  if (node->isNestedProtoNode() && !node->isProtoParameterNode())
     type = "[N]";
-  else if (node->isProtoParameterNode())
+  else if (!node->isNestedProtoNode() && node->isProtoParameterNode())
     type = "[P]";
+  else if (node->isNestedProtoNode() && node->isProtoParameterNode())
+    type = "[P/N]";
   else if (node->isInternalNode())
     type = "[I] ";
-  printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
-         node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
+
+  if (end)
+    printf("%s(%s %s (%p) -> (%p))\n", indent.toUtf8().constData(), type.toUtf8().constData(),
+           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
+  else
+    printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
+           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
 }
 
 void WbWorld::printNodeFlags() {
@@ -246,8 +254,8 @@ void WbWorld::printNodeFlags() {
 
   printf("\nNODE FLAGS\n\n");
   for (int i = 0; i < nodes.size(); ++i) {
-    printf("%d) %40s :  isVis %d / isVisOrVisField %d / isPPN %d / isNP %d / isPI %d / NN-PPN? %d / isDef %d\n", i,
-           nodes[i]->usefulName().toUtf8().constData(), WbNodeUtilities::isVisible(nodes[i]),
+    printf("%d) %60s (%p) :  isVis %d / isVisOrVisField %d / isPPN %d / isNP %d / isPI %d / NN-PPN? %d / isDef %d\n", i,
+           nodes[i]->usefulName().toUtf8().constData(), nodes[i], WbNodeUtilities::isVisible(nodes[i]),
            isVisibleOrHasVisibleFields(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
            nodes[i]->isProtoInstance(), nodes[i]->protoParameterNode() != NULL, nodes[i]->isDefNode());
   }
@@ -282,10 +290,13 @@ void WbWorld::printNodeFieldVisibility() {
     }
   }
 }
+*/
+
+/*
 void WbWorld::removeInvisibleProtoNodes() {
   // printNodeStructure();
 
-  // printNodeFlags();
+  printNodeFlags();
 
   // printFieldsAndParams();
 
@@ -305,13 +316,13 @@ void WbWorld::removeInvisibleProtoNodes() {
       internalProtoNodes.append(nodes[i]);
     }
   }
-  /*
+
   printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     printf("\n");
     printChainCandidate(internalProtoNodes[i]);
   }
-  */
+
   QList<WbNode *> tmp = internalProtoNodes;
 
   // printf("REMOVE INVALID INTERNAL NODES\n");
@@ -333,14 +344,6 @@ void WbWorld::removeInvisibleProtoNodes() {
   }
 
   internalProtoNodes = tmp;
-
-  /*
-  printf("\n");
-  for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    printf("  [L%d] %s (%p alias is %p)\n", internalProtoNodes[i]->level(),
-           internalProtoNodes[i]->usefulName().toUtf8().constData(), internalProtoNodes[i],
-           internalProtoNodes[i]->protoParameterNode());
-  }*/
 
   QList<WbNode *> invisibleProtoParameterNodes;  // proto parameter nodes that can be removed
 
@@ -365,13 +368,16 @@ void WbWorld::removeInvisibleProtoNodes() {
     }
   }
 
-  /*
   printf("INVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
-  */
+
+  if (invisibleProtoParameterNodes.size() == 0) {
+    printf("nothing can be collapsed, early exit.\n");
+    return;
+  }
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
@@ -433,6 +439,7 @@ void WbWorld::removeInvisibleProtoNodes() {
 
   // printNodeStructure();
 }
+*/
 
 WbWorld::~WbWorld() {
   delete mRoot;

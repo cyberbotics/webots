@@ -203,6 +203,7 @@ private:
   bool mIsVideoRecording;
 
   // ---
+  /*
   void removeInvisibleProtoNodes();
   bool isVisibleOrHasVisibleFields(WbNode *node);
   void printChainCandidate(WbNode *node, int depth = 0, bool end = false);
@@ -212,6 +213,7 @@ private:
   void printNodeStructure();
   void printFieldsAndParams();
   void printNodeFieldVisibility();
+  */
   // ---
 
   void checkPresenceOfMandatoryNodes();

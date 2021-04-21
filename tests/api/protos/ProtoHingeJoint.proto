@@ -1,0 +1,36 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoHingeJoint [
+  field SFNode                                 jointParameters   NULL
+  field MFNode                                 device            [ ]
+  field SFNode                                 endPoint          NULL
+]
+{
+  HingeJoint {
+    jointParameters IS jointParameters
+    device IS device
+    %{ if fields.endPoint.value == NULL then }%
+      %{ print("ASD")}%
+      endPoint DEF INVISIBLE_SOLID_BODY Solid {
+        name "invisible endpoint"
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        boundingObject USE BOX
+        physics Physics {
+          mass 0.01
+          density -1
+        }
+      }
+    %{ else }%
+      endPoint IS endPoint
+    %{ end }%
+  }
+}
