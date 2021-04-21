@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_rotation(rotation_field, rotation);
   wb_supervisor_node_reset_physics(robot_node);
 
-  wb_robot_step(TIME_STEP);  // Apply the reset
+  wb_robot_step(TIME_STEP);      // Apply the reset
   wb_robot_step(2 * TIME_STEP);  // Run some steps to the stabilize the robot.
 
   // Check GPS feedback is correct.
