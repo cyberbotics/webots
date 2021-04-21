@@ -72,7 +72,7 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 }
 
 WbField::~WbField() {
-  printf("[D] field %s (%p)\n", name().toUtf8().constData(), this);
+  // printf("[D] field %s (%p)\n", name().toUtf8().constData(), this);
   foreach (WbField *const field, mInternalFields) { field->mParameter = NULL; }
   delete mValue;
   mModel->unref();
@@ -369,14 +369,11 @@ void WbField::removeInternalField(QObject *field) {
 
 // propagate change in proto parameter to a node field
 void WbField::parameterChanged() {
-  printf("parameterChanged (%s)\n", name().toUtf8().constData());
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mValue);
   if (sfnode && sfnode->value()) {
-    printf("A\n");
     WbNode *node = sfnode->value();
 
     WbNode *instance = NULL;
-    printf("mInternalFields>> %d\n", mInternalFields.size());
     foreach (WbField *internalField, mInternalFields) {
       WbNode::setGlobalParentNode(internalField->parentNode(), true);
       instance = node->cloneAndReferenceProtoInstance();
@@ -385,20 +382,8 @@ void WbField::parameterChanged() {
     }
 
   } else {
-    printf("B (%d)\n", mInternalFields.size());
-    foreach (WbField *const field, mInternalFields) {
-      printf("field %s\n", name().toUtf8().constData());
+    foreach (WbField *const field, mInternalFields)
       field->copyValueFrom(this);
-    }
-  }
-}
-
-void WbField::disconnectNotTheSame() {
-  if (mParameter) {
-    bool M = disconnect(mParameter, &WbField::valueChanged, mParameter, &WbField::parameterChanged);
-    // bool N = disconnect(mParameter->value(), &WbValue::changedByUser, this->value(), &WbValue::changedByUser);
-    printf(">>M %d %s\n", M, name().toUtf8().constData());
-    // printf(">>N %d %s\n", N, name().toUtf8().constData());
   }
 }
 
@@ -418,7 +403,6 @@ void WbField::parameterNodeInserted(int index) {
 
 // propagate node remotion to internal fields of parameter
 void WbField::parameterNodeRemoved(int index) {
-  printf("parameterNodeRemoved---- %d\n", mInternalFields.size());
   WbMFNode *mfnode = NULL;
   foreach (WbField *const field, mInternalFields) {
     mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -446,7 +430,6 @@ void WbField::fieldChangedByOde() {
 }
 
 void WbField::copyValueFrom(const WbField *other) {
-  printf("copyValueFrom, setting value %p\n", other->mValue);
   assert(other);
   mValue->copyFrom(other->mValue);
 }

@@ -182,12 +182,10 @@ public:
   void updateNestedProtoFlag();
   // ----
   void clearProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
-  void removeFromProtoParameterNodeInstances(WbNode *node) { mProtoParameterNodeInstances.removeAll(node); }
   void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
   void printFieldsAndParams();
   void removeFromFieldsOrParameters(WbField *item);
   bool isInternalNode() const;  // node internal to a proto file
-  void disconnectParameterChange();
   // ----
 
   // return if 'node' is a direct child of this PROTO parameters
