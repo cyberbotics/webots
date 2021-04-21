@@ -372,7 +372,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
       n = n->protoParameterNode();
     }
   }
-
   /*
   printf("INVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
@@ -380,7 +379,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
   */
-
   if (invisibleProtoParameterNodes.size() == 0)
     return;
 
@@ -407,11 +405,13 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
       fields[i]->clearInternalFields();
   }
 
+  QVector<WbNode *> todel;
+
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     WbNode *parameterNode = invisibleProtoParameterNodes[i];
     WbNode *parent = parameterNode->parentNode();
 
-    QVector<WbField *> fieldsOrParameters = parent->fieldsOrParameters();
+    QVector<WbField *> fieldsOrParameters = parent->parameters();
 
     for (int j = 0; j < fieldsOrParameters.size(); j++) {
       WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
@@ -427,7 +427,41 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
         }
       }
     }
+
+    fieldsOrParameters = parent->fields();
+    for (int j = 0; j < fieldsOrParameters.size(); j++) {
+      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
+      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fieldsOrParameters[j]->value());
+
+      if (sfnode && sfnode->value() == parameterNode) {
+        sfnode->setValueNoSignal(NULL);
+        parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+      } else {
+        if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
+          mfnode->removeNodeNoSignal(parameterNode);
+          parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
+        }
+      }
+    }
+    printf("will delete (%s) [%p]\n", parameterNode->usefulName().toUtf8().constData(), parameterNode);
+    todel.append(parameterNode);
   }
+
+  /*
+  for (int i = 1; i < todel.size(); i++) {
+    if (todel[i] == todel[i - 1])
+      continue;
+    else {
+      printf(">> del (%s) [%p]\n", todel[i - 1]->usefulName().toUtf8().constData(), todel[i - 1]);
+      delete todel[i - 1];
+
+      if (i == todel.size() - 1) {
+        printf(">> del (%s) [%p]\n", todel[i]->usefulName().toUtf8().constData(), todel[i]);
+        delete todel[i];
+      }
+    }
+  }
+  */
 
   // printNodeStructure(root);
 }
