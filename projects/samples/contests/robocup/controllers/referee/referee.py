@@ -893,6 +893,8 @@ if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.')
 if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
+if not hasattr(game, 'press_a_key_to_terminate'):
+    game.press_a_key_to_terminate = False
 message = f'Real time factor is set to {game.real_time_factor}.'
 if game.real_time_factor == 0:
     message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
