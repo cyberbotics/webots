@@ -539,7 +539,7 @@ wow.. Thank you I couldn't find that even after hours of search. You saved a lot
 ##### David Mansolino [Cyberbotics] 03/25/2020 12:39:30
 You're welcome 😉
 
-##### luhang 03/27/2020 01:40:47
+##### Mistral 03/27/2020 01:40:47
 Can we program and control the NAO robot in webots now?
 
 
@@ -548,7 +548,7 @@ I didn't find APIs
 ##### David Mansolino [Cyberbotics] 03/27/2020 06:21:02
 Hi yes of course, in Webots you can use the regular Webots API to control the simulated robot, you will find some example controllers here: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/controllers](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/controllers)
 
-##### luhang 03/27/2020 07:47:41
+##### Mistral 03/27/2020 07:47:41
 Thanks!😁
 
 ##### David Mansolino [Cyberbotics] 03/27/2020 07:49:44
