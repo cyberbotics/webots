@@ -32,7 +32,7 @@ export default class MouseEvents {
     domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
     domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
-
+    domElement.addEventListener('mousemove', () => this._detectImmobility());
     // Prevent '#playerDiv' to raise the context menu of the browser.
     // This bug has been seen on Windows 10 / Firefox only.
     domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
@@ -208,6 +208,7 @@ export default class MouseEvents {
 
   _onMouseWheel(event) {
     this.init();
+    this._detectImmobility();
 
     event.preventDefault(); // do not scroll page
     if (!('initialCameraPosition' in this.moveParams))
@@ -263,6 +264,8 @@ export default class MouseEvents {
   }
 
   onMouseLeave(event) {
+    clearTimeout(this.moveTimeout);
+
     if (typeof event !== 'undefined' && event.relatedTarget !== null &&
       event.relatedTarget.id === 'timeSlider')
       return;
@@ -510,6 +513,17 @@ export default class MouseEvents {
 
       this.scene.render();
     }
+  }
+
+  _detectImmobility() {
+    clearTimeout(this.moveTimeout);
+    if (typeof this.showPlayBar !== 'undefined')
+      this.showPlayBar();
+
+    this.moveTimeout = setTimeout(() => {
+      if (typeof this.hidePlayBar !== 'undefined')
+        this.hidePlayBar();
+    }, 3000);
   }
 }
 

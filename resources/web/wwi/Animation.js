@@ -183,26 +183,19 @@ export default class Animation {
   }
 
   _showPlayBar() {
-    clearTimeout(this.timeout);
     document.getElementById('playBar').style.opacity = '1';
+    document.getElementById('canvas').style.cursor = 'auto';
   }
 
-  _hidePlayBar(e) {
-    if (typeof e.relatedTarget !== 'undefined' && e.relatedTarget.id === 'canvas') {
-      this.timeout = setTimeout(() => {
-        this._hidePlayBarNow();
-      }, 3000);
-    } else
-      this._hidePlayBarNow();
-  }
-
-  _hidePlayBarNow() {
+  _hidePlayBar() {
     let isPlaying = document.getElementById('playButton').className === 'player-btn icon-pause';
     if (!AnimationSlider.isSelected && isPlaying &&
     document.getElementById('settingsPane').style.visibility === 'hidden' &&
     document.getElementById('gtaoPane').style.visibility === 'hidden' &&
-    document.getElementById('speedPane').style.visibility === 'hidden')
+    document.getElementById('speedPane').style.visibility === 'hidden') {
       document.getElementById('playBar').style.opacity = '0';
+      document.getElementById('canvas').style.cursor = 'none'; // Warning: it does not always work if chrome dev tools is open
+    }
   }
 
   _onMouseLeave(e) {
@@ -328,7 +321,6 @@ export default class Animation {
     this.view.view3D.appendChild(div);
 
     div.addEventListener('mouseover', () => this._showPlayBar());
-    div.addEventListener('mouseout', _ => this._hidePlayBar(_));
     div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
     let leftPane = document.createElement('div');
@@ -341,7 +333,7 @@ export default class Animation {
 
     document.getElementById('playBar').appendChild(leftPane);
     document.getElementById('playBar').appendChild(rightPane);
-    this.view.mouseEvents.hidePlayBar = this._hidePlayBarNow;
+    this.view.mouseEvents.hidePlayBar = this._hidePlayBar;
     this.view.mouseEvents.showPlayBar = this._showPlayBar;
   }
 
