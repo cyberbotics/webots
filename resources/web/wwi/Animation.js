@@ -40,6 +40,7 @@ export default class Animation {
     this._createSettings();
     this._createFullscreenButton();
 
+    document.addEventListener('keydown', _ => this._keyboardHandler(_));
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
@@ -70,6 +71,7 @@ export default class Animation {
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
+    document.getElementById('playTooltip').innerHTML = 'P' + action.substring(1) + ' (k)';
     document.getElementById('playButton').className = 'player-btn icon-' + action;
   }
 
@@ -199,7 +201,7 @@ export default class Animation {
   }
 
   _onMouseLeave(e) {
-    if (typeof e.relatedTarget !== 'undefined' &&
+    if (e.relatedTarget != null &&
     e.relatedTarget.id !== 'canvas')
       this.view.mouseEvents.onMouseLeave();
   }
@@ -210,11 +212,18 @@ export default class Animation {
 
     if (event.target.id === 'settingsButton' && document.getElementById('settingsPane').style.visibility === 'hidden' && document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') {
       document.getElementById('settingsPane').style.visibility = 'visible';
-      document.getElementById('settingsButton').style.transform = 'rotate(5deg)';
+      document.getElementById('settingsButton').style.transform = 'rotate(10deg)';
+      let tooltips = document.getElementsByClassName('tooltip');
+      for (let i of tooltips)
+        i.style.visibility = 'hidden';
     } else if (document.getElementById('settingsPane').style.visibility === 'visible' || document.getElementById('gtaoPane').style.visibility === 'visible' || document.getElementById('speedPane').style.visibility === 'visible') {
       document.getElementById('settingsPane').style.visibility = 'hidden';
-      if (document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden')
-        document.getElementById('settingsButton').style.transform = 'rotate(-5deg)';
+      if (document.getElementById('gtaoPane').style.visibility === 'hidden' && document.getElementById('speedPane').style.visibility === 'hidden') {
+        document.getElementById('settingsButton').style.transform = '';
+        let tooltips = document.getElementsByClassName('tooltip');
+        for (let i of tooltips)
+          i.style.visibility = '';
+      }
     }
 
     document.getElementById('gtaoPane').style.visibility = 'hidden';
@@ -353,6 +362,12 @@ export default class Animation {
     playButton.id = 'playButton';
     playButton.addEventListener('click', () => this._triggerPlayPauseButton());
     document.getElementById('leftPane').appendChild(playButton);
+
+    let playTooltip = document.createElement('span');
+    playTooltip.className = 'tooltip play-tooltip';
+    playTooltip.id = 'playTooltip';
+    playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
+    playButton.appendChild(playTooltip);
   }
 
   _createTimeIndicator() {
@@ -372,6 +387,7 @@ export default class Animation {
     totalTime.innerHTML = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
     document.getElementById('leftPane').appendChild(totalTime);
   }
+
   _createSettings() {
     this._createSettingsButton();
     this._createSettingsPane();
@@ -382,6 +398,11 @@ export default class Animation {
     settingsButton.className = 'player-btn icon-settings';
     settingsButton.id = 'settingsButton';
     document.getElementById('rightPane').appendChild(settingsButton);
+
+    let settingsTooltip = document.createElement('span');
+    settingsTooltip.className = 'tooltip settings-tooltip';
+    settingsTooltip.innerHTML = 'Settings';
+    settingsButton.appendChild(settingsTooltip);
   }
 
   _createSettingsPane() {
@@ -615,20 +636,39 @@ export default class Animation {
   }
 
   _createFullscreenButton() {
-    let fullscreenButton = document.createElement('button');
-    fullscreenButton.className = 'player-btn icon-fullscreen';
-    fullscreenButton.onclick = () => { requestFullscreen(this.view); };
-    document.getElementById('rightPane').appendChild(fullscreenButton);
+    this.fullscreenButton = document.createElement('button');
+    this.fullscreenButton.className = 'player-btn icon-fullscreen';
+    this.fullscreenButton.title = 'Full screen (f)';
+    this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+    document.getElementById('rightPane').appendChild(this.fullscreenButton);
+
+    let fullscreenTooltip = document.createElement('span');
+    fullscreenTooltip.className = 'tooltip fullscreen-tooltip';
+    fullscreenTooltip.innerHTML = 'Full screen (f)';
+    this.fullscreenButton.appendChild(fullscreenTooltip);
 
     let exitFullscreenButton = document.createElement('button');
+    exitFullscreenButton.title = 'Exit full screen (f)';
     exitFullscreenButton.className = 'player-btn icon-partscreen';
     exitFullscreenButton.style.display = 'none';
     exitFullscreenButton.onclick = () => { exitFullscreen(); };
     document.getElementById('rightPane').appendChild(exitFullscreenButton);
 
-    document.addEventListener('fullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(fullscreenButton, exitFullscreenButton); });
+    fullscreenTooltip = document.createElement('span');
+    fullscreenTooltip.className = 'tooltip fullscreen-tooltip';
+    fullscreenTooltip.innerHTML = 'Exit full screen (f)';
+    exitFullscreenButton.appendChild(fullscreenTooltip);
+
+    document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
+  }
+
+  _keyboardHandler(e) {
+    if (e.code === 'KeyK')
+      this._triggerPlayPauseButton();
+    else if (e.code === 'KeyF')
+      this.fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.view);
   }
 }

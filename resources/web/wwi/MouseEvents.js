@@ -266,7 +266,7 @@ export default class MouseEvents {
   onMouseLeave(event) {
     clearTimeout(this.moveTimeout);
 
-    if (typeof event !== 'undefined' && event.relatedTarget !== null &&
+    if (typeof event !== 'undefined' && event.relatedTarget != null &&
       event.relatedTarget.id === 'timeSlider')
       return;
 

@@ -89,12 +89,13 @@ button:first-of-type { margin-right: 6px; }
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
-  background: rgba(0,0,0, 0.6);
+  background: rgba(0,0,0, 0.7);
   font-family: 'Arial';
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
 }
 ul {
   padding-left: 0px;
@@ -235,6 +236,40 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
   pointer-events: none;
+}
+
+.tooltip {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: rgb(240, 240, 240);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Arial';
+  text-shadow: 0 0 2px black;
+  border-radius: 2px;
+  padding: 5px 10px;
+
+  /* Position the tooltip */
+  position: absolute;
+  bottom: 55px;
+}
+
+.settings-tooltip {
+    right: 30px;
+}
+
+.fullscreen-tooltip {
+  white-space: nowrap;
+  right: 0px;
+}
+
+.play-tooltip {
+  left: 0px;
+}
+
+.player-btn:hover .tooltip {
+  visibility: visible;
 }
 
 .ui-icon {
