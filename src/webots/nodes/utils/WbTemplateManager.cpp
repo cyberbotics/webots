@@ -322,12 +322,9 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
   // whereas the chain itself can be comprised of multiple parameter nodes which complicates keeping track of how they relate
   QList<WbNode *> internalProtoNodes;
 
-  for (int i = 0; i < nodes.size(); ++i) {
-    if (nodes[i]->isInternalNode()) {
-      // printf("%d. I)%s\n", i, nodes[i]->usefulName().toUtf8().constData());
+  for (int i = 0; i < nodes.size(); ++i)
+    if (nodes[i]->isInternalNode())
       internalProtoNodes.append(nodes[i]);
-    }
-  }
 
   /*
   printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
@@ -339,7 +336,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   QList<WbNode *> tmp = internalProtoNodes;
 
-  // printf("REMOVE INVALID INTERNAL NODES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     if (isVisibleOrHasVisibleFields(internalProtoNodes[i])) {
       tmp.removeOne(internalProtoNodes[i]);  // cant collapse visible ones, so remove them
@@ -361,7 +357,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   QList<WbNode *> invisibleProtoParameterNodes;  // proto parameter nodes that can be removed
 
-  // follow the chain up each internal node to extract all the protoParameterNodes associated with it
+  // follow the chain up from each internal node to extract all the protoParameterNodes associated with it
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     WbNode *n = internalProtoNodes[i]->protoParameterNode();
 
@@ -389,7 +385,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
   */
-
   if (invisibleProtoParameterNodes.size() == 0) {
     printf("nothing can be collapsed, early exit.\n");
     return;
@@ -447,10 +442,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
         }
       }
     }
-
-    // delete nested proto nodes (which are protoParameterNodes)
-    if (parameterNode->isNestedProtoNode())
-      delete parameterNode;
   }
 
   // printNodeStructure(root);

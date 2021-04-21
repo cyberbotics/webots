@@ -202,20 +202,6 @@ private:
   bool mIsCleaning;
   bool mIsVideoRecording;
 
-  // ---
-  /*
-  void removeInvisibleProtoNodes();
-  bool isVisibleOrHasVisibleFields(WbNode *node);
-  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);
-  void recursiveInternalFieldCleaner(WbNode *node);
-  // --- for debug only
-  void printNodeFlags();
-  void printNodeStructure();
-  void printFieldsAndParams();
-  void printNodeFieldVisibility();
-  */
-  // ---
-
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 
