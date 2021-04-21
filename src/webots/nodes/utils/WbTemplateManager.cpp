@@ -315,9 +315,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
   // printNodeFieldVisibility(root);
 
   QList<WbNode *> nodes = root->subNodes(true, true, true);
-  // QVector<WbNode *> protoParameterNodes;
 
-  // printf("INITIAL CANDIDATES\n");
   // the internal node is used to keep track of what can be collapsed since it's the bottom of the chain and they're unique
   // whereas the chain itself can be comprised of multiple parameter nodes which complicates keeping track of how they relate
   QList<WbNode *> internalProtoNodes;
@@ -338,17 +336,14 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     if (isVisibleOrHasVisibleFields(internalProtoNodes[i])) {
-      tmp.removeOne(internalProtoNodes[i]);  // cant collapse visible ones, so remove them
-      // printf("- removing %s from internalProtoNodes because it's visible\n",
-      // internalProtoNodes[i]->usefulName().toUtf8().constData());
+      // cant collapse visible ones, so remove them
+      tmp.removeOne(internalProtoNodes[i]);
 
       // also remove any ancestor to it or any node this is an ancestor to
       for (int j = 0; j < internalProtoNodes.size(); ++j) {
         if (internalProtoNodes[j]->isAnAncestorOf(internalProtoNodes[i]) ||
             internalProtoNodes[i]->isAnAncestorOf(internalProtoNodes[j]))
           tmp.removeOne(internalProtoNodes[j]);
-        // printf("removing %s from internalProtoNodes because of ancestry\n",
-        // internalProtoNodes[j]->usefulName().toUtf8().constData());
       }
     }
   }
@@ -385,20 +380,16 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
   */
-  if (invisibleProtoParameterNodes.size() == 0) {
-    printf("nothing can be collapsed, early exit.\n");
+
+  if (invisibleProtoParameterNodes.size() == 0)
     return;
-  }
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     QVector<WbField *> fields = internalProtoNodes[i]->fields();
-    // printf("node: %s (%p) : (F%d)\n", internalProtoNodes[i]->usefulName().toUtf8().constData(),
-    //       internalProtoNodes[i], internalFields.size());
-    for (int j = 0; j < fields.size(); j++) {
-      // printf("- field %s: alias set to NULL\n", internalFields[j]->name().toUtf8().constData());
+
+    for (int j = 0; j < fields.size(); j++)
       fields[j]->setParameter(NULL);
-    }
 
     // break link with proto parameter node
     internalProtoNodes[i]->setProtoParameterNode(NULL);
@@ -411,22 +402,16 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
     // clear internal field references
     QVector<WbField *> fields =
-      invisibleProtoParameterNodes[i]->fields();  // node being a protoParameterNode, reference is kept in its fields
-    for (int i = 0; i < fields.size(); ++i) {
-      // printf("clearing internal fields for node %s (%p) : field %s (%p)\n", node->usefulName().toUtf8().constData(), node,
-      //       fields[i]->name().toUtf8().constData(), fields[i]);
+      invisibleProtoParameterNodes[i]->fields();  // for protoParameterNodes, reference is kept in its fields
+    for (int i = 0; i < fields.size(); ++i)
       fields[i]->clearInternalFields();
-    }
   }
 
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     WbNode *parameterNode = invisibleProtoParameterNodes[i];
     WbNode *parent = parameterNode->parentNode();
 
-    // printf("\n\n> removal of node %s (%p)\n", tmp->usefulName().toUtf8().constData(), tmp);
     QVector<WbField *> fieldsOrParameters = parent->fieldsOrParameters();
-    // printf("parent %s (%p) %s protoInstance (fieldsOrParameters size %d)\n", parent->usefulName().toUtf8().constData(),
-    // parent,parent->isProtoInstance() ? "IS" : "IS NOT", fieldsOrParameters.size());
 
     for (int j = 0; j < fieldsOrParameters.size(); j++) {
       WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
