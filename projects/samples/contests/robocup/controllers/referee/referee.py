@@ -38,6 +38,9 @@ FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
+FOUL_PUSHING_TIME = 1
+FOUL_PUSHING_PERIOD = 2
+FOUL_VINCITY_DISTANCE = 2                 # 2 meters
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
@@ -340,7 +343,7 @@ def game_controller_send(message):
                 except ValueError:
                     error(f'Cannot split {answer}')
                 try:
-                    message = game_controller_send.unanswered[int(id)]
+                    answered_message = game_controller_send.unanswered[int(id)]
                     del game_controller_send.unanswered[int(id)]
                 except KeyError:
                     error(f'Received acknowledgment message for unknown message: {id}')
@@ -348,22 +351,23 @@ def game_controller_send(message):
                 if result == 'OK':
                     continue
                 if result == 'INVALID':
-                    error(f'Received invalid answer from GameController for message {message}.')
+                    error(f'Received invalid answer from GameController for message {answered_message}.')
                 elif result == 'ILLEGAL':
-                    error(f'Received illegal answer from GameController for message {message}.')
+                    error(f'Received illegal answer from GameController for message {answered_message}.')
                 else:
                     error(f'Received unknown answer from GameController: {answer}.')
         except BlockingIOError:
             if not game.game_controller_synchronization:
                 break
-            elif answered or message[:6] == 'CLOCK:':
+            elif answered or ':CLOCK:' in message:
                 break
             else:  # keep sending CLOCK messages to keep the GameController happy
-                supervisor.step(time_step)
+                info(f'Waiting for GameController to answer to {message.strip()}.')
+                time.sleep(0.2)
                 game_controller_send.id += 1
-                message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
-                game.controller.sendall(message.encode('ascii'))
-                game_controller_send.unanswered[game_controller_send.id] = message.strip()
+                clock_message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
+                game.controller.sendall(clock_message.encode('ascii'))
+                game_controller_send.unanswered[game_controller_send.id] = clock_message.strip()
 
     return True
 
