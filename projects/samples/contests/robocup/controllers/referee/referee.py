@@ -803,17 +803,7 @@ def interruption(type, team=None):
     else:
         game.interruption_team = team
     color = 'red' if game.interruption_team == game.red.id else 'blue'
-    if type == 'CORNERKICK':
-        info(f'Corner kick awarded to {color} team.')
-    elif type == 'GOALKICK':
-        info(f'Goal kick awarded to {color} team.')
-    elif type == 'THROWIN':
-        info(f'Throw in awarded to {color} team.')
-    elif type == 'DIRECT_FREEKICK':
-        info(f'Free kick awarded to {color} team.')
-    else:
-        error(f'Unsupported interuption: {type}')
-        return
+    info(f'{GAME_INTERRUPTIONS[type].capitalize()} awarded to {color} team.')
     game_controller_send(f'{game.interruption}:{game.interruption_team}')
 
 
@@ -903,6 +893,8 @@ if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.')
 if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
+if not hasattr(game, 'press_a_key_to_terminate'):
+    game.press_a_key_to_terminate = False
 message = f'Real time factor is set to {game.real_time_factor}.'
 if game.real_time_factor == 0:
     message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
@@ -998,6 +990,7 @@ game.overtime = False
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
 game.sent_finish = False
+game.over = False
 previous_seconds_remaining = 0
 real_time_start = time.time()
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
@@ -1139,6 +1132,7 @@ while supervisor.step(time_step) != -1:
                 info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
             else:
                 info('This is a draw.')
+                game.over = True
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
@@ -1177,19 +1171,20 @@ while supervisor.step(time_step) != -1:
         if delta_time > 0:
             time.sleep(delta_time)
 
-print('Press a key to terminate')
-keyboard = supervisor.getKeyboard()
-keyboard.enable(time_step)
-while supervisor.step(time_step) != -1:
-    if keyboard.getKey() != -1:
-        break
-
 if log_file:
     log_file.close()
 if game.controller:
     game.controller.close()
 if game.controller_process:
     game.controller_process.terminate()
+
+if game.over and game.press_a_key_to_terminate:
+    print('Press a key to terminate')
+    keyboard = supervisor.getKeyboard()
+    keyboard.enable(time_step)
+    while supervisor.step(time_step) != -1:
+        if keyboard.getKey() != -1:
+            break
 
 supervisor.simulationQuit(0)
 while supervisor.step(time_step) != -1:
