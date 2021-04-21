@@ -29,7 +29,7 @@ import transforms3d
 
 from types import SimpleNamespace
 
-SIMULATED_TIME_BEFORE_BALL_RESET = 2      # once the ball exited the field, let it run for 2 simulated seconds and replacing it
+SIMULATED_TIME_BEFORE_INTERRUPTION = 2    # run the game for 2 simulated seconds before firing interruption
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
@@ -269,6 +269,7 @@ def game_controller_receive():
     if game.state.game_state == 'STATE_PLAYING' and \
        game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 0:
         info('Ball in play.')
+        game.in_play = True
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
        game.state.seconds_remaining <= 0:
@@ -277,7 +278,9 @@ def game_controller_receive():
         if game.interruption_seconds is not None:
             if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
                 info('Ball in play.')
+                game.in_play = True
                 game.interruption = None
+                game.interruption_step = None
                 game.interruption_team = None
                 game.interruption_seconds = None
             update_state_display()
@@ -292,16 +295,19 @@ def game_controller_receive():
     secondary_state_info = game.state.secondary_state_info
     if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in GAME_INTERRUPTIONS:
         kick = secondary_state[6:]
-        if secondary_state_info[1] == 0:
-            info(f'awarding a {GAME_INTERRUPTIONS[kick]}.')
-        elif secondary_state_info[1] == 1:
-            if game.state.secondary_seconds_remaining <= 0:
-                if game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE'):
-                    info(f'prepare for {GAME_INTERRUPTIONS[kick]}.')
-        elif secondary_state_info[1] == 2 and game.state.secondary_seconds_remaining <= 0:
-            if game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE'):
-                info(f'execute {GAME_INTERRUPTIONS[kick]}.')
-                game.interruption_seconds = game.state.seconds_remaining
+        step = secondary_state_info[1]
+        if step == 0 and game.interruption_step != step:
+            game.interruption_step = step
+            info(f'Awarding a {GAME_INTERRUPTIONS[kick]}.')
+        elif step == 1 and game.state.secondary_seconds_remaining <= 0 and game.interruption_step != step:
+            game.interruption_step = step
+            game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE')
+            info(f'Prepare for {GAME_INTERRUPTIONS[kick]}.')
+        elif step == 2 and game.state.secondary_seconds_remaining <= 0 and game.interruption_step != step:
+            game.interruption_step = step
+            game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
+            info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
+            game.interruption_seconds = game.state.seconds_remaining
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME']:
         print(f'GameController {secondary_state}: {secondary_state_info}')
 
@@ -312,22 +318,25 @@ def game_controller_send(message):
         if game_controller_send.sent_once == message:
             return False
         game_controller_send.sent_once = message
-    if message[:6] != 'CLOCK:':
-        info(f'Sending {game_controller_send.id + 1}:{message} to GameController.')
     game_controller_send.id += 1
+    if message[:6] != 'CLOCK:':
+        info(f'Sending {game_controller_send.id}:{message} to GameController.')
     message = f'{game_controller_send.id}:{message}\n'
     game.controller.sendall(message.encode('ascii'))
     # info(f'sending {message.strip()} to GameController')
     game_controller_send.unanswered[game_controller_send.id] = message.strip()
+    answered = False
+    sent_id = game_controller_send.id
     while True:
         try:
             answers = game.controller.recv(1024).decode('ascii').split('\n')
-            # info(f'received {answers} from GameController')
             for answer in answers:
                 if answer == '':
                     continue
                 try:
                     id, result = answer.split(':')
+                    if int(id) == sent_id:
+                        answered = True
                 except ValueError:
                     error(f'Cannot split {answer}')
                 try:
@@ -345,7 +354,17 @@ def game_controller_send(message):
                 else:
                     error(f'Received unknown answer from GameController: {answer}.')
         except BlockingIOError:
-            break
+            if not game.game_controller_synchronization:
+                break
+            elif answered or message[:6] == 'CLOCK:':
+                break
+            else:  # keep sending CLOCK messages to keep the GameController happy
+                supervisor.step(time_step)
+                game_controller_send.id += 1
+                message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
+                game.controller.sendall(message.encode('ascii'))
+                game_controller_send.unanswered[game_controller_send.id] = message.strip()
+
     return True
 
 
@@ -797,7 +816,9 @@ def reset_teams(pose):
 
 
 def interruption(type, team=None):
+    game.in_play = False
     game.interruption = type
+    game.interruption_countdown = int(SIMULATED_TIME_BEFORE_INTERRUPTION * 1000 / time_step)
     if not team:
         game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
     else:
@@ -895,6 +916,8 @@ if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
+if not hasattr(game, 'game_controller_synchronization'):
+    game.game_controller_synchronization = False
 message = f'Real time factor is set to {game.real_time_factor}.'
 if game.real_time_factor == 0:
     message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
@@ -979,11 +1002,14 @@ game_controller_send(f'KICKOFF:{game.kickoff}')
 
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
-game.ball_exited_countdown = 0
+game.ball_exit_translation = None
 game.ball_last_touch_team = None
 game.ball_last_touch_player = None
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
+game.in_play = False
 game.interruption = None
+game.interruption_countdown = 0
+game.interruption_step = None
 game.interruption_team = None
 game.interruption_seconds = None
 game.overtime = False
@@ -1031,14 +1057,13 @@ while supervisor.step(time_step) != -1:
                     warning('PENALTY game not yet supported!')  # FIXME
                 else:
                     error(f'Unsupported game type: {game.type}.')
-        if game.ball_exited_countdown == 0 and \
+        if game.interruption_countdown == 0 and \
             (game.ball_position[1] - game.ball_radius > game.field_size_y or
              game.ball_position[1] + game.ball_radius < -game.field_size_y or
              game.ball_position[0] - game.ball_radius > game.field_size_x or
              game.ball_position[0] + game.ball_radius < -game.field_size_x):
             info(f'Ball left the field at ({game.ball_position[0]} {game.ball_position[1]} {game.ball_position[2]}) after '
                  f'being touched by {game.ball_last_touch_team} player {game.ball_last_touch_player}.')
-            game.ball_exited_countdown = int(SIMULATED_TIME_BEFORE_BALL_RESET * 1000 / time_step)
             game.ball_exit_translation = game.ball_position
             scoring_team = None
             right_way = None
@@ -1142,13 +1167,14 @@ while supervisor.step(time_step) != -1:
                 check_start_position()
                 game_controller_send('STATE:READY')
 
-    if game.ball_exited_countdown > 0:
-        game.ball_exited_countdown -= 1
-        if game.ball_exited_countdown == 0:
-            game.ball.resetPhysics()
-            game.ball_translation.setSFVec3f(game.ball_exit_translation)
-            info('Ball respawned at '
-                 f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}.')
+    if game.interruption_countdown > 0:
+        game.interruption_countdown -= 1
+        if game.interruption_countdown == 0:
+            if game.ball_exit_translation:
+                game.ball.resetPhysics()
+                game.ball_translation.setSFVec3f(game.ball_exit_translation)
+                info('Ball respawned at '
+                     f'{game.ball_exit_translation[0]} {game.ball_exit_translation[1]} {game.ball_exit_translation[2]}.')
             if game.interruption:
                 game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
