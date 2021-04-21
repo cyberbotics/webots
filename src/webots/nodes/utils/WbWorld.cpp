@@ -231,14 +231,21 @@ void WbWorld::printChainCandidate(WbNode *node, int depth, bool end) {
   }
 
   QString type = "";
-  if (node->isNestedProtoNode())
+  if (node->isNestedProtoNode() && !node->isProtoParameterNode())
     type = "[N]";
-  else if (node->isProtoParameterNode())
+  else if (!node->isNestedProtoNode() && node->isProtoParameterNode())
     type = "[P]";
+  else if (node->isNestedProtoNode() && node->isProtoParameterNode())
+    type = "[P/N]";
   else if (node->isInternalNode())
     type = "[I] ";
-  printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
-         node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
+
+  if (end)
+    printf("%s(%s %s (%p) -> (%p))\n", indent.toUtf8().constData(), type.toUtf8().constData(),
+           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
+  else
+    printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
+           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
 }
 
 void WbWorld::printNodeFlags() {
@@ -305,13 +312,13 @@ void WbWorld::removeInvisibleProtoNodes() {
       internalProtoNodes.append(nodes[i]);
     }
   }
-  /*
-  printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
+
+  printf("\nPRINT CHAINS FOR UNFILTERED CANDIDATES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     printf("\n");
     printChainCandidate(internalProtoNodes[i]);
   }
-  */
+
   QList<WbNode *> tmp = internalProtoNodes;
 
   // printf("REMOVE INVALID INTERNAL NODES\n");
@@ -334,59 +341,92 @@ void WbWorld::removeInvisibleProtoNodes() {
 
   internalProtoNodes = tmp;
 
-  /*
-  printf("\n");
+  printf("\nINTERNAL NODES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     printf("  [L%d] %s (%p alias is %p)\n", internalProtoNodes[i]->level(),
            internalProtoNodes[i]->usefulName().toUtf8().constData(), internalProtoNodes[i],
            internalProtoNodes[i]->protoParameterNode());
-  }*/
+  }
 
   QList<WbNode *> invisibleProtoParameterNodes;  // proto parameter nodes that can be removed
 
   // follow the chain up each internal node to extract all the protoParameterNodes associated with it
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     WbNode *n = internalProtoNodes[i]->protoParameterNode();
-
-    while (n != NULL) {
-      bool added = false;
-      for (int j = 0; j < invisibleProtoParameterNodes.size(); ++j) {
-        if (n->level() > invisibleProtoParameterNodes[j]->level()) {  // insert them from lowest to highest level
-          invisibleProtoParameterNodes.insert(j, n);
-          added = true;
-          break;  // need to break otherwise invisibleProtoParameterNodes grows infinitly
-        }
-      }
-
-      if (!added)
-        invisibleProtoParameterNodes.append(n);
-
-      n = n->protoParameterNode();
+    while (n->protoParameterNode() != NULL) {
+      n = n->protoParameterNode();  // reach tip
     }
+
+    assert(n->isProtoParameterNode());
+
+    bool added = false;
+    for (int j = 0; j < invisibleProtoParameterNodes.size(); ++j) {
+      if (n->level() > invisibleProtoParameterNodes[j]->level()) {  // insert them from lowest to highest level
+        invisibleProtoParameterNodes.insert(j, n);
+        added = true;
+        break;  // need to break otherwise invisibleProtoParameterNodes grows infinitly
+      }
+    }
+
+    if (!added)
+      invisibleProtoParameterNodes.append(n);
   }
 
-  /*
-  printf("INVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
+  printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
-  */
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    QVector<WbField *> fields = internalProtoNodes[i]->fields();
+    // -- break links on the node parameter side
+    // go up one level to the closest proto parameter node
+    WbNode *protoParameterNode = internalProtoNodes[i]->protoParameterNode();
+    protoParameterNode->disconnectParameterChange();
+    assert(protoParameterNode->isProtoParameterNode());
+
+    // clear downward reference to internal node
+    invisibleProtoParameterNodes[i]->removeFromProtoParameterNodeInstances(internalProtoNodes[i]);
+
+    WbNode *n = protoParameterNode;
+    while (n && n->isProtoParameterNode()) {
+      // clear internal field references
+      QVector<WbField *> fields = n->fields();  //  reference to internals are in the fields for proto parameter nodes
+      for (int i = 0; i < fields.size(); ++i) {
+        printf("clearing internal fields for node %s (%p) : field %s (%p)\n", n->usefulName().toUtf8().constData(), n,
+               fields[i]->name().toUtf8().constData(), fields[i]);
+        fields[i]->clearInternalFields();
+        fields[i]->disconnectNotTheSame();
+      }
+      QVector<WbField *> parameters = n->parameters();  //  reference to internals are in the fields for proto parameter nodes
+      for (int i = 0; i < parameters.size(); ++i) {
+        printf("clearing internal parameters for node %s (%p) : field %s (%p)\n", n->usefulName().toUtf8().constData(), n,
+               parameters[i]->name().toUtf8().constData(), parameters[i]);
+        parameters[i]->clearInternalFields();
+        parameters[i]->disconnectNotTheSame();
+      }
+
+      n->disconnectParameterChange();
+      n = n->protoParameterNode();
+    }
+
+    // -- break links on the internal node side
+    QVector<WbField *> internalFields = internalProtoNodes[i]->fields();
     // printf("node: %s (%p) : (F%d)\n", internalProtoNodes[i]->usefulName().toUtf8().constData(),
     //       internalProtoNodes[i], internalFields.size());
-    for (int j = 0; j < fields.size(); j++) {
+    for (int j = 0; j < internalFields.size(); j++) {
       // printf("- field %s: alias set to NULL\n", internalFields[j]->name().toUtf8().constData());
-      fields[j]->setParameter(NULL);
+      internalFields[j]->disconnectNotTheSame();
+      internalFields[j]->setParameter(NULL);
     }
 
     // break link with proto parameter node
+    internalProtoNodes[i]->disconnectParameterChange();
     internalProtoNodes[i]->setProtoParameterNode(NULL);
   }
 
+  /*
   // break link [parameter] -> [internal field] and [parameter node] -> [internal node] (from parameter node side)
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     // clear downward references
@@ -401,37 +441,42 @@ void WbWorld::removeInvisibleProtoNodes() {
       fields[i]->clearInternalFields();
     }
   }
+  */
 
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     WbNode *parameterNode = invisibleProtoParameterNodes[i];
     WbNode *parent = parameterNode->parentNode();
 
-    // printf("\n\n> removal of node %s (%p)\n", tmp->usefulName().toUtf8().constData(), tmp);
+    printf("\n\n> removal of node %s (%p)\n", parameterNode->usefulName().toUtf8().constData(), parameterNode);
     QVector<WbField *> fieldsOrParameters = parent->fieldsOrParameters();
-    // printf("parent %s (%p) %s protoInstance (fieldsOrParameters size %d)\n", parent->usefulName().toUtf8().constData(),
-    // parent,parent->isProtoInstance() ? "IS" : "IS NOT", fieldsOrParameters.size());
+    printf("parent %s (%p) %s protoInstance (fieldsOrParameters size %d)\n", parent->usefulName().toUtf8().constData(), parent,
+           parent->isProtoInstance() ? "IS" : "IS NOT", fieldsOrParameters.size());
 
     for (int j = 0; j < fieldsOrParameters.size(); j++) {
       WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsOrParameters[j]->value());
       WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fieldsOrParameters[j]->value());
 
       if (sfnode && sfnode->value() == parameterNode) {
-        sfnode->setValueNoSignal(NULL);
+        parent->disconnectParameterChange();  // should be targeted
+        printf("SF NODE field\n");
+        sfnode->setValue(NULL);
         parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
       } else {
         if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
-          mfnode->removeNodeNoSignal(parameterNode);
+          parent->disconnectParameterChange();
+          printf("MFNODE field\n");
+          mfnode->removeNode(parameterNode);
           parent->removeFromFieldsOrParameters(fieldsOrParameters[j]);
         }
       }
     }
 
     // delete nested proto nodes (which are protoParameterNodes)
-    if (parameterNode->isNestedProtoNode())
-      delete parameterNode;
+    // if (parameterNode->isNestedProtoNode())
+    // delete parameterNode;
   }
 
-  // printNodeStructure();
+  printNodeStructure();
 }
 
 WbWorld::~WbWorld() {

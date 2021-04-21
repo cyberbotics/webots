@@ -1560,6 +1560,7 @@ void WbSolid::updateDynamicSolidDescendantFlag() {
 }
 
 void WbSolid::updateChildren() {
+  printf("updateChildren %s (%p)\n", this->usefulName().toUtf8().constData(), this);
   mSolidChildren.clear();
   mJointChildren.clear();
   mPropellerChildren.clear();

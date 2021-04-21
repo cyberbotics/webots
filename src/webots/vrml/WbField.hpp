@@ -73,7 +73,12 @@ public:
 
   void setParameter(WbField *parameter) { mParameter = parameter; }
 
-  void clearInternalFields() { mInternalFields.clear(); }
+  void clearInternalFields() {
+    printf("found %d internalFields\n", mInternalFields.size());
+    mInternalFields.clear();
+  }
+
+  void disconnectNotTheSame();
 
   void printInternalFields();
   void setParentNode(WbNode *node) { mParentNode = node; }

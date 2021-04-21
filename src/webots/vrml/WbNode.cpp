@@ -321,7 +321,7 @@ WbNode::WbNode(const WbNode &other) :
 }
 
 WbNode::~WbNode() {
-  // printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
+  printf("[D] node %s (%p)\n", usefulName().toUtf8().constData(), this);
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
@@ -812,6 +812,7 @@ void WbNode::notifyFieldChanged() {
 }
 
 void WbNode::notifyParameterChanged() {
+  printf("notifyParameterChanged\n");
   WbField *const parameter = static_cast<WbField *>(sender());
 
   emit parameterChanged(parameter);
@@ -2266,6 +2267,17 @@ void WbNode::disconnectFieldNotification(const WbValue *value) {
   foreach (WbField *field, mFields) {
     if (field->value() == value)
       disconnect(field, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
+  }
+}
+
+void WbNode::disconnectParameterChange() {
+  foreach (WbField *field, mFields) {
+    bool a = disconnect(field, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
+    printf(">a %d %s\n", a, field->name().toUtf8().constData());
+  }
+  foreach (WbField *parameter, mParameters) {
+    bool b = disconnect(parameter, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
+    printf(">b %d %s\n", b, parameter->name().toUtf8().constData());
   }
 }
 
