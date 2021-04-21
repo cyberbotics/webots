@@ -3879,7 +3879,7 @@ Lidar {
   }
   %{ end }%
   fieldOfView 4.71238
-  verticalFieldOfView %{= 4.18879 / fields.resolution.value }%
+  verticalFieldOfView %{= 4.71238 / fields.resolution.value }%
   horizontalResolution IS resolution
   numberOfLayers 1
   spherical TRUE
