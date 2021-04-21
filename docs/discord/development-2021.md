@@ -1565,3 +1565,66 @@ See this example:
 ##### DDaniel [Cyberbotics] 04/04/2021 07:27:53
 `@Simon Steinmann` it's in the works, the offline documentation might be removed entirely by default (with the option of downloading it if needed) among other things. [https://github.com/cyberbotics/webots/pull/2787](https://github.com/cyberbotics/webots/pull/2787)
 
+##### Spur 04/08/2021 01:56:50
+Does anyone know how the  'position' field of a Camera Recognition Object works? it says it has 3 values but I'm unsure what they represent
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/08/2021 06:03:46
+XYZ coordinates?
+
+##### DrVoodoo [Moderator] 04/08/2021 16:06:45
+I'm having some grief on a world a ENU world with an inertial unit
+
+
+I have the inertial unit aligned as per the docs (x forward, y up, z right)
+
+
+And I am using getQuaternion() to get the orientation (which I assume is returning in x,y,z,w order)
+
+
+Now the robot is on a flat(ish) surface so that's giving me ( 0.000950936, -0.00466466, 0.980983, -0.194035 ) for example
+
+
+No wait, I think I figured this out. I'm trying to present the data in PCL which is using NUE still
+
+
+As always, you bang your head on the problem for an hour and realise the issue as soon as you start explaining it.
+
+##### Bitbots\_Jasper [Moderator] 04/08/2021 16:45:20
+have you tried the rubber ducky method ([https://en.wikipedia.org/wiki/Rubber\_duck\_debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)) ? 😋
+
+##### Spur 04/09/2021 00:12:04
+oh ok thanks, do you know what the orientation field values represent, theres 4 so im very unsure
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/09/2021 00:24:23
+axis angles usually
+
+##### Spur 04/09/2021 06:26:06
+wont there only be 3 though? xy xz yz ?
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:29:30
+In the axis angle notation used in webots  the first three values specify the rotation axis and the fourth specifies the rotation in radians
+
+##### Spur 04/09/2021 06:32:35
+sorry i'm a bit confused, how do the three values describe the axis, isnt an axis by definition only 1 value, ie x axis y axis or z axis
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:36:12
+It is not necessarily the x y or z axis. You can think of the axis being specified as a line though the origin of the coordinate system and a point on the unit sphere specified by the three coordinates. If the point is (1,0,0) it is simply a rotation around the x axis but any axis is possible
+
+##### Spur 04/09/2021 06:38:19
+oh ok, forgive my ignorance but whats the point of the rotation value then? (4th value)
+
+##### Drake P. 04/09/2021 06:53:55
+The 4th value is the roll around the specified axis to my understanding
+
+##### Spur 04/09/2021 06:54:21
+oh gotcha thanks
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 07:16:05
+Yes, thanks `@Drake P.` for explaining
+
+##### Gotcha97 04/09/2021 19:29:53
+Is it possible to add a speaker device to an existing robot template (in my case a TIAGo Titanium)?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/09/2021 20:49:33
+Yes, you should be able to insert it in one of the extension slots of the TIAGo proto.
+
