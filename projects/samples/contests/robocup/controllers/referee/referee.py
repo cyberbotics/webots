@@ -552,6 +552,7 @@ def update_team_contacts(team, color):
         player = team['players'][number]
         robot = player['robot']
         n = robot.getNumberOfContactPoints(True)
+        player['contact_points'] = []
         if n == 0:
             continue
         player['outside_circle'] = True    # true if fully outside the center cicle
@@ -562,16 +563,18 @@ def update_team_contacts(team, color):
         for i in range(0, n):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
-                for ball_point in game.ball.contact_points:  # check ball contacts
-                    if ball_point == point:
-                        if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
-                            game.ball_last_touch_team = color
-                            game.ball_last_touch_player = int(number)
-                            game.ball_last_touch_time = time_count
-                            info(f'Ball touched by {color} player {number}.')
-                        elif time_count - game.ball_last_touch_time >= 1000:  # dont produce too many touched messages
-                            game.ball_last_touch_time = time_count
-                            info('Ball touched again by same player.')
+                if point in game.ball.contact_points:  # ball contact
+                    if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
+                        game.ball_last_touch_team = color
+                        game.ball_last_touch_player = int(number)
+                        game.ball_last_touch_time = time_count
+                        info(f'Ball touched by {color} player {number}.')
+                    elif time_count - game.ball_last_touch_time >= 1000:  # dont produce too many touched messages
+                        game.ball_last_touch_time = time_count
+                        info('Ball touched again by same player.')
+                    continue
+                # the robot touched something else than the ball or the ground
+                player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
                 continue
             if distance3(point, [0, 0, game.turf_depth]) < game.center_circle_radius:
                 player['outside_circle'] = False
