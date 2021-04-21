@@ -13,6 +13,7 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed [`wb_supervisor_node_reset_physics`](supervisor.md#wb_supervisor_node_reset_physics) not working if during the same step the node is also artificially moved with the [Supervisor](supervisor.md) API ([#2991](https://github.com/cyberbotics/webots/pull/2991)).
     - Fixed crash changing the [`Lidar.type`](lidar.md) field during the simulation run by requiring to save and reload the world ([#2983](https://github.com/cyberbotics/webots/pull/2983)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
     - Fixed [Lens](lens.md) distortion ([#2961](https://github.com/cyberbotics/webots/pull/2961)).
