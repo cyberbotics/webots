@@ -314,8 +314,10 @@ def game_controller_receive():
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
             game.interruption_seconds = game.state.seconds_remaining
+    # elif secondary_state == 'STATE_PENALTY_SHOOTOUT':
+    #    game_controller_send('STATE:READY')
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME']:
-        print(f'GameController {secondary_state}: {secondary_state_info}')
+        print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
 
 
 def game_controller_send(message):
@@ -1005,14 +1007,14 @@ update_state_display()
 list_solids()  # prepare lists of solids to monitor in each robot to compute the convex hulls
 
 info(f'Game type is {game.type}.')
-info(f'Red team is {red_team["name"]}.')
-info(f'Blue team is {blue_team["name"]}.')
-info(f'Left side is {"red" if game.side_left == game.red.id else "blue"}.')
-info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}.')
-info('Beginning of first half.')
+info(f'Red team is "{red_team["name"]}", playing on {"left" if game.side_left == game.red.id else "right"} side.')
+info(f'Blue team is "{blue_team["name"]}", playing on {"left" if game.side_left == game.blue.id else "right"} side.')
 game_controller_send(f'SIDE_LEFT:{game.side_left}')
-game_controller_send(f'KICKOFF:{game.kickoff}')
-
+if game.type != 'PENALTY':
+    info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will kick-off the first half.')
+    game_controller_send(f'KICKOFF:{game.kickoff}')
+else:
+    info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
@@ -1065,7 +1067,7 @@ while supervisor.step(time_step) != -1:
                     else:
                         info('End of knockout second half.')
                 elif game.type == 'PENALTY':
-                    warning('PENALTY game not yet supported!')  # FIXME
+                    warning('End of extended penalty shoot-out.')
                 else:
                     error(f'Unsupported game type: {game.type}.')
         if game.interruption_countdown == 0 and \
@@ -1155,6 +1157,11 @@ while supervisor.step(time_step) != -1:
                 info('Beginning of the knockout first half.')
                 game_controller_send('STATE:OVERTIME-FIRST-HALF')
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
+        elif game.type == 'KNOCKOUT' and game.state.teams[0].score == game.state.teams[1].score:
+            if game.ready_count_down == 0:
+                info('Beginning of penalty shout-out.')
+                game_controller_send('STATE:PENALTY-SHOOTOUT')
+                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         else:
             info('End of the game.')
             if game.state.teams[0].score > game.state.teams[1].score:
@@ -1176,7 +1183,7 @@ while supervisor.step(time_step) != -1:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 check_start_position()
-                game_controller_send('STATE:READY')
+                game_controller_send('STATE:READY' if game.type != 'PENALTY' else 'STATE:SET')
 
     if game.interruption_countdown > 0:
         game.interruption_countdown -= 1
