@@ -50,6 +50,12 @@ WbAppearance::WbAppearance(const WbNode &other) : WbAbstractAppearance(other) {
 WbAppearance::~WbAppearance() {
 }
 
+void WbAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (texture())
+    texture()->downloadAssets();
+}
+
 void WbAppearance::preFinalize() {
   WbAbstractAppearance::preFinalize();
 
@@ -77,15 +83,15 @@ void WbAppearance::postFinalize() {
     emit changed();
 }
 
-void WbAppearance::reset() {
-  WbAbstractAppearance::reset();
+void WbAppearance::reset(const QString &id) {
+  WbAbstractAppearance::reset(id);
 
   WbNode *const material = mMaterial->value();
   if (material)
-    material->reset();
+    material->reset(id);
   WbNode *const texture = mTexture->value();
   if (texture)
-    texture->reset();
+    texture->reset(id);
 }
 
 void WbAppearance::updateMaterial() {

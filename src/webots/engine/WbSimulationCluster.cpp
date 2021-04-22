@@ -19,6 +19,7 @@
 #include "WbDistanceSensor.hpp"
 #include "WbFluid.hpp"
 #include "WbGeometry.hpp"
+#include "WbHingeJoint.hpp"
 #include "WbImmersionProperties.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
@@ -149,7 +150,7 @@ dJointGroupID WbSimulationCluster::bodyContactJointGroup(dBodyID b) {
 }
 
 void WbSimulationCluster::handleKinematicsCollisions() {
-  // handle DifferentialWheels robots without physics
+  // handle differential robots without physics
   foreach (WbKinematicDifferentialWheels *robot, mCollisionedRobots)
     robot->applyKinematicDisplacement();
   mCollisionedRobots.clear();
@@ -418,7 +419,6 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
       if (isOtherRayGeom)
         return false;
     case WB_NODE_CAMERA:
-    case WB_NODE_DIFFERENTIAL_WHEELS:
     case WB_NODE_DISTANCE_SENSOR:
     case WB_NODE_LIGHT_SENSOR:
     case WB_NODE_RADAR:
@@ -584,6 +584,35 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
         (b2 && dAreConnectedExcluding(b2, b1, dJointTypeContact)))))
     return;
 
+  // ignore collision if bodies are connected by a chain of HingeJoint (or derivatives) sharing a same anchor
+  if (b1 && b2) {
+    WbNode *n;  // climb up the chain from the lowest level
+    dBodyID b;  // stop when we reach this body
+    if (s1->level() > s2->level()) {
+      n = dynamic_cast<WbNode *>(s1);
+      b = b2;
+    } else {
+      n = dynamic_cast<WbNode *>(s2);
+      b = b1;
+    }
+
+    WbVector3 firstAnchor(NAN, NAN, NAN);
+    while (n && n->level() >= 1) {
+      const WbSolid *s = dynamic_cast<WbSolid *>(n);
+      if (s && s->body() == b && !firstAnchor.isNan())
+        return;  // one intermediary joint is mandatory to ignore collisions at this level, otherwise it's taken care elsewhere
+
+      const WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(n);
+      if (joint) {
+        if (firstAnchor.isNan())
+          firstAnchor = joint->anchor();
+        else if (!firstAnchor.almostEquals(joint->anchor()))
+          break;
+      }
+      n = n->parentNode();
+    }
+  }
+
   dContact contact[10];
   const int n = dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
   if (n == 0)
@@ -597,35 +626,6 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
-  const WbPhysics *const p1 = s1->physics();
-  const WbPhysics *const p2 = s2->physics();
-
-  // kinematic mode
-  if (!p1 || !p2) {
-    WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
-    WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
-    if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
-      wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
-      if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));  // we want only one contact point
-        wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
-        collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
-      } else
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), false, contact, true);
-      return;
-    }
-    if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
-      wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-      collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
-      return;
-    }
-  }
-
   // Handles the case of ray geometry against a non-ray geometry, i.e. at least one body is null
   if (isRayGeom1) {
     WbDistanceSensor *const ds = dynamic_cast<WbDistanceSensor *>(s1);
@@ -634,8 +634,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       for (int i = 1; i < n; ++i)
         if (contact[i].geom.depth < contact[ix].geom.depth)
           ix = i;
-      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide call-back
-      // function of ODE. Should we be worried?
+      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide
+      // call-back function of ODE. Should we be worried?
       assert(o1 == contact[ix].geom.g1 && o2 == contact[ix].geom.g2);
       ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[ix].geom);
       return;

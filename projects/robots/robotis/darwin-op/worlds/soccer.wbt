@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -6,11 +6,10 @@ WorldInfo {
   ]
   title "ROBOTIS OP2"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.16146271043350127 -0.9733404805196807 -0.16290519365933198 4.672381269568933
-  position 1.056356093433948 0.6120158896416364 -0.07666785519912436
+  orientation 0.6719791180295076 -0.49317350564460494 -0.552470775935249 1.8510428047885563
+  position -2.5375047220358824 -0.9166711516828123 0.6010308394649483
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -22,14 +21,17 @@ TexturedBackgroundLight {
   luminosity 0.5
 }
 RobotstadiumSoccerField {
+  rotation 1 0 0 1.5707963267948966
   frame1Color 0.9 0.8 0.2
   frame2Color 0.2 0.4 0.8
 }
 DEF BALL Ball {
+  translation 0 0.0325 0.03
+  rotation 1 0 0 1.5707963267948966
 }
 DEF ROBOTISOP2 RobotisOp2 {
-  translation -0.567676 0.23466 -0.302673
-  rotation -0.14213197373385378 -0.9878638174416721 0.06263848842433795 -1.05598
+  translation -0.36 0 0.236
+  rotation 0 1 0 0.09
   controller "soccer"
   jersey RobotisJersey {
   }

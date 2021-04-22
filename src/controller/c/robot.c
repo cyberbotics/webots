@@ -37,7 +37,6 @@
 #include <webots/types.h>
 #include <webots/utils/system.h>
 #include "device_private.h"
-#include "differential_wheels_private.h"
 #include "joystick_private.h"
 #include "keyboard_private.h"
 #include "messages.h"
@@ -177,7 +176,7 @@ static void robot_quit() {  // called when Webots kills a controller
   free(robot.urdf_prefix);
 }
 
-// this function is also called from supervisor_write_request() and differential_wheels_write_request()
+// this function is also called from supervisor_write_request()
 void robot_write_request(WbDevice *dev, WbRequest *req) {
   keyboard_write_request(req);
   joystick_write_request(req);
@@ -310,9 +309,6 @@ static void robot_configure(WbRequest *r) {
   // printf("robot.device[0]->name = %s\n", robot.device[0]->name);
 
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      wb_differential_wheels_init(robot.device[0]);
-      break;
     case WB_NODE_ROBOT:
       if (robot.is_supervisor)
         wb_supervisor_init(robot.device[0]);
@@ -512,8 +508,6 @@ WbDevice *robot_get_robot_device() {
 
 static const char *robot_get_type_name() {
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      return "DifferentialWheels";
     case WB_NODE_ROBOT:
       return "Robot";
     default:
@@ -529,15 +523,6 @@ int robot_check_supervisor(const char *func_name) {
 
   fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
   fprintf(stderr, "Error: this function can only be used in a 'Supervisor' controller.\n");
-  return 0;
-}
-
-int robot_check_differential_wheels(const char *func_name) {
-  if (robot.device[0]->node == WB_NODE_DIFFERENTIAL_WHEELS)
-    return 1;  // OK
-
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
-  fprintf(stderr, "Error: this function can only be used in a 'DifferentialWheels' controller.\n");
   return 0;
 }
 

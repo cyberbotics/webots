@@ -15,6 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbOdeContact.hpp"
@@ -54,6 +55,21 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   mSimulationHasRunAfterSave(false) {
   if (mWorldLoadingCanceled)
     return;
+
+  emit worldLoadingStatusHasChanged(tr("Downloading assets"));
+  emit worldLoadingHasProgressed(0);
+  WbDownloader::reset();
+  root()->downloadAssets();
+  int progress = WbDownloader::progress();
+  while (progress < 100) {
+    QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    int newProgress = WbDownloader::progress();
+    if (newProgress != progress) {
+      progress = newProgress;
+      emit worldLoadingHasProgressed(progress);
+    }
+  }
+
   mSleepRealTime = basicTimeStep();
 
   WbSimulationState::instance()->resetTime();
@@ -358,7 +374,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
       WbNodeOperations::instance()->deleteNode(node, true);
   }
   mAddedNode.clear();
-  root()->reset();
+  root()->reset("__init__");
   WbTemplateManager::instance()->blockRegeneration(false);
   mImmersionGeoms.clear();
   mCluster->handleInitialCollisions();

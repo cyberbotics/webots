@@ -1,2 +1,2 @@
 function value = WB_NODE_SLOT
-value = 74;
+value = 73;

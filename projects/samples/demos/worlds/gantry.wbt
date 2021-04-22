@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Demo of a gantry robot playing the Hanoi Towers."
@@ -423,7 +423,7 @@ DEF BOX_A Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "gantry/A.png"
+            "textures/gantry/A.png"
           ]
         }
         roughness 1
@@ -446,7 +446,7 @@ DEF BOX_B Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "gantry/B.png"
+            "textures/gantry/B.png"
           ]
         }
         roughness 1
@@ -469,7 +469,7 @@ DEF BOX_C Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "gantry/C.png"
+            "textures/gantry/C.png"
           ]
         }
         roughness 1
@@ -492,7 +492,7 @@ DEF PLATFORM_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "gantry/1.png"
+            "textures/gantry/1.png"
           ]
         }
         roughness 1
@@ -513,7 +513,7 @@ DEF PLATFORM_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "gantry/2.png"
+            "textures/gantry/2.png"
           ]
         }
         roughness 1

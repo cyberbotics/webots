@@ -17,13 +17,9 @@ InertialUnit {
 The [InertialUnit](#inertialunit) node simulates an *Inertial Measurement Unit* (IMU).
 The [InertialUnit](#inertialunit) computes and returns its *roll*, *pitch* and *yaw* angles with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
 If you would like to measure an acceleration or an angular velocity, please use the [Accelerometer](accelerometer.md) or [Gyro](gyro.md) node instead.
-The [InertialUnit](#inertialunit) node must be placed on the [Robot](robot.md) so that its x-axis points in the direction of the [Robot](robot.md)'s forward motion (longitudinal axis).
-The positive z-axis must point towards the [Robot](robot.md)'s right side, e.g., right arm, right wing (lateral axis).
-The positive y-axis must point to the [Robot](robot.md)'s up/top direction.
-If the [InertialUnit](#inertialunit) has this orientation, then the *roll*, *pitch* and *yaw* angles correspond to the usual automotive, aeronautics or spatial meaning.
-More precisely, the [InertialUnit](#inertialunit) measures the Tait-Bryan angles along x-axis (roll), z-axis (pitch) and y-axis (yaw).
-This convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
-The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity vector and their cross-product (see [WorldInfo](worldinfo.md) to change the coordinate system).
+The *roll*, *pitch*, and *yaw* angles for ENU and NUE coordinate systems (the `coordinateSystem` field in the [WorldInfo](worldinfo.md) node) are depicted in the picture below.
+For the NUE coordinate system, convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
+For the ENU coordinate system, convention is commonly referred to as the *x-y-z* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by ZYX.
 
 > **Note**: To avoid gimbal lock situation you can use the `wb_inertial_unit_get_quaternion` function.
 
@@ -39,7 +35,7 @@ The default is that all three axes are enabled (TRUE).
 
 %figure "Roll, pitch and yaw angles in Webots' Inertial Unit"
 
-![roll_pitch_yaw.png](images/roll_pitch_yaw.png)
+![enu_nue.png](images/enu_nue.png)
 
 %end
 

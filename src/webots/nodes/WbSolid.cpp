@@ -18,7 +18,6 @@
 #include "WbCapsule.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
-#include "WbDifferentialWheels.hpp"
 #include "WbField.hpp"
 #include "WbGeometry.hpp"
 #include "WbImmersionProperties.hpp"
@@ -115,11 +114,8 @@ void WbSolid::init() {
   // store position
   // Note: this cannot be put into the preFinalize function because
   //       of the copy constructor last initialization
-  mTranslationLoadedFromFile = translation();
-  mRotationLoadedFromFile = rotation();
-  mPreviousRotation = mRotationLoadedFromFile;
-  mPhysicsResetTranslation = mTranslationLoadedFromFile;
-  mPhysicsResetRotation = mRotationLoadedFromFile;
+  mSavedTranslations[stateId()] = translation();
+  mSavedRotations[stateId()] = rotation();
 
   // Support polygon representation
   mY = numeric_limits<double>::max();
@@ -763,7 +759,7 @@ void WbSolid::setSolidMerger() {
 }
 
 void WbSolid::setJointParents() {
-  // DifferentialWheels or TouchSensor special joint or fixed joint to static environment
+  // TouchSensor special joint or fixed joint to static environment
   setOdeJointToUpperSolid();
 
   // new joints
@@ -1063,16 +1059,7 @@ void WbSolid::removeBoundingGeometry() {
 // This is the default joint creation behavior
 // this method is overridden in the WbTouchSensor class
 dJointID WbSolid::createJoint(dBodyID body, dBodyID parentBody, dWorldID world) const {
-  dJointID joint;
-  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parentNode());
-  if (dw && (this == dw->leftWheel() || this == dw->rightWheel())) {
-    // special case: the (Solid) wheels of a DifferentialWheels robot
-    // must be attached using hinge joints in order to allow rotation
-    joint = dJointCreateHinge(world, 0);
-  } else {
-    // normal case: create a fixed joint between parent and child Solids
-    joint = dJointCreateFixed(world, 0);
-  }
+  dJointID joint = dJointCreateFixed(world, 0);
 
   setJoint(joint, body, parentBody);
 
@@ -1080,26 +1067,8 @@ dJointID WbSolid::createJoint(dBodyID body, dBodyID parentBody, dWorldID world) 
 }
 
 void WbSolid::setJoint(dJointID joint, dBodyID body, dBodyID parentBody) const {
-  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parentNode());
-  if (dw && (this == dw->leftWheel() || this == dw->rightWheel())) {
-    // special case: the (Solid) wheels of a DifferentialWheels robot
-    // must be attached using hinge joints in order to allow them to rotate
-    dJointAttach(joint, parentBody, body);
-    if (body != NULL || parentBody != NULL) {
-      const WbVector3 &t = position();
-      dJointSetHingeAnchor(joint, t.x(), t.y(), t.z());
-
-      // compute orientation of rotation axis
-      const WbMatrix4 &m = upperTransform()->matrix();
-      WbVector3 relativeAxis(mPhysicsResetRotation.x(), mPhysicsResetRotation.y(), mPhysicsResetRotation.z());
-      const WbVector3 axis = m.sub3x3MatrixDot(relativeAxis);
-      dJointSetHingeAxis(joint, axis.x(), axis.y(), axis.z());
-    }
-  } else {
-    // normal case: create a fixed joint between parent and child solid nodes
-    dJointAttach(joint, parentBody, body);
-    dJointSetFixed(joint);
-  }
+  dJointAttach(joint, parentBody, body);
+  dJointSetFixed(joint);
 }
 
 void WbSolid::printKinematicWarningIfNeeded() {
@@ -1201,11 +1170,7 @@ void WbSolid::removeJointParent(WbBasicJoint *joint) {
 }
 
 bool WbSolid::needJointToUpperSolid(const WbSolid *upperSolid) const {
-  const WbDifferentialWheels *const dw = dynamic_cast<const WbDifferentialWheels *const>(upperSolid);
-  if (dw && (this == dw->leftWheel() || this == dw->rightWheel()))
-    return true;
-
-  // in normal case create a fixed joint to the static environment only if
+  // create a fixed joint to the static environment only if
   // this node doesn't have any joint ancestor and any dynamic solid ancestor
   return mJointParents.isEmpty() && upperSolid->belongsToStaticBasis();
 }
@@ -1241,13 +1206,11 @@ void WbSolid::setGeomMatter(dGeomID g, WbBaseNode *node) {
 
 // Resets recursively ODE dGeoms positions, dBodies and joints starting from *this
 void WbSolid::handleJerk() {
-  if (!belongsToStaticBasis() || !updateJointChildren()) {
-    jerk(false);
+  jerk(false);
+  if (!belongsToStaticBasis())
     awake();
-  } else if (belongsToStaticBasis()) {
-    jerk(false);
+  else
     WbWorld::instance()->awake();
-  }
 }
 
 void WbSolid::updateTranslation() {
@@ -1609,28 +1572,10 @@ void WbSolid::updateChildren() {
   }
 }
 
-bool WbSolid::updateJointChildren() {
-  assert(areOdeObjectsCreated());
-  // This is only required when the differentialWheels children are attached through a fixed joint to the static environment,
-  // i.e. their solid parent has no physics Note: If the differentialWheels joints positions are not reset to their initial
-  // values, then the new fixed joints are created with position offsets which are not reported to the position fields
-
-  bool b = false;
-
-  foreach (WbSolid *const solid, mSolidChildren) {
-    if (solid->isKinematic())
-      b |= solid->updateJointChildren();  // recurse
-    else
-      b |= solid->resetJointPositions();  // reset position if needed
-  }
-
-  return b;
-}
-
 bool WbSolid::resetJointPositions(bool allParents) {
   bool b = false;
 
-  setOdeJointToUpperSolid();  // needed for DifferentialWheels
+  setOdeJointToUpperSolid();
 
   foreach (WbBasicJoint *const joint, mJointParents) {
     if (allParents || joint->upperSolid()->belongsToStaticBasis())
@@ -2031,13 +1976,7 @@ void WbSolid::applyPhysicsTransform() {
   qr[1] *= normInv;
   qr[2] *= normInv;
   qr[3] *= normInv;
-  const double scalarProduct = mPreviousRotation.x() * qr[1] + mPreviousRotation.y() * qr[2] + mPreviousRotation.z() * qr[3];
-  if (scalarProduct < 0.0) {
-    qr[1] *= -1.0;
-    qr[2] *= -1.0;
-    qr[3] *= -1.0;
-    angle *= -1.0;
-  }
+
   // block signals from WbTransform (baseclass): we don't want to update the bodies and the geoms
   // printf("pos = %f, %f, %f\n", result[0], result[1], result[2]);
   setTransformFromOde(result[0], result[1], result[2], qr[1], qr[2], qr[3], angle);
@@ -2207,18 +2146,18 @@ void WbSolid::setMatrixNeedUpdate() {
   WbTransform::setMatrixNeedUpdate();
 }
 
-void WbSolid::reset() {
-  WbMatter::reset();
+void WbSolid::reset(const QString &id) {
+  WbMatter::reset(id);
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->reset();
+    mImmersionProperties->item(i)->reset(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
   if (mJointParents.size() == 0) {
-    setTranslation(mTranslationLoadedFromFile);
-    setRotation(mRotationLoadedFromFile);
+    setTranslation(mSavedTranslations[id]);
+    setRotation(mSavedRotations[id]);
   }
   resetSingleSolidPhysics();
   resetContactPointsAndSupportPolygon();
@@ -2251,22 +2190,19 @@ void WbSolid::reset() {
   mListOfImmersions.clear();
 }
 
-void WbSolid::save() {
-  WbMatter::save();
+void WbSolid::save(const QString &id) {
+  WbMatter::save(id);
   if (isTopSolid())
     saveHiddenFieldValues();
 
   for (int i = 0; i < mImmersionProperties->size(); ++i)
-    mImmersionProperties->item(i)->save();
+    mImmersionProperties->item(i)->save(id);
   WbNode *const p = mPhysics->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mTranslationLoadedFromFile = translation();
-  mRotationLoadedFromFile = rotation();
-  mPreviousRotation = mRotationLoadedFromFile;
-  mPhysicsResetTranslation = mTranslationLoadedFromFile;
-  mPhysicsResetRotation = mRotationLoadedFromFile;
+  mSavedTranslations[id] = translation();
+  mSavedRotations[id] = rotation();
 }
 
 // Recursive reset methods
@@ -2350,17 +2286,13 @@ void WbSolid::awakeSolids(WbGroup *group) {
   }
 }
 
-// Saves and restores the previous position and orientation (only needed by WbDifferentialWheels)
-void WbSolid::savePreviousTransform() {
-  mPreviousRotation = rotation();
-}
-
-void WbSolid::resetPhysics() {
+void WbSolid::resetPhysics(bool recursive) {
   resetSingleSolidPhysics();
 
   // Recurses through all first level solid descendants
-  foreach (WbSolid *const solid, mSolidChildren)
-    solid->resetPhysics();
+  if (recursive)
+    foreach (WbSolid *const solid, mSolidChildren)
+      solid->resetPhysics();
 }
 
 void WbSolid::resetSingleSolidPhysics() {
@@ -2763,8 +2695,6 @@ void WbSolid::updateGraphicalGlobalCenterOfMass() {
 void WbSolid::resetPhysicsIfRequired(bool changedFromSupervisor) {
   if (!changedFromSupervisor) {
     // For now, only the position modifications done by the user should reset the physics.
-    mPhysicsResetTranslation = translation();
-    mPhysicsResetRotation = rotation();
     resetPhysics();
   }
 
@@ -2878,16 +2808,17 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
       //   cf. https://github.com/omichel/webots-dev/issues/6512
-      if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!translationToBeCopied.almostEquals(mSavedTranslations[stateId()],
+                                              100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;
-      if (!rotationToBeCopied.almostEquals(mRotationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!rotationToBeCopied.almostEquals(mSavedRotations[stateId()], 100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isRotationFieldVisible())
         copyRotation = true;
     } else {
-      if (translation() != mTranslationLoadedFromFile && !isTranslationFieldVisible())
+      if (translation() != mSavedTranslations[stateId()] && !isTranslationFieldVisible())
         t = &translation();
-      if (rotation() != mRotationLoadedFromFile && !isRotationFieldVisible())
+      if (rotation() != mSavedRotations[stateId()] && !isRotationFieldVisible())
         r = &rotation();
     }
 

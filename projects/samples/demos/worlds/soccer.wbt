@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "A soccer game."
@@ -25,7 +25,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/soccer-256.jpg"
+            "textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -39,7 +39,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/soccer-256.jpg"
+            "textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -75,7 +75,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/soccer-256.jpg"
+            "textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -499,7 +499,7 @@ DEF B1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/blue.png"
+            "textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -626,7 +626,7 @@ DEF B2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/blue.png"
+            "textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -750,7 +750,7 @@ DEF B3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/blue.png"
+            "textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -874,7 +874,7 @@ DEF Y1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/yellow.png"
+            "textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -998,7 +998,7 @@ DEF Y2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/yellow.png"
+            "textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -1122,7 +1122,7 @@ DEF Y3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "soccer/yellow.png"
+            "textures/soccer/yellow.png"
           ]
         }
         roughness 1

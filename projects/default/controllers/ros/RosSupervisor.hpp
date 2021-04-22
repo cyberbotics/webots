@@ -45,15 +45,18 @@
 #include <webots_ros/node_get_number_of_contact_points.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
+#include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
+#include <webots_ros/node_get_string.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_is_proto.h>
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 
@@ -134,6 +137,7 @@ public:
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
+  bool nodeGetPoseCallback(webots_ros::node_get_pose::Request &req, webots_ros::node_get_pose::Response &res);
   bool nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                    webots_ros::node_get_center_of_mass::Response &res);
   bool nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
@@ -156,8 +160,11 @@ public:
   bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
   bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
   bool nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res);
+  bool nodeExportStringCallback(webots_ros::node_get_string::Request &req, webots_ros::node_get_string::Response &res);
   bool nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                 webots_ros::node_reset_functions::Response &res);
+  bool nodeSaveStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
+  bool nodeLoadStateCallback(webots_ros::node_set_string::Request &req, webots_ros::node_set_string::Response &res);
   bool nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                      webots_ros::node_reset_functions::Response &res);
 
@@ -234,6 +241,7 @@ private:
   ros::ServiceServer mNodeIsProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
+  ros::ServiceServer mNodeGetPoseServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
@@ -248,8 +256,11 @@ private:
   ros::ServiceServer mNodeMoveViewpointServer;
   ros::ServiceServer mNodeSetVisibilityServer;
   ros::ServiceServer mNodeRemoveServer;
+  ros::ServiceServer mNodeExportStringServer;
   ros::ServiceServer mNodeResetPhysicsServer;
   ros::ServiceServer mNodeRestartControllerServer;
+  ros::ServiceServer mNodeSaveStateServer;
+  ros::ServiceServer mNodeLoadStateServer;
 
   ros::ServiceServer mFieldGetTypeServer;
   ros::ServiceServer mFieldGetTypeNameServer;

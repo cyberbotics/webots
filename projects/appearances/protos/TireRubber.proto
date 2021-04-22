@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
 # A tire rubber material.
 # It can be a car tire or a bike tire.
 

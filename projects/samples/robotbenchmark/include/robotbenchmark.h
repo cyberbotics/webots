@@ -17,7 +17,7 @@
 #ifndef ROBOTBENCHMARK_H
 #define ROBOTBENCHMARK_H
 
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <stdio.h>
 #include <stdlib.h>

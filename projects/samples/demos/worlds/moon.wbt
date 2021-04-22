@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Two Koala robots (K-Team SA) moving on a moon-like surface and turning around each other."
@@ -24,7 +24,7 @@ DEF GROUND Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "moon/moonground.jpg"
+        "textures/moon/moon_ground.jpg"
       ]
     }
     roughness 1
@@ -57,7 +57,7 @@ DEF EARTH Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "moon/earth.png"
+            "textures/moon/earth.png"
           ]
         }
         roughness 0.5

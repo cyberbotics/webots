@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Resizable public toilet with two different displays.
 
 PROTO PublicToilet [
@@ -34,9 +33,6 @@ PROTO PublicToilet [
 ]
 {
   %{
-    local wbrandom = require('wbrandom')
-    local os = require('os')
-    wbrandom.seed(os.clock() + os.time())
     local height = fields.height.value
     if height < 2.8 then
       height = fields.height.defaultValue
@@ -95,7 +91,7 @@ PROTO PublicToilet [
     -- save the image
     local debug = require('debug')
     local fileNamePrefix = debug.getinfo(1,'S').source  -- get the name of the current file
-    fileNamePrefix = fileNamePrefix .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+    fileNamePrefix = fileNamePrefix .. context.id  -- prevent name clashes
     local i = 0  -- make sure the file does not already exist
     local file = io.open(fileNamePrefix .. i .. ".png", "r")
     while file do

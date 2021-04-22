@@ -45,7 +45,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Compass.hpp>
 #include <webots/Connector.hpp>
 #include <webots/Device.hpp>
-#include <webots/DifferentialWheels.hpp>
 #include <webots/Display.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Emitter.hpp>
@@ -100,6 +99,8 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  else if (test == "getPose")
+    len = 16;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -1195,12 +1196,6 @@ class AnsiCodes(object):
 }
 
 %include <webots/Robot.hpp>
-
-//----------------------------------------------------------------------------------------------
-//  DifferentialWheels
-//----------------------------------------------------------------------------------------------
-
-%include <webots/DifferentialWheels.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Supervisor

@@ -37,9 +37,9 @@ public:
   int nodeType() const override { return WB_NODE_BALL_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void resetPhysics() override;
-  void save() override;
+  void save(const QString &id) override;
   QVector<WbLogicalDevice *> devices() const override;
   dJointID jointID() const override { return mControlMotor; }
   bool resetJointPositions() override;
@@ -56,6 +56,7 @@ public:
   virtual int devices3Number() const;
 
   WbVector3 axis() const override;
+  void updateEndPointZeroTranslationAndRotation() override;
 
 public slots:
   bool setJoint() override;
@@ -70,7 +71,6 @@ protected:
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
-  void updateEndPointZeroTranslationAndRotation() override;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
   void writeExport(WbVrmlWriter &writer) const override;
@@ -88,7 +88,7 @@ private:
   WbRotationalMotor *rotationalMotor3() const;
   void updateParameters3();
   WbSFNode *mParameters3;
-  double mInitialPosition3;
+  QMap<QString, double> mSavedPositions3;
   dJointID mControlMotor;  // ODE angular motor used to control the ball joint
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;

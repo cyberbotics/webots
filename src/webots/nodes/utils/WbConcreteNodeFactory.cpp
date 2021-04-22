@@ -32,7 +32,6 @@
 #include "WbCoordinate.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
-#include "WbDifferentialWheels.hpp"
 #include "WbDirectionalLight.hpp"
 #include "WbDisplay.hpp"
 #include "WbDistanceSensor.hpp"
@@ -146,8 +145,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbCylinder(tokenizer);
   if (modelName == "Damping")
     return new WbDamping(tokenizer);
-  if (modelName == "DifferentialWheels")
-    return new WbDifferentialWheels(tokenizer);
   if (modelName == "DirectionalLight")
     return new WbDirectionalLight(tokenizer);
   if (modelName == "Display")
@@ -336,8 +333,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbCylinder(original);
   if (modelName == "Damping")
     return new WbDamping(original);
-  if (modelName == "DifferentialWheels")
-    return new WbDifferentialWheels(original);
   if (modelName == "DirectionalLight")
     return new WbDirectionalLight(original);
   if (modelName == "Display")

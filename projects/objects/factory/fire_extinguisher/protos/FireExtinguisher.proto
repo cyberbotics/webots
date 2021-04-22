@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Attribution-NonCommercial 4.0 International (original model by 3DHaupt)
 # license url: https://creativecommons.org/licenses/by-nc/4.0
-# tags: static
 # A simple fire extinguisher with optional physics.
 
 PROTO FireExtinguisher [
@@ -24,14 +23,14 @@ PROTO FireExtinguisher [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/fire_extinguisher_base_color.jpeg"
+                  "textures/fire_extinguisher_base_color.jpg"
                 ]
               }
               roughness 0.8
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/fire_extinguisher_normal.jpeg"
+                  "textures/fire_extinguisher_normal.jpg"
                 ]
               }
             }

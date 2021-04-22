@@ -1,2 +1,2 @@
 function value = WB_NODE_GPS
-value = 41;
+value = 40;

@@ -30,6 +30,8 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 
+#include <highlevel/RosControl.hpp>
+
 using namespace webots;
 
 class RosSensor;
@@ -120,6 +122,11 @@ private:
   bool mShouldPublishClock;
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
+  bool mAutoPublish;
+  bool mUseRosControl;
+  std::string mRobotDescriptionPrefix;
+  bool mSetRobotDescription;
+  highlevel::RosControl *mRosControl;
 };
 
 #endif  // ROS_HPP

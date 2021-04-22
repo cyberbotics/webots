@@ -478,8 +478,8 @@ bool WbDistanceSensor::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbDistanceSensor::reset() {
-  WbSolidDevice::reset();
+void WbDistanceSensor::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   updateOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS);
 }
 

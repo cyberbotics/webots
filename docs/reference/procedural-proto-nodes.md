@@ -93,18 +93,23 @@ In addition to these fonts, it is possible to add other TrueType fonts file in y
 
 ### Optimization
 
-Using procedural PROTO files can greatly increase the loading time of your worlds because every procedural PROTO need to be evaluated.
+By default, PROTO files are considered to be deterministic.
+That is, if the same procedural PROTO is instantiated multiple times in a world file and all the fields are the same in each case, then they will all generate the same result.
+As such, any PROTO file with these properties only needs to be evaluated once, hence improving the loading performance.
 
-To reduce the number of evaluations you can add the `static` tag as a comment in the PROTO header (i.e. `# tags: static`).
-Then, if the same procedural PROTO is used several times in a world and all the field values are the same, the PROTO is evaluated only once.
-> **Note**: This tag should not be used if the result of the PROTO depends on something else than the field values (e.g. use a random value).
+If however a PROTO is supposed to generate different results, even when all the fields are the same, then these non-deterministic PROTO files should be labeled as such by adding a comment in the header of the file (i.e. `# tags: nonDeterministic`).
+Typical cases of `nonDeterministic` PROTO files are those where the end result does not rely uniquely on the value of the fields but on something else (usually a randomly generated value).
+`nonDeterministic` PROTO files are regenerated and therefore change at every reset.
+
+> **Note**: when randomness is concerned, what defines determinism in a PROTO file, or lack of it, is the nature of the seed used by the random number generator.
+Using a time-based seed (e.g. `wbrandom.seed(os.clock() + os.time())`) or a seed based on the id of the node (e.g. `wbrandom.seed(context.id)`) are typical non-deterministic situations.
+If the same seed is used every time or if it is not specified (i.e using the default seed), it leads instead to deterministic results.
 
 ### Example
 
 ```
 
 #VRML_SIM R2019a utf8
-# tags: static
 
 PROTO SimpleStairs [
   field SFVec3f    translation 0 0 0
@@ -139,9 +144,6 @@ PROTO SimpleStairs [
    -- load lua-gd module and create a uniform texture
    local gd = require("gd")
    local debug = require("debug")
-   local os = require('os')
-   local wbrandom = require('wbrandom')
-   wbrandom.seed(os.clock() + os.time())
    local im = gd.createTrueColor(128, 128)
    color = im:colorAllocate(fields.color.value.r * 255, fields.color.value.g * 255, fields.color.value.b * 255)
    im:filledRectangle(0, 0, 127, 127, color)
@@ -151,7 +153,7 @@ PROTO SimpleStairs [
    im:stringFT(textColor, "Arial", 20, 0, 5, 60, fields.text.value)
    -- save the image in a png file
    local name = debug.getinfo(1,'S').source  -- get the name of the current file
-   name = name .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+   name = name .. context.id  -- prevent name clashes
    local i = 0  -- make sure the file does not already exist
    local file = io.open(name .. i .. ".png", "r")
    while file do

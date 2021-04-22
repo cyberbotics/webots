@@ -16,10 +16,10 @@
 
 // Included libraries
 #include <stdio.h>
-#include <webots/differential_wheels.h>
 #include <webots/distance_sensor.h>  // distance sensor library
 #include <webots/light_sensor.h>     // light sensor library
-#include <webots/robot.h>            //obtain main library of webots
+#include <webots/motor.h>
+#include <webots/robot.h>  //obtain main library of webots
 
 // Global defines
 #define THRESHOLD_DIST 100
@@ -59,6 +59,10 @@ int ls_value[NB_LIGHT_SENS] = {0, 0, 0, 0, 0, 0, 0, 0};
 int ls_offset_sim[NB_LIGHT_SENS] = {0, 0, 0, 0, 0, 0, 0, 0};
 int ls_offset_real[NB_LIGHT_SENS] = {3239, 3122, 3581, 3763, 3847, 3814, 3747, 3538};  // to be modified according to your robot
 
+// motors
+WbDeviceTag left_motor;
+WbDeviceTag right_motor;
+
 static void reset(void) {
   int it;
 
@@ -79,6 +83,14 @@ static void reset(void) {
     wb_distance_sensor_enable(ps[it], TIME_STEP);
   for (it = 0; it < NB_LIGHT_SENS; it++)
     wb_light_sensor_enable(ls[it], TIME_STEP);
+
+  // motors
+  left_motor = wb_robot_get_device("left wheel motor");
+  right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0);
+  wb_motor_set_velocity(right_motor, 0);
 }
 
 /************** Calibrate function **************
@@ -171,7 +183,8 @@ static int run(void) {
   int left_obstacle = ps_value[6]+ps_value[7];
   int right_obstacle = ps_value[0]+ps_value[1];
   int delta = left_obstacle - right_obstacle;
-  differential_wheels_set_speed(200+delta,200-delta);
+  wb_motor_set_velocity(left_motor, 200+delta);
+  wb_motor_set_velocity(right_motor, 200-delta);
   */
 
   return TIME_STEP;
