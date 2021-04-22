@@ -186,7 +186,9 @@ export default class Animation {
 
   _hidePlayBar() {
     let isPlaying = document.getElementById('playButton').className === 'player-btn icon-pause';
-    if (!AnimationSlider.isSelected && isPlaying &&
+    let isSelected = document.getElementById('timeSlider').selected();
+
+    if (!isSelected && isPlaying &&
     document.getElementById('settingsPane').style.visibility === 'hidden' &&
     document.getElementById('gtaoPane').style.visibility === 'hidden' &&
     document.getElementById('speedPane').style.visibility === 'hidden') {

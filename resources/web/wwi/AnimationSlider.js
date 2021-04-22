@@ -75,9 +75,10 @@ export default class AnimationSlider extends HTMLElement {
 
     this.shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
     document.addEventListener('mousemove', _ => this._mouseMove(_));
-    document.addEventListener('mouseup', this._mouseUp);
+    document.addEventListener('mouseup', () => this._mouseUp());
 
     this.offset = 0; // use to center the floating time correctly
+    this.isSelected = false;
   }
 
   _mouseDown(e) {
@@ -93,14 +94,14 @@ export default class AnimationSlider extends HTMLElement {
     event.detail = x;
     document.dispatchEvent(event);
 
-    AnimationSlider.isSelected = true;
+    this.isSelected = true;
     document.querySelector('my-slider').shadowRoot.getElementById('thumb').style.visibility = 'visible';
     document.querySelector('my-slider').shadowRoot.getElementById('slider').style.height = '5px';
     document.querySelector('my-slider').shadowRoot.getElementById('range').style.height = '5px';
   }
 
   _mouseUp() {
-    if (AnimationSlider.isSelected) {
+    if (this.isSelected) {
       let event = new Event('slider_input', {
         bubbles: true,
         cancelable: true
@@ -109,7 +110,7 @@ export default class AnimationSlider extends HTMLElement {
       event.mouseup = true;
       document.dispatchEvent(event);
 
-      AnimationSlider.isSelected = false;
+      this.isSelected = false;
       document.querySelector('my-slider').shadowRoot.getElementById('thumb').style.visibility = '';
       document.querySelector('my-slider').shadowRoot.getElementById('slider').style.height = '';
       document.querySelector('my-slider').shadowRoot.getElementById('range').style.height = '';
@@ -118,7 +119,7 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   _mouseMove(e) {
-    if (AnimationSlider.isSelected) {
+    if (this.isSelected) {
       let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
       if (x > 100)
@@ -165,5 +166,9 @@ export default class AnimationSlider extends HTMLElement {
 
   setOffset(offset) {
     this.offset = offset;
+  }
+
+  selected() {
+    return this.isSelected;
   }
 }
