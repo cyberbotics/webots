@@ -5,7 +5,7 @@
 # Designed by REC GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
-  field  SFVec3f     translation     0 0.0613 0
+  field  SFVec3f     translation     0 0 0.0613
   field  SFRotation  rotation        0 0 1 0
   field  SFString    name            "Fabtino"          # Is `Robot.name`.
   field  SFString    controller      "void"             # Is `Robot.controller`.
