@@ -32,6 +32,7 @@
 #include "WbSimulationCluster.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSoundEngine.hpp"
+#include "WbSupervisorUtilities.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -363,6 +364,7 @@ bool WbSimulationWorld::simulationHasRunAfterSave() {
 }
 
 void WbSimulationWorld::reset(bool restartControllers) {
+  WbSupervisorUtilities::setRestartControllerOnReset(restartControllers);
   WbWorld::reset(restartControllers);
   WbSimulationState::instance()->pauseSimulation();
   WbSimulationState::instance()->resetTime();
@@ -392,6 +394,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
     mPhysicsPlugin->init();
   storeLastSaveTime();
   setModified(false);
+  WbSupervisorUtilities::setRestartControllerOnReset(true);
 }
 
 void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {

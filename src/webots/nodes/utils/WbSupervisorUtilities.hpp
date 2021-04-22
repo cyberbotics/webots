@@ -51,6 +51,8 @@ public:
   bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
 
+  static void setRestartControllerOnReset(bool retartController) { cRestartControllerOnReset = retartController; }
+
 signals:
   void worldModified();
   void changeSimulationModeRequested(int newMode);
@@ -128,6 +130,8 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
+
+  static bool cRestartControllerOnReset;
 };
 
 #endif
