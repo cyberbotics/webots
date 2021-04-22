@@ -1,0 +1,81 @@
+{
+  "devices": [
+    {
+      "anchor": "-0.2225 0.2045 0",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "summit_xl_back_left_wheel_joint",
+      "position": 5.222695804381642e-10,
+      "transformID": "n71",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "-0.2225 -0.2045 0",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "summit_xl_back_right_wheel_joint",
+      "position": 1.9793720854869013e-10,
+      "transformID": "n86",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.2225 0.2045 0",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "summit_xl_front_left_wheel_joint",
+      "position": 2.0399465068926186e-10,
+      "transformID": "n56",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.2225 -0.2045 0",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "summit_xl_front_right_wheel_joint",
+      "position": -5.874687346426068e-11,
+      "transformID": "n41",
+      "type": "RotationalMotor"
+    },
+    {
+      "name": "imu/data_raw accelerometer",
+      "transformID": "n97",
+      "type": "Accelerometer"
+    },
+    {
+      "name": "imu/data_raw compass",
+      "transformID": "n97",
+      "type": "Compass"
+    },
+    {
+      "name": "imu/data_raw gyro",
+      "transformID": "n97",
+      "type": "Gyro"
+    },
+    {
+      "name": "summit_xl_back_left_wheel_joint_sensor",
+      "transformID": "n71",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "summit_xl_back_right_wheel_joint_sensor",
+      "transformID": "n86",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "summit_xl_front_left_wheel_joint_sensor",
+      "transformID": "n56",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "summit_xl_front_right_wheel_joint_sensor",
+      "transformID": "n41",
+      "type": "PositionSensor"
+    }
+  ],
+  "name": "summit-xl-steel",
+  "robotID": "n10"
+}
