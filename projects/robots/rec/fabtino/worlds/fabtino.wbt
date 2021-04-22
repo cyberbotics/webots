@@ -1,10 +1,9 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "This simulation enables to move around a Fabtino moving in an industrial environment using the keyboard"
   ]
   title "Simulation of REC GmbH's Fabtino robot"
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "InteriorWheelMat"
@@ -33,14 +32,15 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.13301063427734217 -0.9706876864835224 -0.2001838816648477 2.37219614261262
-  position -4.719335983354517 3.6531301384223642 -4.6995379912929724
+  orientation 0.13790396854396267 -0.5974252384964706 -0.7899782148054849 2.7417324523312407
+  position -2.808918792821933 5.312646075034963 1.9507146669320665
   exposure 1.7
 }
 TexturedBackground {
   texture "factory"
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
   floorSize 19 13
   floorAppearance ThreadMetalPlate {
   }
