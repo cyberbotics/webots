@@ -207,7 +207,7 @@ class Test:
 
     def __init__(self, name, target = None, position = None, rotation = None,
                  state = None, penalty = None, yellow_cards = None, secondary_state = None, secondary_team_id = None,
-                 secondary_phase = None):
+                 secondary_phase = None, score = None):
         self._name = name
         self._target = target
         self._position = position
@@ -218,6 +218,7 @@ class Test:
         self._secondary_state = secondary_state
         self._secondary_team_id = secondary_team_id
         self._secondary_phase = secondary_phase
+        self._score = score
         self._msg = []
         self._success = True
 
@@ -238,6 +239,8 @@ class Test:
             self._testSecondaryTeamId(status, supervisor)
         if self._secondary_phase is not None:
             self._testSecondaryPhase(status, supervisor)
+        if self._score is not None:
+            self._testScore(status, supervisor)
 
     def hasPassed(self):
         return self._success
@@ -265,18 +268,20 @@ class Test:
         t._secondary_phase = dic.get("secondary_phase")
         t._penalty = dic.get("penalty")
         t._yellow_cards = dic.get("yellow_cards")
+        t._score = dic.get("score")
         return t
 
     def _getTargetGCData(self, status):
         splitted_target = self._target.split("_")
-        if len(splitted_target) != 3:
-            raise RuntimeError("Invalid target to get GameController data from")
         team_color = splitted_target[0]
-        player_idx = int(splitted_target[2]) - 1
         for i in range(2):
             if status.gc_status.teams[i].team_color == team_color:
-                return status.gc_status.teams[i].players[player_idx]
-        return None
+                if len(splitted_target) == 1:
+                    return status.gc_status.teams[i]
+                if len(splitted_target) == 3:
+                    player_idx = int(splitted_target[2]) - 1
+                    return status.gc_status.teams[i].players[player_idx]
+        raise RuntimeError(f"Invalid target to get GameController data from {self._target}")
 
 
     def _testTargetPosition(self, status, supervisor):
@@ -373,6 +378,22 @@ class Test:
             # Each test can only fail once to avoid spamming
             self._success = False
 
+    def _testScore(self, status, supervisor):
+        if self._target is None:
+            raise RuntimeError("{self._name} tests position and has no target")
+        team_data = self._getTargetGCData(status)
+        received = team_data.score
+        if received != self._score:
+            failure_msg = \
+                f"Invalid score at {status.getFormattedTime()}: "\
+                f"for {self._target}: received {received},"\
+                f"expecting {self._score}"
+            self._msg.append(failure_msg)
+            self._score = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+
 
 class Action:
     """Defines a way to interact with the current status of the game
@@ -387,9 +408,10 @@ class Action:
         Applies the required modifications to the supervisor
     """
 
-    def __init__(self, target, position = None, force = None, velocity = None):
+    def __init__(self, target, position = None, orientation = None, force = None, velocity = None):
         self._target = target
         self._position = position
+        self._orientation = orientation
         self._force = force
         self._velocity = velocity
 
@@ -400,6 +422,7 @@ class Action:
         """
         a = Action(dic["target"])
         a._position = dic.get("position")
+        a._orientation = dic.get("orientation")
         a._force = dic.get("force")
         a._velocity = dic.get("velocity")
         return a
@@ -407,17 +430,23 @@ class Action:
 
     def perform(self, supervisor):
         obj = supervisor.getFromDef(self._target)
+        if obj is None:
+            print(f"Invalid target for action: {self._target}")
         if self._position is not None:
             self._setPosition(obj)
+        if self._orientation is not None:
+            self._setOrientation(obj)
         if self._force is not None:
             self._setForce(obj)
         if self._velocity is not None:
             self._setVelocity(obj)
 
     def _setPosition(self, obj):
-        print(f"Setting {self._target} to {self._position}")
         obj.resetPhysics()
         obj.getField("translation").setSFVec3f(self._position)
+
+    def _setOrientation(self, obj):
+        obj.getField("rotation").setSFRotation(self._orientation)
 
     def _setForce(self, obj):
         obj.addForce(self._force, False)
