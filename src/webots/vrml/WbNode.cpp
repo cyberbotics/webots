@@ -750,7 +750,6 @@ void WbNode::resetUseAncestorFlag() {
 
 // called after any field of this node has changed
 void WbNode::notifyFieldChanged() {
-  printf("notifyFieldChanged\n");
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
@@ -799,8 +798,6 @@ void WbNode::notifyFieldChanged() {
 }
 
 void WbNode::notifyParameterChanged() {
-  printf("notifyParameterChanged\n");
-
   WbField *const parameter = static_cast<WbField *>(sender());
 
   emit parameterChanged(parameter);
@@ -818,6 +815,20 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
     }
   }
   return -1;
+}
+
+void WbNode::disconnectInternalNode() {
+  QVector<WbField *> parameterList = parameters();
+  for (int i = 0; i < parameterList.size(); ++i) {
+    parameterList[i]->disconnectField();
+    disconnect(parameterList[i], &WbField::valueChanged, parentNode(), &WbNode::notifyParameterChanged);
+  }
+
+  QVector<WbField *> fieldList = fields();
+  for (int i = 0; i < fieldList.size(); ++i) {
+    fieldList[i]->disconnectField();
+    disconnect(fieldList[i], &WbField::valueChanged, parentNode(), &WbNode::notifyFieldChanged);
+  }
 }
 
 WbField *WbNode::findSubField(int index, WbNode *&parent) const {

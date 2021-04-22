@@ -386,6 +386,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
+    internalProtoNodes[i]->disconnectInternalNode();
     const QVector<WbField *> fields = internalProtoNodes[i]->fields();
 
     for (int j = 0; j < fields.size(); j++)
@@ -414,7 +415,6 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
     for (int j = 0; j < fields.size(); ++j) {
       WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fields[j]->value());
       WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fields[j]->value());
-
       if (sfnode && sfnode->value() == parameterNode) {
         sfnode->setValueNoSignal(NULL);
         parent->removeFromFieldsOrParameters(fields[j]);
@@ -442,6 +442,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
       }
     }
   }
+
   // printNodeStructure(root);  // TODO: remove before merge
 }
 

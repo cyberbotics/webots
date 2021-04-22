@@ -81,6 +81,8 @@ public:
   void setTemplateRegenerator(bool isRegenerator) { mIsTemplateRegenerator = isRegenerator; }
   bool isTemplateRegenerator() const { return mIsTemplateRegenerator; }
 
+  void disconnectField();
+
   // the field's name
   const QString &name() const;
 

@@ -193,6 +193,7 @@ public:
   bool isProtoParameterNode() const;
 
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
+  void disconnectInternalNode();
 
   // return the node instances redirected to this PROTO parameter node
   QVector<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
