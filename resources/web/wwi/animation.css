@@ -24,7 +24,7 @@ body {
  position: relative
 }
 
-#playBar {
+#play-bar {
   width: 100%;
   height: 40px;
   background-color: rgba(255,0,0,0);
@@ -43,7 +43,7 @@ body {
 
 button:first-of-type { margin-right: 6px; }
 
-.left {
+.left-pane {
   position: absolute;
   bottom: 0px;
   left: 1%;
@@ -70,7 +70,7 @@ button:first-of-type { margin-right: 6px; }
   outline:none;
 }
 
-.right {
+.right-pane {
   position: absolute;
   bottom: 0px;
   height: 40px;

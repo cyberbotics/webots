@@ -267,7 +267,7 @@ export default class MouseEvents {
     clearTimeout(this.moveTimeout);
 
     if (typeof event !== 'undefined' && event.relatedTarget != null &&
-      event.relatedTarget.id === 'timeSlider')
+      event.relatedTarget.id === 'time-slider')
       return;
 
     if (this.state.wheelTimeout != null) {
