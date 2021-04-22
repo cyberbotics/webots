@@ -1887,6 +1887,26 @@ I also think that the Front and Back views of the robot are switched...
 
 This is wrong for the Pioneer 3 DX and AT
 
-##### Srivastav\_Udit 04/07/2021 01:33:16
+##### Srivastav\_Udit 04/08/2021 06:46:44
 Is there any particular reason why the sensors orientation on the epuck is the way it is?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/08/2021 06:47:18
+It corresponds to the orientation on the real robot.
+
+##### Stefania Pedrazzi [Cyberbotics] 04/08/2021 06:57:14
+Hi, the figure on the documentation is correct: sonar sensors 0 to 7 are in the front. This robot was calibrated with the real one years ago.
+
+But I checked again and all the datasheets that I could find about the Adept Pioneer 3 are still mentioning that sensors 0 to 7 are in the front and sensors 8 to 15 in the back.
+
+Do you have a different robot datasheet mentioning a different sonar sensors position?
+
+##### reinaldobianchi 04/08/2021 11:01:03
+Hi. The datasheets indeed shows that sonars 0 to 7 are in front of the real robot. But using it in Webots, we get the data from the back ring. I think that in the model of the Pioneer 3 AT the sonar ring was rotated 180 degrees... just run the code I sent and you will see that...
+
+##### Stefania Pedrazzi [Cyberbotics] 04/08/2021 11:14:13
+I just checked the sensors position in the simulation and their response to object detection and sensors 0-7 correctly detect objects in the front of the robot. You can see it in this video.
+> **Attachment**: [pioneer3at\_sensors.mp4](https://cdn.discordapp.com/attachments/565155720933146637/829675497473441802/pioneer3at_sensors.mp4)
+
+##### reinaldobianchi 04/10/2021 20:46:00
+Thanks! Now I finally understand how it works.
 
