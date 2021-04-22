@@ -1,0 +1,78 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "This simulation enables to move around a Fabtino moving in an industrial environment using the keyboard"
+  ]
+  title "Simulation of REC GmbH's Fabtino robot"
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+      softCFM 0.0001
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.13301063427734217 -0.9706876864835224 -0.2001838816648477 2.37219614261262
+  position -4.719335983354517 3.6531301384223642 -4.6995379912929724
+  exposure 1.7
+}
+TexturedBackground {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 19 13
+  floorAppearance ThreadMetalPlate {
+  }
+  wallThickness 0.3
+  wallHeight 2.5
+  wallAppearance Roughcast {
+    textureTransform TextureTransform {
+      scale 2 1
+    }
+  }
+}
+Fabtino {
+  controller "keyboard_control"
+  frontLidarSlot [
+    SickS300 {
+      name "front_lidar"
+    }
+  ]
+  backLidarSlot [
+    SickS300 {
+      name "back_lidar"
+    }
+  ]
+  bodySlot [
+    Robotino3Platform {
+      extension [
+        ConveyorPlatform {
+          rotation 0 1 0 1.5708
+          controller "keyboard_belt_control"
+          speed 0.6
+        }
+      ]
+    }
+  ]
+}
