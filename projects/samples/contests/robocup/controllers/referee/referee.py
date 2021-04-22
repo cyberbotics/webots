@@ -113,10 +113,7 @@ def spawn_team(team, color, red_on_right, children):
         n = int(number) - 1
         port = game.red.ports[n] if color == 'red' else game.blue.ports[n]
         if red_on_right:  # symmetry with respect to the central line of the field
-            player = team['players'][number]
-            flip_pose(player['halfTimeStartingPose'])
-            flip_pose(player['reentryStartingPose'])
-            flip_pose(player['shootoutStartingPose'])
+            flip_poses(team['players'][number])
         defname = color.upper() + '_PLAYER_' + number
         halfTimeStartingTranslation = team['players'][number]['halfTimeStartingPose']['translation']
         halfTimeStartingRotation = team['players'][number]['halfTimeStartingPose']['rotation']
@@ -557,10 +554,12 @@ def update_team_contacts(team, color):
         player['contact_points'] = []
         if n == 0:
             continue
-        player['outside_circle'] = True    # true if fully outside the center cicle
-        player['outside_field'] = True     # true if fully outside the field
-        player['inside_field'] = True      # true if fully inside the field
-        player['inside_own_side'] = True   # true if fully inside its own side (half field side)
+        player['outside_circle'] = True        # true if fully outside the center cicle
+        player['outside_field'] = True         # true if fully outside the field
+        player['inside_field'] = True          # true if fully inside the field
+        player['inside_own_side'] = True       # true if fully inside its own side (half field side)
+        player['behind_penalty_point'] = True  # true if fully behind penalty point
+        player['goal_keeper_penalty_position'] = False
         fallen = False
         for i in range(0, n):
             point = robot.getContactPoint(i)
@@ -723,6 +722,16 @@ def check_kickoff_position():
     return red or blue
 
 
+def check_team_penalty_position(team):
+    return True
+
+
+def check_penalty_position():
+    red = check_team_penalty_position(red_team)
+    blue = check_team_penalty_position(blue_team)
+    return red or blue
+
+
 def check_team_penalized_in_field(team, color):
     penalty = False
     for number in team['players']:
@@ -796,19 +805,23 @@ def flip_pose(pose):
     pose['rotation'][3] = math.pi - pose['rotation'][3]
 
 
+def flip_poses(player):
+    flip_pose(player['halfTimeStartingPose'])
+    flip_pose(player['reentryStartingPose'])
+    flip_pose(player['shootoutStartingPose'])
+    flip_pose(player['goalKeeperStartingPose'])
+
+
 def flip_sides():
     game.side_left = 2 if game.side_left == 1 else 1  # flip sides (no need to notify GameController, it does it automatically)
     for team in [red_team, blue_team]:
         for number in team['players']:
-            player = team['players'][number]
-            flip_pose(player['halfTimeStartingPose'])
-            flip_pose(player['reentryStartingPose'])
-            flip_pose(player['shootoutStartingPose'])
+            flip_poses(team['players'][number])
 
 
 def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
-    player = team['players'][str(number)]
+    player = team['players'][number]
     player['robot'].resetPhysics()
     translation = player['robot'].getField('translation')
     rotation = player['robot'].getField('rotation')
@@ -822,9 +835,44 @@ def reset_player(color, number, pose):
 
 def reset_teams(pose):
     for number in red_team['players']:
-        reset_player('red', number, pose)
+        reset_player('red', str(number), pose)
     for number in blue_team['players']:
-        reset_player('blue', number, pose)
+        reset_player('blue', str(number), pose)
+
+
+def is_goal_keeper(team, id):
+    return id == '1'
+
+
+def is_penalty_kicker(team, id):
+    return id == '1'
+
+
+def set_penalty_positions(attacking_color):
+    if attacking_color == 'red':
+        defending_color = 'blue'
+        attacking_team = red_team
+        defending_team = blue_team
+    else:
+        defending_color = 'red'
+        attacking_team = blue_team
+        defending_team = red_team
+    for number in attacking_team['players']:
+        if not is_penalty_kicker(attacking_team, number):
+            reset_player(attacking_color, number, 'halfTimeStartingPose')
+        else:
+            reset_player(attacking_color, number, 'shootoutStartingPose')
+    for number in defending_team['players']:
+        if not is_goal_keeper(defending_team, number):
+            reset_player(defending_color, number, 'halfTimeStartingPose')
+        else:
+            reset_player(defending_color, number, 'goalKeeperStartingPose')
+    if (game.side_left == game.red.id and attacking_color == 'red') or \
+       (game.side_left == game.blue.id and attacking_color == 'blue'):
+        x = game.field_penalty_mark_x
+    else:
+        x = -game.field_penalty_mark_x
+    game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
 
 
 def interruption(type, team=None):
@@ -1182,8 +1230,12 @@ while supervisor.step(time_step) != -1:
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
-                check_start_position()
-                game_controller_send('STATE:READY' if game.type != 'PENALTY' else 'STATE:SET')
+                if game.type == 'PENALTY':
+                    set_penalty_positions('red' if game.kickoff == game.red.id else 'blue')
+                    game_controller_send('STATE:SET')
+                else:
+                    check_start_position()
+                    game_controller_send('STATE:READY')
 
     if game.interruption_countdown > 0:
         game.interruption_countdown -= 1
