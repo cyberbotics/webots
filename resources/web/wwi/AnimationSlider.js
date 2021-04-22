@@ -73,15 +73,14 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.shadowRoot.getElementById('range').addEventListener('mousedown', this._mouseDown);
+    this.shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
     document.addEventListener('mousemove', _ => this._mouseMove(_));
     document.addEventListener('mouseup', this._mouseUp);
-    this.shadowRoot.getElementById('range').addEventListener('click', this._onClick);
 
     this.offset = 0; // use to center the floating time correctly
   }
 
-  _onClick(e) {
+  _mouseDown(e) {
     let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('my-slider').shadowRoot.getElementById('slider').style.width = x + '%';
@@ -90,12 +89,10 @@ export default class AnimationSlider extends HTMLElement {
       bubbles: true,
       cancelable: true
     });
-    event.click = true;
+
     event.detail = x;
     document.dispatchEvent(event);
-  }
 
-  _mouseDown() {
     AnimationSlider.isSelected = true;
     document.querySelector('my-slider').shadowRoot.getElementById('thumb').style.visibility = 'visible';
     document.querySelector('my-slider').shadowRoot.getElementById('slider').style.height = '5px';

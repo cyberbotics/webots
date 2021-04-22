@@ -88,8 +88,6 @@ export default class Animation {
     let value = event.detail;
     if (event.move)
       this.isMoving = true;
-    if (event.click && !this.isMoving)
-      this._triggerPlayPauseButton();
     else if (this.gui === 'real_time') {
       this.previousState = 'real_time';
       this._triggerPlayPauseButton();
@@ -98,12 +96,12 @@ export default class Animation {
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
     const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
-    this._updateAnimationState(requestedStep, event.click);
+    this._updateAnimationState(requestedStep);
 
     document.getElementById('timeSlider').setTime(this._formatTime(this.data.frames[requestedStep].time));
   }
 
-  _updateAnimationState(requestedStep = undefined, click) {
+  _updateAnimationState(requestedStep = undefined) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
       requestedStep = Math.floor(this._elapsedTime() * this.speed / this.data.basicTimeStep);
@@ -140,9 +138,6 @@ export default class Animation {
       this.currentTime.innerHTML = this._formatTime(this.view.time);
       this.scene.render();
     }
-
-    if (click && !this.isMoving)
-      this._triggerPlayPauseButton();
   }
 
   _updateAnimation() {
