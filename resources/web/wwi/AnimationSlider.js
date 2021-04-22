@@ -134,7 +134,7 @@ export default class AnimationSlider extends HTMLElement {
         bubbles: true,
         cancelable: true
       });
-      event.move = true;
+
       event.detail = x;
       document.dispatchEvent(event);
     }

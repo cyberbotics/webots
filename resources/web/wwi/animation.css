@@ -81,7 +81,7 @@ button:first-of-type { margin-right: 6px; }
 
 .total-time { margin-right: 8px; }
 
-.jsm-settings {
+.settings-pane {
   position: absolute;
   bottom: 55px;
   right: 1%;
@@ -97,9 +97,11 @@ button:first-of-type { margin-right: 6px; }
   color: rgba(240, 240, 240, 1);
   border-radius: 2px;
 }
+
 ul {
   padding-left: 0px;
 }
+
 li {
   display: block;
   clear: both;
@@ -112,7 +114,7 @@ li:hover {
   cursor: pointer;
 }
 
-.firstLi {
+.first-li {
   border-bottom: 1px solid grey;
   padding-left: 19px;
 }
@@ -122,20 +124,20 @@ li:hover {
   min-width: 30px;
 }
 
-.checkSpeed, .checkGtao{
+.check-speed, .check-gtao{
   display: inline-block;
   min-width: 12px;
   pointer-events: none;
 }
 
-.settingTitle {
+.setting-span {
   display: inline-block;
   vertical-align: middle;
   padding: 6px 5px;
   pointer-events: none;
 }
 
-.textSetting {
+.setting-text {
   display: inline-block;
   vertical-align: middle;
   padding: 6px 30px;
@@ -145,7 +147,7 @@ li:hover {
   pointer-events: none;
 }
 
-.arrowRight{
+.arrow-right{
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;
@@ -158,7 +160,7 @@ li:hover {
   pointer-events: none;
 }
 
-.arrowLeft{
+.arrow-left{
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;

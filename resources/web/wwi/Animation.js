@@ -80,15 +80,13 @@ export default class Animation {
       if (this.previousState === 'real_time' && this.gui === 'pause') {
         this.previousState = undefined;
         this._triggerPlayPauseButton();
-        this.isMoving = false;
       }
       return;
     }
 
     let value = event.detail;
-    if (event.move)
-      this.isMoving = true;
-    else if (this.gui === 'real_time') {
+
+    if (this.gui === 'real_time') {
       this.previousState = 'real_time';
       this._triggerPlayPauseButton();
     }
@@ -237,7 +235,7 @@ export default class Animation {
     document.getElementById('speedPane').style.visibility = 'hidden';
     document.getElementById('speedDisplay').innerHTML = this.speed === '1' ? 'Normal' : this.speed;
     document.getElementById('settingsPane').style.visibility = 'visible';
-    for (let i of document.getElementsByClassName('checkSpeed')) {
+    for (let i of document.getElementsByClassName('check-speed')) {
       if (i.id === 'c' + this.speed)
         i.innerHTML = '&check;';
       else
@@ -261,7 +259,7 @@ export default class Animation {
     document.getElementById('gtaoPane').style.visibility = 'hidden';
     document.getElementById('gtaoDisplay').innerHTML = event.srcElement.id;
     document.getElementById('settingsPane').style.visibility = 'visible';
-    for (let i of document.getElementsByClassName('checkGtao')) {
+    for (let i of document.getElementsByClassName('check-gtao')) {
       if (i.id === 'c' + event.srcElement.id)
         i.innerHTML = '&check;';
       else
@@ -427,7 +425,7 @@ export default class Animation {
 
   _createSettingsPane() {
     let settingsPane = document.createElement('div');
-    settingsPane.className = 'jsm-settings';
+    settingsPane.className = 'settings-pane';
     settingsPane.id = 'settingsPane';
     settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', _ => this._changeSettingsPaneVisibility(_));
@@ -450,7 +448,7 @@ export default class Animation {
     document.getElementById('settingsList').appendChild(resetViewpoint);
 
     let label = document.createElement('span');
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     label.innerHTML = 'Reset viewpoint';
     resetViewpoint.appendChild(label);
 
@@ -465,7 +463,7 @@ export default class Animation {
     document.getElementById('settingsList').appendChild(shadowLi);
 
     let label = document.createElement('span');
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     label.innerHTML = 'Shadows';
     shadowLi.appendChild(label);
 
@@ -501,7 +499,7 @@ export default class Animation {
     gtaoLi.onclick = () => this._openGtaoPane();
 
     let label = document.createElement('span');
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     label.innerHTML = 'Ambiant Occlusion';
     gtaoLi.appendChild(label);
 
@@ -510,13 +508,13 @@ export default class Animation {
     gtaoLi.appendChild(label);
 
     label = document.createElement('span');
-    label.className = 'textSetting';
+    label.className = 'setting-text';
     label.innerHTML = this._gtaoLevelToText(GtaoLevel);
     label.id = 'gtaoDisplay';
     gtaoLi.appendChild(label);
 
     label = document.createElement('div');
-    label.className = 'arrowRight';
+    label.className = 'arrow-right';
     gtaoLi.appendChild(label);
 
     this._createGtaoPane();
@@ -524,7 +522,7 @@ export default class Animation {
 
   _createGtaoPane() {
     let gtaoPane = document.createElement('div');
-    gtaoPane.className = 'jsm-settings';
+    gtaoPane.className = 'settings-pane';
     gtaoPane.id = 'gtaoPane';
     gtaoPane.style.visibility = 'hidden';
     document.getElementById('view3d').appendChild(gtaoPane);
@@ -535,15 +533,15 @@ export default class Animation {
 
     let gtaoLevelLi = document.createElement('li');
     gtaoLevelLi.id = 'gtaoTitle';
-    gtaoLevelLi.className = 'firstLi';
+    gtaoLevelLi.className = 'first-li';
 
     let label = document.createElement('div');
-    label.className = 'arrowLeft';
+    label.className = 'arrow-left';
     gtaoLevelLi.appendChild(label);
 
     label = document.createElement('span');
     label.innerHTML = 'Ambiant Occlusion Level';
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     gtaoLevelLi.appendChild(label);
 
     label = document.createElement('div');
@@ -559,11 +557,11 @@ export default class Animation {
       if (this._gtaoLevelToText(GtaoLevel) === i)
         label.innerHTML = '&check;';
       label.id = 'c' + i;
-      label.className = 'checkGtao';
+      label.className = 'check-gtao';
       gtaoLevelLi.appendChild(label);
       label = document.createElement('span');
       label.innerHTML = i;
-      label.className = 'settingTitle';
+      label.className = 'setting-span';
       gtaoLevelLi.appendChild(label);
       label = document.createElement('div');
       label.className = 'spacer';
@@ -581,7 +579,7 @@ export default class Animation {
 
     let label = document.createElement('span');
     label.innerHTML = 'Playback speed';
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     playBackLi.appendChild(label);
 
     label = document.createElement('div');
@@ -589,13 +587,13 @@ export default class Animation {
     playBackLi.appendChild(label);
 
     label = document.createElement('span');
-    label.className = 'textSetting';
+    label.className = 'setting-text';
     label.innerHTML = 'Normal';
     label.id = 'speedDisplay';
     playBackLi.appendChild(label);
 
     label = document.createElement('div');
-    label.className = 'arrowRight';
+    label.className = 'arrow-right';
     playBackLi.appendChild(label);
 
     this._createSpeedPane();
@@ -603,7 +601,7 @@ export default class Animation {
 
   _createSpeedPane() {
     let speedPane = document.createElement('div');
-    speedPane.className = 'jsm-settings';
+    speedPane.className = 'settings-pane';
     speedPane.id = 'speedPane';
     speedPane.style.visibility = 'hidden';
 
@@ -614,15 +612,15 @@ export default class Animation {
 
     let playBackLi = document.createElement('li');
     playBackLi.id = 'speedTitle';
-    playBackLi.className = 'firstLi';
+    playBackLi.className = 'first-li';
 
     let label = document.createElement('div');
-    label.className = 'arrowLeft';
+    label.className = 'arrow-left';
     playBackLi.appendChild(label);
 
     label = document.createElement('span');
     label.innerHTML = 'Playback speed';
-    label.className = 'settingTitle';
+    label.className = 'setting-span';
     playBackLi.appendChild(label);
 
     label = document.createElement('div');
@@ -638,14 +636,14 @@ export default class Animation {
       if (i === '1')
         label.innerHTML = '&check;';
       label.id = 'c' + i;
-      label.className = 'checkSpeed';
+      label.className = 'check-speed';
       playBackLi.appendChild(label);
       label = document.createElement('span');
       if (i === '1')
         label.innerHTML = 'Normal';
       else
         label.innerHTML = i;
-      label.className = 'settingTitle';
+      label.className = 'setting-span';
       playBackLi.appendChild(label);
       label = document.createElement('div');
       label.className = 'spacer';
