@@ -46,12 +46,10 @@ public:
   void writeConfigure(QDataStream &stream);
   void processImmediateMessages(bool blockRegeneration = false);
   void postPhysicsStep();
-  void reset();
+  void reset();  // should be called when controllers are restarted
 
   bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
-
-  static void setRestartControllerOnReset(bool retartController) { cRestartControllerOnReset = retartController; }
 
 signals:
   void worldModified();
@@ -130,8 +128,6 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
-
-  static bool cRestartControllerOnReset;
 };
 
 #endif

@@ -61,7 +61,6 @@
 #include <cassert>
 
 static const int MAX_LABELS = 100;
-bool WbSupervisorUtilities::cRestartControllerOnReset = true;
 
 struct WbFieldGetRequest {
   WbField *field;
@@ -366,8 +365,6 @@ void WbSupervisorUtilities::postPhysicsStep() {
 }
 
 void WbSupervisorUtilities::reset() {
-  if (!cRestartControllerOnReset)
-    return;
   foreach (int labelId, mLabelIds)
     WbWrenLabelOverlay::removeLabel(labelId);
   mLabelIds.clear();
