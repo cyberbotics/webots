@@ -722,16 +722,6 @@ def check_kickoff_position():
     return red or blue
 
 
-def check_team_penalty_position(team):
-    return True
-
-
-def check_penalty_position():
-    red = check_team_penalty_position(red_team)
-    blue = check_team_penalty_position(blue_team)
-    return red or blue
-
-
 def check_team_penalized_in_field(team, color):
     penalty = False
     for number in team['players']:
@@ -872,6 +862,7 @@ def set_penalty_positions(attacking_color):
         x = game.field_penalty_mark_x
     else:
         x = -game.field_penalty_mark_x
+    game.ball.resetPhysics()
     game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
 
 
@@ -1182,7 +1173,7 @@ while supervisor.step(time_step) != -1:
         game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
         game.checked_kickoff_position = False
     elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
-        if not game.checked_kickoff_position:
+        if game.type != 'PENALTY' and not game.checked_kickoff_position:
             check_kickoff_position()
             game.checked_kickoff_position = True
         game.play_countdown -= 1
@@ -1233,6 +1224,7 @@ while supervisor.step(time_step) != -1:
                 if game.type == 'PENALTY':
                     set_penalty_positions('red' if game.kickoff == game.red.id else 'blue')
                     game_controller_send('STATE:SET')
+                    game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
                 else:
                     check_start_position()
                     game_controller_send('STATE:READY')
