@@ -186,8 +186,19 @@ export default class X3dScene {
       WbWorld.instance.viewpoint.updateFollowUp(time);
   }
 
+  applyLabel(label, view) {
+    view.setLabel({
+      id: label.id,
+      text: label.text,
+      font: label.font,
+      color: label.rgba,
+      size: label.size,
+      x: label.x,
+      y: label.y
+    });
+  }
+
   processServerMessage(data, view) {
-    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);
@@ -201,6 +212,11 @@ export default class X3dScene {
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
+        }
+
+        if (frame.hasOwnProperty('labels')) {
+          for (let i = 0; i < frame.labels.length; i++)
+            this.applyLabel(frame.labels[i], view);
         }
 
         this.render();
@@ -224,25 +240,6 @@ export default class X3dScene {
         return true;
       view.stream.socket.send('pause');
       this.loadObject(data, 0, view.onready);
-    } else if (data.startsWith('label')) {
-      let semiColon = data.indexOf(';');
-      const id = data.substring(data.indexOf(':'), semiColon);
-      let previousSemiColon;
-      const labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
-      for (let i = 0; i < 5; i++) {
-        previousSemiColon = semiColon + 1;
-        semiColon = data.indexOf(';', previousSemiColon);
-        labelProperties.push(data.substring(previousSemiColon, semiColon));
-      }
-      view.setLabel({
-        id: id,
-        text: data.substring(semiColon + 1, data.length),
-        font: labelProperties[0],
-        color: labelProperties[1],
-        size: labelProperties[2],
-        x: labelProperties[3],
-        y: labelProperties[4]
-      });
     } else
       return false;
     return true;
