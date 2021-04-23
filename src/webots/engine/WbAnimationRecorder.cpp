@@ -28,7 +28,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
-
+#include <iostream>
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
@@ -334,12 +334,21 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 
   out << ",\"labels\":[";
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  bool needComma = false;
   foreach (const WbRobot *robot, robots) {
     if (robot->supervisor()) {
       foreach (const QString &label, robot->supervisorUtilities()->labelsState()) {
-        out << "{";
+        if (needComma) {
+          out << ", {";
+          needComma = false;
+        } else
+          out << "{";
         out << label;
-        out << "}";
+        if (label == robot->supervisorUtilities()->labelsState().last()) {
+          out << "}";
+          needComma = true;
+        } else
+          out << "},";
       }
     }
   }

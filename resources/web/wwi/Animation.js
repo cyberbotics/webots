@@ -157,6 +157,13 @@ export default class Animation {
       for (let p = 0; p < poses.length; p++)
         appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
     }
+
+    if (this.data.frames[this.step].hasOwnProperty('labels')) {
+      let labels = this.data.frames[this.step].labels;
+      for (let i = 0; i < labels.length; i++)
+        this.scene.applyLabel(labels[i], this.view);
+    }
+
     const x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
     if (this.step !== this.previousStep + 1) {
