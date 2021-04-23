@@ -46,8 +46,6 @@ FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
-GOAL_HEIGHT_KID = 1.2                     # height of the goal in kid size league
-GOAL_HEIGHT_ADULT = 1.8                   # height of the goal in adult size league
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
@@ -556,8 +554,7 @@ def update_team_contacts(team, color):
         player['outside_field'] = True         # true if fully outside the field
         player['inside_field'] = True          # true if fully inside the field
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
-        player['behind_penalty_point'] = True  # true if fully behind penalty point
-        player['goal_keeper_penalty_position'] = False
+        player['outside_goal_area'] = True     # true if fully outside opponent's goal area
         fallen = False
         for i in range(0, n):
             point = robot.getContactPoint(i)
@@ -575,7 +572,7 @@ def update_team_contacts(team, color):
                 # the robot touched something else than the ball or the ground
                 player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
                 continue
-            if distance3(point, [0, 0, game.turf_depth]) < game.center_circle_radius:
+            if distance3(point, [0, 0, game.turf_depth]) < game.field_circle_radius:
                 player['outside_circle'] = False
             if point_inside_field(point):
                 player['outside_field'] = False
@@ -1015,10 +1012,12 @@ info(message)
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
+game.field_goal_area_length = 1
+game.field_goal_area_width = 3 if field_size == 'kid' else 4
+game.field_goal_height = 1.2 if field_size == 'kid' else 1.8
+game.field_circle_radius = 0.75 if field_size == 'kid' else 1.5
 game.penalty_offset = 0.6 if field_size == 'kid' else 1
-game.center_circle_radius = 0.75 if field_size == 'kid' else 1.5
 game.robot_radius = 0.3 if field_size == 'kid' else 0.5
-game.goal_height = GOAL_HEIGHT_KID if field_size == 'kid' else GOAL_HEIGHT_ADULT
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.turf_depth = 0.01
 game.ball_kickoff_translation = [0, 0, game.ball_radius + game.turf_depth]
@@ -1176,7 +1175,7 @@ while supervisor.step(time_step) != -1:
                 right_way = game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
                     game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
-                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field_goal_height:
                     scoring_team = game.side_left  # goal
                 elif game.type == 'PENALTY':
                     game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
@@ -1190,7 +1189,7 @@ while supervisor.step(time_step) != -1:
                 right_way = game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
                     game.ball_last_touch_team == 'blue' and game.side_left == game.red.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
-                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field_goal_height:
                     # goal
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 elif game.type == 'PENALTY':
