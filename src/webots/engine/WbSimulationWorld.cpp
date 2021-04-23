@@ -105,9 +105,6 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   finalize();
   setIsLoading(false);
 
-  if (log)
-    log->stopMeasure(WbPerformanceLog::LOADING);
-
   if (mWorldLoadingCanceled)
     return;
 
@@ -126,6 +123,9 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   WbRadio::createAndSetupPluginObjects();
 
   WbSoundEngine::setWorld(this);
+
+  if (log)
+    log->stopMeasure(WbPerformanceLog::LOADING);
 
   connect(mTimer, &QTimer::timeout, this, &WbSimulationWorld::triggerStepFromTimer);
   const WbSimulationState *const s = WbSimulationState::instance();
@@ -179,9 +179,6 @@ void WbSimulationWorld::step() {
 
   if (WbSimulationState::instance()->isRealTime()) {
     const int elapsed = mRealTimeTimer.restart();
-
-    if (log)
-      log->relayStepDuration(elapsed);
 
     // computing the mean of an history of several elapsedTime
     // improves significantly the stability of the algorithm

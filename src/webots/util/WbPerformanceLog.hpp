@@ -60,7 +60,7 @@ public:
   void stopMeasure(InfoType type, const QString &object = QString());
   void startControllerMeasure(const QString &controllerName);
   void stopControllerMeasure(const QString &controllerName);
-  void relayStepDuration(double elapsed);
+  void relaySpeedFactor(double speed);
   void setTimeStep(double value) { mTimeStep = value; }
   void setAvgFPS(double value) { mAverageFPS = value; }
 
@@ -86,7 +86,7 @@ private:
   QVector<QElapsedTimer *> mTimers;
   QTextStream mOutStream;
   double mAverageFPS;
-  double mRealtimeFactor;
+  double mAverageSpeed;
   double mTimeStep;
   bool mIsLogCompleted;
 
