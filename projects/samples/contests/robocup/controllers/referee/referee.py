@@ -848,15 +848,15 @@ def set_penalty_positions():
         attacking_team = blue_team
         defending_team = red_team
     for number in attacking_team['players']:
-        if not is_penalty_kicker(attacking_team, number):
-            reset_player(attacking_color, number, 'halfTimeStartingPose')
-        else:
+        if is_penalty_kicker(attacking_team, number):
             reset_player(attacking_color, number, 'shootoutStartingPose')
-    for number in defending_team['players']:
-        if not is_goal_keeper(defending_team, number):
-            reset_player(defending_color, number, 'halfTimeStartingPose')
         else:
+            reset_player(attacking_color, number, 'halfTimeStartingPose')
+    for number in defending_team['players']:
+        if is_goal_keeper(defending_team, number) and game.penalty_shootout_count <= 10:
             reset_player(defending_color, number, 'goalKeeperStartingPose')
+        else:
+            reset_player(defending_color, number, 'halfTimeStartingPose')
     x = game.field_penalty_mark_x if game.side_left == game.kickoff and default else -game.field_penalty_mark_x
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
