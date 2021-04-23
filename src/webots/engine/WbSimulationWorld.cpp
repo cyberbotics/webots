@@ -72,6 +72,10 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
 
   mSleepRealTime = basicTimeStep();
 
+  WbPerformanceLog *log = WbPerformanceLog::instance();
+  if (log)
+    log->setTimeStep(basicTimeStep());
+
   WbSimulationState::instance()->resetTime();
   // Reset random seed to ensure reproducible simulations.
   updateRandomSeed();
@@ -100,6 +104,9 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   root()->finalize();
   finalize();
   setIsLoading(false);
+
+  if (log)
+    log->stopMeasure(WbPerformanceLog::LOADING);
 
   if (mWorldLoadingCanceled)
     return;
@@ -172,6 +179,9 @@ void WbSimulationWorld::step() {
 
   if (WbSimulationState::instance()->isRealTime()) {
     const int elapsed = mRealTimeTimer.restart();
+
+    if (log)
+      log->relayStepDuration(elapsed);
 
     // computing the mean of an history of several elapsedTime
     // improves significantly the stability of the algorithm

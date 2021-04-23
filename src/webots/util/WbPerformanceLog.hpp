@@ -34,7 +34,8 @@ class Measurement;
 class WbPerformanceLog {
 public:
   enum InfoType {
-    PRE_PHYSICS_STEP = 0,
+    LOADING,
+    PRE_PHYSICS_STEP,
     PHYSICS_STEP,
     POST_PHYSICS_STEP,
     MAIN_RENDERING,
@@ -59,7 +60,8 @@ public:
   void stopMeasure(InfoType type, const QString &object = QString());
   void startControllerMeasure(const QString &controllerName);
   void stopControllerMeasure(const QString &controllerName);
-
+  void relayStepDuration(double elapsed);
+  void setTimeStep(double value) { mTimeStep = value; }
   void setAvgFPS(double value) { mAverageFPS = value; }
 
   void reportStepRenderingStats(int trianglesCount);
@@ -84,6 +86,8 @@ private:
   QVector<QElapsedTimer *> mTimers;
   QTextStream mOutStream;
   double mAverageFPS;
+  double mRealtimeFactor;
+  double mTimeStep;
   bool mIsLogCompleted;
 
   QHash<QString, Measurement *> mRenderingDevicesValues;

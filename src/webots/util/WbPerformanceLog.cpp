@@ -71,9 +71,12 @@ double Measurement::totalValue() const {
 }
 
 static bool gLogSystemInfo = false;
-static const char *const gInfoLabels[] = {
-  "prePhysics",        "physics",        "postPhysics",     "mainRendering",         "virtualRealityHeadsetRendering",
-  "gpuMemoryTransfer", "trianglesCount", "deviceRendering", "deviceWindowRendering", "controller"};
+static const char *const gInfoLabels[] = {"loading",           "prePhysics",
+                                          "physics",           "postPhysics",
+                                          "mainRendering",     "virtualRealityHeadsetRendering",
+                                          "gpuMemoryTransfer", "trianglesCount",
+                                          "deviceRendering",   "deviceWindowRendering",
+                                          "controller"};
 
 WbPerformanceLog *WbPerformanceLog::cInstance = NULL;
 
@@ -102,6 +105,8 @@ WbPerformanceLog::WbPerformanceLog(const QString &fileName, int stepsCount) :
   mValuesCount(INFO_COUNT, 0),
   mTimers(INFO_COUNT),
   mAverageFPS(0.0),
+  mRealtimeFactor(0.0),
+  mTimeStep(1.0),
   mIsLogCompleted(false) {
   mFile = new QFile(mFileName);
   for (int i = 0; i < INFO_COUNT; ++i)
@@ -146,6 +151,7 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
   // reset values
   mIsLogCompleted = false;
   mStepsCount = 0;
+  mRealtimeFactor = 0.0;
   for (int i = 0; i < INFO_COUNT; ++i) {
     mValues[i] = 0;
     mValuesCount[i] = 0;
@@ -159,16 +165,29 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
   mControllersValues.clear();
 }
 
+void WbPerformanceLog::relayStepDuration(double elapsed) {
+  if (mIsLogCompleted)
+    return;
+
+  mRealtimeFactor += elapsed;
+}
+
 void WbPerformanceLog::writeTotalValues() {
   if (!openFile())
     return;
   QTextStream out(mFile);
+
+  if (mStepsCountToBeLogged > 0)
+    mRealtimeFactor = mStepsCountToBeLogged * mTimeStep / mRealtimeFactor;
+  else
+    mRealtimeFactor = mStepsCount * mTimeStep / mRealtimeFactor;
 
   out << "Threads count: " << WbOdeContext::instance()->numberOfThreads() << "\n";
 
   WbPreferences *prefs = WbPreferences::instance();
   out << "Shadows disabled: " << (prefs->value("OpenGL/disableShadows").toBool() ? "true" : "false") << "\n";
   out << "Anti-aliasing disabled: " << (prefs->value("OpenGL/disableAntiAliasing").toBool() ? "true" : "false") << "\n";
+  out << "Average real-time factor: " << mRealtimeFactor << "\n";
 
   QList<QString> devicesKeys = mRenderingDevicesValues.keys();
   QList<QString> controllersKeys = mControllersValues.keys();
