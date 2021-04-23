@@ -3,7 +3,7 @@
  *               This controller handles both "obstacle" and "sensor" robot,
  *               and tests:
  *               - initial computation of bounding sphere for end point solid
- *               - update of bounsing sphere when joint moves
+ *               - update of bounding sphere when joint moves
  */
 
 #include <webots/distance_sensor.h>

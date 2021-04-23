@@ -56,6 +56,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
           !info.at(i).startsWith("documentation url:"))
         mInfo += info.at(i) + "\n";
     }
+    mInfo.chop(1);
   }
   mTags = tokenizer->tags();
   mLicense = tokenizer->license();

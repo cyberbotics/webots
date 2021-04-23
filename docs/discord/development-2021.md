@@ -1442,3 +1442,189 @@ Hello everyone! I need to draw lines on the floor that my robot will follow for 
 
 [https://youtu.be/XUSCD7aYtQ8](https://youtu.be/XUSCD7aYtQ8)
 
+##### Srivastav\_Udit 03/23/2021 07:12:09
+Hi! I need to replace this line wb\_differential\_wheels\_set\_encoders(0, 0); with code that is accepted for Position Sensors by Webots. Are there any recommendations?
+
+##### Stefania Pedrazzi [Cyberbotics] 03/24/2021 07:43:54
+Hi, the `DifferentialWheels` node is replaced by `Motor` and `PositionSensor` nodes. `PositionSensor` just returns the position value of the motor. If you want to set the encoders, i.e., motor position, you should use the `Motor` API:
+
+[https://www.cyberbotics.com/doc/reference/motor](https://www.cyberbotics.com/doc/reference/motor)
+
+Depending if you want to control the motor using position directly, velocity or force/torque there are different functions to use:
+
+* [https://www.cyberbotics.com/doc/reference/motor#position-control](https://www.cyberbotics.com/doc/reference/motor#position-control)
+
+* [https://www.cyberbotics.com/doc/reference/motor#velocity-control](https://www.cyberbotics.com/doc/reference/motor#velocity-control)
+
+* [https://www.cyberbotics.com/doc/reference/motor#force-and-torque-control](https://www.cyberbotics.com/doc/reference/motor#force-and-torque-control)
+
+When converting the default Webots worlds using `DifferentialWheels` node we used the *velocity* control and thus replaced the `wb_differential_wheels_set_encoders(0, 0)` function with:
+
+```
+wb_motor_set_position(left_motor, INFINITY);
+wb_motor_set_position(right_motor, INFINITY);
+wb_motor_set_velocity(left_motor, 0.0);
+wb_motor_set_velocity(right_motor, 0.0);
+```
+
+##### Ginzo1 03/25/2021 18:22:47
+Hello everyone! I need to create a spraying device for my simulation - the form and size do not matter so I wondered if something similar's been done before and it is available to use. Also any suggestions for the implementation are more than welcome 🙂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/25/2021 18:52:23
+You can use the Pen node:
+
+[https://cyberbotics.com/doc/reference/pen](https://cyberbotics.com/doc/reference/pen)
+
+##### Ginzo1 03/25/2021 19:33:18
+Thank you!
+
+##### Vial 03/25/2021 23:35:00
+Hi, I'm trying to implement a new endpoint for lidars in remote control library but I have some questions about the API, I thought it would be much easier for everyone with screenshots. Hence the pdf file, it's mostly screenshots.
+
+Thanks by advance for considering this question
+> **Attachment**: [Question-remote-api.pdf](https://cdn.discordapp.com/attachments/565155651395780609/824788493434617886/Question-remote-api.pdf)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/26/2021 08:08:39
+Hello Vial, It would be very nice to extend the remote library to support Lidars!  
+
+
+
+Hopefully I managed to understand details of your problem.
+
+
+
+> Why is c→image→data remains null in remote
+
+> control mode (figure 4), where is the memory allocated
+
+> for this field or should I calloc it myself
+
+You should populate the Lidar image in your plugin:
+
+```c
+const unsigned char *lidar_data_from_robot = malloc(...);
+wbr_lidar_set_image(camera->tag(), lidar_data_from_robot);
+```
+
+
+
+I would strongly advise you to open a PR and put the everything inside, so we can easily review it. Just mark it is as a `Draft` and keep iterating until you have a question or it is ready to be merged.
+
+##### Spur 03/27/2021 05:05:26
+dumb question but does anyone know what the lidar point cloud returns and how to access it?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/27/2021 13:58:42
+It should be clear from the documentation:
+
+[https://cyberbotics.com/doc/reference/lidar#wb\_lidar\_get\_point\_cloud](https://cyberbotics.com/doc/reference/lidar#wb_lidar_get_point_cloud)
+
+
+
+Let us know if there is something unclear.
+
+##### ouur 03/28/2021 15:49:44
+Hello everyone. im using python and trying to get self node but it gives me error. Any idea?
+
+TypeError: in method 'Supervisor\_getSelf', argument 1 of type 'webots::Supervisor const *'
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/28/2021 18:30:49
+`@ouur` show us your code
+
+##### Srivastav\_Udit 03/30/2021 03:22:47
+Thank you so much!
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/30/2021 19:22:27
+I found a very strange issue. The wheel seems to move the robot in the same direction, regardless of which way it is spinning
+> **Attachment**: [simple\_crashderby\_1.mp4](https://cdn.discordapp.com/attachments/565155651395780609/826536875283447818/simple_crashderby_1.mp4)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/30/2021 19:26:39
+What's that? Which world?
+
+## April
+
+##### Krish 04/01/2021 11:48:12
+Is the other wheel pivoted?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/01/2021 21:13:50
+it's due to kinematics mode (no physics). It works for velocity control, but not position control
+
+##### Spur 04/02/2021 06:37:26
+does getRecognitionObjects() return a pointer to an array of objects or just to one? and how do I access the id of one of those object?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/03/2021 13:59:20
+See this example:
+
+[https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera\_recognition/camera\_recognition.c#L60-L75](https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera_recognition/camera_recognition.c#L60-L75)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/04/2021 01:21:49
+<@&568329906048598039> The webots docs directory is huge. I know that transparency is nice with the png files, but they are only included in white documents. These images could be compressed to jpg files, reducing the file size by about 10-20 times.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/828076864353730600/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 04/04/2021 07:27:53
+`@Simon Steinmann` it's in the works, the offline documentation might be removed entirely by default (with the option of downloading it if needed) among other things. [https://github.com/cyberbotics/webots/pull/2787](https://github.com/cyberbotics/webots/pull/2787)
+
+##### Spur 04/08/2021 01:56:50
+Does anyone know how the  'position' field of a Camera Recognition Object works? it says it has 3 values but I'm unsure what they represent
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/08/2021 06:03:46
+XYZ coordinates?
+
+##### DrVoodoo [Moderator] 04/08/2021 16:06:45
+I'm having some grief on a world a ENU world with an inertial unit
+
+
+I have the inertial unit aligned as per the docs (x forward, y up, z right)
+
+
+And I am using getQuaternion() to get the orientation (which I assume is returning in x,y,z,w order)
+
+
+Now the robot is on a flat(ish) surface so that's giving me ( 0.000950936, -0.00466466, 0.980983, -0.194035 ) for example
+
+
+No wait, I think I figured this out. I'm trying to present the data in PCL which is using NUE still
+
+
+As always, you bang your head on the problem for an hour and realise the issue as soon as you start explaining it.
+
+##### Bitbots\_Jasper [Moderator] 04/08/2021 16:45:20
+have you tried the rubber ducky method ([https://en.wikipedia.org/wiki/Rubber\_duck\_debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)) ? 😋
+
+##### Spur 04/09/2021 00:12:04
+oh ok thanks, do you know what the orientation field values represent, theres 4 so im very unsure
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/09/2021 00:24:23
+axis angles usually
+
+##### Spur 04/09/2021 06:26:06
+wont there only be 3 though? xy xz yz ?
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:29:30
+In the axis angle notation used in webots  the first three values specify the rotation axis and the fourth specifies the rotation in radians
+
+##### Spur 04/09/2021 06:32:35
+sorry i'm a bit confused, how do the three values describe the axis, isnt an axis by definition only 1 value, ie x axis y axis or z axis
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:36:12
+It is not necessarily the x y or z axis. You can think of the axis being specified as a line though the origin of the coordinate system and a point on the unit sphere specified by the three coordinates. If the point is (1,0,0) it is simply a rotation around the x axis but any axis is possible
+
+##### Spur 04/09/2021 06:38:19
+oh ok, forgive my ignorance but whats the point of the rotation value then? (4th value)
+
+##### Drake P. 04/09/2021 06:53:55
+The 4th value is the roll around the specified axis to my understanding
+
+##### Spur 04/09/2021 06:54:21
+oh gotcha thanks
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 07:16:05
+Yes, thanks `@Drake P.` for explaining
+
+##### Gotcha97 04/09/2021 19:29:53
+Is it possible to add a speaker device to an existing robot template (in my case a TIAGo Titanium)?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/09/2021 20:49:33
+Yes, you should be able to insert it in one of the extension slots of the TIAGo proto.
+

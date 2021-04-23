@@ -148,10 +148,10 @@ WbVector3 WbBallJoint::anchor() const {
 WbVector3 WbBallJoint::axis() const {
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  if (!p2 && !p3)
-    return WbVector3(1.0, 0.0, 0.0);
-  else if (p3 && !p2) {
-    if (p3->axis().cross(WbVector3(0.0, 0.0, 1.0)).isNull())
+  if (!p2) {
+    if (!p3)
+      return WbVector3(1.0, 0.0, 0.0);
+    else if (p3->axis().cross(WbVector3(0.0, 0.0, 1.0)).isNull())
       return p3->axis().cross(WbVector3(1.0, 0.0, 0.0));
     else
       return p3->axis().cross(WbVector3(0.0, 0.0, 1.0));
@@ -166,10 +166,10 @@ WbVector3 WbBallJoint::axis2() const {
 WbVector3 WbBallJoint::axis3() const {
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  if (!p2 && !p3)
-    return WbVector3(0.0, 0.0, 1.0);
-  else if (p2 && !p3) {
-    if (p2->axis().cross(WbVector3(1.0, 0.0, 0.0)).isNull())
+  if (!p3) {
+    if (!p2)
+      return WbVector3(0.0, 0.0, 1.0);
+    else if (p2->axis().cross(WbVector3(1.0, 0.0, 0.0)).isNull())
       return p2->axis().cross(WbVector3(0.0, 0.0, 1.0));
     else
       return p2->axis().cross(WbVector3(1.0, 0.0, 0.0));

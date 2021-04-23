@@ -13,6 +13,9 @@ int main(int argc, char **argv) {
   WbNodeRef node2 = wb_supervisor_node_get_from_def("ROBOT.JOINT.SOLID.NODE");
   ts_assert_pointer_not_null(node2, "wb_supervisor_node_get_from_def(\"ROBOT.JOINT.SOLID.NODE\") failed");
 
+  WbNodeRef node_parent = wb_supervisor_node_get_from_def("ROBOT.JOINT.SOLID");
+  ts_assert_pointer_not_null(node_parent, "wb_supervisor_node_get_from_def(\"ROBOT.JOINT.SOLID\") failed");
+
   if (node != node2)
     ts_assert_boolean_equal(
       false,
@@ -40,6 +43,12 @@ int main(int argc, char **argv) {
   orientation = wb_supervisor_node_get_orientation(node);
   ts_assert_doubles_in_delta(9, orientation, ROTATION, 0.0001,
                              "wb_supervisor_node_get_orientation() did not return the expected values for scaled node.");
+
+  const double *pose = wb_supervisor_node_get_pose(node, node_parent);
+  const double POSE[] = {-1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.3, 0.0, 0.0, 0.0, 1.0};
+
+  ts_assert_doubles_in_delta(16, pose, POSE, 0.0001, "wb_supervisor_node_get_pose() did not return the expected values.");
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
