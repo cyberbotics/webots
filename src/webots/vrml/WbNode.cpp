@@ -193,7 +193,6 @@ WbNode::WbNode(const WbNode &other) :
   mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
-  // printf("creating NODE %s from OTHER\n", usefulName().toUtf8().constData());
   if (gRestoreUniqueIdOnClone)
     setUniqueId(other.mUniqueId);
 
@@ -1262,6 +1261,7 @@ bool WbNode::isDefault() const {
   return true;
 }
 
+/*
 void WbNode::printFieldsAndParams() {
   printf("---------------------\n");
   printf("NODE %s (%p)\n", usefulName().toUtf8().constData(), this);
@@ -1279,6 +1279,7 @@ void WbNode::printFieldsAndParams() {
   }
   printf("---------------------\n");
 }
+*/
 
 void WbNode::removeFromFieldsOrParameters(WbField *item) {
   if (isProtoInstance())
@@ -1589,7 +1590,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameter->name()).arg(proto->name()));
           }
         }
-        // printf("A\n");
         if (tokenizer->peekWord() == "IS") {
           tokenizer->skipToken("IS");
           const QString &alias = tokenizer->nextWord();
@@ -1604,7 +1604,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
           delete parameter;
       } else
         tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameterName).arg(proto->name()));
-      // printf("D\n");
     }
 
     if (hasDefaultDefNodes) {
@@ -2264,6 +2263,7 @@ QString WbNode::getUrdfPrefix() const {
   return findRobotRootNode()->mUrdfPrefix;
 }
 
+/*
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
   for (int i = 0; i < level; ++i)
@@ -2304,3 +2304,4 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
     }
   }
 }
+*/

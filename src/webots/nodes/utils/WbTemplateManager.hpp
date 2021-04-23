@@ -69,7 +69,7 @@ private:
   WbTemplateManager();
   virtual ~WbTemplateManager();
 
-  // methods used in the collapsing of invisible proto nodes
+  // checks if a chain starting from an internal node is visible
   bool isInternalNodeVisible(WbNode *internal) const;
 
   bool nodeNeedsToSubscribe(WbNode *node);

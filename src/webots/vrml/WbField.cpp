@@ -72,7 +72,8 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
 }
 
 WbField::~WbField() {
-  foreach (WbField *const field, mInternalFields) { field->mParameter = NULL; }
+  foreach (WbField *const field, mInternalFields)
+    field->mParameter = NULL;
   delete mValue;
   mModel->unref();
 }

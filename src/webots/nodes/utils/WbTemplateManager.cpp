@@ -205,24 +205,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
   regenerateNode(templateNode);
 }
 
-bool WbTemplateManager::isInternalNodeVisible(WbNode *internal) const {
-  // reach the highest parameter node in the chain, there can be multiple in a heavily nested PROTO
-  const WbNode *n = internal;
-  while (n && n->protoParameterNode() != NULL)
-    n = n->protoParameterNode();
-  // check if the parameter node itself is visible
-  if (WbNodeUtilities::isVisible(n))
-    return true;
-  // or if it exposes any visible parameter. It's possible for it to expose a single field without exposing the parameter
-  // (usually the case when SFNodes are involved) so the test is made on the fields instead
-  const QVector<WbField *> fields = n->fields();
-  for (int i = 0; i < fields.size(); ++i)
-    if (WbNodeUtilities::isVisible(fields[i]))
-      return true;
-
-  return false;
-}
-
+/*
 void WbTemplateManager::printChainCandidate(WbNode *node, int depth, bool end) {
   // This function is only for debug purposes, no need to review it
 
@@ -260,6 +243,7 @@ void WbTemplateManager::printChainCandidate(WbNode *node, int depth, bool end) {
 }
 
 void WbTemplateManager::printNodeFlags(WbNode *root) {
+  // This function is only for debug purposes, no need to review it
   QList<WbNode *> nodes = root->subNodes(true, true, true);
 
   printf("\nNODE FLAGS\n\n");
@@ -310,14 +294,30 @@ void WbTemplateManager::printNodeFieldVisibility(WbNode *root) {
     }
   }
 }
+*/
+
+bool WbTemplateManager::isInternalNodeVisible(WbNode *internal) const {
+  // reach the highest parameter node in the chain, there can be multiple in a heavily nested PROTO
+  const WbNode *n = internal;
+  while (n && n->protoParameterNode() != NULL)
+    n = n->protoParameterNode();
+  // check if the parameter node itself is visible
+  if (WbNodeUtilities::isVisible(n))
+    return true;
+  // or if it exposes any visible parameter. It's possible for it to expose a single field without exposing the parameter
+  // (usually the case when SFNodes are involved) so the test is made on the fields instead
+  const QVector<WbField *> fields = n->fields();
+  for (int i = 0; i < fields.size(); ++i)
+    if (WbNodeUtilities::isVisible(fields[i]))
+      return true;
+
+  return false;
+}
 
 void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
-  // printNodeStructure(root);  // TODO: remove before merge
-
-  // printNodeFlags(root);  // TODO: remove before merge
-
-  // printFieldsAndParams(root);  // TODO: remove before merge
-
+  // printNodeStructure(root);        // TODO: remove before merge
+  // printNodeFlags(root);            // TODO: remove before merge
+  // printFieldsAndParams(root);      // TODO: remove before merge
   // printNodeFieldVisibility(root);  // TODO: remove before merge
 
   // when loading, root is the global root. When regenerating, root is the finalized node after the regeneration process
