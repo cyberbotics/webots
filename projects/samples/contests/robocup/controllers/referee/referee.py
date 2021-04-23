@@ -311,9 +311,7 @@ def game_controller_receive():
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
             game.interruption_seconds = game.state.seconds_remaining
-    # elif secondary_state == 'STATE_PENALTY_SHOOTOUT':
-    #    game_controller_send('STATE:READY')
-    elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME']:
+    elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME', 'STATE_PENALTYSHOOT']:
         print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
 
 
@@ -802,8 +800,8 @@ def flip_poses(player):
     flip_pose(player['goalKeeperStartingPose'])
 
 
-def flip_sides():
-    game.side_left = 2 if game.side_left == 1 else 1  # flip sides (no need to notify GameController, it does it automatically)
+def flip_sides():  # flip sides (no need to notify GameController, it does it automatically)
+    game.side_left = game.red.id if game.side_left == game.blue.id else game.blue.id
     for team in [red_team, blue_team]:
         for number in team['players']:
             flip_poses(team['players'][number])
@@ -838,7 +836,9 @@ def is_penalty_kicker(team, id):
     return id == '1'
 
 
-def set_penalty_positions(attacking_color):
+def set_penalty_positions():
+    default = game.penalty_shootout_count % 2 == 0
+    attacking_color = 'red' if game.kickoff == game.red.id and default else 'blue'
     if attacking_color == 'red':
         defending_color = 'blue'
         attacking_team = red_team
@@ -857,19 +857,56 @@ def set_penalty_positions(attacking_color):
             reset_player(defending_color, number, 'halfTimeStartingPose')
         else:
             reset_player(defending_color, number, 'goalKeeperStartingPose')
-    if (game.side_left == game.red.id and attacking_color == 'red') or \
-       (game.side_left == game.blue.id and attacking_color == 'blue'):
-        x = game.field_penalty_mark_x
-    else:
-        x = -game.field_penalty_mark_x
+    x = game.field_penalty_mark_x if game.side_left == game.kickoff and default else -game.field_penalty_mark_x
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
+
+
+def stop_penalty_shootout():
+    if game.penalty_shootout_count == 20:  # end of extended penalty shootout
+        return True
+    diff = abs(game.state.teams[0].score - game.state.teams[1].score)
+    if game.penalty_shootout_count == 10 and diff > 0:
+        return True
+    kickoff_team = game.state.teams[0] if game.kickoff == game.state.teams[0].team_number else game.state.teams[1]
+    kickoff_team_leads = kickoff_team.score >= game.state.teams[0].score and kickoff_team.score >= game.state.teams[1].score
+    penalty_shootout_count = game.penalty_shootout_count % 10  # supports both regular and extended shootout kicks
+    if (penalty_shootout_count == 6 and diff == 3) or (penalty_shootout_count == 8 and diff == 2):
+        return True  # no need to go further, score is like 3-0 after 6 shootouts or 4-2 after 8 shootouts
+    if penalty_shootout_count == 7:
+        if diff == 3:  # score is like 4-1
+            return True
+        if diff == 2 and not kickoff_team_leads:  # score is like 1-3
+            return True
+    elif penalty_shootout_count == 9:
+        if diff == 2:  # score is like 5-3
+            return True
+        if diff == 1 and not kickoff_team_leads:  # score is like 3-4
+            return True
+    return False
+
+
+def next_penalty_shootout():
+    game.penalty_shootout_count += 1
+    if not game.penalty_shootout_goal:
+        game_controller_send('STATE:FINISH')
+    if stop_penalty_shootout():
+        game.over = True
+        return
+    if game.penalty_shootout_count == 10:
+        info('Starting extended penalty shootout without a goal keeper and goal area entrance allowed.')
+    flip_sides()
+    info(f'fliped sides: game.side_left = {game.side_left}')
+    set_penalty_positions()
+    game_controller_send('STATE:SET')
+    game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
+    return
 
 
 def interruption(type, team=None):
     game.in_play = False
     game.interruption = type
-    game.interruption_countdown = int(SIMULATED_TIME_BEFORE_INTERRUPTION * 1000 / time_step)
+    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
     if not team:
         game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
     else:
@@ -1009,11 +1046,11 @@ game.overlay_x = 0.02
 game.overlay_y = 0.01
 spawn_team(red_team, 'red', game.side_left == game.blue.id, children)
 spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
-red_team['score'] = 0
-blue_team['score'] = 0
 setup_display()
 
 time_step = int(supervisor.getBasicTimeStep())
+SIMULATED_TIME_BEFORE_INTERRUPTION = int(SIMULATED_TIME_BEFORE_INTERRUPTION * 1000 / time_step)
+SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
 
 if game.controller_process:
     game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -1054,6 +1091,9 @@ if game.type != 'PENALTY':
     game_controller_send(f'KICKOFF:{game.kickoff}')
 else:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
+    # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
+    # meanwhile, assuming kickoff for red team
+game.penalty_shootout_count = 0
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
@@ -1120,16 +1160,27 @@ while supervisor.step(time_step) != -1:
             scoring_team = None
             right_way = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
-                game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
-                throw_in(left_side=False)
+                if game.type == 'PENALTY':
+                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.penalty_shootout_goal = False
+                else:
+                    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
+                    throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
-                throw_in(left_side=True)
+                if game.type == 'PENALTY':
+                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.penalty_shootout_goal = False
+                else:
+                    throw_in(left_side=True)
             if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
                 right_way = game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
                     game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
                     scoring_team = game.side_left  # goal
+                elif game.type == 'PENALTY':
+                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.penalty_shootout_goal = False
                 else:
                     if right_way:
                         goal_kick()
@@ -1142,6 +1193,9 @@ while supervisor.step(time_step) != -1:
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.goal_height:
                     # goal
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
+                elif game.type == 'PENALTY':
+                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.penalty_shootout_goal = False
                 else:
                     if right_way:
                         goal_kick()
@@ -1150,25 +1204,37 @@ while supervisor.step(time_step) != -1:
             if scoring_team:
                 game.ball_exit_translation = game.ball_kickoff_translation
                 goal = 'red' if scoring_team == game.blue.id else 'blue'
-                game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
+                if game.type != 'PENALTY':
+                    game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
                 i = team_index(game.ball_last_touch_team)
                 if game.state.teams[i].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
-                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                    if game.type == 'PENALTY':
+                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.penalty_shootout_goal = True
+                    else:
+                        info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player} (own goal)')
-                    info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
+                    if game.type == 'PENALTY':
+                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.penalty_shootout_goal = True
+                    else:
+                        info(f'Kickoff is {"red" if game.kickoff == game.red.id else "blue"}')
                 else:
                     info(f'Invalidated score in {goal} goal by penalized ' +
                          f'{game.ball_last_touch_team} player {game.ball_last_touch_player}')
-                    goal_kick()
-
+                    if game.type == 'PENALTY':
+                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.penalty_shootout_goal = False
+                    else:
+                        goal_kick()
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
         # the referee should wait a little time since the state SET started before sending the PLAY state
-        game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
+        game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
         game.ball.resetPhysics()
         game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
         game.checked_kickoff_position = False
@@ -1181,7 +1247,11 @@ while supervisor.step(time_step) != -1:
             game_controller_send('STATE:PLAY')
     elif game.state.game_state == 'STATE_FINISHED':
         game.sent_finish = False
-        if game.state.first_half:
+        if game.type == 'PENALTY':
+            if game.state.seconds_remaining <= 0:
+                game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                game.penalty_shootout_goal = False
+        elif game.state.first_half:
             if game.ready_countdown == 0:
                 if game.overtime:
                     type = 'knockout '
@@ -1202,19 +1272,7 @@ while supervisor.step(time_step) != -1:
                 game_controller_send('STATE:PENALTY-SHOOTOUT')
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         else:
-            info('End of the game.')
-            if game.state.teams[0].score > game.state.teams[1].score:
-                winner = 0
-                loser = 1
-            else:
-                winner = 1
-                loser = 1
-            info(f'The score is {game.state.teams[winner].score}-{game.state.teams[loser].score}.')
-            if game.state.teams[0].score != game.state.teams[1].score:
-                info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
-            else:
-                info('This is a draw.')
-                game.over = True
+            game.over = True
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
@@ -1222,9 +1280,9 @@ while supervisor.step(time_step) != -1:
             game.ready_countdown -= 1
             if game.ready_countdown == 0:
                 if game.type == 'PENALTY':
-                    set_penalty_positions('red' if game.kickoff == game.red.id else 'blue')
+                    set_penalty_positions()
                     game_controller_send('STATE:SET')
-                    game.play_countdown = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
+                    game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
                 else:
                     check_start_position()
                     game_controller_send('STATE:READY')
@@ -1232,7 +1290,11 @@ while supervisor.step(time_step) != -1:
     if game.interruption_countdown > 0:
         game.interruption_countdown -= 1
         if game.interruption_countdown == 0:
-            if game.ball_exit_translation:
+            if game.type == 'PENALTY':
+                next_penalty_shootout()
+                if game.over:
+                    break
+            elif game.ball_exit_translation:
                 game.ball.resetPhysics()
                 game.ball_translation.setSFVec3f(game.ball_exit_translation)
                 info('Ball respawned at '
@@ -1258,6 +1320,22 @@ while supervisor.step(time_step) != -1:
         delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
         if delta_time > 0:
             time.sleep(delta_time)
+
+if not game.over:  # for some reason, the simulation was terminated before the end of the match (may happen during tests)
+    info('Game interrupted before the end.')
+else:
+    info('End of the game.')
+    if game.state.teams[0].score > game.state.teams[1].score:
+        winner = 0
+        loser = 1
+    else:
+        winner = 1
+        loser = 0
+    info(f'The score is {game.state.teams[winner].score}-{game.state.teams[loser].score}.')
+    if game.state.teams[0].score != game.state.teams[1].score:
+        info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
+    else:
+        info('This is a draw.')
 
 if log_file:
     log_file.close()
