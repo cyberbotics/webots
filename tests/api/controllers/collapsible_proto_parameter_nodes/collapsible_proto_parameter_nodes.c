@@ -4,6 +4,7 @@
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
 #include <webots/robot.h>
+#include <string.h>
 
 #define TIME_STEP 32
 
