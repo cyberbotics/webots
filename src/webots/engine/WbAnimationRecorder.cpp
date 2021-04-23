@@ -28,7 +28,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
-#include <iostream>
+
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
@@ -218,6 +218,12 @@ void WbAnimationRecorder::populateCommands() {
         mCommands << command;
       }
     }
+
+    const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+    foreach (WbRobot *const robot, robots)
+      if (robot->supervisor())
+        connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this,
+                &WbAnimationRecorder::addChangedLabelToList);
   }
 
   foreach (WbAnimationCommand *command, mCommands) {
@@ -238,6 +244,7 @@ void WbAnimationRecorder::cleanCommands() {
   }
   mCommands.clear();
   mChangedCommands.clear();
+  mChangedLabels.clear();
   foreach (WbAnimationCommand *command, mArtificialCommands)
     delete command;
   mArtificialCommands.clear();
@@ -246,6 +253,11 @@ void WbAnimationRecorder::cleanCommands() {
 void WbAnimationRecorder::addChangedCommandToList(WbAnimationCommand *command) {
   if (!mChangedCommands.contains(command))
     mChangedCommands.append(command);
+}
+
+void WbAnimationRecorder::addChangedLabelToList(QString label) {
+  if (!mChangedLabels.contains(label))
+    mChangedLabels.append(label);
 }
 
 void WbAnimationRecorder::handleNodeVisibilityChange(WbNode *node, bool visibility) {
@@ -311,7 +323,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   const double time = WbSimulationState::instance()->time();
   out << "{\"time\":" << QString::number(time);
   const QList<WbAnimationCommand *> commands = mChangedCommands + mArtificialCommands;
-  if (commands.size() == 0) {
+  if (commands.size() == 0 && mChangedLabels.size() == 0) {
     out << "}";
     return result;
   }
@@ -332,29 +344,23 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   out << "]";
 
-  out << ",\"labels\":[";
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  bool needComma = false;
-  foreach (const WbRobot *robot, robots) {
-    if (robot->supervisor()) {
-      foreach (const QString &label, robot->supervisorUtilities()->labelsState()) {
-        if (needComma) {
-          out << ", {";
-          needComma = false;
-        } else
-          out << "{";
-        out << label;
-        if (label == robot->supervisorUtilities()->labelsState().last()) {
-          out << "}";
-          needComma = true;
-        } else
-          out << "},";
-      }
+  if (mChangedLabels.size() != 0) {
+    out << ",\"labels\":[";
+    foreach (QString label, mChangedLabels) {
+      out << "{";
+      out << label;
+      if (label == mChangedLabels.last())
+        out << "}";
+      else
+        out << "},";
     }
   }
+
   out << "]}";
 
   mChangedCommands.clear();
+  mChangedLabels.clear();
+
   foreach (WbAnimationCommand *command, mArtificialCommands)
     delete command;
   mArtificialCommands.clear();
