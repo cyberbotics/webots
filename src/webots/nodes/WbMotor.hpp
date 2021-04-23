@@ -101,8 +101,8 @@ protected:
   virtual double computeFeedback() const = 0;
 
 protected slots:
-  void updateMaxForceOrTorque();
-  void updateMinAndMaxPosition();
+  void updateMaxForceOrTorque(bool sanityCheck = true);
+  void updateMinAndMaxPosition(bool sanityCheck = true);
 
 protected:
   void setupJointFeedback();
@@ -155,11 +155,11 @@ private:
 
 private slots:
   void updateSound();
-  void updateMaxVelocity();
-  void updateMaxAcceleration();
+  void updateMaxVelocity(bool sanityCheck = true);
+  void updateMaxAcceleration(bool sanityCheck = true);
   void updateControlPID();
   void updateMuscles();
-  void updateMultiplier();
+  void updateMultiplier(bool sanityCheck = true);
 };
 
 #endif
