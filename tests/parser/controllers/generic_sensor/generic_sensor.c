@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   sprintf(outbuffer, "%.4f %.4f %.4f %s\n", positions[0], positions[1], positions[2], wb_robot_get_name());
 
   while (wb_robot_step(TIME_STEP) != -1.0) {
-    wb_emitter_send(emitter, buffer, 50 * sizeof(char));
+    wb_emitter_send(emitter, outbuffer, 50 * sizeof(char));
   }
 
   wb_robot_cleanup();

@@ -60,6 +60,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "hidden_parameter_single"
   supervisor TRUE
 }

@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
 
   const float delta = 1e-10;
   char robot_name[20];
+  bool received_message = false;
 
   while (wb_robot_step(TIME_STEP) != -1.0 && wb_robot_get_time() < 5.0) {
     if (wb_receiver_get_queue_length(receiver) > 0) {
@@ -41,6 +42,7 @@ int main(int argc, char **argv) {
       double position, position2, position3;
 
       sscanf(inbuffer, "%lf %lf %lf %s\n", &position, &position2, &position3, robot_name);
+      received_message = true;
 
       if (strcmp(robot_name, "HingeJoint") == 0)
         ts_assert_double_in_delta(position, 0.111, delta, "HingeJoint position is %.4f instead of %.4f", position, 0.111);
@@ -60,6 +62,8 @@ int main(int argc, char **argv) {
       wb_receiver_next_packet(receiver);
     }
   }
+
+  ts_assert_boolean_equal(received_message, "Should've received at least one message, but didn't.");
 
   ts_send_success();
   return EXIT_SUCCESS;
