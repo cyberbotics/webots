@@ -18,6 +18,7 @@ Released on XX Xth, 2021.
     - Fixed [Supervisor](supervisor.md) API operations on nodes defined in multiple nested PROTO fields ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
     - Fixed crash applying [`wb_supervisor_node_add_force`](supervisor.md#wb_supervisor_node_add_force) on kinematic objects ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
     - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
+    - Fixed various issues when an extern [Robot](robot.md) controller exits without disconnecting and reconnects to the same [Robot](robot.md) ([#3005](https://github.com/cyberbotics/webots/pull/3005)).
     - Fixed [`wb_supervisor_node_reset_physics`](supervisor.md#wb_supervisor_node_reset_physics) not working if during the same step the node is also artificially moved with the [Supervisor](supervisor.md) API ([#2991](https://github.com/cyberbotics/webots/pull/2991)).
     - Fixed crash changing the [`Lidar.type`](lidar.md) field during the simulation run by requiring to save and reload the world ([#2983](https://github.com/cyberbotics/webots/pull/2983)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
