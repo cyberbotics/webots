@@ -331,7 +331,8 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
     if (nodes[i]->isInternalNode())
       internalProtoNodes.append(nodes[i]);
 
-  /*  // TODO: remove before merge
+  /*
+  // TODO: remove before merge
   printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
     printf("\n");
@@ -373,7 +374,8 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
     }
   }
 
-  /* // TODO: remove before merge
+  /*
+  // TODO: remove before merge
   printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
@@ -386,7 +388,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    internalProtoNodes[i]->disconnectInternalNode();
+    // internalProtoNodes[i]->disconnectInternalNode();
     const QVector<WbField *> fields = internalProtoNodes[i]->fields();
 
     for (int j = 0; j < fields.size(); j++)

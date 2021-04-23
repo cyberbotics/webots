@@ -1,67 +1,69 @@
-/*
- * Description:
- */
-
-#include <webots/camera.h>
-#include <webots/robot.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <webots/receiver.h>
 #include <webots/supervisor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
-#define TIME_STEP 64
+#define TIME_STEP 32
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  // WbNodeRef root = wb_supervisor_node_get_root();
-  // WbFieldRef rootChildren = wb_supervisor_node_get_field(root, "children");
-  WbNodeRef robot_visible_node = wb_supervisor_node_get_from_def("ROBOT_VISIBLE_PROTO");
-  WbFieldRef rotation_field = wb_supervisor_node_get_field(robot_visible_node, "rotation");
-  WbFieldRef translation_field = wb_supervisor_node_get_field(robot_visible_node, "translation");
-  WbNodeRef joint_parameters_node = wb_supervisor_node_get_from_def("JOINT_PARAMETERS");
-  WbFieldRef position_field = wb_supervisor_node_get_field(joint_parameters_node, "position");
+  WbDeviceTag receiver = wb_robot_get_device("receiver");
+  wb_receiver_enable(receiver, TIME_STEP);
 
-  WbNodeRef visible_solid_node = wb_supervisor_node_get_from_def("VISIBLE_SOLID_BODY");
-  WbNodeRef nested_proto = wb_supervisor_node_get_from_def("PROTO_HINGE_JOINT");
-  WbNodeRef invisible_solid_node = wb_supervisor_node_get_from_proto_def(nested_proto, "INVISIBLE_SOLID_BODY");
+  wb_robot_step(TIME_STEP);
 
-  // also ensure that the visible one is being refreshed in the interface
-  // const double *previous_rotation = wb_supervisor_field_get_sf_rotation(rotation_field);
-  // const double *previous_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
-  // const double previous_position = wb_supervisor_field_get_sf_float(position_field);
+  char robot_name[30];
+  bool received_invisible = false;
+  bool received_partially_visible = false;
+  bool received_non_proto = false;
 
-  for (int i = 0; i < 10; ++i) {
+  double position_invisible[5];
+  double position_partially_visible[5];
+  double position_non_proto[5];
+
+  while (wb_robot_get_time() < 10.0) {
     wb_robot_step(TIME_STEP);
-    const double *visible_orientation = wb_supervisor_node_get_orientation(visible_solid_node);
-    const double *invisible_orientation = wb_supervisor_node_get_orientation(invisible_solid_node);
-    for (int j = 0; j < 9; ++j) {
-      ts_assert_double_equal(invisible_orientation[j], visible_orientation[j],
-                             "The orientation of the robots with visible and invisible nodes should be the same but isn't");
+
+    if (wb_receiver_get_queue_length(receiver) > 0) {
+      const char *inbuffer = wb_receiver_get_data(receiver);
+      double position[5];
+      sscanf(inbuffer, "%lf %lf %lf %lf %lf %s\n", &position[0], &position[1], &position[2], &position[3], &position[4],
+             robot_name);
+
+      if (strcmp(robot_name, "non_proto") == 0 && !received_non_proto) {
+        memcpy(position_non_proto, position, sizeof(position_non_proto));
+        received_non_proto = true;
+      } else if (strcmp(robot_name, "partially_visible") == 0 && !received_partially_visible) {
+        memcpy(position_partially_visible, position, sizeof(position_partially_visible));
+        received_partially_visible = true;
+      } else if (strcmp(robot_name, "invisible") == 0 && !received_invisible) {
+        memcpy(position_invisible, position, sizeof(position_invisible));
+        received_invisible = true;
+      } else {
+        ts_assert_boolean_equal(0, "Message unknown.");
+      }
+
+      wb_receiver_next_packet(receiver);
     }
 
-    /*
-    if (i > 0) {
-      const double *rotation = wb_supervisor_field_get_sf_rotation(rotation_field);
-      const double *translation = wb_supervisor_field_get_sf_vec3f(translation_field);
-      const double position = wb_supervisor_field_get_sf_float(position_field);
+    if (received_invisible && received_partially_visible && received_non_proto) {
+      const float delta = 1e-8;
+      for (int i = 0; i < 5; ++i) {
+        ts_assert_double_in_delta(position_partially_visible[i], position_non_proto[i], delta,
+                                  "Partially visible nested proto not behaving like non-proto version.");
+        ts_assert_double_in_delta(position_invisible[i], position_non_proto[i], delta,
+                                  "Invisible nested proto not behaving like non-proto version.");
+      }
 
-      ts_assert_double_not_equal(position, previous_position, "Visible position field isn't refreshing");
-
-      previous_rotation = rotation;
-      previous_translation = translation;
-      previous_position = position;
+      received_invisible = false;
+      received_partially_visible = false;
+      received_non_proto = false;
     }
-    */
   }
-
-  // ensure nested proto with visible field doesn't get deleted (i.e check if exposed parameter refreshes)
-  // const double *visible_hinge_rotation = wb_supervisor_field_get_sf_rotation(hinge_rotation_field);
-  // ts_assert_vec3_not_in_delta(hinge_rotation[0], hinge_rotation[1], hinge_rotation[2], 1, 0, 0, 1e-10,
-  //                            "Rotation field should've refreshed but didn't.");
-
-  // both the invisible and visible one should've rotate by the same amount
-  // const double *invisible_hinge_rotation = wb_supervisor_field_get_sf_rotation(hinge_rotation_field);
 
   ts_send_success();
   return EXIT_SUCCESS;
