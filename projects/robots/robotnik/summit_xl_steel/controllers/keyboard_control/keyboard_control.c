@@ -20,11 +20,8 @@
  *
  *               vx: ↑/↓
  *               vy: ←/→
- *               ω: +/-
- *               Belt*: Page Up/Page Down
- *               STOP: S
- *               *It is assumed that its Conveyor Platform runs the 'keyboard-belt-control' controller (these keys are
- *               handled only by the latter).
+ *               ω: Page Up/Page Down
+ *               Reset: Space bar
  */
 
 #include <math.h>
@@ -69,11 +66,10 @@ int main() {
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
   printf("To move the Summit-XL Steel with your keyboard, click first inside the simulation window and press:\n \
-  vx: ↑/↓                 \n \
-  vy: ←/→                 \n \
-  ω: +/-                  \n \
-  Belt: Page Up/Page Down \n \
-  STOP: S                 \n");
+  vx   : ↑/↓               \n \
+  vy   : ←/→               \n \
+  ω    : Page Up/Page Down \n \
+  Reset: Space bar         \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     if (waiting_counter == 0) {
@@ -104,19 +100,19 @@ int main() {
           sign = -1;
           break;
 
-        case '+':
+        case WB_KEYBOARD_PAGEUP:
           is_key_valid = 1;
           speed_id = 2;
           sign = 1;
           break;
 
-        case '-':
+        case WB_KEYBOARD_PAGEDOWN:
           is_key_valid = 1;
           speed_id = 2;
           sign = -1;
           break;
 
-        case 'S':
+        case ' ':
           is_key_valid = 1;
           sign = 0;
           break;

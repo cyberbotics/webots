@@ -58,7 +58,7 @@ SummitXlSteel {
       extension [
         ConveyorPlatform {
           rotation 0 1 0 1.5708
-          controller "keyboard_belt_control"
+          controller "keyboard_conveyor_platform"
           speed 0.6
         }
       ]

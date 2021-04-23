@@ -15,14 +15,11 @@
  */
 
 /*
- * Description:  This controller is used to move the ConveyorPlatform of a Summit-XL Steel robot using the keyboard.
+ * Description:  This controller is used to move the ConveyorPlatform belt using the keyboard.
  *               The keys are the following:
  *
- *               Belt: Page Up/Page Down
- *               STOP: S
- *
- *               This controller is meant to be used alongside a Summit-XL Steel robot that runs the
- *               'keyboard-control' controller. The keys to move the robot itself are defined in the latter.
+ *               Belt: +/-
+ *               Reset: Space bar
  */
 
 #include <math.h>
@@ -51,22 +48,26 @@ int main() {
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
+  printf("To move the ConveyorPlatform with your keyboard, click first inside the simulation window and press: \n \
+  Belt : +/-       \n \
+  Reset: Space bar \n");
+
   while (wb_robot_step(TIME_STEP) != -1) {
     if (waiting_counter == 0) {
       int key = wb_keyboard_get_key();
 
       switch (key) {
-        case WB_KEYBOARD_PAGEUP:
+        case '+':
           is_key_valid = 1;
           sign = 1;
           break;
 
-        case WB_KEYBOARD_PAGEDOWN:
+        case '-':
           is_key_valid = 1;
           sign = -1;
           break;
 
-        case 'S':
+        case ' ':
           is_key_valid = 1;
           sign = 0;
           break;
