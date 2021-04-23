@@ -124,14 +124,15 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, time) {
+  applyPose(pose, time, appliedFields = []) {
     const id = pose.id;
     const object = WbWorld.instance.nodes.get('n' + id);
-
     if (typeof object === 'undefined')
       return;
 
-    this.applyPoseToObject(pose, object, time);
+    let fields = [...appliedFields];
+
+    fields = this.applyPoseToObject(pose, object, time, fields);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -141,18 +142,26 @@ export default class X3dScene {
         // remove a USE node from the list if it has been deleted
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
-      } else
-        this.applyPoseToObject(pose, use, time);
+      } else {
+        fields = [...appliedFields];
+        fields = this.applyPoseToObject(pose, use, time);
+      }
 
       --length;
     }
+
+    return fields;
   }
 
-  applyPoseToObject(pose, object, time) {
+  applyPoseToObject(pose, object, time, fields) {
     for (let key in pose) {
       if (key === 'id')
         continue;
 
+      if (fields.indexOf(key) !== -1)
+        continue;
+
+      let valid = true;
       if (key === 'translation' && object instanceof WbTransform) {
         const translation = convertStringToVec3(pose[key]);
         object.translation = translation;
@@ -173,7 +182,11 @@ export default class X3dScene {
           WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
         else
           WbWorld.instance.nodes.get(object.parent).updateAppearance();
-      }
+      } else
+        valid = false;
+
+      if (valid)
+        fields.push(key);
     }
 
     if (typeof object.parent !== 'undefined') {
@@ -184,6 +197,8 @@ export default class X3dScene {
 
     if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
       WbWorld.instance.viewpoint.updateFollowUp(time);
+
+    return fields;
   }
 
   processServerMessage(data, view) {
