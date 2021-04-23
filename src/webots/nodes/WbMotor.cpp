@@ -112,10 +112,12 @@ void WbMotor::preFinalize() {
 
   cMotors << this;
 
+  // do not check parameter limits yet, will be done in postFinalize when all of all of them are available
   updateMaxVelocity(false);
   updateMaxAcceleration(false);
-  updateControlPID();
   updateMinAndMaxPosition(false);
+
+  updateControlPID();
   updateSound();
 
   mForceOrTorqueSensor = new WbSensor();
