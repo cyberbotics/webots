@@ -168,11 +168,12 @@ export default class Animation {
         previousPoseStep = 0;
       for (let i in this.allIds) {
         const id = this.allIds[i];
+        let appliedFields = appliedIds[id];
         for (let f = this.step - 1; f >= previousPoseStep; f--) {
           if (this.data.frames[f].poses) {
             for (let p = 0; p < this.data.frames[f].poses.length; p++) {
               if (this.data.frames[f].poses[p].id === id)
-                x3dScene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time);
+                appliedFields = this.scene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time, appliedFields);
             }
           }
         }
