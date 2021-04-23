@@ -32,6 +32,8 @@ export default class Animation {
   // private methods
   _setup(data) {
     this.data = data;
+    // extract animated node ids: remove empty items and convert to integer
+    this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
     this._createPlayBar();
     this._createSlider();
@@ -131,10 +133,10 @@ export default class Animation {
       // lookback mechanism: search in history
       if (this.step !== this.previousStep + 1) {
         let previousPoseStep;
-        //if (this.step > this.previousStep)
+        if (this.step > this.previousStep)
           // in forward animation check only the changes since last pose
-          //previousPoseStep = this.previousStep;
-        //else
+          previousPoseStep = this.previousStep;
+        else
           previousPoseStep = 0;
         for (let i in this.allIds) {
           const id = this.allIds[i];
