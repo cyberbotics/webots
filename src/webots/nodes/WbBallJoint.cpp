@@ -383,18 +383,19 @@ double WbBallJoint::initialPosition(int index) const {
 void WbBallJoint::setPosition(double position, int index) {
   WbHinge2Joint::setPosition(position, index);
 
-  if (index == 3) {
-    mPosition3 = position;
-    mOdePositionOffset3 = position;
-    WbJointParameters *const p3 = parameters3();
-    if (p3)
-      p3->setPosition(mPosition3);
-
-    WbMotor *const m3 = motor3();
-    if (m3)
-      m3->setTargetPosition(position);
+  if (index != 3)
     return;
-  }
+
+  mPosition3 = position;
+  mOdePositionOffset3 = position;
+  WbJointParameters *const p3 = parameters3();
+  if (p3)
+    p3->setPosition(mPosition3);
+
+  WbMotor *const m3 = motor3();
+  if (m3)
+    m3->setTargetPosition(position);
+  return;
 }
 
 bool WbBallJoint::resetJointPositions() {

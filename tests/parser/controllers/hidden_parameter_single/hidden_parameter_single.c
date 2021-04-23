@@ -55,15 +55,14 @@ int main(int argc, char **argv) {
         ts_assert_double_in_delta(position, 0.555, delta, "BallJoint position is %.4f instad of %.4f", position, 0.555);
         ts_assert_double_in_delta(position2, 0.666, delta, "BallJoint position2 is %.4f instead of %.4f", position2, 0.666);
         ts_assert_double_in_delta(position3, 0.777, delta, "BallJoint position3 is %.4f instead of %.4f", position3, 0.777);
-      } else {
+      } else
         ts_assert_boolean_equal(0, "Message unknown.");
-      }
 
       wb_receiver_next_packet(receiver);
     }
   }
 
-  ts_assert_boolean_equal(received_message, "Should've received at least one message, but didn't.");
+  ts_assert_boolean_equal(received_message, "Should have received at least one message, but didn't.");
 
   ts_send_success();
   return EXIT_SUCCESS;

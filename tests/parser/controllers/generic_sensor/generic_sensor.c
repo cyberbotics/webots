@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
   WbDeviceTag emitter = wb_robot_get_device("emitter");
 
-  int nb_devices = atoi(argv[1]);
+  const int nb_devices = atoi(argv[1]);
   WbDeviceTag sensors[nb_devices];
 
   for (int i = 0; i < nb_devices; ++i) {
@@ -33,11 +33,10 @@ int main(int argc, char **argv) {
 
   char outbuffer[50];
 
-  sprintf(outbuffer, "%.4f %.4f %.4f %s\n", positions[0], positions[1], positions[2], wb_robot_get_name());
+  snprintf(outbuffer, sizeof(outbuffer), "%.4f %.4f %.4f %s\n", positions[0], positions[1], positions[2], wb_robot_get_name());
 
-  while (wb_robot_step(TIME_STEP) != -1.0) {
-    wb_emitter_send(emitter, outbuffer, 50 * sizeof(char));
-  }
+  while (wb_robot_step(TIME_STEP) != -1.0)
+    wb_emitter_send(emitter, outbuffer, strlen(outbuffer) + 1);
 
   wb_robot_cleanup();
   return 0;
