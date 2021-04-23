@@ -136,10 +136,6 @@ void WbMotor::postFinalize() {
   inferMotorCouplings();
 
   checkMultiplierAcrossCoupledMotors();
-  // checkMinAndMaxPositionAcrossCoupledMotors();
-  // checkMaxVelocityAcrossCoupledMotors();
-  // checkMaxAccelerationAcrossCoupledMotors();
-  // checkMaxForceOrTorqueAcrossCoupledMotors();
 
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
@@ -208,41 +204,93 @@ void WbMotor::inferMotorCouplings() {
 void WbMotor::updateMinAndMaxPosition(bool sanityCheck) {
   printf("> updateMinAndMaxPosition\n");
   enforceMotorLimitsInsideJointLimits();
-  // if(sanityCheck)
-  // checkMinAndMaxPositionAcrossCoupledMotors();
+
+  if (sanityCheck)
+    checkMinAndMaxPositionAcrossCoupledMotors();
 
   mNeedToConfigure = true;
 }
 
 void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
   printf("  checkMinAndMaxPositionAcrossCoupledMotors\n");
+  if (mCoupledMotors.size() == 0)
+    return;
 
-  /*
-  double potentialMinimalPosition, potentialMaximalPosition;
+  bool isUnlimited = (minPosition() == 0.0 && maxPosition() == 0.0) ? true : false;
+  bool isSiblingUnlimited = false;
 
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    potentialMinimalPosition = this->minPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-    if (mCoupledMotors[i]->minPosition() > potentialMinimalPosition) {
-      parsingWarn(tr("Among the motors named '%1' at least one has a 'minPosition' that its siblings can't follow (due to the "
-                     "multiplier). Adjusting their 'minPosition' from %2 to %3.")
-                    .arg(deviceName())
-                    .arg(mCoupledMotors[i]->minPosition())
-                    .arg(potentialMinimalPosition));
-      mCoupledMotors[i]->setMinPosition(potentialMinimalPosition);
-      mCoupledMotors[i]->enforceMotorLimitsInsideJointLimits();
-    }
-    potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-    if (mCoupledMotors[i]->maxPosition() < potentialMaximalPosition) {
-      parsingWarn(tr("Among the motors named '%1' at least one has a 'maxPosition' that its siblings can't follow (due to the "
-                     "multiplier). Adjusting their 'maxPosition' from %2 to %3.")
-                    .arg(deviceName())
-                    .arg(mCoupledMotors[i]->maxPosition())
-                    .arg(potentialMaximalPosition));
-      mCoupledMotors[i]->setMaxPosition(potentialMaximalPosition);
-      mCoupledMotors[i]->enforceMotorLimitsInsideJointLimits();
+    if (mCoupledMotors[i]->minPosition() == 0.0 && mCoupledMotors[i]->maxPosition() == 0.0) {
+      isSiblingUnlimited = true;
+      break;
     }
   }
-  */
+
+  if (isUnlimited && !isSiblingUnlimited) {
+    for (int i = 0; i < mCoupledMotors.size(); ++i) {
+      parsingWarn(tr("Motor '%1' has no limits on the position, so the siblings must too. Adjusting their 'minPosition' and "
+                     "'maxPosition' accordingly.")
+                    .arg(deviceName()));
+      mCoupledMotors[i]->setMinPosition(0.0);
+      mCoupledMotors[i]->setMaxPosition(0.0);
+    }
+  }
+  if (!isUnlimited && isSiblingUnlimited) {
+    parsingWarn(tr("One of the motor siblings named '%1' has no limits on the position, so this must be unlimited as well. "
+                   "Adjusting 'minPosition' and 'maxPosition' accordingly.")
+                  .arg(deviceName()));
+    this->setMinPosition(0.0);
+    this->setMaxPosition(0.0);
+  }
+
+  if (!isSiblingUnlimited && !isUnlimited) {
+    for (int i = 0; i < mCoupledMotors.size(); ++i) {
+      double potentialMinimalPosition = this->minPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
+      if (mCoupledMotors[i]->minPosition() > potentialMinimalPosition) {
+        parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'minPosition' due to the relative "
+                       "multipliers. Adjusting its 'minPosition' from %2 to %3.")
+                      .arg(deviceName())
+                      .arg(mCoupledMotors[i]->minPosition())
+                      .arg(potentialMinimalPosition));
+        mCoupledMotors[i]->setMinPosition(potentialMinimalPosition);
+      }
+
+      double potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
+      if (mCoupledMotors[i]->maxPosition() < potentialMaximalPosition) {
+        parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'maxPosition' due to the relative "
+                       "multipliers. Adjusting its 'maxPosition' from %2 to %3.")
+                      .arg(deviceName())
+                      .arg(mCoupledMotors[i]->maxPosition())
+                      .arg(potentialMaximalPosition));
+        mCoupledMotors[i]->setMaxPosition(potentialMaximalPosition);
+      }
+    }
+  }
+}
+
+void WbMotor::enforceMotorLimitsInsideJointLimits() {
+  printf("  enforceMotorLimitsInsideJointLimits\n");
+
+  if (maxPosition() == 0.0 && minPosition() == 0.0) {
+    printf("ignored\n");
+    // no limits
+    return;
+  }
+
+  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
+  double p = 0.0;
+  if (parentJoint) {
+    if (positionIndex() == 1 && parentJoint->parameters())
+      p = parentJoint->parameters()->position();
+    if (positionIndex() == 2 && parentJoint->parameters2())
+      p = parentJoint->parameters2()->position();
+    if (positionIndex() == 3 && parentJoint->parameters3())
+      p = parentJoint->parameters3()->position();
+  }
+
+  // current joint position should lie between min and max position
+  WbFieldChecker::resetDoubleIfLess(this, mMaxPosition, p, p);
+  WbFieldChecker::resetDoubleIfGreater(this, mMinPosition, p, p);
 }
 
 void WbMotor::updateMaxForceOrTorque(bool sanityCheck) {
@@ -257,6 +305,8 @@ void WbMotor::updateMaxForceOrTorque(bool sanityCheck) {
 
 void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
   printf("  checkMaxForceOrTorqueAcrossCoupledMotors\n");
+  if (mCoupledMotors.size() == 0)
+    return;
 
   // check if this change is consistent with the parameters of the siblings
   double potentialMaximalForceOrTorque;
@@ -288,7 +338,8 @@ void WbMotor::updateMaxVelocity(bool sanityCheck) {
 
 void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
   printf("  checkMaxVelocityAcrossCoupledMotors\n");
-
+  if (mCoupledMotors.size() == 0)
+    return;
   // check if this change is consistent with the parameters of the siblings
   double potentialMaximalVelocity;
 
@@ -317,19 +368,15 @@ void WbMotor::updateMaxAcceleration(bool sanityCheck) {
 
 void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
   printf("  checkMaxAccelerationAcrossCoupledMotors\n");
-
+  if (mCoupledMotors.size() == 0)
+    return;
   bool isAccelerationUnlimited = this->acceleration() == -1 ? true : false;
   bool isSiblingAccelerationUnlimited = false;
 
-  double potentialMaximalAcceleration = -INFINITY;
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    if (mCoupledMotors[i]->acceleration() == -1) {
+    if (mCoupledMotors[i]->acceleration() == -1.0) {
       isSiblingAccelerationUnlimited = true;
-      potentialMaximalAcceleration = INFINITY;
       break;
-    } else {
-      double a = this->acceleration() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-      potentialMaximalAcceleration = a > potentialMaximalAcceleration ? a : potentialMaximalAcceleration;
     }
   }
 
@@ -338,7 +385,7 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
       parsingWarn(tr("Motor '%1' has unlimited acceleration, so the siblings must too. Adjusting 'acceleration' from %2 to -1.")
                     .arg(deviceName())
                     .arg(mCoupledMotors[i]->acceleration()));
-      mCoupledMotors[i]->setMaxAcceleration(-1);
+      mCoupledMotors[i]->setMaxAcceleration(-1.0);
     }
   }
 
@@ -347,12 +394,14 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
                    "Adjusting 'acceleration' from %2 to -1.")
                   .arg(deviceName())
                   .arg(this->acceleration()));
-    this->setMaxAcceleration(-1);
+    this->setMaxAcceleration(-1.0);
   }
 
   if (!isSiblingAccelerationUnlimited && !isAccelerationUnlimited) {
     for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      if (this->acceleration() < potentialMaximalAcceleration) {
+      const double potentialMaximalAcceleration =
+        this->acceleration() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
+      if (mCoupledMotors[i]->acceleration() < potentialMaximalAcceleration) {
         parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'acceleration' due to the relative "
                        "multipliers. Adjusting its 'acceleration' from %2 to %3.")
                       .arg(deviceName())
@@ -413,8 +462,8 @@ void WbMotor::updateMuscles() {
 void WbMotor::updateMultiplier(bool sanityCheck) {
   printf("> updateMultiplier\n");
 
-  // if(sanityCheck)
-  // checkMultiplierAcrossCoupledMotors();
+  if (sanityCheck)
+    checkMultiplierAcrossCoupledMotors();
 
   mNeedToConfigure = true;
 }
@@ -425,6 +474,7 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
   if (mCoupledMotors.size() == 0 && multiplier() != 1.0) {
     mMultiplier->setValue(1.0);
     parsingWarn(tr("No other motor named %1 is present hence 'multiplier' has no effect. Value reverted to 1."));
+    return;
   }
 
   if (multiplier() == 0.0) {
@@ -435,6 +485,7 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
   checkMaxVelocityAcrossCoupledMotors();
   checkMaxForceOrTorqueAcrossCoupledMotors();
   checkMaxAccelerationAcrossCoupledMotors();
+  checkMinAndMaxPositionAcrossCoupledMotors();
 }
 
 double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
@@ -854,30 +905,6 @@ void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMulti
     mMotorForceOrTorque = m;
   }
   awake();
-}
-
-void WbMotor::enforceMotorLimitsInsideJointLimits() {
-  printf("enforceMotorLimitsInsideJointLimits\n");
-  if (mMaxPosition->value() == 0.0 && mMinPosition->value() == 0.0) {
-    printf("ignored\n");
-    // no limits
-    return;
-  }
-
-  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
-  double p = 0.0;
-  if (parentJoint) {
-    if (positionIndex() == 1 && parentJoint->parameters())
-      p = parentJoint->parameters()->position();
-    if (positionIndex() == 2 && parentJoint->parameters2())
-      p = parentJoint->parameters2()->position();
-    if (positionIndex() == 3 && parentJoint->parameters3())
-      p = parentJoint->parameters3()->position();
-  }
-
-  // current joint position should lie between min and max position
-  WbFieldChecker::resetDoubleIfLess(this, mMaxPosition, p, p);
-  WbFieldChecker::resetDoubleIfGreater(this, mMinPosition, p, p);
 }
 
 void WbMotor::resetPhysics() {
