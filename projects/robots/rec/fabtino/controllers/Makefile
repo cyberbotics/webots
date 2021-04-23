@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=keyboard_control.Makefile keyboard_belt_control.Makefile
+DIRECTORIES=$(subst Makefile,,$(shell ls))
+TARGETS = $(DIRECTORIES:=.Makefile)
 
 .PHONY: release debug profile clean
 

@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/fabtino
-# Designed by REC GmbH, Fabtino is a four-wheeled (mecanum) robot.
+# Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
   field  SFVec3f     translation     0 0 0.0613
@@ -64,6 +64,8 @@ PROTO Fabtino [
         device [
           RotationalMotor {
             name "fabtino_front_right_wheel_joint"
+            maxVelocity 100
+            maxTorque 100
           }
         ]
         endPoint Solid {
@@ -120,6 +122,8 @@ PROTO Fabtino [
         device [
           RotationalMotor {
             name "fabtino_back_right_wheel_joint"
+            maxVelocity 100
+            maxTorque 100
           }
         ]
         endPoint Solid {
@@ -164,6 +168,8 @@ PROTO Fabtino [
         device [
           RotationalMotor {
             name "fabtino_front_left_wheel_joint"
+            maxVelocity 100
+            maxTorque 100
           }
         ]
         endPoint Solid {
@@ -201,6 +207,8 @@ PROTO Fabtino [
         device [
           RotationalMotor {
             name "fabtino_back_left_wheel_joint"
+            maxVelocity 100
+            maxTorque 100
           }
         ]
         endPoint Solid {
@@ -314,6 +322,5 @@ PROTO Fabtino [
     }
     physics Physics {
     }
-    controller "diagonally"
   }
 }
