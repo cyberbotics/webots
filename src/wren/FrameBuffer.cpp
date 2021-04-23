@@ -120,8 +120,6 @@ namespace wren {
     for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
       if (mOutputDrawBuffers[i].mIsEnabled)
         drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
-      else
-        drawBuffers.push_back(GL_NONE);
     }
 
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);

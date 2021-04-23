@@ -128,6 +128,28 @@ export default class Animation {
           appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
       }
 
+      // lookback mechanism: search in history
+      if (this.step !== this.previousStep + 1) {
+        let previousPoseStep;
+        //if (this.step > this.previousStep)
+          // in forward animation check only the changes since last pose
+          //previousPoseStep = this.previousStep;
+        //else
+          previousPoseStep = 0;
+        for (let i in this.allIds) {
+          const id = this.allIds[i];
+          let appliedFields = appliedIds[id];
+          for (let f = this.step - 1; f >= previousPoseStep; f--) {
+            if (this.data.frames[f].poses) {
+              for (let p = 0; p < this.data.frames[f].poses.length; p++) {
+                if (this.data.frames[f].poses[p].id === id)
+                  appliedFields = this.scene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time, appliedFields);
+              }
+            }
+          }
+        }
+      }
+
       if (automaticMove)
         document.getElementById('time-slider').setValue(100 * this.step / this.data.frames.length);
 

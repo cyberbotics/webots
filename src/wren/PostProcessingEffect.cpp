@@ -60,9 +60,14 @@ namespace wren {
       inputOutput.mTextureOdd = TextureRtt::copyTextureRtt(inputOutput.mTextureEven);
       inputOutput.mOutputTextureIndexOdd = mFrameBuffer->outputTextures().size();
       mFrameBuffer->appendOutputTexture(inputOutput.mTextureOdd);
+
+#ifdef __EMSCRIPTEN__
       mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, true);
       mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, false);
       mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
+#else
+      mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
+#endif
     }
 
     mFrameBuffer->setup();
@@ -96,7 +101,9 @@ namespace wren {
       glUniform2f(locationViewportSize, mFrameBuffer->width(), mFrameBuffer->height());
 
     for (int iteration = 0; iteration < mIterationCount; ++iteration) {
+#ifdef __EMSCRIPTEN__
       if (iteration != 0)
+#endif
         swapInputOutputTextures();
 
       // this call also sets the drawbuffers, so it must happen after swapInputOutputTextures
@@ -171,8 +178,13 @@ namespace wren {
 
     for (const InputOutputTexture &inputOutput : mInputOutputTextures) {
       if (mInputTextures[inputOutput.mInputTextureIndex] == inputOutput.mTextureOdd) {
-        // write to odd texture, sample from even texture
+// write to odd texture, sample from even texture
+#ifdef __EMSCRIPTEN__
         mFrameBuffer->swapTexture(inputOutput.mTextureOdd);
+#else
+        mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, false);
+        mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, true);
+#endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
 
         for (Connection &connection : mConnections) {
@@ -180,8 +192,13 @@ namespace wren {
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureOdd;
         }
       } else {
-        // write to even texture, sample form odd texture
+// write to even texture, sample form odd texture
+#ifdef __EMSCRIPTEN__
         mFrameBuffer->swapTexture(inputOutput.mTextureEven);
+#else
+        mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexEven, true);
+        mFrameBuffer->enableDrawBuffer(inputOutput.mOutputTextureIndexOdd, false);
+#endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
 
         for (Connection &connection : mConnections) {
