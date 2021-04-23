@@ -19,8 +19,8 @@ PointLight {
   location 0 0.3 0
 }
 DEF NODE_BASED Robot {
-  translation 0 0 +0.2
-  controller "collapse_invisible_parameter_nodes"
+  translation 0 0 0.2
+  controller "collapsible_proto_parameter_nodes"
   name "non_proto"
   children [
     Emitter {
@@ -206,7 +206,7 @@ DEF SUPERVISOR Robot {
     }
   ]
   name "supervisor"
-  controller "supervisor_collapse_invisible_parameter_nodes"
+  controller "supervisor_collapsible_proto_parameter_nodes"
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -33,17 +33,16 @@ int main(int argc, char **argv) {
 
   while (1) {
     double positions[5];
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 5; ++i)
       positions[i] = wb_position_sensor_get_value(sensors[i]);
-    }
 
     wb_robot_step(TIME_STEP);
     char outbuffer[100];
 
-    sprintf(outbuffer, "%.4f %.4f %.4f %.4f %.4f %s\n", positions[0], positions[1], positions[2], positions[3], positions[4],
-            wb_robot_get_name());
+    snprintf(outbuffer, sizeof(outbuffer), "%.4f %.4f %.4f %.4f %.4f %s\n", positions[0], positions[1], positions[2],
+             positions[3], positions[4], wb_robot_get_name());
 
-    wb_emitter_send(emitter, outbuffer, 100 * sizeof(char));
+    wb_emitter_send(emitter, outbuffer, strlen(outbuffer) + 1);
 
     wb_robot_step(50 * TIME_STEP);
   }

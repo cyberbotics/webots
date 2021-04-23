@@ -6,7 +6,7 @@ PROTO PartiallyVisibleNestedProto [
 ]
 {
   Robot {
-    controller "collapse_invisible_parameter_nodes"
+    controller "collapsible_proto_parameter_nodes"
     name "partially_visible"
     children [
       Emitter {
