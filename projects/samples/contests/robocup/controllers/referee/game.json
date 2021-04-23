@@ -1,10 +1,12 @@
 {
-  "type": "KNOCKOUT",
+  "type": "PENALTY",
+  "kickoff": "red",
   "class": "KID",
   "host": "192.168.123.11",
   "real_time_factor": 0,
   "side_left": "blue",
   "press_a_key_to_terminate": true,
+  "game_controller_synchronization": true,
   "red": {
     "id": 8,
     "config": "team_1.json",
