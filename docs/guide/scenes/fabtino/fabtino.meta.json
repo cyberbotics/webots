@@ -1,0 +1,46 @@
+{
+  "devices": [
+    {
+      "anchor": "-0.285061 0.235818 0.035257",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "fabtino_back_left_wheel_joint",
+      "position": 0,
+      "transformID": "n64",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "-0.284897 -0.238057 0.03513",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "fabtino_back_right_wheel_joint",
+      "position": 0,
+      "transformID": "n36",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.284897 0.238057 0.03513",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "fabtino_front_left_wheel_joint",
+      "position": 0,
+      "transformID": "n50",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.285061 -0.235818 0.035257",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "fabtino_front_right_wheel_joint",
+      "position": 0,
+      "transformID": "n22",
+      "type": "RotationalMotor"
+    }
+  ],
+  "name": "fabtino",
+  "robotID": "n10"
+}
