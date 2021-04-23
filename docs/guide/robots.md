@@ -18,6 +18,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/darwin-op/icon.png)        | [DARwIn-OP](darwin-op.md)                 | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/elisa3/icon.png)           | [Elisa 3](elisa3.md)                      | GCTronic             | *Two-wheeled robot*               |
 | ![icon.png](images/robots/epuck/icon.png)            | [e-puck](epuck.md)                        | GCTronic             | *Two-wheeled robot*               |
+| ![icon.png](images/robots/fabtino/icon.png)          | [Fabtino](fabtino.md)                     | REC                  | *Four-wheeled (mecanum) robot*    |
 | ![icon.png](images/robots/firebird6/icon.png)        | [FireBird 6](firebird6.md)                | NEX Robotics         | *Two-wheeled robot*               |
 | ![icon.png](images/robots/ghostdog/icon.png)         | [GhostDog](ghostdog.md)                   | EPFL / BioRob        | *Dog-like robot*                  |
 | ![icon.png](images/robots/hemisson/icon.png)         | [Hemisson](hemisson.md)                   | K-Team               | *Two-wheeled robot*               |
