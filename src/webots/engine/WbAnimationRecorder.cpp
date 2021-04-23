@@ -17,8 +17,10 @@
 #include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbLog.hpp"
+#include "WbRobot.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSimulationState.hpp"
+#include "WbSupervisorUtilities.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
@@ -328,7 +330,21 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
       out << "},";
     command->resetChanges();
   }
+  out << "]";
+
+  out << ",\"labels\":[";
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots) {
+    if (robot->supervisor()) {
+      foreach (const QString &label, robot->supervisorUtilities()->labelsState()) {
+        out << "{";
+        out << label;
+        out << "}";
+      }
+    }
+  }
   out << "]}";
+
   mChangedCommands.clear();
   foreach (WbAnimationCommand *command, mArtificialCommands)
     delete command;

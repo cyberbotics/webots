@@ -1876,7 +1876,7 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
-  return QString("label:%1;%2;rgba(%3,%4,%5,%6);%7;%8;%9;%10")
+  return QString("\"id\":%1,\"font\":\"%2\",\"rgba\":\"%3,%4,%5,%6\",\"size\":%7,\"x\":%8,\"y\":%9,\"text\":\"%10\"")
     .arg(labelOverlay->id())
     .arg(labelOverlay->font())
     .arg(r)
