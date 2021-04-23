@@ -12,8 +12,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 SummitXlSteel {
-  SFVec3f     translation     0 0.118 0
-  SFRotation  rotation        1 0 0 -1.5708
+  SFVec3f     translation     0 0 0.118
+  SFRotation  rotation        0 0 1 0
   SFString    name            "Summit-XL Steel"
   SFString    controller      "void"
   MFString    controllerArgs  []
@@ -68,8 +68,6 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
     }
   ]
 ```
-
-And in [WorldInfo](../reference/worldinfo.md) the coordinateSystem must be set to "NUE".
 
 #### summit\_xl\_steel.wbt
 
