@@ -20,41 +20,37 @@
         },
         "tests" : [
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
-                "state" : "READY"
-            },
-            {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty R1",
                 "target" : "RED_PLAYER_1",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty R2",
                 "target" : "RED_PLAYER_2",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty R3",
                 "target" : "RED_PLAYER_3",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty R4",
                 "target" : "RED_PLAYER_4",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty B1",
                 "target" : "BLUE_PLAYER_1",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty B2",
                 "target" : "BLUE_PLAYER_2",
                 "penalty": 0
             },
             {
-                "name" : "halfTimeStartingPose valid -> No penalty",
+                "name" : "halfTimeStartingPose valid -> No penalty B3",
                 "target" : "BLUE_PLAYER_3",
                 "penalty": 0
             }
@@ -91,9 +87,24 @@
         ]
     },
     {
+        "description" : "Making Blue 1 fall over the line",
+        "timing" : {
+            "time" : 1.0,
+            "clock_type" : "Simulated",
+            "state" : "SET"
+        },
+        "actions" : [
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [-0.13, -2, 0.14],
+                "orientation" : [-0.590536, 0.594488, 0.545761, -2.14168]
+            }
+        ]
+    },
+    {
         "description" : "Some robots should be penalized when the game state switches to `SET` due to different reasons",
         "timing" : {
-            "time" : 3.0,
+            "time" : 4.0,
             "clock_type" : "Simulated",
             "state" : "SET"
         },
@@ -101,7 +112,7 @@
             {
                 "name" : "Red 1 in the opponent's field after finishing `READY` -> Penalized",
                 "target" : "RED_PLAYER_1",
-                "penalty" : 34   
+                "penalty" : 34
             },
             {
                 "name" : "BLUE 2 inside center circle in its own half while not having the kick-off -> Penalized",
@@ -127,23 +138,7 @@
                 "name" : "BLUE 3 hasn't moved before the end of `READY` phase -> Penalized",
                 "target" : "BLUE_PLAYER_3",
                 "penalty" : 34
-            }
-        ],
-        "actions" : [
-            {
-                "target" : "BLUE_PLAYER_1",
-                "position" : [-0.13, -2, 0.14],
-                "orientation" : [-0.590536, 0.594488, 0.545761, -2.14168]
-            }
-        ]
-    },
-    {
-        "timing" : {
-            "time" : 4.0,
-            "clock_type" : "Simulated",
-            "state" : "SET"
-        },
-        "tests" : [
+            },
             {
                 "name" : "Blue 1 touching opponent's field during `SET` -> Penalized",
                 "target" : "BLUE_PLAYER_1",
