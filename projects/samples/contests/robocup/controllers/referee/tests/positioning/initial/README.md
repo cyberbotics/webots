@@ -6,7 +6,7 @@ robots of both team:
   - 2: partially on the border line
 - Team 2 (BLUE): 2 robots have an invalid position
   - 2: partially on the back line
-  - 4: on the wrong side
+  - 4: partially on the wrong side
 
 The following should happen:
 

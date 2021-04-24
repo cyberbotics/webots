@@ -233,7 +233,7 @@ class Test:
 
     def __init__(self, name, target = None, position = None, rotation = None,
                  state = None, penalty = None, yellow_cards = None, secondary_state = None, secondary_team_id = None,
-                 secondary_phase = None, score = None, kick_off_team = None, critical = False):
+                 secondary_phase = None, score = None, kick_off_team = None, critical = False, red_cards = None):
         self._name = name
         self._target = target
         self._position = position
@@ -241,6 +241,7 @@ class Test:
         self._state = state
         self._penalty = penalty
         self._yellow_cards = yellow_cards
+        self._red_cards = red_cards
         self._secondary_state = secondary_state
         self._secondary_team_id = secondary_team_id
         self._secondary_phase = secondary_phase
@@ -259,6 +260,8 @@ class Test:
             self._testTargetPenalty(status, supervisor)
         if self._yellow_cards is not None:
             self._testYellowCards(status, supervisor)
+        if self._red_cards is not None:
+            self._testRedCards(status, supervisor)
         if self._state is not None:
             self._testState(status, supervisor)
         if self._secondary_state is not None:
@@ -306,6 +309,7 @@ class Test:
         t._secondary_phase = dic.get("secondary_phase")
         t._penalty = dic.get("penalty")
         t._yellow_cards = dic.get("yellow_cards")
+        t._red_cards = dic.get("red_cards")
         t._score = dic.get("score")
         t._kick_off_team = dic.get("kick_off_team")
         t._critical = dic.get("critical", False)
@@ -415,6 +419,21 @@ class Test:
                 f"expecting {self._yellow_cards}"
             self._msg.append(failure_msg)
             self._yellow_cards = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
+
+    def _testRedCards(self, status, supervisor):
+        if self._target is None:
+            raise RuntimeError("{self._name} tests position and has no target")
+        gc_data = self._getTargetGCData(status)
+        received = gc_data.number_of_red_cards
+        if received != self._red_cards:
+            failure_msg = \
+                f"Invalid number of red cards at {status.getFormattedTime()}: "\
+                f"for {self._target}: received {received},"\
+                f"expecting {self._red_cards}"
+            self._msg.append(failure_msg)
+            self._red_cards = None
             # Each test can only fail once to avoid spamming
             self._success = False
 

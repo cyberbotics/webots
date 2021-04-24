@@ -31,7 +31,7 @@
             {
                 "name" : "Spawning a player on wrong side (Blue 4)",
                 "target" : "BLUE_PLAYER_4",
-                "position" : [1.75,3.06,0.24],
+                "position" : [-0.05,3.06,0.24],
                 "rotation" : [0,0,1,-1.57]
             }
         ]
@@ -119,6 +119,28 @@
                 "target" : "BLUE_PLAYER_1",
                 "penalty" : 0,
                 "position" : [-4.3,-2.06,0.24]
+            }
+        ],
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [1.75,2.06,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 25.0,
+            "clock_type" : "Simulated",
+            "state" : "READY"
+        },
+        "tests" : [
+            {
+                "name" : "Illegal entry -> 2nd yellow card -> red card",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 34,
+                "yellow_cards" : 0,
+                "red_cards" : 1
             }
         ]
     },
