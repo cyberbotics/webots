@@ -14,6 +14,10 @@
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
         "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      },
+      "goalKeeperStartingPose": {
+        "translation": [-4.47, 0, 0.24],
+        "rotation": [0, 0, 1, 0]
       }
     },
     "3": {
@@ -29,6 +33,10 @@
       "shootoutStartingPose": {
         "translation": [2, 0, 0.24],
         "rotation": [-0.57735, -0.57735, -0.57735, -2.0944]
+      },
+      "goalKeeperStartingPose": {
+        "translation": [-4.47, 0, 0.24],
+        "rotation": [0, 0, 1, 0]
       }
     }
   }
