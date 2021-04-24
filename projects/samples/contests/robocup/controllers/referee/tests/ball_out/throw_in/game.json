@@ -3,6 +3,9 @@
   "class": "KID",
   "host": "192.168.1.133",
   "real_time_factor": 0,
+  "side_left": "red",
+  "kickoff": "red",
+  "supervisor": "test_supervisor",
   "red": {
     "id": 1,
     "config": "tests/ball_out/throw_in/team_1.json",
