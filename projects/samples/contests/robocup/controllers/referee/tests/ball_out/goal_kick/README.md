@@ -1,8 +1,8 @@
-# Ball-out - corner
+# Ball-out - Goal kick
 
 ## What is tested
 
-the ball is going to leave the field from the own goal line and the autoRef should take appropriate actions.
+The ball is going to leave the field from the own goal line and the autoRef should take appropriate actions.
 
 ## Setup
 
