@@ -59,8 +59,13 @@ while supervisor.step(time_step) != -1 and not finished:
     if (status.gc_status is not None):
         test_scenario.step(status, supervisor)
 
-    if test_scenario.isFinished():
-        print(f"{status.getFormattedTime()} END OF TESTING")
+    finished = test_scenario.isFinished()
+    critical_failure = test_scenario.hasCriticalFailure()
+    if finished or critical_failure:
+        if finished:
+            print(f"{status.getFormattedTime()} END OF TESTING")
+        else:
+            print(f"{status.getFormattedTime()} PREMATURELY EXITING TESTING")
         test_scenario.printResults()
         finished = True
 

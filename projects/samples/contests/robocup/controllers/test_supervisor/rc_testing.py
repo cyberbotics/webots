@@ -36,14 +36,18 @@ class StatusInformation:
         Returns the Id of the team concerned by the secondary state
     getSecondaryPhase()
         Returns the state phase of the secondary state
-    getStateStart(state, clock_type)
-        Returns the time at which the provided state was reached first, or -1 if it has never been reached.
+    getKickOffTeam()
+        Returns the id of the team currently having kick_off
+    getStateStart(state, clock_type, state_count)
+        Returns the time at which the provided situation was reached first, or -1 if it has never been reached.
     """
 
     def __init__(self, system_time, simulated_time, gc_status):
         self.system_time = system_time
         self.simulated_time = simulated_time
         self._state_starts = {}
+        for s in VALID_STATES:
+            self._state_starts[s] = []
         self.gc_status = None
         self._updateGC(system_time, simulated_time, gc_status)
 
@@ -75,11 +79,27 @@ class StatusInformation:
             return None
         return int(self.gc_status.secondary_state_info[1])
 
-    def getStateStart(self, state, clock_type):
-        state_start = self._state_starts.get(state)
-        if state_start is None:
+    def getKickOffTeam(self):
+        if self.gc_status is None:
+            return None
+        return int(self.gc_status.kickoff_team)
+
+    def getStateStart(self, state, clock_type, state_count=1):
+        """
+        Returns the time elapsed since the provided state was reached for the n-th time, returns -1 if unreached
+
+        Parameters
+        ----------
+        state : string
+            The concerned state (e.g. PLAYING)
+        clock_type : string
+            Either Simulated or System
+        state_count : int
+            The number of time we expect the provided state to have been reached
+        """
+        if len(self._state_starts[state]) < state_count:
             return -1
-        return self._state_starts[state][clock_type]
+        return self._state_starts[state][state_count-1][clock_type]
 
     def _updateGC(self, system_time, simulated_time, gc_status):
         if gc_status is not None:
@@ -87,10 +107,11 @@ class StatusInformation:
                             gc_status.game_state != self.gc_status.game_state)
             if update_start:
                 state = gc_status.game_state.split("_")[1]
-                self._state_starts[state] = {
+                self._state_starts[state].append({
                     "System" : system_time,
                     "Simulated" : simulated_time
-                }
+                })
+                print(f"Adding new state start for state {state}: count: {len(self._state_starts[state])}")
         self.gc_status = gc_status
 
 
@@ -120,7 +141,7 @@ class TimeSpecification(ABC):
     def getCurrentTime(self, status):
         offset = 0.0
         if self._state is not None:
-            offset = status.getStateStart(self._state, self._clock_type)
+            offset = status.getStateStart(self._state, self._clock_type, self._state_count)
             if offset < 0:
                 return -1
         if self._clock_type == "Simulated":
@@ -133,13 +154,14 @@ class TimeSpecification(ABC):
        t = properties["time"]
        clock_type = properties.get("clock_type", "Simulated")
        state = properties.get("state")
+       state_count = properties.get("state_count",1)
        if clock_type not in ["Simulated", "System"]:
            raise RuntimeError(f"clock_type: '{clock_type}' unknown")
        if isinstance(t,float) or isinstance(t,int):
-           return TimePoint(t, clock_type, state)
+           return TimePoint(t, clock_type, state, state_count)
        elif isinstance(t, list):
            if len(t) == 2:
-               return TimeInterval(t[0], t[1], clock_type, state)
+               return TimeInterval(t[0], t[1], clock_type, state, state_count)
            raise RuntimeError(f"Invalid size for time: {len(t)}")
        raise RuntimeError("Invalid type for time")
 
@@ -147,13 +169,14 @@ class TimeSpecification(ABC):
 class TimeInterval(TimeSpecification):
     """An implementation of TimeSpecification which is active over an interval of time."""
 
-    def __init__(self, start, end, clock_type, state):
+    def __init__(self, start, end, clock_type, state, state_count):
        self._start = start
        self._end = end
        self._clock_type = clock_type
        if state is not None and state not in VALID_STATES:
            raise RuntimeError("Invalid state: {state}")
        self._state = state
+       self._state_count = state_count
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
@@ -167,12 +190,13 @@ class TimeInterval(TimeSpecification):
 class TimePoint(TimeSpecification):
     """An implementation of TimeSpecification which is finished as soon as it is activated."""
 
-    def __init__(self, t, clock_type, state):
+    def __init__(self, t, clock_type, state, state_count):
        self._t = t
        self._clock_type = clock_type
        if state is not None and state not in VALID_STATES:
            raise RuntimeError("Invalid state: {state}")
        self._state = state
+       self._state_count = state_count
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
@@ -201,13 +225,15 @@ class Test:
         Runs all appropriated checks based on the latest status information, using the supervisor in read only.
     hasPassed()
         Returns True if no test has failed until now.
-    printResult()
-        A pretty print version including the causes of failure, if applicable.
+    isCritical()
+        Returns True if a failed test should stop execution of the simulator and end the test immediately
+    printResult(skipped)
+        A pretty print version including a status message and the causes of failure, if applicable.
     """
 
     def __init__(self, name, target = None, position = None, rotation = None,
                  state = None, penalty = None, yellow_cards = None, secondary_state = None, secondary_team_id = None,
-                 secondary_phase = None, score = None):
+                 secondary_phase = None, score = None, kick_off_team = None, critical = False):
         self._name = name
         self._target = target
         self._position = position
@@ -219,6 +245,8 @@ class Test:
         self._secondary_team_id = secondary_team_id
         self._secondary_phase = secondary_phase
         self._score = score
+        self._kick_off_team = kick_off_team
+        self._critical = critical
         self._msg = []
         self._success = True
 
@@ -241,17 +269,27 @@ class Test:
             self._testSecondaryPhase(status, supervisor)
         if self._score is not None:
             self._testScore(status, supervisor)
+        if self._kick_off_team is not None:
+            self._testKickOffTeam(status, supervisor)
 
     def hasPassed(self):
         return self._success
 
-    def printResult(self):
-        if self._success:
-            print(f"[PASS] Test {self._name}")
-        else:
-            print(f"[FAIL] Test {self._name}")
-            for m in self._msg:
-                print(f"\tCaused by {m}")
+    def isCritical(self):
+        return self._critical
+
+    def printResult(self, skipped = True):
+        status = "PASS"
+        if not self._success:
+            if self._critical:
+                status = "CRIT"
+            else:
+                status = "FAIL"
+        elif skipped:
+            status = "SKIP"
+        print(f"[{status}] Test {self._name}")
+        for m in self._msg:
+            print(f"\tCaused by {m}")
 
     def buildFromDictionary(dic):
         """Returns a Test based on the provided dictionary.
@@ -269,6 +307,8 @@ class Test:
         t._penalty = dic.get("penalty")
         t._yellow_cards = dic.get("yellow_cards")
         t._score = dic.get("score")
+        t._kick_off_team = dic.get("kick_off_team")
+        t._critical = dic.get("critical", False)
         return t
 
     def _getTargetGCData(self, status):
@@ -379,8 +419,6 @@ class Test:
             self._success = False
 
     def _testScore(self, status, supervisor):
-        if self._target is None:
-            raise RuntimeError("{self._name} tests position and has no target")
         team_data = self._getTargetGCData(status)
         received = team_data.score
         if received != self._score:
@@ -393,6 +431,16 @@ class Test:
             # Each test can only fail once to avoid spamming
             self._success = False
 
+    def _testKickOffTeam(self, status, supervisor):
+        received = status.getKickOffTeam()
+        if received != self._kick_off_team:
+            failure_msg = \
+                f"Invalid kick_off team at {status.getFormattedTime()}: "\
+                f"received {received}, expecting {self._kick_off_team}"
+            self._msg.append(failure_msg)
+            self._kick_off_team = None
+            # Each test can only fail once to avoid spamming
+            self._success = False
 
 
 class Action:
@@ -464,6 +512,14 @@ class Event:
         Is the event active given the provided status?
     isFinished(status)
         Is the event finished given the provided status?
+    hasCriticalFailure()
+        Returns True if a test has failed in a critical way that should lead to interrupting a scenario, False otherwise
+    getNbTests()
+        Returns the number of tests in the event
+    getNbTestsPassed()
+        Returns the number of tests that haven't failed
+    printResults(skipped)
+        Print result of the tests including appropriate mention if the test was skipped
     perform(status, supervisor)
         Apply all tests and actions on the simulation
     """
@@ -499,9 +555,15 @@ class Event:
     def getNbTestsPassed(self):
         return sum([1 for c in self._tests if c.hasPassed()])
 
-    def printResults(self):
+    def printResults(self, skipped):
         for c in self._tests:
-            c.printResult()
+            c.printResult(skipped)
+
+    def hasCriticalFailure(self):
+        for t in self._tests:
+            if t.isCritical() and not t.hasPassed():
+                return True
+        return False
 
     def buildFromDictionary(dic):
         tests_str = dic.get("tests")
@@ -515,7 +577,6 @@ class Event:
             for action_dic in actions_str:
                 actions.append(Action.buildFromDictionary(action_dic))
         event = Event(TimeSpecification.buildFromDictionary(dic["timing"]), tests, actions)
-        # TODO build actions to add them
         return event
 
 
@@ -534,6 +595,8 @@ class Scenario:
         Returns the number of tests that passed successfully.
     printResults()
         Print the results of all the tests and a final summary.
+    hasCriticalFailure()
+        Returns True if a test has failed in a critical way that should lead to interrupting a scenario, False otherwise
     buildFromList()
         Build a scenario from a list of events.
     """
@@ -552,7 +615,7 @@ class Scenario:
         for i in finished_events:
             print(f"{status.getFormattedTime()} Finished treating an event")
             e = self._waiting_events.pop(i)
-            e.printResults()
+            e.printResults(False)
             self._finished_events.append(e)
 
     def isFinished(self):
@@ -568,12 +631,21 @@ class Scenario:
 
     def printResults(self):
         for e in self._waiting_events:
-            e.printResults()
+            e.printResults(True)
         for e in self._finished_events:
-            e.printResults()
+            e.printResults(False)
         nb_tests = self.getNbTests()
         nb_tests_passed = self.getNbTestsPassed()
         print(f"TEST RESULTS: {nb_tests_passed}/{nb_tests}")
+
+    def hasCriticalFailure(self):
+        for e in self._waiting_events:
+            if e.hasCriticalFailure():
+                return True
+        for e in self._finished_events:
+            if e.hasCriticalFailure():
+                return True
+        return False
 
     def buildFromList(event_list):
         s = Scenario()
