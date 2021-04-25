@@ -24,7 +24,7 @@
     ]
   },
   "blue": {
-    "id": 2,
+    "id": 4,
     "config": "tests/ball_out/corner/team_2.json",
     "hosts": [
       "127.0.0.1",

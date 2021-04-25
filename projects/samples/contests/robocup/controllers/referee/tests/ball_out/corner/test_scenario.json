@@ -28,12 +28,12 @@
         },
         "tests" : [
             {
-                "name" : "Sanity check: valid pos for Red 1",
+                "name" : "Sanity check: Red 1 is not penalized",
                 "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
-                "name" : "Sanity check: valid pos for Blue 1",
+                "name" : "Sanity check: Blue 1 is not penalized",
                 "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
             }
@@ -86,6 +86,11 @@
             "state" : "PLAYING"
         },
         "tests" : [
+            {
+                "name" : "Corner kick is awarded to blue team",
+                "secondary_state" : "CORNERKICK",
+                "secondary_team_id" : 4
+            },
             {
                 "name" : "Respawning the ball on the corner of the touch line and goal line on side the ball left the field",
                 "target" : "BALL",

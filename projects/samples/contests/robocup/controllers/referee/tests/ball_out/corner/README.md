@@ -2,7 +2,9 @@
 
 ## What is tested
 
-the ball is going to leave the field from the own goal line and the autoRef should take appropriate actions.
+- When ball fully crosses the goal line, last touched by a robot of the
+  defending team, a corner kick is awarded to the attacking team.
+- For the corner kick, the ball is placed at the appropriate location
 
 ## Setup
 
