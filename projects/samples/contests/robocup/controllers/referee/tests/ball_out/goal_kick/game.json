@@ -24,7 +24,7 @@
     ]
   },
   "blue": {
-    "id": 2,
+    "id": 8,
     "config": "tests/ball_out/goal_kick/team_2.json",
     "hosts": [
       "127.0.0.1",

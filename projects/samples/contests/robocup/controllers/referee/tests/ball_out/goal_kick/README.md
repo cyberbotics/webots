@@ -2,7 +2,9 @@
 
 ## What is tested
 
-The ball is going to leave the field from the own goal line and the autoRef should take appropriate actions.
+- When ball fully crosses the goal line, last touched by a robot of the
+  attacking team, a goal kick is awarded to the defending team.
+- For the goal kick, the ball is placed at the appropriate location
 
 ## Setup
 
@@ -13,3 +15,4 @@ The ball is going to leave the field from the own goal line and the autoRef shou
 
 1. RED 1 touches the ball after PLAYING, then the ball moves outside the field from the opponent's goal line.
 2. The ball is replaced on the touchline at the intersection with the centerline on the side the ball left the field.
+3. A goal kick is awarded to team BLUE.
