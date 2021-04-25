@@ -5,7 +5,7 @@ import numpy as np
 
 POS_ABS_TOL = 0.03 # [m]
 
-VALID_STATES = ["INITIAL","READY","SET","PLAYING","FINISH"]
+VALID_STATES = ["INITIAL","READY","SET","PLAYING","FINISHED"]
 
 class StatusInformation:
     """Contains basic information over the Game Controller state and time properties
