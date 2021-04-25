@@ -1,28 +1,23 @@
-On this test scenario, we have some robots initially placed outside of the field in valid positions. The ball is going to leave the field from the touchline after being touched by a player. The autoRef should respawn the ball at where it left the field:
+# Ball-out - throw-in
 
-The following should happen:
+## What is tested
 
-1. The robots are spawned and the game state is `INITIAL`.
-2. Time elapses and game state changes to `READY`, then `SET`, and then `PLAY`.
-3. - Simulation is paused.
-   - The robot `Red 1` is manually moved to: `1 0 0.24`.
-   - A force of 15 Newton is applied to the ball along X-axis, simulation is resumed.
-   - The ball bounces on `Red 1`.
-   - Simulation is paused, ball is moved to `1 3.08 0.08`.
-   - A force of 5 Newton is applied on the ball along Y-Axis, simulation is resumed.
-   - Ball leaves the field.
-   - Ball is automatically placed back to 1 3 0.08. ([#14](https://github.com/RoboCup-Humanoid-TC/webots/issues/14))
+- If the ball is still partially inside the field after being kicked, throw-in
+  is not awarded.
+- If the ball moves entirely out of the field from a touchline, a throw-in is
+  awarded against the team that touched ball last.
+- Ball is replaced where it left the field on the touch line.
 
-The following information should be contained in logs (among others):
+## Setup
 
-```
-[SSSS.xxx|0000.000] Info: Spawned RED_PLAYER_1 RobocupRobot on port 10001 at halfTimeStartingPose: translation -3.5 -3.06 0.24, rotation 0 0 1 1.57
-[SSSS.xxx|0000.000] Info: Spawned BLUE_PLAYER_1 RobocupRobot on port 10021 at halfTimeStartingPose: translation 3.5 -3.06 0.24, rotation 0 0 1 1.571592653589793
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_INITIAL
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_READY
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_SET
-[SSSS.xxx|SSSS.xxx] Info: New state received from GameController: STATE_PLAYING
-[SSSS.xxx|SSSS.xxx] Info: Ball touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Ball left the field at 0 3.08 0.08 after being touched by red player 1.
-[SSSS.xxx|SSSS.xxx] Info: Ball respawned at 1 3 0.08
-```
+- Team RED has Kick-off and is on left side
+- One robot from each team are used
+
+## Description
+
+1. RED 1 touches the ball after PLAYING, the ball rolls over the touchline but
+   part of it remains inside the field.
+2. No throw-in is called
+3. Ball entirely crosses the line.
+4. Throw-in for team BLUE is called and the ball is respawned where it left the
+   field.
