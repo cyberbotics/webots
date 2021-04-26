@@ -4,7 +4,8 @@ the procedure of determinig a game as a draw by the AutoRef is going to be teste
 
 ## What is tested
 
-Each team score a goal and the game is announced as a draw
+- Game can properly end with a draw when using round-robin game
+- All transitions leading to a 1-1 result are properly working
 
 ## Setup
 
@@ -17,3 +18,8 @@ Each team score a goal and the game is announced as a draw
 2. Team BLUE score a goal.
 3. Game time passes untill the end.
 4. AutoRef declares the game to be a draw.
+
+## Additional manual checks
+
+The log file from the referee should contain a mention that the game ended as a
+draw.

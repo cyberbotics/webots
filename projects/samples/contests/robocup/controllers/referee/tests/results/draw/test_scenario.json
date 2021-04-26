@@ -110,6 +110,20 @@
         ]
     },
     {
+        "timing" : {
+            "time" : 12.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "After 1st goal: state goes to READY",
+                "state" : "READY",
+                "critical" : true
+            }
+        ]
+    },
+    {
         "description" : "Placing robots inside their own field",
         "timing" : {
             "time" : 5.0,
@@ -127,6 +141,36 @@
                 "target" : "BLUE_PLAYER_1",
                 "position" : [2, -2, 0.24],
                 "orientation" : [0, 0, 1, 3.14]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 47.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "After 1st goal: READY -> SET is automatic",
+                "state" : "READY",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 7,
+            "clock_type" : "Simulated",
+            "state" : "SET",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "After 1st goal: SET -> PLAYING is automatic",
+                "state" : "PLAYING",
+                "critical" : true
             }
         ]
     },
@@ -223,6 +267,79 @@
                 "name" : "Blue scored a goal",
                 "target" : "BLUE",
                 "score" : 1
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 12.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "After 2nd goal: state goes to READY",
+                "state" : "READY",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 47.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 3
+        },
+        "tests" : [
+            {
+                "name" : "After 2nd goal: READY -> SET is automatic",
+                "state" : "READY",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 7,
+            "clock_type" : "Simulated",
+            "state" : "SET",
+            "state_count" : 3
+        },
+        "tests" : [
+            {
+                "name" : "After 2nd goal: SET -> PLAYING is automatic",
+                "state" : "PLAYING",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 605,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "First half ends 600 seconds after the first PLAYING state",
+                "state" : "INITIAL",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 605,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "tests" : [
+            {
+                "name" : "After 10 minutes of second half, state is FINISHED",
+                "state" : "FINISHED"
             }
         ]
     }
