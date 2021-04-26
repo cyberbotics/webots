@@ -148,15 +148,15 @@
         },
         "tests" : [
             {
-                "name" : "Goal kick for red",
+                "name" : "Corner kick for red",
                 "state" : "PLAYING",
-                "secondary_state" : "GOALKICK",
+                "secondary_state" : "CORNERKICK",
                 "secondary_team_id" : 1
             },
             {
                 "name" : "Ball is properly placed",
                 "target" : "BALL",
-                "position" : [0,-3,0.08]
+                "position" : [4.5,-3,0.08]
             },
             {
                 "name" : "Goal is scored for team BLUE",

@@ -2,7 +2,7 @@
 
 ## What is tested
 
-- When a robot scores an own goal directly from a goal kick, a goal kick is
+- When a robot scores an own goal directly from a goal kick, a corner kick is
   awarded to the opponent team.
 
 ## Setup
@@ -12,4 +12,4 @@
 ## Description
 
 1. BLUE 1 kicks the ball directly into its own goal.
-2. A goal-kick is awarded to team RED
+2. A corner kick is awarded to team RED
