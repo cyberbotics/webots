@@ -193,7 +193,7 @@
             "time" : 605,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
-            "state_count" : 4
+            "state_count" : 3
         },
         "tests" : [
             {

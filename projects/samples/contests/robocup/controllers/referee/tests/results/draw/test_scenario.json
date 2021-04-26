@@ -92,7 +92,7 @@
     {
         "description" : "Check if a goal is scored for red",
         "timing" : {
-            "time" : 7.0,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -252,7 +252,7 @@
     {
         "description" : "Check if a goal is scored for blue",
         "timing" : {
-            "time" : 7.0,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
             "state_count" : 2
