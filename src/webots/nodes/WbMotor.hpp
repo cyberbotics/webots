@@ -101,8 +101,8 @@ protected:
   virtual double computeFeedback() const = 0;
 
 protected slots:
-  void updateMaxForceOrTorque(bool sanityCheck = true);
-  void updateMinAndMaxPosition(bool sanityCheck = true);
+  void updateMaxForceOrTorque(bool checkLimits = true);
+  void updateMinAndMaxPosition(bool checkLimits = true);
 
 protected:
   void setupJointFeedback();
@@ -120,6 +120,9 @@ private:
   void checkMaxAccelerationAcrossCoupledMotors();
   void checkMaxForceOrTorqueAcrossCoupledMotors();
   void checkMultiplierAcrossCoupledMotors();
+
+  bool isAccelerationUnlimited() { return acceleration() == -1 ? true : false; }
+  bool isPositionUnlimited() { return minPosition() == 0.0 && maxPosition() == 0.0; }
 
   WbMotor &operator=(const WbMotor &);  // non copyable
   void init();
@@ -155,11 +158,11 @@ private:
 
 private slots:
   void updateSound();
-  void updateMaxVelocity(bool sanityCheck = true);
-  void updateMaxAcceleration(bool sanityCheck = true);
+  void updateMaxVelocity(bool checkLimits = true);
+  void updateMaxAcceleration(bool checkLimits = true);
   void updateControlPID();
   void updateMuscles();
-  void updateMultiplier(bool sanityCheck = true);
+  void updateMultiplier(bool checkLimits = true);
 };
 
 #endif
