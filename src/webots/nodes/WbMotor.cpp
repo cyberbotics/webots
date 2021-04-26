@@ -203,6 +203,26 @@ void WbMotor::inferMotorCouplings() {
 // Updates //
 /////////////
 
+void WbMotor::updateMaxForceOrTorque(bool checkLimits) {
+  printf("> updateMaxForceOrTorque\n");
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxForceOrTorque, 10.0);
+
+  if (checkLimits)
+    checkMaxForceOrTorqueAcrossCoupledMotors();
+
+  mNeedToConfigure = true;
+}
+
+void WbMotor::updateMaxVelocity(bool checkLimits) {
+  printf("> updateMaxVelocity\n");
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxVelocity, -mMaxVelocity->value());
+
+  if (checkLimits)
+    checkMaxVelocityAcrossCoupledMotors();
+
+  mNeedToConfigure = true;
+}
+
 void WbMotor::updateMinAndMaxPosition(bool checkLimits) {
   printf("> updateMinAndMaxPosition\n");
   enforceMotorLimitsInsideJointLimits();
@@ -211,6 +231,266 @@ void WbMotor::updateMinAndMaxPosition(bool checkLimits) {
     checkMinAndMaxPositionAcrossCoupledMotors();
 
   mNeedToConfigure = true;
+}
+
+void WbMotor::updateMultiplier(bool checkLimits) {
+  printf("> updateMultiplier\n");
+
+  if (checkLimits)
+    checkMultiplierAcrossCoupledMotors();
+
+  mNeedToConfigure = true;
+}
+
+void WbMotor::updateControlPID() {
+  const WbVector3 &pid = mControlPID->value();
+  const double p = pid.x();
+  if (p <= 0.0)
+    parsingWarn(tr("'controlP' (currently %1) must be positive.").arg(p));
+
+  const double i = pid.y();
+  if (i < 0.0)
+    parsingWarn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
+
+  const double d = pid.z();
+  if (d < 0.0)
+    parsingWarn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
+
+  mErrorIntegral = 0.0;
+  mPreviousError = 0.0;
+
+  mNeedToConfigure = true;
+}
+
+void WbMotor::updateSound() {
+  const QString &sound = mSound->value();
+  if (sound.isEmpty())
+    mSoundClip = NULL;
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+    downloadAssets();
+    return;
+  } else if (!mDownloader)
+    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
+  else {
+    if (mDownloader->error().isEmpty())
+      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+    else {
+      mSoundClip = NULL;
+      warn(mDownloader->error());
+    }
+    delete mDownloader;
+    mDownloader = NULL;
+  }
+  WbSoundEngine::clearAllMotorSoundSources();
+}
+
+void WbMotor::updateMuscles() {
+  setupJointFeedback();
+}
+
+void WbMotor::updateMaxAcceleration(bool checkLimits) {
+  printf("> updateMaxAcceleration\n");
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
+
+  if (checkLimits)
+    checkMaxAccelerationAcrossCoupledMotors();
+
+  mNeedToConfigure = true;
+}
+
+void WbMotor::setMaxVelocity(double v) {
+  mMaxVelocity->setValue(v);
+  awake();
+}
+
+void WbMotor::setMaxAcceleration(double acc) {
+  mAcceleration->setValue(acc);
+  awake();
+}
+
+void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) {
+  const double maxp = mMaxPosition->value();
+  const double minp = mMinPosition->value();
+  const bool velocityControl = std::isinf(targetPosition);
+  mTargetPosition = velocityControl ? targetPosition : targetPosition * multiplier() / senderMultiplier;
+
+  printf("received %f, target is %f\n", targetPosition, mTargetPosition);
+
+  if (maxp != minp && !velocityControl) {
+    if (targetPosition > maxp) {
+      mTargetPosition = maxp;
+      warn(QString("too big requested position: %1 > %2").arg(targetPosition).arg(maxp));
+    } else if (targetPosition < minp) {
+      mTargetPosition = minp;
+      warn(QString("too low requested position: %1 < %2").arg(targetPosition).arg(minp));
+    }
+  }
+
+  mUserControl = false;
+  awake();
+}
+
+void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) {
+  mTargetVelocity = targetVelocity * multiplier() / senderMultiplier;
+
+  const double m = mMaxVelocity->value();
+  const bool isNegative = mTargetVelocity < 0.0;
+  if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
+    warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
+    mTargetVelocity = isNegative ? -m : m;
+  }
+
+  awake();
+}
+
+void WbMotor::enforceAcceleration(double desiredAcceleration, double senderMultiplier) {
+  mAcceleration->setValue(desiredAcceleration * fabs(mMultiplier->value() / fabs(senderMultiplier)));
+  awake();
+}
+
+void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
+  mMaxForceOrTorque->setValue(forceOrTorque);
+  awake();
+}
+
+void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
+  printf("setForceOrTorque\n");
+  if (!mUserControl)  // we were previously using motor force
+    turnOffMotor();
+  mUserControl = true;
+
+  mRawInput = forceOrTorque / mMultiplier->value() * senderMultiplier;
+  if (fabs(mRawInput) > mMotorForceOrTorque) {
+    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
+      warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
+    else
+      warn(tr("The requested motor force %1 exceeds 'maxForce' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
+    mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
+  }
+
+  printf(">> %d ]  enforcing torque %f ( my multi is %f )\n", tag(), mRawInput, multiplier());
+  awake();
+}
+
+void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMultiplier) {
+  mMotorForceOrTorque = forceOrTorque / mMultiplier->value() * senderMultiplier;
+  const double m = mMaxForceOrTorque->value();
+  if (mMotorForceOrTorque > m) {
+    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
+      warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m));
+    else
+      warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m));
+
+    mMotorForceOrTorque = m;
+  }
+  awake();
+}
+
+double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
+  if (mMotorForceOrTorque == 0.0) {  // no control
+    mCurrentVelocity = 0.0;
+    return mCurrentVelocity;
+  }
+
+  // compute required velocity
+  double velocity = -mTargetVelocity;
+  if (!std::isinf(mTargetPosition)) {  // PID-position control
+    const double error = mTargetPosition - position;
+    const double ts = ms * 0.001;
+    mErrorIntegral += error * ts;
+    const double errorDerivative = (error - mPreviousError) / ts;
+    const double outputValue =
+      mControlPID->value().x() * error + mControlPID->value().y() * mErrorIntegral + mControlPID->value().z() * errorDerivative;
+    mPreviousError = error;
+
+    if (fabs(outputValue) < fabs(mTargetVelocity))
+      velocity = -outputValue;
+    else
+      velocity = outputValue > 0.0 ? -fabs(mTargetVelocity) : fabs(mTargetVelocity);
+
+    // printf("pid control, E %f | outputValue %f | mTargetVelocity %f | velocity %f\n", error, outputValue, mTargetVelocity,
+    // velocity);
+  }
+
+  // try to get closer to velocity
+  double acc = mAcceleration->value();
+  if (acc == -1.0)
+    mCurrentVelocity = velocity;  // use maximum force/torque
+  else {
+    const double ts = ms * 0.001;
+    double d = fabs(velocity - mCurrentVelocity) / ts;  // requested acceleration
+    if (d < acc)
+      acc = d;
+    if (velocity > mCurrentVelocity)
+      mCurrentVelocity += acc * ts;
+    else
+      mCurrentVelocity -= acc * ts;
+  }
+
+  return mCurrentVelocity;
+}
+
+// run control without physics simulation
+bool WbMotor::runKinematicControl(double ms, double &position) {
+  printf("running kinematic\n");
+  static const double TARGET_POSITION_THRESHOLD = 1e-6;
+  bool doNothing = false;
+  if (std::isinf(mTargetPosition)) {  // velocity control
+    const double maxp = mMaxPosition->value();
+    const double minp = mMinPosition->value();
+    doNothing = maxp != minp && ((position >= maxp && mTargetVelocity >= 0.0) || (position <= minp && mTargetVelocity <= 0.0));
+  } else
+    doNothing = fabs(mTargetPosition - position) < TARGET_POSITION_THRESHOLD;
+
+  if (doNothing) {
+    mCurrentVelocity = 0.0;
+    mKinematicVelocitySign = 0;
+    return false;
+  }
+
+  const double ts = ms * 0.001;
+  double acc = mAcceleration->value();
+  if (acc == -1.0 || acc > mMotorForceOrTorque)
+    acc = mMotorForceOrTorque;
+  static const double TARGET_VELOCITY_THRESHOLD = 1e-6;
+  if (fabs(mTargetVelocity - mCurrentVelocity) > TARGET_VELOCITY_THRESHOLD) {
+    // didn't reach the target velocity yet
+    if (mTargetVelocity > mCurrentVelocity) {
+      mCurrentVelocity += acc * ts;
+      if (mCurrentVelocity > mTargetVelocity)
+        mCurrentVelocity = mTargetVelocity;
+    } else {
+      mCurrentVelocity -= acc * ts;
+      if (mCurrentVelocity < mTargetVelocity)
+        mCurrentVelocity = mTargetVelocity;
+    }
+  }
+
+  if (mTargetPosition > position) {
+    mKinematicVelocitySign = 1;
+    position += mCurrentVelocity * ts;
+    if (position > mTargetPosition)
+      position = mTargetPosition;
+  } else {
+    mKinematicVelocitySign = -1;
+    position -= mCurrentVelocity * ts;
+    if (position < mTargetPosition)
+      position = mTargetPosition;
+  }
+
+  return true;
+}
+
+void WbMotor::powerOn(bool e) {  // called when running out of energy with e=false
+  WbDevice::powerOn(e);
+  if (!e)
+    mMotorForceOrTorque = 0.0;
+  else
+    mMotorForceOrTorque = mMaxForceOrTorque->value();
+}
+
+bool WbMotor::isConfigureDone() const {
+  return robot()->isConfigureDone();
 }
 
 void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
@@ -335,16 +615,6 @@ void WbMotor::enforceMotorLimitsInsideJointLimits() {
   WbFieldChecker::resetDoubleIfGreater(this, mMinPosition, p, p);
 }
 
-void WbMotor::updateMaxForceOrTorque(bool checkLimits) {
-  printf("> updateMaxForceOrTorque\n");
-  WbFieldChecker::resetDoubleIfNegative(this, mMaxForceOrTorque, 10.0);
-
-  if (checkLimits)
-    checkMaxForceOrTorqueAcrossCoupledMotors();
-
-  mNeedToConfigure = true;
-}
-
 void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
   printf("  checkMaxForceOrTorqueAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
@@ -387,16 +657,6 @@ void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
   */
 }
 
-void WbMotor::updateMaxVelocity(bool checkLimits) {
-  printf("> updateMaxVelocity\n");
-  WbFieldChecker::resetDoubleIfNegative(this, mMaxVelocity, -mMaxVelocity->value());
-
-  if (checkLimits)
-    checkMaxVelocityAcrossCoupledMotors();
-
-  mNeedToConfigure = true;
-}
-
 void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
   printf("  checkMaxVelocityAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
@@ -432,16 +692,6 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
     }
   }
   */
-}
-
-void WbMotor::updateMaxAcceleration(bool checkLimits) {
-  printf("> updateMaxAcceleration\n");
-  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
-
-  if (checkLimits)
-    checkMaxAccelerationAcrossCoupledMotors();
-
-  mNeedToConfigure = true;
 }
 
 void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
@@ -519,61 +769,6 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
   */
 }
 
-void WbMotor::updateControlPID() {
-  const WbVector3 &pid = mControlPID->value();
-  const double p = pid.x();
-  if (p <= 0.0)
-    parsingWarn(tr("'controlP' (currently %1) must be positive.").arg(p));
-
-  const double i = pid.y();
-  if (i < 0.0)
-    parsingWarn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
-
-  const double d = pid.z();
-  if (d < 0.0)
-    parsingWarn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
-
-  mErrorIntegral = 0.0;
-  mPreviousError = 0.0;
-
-  mNeedToConfigure = true;
-}
-
-void WbMotor::updateSound() {
-  const QString &sound = mSound->value();
-  if (sound.isEmpty())
-    mSoundClip = NULL;
-  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
-    downloadAssets();
-    return;
-  } else if (!mDownloader)
-    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
-  else {
-    if (mDownloader->error().isEmpty())
-      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
-    else {
-      mSoundClip = NULL;
-      warn(mDownloader->error());
-    }
-    delete mDownloader;
-    mDownloader = NULL;
-  }
-  WbSoundEngine::clearAllMotorSoundSources();
-}
-
-void WbMotor::updateMuscles() {
-  setupJointFeedback();
-}
-
-void WbMotor::updateMultiplier(bool checkLimits) {
-  printf("> updateMultiplier\n");
-
-  if (checkLimits)
-    checkMultiplierAcrossCoupledMotors();
-
-  mNeedToConfigure = true;
-}
-
 void WbMotor::checkMultiplierAcrossCoupledMotors() {
   printf("  checkMultiplierAcrossCoupledMotors\n");
 
@@ -596,113 +791,6 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
   checkMaxVelocityAcrossCoupledMotors();
   checkMaxAccelerationAcrossCoupledMotors();
   checkMaxForceOrTorqueAcrossCoupledMotors();
-}
-
-double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
-  if (mMotorForceOrTorque == 0.0) {  // no control
-    mCurrentVelocity = 0.0;
-    return mCurrentVelocity;
-  }
-
-  // compute required velocity
-  double velocity = -mTargetVelocity;
-  if (!std::isinf(mTargetPosition)) {  // PID-position control
-    const double error = mTargetPosition - position;
-    const double ts = ms * 0.001;
-    mErrorIntegral += error * ts;
-    const double errorDerivative = (error - mPreviousError) / ts;
-    const double outputValue =
-      mControlPID->value().x() * error + mControlPID->value().y() * mErrorIntegral + mControlPID->value().z() * errorDerivative;
-    mPreviousError = error;
-
-    if (fabs(outputValue) < fabs(mTargetVelocity))
-      velocity = -outputValue;
-    else
-      velocity = outputValue > 0.0 ? -fabs(mTargetVelocity) : fabs(mTargetVelocity);
-
-    // printf("pid control, E %f | outputValue %f | mTargetVelocity %f | velocity %f\n", error, outputValue, mTargetVelocity,
-    // velocity);
-  }
-
-  // try to get closer to velocity
-  double acc = mAcceleration->value();
-  if (acc == -1.0)
-    mCurrentVelocity = velocity;  // use maximum force/torque
-  else {
-    const double ts = ms * 0.001;
-    double d = fabs(velocity - mCurrentVelocity) / ts;  // requested acceleration
-    if (d < acc)
-      acc = d;
-    if (velocity > mCurrentVelocity)
-      mCurrentVelocity += acc * ts;
-    else
-      mCurrentVelocity -= acc * ts;
-  }
-
-  return mCurrentVelocity;
-}
-
-// run control without physics simulation
-bool WbMotor::runKinematicControl(double ms, double &position) {
-  printf("running kinematic\n");
-  static const double TARGET_POSITION_THRESHOLD = 1e-6;
-  bool doNothing = false;
-  if (std::isinf(mTargetPosition)) {  // velocity control
-    const double maxp = mMaxPosition->value();
-    const double minp = mMinPosition->value();
-    doNothing = maxp != minp && ((position >= maxp && mTargetVelocity >= 0.0) || (position <= minp && mTargetVelocity <= 0.0));
-  } else
-    doNothing = fabs(mTargetPosition - position) < TARGET_POSITION_THRESHOLD;
-
-  if (doNothing) {
-    mCurrentVelocity = 0.0;
-    mKinematicVelocitySign = 0;
-    return false;
-  }
-
-  const double ts = ms * 0.001;
-  double acc = mAcceleration->value();
-  if (acc == -1.0 || acc > mMotorForceOrTorque)
-    acc = mMotorForceOrTorque;
-  static const double TARGET_VELOCITY_THRESHOLD = 1e-6;
-  if (fabs(mTargetVelocity - mCurrentVelocity) > TARGET_VELOCITY_THRESHOLD) {
-    // didn't reach the target velocity yet
-    if (mTargetVelocity > mCurrentVelocity) {
-      mCurrentVelocity += acc * ts;
-      if (mCurrentVelocity > mTargetVelocity)
-        mCurrentVelocity = mTargetVelocity;
-    } else {
-      mCurrentVelocity -= acc * ts;
-      if (mCurrentVelocity < mTargetVelocity)
-        mCurrentVelocity = mTargetVelocity;
-    }
-  }
-
-  if (mTargetPosition > position) {
-    mKinematicVelocitySign = 1;
-    position += mCurrentVelocity * ts;
-    if (position > mTargetPosition)
-      position = mTargetPosition;
-  } else {
-    mKinematicVelocitySign = -1;
-    position -= mCurrentVelocity * ts;
-    if (position < mTargetPosition)
-      position = mTargetPosition;
-  }
-
-  return true;
-}
-
-void WbMotor::powerOn(bool e) {  // called when running out of energy with e=false
-  WbDevice::powerOn(e);
-  if (!e)
-    mMotorForceOrTorque = 0.0;
-  else
-    mMotorForceOrTorque = mMaxForceOrTorque->value();
-}
-
-bool WbMotor::isConfigureDone() const {
-  return robot()->isConfigureDone();
 }
 
 /////////////
@@ -928,94 +1016,6 @@ void WbMotor::awake() const {
     assert(s);
     s->awake();
   }
-}
-
-void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) {
-  const double maxp = mMaxPosition->value();
-  const double minp = mMinPosition->value();
-  const bool velocityControl = std::isinf(targetPosition);
-  mTargetPosition = velocityControl ? targetPosition : targetPosition * multiplier() / senderMultiplier;
-
-  printf("received %f, target is %f\n", targetPosition, mTargetPosition);
-
-  if (maxp != minp && !velocityControl) {
-    if (targetPosition > maxp) {
-      mTargetPosition = maxp;
-      warn(QString("too big requested position: %1 > %2").arg(targetPosition).arg(maxp));
-    } else if (targetPosition < minp) {
-      mTargetPosition = minp;
-      warn(QString("too low requested position: %1 < %2").arg(targetPosition).arg(minp));
-    }
-  }
-
-  mUserControl = false;
-  awake();
-}
-
-void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) {
-  mTargetVelocity = targetVelocity * multiplier() / senderMultiplier;
-
-  const double m = mMaxVelocity->value();
-  const bool isNegative = mTargetVelocity < 0.0;
-  if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
-    warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
-    mTargetVelocity = isNegative ? -m : m;
-  }
-
-  awake();
-}
-
-void WbMotor::enforceAcceleration(double desiredAcceleration, double senderMultiplier) {
-  mAcceleration->setValue(desiredAcceleration * fabs(mMultiplier->value() / fabs(senderMultiplier)));
-  awake();
-}
-
-void WbMotor::setMaxVelocity(double v) {
-  mMaxVelocity->setValue(v);
-  awake();
-}
-
-void WbMotor::setMaxAcceleration(double acc) {
-  mAcceleration->setValue(acc);
-  awake();
-}
-
-void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
-  mMaxForceOrTorque->setValue(forceOrTorque);
-  awake();
-}
-
-void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
-  printf("setForceOrTorque\n");
-  if (!mUserControl)  // we were previously using motor force
-    turnOffMotor();
-  mUserControl = true;
-
-  mRawInput = forceOrTorque / mMultiplier->value() * senderMultiplier;
-  if (fabs(mRawInput) > mMotorForceOrTorque) {
-    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
-      warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
-    else
-      warn(tr("The requested motor force %1 exceeds 'maxForce' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
-    mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
-  }
-
-  printf(">> %d ]  enforcing torque %f ( my multi is %f )\n", tag(), mRawInput, multiplier());
-  awake();
-}
-
-void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMultiplier) {
-  mMotorForceOrTorque = forceOrTorque / mMultiplier->value() * senderMultiplier;
-  const double m = mMaxForceOrTorque->value();
-  if (mMotorForceOrTorque > m) {
-    if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
-      warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m));
-    else
-      warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m));
-
-    mMotorForceOrTorque = m;
-  }
-  awake();
 }
 
 void WbMotor::resetPhysics() {
