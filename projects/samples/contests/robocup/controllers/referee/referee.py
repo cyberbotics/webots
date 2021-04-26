@@ -409,7 +409,7 @@ def append_solid(solid, solids):  # we list only the hands and feet
         if suffix == 'hand' or suffix == 'foot':
             solids.append(solid)
     children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
-    for i in range(0, children.getCount()):
+    for i in range(children.getCount()):
         child = children.getMFNode(i)
         if child.getType() in [Node.ROBOT, Node.SOLID, Node.GROUP, Node.TRANSFORM, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO,
                                Node.TOUCH_SENSOR]:
@@ -569,7 +569,7 @@ def update_team_contacts(team, color):
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
         fallen = False
-        for i in range(0, n):
+        for i in range(n):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
@@ -626,7 +626,7 @@ def update_team_contacts(team, color):
 
 def update_ball_contacts():
     game.ball.contact_points = []
-    for i in range(0, game.ball.getNumberOfContactPoints()):
+    for i in range(game.ball.getNumberOfContactPoints()):
         point = game.ball.getContactPoint(i)
         if point[2] <= 0.01:  # contact with the ground
             continue
@@ -1043,8 +1043,7 @@ except KeyError:
 # finalize the game object
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.')
-if game.type == 'PENALTY':
-    game.penalty_shootout = True
+game.penalty_shootout = game.type == 'PENALTY'
 if not hasattr(game, 'real_time_factor'):
     game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
 if not hasattr(game, 'press_a_key_to_terminate'):
@@ -1338,9 +1337,10 @@ while supervisor.step(time_step) != -1:
                 game_controller_send('STATE:OVERTIME-FIRST-HALF')
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         elif game.type == 'KNOCKOUT' and game.state.teams[0].score == game.state.teams[1].score:
-            if game.ready_count_down == 0:
+            if game.ready_countdown == 0:
                 info('Beginning of penalty shout-out.')
                 game_controller_send('STATE:PENALTY-SHOOTOUT')
+                game.penalty_shootout = True
                 game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
         else:
             game.over = True
@@ -1409,9 +1409,11 @@ else:
         info('This is a draw.')
     else:  # extended penatly shoutout rules to determine the winner
         count = [0, 0]
-        for i in range(0, 5):
+        for i in range(5):
             if game.penalty_shootout_time_to_reach_goal_area[2 * i] is not None:
-                count[i] += 1
+                count[0] += 1
+            if game.penalty_shootout_time_to_reach_goal_area[2 * i + 1] is not None:
+                count[1] += 1
         if game.kickoff == game.red.id:
             count_red = count[0]
             count_blue = count[1]
@@ -1426,9 +1428,11 @@ else:
             info('The winner is the blue team.')
         else:
             count = [0, 0]
-            for i in range(0, 5):
+            for i in range(5):
                 if game.penalty_shootout_time_to_touch_ball[2 * i] is not None:
-                    count[i] += 1
+                    count[0] += 1
+                if game.penalty_shootout_time_to_touch_ball[2 * i + 1] is not None:
+                    count[1] += 1
             if game.kickoff == game.red.id:
                 count_red = count[0]
                 count_blue = count[1]
@@ -1442,9 +1446,11 @@ else:
                 info('The winner is the blue team.')
             else:
                 sum = [0, 0]
-                for i in range(0, 5):
+                for i in range(5):
                     t = game.penalty_shootout_time_to_score[2 * i]
-                    sum += 60 if t is None else t
+                    sum[0] += 60 if t is None else t
+                    t = game.penalty_shootout_time_to_score[2 * i + 1]
+                    sum[1] += 60 if t is None else t
                 if game.kickoff == game.red.id:
                     sum_red = sum[0]
                     sum_blue = sum[1]
@@ -1458,17 +1464,18 @@ else:
                     info('The winner is the red team.')
                 else:
                     sum = [0, 0]
-                    for i in range(0, 5):
+                    for i in range(5):
                         t = game.penalty_shootout_time_to_reach_goal_area[2 * i]
-                        sum += 60 if t is None else t
+                        sum[0] += 60 if t is None else t
+                        t = game.penalty_shootout_time_to_reach_goal_area[2 * i + 1]
+                        sum[1] += 60 if t is None else t
                     if game.kickoff == game.red.id:
                         sum_red = sum[0]
                         sum_blue = sum[1]
                     else:
                         sum_red = sum[1]
                         sum_blue = sum[0]
-                    info('The during the extended penalty shootout, ' +
-                         f'the red team took {sum_red} seconds to send the ball to the goal area ' +
+                    info(f'The red team took {sum_red} seconds to send the ball to the goal area ' +
                          f'while blue team took {sum_blue} seconds.')
                     if sum_blue < sum_red:
                         info('The winner is the blue team.')
@@ -1476,9 +1483,11 @@ else:
                         info('The winner is the red team.')
                     else:
                         sum = [0, 0]
-                        for i in range(0, 5):
+                        for i in range(5):
                             t = game.penalty_shootout_time_to_touch_ball[2 * i]
-                            sum += 60 if t is None else t
+                            sum[0] += 60 if t is None else t
+                            t = game.penalty_shootout_time_to_touch_ball[2 * i + 1]
+                            sum[1] += 60 if t is None else t
                         if game.kickoff == game.red.id:
                             sum_red = sum[0]
                             sum_blue = sum[1]
