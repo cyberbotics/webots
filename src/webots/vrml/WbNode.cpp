@@ -2501,10 +2501,10 @@ void WbNode::printDebugNodeStructure(int level) {
   QString indent;
   for (int i = 0; i < level; ++i)
     indent += "  ";
+
   QString line;
   line.sprintf("%sNode %s %p parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
                protoParameterNode());
-
   qDebug() << line;
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
