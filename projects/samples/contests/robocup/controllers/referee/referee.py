@@ -554,7 +554,7 @@ def update_team_contacts(team, color):
         player['outside_field'] = True         # true if fully outside the field
         player['inside_field'] = True          # true if fully inside the field
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
-        player['outside_goal_area'] = True     # true if fully outside opponent's goal area
+        player['outside_goal_area'] = True     # true if fully outside of any goal area
         fallen = False
         for i in range(0, n):
             point = robot.getContactPoint(i)
@@ -576,6 +576,9 @@ def update_team_contacts(team, color):
                 player['outside_circle'] = False
             if point_inside_field(point):
                 player['outside_field'] = False
+                if abs(point[0]) > game.field_size_x - game.field_goal_area_length and \
+                   abs(point[1]) < game.field_goal_area_width / 2:
+                    player['outside_goal_area'] = False
             else:
                 player['inside_field'] = False
             if game.side_left == (game.red.id if color == 'red' else game.blue.id):
@@ -826,11 +829,19 @@ def reset_teams(pose):
 
 
 def is_goal_keeper(team, id):
-    return id == '1'
+    return id == '1'  # assuming goal keeper is player number 1
 
 
 def is_penalty_kicker(team, id):
-    return id == '1'
+    return id == '1'  # assuming kicker is player number 1
+
+
+def penalty_kicker_player(team):
+    default = game.penalty_shootout_count % 2 == 0
+    attacking_team = red_team if game.kickoff == game.red.id and default else blue_team
+    for number in attacking_team['players']:
+        if is_penalty_kicker(attacking_team, number):
+            return attacking_team.player[number]
 
 
 def set_penalty_positions():
@@ -850,7 +861,7 @@ def set_penalty_positions():
         else:
             reset_player(attacking_color, number, 'halfTimeStartingPose')
     for number in defending_team['players']:
-        if is_goal_keeper(defending_team, number) and game.penalty_shootout_count <= 10:
+        if is_goal_keeper(defending_team, number) and game.penalty_shootout_count < 10:
             reset_player(defending_color, number, 'goalKeeperStartingPose')
         else:
             reset_player(defending_color, number, 'halfTimeStartingPose')
@@ -1122,6 +1133,13 @@ while supervisor.step(time_step) != -1:
     update_contacts()  # check for collisions with the ground and ball
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
+        if game.type == 'PENALTY' and game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
+            kicker = penalty_kicker_player()
+            if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
+                # if the kicker is not fully outside the opponent goal area, we stop the kick and continue
+                next_penalty_shootout()
+                if game.over:
+                    break
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
             previous_seconds_remaining = game.state.seconds_remaining
