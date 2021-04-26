@@ -542,6 +542,19 @@ def update_convex_hulls():
     update_team_convex_hulls(blue_team)
 
 
+def ball_inside_goal_area():  # return the color of the goal area in which the ball has fully penetrated or None
+    x = game.ball_position[0]
+    y = game.ball_position[1]
+    if abs(x) - game.ball_radius > game.field_size_x - game.field_goal_area_length and \
+       abs(x) + game.ball_radius < game.field_size_x and \
+       abs(y) - game.ball_radius < game.field_goal_area_width:
+        if x < 0:
+            return 'red' if game.side_left == game.red.id else 'blue'
+        else:
+            return 'blue' if game.side_left == game.red.id else 'red'
+    return None
+
+
 def update_team_contacts(team, color):
     for number in team['players']:
         player = team['players'][number]
@@ -560,6 +573,9 @@ def update_team_contacts(team, color):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
+                    if game.penalty_shootout_count >= 10:  # extended penalty shootout
+                        game.penalty_shootout_time_to_touch_ball[game.penalty_shootout_count - 10] = \
+                          60 - game.state.seconds_remaining
                     if game.ball_last_touch_team != color or game.ball_last_touch_player != int(number):
                         game.ball_last_touch_team = color
                         game.ball_last_touch_player = int(number)
@@ -807,6 +823,12 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
             flip_poses(team['players'][number])
 
 
+def reset_ball_status():
+    game.ball_last_touch_team = None
+    game.ball_last_touch_player = None
+    game.ball_last_touch_time = None
+
+
 def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
@@ -822,6 +844,7 @@ def reset_player(color, number, pose):
 
 
 def reset_teams(pose):
+    reset_ball_status()
     for number in red_team['players']:
         reset_player('red', str(number), pose)
     for number in blue_team['players']:
@@ -836,12 +859,12 @@ def is_penalty_kicker(team, id):
     return id == '1'  # assuming kicker is player number 1
 
 
-def penalty_kicker_player(team):
+def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
     attacking_team = red_team if game.kickoff == game.red.id and default else blue_team
     for number in attacking_team['players']:
         if is_penalty_kicker(attacking_team, number):
-            return attacking_team.player[number]
+            return attacking_team['players'][number]
 
 
 def set_penalty_positions():
@@ -868,28 +891,40 @@ def set_penalty_positions():
     x = game.field_penalty_mark_x if game.side_left == game.kickoff and default else -game.field_penalty_mark_x
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
+    reset_ball_status()
 
 
 def stop_penalty_shootout():
+    if game.penalty_shootout_count > 10:
+        message = 'End of penalty shoot-out.'
+    else:
+        message = 'End of extended penalty shoot-out.'
     if game.penalty_shootout_count == 20:  # end of extended penalty shootout
+        info(message)
         return True
     diff = abs(game.state.teams[0].score - game.state.teams[1].score)
     if game.penalty_shootout_count == 10 and diff > 0:
+        info(message)
         return True
     kickoff_team = game.state.teams[0] if game.kickoff == game.state.teams[0].team_number else game.state.teams[1]
     kickoff_team_leads = kickoff_team.score >= game.state.teams[0].score and kickoff_team.score >= game.state.teams[1].score
     penalty_shootout_count = game.penalty_shootout_count % 10  # supports both regular and extended shootout kicks
     if (penalty_shootout_count == 6 and diff == 3) or (penalty_shootout_count == 8 and diff == 2):
+        info(message)
         return True  # no need to go further, score is like 3-0 after 6 shootouts or 4-2 after 8 shootouts
     if penalty_shootout_count == 7:
         if diff == 3:  # score is like 4-1
+            info(message)
             return True
         if diff == 2 and not kickoff_team_leads:  # score is like 1-3
+            info(message)
             return True
     elif penalty_shootout_count == 9:
         if diff == 2:  # score is like 5-3
+            info(message)
             return True
         if diff == 1 and not kickoff_team_leads:  # score is like 3-4
+            info(message)
             return True
     return False
 
@@ -1104,11 +1139,16 @@ else:
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 game.penalty_shootout_count = 0
+game.penalty_shootout_goal = False
+game.penalty_shootout_time_to_score = [None, None, None, None, None, None, None, None, None, None]
+game.penalty_shootout_time_to_reach_goal_area = [None, None, None, None, None, None, None, None, None, None]
+game.penalty_shootout_time_to_touch_ball = [None, None, None, None, None, None, None, None, None, None]
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
 game.ball_last_touch_team = None
 game.ball_last_touch_player = None
+game.ball_last_touch_time = None
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
 game.in_play = False
 game.interruption = None
@@ -1133,24 +1173,35 @@ while supervisor.step(time_step) != -1:
     update_contacts()  # check for collisions with the ground and ball
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
-        if game.type == 'PENALTY' and game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
-            kicker = penalty_kicker_player()
-            if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
-                # if the kicker is not fully outside the opponent goal area, we stop the kick and continue
-                next_penalty_shootout()
-                if game.over:
-                    break
+        if game.type == 'PENALTY':
+            if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
+                kicker = penalty_kicker_player()
+                if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
+                    # if the kicker is not fully outside the opponent goal area, we stop the kick and continue
+                    next_penalty_shootout()
+                    if game.over:
+                        break
+            else:  # extended penalty shootouts
+                if ball_inside_goal_area() is not None:
+                    c = game.penalty_shootout_count - 10
+                    if game.penalty_shootout_time_to_reach_goal_area[c] is None:
+                        game.penalty_shootout_time_to_reach_goal_area[c] == 60 - game.state.seconds_remaining
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
             previous_seconds_remaining = game.state.seconds_remaining
             if not game.sent_finish and game.state.seconds_remaining <= 0:
                 game_controller_send('STATE:FINISH')
                 game.sent_finish = True
-                if game.state.first_half:
+                if game.type == 'PENALTY':  # penalty timeout was reached
+                    next_penalty_shootout()
+                    if game.over:
+                        break
+                elif game.state.first_half:
                     type = 'knockout ' if game.type == 'KNOCKOUT' and game.overtime else ''
                     info(f'End of {type}first half.')
                     flip_sides()
                     reset_teams('halfTimeStartingPose')
+                    game.kickoff = game.blue.id if game.kickoff == game.red.id else game.red.id
                     update_team_display()
                 elif game.type == 'NORMAL':
                     info('End of second half.')
@@ -1159,11 +1210,10 @@ while supervisor.step(time_step) != -1:
                         info('End of second half.')
                         flip_sides()
                         reset_teams('halfTimeStartingPose')
+                        game.kickoff = game.blue.id if game.kickoff == game.red.id else game.red.id
                         game.overtime = True
                     else:
                         info('End of knockout second half.')
-                elif game.type == 'PENALTY':
-                    warning('End of extended penalty shoot-out.')
                 else:
                     error(f'Unsupported game type: {game.type}.')
         if game.interruption_countdown == 0 and \
@@ -1219,6 +1269,8 @@ while supervisor.step(time_step) != -1:
                     else:
                         corner_kick(left_side=True)
             if scoring_team:
+                if game.penalty_shootout_count >= 10:  # extended penalty shootouts
+                    game.penalty_shootout_time_to_score[game.penalty_shootout_count - 10] = 60 - game.state.seconds_remaining
                 game.ball_exit_translation = game.ball_kickoff_translation
                 goal = 'red' if scoring_team == game.blue.id else 'blue'
                 if game.type != 'PENALTY':
@@ -1351,8 +1403,98 @@ else:
     info(f'The score is {game.state.teams[winner].score}-{game.state.teams[loser].score}.')
     if game.state.teams[0].score != game.state.teams[1].score:
         info(f'The winner is the {game.state.teams[winner].team_color.lower()} team.')
-    else:
+    elif game.penalty_shootout_count < 20:
         info('This is a draw.')
+    else:  # extended penatly shoutout rules to determine the winner
+        count = [0, 0]
+        for i in range(0, 5):
+            if game.penalty_shootout_time_to_reach_goal_area[2 * i] is not None:
+                count[i] += 1
+        if game.kickoff == game.red.id:
+            count_red = count[0]
+            count_blue = count[1]
+        else:
+            count_red = count[1]
+            count_blue = count[0]
+        info('The during the extended penalty shootout, ' +
+             f'the ball reached the red goal area {count_blue} times and the blue goal area {count_red} times.')
+        if count_red > count_blue:
+            info('The winner is the red team.')
+        elif count_blue > count_red:
+            info('The winner is the blue team.')
+        else:
+            count = [0, 0]
+            for i in range(0, 5):
+                if game.penalty_shootout_time_to_touch_ball[2 * i] is not None:
+                    count[i] += 1
+            if game.kickoff == game.red.id:
+                count_red = count[0]
+                count_blue = count[1]
+            else:
+                count_red = count[1]
+                count_blue = count[0]
+            info(f'The ball was touched {count_red} times by the red player and {count_blue} times by the blue player.')
+            if count_red > count_blue:
+                info('The winner is the red team.')
+            elif count_blue > count_red:
+                info('The winner is the blue team.')
+            else:
+                sum = [0, 0]
+                for i in range(0, 5):
+                    t = game.penalty_shootout_time_to_score[2 * i]
+                    sum += 60 if t is None else t
+                if game.kickoff == game.red.id:
+                    sum_red = sum[0]
+                    sum_blue = sum[1]
+                else:
+                    sum_red = sum[1]
+                    sum_blue = sum[0]
+                info(f'The red team took {sum_red} seconds to score while blue team took {sum_blue} seconds.')
+                if sum_blue < sum_red:
+                    info('The winner is the blue team.')
+                elif sum_red < sum_blue:
+                    info('The winner is the red team.')
+                else:
+                    sum = [0, 0]
+                    for i in range(0, 5):
+                        t = game.penalty_shootout_time_to_reach_goal_area[2 * i]
+                        sum += 60 if t is None else t
+                    if game.kickoff == game.red.id:
+                        sum_red = sum[0]
+                        sum_blue = sum[1]
+                    else:
+                        sum_red = sum[1]
+                        sum_blue = sum[0]
+                    info('The during the extended penalty shootout, ' +
+                         f'the red team took {sum_red} seconds to send the ball to the goal area ' +
+                         f'while blue team took {sum_blue} seconds.')
+                    if sum_blue < sum_red:
+                        info('The winner is the blue team.')
+                    elif sum_red < sum_blue:
+                        info('The winner is the red team.')
+                    else:
+                        sum = [0, 0]
+                        for i in range(0, 5):
+                            t = game.penalty_shootout_time_to_touch_ball[2 * i]
+                            sum += 60 if t is None else t
+                        if game.kickoff == game.red.id:
+                            sum_red = sum[0]
+                            sum_blue = sum[1]
+                        else:
+                            sum_red = sum[1]
+                            sum_blue = sum[0]
+                        info(f'The red team took {sum_red} seconds to touch the ball ' +
+                             f'while blue team took {sum_blue} seconds.')
+                        if sum_blue < sum_red:
+                            info('The winner is the blue team.')
+                        elif sum_red < sum_blue:
+                            info('The winner is the red team.')
+                        else:
+                            info('Tossing a coin to determine the winner.')
+                            if bool(random.getrandbits(1)):
+                                info('The winer is the red team.')
+                            else:
+                                info('The winer is the blue team.')
 
 if log_file:
     log_file.close()
