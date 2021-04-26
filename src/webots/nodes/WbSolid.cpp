@@ -414,7 +414,7 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
         previousP->insert(jointIndex, new WbVector3(v));
       }
 
-      for (int j = 0; j < 2; ++j) {
+      for (int j = 0; j < 3; ++j) {
         const double posj = (*p)[j];
         if (!std::isnan(posj))
           joint->setPosition(posj, j + 1);

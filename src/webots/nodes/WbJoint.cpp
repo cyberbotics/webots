@@ -108,12 +108,15 @@ void WbJoint::save() {
 }
 
 void WbJoint::setPosition(double position, int index) {
-  assert(index == 1);
+  if (index != 1)
+    return;
+
   mPosition = position;
   mOdePositionOffset = position;
   WbJointParameters *const p = parameters();
   if (p)
     p->setPosition(mPosition);
+
   WbMotor *const m = motor();
   if (m)
     m->setTargetPosition(position);
