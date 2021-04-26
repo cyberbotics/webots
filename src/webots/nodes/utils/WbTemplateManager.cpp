@@ -388,7 +388,7 @@ void WbTemplateManager::removeInvisibleProtoNodes(WbNode *root) {
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    // internalProtoNodes[i]->disconnectInternalNode();
+    internalProtoNodes[i]->disconnectInternalNode();
     const QVector<WbField *> fields = internalProtoNodes[i]->fields();
 
     for (int j = 0; j < fields.size(); j++)
