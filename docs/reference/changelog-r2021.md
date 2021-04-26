@@ -34,6 +34,7 @@ Released on June, Xth, 2021.
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Added flag to [RobotisOp2](../guide/robotis-op2.md) that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
     - Added the `wb_supervisor_node_get_pose` function that retrieves an absolute or relative pose. Relative pose is expressed in the coordinate system of another node specified as an argument ([#2932](https://github.com/cyberbotics/webots/pull/2932)).
+    - Support labels in animations ([#3003](https://github.com/cyberbotics/webots/pull/3003)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added HingeJointWithBacklash proto that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
