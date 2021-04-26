@@ -113,7 +113,7 @@ void WbMotor::preFinalize() {
 
   cMotors << this;
 
-  // do not check parameter limits yet, will be done in postFinalize when all of all of them are available
+  // do not check parameter limits yet, will be done in postFinalize when all of them are available
   updateMaxVelocity(false);
   updateMaxAcceleration(false);
   updateMinAndMaxPosition(false);
@@ -137,8 +137,7 @@ void WbMotor::postFinalize() {
     setupJointFeedback();
 
   inferMotorCouplings();
-
-  checkMultiplierAcrossCoupledMotors();
+  checkMultiplierAcrossCoupledMotors();  // it calls all the other checks implicitly
 
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
@@ -935,7 +934,7 @@ void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) 
   const double maxp = mMaxPosition->value();
   const double minp = mMinPosition->value();
   const bool velocityControl = std::isinf(targetPosition);
-  mTargetPosition = velocityControl ? targetPosition : targetPosition * mMultiplier->value() / senderMultiplier;
+  mTargetPosition = velocityControl ? targetPosition : targetPosition * multiplier() / senderMultiplier;
 
   printf("received %f, target is %f\n", targetPosition, mTargetPosition);
 
@@ -954,14 +953,15 @@ void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) 
 }
 
 void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) {
-  mTargetVelocity = targetVelocity * mMultiplier->value() / senderMultiplier;
+  mTargetVelocity = targetVelocity * multiplier() / senderMultiplier;
+
   const double m = mMaxVelocity->value();
   const bool isNegative = mTargetVelocity < 0.0;
   if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
     warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
     mTargetVelocity = isNegative ? -m : m;
   }
-  printf("setTargetVelocity ==> %f :: %f\n", targetVelocity, mTargetVelocity);
+
   awake();
 }
 

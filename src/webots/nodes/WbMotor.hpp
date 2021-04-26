@@ -115,7 +115,6 @@ private:
   void enforceMotorLimitsInsideJointLimits();
 
   void checkMinAndMaxPositionAcrossCoupledMotors();
-  // void checkMaxPositionAcrossCoupledMotors();
   void checkMaxVelocityAcrossCoupledMotors();
   void checkMaxAccelerationAcrossCoupledMotors();
   void checkMaxForceOrTorqueAcrossCoupledMotors();
@@ -153,7 +152,6 @@ private:
   WbDeviceTag *mRequestedDeviceTag;
   WbDownloader *mDownloader;
   WbSFDouble *mMultiplier;
-  // QList<WbDeviceTag> mCoupledMotorsTags;
   QList<WbMotor *> mCoupledMotors;
 
 private slots:

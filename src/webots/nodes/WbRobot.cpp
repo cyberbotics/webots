@@ -351,7 +351,6 @@ void WbRobot::addDevices(WbNode *node) {
   }
 
   // check if there are duplicated names, and print a warning if necessary
-  printf("%s node, checking for duplicated\n", node->usefulName().toUtf8().constData());
   if (dynamic_cast<const WbRobot *>(node)) {  // top node
     QStringList displayedWarnings;
     foreach (WbDevice *deviceA, mDevices) {

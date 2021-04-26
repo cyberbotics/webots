@@ -264,7 +264,6 @@ private:
   // if reset is TRUE reassign tags to devices (when device config changed)
   // if reset is FALSE, only tag of newly added devices will be assigned
   void assignDeviceTags(bool reset);
-  void assignMotorCoupling();
   void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
