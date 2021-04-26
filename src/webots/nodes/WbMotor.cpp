@@ -241,7 +241,7 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
 
       if (mCoupledMotors[i]->minPosition() != potentialMinimalPosition) {
         parsingWarn(tr("The 'minPosition' limit must be consistent across coupled motors otherwise the command cannot be "
-                       "followed. Adjusting 'minPosition' from %1 to %2 for motor named %3.")
+                       "followed. Adjusting 'minPosition' from %1 to %2 for motor named '%3'.")
                       .arg(mCoupledMotors[i]->minPosition())
                       .arg(potentialMinimalPosition)
                       .arg(deviceName()));
@@ -250,7 +250,7 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
 
       if (mCoupledMotors[i]->maxPosition() != potentialMaximalPosition) {
         parsingWarn(tr("The 'maxPosition' limit must be consistent across coupled motors otherwise the command cannot be "
-                       "followed. Adjusting 'maxPosition' from %1 to %2 for motor named %3.")
+                       "followed. Adjusting 'maxPosition' from %1 to %2 for motor named '%3'.")
                       .arg(mCoupledMotors[i]->maxPosition())
                       .arg(potentialMaximalPosition)
                       .arg(deviceName()));
@@ -468,7 +468,7 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
 
       if (mCoupledMotors[i]->acceleration() != potentialMaximalAcceleration) {
         parsingWarn(tr("The 'acceleration' limits must be consistent across coupled motors otherwise the command cannot be "
-                       "followed. Adjusting 'acceleration' from %1 to %2 for motor named %3.")
+                       "followed. Adjusting 'acceleration' from %1 to %2 for motor named '%3'.")
                       .arg(mCoupledMotors[i]->acceleration())
                       .arg(potentialMaximalAcceleration)
                       .arg(deviceName()));

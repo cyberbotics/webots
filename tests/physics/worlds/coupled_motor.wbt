@@ -18,10 +18,10 @@ TexturedBackgroundLight {
 DEF CHECK_PARAMETER_LOAD Robot {
   children [
     # acceleration check
-    HingeJoint {
+    DEF MOTOR_A1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 -0.5
+        anchor 0 0 0
       }
       device [
         RotationalMotor {
@@ -31,7 +31,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0 -0.5
+        translation 0 0 0
         children [
           DEF PIVOT_CYLINDER Transform {
             translation 0 0.05 0
@@ -51,7 +51,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
             ]
           }
         ]
-        name "acceleration center solid"
+        name "A center"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -63,10 +63,10 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_A2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.5 0 -0.5
+        anchor 0.5 0 0
       }
       device [
         RotationalMotor {
@@ -76,11 +76,11 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       ]
       endPoint Solid {
-        translation 0.5 0 -0.5
+        translation 0.5 0 0
         children [
           USE PIVOT_CYLINDER
         ]
-        name "acceleration right solid"
+        name "A right"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -92,10 +92,10 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_A3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 -0.5
+        anchor -0.5 0 0
       }
       device [
         RotationalMotor {
@@ -105,11 +105,114 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       ]
       endPoint Solid {
-        translation -0.5 0 -0.5
+        translation -0.5 0 0
         children [
           USE PIVOT_CYLINDER
         ]
-        name "acceleration left solid"
+        name "A left"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_B1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor B"
+          acceleration -1
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.5
+        children [
+          DEF PIVOT_CYLINDER Transform {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE Appearance {
+                  material Material {
+                    specularColor 1 1 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        name "B center"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_B2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor B"
+          acceleration 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 0.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "B right"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_B3 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 0.5
+      }
+      device [
+        RotationalMotor {
+          name "motor B"
+          acceleration 20
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 0.5
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "B left"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -122,24 +225,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
       }
     }
     # velocity check
-    HingeJoint {
+    DEF MOTOR_C1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 -1
+        anchor 0 0 1
       }
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor C"
           maxVelocity 5
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0 0 -1
+        translation 0 0 1
         children [
           USE PIVOT_CYLINDER
         ]
-        name "velocity center solid"
+        name "C center"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -151,24 +254,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_C2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.5 0 -1
+        anchor 0.5 0 1
       }
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor C"
           maxVelocity 10
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0.5 0 -1
+        translation 0.5 0 1
         children [
           USE PIVOT_CYLINDER
         ]
-        name "velocity right solid"
+        name "C right"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -180,24 +283,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_C3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 -1
+        anchor -0.5 0 1
       }
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor C"
           maxVelocity 20
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation -0.5 0 -1
+        translation -0.5 0 1
         children [
           USE PIVOT_CYLINDER
         ]
-        name "velocity left solid"
+        name "C left"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -210,25 +313,25 @@ DEF CHECK_PARAMETER_LOAD Robot {
       }
     }
     # min/max position check
-    HingeJoint {
+    DEF MOTOR_D1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 -1.5
+        anchor 0 0 1.5
       }
       device [
         RotationalMotor {
-          name "motor C"
-          minPosition -5
-          maxPosition 10
+          name "motor D"
+          minPosition 0
+          maxPosition 0
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0 0 -1.5
+        translation 0 0 1.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "position center solid"
+        name "D center"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -240,25 +343,25 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_D2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.5 0 -1.5
+        anchor 0.5 0 1.5
       }
       device [
         RotationalMotor {
-          name "motor C"
+          name "motor D"
           minPosition -10
           maxPosition 20
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0.5 0 -1.5
+        translation 0.5 0 1.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "position right solid"
+        name "D right"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -270,25 +373,115 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_D3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 -1.5
+        anchor -0.5 0 1.5
       }
       device [
         RotationalMotor {
-          name "motor C"
+          name "motor D"
           minPosition -20
           maxPosition 40
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation -0.5 0 -1.5
+        translation -0.5 0 1.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "position left solid"
+        name "D left"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_E1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 2
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          minPosition -5
+          maxPosition 10
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "E center"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_E2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.5 0 2
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          minPosition -10
+          maxPosition 20
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 0 2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "E right"
+        boundingObject Group {
+          children [
+            USE PIVOT_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF MOTOR_E3 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.5 0 2
+      }
+      device [
+        RotationalMotor {
+          name "motor E"
+          minPosition 0
+          maxPosition 0
+          multiplier 2
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 0 2
+        children [
+          USE PIVOT_CYLINDER
+        ]
+        name "E left"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -301,24 +494,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
       }
     }
     # maxTorque limit check
-    HingeJoint {
+    DEF MOTOR_F1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 -2
+        anchor 0 0 2.5
       }
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor F"
           maxTorque 5
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0 0 -2
+        translation 0 0 2.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "torque center solid"
+        name "F center"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -330,24 +523,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_F2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.5 0 -2
+        anchor 0.5 0 2.5
       }
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor F"
           maxTorque 10
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation 0.5 0 -2
+        translation 0.5 0 2.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "torque right solid"
+        name "F right"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -359,24 +552,24 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_F3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 -2
+        anchor -0.5 0 2.5
       }
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor F"
           maxTorque 20
           multiplier 2
         }
       ]
       endPoint Solid {
-        translation -0.5 0 -2
+        translation -0.5 0 2.5
         children [
           USE PIVOT_CYLINDER
         ]
-        name "torque left solid"
+        name "F left"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -389,27 +582,28 @@ DEF CHECK_PARAMETER_LOAD Robot {
       }
     }
     # multiplier limits check
-    HingeJoint {
+    DEF MOTOR_G1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 -2.5
+        anchor 0 0 3
       }
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor G"
           multiplier 2
           maxTorque 10
           maxVelocity 10
           acceleration 10
           minPosition -1
+          maxPosition 1
         }
       ]
       endPoint Solid {
-        translation 0 0 -2.5
+        translation 0 0 3
         children [
           USE PIVOT_CYLINDER
         ]
-        name "multiplier center solid"
+        name "G center"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -421,27 +615,28 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_G2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.5 0 -2.5
+        anchor 0.5 0 3
       }
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor G"
           multiplier 0.5
           maxTorque 10
           maxVelocity 10
           acceleration 10
           minPosition -1
+          maxPosition 1
         }
       ]
       endPoint Solid {
-        translation 0.5 0 -2.5
+        translation 0.5 0 3
         children [
           USE PIVOT_CYLINDER
         ]
-        name "multiplier right solid"
+        name "G right"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
@@ -453,27 +648,28 @@ DEF CHECK_PARAMETER_LOAD Robot {
         }
       }
     }
-    HingeJoint {
+    DEF MOTOR_G3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.5 0 -2.5
+        anchor -0.5 0 3
       }
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor G"
           multiplier 4
           maxTorque 10
           maxVelocity 10
           acceleration 10
           minPosition -1
+          maxPosition 1
         }
       ]
       endPoint Solid {
-        translation -0.5 0 -2.5
+        translation -0.5 0 3
         children [
           USE PIVOT_CYLINDER
         ]
-        name "multiplier left solid"
+        name "G left"
         boundingObject Group {
           children [
             USE PIVOT_CYLINDER
