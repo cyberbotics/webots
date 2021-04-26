@@ -40,8 +40,6 @@ export default class WbScene {
     this.wrenNormalFrameBufferTexture = undefined;
     this.wrenDepthFrameBufferTexture = undefined;
 
-    _wr_scene_destroy();
-
     WbWorld.instance.scene = undefined;
   }
 
