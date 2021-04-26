@@ -6,7 +6,12 @@ then
     exit -1
 fi
 
-WEBOTS="${WEBOTS_HOME}/webots"
+if [ "$(expr substr $(uname -s) 1 10)" == "MSYS_NT-10" ]; then
+  WEBOTS="webots"
+else
+  WEBOTS="${WEBOTS_HOME}/webots"
+fi
+
 TEST_FOLDER="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 
 WEBOTS_ROBOCUP_TEST_SCENARIO="${TEST_FOLDER}/test_scenario.json" \
