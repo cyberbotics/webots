@@ -823,12 +823,6 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
             flip_poses(team['players'][number])
 
 
-def reset_ball_status():
-    game.ball_last_touch_team = None
-    game.ball_last_touch_player = None
-    game.ball_last_touch_time = None
-
-
 def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
@@ -844,7 +838,6 @@ def reset_player(color, number, pose):
 
 
 def reset_teams(pose):
-    reset_ball_status()
     for number in red_team['players']:
         reset_player('red', str(number), pose)
     for number in blue_team['players']:
@@ -891,7 +884,6 @@ def set_penalty_positions():
     x = game.field_penalty_mark_x if game.side_left == game.kickoff and default else -game.field_penalty_mark_x
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f([x, 0, game.ball_radius + game.turf_depth])
-    reset_ball_status()
 
 
 def stop_penalty_shootout():
@@ -1147,9 +1139,9 @@ game.penalty_shootout_time_to_touch_ball = [None, None, None, None, None, None, 
 game.ball = supervisor.getFromDef('BALL')
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
-game.ball_last_touch_team = None
-game.ball_last_touch_player = None
-game.ball_last_touch_time = None
+game.ball_last_touch_team = 'red'
+game.ball_last_touch_player = 1
+game.ball_last_touch_time = 0
 game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
 game.in_play = False
 game.interruption = None
@@ -1186,7 +1178,7 @@ while supervisor.step(time_step) != -1:
                 if ball_inside_goal_area() is not None:
                     c = game.penalty_shootout_count - 10
                     if game.penalty_shootout_time_to_reach_goal_area[c] is None:
-                        game.penalty_shootout_time_to_reach_goal_area[c] == 60 - game.state.seconds_remaining
+                        game.penalty_shootout_time_to_reach_goal_area[c] = 60 - game.state.seconds_remaining
         if previous_seconds_remaining != game.state.seconds_remaining:
             update_state_display()
             previous_seconds_remaining = game.state.seconds_remaining
