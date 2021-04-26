@@ -1,5 +1,5 @@
 {
-  "type": "PENALTY",
+  "type": "NORMAL",
   "kickoff": "red",
   "class": "KID",
   "host": "192.168.123.11",
