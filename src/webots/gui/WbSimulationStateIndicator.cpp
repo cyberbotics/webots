@@ -16,7 +16,6 @@
 
 #include "WbApplication.hpp"
 #include "WbGuiRefreshOracle.hpp"
-#include "WbPerformanceLog.hpp"
 #include "WbSimulationState.hpp"
 
 #include <QtWidgets/QHBoxLayout>
@@ -96,11 +95,6 @@ void WbSimulationStateIndicator::update() {
       // update speed indicator
       int elapsed = WbGuiRefreshOracle::instance()->elapsed();
       double speed = (time - mLastSpeedIndicatorTime) / elapsed;
-
-      WbPerformanceLog *log = WbPerformanceLog::instance();
-      if (log && (WbSimulationState::instance()->isFast() || WbSimulationState::instance()->isRealTime())) {
-        log->relaySpeedFactor(speed);
-      }
 
       // If the speed < 10, we want two decimal places i.e 0.00 - 9.99
       // Following this, remove a decimal place as we climb an order of magnitude
