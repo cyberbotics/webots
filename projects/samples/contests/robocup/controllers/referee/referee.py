@@ -562,6 +562,13 @@ def update_team_contacts(team, color):
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:
+            if 'outside_circle' not in player:
+                # set initial values to avoid key error in case the robot hasn't yet touch the field
+                player['outside_circle'] = True
+                player['outside_field'] = True
+                player['inside_field'] = False
+                player['inside_own_side'] = False
+                player['outside_goal_area'] = True
             continue
         player['outside_circle'] = True        # true if fully outside the center cicle
         player['outside_field'] = True         # true if fully outside the field
