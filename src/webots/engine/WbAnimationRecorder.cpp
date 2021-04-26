@@ -354,9 +354,10 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
       else
         out << "},";
     }
+    out << "]";
   }
 
-  out << "]}";
+  out << "}";
 
   mChangedCommands.clear();
   mChangedLabels.clear();
