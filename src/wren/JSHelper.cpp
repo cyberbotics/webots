@@ -14,7 +14,7 @@
 #include "JSHelper.hpp"
 
 #ifdef __EMSCRIPTEN__
-#include <wren/jsHelper.h>
+#include <wren/js_helper.h>
 
 #include <GL/gl.h>
 #include <GLES3/gl3.h>
