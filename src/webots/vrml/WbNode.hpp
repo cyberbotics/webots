@@ -184,8 +184,11 @@ public:
   void removeFromFieldsOrParameters(WbField *item);
   void clearProtoParameterNodeInstances() { mProtoParameterNodeInstances.clear(); }
   void setProtoParameterNode(WbNode *node) { mProtoParameterNode = node; }
-  bool isInternalNode() const;  // node internal to a proto file
-  void printFieldsAndParams();  // TODO: remove before merge
+  bool isInternalNode() const {  // node internal to a proto file
+    return !isProtoParameterNode() && mProtoParameterNode != NULL;
+  };
+
+  void removeInvisibleProtoNodes();
 
   // return if 'node' is a direct child of this PROTO parameters
   bool isProtoParameterChild(const WbNode *node) const;
@@ -286,8 +289,8 @@ public:
   virtual const QString &stateId() const { return mCurrentStateId; };
 
   // debug utility functions
-  void printDebugNodeStructure(int level = 0);
-  void printDebugNodeFields(int level, bool printParameters);
+  // void printDebugNodeStructure(int level = 0);
+  // void printDebugNodeFields(int level, bool printParameters);
   const WbNode *findRobotRootNode() const;
   virtual const bool isRobot() const { return false; };
 
@@ -396,6 +399,14 @@ private:
   QString fullPath(const QString &fieldName, QString &parameterName) const;
   // extract first single quoted text from message
   QString extractFieldName(const QString &message) const;
+
+  // checks if a chain starting from an internal node is visible
+  bool isInternalNodeVisible(WbNode *internal) const;
+  void printNodeFlags();                                                    // TODO: remove before merge
+  void printNodeStructure();                                                // TODO: remove before merge
+  void printFieldsAndParams();                                              // TODO: remove before merge
+  void printNodeFieldVisibility();                                          // TODO: remove before merge
+  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);  // TODO: remove before merge
 
   void readFields(WbTokenizer *tokenizer, const QString &worldPath);
   void addField(WbFieldModel *fieldModel);

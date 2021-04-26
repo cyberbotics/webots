@@ -189,7 +189,7 @@ void WbWorld::finalize() {
     s->resolveNameClashIfNeeded(false, true, mTopSolids, &topSolidNameSet);
 
   // simplify node structure, if possible
-  WbTemplateManager::instance()->removeInvisibleProtoNodes(mRoot);
+  mRoot->removeInvisibleProtoNodes();
 }
 
 WbWorld::~WbWorld() {

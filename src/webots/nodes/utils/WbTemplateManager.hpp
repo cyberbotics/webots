@@ -41,14 +41,6 @@ public:
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
 
-  void removeInvisibleProtoNodes(WbNode *root);
-
-  void printNodeFlags(WbNode *root);                                        // TODO: remove before merge
-  void printNodeStructure(WbNode *root);                                    // TODO: remove before merge
-  void printFieldsAndParams(WbNode *root);                                  // TODO: remove before merge
-  void printNodeFieldVisibility(WbNode *root);                              // TODO: remove before merge
-  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);  // TODO: remove before merge
-
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
   void abortNodeRegeneration();
@@ -68,9 +60,6 @@ private:
 
   WbTemplateManager();
   virtual ~WbTemplateManager();
-
-  // checks if a chain starting from an internal node is visible
-  bool isInternalNodeVisible(WbNode *internal) const;
 
   bool nodeNeedsToSubscribe(WbNode *node);
   void recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant);
