@@ -5,8 +5,6 @@
 # export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64  # Defines the path to Java home.
 # export ROS_DISTRO=kinetic
 
-# source $HOME/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
-
 #######################################################
 # Edit these WEBOTS environment variables when needed #
 #######################################################
