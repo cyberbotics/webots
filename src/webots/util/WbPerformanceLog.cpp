@@ -105,6 +105,7 @@ WbPerformanceLog::WbPerformanceLog(const QString &fileName, int stepsCount) :
   mValuesCount(INFO_COUNT, 0),
   mTimers(INFO_COUNT),
   mAverageFPS(0.0),
+  mTimeStep(0),
   mIsLogCompleted(false) {
   mFile = new QFile(mFileName);
   for (int i = 0; i < INFO_COUNT; ++i)
@@ -149,6 +150,7 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
   // reset values
   mIsLogCompleted = false;
   mStepsCount = 0;
+  mTimeStep = 0;
   for (int i = 0; i < INFO_COUNT; ++i) {
     mValues[i] = 0;
     mValuesCount[i] = 0;
