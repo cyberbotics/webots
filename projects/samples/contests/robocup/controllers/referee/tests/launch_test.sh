@@ -9,6 +9,7 @@ fi
 if [ "$(expr substr $(uname -s) 1 10)" == "MSYS_NT-10" ]; then
   WEBOTS="webots"
 else
+  export PYTHONPATH="${WEBOTS_HOME}/projects/samples/contests/robocup/controllers/referee"
   WEBOTS="${WEBOTS_HOME}/webots"
 fi
 
