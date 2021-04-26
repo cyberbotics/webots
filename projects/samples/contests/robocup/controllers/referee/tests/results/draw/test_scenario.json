@@ -289,13 +289,13 @@
         "timing" : {
             "time" : 47.0,
             "clock_type" : "Simulated",
-            "state" : "PLAYING",
+            "state" : "READY",
             "state_count" : 3
         },
         "tests" : [
             {
                 "name" : "After 2nd goal: READY -> SET is automatic",
-                "state" : "READY",
+                "state" : "SET",
                 "critical" : true
             }
         ]
@@ -325,6 +325,51 @@
             {
                 "name" : "First half ends 600 seconds after the first PLAYING state",
                 "state" : "INITIAL",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 5,
+            "clock_type" : "Simulated",
+            "state" : "INITIAL",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "Sanity check: 2nd half, automatic transition to READY",
+                "state" : "READY",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 48,
+            "clock_type" : "Simulated",
+            "state" : "READY",
+            "state_count" : 4
+        },
+        "tests" : [
+            {
+                "name" : "Sanity check: 2nd half, automatic transition to SET",
+                "state" : "SET",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 8,
+            "clock_type" : "Simulated",
+            "state" : "SET",
+            "state_count" : 4
+        },
+        "tests" : [
+            {
+                "name" : "Sanity check: 2nd half, automatic transition to SET",
+                "state" : "PLAYING",
                 "critical" : true
             }
         ]
