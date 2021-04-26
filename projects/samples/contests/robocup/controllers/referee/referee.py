@@ -314,8 +314,8 @@ def game_controller_receive():
 
 
 def game_controller_send(message):
-    if message[:6] == 'STATE:':
-        # we don't want to send twice the same STATE message
+    if message[:6] == 'STATE:' or message[:6] == 'SCORE:':
+        # we don't want to send twice the same STATE or SCORE message
         if game_controller_send.sent_once == message:
             return False
         game_controller_send.sent_once = message
@@ -1209,7 +1209,7 @@ while supervisor.step(time_step) != -1:
                         info('End of knockout second half.')
                 else:
                     error(f'Unsupported game type: {game.type}.')
-        if game.interruption_countdown == 0 and \
+        if game.interruption_countdown == 0 and game.ready_countdown == 0 and \
             (game.ball_position[1] - game.ball_radius > game.field_size_y or
              game.ball_position[1] + game.ball_radius < -game.field_size_y or
              game.ball_position[0] - game.ball_radius > game.field_size_x or
@@ -1262,16 +1262,17 @@ while supervisor.step(time_step) != -1:
                     else:
                         corner_kick(left_side=True)
             if scoring_team:
-                if game.penalty_shootout_count >= 10:  # extended penalty shootouts
-                    game.penalty_shootout_time_to_score[game.penalty_shootout_count - 10] = 60 - game.state.seconds_remaining
                 game.ball_exit_translation = game.ball_kickoff_translation
                 goal = 'red' if scoring_team == game.blue.id else 'blue'
+                if game.penalty_shootout_count >= 10:  # extended penalty shootouts
+                    game.penalty_shootout_time_to_score[game.penalty_shootout_count - 10] = 60 - game.state.seconds_remaining
                 if not game.penalty_shootout:
                     game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
                 i = team_index(game.ball_last_touch_team)
                 if game.state.teams[i].players[game.ball_last_touch_player - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player}')
+                    game.ready_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
                     if game.penalty_shootout:
                         game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
                         game.penalty_shootout_goal = True
@@ -1280,6 +1281,7 @@ while supervisor.step(time_step) != -1:
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player} (own goal)')
+                    game.ready_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
                     if game.penalty_shootout:
                         game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
                         game.penalty_shootout_goal = True
@@ -1296,17 +1298,21 @@ while supervisor.step(time_step) != -1:
     elif game.state.game_state == 'STATE_READY':
         # the GameController will automatically change to the SET state once the state READY is over
         # the referee should wait a little time since the state SET started before sending the PLAY state
-        game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
-        game.ball.resetPhysics()
-        game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
-        game.checked_kickoff_position = False
-    elif game.state.game_state == 'STATE_SET' and game.play_countdown > 0:
-        if not game.penalty_shootout and not game.checked_kickoff_position:
-            check_kickoff_position()
-            game.checked_kickoff_position = True
-        game.play_countdown -= 1
+        pass
+    elif game.state.game_state == 'STATE_SET':
         if game.play_countdown == 0:
-            game_controller_send('STATE:PLAY')
+            game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
+            game.ball.resetPhysics()
+            game.ball_translation.setSFVec3f(game.ball_kickoff_translation)
+            game.checked_kickoff_position = False
+        else:
+            if not game.penalty_shootout and not game.checked_kickoff_position:
+                check_kickoff_position()
+                game.checked_kickoff_position = True
+            game.play_countdown -= 1
+            if game.play_countdown == 0:
+                game.ready_countdown = 0
+                game_controller_send('STATE:PLAY')
     elif game.state.game_state == 'STATE_FINISHED':
         game.sent_finish = False
         if game.penalty_shootout:
