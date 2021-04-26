@@ -178,12 +178,59 @@
                 "name" : "Automatic transition to PLAYING",
                 "state" : "PLAYING"
             }
-        ],
-        "actions" : [
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 4,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
             {
-                "target" : "RED_PLAYER_1",
-                "position" : [4.0,-2.06,0.24]
+                "name" : "No robot penalized at PLAYING start (BLUE 1)",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 0
             },
+            {
+                "name" : "No robot penalized at PLAYING start (BLUE 2)",
+                "target" : "BLUE_PLAYER_2",
+                "penalty" : 0
+            },
+            {
+                "name" : "No robot penalized at PLAYING start (BLUE 3)",
+                "target" : "BLUE_PLAYER_3",
+                "penalty" : 0
+            },
+            {
+                "name" : "No robot penalized at PLAYING start (BLUE 4)",
+                "target" : "BLUE_PLAYER_4",
+                "penalty" : 0
+            },
+            {
+                "name" : "No robot penalized at PLAYING start (RED 2)",
+                "target" : "RED_PLAYER_2",
+                "penalty" : 0
+            },
+            {
+                "name" : "No robot penalized at PLAYING start (RED 3)",
+                "target" : "RED_PLAYER_3",
+                "penalty" : 0
+            },
+            {
+                "name" : "No robot penalized at PLAYING start (RED 4)",
+                "target" : "RED_PLAYER_4",
+                "penalty" : 0
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 5,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
             {
                 "target" : "BLUE_PLAYER_2",
                 "position" : [-4.0,2.06,0.24]
@@ -196,25 +243,19 @@
     },
     {
         "timing" : {
-            "time" : 8,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
                 "name" : "Robot moving after set not penalized (1)",
-                "target" : "RED_PLAYER_1",
-                "position" : [4.0,-2.06,0.24],
-                "penalty" : 0
-            },
-            {
-                "name" : "Robot moving after set not penalized (2)",
                 "target" : "BLUE_PLAYER_2",
                 "position" : [-4.0,2.06,0.24],
                 "penalty" : 0
             },
             {
-                "name" : "Robot moving after set not penalized (3)",
+                "name" : "Robot moving after set not penalized (2)",
                 "target" : "BLUE_PLAYER_3",
                 "position" : [-4.0,-2.06,0.24],
                 "penalty" : 0
