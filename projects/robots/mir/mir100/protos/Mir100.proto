@@ -1,0 +1,684 @@
+#VRML_SIM R2021b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/mir100
+# Designed by Mobile Industrial Robotics (MIR), MiR100 is a six-wheeled (only four actuated) robot.
+
+PROTO Mir100 [
+  field  SFVec3f     translation      0 0 0
+  field  SFRotation  rotation         0 0 1 0
+  field  SFString    name             "Mir100"  # Is `Robot.name`.
+  field  SFString    controller       "void"    # Is `Robot.controller`.
+  field  MFString    controllerArgs   []        # Is `Robot.controllerArgs`.
+  field  SFString    customData       ""        # Is `Robot.customData`.
+  field  SFBool      supervisor       FALSE     # Is `Robot.supervisor`.
+  field  SFBool      synchronization  TRUE      # Is `Robot.synchronization`.
+  field  MFNode      frontLidarSlot   []
+  field  MFNode      backLidarSlot    []
+  field  MFNode      bodySlot         []
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Transform {
+        translation 0.037646 0 0
+        children [
+          Shape {
+            appearance DEF WHITE Plastic {
+            }
+            geometry Mesh {
+              url [
+                "meshes/mir_100_base.stl"
+              ]
+            }
+          }
+          Shape {
+            appearance DEF BLACK Plastic {
+              colorOverride 0 0 0
+            }
+            geometry Mesh {
+              url [
+                "meshes/mir_100_base_corners.stl"
+              ]
+            }
+          }
+        ]
+      }
+      DEF IMU_LINK Solid {
+        translation 0 0 0.25
+        children [
+          Accelerometer {
+            name "imu_data accelerometer"
+            lookupTable [
+              -100 -100 -0.002
+              100 100 0.002
+            ]
+          }
+          Gyro {
+            name "imu_data gyro"
+            lookupTable [
+              -100 -100 -0.002
+              100 100 0.002
+            ]
+          }
+          Compass {
+            name "imu_data compass"
+            lookupTable [
+              -1 -1 -0.2
+              1 1 0.2
+            ]
+          }
+          DEF IMU_FRAME Solid {
+            name "imu_frame"
+          }
+        ]
+        name "imu_link"
+      }
+      Transform {
+        translation 0.4288 0.2358 0.1954
+        rotation -0.2811 -0.6786 0.6786 2.5936
+        children IS frontLidarSlot
+      }
+      Transform {
+        translation -0.3548 -0.2352 0.1954
+        rotation 0.8629 -0.3574 0.3574 -1.7178
+        children IS backLidarSlot
+      }
+      Transform {
+        translation 0.037646 0 0.349
+        children IS bodySlot
+      }
+      DEF US_1_FRAME Solid {
+        translation 0.45 -0.12 0.16
+        name "us_1_frame"
+      }
+      DEF US_2_FRAME Solid {
+        translation 0.45 0.12 0.16
+        name "us_2_frame"
+      }
+      DEF LEFT_WHEEL_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 0.222604 0.0625
+        }
+        device [
+          RotationalMotor {
+            name "mir100_middle_left_wheel_joint"
+            maxVelocity 20
+            maxTorque 100
+          }
+          PositionSensor {
+            name "mir100_middle_left_wheel_joint_sensor"
+          }
+        ]
+        endPoint DEF LEFT_WHEEL_LINK Solid {
+          translation 0 0.222604 0.0625
+          children [
+            DEF WHEEL Group {
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.3 0.3 0.3
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                      radius 0.054
+                      height 0.032
+                  }
+                }
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry DEF WHEEL_BO Cylinder {
+                      radius 0.0625
+                      height 0.0318
+                  }
+                }
+              ]
+            }
+          ]
+          name "left_wheel_link"
+          contactMaterial "middle_wheel"
+          boundingObject Transform {
+            children [
+              DEF WHEEL_BO Cylinder {
+                height 0.032
+                radius 0.0625
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 1
+            centerOfMass [
+              0 0 0
+            ]
+            inertiaMatrix [
+              0.001061895 0.001953125 0.001061895
+              0 0 5.457207e-20
+            ]
+          }
+        }
+      }
+      DEF RIGHT_WHEEL_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 -0.222604 0.0625
+        }
+        device [
+          RotationalMotor {
+            name "mir100_middle_right_wheel_joint"
+            maxVelocity 20
+            maxTorque 100
+          }
+          PositionSensor {
+            name "mir100_middle_right_wheel_joint_sensor"
+          }
+        ]
+        endPoint DEF RIGHT_WHEEL_LINK Solid {
+          translation 0 -0.222604 0.0625
+          children [
+            USE WHEEL
+          ]
+          name "right_wheel_link"
+          contactMaterial "middle_wheel"
+          boundingObject Transform {
+            children [
+              USE WHEEL_BO
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 1
+            centerOfMass [
+              0 0 0
+            ]
+            inertiaMatrix [
+              0.001061895 0.001953125 0.001061895
+              0 0 5.457207e-20
+            ]
+          }
+        }
+      }
+      DEF FL_CASTER_ROTATION_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor 0.341346 0.203 0.1565
+          dampingConstant 0.01
+        }
+        device [
+          RotationalMotor {
+            name "mir100_front_left_caster_joint"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "mir100_front_left_caster_joint_sensor"
+          }
+        ]
+        endPoint DEF FL_CASTER_ROTATION_LINK Solid {
+          translation 0.341346 0.203 0.1565
+          rotation 0 0 1 0
+          children [
+            DEF CASTER_WHEEL_BASE Shape {
+              appearance PBRAppearance {
+                baseColor 0.35 0.35 0.35
+                roughness 1
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "meshes/caster_wheel_base.stl"
+                ]
+              }
+            }
+            DEF FL_CASTER_WHEEL_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                anchor -0.0382 0 -0.094
+              }
+              device [
+                RotationalMotor {
+                  name "mir100_front_left_wheel_joint"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "mir100_front_left_wheel_joint_sensor"
+                }
+              ]
+              endPoint DEF FL_CASTER_WHEEL_LINK Solid {
+                translation -0.0382 0 -0.094
+                children [
+                  USE WHEEL
+                ]
+                name "fl_caster_wheel_link"
+                contactMaterial "wheel"
+                boundingObject Transform {
+                  children [
+                    USE WHEEL_BO
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 1
+                  centerOfMass [
+                    0 0 0
+                  ]
+                  inertiaMatrix [
+                    0.001061895 0.001953125 0.001061895
+                    0 0 5.457207e-20
+                  ]
+                }
+              }
+            }
+          ]
+          name "fl_caster_rotation_link"
+          boundingObject Transform {
+            translation 0 0 -0.028
+            rotation 1 0 0 1.5708003061004252
+            children [
+              DEF SWIVEL Cylinder {
+                height 0.055
+                radius 0.0298
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.309754
+            centerOfMass [
+              0 0 -0.0425
+            ]
+            inertiaMatrix [
+              0.0005287255 0.000517415 0.0002462724
+              -7.734275e-21 -1.120566e-20 -0.0001505672
+            ]
+          }
+        }
+      }
+      DEF FR_CASTER_ROTATION_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor 0.341346 -0.203 0.1565
+          dampingConstant 0.01
+        }
+        device [
+          RotationalMotor {
+            name "mir100_front_right_caster_joint"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "mir100_front_right_caster_joint_sensor"
+          }
+        ]
+        endPoint DEF FR_CASTER_ROTATION_LINK Solid {
+          translation 0.341346 -0.203 0.1565
+          rotation 0 0 1 0
+          children [
+            USE CASTER_WHEEL_BASE
+            DEF FR_CASTER_WHEEL_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                anchor -0.0382 0 -0.094
+              }
+              device [
+                RotationalMotor {
+                  name "mir100_front_right_wheel_joint"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "mir100_front_right_wheel_joint_sensor"
+                }
+              ]
+              endPoint DEF FR_CASTER_WHEEL_LINK Solid {
+                translation -0.0382 0 -0.094
+                children [
+                  USE WHEEL
+                ]
+                name "fr_caster_wheel_link"
+                contactMaterial "wheel"
+                boundingObject Transform {
+                  children [
+                    USE WHEEL_BO
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 1
+                  centerOfMass [
+                    0 0 0
+                  ]
+                  inertiaMatrix [
+                    0.001061895 0.001953125 0.001061895
+                    0 0 5.457207e-20
+                  ]
+                }
+              }
+            }
+          ]
+          name "fr_caster_rotation_link"
+          boundingObject Transform {
+            translation 0 0 -0.028
+            rotation 1 0 0 1.5707996938995747
+            children [
+              USE SWIVEL
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.309754
+            centerOfMass [
+              0 0 -0.0425
+            ]
+            inertiaMatrix [
+              0.0005287255 0.000517415 0.0002462724
+              -7.734275e-21 -1.120566e-20 -0.0001505672
+            ]
+          }
+        }
+      }
+      DEF BL_CASTER_ROTATION_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor -0.270154 0.203 0.1565
+          dampingConstant 0.01
+        }
+        device [
+          RotationalMotor {
+            name "mir100_back_left_caster_joint"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "mir100_back_left_caster_joint_sensor"
+          }
+        ]
+        endPoint DEF BL_CASTER_ROTATION_LINK Solid {
+          translation -0.270154 0.203 0.1565
+          rotation 0 0 1 0
+          children [
+            USE CASTER_WHEEL_BASE
+            DEF BL_CASTER_WHEEL_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                anchor -0.0382 0 -0.094
+              }
+              device [
+                RotationalMotor {
+                  name "mir100_back_left_wheel_joint"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "mir100_back_left_wheel_joint_sensor"
+                }
+              ]
+              endPoint DEF BL_CASTER_WHEEL_LINK Solid {
+                translation -0.0382 0 -0.094
+                children [
+                  USE WHEEL
+                ]
+                name "bl_caster_wheel_link"
+                contactMaterial "wheel"
+                boundingObject Transform {
+                  children [
+                    USE WHEEL_BO
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 1
+                  centerOfMass [
+                    0 0 0
+                  ]
+                  inertiaMatrix [
+                    0.001061895 0.001953125 0.001061895
+                    0 0 5.457207e-20
+                  ]
+                }
+              }
+            }
+          ]
+          name "bl_caster_rotation_link"
+          boundingObject Transform {
+            translation 0 0 -0.028
+            rotation 1 0 0 1.5707996938995747
+            children [
+              USE SWIVEL
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.309754
+            centerOfMass [
+              0 0 -0.0425
+            ]
+            inertiaMatrix [
+              0.0005287255 0.000517415 0.0002462724
+              -7.734275e-21 -1.120566e-20 -0.0001505672
+            ]
+          }
+        }
+      }
+      DEF BR_CASTER_ROTATION_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor -0.270154 -0.203 0.1565
+          dampingConstant 0.01
+        }
+        device [
+          RotationalMotor {
+            name "mir100_back_right_caster_joint"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "mir100_back_right_caster_joint_sensor"
+          }
+        ]
+        endPoint DEF BR_CASTER_ROTATION_LINK Solid {
+          translation -0.270154 -0.203 0.1565
+          rotation 0 0 1 0
+          children [
+            USE CASTER_WHEEL_BASE
+            DEF BR_CASTER_WHEEL_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                anchor -0.0382 0 -0.094
+              }
+              device [
+                RotationalMotor {
+                  name "mir100_back_right_wheel_joint"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "mir100_back_right_wheel_joint_sensor"
+                }
+              ]
+              endPoint DEF BR_CASTER_WHEEL_LINK Solid {
+                translation -0.0382 0 -0.094
+                children [
+                  USE WHEEL
+                ]
+                name "br_caster_wheel_link"
+                contactMaterial "wheel"
+                boundingObject Transform {
+                  children [
+                    USE WHEEL_BO
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 1
+                  centerOfMass [
+                    0 0 0
+                  ]
+                  inertiaMatrix [
+                    0.001061895 0.001953125 0.001061895
+                    0 0 5.457207e-20
+                  ]
+                }
+              }
+            }
+          ]
+          name "br_caster_rotation_link"
+          boundingObject Transform {
+            translation 0 0 -0.028
+            rotation 1 0 0 1.5707996938995747
+            children [
+              USE SWIVEL
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.309754
+            centerOfMass [
+              0 0 -0.0425
+            ]
+            inertiaMatrix [
+              0.0005287255 0.000517415 0.0002462724
+              -7.734275e-21 -1.120566e-20 -0.0001505672
+            ]
+          }
+        }
+      }
+      DEF SURFACE Solid {
+        translation 0.037646 0 0.352
+        name "surface"
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF TOP Transform {
+          translation 0.0375 0.0005 0.334
+          children [
+            Box {
+              size 0.774 0.461 0.04
+            }
+          ]
+        }
+        DEF MIDDLE_CENTER Transform {
+          translation 0.0375 0.0005 0.262
+          children [
+            Box {
+              size 0.857 0.44 0.096
+            }
+          ]
+        }
+        DEF MIDDLE_RIGHT_SIDE Transform {
+          translation 0.0375 -0.25 0.262
+          children [
+            Box {
+              size 0.774 0.041 0.096
+            }
+          ]
+        }
+        DEF MIDDLE_LEFT_SIDE Transform {
+          translation 0.0375 0.25 0.262
+          children [
+            Box {
+              size 0.774 0.041 0.096
+            }
+          ]
+        }
+        DEF CYL_BR Transform {
+          translation -0.3555 -0.2353 0.262
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Cylinder {
+              height 0.096
+              radius 0.054
+            }
+          ]
+        }
+        DEF CYL_FL Transform {
+          translation 0.4306 0.2364 0.262
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Cylinder {
+              height 0.096
+              radius 0.054
+            }
+          ]
+        }
+        DEF CYL_FR Transform {
+          translation 0.415 -0.221 0.262
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Cylinder {
+              height 0.096
+              radius 0.049
+            }
+          ]
+        }
+        DEF CYL_BL Transform {
+          translation -0.341 0.222 0.262
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Cylinder {
+              height 0.096
+              radius 0.049
+            }
+          ]
+        }
+        DEF MIDLOW Transform {
+          translation 0.03733 0.0005 0.204
+          children [
+            Box {
+              size 0.7806 0.4665 0.04
+            }
+          ]
+        }
+        DEF LOW Transform {
+          translation 0.0374 0.0005 0.16
+          children [
+            Box {
+              size 0.85 0.536 0.039
+            }
+          ]
+        }
+        DEF BOTTOM_LEFT Transform {
+          translation 0.0374 0.2486 0.09425
+          children [
+            Box {
+              size 0.35 0.04 0.0925
+            }
+          ]
+        }
+        DEF BOTTOM_RIGHT Transform {
+          translation 0.0374 -0.2476 0.09425
+          children [
+            Box {
+              size 0.35 0.04 0.0925
+            }
+          ]
+        }
+        DEF BOTTOM_CENTER Transform {
+          translation 0.0375 0.0005 0.094
+          children [
+            Box {
+              size 0.857 0.2 0.092
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 58.000000
+      centerOfMass [ 0.037646 0.000000 0.200000 ]
+      inertiaMatrix [
+        2.060933e+00 4.349998e+00 5.540931e+00
+        0.000000e+00 0.000000e+00 0.000000e+00
+      ]
+    }
+  }
+}
