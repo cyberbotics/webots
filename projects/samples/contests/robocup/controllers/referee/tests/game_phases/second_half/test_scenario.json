@@ -1,5 +1,25 @@
 [
     {
+        "timing" : {
+            "time" : 2.0,
+            "clock_type" : "Simulated",
+            "state" : "INITIAL"
+        },
+        "tests" : [
+            {
+                "name" : "Sanity check: verifying that position at 1st half is valid",
+                "target" : "RED_PLAYER_1",
+                "position" : [-3.5, -3.06, 0.24],
+                "rotation" : [0, 0, 1, -1.57],
+                "critical" : true
+            },
+            {
+                "name" : "Sanity check: RED has kick-off",
+                "kick_off_team" : 5
+            }
+        ]
+    },
+    {
         "description" : "placing robots in their own fields",
         "timing" : {
             "time" : 5.0,
@@ -32,13 +52,13 @@
     {
         "description" : "Checking the announcement of the end of the first half",
         "timing" : {
-            "time" : 602,
+            "time" : 605,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
-                "name" : "State automatically changes to INITIAL from PLAYING",
+                "name" : "End of 1st half, state moves to INITIAL automatically",
                 "state" : "INITIAL",
                 "critical" : true
             }
@@ -60,7 +80,27 @@
         ]
     },
     {
-        "description" : "Checking if the AutoRef spawns robots in flippped positions for the second half",
+        "description" : "Checking that state moves to READY after 15 real-time seconds",
+        "timing" : {
+            "time" : 17,
+            "clock_type" : "System",
+            "state" : "INITIAL",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "2nd half: automatic transition to READY",
+                "state" : "READY",
+                "critical" : true
+            },
+            {
+                "name" : "2nd half: BLUE has kick-off",
+                "kick_off_team" : 7
+            }
+        ]
+    },
+    {
+        "description" : "Checking if the AutoRef spawns robots in flipped positions for the second half",
         "timing" : {
             "time" : 2.0,
             "clock_type" : "Simulated",
@@ -110,7 +150,7 @@
             },
             {
                 "target" : "RED_PLAYER_2",
-                "position" : [-2, 2, 0.24],
+                "position" : [0.5, 0, 0.24],
                 "orientation" : [0, 0, 1, 3.14]
             },
             {
@@ -161,7 +201,7 @@
                 "penalty": 0
             },
             {
-                "name" : "Red 2 in the opponent's field -> Penalty",
+                "name" : "Red 2 in center circle without kick-off -> Penalty",
                 "target" : "RED_PLAYER_2",
                 "penalty": 34
             },
@@ -183,8 +223,7 @@
         "tests" : [
             {
                 "name" : "State goes automatically from SET to PLAYING",
-                "state" : "PLAYING",
-                "critical" : true
+                "state" : "PLAYING"
             }
         ]
     }

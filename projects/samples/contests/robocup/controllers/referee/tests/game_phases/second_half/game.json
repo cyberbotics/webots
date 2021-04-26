@@ -4,9 +4,10 @@
   "host": "192.168.1.133",
   "side_left": "red",
   "kickoff": "red",
+  "real_time_factor" : 0.1,
   "supervisor": "test_supervisor",
   "red": {
-    "id": 1,
+    "id": 5,
     "config": "tests/game_phases/second_half/team_1.json",
     "hosts": [
       "127.0.0.1",
@@ -23,7 +24,7 @@
     ]
   },
   "blue": {
-    "id": 2,
+    "id": 7,
     "config": "tests/game_phases/second_half/team_2.json",
     "hosts": [
       "127.0.0.1",
