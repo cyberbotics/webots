@@ -120,7 +120,6 @@ void WbJoint::setPosition(double position, int index) {
   WbMotor *const m = motor();
   if (m)
     m->setTargetPosition(position);
-  return;
 }
 
 bool WbJoint::resetJointPositions() {

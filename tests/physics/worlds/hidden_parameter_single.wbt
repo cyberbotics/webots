@@ -11,8 +11,6 @@ Viewpoint {
 }
 Background {
 }
-ParserTestSupervisor {
-}
 DirectionalLight {
   ambientIntensity 1
   castShadows TRUE
@@ -63,4 +61,6 @@ Robot {
   name "supervisor"
   controller "hidden_parameter_single"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }

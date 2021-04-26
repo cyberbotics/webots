@@ -13,7 +13,6 @@ int main(int argc, char **argv) {
   double sinAngle = sin(angle);
   double expectedMatrix[9] = {1.0, 0.0, 0.0, 0.0, cosAngle, -sinAngle, 0.0, sinAngle, cosAngle};
   ts_setup(argv[0]);
-  ts_disable_output_log();
 
   WbNodeRef robot = wb_supervisor_node_get_from_def("ROBOT");
 

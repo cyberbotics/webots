@@ -395,7 +395,6 @@ void WbBallJoint::setPosition(double position, int index) {
   WbMotor *const m3 = motor3();
   if (m3)
     m3->setTargetPosition(position);
-  return;
 }
 
 bool WbBallJoint::resetJointPositions() {

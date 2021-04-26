@@ -160,7 +160,6 @@ void WbHinge2Joint::setPosition(double position, int index) {
   WbMotor *const m2 = motor2();
   if (m2)
     m2->setTargetPosition(position);
-  return;
 }
 
 bool WbHinge2Joint::resetJointPositions() {
