@@ -2504,14 +2504,17 @@ void WbNode::printDebugNodeStructure(int level) {
   QString line;
   line.sprintf("%sNode %s %p parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
                protoParameterNode());
+
   qDebug() << line;
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
 }
+
 void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString indent;
   for (int i = 0; i < level; ++i)
     indent += "  ";
+
   QString line;
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
