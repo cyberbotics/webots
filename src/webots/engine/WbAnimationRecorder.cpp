@@ -221,9 +221,13 @@ void WbAnimationRecorder::populateCommands() {
 
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
-      if (robot->supervisor())
+      if (robot->supervisor()) {
+        foreach (QString label, robot->supervisorUtilities()->labelsState())
+          addChangedLabelToList(label);
+
         connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this,
                 &WbAnimationRecorder::addChangedLabelToList);
+      }
   }
 
   foreach (WbAnimationCommand *command, mCommands) {
