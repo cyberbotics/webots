@@ -1,6 +1,6 @@
 'use strict';
 
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 export default class Stream {
   constructor(wsServer, view, onready) {

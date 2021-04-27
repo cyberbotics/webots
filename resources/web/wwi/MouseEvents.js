@@ -1,7 +1,7 @@
 import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from './nodes/utils/utils.js';
 import Selector from './Selector.js';
 import SystemInfo from './system_info.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPicker from './wren/WbWrenPicker.js';

@@ -1,6 +1,6 @@
 import DefaultUrl from './DefaultUrl.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 export default class Toolbar {
   constructor(parent, view) {

@@ -1,5 +1,5 @@
 import Parser, {convertStringToVec3, convertStringToQuaternion} from './Parser.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
