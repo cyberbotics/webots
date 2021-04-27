@@ -19,4 +19,4 @@ git pull
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
 
-echo 'source "/home/benjamin/webots/dependencies/emsdk/emsdk_env.sh"' >> /home/$user/.bashrc
+echo 'source "/home/benjamin/webots/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> /home/$user/.bashrc
