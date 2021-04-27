@@ -13,7 +13,7 @@ pip3 install pyclibrary
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
 user=$(env | grep SUDO_USER | cut -d '=' -f 2-) 
-chown $user dependencies/emsdk
+chown -R $user dependencies/emsdk
 
 git pull
 ./dependencies/emsdk/emsdk install latest
