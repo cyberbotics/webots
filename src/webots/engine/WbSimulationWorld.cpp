@@ -172,15 +172,14 @@ WbSimulationWorld::~WbSimulationWorld() {
 
 void WbSimulationWorld::step() {
   WbPerformanceLog *log = WbPerformanceLog::instance();
-  if (log) {
+  if (log)
     log->stepChanged();
-    log->lapTime(WbPerformanceLog::SPEED_FACTOR);
-  }
 
   const double timeStep = basicTimeStep();
 
   if (WbSimulationState::instance()->isRealTime()) {
     const int elapsed = mRealTimeTimer.restart();
+
     // computing the mean of an history of several elapsedTime
     // improves significantly the stability of the algorithm
     // in case of simulations where elapsedTime oscillates often
@@ -304,7 +303,7 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setPause(true);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       if (log)
-        log->invalidateMeasure(WbPerformanceLog::SPEED_FACTOR);
+        log->stopMeasure(WbPerformanceLog::SPEED_FACTOR);
       break;
     case WbSimulationState::STEP:
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());

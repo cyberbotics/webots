@@ -59,8 +59,6 @@ public:
   void stepChanged();
   void startMeasure(InfoType type, const QString &object = QString());
   void stopMeasure(InfoType type, const QString &object = QString());
-  void lapTime(InfoType type);
-  void invalidateMeasure(InfoType type);
   void startControllerMeasure(const QString &controllerName);
   void stopControllerMeasure(const QString &controllerName);
   void setTimeStep(double value) { mTimeStep = value; }

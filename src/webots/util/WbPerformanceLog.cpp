@@ -245,6 +245,14 @@ void WbPerformanceLog::stepChanged() {
     mIsLogCompleted = true;
   else
     mStepsCount++;
+
+  if (mValuesCount[SPEED_FACTOR] == 0 && !mTimers[SPEED_FACTOR]->isValid()) {
+    startMeasure(SPEED_FACTOR);
+    return;
+  }
+
+  stopMeasure(SPEED_FACTOR);
+  startMeasure(SPEED_FACTOR);
 }
 
 void WbPerformanceLog::startMeasure(InfoType type, const QString &object) {
@@ -289,26 +297,6 @@ void WbPerformanceLog::stopMeasure(InfoType type, const QString &object) {
     mValuesCount[type] += 1;
     mTimers[type]->invalidate();
   }
-}
-
-void WbPerformanceLog::lapTime(InfoType type) {
-  if (mIsLogCompleted) {
-    mTimers[type]->invalidate();
-    return;
-  }
-
-  if (mValuesCount[type] == 0 && !mTimers[type]->isValid()) {
-    startMeasure(type);
-    return;
-  }
-
-  stopMeasure(type);
-  startMeasure(type);
-}
-
-void WbPerformanceLog::invalidateMeasure(InfoType type) {
-  if (mTimers[type]->isValid())
-    mTimers[type]->invalidate();
 }
 
 void WbPerformanceLog::reportStepRenderingStats(int trianglesCount) {
