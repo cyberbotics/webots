@@ -1302,9 +1302,9 @@ while supervisor.step(time_step) != -1:
                     else:
                         goal_kick()
     elif game.state.game_state == 'STATE_READY':
+        game.play_countdown = 0
         # the GameController will automatically change to the SET state once the state READY is over
         # the referee should wait a little time since the state SET started before sending the PLAY state
-        pass
     elif game.state.game_state == 'STATE_SET':
         if game.play_countdown == 0:
             game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
