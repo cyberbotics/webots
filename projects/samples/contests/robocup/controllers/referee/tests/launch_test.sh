@@ -9,7 +9,7 @@ fi
 if [ "$(expr substr $(uname -s) 1 10)" == "MSYS_NT-10" ]; then
   WEBOTS="webots"
 else
-  export PYTHONPATH="${WEBOTS_HOME}/projects/samples/contests/robocup/controllers/referee"
+  export PYTHONPATH="${WEBOTS_HOME}/projects/samples/contests/robocup/controllers/referee"  # this should be removed once https://github.com/cyberbotics/webots/issues/3011 is fixed
   WEBOTS="${WEBOTS_HOME}/webots"
 fi
 
