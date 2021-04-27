@@ -1002,7 +1002,7 @@ def interruption(type, team=None):
 def throw_in(left_side):
     # set the ball on the touch line for throw in
     sign = -1 if left_side else 1
-    game.ball_kick_translation[0] = game.ball_exit_translation
+    game.ball_kick_translation[0] = game.ball_exit_translation[0]
     game.ball_kick_translation[1] = sign * (game.field_size_y - LINE_HALF_WIDTH)
     interruption('THROWIN')
 
