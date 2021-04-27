@@ -263,8 +263,7 @@ export default class Parser {
         cubeImages[0] = await Parser.loadTextureData(this.prefix + rightUrl);
         cubeImages[2] = await Parser.loadTextureData(this.prefix + topUrl);
       }
-    } else
-      console.error('Background : Incomplete cubemap');
+    }
 
     let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
     let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
@@ -297,8 +296,7 @@ export default class Parser {
         irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true);
         irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
       }
-    } else
-      console.error('Background : Incomplete irradiance cubemap');
+    }
 
     const background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     WbBackground.instance = background;
