@@ -208,9 +208,6 @@ export default class X3dScene {
         const frame = JSON.parse(data);
         view.time = frame.time;
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
-        // reset viewpoint if we reset the world (time=0)
-        if (view.time === 0 && typeof WbWorld.instance.viewpoint !== 'undefined')
-          WbWorld.instance.viewpoint.resetViewpoint();
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
@@ -260,6 +257,11 @@ export default class X3dScene {
     } else
       return false;
     return true;
+  }
+
+  resetViewpoint() {
+    WbWorld.instance.viewpoint.resetViewpoint();
+    this.render();
   }
 }
 

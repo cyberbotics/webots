@@ -115,6 +115,7 @@ export default class Stream {
         this.onready();
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
+      this.view.x3dScene.resetViewpoint();
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {
