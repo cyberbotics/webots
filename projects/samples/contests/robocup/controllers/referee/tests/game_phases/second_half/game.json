@@ -4,7 +4,7 @@
   "host": "192.168.1.133",
   "side_left": "red",
   "kickoff": "red",
-  "real_time_factor" : 0.1,
+  "minimum_real_time_factor" : 0.1,
   "supervisor": "test_supervisor",
   "red": {
     "id": 5,

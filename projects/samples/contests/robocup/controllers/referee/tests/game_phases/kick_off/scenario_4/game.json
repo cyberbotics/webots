@@ -4,7 +4,7 @@
   "side_left": "blue",
   "kickoff": "blue",
   "supervisor": "test_supervisor",
-  "real_time_factor" : 0,
+  "minimum_real_time_factor" : 0,
   "host": "127.0.0.1",
   "red": {
     "id": 15,

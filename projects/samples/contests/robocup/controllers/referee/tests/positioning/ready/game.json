@@ -5,7 +5,7 @@
   "kickoff": "red",
   "supervisor": "test_supervisor",
   "host": "192.168.1.133",
-  "real_time_factor": 0,
+  "minimum_real_time_factor": 0,
   "red": {
     "id": 1,
     "config": "tests/positioning/ready/team_1.json",

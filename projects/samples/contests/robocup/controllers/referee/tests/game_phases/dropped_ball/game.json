@@ -1,7 +1,7 @@
 {
   "type": "NORMAL",
   "class": "KID",
-  "real_time_factor": 0,
+  "minimum_real_time_factor": 0,
   "side_left": "red",
   "kickoff": "blue",
   "supervisor": "test_supervisor",
