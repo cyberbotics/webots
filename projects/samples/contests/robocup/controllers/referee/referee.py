@@ -248,6 +248,7 @@ def game_controller_receive():
         return
     except Exception as e:
         error(f'UDP input failure: {e}')
+        data = None
         pass
     if not data:
         error('No UDP data received')
@@ -1043,18 +1044,17 @@ except KeyError:
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.')
 game.penalty_shootout = game.type == 'PENALTY'
-if not hasattr(game, 'real_time_factor'):
-    game.real_time_factor = 3  # simulation speed defaults to 1/3 of real time, e.g., 0.33x real time in the Webots speedometer
+if not hasattr(game, 'minimum_real_time_factor'):
+    game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
 if not hasattr(game, 'game_controller_synchronization'):
     game.game_controller_synchronization = False
-message = f'Real time factor is set to {game.real_time_factor}.'
-if game.real_time_factor == 0:
-    message += ' Simulation will run as fast as possible, real time waiting times will be minimised.'
+info(f'Minimum real time factor is set to {game.minimum_real_time_factor}.')
+if game.minimum_real_time_factor == 0:
+    info('Simulation will run as fast as possible, real time waiting times will be minimal.')
 else:
-    message += f' Simulation will run at {1/game.real_time_factor:.2f}x, real time waiting times will be respected.'
-info(message)
+    info(f'Simulation will guarantee a maximum {1/game.minimum_real_time_factor:.2f}x speed for each time step.')
 game.field_size_y = 3 if field_size == 'kid' else 4.5
 game.field_size_x = 4.5 if field_size == 'kid' else 7
 game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
@@ -1146,7 +1146,7 @@ game.ball_exit_translation = None
 game.ball_last_touch_team = 'red'
 game.ball_last_touch_player = 1
 game.ball_last_touch_time = 0
-game.real_time_multiplier = 1000 / (game.real_time_factor * time_step) if game.real_time_factor > 0 else 10
+game.real_time_multiplier = 1000 / (game.minimum_real_time_factor * time_step) if game.minimum_real_time_factor > 0 else 10
 game.in_play = False
 game.interruption = None
 game.interruption_countdown = 0
@@ -1159,9 +1159,9 @@ game.play_countdown = 0
 game.sent_finish = False
 game.over = False
 previous_seconds_remaining = 0
-real_time_start = time.time()
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
     children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
+previous_real_time = time.time()
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
     game_controller_receive()
@@ -1390,11 +1390,13 @@ while supervisor.step(time_step) != -1:
 
     time_count += time_step
 
-    if game.real_time_factor != 0:
-        # slow down the simulation if needed to respect the real time factor constraint
-        delta_time = real_time_start - time.time() + game.real_time_factor * time_count / 1000
+    if game.minimum_real_time_factor != 0:
+        # slow down the simulation to guarantee a miminum amount of real time between each step
+        t = time.time()
+        delta_time = previous_real_time - t + game.minimum_real_time_factor * time_step / 1000
         if delta_time > 0:
             time.sleep(delta_time)
+        previous_real_time = time.time()
 
 if not game.over:  # for some reason, the simulation was terminated before the end of the match (may happen during tests)
     info('Game interrupted before the end.')
