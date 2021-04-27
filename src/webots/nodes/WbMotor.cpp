@@ -896,7 +896,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
     case C_MOTOR_SET_POSITION: {
       double position;
       stream >> position;
-      setTargetPosition(position);
+      setTargetPosition(position, multiplier());
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
         mCoupledMotors[i]->setTargetPosition(position, multiplier());
@@ -906,7 +906,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
     case C_MOTOR_SET_VELOCITY: {
       double velocity;
       stream >> velocity;
-      setVelocity(velocity);
+      setVelocity(velocity, multiplier());
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
         mCoupledMotors[i]->setVelocity(velocity, multiplier());
@@ -926,7 +926,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
     case C_MOTOR_SET_FORCE: {
       double forceOrTorque;
       stream >> forceOrTorque;
-      setForceOrTorque(forceOrTorque);
+      setForceOrTorque(forceOrTorque, multiplier());
       // relay force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
         mCoupledMotors[i]->setForceOrTorque(forceOrTorque, multiplier());
@@ -936,10 +936,10 @@ void WbMotor::handleMessage(QDataStream &stream) {
     case C_MOTOR_SET_AVAILABLE_FORCE: {
       double availableForceOrTorque;
       stream >> availableForceOrTorque;
-      setAvailableForceOrTorque(availableForceOrTorque);
+      setAvailableForceOrTorque(availableForceOrTorque, multiplier());
       // relay available force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setAvailableForceOrTorque(availableForceOrTorque);
+        mCoupledMotors[i]->setAvailableForceOrTorque(availableForceOrTorque, multiplier());
       }
       break;
     }

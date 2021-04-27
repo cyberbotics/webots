@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0 1.8532829257529249 -0.00033219524735827424
+  orientation 0.6918974022948555 0.7148916528376139 0.10103419916412182 5.880205787384386
+  position 0.2928150479560755 0.7303005195959433 1.9005033013276813
 }
 Background {
   skyColor [
@@ -14,7 +14,6 @@ Background {
 }
 TexturedBackgroundLight {
 }
-
 DEF CHECK_PARAMETER_LOAD Robot {
   children [
     # acceleration check
@@ -783,8 +782,196 @@ DEF CHECK_PARAMETER_LOAD Robot {
     TestSuiteEmitter {
     }
   ]
-  name "acceleration limit adjustment at load"
+  name "parameter adjustment at load"
   controller "coupled_motor"
+  controllerArgs "load_test"
+}
+DEF VELOCITY_CONTROL Robot {
+  translation 1 0.05 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        PositionSensor {
+          name "sensor1"
+        }
+        RotationalMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0 0
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        name "multiplier 2"
+        boundingObject USE BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.1 0
+      }
+      device [
+        PositionSensor {
+          name "sensor2"
+        }
+        RotationalMotor {
+          name "motor"
+          maxVelocity 5
+          maxTorque 20
+          multiplier 0.5
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        name "multiplier 0.5"
+        boundingObject USE BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.2 0
+      }
+      device [
+        PositionSensor {
+          name "sensor3"
+        }
+        RotationalMotor {
+          name "motor"
+          maxVelocity 40
+          maxTorque 2.5
+          multiplier 4
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.2 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.929412 0.831373 0
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        name "multiplier 4"
+        boundingObject USE BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.3 0
+      }
+      device [
+        PositionSensor {
+          name "sensor4"
+        }
+        RotationalMotor {
+          name "motor"
+          maxVelocity 5
+          maxTorque 20
+          multiplier -0.5
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.3 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.203922 0.396078 0.643137
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        name "multiplier -0.5"
+        boundingObject USE BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.4 0
+      }
+      device [
+        PositionSensor {
+          name "sensor5"
+        }
+        RotationalMotor {
+          name "motor"
+          maxVelocity 40
+          maxTorque 2.5
+          multiplier -4
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.4 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.458824 0.313725 0.482353
+            }
+            geometry DEF BOX Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        name "multiplier -4"
+        boundingObject USE BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "physics behavior test"
+  controller "coupled_motor"
+  controllerArgs [
+    "physics_test"
+  ]
 }
 TestSuiteSupervisor {
 }
