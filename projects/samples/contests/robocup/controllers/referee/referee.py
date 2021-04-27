@@ -1032,6 +1032,7 @@ def kickoff():
     game.in_play = False
     game.ball_must_kick_team = color
     game.ball_last_touch_team = game.ball_must_kick_team
+    game.ball_last_touch_player_number = 0
     game.ball_left_circle = False  # one can score only after ball went out of the circle
     game.can_score = False         # or was touched by another player
     game.kicking_player_number = None
