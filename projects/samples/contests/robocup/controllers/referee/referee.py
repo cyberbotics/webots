@@ -582,19 +582,20 @@ def update_team_contacts(team, color):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
+                    game.ball_last_touch_time = time_count
                     if game.penalty_shootout_count >= 10:  # extended penalty shootout
                         game.penalty_shootout_time_to_touch_ball[game.penalty_shootout_count - 10] = \
                           60 - game.state.seconds_remaining
                     if game.ball_last_touch_team != color or game.ball_last_touch_player_number != int(number):
                         game.ball_last_touch_team = color
                         game.ball_last_touch_player_number = int(number)
-                        game.ball_last_touch_time = time_count
+                        game.ball_last_touch_time_for_display = time_count
                         action = 'kicked' if game.kicking_player_number == None else 'touched'
                         info(f'Ball {action} by {color} player {number}.')
                         if game.kicking_player_number is None:
                             game.kicking_player_number = int(number)
-                    elif time_count - game.ball_last_touch_time >= 1000:  # dont produce too many touched messages
-                        game.ball_last_touch_time = time_count
+                    elif time_count - game.ball_last_touch_time_for_display >= 1000:  # dont produce too many touched messages
+                        game.ball_last_touch_time_for_display = time_count
                         info('Ball touched again by same player.')
                     continue
                 # the robot touched something else than the ball or the ground
@@ -1033,8 +1034,8 @@ def kickoff():
     game.ball_must_kick_team = color
     game.ball_last_touch_team = game.ball_must_kick_team
     game.ball_last_touch_player_number = 0
-    game.ball_left_circle = False  # one can score only after ball went out of the circle
-    game.can_score = False         # or was touched by another player
+    game.ball_left_circle = None  # one can score only after ball went out of the circle
+    game.can_score = False        # or was touched by another player
     game.kicking_player_number = None
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
 
@@ -1195,6 +1196,7 @@ game.ball_exit_translation = None
 game.ball_last_touch_team = 'red'
 game.ball_last_touch_player_number = 1
 game.ball_last_touch_time = 0
+game.ball_last_touch_time_for_display = 0
 game.real_time_multiplier = 1000 / (game.minimum_real_time_factor * time_step) if game.minimum_real_time_factor > 0 else 1
 game.interruption = None
 game.interruption_countdown = 0
@@ -1238,15 +1240,19 @@ while supervisor.step(time_step) != -1:
                 if not check_circle_entrance(team):
                     check_ball_must_kick(team)
         else:
-            if not game.ball_left_circle:
+            if game.ball_left_circle is None:
                 if distance2(game.ball_kick_translation, game.ball_position) > game.field_circle_radius + game.ball_radius:
-                    game.ball_left_circle = True
+                    game.ball_left_circle = time_count
                     info('The ball has left the center circle after kick-off.')
+
             if not game.can_score:
                 if game.ball_last_touch_team != game.ball_must_kick_team:
                     game.can_score = True  # ball touched by opponent
+                elif game.ball_left_circle is not None and game.ball_left_circle < game.ball_last_touch_time:
+                    game.can_score = True  # ball touched by same player again, but outside circle
                 elif game.kicking_player_number is not None and game.ball_last_touch_player_number != game.kicking_player_number:
                     game.can_score = True  # ball touched by another team member
+
         if game.penalty_shootout:
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
                 kicker = penalty_kicker_player()
