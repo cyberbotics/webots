@@ -55,30 +55,54 @@ int main(int argc, char **argv) {
     ts_assert_double_equal(wb_motor_get_max_torque(motor), 5, "Motor F: 'maxTorque' should be 5 but isn't.");
   }
   // Test multiplier.
-  // multipliers on file [2, 0.5, 4] (which is [motor E1, motor E2, motor E3])
-  // minPosition on file [-1, -1, -1] -> [-4, -1, -8] after loading
-  // maxPosition on file [1, 1, 1] -> [-4, -1, -8] after loading
+  // multipliers on file [2, 0.5, 4] (which is [motor G1, motor G2, motor G3])
+  // minPosition on file [-2, -2, -2] -> [-2, -0.5, -4] after loading
+  // maxPosition on file [4, 4, 4] -> [4, 1, 8] after loading
   // maxVelocity on file [10, 10, 10] -> [40, 10, 80] after loading
   // maxAccel. on file   [10, 10, 10] -> [40, 10, 80] after loading
   // maxTorque on file   [10, 10, 10] -> [20, 80, 10] after loading
   WbDeviceTag motor = wb_robot_get_device_by_index(18);
-  ts_assert_double_equal(wb_motor_get_min_position(motor), -1, "Motor G: 'minPosition' should be -1 but isn't.");
-  ts_assert_double_equal(wb_motor_get_max_position(motor), 1, "Motor G: 'maxPosition' should be 1 but isn't.");
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -2, "Motor G: 'minPosition' should be -2 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor G: 'maxPosition' should be 4 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_velocity(motor), 10, "Motor G: 'maxVelocity' should be 10 but isn't.");
   ts_assert_double_equal(wb_motor_get_acceleration(motor), 10, "Motor G: 'acceleration' should be 10 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_torque(motor), 10, "Motor G: 'maxTorque' should be 10 but isn't.");
   motor = wb_robot_get_device_by_index(19);
-  ts_assert_double_equal(wb_motor_get_min_position(motor), -0.25, "Motor G: 'minPosition' should be -0.25 but isn't.");
-  ts_assert_double_equal(wb_motor_get_max_position(motor), 0.25, "Motor G: 'maxPosition' should be 0.25 but isn't.");
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -0.5, "Motor G: 'minPosition' should be -0.5 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 1, "Motor G: 'maxPosition' should be 1 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_velocity(motor), 2.5, "Motor G: 'maxVelocity' should be 2.5 but isn't.");
   ts_assert_double_equal(wb_motor_get_acceleration(motor), 2.5, "Motor G: 'acceleration' should be 2.5 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_torque(motor), 40, "Motor G: 'maxTorque' should be 40 but isn't.");
   motor = wb_robot_get_device_by_index(20);
-  ts_assert_double_equal(wb_motor_get_min_position(motor), -2, "Motor G: 'minPosition' should be -2 but isn't.");
-  ts_assert_double_equal(wb_motor_get_max_position(motor), 2, "Motor G: 'maxPosition' should be 2 but isn't.");
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -4, "Motor G: 'minPosition' should be -4 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 8, "Motor G: 'maxPosition' should be 8 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_velocity(motor), 20, "Motor G: 'maxVelocity' should be 20 but isn't.");
   ts_assert_double_equal(wb_motor_get_acceleration(motor), 20, "Motor G: 'acceleration' should be 20 but isn't.");
   ts_assert_double_equal(wb_motor_get_max_torque(motor), 5, "Motor G: 'maxTorque' should be 5 but isn't.");
+  // multipliers on file [2, -0.5, -4] (which is [motor H1, motor H2, motor H3])
+  // minPosition on file [-2, -2, -2] -> [-2, -1, -8] after loading. Note: [4, -8] and [0.5, -1] have swapped position
+  // maxPosition on file [4, 4, 4] -> [4, 0.5, 4] after loading. Note: [4, -8] and [0.5, -1] have swapped position
+  // maxVelocity on file [10, 10, 10] -> [10, 2.5, 20] after loading
+  // maxAccel. on file   [10, 10, 10] -> [10, 2.5, 20] after loading
+  // maxTorque on file   [10, 10, 10] -> [10, 40, 5] after loading
+  motor = wb_robot_get_device_by_index(21);
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -2, "Motor H: 'minPosition' should be -2 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor H: 'maxPosition' should be 4 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_velocity(motor), 10, "Motor H: 'maxVelocity' should be 10 but isn't.");
+  ts_assert_double_equal(wb_motor_get_acceleration(motor), 10, "Motor H: 'acceleration' should be 10 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_torque(motor), 10, "Motor H: 'maxTorque' should be 10 but isn't.");
+  motor = wb_robot_get_device_by_index(22);
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -1, "Motor H: 'minPosition' should be -1 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 0.5, "Motor H: 'maxPosition' should be 0.5 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_velocity(motor), 2.5, "Motor H: 'maxVelocity' should be 2.5 but isn't.");
+  ts_assert_double_equal(wb_motor_get_acceleration(motor), 2.5, "Motor H: 'acceleration' should be 2.5 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_torque(motor), 40, "Motor H: 'maxTorque' should be 40 but isn't.");
+  motor = wb_robot_get_device_by_index(23);
+  ts_assert_double_equal(wb_motor_get_min_position(motor), -8, "Motor H: 'minPosition' should be -8 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor H: 'maxPosition' should be 4 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_velocity(motor), 20, "Motor H: 'maxVelocity' should be 20 but isn't.");
+  ts_assert_double_equal(wb_motor_get_acceleration(motor), 20, "Motor H: 'acceleration' should be 20 but isn't.");
+  ts_assert_double_equal(wb_motor_get_max_torque(motor), 5, "Motor H: 'maxTorque' should be 5 but isn't.");
 
   ts_send_success();
   return EXIT_SUCCESS;

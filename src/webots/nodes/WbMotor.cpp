@@ -113,21 +113,19 @@ void WbMotor::preFinalize() {
 
   cMotors << this;
 
-  // do not check parameter limits yet, will be done in postFinalize when all of them are available
+  // only check for parameter validity, when all parameters are loaded, in the postFinalize step, consistency across coupled
+  // motors will be checked
   updateMaxVelocity(false);
   updateMaxAcceleration(false);
   updateMinAndMaxPosition(false);
-
+  updateMaxForceOrTorque(false);
   updateControlPID();
   updateSound();
 
   mForceOrTorqueSensor = new WbSensor();
 
-  mTargetVelocity = mMaxVelocity->value();
   const WbJoint *const j = joint();
   mTargetPosition = j ? position() : 0.0;
-  mMotorForceOrTorque = mMaxForceOrTorque->value();
-  updateMaxForceOrTorque(false);
 }
 
 void WbMotor::postFinalize() {
@@ -138,6 +136,10 @@ void WbMotor::postFinalize() {
 
   inferMotorCouplings();
   checkMultiplierAcrossCoupledMotors();  // it calls all the other checks implicitly
+
+  // this must be done in the postFinalize step now as the coupled motor consistency check could change the values
+  mTargetVelocity = mMaxVelocity->value();
+  mMotorForceOrTorque = mMaxForceOrTorque->value();
 
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
@@ -298,6 +300,10 @@ void WbMotor::updateMaxAcceleration(bool checkLimits) {
   mNeedToConfigure = true;
 }
 
+///////////////////
+// Plain setters //
+///////////////////
+
 void WbMotor::setMaxVelocity(double v) {
   mMaxVelocity->setValue(v);
   awake();
@@ -308,21 +314,28 @@ void WbMotor::setMaxAcceleration(double acc) {
   awake();
 }
 
-void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) {
+void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
+  mMaxForceOrTorque->setValue(forceOrTorque);
+  awake();
+}
+
+/////////////////
+// API setters //
+/////////////////
+
+void WbMotor::setTargetPosition(double position, double senderMultiplier) {
   const double maxp = mMaxPosition->value();
   const double minp = mMinPosition->value();
-  const bool velocityControl = std::isinf(targetPosition);
-  mTargetPosition = velocityControl ? targetPosition : targetPosition * multiplier() / senderMultiplier;
-
-  printf("received %f, target is %f\n", targetPosition, mTargetPosition);
+  const bool velocityControl = std::isinf(position);
+  mTargetPosition = velocityControl ? position : position * multiplier() / senderMultiplier;
 
   if (maxp != minp && !velocityControl) {
-    if (targetPosition > maxp) {
+    if (position > maxp) {
       mTargetPosition = maxp;
-      warn(QString("too big requested position: %1 > %2").arg(targetPosition).arg(maxp));
-    } else if (targetPosition < minp) {
+      warn(QString("too big requested position: %1 > %2").arg(position).arg(maxp));
+    } else if (position < minp) {
       mTargetPosition = minp;
-      warn(QString("too low requested position: %1 < %2").arg(targetPosition).arg(minp));
+      warn(QString("too low requested position: %1 < %2").arg(position).arg(minp));
     }
   }
 
@@ -330,8 +343,8 @@ void WbMotor::setTargetPosition(double targetPosition, double senderMultiplier) 
   awake();
 }
 
-void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) {
-  mTargetVelocity = targetVelocity * multiplier() / senderMultiplier;
+void WbMotor::setVelocity(double velocity, double senderMultiplier) {
+  mTargetVelocity = velocity * multiplier() / senderMultiplier;
 
   const double m = mMaxVelocity->value();
   const bool isNegative = mTargetVelocity < 0.0;
@@ -343,23 +356,18 @@ void WbMotor::setTargetVelocity(double targetVelocity, double senderMultiplier) 
   awake();
 }
 
-void WbMotor::enforceAcceleration(double desiredAcceleration, double senderMultiplier) {
-  mAcceleration->setValue(desiredAcceleration * fabs(mMultiplier->value() / fabs(senderMultiplier)));
-  awake();
-}
-
-void WbMotor::setMaxForceOrTorque(double forceOrTorque) {
-  mMaxForceOrTorque->setValue(forceOrTorque);
+void WbMotor::setAcceleration(double acceleration, double senderMultiplier) {
+  // note: an error is thrown on libController side for negative values
+  mAcceleration->setValue(acceleration * fabs(multiplier()) / fabs(senderMultiplier));
   awake();
 }
 
 void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
-  printf("setForceOrTorque\n");
   if (!mUserControl)  // we were previously using motor force
     turnOffMotor();
   mUserControl = true;
 
-  mRawInput = forceOrTorque / mMultiplier->value() * senderMultiplier;
+  mRawInput = forceOrTorque * senderMultiplier / multiplier();
   if (fabs(mRawInput) > mMotorForceOrTorque) {
     if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
       warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
@@ -373,7 +381,8 @@ void WbMotor::setForceOrTorque(double forceOrTorque, double senderMultiplier) {
 }
 
 void WbMotor::setAvailableForceOrTorque(double forceOrTorque, double senderMultiplier) {
-  mMotorForceOrTorque = forceOrTorque / mMultiplier->value() * senderMultiplier;
+  // note: an error is thrown on libController side for negative values
+  mMotorForceOrTorque = forceOrTorque * fabs(senderMultiplier) / fabs(multiplier());
   const double m = mMaxForceOrTorque->value();
   if (mMotorForceOrTorque > m) {
     if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
@@ -512,11 +521,17 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
   // if the position is limited for this motor, adjust the limits of the siblings accordingly
   if (!isPositionUnlimited()) {
     for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      double potentialMinimalPosition = minPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(multiplier());
-      double potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-      printf("BEFORE potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
-      WbMathsUtilities::clampAngles(potentialMinimalPosition, potentialMaximalPosition);
-      printf("AFTER potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
+      double potentialMinimalPosition = minPosition() * mCoupledMotors[i]->multiplier() / multiplier();
+      double potentialMaximalPosition = this->maxPosition() * mCoupledMotors[i]->multiplier() / this->multiplier();
+      if (potentialMaximalPosition < potentialMinimalPosition) {
+        const double tmp = potentialMaximalPosition;
+        potentialMaximalPosition = potentialMinimalPosition;
+        potentialMinimalPosition = tmp;
+      }
+      // printf("BEFORE potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
+      // note: clampAngles will swap them if negative multipliers flip them around
+      // WbMathsUtilities::clampAngles(potentialMinimalPosition, potentialMaximalPosition);
+      // printf("AFTER potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
 
       if (mCoupledMotors[i]->minPosition() != potentialMinimalPosition) {
         parsingWarn(tr("The 'minPosition' limit must be consistent across coupled motors otherwise the command cannot be "
@@ -879,32 +894,32 @@ void WbMotor::handleMessage(QDataStream &stream) {
 
   switch (command) {
     case C_MOTOR_SET_POSITION: {
-      double targetPosition;
-      stream >> targetPosition;
-      setTargetPosition(targetPosition);
+      double position;
+      stream >> position;
+      setTargetPosition(position);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setTargetPosition(targetPosition, multiplier());
+        mCoupledMotors[i]->setTargetPosition(position, multiplier());
       }
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
-      double targetVelocity;
-      stream >> targetVelocity;
-      setTargetVelocity(targetVelocity);
+      double velocity;
+      stream >> velocity;
+      setVelocity(velocity);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->setTargetVelocity(targetVelocity, multiplier());
+        mCoupledMotors[i]->setVelocity(velocity, multiplier());
       }
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
       double acceleration;
       stream >> acceleration;
-      enforceAcceleration(acceleration);
+      setAcceleration(acceleration);
       // relay target acceleration to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i) {
-        mCoupledMotors[i]->enforceAcceleration(acceleration, multiplier());
+        mCoupledMotors[i]->setAcceleration(acceleration, multiplier());
       }
       break;
     }
