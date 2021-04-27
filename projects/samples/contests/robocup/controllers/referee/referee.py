@@ -1084,9 +1084,12 @@ try:
             blue_line = f'{game.blue.id}={blue_team["name"]}\n'
             with open(path, 'w') as file:
                 file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
-            game.controller_process = subprocess.Popen(
-              [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar', '--config', game_config_file],
-              cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
+            command_line = [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar']
+            if game.minimum_real_time_factor == 0:
+                command_line.append('--fast')
+            command_line.append('--config')
+            command_line.append(game_config_file)
+            game.controller_process = subprocess.Popen(command_line, cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
         game.controller_process = None
