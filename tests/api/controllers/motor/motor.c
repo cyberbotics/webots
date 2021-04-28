@@ -19,6 +19,7 @@
 #define MAX_ACCELERATION 5.0
 #define MAX_VELOCITY 20.0
 #define MAX_TORQUE 100.0
+#define MULTIPLIER 5
 // saved from prior simulation
 #define REFERENCE_POSITION 1.18212
 #define REFERENCE_TORQUE 0.0268543
@@ -63,7 +64,16 @@ int main(int argc, char **argv) {
 
   double acceleration = wb_motor_get_acceleration(motor);
   ts_assert_double_equal(acceleration, MAX_ACCELERATION, "The acceleration value of the motor should be %g and not %g",
-                         acceleration, MAX_ACCELERATION);
+                         MAX_ACCELERATION, acceleration);
+
+  const WbDeviceTag hinge_motor = wb_robot_get_device_by_index(0);
+  const WbDeviceTag hinge_motor1 = wb_robot_get_device_by_index(1);
+  double multiplier = wb_motor_get_multiplier(hinge_motor);
+  double multiplier1 = wb_motor_get_multiplier(hinge_motor1);
+  ts_assert_double_equal(multiplier, MULTIPLIER, "The multiplier value of the motor should be %g and not %g", MULTIPLIER,
+                         multiplier);
+  ts_assert_double_equal(multiplier1, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g", -MULTIPLIER,
+                         multiplier1);
 
   double torque = wb_motor_get_available_torque(motor);
   double max_torque = wb_motor_get_max_torque(motor);

@@ -283,6 +283,7 @@ In such case the joint acceleration is set to `RotationalMotor.maxTorque` or `Li
 #### `wb_motor_get_max_force`
 #### `wb_motor_get_available_torque`
 #### `wb_motor_get_max_torque`
+#### `wb_motor_get_multiplier`
 
 %tab-component "language"
 
@@ -307,6 +308,7 @@ double wb_motor_get_available_force(WbDeviceTag tag);
 double wb_motor_get_max_force(WbDeviceTag tag);
 double wb_motor_get_available_torque(WbDeviceTag tag);
 double wb_motor_get_max_torque(WbDeviceTag tag);
+double wb_motor_get_multiplier(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -334,6 +336,7 @@ namespace webots {
     double getMaxForce() const;
     double getAvailableTorque() const;
     double getMaxTorque() const;
+    double getMultiplier() const;
     // ...
   }
 }
@@ -363,6 +366,7 @@ class Motor (Device):
     def getMaxForce(self):
     def getAvailableTorque(self):
     def getMaxTorque(self):
+    def getMultiplier(self):
     # ...
 ```
 
@@ -390,6 +394,7 @@ public class Motor extends Device {
   public double getMaxForce();
   public double getAvailableTorque();
   public double getMaxTorque();
+  public double getMultiplier();
   // ...
 }
 ```
@@ -415,6 +420,7 @@ force = wb_motor_get_available_force(tag)
 force = wb_motor_get_max_force(tag)
 torque = wb_motor_get_available_torque(tag)
 torque = wb_motor_get_max_torque(tag)
+multiplier = wb_motor_get_multiplier(tag)
 ```
 
 %tab-end
@@ -439,6 +445,7 @@ torque = wb_motor_get_max_torque(tag)
 | `/<device_name>/get_max_force` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 | `/<device_name>/get_available_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 | `/<device_name>/get_max_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
+| `/<device_name>/get_multiplier` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -525,6 +532,9 @@ The default value of *P, I* and *D* are specified by the `controlPID` field of t
 
 The `wb_motor_get_[min|max]_position` functions allow to get the values of respectively the `minPosition` and the `maxPosition` fields.
 Positions are expressed in *radian* [rad] for rotational motors and in *meter* [m] for linear motors.
+
+The `wb_motor_get_multiplier` function allows to retrieve the `multiplier` value specified for the provided motor.
+This value is enforced only in the context of coupled motors and will return 1 otherwise.
 
 ---
 

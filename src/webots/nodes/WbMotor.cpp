@@ -136,6 +136,7 @@ void WbMotor::postFinalize() {
 
   inferMotorCouplings();
   checkMultiplierAcrossCoupledMotors();  // it calls all the other checks implicitly
+  mNeedToConfigure = true;               // notify libController about the changes after the check
 
   // this must be done in the postFinalize step now as the coupled motor consistency check could change the values
   mTargetVelocity = mMaxVelocity->value();
@@ -195,10 +196,6 @@ void WbMotor::inferMotorCouplings() {
   for (int i = 0; i < cMotors.size(); ++i)
     if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
       mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
-
-  printf("my motor tag is %d\n", tag());
-  for (int i = 0; i < mCoupledMotors.size(); i++)
-    printf(" > coupled with: %d\n", mCoupledMotors[i]->tag());
 }
 
 /////////////
@@ -206,7 +203,6 @@ void WbMotor::inferMotorCouplings() {
 /////////////
 
 void WbMotor::updateMaxForceOrTorque(bool checkLimits) {
-  printf("> updateMaxForceOrTorque\n");
   WbFieldChecker::resetDoubleIfNegative(this, mMaxForceOrTorque, 10.0);
 
   if (checkLimits)
@@ -216,7 +212,6 @@ void WbMotor::updateMaxForceOrTorque(bool checkLimits) {
 }
 
 void WbMotor::updateMaxVelocity(bool checkLimits) {
-  printf("> updateMaxVelocity\n");
   WbFieldChecker::resetDoubleIfNegative(this, mMaxVelocity, -mMaxVelocity->value());
 
   if (checkLimits)
@@ -226,7 +221,6 @@ void WbMotor::updateMaxVelocity(bool checkLimits) {
 }
 
 void WbMotor::updateMinAndMaxPosition(bool checkLimits) {
-  printf("> updateMinAndMaxPosition\n");
   enforceMotorLimitsInsideJointLimits();
 
   if (checkLimits)
@@ -236,8 +230,6 @@ void WbMotor::updateMinAndMaxPosition(bool checkLimits) {
 }
 
 void WbMotor::updateMultiplier(bool checkLimits) {
-  printf("> updateMultiplier\n");
-
   if (checkLimits)
     checkMultiplierAcrossCoupledMotors();
 
@@ -291,7 +283,6 @@ void WbMotor::updateMuscles() {
 }
 
 void WbMotor::updateMaxAcceleration(bool checkLimits) {
-  printf("> updateMaxAcceleration\n");
   WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
 
   if (checkLimits)
@@ -507,7 +498,6 @@ bool WbMotor::isConfigureDone() const {
 }
 
 void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
-  printf("  checkMinAndMaxPositionAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
     return;
 
@@ -635,7 +625,6 @@ void WbMotor::enforceMotorLimitsInsideJointLimits() {
 }
 
 void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
-  printf("  checkMaxForceOrTorqueAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
     return;
 
@@ -677,7 +666,6 @@ void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
 }
 
 void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
-  printf("  checkMaxVelocityAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
     return;
 
@@ -714,7 +702,6 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
 }
 
 void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
-  printf("  checkMaxAccelerationAcrossCoupledMotors\n");
   if (mCoupledMotors.size() == 0)
     return;
 
@@ -789,8 +776,6 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
 }
 
 void WbMotor::checkMultiplierAcrossCoupledMotors() {
-  printf("  checkMultiplierAcrossCoupledMotors\n");
-
   if (mCoupledMotors.size() == 0 && multiplier() != 1.0) {
     parsingWarn(tr("The 'multiplier' parameter has an effect only if two or more motors sharing the same name (coupled motors) "
                    "are present. Reverting value to 1."));
@@ -829,6 +814,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mControlPID->value().y();
   stream << (double)mControlPID->value().z();
   stream << (double)mTargetPosition;
+  stream << (double)mMultiplier->value();
   mNeedToConfigure = false;
 }
 

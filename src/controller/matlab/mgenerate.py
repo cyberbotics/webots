@@ -283,6 +283,7 @@ gen(FUNC, "wb_motor_get_available_force(tag)", "motor")
 gen(FUNC, "wb_motor_get_max_force(tag)", "motor")
 gen(FUNC, "wb_motor_get_available_torque(tag)", "motor")
 gen(FUNC, "wb_motor_get_max_torque(tag)", "motor")
+gen(FUNC, "wb_motor_get_multiplier(tag)", "motor")
 gen(FUNC, "wb_motor_get_brake(tag)", "motor")
 gen(FUNC, "wb_motor_get_position_sensor(tag)", "motor")
 
