@@ -6,6 +6,8 @@ import numpy as np
 POS_ABS_TOL = 0.03 # [m]
 
 VALID_STATES = ["INITIAL","READY","SET","PLAYING","FINISHED"]
+VALID_SEC_STATES = ["NORMAL","PENALTYSHOOT","OVERTIME","TIMEOUT","DIRECT_FREEKICK","INDIRECT_FREEKICK","PENALTYKICK",
+                    "CORNERKICK","GOALKICK","THROWIN","DROPBALL","UNKNOWN"]
 
 class StatusInformation:
     """Contains basic information over the Game Controller state and time properties
@@ -40,6 +42,8 @@ class StatusInformation:
         Returns the id of the team currently having kick_off
     getStateStart(state, clock_type, state_count)
         Returns the time at which the provided situation was reached first, or -1 if it has never been reached.
+    getSecStateStart(sec_state, phase, clock_type, state_count)
+        Returns the time at which the provided situation was reached first, or -1 if it has never been reached.
     """
 
     def __init__(self, system_time, simulated_time, gc_status):
@@ -48,6 +52,13 @@ class StatusInformation:
         self._state_starts = {}
         for s in VALID_STATES:
             self._state_starts[s] = []
+        self._sec_state_starts = {}
+        for s in VALID_SEC_STATES:
+            self._sec_state_starts[s] = []
+            # sec_state_starts store one entry per phase
+            for i in range(3):
+                self._sec_state_starts[s].append([])
+
         self.gc_status = None
         self._updateGC(system_time, simulated_time, gc_status)
 
@@ -101,17 +112,52 @@ class StatusInformation:
             return -1
         return self._state_starts[state][state_count-1][clock_type]
 
+    def getSecStateStart(self, sec_state, phase, clock_type, state_count=1):
+        """
+        Returns the time elapsed since the provided state was reached for the n-th time, returns -1 if unreached
+
+        Parameters
+        ----------
+        sec_state : string
+            The concerned secondary state (e.g. CORNERKICK)
+        phase : int
+            The phase of the GameInterruption (e.g. READY)
+        clock_type : string
+            Either Simulated or System
+        state_count : int
+            The number of time we expect the provided exact state (sec_state + phase) to have been reached
+        """
+        if len(self._sec_state_starts[sec_state]) < phase:
+            raise RuntimeError(f"Unexpected phase: {phase}")
+        if len(self._sec_state_starts[sec_state][phase]) < state_count:
+            return -1
+        return self._sec_state_starts[sec_state][phase][state_count-1][clock_type]
+
     def _updateGC(self, system_time, simulated_time, gc_status):
         if gc_status is not None:
-            update_start = (self.gc_status is None or
-                            gc_status.game_state != self.gc_status.game_state)
-            if update_start:
+            update_state_start = (self.gc_status is None or
+                                  gc_status.game_state != self.gc_status.game_state)
+            update_sec_state_start = (self.gc_status is None or
+                                      gc_status.secondary_state != self.gc_status.secondary_state or
+                                      gc_status.secondary_state_info[1] != self.gc_status.secondary_state_info[1])
+            if update_state_start:
                 state = gc_status.game_state.split("_")[1]
                 self._state_starts[state].append({
                     "System" : system_time,
                     "Simulated" : simulated_time
                 })
                 print(f"Adding new state start for state {state}: count: {len(self._state_starts[state])}")
+            if update_sec_state_start:
+                sec_state = gc_status.secondary_state.split("_")[1]
+                phase = gc_status.secondary_state_info[1]
+                if phase > len(self._sec_state_starts[sec_state]):
+                    raise RuntimeError(f"Unexpected phase: {phase}")
+                self._sec_state_starts[sec_state][phase].append({
+                    "System" : system_time,
+                    "Simulated" : simulated_time
+                })
+                count = len(self._sec_state_starts[sec_state][phase])
+                print(f"Adding new sec state start for {sec_state}:{phase}: count: {count}")
         self.gc_status = gc_status
 
 
@@ -144,6 +190,10 @@ class TimeSpecification(ABC):
             offset = status.getStateStart(self._state, self._clock_type, self._state_count)
             if offset < 0:
                 return -1
+        elif self._secondary_state is not None:
+            offset = status.getSecStateStart(self._secondary_state, self._phase, self._clock_type, self._state_count)
+            if offset < 0:
+                return -1
         if self._clock_type == "Simulated":
             return status.simulated_time - offset
         elif self._clock_type == "System":
@@ -155,13 +205,15 @@ class TimeSpecification(ABC):
        clock_type = properties.get("clock_type", "Simulated")
        state = properties.get("state")
        state_count = properties.get("state_count",1)
+       secondary_state = properties.get("secondary_state")
+       phase = properties.get("phase")
        if clock_type not in ["Simulated", "System"]:
            raise RuntimeError(f"clock_type: '{clock_type}' unknown")
        if isinstance(t,float) or isinstance(t,int):
-           return TimePoint(t, clock_type, state, state_count)
+           return TimePoint(t, clock_type, state, state_count, secondary_state, phase)
        elif isinstance(t, list):
            if len(t) == 2:
-               return TimeInterval(t[0], t[1], clock_type, state, state_count)
+               return TimeInterval(t[0], t[1], clock_type, state, state_count, secondary_state, phase)
            raise RuntimeError(f"Invalid size for time: {len(t)}")
        raise RuntimeError("Invalid type for time")
 
@@ -169,7 +221,7 @@ class TimeSpecification(ABC):
 class TimeInterval(TimeSpecification):
     """An implementation of TimeSpecification which is active over an interval of time."""
 
-    def __init__(self, start, end, clock_type, state, state_count):
+    def __init__(self, start, end, clock_type, state, state_count, secondary_state, phase):
        self._start = start
        self._end = end
        self._clock_type = clock_type
@@ -177,6 +229,8 @@ class TimeInterval(TimeSpecification):
            raise RuntimeError("Invalid state: {state}")
        self._state = state
        self._state_count = state_count
+       self._secondary_state = secondary_state
+       self._phase = phase
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
@@ -190,13 +244,15 @@ class TimeInterval(TimeSpecification):
 class TimePoint(TimeSpecification):
     """An implementation of TimeSpecification which is finished as soon as it is activated."""
 
-    def __init__(self, t, clock_type, state, state_count):
+    def __init__(self, t, clock_type, state, state_count, secondary_state, phase):
        self._t = t
        self._clock_type = clock_type
        if state is not None and state not in VALID_STATES:
            raise RuntimeError("Invalid state: {state}")
        self._state = state
        self._state_count = state_count
+       self._secondary_state = secondary_state
+       self._phase = phase
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
