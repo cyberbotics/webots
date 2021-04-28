@@ -10,6 +10,7 @@ Motor {
   SFFloat  minPosition       0        # (-inf, inf) or [-pi, pi]
   SFFloat  maxPosition       0        # (-inf, inf) or [-pi, pi]
   SFFloat  maxVelocity       10       # [0, inf)
+  SFFloat  multiplier        1        # multiplier ratio in a coupled motor system
   SFString sound             ""       # any string
   MFNode   muscles           []       # {Muscle, PROTO}
 }
@@ -65,6 +66,11 @@ These fields are described in more detail in the [Motor Limits section](#motor-l
 It is expressed in *meter per second* [m/s] for linear motors and in *radian per second* [rad/s] for rotational motors.
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
+
+- The `multiplier` field specifies the multiplying factor of this specific motor relative to the others that have the same name.
+This field only has an effect if coupled motors are present (i.e. multiple motors in a robot that share the same name).
+If two motors share the same name and they have respectively a multiplier of 2 and 4, when giving a velocity command to the first, the second will also receive it but will impose twice the velocity (and will have half the available torque).
+The value of this field cannot be zero.
 
 - The `sound` field specifies the URL of a WAVE sound file.
 If the `sound` value starts with `http://` or `https://`, Webots will get the file from the web.
@@ -204,6 +210,37 @@ For example, it is possible that the weight of a robot exceeds the motor force t
 Finally, note that when both soft (`minPosition` and `maxPosition`) and hard limits (`minStop` and `maxStop`, see [JointParameters](jointparameters.md#joint-limits)) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxStop >= maxPosition`.
 Moreover a simulation instability can appear if `position` is exactly equal to one of the bounds defined by the `minStop` and `maxStop` fields at the simulation startup.
 Warnings are displayed if theses rules are not respected.
+
+### Coupled Motors
+
+If multiple motors, be it [RotationalMotor](rotationalmotor.md), [LinearMotor](linearmotor.md) or a mixture of the two, share the same name and they belong to the same [Robot](robot.md) then they are considered as being coupled.
+When giving a command to a coupled motor, for instance using the fuctions [`wb_motor_set_position`](#wb_motor_set_position) or [`wb_motor_set_velocity`](#wb_motor_set_velocity), then the same instruction is relayed to all others.
+By default, all motors have a `multiplier` equal to 1, which means the same command is give to all equally.
+If instead different motors have different multipliers, then the command is relayed accordingly to the specific multiplier of the devices.
+
+When calling the function `wb_robot_get_device`, in a coupled motor context the tag of the first appearing motor that matches the name will be returned.
+Therefore, all functions in the motor API that rely on tags, such as [`wb_motor_get_max_force`](#wb_motor_get_max_force) or [`wb_motor_get_force_feedback`](#wb_motor_get_force_feedback), will return the relevant information about the first motor only.
+Accessing the information of the other sibling motors can be done directly by using the `wb_robot_get_device_by_index` function or...
+
+Since in principle any of the motors among the coupled ones can be commanded directly (for example by getting its tag using `wb_robot_get_device_by_index`), and the siblings can potentially have different `multiplier` values, then it must be ensured that all of the motors remain within their limits no matter which is called and irrespective of the command given.
+For this reason, in a coupled motor context strict limits must be imposed, meaning that the motor limits such as `maxVelocity` and `maxTorque` have to be exactly a factor of each other.
+For example, assume four motors share the same name and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D are adjusted
+according to the values of motor A.
+
+|           motor |  A |   B   |  C |  D |
+|----------------:|:--:|:-----:|:--:|:--:|
+|      multiplier |  2 |  0.5  |  4 | -4 |
+|     minPosition | -1 | -0.25 | -2 | -4 |
+|     maxPosition |  2 |  0.25 |  4 |  2 |
+|     maxVelocity | 10 |  2.5  | 20 | 20 |
+| maxAcceleration | 10 |  2.5  | 20 | 20 |
+|       maxTorque | 10 |   40  |  5 |  5 |
+
+> **Note**: the physical behavior of coupled motors is akin to that of a transmission, so a multiplication of the velocity entails a reduction of the available torque.
+
+> **Note**: negative multipliers are possible and the motor limits imposed must be set in absolute terms. `minPosition` and `maxPosition` are an exception and they require additional care as in the presence of negative multipliers the two values might need to be swapped, as is the case here.
+
+> **Note**: in principle `maxAcceleration` can be unlimited (value -1) and likewise motor positional soft limits might not be provided (`minPosition` = `maxPosition` = 0). In these cases, if the first motor is unlimited, its siblings are also forced to be unlimited and, vice-versa, if the first motor is limited all others are enforced to being limited as well similarly to what is shown in the table above.
 
 ### Energy Consumption
 
