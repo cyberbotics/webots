@@ -98,8 +98,8 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbAltimeter::reset() {
-  WbSolidDevice::reset();
+void WbAltimeter::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   mPreviousAltitude = 0.0;
 }
 
