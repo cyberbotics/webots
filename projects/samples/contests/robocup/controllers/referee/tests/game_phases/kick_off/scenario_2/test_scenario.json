@@ -59,7 +59,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [-4,0,0]
+                "force" : [-2,0,0]
             }
         ]
     },
@@ -149,7 +149,7 @@
     },
     {
         "timing" : {
-            "time" : 15,
+            "time" : 30,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
