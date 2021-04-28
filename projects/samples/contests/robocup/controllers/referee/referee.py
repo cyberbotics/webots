@@ -29,7 +29,8 @@ import transforms3d
 
 from types import SimpleNamespace
 
-SIMULATED_TIME_BEFORE_INTERRUPTION = 2    # run the game for 2 simulated seconds before firing interruption
+SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
+SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
@@ -305,12 +306,13 @@ def game_controller_receive():
             game.interruption_step = step
             game.interruption_step_time = time_count
             info(f'Awarding a {GAME_INTERRUPTIONS[kick]}.')
-        elif step == 1 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and delay >= 10:
+        elif step == 1 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and \
+          delay >= SIMULATED_TIME_INTERRUPTION_PHASE_1:
             game.interruption_step = step
             game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE')
             game.interruption_step_time = time_count
             info(f'Prepare for {GAME_INTERRUPTIONS[kick]}.')
-        elif step == 2 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and delay >= 30:
+        elif step == 2 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0:
             game.interruption_step = step
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
@@ -990,7 +992,7 @@ def interruption(type, team=None):
     game.in_play = False
     game.ball_set_kick = True
     game.interruption = type
-    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+    game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
     if not team:
         game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
     else:
@@ -1153,7 +1155,7 @@ spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
 setup_display()
 
 time_step = int(supervisor.getBasicTimeStep())
-SIMULATED_TIME_BEFORE_INTERRUPTION = int(SIMULATED_TIME_BEFORE_INTERRUPTION * 1000 / time_step)
+SIMULATED_TIME_INTERRUPTION_PHASE_0 = int(SIMULATED_TIME_INTERRUPTION_PHASE_0 * 1000 / time_step)
 SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
 
 if game.controller_process:
@@ -1316,14 +1318,14 @@ while supervisor.step(time_step) != -1:
             right_way = None
             if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
                 if game.penalty_shootout:
-                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
                     game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
                     throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
                 if game.penalty_shootout:
-                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
                     throw_in(left_side=True)
@@ -1334,7 +1336,7 @@ while supervisor.step(time_step) != -1:
                    game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field_goal_height:
                     scoring_team = game.side_left  # goal
                 elif game.penalty_shootout:
-                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
                     if right_way:
@@ -1349,7 +1351,7 @@ while supervisor.step(time_step) != -1:
                     # goal
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 elif game.penalty_shootout:
-                    game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
                     if right_way:
@@ -1369,18 +1371,18 @@ while supervisor.step(time_step) != -1:
                 elif game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
-                    game.ready_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     if game.penalty_shootout:
-                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                         game.penalty_shootout_goal = True
                     else:
                         kickoff()
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number} (own goal)')
-                    game.ready_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                    game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     if game.penalty_shootout:
-                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                         game.penalty_shootout_goal = True
                     else:
                         kickoff()
@@ -1388,7 +1390,7 @@ while supervisor.step(time_step) != -1:
                     info(f'Invalidated score in {goal} goal by penalized ' +
                          f'{game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
                     if game.penalty_shootout:
-                        game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                        game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                         game.penalty_shootout_goal = False
                     else:
                         goal_kick()
@@ -1415,7 +1417,7 @@ while supervisor.step(time_step) != -1:
         game.sent_finish = False
         if game.penalty_shootout:
             if game.state.seconds_remaining <= 0:
-                game.interruption_countdown = SIMULATED_TIME_BEFORE_INTERRUPTION
+                game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                 game.penalty_shootout_goal = False
         elif game.state.first_half:
             if game.ready_countdown == 0:
