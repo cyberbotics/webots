@@ -78,7 +78,16 @@
                 "name" : "Result -> goal kick for red",
                 "secondary_state" : "GOALKICK",
                 "secondary_team" : 15
-            },
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 25,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
             {
                 "name" : "Ball is placed at the right location",
                 "target" : "BALL",
