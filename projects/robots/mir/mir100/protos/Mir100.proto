@@ -36,7 +36,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "meshes/mir_100_base.stl"
+                "meshes/mir_100_base.dae"
               ]
             }
           }
@@ -46,7 +46,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "meshes/mir_100_base_corners.stl"
+                "meshes/mir_100_base_corners.dae"
               ]
             }
           }
@@ -97,21 +97,21 @@ PROTO Mir100 [
         children IS bodySlot
       }
       Transform {
-        translation 0.03733 0.0005 0.204
+        translation 0.03733 0.0005 0.2085
         children [
           Shape {
             appearance PBRAppearance {
               baseColor 0 0.9 1
               emissiveColor 0 0.9 1
-              transparency 0.2
+              transparency 0.5
             }
             geometry DEF SIDE_LIGHT Box {
-              #size 0.7806 0.4665 0.04
-              size 0.8 0.5 0.035
+              size 0.785 0.47 0.053
             }
           }
         ]
       }
+
       DEF US_1_FRAME Solid {
         translation 0.45 -0.12 0.16
         name "us_1_frame"
@@ -255,7 +255,7 @@ PROTO Mir100 [
               }
               geometry Mesh {
                 url [
-                  "meshes/caster_wheel_base.stl"
+                  "meshes/caster_wheel_base.dae"
                 ]
               }
             }
