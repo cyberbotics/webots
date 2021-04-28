@@ -786,7 +786,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
   controller "coupled_motor"
   controllerArgs "load_test"
 }
-DEF VELOCITY_CONTROL Robot {
+DEF PHYSICS_TEST Robot {
   translation 1 0.05 0
   children [
     HingeJoint {
@@ -972,6 +972,7 @@ DEF VELOCITY_CONTROL Robot {
   controllerArgs [
     "physics_test"
   ]
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

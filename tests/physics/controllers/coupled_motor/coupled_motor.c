@@ -3,6 +3,7 @@
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
 #include <webots/robot.h>
+#include <webots/supervisor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -132,14 +133,14 @@ int main(int argc, char **argv) {
       ts_assert_boolean_equal(strcmp("motor", name) == 0, "Device should be a motor named 'motor' but isn't.");
     }
 
+    double positions[NB_SENSORS];
+    double tolerance = 1e-10;
+    int k = 0;
+
     // velocity control, only actuate motor[0]
     wb_motor_set_position(motors[0], INFINITY);
     wb_motor_set_velocity(motors[0], 0.4);
 
-    double positions[NB_SENSORS];
-    const double delta = 1e-10;
-
-    int k = 0;
     while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
       if (k == 50)
         wb_motor_set_velocity(motors[0], -0.4);
@@ -153,18 +154,22 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
-      ts_assert_double_in_delta(positions[1], positions[0] * 0.5, delta, "Velocity control (multiplier 0.5) wrong position.");
-      ts_assert_double_in_delta(positions[2], positions[0] * 4.0, delta, "Velocity control (multiplier 4) wrong position.");
-      ts_assert_double_in_delta(positions[3], positions[0] * -0.5, delta, "Velocity control (multiplier -0.5) wrong position.");
-      ts_assert_double_in_delta(positions[4], positions[0] * -4.0, delta, "Velocity control (multiplier -4) wrong position.");
+      // printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
+      ts_assert_double_in_delta(positions[1], positions[0] * 0.5, tolerance,
+                                "Velocity control: wrong position[1] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[2], positions[0] * 4.0, tolerance,
+                                "Velocity control: wrong position[2] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[3], positions[0] * -0.5, tolerance,
+                                "Velocity control: wrong position[3] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[4], positions[0] * -4.0, tolerance,
+                                "Velocity control: wrong position[4] when controlling motor[0].");
       k++;
     }
 
-    k = 0;
-    // actuate instead motor[4] now
+    // actuate instead motor[4]
     wb_motor_set_velocity(motors[4], 0.4);
 
+    k = 0;
     while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
       if (k == 50)
         wb_motor_set_velocity(motors[4], -0.4);
@@ -172,22 +177,144 @@ int main(int argc, char **argv) {
         wb_motor_set_velocity(motors[4], 0.2);
       if (k == 150)
         wb_motor_set_velocity(motors[4], -0.2);
-      if (k == 200)
+      if (k == 202)
         wb_motor_set_velocity(motors[4], 0);
 
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
-      ts_assert_double_in_delta(positions[0], positions[4] * -0.25, delta, "Velocity control (multiplier 0.5) wrong position.");
-      ts_assert_double_in_delta(positions[1], positions[4] * -0.125, delta, "Velocity control (multiplier 4) wrong position.");
-      ts_assert_double_in_delta(positions[2], positions[4] * -1, delta, "Velocity control (multiplier -0.5) wrong position.");
-      ts_assert_double_in_delta(positions[3], positions[4] * 0.125, delta, "Velocity control (multiplier -4) wrong position.");
+      // printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
+      ts_assert_double_in_delta(positions[0], positions[4] * -0.25, tolerance,
+                                "Velocity control: wrong position[0] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[1], positions[4] * -0.125, tolerance,
+                                "Velocity control: wrong position[1] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[2], positions[4] * -1, tolerance,
+                                "Velocity control: wrong position[2] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[3], positions[4] * 0.125, tolerance,
+                                "Velocity control: wrong position[3] when controlling motor[4].");
+      k++;
+    }
+
+    // switch to position control, actuate motors[0]
+    wb_motor_set_velocity(motors[0], 10);  // restore max velocity
+    wb_motor_set_position(motors[0], 1.5708);
+
+    k = 0;
+    tolerance = 1e-7;
+    while (wb_robot_step(TIME_STEP) != -1 && k < 301) {
+      if (k == 101)
+        wb_motor_set_position(motors[0], -0.7854);
+      if (k == 201)
+        wb_motor_set_position(motors[0], 0);
+
+      for (int i = 0; i < NB_SENSORS; ++i)
+        positions[i] = wb_position_sensor_get_value(sensors[i]);
+
+      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
+      if (k > 0 && !(k % 100)) {
+        ts_assert_double_in_delta(positions[1], positions[0] * 0.5, tolerance,
+                                  "Position control: wrong position[1] when controlling motor[0].");
+        ts_assert_double_in_delta(positions[2], positions[0] * 4.0, tolerance,
+                                  "Position control: wrong position[2] when controlling motor[0].");
+        ts_assert_double_in_delta(positions[3], positions[0] * -0.5, tolerance,
+                                  "Position control: wrong position[3] when controlling motor[0].");
+        ts_assert_double_in_delta(positions[4], positions[0] * -4.0, tolerance,
+                                  "Position control: wrong position[4] when controlling motor[0].");
+      }
+      k++;
+    }
+
+    // actuate motors[4] instead
+    wb_motor_set_position(motors[4], -1.5708);
+
+    k = 0;
+    while (wb_robot_step(TIME_STEP) != -1 && k < 301) {
+      if (k == 101)
+        wb_motor_set_position(motors[4], 0.7854);
+      if (k == 201)
+        wb_motor_set_position(motors[4], 0.0);
+
+      for (int i = 0; i < NB_SENSORS; ++i)
+        positions[i] = wb_position_sensor_get_value(sensors[i]);
+
+      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
+      if (k > 0 && !(k % 100)) {
+        ts_assert_double_in_delta(positions[0], positions[4] * -0.25, tolerance,
+                                  "Position control: wrong position[0] when controlling motor[4].");
+        ts_assert_double_in_delta(positions[1], positions[4] * -0.125, tolerance,
+                                  "Position control: wrong position[1] when controlling motor[4].");
+        ts_assert_double_in_delta(positions[2], positions[4] * -1, tolerance,
+                                  "Position control: wrong position[2] when controlling motor[4].");
+        ts_assert_double_in_delta(positions[3], positions[4] * 0.125, tolerance,
+                                  "Position control: wrong position[3] when controlling motor[4].");
+      }
       k++;
     }
 
     // switch to torque control
-    // wb_motor_set_torque(motors[0], 0.001);
+    WbNodeRef test_robot = wb_supervisor_node_get_from_def("PHYSICS_TEST");
+    wb_supervisor_node_reset_physics(test_robot);
+    wb_motor_set_torque(motors[0], 0.002);
+
+    k = 0;
+    tolerance = 1e-6;
+    while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
+      if (k == 50)
+        wb_motor_set_torque(motors[0], -0.004);
+      if (k == 100)
+        wb_motor_set_torque(motors[0], 0.001);
+      if (k == 150)
+        wb_motor_set_torque(motors[0], -0.002);
+      if (k == 200)
+        wb_motor_set_torque(motors[0], 0);
+
+      for (int i = 0; i < NB_SENSORS; ++i)
+        positions[i] = wb_position_sensor_get_value(sensors[i]);
+
+      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
+      ts_assert_double_in_delta(positions[1], positions[0] / 0.5, tolerance,
+                                "Torque control: wrong position[1] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[2], positions[0] / 4.0, tolerance,
+                                "Torque control: wrong position[2] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[3], positions[0] / -0.5, tolerance,
+                                "Torque control: wrong position[3] when controlling motor[0].");
+      ts_assert_double_in_delta(positions[4], positions[0] / -4.0, tolerance,
+                                "Torque control: wrong position[4] when controlling motor[0].");
+
+      k++;
+    }
+
+    wb_supervisor_node_reset_physics(test_robot);
+
+    wb_motor_set_torque(motors[4], 0.001);
+
+    k = 0;
+    tolerance = 1e-6;
+    while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
+      if (k == 50)
+        wb_motor_set_torque(motors[0], -0.002);
+      if (k == 100)
+        wb_motor_set_torque(motors[0], 0.0005);
+      if (k == 150)
+        wb_motor_set_torque(motors[0], -0.001);
+      if (k == 200)
+        wb_motor_set_torque(motors[0], 0);
+
+      for (int i = 0; i < NB_SENSORS; ++i)
+        positions[i] = wb_position_sensor_get_value(sensors[i]);
+
+      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
+      ts_assert_double_in_delta(positions[0], positions[4] / -0.25, tolerance,
+                                "Torque control: wrong position[0] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[1], positions[4] / -0.125, tolerance,
+                                "Torque control: wrong position[1] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[2], positions[4] / -1, tolerance,
+                                "Torque control: wrong position[2] when controlling motor[4].");
+      ts_assert_double_in_delta(positions[3], positions[4] / 0.125, tolerance,
+                                "Torque control: wrong position[3] when controlling motor[4].");
+
+      k++;
+    }
   }
 
   ts_send_success();
