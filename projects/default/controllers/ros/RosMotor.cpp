@@ -39,6 +39,8 @@ RosMotor::RosMotor(Motor *motor, Ros *ros) : RosDevice(motor, ros) {
                                                          &RosMotor::getMaxVelocityCallback);
   mGetAccelerationServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_acceleration",
                                                           &RosMotor::getAccelerationCallback);
+  mGetMultiplierServer =
+    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_multiplier", &RosMotor::getMultiplierCallback);
   mGetTypeServer =
     RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_type", &RosMotor::getTypeCallback);
   mGetBrakeNameServer =
