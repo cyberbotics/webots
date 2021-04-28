@@ -90,7 +90,16 @@
                 "name" : "Corner kick is awarded to blue team",
                 "secondary_state" : "CORNERKICK",
                 "secondary_team_id" : 4
-            },
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 25,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
             {
                 "name" : "Respawning the ball on the corner of the touch line and goal line on side the ball left the field",
                 "target" : "BALL",

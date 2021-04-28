@@ -117,7 +117,16 @@
                 "name" : "Throw-in is awarded to blue team",
                 "secondary_state" : "THROWIN",
                 "secondary_team_id" : 32
-            },
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 25,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
             {
                 "name" : "Ball placed on the touch line where ball left the field",
                 "target" : "BALL",
