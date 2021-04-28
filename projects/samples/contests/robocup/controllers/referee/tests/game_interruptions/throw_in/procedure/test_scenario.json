@@ -119,11 +119,6 @@
                 "secondary_team_id" : 32,
                 "secondary_phase" : 0,
                 "critical" : true
-            },
-            {
-                "name" : "Ball placed on the touch line where ball left the field",
-                "target" : "BALL",
-                "position" : [1, 3, 0.08]
             }
         ]
     },
@@ -173,6 +168,11 @@
                 "secondary_state" : "THROWIN",
                 "secondary_team_id" : 32,
                 "secondary_phase" : 1
+            },
+            {
+                "name" : "Ball placed on the touch line where ball left the field",
+                "target" : "BALL",
+                "position" : [1, 3, 0.08]
             }
         ]
     },

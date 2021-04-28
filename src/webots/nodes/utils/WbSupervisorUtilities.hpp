@@ -46,7 +46,7 @@ public:
   void writeConfigure(QDataStream &stream);
   void processImmediateMessages(bool blockRegeneration = false);
   void postPhysicsStep();
-  void reset();
+  void reset();  // should be called when controllers are restarted
 
   bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
