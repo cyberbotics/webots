@@ -411,9 +411,6 @@ double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
       velocity = -outputValue;
     else
       velocity = outputValue > 0.0 ? -fabs(mTargetVelocity) : fabs(mTargetVelocity);
-
-    // printf("pid control, E %f | outputValue %f | mTargetVelocity %f | velocity %f\n", error, outputValue, mTargetVelocity,
-    // velocity);
   }
 
   // try to get closer to velocity
@@ -517,15 +514,12 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
     for (int i = 0; i < mCoupledMotors.size(); ++i) {
       double potentialMinimalPosition = minPosition() * mCoupledMotors[i]->multiplier() / multiplier();
       double potentialMaximalPosition = this->maxPosition() * mCoupledMotors[i]->multiplier() / this->multiplier();
+
       if (potentialMaximalPosition < potentialMinimalPosition) {
         const double tmp = potentialMaximalPosition;
         potentialMaximalPosition = potentialMinimalPosition;
         potentialMinimalPosition = tmp;
       }
-      // printf("BEFORE potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
-      // note: clampAngles will swap them if negative multipliers flip them around
-      // WbMathsUtilities::clampAngles(potentialMinimalPosition, potentialMaximalPosition);
-      // printf("AFTER potential min pos %f / max pos %f\n", potentialMinimalPosition, potentialMaximalPosition);
 
       if (mCoupledMotors[i]->minPosition() != potentialMinimalPosition) {
         parsingWarn(tr("The 'minPosition' limit must be consistent across coupled motors otherwise the command cannot be "
@@ -546,59 +540,6 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
       }
     }
   }
-
-  /*
-  bool isUnlimited = (minPosition() == 0.0 && maxPosition() == 0.0) ? true : false;
-  bool isSiblingUnlimited = false;
-
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    if (mCoupledMotors[i]->minPosition() == 0.0 && mCoupledMotors[i]->maxPosition() == 0.0) {
-      isSiblingUnlimited = true;
-      break;
-    }
-  }
-
-  if (isUnlimited && !isSiblingUnlimited) {
-    for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      parsingWarn(tr("Motor '%1' has no limits on the position, so the siblings must too. Adjusting their 'minPosition' and "
-                     "'maxPosition' accordingly.")
-                    .arg(deviceName()));
-      mCoupledMotors[i]->setMinPosition(0.0);
-      mCoupledMotors[i]->setMaxPosition(0.0);
-    }
-  }
-  if (!isUnlimited && isSiblingUnlimited) {
-    parsingWarn(tr("One of the motor siblings named '%1' has no limits on the position, so this must be unlimited as well. "
-                   "Adjusting 'minPosition' and 'maxPosition' accordingly.")
-                  .arg(deviceName()));
-    this->setMinPosition(0.0);
-    this->setMaxPosition(0.0);
-  }
-
-  if (!isSiblingUnlimited && !isUnlimited) {
-    for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      double potentialMinimalPosition = this->minPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-      if (mCoupledMotors[i]->minPosition() > potentialMinimalPosition) {
-        parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'minPosition' due to the relative "
-                       "multipliers. Adjusting its 'minPosition' from %2 to %3.")
-                      .arg(deviceName())
-                      .arg(mCoupledMotors[i]->minPosition())
-                      .arg(potentialMinimalPosition));
-        mCoupledMotors[i]->setMinPosition(potentialMinimalPosition);
-      }
-
-      double potentialMaximalPosition = this->maxPosition() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-      if (mCoupledMotors[i]->maxPosition() < potentialMaximalPosition) {
-        parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'maxPosition' due to the relative "
-                       "multipliers. Adjusting its 'maxPosition' from %2 to %3.")
-                      .arg(deviceName())
-                      .arg(mCoupledMotors[i]->maxPosition())
-                      .arg(potentialMaximalPosition));
-        mCoupledMotors[i]->setMaxPosition(potentialMaximalPosition);
-      }
-    }
-  }
-  */
 }
 
 void WbMotor::enforceMotorLimitsInsideJointLimits() {
@@ -644,25 +585,6 @@ void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
       mCoupledMotors[i]->setMaxForceOrTorque(potentialMaximalForceOrTorque);
     }
   }
-
-  /*
-  // check if this change is consistent with the parameters of the siblings
-  double potentialMaximalForceOrTorque;
-
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    potentialMaximalForceOrTorque = this->maxForceOrTorque() * fabs(this->multiplier()) / fabs(mCoupledMotors[i]->multiplier());
-    if (mCoupledMotors[i]->maxForceOrTorque() < potentialMaximalForceOrTorque) {
-      const QString limitType = this->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "maxTorque" : "maxForce";
-      parsingWarn(tr("One of the motors called '%1' cannot follow the requested '%2' due to the relative "
-                     "multipliers. Adjusting its '%2' from %3 to %4.")
-                    .arg(deviceName())
-                    .arg(limitType)
-                    .arg(mCoupledMotors[i]->maxForceOrTorque())
-                    .arg(potentialMaximalForceOrTorque));
-      mCoupledMotors[i]->setMaxForceOrTorque(potentialMaximalForceOrTorque);
-    }
-  }
-  */
 }
 
 void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
@@ -682,23 +604,6 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
       mCoupledMotors[i]->setMaxVelocity(potentialMaximalVelocity);
     }
   }
-
-  /*
-  // check if this change is consistent with the parameters of the siblings
-  double potentialMaximalVelocity;
-
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    potentialMaximalVelocity = this->maxVelocity() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-    if (mCoupledMotors[i]->maxVelocity() < potentialMaximalVelocity) {
-      parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'maxVelocity' due to the relative "
-                     "multipliers. Adjusting its 'maxVelocity' from %2 to %3.")
-                    .arg(deviceName())
-                    .arg(mCoupledMotors[i]->maxVelocity())
-                    .arg(potentialMaximalVelocity));
-      mCoupledMotors[i]->setMaxVelocity(potentialMaximalVelocity);
-    }
-  }
-  */
 }
 
 void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
@@ -731,48 +636,6 @@ void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
       }
     }
   }
-
-  /*
-  bool isAccelerationUnlimited = this->acceleration() == -1 ? true : false;
-  bool isSiblingAccelerationUnlimited = false;
-
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    if (mCoupledMotors[i]->acceleration() == -1.0) {
-      isSiblingAccelerationUnlimited = true;
-      break;
-    }
-  }
-
-  if (isAccelerationUnlimited && !isSiblingAccelerationUnlimited) {
-    for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      parsingWarn(tr("Motor '%1' has unlimited acceleration, so the siblings must too. Adjusting 'acceleration' from %2 to
-  -1.") .arg(deviceName()) .arg(mCoupledMotors[i]->acceleration())); mCoupledMotors[i]->setMaxAcceleration(-1.0);
-    }
-  }
-
-  if (!isAccelerationUnlimited && isSiblingAccelerationUnlimited) {
-    parsingWarn(tr("One of the motor siblings named '%1' has unlimited acceleration, so this must be unlimited as well. "
-                   "Adjusting 'acceleration' from %2 to -1.")
-                  .arg(deviceName())
-                  .arg(this->acceleration()));
-    this->setMaxAcceleration(-1.0);
-  }
-
-  if (!isSiblingAccelerationUnlimited && !isAccelerationUnlimited) {
-    for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      const double potentialMaximalAcceleration =
-        this->acceleration() * fabs(mCoupledMotors[i]->multiplier()) / fabs(this->multiplier());
-      if (mCoupledMotors[i]->acceleration() < potentialMaximalAcceleration) {
-        parsingWarn(tr("One of the motor siblings named '%1' cannot follow the requested 'acceleration' due to the relative "
-                       "multipliers. Adjusting its 'acceleration' from %2 to %3.")
-                      .arg(deviceName())
-                      .arg(mCoupledMotors[i]->acceleration())
-                      .arg(potentialMaximalAcceleration));
-        mCoupledMotors[i]->setMaxAcceleration(potentialMaximalAcceleration);
-      }
-    }
-  }
-  */
 }
 
 void WbMotor::checkMultiplierAcrossCoupledMotors() {
