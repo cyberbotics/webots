@@ -29,6 +29,8 @@ import transforms3d
 
 from types import SimpleNamespace
 
+OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty.
+INACTIVE_GOAL_KEEPER_TIMEOUT = 20         # a goal keeper is penalized if inactive for 20 seconds while the ball is in goal area.
 DROPPED_BALL_TIMEOUT = 120                # wait 2 simulated minutes if the ball doesn't move before starting dropped ball
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
@@ -49,6 +51,7 @@ FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
+BORDER_STRIP_WIDTH = 1                    # 1 meter of turf outside the field
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
@@ -273,8 +276,9 @@ def game_controller_receive():
         info(f'New state received from GameController: {game.state.game_state}.')
     if game.state.game_state == 'STATE_PLAYING' and \
        game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 0:
-        info('Ball in play, can be touched by any player (10 seconds elapsed after kickoff).')
-        game.in_play = True
+        if not game.in_play:
+            info('Ball in play, can be touched by any player (10 seconds elapsed after kickoff).')
+            game.in_play = True
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
        game.state.seconds_remaining <= 0:
@@ -282,13 +286,14 @@ def game_controller_receive():
     if previous_seconds_remaining != game.state.seconds_remaining:
         if game.interruption_seconds is not None:
             if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
-                info('Ball in play, can be touched by any player (10 seconds elapsed).')
-                game.in_play = True
-                game.interruption = None
-                game.interruption_step = None
-                game.interruption_step_time = 0
-                game.interruption_team = None
-                game.interruption_seconds = None
+                if not game.in_play:
+                    info('Ball in play, can be touched by any player (10 seconds elapsed).')
+                    game.in_play = True
+                    game.interruption = None
+                    game.interruption_step = None
+                    game.interruption_step_time = 0
+                    game.interruption_team = None
+                    game.interruption_seconds = None
             update_state_display()
         update_time_display()
     red = 0 if game.state.teams[0].team_color == 'RED' else 1
@@ -390,6 +395,16 @@ def distance2(v1, v2):
 
 def distance3(v1, v2):
     return math.sqrt((v1[0] - v2[0]) ** 2 + (v1[1] - v2[1]) ** 2 + (v1[2] - v2[2]) ** 2)
+
+
+def point_inside_turf(point):
+    if point[2] > game.turf_depth:  # in the air
+        return False
+    x = game.field_size_x + BORDER_STRIP_WIDTH
+    y = game.field_size_y + BORDER_STRIP_WIDTH
+    if point[0] > x or point[0] < -x or point[1] > y or point[1] < -y:
+        return False
+    return True
 
 
 def point_inside_field(point):
@@ -564,6 +579,17 @@ def ball_inside_goal_area():  # return the color of the goal area in which the b
     return None
 
 
+def init_team(team):
+    for number in team['players']:
+        player = team['players'][number]
+        player['outside_circle'] = True
+        player['outside_field'] = True
+        player['inside_field'] = False
+        player['inside_own_side'] = False
+        player['outside_goal_area'] = True
+        player['left_turf_time'] = None
+
+
 def update_team_contacts(team, color):
     for number in team['players']:
         player = team['players'][number]
@@ -571,19 +597,13 @@ def update_team_contacts(team, color):
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:
-            if 'outside_circle' not in player:
-                # set initial values to avoid key error in case the robot hasn't yet touch the field
-                player['outside_circle'] = True
-                player['outside_field'] = True
-                player['inside_field'] = False
-                player['inside_own_side'] = False
-                player['outside_goal_area'] = True
             continue
         player['outside_circle'] = True        # true if fully outside the center cicle
         player['outside_field'] = True         # true if fully outside the field
         player['inside_field'] = True          # true if fully inside the field
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
+        outside_turf = True                    # true if fully outside turf
         fallen = False
         for i in range(n):
             point = robot.getContactPoint(i)
@@ -610,6 +630,8 @@ def update_team_contacts(team, color):
                 continue
             if distance3(point, [0, 0, game.turf_depth]) < game.field_circle_radius:
                 player['outside_circle'] = False
+            if point_inside_turf(point):
+                outside_turf = False
             if point_inside_field(point):
                 player['outside_field'] = False
                 if abs(point[0]) > game.field_size_x - game.field_goal_area_length and \
@@ -642,6 +664,11 @@ def update_team_contacts(team, color):
             delay = (int((time_count - player['fallen']) / 100)) / 10
             info(f'{color} player {number} just recovered after {delay} seconds.')
             del player['fallen']
+        if outside_turf:
+            if player['left_turf_time'] is None:
+                player['left_turf_time'] = time_count
+        else:
+            player['left_turf_time'] = None
 
 
 def update_ball_contacts():
@@ -770,6 +797,25 @@ def check_team_dropped_ball_position(team):
 def check_dropped_ball_position():
     check_team_dropped_ball_position(red_team)
     check_team_dropped_ball_position(blue_team)
+
+
+def check_team_outside_turf(team, color):
+    for number in team['players']:
+        player = team['players'][number]
+        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
+            continue  # skip already penalized players
+        if player['left_turf_time'] is None:
+            continue
+        if time_count - player['left_turf_time'] < OUTSIDE_TURF_TIMEOUT * 1000:
+            continue
+        info(f'{color.capitalize()} player {number} left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds.')
+        player['penalty'] = 'INCAPABLE'
+        player['penalty_reason'] = f'left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds'
+
+
+def check_outside_turf():
+    check_team_outside_turf(red_team, 'red')
+    check_team_outside_turf(blue_team, 'blue')
 
 
 def check_team_penalized_in_field(team, color):
@@ -1090,6 +1136,10 @@ with open(game.red.config) as json_file:
     red_team = json.load(json_file)
 with open(game.blue.config) as json_file:
     blue_team = json.load(json_file)
+
+init_team(red_team)
+init_team(blue_team)
+
 field_size = getattr(game, 'class').lower()
 
 # check team name length (should be at most 12 characters long, trim them if too long)
@@ -1273,6 +1323,7 @@ while supervisor.step(time_step) != -1:
     update_contacts()  # check for collisions with the ground and ball
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
+        check_outside_turf()
         if not game.in_play:
             d = distance2(game.ball_kick_translation, game.ball_position)
             if d > BALL_IN_PLAY_MOVE:
