@@ -18,7 +18,6 @@ int main(int argc, char **argv) {
   const char *test_type = argv[1];
 
   if (strcmp("load_test", test_type) == 0) {
-    printf("LOAD TEST %d\n", wb_robot_get_number_of_devices());
     // Test: acceleration paramter load. Note: all motors have the same multiplier.
     // acceleration on file [5, 10, 20] -> [5, 5, 5] after loading
     // same multiplier, different limits => the value of the first motor is enforced for all
@@ -115,8 +114,6 @@ int main(int argc, char **argv) {
   }
 
   if (strcmp("physics_test", test_type) == 0) {
-    printf("PHYSICS TEST %d\n", wb_robot_get_number_of_devices());
-
     WbDeviceTag sensors[NB_SENSORS];
     char sensor_name[8];
 
