@@ -29,6 +29,7 @@ import transforms3d
 
 from types import SimpleNamespace
 
+DROPPED_BALL_TIMEOUT = 120                # wait 2 simulated minutes if the ball doesn't move before starting dropped ball
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
@@ -322,7 +323,7 @@ def game_controller_receive():
 
 
 def game_controller_send(message):
-    if message[:6] == 'STATE:' or message[:6] == 'SCORE:':
+    if message[:6] == 'STATE:' or message[:6] == 'SCORE:' or message == 'DROPPEDBALL':
         # we don't want to send twice the same STATE or SCORE message
         if game_controller_send.sent_once == message:
             return False
@@ -755,6 +756,22 @@ def check_kickoff_position():
     return red or blue
 
 
+def check_team_dropped_ball_position(team):
+    for number in team['players']:
+        player = team['players'][number]
+        if not player['outside_circle']:
+            player['penalty'] = 'INCAPABLE'
+            player['penalty_reason'] = 'inside center circle during dropped ball'
+        elif not player['inside_own_side']:
+            player['penalty'] = 'INCAPABLE'
+            player['penalty_reason'] = 'outside team side during dropped ball'
+
+
+def check_dropped_ball_position():
+    check_team_dropped_ball_position(red_team)
+    check_team_dropped_ball_position(blue_team)
+
+
 def check_team_penalized_in_field(team, color):
     penalty = False
     for number in team['players']:
@@ -1046,6 +1063,16 @@ def kickoff():
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
 
 
+def dropped_ball():
+    info(f'The ball didn\'t move for the past {DROPPED_BALL_TIMEOUT} seconds.')
+    game.ball_last_move = time_count
+    game_controller_send('DROPPEDBALL')
+    game.ball_kick_translation[0] = 0
+    game.ball_kick_translation[1] = 0
+    game.ball_set_kick = True
+    game.in_play = False
+    game.dropped_ball = True
+
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -1206,6 +1233,8 @@ game.ball_last_touch_team = 'red'
 game.ball_last_touch_player_number = 1
 game.ball_last_touch_time = 0
 game.ball_last_touch_time_for_display = 0
+game.ball_position = [0, 0, 0]
+game.ball_last_move = 0
 game.real_time_multiplier = 1000 / (game.minimum_real_time_factor * time_step) if game.minimum_real_time_factor > 0 else 1
 game.interruption = None
 game.interruption_countdown = 0
@@ -1213,6 +1242,7 @@ game.interruption_step = None
 game.interruption_step_time = 0
 game.interruption_team = None
 game.interruption_seconds = None
+game.dropped_ball = False
 game.overtime = False
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
@@ -1236,7 +1266,10 @@ while supervisor.step(time_step) != -1:
     if game.state is None:
         time_count += time_step
         continue
+    previous_position = copy.deepcopy(game.ball_position)
     game.ball_position = game.ball_translation.getSFVec3f()
+    if game.ball_position != previous_position:
+        game.ball_last_move = time_count
     update_contacts()  # check for collisions with the ground and ball
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.state.game_state == 'STATE_PLAYING':
@@ -1250,6 +1283,8 @@ while supervisor.step(time_step) != -1:
                 if not check_circle_entrance(team):
                     check_ball_must_kick(team)
         else:
+            if time_count - game.ball_last_move > DROPPED_BALL_TIMEOUT * 1000:
+                dropped_ball()
             if game.ball_left_circle is None:
                 if distance2(game.ball_kick_translation, game.ball_position) > game.field_circle_radius + game.ball_radius:
                     game.ball_left_circle = time_count
@@ -1406,11 +1441,15 @@ while supervisor.step(time_step) != -1:
             game.ball.resetPhysics()
             game.ball_translation.setSFVec3f(game.ball_kick_translation)
             game.ball_set_kick = False
-            game.checked_kickoff_position = False
+            game.checked_position = False
         else:
-            if not game.penalty_shootout and not game.checked_kickoff_position:
-                check_kickoff_position()
-                game.checked_kickoff_position = True
+            if not game.penalty_shootout:
+                if not game.checked_position:
+                    if game.dropped_ball:
+                        check_dropped_ball_position()
+                    else:
+                        check_kickoff_position()
+                    game.checked_position = True
             game.play_countdown -= 1
             if game.play_countdown == 0:
                 game.ready_countdown = 0
