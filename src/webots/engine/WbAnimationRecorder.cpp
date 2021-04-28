@@ -354,6 +354,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
     foreach (QString label, mChangedLabels) {
       out << "{";
       out << label;
+      mLabelsIds.insert(label.mid(5, label.indexOf("font") - 7));
       if (label == mChangedLabels.last())
         out << "}";
       else
@@ -459,6 +460,18 @@ void WbAnimationRecorder::stopRecording() {
       out << command->node()->uniqueId();
     }
   }
+  out << "\",\n";
+
+  out << " \"labelsIds\":\"";
+  firstCommand = true;
+  foreach (QString id, mLabelsIds) {
+    if (!firstCommand)
+      out << ";";
+    else
+      firstCommand = false;
+    out << id;
+  }
+
   out << "\",\n";
 
   out << " \"frames\":[\n";

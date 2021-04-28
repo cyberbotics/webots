@@ -17,6 +17,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 #include "WbRotation.hpp"
 #include "WbVector3.hpp"
@@ -123,6 +124,7 @@ private:
   QList<WbAnimationCommand *> mChangedCommands;
   QList<WbAnimationCommand *> mArtificialCommands;
   QList<QString> mChangedLabels;
+  QSet<QString> mLabelsIds;
 };
 
 #endif

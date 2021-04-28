@@ -36,7 +36,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.data = data;
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
-    this.labelsIds = [];
+    this.labelsIds = this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
     // Automatically start the animation only when all the textures are loaded.
     if (this.gui === 'real_time' && TextureLoader.hasPendingData())
@@ -152,8 +152,6 @@ class Animation { // eslint-disable-line no-unused-vars
     if (this.data.frames[this.step].hasOwnProperty('labels')) {
       let labels = this.data.frames[this.step].labels;
       for (let i = 0; i < labels.length; i++) {
-        if (!this.labelsIds.includes(labels[i].id))
-          this.labelsIds.push(labels[i].id);
         this.scene.applyLabel(labels[i], this.view);
         appliedLabelsIds.push(labels[i].id);
       }
