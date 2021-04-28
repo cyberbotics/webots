@@ -1,7 +1,7 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: hidden, static
+# tags: hidden
 # Backward compatibility with the deprecated 'ChequeredParquetry' PROTO (deprecated in Webots R2020a-rev2)
 # A wooden material in a chequered pattern covered with a layer of varnish. Useful with the `Floor` PROTO.
 

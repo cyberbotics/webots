@@ -20,6 +20,7 @@
 struct WrTexture;
 
 class WbAffinePlane;
+class WbDownloader;
 class WbFocus;
 class WbLensFlare;
 class WbWrenLabelOverlay;
@@ -38,6 +39,7 @@ public:
   virtual ~WbCamera();
 
   // reimplemented public functions
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
@@ -46,7 +48,7 @@ public:
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void resetSharedMemory() override;
   bool isEnabled() const override;
   void updateTextureUpdateNotifications(bool enabled) override;
@@ -127,6 +129,8 @@ private:
   bool mHasSegmentationSharedMemoryChanged;
   bool mSegmentationImageChanged;
   bool mSegmentationImageReady;
+  // URL downloader
+  WbDownloader *mDownloader;
 
 private slots:
   void updateFocus();

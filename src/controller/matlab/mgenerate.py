@@ -128,19 +128,6 @@ gen(PROC, "wb_connector_unlock(tag)", "connector")
 # console.h
 gen_with_doc(PROC, "wb_console_print(txt, stream)", "https://www.cyberbotics.com/doc/guide/using-matlab")
 
-# differential_wheels.h
-gen(PROC, "wb_differential_wheels_set_speed(left, right)", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_left_speed()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_right_speed()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_max_speed()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_speed_unit()", "differentialwheels")
-gen(PROC, "wb_differential_wheels_enable_encoders(sampling_period)", "differentialwheels")
-gen(PROC, "wb_differential_wheels_disable_encoders()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_encoders_sampling_period()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_left_encoder()", "differentialwheels")
-gen(FUNC, "wb_differential_wheels_get_right_encoder()", "differentialwheels")
-gen(PROC, "wb_differential_wheels_set_encoders(left, right)", "differentialwheels")
-
 # display
 gen(FUNC, "wb_display_get_width(tag)", "display")
 gen(FUNC, "wb_display_get_height(tag)", "display")
@@ -459,6 +446,7 @@ gen(FUNC, "wb_supervisor_node_get_parent_node(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_selected()", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_orientation(noderef)", "supervisor")
+# gen(FUNC, "wb_supervisor_node_get_pose(noderef, noderef_from)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_static_balance(noderef)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_velocity(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_is_proto(noderef)", "supervisor")
@@ -471,6 +459,9 @@ gen(PROC, "wb_supervisor_node_add_torque(noderef, torque, relative)", "superviso
 gen(FUNC, "wb_supervisor_node_reset_physics(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_restart_controller(noderef)", "supervisor")
 gen(PROC, "wb_supervisor_node_remove(noderef)", "supervisor")
+gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
+gen(FUNC, "wb_supervisor_node_save_state(noderef, state_name)", "supervisor")
+gen(FUNC, "wb_supervisor_node_load_state(noderef, state_name)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_type(fieldref)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_type_name(fieldref)", "supervisor")
 gen(FUNC, "wb_supervisor_field_get_count(fieldref)", "supervisor")
@@ -650,7 +641,7 @@ gen_consts_from_list("""
     WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
     WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
     WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
-    WB_NODE_ROBOT, WB_NODE_DIFFERENTIAL_WHEELS,
+    WB_NODE_ROBOT,
     WB_NODE_ACCELEROMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
     WB_NODE_CONNECTOR, WB_NODE_DISPLAY, WB_NODE_DISTANCE_SENSOR, WB_NODE_EMITTER,
     WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,

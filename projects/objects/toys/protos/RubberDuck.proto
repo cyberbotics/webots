@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 
 PROTO RubberDuck [
@@ -43,7 +42,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "RubberDuck/beak.obj"
+              url "RubberDuck/meshes/beak.obj"
             }
           }
         ]
@@ -57,7 +56,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "RubberDuck/body.obj"
+              url "RubberDuck/meshes/body.obj"
             }
           }
         ]
@@ -70,14 +69,14 @@ PROTO RubberDuck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "RubberDuck/eye.jpg"
+                  "RubberDuck/textures/eye.jpg"
                 ]
               }
               metalness 0
               roughness 0.4
             }
             geometry Mesh {
-              url "RubberDuck/eye.obj"
+              url "RubberDuck/meshes/eye.obj"
             }
           }
         ]

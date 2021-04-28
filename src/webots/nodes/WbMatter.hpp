@@ -36,8 +36,8 @@ public:
   // reimplemented public functions
   void createWrenObjects() override;
   void postFinalize() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   int constraintType() const override;
   void setScaleNeedUpdate() override;
@@ -63,7 +63,7 @@ public:
   bool hasAvalidBoundingObject() const { return boundingObject() && boundingObject()->isAValidBoundingObject(); }
 
   // for wb_supervisor_simulation_reset_physics()
-  virtual void resetPhysics() {}
+  virtual void resetPhysics(bool recursive = true) {}
   virtual void pausePhysics() {}
   virtual void resumePhysics() {}
 

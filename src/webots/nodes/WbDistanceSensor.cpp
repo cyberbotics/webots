@@ -478,8 +478,8 @@ bool WbDistanceSensor::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbDistanceSensor::reset() {
-  WbSolidDevice::reset();
+void WbDistanceSensor::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   updateOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS);
 }
 
@@ -520,7 +520,7 @@ void WbDistanceSensor::computeValue() {
 
         WbRgb pickedColor;
         double roughness, occlusion;
-        shape->pickColor(pickedColor, WbRay(trans, r), &roughness, &occlusion);
+        shape->pickColor(WbRay(trans, r), pickedColor, &roughness, &occlusion);
 
         const double infraRedFactor = 0.8 * pickedColor.red() * (1 - 0.5 * roughness) * (1 - 0.5 * occlusion) + 0.2;
         averageInfraRedFactor += infraRedFactor * mRays[i].weight();

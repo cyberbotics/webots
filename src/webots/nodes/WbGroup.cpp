@@ -54,6 +54,15 @@ WbGroup::~WbGroup() {
   delete mBoundingSphere;
 }
 
+void WbGroup::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->downloadAssets();
+  }
+}
+
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -274,18 +283,18 @@ bool WbGroup::shallExport() const {
   return !mChildren->isEmpty();
 }
 
-void WbGroup::reset() {
-  WbBaseNode::reset();
+void WbGroup::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->reset();
+    it.next()->reset(id);
 }
 
-void WbGroup::save() {
-  WbBaseNode::save();
+void WbGroup::save(const QString &id) {
+  WbBaseNode::save(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->save();
+    it.next()->save(id);
 }
 
 void WbGroup::forwardJerk() {
@@ -366,7 +375,7 @@ void WbGroup::writeParameters(WbVrmlWriter &writer) const {
           const WbVector3 *const p = it.value();
           assert(p);
           const int jointIndex = it.key();
-          for (int j = 0; j < 2; ++j) {
+          for (int j = 0; j < 3; ++j) {
             const double pj = (*p)[j];
             if (!std::isnan(pj)) {
               QString axisIndex;

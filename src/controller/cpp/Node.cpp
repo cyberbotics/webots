@@ -105,6 +105,14 @@ const double *Node::getOrientation() const {
   return wb_supervisor_node_get_orientation(nodeRef);
 }
 
+const double *Node::getPose() const {
+  return wb_supervisor_node_get_pose(nodeRef, NULL);
+}
+
+const double *Node::getPose(const Node *fromNode) const {
+  return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
+}
+
 const double *Node::getCenterOfMass() const {
   return wb_supervisor_node_get_center_of_mass(nodeRef);
 }
@@ -127,6 +135,10 @@ bool Node::getStaticBalance() const {
 
 const double *Node::getVelocity() const {
   return wb_supervisor_node_get_velocity(nodeRef);
+}
+
+std::string Node::exportString() const {
+  return string(wb_supervisor_node_export_string(nodeRef));
 }
 
 void Node::setVelocity(const double velocity[6]) {
@@ -159,4 +171,12 @@ void Node::addForceWithOffset(const double force[3], const double offset[3], boo
 
 void Node::addTorque(const double torque[3], bool relative) {
   wb_supervisor_node_add_torque(nodeRef, torque, relative);
+}
+
+void Node::saveState(const std::string &stateName) {
+  wb_supervisor_node_save_state(nodeRef, stateName.c_str());
+}
+
+void Node::loadState(const std::string &stateName) {
+  wb_supervisor_node_load_state(nodeRef, stateName.c_str());
 }

@@ -26,6 +26,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFVector3.hpp"
 
+class WbDownloader;
 class WbSensor;
 class WbSoundClip;
 
@@ -63,6 +64,7 @@ public:
   bool hasMuscles() const { return !mMuscles->isEmpty(); }
 
   // inherited from WbDevice
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -70,7 +72,7 @@ public:
   void handleMessage(QDataStream &stream) override;
   void writeAnswer(QDataStream &stream) override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static const QList<const WbMotor *> &motors() { return cMotors; }
 
@@ -131,6 +133,7 @@ private:
   int mKinematicVelocitySign;
   QList<WbJointDevice *> mChangedAssociatedDevices;
   WbDeviceTag *mRequestedDeviceTag;
+  WbDownloader *mDownloader;
 
 private slots:
   void updateSound();

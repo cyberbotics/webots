@@ -33,9 +33,11 @@ void WbEmitter::init() {
   mBaudRate = findSFInt("baudRate");
   mByteSize = findSFInt("byteSize");
   mBufferSize = findSFInt("bufferSize");
+  mAllowedChannels = findMFInt("allowedChannels");
   mNeedToSetRange = false;
   mNeedToSetChannel = false;
   mNeedToSetBufferSize = false;
+  mNeedToSetAllowedChannels = false;
   mMediumType = WbDataPacket::UNKNOWN;
   mByteRate = -1.0;
 }
@@ -60,6 +62,7 @@ void WbEmitter::preFinalize() {
   WbSolidDevice::preFinalize();
 
   updateTransmissionSetup();
+  updateAllowedChannels();
 }
 
 void WbEmitter::postFinalize() {
@@ -73,6 +76,7 @@ void WbEmitter::postFinalize() {
   connect(mBaudRate, &WbSFInt::changed, this, &WbEmitter::updateTransmissionSetup);
   connect(mByteSize, &WbSFInt::changed, this, &WbEmitter::updateTransmissionSetup);
   connect(mBufferSize, &WbSFInt::changed, this, &WbEmitter::updateBufferSize);
+  connect(mAllowedChannels, &WbMFInt::changed, this, &WbEmitter::updateAllowedChannels);
 }
 
 void WbEmitter::updateTransmissionSetup() {
@@ -105,7 +109,35 @@ void WbEmitter::updateRange() {
   mNeedToSetRange = true;
 }
 
+bool WbEmitter::isChannelAllowed() {
+  const int allowedChannelsSize = mAllowedChannels->size();
+  if (allowedChannelsSize > 0) {
+    const int currentChannel = (int)mChannel->value();
+    for (int i = 0; i < allowedChannelsSize; i++) {
+      if (currentChannel == mAllowedChannels->item(i))
+        return true;
+    }
+    return false;
+  }
+  return true;
+}
+
+void WbEmitter::updateAllowedChannels() {
+  if (!isChannelAllowed()) {
+    parsingWarn(
+      tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
+  mNeedToSetAllowedChannels = true;
+}
+
 void WbEmitter::updateChannel() {
+  if (!isChannelAllowed()) {
+    parsingWarn(tr("'channel' is not included in 'allowedChannels'. Setting 'channel' to %1").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
   mNeedToSetChannel = true;
 }
 
@@ -117,10 +149,14 @@ void WbEmitter::writeConfigure(QDataStream &stream) {
   stream << (double)mByteRate;
   stream << (double)mRange->value();
   stream << (double)mMaxRange->value();
+  stream << (int)mAllowedChannels->size();
+  for (int i = 0; i < mAllowedChannels->size(); i++)
+    stream << (int)mAllowedChannels->item(i);
 
   mNeedToSetRange = false;
   mNeedToSetChannel = false;
   mNeedToSetBufferSize = false;
+  mNeedToSetAllowedChannels = false;
 }
 
 void WbEmitter::writeAnswer(QDataStream &stream) {
@@ -141,6 +177,13 @@ void WbEmitter::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_EMITTER_SET_BUFFER_SIZE;
     stream << (int)mBufferSize->value();
     mNeedToSetBufferSize = false;
+  }
+  if (mNeedToSetAllowedChannels) {
+    stream << tag();
+    stream << (unsigned char)C_EMITTER_SET_ALLOWED_CHANNELS;
+    stream << (int)mAllowedChannels->size();
+    for (int i = 0; i < mAllowedChannels->size(); i++)
+      stream << (int)mAllowedChannels->item(i);
   }
 }
 
@@ -190,8 +233,8 @@ void WbEmitter::prePhysicsStep(double ms) {
   }
 }
 
-void WbEmitter::reset() {
-  WbSolidDevice::reset();
+void WbEmitter::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   qDeleteAll(mQueue);
   mQueue.clear();
 }

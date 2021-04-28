@@ -1004,8 +1004,7 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset] & 0XFF) != 0xFF;
       clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 1] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 3];
     }
   } else if (format == WB_IMAGE_RGB) {
@@ -1018,16 +1017,14 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 3] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset + 3] & 0xFF) != 0xFF;
       clippedImage[i] = (dataUC[offset + 3] << 24) | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_ABGR) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset] & 0xFF) != 0xFF;
       clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 3] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 1];
     }
   } else
@@ -1197,8 +1194,8 @@ void WbDisplay::postPhysicsStep() {
   mUpdateRequired = false;
 }
 
-void WbDisplay::reset() {
-  WbRenderingDevice::reset();
+void WbDisplay::reset(const QString &id) {
+  WbRenderingDevice::reset(id);
 
   delete[] mImage;
   mImage = NULL;

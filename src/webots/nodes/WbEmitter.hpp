@@ -15,6 +15,7 @@
 #ifndef WB_EMITTER_HPP
 #define WB_EMITTER_HPP
 
+#include "WbMFInt.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSolidDevice.hpp"
@@ -41,7 +42,7 @@ public:
   void writeConfigure(QDataStream &) override;
   void writeAnswer(QDataStream &) override;
   void prePhysicsStep(double ms) override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   int channel() const { return mChannel->value(); }
@@ -56,6 +57,7 @@ private:
   bool mNeedToSetRange;
   bool mNeedToSetChannel;
   bool mNeedToSetBufferSize;
+  bool mNeedToSetAllowedChannels;
 
   // user accessible fields
   WbSFString *mType;
@@ -66,17 +68,20 @@ private:
   WbSFInt *mBaudRate;
   WbSFInt *mByteSize;
   WbSFInt *mBufferSize;
+  WbMFInt *mAllowedChannels;
 
   // private functions
   WbEmitter &operator=(const WbEmitter &);  // non copyable
   WbNode *clone() const override { return new WbEmitter(*this); }
   void init();
+  bool isChannelAllowed();
 
 private slots:
   void updateTransmissionSetup();
   void updateBufferSize();
   void updateRange();
   void updateChannel();
+  void updateAllowedChannels();
 };
 
 #endif  // WB_EMITTER_HPP

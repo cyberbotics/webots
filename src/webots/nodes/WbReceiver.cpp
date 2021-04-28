@@ -109,6 +109,7 @@ void WbReceiver::init() {
   mBufferSize = findSFInt("bufferSize");
   mSignalStrengthNoise = findSFDouble("signalStrengthNoise");
   mDirectionNoise = findSFDouble("directionNoise");
+  mAllowedChannels = findMFInt("allowedChannels");
 }
 
 WbReceiver::WbReceiver(WbTokenizer *tokenizer) : WbSolidDevice("Receiver", tokenizer) {
@@ -143,6 +144,7 @@ void WbReceiver::preFinalize() {
 
   mSensor = new WbSensor();
   updateTransmissionSetup();
+  updateAllowedChannels();
 
   gReceiverList.append(this);  // add myself
 }
@@ -158,6 +160,7 @@ void WbReceiver::postFinalize() {
   connect(mByteSize, &WbSFInt::changed, this, &WbReceiver::updateTransmissionSetup);
   connect(mSignalStrengthNoise, &WbSFDouble::changed, this, &WbReceiver::updateTransmissionSetup);
   connect(mDirectionNoise, &WbSFDouble::changed, this, &WbReceiver::updateTransmissionSetup);
+  connect(mAllowedChannels, &WbMFInt::changed, this, &WbReceiver::updateAllowedChannels);
 }
 
 void WbReceiver::updateTransmissionSetup() {
@@ -174,6 +177,34 @@ void WbReceiver::updateTransmissionSetup() {
   WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBaudRate, -1, -1);
   WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 
+  if (!isChannelAllowed()) {
+    parsingWarn(tr("'channel' is not included in 'allowedChannels'. Setting 'channel' to %1").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
+  mNeedToConfigure = true;
+}
+
+bool WbReceiver::isChannelAllowed() {
+  const int allowedChannelsSize = mAllowedChannels->size();
+  if (allowedChannelsSize > 0) {
+    const int currentChannel = (int)mChannel->value();
+    for (int i = 0; i < allowedChannelsSize; i++) {
+      if (currentChannel == mAllowedChannels->item(i))
+        return true;
+    }
+    return false;
+  }
+  return true;
+}
+
+void WbReceiver::updateAllowedChannels() {
+  if (!isChannelAllowed()) {
+    parsingWarn(
+      tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
   mNeedToConfigure = true;
 }
 
@@ -185,6 +216,9 @@ void WbReceiver::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mBufferSize->value();
   stream << (int)mChannel->value();
+  stream << (int)mAllowedChannels->size();
+  for (int i = 0; i < mAllowedChannels->size(); i++)
+    stream << (int)mAllowedChannels->item(i);
   mNeedToConfigure = false;
 }
 
@@ -354,8 +388,8 @@ bool WbReceiver::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbReceiver::reset() {
-  WbSolidDevice::reset();
+void WbReceiver::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   qDeleteAll(mTransmissionList);
   mTransmissionList.clear();
   qDeleteAll(mReadyQueue);

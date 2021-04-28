@@ -48,7 +48,6 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
       break;
     DWORD dwError = GetLastError();
     if (dwError != ERROR_PIPE_BUSY) {
-      fprintf(stderr, "Cannot open pipe file: %s\n", name);
       free(p);
       return NULL;
     }

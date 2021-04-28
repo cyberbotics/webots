@@ -52,7 +52,7 @@ void WbCharger::init() {
   mDone = true;
   mElementsUpdateRequired = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mSavedEnergies[stateId()] = mBattery->item(CURRENT_ENERGY);
 }
 
 WbCharger::WbCharger(WbTokenizer *tokenizer) : WbSolid("Charger", tokenizer) {
@@ -202,16 +202,12 @@ void WbCharger::prePhysicsStep(double ms) {
       // special case:
       //   if the current energy of the robot is already bigger that its max energy
       //   the robot battery cannot be filled (useful for ratslife)
-      if (robotCurrentEnergy > mRobot->maxEnergy()) {
-        // emtpy the Charger - the energy is lost
-        currentEnergy = 0.0;
+      if (robotCurrentEnergy > mRobot->maxEnergy())
         mDone = true;
-      } else {
+      else {
         robotCurrentEnergy += e;
         if (robotCurrentEnergy > mRobot->maxEnergy()) {
-          // emtpy the Charger - some energy is lost
           robotCurrentEnergy = mRobot->maxEnergy();
-          currentEnergy = 0.0;
           mDone = true;
         }
       }
@@ -256,18 +252,18 @@ void WbCharger::checkContact(WbRobot *const r) {
   // printf("found one robot %p\n", (void *)robot);
 }
 
-void WbCharger::reset() {
-  WbSolid::reset();
+void WbCharger::reset(const QString &id) {
+  WbSolid::reset(id);
   mRobot = NULL;
   mDone = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mBattery->setItem(CURRENT_ENERGY, mInitialEnergy);
+    mBattery->setItem(CURRENT_ENERGY, mSavedEnergies[id]);
   if (mBattery->size() > MAX_ENERGY)
     updateMaterialsAndLights(mBattery->item(CURRENT_ENERGY) / mBattery->item(MAX_ENERGY));
 }
 
-void WbCharger::save() {
-  WbSolid::save();
+void WbCharger::save(const QString &id) {
+  WbSolid::save(id);
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mSavedEnergies[id] = mBattery->item(CURRENT_ENERGY);
 }

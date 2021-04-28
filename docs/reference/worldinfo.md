@@ -11,7 +11,7 @@ WorldInfo {
   SFFloat  basicTimeStep                  32         # [1, inf)
   SFFloat  FPS                            60         # [1, inf)
   SFInt32  optimalThreadCount             1          # [1, inf)
-  SFFloat  physicsDisableTime             1          # [1, inf)
+  SFFloat  physicsDisableTime             1          # [0, inf)
   SFFloat  physicsDisableLinearThreshold  0.01       # [0, inf)
   SFFloat  physicsDisableAngularThreshold 0.01       # [0, inf)
   SFNode   defaultDamping                 NULL       # {Damping, PROTO}
@@ -81,12 +81,12 @@ The solids are enabled again after any interaction (collision, movement, ...).
 
 - The `physicsDisableLinearThreshold` determines the solid's linear velocity threshold (in meter/seconds) for automatic disabling.
 The body's linear velocity magnitude must be less than this threshold for it to be considered idle.
-This field is only useful if `physicsDisableTime` is bigger or equal to zero.
+This field is only useful if `physicsDisableTime` is greater than zero.
 This field matchs directly with the ODE's `dBodySetAutoDisableLinearThreshold` function.
 
 - The `physicsDisableAngularThreshold` determines the solid's angular velocity threshold (in radian/seconds) for automatic disabling.
 The body's angular velocity magnitude must be less than this threshold for it to be considered idle.
-This field is only useful if `physicsDisableTime` is bigger or equal to zero.
+This field is only useful if `physicsDisableTime` is greater than zero.
 This field matchs directly with the `dBodySetAutoDisableAngularThreshold` ODE function.
 
 - The `defaultDamping` field allows to specifiy a [Damping](damping.md) node that defines the default damping parameters that must be applied to each [Solid](solid.md) in the simulation.

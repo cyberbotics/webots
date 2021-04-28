@@ -188,13 +188,9 @@ namespace {
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
-      // Robots are no longer top-level nodes
-      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName)) {
-        if (WbNodeUtilities::isRobotTypeName(node->nodeModelName()) || isInsertingTopLevel)
-          return true;
-        else if (WbNodeUtilities::hasARobotAncestor(node))
-          return true;
-      }
+      // A robot cannot be a bounding object
+      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName))
+        return true;
 
       // top level nodes
       bool invalidUseOfTopLevelNode = false;
@@ -737,6 +733,17 @@ bool WbNodeUtilities::hasSolidChildren(const WbNode *node) {
   return false;
 }
 
+bool WbNodeUtilities::hasARobotDescendant(const WbNode *node) {
+  const QList<WbNode *> &subNodes = node->subNodes(true);
+
+  foreach (WbNode *const descendantNode, subNodes) {
+    if (dynamic_cast<WbRobot *>(descendantNode))
+      return true;
+  }
+
+  return false;
+}
+
 bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
   const WbGroup *group = dynamic_cast<const WbGroup *>(node);
   if (!group)
@@ -812,7 +819,7 @@ WbRobot *WbNodeUtilities::findRobotAncestor(const WbNode *node) {
   if (!node)
     return NULL;
 
-  while (node->parentNode()) {
+  while (node) {
     if (isRobotTypeName(node->nodeModelName())) {
       const WbRobot *robot = reinterpret_cast<const WbRobot *>(node);
       return const_cast<WbRobot *>(robot);
@@ -1199,8 +1206,6 @@ bool WbNodeUtilities::isCollisionDetectedGeometryTypeName(const QString &modelNa
 
 bool WbNodeUtilities::isRobotTypeName(const QString &modelName) {
   if (modelName == "Robot")
-    return true;
-  if (modelName == "DifferentialWheels")
     return true;
   return false;
 }

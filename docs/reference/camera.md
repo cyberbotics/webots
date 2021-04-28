@@ -86,8 +86,9 @@ A value of 0.0 corresponds to remove the noise and thus saving computation time.
 A value of 1.0 corresponds to a gaussian noise having a standard derivation of 255 in the channel representation.
 More information on noise in the corresponding subsection below.
 
-- The `noiseMaskUrl` field specifies the file path of a user-defined noise mask, usually a transparent PNG image The file should be specified with a relative path (cf.
-[this section](imagetexture.md#search-rule-of-the-texture-path)).
+- The `noiseMaskUrl` field specifies a user-defined noise mask as a transparent PNG image.
+If the `noiseMaskUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise the file should be specified with a relative path (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
 Absolute paths work as well, but they are not recommended because they are not portable across different systems.
 Ideally, the texture file should lie next to the world file, possibly inside a "textures" subfolder.
 It is suggested to use textures with power of 2 resolution (e.g. 8x8, 2048x64, etc.) and bigger than the camera resolution to avoid internal scaling that could cause the loss of pixel precision.
@@ -1258,7 +1259,7 @@ Sample code showing how to use the returned segmentation image object in the dif
 The `wb_camera_recognition_save_segmentation_image` function allows the user to save the latest segmentation image.
 Further details about the arguments and the return value can be found in the description of the [`wb_camera_save_image`](#wb_camera_save_image) function.
 
-##### Camera Recognition Object
+### Camera Recognition Object
 
 A camera recognition object is defined by the following structure:
 

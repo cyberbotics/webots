@@ -33,8 +33,7 @@ public:
   double getBrakingDampingConstant() const { return mBrakingDampingConstant; }
 
   // inherited from WbBaseNode
-  void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // inherited from WbDevice
   void writeConfigure(QDataStream &stream) override;

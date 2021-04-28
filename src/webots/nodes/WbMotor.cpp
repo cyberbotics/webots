@@ -18,6 +18,7 @@
 
 #include "WbMotor.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
@@ -34,6 +35,7 @@
 #include <ode/ode.h>
 
 #include <QtCore/QDataStream>
+#include <QtCore/QUrl>
 
 #include <cassert>
 #include <cmath>
@@ -69,6 +71,7 @@ void WbMotor::init() {
   mMaxVelocity = findSFDouble("maxVelocity");
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
+  mDownloader = NULL;
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
@@ -88,8 +91,18 @@ WbMotor::~WbMotor() {
   cMotors.removeAll(this);
 }
 
+void WbMotor::downloadAssets() {
+  const QString &sound = mSound->value();
+  if (WbUrl::isWeb(sound)) {
+    mDownloader = new WbDownloader(this);
+    if (isPostFinalizedCalled())
+      connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
+    mDownloader->download(QUrl(sound));
+  }
+}
+
 void WbMotor::preFinalize() {
-  WbBaseNode::preFinalize();
+  WbJointDevice::preFinalize();
 
   cMotors << this;
 
@@ -172,8 +185,14 @@ void WbMotor::updateMinAndMaxPosition() {
 
   WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
-  if (parentJoint && parentJoint->parameters())
-    p = parentJoint->parameters()->position();
+  if (parentJoint) {
+    if (positionIndex() == 1 && parentJoint->parameters())
+      p = parentJoint->parameters()->position();
+    if (positionIndex() == 2 && parentJoint->parameters2())
+      p = parentJoint->parameters2()->position();
+    if (positionIndex() == 3 && parentJoint->parameters3())
+      p = parentJoint->parameters3()->position();
+  }
 
   // current joint position should lie between min and max position
   WbFieldChecker::resetDoubleIfLess(this, mMaxPosition, p, p);
@@ -216,8 +235,21 @@ void WbMotor::updateSound() {
   const QString &sound = mSound->value();
   if (sound.isEmpty())
     mSoundClip = NULL;
-  else
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+    downloadAssets();
+    return;
+  } else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
+  else {
+    if (mDownloader->error().isEmpty())
+      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+    else {
+      mSoundClip = NULL;
+      warn(mDownloader->error());
+    }
+    delete mDownloader;
+    mDownloader = NULL;
+  }
   WbSoundEngine::clearAllMotorSoundSources();
 }
 
@@ -535,8 +567,8 @@ bool WbMotor::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbMotor::reset() {
-  WbJointDevice::reset();
+void WbMotor::reset(const QString &id) {
+  WbJointDevice::reset(id);
 
   turnOffMotor();
 

@@ -61,7 +61,9 @@ This is useful for complex articulated robots for which the controller doesn't p
 Enabling self collision is, however, likely to decrease the simulation speed, as more collisions will be generated during the simulation.
 Note that only collisions between non-consecutive solids will be detected.
 For consecutive solids, e.g., two solids attached to each other with a joint, no collision detection is performed, even if the self collision is enabled.
-The reason is that this type of collision detection is usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
+Collision detection is also ignored for longer chains of consecutive solids in the event that all intermediary joints connecting the two colliding bodies all share the same `anchor` point.
+If even just one of them is different, standard rules apply.
+The reason for these exceptions is that these types of collision detections are usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
 To prevent two consecutive solid nodes from penetrating each other, the `minStop` and `maxStop` fields of the corresponding joint node should be adjusted accordingly.
 Here is an example of a robot leg with self collision enabled:
 
@@ -588,16 +590,16 @@ Devices are available through their services.
 
 *get a unique identifier to a device*
 
-The `wb_robot_get_device` function (available in C and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
+The `wb_robot_get_device` function (available in C, Python and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function will return the unique identifier of that device.
 This `WbDeviceTag` identifier will be used subsequently for enabling, sending commands to, or reading data from this device.
-If the specified device is not found, the function returns 0.
+If the specified device is not found, the function returns 0 in C and MATLAB or `None` in Python.
 
-In C++, Java or Python, users should use the device specific typed methods, for example `getDistanceSensor`.
+In C++ or Java, users should use the device specific typed methods, for example `getDistanceSensor`.
 These functions return a reference to an object corresponding to a specified `name`.
 Depending on the called function, this object can be an instance of a `Device` subclass.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function `getDistanceSensor` will return a reference to a [DistanceSensor](distancesensor.md) object.
-If the specified device is not found, the function returns `NULL` in C++, `null` in Java or the `none` in Python.
+If the specified device is not found, the function returns `NULL` in C++ or `null` in Java.
 
 ---
 
@@ -1227,7 +1229,7 @@ name = wb_robot_get_name()
 
 *return the name defined in the robot node*
 
-This function returns the name as it is defined in the name field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the name as it is defined in the name field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 This function is very useful to pass some arbitrary parameter from a world file to a controller program.
 For example, you can have the same controller code behave differently depending on the name of the robot.
@@ -1312,7 +1314,7 @@ model = wb_robot_get_model()
 
 *return the model defined in the robot node*
 
-This function returns the model string as it is defined in the model field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the model string as it is defined in the model field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 
 ---
@@ -1485,7 +1487,7 @@ type = wb_robot_get_type()
 
 *return the type of the robot node*
 
-This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_SUPERVISOR or WB\_NODE\_DIFFERENTIAL\_WHEELS).
+This function returns the type of the current mode (WB\_NODE\_ROBOT or WB\_NODE\_SUPERVISOR).
 
 ---
 
@@ -2069,7 +2071,7 @@ The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) n
 %tab "C"
 
 ```c
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 const char *wb_robot_wwi_receive(int *size);
 const char *wb_robot_wwi_receive_text();

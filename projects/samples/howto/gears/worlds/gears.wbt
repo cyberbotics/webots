@@ -1,0 +1,69 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example of meshing gears"
+  ]
+  title "Gears example"
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0 1 0 1.5707963267948966
+  position 0.2780916968916953 0.0015751684699579721 -0.03763246734023667
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+}
+Robot {
+  rotation 0 1 0 1.5708
+  children [
+    DEF MOTORIZED HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        PositionSensor {
+        }
+        RotationalMotor {
+        }
+      ]
+      endPoint Gear {
+        rotation 1.1127701588714633e-10 -2.5015786939261218e-08 -0.9999999999999996 1.7921184929557338e-05
+        appearance PBRAppearance {
+          baseColor 0.8 0 0
+          roughness 0.5
+        }
+        teeth 20
+        toothDepth 0.007
+        density 0.01
+        bodyBoundingObject FALSE
+        teethBoundingObject TRUE
+      }
+    }
+    DEF PASSIVE HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.083 0 0
+        dampingConstant 1e-08
+      }
+      endPoint Gear {
+        translation 0.083 0 0
+        rotation 0 0 1 0.539999999999999
+        appearance PBRAppearance {
+          baseColor 0.203922 0.396078 0.643137
+          roughness 0.5
+        }
+        name "gear2"
+        teeth 20
+        toothDepth 0.007
+        density 0.01
+        bodyBoundingObject FALSE
+        teethBoundingObject TRUE
+      }
+    }
+  ]
+  controller "gears"
+  selfCollision TRUE
+}

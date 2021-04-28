@@ -546,8 +546,8 @@ bool WbRadar::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbRadar::reset() {
-  WbSolidDevice::reset();
+void WbRadar::reset(const QString &id) {
+  WbSolidDevice::reset(id);
 
   qDeleteAll(mRadarTargets);
   mRadarTargets.clear();

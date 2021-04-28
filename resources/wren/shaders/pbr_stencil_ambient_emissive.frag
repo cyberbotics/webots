@@ -13,6 +13,7 @@ layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
+uniform int wireframeRendering;
 
 // Material parameters for this renderable
 layout(std140) uniform PbrMaterial {
@@ -174,12 +175,13 @@ void main() {
     color = mix(color, color * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
   }
 
-  vec3 emissive = material.emissiveColorAndIntensity.rgb;
+  vec3 emissive = (wireframeRendering != 0) ? material.baseColorAndTransparency.rgb : material.emissiveColorAndIntensity.rgb;
 
   if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
     emissive = texture(inputTextures[6], texUv).rgb;
 
-  emissive *= material.emissiveColorAndIntensity.w;
+  if (wireframeRendering != 0)
+    emissive *= material.emissiveColorAndIntensity.w;
   color += emissive;
 
   fragColor = vec4(color, baseColor.a);

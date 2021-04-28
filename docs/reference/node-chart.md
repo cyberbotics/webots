@@ -5,7 +5,7 @@ The Webots Node Chart outlines all the nodes available to build Webots worlds.
 ## Inheritance
 
 In the chart, an arrow between two nodes represents an inheritance relationship.
-The inheritance relationship indicates that a derived node (at the arrow tail) inherits all the fields and API functions of a base node (at the arrow head).
+The inheritance relationship indicates that a derived node (at the arrow head) inherits all the fields and API functions of a base node (at the arrow tail).
 For example, the [Solid](solid.md) node inherits from the [Transform](transform.md) node, and therefore all the fields and functions available in the [Transform](transform.md) node are also available in the [Solid](solid.md) node.
 
 ## Abstract Nodes

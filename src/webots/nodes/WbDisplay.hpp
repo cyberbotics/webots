@@ -42,7 +42,7 @@ public:
   QString pixelInfo(int x, int y) const override;
   void createWrenObjects() override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
   void enableExternalWindow(bool enabled) override;
 
   WbCamera *const attachedCamera() const { return mAttachedCamera; }

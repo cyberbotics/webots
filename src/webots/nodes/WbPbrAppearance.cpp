@@ -78,6 +78,27 @@ WbPbrAppearance::~WbPbrAppearance() {
   }
 }
 
+void WbPbrAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (baseColorMap())
+    baseColorMap()->downloadAssets();
+
+  if (roughnessMap())
+    roughnessMap()->downloadAssets();
+
+  if (metalnessMap())
+    metalnessMap()->downloadAssets();
+
+  if (normalMap())
+    normalMap()->downloadAssets();
+
+  if (occlusionMap())
+    occlusionMap()->downloadAssets();
+
+  if (emissiveColorMap())
+    emissiveColorMap()->downloadAssets();
+}
+
 void WbPbrAppearance::preFinalize() {
   WbAbstractAppearance::preFinalize();
 
@@ -165,26 +186,26 @@ void WbPbrAppearance::postFinalize() {
     emit changed();
 }
 
-void WbPbrAppearance::reset() {
-  WbAbstractAppearance::reset();
+void WbPbrAppearance::reset(const QString &id) {
+  WbAbstractAppearance::reset(id);
 
   if (baseColorMap())
-    baseColorMap()->reset();
+    baseColorMap()->reset(id);
 
   if (roughnessMap())
-    roughnessMap()->reset();
+    roughnessMap()->reset(id);
 
   if (metalnessMap())
-    metalnessMap()->reset();
+    metalnessMap()->reset(id);
 
   if (normalMap())
-    normalMap()->reset();
+    normalMap()->reset(id);
 
   if (occlusionMap())
-    occlusionMap()->reset();
+    occlusionMap()->reset(id);
 
   if (emissiveColorMap())
-    emissiveColorMap()->reset();
+    emissiveColorMap()->reset(id);
 }
 
 void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
@@ -351,7 +372,7 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
   WbImageTexture *tex = baseColorMap();
   if (tex) {
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
+    tex->pickColor(uvTransformed, pickedColor);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
 }
@@ -368,7 +389,7 @@ double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVe
   if (texture) {
     WbRgb pickedColor;
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    texture->pickColor(pickedColor, uvTransformed);
+    texture->pickColor(uvTransformed, pickedColor);
     return pickedColor.red();
   }
   return 0.0;  // default value

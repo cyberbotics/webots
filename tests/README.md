@@ -18,7 +18,6 @@ cd tests
 
 ### Missing tests
 
-- differential_wheels
 - gyro
 - propeller
 - led

@@ -37,7 +37,6 @@
 #include <webots/types.h>
 #include <webots/utils/system.h>
 #include "device_private.h"
-#include "differential_wheels_private.h"
 #include "joystick_private.h"
 #include "keyboard_private.h"
 #include "messages.h"
@@ -177,7 +176,7 @@ static void robot_quit() {  // called when Webots kills a controller
   free(robot.urdf_prefix);
 }
 
-// this function is also called from supervisor_write_request() and differential_wheels_write_request()
+// this function is also called from supervisor_write_request()
 void robot_write_request(WbDevice *dev, WbRequest *req) {
   keyboard_write_request(req);
   joystick_write_request(req);
@@ -310,9 +309,6 @@ static void robot_configure(WbRequest *r) {
   // printf("robot.device[0]->name = %s\n", robot.device[0]->name);
 
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      wb_differential_wheels_init(robot.device[0]);
-      break;
     case WB_NODE_ROBOT:
       if (robot.is_supervisor)
         wb_supervisor_init(robot.device[0]);
@@ -512,8 +508,6 @@ WbDevice *robot_get_robot_device() {
 
 static const char *robot_get_type_name() {
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      return "DifferentialWheels";
     case WB_NODE_ROBOT:
       return "Robot";
     default:
@@ -529,15 +523,6 @@ int robot_check_supervisor(const char *func_name) {
 
   fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
   fprintf(stderr, "Error: this function can only be used in a 'Supervisor' controller.\n");
-  return 0;
-}
-
-int robot_check_differential_wheels(const char *func_name) {
-  if (robot.device[0]->node == WB_NODE_DIFFERENTIAL_WHEELS)
-    return 1;  // OK
-
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
-  fprintf(stderr, "Error: this function can only be used in a 'DifferentialWheels' controller.\n");
   return 0;
 }
 
@@ -1014,42 +999,48 @@ int wb_robot_init() {  // API initialization
 
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
-  if (WEBOTS_SERVER && WEBOTS_SERVER[0])
+  int success = 0;
+  if (WEBOTS_SERVER && WEBOTS_SERVER[0]) {
     pipe = strdup(WEBOTS_SERVER);
-  else {
+    success = scheduler_init(pipe);
+  } else {
+    pipe = NULL;
     int trial = 0;
     while (trial < 10) {
       trial++;
-      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
+      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
+      char retry[256];
+      snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
       if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %d second%s)\n", trial, trial > 1 ? "s" : "");
+        fprintf(stderr, "Webots doesn't seems to be ready yet. %s\n", retry);
         sleep(trial);
       } else {
         char buffer[1024];
         snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
         FILE *fd = fopen(buffer, "r");
         if (fd) {
-          if (!fscanf(fd, "%1023s", buffer)) {
-            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
-            pipe = NULL;
-          } else {
-            pipe = strdup(buffer);
-            break;
+          if (!fscanf(fd, "%1023s", buffer))
+            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content. %s\n", WEBOTS_TMP_PATH, retry);
+          else {
+            success = scheduler_init(buffer);
+            if (success) {
+              pipe = strdup(buffer);
+              break;
+            } else
+              fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
           }
           fclose(fd);
-        } else {
-          fprintf(stderr, "Cannot open file: %s (retrying in %d second%s)\n", buffer, trial, trial > 1 ? "s" : "");
-          pipe = NULL;
-        }
+        } else
+          fprintf(stderr, "Cannot open file: %s. %s\n", buffer, retry);
         sleep(trial);
       }
     }
     if (trial == 10)
-      fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
+      fprintf(stderr, "Impossible to communicate with Webots: aborting.\n");
   }
-  if (!pipe || !scheduler_init(pipe)) {
+  if (!success) {
     if (!pipe)
-      fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
+      fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
     free(pipe);
     exit(EXIT_FAILURE);
   }

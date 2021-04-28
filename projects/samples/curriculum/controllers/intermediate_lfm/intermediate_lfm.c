@@ -44,6 +44,10 @@ WbDeviceTag left_motor, right_motor;
 WbDeviceTag cam;
 unsigned short width, height;
 
+// motors
+WbDeviceTag left_motor;
+WbDeviceTag right_motor;
+
 /*****************************
  *
  *  Functions
@@ -211,8 +215,8 @@ void utm(void) {
   // - put your results in the speed_utm array
   // - look at the main function: add a function
   //   call to this function and add your results
-  //   in the differential_wheels_set_speed(...)
-  //   function
+  //   in the wb_motor_set_velocity(left_motor, ...) and
+  //   wb_motor_set_velocity(right_motor, ...) functions
 
   //...
 }
@@ -245,6 +249,14 @@ static void reset(void) {
   wb_camera_enable(cam, TIME_STEP_CAM);
   width = wb_camera_get_width(cam);
   height = wb_camera_get_height(cam);
+
+  // motors
+  left_motor = wb_robot_get_device("left wheel motor");
+  right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0);
+  wb_motor_set_velocity(right_motor, 0);
 }
 
 static int run(void) {

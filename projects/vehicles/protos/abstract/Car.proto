@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Generic model of Car using the AckermanVehicle proto.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
@@ -54,7 +53,7 @@ PROTO Car [
   field MFFloat    gearRatio                      [-12 10 6.5 4.5 3.5 2.75]
   field SFFloat    hybridPowerSplitRatio          0.25                       # Defines power split ratio (only used in the case of 'power-split hybrid' engineType).
   field SFFloat    hybridPowerSplitRPM            3000                       # Defines the power split RPM (only used in the case of 'power-split hybrid' engineType).
-
+  field SFString   window                         "automobile"
   # Deprecated in R2020b
   hiddenField SFFloat maxWheelVelocity -1.0
 ]
@@ -293,7 +292,7 @@ PROTO Car [
     wheelRearRight IS wheelRearRight
     wheelRearLeft IS wheelRearLeft
     customData %{= customData }%
-    window "automobile_window"
+    window IS window
     axisDevicesFrontRight [
     %{ if type == "traction" or type == "4x4" then }%
       RotationalMotor {

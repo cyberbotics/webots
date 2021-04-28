@@ -18,7 +18,6 @@
 
 export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save screen specific perspective changes when closed.
 export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are allowed to modify files in the Webots home using Webots.
-# export WEBOTS_DISABLE_WORLD_LOADING_DIALOG=1            # If defined, the loading world progress dialog will never be displayed.
 
 
 ############################################################################
