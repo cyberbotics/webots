@@ -306,8 +306,8 @@ def game_controller_receive():
             game.interruption_step = step
             game.interruption_step_time = time_count
             info(f'Awarding a {GAME_INTERRUPTIONS[kick]}.')
-        elif step == 1 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and \
-          delay >= SIMULATED_TIME_INTERRUPTION_PHASE_1:
+        elif (step == 1 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and
+              delay >= SIMULATED_TIME_INTERRUPTION_PHASE_1):
             game.interruption_step = step
             game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE')
             game.interruption_step_time = time_count
@@ -596,7 +596,7 @@ def update_team_contacts(team, color):
                         game.ball_last_touch_team = color
                         game.ball_last_touch_player_number = int(number)
                         game.ball_last_touch_time_for_display = time_count
-                        action = 'kicked' if game.kicking_player_number == None else 'touched'
+                        action = 'kicked' if game.kicking_player_number is None else 'touched'
                         info(f'Ball {action} by {color} player {number}.')
                         if game.kicking_player_number is None:
                             game.kicking_player_number = int(number)
@@ -1199,7 +1199,7 @@ game.penalty_shootout_time_to_reach_goal_area = [None, None, None, None, None, N
 game.penalty_shootout_time_to_touch_ball = [None, None, None, None, None, None, None, None, None, None]
 game.ball = supervisor.getFromDef('BALL')
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
-game.ball_kick_translation = [0, 0, game.ball_radius + game.turf_depth]  # initial position of a ball (to determine if ball has moved)
+game.ball_kick_translation = [0, 0, game.ball_radius + game.turf_depth]  # initial position of a ball (to determine if it moved)
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
 game.ball_last_touch_team = 'red'
@@ -1260,7 +1260,8 @@ while supervisor.step(time_step) != -1:
                     game.can_score = True  # ball touched by opponent
                 elif game.ball_left_circle is not None and game.ball_left_circle < game.ball_last_touch_time:
                     game.can_score = True  # ball touched by same player again, but outside circle
-                elif game.kicking_player_number is not None and game.ball_last_touch_player_number != game.kicking_player_number:
+                elif (game.kicking_player_number is not None and
+                      game.ball_last_touch_player_number != game.kicking_player_number):
                     game.can_score = True  # ball touched by another team member
 
         if game.penalty_shootout:
@@ -1379,7 +1380,8 @@ while supervisor.step(time_step) != -1:
                         kickoff()
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
-                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number} (own goal)')
+                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number} ' +
+                         '(own goal)')
                     game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     if game.penalty_shootout:
                         game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
