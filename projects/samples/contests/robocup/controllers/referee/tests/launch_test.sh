@@ -17,7 +17,7 @@ then
         exit -1
     fi
 else
-    WEBOTS_OPTIONS="${WEBOTS_OPTIONS} --mode=fast --minimize"
+    WEBOTS_OPTIONS="${WEBOTS_OPTIONS} --no-rendering --minimize"
 fi
 
 
