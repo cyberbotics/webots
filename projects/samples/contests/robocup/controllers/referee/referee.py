@@ -284,6 +284,7 @@ def game_controller_receive():
                 game.in_play = True
                 game.interruption = None
                 game.interruption_step = None
+                game.interruption_step_time = 0
                 game.interruption_team = None
                 game.interruption_seconds = None
             update_state_display()
@@ -299,14 +300,17 @@ def game_controller_receive():
     if secondary_state[0:6] == 'STATE_' and secondary_state[6:] in GAME_INTERRUPTIONS:
         kick = secondary_state[6:]
         step = secondary_state_info[1]
+        delay = (time_count - game.interruption_step_time) / 1000
         if step == 0 and game.interruption_step != step:
             game.interruption_step = step
+            game.interruption_step_time = time_count
             info(f'Awarding a {GAME_INTERRUPTIONS[kick]}.')
-        elif step == 1 and game.state.secondary_seconds_remaining <= 0 and game.interruption_step != step:
+        elif step == 1 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and delay >= 10:
             game.interruption_step = step
             game_controller_send(f'{kick}:{secondary_state_info[0]}:PREPARE')
+            game.interruption_step_time = time_count
             info(f'Prepare for {GAME_INTERRUPTIONS[kick]}.')
-        elif step == 2 and game.state.secondary_seconds_remaining <= 0 and game.interruption_step != step:
+        elif step == 2 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0 and delay >= 30:
             game.interruption_step = step
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
@@ -1204,6 +1208,7 @@ game.real_time_multiplier = 1000 / (game.minimum_real_time_factor * time_step) i
 game.interruption = None
 game.interruption_countdown = 0
 game.interruption_step = None
+game.interruption_step_time = 0
 game.interruption_team = None
 game.interruption_seconds = None
 game.overtime = False
