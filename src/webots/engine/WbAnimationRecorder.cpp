@@ -463,12 +463,12 @@ void WbAnimationRecorder::stopRecording() {
   out << "\",\n";
 
   out << " \"labelsIds\":\"";
-  firstCommand = true;
+  bool firstLabel = true;
   foreach (QString id, mLabelsIds) {
-    if (!firstCommand)
+    if (!firstLabel)
       out << ";";
     else
-      firstCommand = false;
+      firstLabel = false;
     out << id;
   }
 
