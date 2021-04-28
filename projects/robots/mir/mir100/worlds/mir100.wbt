@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "This simulation enables to move around a MIR100 moving in an industrial environment using the keyboard"
+    "This simulation enables to move around a MiR100 moving in an industrial environment using the keyboard"
   ]
   title "Simulation of Mobile Industrial Robotics' MiR100 robot"
   contactProperties [
