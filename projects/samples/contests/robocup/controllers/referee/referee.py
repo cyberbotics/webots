@@ -1441,15 +1441,12 @@ while supervisor.step(time_step) != -1:
             game.ball.resetPhysics()
             game.ball_translation.setSFVec3f(game.ball_kick_translation)
             game.ball_set_kick = False
-            game.checked_position = False
         else:
             if not game.penalty_shootout:
-                if not game.checked_position:
-                    if game.dropped_ball:
-                        check_dropped_ball_position()
-                    else:
-                        check_kickoff_position()
-                    game.checked_position = True
+                if game.dropped_ball:
+                    check_dropped_ball_position()
+                else:
+                    check_kickoff_position()
             game.play_countdown -= 1
             if game.play_countdown == 0:
                 game.ready_countdown = 0
