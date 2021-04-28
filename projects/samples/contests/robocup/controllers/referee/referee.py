@@ -734,6 +734,27 @@ def check_fallen():
     return red or blue
 
 
+def check_team_inactive_goalie(team):
+    for number in team['players']:
+        if not is_goal_keeper(team, number):
+            continue
+        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
+            continue  # skip already penalized goalies
+        player = team['players'][number]
+        if 'position' not in player:
+            player['position'] = player['robot'].getCenterOfMass()
+            return
+        position = player['robot'].getCenterOfMass()
+        move = distance2(player['position'], game.ball_position) - distance2(position, game.ball_position)
+        if move > 0:  # moving toward the ball
+            info('Goal keeper moving towards the ball.')
+
+
+def check_inactive_goalie():
+    check_team_inactive_goalie(red_team)
+    check_team_inactive_goalie(blue_team)
+
+
 def check_team_start_position(team, color):
     penalty = False
     for number in team['players']:
