@@ -14,10 +14,14 @@ export default class Animation {
 
   init(onReady) {
     this.onReady = onReady;
-    fetch(this.url)
-      .then(response => response.json())
-      .then(data => this._setup(data))
-      .catch((error) => console.log(error));
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', this.url, true);
+    xmlhttp.overrideMimeType('application/json');
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0))
+        this._setup(JSON.parse(xmlhttp.responseText));
+    };
+    xmlhttp.send();
   }
 
   // Return the animation status: play or pause.
