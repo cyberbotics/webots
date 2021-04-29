@@ -135,10 +135,10 @@
         },
         "tests" : [
             {
-                "name" : "GoalKick for red",
+                "name" : "GoalKick for blue",
                 "state" : "PLAYING",
                 "secondary_state" : "GOALKICK",
-                "secondary_team_id" : 1
+                "secondary_team_id" : 8
             },
             {
                 "name" : "No goal for team BLUE",
