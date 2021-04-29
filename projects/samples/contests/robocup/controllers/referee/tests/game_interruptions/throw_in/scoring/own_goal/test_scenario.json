@@ -135,10 +135,10 @@
         },
         "tests" : [
             {
-                "name" : "Corner kick for red",
+                "name" : "Corner kick for blue",
                 "state" : "PLAYING",
                 "secondary_state" : "CORNERKICK",
-                "secondary_team_id" : 1
+                "secondary_team_id" : 8
             },
             {
                 "name" : "No goal for team BLUE",
