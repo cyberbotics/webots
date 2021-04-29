@@ -5,5 +5,6 @@ sceneTreePerspectives: 000000ff0000000100000002000001e4000000fc01000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: -1
+textFiles: 0 "controllers/coupled_motors/coupled_motors.c"
+globalOptionalRendering: ContactPoints::CoordinateSystem
 consoles: Console:All:All
