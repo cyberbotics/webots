@@ -1943,8 +1943,7 @@ namespace wren {
 
   static void copyFromBuffer(unsigned int target, unsigned int buffer, size_t size, void *dest) {
     glBindBuffer(target, buffer);
-#ifdef __EMSCRIPTEN__
-#else
+#ifndef __EMSCRIPTEN__
     glGetBufferSubData(target, 0, size, dest);
 #endif
   }
