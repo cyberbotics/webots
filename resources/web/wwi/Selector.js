@@ -32,7 +32,7 @@ export default class Selector {
       if (Selector.selectedId === parent.id)
         return true;
       else if (typeof parent.parent !== 'undefined')
-        return Selector.checkIfParentisSelected(parent);
+        return Selector.checkIfParentIsSelected(parent);
     }
 
     return false;
