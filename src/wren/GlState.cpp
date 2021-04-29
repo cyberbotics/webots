@@ -107,7 +107,7 @@ namespace wren {
     static std::vector<std::unique_ptr<UniformBuffer>> cUniformBuffers;
 
     void init() {
-#ifndef__EMSCRIPTEN__
+#ifndef __EMSCRIPTEN__
       if (!gladLoadGL())
         std::cerr << "ERROR: Unable to load OpenGL functions!" << std::endl;
 
@@ -430,8 +430,7 @@ namespace wren {
 
     void setTextureAnisotropy(unsigned int glName, int textureUnit, float anisotropy) {
       assert(cBoundTextures[textureUnit] == glName);
-#ifdef __EMSCRIPTEN__
-#else
+#ifndef __EMSCRIPTEN__
       if (!GLAD_GL_EXT_texture_filter_anisotropic)
         return;
 #endif
