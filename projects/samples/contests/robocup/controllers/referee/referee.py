@@ -1358,6 +1358,7 @@ while supervisor.step(time_step) != -1:
     if game.state is None:
         time_count += time_step
         continue
+    send_play_state_after_penalties = False
     previous_position = copy.deepcopy(game.ball_position)
     game.ball_position = game.ball_translation.getSFVec3f()
     if game.ball_position != previous_position:
@@ -1543,7 +1544,7 @@ while supervisor.step(time_step) != -1:
             game.play_countdown -= 1
             if game.play_countdown == 0:
                 game.ready_countdown = 0
-                game_controller_send('STATE:PLAY')
+                send_play_state_after_penalties = True
     elif game.state.game_state == 'STATE_FINISHED':
         game.sent_finish = False
         if game.penalty_shootout:
@@ -1613,6 +1614,9 @@ while supervisor.step(time_step) != -1:
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
         send_penalties()
+        if send_play_state_after_penalties:
+            game_controller_send('STATE:PLAY')
+            send_play_state_after_penalties = False
 
     time_count += time_step
 
