@@ -159,9 +159,7 @@ namespace wren {
       glstate::setDepthTest(true);
       glstate::setCullFace(true);
       glstate::setPolygonMode(GL_FILL);
-#ifdef __EMSCRIPTEN__
-      // By default in WebGL2
-#else
+#ifndef __EMSCRIPTEN__
       glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
 #endif
 
