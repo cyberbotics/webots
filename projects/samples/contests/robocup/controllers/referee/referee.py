@@ -43,6 +43,8 @@ GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up t
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
+OPPONENT_DISTANCE_TO_BALL_KID = 0.75      # during kicks, the opponents must stay at 0.75 m. away from the ball in kid size
+OPPONENT_DISTANCE_TO_BALL_ADULT = 1.5     # or 1.5 m. in adult size
 FOUL_PUSHING_TIME = 1                     # 1 second
 FOUL_PUSHING_PERIOD = 2                   # 2 seconds
 FOUL_VINCITY_DISTANCE = 2                 # 2 meters
@@ -338,6 +340,7 @@ def game_controller_receive():
             game.interruption_seconds = game.state.seconds_remaining
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME', 'STATE_PENALTYSHOOT']:
         print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
+    update_penalized()
 
 
 def game_controller_send(message):
@@ -609,8 +612,9 @@ def update_team_contacts(team):
         robot = player['robot']
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
-        if n == 0:
+        if n == 0:  # robot is asleep
             continue
+        player['position'] = robot.getCenterOfMass()
         player['outside_circle'] = True        # true if fully outside the center cicle
         player['outside_field'] = True         # true if fully outside the field
         player['inside_field'] = True          # true if fully inside the field
@@ -702,6 +706,32 @@ def update_contacts():
     update_team_contacts(blue_team)
 
 
+def update_team_penalized(team):
+    for number in team['players']:
+        n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
+        player = team['players'][number]
+        if n > 0:
+            player['penalized'] = n
+            if 'sent_to_penality_position' in player:
+                del player['sent_to_penality_position']
+        elif 'penalized' in player:
+            del player['penalized']
+
+
+def update_penalized():
+    update_team_penalized(red_team)
+    update_team_penalized(blue_team)
+
+
+def send_penalty(player, penalty, reason, log=None):
+    if 'sent_to_penality_position' in player:  # was just penalized
+        return
+    player['penalty'] = penalty
+    player['penalty_reason'] = reason
+    if log is not None:
+        info(log)
+
+
 def check_team_ball_holding(team):
     for number in team['players']:
         player = team['players'][number]
@@ -732,14 +762,13 @@ def check_team_fallen(team):
     color = team['color']
     penalty = False
     for number in team['players']:
-        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
-            continue  # skip penalized players
         player = team['players'][number]
+        if 'penalized' in player:
+            continue  # skip penalized players
         if 'fallen' in player and time_count - player['fallen'] > 1000 * FALLEN_TIMEOUT:
             del player['fallen']
-            info(f'{color} player {number} has fallen down and didn\'t recover in the last 20 seconds.')
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'fallen down'
+            send_penalty(player, 'INCAPABLE', 'fallen down',
+                         f'{color} player {number} has fallen down and didn\'t recover in the last 20 seconds.')
             penalty = True
     return penalty
 
@@ -751,18 +780,16 @@ def check_fallen():
 
 
 def check_team_inactive_goalie(team):
-    color = team['color']
     for number in team['players']:
         if not is_goal_keeper(team, number):
             continue
-        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
-            continue  # skip already penalized goalies
         player = team['players'][number]
-        if 'position' not in player:
-            player['position'] = player['robot'].getCenterOfMass()
+        if 'penalized' in player:
+            continue  # skip penalized players
+        if 'previous_position' not in player:
+            player['previous_position'] = player['position']
             return
-        position = player['robot'].getCenterOfMass()
-        move = distance2(player['position'], game.ball_position) - distance2(position, game.ball_position)
+        move = distance2(player['previous_position'], game.ball_position) - distance2(player['position'], game.ball_position)
         if move > 0:  # moving toward the ball
             info('Goal keeper moving towards the ball.')
 
@@ -772,17 +799,30 @@ def check_inactive_goalie():
     check_team_inactive_goalie(blue_team)
 
 
+def check_team_away_from_ball(team, distance):
+    for number in team['players']:
+        player = team['players'][number]
+        if 'penalized' in player:
+            continue  # skip penalized players
+        d = distance2(player['position'], game.ball_position)
+        if d < distance:
+            color = team['color']
+            send_penalty(player, 'INCAPABLE', f'too close to ball: {d:.2f} m., should be at least {distance:.2f} m.' +
+                         f'{color.capitalize()} player {number} is too close to the ball: ' +
+                         f'({d:.2f} m., should be at least {distance:.2f} m.)')
+
+
 def check_team_start_position(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
+        if 'penalized' in player:
+            continue
         if not player['outside_field']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'halfTimeStartingPose inside field'
+            send_penalty(player, 'INCAPABLE', 'halfTimeStartingPose inside field')
             penalty = True
         elif not player['inside_own_side']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'halfTimeStartingPose outside team side'
+            send_penalty(player, 'INCAPABLE', 'halfTimeStartingPose outside team side')
             penalty = True
     return penalty
 
@@ -798,20 +838,17 @@ def check_team_kickoff_position(team):
     team_id = game.red.id if color == 'red' else game.blue.id
     penalty = False
     for number in team['players']:
-        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
-            continue  # skip penalized players
         player = team['players'][number]
+        if 'penalized' in player:
+            continue  # skip penalized players
         if not player['inside_field']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'outside of field at kick-off'
+            send_penalty(player, 'INCAPABLE', 'outside of field at kick-off')
             penalty = True
         elif not player['inside_own_side']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'outside team side at kick-off'
+            send_penalty(player, 'INCAPABLE', 'outside team side at kick-off')
             penalty = True
         elif game.kickoff != team_id and not player['outside_circle']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'inside center circle during oppenent\'s kick-off'
+            send_penalty(player, 'INCAPABLE', 'inside center circle during oppenent\'s kick-off')
             penalty = True
     return penalty
 
@@ -825,12 +862,12 @@ def check_kickoff_position():
 def check_team_dropped_ball_position(team):
     for number in team['players']:
         player = team['players'][number]
+        if 'penalized' in player:
+            continue
         if not player['outside_circle']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'inside center circle during dropped ball'
+            send_penalty(player, 'INCAPABLE', 'inside center circle during dropped ball')
         elif not player['inside_own_side']:
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'outside team side during dropped ball'
+            send_penalty(player, 'INCAPABLE', 'outside team side during dropped ball')
 
 
 def check_dropped_ball_position():
@@ -842,15 +879,14 @@ def check_team_outside_turf(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
-        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
+        if 'penalized' in player:
             continue  # skip already penalized players
         if player['left_turf_time'] is None:
             continue
         if time_count - player['left_turf_time'] < OUTSIDE_TURF_TIMEOUT * 1000:
             continue
-        info(f'{color.capitalize()} player {number} left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds.')
-        player['penalty'] = 'INCAPABLE'
-        player['penalty_reason'] = f'left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds'
+        send_penalty(player, 'INCAPABLE', f'left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds',
+                     f'{color.capitalize()} player {number} left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds.')
 
 
 def check_outside_turf():
@@ -862,15 +898,14 @@ def check_team_penalized_in_field(team):
     color = team['color']
     penalty = False
     for number in team['players']:
-        if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized == 0:
-            continue  # skip non penalized players
         player = team['players'][number]
+        if 'penalized' not in player:
+            continue  # skip non penalized players
         if player['outside_field']:
             continue
-        info(f'Penalized {color} player {number} re-entered the field: shown yellow card.')
         game_controller_send(f'CARD:{game.red.id if color == "red" else game.blue.id}:{number}:YELLOW')
-        player['penalty'] = 'INCAPABLE'
-        player['penalty_reason'] = 'penalized player re-entered field'
+        send_penalty(player, 'INCAPABLE', 'penalized player re-entered field',
+                     f'Penalized {color} player {number} re-entered the field: shown yellow card.')
         penalty = True
     return penalty
 
@@ -885,11 +920,12 @@ def check_circle_entrance(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
+        if 'penalized' in player:
+            continue
         if not player['outside_circle']:
             color = team['color']
-            info(f'{color.capitalize()} player {number} entering circle during opponent\'s kick-off.')
-            player['penalty'] = 'INCAPABLE'
-            player['penalty_reason'] = 'entered circle during oppenent\'s kick-off'
+            send_penalty(player, 'INCAPABLE', 'entered circle during oppenent\'s kick-off',
+                         f'{color.capitalize()} player {number} entering circle during opponent\'s kick-off.')
             penalty = True
     return penalty
 
@@ -902,10 +938,11 @@ def check_ball_must_kick(team):
         if not game.ball_last_touch_player_number == int(number):
             continue
         player = team['players'][number]
+        if 'penalized' in player:
+            continue
         color = team['color']
-        info(f'Non-kicking {color} player {number} touched ball not in play.')
-        player['penalty'] = 'INCAPABLE'
-        player['penalty_reason'] = 'non-kicking player touched ball not in play'
+        send_penalty(player, 'INCAPABLE', 'non-kicking player touched ball not in play',
+                     f'Non-kicking {color} player {number} touched ball not in play.')
         break
     return True
 
@@ -913,14 +950,15 @@ def check_ball_must_kick(team):
 def send_team_penalties(team):
     color = team['color']
     for number in team['players']:
-        if 'penalty' in team['players'][number]:
-            penalty = team['players'][number]['penalty']
-            reason = team['players'][number]['penalty_reason']
-            del team['players'][number]['penalty']
-            del team['players'][number]['penalty_reason']
+        player = team['players'][number]
+        if 'penalty' in player:
+            penalty = player['penalty']
+            reason = player['penalty_reason']
+            del player['penalty']
+            del player['penalty_reason']
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
-            robot = team['players'][number]['robot']
+            robot = player['robot']
             robot.resetPhysics()
             translation = robot.getField('translation')
             rotation = robot.getField('rotation')
@@ -948,6 +986,7 @@ def send_team_penalties(team):
                 t[0] += 4 * game.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
+            player['sent_to_penality_position'] = True
             info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
                  f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
 
@@ -1210,6 +1249,7 @@ game.field_goal_area_width = 3 if field_size == 'kid' else 4
 game.field_goal_height = 1.2 if field_size == 'kid' else 1.8
 game.field_circle_radius = 0.75 if field_size == 'kid' else 1.5
 game.penalty_offset = 0.6 if field_size == 'kid' else 1
+game.opponent_distance_to_ball = OPPONENT_DISTANCE_TO_BALL_KID if field_size == 'kid' else OPPONENT_DISTANCE_TO_BALL_ADULT
 game.robot_radius = 0.3 if field_size == 'kid' else 0.5
 game.turf_depth = 0.01
 
