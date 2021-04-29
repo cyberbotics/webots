@@ -622,6 +622,8 @@ def update_team_contacts(team):
             point = robot.getContactPoint(i)
             if point[2] > game.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
+                    if game.ball_first_touch_time == 0:
+                        game.ball_first_touch_time = time_count
                     game.ball_last_touch_time = time_count
                     if game.penalty_shootout_count >= 10:  # extended penalty shootout
                         game.penalty_shootout_time_to_touch_ball[game.penalty_shootout_count - 10] = \
@@ -1095,6 +1097,7 @@ def interruption(type, team=None):
     game.in_play = False
     game.ball_set_kick = True
     game.interruption = type
+    game.phase = type
     game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
     if not team:
         game.interruption_team = game.red.id if game.ball_last_touch_team == 'blue' else game.blue.id
@@ -1113,6 +1116,8 @@ def throw_in(left_side):
     sign = -1 if left_side else 1
     game.ball_kick_translation[0] = game.ball_exit_translation[0]
     game.ball_kick_translation[1] = sign * (game.field_size_y - LINE_HALF_WIDTH)
+    game.can_score = False  # disallow direct goal
+    game.ball_first_touch_time = 0
     interruption('THROWIN')
 
 
@@ -1136,6 +1141,7 @@ def goal_kick():
 def kickoff():
     color = 'red' if game.kickoff == game.red.id else 'blue'
     info(f'Kick-off is {color}.')
+    game.phase = 'KICKOFF'
     game.ball_kick_translation[0] = 0
     game.ball_kick_translation[1] = 0
     game.ball_set_kick = True
@@ -1144,6 +1150,7 @@ def kickoff():
     game.ball_last_touch_team = game.ball_must_kick_team
     game.ball_last_touch_player_number = 0
     game.ball_left_circle = None  # one can score only after ball went out of the circle
+    game.ball_first_touch_time = 0
     game.can_score = False        # or was touched by another player
     game.kicking_player_number = None
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
@@ -1153,6 +1160,7 @@ def dropped_ball():
     info(f'The ball didn\'t move for the past {DROPPED_BALL_TIMEOUT} seconds.')
     game.ball_last_move = time_count
     game_controller_send('DROPPEDBALL')
+    game.phase = 'DROPPEDBALL'
     game.ball_kick_translation[0] = 0
     game.ball_kick_translation[1] = 0
     game.ball_set_kick = True
@@ -1324,6 +1332,7 @@ game.ball_exit_translation = None
 game.ball_last_touch_team = 'red'
 game.ball_last_touch_player_number = 1
 game.ball_last_touch_time = 0
+game.ball_first_touch_time = 0
 game.ball_last_touch_time_for_display = 0
 game.ball_position = [0, 0, 0]
 game.ball_last_move = 0
@@ -1346,6 +1355,7 @@ if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
 
 if game.penalty_shootout:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
+    game.phase = 'PENALTY-SHOOTOUT'
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 else:
@@ -1379,19 +1389,24 @@ while supervisor.step(time_step) != -1:
         else:
             if time_count - game.ball_last_move > DROPPED_BALL_TIMEOUT * 1000:
                 dropped_ball()
-            if game.ball_left_circle is None:
+            if game.ball_left_circle is None and game.phase == 'KICKOFF':
                 if distance2(game.ball_kick_translation, game.ball_position) > game.field_circle_radius + game.ball_radius:
                     game.ball_left_circle = time_count
                     info('The ball has left the center circle after kick-off.')
 
             if not game.can_score:
-                if game.ball_last_touch_team != game.ball_must_kick_team:
-                    game.can_score = True  # ball touched by opponent
-                elif game.ball_left_circle is not None and game.ball_left_circle < game.ball_last_touch_time:
-                    game.can_score = True  # ball touched by same player again, but outside circle
-                elif (game.kicking_player_number is not None and
-                      game.ball_last_touch_player_number != game.kicking_player_number):
-                    game.can_score = True  # ball touched by another team member
+                ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
+                ball_touched_by_teammate = (game.kicking_player_number is not None
+                                            and game.ball_last_touch_player_number != game.kicking_player_number)
+                if game.phase == 'KICKOFF':
+                    ball_touched_after_leaving_the_circle = game.ball_left_circle is not None \
+                                                            and game.ball_left_circle < game.ball_last_touch_time
+                    if ball_touched_by_opponent or ball_touched_by_teammate or ball_touched_after_leaving_the_circle:
+                        game.can_score = True
+                elif game.phase == 'THROWIN':
+                    ball_touched_again_after_one_second = game.ball_last_touch_time - game.ball_first_touch_time > 1000
+                    if ball_touched_again_after_one_second or ball_touched_by_teammate or ball_touched_by_opponent:
+                        game.can_sccore = True
 
         if game.penalty_shootout:
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
@@ -1496,8 +1511,15 @@ while supervisor.step(time_step) != -1:
                     game.kickoff = game.blue.id if scoring_team == game.red.id else game.red.id
                 i = team_index(game.ball_last_touch_team)
                 if not game.can_score:
-                    info(f'Invalidated direct score in {goal} goal from kick-off circle.')
-                    goal_kick()
+                    if game.phase == 'KICKOFF':
+                        info(f'Invalidated direct score in {goal} goal from kick-off position.')
+                        goal_kick()
+                    elif game.phase == 'THROWIN':
+                        info(f'Invalidated direct score in {goal} goal from throw-in.')
+                        if not right_way:  # own_goal
+                            corner_kick(left_side=scoring_team != game.side_left)
+                        else:
+                            goal_kick()
                 elif game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
