@@ -92,8 +92,6 @@ WbMotor::WbMotor(const WbNode &other) : WbJointDevice(other) {
 }
 
 WbMotor::~WbMotor() {
-  // TODO: when one motor is deleted, need to remove coupled reference too
-  printf("destroy motor\n");
   delete mForceOrTorqueSensor;
   cMotors.removeAll(this);
 }
@@ -543,8 +541,6 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
 }
 
 void WbMotor::enforceMotorLimitsInsideJointLimits() {
-  printf("  enforceMotorLimitsInsideJointLimits\n");
-
   if (isPositionUnlimited())
     // no limits
     return;

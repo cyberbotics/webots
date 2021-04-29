@@ -87,6 +87,7 @@ RosMotor::~RosMotor() {
   mGetVelocityServer.shutdown();
   mGetMaxVelocityServer.shutdown();
   mGetAccelerationServer.shutdown();
+  mGetMultiplierServer.shutdown();
   mGetTypeServer.shutdown();
   if (mMotor->getType() == Motor::ROTATIONAL) {
     mSetTorqueServer.shutdown();
@@ -207,6 +208,12 @@ bool RosMotor::getAvailableTorqueCallback(webots_ros::get_float::Request &req, w
 bool RosMotor::getMaxTorqueCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
   assert(mMotor);
   res.value = mMotor->getMaxTorque();
+  return true;
+}
+
+bool RosMotor::getMultiplierCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res) {
+  assert(mMotor);
+  res.value = mMotor->getMultiplier();
   return true;
 }
 
