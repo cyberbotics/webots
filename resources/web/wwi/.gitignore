@@ -1,6 +1,3 @@
-/install.token
-/node_modules
-/package-lock.json
 enum.js
 wrenjs.data
 wrenjs.js
