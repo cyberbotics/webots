@@ -335,7 +335,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
 }
 
 void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
-  int n = mFieldSetRequests.size();
+  const int n = mFieldSetRequests.size();
   if (n == 0)
     return;
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -869,14 +869,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
 
       WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
-      if (solidNode)
+      if (solidNode) {
         solidNode->resetPhysics(false);
+        solidNode->pausePhysics(true);
+      }
       QList<WbNode *> descendants = node->subNodes(true);
       for (int i = 0; i < descendants.size(); i++) {
         WbNode *child = descendants.at(i);
         WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
-        if (solidChild)
+        if (solidChild) {
           solidChild->resetPhysics(false);
+          solidChild->pausePhysics(true);
+        }
       }
       return;
     }
