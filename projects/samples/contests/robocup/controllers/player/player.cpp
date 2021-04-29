@@ -398,7 +398,7 @@ int main(int argc, char *argv[]) {
                 measurement->set_quality(-1);  // raw image (JPEG compression not yet supported)
                 const unsigned char *rgba_image = camera->getImage();
                 const int rgb_image_size = width * height * 3;
-                static unsigned char *rgb_image = new unsigned char[rgb_image_size];
+                unsigned char *rgb_image = new unsigned char[rgb_image_size];
                 for (int i = 0; i < width * height; i++) {
                   rgb_image[3 * i] = rgba_image[4 * i];
                   rgb_image[3 * i + 1] = rgba_image[4 * i + 1];
