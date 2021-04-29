@@ -150,9 +150,6 @@ def format_time(s):
 
 def update_time_display():
     if game.state:
-        if game.state.seconds_remaining == 600 and game.state.game_state == 'STATE_PLAYING':
-            # error('GameController sent "600 seconds remaining"!')  # FIXME
-            return
         s = game.state.seconds_remaining
         if s < 0:
             s = -s
@@ -273,6 +270,21 @@ def game_controller_receive():
         previous_blue_score = 0
 
     game.state = GameState.parse(data)
+
+    # Fixes bug of GameController, possibly fixed in https://github.com/RoboCup-Humanoid-TC/GameController/pull/141
+    # FIXME: if these errors don't how up any more on the long term, we should remove this test
+    if previous_seconds_remaining is not None and previous_secondary_seconds_remaining is not None:
+        if game.state.seconds_remaining == 600 and previous_seconds_remaining != 600 and previous_seconds_remaining != 0:
+            game.state.seconds_remaining = previous_seconds_remaining
+            error(f'GameController sent wrong 600 seconds remaining, using previous value: {previous_seconds_remaining}.')
+        if game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 2:
+            # It sometimes happens in fast mode that the GameController drops secondary seconds from 2 to 0 (hence the > 2 test)
+            # This seems acceptable and is ignored by the test, but on a more powerful computer it may drop from 3 to 0
+            # and display the error.
+            game.state.secondary_seconds_remaining = previous_secondary_seconds_remaining
+            error('GameController sent wrong 0 secondary seconds remaining, using previous value: '
+                  f'{previous_secondary_seconds_remaining}.')
+
     if previous_state != game.state.game_state:
         info(f'New state received from GameController: {game.state.game_state}.')
     if game.state.game_state == 'STATE_PLAYING' and \
