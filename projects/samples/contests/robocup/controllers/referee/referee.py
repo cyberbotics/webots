@@ -29,8 +29,8 @@ import transforms3d
 
 from types import SimpleNamespace
 
-OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty.
-INACTIVE_GOAL_KEEPER_TIMEOUT = 20         # a goal keeper is penalized if inactive for 20 seconds while the ball is in goal area.
+OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty
+INACTIVE_GOAL_KEEPER_TIMEOUT = 20         # a goal keeper is penalized if inactive for 20 seconds while the ball is in goal area
 DROPPED_BALL_TIMEOUT = 120                # wait 2 simulated minutes if the ball doesn't move before starting dropped ball
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
@@ -111,7 +111,8 @@ def toss_a_coin_if_needed(attribute):  # attribute should be either "side_left" 
         setattr(game, attribute, game.red.id if bool(random.getrandbits(1)) else game.blue.id)
 
 
-def spawn_team(team, color, red_on_right, children):
+def spawn_team(team, red_on_right, children):
+    color = team['color']
     for number in team['players']:
         model = team['players'][number]['proto']
         n = int(number) - 1
@@ -455,8 +456,7 @@ def list_team_solids(team):
         solids = player['solids']
         append_solid(robot, solids)
         if len(solids) != 4:
-            color = 'red' if team == red_team else 'blue'
-            error(f'{color} player {number} is missing a hand or a foot.')
+            error(f"{team['color']} player {number} is missing a hand or a foot.")
 
 
 def list_solids():
@@ -549,16 +549,16 @@ def update_team_convex_hulls(team):
             else:
                 hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius) \
                          or triangle_circle_collision(shadow[3], shadow[1], shadow[2], game.ball_position, game.ball_radius)
-        color = 'Red' if team == red_team else 'Blue'
+        color = team['color']
         if 'hold_ball' in player:
             if hold_ball:
                 continue
             delay = int((time_count - player['hold_ball']) / 100) / 10
-            info(f'{color} player {number} released the ball after {delay} seconds.')
+            info(f'{color.capitalize()} player {number} released the ball after {delay} seconds.')
             del player['hold_ball']
         elif hold_ball:
             player['hold_ball'] = time_count
-            info(f'{color} player {number} is holding the ball.')
+            info(f'{color.capitalize()} player {number} is holding the ball.')
 
 
 def update_convex_hulls():
@@ -590,7 +590,8 @@ def init_team(team):
         player['left_turf_time'] = None
 
 
-def update_team_contacts(team, color):
+def update_team_contacts(team):
+    color = team['color']
     for number in team['players']:
         player = team['players'][number]
         robot = player['robot']
@@ -683,24 +684,24 @@ def update_ball_contacts():
 
 def update_contacts():
     update_ball_contacts()
-    update_team_contacts(red_team, 'red')
-    update_team_contacts(blue_team, 'blue')
+    update_team_contacts(red_team)
+    update_team_contacts(blue_team)
 
 
 def check_team_ball_holding(team):
     for number in team['players']:
         player = team['players'][number]
         if 'hold_ball' in player:
-            color = 'Red' if team == red_team else 'Blue'
+            color = team['color']
             dt = (time_count - player['hold_ball']) / 1000
             if number == '1':
                 if dt > GOAL_KEEPER_BALL_HOLDING_TIMEOUT:
                     del player['hold_ball']
-                    info(f'{color} player {number} (goal keeper) has held the ball for too long.')
+                    info(f'{color.capitalize()} player {number} (goal keeper) has held the ball for too long.')
                     return True
             elif dt > PLAYER_BALL_HOLDING_TIMEOUT:
                 del player['hold_ball']
-                info(f'{color} player {number} has held the ball for too long.')
+                info(f'{color.capitalize()} player {number} has held the ball for too long.')
                 return True
     return False
 
@@ -713,7 +714,8 @@ def check_ball_holding():  # return the team id which gets a free kick in case o
     return None
 
 
-def check_team_fallen(team, color):
+def check_team_fallen(team):
+    color = team['color']
     penalty = False
     for number in team['players']:
         if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
@@ -729,12 +731,13 @@ def check_team_fallen(team, color):
 
 
 def check_fallen():
-    red = check_team_fallen(red_team, 'red')
-    blue = check_team_fallen(blue_team, 'blue')
+    red = check_team_fallen(red_team)
+    blue = check_team_fallen(blue_team)
     return red or blue
 
 
 def check_team_inactive_goalie(team):
+    color = team['color']
     for number in team['players']:
         if not is_goal_keeper(team, number):
             continue
@@ -755,7 +758,7 @@ def check_inactive_goalie():
     check_team_inactive_goalie(blue_team)
 
 
-def check_team_start_position(team, color):
+def check_team_start_position(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
@@ -771,12 +774,13 @@ def check_team_start_position(team, color):
 
 
 def check_start_position():
-    red = check_team_start_position(red_team, 'red')
-    blue = check_team_start_position(blue_team, 'blue')
+    red = check_team_start_position(red_team)
+    blue = check_team_start_position(blue_team)
     return red or blue
 
 
-def check_team_kickoff_position(team, color):
+def check_team_kickoff_position(team):
+    color = team['color']
     team_id = game.red.id if color == 'red' else game.blue.id
     penalty = False
     for number in team['players']:
@@ -799,8 +803,8 @@ def check_team_kickoff_position(team, color):
 
 
 def check_kickoff_position():
-    red = check_team_kickoff_position(red_team, 'red')
-    blue = check_team_kickoff_position(blue_team, 'blue')
+    red = check_team_kickoff_position(red_team)
+    blue = check_team_kickoff_position(blue_team)
     return red or blue
 
 
@@ -820,7 +824,8 @@ def check_dropped_ball_position():
     check_team_dropped_ball_position(blue_team)
 
 
-def check_team_outside_turf(team, color):
+def check_team_outside_turf(team):
+    color = team['color']
     for number in team['players']:
         player = team['players'][number]
         if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized > 0:
@@ -835,11 +840,12 @@ def check_team_outside_turf(team, color):
 
 
 def check_outside_turf():
-    check_team_outside_turf(red_team, 'red')
-    check_team_outside_turf(blue_team, 'blue')
+    check_team_outside_turf(red_team)
+    check_team_outside_turf(blue_team)
 
 
-def check_team_penalized_in_field(team, color):
+def check_team_penalized_in_field(team):
+    color = team['color']
     penalty = False
     for number in team['players']:
         if game.state.teams[team_index(color)].players[int(number) - 1].secs_till_unpenalized == 0:
@@ -856,8 +862,8 @@ def check_team_penalized_in_field(team, color):
 
 
 def check_penalized_in_field():
-    red = check_team_penalized_in_field(red_team, 'red')
-    blue = check_team_penalized_in_field(blue_team, 'blue')
+    red = check_team_penalized_in_field(red_team)
+    blue = check_team_penalized_in_field(blue_team)
     return red or blue
 
 
@@ -866,8 +872,8 @@ def check_circle_entrance(team):
     for number in team['players']:
         player = team['players'][number]
         if not player['outside_circle']:
-            color = 'Red' if team == red_team else 'Blue'
-            info(f'{color} player {number} entering circle during opponent\'s kick-off.')
+            color = team['color']
+            info(f'{color.capitalize()} player {number} entering circle during opponent\'s kick-off.')
             player['penalty'] = 'INCAPABLE'
             player['penalty_reason'] = 'entered circle during oppenent\'s kick-off'
             penalty = True
@@ -882,7 +888,7 @@ def check_ball_must_kick(team):
         if not game.ball_last_touch_player_number == int(number):
             continue
         player = team['players'][number]
-        color = 'red' if team == red_team else 'blue'
+        color = team['color']
         info(f'Non-kicking {color} player {number} touched ball not in play.')
         player['penalty'] = 'INCAPABLE'
         player['penalty_reason'] = 'non-kicking player touched ball not in play'
@@ -890,7 +896,8 @@ def check_ball_must_kick(team):
     return True
 
 
-def send_team_penalties(team, color):
+def send_team_penalties(team):
+    color = team['color']
     for number in team['players']:
         if 'penalty' in team['players'][number]:
             penalty = team['players'][number]['penalty']
@@ -932,8 +939,8 @@ def send_team_penalties(team, color):
 
 
 def send_penalties():
-    send_team_penalties(red_team, 'red')
-    send_team_penalties(blue_team, 'blue')
+    send_team_penalties(red_team)
+    send_team_penalties(blue_team)
 
 
 def flip_pose(pose):
@@ -1140,6 +1147,7 @@ def dropped_ball():
     game.in_play = False
     game.dropped_ball = True
 
+
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -1158,10 +1166,37 @@ with open(game.red.config) as json_file:
 with open(game.blue.config) as json_file:
     blue_team = json.load(json_file)
 
+# finalize the game object
+if not hasattr(game, 'minimum_real_time_factor'):
+    game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
+if not hasattr(game, 'press_a_key_to_terminate'):
+    game.press_a_key_to_terminate = False
+if not hasattr(game, 'game_controller_synchronization'):
+    game.game_controller_synchronization = False
+if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
+    error(f'Unsupported game type: {game.type}.')
+game.penalty_shootout = game.type == 'PENALTY'
+info(f'Minimum real time factor is set to {game.minimum_real_time_factor}.')
+if game.minimum_real_time_factor == 0:
+    info('Simulation will run as fast as possible, real time waiting times will be minimal.')
+else:
+    info(f'Simulation will guarantee a maximum {1 / game.minimum_real_time_factor:.2f}x speed for each time step.')
+field_size = getattr(game, 'class').lower()
+game.field_size_y = 3 if field_size == 'kid' else 4.5
+game.field_size_x = 4.5 if field_size == 'kid' else 7
+game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
+game.field_goal_area_length = 1
+game.field_goal_area_width = 3 if field_size == 'kid' else 4
+game.field_goal_height = 1.2 if field_size == 'kid' else 1.8
+game.field_circle_radius = 0.75 if field_size == 'kid' else 1.5
+game.penalty_offset = 0.6 if field_size == 'kid' else 1
+game.robot_radius = 0.3 if field_size == 'kid' else 0.5
+game.turf_depth = 0.01
+
+red_team['color'] = 'red'
+blue_team['color'] = 'blue'
 init_team(red_team)
 init_team(blue_team)
-
-field_size = getattr(game, 'class').lower()
 
 # check team name length (should be at most 12 characters long, trim them if too long)
 if len(red_team['name']) > 12:
@@ -1189,7 +1224,7 @@ try:
             with open(path, 'w') as file:
                 file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
             command_line = [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar']
-            if hasattr(game,'minimum_real_time_factor') and game.minimum_real_time_factor == 0:
+            if game.minimum_real_time_factor == 0:
                 command_line.append('--fast')
             command_line.append('--config')
             command_line.append(game_config_file)
@@ -1203,32 +1238,6 @@ except KeyError:
     GAME_CONTROLLER_HOME = None
     game.controller_process = None
     error('JAVA_HOME environment variable not set, unable to launch GameController.')
-
-# finalize the game object
-if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
-    error(f'Unsupported game type: {game.type}.')
-game.penalty_shootout = game.type == 'PENALTY'
-if not hasattr(game, 'minimum_real_time_factor'):
-    game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
-if not hasattr(game, 'press_a_key_to_terminate'):
-    game.press_a_key_to_terminate = False
-if not hasattr(game, 'game_controller_synchronization'):
-    game.game_controller_synchronization = False
-info(f'Minimum real time factor is set to {game.minimum_real_time_factor}.')
-if game.minimum_real_time_factor == 0:
-    info('Simulation will run as fast as possible, real time waiting times will be minimal.')
-else:
-    info(f'Simulation will guarantee a maximum {1 / game.minimum_real_time_factor:.2f}x speed for each time step.')
-game.field_size_y = 3 if field_size == 'kid' else 4.5
-game.field_size_x = 4.5 if field_size == 'kid' else 7
-game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
-game.field_goal_area_length = 1
-game.field_goal_area_width = 3 if field_size == 'kid' else 4
-game.field_goal_height = 1.2 if field_size == 'kid' else 1.8
-game.field_circle_radius = 0.75 if field_size == 'kid' else 1.5
-game.penalty_offset = 0.6 if field_size == 'kid' else 1
-game.robot_radius = 0.3 if field_size == 'kid' else 0.5
-game.turf_depth = 0.01
 
 toss_a_coin_if_needed('side_left')
 toss_a_coin_if_needed('kickoff')
@@ -1248,8 +1257,8 @@ game.font_size = 0.1
 game.font = 'Lucida Console'
 game.overlay_x = 0.02
 game.overlay_y = 0.01
-spawn_team(red_team, 'red', game.side_left == game.blue.id, children)
-spawn_team(blue_team, 'blue', game.side_left == game.red.id, children)
+spawn_team(red_team, game.side_left == game.blue.id, children)
+spawn_team(blue_team, game.side_left == game.red.id, children)
 setup_display()
 
 time_step = int(supervisor.getBasicTimeStep())
